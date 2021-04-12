@@ -33,7 +33,11 @@ class UnloginCart extends React.Component {
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
-    if (window.location.pathname !== '/checkout') {
+    if (
+      ['/checkout', '/prescription', '/prescriptionNavigate'].indexOf(
+        window.location.pathname
+      ) === -1
+    ) {
       await this.props.checkoutStore.removePromotionCode();
     }
     getFrequencyDict().then((res) => {
@@ -84,7 +88,7 @@ class UnloginCart extends React.Component {
       });
 
       if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         let autoAuditFlag = false;
         if (this.isLogin) {
@@ -164,7 +168,7 @@ class UnloginCart extends React.Component {
           data-loc="miniCartOrderBtn"
           onClick={this.clickBasket}
         >
-          <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></em>
+          <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
           {this.totalNum > 0 ? (
             <span className="minicart-quantity">{this.totalNum}</span>
           ) : (
@@ -309,7 +313,7 @@ class UnloginCart extends React.Component {
                     />
                   </span>
                 </div>
-                <div className="minicart-error cart-error"></div>
+                <div className="minicart-error cart-error" />
                 <div className="product-summary limit">
                   {this.selectedCartData.map((item, idx) => (
                     <div className="minicart__product" key={item.goodsId + idx}>
@@ -401,7 +405,7 @@ class UnloginCart extends React.Component {
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
-                                          <FormattedMessage id="subscription.frequency" />
+                                          <FormattedMessage id="minicart.frequency" />
                                           :{' '}
                                           {(frequencyList || []).filter(
                                             (el) => {

@@ -227,6 +227,7 @@ const GoodsDetailTabs = function (props) {
     //       ' alt="image"></div></div></div></div>'
     //   });
     // }
+    props.setState && props.setState({ tmpGoodsDescriptionDetailList });
     setGoodsDetailTabsData(tmpGoodsDescriptionDetailList);
   };
   const changeTab = ({ idx, type, ele }) => {
@@ -487,7 +488,7 @@ const GoodsDetailTabs = function (props) {
                     </div>
                     <div className="col-12 col-md-6">
                       <div className="rc-video-wrapper">
-                        <img />
+                        <img src={landingBanner} />
                         {/* <iframe
                           src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
                           allowfullscreen=""

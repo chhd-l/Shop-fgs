@@ -477,6 +477,9 @@ class AddressList extends React.Component {
                                       status
                                     )
                                   }
+                                  content={
+                                    <FormattedMessage id="confirmDeleteAddress" />
+                                  }
                                 />
                               </span>
                             </div>

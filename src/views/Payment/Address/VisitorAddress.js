@@ -36,7 +36,6 @@ class VisitorAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isValid: false,
       form: this.props.initData,
       validationAddress: {
         suggestionAddress: null,
@@ -48,6 +47,8 @@ class VisitorAddress extends React.Component {
         provinceCode: null
       },
       billingChecked: true,
+      isValid: false,
+      russiaAddressValid: false,
       visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
@@ -132,7 +133,7 @@ class VisitorAddress extends React.Component {
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
     this.setState({
-      isValid: flag
+      russiaAddressValid: flag
     });
   };
   handleClickEdit = () => {
@@ -309,6 +310,7 @@ class VisitorAddress extends React.Component {
     const {
       form,
       isValid,
+      russiaAddressValid,
       visitorValidationLoading,
       visitorValidationModalVisible,
       selectVisitorValidationOption
@@ -347,7 +349,7 @@ class VisitorAddress extends React.Component {
                   <button
                     className="rc-btn rc-btn--one rc-btn--sm"
                     onClick={this.handleClickConfirm}
-                    disabled={!isValid}
+                    disabled={isValid && russiaAddressValid ? false : true}
                   >
                     <FormattedMessage id="clinic.confirm3" />
                   </button>

@@ -31,6 +31,7 @@ import HowItWorks from './HowItWorks';
 import JoinToday from './JoinToday';
 import ClubHeroCarousel from './ClubHeroCarousel';
 import veterinayImg from './ClubImage/veterinaryproducts.PNG';
+import CatAndDog from './ClubImage/Cat&Dog.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -575,9 +576,11 @@ class ClubLandingPage extends React.Component {
                   </div>
                 </div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <button className="rc-btn rc-btn--one">
-                    <FormattedMessage id="club.subscription.button" />
-                  </button>
+                  <Link to="/product-finder">
+                    <button className="rc-btn rc-btn--one">
+                      <FormattedMessage id="club.subscription.button" />
+                    </button>
+                  </Link>
                 </h4>
               </div>
             </div>
@@ -612,20 +615,22 @@ class ClubLandingPage extends React.Component {
                                 <p>
                                   <FormattedMessage id="club.video.detail.description.two" />
                                 </p>
-                                <button className="rc-btn rc-btn--two">
-                                  <FormattedMessage id="club.video.detail.button" />
-                                </button>
+                                <Link to="/product-finder">
+                                  <button className="rc-btn rc-btn--two">
+                                    <FormattedMessage id="club.video.detail.button" />
+                                  </button>
+                                </Link>
                               </div>
                             </div>
-                            <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop ">
-                              <div className="lazyload-wrapper video-wrapper">
-                                <iframe
-                                  src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1"
-                                  frameBorder="no"
-                                  scrolling="no"
-                                  className="club-video"
-                                ></iframe>
-                              </div>
+                            <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <img
+                                  className="w-120 lazyloaded"
+                                  alt="Yorkshire dog pic - Our Values"
+                                  title="Yorkshire dog pic - Our Values"
+                                  src={CatAndDog}
+                                />
+                              </picture>
                             </div>
                           </div>
                         </div>

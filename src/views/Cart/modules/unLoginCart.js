@@ -1338,7 +1338,7 @@ class UnLoginCart extends React.Component {
 
           {/* 运费折扣 */}
           {this.freeShippingFlag ? (
-            <div className="row">
+            <div className="row green">
               <div className="col-8">
                 <p>
                   <FormattedMessage id="payment.shippingDiscount" />

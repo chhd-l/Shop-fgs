@@ -225,10 +225,19 @@ class Subscription extends React.Component {
             <div style={{ width: isMobile ? '100px' : '200px' }}>
               <Selection
                 optionList={[
-                  { name: 'All', value: 'All' },
-                  { name: 'Autoship', value: 'Autoship' },
-                  { name: 'Club', value: 'Club' },
-                  { name: 'Contract Product', value: 'Contract Product' }
+                  {
+                    name: this.props.intl.messages['subscription.all'],
+                    value: 'All'
+                  },
+                  {
+                    name: this.props.intl.messages['subscription.autoship'],
+                    value: 'Autoship'
+                  },
+                  {
+                    name: this.props.intl.messages['subscription.club'],
+                    value: 'Club'
+                  }
+                  // { name:  this.props.intl.messages['subscription.ContractProduct'], value: 'Contract Product' }
                 ]}
                 selectedItemChange={(el) => {
                   this.setState(

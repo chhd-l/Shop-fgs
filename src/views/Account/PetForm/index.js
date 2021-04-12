@@ -534,6 +534,20 @@ class PetForm extends React.Component {
       });
     }
   }
+  deleteBtn = () => {
+    // 从订阅详情过去的不需要展示delete按钮
+    let showDelete =
+      !!this.props.match.params.id &&
+      !(this.props.location.state && this.props.location.state.subscribeId);
+    return showDelete ? (
+      <span
+        className="rc-styled-link"
+        onClick={this.delPets.bind(this, currentPet)}
+      >
+        <FormattedMessage id="pet.deletePet" />
+      </span>
+    ) : null;
+  };
   selectedBreed = (item) => {
     this.setState({
       breed: item.name,
@@ -576,7 +590,7 @@ class PetForm extends React.Component {
     };
     try {
       if (currentPet.weight) {
-        weightObj = JSON.parse(JSON.parse(currentPet.weight));
+        weightObj = JSON.parse(currentPet.weight);
       }
     } catch (e) {}
     let param = {
@@ -1528,25 +1542,11 @@ class PetForm extends React.Component {
                             <FormattedMessage id="saveChange" />
                           </button>
                           <br />
-                          {this.props.match.params.id && (
-                            <span
-                              className="rc-styled-link"
-                              onClick={this.delPets.bind(this, currentPet)}
-                            >
-                              <FormattedMessage id="pet.deletePet" />
-                            </span>
-                          )}
+                          {this.deleteBtn()}
                         </p>
                       ) : (
                         <p style={{ textAlign: 'right' }}>
-                          {this.props.match.params.id && (
-                            <span
-                              className="rc-styled-link"
-                              onClick={this.delPets.bind(this, currentPet)}
-                            >
-                              <FormattedMessage id="pet.deletePet" />
-                            </span>
-                          )}
+                          {this.deleteBtn()}
                           <button
                             className="rc-btn rc-btn--one"
                             style={{ marginLeft: '35px' }}

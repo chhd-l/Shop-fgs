@@ -23,7 +23,8 @@ const SPECAIL_CONSENT_ENUM =
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
-    needPhone: true
+    needPhone: true,
+    needMessengers: true
   };
   constructor(props) {
     super(props);
@@ -33,7 +34,11 @@ class CommunicationDataEditForm extends React.Component {
       list: [],
       isLoading: false,
       saveLoading: false,
-      form: { communicationPhone: '', communicationEmail: '' },
+      form: {
+        communicationPhone: '',
+        communicationEmail: '',
+        communicationPrint: ''
+      },
       errorMsg: ''
     };
     this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
@@ -129,7 +134,7 @@ class CommunicationDataEditForm extends React.Component {
   //保存
   handleSave = async () => {
     try {
-      const { userInfo, needPhone } = this.props;
+      const { userInfo, needPhone, needMessengers } = this.props;
       const { form, list } = this.state;
       let errMsg = null;
       const theConset = list.filter((l) =>
@@ -138,17 +143,20 @@ class CommunicationDataEditForm extends React.Component {
       const hasCheckedTheConsent = list.filter(
         (l) => SPECAIL_CONSENT_ENUM.includes(l.consentDesc) && l.isChecked
       ).length;
-      // 1 勾选了某条特殊consent情况下，phone/email不能同时取消
-      // 2 勾选了phone/email，必须勾选某条特殊consent
+      // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
+      // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
       if (
         hasCheckedTheConsent &&
         !+form.communicationEmail &&
-        (!needPhone || !+form.communicationPhone)
+        (!needPhone || !+form.communicationPhone) &&
+        (!needMessengers || !+form.communicationPrint)
       ) {
         errMsg = <FormattedMessage id="mustChooseACommunicationMethodTip" />;
       } else if (
         theConset &&
-        (+form.communicationEmail || (needPhone && +form.communicationPhone)) &&
+        (+form.communicationEmail ||
+          (needPhone && +form.communicationPhone) ||
+          (needMessengers && +form.communicationPrint)) &&
         !hasCheckedTheConsent
       ) {
         errMsg = <FormattedMessage id="mustChooseTheConsentTip" />;
@@ -173,13 +181,16 @@ class CommunicationDataEditForm extends React.Component {
         ...submitParam,
         ...{ oktaToken },
         customerId: (userInfo && userInfo.customerId) || '',
+        consentPage: 'myAccount',
         communicationEmail: form.communicationEmail,
-        communicationPhone: needPhone ? form.communicationPhone : null
+        communicationPhone: needPhone ? form.communicationPhone : null,
+        communicationPrint: needMessengers ? form.communicationPrint : null
       });
       await updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           communicationEmail: form.communicationEmail,
           communicationPhone: form.communicationPhone,
+          communicationPrint: form.communicationPrint,
           oktaToken
         })
       );
@@ -333,6 +344,11 @@ class CommunicationDataEditForm extends React.Component {
                     type: 'communicationEmail',
                     langKey: 'email',
                     visible: true
+                  },
+                  {
+                    type: 'communicationPrint',
+                    langKey: 'messengers',
+                    visible: this.props.needMessengers
                   }
                 ]
                   .filter((c) => c.visible)
