@@ -1056,6 +1056,7 @@ const en_US = {
   registerTogglePassword: 'Toggle password visibility',
   registerUppercase: 'One uppercase letter',
   registerWelcome: 'Welcome to',
+  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.',
   rememberMe: 'Remember Me',
