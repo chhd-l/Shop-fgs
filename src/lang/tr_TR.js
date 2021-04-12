@@ -472,7 +472,7 @@ const tr_TR = {
   loginFailed: 'giriş başarısız',
   logisticsRating: 'Lojistik değerlendirme',
   logOff: 'Çıkış',
-  mailAddress: 'Posta adresi',
+  mailAddress: 'E-posta',
   mandatoryFieldsError: 'Doldurulmamış zorunlu alanlarınız var!',
   menu: 'Menü',
   miniBasket: 'Mini sepet',
