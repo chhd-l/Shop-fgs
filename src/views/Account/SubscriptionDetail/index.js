@@ -2329,7 +2329,9 @@ class SubscriptionDetail extends React.Component {
         )}
         {!!productDetail.otherProducts && (
           <>
-            <p className="text-center">other products to consider</p>
+            <p className="text-center rc-margin-top--xs">
+              other products to consider
+            </p>
             <div className="rc-scroll--x pb-4 rc-padding-x--xl">
               <div className="d-flex">
                 {productDetail?.otherProducts?.map((ele, i) => (
