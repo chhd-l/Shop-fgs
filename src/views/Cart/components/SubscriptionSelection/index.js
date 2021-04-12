@@ -144,6 +144,7 @@ const SubscriptionSelection = function (props) {
           selectedItemData={{
             value: pitem.form.frequencyId
           }}
+          wider={true}
         />
       </div>
     </div>

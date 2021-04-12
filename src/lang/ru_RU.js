@@ -1216,7 +1216,8 @@ const ru_RU = {
   answeredQuestions: 'Ответы на вопросы',
   next: 'Следующий',
   pirceRange: 'От {fromPrice} к {toPrice}',
-  'petform.subscription': 'Affiliate Subscriptions'
+  'petform.subscription': 'Affiliate Subscriptions',
+  'pet.deletePet': 'Удалить профиль питомца'
 };
 
 export default ru_RU;

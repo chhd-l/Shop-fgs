@@ -1525,6 +1525,7 @@ class Details extends React.Component {
               return el.goodsInfoFlag === 1;
             }
           })}
+          wider={true}
           selectedItemData={{
             value: this.state.form.frequencyId
           }}
