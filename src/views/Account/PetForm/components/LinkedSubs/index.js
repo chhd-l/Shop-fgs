@@ -72,7 +72,7 @@ const LinkedSubs = (props) => {
       {subList.length ? (
         <div>
           <h4 className="rc-delta rc-margin--none pb-2">
-            <FormattedMessage id="subscription" />
+            <FormattedMessage id="petform.subscription" />
           </h4>
         </div>
       ) : null}

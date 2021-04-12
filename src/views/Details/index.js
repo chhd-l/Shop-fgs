@@ -53,6 +53,7 @@ import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
+import { getGoodsRelation } from '@/api/details';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -330,7 +331,8 @@ class Details extends React.Component {
       descContent: '',
       contactUs: '',
       ccidBtnDisplay: false,
-      relatedGoods: []
+      relatedGoods: [],
+      goodsList: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -616,6 +618,7 @@ class Details extends React.Component {
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
+    let that = this;
     let requestName;
     let param;
     if (goodsNo) {
@@ -697,6 +700,15 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
+          // getGoodsRelation(goodsRes.goodsId).then((res) => {
+          //   console.log(that)
+          //   debugger
+          //   that.setState(
+          //     {
+          //       goodsList: res.context.goods
+          //     }
+          //   );
+          // });
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -889,6 +901,12 @@ class Details extends React.Component {
           const goodSize = specList.map((item) =>
             item.chidren.find((good) => good.selected)
           )?.[0]?.detailName;
+          const selectGoodSize = specList.map((item) =>
+            item.chidren.find((good) => good.selected)
+          )?.[0]?.detailName;
+          const selectPrice = goodsInfos.find(
+            (item) => item.packSize == selectGoodSize
+          )?.marketPrice;
           const goodsInfoBarcode =
             goodsInfos.find((item) => item.packSize === goodSize)
               ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
@@ -922,7 +940,8 @@ class Details extends React.Component {
               this.hubGA
                 ? this.hubGAProductDetailPageView(
                     res.context.goodsAttributesValueRelList,
-                    this.state.details
+                    this.state.details,
+                    selectPrice
                   )
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
@@ -1405,7 +1424,7 @@ class Details extends React.Component {
   }
 
   //hub商品详情页 埋点
-  hubGAProductDetailPageView(goodsAttributesValueRelList, item) {
+  hubGAProductDetailPageView(goodsAttributesValueRelList, item, selectPrice) {
     const {
       cateId,
       minMarketPrice,
@@ -1433,7 +1452,7 @@ class Details extends React.Component {
     const recommendationID = this.props.clinicStore?.linkClinicId || '';
 
     const GAProductsInfo = {
-      price: minMarketPrice,
+      price: selectPrice || minMarketPrice,
       specie,
       range: cateName?.[1] || '',
       name: goodsName,
@@ -2567,7 +2586,9 @@ class Details extends React.Component {
               </>
             ) : null} */}
             <Help />
-            {/* <ResponsiveCarousel/> */}
+            {/* <ResponsiveCarousel
+              goodsList={this.state.goodsList}
+            /> */}
             <Footer />
           </main>
         )}

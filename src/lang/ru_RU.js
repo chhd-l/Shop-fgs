@@ -258,7 +258,7 @@ const ru_RU = {
   'confirmation.customerInformation': 'Персональные данные',
   'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
-    'В ближайшее время Вы получите подтверждение по email адресу',
+    'Вскоре вы получите подтверждение по электронной почте на {val1}',
   'confirmation.info3':
     'Адреса и способы доставки указаны под вашими товарами.',
   'confirmation.oneShoot': 'Продолжить покупки',
@@ -272,7 +272,7 @@ const ru_RU = {
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDelete2: 'Вы хотите удалить данный способ оплаты?',
-  confirmDeleteProduct: 'Удалить этот продукт из магазина ?',
+  confirmDeleteProduct: 'Вы уверены, что хотите удалить этот товар из корзины?',
   confirmPassword: 'Подтвердить Пароль *',
   consent: 'Согласие',
   consignee: 'Грузополучатель',
@@ -324,7 +324,7 @@ const ru_RU = {
   'detail.packagingDesc':
     'На нашу упаковку / продукцию могут распространяться инструкции по сортировке',
   //pdp
-  'detail.question': 'У вас остались вопросы об этом продукте ?',
+  'detail.question': 'У вас еще остались вопросы об этом продукте?',
   'detail.telephone': 'По телефону',
   'details.addToCart': 'Добавить в корзину',
   'details.availability': 'Доступность',
@@ -795,7 +795,7 @@ const ru_RU = {
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
   ratingGrade3: 'Рейтинг от самого высокого до самого низкого',
   receiver: 'Приемник',
-  recommandedForyou: 'Рекомендуется для вас',
+  recommandedForyou: 'Другие продукты',
   registerAname: 'Число',
   registerCloud: 'Эталонная архитектура Commerce Cloud Storefront',
   registerCompleteForm:
@@ -895,7 +895,7 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'астота отправки',
+  'subscription.frequency': 'Периодичность',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -1041,12 +1041,12 @@ const ru_RU = {
   'club.wheretohelp.alt2': 'Контактный e-mail',
   'club.wheretohelp.alt3': 'Блок FAQ',
   'club.jointodayalt': 'Присоединитесь к Клубу Royal Canin',
-  autoShipStarted: 'Начало Клубной подписки',
+  autoShipStarted: 'Начало программы',
   nextShipment: 'Следующая доставка',
   transactionInfo: 'Персональные данные',
   myAutoshipOrder: 'История заказов',
-  noStart: 'Будущие доставки',
-  completed: 'Завершенные',
+  noStart: 'Предстоящие доставки',
+  completed: 'Прошлые доставки',
   skip: 'Пропустить',
   'order.total': 'Общая стоимость',
   'order.iVAIncluido': '',
@@ -1086,7 +1086,7 @@ const ru_RU = {
   saveExtra: 'Сэкономьте {val} на этой подписке',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
-  'subscription.pause': 'Приостановить подписку',
+  'subscription.pause': 'Приостановлена',
   signInAndRegisterNow: 'Войти / Зарегистрироваться сейчас',
   startEnd: 'к',
   'bindPrescriber.modal.title':
@@ -1215,7 +1215,8 @@ const ru_RU = {
   searchBreed: 'Поиск породы',
   answeredQuestions: 'Ответы на вопросы',
   next: 'Следующий',
-  pirceRange: 'От {fromPrice} к {toPrice}'
+  pirceRange: 'От {fromPrice} к {toPrice}',
+  'petform.subscription': 'Affiliate Subscriptions'
 };
 
 export default ru_RU;

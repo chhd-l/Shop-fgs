@@ -113,7 +113,6 @@ class UnLoginCart extends React.Component {
   get subscriptionPrice() {
     return this.props.checkoutStore.subscriptionPrice;
   }
-
   get totalPrice() {
     // let totalPrice = 0;
     // this.props.checkoutStore.cartData.map((el) => {
@@ -143,6 +142,15 @@ class UnLoginCart extends React.Component {
   }
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
+  }
+  get freeShippingDiscountPrice() {
+    return this.props.checkoutStore.freeShippingDiscountPrice;
+  }
+  get freeShippingFlag() {
+    return this.props.checkoutStore.freeShippingFlag;
+  }
+  get taxFeePrice() {
+    return this.props.checkoutStore.taxFeePrice;
   }
   get isPromote() {
     return parseFloat(this.discountPrice) > 0;
@@ -1328,6 +1336,23 @@ class UnLoginCart extends React.Component {
             </div>
           </div>
 
+          {/* 运费折扣 */}
+          {this.freeShippingFlag ? (
+            <div className="row">
+              <div className="col-8">
+                <p>
+                  <FormattedMessage id="payment.shippingDiscount" />
+                </p>
+              </div>
+              <div className="col-4">
+                <p className="text-right shipping-cost">
+                  {this.freeShippingDiscountPrice > 0 && '-'}
+                  {formatMoney(this.freeShippingDiscountPrice)}
+                </p>
+              </div>
+            </div>
+          ) : null}
+
           {/* 税额 */}
           {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
             <div className="row">
@@ -1338,11 +1363,6 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-4">
                 <p className="text-right shipping-cost">
-                  {/* {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
-                    <strong>{subtractionSign}</strong>
-                  ) : (
-                    formatMoney(this.taxFeePrice)
-                  )} */}
                   {this.taxFeePrice > 0 ? (
                     formatMoney(this.taxFeePrice)
                   ) : (
