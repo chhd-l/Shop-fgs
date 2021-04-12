@@ -226,6 +226,7 @@ const GoodsDetailTabs = function (props) {
     //       ' alt="image"></div></div></div></div>'
     //   });
     // }
+    props.setState && props.setState({ tmpGoodsDescriptionDetailList });
     setGoodsDetailTabsData(tmpGoodsDescriptionDetailList);
   };
   const changeTab = ({ idx, type, ele }) => {
