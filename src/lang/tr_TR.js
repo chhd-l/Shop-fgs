@@ -59,7 +59,7 @@ const tr_TR = {
   'account.orders': 'Emirler',
   'account.orders.btns': 'Şimdi satın al!',
   'account.orders.tips':
-    'Hala sipariş vermediniz mi? Alışverişinize, ilk olarak evcil hayvanınız için en uygun ürünü bularak başlayabilirsiniz.',
+    'Hala sipariş vermediniz mi? Alışverişinize, ilk olarak evcil hayvanınız için doğru ürünü bularak başlayabilirsiniz.',
   'account.ordersTip':
     'Siparişleri takip edin, geçmiş siparişlerinizi inceleyin.',
   'account.paymentMethodTip': 'Ödeme bilgilerini görüntüleyin ve güncelleyin',
@@ -254,7 +254,7 @@ const tr_TR = {
     'Üzgünüz, bu kredi kartı zaten bir aboneliğe tabi olduğu için silinemez.',
   delivery: 'teslimat',
   delivery2: 'Gönderi adresim',
-  deliveryAddress: 'Teslimat adresi',
+  deliveryAddress: 'Gönderim adresi',
   'detail.answer':
     'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
   'detail.email': 'Eposta ile',
