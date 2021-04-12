@@ -332,7 +332,7 @@ class Details extends React.Component {
       contactUs: '',
       ccidBtnDisplay: false,
       relatedGoods: [],
-      goodsList: []
+      relatedGoodsList: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -618,7 +618,6 @@ class Details extends React.Component {
   async queryDetails() {
     const { configStore } = this.props;
     const { id, goodsNo } = this.state;
-    let that = this;
     let requestName;
     let param;
     if (goodsNo) {
@@ -700,15 +699,11 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-          // getGoodsRelation(goodsRes.goodsId).then((res) => {
-          //   console.log(that)
-          //   debugger
-          //   that.setState(
-          //     {
-          //       goodsList: res.context.goods
-          //     }
-          //   );
-          // });
+          getGoodsRelation(goodsRes.goodsId).then((res) => {
+            this.setState({
+              relatedGoodsList: res.context.goods
+            });
+          });
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -2579,9 +2574,7 @@ class Details extends React.Component {
               </>
             ) : null} */}
             <Help />
-            {/* <ResponsiveCarousel
-              goodsList={this.state.goodsList}
-            /> */}
+            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
             <Footer />
           </main>
         )}
