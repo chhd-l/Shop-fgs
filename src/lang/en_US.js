@@ -320,6 +320,7 @@ const en_US = {
     'You saved {val1}  with autoship',
   'confirmation.visitOnlineStore': 'Visit online store',
   confirmDelete: 'Do you confirm to delete?',
+  confirmDeleteAddress: 'Do you confirm to delete?',
   confirmDelete2:
     'Are you sure you want to remove the following payment method? {val1} {val2}',
   confirmDeleteProduct:
@@ -1137,6 +1138,7 @@ const en_US = {
   'subscription.deliveryDate': 'Next delivery date',
   'subscription.detail': 'Subscription detail',
   'subscription.frequency': 'Deliver every',
+  'minicart.frequency': 'Deliver every',
   'subscription.nextOrder': 'Next Order',
   'subscription.noDataTip': 'No subscription',
   'subscription.notYet': 'Not Yet Shipped',

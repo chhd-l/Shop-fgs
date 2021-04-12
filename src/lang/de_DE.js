@@ -236,6 +236,7 @@ const de_DE = {
     'Sie sparen {val1} bei diesem Abonnement',
   'confirmation.visitOnlineStore': 'Online-Shop besuchen',
   confirmDelete: 'Möchten Sie den Artikel löschen?',
+  confirmDeleteAddress: 'Möchten Sie den Artikel löschen?',
   confirmDelete2: 'Möchten Sie den Artikel löschen?',
   confirmDeleteProduct:
     'Sind Sie sicher, dass Sie dieses Produkt aus dem Warenkorb entfernen möchten ?',
@@ -1087,6 +1088,7 @@ const de_DE = {
   'subscription.deliveryDate': 'Nächster Liefertermin',
   'subscription.detail': 'Übersicht',
   'subscription.frequency': 'Lieferung alle',
+  'minicart.frequency': 'Lieferung alle',
   'subscription.help.subTitle': 'Unser Expertenteam hilft Ihnen gerne weiter.',
   'subscription.help.title': 'Haben Sie Fragen?',
   'subscription.list.btn1': 'Nahrung für Katzen',

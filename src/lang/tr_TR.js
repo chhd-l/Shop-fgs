@@ -59,7 +59,7 @@ const tr_TR = {
   'account.orders': 'Emirler',
   'account.orders.btns': 'Şimdi satın al!',
   'account.orders.tips':
-    'Hala sipariş vermediniz mi? Alışverişinize, ilk olarak evcil hayvanınız için en uygun ürünü bularak başlayabilirsiniz.',
+    'Hala sipariş vermediniz mi? Alışverişinize, ilk olarak evcil hayvanınız için doğru ürünü bularak başlayabilirsiniz.',
   'account.ordersTip':
     'Siparişleri takip edin, geçmiş siparişlerinizi inceleyin.',
   'account.paymentMethodTip': 'Ödeme bilgilerini görüntüleyin ve güncelleyin',
@@ -197,6 +197,7 @@ const tr_TR = {
     'You saved {val1}  with the mark',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmek istiyor musunuz?',
+  confirmDeleteAddress: 'Adresi silmek istiyor musunuz?',
   confirmDelete2: 'Silmek istiyor musunuz?',
   confirmDeleteProduct:
     'Bu ürünü arabadan çıkarmak istediğinize emin misiniz ?',
@@ -207,7 +208,7 @@ const tr_TR = {
   contactUs: 'YARDIM',
   continue: 'Devam et',
   continueAsGuest: 'Misafir olarak devam edin',
-  continueShopping: 'Alışverişe devam',
+  continueShopping: 'Alışverişe devam et ',
   country: 'Ülke *',
   createAnAccount: 'Hesap oluştur',
   creditCard: 'Kredi kartı',
@@ -254,7 +255,7 @@ const tr_TR = {
     'Üzgünüz, bu kredi kartı zaten bir aboneliğe tabi olduğu için silinemez.',
   delivery: 'teslimat',
   delivery2: 'Gönderi adresim',
-  deliveryAddress: 'Teslimat adresi',
+  deliveryAddress: 'Gönderim adresi',
   'detail.answer':
     'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
   'detail.email': 'Eposta ile',
@@ -272,7 +273,7 @@ const tr_TR = {
   'details.errMsg2': 'Ayrıntı bulunamadı, lütfen daha sonra tekrar deneyin.',
   'details.feedingRecommendations': 'Beslenme önerileri',
   'details.ingredients': 'Malzemeler',
-  'details.inStock': 'Stokta',
+  'details.inStock': 'Stokta var',
   'details.OffShelves': 'raflar kapalı',
   'details.OneOFF': 'Tek seferlik satın alma',
   'details.outStock': 'Stoklar tükendi',
@@ -813,6 +814,7 @@ const tr_TR = {
   'subscription.deliveryDate': 'Sonraki teslim tarihi',
   'subscription.detail': 'Abonelik ayrıntısı',
   'subscription.frequency': 'Gönderim sıklığı',
+  'minicart.frequency': 'Gönderim sıklığı',
   'subscription.nextOrder': 'Gelecek siparişlerim',
   'subscription.noDataTip': 'Abonelik yok',
   'subscription.notYet': 'Henuz gonderilmedi',
