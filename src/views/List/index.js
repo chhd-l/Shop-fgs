@@ -1033,7 +1033,7 @@ class List extends React.Component {
   }
 
   // hub商品列表 埋点
-  hubGAProductImpression(productList, totalElements, keywords) {
+  hubGAProductImpression(productList, totalElements, keywords, type) {
     const products = productList.map((item, index) => {
       const {
         minMarketPrice,
@@ -1074,13 +1074,14 @@ class List extends React.Component {
       products
     });
 
-    dataLayer.push({
-      event: 'plpScreenLoad',
-      plpScreenLoad: {
-        nbResults: totalElements,
-        userRequest: keywords || ''
-      }
-    });
+    type !== 'pageChange' &&
+      dataLayer.push({
+        event: 'plpScreenLoad',
+        plpScreenLoad: {
+          nbResults: totalElements,
+          userRequest: keywords || ''
+        }
+      });
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1842,7 +1843,8 @@ class List extends React.Component {
                 ? this.hubGAProductImpression(
                     esGoodsPage.content,
                     totalElements,
-                    keywords
+                    keywords,
+                    type
                   )
                 : this.GAProductImpression(
                     esGoodsPage.content,
@@ -2277,15 +2279,12 @@ class List extends React.Component {
                   >
                     {!loading && (
                       <>
-                        <div
-                          className="row pl-1"
-                          style={{ alignItems: 'center' }}
-                        >
-                          <div className="col-12 col-md-8 rc-md-up">
-                            <span className="rc-intro rc-margin--none rc-md-up">
-                              <b style={{ textTransform: 'capitalize' }}>
+                        <div className="row pl-1 rc-md-up align-items-center">
+                          <div className="col-12 col-md-8 pt-3 pb-2">
+                            <span className="rc-intro rc-margin--none">
+                              <span className="medium text-capitalize">
                                 {lastBreadListName}
-                              </b>
+                              </span>
                               (
                               <FormattedMessage
                                 id="results"
@@ -2295,10 +2294,10 @@ class List extends React.Component {
                             </span>
                           </div>
 
-                          <div className="col-12 col-md-4  rc-md-up">
+                          <div className="col-12 col-md-4">
                             <span
                               style={{ position: 'relative', top: '2px' }}
-                              className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
+                              className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
                             >
                               {sortList.length > 0 && (
                                 <Selection
@@ -2330,7 +2329,7 @@ class List extends React.Component {
                             <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
-                          <div className="ui-font-nothing rc-md-down d-flex">
+                          <div className="ui-font-nothing rc-md-down d-flex pb-4">
                             <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>

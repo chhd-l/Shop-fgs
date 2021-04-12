@@ -824,6 +824,7 @@ const es_ES = {
   registerTogglePassword: 'Alternar visibilidad de contraseña',
   registerUppercase: 'Una letra mayúscula',
   registerWelcome: 'Bienvenido a',
+  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     'Recuerde que el pedido antes de las 7:00 pm, el pago vencerá antes de las 7:00 pm dos días después, o después de las 7:00 pm, el pago vencerá antes de las 7:00 pm tres días después',
   rememberMe: 'Recuérdame',
