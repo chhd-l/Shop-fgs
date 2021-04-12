@@ -32,10 +32,11 @@ export default class ImgUpload extends React.Component {
     }
     if (files.length && files[0].size >= 1048576) {
       console.log('上传图片大小不得超过1M');
+      this.props.geterrMessage('Image uploaded is too large');
       return false;
     }
     console.log('falg:', errMsg);
-    this.props.geterrMessage(errMsg);
+
     if (errMsg) {
       console.log('文件类型错误');
     } else {

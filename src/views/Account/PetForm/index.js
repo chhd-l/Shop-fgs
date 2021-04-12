@@ -1012,7 +1012,7 @@ class PetForm extends React.Component {
                     <UploadImg
                       tipVisible={false}
                       handleChange={(data) => this.handelImgChange(data)}
-                      geterrMessage={this.handleErrMessage}
+                      geterrMessage={this.showErrorMsg.bind(this)}
                       showLoading={() => {
                         this.setState({ loading: true });
                       }}
