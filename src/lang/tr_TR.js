@@ -1045,6 +1045,7 @@ const tr_TR = {
     'Ayrıca ortak sorularımızın cevabını da görebilirsiniz. Bu size çok cevap verecek.',
   'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
-  generalTermsConditions: 'Şartlar ve Koşullar'
+  generalTermsConditions: 'Şartlar ve Koşullar',
+  pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar"
 };
 export default tr_TR;

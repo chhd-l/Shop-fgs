@@ -501,7 +501,7 @@ class Question extends React.Component {
           Array.from({ length: 49 }).map((item, i) => {
             return {
               label: `${i + 1} Kg`,
-              key: i + i
+              key: i + 1
             };
           })
         ];

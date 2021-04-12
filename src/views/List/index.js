@@ -384,20 +384,29 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
       <div className="product-price">
-        {item.toPrice ? (
-          <span className="mr-1" style={{ fontSize: '.8em' }}>
-            <FormattedMessage id="startFrom" />
-          </span>
-        ) : null}
-        {item.fromPrice ? formatMoney(item.fromPrice) : null}
-        {item.toPrice ? (
-          <>
-            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-              <FormattedMessage id="startEnd" />
+        <div className="card--product-contaner-price">
+          {item.toPrice ? (
+            <FormattedMessage
+              id="pirceRange"
+              values={{
+                fromPrice: (
+                  <span className="contaner-price__value">
+                    {formatMoney(item.fromPrice)}
+                  </span>
+                ),
+                toPrice: (
+                  <span className="contaner-price__value">
+                    {formatMoney(item.toPrice)}
+                  </span>
+                )
+              }}
+            />
+          ) : (
+            <span className="contaner-price__value">
+              {formatMoney(item.fromPrice)}
             </span>
-            {formatMoney(item.toPrice)}
-          </>
-        ) : null}
+          )}
+        </div>
       </div>
     </div>
   );
@@ -514,10 +523,10 @@ function ListItemBody({ item, headingTag }) {
     </>
   );
   return (
-    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0">
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
-          <div className="height-product-tile-plpOnly">
+          <div className="height-product-tile-plpOnly pl-4 pr-4">
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
             {item.technologyOrBreedsAttr ? (
               <p className="rc-card__meta text-center rc-padding-top--xs">
@@ -525,37 +534,32 @@ function ListItemBody({ item, headingTag }) {
               </p>
             ) : null}
           </div>
-          {/* <br /> */}
           {item.fromPrice ? (
-            <div
-              className="d-flex justify-content-center"
-              style={{ padding: '1rem 0' }}
-            >
+            <div className="d-flex justify-content-center pt-3 pb-3">
               <div className="rc-card__price text-left PriceFitScreen">
                 <div className={`rc-full-width PriceFitScreen`}>
-                  <span
-                    style={{
-                      color: '#000'
-                    }}
-                    className="value sales contaner-price"
-                  >
+                  <span className="value sales card--product-contaner-price">
                     {item.toPrice ? (
-                      <span className="mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startFrom" />
+                      <FormattedMessage
+                        id="pirceRange"
+                        values={{
+                          fromPrice: (
+                            <span className="contaner-price__value">
+                              {formatMoney(item.fromPrice)}
+                            </span>
+                          ),
+                          toPrice: (
+                            <span className="contaner-price__value">
+                              {formatMoney(item.toPrice)}
+                            </span>
+                          )
+                        }}
+                      />
+                    ) : (
+                      <span className="contaner-price__value">
+                        {formatMoney(item.fromPrice)}
                       </span>
-                    ) : null}
-                    {item.fromPrice ? formatMoney(item.fromPrice) : null}
-                    {item.toPrice ? (
-                      <>
-                        <span
-                          className="ml-1 mr-1"
-                          style={{ fontSize: '.8em' }}
-                        >
-                          <FormattedMessage id="startEnd" />
-                        </span>
-                        {formatMoney(item.toPrice)}
-                      </>
-                    ) : null}
+                    )}
                   </span>
                 </div>
               </div>
@@ -563,7 +567,7 @@ function ListItemBody({ item, headingTag }) {
           ) : null}
           {item.goodsNewSubtitle ? (
             <div
-              className="rc-card__meta text-center ui-text-overflow-line2 col-12 p-0"
+              className="rc-card__meta text-center ui-text-overflow-line2 col-12 pl-4 pr-4"
               style={{ marginBottom: '.625rem' }}
             >
               {item.goodsNewSubtitle}
@@ -2252,15 +2256,12 @@ class List extends React.Component {
                   >
                     {!loading && (
                       <>
-                        <div
-                          className="row pl-1"
-                          style={{ alignItems: 'center' }}
-                        >
-                          <div className="col-12 col-md-8 rc-md-up">
-                            <span className="rc-intro rc-margin--none rc-md-up">
-                              <b style={{ textTransform: 'capitalize' }}>
+                        <div className="row pl-1 rc-md-up align-items-center">
+                          <div className="col-12 col-md-8 pt-3 pb-2">
+                            <span className="rc-intro rc-margin--none">
+                              <span className="medium text-capitalize">
                                 {lastBreadListName}
-                              </b>
+                              </span>
                               (
                               <FormattedMessage
                                 id="results"
@@ -2270,10 +2271,10 @@ class List extends React.Component {
                             </span>
                           </div>
 
-                          <div className="col-12 col-md-4  rc-md-up">
+                          <div className="col-12 col-md-4">
                             <span
                               style={{ position: 'relative', top: '2px' }}
-                              className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
+                              className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
                             >
                               {sortList.length > 0 && (
                                 <Selection
@@ -2305,7 +2306,7 @@ class List extends React.Component {
                             <em className="rc-icon rc-incompatible--sm rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>
-                          <div className="ui-font-nothing rc-md-down d-flex">
+                          <div className="ui-font-nothing rc-md-down d-flex pb-4">
                             <em className="rc-icon rc-incompatible--xs rc-iconography" />
                             <FormattedMessage id="list.errMsg" />
                           </div>

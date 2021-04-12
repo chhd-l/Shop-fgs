@@ -1079,7 +1079,7 @@ const en_US = {
   save: 'Save',
   saveChange: 'Save Changes',
   saveExtra: 'Save {val} on this subscription',
-  saveExtraMoney: 'save an extra {val}',
+  saveExtraMoney: 'Save an extra {val}',
   saveFailed: 'Save Failed!',
   saveSuccess: 'Save Success',
   saveSuccessfullly: 'Saved Successfully',
@@ -1256,6 +1256,7 @@ const en_US = {
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'View Detail',
-  Expire: 'Expire'
+  Expire: 'Expire',
+  pirceRange: 'From {fromPrice} to {toPrice}'
 };
 export default en_US;

@@ -51,7 +51,6 @@ class VisitorAddress extends React.Component {
       visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
       selectVisitorValidationOption: 'suggestedAddress',
-      russiaAddressValidFlag: false, // 俄罗斯地址校验标记
       visitorBtnLoading: false
     };
     this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
@@ -104,16 +103,19 @@ class VisitorAddress extends React.Component {
   // 游客确认 Delivery address
   handleClickConfirm = () => {
     const { isValid } = this.state;
-
+    console.log(
+      '★ ----------------- 游客确认 Delivery address ',
+      this.props.isValidationModal
+    );
     if (!isValid) {
       return false;
     }
     // 地址验证
     // visitorValidationModalVisible - 控制是否查询数据
-    this.setState({
-      visitorValidationLoading: true
-    });
     if (this.props.isValidationModal) {
+      this.setState({
+        visitorValidationLoading: true
+      });
       console.log('★ ----------------- VisitorAddress 地址校验');
       setTimeout(() => {
         this.setState({
@@ -130,7 +132,7 @@ class VisitorAddress extends React.Component {
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
     this.setState({
-      russiaAddressValidFlag: flag
+      isValid: flag
     });
   };
   handleClickEdit = () => {
@@ -291,11 +293,12 @@ class VisitorAddress extends React.Component {
   // 重置参数，在Payment确认地址时调用
   resetVisitorAddressState() {
     const { form } = this.state;
+    console.log('------ 重置参数，在Payment确认地址时调用');
     this.setState({
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
     });
-    this.props.updateValidationStaus(false);
+    this.props.updateValidationStaus(true);
     this.props.updateData(form);
   }
 
@@ -344,7 +347,7 @@ class VisitorAddress extends React.Component {
                   <button
                     className="rc-btn rc-btn--one rc-btn--sm"
                     onClick={this.handleClickConfirm}
-                    disabled={!isValid && !this.state.russiaAddressValidFlag}
+                    disabled={!isValid}
                   >
                     <FormattedMessage id="clinic.confirm3" />
                   </button>

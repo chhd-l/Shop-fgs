@@ -17,7 +17,8 @@ import {
   getDictionary,
   setSeoConfig,
   getFormatDate,
-  matchNamefromDict
+  matchNamefromDict,
+  filterOrderId
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -1166,7 +1167,9 @@ class AccountOrders extends React.Component {
                                 <div className="col-12 col-md-3 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />
                                   <br />
-                                  <span className="medium">{orderNumber}</span>
+                                  <span className="medium">
+                                    {filterOrderId(orderNumber)}
+                                  </span>
                                 </div>
                                 {/* 订单状态 */}
                                 <div className="col-12 col-md-3 text-left mb-2">
@@ -1186,7 +1189,7 @@ class AccountOrders extends React.Component {
                                       to={`/account/subscription/order/detail/${this.state.subNumber}`}
                                       className="rc-styled-link medium mb-0"
                                     >
-                                      {this.state.subNumber}
+                                      {filterOrderId(this.state.subNumber)}
                                     </Link>
                                   </div>
                                 ) : null}

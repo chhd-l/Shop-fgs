@@ -2309,24 +2309,15 @@ class Payment extends React.Component {
     const { isLogin } = this;
     const { billingChecked, billingAddressAddOrEdit } = this.state;
     const { paymentStore } = this.props;
-    if (isLogin) {
-      // console.log('----------- 会员 添加或者编辑地址: ', billingAddressAddOrEdit);
-      // if (!billingChecked && billingAddressAddOrEdit && this.loginBillingAddrRef && this.loginBillingAddrRef.current) {
-      //   console.log('执行 List 页面的保存 billingAddress，弹出地址校验框');
-      //   await this.loginBillingAddrRef.current.showNextPanel();
-      // }
+    // 清空 VisitorAddress 参数 && !billingChecked
+    if (
+      !isLogin &&
+      this.unLoginBillingAddrRef &&
+      this.unLoginBillingAddrRef.current
+    ) {
+      this.unLoginBillingAddrRef.current.resetVisitorAddressState();
     }
-    if (!isLogin) {
-      // 清空 VisitorAddress 参数
-      if (
-        !billingChecked &&
-        this.unLoginBillingAddrRef &&
-        this.unLoginBillingAddrRef.current
-      ) {
-        this.unLoginBillingAddrRef.current.resetVisitorAddressState();
-      }
-    }
-    // console.log('★ --- payment 收起面板，显示preview ');
+    console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
@@ -2334,7 +2325,7 @@ class Payment extends React.Component {
     this.setState({
       billingAddressAddOrEdit: false,
       saveBillingLoading: false,
-      isShowValidationModal: false,
+      isShowValidationModal: true,
       paymentValidationLoading: false,
       btnLoading: false
     });

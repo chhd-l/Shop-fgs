@@ -848,7 +848,7 @@ const ru_RU = {
     'Каждая формула была создана для обеспечения питания, соответствующего потребностям их здоровья, вне зависимости от {val1} размера, расы, возраста или образа жизни.',
   'salesCategory.dog': 'Для собаки',
   //salesCategory
-  'salesCategory.title': 'Откройте для себя наш {val1} ассортимент блюд',
+  'salesCategory.title': 'Наши продукты по категориям',
   save: 'Сохранить',
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
@@ -1114,7 +1114,8 @@ const ru_RU = {
     'Вы также можете просмотреть часть ответа на наши общие вопросы, эта часть даст вам много ответов.',
   'onlineStore.BottomInfo.faq.content2': 'ответ на вопрос',
   'onlineStore.BottomInfo.faq.title': 'задача Дес?',
-  'account.clinicTitle2': 'По умолчанию для моей клиники'
+  'account.clinicTitle2': 'По умолчанию для моей клиники',
+  pirceRange: 'От {fromPrice} к {toPrice}'
 };
 
 export default ru_RU;

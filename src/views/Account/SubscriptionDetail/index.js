@@ -24,6 +24,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
+import { filterOrderId } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -2205,29 +2206,28 @@ class SubscriptionDetail extends React.Component {
                 <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                   your daily ration
                 </div>
-                <div className="text-center mt-2">
+                <div className="text-center mt-2 card--product-contaner-price">
                   {productDetail.mainProduct?.toPrice ? (
-                    <span className="mr-1" style={{ fontSize: '.8em' }}>
-                      <FormattedMessage id="startFrom" />
+                    <FormattedMessage
+                      id="pirceRange"
+                      values={{
+                        fromPrice: (
+                          <span className="contaner-price__value">
+                            {formatMoney(productDetail.mainProduct?.fromPrice)}
+                          </span>
+                        ),
+                        toPrice: (
+                          <span className="contaner-price__value">
+                            {formatMoney(productDetail.mainProduct?.toPrice)}
+                          </span>
+                        )
+                      }}
+                    />
+                  ) : (
+                    <span className="contaner-price__value">
+                      {formatMoney(productDetail.mainProduct?.fromPrice)}
                     </span>
-                  ) : null}
-                  {formatMoney(productDetail.mainProduct?.fromPrice)}
-                  {productDetail.mainProduct?.toPrice ? (
-                    <>
-                      <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
-                        <FormattedMessage id="startEnd" />
-                      </span>
-                      {formatMoney(productDetail.mainProduct?.toPrice)}
-                    </>
-                  ) : null}
-                  {/* {formatMoney(
-                          Math.min.apply(
-                            null,
-                            productDetail.mainProduct.goodsInfos.map(
-                              (g) => g.marketPrice || 0
-                            )
-                          )
-                        )} */}
+                  )}
                 </div>
                 <div
                   className="d-flex justify-content-center mt-3 testtest"
@@ -2295,30 +2295,32 @@ class SubscriptionDetail extends React.Component {
                     <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
                       your daily ration
                     </div>
-                    <div className="text-center mt-2">
+                    <div className="text-center mt-2 card--product-contaner-price">
                       {productDetail.mainProduct?.toPrice ? (
-                        <span className="mr-1" style={{ fontSize: '.8em' }}>
-                          <FormattedMessage id="startFrom" />
+                        <FormattedMessage
+                          id="pirceRange"
+                          values={{
+                            fromPrice: (
+                              <span className="contaner-price__value">
+                                {formatMoney(
+                                  productDetail.mainProduct?.fromPrice
+                                )}
+                              </span>
+                            ),
+                            toPrice: (
+                              <span className="contaner-price__value">
+                                {formatMoney(
+                                  productDetail.mainProduct?.toPrice
+                                )}
+                              </span>
+                            )
+                          }}
+                        />
+                      ) : (
+                        <span className="contaner-price__value">
+                          {formatMoney(productDetail.mainProduct?.fromPrice)}
                         </span>
-                      ) : null}
-                      {formatMoney(productDetail.mainProduct?.fromPrice)}
-                      {productDetail.mainProduct?.toPrice ? (
-                        <>
-                          <span
-                            className="ml-1 mr-1"
-                            style={{ fontSize: '.8em' }}
-                          >
-                            <FormattedMessage id="startEnd" />
-                          </span>
-                          {formatMoney(productDetail.mainProduct?.toPrice)}
-                        </>
-                      ) : null}
-                      {/* {formatMoney(
-                Math.min.apply(
-                  null,
-                  ele.goodsInfos.map((g) => g.marketPrice || 0)
-                )
-              )} */}
+                      )}
                     </div>
                     <div
                       className="d-flex justify-content-center mt-3"
@@ -2781,7 +2783,7 @@ class SubscriptionDetail extends React.Component {
                         style={{ color: '#666' }}
                       >
                         {subDetail.subscribeId ? (
-                          <span>{`${subDetail.subscribeId}`}</span>
+                          <span>{filterOrderId(subDetail.subscribeId)}</span>
                         ) : null}
                         {this.statusText()}
                       </h4>

@@ -1480,6 +1480,7 @@ const fr_FR = {
   'bindPrescriber.modal.or': 'или',
   'subscription.viewDetails': 'Voir les détails',
   Expire: ' ',
-  generalTermsConditions: 'Conditions Générales De Vente'
+  generalTermsConditions: 'Conditions Générales De Vente',
+  pirceRange: 'De {fromPrice} à {toPrice}'
 };
 export default fr_FR;
