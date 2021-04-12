@@ -1215,7 +1215,8 @@ const ru_RU = {
   searchBreed: 'Поиск породы',
   answeredQuestions: 'Ответы на вопросы',
   next: 'Следующий',
-  pirceRange: 'От {fromPrice} к {toPrice}'
+  pirceRange: 'От {fromPrice} к {toPrice}',
+  'petform.subscription': 'Affiliate Subscriptions'
 };
 
 export default ru_RU;

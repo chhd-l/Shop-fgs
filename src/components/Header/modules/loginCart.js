@@ -31,7 +31,11 @@ class LoginCart extends React.Component {
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
-    if (window.location.pathname !== '/checkout') {
+    if (
+      ['/checkout', '/prescription', '/prescriptionNavigate'].indexOf(
+        window.location.pathname
+      ) === -1
+    ) {
       await this.checkoutStore.removePromotionCode();
     }
     await getFrequencyDict().then((res) => {
