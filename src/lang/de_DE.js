@@ -1088,6 +1088,7 @@ const de_DE = {
   'subscription.deliveryDate': 'Nächster Liefertermin',
   'subscription.detail': 'Übersicht',
   'subscription.frequency': 'Lieferung alle',
+  'minicart.frequency': 'Lieferung alle',
   'subscription.help.subTitle': 'Unser Expertenteam hilft Ihnen gerne weiter.',
   'subscription.help.title': 'Haben Sie Fragen?',
   'subscription.list.btn1': 'Nahrung für Katzen',

@@ -49,7 +49,8 @@ const ru_RU = {
   'account.myAccount': 'Персональные данные',
   'account.myAddresses': 'Мои адреса',
   'account.myCommunicationPreferencesContent1': 'Предпочитаемый способ связи',
-  'account.myCommunicationPreferencesContent2': 'Согласие на общение',
+  'account.myCommunicationPreferencesContent2':
+    'Согласие на получение сообщений',
   'account.myCommunicationPreferencesDesc':
     'Следите за информацией Royal Canin в общении',
   'account.myCommunicationPreferencesTitle': 'Предпочитаемые способы связи',
@@ -76,7 +77,7 @@ const ru_RU = {
   'account.petsTip': 'Создать профили Ваших питомцев.',
   'account.petsTitle': 'Питомцы',
   'account.preferredContactMethod': 'Предпочтительный метод связи',
-  'account.preferredMethodOfCommunication': 'Предпочитаемый способ связи',
+  'account.preferredMethodOfCommunication': 'Предпочитаемые способы связи',
   'account.profile': 'Профиль',
   'account.profileTip': 'Просмотреть или изменить Ваш профиль.',
   'account.requiredFields': 'Обязательные поля',
@@ -211,7 +212,7 @@ const ru_RU = {
   'cart.fullPrice': 'ПОЛНЫЙ РИС ДЛЯ ВАШЕГО ДОМАШНИКА',
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
-  'cart.totalProduct': '{val} товар (а/ов)',
+  'cart.totalProduct': 'У вас {val} товара в',
   'cart.totalProduct_nounit': '{val} корзине',
   'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
@@ -352,7 +353,7 @@ const ru_RU = {
   download: 'Скачать',
   edit: 'Редактировать',
   edit2: 'Изменить',
-  email: 'Эл. адрес',
+  email: 'E-mail',
   emailAddress: 'Адрес электронной почты *',
   enterCatBreed: 'Введите породу вашей кошки',
   enterClinicName: 'Введите название клиники',
@@ -561,7 +562,9 @@ const ru_RU = {
   moreAddress: 'Подробнее Адрес',
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
-    'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.',
+    'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
+  mustChooseTheConsentTip:
+    'Чтобы подтвердить, что вы согласны на получение рекламных сообщений от Royal Canin, пожалуйста, поставьте соответствующий флажок ниже.',
   name: 'Кличка',
   name2: 'ИМЯ',
   nameInvalid: 'Ваше имя недействительно',
@@ -790,7 +793,7 @@ const ru_RU = {
     'Наши обязательства в области качества и пищевой безопасности',
   quantity: 'Количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
-  quantityText: '{specText} - {buyCount} товар (а/ов)',
+  quantityText: '{specText} - {buyCount} товар',
   queryDataFailed: 'Ошибка данных запроса',
   ratingGrade1: 'Самые последние',
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
@@ -900,7 +903,8 @@ const ru_RU = {
   'subscription.date': 'Дата подписки',
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
-  'subscription.frequency': 'Периодичность',
+  'subscription.frequency': 'Частота',
+  'minicart.frequency': 'Периодичность',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -973,7 +977,8 @@ const ru_RU = {
   twoPasswordsYouTypedDoNotMatch: 'Два введенных вами пароля не совпадают!',
   type: 'ТИП',
   unfoldAddress: 'Развернуть адрес',
-  unLoginSubscriptionTips: 'Автодоставка возможна только после регистрации',
+  unLoginSubscriptionTips:
+    'Участие в клубной программе только для зарегистрированных пользователей',
   userAgreement: 'Пользовательское Соглашение',
   viewAll: 'Посмотреть все',
   viewAllResults: 'Посмотреть все результаты',
@@ -1222,7 +1227,8 @@ const ru_RU = {
   next: 'Следующий',
   pirceRange: 'От {fromPrice} к {toPrice}',
   'petform.subscription': 'Affiliate Subscriptions',
-  'pet.deletePet': 'Удалить профиль питомца'
+  'pet.deletePet': 'Удалить профиль питомца',
+  messengers: 'Мессенджеры'
 };
 
 export default ru_RU;

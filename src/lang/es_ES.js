@@ -898,6 +898,7 @@ const es_ES = {
   'subscription.deliveryDate': 'Próxima fecha de entrega',
   'subscription.detail': 'Detalle de suscripción',
   'subscription.frequency': 'Frecuencia',
+  'minicart.frequency': 'Frecuencia',
   'subscription.nextOrder': 'Siguiente pedido',
   'subscription.noDataTip': 'Sin subscripción',
   'subscription.notYet': 'Todavía no se ha enviado',

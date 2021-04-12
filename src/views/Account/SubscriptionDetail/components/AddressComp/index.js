@@ -413,6 +413,8 @@ class AddressList extends React.Component {
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
+        area: deliveryAddress.region,
+        areaId: deliveryAddress.regionId,
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: +deliveryAddress.countryId,
