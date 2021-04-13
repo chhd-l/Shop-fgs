@@ -133,7 +133,8 @@ class AccountProfile extends React.Component {
         address2: context.address2,
         postCode: context.postalCode,
         communicationEmail: context.communicationEmail,
-        communicationPhone: context.communicationPhone
+        communicationPhone: context.communicationPhone,
+        communicationPrint: context.communicationPrint
       };
 
       if (process.env.REACT_APP_LANG === 'en') {
