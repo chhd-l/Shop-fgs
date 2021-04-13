@@ -262,7 +262,7 @@ const tr_TR = {
   'detail.packagingDesc':
     'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
   //plp
-  'detail.question': 'Hala bu ürünle ilgili sorularınız var?',
+  'detail.question': 'Bu ürünle alakalı sorularınız mı var?',
   'detail.telephone': 'Telefonla',
   'details.addToCart': 'Sepete ekle',
   'details.availability': 'Kullanılabilirlik',
