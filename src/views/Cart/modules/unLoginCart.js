@@ -946,7 +946,11 @@ class UnLoginCart extends React.Component {
                 className="name-info flex-column-gift d-flex"
                 style={{ width: '400px' }}
               >
-                <img className="img" src={ClubBanner_Logo} />
+                <img
+                  className="img"
+                  src={ClubBanner_Logo}
+                  style={{ width: '400px' }}
+                />
               </div>
               {/* <div className="name-info flex-column-gift d-flex">
                 <img

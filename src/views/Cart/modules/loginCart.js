@@ -884,8 +884,15 @@ class LoginCart extends React.Component {
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}
             >
-              <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={ClubBanner_Logo} />
+              <div
+                className="name-info flex-column-gift d-flex"
+                style={{ width: '400px' }}
+              >
+                <img
+                  className="img"
+                  src={ClubBanner_Logo}
+                  style={{ width: '400px' }}
+                />
               </div>
               {/* <div className="logo-info text-center">
                 <img
