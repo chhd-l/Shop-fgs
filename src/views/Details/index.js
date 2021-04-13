@@ -1961,7 +1961,7 @@ class Details extends React.Component {
                                       className="rc-styled-link backProductFinder mt-0 pb-0"
                                       to="/product-finder-recommendation"
                                     >
-                                      Go back to recommendation
+                                      <FormattedMessage id="Go back to recommendation" />
                                     </Link>
                                   </div>
                                 ) : (
@@ -2110,9 +2110,11 @@ class Details extends React.Component {
                                       </span>
                                     </label>
                                     <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
+                                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
@@ -2241,9 +2243,11 @@ class Details extends React.Component {
                                       />
                                     </div>
                                     <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
+                                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    ) : null}
                                   </div>
                                   {this.state.details.promotions &&
                                     this.getFrequencyDictDom()}
@@ -2345,9 +2349,12 @@ class Details extends React.Component {
                                       />
                                     </div>
                                     <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
+                                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    ) : null}
+
                                     <div className="learnMore">
                                       <span
                                         className="rc-styled-link"
