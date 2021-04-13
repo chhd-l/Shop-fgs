@@ -295,7 +295,7 @@ class RegisterRequired extends Component {
               >
                 {/* Logo */}
                 <div className="rc-margin-bottom--sm">
-                  <DistributeHubLinkOrATag
+                  {/* <DistributeHubLinkOrATag
                     href=""
                     to="/home"
                     className="logo-home d-inline-block"
@@ -313,7 +313,18 @@ class RegisterRequired extends Component {
                         alt="Royal Canin Flagship Store"
                       />
                     </div>
-                  </DistributeHubLinkOrATag>
+                  </DistributeHubLinkOrATag> */}
+                  <div
+                    className="content-asset"
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <img
+                      src={logoAnimatedPng}
+                      width="205"
+                      height="90"
+                      alt="Royal Canin Flagship Store"
+                    />
+                  </div>
                 </div>
 
                 {/* Header title */}
