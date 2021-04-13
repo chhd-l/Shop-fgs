@@ -49,10 +49,13 @@ class Register extends Component {
       emailMessage: '',
       requiredConsentCount: 0,
       hasError: false,
-      errorMessage: ''
+      errorMessage: '',
+      needConfirmEmail:
+        process.env.REACT_APP_LANG === 'tr' ||
+        process.env.REACT_APP_LANG === 'ru'
     };
     this.sendList = this.sendList.bind(this);
-    this.init = this.init.bind(this);
+    this.initConsent = this.initConsent.bind(this);
     this.register = this.register.bind(this);
     this.registerChange = this.registerChange.bind(this);
     this.inputFocus = this.inputFocus.bind(this);
@@ -65,46 +68,54 @@ class Register extends Component {
     if (isLogin) {
       this.props.history.push('/');
     }
-    this.init();
-    var windowWidth = document.body.clientWidth;
-    if (windowWidth < 640) {
-      this.setState({
-        width: '80%',
-        zoom: '120%',
-        fontZoom: '100%'
-      });
-    }
-    if (windowWidth >= 640) {
-      this.setState({
-        width: '90%',
-        zoom: '150%',
-        fontZoom: '120%'
-      });
-    }
-    document.getElementById('wrap').addEventListener('click', (e) => {
-      if (e.target.localName === 'font') {
-        let keyWords = e.target.innerText;
-        let index = Number(
-          e.target.parentNode.parentNode.parentNode.parentNode.parentNode
-            .parentNode.parentNode.id
-        );
-        let arr = this.state.list[index].detailList.filter((item) => {
-          return item.contentTitle === keyWords;
+    if (this.state.needConfirmEmail === false) {
+      this.initConsent();
+      var windowWidth = document.body.clientWidth;
+      if (windowWidth < 640) {
+        this.setState({
+          width: '80%',
+          zoom: '120%',
+          fontZoom: '100%'
         });
-
-        let tempArr = [...this.state.list];
-        tempArr[index].innerHtml = tempArr[index].innerHtml
-          ? ''
-          : arr[0]
-          ? arr[0].contentBody
-          : '';
-
-        this.setState({ list: tempArr });
       }
-    });
+      if (windowWidth >= 640) {
+        this.setState({
+          width: '90%',
+          zoom: '150%',
+          fontZoom: '120%'
+        });
+      }
+      document.getElementById('wrap').addEventListener('click', (e) => {
+        if (e.target.localName === 'font') {
+          let keyWords = e.target.innerText;
+          let index = Number(
+            e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+              .parentNode.parentNode.id
+          );
+          let arr = this.state.list[index].detailList.filter((item) => {
+            return item.contentTitle === keyWords;
+          });
+
+          let tempArr = [...this.state.list];
+          tempArr[index].innerHtml = tempArr[index].innerHtml
+            ? ''
+            : arr[0]
+            ? arr[0].contentBody
+            : '';
+
+          this.setState({ list: tempArr });
+        }
+      });
+    } else {
+      this.setState({
+        circleLoading: false,
+        styleObj: { display: 'block' },
+        isLoading: false
+      });
+    }
   }
 
-  init = async () => {
+  initConsent = async () => {
     this.setState({
       circleLoading: true,
       styleObj: { display: 'none' },
@@ -277,18 +288,18 @@ class Register extends Component {
           });
           //GA 注册成功 end
 
-          loginStore.changeLoginModal(false);
-          loginStore.changeIsLogin(true);
-
-          localItemRoyal.set('rc-token', res.context.token);
-          localItemRoyal.set('rc-register', true);
-          loginStore.setUserInfo(res.context.customerDetail);
-
           if (checkoutStore.cartData.length) {
             await mergeUnloginCartData();
             await checkoutStore.updateLoginCart();
           }
+
           if (res.context.oktaSessionToken) {
+            loginStore.changeLoginModal(false);
+            loginStore.changeIsLogin(true);
+
+            localItemRoyal.set('rc-token', res.context.token);
+            localItemRoyal.set('rc-register', true);
+            loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
               'okta-session-token',
               res.context.oktaSessionToken
@@ -301,6 +312,11 @@ class Register extends Component {
               JSON.stringify(this.state.list)
             );
             window.location.href = callOktaCallBack;
+          } else {
+            this.props.history.push({
+              pathname: '/welcome',
+              state: { email: registerForm.email }
+            });
           }
         } else {
           window.scrollTo(0, 0);
@@ -349,7 +365,8 @@ class Register extends Component {
       requiredConsentCount,
       list,
       hasError,
-      errorMessage
+      errorMessage,
+      needConfirmEmail
     } = this.state;
     const allValid =
       nameValid &&
@@ -770,15 +787,17 @@ class Register extends Component {
                             />
                           </div>
                         </div>
-                        <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
-                          <span
-                            style={{ marginRight: '.625rem' }}
-                            className="rc-text-colour--brand1"
-                          >
-                            *
-                          </span>
-                          <FormattedMessage id="registerMandatory" />
-                        </p>
+                        {needConfirmEmail ? null : (
+                          <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
+                            <span
+                              style={{ marginRight: '.625rem' }}
+                              className="rc-text-colour--brand1"
+                            >
+                              *
+                            </span>
+                            <FormattedMessage id="registerMandatory" />
+                          </p>
+                        )}
                         <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
                           <button
                             id="registerSubmitBtn"

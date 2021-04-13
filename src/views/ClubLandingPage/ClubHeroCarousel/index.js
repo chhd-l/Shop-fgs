@@ -350,6 +350,12 @@ class ClubHeroCarousel extends React.Component {
       }
     });
   }
+  //点击滑到HowItWorks
+  scrollToHowItWorks = () => {
+    const widegt = document.querySelector('');
+    widegt && widegt.scrollIntoView();
+  };
+
   render() {
     const { banner } = this.state;
     const settings = {

@@ -11,7 +11,6 @@ import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
 } from '../modules/utils';
-import { shippingCalculation } from '@/api/cart';
 import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
@@ -81,7 +80,12 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
+    console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
     try {
+      // 如果有返回运费数据，则计算运费折扣并显示
+      if (data?.calculationStatus) {
+        this.props.updateData(data);
+      }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
@@ -98,7 +102,7 @@ class VisitorAddress extends React.Component {
     }
   };
   // 接收form表单输入
-  handleEditFormChange = (data) => {
+  updateDeliveryAddress = (data) => {
     this.validData({ data });
   };
   // 游客确认 Delivery address
@@ -321,8 +325,8 @@ class VisitorAddress extends React.Component {
         type="delivery"
         initData={form}
         isLogin={false}
-        updateData={this.handleEditFormChange}
         getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+        updateData={this.updateDeliveryAddress}
       />
     );
     const _title = panelStatus.isPrepare

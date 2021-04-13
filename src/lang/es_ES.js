@@ -835,8 +835,8 @@ const es_ES = {
   'requestInvoices.title': 'Solicitar facturas',
   'required.checkRequired': 'Compruebe los elementos necesarios',
   'required.complete': 'Proceso de inicio de sesión completo',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'Persistencia',
+  'required.fields': 'Pliegues necesarios',
   'required.logoTitle': 'Bienvenido a la tienda en línea ROYALCANIN®',
   requiredConsentCheckedTip:
     'Confirme los campos obligatorios marcando la casilla.',
@@ -1062,6 +1062,20 @@ const es_ES = {
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
-  'subscriptionDetail.product': 'Product'
+  'subscriptionDetail.product': 'Product',
+  'mobile.cart.orderSummary': 'Order summary',
+  'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
+  'welcome.confirmEmail':
+    'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
+  'welcome.notReceiveEmail': 'Sie haben keine E-Mail erhalten?',
+  'welcome.contactSupport': 'Support kontaktieren',
+  'welcome.privacyStatement': 'Datenschutzerklärung',
+  'welcome.cookiesNotice': 'Cookies Notice',
+  'welcome.legal': 'Legal',
+  'welcome.accessibility': 'Accessibility',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
+  'welcome.modernSlaveryAct': 'Modern Slavery Act',
+  'welcome.contactUS': 'Kontaktieren Sie uns'
 };
 export default es_ES;

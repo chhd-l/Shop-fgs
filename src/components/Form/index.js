@@ -448,9 +448,7 @@ class Form extends React.Component {
   // 7-1、根据address1查询地址信息
   // 俄罗斯地址没有办法用不完整的地址匹配，因为模糊查询出来是一个地址列表
   getAddressListByKeyWord = async (address1) => {
-    // const { caninForm } = this.state;
     try {
-      // let address1 = caninForm.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
       console.log('★ -------------- 7-1、根据address1查询地址信息 res: ', res);
       if (res?.context && res?.context?.addressList.length > 0) {
@@ -474,29 +472,17 @@ class Form extends React.Component {
     });
     try {
       let res = await shippingCalculation({
-        sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-        sourceAreaFias: null,
-        sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-        sourceSettlementFias: null,
-        sourcePostalCode: null,
-        regionFias: data.provinceId,
-        areaFias: data.areaId,
-        cityFias: data.cityId,
-        settlementFias: data.settlementId,
         postalCode: data.postCode,
-        weight: '1',
-        insuranceSum: 0,
-        codSum: 0,
-        dimensions: {
-          height: '1',
-          width: '1',
-          depth: '1'
-        }
+        regionFias: data.provinceId, // 此处的provinceId是DuData地址返回的字符串，并非我们系统里的id
+        areaFias: data.areaId || null,
+        cityFias: data.cityId,
+        settlementFias: data.settlementId || null
       });
       console.log('★ -------------- 2、计算运费 res: ', res);
       if (res?.context?.success && res?.context?.tariffs[0]) {
         let calculation = res?.context?.tariffs[0];
         // 赋值查询到的地址信息
+        caninForm.calculationStatus = res?.context?.success;
         caninForm.calculation = calculation;
         caninForm.minDeliveryTime = calculation.minDeliveryTime;
         caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
@@ -777,11 +763,7 @@ class Form extends React.Component {
   };
   // 地址搜索框输入值接收，控制按钮状态 3
   getSearchInputChange = (val) => {
-    // if (val == '') {
     this.props.getRussiaAddressValidFlag(false);
-    // } else {
-    //   this.props.getRussiaAddressValidFlag(true);
-    // }
   };
 
   // 地址搜索框

@@ -222,24 +222,11 @@ class AddressList extends React.Component {
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
-        sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-        sourceAreaFias: null,
-        sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-        sourceSettlementFias: null,
-        sourcePostalCode: null,
-        regionFias: data.provinceId,
-        areaFias: data.areaId,
-        cityFias: data.cityId,
-        settlementFias: data.settlementId,
         postalCode: data.postCode,
-        weight: '1',
-        insuranceSum: 0,
-        codSum: 0,
-        dimensions: {
-          height: '1',
-          width: '1',
-          depth: '1'
-        }
+        regionFias: data.provinceId, // 此处的provinceId是DuData地址返回的字符串，并非我们系统里的id
+        areaFias: data.areaId || null,
+        cityFias: data.cityId,
+        settlementFias: data.settlementId || null
       });
       if (res?.context?.success && res?.context?.tariffs[0]) {
         let calculation = res?.context?.tariffs[0];
@@ -412,13 +399,17 @@ class AddressList extends React.Component {
   updateDeliveryAddress = async (data) => {
     console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
-      console.log(' --------------- 111111111 开始验证');
+      // 如果有返回运费数据，则计算运费折扣并显示
+      if (data?.calculationStatus) {
+        this.props.updateData(data);
+      }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
-      this.setState({ isValid: false });
+      this.setState({
+        isValid: false
+      });
       await validData(data.formRule, data); // 数据验证
-      console.log(' --------------- 222222222 验证通过');
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
@@ -915,8 +906,8 @@ class AddressList extends React.Component {
             ref={this.editFormRef}
             isLogin={true}
             initData={deliveryAddress}
-            updateData={this.updateDeliveryAddress}
             getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+            updateData={this.updateDeliveryAddress}
           />
         )}
 

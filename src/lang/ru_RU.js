@@ -195,11 +195,11 @@ const ru_RU = {
   cardCvvIsInvalid: 'CVV вашей карты недействителен',
   cardNumber: 'Номер карты',
   cardNumberIsInvalid: 'номер вашей карты недействителен',
-  'cart.catDiet': 'Выберите диету для своей кошки',
+  'cart.catDiet': 'Подберите подходящий рацион для Для кошек',
   'cart.deletInfo': 'Удалить товар?',
   'cart.deletInfo2': 'Вы уверены, что хотите удалить этот товар из корзины?',
   'cart.delivery': 'Доставка',
-  'cart.dogDiet': 'Выберите диету для своей собаки',
+  'cart.dogDiet': 'Подберите подходящий рацион для Для собак',
   'cart.errorInfo': 'Число не может быть меньше 1',
   'cart.errorInfo2':
     'Вы не можете разместить заказ, товар отсутствует в наличии.',
@@ -441,7 +441,7 @@ const ru_RU = {
   'header.toLearnMore': 'Узнать больше',
   //header.User  unLogin
   'header.User.alreadyRegistered': 'У вас есть учетная запись?',
-  'header.User.breederPortal': 'Breeder portal',
+  'header.User.breederPortal': 'Заводчик',
   'header.User.faq': 'Часто задаваемые вопросы',
   'header.User.home': 'Личный кабинет',
   //header.User  login
@@ -454,8 +454,8 @@ const ru_RU = {
   'header.User.or': 'or',
   'header.User.pets': 'Питомцы',
   'header.User.registerNow': 'Зарегистрироваться',
-  'header.User.royalCaninPartner': 'Royal Canin partner?',
-  'header.User.vetPortal': 'Vet portal',
+  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач?',
+  'header.User.vetPortal': 'Ветеринарный врач',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
   'help.byEmail': 'По электронной почте',
@@ -841,8 +841,8 @@ const ru_RU = {
   rePurchase: 'Выкуп',
   'required.checkRequired': 'Отметьте необходимые предметы',
   'required.complete': 'Завершить процесс входа в систему',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'длительность',
+  'required.fields': 'требуемая складка',
   'required.logoTitle': 'Добро пожаловать в интернет-магазин ROYALCANIN®',
   requiredConsentCheckedTip:
     'Пожалуйста, подтвердите обязательные поля, установив галочку.',
@@ -1033,10 +1033,12 @@ const ru_RU = {
   'club.joinsubscription.button': 'Начать',
   'club.loyal.customers': 'Наши постоянные клиенты',
   'club.wheretohelp': 'Есть вопросы?',
+  'club.wheretohelp.subtitile':
+    'Нужна помощь? Наша команда готова ответить на Ваши вопросы и помочь с выбором и покупкой. Вы можете связаться с нами, используя один из следующих способов:',
   'club.wheretohelp.card.callus.title': 'Позвоните нам',
   'club.wheretohelp.card.callus.description':
     'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
-  'club.wheretohelp.card.callus.number': '0874 657 890',
+  'club.wheretohelp.card.callus.number': '8-800-200-37-35',
   'club.wheretohelp.card.email.title': 'Напишите нам e-mail',
   'club.wheretohelp.card.email.description':
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
@@ -1229,7 +1231,22 @@ const ru_RU = {
   'petform.subscription': 'Affiliate Subscriptions',
   'pet.deletePet': 'Удалить профиль питомца',
   messengers: 'Мессенджеры',
-  CLUB: 'КЛУБ'
+  CLUB: 'КЛУБ',
+  'welcome.createdSuccessfully': 'Ваша учетная запись успешно создана!',
+  'welcome.confirmEmail':
+    'Чтобы завершить создание учетной записи, нажмите «Подтвердить» в электронном письме, отправленном на следующий адрес электронной почты:',
+  'welcome.notReceiveEmail': 'Вы не получали письма?',
+  'welcome.contactSupport': 'Обратиться в службу поддержки',
+  'welcome.privacyStatement': 'Заявление о конфиденциальности',
+  'welcome.cookiesNotice': 'Уведомление о файлах cookie',
+  'welcome.legal': 'Право',
+  'welcome.accessibility': 'Доступность',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct':
+    'Закон о прозрачности цепочки поставок CA',
+  'welcome.modernSlaveryAct': 'Закон о современном рабстве',
+  'welcome.contactUS': 'Свяжитесь с нами',
+  validPromotionCode: 'Невозможно добавить купон на скидку в корзину'
 };
 
 export default ru_RU;
