@@ -368,11 +368,15 @@ class Details extends React.Component {
 
     const Fr = process.env.REACT_APP_LANG === 'fr';
     const Ru = process.env.REACT_APP_LANG === 'ru';
+    const Tr = process.env.REACT_APP_LANG === 'tr';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
     } else if (Ru) {
-      contactUs = 'https://www.royalcanin.com/ru/contact-us';
+      // contactUs = 'https://www.royalcanin.com/ru/contact-us';
+      contactUs = 'mailto:royalcanin.careservice@voxys.ru';
+    } else if (Tr) {
+      contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
     }
 
     this.setState({
