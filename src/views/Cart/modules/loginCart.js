@@ -48,6 +48,7 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import ClubBanner_Logo from '@/assets/images/club_banner_logo.png';
 //import Carousel from '../components/Carousel';
 import ResponsiveCarousel from '@/components/Carousel';
 import { setSeoConfig } from '@/utils/utils';
@@ -878,23 +879,21 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.goods.promotions &&
-          pitem.goods.promotions.includes('club') &&
-          pitem.goodsInfoFlag ? (
+          {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}
             >
               <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={foodDispenserPic} />
+                <img className="img" src={ClubBanner_Logo} />
               </div>
-              <div className="logo-info text-center">
+              {/* <div className="logo-info text-center">
                 <img
                   style={{ display: 'inline-block' }}
                   src={Club_Logo}
                   alt="Club logo"
                 />
-              </div>
+              </div> */}
               <div className="tips-info mobile-text-center">
                 <ul>
                   <li className="rc-list__item">

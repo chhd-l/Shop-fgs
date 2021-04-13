@@ -36,6 +36,7 @@ import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import ClubBanner_Logo from '@/assets/images/club_banner_logo.png';
 import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
@@ -941,20 +942,26 @@ class UnLoginCart extends React.Component {
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}
             >
-              <div className="name-info flex-column-gift d-flex">
+              <div
+                className="name-info flex-column-gift d-flex"
+                style={{ width: '400px' }}
+              >
+                <img className="img" src={ClubBanner_Logo} />
+              </div>
+              {/* <div className="name-info flex-column-gift d-flex">
                 <img
                   className="img"
                   src={foodDispenserPic}
                   alt="food dispenserPic"
                 />
-              </div>
-              <div className="text-center" style={{ width: '200px' }}>
+              </div> */}
+              {/* <div className="text-center" style={{ width: '200px' }}>
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
                   alt="Club Logo"
                 />
-              </div>
+              </div> */}
               <div className="tips-info mobile-text-center">
                 <ul>
                   <li className="rc-list__item">
