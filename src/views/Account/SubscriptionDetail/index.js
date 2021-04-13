@@ -2241,7 +2241,6 @@ class SubscriptionDetail extends React.Component {
     }
   };
   showErrorDom = (errorMsg) => {
-    debugger;
     return errorMsg ? (
       <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
         <aside
