@@ -1243,7 +1243,8 @@ const ru_RU = {
   'welcome.cASupplyChainTransparencyAct':
     'Закон о прозрачности цепочки поставок CA',
   'welcome.modernSlaveryAct': 'Закон о современном рабстве',
-  'welcome.contactUS': 'Свяжитесь с нами'
+  'welcome.contactUS': 'Свяжитесь с нами',
+  validPromotionCode: 'Невозможно добавить купон на скидку в корзину'
 };
 
 export default ru_RU;
