@@ -1005,7 +1005,7 @@ class SubscriptionDetail extends React.Component {
               <div className="specAndQuantity rc-margin-bottom--xs ">
                 <div className="spec">
                   {specList.map((sItem, i) => (
-                    <div id="choose-select" key={i}>
+                    <div id="choose-select" key={i} style={{ width: '300px' }}>
                       <div
                         className="rc-margin-bottom--xs"
                         style={{ textAlign: 'left' }}
