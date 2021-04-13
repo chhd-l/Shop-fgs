@@ -878,7 +878,9 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
+          {pitem.goods.promotions &&
+          pitem.goods.promotions.includes('club') &&
+          pitem.goodsInfoFlag ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}
@@ -896,19 +898,24 @@ class LoginCart extends React.Component {
               <div className="tips-info mobile-text-center">
                 <ul>
                   <li className="rc-list__item">
-                    <strong>Best-in-class nutrition</strong> for your pet
+                    <FormattedMessage id="clubGiftTips1" />
+                    {/* <strong>Best-in-class nutrition</strong> for your pet */}
                   </li>
                   <li className="rc-list__item">
-                    <strong>Adapted tips</strong> to care for your pet
+                    <FormattedMessage id="clubGiftTips2" />
+                    {/* <strong>Adapted tips</strong> to care for your pet */}
                   </li>
                   <li className="rc-list__item">
-                    Your personal <strong>Pet advisor</strong>
+                    <FormattedMessage id="clubGiftTips3" />
+                    {/* Your personal <strong>Pet advisor</strong> */}
                   </li>
                   <li className="rc-list__item">
-                    Exclusive <strong>rewards & offers</strong>
+                    <FormattedMessage id="clubGiftTips4" />
+                    {/* Exclusive <strong>rewards & offers</strong> */}
                   </li>
                   <li className="rc-list__item">
-                    <strong>Free, automatic delivery</strong> on every refill
+                    <FormattedMessage id="clubGiftTips5" />
+                    {/* <strong>Free, automatic delivery</strong> on every refill */}
                   </li>
                 </ul>
                 {/* You can cancel your subscription anytime, but you will have to
