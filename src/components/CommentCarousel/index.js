@@ -2,6 +2,10 @@ import React from 'react';
 import Rate from '../Rate';
 import CommentImg from './img/Custmersay.PNG';
 import { FormattedMessage } from 'react-intl';
+import CommentOne from './img/CommentOne.png';
+import CommentTwo from './img/CommentTwo.png';
+import CommentThree from './img/CommentThree.png';
+import CommentFour from './img/CommentFour.png';
 
 const CommentCarousel = () => {
   return (
@@ -249,22 +253,22 @@ const CommentCarousel = () => {
                 <div className="rc-carousel__card-gal">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img src={CommentImg} alt="alt text" />
+                      <img src={CommentOne} alt="alt text" />
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img src={CommentImg} alt="alt text" />
+                      <img src={CommentTwo} alt="alt text" />
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img src={CommentImg} alt="alt text" />
+                      <img src={CommentThree} alt="alt text" />
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img src={CommentImg} alt="alt text" />
+                      <img src={CommentFour} alt="alt text" />
                     </picture>
                   </article>
                 </div>
