@@ -862,7 +862,7 @@ class List extends React.Component {
       pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`,
       prefv1,
       animalType,
-      allPrefv: allPrefv.join(' ').toLocaleLowerCase()
+      allPrefv: allPrefv.join(' ')
     });
   }
 

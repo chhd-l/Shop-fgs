@@ -1005,9 +1005,12 @@ class SubscriptionDetail extends React.Component {
               <div className="specAndQuantity rc-margin-bottom--xs ">
                 <div className="spec">
                   {specList.map((sItem, i) => (
-                    <div id="choose-select" key={i}>
-                      <div className="rc-margin-bottom--xs">
-                        <FormattedMessage id={sItem.specName} />:
+                    <div id="choose-select" key={i} style={{ width: '300px' }}>
+                      <div
+                        className="rc-margin-bottom--xs"
+                        style={{ textAlign: 'left' }}
+                      >
+                        {sItem.specName}:
                       </div>
                       <div data-attr="size">
                         <div
@@ -2239,7 +2242,6 @@ class SubscriptionDetail extends React.Component {
     }
   };
   showErrorDom = (errorMsg) => {
-    debugger;
     return errorMsg ? (
       <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
         <aside
@@ -2398,7 +2400,7 @@ class SubscriptionDetail extends React.Component {
         {!!productDetail.otherProducts && (
           <>
             <p className="text-center rc-margin-top--xs">
-              other products to consider
+              <FormattedMessage id="Other products to consider" />
             </p>
             <div className="rc-scroll--x pb-4 rc-padding-x--xl">
               <div className="d-flex">
@@ -2503,10 +2505,7 @@ class SubscriptionDetail extends React.Component {
         )}
         <p className="details-infos d-flex">
           <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-          The recommendations provided here are for infomational purpose only.Ie
-          should not be cosidered as guarantee for what may be best for your
-          individual pet. Quantity,Size and Frequency will be set up in the CLUB
-          management page
+          <FormattedMessage id="recommendProductTip" />
         </p>
       </>
     );
