@@ -44,6 +44,7 @@ class LoginCart extends React.Component {
       });
     });
     const pathname = this.props.history.location.pathname;
+    alert(pathname);
     if (
       !sessionItemRoyal.get('recommend_product') &&
       pathname !== '/checkout'
