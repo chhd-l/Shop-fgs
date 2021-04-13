@@ -730,7 +730,7 @@ class Question extends React.Component {
 
                 {questionType ? (
                   <div className="row text-center text-md-left">
-                    <div className="col-12 col-md-3">
+                    <div className="col-12 col-md-5">
                       <button
                         className="rc-btn rc-btn--one rc-btn--sm"
                         disabled={!this.state.valid}
