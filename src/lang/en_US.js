@@ -1302,6 +1302,7 @@ const en_US = {
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: 'From {fromPrice} to {toPrice}',
+  'mobile.cart.orderSummary': 'Order summary',
   'welcome.createdSuccessfully': 'Your account has successfully been created!',
   'welcome.confirmEmail':
     'To complete the creation of your account, please click on "Confirm" in the email sent to the following email address:',
