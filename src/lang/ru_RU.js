@@ -1229,7 +1229,8 @@ const ru_RU = {
   'petform.subscription': 'Affiliate Subscriptions',
   'pet.deletePet': 'Удалить профиль питомца',
   messengers: 'Мессенджеры',
-  CLUB: 'КЛУБ'
+  CLUB: 'КЛУБ',
+  'mobile.cart.orderSummary': 'Итого'
 };
 
 export default ru_RU;

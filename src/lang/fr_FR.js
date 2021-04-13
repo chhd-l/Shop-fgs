@@ -1524,6 +1524,7 @@ const fr_FR = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  pirceRange: 'De {fromPrice} à {toPrice}'
+  pirceRange: 'De {fromPrice} à {toPrice}',
+  'mobile.cart.orderSummary': 'Order summary'
 };
 export default fr_FR;

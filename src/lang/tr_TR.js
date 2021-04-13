@@ -1097,6 +1097,7 @@ const tr_TR = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar"
+  pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar",
+  'mobile.cart.orderSummary': 'Order summary'
 };
 export default tr_TR;
