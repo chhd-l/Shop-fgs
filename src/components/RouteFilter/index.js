@@ -333,8 +333,7 @@ class RouteFilter extends Component {
   //判断consent接口是否存在必填项
   isExistRequiredListFun(result) {
     let pathname = this.props.location.pathname; //正进入的那个页面
-    console.log(pathname);
-    debugger;
+
     if (result.context.requiredList.length !== 0) {
       this.props.history.push({
         pathname: '/required',
@@ -356,9 +355,6 @@ class RouteFilter extends Component {
       let oktaToken = 'Bearer ' + oktaTokenString;
       localItemRoyal.set('oktaToken', oktaToken);
       let pathname = this.props.location.pathname;
-      console.log(pathname);
-      console.log(pathname == '/required');
-      debugger;
       // 非/implicit/callback+非required页 调用consense接口
       if (
         localItemRoyal.get('rc-token') &&
@@ -368,7 +364,6 @@ class RouteFilter extends Component {
         pathname !== '/required'
         //pathname !== '/account/information'
       ) {
-        debugger;
         this.getConsentList();
       }
     }
