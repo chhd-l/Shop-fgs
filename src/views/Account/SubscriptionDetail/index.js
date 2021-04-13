@@ -144,7 +144,6 @@ class SubscriptionDetail extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isShowValidCode: false, //是否显示无效promotionCode
       subDetail: {},
-      completedTradeList: {},
       loading: false,
       subId: 0,
       selectedTime: 'Every 4 weeks',
@@ -1305,7 +1304,6 @@ class SubscriptionDetail extends React.Component {
         {
           isGift: isGift,
           subDetail: subDetail,
-          completedTradeList: subDetail.completedTradeList[0],
           currentCardInfo: subDetail.payPaymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
@@ -2802,7 +2800,6 @@ class SubscriptionDetail extends React.Component {
       currentBillingAddress,
       addressType,
       subDetail,
-      completedTradeList,
       currentModalObj,
       todaydate,
       noStartYearOption,
@@ -4473,28 +4470,6 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               </div>
 
-                                              {/* 运费折扣 */}
-                                              {el?.tradePrice
-                                                ?.freeShippingFlag ? (
-                                                <div className="row green">
-                                                  <div className="col-1 col-md-3" />
-                                                  <label className="col-5 text-left">
-                                                    <FormattedMessage id="payment.shippingDiscount" />
-                                                  </label>
-                                                  <div className="text-right red-text col-5 col-md-3">
-                                                    <strong>
-                                                      {el?.tradePrice
-                                                        ?.freeShippingDiscountPrice >
-                                                        0 && '-'}
-                                                      {formatMoney(
-                                                        el?.tradePrice
-                                                          ?.freeShippingDiscountPrice
-                                                      )}
-                                                    </strong>
-                                                  </div>
-                                                </div>
-                                              ) : null}
-
                                               {/* 税额 */}
                                               {customTaxSettingOpenFlag == 0 &&
                                               enterPriceType == 1 ? (
@@ -5045,29 +5020,6 @@ class SubscriptionDetail extends React.Component {
                                 {/* 邮编 */}
                                 {currentDeliveryAddress.postCode}
                               </p>
-                              {/* 运费折扣 */}
-                              {completedTradeList?.maxDeliveryTime != null &&
-                              completedTradeList?.minDeliveryTime != null ? (
-                                <p className="mb-0 sd_mb_yf">
-                                  {completedTradeList.minDeliveryTime ==
-                                  completedTradeList.maxDeliveryTime ? (
-                                    <FormattedMessage
-                                      id="payment.deliveryDate2"
-                                      values={{
-                                        val: completedTradeList.minDeliveryTime
-                                      }}
-                                    />
-                                  ) : (
-                                    <FormattedMessage
-                                      id="payment.deliveryDate"
-                                      values={{
-                                        min: completedTradeList.minDeliveryTime,
-                                        max: completedTradeList.maxDeliveryTime
-                                      }}
-                                    />
-                                  )}
-                                </p>
-                              ) : null}
                             </div>
                           </div>
                         </div>
