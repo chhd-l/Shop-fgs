@@ -38,13 +38,17 @@ class LoginCart extends React.Component {
     ) {
       await this.checkoutStore.removePromotionCode();
     }
-    await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res
+    try {
+      await getFrequencyDict().then((res) => {
+        this.setState({
+          frequencyList: res
+        });
       });
-    });
+    } catch (err) {
+      console.log(999, err.message);
+    }
     const pathname = this.props.history.location.pathname;
-    alert(pathname);
+    //alert(pathname);
     if (
       !sessionItemRoyal.get('recommend_product') &&
       pathname !== '/checkout'
