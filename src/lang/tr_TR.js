@@ -128,7 +128,7 @@ const tr_TR = {
   'cart.deletInfo': 'Ürün silinsin mi?',
   'cart.deletInfo2':
     'Bu ürünü sepetinizden çıkarmak istediğinizden emin misiniz?',
-  'cart.delivery': 'teslimat',
+  'cart.delivery': 'Kargo',
   'cart.dogDiet': 'Köpeğiniz için bir diyet seçin',
   'cart.errorInfo': "Sayı 1'den küçük olamaz",
   'cart.errorInfo2': 'Stokta olmayan ürün siparişinizi veremezsiniz',
@@ -154,7 +154,7 @@ const tr_TR = {
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Sipariş ver',
   'payment.checkout': 'Ödeme',
-  checkoutTip: 'Lütfen aşağıdaki alanları doldurun',
+  checkoutTip: 'Lütfen bilgilerinizi girin',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
   clickConfirmCardButton: 'Lütfen kartı onayla düğmesini tıklayın',
@@ -262,7 +262,7 @@ const tr_TR = {
   'detail.packagingDesc':
     'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
   //plp
-  'detail.question': 'Hala bu ürünle ilgili sorularınız var?',
+  'detail.question': 'Bu ürünle alakalı sorularınız mı var?',
   'detail.telephone': 'Telefonla',
   'details.addToCart': 'Sepete ekle',
   'details.availability': 'Kullanılabilirlik',
@@ -546,7 +546,7 @@ const tr_TR = {
     'Siparişiniz ödenmedi, lütfen mümkün olan en kısa sürede ödeyin. {val}',
   'order.viewOrder': 'Siparişi görüntüle',
   orders: 'Emirler',
-  orderSummary: 'Sipariş özeti',
+  orderSummary: 'Özet',
   outOfStockContent_cart:
     'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
   outOfStockContent_pay:
@@ -721,7 +721,7 @@ const tr_TR = {
   'qualitySafety.shopTile':
     'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
-  quantity: 'miktar',
+  quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} Ürün',
   'order.quantityText': '{specText} - {buyCount} product(s)',

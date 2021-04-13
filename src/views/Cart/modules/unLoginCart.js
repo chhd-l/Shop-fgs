@@ -130,12 +130,10 @@ class UnLoginCart extends React.Component {
     return this.props.checkoutStore.totalPrice;
   }
   get tradePrice() {
-    return this.totalPrice - this.discountPrice + this.deliveryPrice;
-    // return this.props.checkoutStore.tradePrice;
+    return this.props.checkoutStore.tradePrice;
   }
   get discountPrice() {
     return this.props.checkoutStore.discountPrice;
-    // return this.props.checkoutStore.discountPrice + this.state.subscriptionDiscount;
   }
   get promotionDiscountPrice() {
     return this.props.checkoutStore.promotionDiscountPrice;

@@ -54,6 +54,12 @@ class PayProductInfo extends React.Component {
   get taxFeePrice() {
     return this.props.checkoutStore.taxFeePrice;
   }
+  get freeShippingDiscountPrice() {
+    return this.props.checkoutStore.freeShippingDiscountPrice;
+  }
+  get freeShippingFlag() {
+    return this.props.checkoutStore.freeShippingFlag;
+  }
   handleClickProName(item) {
     if (this.props.navigateToProDetails) {
       sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
@@ -303,10 +309,6 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { details } = this.props;
     let List = details ? this.getProductList(details.tradeItems) : null;
-    // console.log(
-    //   'details.tradePrice.promotionDiscountPrice',
-    //   details.tradePrice.promotionDiscountPrice
-    // );
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -329,6 +331,7 @@ class PayProductInfo extends React.Component {
                   />
                 </span>
               </div>
+
               <div className="product-summary__recap__content">
                 <div
                   className="checkout--padding"
@@ -409,6 +412,27 @@ class PayProductInfo extends React.Component {
                         </p>
                       </div>
                     </div>
+
+                    {/* 运费折扣 俄罗斯 */}
+                    {this.freeShippingFlag ? (
+                      <div className="row leading-lines shipping-item green">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span>
+                              <FormattedMessage id="payment.shippingDiscount" />
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost">
+                              {this.freeShippingDiscountPrice > 0 && '-'}
+                              {formatMoney(this.freeShippingDiscountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
 
                     {/* 税额 */}
                     {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (

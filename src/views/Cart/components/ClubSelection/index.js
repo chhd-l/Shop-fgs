@@ -43,7 +43,7 @@ const ClubSelection = function (props) {
             {isGift ? (
               'Food Dispenser Subscription'
             ) : (
-              <FormattedMessage id="CLUB subscription" />
+              <FormattedMessage id="Club subscription" />
             )}
             {/* {!isGift && (
               <span

@@ -147,6 +147,11 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
         <div className="col-4 col-md-2 text-center ml-3">
           <button
             className="rc-btn rc-btn--two rc-btn--sm"
+            style={{
+              width: '130px',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden'
+            }}
             onClick={() => {
               localItemRoyal.set('subDetail', subItem);
               history.push(

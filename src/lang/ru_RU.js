@@ -212,7 +212,7 @@ const ru_RU = {
   'cart.fullPrice': 'ПОЛНЫЙ РИС ДЛЯ ВАШЕГО ДОМАШНИКА',
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
-  'cart.totalProduct': 'У вас {val} товара в',
+  'cart.totalProduct': 'У вас {val} товара товара в',
   'cart.totalProduct_nounit': '{val} корзине',
   'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
