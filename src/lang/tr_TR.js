@@ -668,6 +668,22 @@ const tr_TR = {
   'productFinder.tip3': 'Evcil Hayvanınız ...',
   'productFinder.whyAreWeAskingThis': 'Neden bu soru?',
   'productFinder.createMyPetProfile': 'Hayvan profilimi oluştur',
+  'productFinder.searchCompleted': 'Arama tamamlandı!',
+  'productFinder.searchResultTip1ForCat':
+    'Aşağıda kedinizin ihtiyaçlarına en uygun ürünleri görebilirsiniz.',
+  'productFinder.searchResultTip2':
+    'Daha fazla bilgi almak için ilgili ürüne tıklayın.',
+  seeTheProduct: 'Ürüne göz at',
+  'productFinder.searchResultWarningTip1':
+    'Burada verilen tavsiyeler sadece bilgilendirme amaçlıdır ve bireysel evcil hayvanınız için en iyisinin ne olabileceğinin garantisi olarak düşünülmemelidir.',
+  'productFinder.otherProductsToConsider': 'Önerebileceğimiz diğer ürünler',
+  'productFinder.summary': 'Özet',
+  'productFinder.createMyPetProfileTip':
+    "RoyalCanin'de evcil hayvan profilinizi oluşturun ve evcil hayvanlarınız için uyarlanacak haber bültenini / özel teklifleri alın.",
+  'productFinder.startAgin': 'Yeniden başla',
+  'productFinder.helpTip1': 'Sorularınız mı var?',
+  'productFinder.helpTip2':
+    'Ekibimiz işini tutkuyla yapan uzmanlardan oluşmaktadır. Bizimle her konuda iletişime geçebilirsiniz.',
   productRating: 'Ürün derecelendirmesi',
   produtctNumber: 'Ürün numarası',
   'profile.emailChoose':
