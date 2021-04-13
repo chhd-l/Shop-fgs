@@ -835,8 +835,8 @@ const es_ES = {
   'requestInvoices.title': 'Solicitar facturas',
   'required.checkRequired': 'Compruebe los elementos necesarios',
   'required.complete': 'Proceso de inicio de sesión completo',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'Persistencia',
+  'required.fields': 'Pliegues necesarios',
   'required.logoTitle': 'Bienvenido a la tienda en línea ROYALCANIN®',
   requiredConsentCheckedTip:
     'Confirme los campos obligatorios marcando la casilla.',

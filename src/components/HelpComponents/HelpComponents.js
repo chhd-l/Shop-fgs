@@ -6,6 +6,7 @@ import pictofaq from './img/pictofaq.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import './index.css';
+import { Link } from 'react-router-dom';
 
 const HelpComponents = (props) => {
   return (
@@ -17,6 +18,11 @@ const HelpComponents = (props) => {
               <h3 className="rc-beta">
                 <FormattedMessage id="club.wheretohelp" />
               </h3>
+              <p>
+                <span>
+                  <FormattedMessage id="club.wheretohelp.subtitile" />
+                </span>
+              </p>
               <div className="experience-component experience-layouts-1to2columnRatio">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                   <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
@@ -107,9 +113,11 @@ const HelpComponents = (props) => {
                                   {/*}*/}
                                   <FormattedMessage id="club.wheretohelp.card.email.description" />
                                 </p>
-                                <p>
-                                  <FormattedMessage id="club.wheretohelp.card.email.send" />
-                                </p>
+                                <Link to="/help/contact">
+                                  <p style={{ textDecoration: 'underline' }}>
+                                    <FormattedMessage id="club.wheretohelp.card.email.send" />
+                                  </p>
+                                </Link>
                                 <div className="rc-margin-top--xs">
                                   <p
                                     style={{ color: '#00BCA3' }}

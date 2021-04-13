@@ -1603,6 +1603,7 @@ class Payment extends React.Component {
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
+            petsType: g.petsType,
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
@@ -1804,16 +1805,19 @@ class Payment extends React.Component {
     }
   };
 
+  // 计算税额、运费、运费折扣
   updateDeliveryAddrData = async (data) => {
     const { ruShippingDTO } = this.state;
     console.log('1869 ★★ -- Payment updateDeliveryAddrData: ', data);
 
     var dudata = data?.DuData;
-    ruShippingDTO.regionFias = dudata?.provinceId;
-    ruShippingDTO.areaFias = dudata?.areaId;
-    ruShippingDTO.cityFias = dudata?.cityId;
-    ruShippingDTO.settlementFias = dudata?.settlementId;
-    ruShippingDTO.postalCode = dudata?.postCode;
+    if (dudata) {
+      ruShippingDTO.regionFias = dudata?.provinceId;
+      ruShippingDTO.areaFias = dudata?.areaId;
+      ruShippingDTO.cityFias = dudata?.cityId;
+      ruShippingDTO.settlementFias = dudata?.settlementId;
+      ruShippingDTO.postalCode = dudata?.postCode;
+    }
 
     this.setState({
       ruShippingDTO,
@@ -1898,10 +1902,10 @@ class Payment extends React.Component {
               type="delivery"
               isDeliveryOrBilling="delivery"
               wrongAddressMsg={this.props.intl.messages['payment.wrongAddress']}
-              updateData={this.updateDeliveryAddrData}
               isValidationModal={this.state.isShowValidationModal}
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
+              updateData={this.updateDeliveryAddrData}
             />
           ) : (
             <VisitorAddress
@@ -1910,8 +1914,8 @@ class Payment extends React.Component {
               isDeliveryOrBilling="delivery"
               initData={deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
-              updateValidationStaus={this.updateValidationStaus}
               guestEmail={guestEmail}
+              updateValidationStaus={this.updateValidationStaus}
               updateData={this.updateDeliveryAddrData}
             />
           )}

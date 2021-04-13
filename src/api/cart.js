@@ -9,7 +9,7 @@ const api = {
   mergePurchase: `/site/${process.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${process.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
-  shippingCalculation: '/ShipSetting/Calculation' // 计算运费
+  shippingCalculation: '/tempoline' // 计算运费
 };
 
 export default api;

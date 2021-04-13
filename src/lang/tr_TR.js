@@ -771,8 +771,8 @@ const tr_TR = {
   rePurchase: 'Yeniden Satın Alma',
   'required.checkRequired': 'Gerekli öğeleri kontrol edin',
   'required.complete': 'Oturum açma işlemini tamamlayın',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'Devam et',
+  'required.fields': 'gerekli frields',
   'required.logoTitle': 'ROYALCANIN® online mağazasına hoş geldiniz',
   requiredConsentCheckedTip:
     'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
