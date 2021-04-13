@@ -9,11 +9,18 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
+  const headerHeight =
+    document.querySelector('.rc-header__nav')?.offsetHeight || 80;
   return (
     <div
+      style={{ position: 'relative' }}
       className="experience-component experience-layouts-1column how_it_work"
       id={props.id}
     >
+      <div
+        style={{ position: 'absolute', top: -headerHeight }}
+        id="how-it-works-box-inner"
+      ></div>
       <div className="row rc-margin-x--none">
         <div className="rc-full-width">
           <div className="experience-component experience-assets-contentBlock">
