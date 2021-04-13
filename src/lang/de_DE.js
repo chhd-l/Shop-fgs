@@ -1265,7 +1265,20 @@ const de_DE = {
   'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
-  'subscriptionDetail.product': 'Product'
+  'subscriptionDetail.product': 'Product',
+  'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
+  'welcome.confirmEmail':
+    'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
+  'welcome.notReceiveEmail': 'Sie haben keine E-Mail erhalten?',
+  'welcome.contactSupport': 'Support kontaktieren',
+  'welcome.privacyStatement': 'Datenschutzerklärung',
+  'welcome.cookiesNotice': 'Cookies Notice',
+  'welcome.legal': 'Legal',
+  'welcome.accessibility': 'Accessibility',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
+  'welcome.modernSlaveryAct': 'Modern Slavery Act',
+  'welcome.contactUS': 'Kontaktieren Sie uns'
 };
 
 export default de_DE;

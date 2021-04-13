@@ -1301,6 +1301,19 @@ const en_US = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  pirceRange: 'From {fromPrice} to {toPrice}'
+  pirceRange: 'From {fromPrice} to {toPrice}',
+  'welcome.createdSuccessfully': 'Your account has successfully been created!',
+  'welcome.confirmEmail':
+    'To complete the creation of your account, please click on "Confirm" in the email sent to the following email address:',
+  'welcome.notReceiveEmail': 'You didn’t receive any email?',
+  'welcome.contactSupport': 'Contact support',
+  'welcome.privacyStatement': 'Privacy Statement',
+  'welcome.cookiesNotice': 'Cookies Notice',
+  'welcome.legal': 'Legal',
+  'welcome.accessibility': 'Accessibility',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
+  'welcome.modernSlaveryAct': 'Modern Slavery Act',
+  'welcome.contactUS': 'Contact Us'
 };
 export default en_US;

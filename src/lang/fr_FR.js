@@ -1524,6 +1524,20 @@ const fr_FR = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  pirceRange: 'De {fromPrice} à {toPrice}'
+  pirceRange: 'De {fromPrice} à {toPrice}',
+  'welcome.createdSuccessfully': 'Votre compte a été créé avec succès!',
+  'welcome.confirmEmail':
+    "Pour terminer la création de votre compte, veuillez cliquer sur 'Confirmer' dans l'e-mail envoyé à l'adresse e-mail suivante:",
+  'welcome.notReceiveEmail': "Vous n'avez reçu aucun e-mail?",
+  'welcome.contactSupport': "Contacter l'assistance",
+  'welcome.privacyStatement': 'Déclaration de confidentialité',
+  'welcome.cookiesNotice': 'Avis de cookies',
+  'welcome.legal': 'Légal',
+  'welcome.accessibility': 'Accessibilité',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct':
+    "Loi sur la transparence de la chaîne d'approvisionnement CA",
+  'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
+  'welcome.contactUS': 'Contactez-nous'
 };
 export default fr_FR;
