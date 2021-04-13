@@ -1033,10 +1033,12 @@ const ru_RU = {
   'club.joinsubscription.button': 'Начать',
   'club.loyal.customers': 'Наши постоянные клиенты',
   'club.wheretohelp': 'Есть вопросы?',
+  'club.wheretohelp.subtitile':
+    'Нужна помощь? Наша команда готова ответить на Ваши вопросы и помочь с выбором и покупкой. Вы можете связаться с нами, используя один из следующих способов:',
   'club.wheretohelp.card.callus.title': 'Позвоните нам',
   'club.wheretohelp.card.callus.description':
     'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
-  'club.wheretohelp.card.callus.number': '0874 657 890',
+  'club.wheretohelp.card.callus.number': '8-800-200-37-35',
   'club.wheretohelp.card.email.title': 'Напишите нам e-mail',
   'club.wheretohelp.card.email.description':
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
