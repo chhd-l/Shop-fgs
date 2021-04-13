@@ -841,8 +841,8 @@ const ru_RU = {
   rePurchase: 'Выкуп',
   'required.checkRequired': 'Отметьте необходимые предметы',
   'required.complete': 'Завершить процесс входа в систему',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'длительность',
+  'required.fields': 'требуемая складка',
   'required.logoTitle': 'Добро пожаловать в интернет-магазин ROYALCANIN®',
   requiredConsentCheckedTip:
     'Пожалуйста, подтвердите обязательные поля, установив галочку.',
