@@ -862,7 +862,7 @@ class List extends React.Component {
       pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`,
       prefv1,
       animalType,
-      allPrefv: allPrefv.join(' ')
+      allPrefv: allPrefv.join(' ').toLocaleLowerCase()
     });
   }
 
@@ -1047,13 +1047,13 @@ class List extends React.Component {
         goodsInfos,
         goodsBrand,
         goodsName,
-        goodsAttributesValueRelVOAllList = [],
+        goodsAttributesValueRelVOAllList,
         goodsCateName
       } = item;
       const goodsNo = goodsList.filter(
         (good) => good.goodsName == goodsName
       )?.[0]?.goodsNo;
-      const breed = goodsAttributesValueRelVOAllList
+      const breed = (goodsAttributesValueRelVOAllList || [])
         .filter(
           (attr) =>
             attr.goodsAttributeName &&
@@ -1108,11 +1108,11 @@ class List extends React.Component {
         goodsInfos,
         goodsBrand,
         goodsName,
-        goodsAttributesValueRelVOAllList = [],
+        goodsAttributesValueRelVOAllList,
         goodsCateName
       } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const breed = goodsAttributesValueRelVOAllList
+      const breed = (goodsAttributesValueRelVOAllList || [])
         .filter(
           (attr) =>
             attr.goodsAttributeName &&
@@ -1754,10 +1754,12 @@ class List extends React.Component {
           let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
-              const breedsAttr = ele.goodsAttributesValueRelVOAllList
+              const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
                 .filter((item) => item.goodsAttributeName == 'breeds')
                 .map((t) => t.goodsAttributeValueEn);
-              const technologyAttr = ele.goodsAttributesValueRelVOAllList
+              const technologyAttr = (
+                ele.goodsAttributesValueRelVOAllList || []
+              )
                 .filter((item) => item.goodsAttributeName == 'Technology')
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；

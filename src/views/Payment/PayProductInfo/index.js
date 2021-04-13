@@ -699,6 +699,7 @@ class PayProductInfo extends React.Component {
                     </div>
                   </>
                 ))}
+
               <div className="product-summary__fees order-total-summary">
                 <div className="row leading-lines subtotal-item">
                   <div className="col-8 start-lines">

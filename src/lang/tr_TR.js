@@ -717,7 +717,7 @@ const tr_TR = {
   registerCloud: 'Commerce Cloud Storefront referans mimarisi',
   registerCompleteForm:
     'Hesap oluşturmak için, aşağıdaki formu doldurabilirsiniz.',
-  RegisterContinuing:
+  registerContinuing:
     'Devam ederek MARS gizlilik politikamızı kabul etmiş olursunuz. size kişiselleştirilmiş bir deneyim sunmak için adınızı, soyadınızı ve e-posta adresinizi toplayacak ve kullanacaktır. ',
   registerCreateYourAccout: 'Royal Canin hesabımı oluştur',
   registerEmail: 'E-Posta Adresi',
@@ -753,8 +753,8 @@ const tr_TR = {
   rePurchase: 'Yeniden Satın Alma',
   'required.checkRequired': 'Gerekli öğeleri kontrol edin',
   'required.complete': 'Oturum açma işlemini tamamlayın',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'Devam et',
+  'required.fields': 'gerekli frields',
   'required.logoTitle': 'ROYALCANIN® online mağazasına hoş geldiniz',
   requiredConsentCheckedTip:
     'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
@@ -1097,6 +1097,20 @@ const tr_TR = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar"
+  pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar",
+  'mobile.cart.orderSummary': 'Order summary',
+  'welcome.createdSuccessfully': 'Hesabınız başarıyla oluşturuldu!',
+  'welcome.confirmEmail':
+    'Hesabınızın oluşturulmasını tamamlamak için lütfen aşağıdaki e-posta adresine gönderilen e-postadaki "Onayla" yı tıklayın:',
+  'welcome.notReceiveEmail': 'Herhangi bir e-posta almadınız mı?',
+  'welcome.contactSupport': 'Desteğe başvurun',
+  'welcome.privacyStatement': 'Gizlilik Bildirimi',
+  'welcome.cookiesNotice': 'Çerez Bildirimi',
+  'welcome.legal': 'Legal',
+  'welcome.accessibility': 'Erişilebilirlik',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct': 'CA Tedarik Zinciri Şeffaflık Yasası',
+  'welcome.modernSlaveryAct': 'Modern Kölelik Yasası',
+  'welcome.contactUS': 'Bize Ulaşın'
 };
 export default tr_TR;
