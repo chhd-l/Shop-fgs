@@ -1230,7 +1230,21 @@ const ru_RU = {
   'pet.deletePet': 'Удалить профиль питомца',
   messengers: 'Мессенджеры',
   CLUB: 'КЛУБ',
-  'mobile.cart.orderSummary': 'Итого'
+  'welcome.createdSuccessfully': 'Ваша учетная запись успешно создана!',
+  'welcome.confirmEmail':
+    'Чтобы завершить создание учетной записи, нажмите «Подтвердить» в электронном письме, отправленном на следующий адрес электронной почты:',
+  'welcome.notReceiveEmail': 'Вы не получали письма?',
+  'welcome.contactSupport': 'Обратиться в службу поддержки',
+  'welcome.privacyStatement': 'Заявление о конфиденциальности',
+  'welcome.cookiesNotice': 'Уведомление о файлах cookie',
+  'welcome.legal': 'Право',
+  'welcome.accessibility': 'Доступность',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct':
+    'Закон о прозрачности цепочки поставок CA',
+  'welcome.modernSlaveryAct': 'Закон о современном рабстве',
+  'welcome.contactUS': 'Свяжитесь с нами',
+  validPromotionCode: 'Невозможно добавить купон на скидку в корзину'
 };
 
 export default ru_RU;
