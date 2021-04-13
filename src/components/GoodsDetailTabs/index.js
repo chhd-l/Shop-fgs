@@ -433,7 +433,7 @@ const GoodsDetailTabs = function (props) {
                         ele: { descriptionName: 'club' }
                       })}
                     >
-                      club
+                      <FormattedMessage id="club" />
                     </button>
                   </li>
                 ) : null}
