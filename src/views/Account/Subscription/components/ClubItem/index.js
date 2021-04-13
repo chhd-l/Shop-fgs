@@ -155,6 +155,11 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
         </Link> */}
         <button
           className="rc-btn rc-btn--two rc-btn--sm"
+          style={{
+            width: '130px',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden'
+          }}
           onClick={() => {
             localItemRoyal.set('subDetail', subItem);
             history.push(

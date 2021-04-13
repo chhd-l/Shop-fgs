@@ -1615,6 +1615,7 @@ class Payment extends React.Component {
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
+            petsType: g.petsType,
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,

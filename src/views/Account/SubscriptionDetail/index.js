@@ -14,7 +14,7 @@ import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
 import clubIcon from '@/assets/images/club-icon.png';
-import { unique } from '@/utils/utils';
+import { unique, getParaByName } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import Female from '@/assets/images/female.png';
 import Male from '@/assets/images/male.png';
@@ -93,6 +93,8 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      errMsgPage: '',
+      errorMsgAddPet: '',
       errMsgDetail: '',
       errorMsgSureChange: '',
       productDetail: {},
@@ -262,8 +264,12 @@ class SubscriptionDetail extends React.Component {
   }
   async queryProductDetails(id, cb) {
     // let res = goodsDetailTabJSON;
-    this.setState({ productListLoading: true });
     let { configStore } = this.props;
+    if (!id) {
+      cb && cb();
+      return;
+    }
+    this.setState({ productListLoading: true });
     getDetailsBySpuNo(id)
       .then((res) => {
         const goodsRes = res && res.context && res.context.goods;
@@ -710,6 +716,13 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
+    let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
+    let updateFromEail = getParaByName(search, 'updateFromEail');
+    if (updateFromEail) {
+      // 从邮件过来的，需要添加被动更换商品
+      this.setState({ editRecommendationVisible: true });
+    }
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -734,10 +747,10 @@ class SubscriptionDetail extends React.Component {
     // }
 
     await this.getDetail(() => {
-      let firstGoodsInfo = this.state.subDetail.goodsInfo[0];
-      // 如果一进来就需要被动更换商品
+      let goodsInfo = [...this.state.subDetail.goodsInfo];
+      // 如果一进来就需要被动更换商品,删除以前所有商品
       this.state.editRecommendationVisible &&
-        this.showChangeProduct(firstGoodsInfo, true);
+        this.showChangeProduct(goodsInfo, true);
     });
     await this.doGetPromotionPrice();
     this.setState({
@@ -910,17 +923,7 @@ class SubscriptionDetail extends React.Component {
     } = this.state;
     return (
       <React.Fragment>
-        {errorMsgSureChange ? (
-          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close text-break"
-              role="alert"
-            >
-              <span className="pl-0">{errorMsgSureChange}</span>
-            </aside>
-          </div>
-        ) : null}
-
+        {this.showErrorDom(errorMsgSureChange)}
         <div className="d-flex for-pc-bettwen">
           <div className="d-flex for-mobile-colum for-mobile-100">
             <div className="d-flex rc-margin-right--xs">
@@ -931,7 +934,7 @@ class SubscriptionDetail extends React.Component {
               />
               <div className="rc-margin-left--xs" style={{ maxWidth: '200px' }}>
                 <div>{details.goodsName}</div>
-                <div>{details.goodsSubtitle}</div>
+                {/* <div>{details.goodsSubtitle}</div> */}
               </div>
             </div>
             <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
@@ -1003,9 +1006,12 @@ class SubscriptionDetail extends React.Component {
               <div className="specAndQuantity rc-margin-bottom--xs ">
                 <div className="spec">
                   {specList.map((sItem, i) => (
-                    <div id="choose-select" key={i}>
-                      <div className="rc-margin-bottom--xs">
-                        <FormattedMessage id={sItem.specName} />:
+                    <div id="choose-select" key={i} style={{ width: '300px' }}>
+                      <div
+                        className="rc-margin-bottom--xs"
+                        style={{ textAlign: 'left' }}
+                      >
+                        {sItem.specName}:
                       </div>
                       <div data-attr="size">
                         <div
@@ -1050,7 +1056,7 @@ class SubscriptionDetail extends React.Component {
                     </div>
                   ))}
                 </div>
-                <div style={{ display: 'none' }} className="Quantity">
+                {/* <div style={{ display: 'none' }} className="Quantity">
                   <span className="amount">
                     <FormattedMessage id="amount" />:
                   </span>
@@ -1081,7 +1087,7 @@ class SubscriptionDetail extends React.Component {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <p className="frequency rc-margin-right--xs rc-margin-left--xs">
@@ -1141,7 +1147,7 @@ class SubscriptionDetail extends React.Component {
           </span>
           <div className="for-mobile-colum d-flex">
             <button
-              onClick={this.showProdutctDetail}
+              onClick={() => this.showProdutctDetail(0)}
               className="rc-btn rc-btn--two rc-btn--sm"
             >
               <FormattedMessage id="subscription.productDetails" />
@@ -1160,6 +1166,7 @@ class SubscriptionDetail extends React.Component {
     );
   };
   addNewCatModal = () => {
+    let { errorMsgAddPet } = this.state;
     return (
       <div className="add-new-cat-modal">
         <Modal
@@ -1171,9 +1178,10 @@ class SubscriptionDetail extends React.Component {
           // hanldeClickConfirm={() => this.hanldeClickSubmit()}
           // modalText={this.getModalBox()}
         >
-          {this.state.addNewPetLoading ? (
+          {this.showErrorDom(errorMsgAddPet)}
+          {/* {this.state.addNewPetLoading ? (
             <Loading positionAbsolute="true" />
-          ) : null}
+          ) : null} */}
           <div className="rc-padding-x--md">
             <div className="pets-list-wrap">
               {this.state.petList.map((el) => (
@@ -2098,6 +2106,7 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeRecommendationVisible: false });
   };
   showErrMsgs(msg, errorMsgKey = 'errorMsg') {
+    debugger;
     this.setState({
       [errorMsgKey]: msg
     });
@@ -2189,10 +2198,10 @@ class SubscriptionDetail extends React.Component {
   closeChangeProduct = () => {
     this.setState({ changeProductVisible: false });
   };
-  queryProductList = async (el, cb) => {
+  queryProductList = async (els, cb) => {
     this.setState({ productListLoading: true });
-    if (el) {
-      this.setState({ currentGoodsItems: [el] });
+    if (els) {
+      this.setState({ currentGoodsItems: [...els] });
     }
     let { petsId } = this.state.subDetail;
     try {
@@ -2204,7 +2213,7 @@ class SubscriptionDetail extends React.Component {
       });
     } catch (err) {
       this.setState({ productListLoading: false });
-      this.showErrMsg(err && err.message);
+      this.showErrMsgs(err && err.message, 'errMsgPage');
     }
   };
   doSthShow = () => {
@@ -2212,17 +2221,17 @@ class SubscriptionDetail extends React.Component {
     this.closeRecommendation();
     this.setState({ changeProductVisible: true, details: {} }); //清空details
   };
-  showChangeProduct = async (el, isNoModal) => {
-    if (!el) {
+  showChangeProduct = async (els, isNoModal) => {
+    if (!els) {
       this.doSthShow();
       return;
     }
     if (!isNoModal) {
-      this.queryProductList(el, () => {
+      this.queryProductList(els, () => {
         this.doSthShow();
       });
     } else {
-      this.queryProductList(el, () => {
+      this.queryProductList(els, () => {
         // 查详情
         let id = this.state.productDetail.mainProduct?.spuCode;
         if (id) {
@@ -2234,6 +2243,18 @@ class SubscriptionDetail extends React.Component {
       });
     }
   };
+  showErrorDom = (errorMsg) => {
+    return errorMsg ? (
+      <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
+        <aside
+          className="rc-alert rc-alert--error rc-alert--with-close text-break"
+          role="alert"
+        >
+          <span className="pl-0">{errorMsg}</span>
+        </aside>
+      </div>
+    ) : null;
+  };
   getDetailModalInner = () => {
     const createMarkup = (text) => ({ __html: text });
     const { details, foodFllType } = this.state;
@@ -2242,15 +2263,23 @@ class SubscriptionDetail extends React.Component {
     return (
       <div className="margin12 product_detail rc-padding-x--md">
         <div>
+          <img
+            className="m-auto"
+            style={{ maxWidth: '100px' }}
+            src={Club_Logo}
+            alt="club icon"
+          />
           <div className="rc-layout-container rc-five-column">
             <div className="rc-column  rc-header__center d-flex">
               {/* <LazyLoad> */}
-              <img src={details.goodsImg} alt={details.goodsInfoName} />
+              <img src={details.goodsImg} alt={details.goodsName} />
               {/* </LazyLoad> */}
             </div>
             <div className="rc-column rc-double-width">
-              <div className="title">{details.goodsInfoName}</div>
-              <div className="sub_title">{details.goodsSubtitle}</div>
+              <div className="title rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen">
+                {details.goodsName}
+              </div>
+              {/* <div className="sub_title">{details.goodsSubtitle}</div> */}
               <div>
                 <div className="block">
                   <p
@@ -2274,16 +2303,7 @@ class SubscriptionDetail extends React.Component {
     const { productDetail, errMsgDetail } = this.state;
     return (
       <>
-        {errMsgDetail ? (
-          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close text-break"
-              role="alert"
-            >
-              <span className="pl-0">{errMsgDetail}</span>
-            </aside>
-          </div>
-        ) : null}
+        {this.showErrorDom(errMsgDetail)}
         {!!productDetail.mainProduct && (
           <>
             <div className="p-f-result-box">
@@ -2382,7 +2402,7 @@ class SubscriptionDetail extends React.Component {
         {!!productDetail.otherProducts && (
           <>
             <p className="text-center rc-margin-top--xs">
-              other products to consider
+              <FormattedMessage id="Other products to consider" />
             </p>
             <div className="rc-scroll--x pb-4 rc-padding-x--xl">
               <div className="d-flex">
@@ -2487,10 +2507,7 @@ class SubscriptionDetail extends React.Component {
         )}
         <p className="details-infos d-flex">
           <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-          The recommendations provided here are for infomational purpose only.Ie
-          should not be cosidered as guarantee for what may be best for your
-          individual pet. Quantity,Size and Frequency will be set up in the CLUB
-          management page
+          <FormattedMessage id="recommendProductTip" />
         </p>
       </>
     );
@@ -2499,7 +2516,11 @@ class SubscriptionDetail extends React.Component {
     const { productDetail, currentGoodsItems, subDetail } = this.state;
     const currentGoodsItem = currentGoodsItems[0] || {};
     return (
-      <div className="change-product-modal">
+      <div
+        className={`change-product-modal ${
+          productDetail?.mainProduct ? 'has-data' : ''
+        }`}
+      >
         <Modal
           headerVisible={true}
           footerVisible={false}
@@ -2510,7 +2531,13 @@ class SubscriptionDetail extends React.Component {
           {productDetail?.mainProduct ? (
             this.ProductRecommendations()
           ) : (
-            <div className="text-center">
+            <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
+              <img
+                className="m-auto"
+                style={{ maxWidth: '100px' }}
+                src={Club_Logo}
+                alt="club icon"
+              />
               <p className="text-center red" style={{ fontSize: '1.5rem' }}>
                 <FormattedMessage id="switchProductTip1" />{' '}
                 {subDetail.petsInfo?.petsName}{' '}
@@ -2522,13 +2549,13 @@ class SubscriptionDetail extends React.Component {
                 )}
                 <FormattedMessage id="switchProductTip3" />!
               </p>
-              <div className="d-flex align-items-center justify-content-center">
+              <div className="d-flex align-items-center justify-content-center rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
                 <img src={currentGoodsItem.goodsPic} style={{ width: '40%' }} />
                 <div>
                   <div className="red" style={{ fontSize: '1.5rem' }}>
                     {currentGoodsItem.goodsName}
                   </div>
-                  <div>{currentGoodsItem.goodsSubtitle}</div>
+                  {/* <div>{currentGoodsItem.goodsSubtitle}</div> */}
                   <div>{currentGoodsItem.specText}</div>
                 </div>
               </div>
@@ -2567,8 +2594,32 @@ class SubscriptionDetail extends React.Component {
     }
   };
   linkPets = async (petsId) => {
-    this.setState({ addNewPetLoading: true });
-
+    let promotions = this.state.details.promotions;
+    let isCatArr = this.state.subDetail.goodsInfo.filter(
+      (el) => el.goodsCategory?.match(/cat/i)?.index > -1
+    );
+    let isDogArr = this.state.subDetail.goodsInfo.filter(
+      (el) => el.goodsCategory?.match(/dog/i)?.index > -1
+    );
+    //plan同时存在goodsCategory为dog和cat的商品
+    let isCatAndDog = isCatArr.length && isDogArr.length;
+    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
+    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
+    let errorMsg = '';
+    if (isAutoshipAndClub) {
+      errorMsg =
+        'There are club and autoship products, please go to the pet details to bind the products';
+    }
+    if (isCatAndDog) {
+      errorMsg =
+        'There are cat and dog products, please go to the pet details to bind the products';
+    }
+    if (isCantLinkPet) {
+      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
+      return;
+    }
+    this.closeAddNewPet();
+    this.setState({ loadingPage: true });
     let { subscribeId, goodsInfo } = this.state.subDetail;
     let goodsItems = goodsInfo.map((item) => {
       let skuId = item.skuId;
@@ -2582,11 +2633,14 @@ class SubscriptionDetail extends React.Component {
       };
       await this.doUpdateDetail(param);
       await this.getDetail();
-      this.closeAddNewPet();
     } catch (err) {
+      this.showErrMsgs(
+        'The replacement product is the same as the current product',
+        'errorMsgAddPet'
+      );
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ addNewPetLoading: false });
+      this.setState({ loadingPage: false });
     }
   };
   async handleSaveChange(subDetail) {
@@ -2972,7 +3026,11 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       ))}
-                    {isClub ? (
+                    {/* 未激活的情况下不展示club相关信息 */}
+                    {(isClub && this.state.isActive) ||
+                    (isClub &&
+                      this.state.isNotInactive &&
+                      this.state.subDetail.petsId) ? (
                       this.ClubTitle()
                     ) : (
                       <h4
@@ -3028,7 +3086,9 @@ class SubscriptionDetail extends React.Component {
                                           ? 'ui-btn-loading'
                                           : ''
                                       }`}
-                                      onClick={() => this.showChangeProduct(el)}
+                                      onClick={() =>
+                                        this.showChangeProduct([el])
+                                      }
                                     >
                                       <FormattedMessage id="subscriptionDetail.changeProduct" />
                                     </span>
@@ -3340,6 +3400,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           ))}
                       </div>
+                      {this.showErrorDom(this.state.errMsgPage)}
                       <div
                         className="card-container"
                         style={{
@@ -3387,7 +3448,7 @@ class SubscriptionDetail extends React.Component {
                                                 : ''
                                             }`}
                                             onClick={() =>
-                                              this.showChangeProduct(el)
+                                              this.showChangeProduct([el])
                                             }
                                           >
                                             change product

@@ -73,7 +73,7 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180}>
+                    <LazyLoad height={180} style={{ marginTop: '22px' }}>
                       <img
                         className="w-90 lazyloaded"
                         src={howitworck2}
@@ -113,7 +113,7 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180}>
+                    <LazyLoad height={180} style={{ marginTop: '22px' }}>
                       <img
                         className="w-90 lazyloaded"
                         src={howitworck3}

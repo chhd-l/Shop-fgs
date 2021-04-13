@@ -6,6 +6,7 @@ import locales from '@/lang';
 const CURRENT_LANGFILE = locales;
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const nullTaxFeeData = {
   country: '',
   region: '',

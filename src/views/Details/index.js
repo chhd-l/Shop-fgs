@@ -1585,7 +1585,8 @@ class Details extends React.Component {
       barcode,
       ccidBtnDisplay,
       seoConfig,
-      exclusiveFlag
+      exclusiveFlag,
+      loading
     } = this.state;
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
@@ -1743,11 +1744,12 @@ class Details extends React.Component {
                     )}
                     <div className="rc-layout-container rc-six-column">
                       <div className="rc-column rc-double-width carousel-column imageBox">
-                        {this.state.loading ? (
+                        {loading ? (
                           <Skeleton
+                            count="3"
                             color="#f5f5f5"
                             width="100%"
-                            height="100%"
+                            height="20%"
                           />
                         ) : (
                           <div
@@ -1873,11 +1875,12 @@ class Details extends React.Component {
                             </div>
                           )}
                         </div>
-                        {this.state.loading ? (
+                        {loading ? (
                           <Skeleton
+                            count="3"
                             color="#f5f5f5"
                             width="100%"
-                            height="100%"
+                            height="20%"
                           />
                         ) : vet ? (
                           <div>
@@ -1887,7 +1890,7 @@ class Details extends React.Component {
                               }}
                             ></div>
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
-                            {!this.state.loading &&
+                            {!loading &&
                             !bundle &&
                             isHub &&
                             PC &&
@@ -1970,7 +1973,7 @@ class Details extends React.Component {
                                       className="rc-styled-link mt-0 pb-0"
                                       to="/product-finder"
                                     >
-                                      Product finder
+                                      <FormattedMessage id="details.findProductTips" />
                                     </Link>
                                   </div>
                                 )}
@@ -2424,7 +2427,7 @@ class Details extends React.Component {
                                     />
                                   </span>
                                 </button>
-                                {!this.state.loading &&
+                                {!loading &&
                                 !bundle &&
                                 isHub &&
                                 !Ru &&
@@ -2480,14 +2483,27 @@ class Details extends React.Component {
             {/* 电话邮箱联系板块 */}
             {isHub ? (
               <>
-                <div className="split-line rc-bg-colour--brand4"></div>
+                <div className="split-line rc-bg-colour--brand4" />
                 <div className="good-contact d-flex justify-content-center">
                   {!isMobile ? (
-                    <img
-                      className="good-contact-img mr-5"
-                      src={details.goodsImg}
-                      alt="goods details image"
-                    />
+                    loading ? (
+                      <div className="good-contact-img mr-5">
+                        <Skeleton
+                          count="3"
+                          color="#f5f5f5"
+                          width="100%"
+                          height="8%"
+                        />
+                      </div>
+                    ) : details.goodsImg ? (
+                      <div className="good-contact-img mr-5">
+                        <img
+                          className="w-100"
+                          src={details.goodsImg}
+                          alt="goods details image"
+                        />
+                      </div>
+                    ) : null
                   ) : null}
                   <div className="good-contact-dec">
                     <div
@@ -2518,7 +2534,7 @@ class Details extends React.Component {
                         href={this.state.contactUs}
                       >
                         <FormattedMessage id="detail.email" />
-                        <span className="rc-icon rc-email rc-iconography rc-brand1"></span>
+                        <span className="rc-icon rc-email rc-iconography rc-brand1" />
                       </a>
                     </div>
                   </div>
