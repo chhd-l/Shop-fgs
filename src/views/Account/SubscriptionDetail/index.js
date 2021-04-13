@@ -914,7 +914,7 @@ class SubscriptionDetail extends React.Component {
                 style={{ height: '4rem' }}
                 alt={details.goodsName}
               />
-              <div className="rc-margin-left--xs">
+              <div className="rc-margin-left--xs" style={{ maxWidth: '200px' }}>
                 <div>{details.goodsName}</div>
                 <div>{details.goodsSubtitle}</div>
               </div>
