@@ -1228,7 +1228,8 @@ const ru_RU = {
   pirceRange: 'От {fromPrice} к {toPrice}',
   'petform.subscription': 'Affiliate Subscriptions',
   'pet.deletePet': 'Удалить профиль питомца',
-  messengers: 'Мессенджеры'
+  messengers: 'Мессенджеры',
+  CLUB: 'КЛУБ'
 };
 
 export default ru_RU;
