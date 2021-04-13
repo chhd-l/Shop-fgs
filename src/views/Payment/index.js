@@ -762,12 +762,19 @@ class Payment extends React.Component {
       this.fingerprint = fingerprint;
     }
   };
+  // 获取订单详细
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
       this.setState({
         orderDetails: resContext
       });
+
+      // 获取本地存储的计算运费折扣
+      const calculationParam =
+        localItemRoyal.get('rc-calculation-param') || null;
+      // 查询运费折扣
+      this.updateDeliveryAddrData(calculationParam);
     });
   }
   showErrorMsg = (msg) => {
@@ -1280,6 +1287,9 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
+        // 清除掉计算运费相关参数
+        localItemRoyal.remove('rc-calculation-param');
+        // 跳转 confirmation
         this.props.history.push('/confirmation');
       }
     } catch (err) {
@@ -1438,8 +1448,10 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
-    console.log('--- deliveryAddress    ', deliveryAddress);
-    console.log('--- billingAddress    ', billingAddress);
+
+    // 获取本地存储的计算运费折扣
+    const calculationParam = localItemRoyal.get('rc-calculation-param') || null;
+
     /**
      * ★★★ 1
      * 封装下单参数的时候需要把新加的字段加上，
@@ -1470,8 +1482,8 @@ class Payment extends React.Component {
       petsId: '',
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId,
-      maxDeliveryTime: billingAddress?.calculation?.maxDeliveryTime,
-      minDeliveryTime: billingAddress?.calculation?.minDeliveryTime,
+      maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
+      minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail
     };
@@ -1808,7 +1820,8 @@ class Payment extends React.Component {
   // 计算税额、运费、运费折扣
   updateDeliveryAddrData = async (data) => {
     const { ruShippingDTO } = this.state;
-    console.log('1869 ★★ -- Payment updateDeliveryAddrData: ', data);
+    let param = {};
+    console.log('1810 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
 
     var dudata = data?.DuData;
     if (dudata) {
@@ -1817,51 +1830,41 @@ class Payment extends React.Component {
       ruShippingDTO.cityFias = dudata?.cityId;
       ruShippingDTO.settlementFias = dudata?.settlementId;
       ruShippingDTO.postalCode = dudata?.postCode;
+      // 把查询运费折扣相关参数存到本地
+      localItemRoyal.set('rc-calculation-param', data);
     }
+    let stateNo = data?.state?.stateNo;
+    param = {
+      promotionCode: this.state.promotionCode,
+      purchaseFlag: false, // 购物车: true，checkout: false
+      taxFeeData: {
+        country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+        region: stateNo, // 省份简写
+        city: data.city,
+        street: data.address1,
+        postalCode: data.postCode,
+        customerAccount: this.state.email
+      },
+      address1: data?.address1,
+      ruShippingDTO: ruShippingDTO
+    };
 
-    this.setState({
-      ruShippingDTO,
-      deliveryAddress: data
-    });
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
       });
     }
+    this.setState({
+      ruShippingDTO,
+      deliveryAddress: data
+    });
     try {
       // 获取税额
       if (this.isLogin) {
-        let stateNo = data?.state?.stateNo;
-        await this.props.checkoutStore.updateLoginCart({
-          promotionCode: this.state.promotionCode,
-          subscriptionFlag: false,
-          purchaseFlag: false, // 购物车: true，checkout: false
-          taxFeeData: {
-            country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-            region: stateNo, // 省份简写
-            city: data.city,
-            street: data.address1,
-            postalCode: data.postCode,
-            customerAccount: this.state.email
-          },
-          address1: data?.address1,
-          ruShippingDTO: this.state.ruShippingDTO
-        });
+        param.subscriptionFlag = false;
+        await this.props.checkoutStore.updateLoginCart(param);
       } else {
-        await this.props.checkoutStore.updateUnloginCart({
-          promotionCode: this.state.promotionCode,
-          purchaseFlag: false, // 购物车: true，checkout: false
-          taxFeeData: {
-            country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-            region: data.provinceNo, // 省份简写
-            city: data.city,
-            street: data.address1,
-            postalCode: data.postCode,
-            customerAccount: this.state.guestEmail
-          },
-          address1: data?.address1,
-          ruShippingDTO: this.state.ruShippingDTO
-        });
+        await this.props.checkoutStore.updateUnloginCart(param);
       }
     } catch (err) {
       console.warn(err);
