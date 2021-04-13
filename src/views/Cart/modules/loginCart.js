@@ -1278,7 +1278,9 @@ class LoginCart extends React.Component {
                 className="rc-icon rc-up rc-iconography"
                 style={{ transform: 'scale(.7)' }}
               />
-              <span>Order summary</span>
+              <span>
+                <FormattedMessage id="mobile.cart.orderSummary" />
+              </span>
             </div>
             <PayProductInfo
               data={[]}
