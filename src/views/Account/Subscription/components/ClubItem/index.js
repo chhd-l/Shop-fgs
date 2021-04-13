@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
-import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
+import {
+  getFormatDate,
+  getFrequencyDict,
+  filterOrderId,
+  getDeviceType
+} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -13,10 +18,29 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   return (
     <div
-      className="row rc-margin-x--none row align-items-center card-container  pt-3 pb-3"
+      className="row rc-margin-x--none row align-items-center card-container pb-3"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
+      <div className="card rc-margin-y--none ml-0">
+        <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 pt-3 pb-3">
+          <div className="col-12 col-md-4">
+            <p
+              style={{
+                fontSize: '1rem',
+                fontWeight: '400',
+                color: '#333',
+                paddingLeft: '1.25rem'
+              }}
+            >
+              {filterOrderId(subItem.subscribeId)}
+            </p>
+          </div>
+          <div className="col-4 col-md-2" />
+          <div className="col-4 col-md-2" />
+          <div className="col-4 col-md-2 pl-4" />
+        </div>
+      </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">
         {subItem.goodsInfo &&
           subItem.goodsInfo.map((item) => (
