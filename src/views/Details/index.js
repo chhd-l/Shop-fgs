@@ -1970,7 +1970,7 @@ class Details extends React.Component {
                                       className="rc-styled-link mt-0 pb-0"
                                       to="/product-finder"
                                     >
-                                      Product finder
+                                      <FormattedMessage id="details.findProductTips" />
                                     </Link>
                                   </div>
                                 )}
