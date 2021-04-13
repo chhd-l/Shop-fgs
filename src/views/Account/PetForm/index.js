@@ -349,7 +349,7 @@ class PetForm extends React.Component {
       activity: this.state.activity,
       lifestyle: this.state.lifestyle,
       weight: JSON.stringify(this.state.weightObj),
-      sensitivity: this.state.sensitivity
+      needs: this.state.sensitivity
     };
 
     if (!this.state.isPurebred) {
