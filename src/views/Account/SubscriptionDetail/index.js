@@ -1175,9 +1175,9 @@ class SubscriptionDetail extends React.Component {
           // modalText={this.getModalBox()}
         >
           {this.showErrorDom(errorMsgAddPet)}
-          {this.state.addNewPetLoading ? (
+          {/* {this.state.addNewPetLoading ? (
             <Loading positionAbsolute="true" />
-          ) : null}
+          ) : null} */}
           <div className="rc-padding-x--md">
             <div className="pets-list-wrap">
               {this.state.petList.map((el) => (
@@ -2101,6 +2101,7 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeRecommendationVisible: false });
   };
   showErrMsgs(msg, errorMsgKey = 'errorMsg') {
+    debugger;
     this.setState({
       [errorMsgKey]: msg
     });
@@ -2258,6 +2259,12 @@ class SubscriptionDetail extends React.Component {
     return (
       <div className="margin12 product_detail rc-padding-x--md">
         <div>
+          <img
+            className="m-auto"
+            style={{ maxWidth: '100px' }}
+            src={Club_Logo}
+            alt="club icon"
+          />
           <div className="rc-layout-container rc-five-column">
             <div className="rc-column  rc-header__center d-flex">
               {/* <LazyLoad> */}
@@ -2265,7 +2272,9 @@ class SubscriptionDetail extends React.Component {
               {/* </LazyLoad> */}
             </div>
             <div className="rc-column rc-double-width">
-              <div className="title">{details.goodsName}</div>
+              <div className="title rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen">
+                {details.goodsName}
+              </div>
               {/* <div className="sub_title">{details.goodsSubtitle}</div> */}
               <div>
                 <div className="block">
@@ -2584,15 +2593,32 @@ class SubscriptionDetail extends React.Component {
     }
   };
   linkPets = async (petsId) => {
-    this.setState({ addNewPetLoading: true });
-    let isCatAndDogMxied = false;
-    if (isCatAndDogMxied) {
-      this.showErrMsgs(
-        'The replacement product is the same as the current product',
-        'errorMsgAddPet'
-      );
+    let promotions = this.state.details.promotions;
+    let isCatArr = this.state.subDetail.goodsInfo.filter(
+      (el) => el.goodsCategory?.match(/cat/i)?.index > -1
+    );
+    let isDogArr = this.state.subDetail.goodsInfo.filter(
+      (el) => el.goodsCategory?.match(/dog/i)?.index > -1
+    );
+    //plan同时存在goodsCategory为dog和cat的商品
+    let isCatAndDog = isCatArr.length && isDogArr.length;
+    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
+    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
+    let errorMsg = '';
+    if (isAutoshipAndClub) {
+      errorMsg =
+        'There are club and autoship products, please go to the pet details to bind the products';
+    }
+    if (isCatAndDog) {
+      errorMsg =
+        'There are cat and dog products, please go to the pet details to bind the products';
+    }
+    if (isCantLinkPet) {
+      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
       return;
     }
+    this.closeAddNewPet();
+    this.setState({ loadingPage: true });
     let { subscribeId, goodsInfo } = this.state.subDetail;
     let goodsItems = goodsInfo.map((item) => {
       let skuId = item.skuId;
@@ -2606,7 +2632,6 @@ class SubscriptionDetail extends React.Component {
       };
       await this.doUpdateDetail(param);
       await this.getDetail();
-      this.closeAddNewPet();
     } catch (err) {
       this.showErrMsgs(
         'The replacement product is the same as the current product',
@@ -2614,7 +2639,7 @@ class SubscriptionDetail extends React.Component {
       );
       this.showErrMsg(err.message);
     } finally {
-      this.setState({ addNewPetLoading: false });
+      this.setState({ loadingPage: false });
     }
   };
   async handleSaveChange(subDetail) {
