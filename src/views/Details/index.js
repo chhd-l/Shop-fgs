@@ -35,7 +35,7 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-import Carousel from './components/Carousel';
+// import Carousel from './components/Carousel';
 import ResponsiveCarousel from '@/components/Carousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
@@ -54,6 +54,7 @@ import './index.less';
 import { Link } from 'react-router-dom';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
+import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -332,7 +333,8 @@ class Details extends React.Component {
       contactUs: '',
       ccidBtnDisplay: false,
       relatedGoods: [],
-      relatedGoodsList: []
+      relatedGoodsList: [],
+      relatedGoodsLoading: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -615,12 +617,18 @@ class Details extends React.Component {
       this.toScroll('j-details-for-club');
     });
   };
-  getRelatedGoodsList(id) {
-    getGoodsRelation(id).then((res) => {
+  async getRelatedGoodsList(id) {
+    try {
+      //this.setState({relatedGoodsLoading:true})
+      const res = await getGoodsRelation(id);
       this.setState({
         relatedGoodsList: res.context.goods
       });
-    });
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      //this.setState({relatedGoodsLoading:false})
+    }
   }
   async queryDetails() {
     const { configStore } = this.props;
@@ -2514,20 +2522,17 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
-            {/* {
-              this.state.relatedGoodsList.length>0
-              ?
-              (<ResponsiveCarousel goodsList={this.state.relatedGoodsList} />)
-              :null
-            } */}
-            <div id="goods-recommendation-box">
+            {this.state.relatedGoodsList.length > 0 ? (
+              <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            ) : null}
+            {/* <div id="goods-recommendation-box">
               <Carousel
                 location={location}
                 history={history}
                 goodsId={goodsId}
                 key={goodsId}
               />
-            </div>
+            </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
