@@ -414,10 +414,10 @@ const tr_TR = {
   'home.note2': 'Tüm siparişlerinizde Ücretsiz kargo ve Hızlı teslimat.',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
-  'home.point1': 'Güvenli ödemeler',
-  'home.point2': 'Kalite güvencesi',
-  'home.point3': 'Özel servis',
-  'home.point4': 'Hızlı sevkiyat',
+  'home.point1': 'Güvenli ödeme',
+  'home.point2': 'Memnun kalmazsanız iade edin',
+  'home.point3': 'Üstün kalite',
+  'home.point4': 'Hızlı teslimat',
   'home.point5': "1968'DEN BERİ KÖPEK VE KEDİLERİN SAĞLIĞINA BAKIM",
   'home.point6': 'SİZİNLE BİRLİKTE',
   'home.productsCategory': 'Ürün kategorilerimize göz atın',
@@ -947,10 +947,10 @@ const tr_TR = {
   'club.howitworks.img2.titile': "CLUB'A ABONE OLUN",
   'club.howitworks.img2.description':
     'Abone olmak için satın alma işlemine devam edin. İlk siparişinizle birlikte bir hoşgeldin paketi alacaksınız',
-  'club.howitworks.img3.titile': 'ABONELİĞİNİZİN KONTROLÜ SİZDE',
+  'club.howitworks.img3.titile': 'Siparişinizi kontrol edin',
   'club.howitworks.img3.description':
-    'Hesap sekmenizde CLUB aboneliğinizi yönetin, kargo ücreti ödemeden otomatik mama gönderiminin keyfini çıkarın!',
-  'club.howitworks.img4.titile': 'ÖZEL ÖDÜLLERİN KEYFİNİ ÇIKARIN',
+    'İstediğiniz zaman hesabınıza girerek aboneliğinizi yönetebilirsiniz. CLUB abonesi olarak size otomarik gönderimden faydalanın',
+  'club.howitworks.img4.titile': 'Özel hediye & servislerin keyfini çıkarın',
   'club.howitworks.img4.description':
     'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
   'club.joinsubscription.title': 'CLUB abonesi olun!',
