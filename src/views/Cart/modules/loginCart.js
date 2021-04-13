@@ -24,6 +24,7 @@ import {
   GACartScreenLoad,
   GACartChangeSubscription
 } from '@/utils/GA';
+import { getGoodsRelationBatch } from '@/api/cart';
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
@@ -47,7 +48,8 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
-import Carousel from '../components/Carousel';
+//import Carousel from '../components/Carousel';
+import ResponsiveCarousel from '@/components/Carousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -107,7 +109,8 @@ class LoginCart extends React.Component {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
-      }
+      },
+      relatedGoodsList: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
@@ -257,6 +260,9 @@ class LoginCart extends React.Component {
   }
   getGoodsIdArr = () => {
     let goodsIdArr = this.loginCartData.map((item) => item.goodsId);
+    getGoodsRelationBatch({ goodsIds: goodsIdArr }).then((res) => {
+      this.setState({ relatedGoodsList: res.context.goods });
+    });
     this.setState({ goodsIdArr });
   };
   handleSelectedItemChange(pitem, data) {
@@ -1665,13 +1671,16 @@ class LoginCart extends React.Component {
               </>
             )}
           </div>
-          {goodsIdArr.length > 0 ? (
+          {/* {goodsIdArr.length > 0 ? (
             <Carousel
               location={location}
               history={history}
               goodsId={goodsIdArr}
               key="cart-recommendation"
             />
+          ) : null} */}
+          {this.state.relatedGoodsList.length > 0 ? (
+            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>
