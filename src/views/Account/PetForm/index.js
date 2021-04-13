@@ -833,7 +833,9 @@ class PetForm extends React.Component {
     console.log(data);
     this.setState({ imgUrl: data });
   }
-  handleErrMessage = () => {};
+  handleErrMessage = (msg) => {
+    this.showErrorMsg(msg);
+  };
 
   render() {
     const event = {
@@ -998,7 +1000,7 @@ class PetForm extends React.Component {
                     <UploadImg
                       tipVisible={false}
                       handleChange={(data) => this.handelImgChange(data)}
-                      geterrMessage={this.handleErrMessage}
+                      showErrMessage={this.handleErrMessage}
                       showLoading={() => {
                         this.setState({ loading: true });
                       }}
