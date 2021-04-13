@@ -321,10 +321,18 @@ class AccountProfile extends React.Component {
                       originData={originData}
                       data={personalData}
                       userInfo={this.userInfo}
+                      // 俄罗斯 需要message
+                      needMessengers={
+                        !Boolean(
+                          +process.env
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS
+                        )
+                      }
+                      // 美国 墨西哥 不需要phone
                       needPhone={
                         !Boolean(
                           +process.env
-                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_EMAIL
+                            .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_PHONE
                         )
                       }
                       key={Object.keys(personalData || {})}

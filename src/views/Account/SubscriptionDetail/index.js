@@ -66,7 +66,6 @@ import {
   changeSubscriptionGoods,
   findPetProductForClub
 } from '@/api/subscription';
-import goodsDetailTabJSON from './goodsDetailTab.json';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
@@ -94,6 +93,8 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      errMsgDetail: '',
+      errorMsgSureChange: '',
       productDetail: {},
       changeNowLoading: false,
       productListLoading: false,
@@ -471,9 +472,10 @@ class SubscriptionDetail extends React.Component {
       })
       .catch((e) => {
         console.log(e);
-        this.setState({
-          errMsg: e.message || <FormattedMessage id="details.errMsg2" />
-        });
+        this.showErrMsgs(
+          e.message || <FormattedMessage id="details.errMsg2" />,
+          'errMsgDetail'
+        );
       })
       .finally(() => {
         this.setState({
@@ -902,10 +904,23 @@ class SubscriptionDetail extends React.Component {
       quantityMinLimit,
       stock,
       form,
-      currentSubscriptionPrice
+      currentSubscriptionPrice,
+      errorMsgSureChange
     } = this.state;
     return (
       <React.Fragment>
+        {errorMsgSureChange ? (
+          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
+                                        
+            <aside
+              className="rc-alert rc-alert--error rc-alert--with-close text-break"
+              role="alert"
+            >
+              <span className="pl-0">{errorMsgSureChange}</span>
+            </aside>
+          </div>
+        ) : null}
+
         <div className="d-flex for-pc-bettwen">
           <div className="d-flex for-mobile-colum for-mobile-100">
             <div className="d-flex rc-margin-right--xs">
@@ -914,7 +929,7 @@ class SubscriptionDetail extends React.Component {
                 style={{ height: '4rem' }}
                 alt={details.goodsName}
               />
-              <div className="rc-margin-left--xs">
+              <div className="rc-margin-left--xs" style={{ maxWidth: '200px' }}>
                 <div>{details.goodsName}</div>
                 <div>{details.goodsSubtitle}</div>
               </div>
@@ -2081,6 +2096,17 @@ class SubscriptionDetail extends React.Component {
   closeRecommendation = () => {
     this.setState({ changeRecommendationVisible: false });
   };
+  showErrMsgs(msg, errorMsgKey = 'errorMsg') {
+    this.setState({
+      [errorMsgKey]: msg
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        [errorMsgKey]: ''
+      });
+    }, 3000);
+  }
   closeChangePets = () => {
     this.closeRecommendation();
     this.closeEditRecommendation();
@@ -2112,6 +2138,18 @@ class SubscriptionDetail extends React.Component {
       subscribeId,
       skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
     };
+    if (
+      currentGoodsItem.goodsInfoVO?.goodsInfoId ==
+      currentSelectedSize.goodsInfoId
+    ) {
+      //替换的skuid一致，不能正常提交
+      this.showErrMsgs(
+        'The replacement product is the same as the current product',
+        'errorMsgSureChange'
+      );
+      this.setState({ changeNowLoading: false });
+      return;
+    }
     if (buyWay) {
       addGoodsItems.periodTypeId = form.frequencyId;
     }
@@ -2120,12 +2158,16 @@ class SubscriptionDetail extends React.Component {
       addGoodsItems: [addGoodsItems],
       deleteGoodsItems: [deleteGoodsItems]
     };
-    changeSubscriptionGoods(params).then((res) => {
-      this.getDetail();
-      this.setState({ changeNowLoading: false });
-      this.closeRecommendation();
-      this.closeEditRecommendation();
-    });
+    try {
+      changeSubscriptionGoods(params).then((res) => {
+        this.getDetail();
+        this.setState({ changeNowLoading: false });
+        this.closeRecommendation();
+        this.closeEditRecommendation();
+      });
+    } catch (err) {
+      this.showErrMsgs(err.message, 'errorMsgSureChange');
+    }
   };
   changePets = () => {
     this.changeSubscriptionGoods();
@@ -2155,13 +2197,13 @@ class SubscriptionDetail extends React.Component {
     try {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
+      this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
       });
     } catch (err) {
-      this.showErrMsg(err && err.message);
-    } finally {
       this.setState({ productListLoading: false });
+      this.showErrMsg(err && err.message);
     }
   };
   doSthShow = () => {
@@ -2224,14 +2266,23 @@ class SubscriptionDetail extends React.Component {
         {this.state.goodsDetails?.goods?.goodsId && (
           <GoodsDetailTabs detailRes={this.state.goodsDetails} />
         )}
-        {/* <Details goodsDetailTab={goodsDetailTab} details={props.details} /> */}
       </div>
     );
   };
   ProductRecommendations = () => {
-    const { productDetail } = this.state;
+    const { productDetail, errMsgDetail } = this.state;
     return (
       <>
+        {errMsgDetail ? (
+          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
+            <aside
+              className="rc-alert rc-alert--error rc-alert--with-close text-break"
+              role="alert"
+            >
+              <span className="pl-0">{errMsgDetail}</span>
+            </aside>
+          </div>
+        ) : null}
         {!!productDetail.mainProduct && (
           <>
             <div className="p-f-result-box">

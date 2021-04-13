@@ -35,7 +35,7 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-import Carousel from './components/Carousel';
+// import Carousel from './components/Carousel';
 import ResponsiveCarousel from '@/components/Carousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
@@ -54,6 +54,7 @@ import './index.less';
 import { Link } from 'react-router-dom';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
+import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -332,7 +333,8 @@ class Details extends React.Component {
       contactUs: '',
       ccidBtnDisplay: false,
       relatedGoods: [],
-      goodsList: []
+      relatedGoodsList: [],
+      relatedGoodsLoading: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -615,10 +617,22 @@ class Details extends React.Component {
       this.toScroll('j-details-for-club');
     });
   };
+  async getRelatedGoodsList(id) {
+    try {
+      //this.setState({relatedGoodsLoading:true})
+      const res = await getGoodsRelation(id);
+      this.setState({
+        relatedGoodsList: res.context.goods
+      });
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      //this.setState({relatedGoodsLoading:false})
+    }
+  }
   async queryDetails() {
-    const { configStore } = this.props;
+    const { configStore, checkoutStore } = this.props;
     const { id, goodsNo } = this.state;
-    let that = this;
     let requestName;
     let param;
     if (goodsNo) {
@@ -700,15 +714,9 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-          // getGoodsRelation(goodsRes.goodsId).then((res) => {
-          //   console.log(that)
-          //   debugger
-          //   that.setState(
-          //     {
-          //       goodsList: res.context.goods
-          //     }
-          //   );
-          // });
+          //获取推荐产品start
+          this.getRelatedGoodsList(goodsRes.goodsId);
+          //获取推荐产品end
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -881,7 +889,8 @@ class Details extends React.Component {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
               selected: i === 0,
-              petsId: localItemRoyal.get('pr-petsId')
+              petsId: checkoutStore.pr_petsInfo.petsId,
+              petsType: checkoutStore.pr_petsInfo.petsType
             });
             let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
@@ -953,7 +962,8 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             g = Object.assign({}, g, {
               selected: i === 0,
-              petsId: localItemRoyal.get('pr-petsId')
+              petsId: checkoutStore.pr_petsInfo.petsId,
+              petsType: checkoutStore.pr_petsInfo.petsType
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -1146,7 +1156,8 @@ class Details extends React.Component {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
         goodsInfoFlag,
-        petsId: currentSelectedSize.petsId
+        petsId: currentSelectedSize.petsId,
+        petsType: currentSelectedSize.petsType
       };
       if (buyWay) {
         param.periodTypeId = form.frequencyId;
@@ -2514,14 +2525,17 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
-            <div id="goods-recommendation-box">
+            {this.state.relatedGoodsList.length > 0 ? (
+              <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            ) : null}
+            {/* <div id="goods-recommendation-box">
               <Carousel
                 location={location}
                 history={history}
                 goodsId={goodsId}
                 key={goodsId}
               />
-            </div>
+            </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
@@ -2593,9 +2607,6 @@ class Details extends React.Component {
               </>
             ) : null} */}
             <Help />
-            {/* <ResponsiveCarousel
-              goodsList={this.state.goodsList}
-            /> */}
             <Footer />
           </main>
         )}

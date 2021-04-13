@@ -49,7 +49,8 @@ const ru_RU = {
   'account.myAccount': 'Персональные данные',
   'account.myAddresses': 'Мои адреса',
   'account.myCommunicationPreferencesContent1': 'Предпочитаемый способ связи',
-  'account.myCommunicationPreferencesContent2': 'Согласие на общение',
+  'account.myCommunicationPreferencesContent2':
+    'Согласие на получение сообщений',
   'account.myCommunicationPreferencesDesc':
     'Следите за информацией Royal Canin в общении',
   'account.myCommunicationPreferencesTitle': 'Предпочитаемые способы связи',
@@ -76,7 +77,7 @@ const ru_RU = {
   'account.petsTip': 'Создать профили Ваших питомцев.',
   'account.petsTitle': 'Питомцы',
   'account.preferredContactMethod': 'Предпочтительный метод связи',
-  'account.preferredMethodOfCommunication': 'Предпочитаемый способ связи',
+  'account.preferredMethodOfCommunication': 'Предпочитаемые способы связи',
   'account.profile': 'Профиль',
   'account.profileTip': 'Просмотреть или изменить Ваш профиль.',
   'account.requiredFields': 'Обязательные поля',
@@ -194,11 +195,11 @@ const ru_RU = {
   cardCvvIsInvalid: 'CVV вашей карты недействителен',
   cardNumber: 'Номер карты',
   cardNumberIsInvalid: 'номер вашей карты недействителен',
-  'cart.catDiet': 'Выберите диету для своей кошки',
+  'cart.catDiet': 'Подберите подходящий рацион для Для кошек',
   'cart.deletInfo': 'Удалить товар?',
   'cart.deletInfo2': 'Вы уверены, что хотите удалить этот товар из корзины?',
   'cart.delivery': 'Доставка',
-  'cart.dogDiet': 'Выберите диету для своей собаки',
+  'cart.dogDiet': 'Подберите подходящий рацион для Для собак',
   'cart.errorInfo': 'Число не может быть меньше 1',
   'cart.errorInfo2':
     'Вы не можете разместить заказ, товар отсутствует в наличии.',
@@ -352,7 +353,7 @@ const ru_RU = {
   download: 'Скачать',
   edit: 'Редактировать',
   edit2: 'Изменить',
-  email: 'Эл. адрес',
+  email: 'E-mail',
   emailAddress: 'Адрес электронной почты *',
   enterCatBreed: 'Введите породу вашей кошки',
   enterClinicName: 'Введите название клиники',
@@ -440,7 +441,7 @@ const ru_RU = {
   'header.toLearnMore': 'Узнать больше',
   //header.User  unLogin
   'header.User.alreadyRegistered': 'У вас есть учетная запись?',
-  'header.User.breederPortal': 'Breeder portal',
+  'header.User.breederPortal': 'Заводчик',
   'header.User.faq': 'Часто задаваемые вопросы',
   'header.User.home': 'Личный кабинет',
   //header.User  login
@@ -453,8 +454,8 @@ const ru_RU = {
   'header.User.or': 'or',
   'header.User.pets': 'Питомцы',
   'header.User.registerNow': 'Зарегистрироваться',
-  'header.User.royalCaninPartner': 'Royal Canin partner?',
-  'header.User.vetPortal': 'Vet portal',
+  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач?',
+  'header.User.vetPortal': 'Ветеринарный врач',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
   'help.byEmail': 'По электронной почте',
@@ -561,7 +562,9 @@ const ru_RU = {
   moreAddress: 'Подробнее Адрес',
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
-    'К сожалению, вы проверили согласие на общение, поэтому вам необходимо выбрать способ связи.',
+    'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
+  mustChooseTheConsentTip:
+    'Чтобы подтвердить, что вы согласны на получение рекламных сообщений от Royal Canin, пожалуйста, поставьте соответствующий флажок ниже.',
   name: 'Кличка',
   name2: 'ИМЯ',
   nameInvalid: 'Ваше имя недействительно',
@@ -838,8 +841,8 @@ const ru_RU = {
   rePurchase: 'Выкуп',
   'required.checkRequired': 'Отметьте необходимые предметы',
   'required.complete': 'Завершить процесс входа в систему',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'длительность',
+  'required.fields': 'требуемая складка',
   'required.logoTitle': 'Добро пожаловать в интернет-магазин ROYALCANIN®',
   requiredConsentCheckedTip:
     'Пожалуйста, подтвердите обязательные поля, установив галочку.',
@@ -1224,7 +1227,24 @@ const ru_RU = {
   next: 'Следующий',
   pirceRange: 'От {fromPrice} к {toPrice}',
   'petform.subscription': 'Affiliate Subscriptions',
-  'pet.deletePet': 'Удалить профиль питомца'
+  'pet.deletePet': 'Удалить профиль питомца',
+  messengers: 'Мессенджеры',
+  CLUB: 'КЛУБ',
+  'welcome.createdSuccessfully': 'Ваша учетная запись успешно создана!',
+  'welcome.confirmEmail':
+    'Чтобы завершить создание учетной записи, нажмите «Подтвердить» в электронном письме, отправленном на следующий адрес электронной почты:',
+  'welcome.notReceiveEmail': 'Вы не получали письма?',
+  'welcome.contactSupport': 'Обратиться в службу поддержки',
+  'welcome.privacyStatement': 'Заявление о конфиденциальности',
+  'welcome.cookiesNotice': 'Уведомление о файлах cookie',
+  'welcome.legal': 'Право',
+  'welcome.accessibility': 'Доступность',
+  'welcome.adChoices': 'AdChoices',
+  'welcome.cASupplyChainTransparencyAct':
+    'Закон о прозрачности цепочки поставок CA',
+  'welcome.modernSlaveryAct': 'Закон о современном рабстве',
+  'welcome.contactUS': 'Свяжитесь с нами',
+  validPromotionCode: 'Невозможно добавить купон на скидку в корзину'
 };
 
 export default ru_RU;

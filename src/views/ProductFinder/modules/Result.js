@@ -185,18 +185,24 @@ class ProductFinderResult extends React.Component {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
     // console.log(JSON.parse(res).queryParams, '11111')
-    if (!localItemRoyal.get('pr-petsId')) {
-      await clubSubscriptionSavePets({
-        questionParams: JSON.parse(res).queryParams
-      })
-        .then((res) => {
-          if (res.code === 'K-000000') {
-            let petsId = res.context;
-            localItemRoyal.set('pr-petsId', petsId);
-            this.setState({ petsId });
-          }
+    debugger;
+    try {
+      if (!localItemRoyal.get('pr-petsInfo') && this.props.loginStore.isLogin) {
+        await clubSubscriptionSavePets({
+          questionParams: JSON.parse(res).queryParams
         })
-        .catch((err) => {});
+          .then((res) => {
+            debugger;
+            if (res.code === 'K-000000') {
+              let petsInfo = res.context;
+              localItemRoyal.set('pr-petsInfo', petsInfo);
+              this.setState({ petsId: petsInfo });
+            }
+          })
+          .catch((err) => {});
+      }
+    } catch (e) {
+      console.log(e, 'eeee');
     }
 
     if (res) {

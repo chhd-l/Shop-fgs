@@ -2,7 +2,7 @@ import axios from '@/utils/request';
 
 const api = {
   getRecommendationList: '/recommendation/findById',
-  getRecommendationList_fr: '/recommendation',
+  getRecommendations: '/recommendation',
   getPrescriberByPrescriberIdAndStoreId:
     '/prescriber/getPrescriberByPrescriberIdAndStoreId',
   felinReco: '/reco'
@@ -39,9 +39,16 @@ export function getPrescriberByPrescriberIdAndStoreId(data) {
   });
 }
 
-export function getRecommendationList_fr(data) {
+export function getRecommendationList_token(data) {
   return axios({
-    url: `${api.getRecommendationList_fr}/token=${data}`,
+    url: `${api.getRecommendations}/token=${data}`,
+    method: 'get'
+  });
+}
+
+export function getRecommendationList_prescriberId(data) {
+  return axios({
+    url: `${api.getRecommendations}/prescriberId=${data}`,
     method: 'get'
   });
 }

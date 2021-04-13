@@ -20,7 +20,7 @@ import { formatMoney, getDeviceType } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import {
   getRecommendationList,
-  getRecommendationList_fr
+  getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
@@ -116,7 +116,7 @@ class Help extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
-    getRecommendationList_fr(token)
+    getRecommendationList_token(token)
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
         productList.map((el) => {

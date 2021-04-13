@@ -6,7 +6,8 @@
 }
 @media (min-width: 769px) {
   .required-component .footer-checkbox-title p {
-    width: auto;
+    /* width: auto; */
+    max-width: 450px;
   }
 }
 .required-component .footer-checkbox-title p {

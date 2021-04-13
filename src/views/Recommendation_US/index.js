@@ -9,13 +9,14 @@ import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from './components/ImageMagnifier';
 import UsAndRu from './components/UsAndRu';
-
+import Fr from './components/Fr';
 import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import {
   getRecommendationList,
-  getRecommendationList_fr
+  getRecommendationList_prescriberId,
+  getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { getPrescriptionById } from '@/api/clinic';
@@ -35,6 +36,7 @@ import { Helmet } from 'react-helmet';
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
+const isFr = process.env.REACT_APP_LANG === 'fr';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -195,12 +197,14 @@ class Recommendation extends React.Component {
       }
     );
   };
+
   async componentDidMount() {
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
+    let prescription = getParaByName(search, 'prescription');
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -208,8 +212,14 @@ class Recommendation extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
-
-    getRecommendationList_fr(token)
+    let params = token;
+    let requestName = getRecommendationList_token;
+    if (isFr) {
+      requestName = getRecommendationList_prescriberId;
+      params = prescription;
+    }
+    debugger;
+    requestName(params)
       .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
@@ -467,7 +477,7 @@ class Recommendation extends React.Component {
       let product = products[i];
 
       let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
+      let tmpData = Object.assign({}, product.goods, product.goodsInfo.goods, {
         quantity: quantityNew
       });
       let cartDataCopy = cloneDeep(
@@ -702,6 +712,23 @@ class Recommendation extends React.Component {
     }
   };
   render(h) {
+    let otherShow = {
+      ru: (
+        <UsAndRu
+          buttonLoading={this.state.buttonLoading}
+          inStockProducts={this.state.inStockProducts}
+          addCart={this.addCart}
+        />
+      ),
+      en: (
+        <UsAndRu
+          buttonLoading={this.state.buttonLoading}
+          inStockProducts={this.state.inStockProducts}
+          addCart={this.addCart}
+        />
+      ),
+      fr: <Fr />
+    };
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
       page: {
@@ -882,28 +909,21 @@ class Recommendation extends React.Component {
             </div>
           ) : (
             <div className="transparentSection">
-              <section
-                className="recommendProduct re-custom rc-max-width--md"
-                style={{ paddingRight: 0, paddingLeft: 0 }}
-              >
+              <section className="recommendProduct re-custom rc-max-width--md pl-0 pr-0">
                 <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                   {this.state.loading ? (
-                    <div>
-                      <div
-                        className="recommendProductInner"
-                        style={{
-                          background: '#fff',
-                          minHeight: '600px',
-                          borderTop: 0
-                        }}
-                      >
-                        <Skeleton
-                          color="#f5f5f5"
-                          width="100%"
-                          height="100%"
-                          count="3"
-                        />
-                      </div>
+                    <div
+                      className="recommendProductInner bg-white pt-4 text-center"
+                      style={{
+                        minHeight: '600px'
+                      }}
+                    >
+                      <Skeleton
+                        color="#f5f5f5"
+                        width="100%"
+                        height="100%"
+                        count="5"
+                      />
                     </div>
                   ) : (
                     productList.length > 0 && (
@@ -919,12 +939,12 @@ class Recommendation extends React.Component {
                               <div className="imageTabBox">
                                 {productList.map((el, i) => (
                                   <span
+                                    key={i}
                                     className={` rc-btn--sm ${
                                       i === activeIndex ? 'active' : ''
                                     }`}
                                     style={{
                                       display: 'inline-block',
-                                      // width: '80px',
                                       textAlign: 'center',
                                       cursor: 'pointer'
                                     }}
@@ -1020,16 +1040,30 @@ class Recommendation extends React.Component {
                                     ) : (
                                       <React.Fragment>
                                         <span className="text-throught-line">
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinMarketPrice)}{' '}
-                                          <FormattedMessage id="to" />{' '}
-                                          {formatMoney(MaxMarketPrice)}
+                                          <FormattedMessage
+                                            id="pirceRange"
+                                            values={{
+                                              fromPrice: formatMoney(
+                                                MinMarketPrice
+                                              ),
+                                              toPrice: formatMoney(
+                                                MaxMarketPrice
+                                              )
+                                            }}
+                                          />
                                         </span>
                                         <span className="promotion-price">
-                                          <FormattedMessage id="from" />{' '}
-                                          {formatMoney(MinMarketPrice)}
-                                          <FormattedMessage id="to" />{' '}
-                                          {formatMoney(MaxMarketPrice)}
+                                          <FormattedMessage
+                                            id="pirceRange"
+                                            values={{
+                                              fromPrice: formatMoney(
+                                                MinMarketPrice
+                                              ),
+                                              toPrice: formatMoney(
+                                                MaxMarketPrice
+                                              )
+                                            }}
+                                          />
                                         </span>
                                       </React.Fragment>
                                     )}
@@ -1168,11 +1202,8 @@ class Recommendation extends React.Component {
             </div>
           )}
           <Test />
-          <UsAndRu
-            buttonLoading={this.state.buttonLoading}
-            inStockProducts={this.state.inStockProducts}
-            addCart={this.addCart}
-          />
+          {/* {this.otherShow()[process.env.REACT_APP_LANG]} */}
+          {otherShow[process.env.REACT_APP_LANG]}
           <Footer />
         </main>
       </div>

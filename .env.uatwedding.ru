@@ -28,9 +28,9 @@ REACT_APP_GA_COUNTRY = 'RU'
 REACT_APP_GA_CURRENCY_CODE = 'RUB'
 
 #onetrust
-REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
-REACT_APP_ONTRUST_DOMAIN_SCRIPT = '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
-REACT_APP_ONTRUST_STYLE = https://d1a19ys8w1wkc1.cloudfront.net/one-trust-rc-styles.css?v=one-trust-rc-styles--001
+REACT_APP_ONTRUST_SRC = 'https://optanon.blob.core.windows.net/consent/641af210-e4c3-4de4-b284-42b11ef455ad-test.js'
+REACT_APP_ONTRUST_DOMAIN_SCRIPT = ''
+REACT_APP_ONTRUST_STYLE = ''
 
 #consent
 REACT_APP_CONSENT_SCRIPT = https://stage-rcdfcdn.mars.com/consent-management/global-script-test.js
@@ -115,3 +115,5 @@ REACT_APP_NO_INDEX = 1
 REACT_APP_HIDE_ACCOUNT_BILLING_ADDR = 1
 #是否显示billing addr(checkout页)
 REACT_APP_HIDE_CHECKOUT_BILLING_ADDR = 1
+
+REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS = 0

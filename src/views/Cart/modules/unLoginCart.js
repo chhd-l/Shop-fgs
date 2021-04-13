@@ -20,6 +20,7 @@ import {
   GACartScreenLoad,
   GACartChangeSubscription
 } from '@/utils/GA';
+import { getGoodsRelationBatch } from '@/api/cart';
 import PayProductInfo from '../../Payment/PayProductInfo';
 import Loading from '@/components/Loading';
 import findIndex from 'lodash/findIndex';
@@ -39,7 +40,8 @@ import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
-import Carousel from '../components/Carousel';
+// import Carousel from '../components/Carousel';
+import ResponsiveCarousel from '@/components/Carousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -96,7 +98,8 @@ class UnLoginCart extends React.Component {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
-      }
+      },
+      relatedGoodsList: []
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -198,6 +201,9 @@ class UnLoginCart extends React.Component {
   getGoodsIdArr = () => {
     let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);
     this.setState({ goodsIdArr });
+    getGoodsRelationBatch({ goodsIds: goodsIdArr }).then((res) => {
+      this.setState({ relatedGoodsList: res.context.goods });
+    });
   };
   async componentDidMount() {
     setSeoConfig({
@@ -1423,7 +1429,9 @@ class UnLoginCart extends React.Component {
                   className="rc-icon rc-up rc-iconography"
                   style={{ transform: 'scale(.7)' }}
                 />
-                <span>Order summary</span>
+                <span>
+                  <FormattedMessage id="mobile.cart.orderSummary" />
+                </span>
               </div>
               <PayProductInfo
                 data={[]}
@@ -1735,13 +1743,16 @@ class UnLoginCart extends React.Component {
               </>
             )}
           </div>
-          {goodsIdArr.length > 0 ? (
+          {/* {goodsIdArr.length > 0 ? (
             <Carousel
               location={location}
               history={history}
               goodsId={goodsIdArr}
               key="cart-recommendation"
             />
+          ) : null} */}
+          {this.state.relatedGoodsList.length > 0 ? (
+            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

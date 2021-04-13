@@ -32,6 +32,7 @@ class CheckoutStore {
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
   @observable couponCodeFitFlag =
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
+  @observable pr_petsInfo = localItemRoyal.get('pr-petsInfo') || {};
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
@@ -261,8 +262,13 @@ class CheckoutStore {
     ruShippingDTO
   } = {}) {
     try {
+      let recommend_data = null;
+      //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
+      if (sessionItemRoyal.get('recommend_product')) {
+        recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
+      }
       if (!data) {
-        data = this.cartData;
+        data = recommend_data || this.cartData;
       }
       let param = data
         .filter((ele) => ele.selected)
