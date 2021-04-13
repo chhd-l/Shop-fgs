@@ -304,7 +304,7 @@ class UnloginCart extends React.Component {
                         val: (
                           <b style={{ fontWeight: 500 }}>
                             {this.props.intl.formatMessage(
-                              { id: 'payment.totalProduct' },
+                              { id: 'cart.totalProduct' },
                               { val: this.totalNum }
                             )}
                           </b>
