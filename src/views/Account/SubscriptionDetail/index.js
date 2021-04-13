@@ -2274,7 +2274,7 @@ class SubscriptionDetail extends React.Component {
               {/* </LazyLoad> */}
             </div>
             <div className="rc-column rc-double-width">
-              <div className="title rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen">
+              <div className="title rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen rc-margin-top--md">
                 {details.goodsName}
               </div>
               {/* <div className="sub_title">{details.goodsSubtitle}</div> */}
