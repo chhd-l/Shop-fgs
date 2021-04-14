@@ -1,7 +1,11 @@
 import { action, observable, computed, runInAction } from 'mobx';
 import { purchases, sitePurchases, siteMiniPurchases } from '@/api/cart';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import locales from '@/lang';
+import { toJS } from 'mobx';
+import stores from './index';
 
 const CURRENT_LANGFILE = locales;
 
@@ -568,7 +572,6 @@ class CheckoutStore {
         resolve({ backCode, context: sitePurchasesRes });
       });
     } catch (err) {
-      console.log(111, err);
       this.changeLoadingCartData(false);
       if (isThrowErr) {
         throw new Error(err.message);
@@ -585,6 +588,102 @@ class CheckoutStore {
   @action
   saveGAProduct(data) {
     localItemRoyal.set('rc-ga-product', data);
+  }
+
+  @action
+  changeFromStorePortal(data) {
+    this.isFromStorePortal = data;
+  }
+  /**
+   * 游客加入购物车
+   * @param {Boolean} valid - 按钮可点击状态
+   * @param {Object} cartItem - 需要加入购物车的数据
+   * @param {Number} currentUnitPrice - 当前选择规格的单价
+   */
+  @action
+  async hanldeUnloginAddToCart({
+    valid,
+    cartItem,
+    currentUnitPrice = 0,
+    mobileSuccessModalButton,
+    isMobile
+  }) {
+    if (valid) {
+      try {
+        const currentSelectedSize = find(cartItem.sizeList, (s) => s.selected);
+        let cartDataCopy = cloneDeep(toJS(this.cartData).filter((el) => el));
+        const historyItemIdx = findIndex(
+          cartDataCopy,
+          (c) =>
+            c.goodsId === cartItem.goodsId &&
+            currentSelectedSize.goodsInfoId ===
+              find(c.sizeList, (s) => s.selected).goodsInfoId
+        );
+        const historyItem = cartDataCopy[historyItemIdx];
+        // 如果之前该商品(同spu 同sku)加入过购物车，则需取出其数量，进行累加
+        if (historyItem) {
+          cartItem = Object.assign(cartItem, {
+            quantity: cartItem.quantity + historyItem.quantity
+          });
+        }
+        cartItem = Object.assign(cartItem, {
+          currentAmount: currentUnitPrice * cartItem.quantity
+        });
+        // 如果之前该商品(同spu 同sku)加入过购物车，则直接替换原信息
+        if (historyItemIdx > -1) {
+          cartDataCopy.splice(historyItemIdx, 1, cartItem);
+        } else {
+          cartDataCopy.push(cartItem);
+        }
+
+        // 校验
+        // 1 单个产品数量限制
+        // 2 所有产品数量限制
+        // 3 所有产品种类限制
+
+        if (cartItem.quantity > +process.env.REACT_APP_LIMITED_NUM) {
+          throw new Error(
+            CURRENT_LANGFILE['cart.errorMaxInfo'].replace(
+              /{.+}/,
+              +process.env.REACT_APP_LIMITED_NUM
+            )
+          );
+        }
+        if (
+          cartDataCopy.reduce((pre, cur) => {
+            return Number(pre) + Number(cur.quantity);
+          }, 0) > +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+        ) {
+          throw new Error(
+            CURRENT_LANGFILE['cart.errorAllProductNumLimit'].replace(
+              /{.+}/,
+              +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+            )
+          );
+        }
+        if (cartDataCopy.length >= +process.env.REACT_APP_LIMITED_CATE_NUM) {
+          throw new Error(
+            CURRENT_LANGFILE['cart.errorMaxCate'].replace(
+              /{.+}/,
+              +process.env.REACT_APP_LIMITED_CATE_NUM
+            )
+          );
+        }
+
+        await this.updateUnloginCart({ cartData: cartDataCopy });
+        if (isMobile) {
+          mobileSuccessModalButton.click();
+        } else {
+          stores.headerCartStore.show();
+          clearTimeout(this.timer);
+          this.timer = setTimeout(() => {
+            stores.headerCartStore.hide();
+          }, 4000);
+        }
+      } catch (err) {
+        throw new Error(err.message);
+      }
+    }
   }
 }
 export default CheckoutStore;

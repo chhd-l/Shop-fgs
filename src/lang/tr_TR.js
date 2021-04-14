@@ -138,6 +138,7 @@ const tr_TR = {
   'cart.errorInfo5': 'Siparişinizi veremezsiniz, silinmiş ürün: {val}',
   'cart.errorMaxCate': 'Alışveriş sepeti {val} öğeyi aşamaz',
   'cart.errorMaxInfo': "Sayı {val}'u geçemez",
+  'cart.errorAllProductNumLimit': '{val} sipariş sayısı sınırlıdır.',
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
   'cart.miniCartTitle':
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
@@ -1127,7 +1128,7 @@ const tr_TR = {
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar",
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Sipariş özeti',
   'welcome.createdSuccessfully': 'Hesabınız başarıyla oluşturuldu!',
   'welcome.confirmEmail':
     'Hesabınızın oluşturulmasını tamamlamak için lütfen aşağıdaki e-posta adresine gönderilen e-postadaki "Onayla" yı tıklayın:',

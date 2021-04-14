@@ -173,7 +173,7 @@ const fr_FR = {
     'Vous ne pouvez pas passer votre commande, produit supprimé: {val}',
   'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
   'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
-  // 'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL', // before text
+  'cart.errorAllProductNumLimit': 'Le nombre de {val} commandes est limité.',
   'cart.fullPrice': ' ',
   'cart.miniCartTitle':
     '10% de réduction sur toutes les commandes en Abonnement',
@@ -1525,7 +1525,7 @@ const fr_FR = {
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: 'De {fromPrice} à {toPrice}',
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Récapitulatif de la commande',
   'welcome.createdSuccessfully': 'Votre compte a été créé avec succès!',
   'welcome.confirmEmail':
     "Pour terminer la création de votre compte, veuillez cliquer sur 'Confirmer' dans l'e-mail envoyé à l'adresse e-mail suivante:",

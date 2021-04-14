@@ -168,6 +168,8 @@ const de_DE = {
     'Sie können Ihre Bestellung nicht aufgeben, gelöschtes Produkt: {val}',
   'cart.errorMaxCate': 'Der Warenkorb darf 30 Artikel nicht überschreiten',
   'cart.errorMaxInfo': 'Die Anzahl darf 30 nicht überschreiten',
+  'cart.errorAllProductNumLimit':
+    'Die Anzahl von {val} Bestellungen ist begrenzt.',
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
   'cart.miniCartTitle':
     'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',
@@ -1266,7 +1268,7 @@ const de_DE = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Bestellübersicht',
   'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
   'welcome.confirmEmail':
     'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
