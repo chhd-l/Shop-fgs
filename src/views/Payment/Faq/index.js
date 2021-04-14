@@ -89,7 +89,13 @@ const faqList =
       {
         title: 'Do you offer free returns?',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p>Please see our return policy in our <a href="${process.env.REACT_APP_HOMEPAGE}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${process.env.REACT_APP_HOMEPAGE}/help/contact" target="_blank" rel="noopener noreferrer"><span style="color: #6888c9;">contact us</span><span class="warning_blank">Opens a new window</span></a> for further assistance.</p><p></p>`,
+        <p></p><p>Please see our return policy in our <a href="${process.env.REACT_APP_HOMEPAGE.replace(
+          /\/$/gi,
+          ''
+        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${process.env.REACT_APP_HOMEPAGE.replace(
+          /\/$/gi,
+          ''
+        )}/help/contact" target="_blank" rel="noopener noreferrer"><span style="color: #6888c9;">contact us</span><span class="warning_blank">Opens a new window</span></a> for further assistance.</p><p></p>`,
         gaContext: 'Free return'
       }
     ],
