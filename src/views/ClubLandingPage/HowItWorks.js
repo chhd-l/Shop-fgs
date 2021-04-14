@@ -37,7 +37,7 @@ const HowItWorks = (props) => {
               >
                 <div className="text-center">
                   <article>
-                    <div className="rc-card__body">
+                    <div className="rc-card__body" style={{ height: '120px' }}>
                       <p className="rc-card__meta">
                         <h5>
                           <FormattedMessage id="club.howitworks.img1.titile" />
@@ -73,17 +73,14 @@ const HowItWorks = (props) => {
                 </div>
                 <div>
                   <article>
-                    <div className="rc-card__body">
+                    <div className="rc-card__body" style={{ height: '120px' }}>
                       <p className="rc-card__meta">
                         <h5>
-                          <FormattedMessage
-                            id="club.howitworks.img2.titile"
-                            values={{ val: <br /> }}
-                          />
+                          <FormattedMessage id="club.howitworks.img2.titile" />
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180} style={{ marginTop: '22px' }}>
+                    <LazyLoad height={180}>
                       <img
                         className="w-90 lazyloaded"
                         src={howitworck2}
@@ -113,17 +110,14 @@ const HowItWorks = (props) => {
                 </div>
                 <div>
                   <article>
-                    <div className="rc-card__body">
-                      <p
-                        className="rc-card__meta"
-                        style={{ padding: '0 1rem' }}
-                      >
+                    <div className="rc-card__body" style={{ height: '120px' }}>
+                      <p className="rc-card__meta">
                         <h5>
                           <FormattedMessage id="club.howitworks.img3.titile" />
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180} style={{ marginTop: '22px' }}>
+                    <LazyLoad height={180}>
                       <img
                         className="w-90 lazyloaded"
                         src={howitworck3}
@@ -153,13 +147,10 @@ const HowItWorks = (props) => {
                 </div>
                 <div>
                   <article>
-                    <div className="rc-card__body">
+                    <div className="rc-card__body" style={{ height: '120px' }}>
                       <p className="rc-card__meta">
                         <h5>
-                          <FormattedMessage
-                            id="club.howitworks.img4.titile"
-                            values={{ val: <p /> }}
-                          />
+                          <FormattedMessage id="club.howitworks.img4.titile" />
                         </h5>
                       </p>
                     </div>
