@@ -9,11 +9,18 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
+  const headerHeight =
+    document.querySelector('.rc-header__nav')?.offsetHeight || 80;
   return (
     <div
+      style={{ position: 'relative' }}
       className="experience-component experience-layouts-1column how_it_work"
       id={props.id}
     >
+      <div
+        style={{ position: 'absolute', top: -headerHeight }}
+        id="how-it-works-box-inner"
+      ></div>
       <div className="row rc-margin-x--none">
         <div className="rc-full-width">
           <div className="experience-component experience-assets-contentBlock">
@@ -69,11 +76,14 @@ const HowItWorks = (props) => {
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
                         <h5>
-                          <FormattedMessage id="club.howitworks.img2.titile" />
+                          <FormattedMessage
+                            id="club.howitworks.img2.titile"
+                            values={{ val: <br /> }}
+                          />
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180}>
+                    <LazyLoad height={180} style={{ marginTop: '22px' }}>
                       <img
                         className="w-90 lazyloaded"
                         src={howitworck2}
@@ -113,7 +123,7 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180}>
+                    <LazyLoad height={180} style={{ marginTop: '22px' }}>
                       <img
                         className="w-90 lazyloaded"
                         src={howitworck3}
@@ -146,7 +156,10 @@ const HowItWorks = (props) => {
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
                         <h5>
-                          <FormattedMessage id="club.howitworks.img4.titile" />
+                          <FormattedMessage
+                            id="club.howitworks.img4.titile"
+                            values={{ val: <p /> }}
+                          />
                         </h5>
                       </p>
                     </div>

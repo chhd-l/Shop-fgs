@@ -184,15 +184,12 @@ class ProductFinderResult extends React.Component {
   async componentDidMount() {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
-    // console.log(JSON.parse(res).queryParams, '11111')
-    debugger;
     try {
       if (!localItemRoyal.get('pr-petsInfo') && this.props.loginStore.isLogin) {
         await clubSubscriptionSavePets({
           questionParams: JSON.parse(res).queryParams
         })
           .then((res) => {
-            debugger;
             if (res.code === 'K-000000') {
               let petsInfo = res.context;
               localItemRoyal.set('pr-petsInfo', petsInfo);
@@ -204,8 +201,12 @@ class ProductFinderResult extends React.Component {
     } catch (e) {
       console.log(e, 'eeee');
     }
-
     if (res) {
+      let productDetail = JSON.parse(res);
+      if (!productDetail.mainProduct || !productDetail.otherProducts) {
+        this.props.history.push('/product-finder-noresult');
+        return;
+      }
       setSeoConfig({
         pageName: 'finder-recommendation'
       }).then((res) => {
@@ -225,7 +226,7 @@ class ProductFinderResult extends React.Component {
         (ele) => ele.questionName === 'neutered'
       );
       this.setState({
-        productDetail: JSON.parse(res),
+        productDetail: productDetail,
         questionlist: parsedQuestionlist,
         petBaseInfo: {
           age: ageItem.length
@@ -249,7 +250,7 @@ class ProductFinderResult extends React.Component {
       //(!isHubGA)&&this.GAProductImpression(goodsList)
       this.GAProductImpression(goodsList);
     } else {
-      this.props.history.push('/product-finder-noresult');
+      this.props.history.push('/product-finder');
     }
   }
   get isLogin() {

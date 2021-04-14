@@ -1315,6 +1315,9 @@ const en_US = {
   'welcome.adChoices': 'AdChoices',
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
-  'welcome.contactUS': 'Contact Us'
+  'welcome.contactUS': 'Contact Us',
+  'Other products to consider': 'Other products to consider',
+  recommendProductTip:
+    'The recommendations provided here are for infomational purpose only.Ie should not be cosidered as guarantee for what may be best for your individual pet. Quantity,Size and Frequency will be set up in the CLUB management page'
 };
 export default en_US;

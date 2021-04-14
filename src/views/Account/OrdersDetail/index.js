@@ -1344,24 +1344,7 @@ class AccountOrders extends React.Component {
                                   <div className="col-6 col-md-3 text-right text-nowrap">
                                     {formatMoney(details.tradePrice.goodsPrice)}
                                   </div>
-                                  {/* {details.tradePrice.discountsPrice ? (
-                                    <>
-                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
-                                        &nbsp;
-                                      </div>
-                                      <div className="col-6 col-md-2 mb-2 red">
-                                        {details.tradePrice.promotionDesc || (
-                                          <FormattedMessage id="promotion" />
-                                        )}
-                                      </div>
-                                      <div className="col-6 col-md-3 text-right red text-nowrap">
-                                        -
-                                        {formatMoney(
-                                          details.tradePrice.discountsPrice
-                                        )}
-                                      </div>
-                                    </>
-                                  ) : null} */}
+
                                   {details.tradePrice
                                     .subscriptionDiscountPrice ? (
                                     <>
@@ -1380,6 +1363,7 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </>
                                   ) : null}
+
                                   {details.tradePrice.promotionVOList?.map(
                                     (el) => (
                                       <>
@@ -1395,6 +1379,7 @@ class AccountOrders extends React.Component {
                                       </>
                                     )
                                   )}
+
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
@@ -1406,6 +1391,25 @@ class AccountOrders extends React.Component {
                                       details.tradePrice.deliveryPrice
                                     )}
                                   </div>
+
+                                  {details.tradePrice.freeShippingFlag ? (
+                                    <>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-md-2 mb-2 green">
+                                        <FormattedMessage id="payment.shippingDiscount" />
+                                      </div>
+                                      <div className="col-6 col-md-3 text-right green text-nowrap">
+                                        {details.tradePrice
+                                          .freeShippingDiscountPrice > 0 && '-'}
+                                        {formatMoney(
+                                          details.tradePrice
+                                            .freeShippingDiscountPrice
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null}
 
                                   {/* 税额 */}
                                   {customTaxSettingOpenFlag == 0 &&
@@ -1523,6 +1527,30 @@ class AccountOrders extends React.Component {
                                       {details.buyerRemark ? (
                                         <p className="mb-0">
                                           {details.buyerRemark}
+                                        </p>
+                                      ) : null}
+
+                                      {/* 运费折扣 */}
+                                      {details?.maxDeliveryTime != null &&
+                                      details?.minDeliveryTime != null ? (
+                                        <p className="mb-0 od_mb_yf">
+                                          {details.minDeliveryTime ==
+                                          details.maxDeliveryTime ? (
+                                            <FormattedMessage
+                                              id="payment.deliveryDate2"
+                                              values={{
+                                                val: details.minDeliveryTime
+                                              }}
+                                            />
+                                          ) : (
+                                            <FormattedMessage
+                                              id="payment.deliveryDate"
+                                              values={{
+                                                min: details.minDeliveryTime,
+                                                max: details.maxDeliveryTime
+                                              }}
+                                            />
+                                          )}
                                         </p>
                                       ) : null}
                                     </div>

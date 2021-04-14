@@ -101,7 +101,7 @@ const tr_TR = {
   adyenPayFail: 'AdyenPayFail',
   age: 'Yaş',
   all: 'Herşey',
-  amount: 'Miktar',
+  amount: 'Adet',
   andThe: 've',
   anonymous: 'Anonim',
   anonymousReview: 'Anonim inceleme',
@@ -128,7 +128,7 @@ const tr_TR = {
   'cart.deletInfo': 'Ürün silinsin mi?',
   'cart.deletInfo2':
     'Bu ürünü sepetinizden çıkarmak istediğinizden emin misiniz?',
-  'cart.delivery': 'teslimat',
+  'cart.delivery': 'Kargo',
   'cart.dogDiet': 'Köpeğiniz için bir diyet seçin',
   'cart.errorInfo': "Sayı 1'den küçük olamaz",
   'cart.errorInfo2': 'Stokta olmayan ürün siparişinizi veremezsiniz',
@@ -154,7 +154,7 @@ const tr_TR = {
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Sipariş ver',
   'payment.checkout': 'Ödeme',
-  checkoutTip: 'Lütfen aşağıdaki alanları doldurun',
+  checkoutTip: 'Lütfen bilgilerinizi girin',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
   clickConfirmCardButton: 'Lütfen kartı onayla düğmesini tıklayın',
@@ -171,7 +171,7 @@ const tr_TR = {
   'clinic.selectVetClinics': 'Veteriner Kliniklerini Seçin',
   'clinic.vet': 'Veteriner',
   close: 'Kapat',
-  club: 'club',
+  club: 'Club Aboneliği',
   'comment.commentsTooLong': 'Ürün yorumları 500 karakterden fazla olamaz',
   'comment.noLogisticsRatingTip':
     'Lütfen lojistik hizmeti hakkında yorum yapın',
@@ -262,7 +262,7 @@ const tr_TR = {
   'detail.packagingDesc':
     'Ambalajlarımız / ürünlerimiz bir sıralama talimatına tabi olabilir',
   //plp
-  'detail.question': 'Hala bu ürünle ilgili sorularınız var?',
+  'detail.question': 'Bu ürünle alakalı sorularınız mı var?',
   'detail.telephone': 'Telefonla',
   'details.addToCart': 'Sepete ekle',
   'details.availability': 'Kullanılabilirlik',
@@ -282,7 +282,9 @@ const tr_TR = {
   'details.theSize': 'Boyut',
   'details.unitPrice': 'Birim fiyat',
   'details.youCanSave': 'Kurtarabilirsin',
-  'details.buyFromRetailer': 'Bayilerimiz aracılığıyla satın alın',
+  'details.buyFromRetailer': 'Yerel satıcı bul',
+  'Club subscription': 'Club Aboneliği',
+  saveExtra: 'Kazan',
   dogs: 'KÖPEK',
   dogs2: 'Köpek',
   dogs3: 'Köpek',
@@ -412,10 +414,10 @@ const tr_TR = {
   'home.note2': 'Tüm siparişlerinizde Ücretsiz kargo ve Hızlı teslimat.',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
-  'home.point1': 'Güvenli ödemeler',
-  'home.point2': 'Kalite güvencesi',
-  'home.point3': 'Özel servis',
-  'home.point4': 'Hızlı sevkiyat',
+  'home.point1': 'Güvenli ödeme',
+  'home.point2': 'Memnun kalmazsanız iade edin',
+  'home.point3': 'Üstün kalite',
+  'home.point4': 'Hızlı teslimat',
   'home.point5': "1968'DEN BERİ KÖPEK VE KEDİLERİN SAĞLIĞINA BAKIM",
   'home.point6': 'SİZİNLE BİRLİKTE',
   'home.productsCategory': 'Ürün kategorilerimize göz atın',
@@ -489,7 +491,7 @@ const tr_TR = {
   moreChoicesAvailable: 'Daha Fazla Seçenek Mevcut',
   mustChooseACommunicationMethodTip:
     'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
-  name: 'Ad',
+  name: 'İsim',
   name2: 'İSİM',
   nameInvalid: 'Adın geçersiz',
   newAddress: 'Yeni adres',
@@ -544,7 +546,7 @@ const tr_TR = {
     'Siparişiniz ödenmedi, lütfen mümkün olan en kısa sürede ödeyin. {val}',
   'order.viewOrder': 'Siparişi görüntüle',
   orders: 'Emirler',
-  orderSummary: 'Sipariş özeti',
+  orderSummary: 'Özet',
   outOfStockContent_cart:
     'Şu anda tavsiye edilen ürünler arasında stokta kalmayan ürünler var',
   outOfStockContent_pay:
@@ -668,6 +670,22 @@ const tr_TR = {
   'productFinder.tip3': 'Evcil Hayvanınız ...',
   'productFinder.whyAreWeAskingThis': 'Neden bu soru?',
   'productFinder.createMyPetProfile': 'Hayvan profilimi oluştur',
+  'productFinder.searchCompleted': 'Arama tamamlandı!',
+  'productFinder.searchResultTip1ForCat':
+    'Aşağıda kedinizin ihtiyaçlarına en uygun ürünleri görebilirsiniz.',
+  'productFinder.searchResultTip2':
+    'Daha fazla bilgi almak için ilgili ürüne tıklayın.',
+  seeTheProduct: 'Ürüne göz at',
+  'productFinder.searchResultWarningTip1':
+    'Burada verilen tavsiyeler sadece bilgilendirme amaçlıdır ve bireysel evcil hayvanınız için en iyisinin ne olabileceğinin garantisi olarak düşünülmemelidir.',
+  'productFinder.otherProductsToConsider': 'Önerebileceğimiz diğer ürünler',
+  'productFinder.summary': 'Özet',
+  'productFinder.createMyPetProfileTip':
+    "RoyalCanin'de evcil hayvan profilinizi oluşturun ve evcil hayvanlarınız için uyarlanacak haber bültenini / özel teklifleri alın.",
+  'productFinder.startAgin': 'Yeniden başla',
+  'productFinder.helpTip1': 'Sorularınız mı var?',
+  'productFinder.helpTip2':
+    'Ekibimiz işini tutkuyla yapan uzmanlardan oluşmaktadır. Bizimle her konuda iletişime geçebilirsiniz.',
   productRating: 'Ürün derecelendirmesi',
   produtctNumber: 'Ürün numarası',
   'profile.emailChoose':
@@ -703,7 +721,7 @@ const tr_TR = {
   'qualitySafety.shopTile':
     'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
   'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
-  quantity: 'miktar',
+  quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} Ürün',
   'order.quantityText': '{specText} - {buyCount} product(s)',
@@ -753,8 +771,8 @@ const tr_TR = {
   rePurchase: 'Yeniden Satın Alma',
   'required.checkRequired': 'Gerekli öğeleri kontrol edin',
   'required.complete': 'Oturum açma işlemini tamamlayın',
-  'required.continue': 'continue',
-  'required.fields': 'required frields',
+  'required.continue': 'Devam et',
+  'required.fields': 'gerekli frields',
   'required.logoTitle': 'ROYALCANIN® online mağazasına hoş geldiniz',
   requiredConsentCheckedTip:
     'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
@@ -921,31 +939,35 @@ const tr_TR = {
   'club.video.detail.description.two':
     'Royal Canin CLUB abonelik programı, evcil hayvanınızın ihtiyaçlarına en uygun beslenme çözümlerini sunabilmek, sizin de onun sağlığı için gerekli desteği ve tavsiyeleri alabilmeniz için uzmanlar tarafından tasarlanmıştır.',
   'club.video.detail.button': "CLUB'a Katılın!",
-  'club.howitworks.title': 'Nasıl Çalışıyor?',
-  'club.howitworks.img1.titile': 'UYGUN  MAMAYI VE ÖLÇÜLERİ BULUN',
+  'club.howitworks.title': 'Nasıl abone olabilirim?',
+  'club.howitworks.img1.titile':
+    'EVCIL HAYVANINIZ IÇIN EN UYGUN MAMAYI VE MIKTARI BULUN',
   'club.howitworks.img1.description':
-    'Evcil hayvanınızın ihtiyaçlarına uygun mama tavsiyesi alabilmek için birkaç basit soru cevaplayın',
-  'club.howitworks.img2.titile': 'CLUB ABONELİĞİ SEÇENEĞİNİ İŞARETLEYİN',
+    'Birkaç basit soru yanıtlayarak evcil hayvanınız için en uygun mama önerisini alın',
+  'club.howitworks.img2.titile': "  {val} CLUB'A ABONE OLUN",
   'club.howitworks.img2.description':
-    'Abone olmak için ödeme yapma adımına geçin. İlk teslimatınız ile birlikte bir hoş geldin paketi de alacaksınız!',
-  'club.howitworks.img3.titile': 'ABONELİĞİNİZİN KONTROLÜ SİZDE',
+    'Abone olmak için satın alma işlemine devam edin. İlk siparişinizle birlikte bir hoşgeldin paketi alacaksınız',
+  'club.howitworks.img3.titile': 'Siparişinizi kontrol edin',
   'club.howitworks.img3.description':
-    'Hesap sekmenizde CLUB aboneliğinizi yönetin, kargo ücreti ödemeden otomatik mama gönderiminin keyfini çıkarın!',
-  'club.howitworks.img4.titile': 'ÖZEL ÖDÜLLERİN KEYFİNİ ÇIKARIN',
+    'İstediğiniz zaman hesabınıza girerek aboneliğinizi yönetebilirsiniz. CLUB abonesi olarak size otomarik gönderimden faydalanın',
+  'club.howitworks.img4.titile':
+    ' {val}Özel hediye & servislerin keyfini çıkarın',
   'club.howitworks.img4.description':
     'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
   'club.joinsubscription.title': 'CLUB abonesi olun!',
   'club.joinsubscription.description':
     'Ona en uygun beslenme önerilerini alabilmek için, bize evcil hayvanınızdan bahsedin.',
   'club.joinsubscription.button': 'Başlayın',
-  'club.loyal.customers': 'Sadık müşterilerimiz',
+  'club.loyal.customers': 'Sizden gelenler',
   'club.wheretohelp': 'Size yardımcı olmak için buradayız!',
   'club.wheretohelp.description':
     'Ekibimiz, sorularınızı yanıtlamak ve en iyi deneyimi yaşadığınızdan emin olmak için burada. Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:',
   'club.wheretohelp.card.callus.title': 'Bizi arayın',
+  'club.wheretohelp.subtitile':
+    'Ekibimiz, sorularınızı yanıtlamak ve en iyi deneyimi yaşadığınızdan emin olmak için burada. Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:',
   'club.wheretohelp.card.callus.description':
     'Evcil hayvan uzmanlarımız haftaiçi her gün 09:00 - 18:00 arasında sorularınızı yanıtlamaktan mutluluk duyacaktır.',
-  'club.wheretohelp.card.callus.number': '0874 657 890',
+  'club.wheretohelp.card.callus.number': '0850 737 1200',
   'club.wheretohelp.card.email.title': 'Bize e-posta gönderin',
   'club.wheretohelp.card.email.description':
     '12 saat içerisinde, size olabildiğince hızlı dönmek için elimizden geleni yapacağız.',
@@ -993,8 +1015,8 @@ const tr_TR = {
   manage: 'Yönet',
   'cyber.form.saveFor': 'Сохранить данные карты в учетной записи',
   'pet.petListTitle':
-    'Birkaç basit adımda evcil hayvanınız için bir profil oluşturun ve ona en uygun beslenme seçeneklerini keşfedin!',
-  'pet.addNewPet': 'Yeni bir evcil hayvan ekleyin',
+    'Sağlıklı bir beslenme rutini için evcil hayvanınız için bir profil oluşturun.',
+  'pet.addNewPet': 'evcil hayvan ekle',
   xProduct: '{val} adet',
   'order.total': ' Toplam',
   'order.iVAIncluido': 'KDV Dahil ',
@@ -1010,7 +1032,7 @@ const tr_TR = {
   'installMent.oneShot': 'Tek Çekim',
   'installMent.xInstallMents': '{num} Taksit',
   'installMent.additionalFee': 'Taksit ilave bedeli',
-  deliveryOneTimeOnly: 'Yalnızca 1 kez teslimat',
+  deliveryOneTimeOnly: 'Ürün yalnızca bir defa gönderilir',
   singlePurchase: 'Bir kerelik sipariş',
   subscribe: 'Sepete ekle',
   saveExtraMoney: 'Bu abonelikte {val} tasarruf edin',
@@ -1061,9 +1083,9 @@ const tr_TR = {
   'details.recommendedDaily.info': '57g/day',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'Find the right product and calculate your pet ration using our',
-  'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more',
+    'uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın',
+  'details.findProductTips': "Ürün Arama'yı",
+  'details.learnMore': 'Daha fazla bilgi',
   xMonths: '{val} Aylar',
   xYears: '{val} Yıl',
   'help.title': 'Yardıma mı ihtiyacınız var?',
@@ -1090,11 +1112,12 @@ const tr_TR = {
   switchProductTip3: 'pet profile',
   'subscription.chooseOption': 'Please choose your options',
   'subscription.dailyRation': 'your daily ration',
-  'clubListData.tip1': 'tailored and evolving premium nutrition',
-  'clubListData.tip2': 'A welcome box, rewards and services',
-  'clubListData.tip3': 'A pet advisor and personalized newsletters',
-  'clubListData.tip4': 'Automatic food reﬁlls with free shipping',
-  'clubListData.tip5': 'Full control and free from engagement',
+  'clubListData.tip1':
+    'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
+  'clubListData.tip2': 'Hoş geldin paketi, hediyeler ve özel hizmetler',
+  'clubListData.tip3': 'Size özel Beslenme danışmanınız',
+  'clubListData.tip4': 'Ücretsiz kargo ile otomatik mama gönderimi',
+  'clubListData.tip5': 'Taahhüt yok, tüm kontrol sizde',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar",

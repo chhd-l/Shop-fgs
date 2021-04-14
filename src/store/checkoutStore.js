@@ -6,6 +6,7 @@ import locales from '@/lang';
 const CURRENT_LANGFILE = locales;
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const nullTaxFeeData = {
   country: '',
   region: '',
@@ -262,8 +263,13 @@ class CheckoutStore {
     ruShippingDTO
   } = {}) {
     try {
+      let recommend_data = null;
+      //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
+      if (sessionItemRoyal.get('recommend_product')) {
+        recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
+      }
       if (!data) {
-        data = this.cartData;
+        data = recommend_data || this.cartData;
       }
       let param = data
         .filter((ele) => ele.selected)
@@ -297,6 +303,7 @@ class CheckoutStore {
         address1,
         ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
+      // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
       this.setPromotionCode(promotionCode);
@@ -440,7 +447,7 @@ class CheckoutStore {
         address1,
         ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
-
+      // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
 

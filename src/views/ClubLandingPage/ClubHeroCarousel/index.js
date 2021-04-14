@@ -83,7 +83,8 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_002',
               webUrl: `${Sliderone}`,
               webImgName: 'WeChat Image_20210225172634.jpg',
-              webSkipUrl: '/subscription-landing',
+              // webSkipUrl: '/subscription-landing',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
               mobiUrl: `${Slidermobile1}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
@@ -203,7 +204,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_002',
               webUrl: `${trsliderone}`,
               webImgName: 'WeChat Image_20210225172634.jpg',
-              webSkipUrl: '/subscription-landing',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
               mobiUrl: `${Slidermobile1}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
@@ -350,6 +351,12 @@ class ClubHeroCarousel extends React.Component {
       }
     });
   }
+  //点击滑到HowItWorks
+  scrollToHowItWorks = () => {
+    const widegt = document.querySelector('#how-it-works-box-inner');
+    widegt && widegt.scrollIntoView();
+  };
+
   render() {
     const { banner } = this.state;
     const settings = {
@@ -446,11 +453,17 @@ class ClubHeroCarousel extends React.Component {
                           <div>{el.bannerNo}</div>
                         </Link>
                       ) : (
-                        <img
-                          className="rc-md-up mh-100"
-                          src={el.webUrl}
-                          alt={el.alt}
-                        />
+                        <span
+                          className="h-100 rc-styled-link"
+                          onClick={this.scrollToHowItWorks}
+                        >
+                          <img
+                            className="rc-md-up mh-100"
+                            src={el.webUrl}
+                            alt={el.alt}
+                          />
+                          <div>{el.bannerNo}</div>
+                        </span>
                       )}
 
                       {el.mobiSkipUrl ? (

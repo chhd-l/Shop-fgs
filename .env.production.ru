@@ -28,9 +28,9 @@ REACT_APP_GA_COUNTRY = 'RU'
 REACT_APP_GA_CURRENCY_CODE = 'RUB'
 
 #onetrust
-REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
-REACT_APP_ONTRUST_DOMAIN_SCRIPT = '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
-REACT_APP_ONTRUST_STYLE = https://d1a19ys8w1wkc1.cloudfront.net/one-trust-rc-styles.css?v=one-trust-rc-styles--001
+REACT_APP_ONTRUST_SRC = 'https://optanon.blob.core.windows.net/consent/641af210-e4c3-4de4-b284-42b11ef455ad.js'
+REACT_APP_ONTRUST_DOMAIN_SCRIPT = ''
+REACT_APP_ONTRUST_STYLE = ''
 
 #mars global footer
 REACT_APP_MARS_FOOTER = https://footer.mars.com/js/footer.js.aspx?royalcanin-com-ru
