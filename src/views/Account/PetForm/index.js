@@ -118,7 +118,8 @@ class PetForm extends React.Component {
         measure: '',
         measureUnit: 'kg',
         type: 2
-      }
+      },
+      breedName: ''
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -561,7 +562,8 @@ class PetForm extends React.Component {
   selectedBreed = (item) => {
     this.setState({
       breed: item.valueEn,
-      showBreedList: false
+      showBreedList: false,
+      breedName: item.name
     });
   };
   add = () => {
@@ -635,11 +637,17 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === 'unknown Breed' ? true : false,
       isUnknownDisabled:
         currentPet.petsBreed === 'unknown Breed' ? false : true,
-      breed:
+      breedName:
         currentPet.petsBreed === 'unknown Breed'
           ? ''
           : filteredBreed
           ? filteredBreed.name
+          : '',
+      breed:
+        currentPet.petsBreed === 'unknown Breed'
+          ? ''
+          : filteredBreed
+          ? filteredBreed.valueEn
           : '',
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 1 ? true : false,
@@ -647,7 +655,7 @@ class PetForm extends React.Component {
       activity: currentPet.activity,
       lifestyle: currentPet.lifestyle,
       weightObj,
-      sensitivity: currentPet.sensitivity
+      sensitivity: currentPet.needs
     };
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
@@ -1331,7 +1339,7 @@ class PetForm extends React.Component {
                             id="dog-breed"
                             placeholder={this.props.intl.messages.enterDogBreed}
                             className="form-control input-pet breed"
-                            value={this.state.breed}
+                            value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
                               display: this.state.isCat ? 'none' : null
@@ -1346,7 +1354,7 @@ class PetForm extends React.Component {
                             id="cat-breed"
                             placeholder={this.props.intl.messages.enterCatBreed}
                             className="form-control input-pet breed"
-                            value={this.state.breed}
+                            value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
                               display: !this.state.isCat ? 'none' : null
