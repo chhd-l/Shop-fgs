@@ -100,15 +100,11 @@ class Form extends React.Component {
     initData.stateNo = initData.provinceNo;
     initData.state = initData.province;
 
-    // console.log('91 -------------★ EditForm initData: ', initData);
-    //console.log('92-------------★ EditForm caninForm: ', caninForm);
+    console.log('91 -------------★ EditForm initData: ', initData);
+    console.log('92-------------★ EditForm caninForm: ', caninForm);
 
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
-      console.log(
-        '109 -------------★ EditForm caninForm: ',
-        this.state.caninForm
-      );
     });
 
     // 1、查询form表单配置开关
@@ -119,6 +115,37 @@ class Form extends React.Component {
       this.getRegionDataByCityId(initData.cityId);
     }
   }
+  // 设置手机号输入限制
+  setPhoneNumberReg = () => {
+    let element = document.getElementById('phoneNumberShipping');
+    let maskOptions = {};
+    let phoneReg = '';
+    switch (process.env.REACT_APP_LANG) {
+      case 'fr':
+        phoneReg = '+{33}000000000';
+        break;
+      case 'en':
+        phoneReg = '000-000-0000';
+        break;
+      case 'ru':
+        phoneReg = '+{7} (000) 000-00-00';
+        break;
+      case 'mx':
+        phoneReg = '0000000000';
+        break;
+      case 'de':
+        phoneReg = '0000 000000 000';
+        break;
+      case 'tr':
+        phoneReg = '{0} (000) 000-00-00';
+        break;
+      default:
+        phoneReg = '00000000000';
+        break;
+    }
+    maskOptions = { mask: phoneReg };
+    let pval = IMask(element, maskOptions);
+  };
   // 1、查询form表单配置开关
   getSystemFormConfig = async () => {
     const { caninForm } = this.state;
@@ -199,6 +226,8 @@ class Form extends React.Component {
                   },
                   () => {
                     this.props.updateData(caninForm);
+                    // 设置手机号输入限制
+                    this.setPhoneNumberReg();
                   }
                 );
               }
@@ -345,15 +374,10 @@ class Form extends React.Component {
         let cfm = caninForm;
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
-        this.setState(
-          {
-            countryList: res,
-            caninForm: Object.assign(this.state.caninForm, cfm)
-          },
-          () => {
-            console.log('-------- 国家： ', this.state.caninForm);
-          }
-        );
+        this.setState({
+          countryList: res,
+          caninForm: Object.assign(this.state.caninForm, cfm)
+        });
       }
     } catch (err) {
       console.log(err);
@@ -572,6 +596,7 @@ class Form extends React.Component {
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+    console.log('--------- ', name, ' : ', value);
     if (name == 'postCode') {
       value = value.replace(/\s+/g, '');
       if (!this.isNumber(value)) {
@@ -590,37 +615,6 @@ class Form extends React.Component {
           break;
       }
     }
-    if (name == 'phoneNumber') {
-      let element = document.getElementById('shippingphoneNumber');
-      let maskOptions = {};
-      let phoneReg = '';
-      switch (process.env.REACT_APP_LANG) {
-        case 'fr':
-          phoneReg = '+{33}000000000';
-          break;
-        case 'en':
-          phoneReg = '000-000-0000';
-          break;
-        case 'ru':
-          phoneReg = '+{7} (000) 000-00-00';
-          break;
-        case 'mx':
-          phoneReg = '0000000000';
-          break;
-        case 'de':
-          phoneReg = '0000 000000 000';
-          break;
-        case 'tr':
-          phoneReg = '{0} (000) 000-00-00';
-          break;
-        default:
-          phoneReg = '00000000000';
-          break;
-      }
-      maskOptions = { mask: phoneReg };
-      let pval = IMask(element, maskOptions);
-      value = pval._value;
-    }
     caninForm[name] = value;
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
@@ -634,6 +628,8 @@ class Form extends React.Component {
     const tname = target?.name;
     const targetRule = caninForm.formRule.filter((e) => e.key === tname);
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
+    caninForm[tname] = value;
+    this.setState({ caninForm });
     try {
       await validData(targetRule, { [tname]: value });
       this.setState({
@@ -810,11 +806,11 @@ class Form extends React.Component {
       <>
         <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
           <input
-            className={`rc-input__control shipping${item.fieldKey}`}
-            id={`shipping${item.fieldKey}`}
+            className={`rc-input__control ${item.fieldKey}Shipping`}
+            id={`${item.fieldKey}Shipping`}
             type={item.filedType}
             value={caninForm[item.fieldKey]}
-            onChange={(e) => this.inputChange(e, item)}
+            onChange={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
@@ -833,9 +829,9 @@ class Form extends React.Component {
           <textarea
             className="rc_input_textarea"
             placeholder={`${this.props.intl.messages['payment.comment']}`}
-            id={`shipping${item.fieldKey}`}
+            id={`${item.fieldKey}Shipping`}
             value={caninForm[item.fieldKey]}
-            onChange={(e) => this.inputChange(e, item)}
+            onChange={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
             maxLength={item.maxLength}
@@ -924,13 +920,13 @@ class Form extends React.Component {
         {/* email */}
         <div className="col-md-6">
           <div className="form-group require">
-            <label className="form-control-label" htmlFor="shippingEmail">
+            <label className="form-control-label" htmlFor="emailShipping">
               <FormattedMessage id="account.Email" />
             </label>
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <input
                 type="email"
-                className="rc-input__control shippingEmail"
+                className="rc-input__control emailShipping"
                 id="email"
                 data-name="profile_personalInfo"
                 alt="birthday E-mail"
@@ -946,12 +942,12 @@ class Form extends React.Component {
         {/* birthData */}
         <div className="col-md-6">
           <div className="form-group">
-            <label className="form-control-label" htmlFor="shippingEmail">
+            <label className="form-control-label" htmlFor="birthDateShipping">
               <FormattedMessage id="account.birthDate" />
             </label>
             <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
               <DatePicker
-                className="receiveDate"
+                className="receiveDate birthDateShipping"
                 style={{ padding: '.95rem 0' }}
                 placeholder={datePickerConfig.format}
                 dateFormat={datePickerConfig.format}
@@ -1000,7 +996,7 @@ class Form extends React.Component {
                         >
                           <label
                             className="form-control-label"
-                            htmlFor={`shipping${item.fieldKey}`}
+                            htmlFor={`${item.fieldKey}Shipping`}
                           >
                             <FormattedMessage id={`payment.${item.fieldKey}`} />
                           </label>

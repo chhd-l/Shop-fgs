@@ -74,7 +74,9 @@ export default class welcome extends Component {
                     : homePage + helpUrl
                 }
               >
-                <FormattedMessage id="welcome.contactSupport" />
+                <strong>
+                  <FormattedMessage id="welcome.contactSupport" />
+                </strong>
               </a>
             </p>
           </div>
