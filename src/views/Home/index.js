@@ -416,7 +416,11 @@ function AdvantageTips() {
           <div className="rc-sm-up">
             <div className="d-flex justify-content-center bottom-content__icon-list text-center">
               {iconList.map((ele, i) => (
-                <div className="centered-icon-list__icon" key={i}>
+                <div
+                  style={{ width: 'auto' }}
+                  className="centered-icon-list__icon"
+                  key={i}
+                >
                   <FormattedMessage id={ele.langKey}>
                     {(txt) => (
                       <>
