@@ -574,8 +574,8 @@ class FelinRecommendation extends React.Component {
     let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
     let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let { productList, activeIndex, currentModalObj, isMobile } = this.state;
-    let MaxPrice = productList[activeIndex]?.goodsInfo.marketPrice * 100; //storeportal配置的是每10g多少欧元，现在前端需要乘以100，表示每kg多少钱
-    let MinPrice = productList[activeIndex]?.goodsInfo.salePrice * 100;
+    let MaxPrice = productList[activeIndex]?.goodsInfo.marketPrice;
+    let MinPrice = productList[activeIndex]?.goodsInfo.salePrice;
     console.info('productList[activeIndex]', productList[activeIndex]);
     console.info(
       'productLis[activeIndex]productList[activeIndex]?.goodsInfo',
@@ -672,7 +672,7 @@ class FelinRecommendation extends React.Component {
                 Bienvenue !
               </h1>
               <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
-                Merci pour votre visite en magasin, voici notre recommandation.
+                voici notre recommandation.
               </h2>
               {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
@@ -857,7 +857,7 @@ class FelinRecommendation extends React.Component {
                                 <span>{formatMoney(MaxPrice)}</span>
                               )
                             ) : null}
-
+                            <p style={{ color: '#333' }}>(10g)</p>
                             <p
                               style={{
                                 width: '100%',
