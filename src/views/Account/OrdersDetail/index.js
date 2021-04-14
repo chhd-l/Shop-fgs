@@ -455,7 +455,8 @@ class AccountOrders extends React.Component {
             tradeState.payState === 'NOT_PAID' &&
             new Date(resContext.orderTimeOut).getTime() >
               new Date(res.defaultLocalDateTime).getTime() &&
-            (!resContext.payWay || resContext.payWay.toUpperCase() !== 'OXXO')
+            (!resContext.payWay ||
+              !['OXXO', 'COD'].includes(resContext.payWay.toUpperCase()))
         });
       })
       .catch((err) => {
