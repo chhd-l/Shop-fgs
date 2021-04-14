@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import Modal from '../components/Modal';
 import { inject, observer } from 'mobx-react';
 import './css/LimitLoginModal.less';
+import bgImg from '@/assets/images/bg-modal-header.png';
 
 const headerStyle = {
   background: '#D81E07',
+  backgroundImage: 'url(' + bgImg + ')',
+  backgroundSize: '100% 100%',
   color: '#fff'
 };
 const buttonStyle = {
