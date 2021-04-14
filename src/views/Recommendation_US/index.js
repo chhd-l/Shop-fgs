@@ -205,7 +205,8 @@ class Recommendation extends React.Component {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
-    let promotionCodeText = getParaByName(search, 'coupon');
+    let promotionCode = getParaByName(search, 'coupon');
+    let promotionCodeText = promotionCode?.toUpperCase();
     let prescription = getParaByName(search, 'prescription');
     setSeoConfig({
       pageName: 'SPT reco landing page'
@@ -725,6 +726,7 @@ class Recommendation extends React.Component {
         window.clipboardData.setData('promotionCodeText', promotionCodeText);
       }
     };
+    console.info('promotionCodeText', promotionCodeText);
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
@@ -916,7 +918,18 @@ class Recommendation extends React.Component {
                   <span
                     style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
                   >
-                    <FormattedMessage id="recommendation.welcomeSubText" />
+                    <FormattedMessage
+                      values={{
+                        val: (
+                          <span
+                            style={{ color: '#e2001a', fontSize: '1.5rem' }}
+                          >
+                            E
+                          </span>
+                        )
+                      }}
+                      id="recommendation.welcomeSubText"
+                    />
                     {/* La recommandation a été faite en fonction des besoins uniques de
                 votre animal. */}
                   </span>
@@ -944,6 +957,7 @@ class Recommendation extends React.Component {
                         className={`rc-btn rc-btn--two`}
                         onClick={this.copyPromotion}
                       >
+                        {' '}
                         {promotionCodeText}
                       </button>
                       <div className="rc-margin-top--xs">
