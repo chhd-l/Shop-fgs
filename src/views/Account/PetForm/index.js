@@ -507,7 +507,7 @@ class PetForm extends React.Component {
       showBreedList = false;
     }
     this.setState({
-      breed: e.target.value,
+      breedName: e.target.value,
       isDisabled: isDisabled,
       isUnknownDisabled: isUnknownDisabled,
       showBreedList: showBreedList,
