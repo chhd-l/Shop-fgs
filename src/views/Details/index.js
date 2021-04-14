@@ -400,7 +400,14 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, form } = this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -411,6 +418,7 @@ class Details extends React.Component {
     // 不可销售且不展示在前台 则前台按钮置灰
     return (
       !initing &&
+      !loading &&
       instockStatus &&
       quantity &&
       (details.saleableFlag || !details.displayFlag) &&
@@ -682,7 +690,7 @@ class Details extends React.Component {
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
         console.log(goodsRes, toJS(configStore), 'goodsRes');
-        if (goodsRes.promotions === 'club') {
+        if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
             configStore.info.storeVO.defaultSubscriptionClubFrequencyId ||
@@ -1118,19 +1126,18 @@ class Details extends React.Component {
       }
     );
   }
-  async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
+  async hanldeAddToCart() {
     try {
-      const { loading } = this.state;
-      if (!this.btnStatus || loading) return false;
+      if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
       if (this.isLogin) {
-        this.hanldeLoginAddToCart({ redirect });
+        this.hanldeLoginAddToCart();
       } else {
-        await this.hanldeUnloginAddToCart({ redirect, needLogin });
+        await this.hanldeUnloginAddToCart();
       }
     } catch (err) {}
   }
-  async hanldeLoginAddToCart({ redirect }) {
+  async hanldeLoginAddToCart() {
     try {
       const {
         configStore,
@@ -1173,7 +1180,7 @@ class Details extends React.Component {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
       if (isMobile) {
-        this.refs.showModalButton.click();
+        this.refs.mobileSuccessModalButton.click();
       } else {
         headerCartStore.show();
         setTimeout(() => {
@@ -1186,119 +1193,32 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
     }
   }
-  async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    const {
-      configStore,
-      checkoutStore,
-      history,
-      headerCartStore,
-      clinicStore
-    } = this.props;
-    const {
-      currentUnitPrice,
-      quantity,
-      instockStatus,
-      form,
-      details,
-      loading
-    } = this.state;
-    const { goodsId, sizeList } = details;
-    // 加入购物车 埋点start
-    this.hubGA
-      ? this.hubGAAToCar(quantity, details)
-      : this.GAAddToCar(quantity, details);
-    // 加入购物车 埋点end
-    this.setState({ checkOutErrMsg: '' });
-    if (!this.btnStatus || loading) {
-      throw new Error();
-    }
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
-    let quantityNew = quantity;
-    let tmpData = Object.assign({}, details, {
-      quantity: quantityNew
-    });
-    let cartDataCopy = cloneDeep(
-      toJS(checkoutStore.cartData).filter((el) => el)
-    );
-
-    if (!instockStatus || !quantityNew) {
-      throw new Error();
-    }
-    this.setState({ addToCartLoading: true });
-    let flag = true;
-    if (cartDataCopy && cartDataCopy.length) {
-      const historyItem = find(
-        cartDataCopy,
-        (c) =>
-          c.goodsId === goodsId &&
-          currentSelectedSize.goodsInfoId ===
-            c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-      );
-      if (historyItem) {
-        flag = false;
-        quantityNew += historyItem.quantity;
-        if (quantityNew > +process.env.REACT_APP_LIMITED_NUM) {
-          this.showCheckoutErrMsg(
-            <FormattedMessage
-              id="cart.errorMaxInfo"
-              values={{ val: +process.env.REACT_APP_LIMITED_NUM }}
-            />
-          );
-          this.setState({ addToCartLoading: false });
-          return;
-        }
-        tmpData = Object.assign(tmpData, {
-          quantity: quantityNew,
-          goodsInfoFlag: parseInt(form.buyWay)
-        });
-        if (parseInt(form.buyWay)) {
-          tmpData.periodTypeId = form.frequencyId;
-        }
-      }
-    }
-    const idx = findIndex(
-      cartDataCopy,
-      (c) =>
-        c.goodsId === goodsId &&
-        currentSelectedSize.goodsInfoId ===
-          find(c.sizeList, (s) => s.selected).goodsInfoId
-    );
-    tmpData = Object.assign(tmpData, {
-      currentAmount: currentUnitPrice * quantityNew,
-      selected: true,
-      goodsInfoFlag: parseInt(form.buyWay)
-    });
-    if (parseInt(form.buyWay)) {
-      tmpData.periodTypeId = form.frequencyId;
-    }
-    if (idx > -1) {
-      cartDataCopy.splice(idx, 1, tmpData);
-    } else {
-      if (cartDataCopy.length >= +process.env.REACT_APP_LIMITED_CATE_NUM) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorMaxCate"
-            values={{ val: +process.env.REACT_APP_LIMITED_CATE_NUM }}
-          />
-        );
-        return;
-      }
+  async hanldeUnloginAddToCart() {
+    try {
+      this.setState({ addToCartLoading: true });
+      const { checkoutStore } = this.props;
+      const { currentUnitPrice, quantity, form, details } = this.state;
+      let cartItem = Object.assign({}, details, {
+        selected: true,
+        goodsInfoFlag: parseInt(form.buyWay),
+        periodTypeId: parseInt(form.buyWay) ? form.frequencyId : '',
+        quantity
+      });
+      //requestJson是shelter和breeder产品的参数，有就加上
       if (Object.keys(this.state.requestJson).length > 0) {
-        //requestJson是shelter和breeder产品的参数，有就加上
-        tmpData = { ...tmpData, ...this.state.requestJson };
+        cartItem = { ...cartItem, ...this.state.requestJson };
       }
-      cartDataCopy.push(tmpData);
-    }
-
-    await checkoutStore.updateUnloginCart({ cartData: cartDataCopy });
-    this.setState({ addToCartLoading: false });
-    if (isMobile) {
-      this.refs.showModalButton.click();
-    } else {
-      headerCartStore.show();
-      setTimeout(() => {
-        headerCartStore.hide();
-      }, 4000);
+      await checkoutStore.hanldeUnloginAddToCart({
+        valid: this.btnStatus,
+        cartItem,
+        currentUnitPrice,
+        mobileSuccessModalButton: this.refs.mobileSuccessModalButton,
+        isMobile
+      });
+    } catch (err) {
+      this.showCheckoutErrMsg(err.message);
+    } finally {
+      this.setState({ addToCartLoading: false });
     }
   }
 
@@ -1314,7 +1234,8 @@ class Details extends React.Component {
   }
   showCheckoutErrMsg(msg) {
     this.setState({
-      checkOutErrMsg: msg
+      checkOutErrMsg: msg,
+      addToCartLoading: false
     });
     setTimeout(() => {
       this.setState({
@@ -1645,7 +1566,7 @@ class Details extends React.Component {
     return (
       <div id="Details">
         <button
-          ref="showModalButton"
+          ref="mobileSuccessModalButton"
           className="rc-btn rc-btn--one"
           data-modal-trigger="modal-mobile-cart-confirm"
           style={{ position: 'absolute', visibility: 'hidden' }}
