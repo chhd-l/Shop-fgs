@@ -1408,8 +1408,9 @@ class AccountOrders extends React.Component {
                                     enterPriceType 买入价格开关 0：含税，1：不含税
                                   */}
                                   {this.props.configStore
-                                    .customTaxSettingOpenFlag == 0 &&
-                                  this.props.configStore.enterPriceType == 1 ? (
+                                    ?.customTaxSettingOpenFlag == 0 &&
+                                  this.props.configStore?.enterPriceType ==
+                                    1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;

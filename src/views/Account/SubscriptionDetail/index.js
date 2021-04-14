@@ -4481,10 +4481,10 @@ class SubscriptionDetail extends React.Component {
                                                 enterPriceType 买入价格开关 0：含税，1：不含税
                                               */}
                                               {this.props.configStore
-                                                .customTaxSettingOpenFlag ==
+                                                ?.customTaxSettingOpenFlag ==
                                                 0 &&
                                               this.props.configStore
-                                                .enterPriceType == 1 ? (
+                                                ?.enterPriceType == 1 ? (
                                                 <div className="row">
                                                   <div className="col-1 col-md-3" />
                                                   <label className="col-5 text-left">
