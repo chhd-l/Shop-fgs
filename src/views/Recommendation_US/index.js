@@ -954,12 +954,20 @@ class Recommendation extends React.Component {
                   {isFr && promotionCodeText && (
                     <>
                       <button
+                        title=""
+                        data-tooltip-placement="top"
+                        data-tooltip="top-tooltip"
                         className={`rc-btn rc-btn--two`}
                         onClick={this.copyPromotion}
                       >
                         {' '}
                         {promotionCodeText}
                       </button>
+                      <div id="top-tooltip" class="rc-tooltip">
+                        <div className="rc-padding-x--xs rc-padding-y--xs">
+                          copié !
+                        </div>
+                      </div>
                       <div className="rc-margin-top--xs">
                         <FormattedMessage id="recommendation.copyTips" />
                       </div>

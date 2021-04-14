@@ -378,7 +378,7 @@ const App = () => {
                     );
                   }}
                 />
-                <Route
+                {/* <Route
                   exact
                   path="/recommendation"
                   render={(props) => {
@@ -387,15 +387,15 @@ const App = () => {
                       // case 'fr':
                       //   sublanding = <Recommendation_FR {...props} />;
                       //   break;
-                        case 'es':
-                          sublanding = <Recommendation {...props} />;
-                          break;
+                        // case 'es':
+                        //   sublanding = <Recommendation {...props} />;
+                        //   break;
                       default:
                         sublanding = <Recommendation_US {...props} />;
                     }
                     return sublanding;
                   }}
-                />
+                /> */}
                 <Route
                   exact
                   path="/breeder/recommendation"
@@ -412,7 +412,7 @@ const App = () => {
                 <Route
                   exact
                   path="/recommendation"
-                  render={(props) => <Recommendation_FR {...props} />}
+                  render={(props) => <Recommendation_US {...props} />}
                 />
 
                 <Route exact path="/termuse" component={TermUse} />
