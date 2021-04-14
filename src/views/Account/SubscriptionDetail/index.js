@@ -2270,7 +2270,11 @@ class SubscriptionDetail extends React.Component {
           <div className="rc-layout-container rc-five-column">
             <div className="rc-column  rc-header__center d-flex">
               {/* <LazyLoad> */}
-              <img src={details.goodsImg} alt={details.goodsName} />
+              <img
+                src={details.goodsImg}
+                style={{ maxHeight: '12rem' }}
+                alt={details.goodsName}
+              />
               {/* </LazyLoad> */}
             </div>
             <div className="rc-column rc-double-width">
@@ -2753,6 +2757,25 @@ class SubscriptionDetail extends React.Component {
         </div>
       </>
     );
+  };
+  handleAmountInput = (e) => {
+    const { quantityMinLimit } = this.state;
+    const val = e.target.value;
+    if (val === '') {
+      this.setState({ quantity: val });
+    } else {
+      let tmp = parseInt(val);
+      if (isNaN(tmp)) {
+        tmp = 1;
+      }
+      if (tmp < quantityMinLimit) {
+        tmp = quantityMinLimit;
+      }
+      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+        tmp = process.env.REACT_APP_LIMITED_NUM;
+      }
+      this.setState({ quantity: tmp }, () => this.updateInstockStatus());
+    }
   };
   render() {
     console.info('frequencyListOptions', this.frequencyListOptions);
