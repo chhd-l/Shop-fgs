@@ -121,9 +121,13 @@ const GoodsDetailTabs = function (props) {
 
                   ret = null;
                 } else if (isVet) {
-                  ret = `<p style="white-space: pre-line;">${prescriberDesc}</p>`;
+                  ret = prescriberDesc
+                    ? `<p style="white-space: pre-line;">${prescriberDesc}</p>`
+                    : '';
                 } else {
-                  ret = `<p style="white-space: pre-line;">${shortDesc}</p>`;
+                  ret = shortDesc
+                    ? `<p style="white-space: pre-line;">${shortDesc}</p>`
+                    : '';
                 }
                 break;
               case 'Benefits':
