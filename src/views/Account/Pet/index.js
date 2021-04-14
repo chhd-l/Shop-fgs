@@ -312,19 +312,21 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.petsBreed && el.petsType === 'dog'
-                                      ? (this.state.dogBreedList.length &&
-                                          this.state.dogBreedList.filter(
-                                            (item) =>
-                                              item.valueEn == el.petsBreed
-                                          )?.[0]?.name) ||
-                                        el.petsBreed
-                                      : (this.state.catBreedList.length &&
-                                          this.state.catBreedList.filter(
-                                            (item) =>
-                                              item.valueEn == el.petsBreed
-                                          )?.[0]?.name) ||
-                                        el.petsBreed}
+                                    {el.isPurebred
+                                      ? el.petsBreed && el.petsType === 'dog'
+                                        ? (this.state.dogBreedList.length &&
+                                            this.state.dogBreedList.filter(
+                                              (item) =>
+                                                item.valueEn == el.petsBreed
+                                            )?.[0]?.name) ||
+                                          el.petsBreed
+                                        : (this.state.catBreedList.length &&
+                                            this.state.catBreedList.filter(
+                                              (item) =>
+                                                item.valueEn == el.petsBreed
+                                            )?.[0]?.name) ||
+                                          el.petsBreed
+                                      : 'Mixed Breed'}
                                   </span>
                                 </div>
                               </div>

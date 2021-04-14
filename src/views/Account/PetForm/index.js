@@ -356,7 +356,9 @@ class PetForm extends React.Component {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.breed,
+      petsBreed: this.state.isPurebred
+        ? this.state.breed
+        : this.state.breedcode,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
       petsSizeValueId: '10086',
@@ -368,13 +370,9 @@ class PetForm extends React.Component {
       activity: this.state.activity,
       lifestyle: this.state.lifestyle,
       weight: JSON.stringify(this.state.weightObj),
-      needs: this.state.sensitivity,
-      breedcode: this.state.breedcode
+      needs: this.state.sensitivity
     };
 
-    if (!this.state.isPurebred) {
-      pets.petsBreed = 'Other Breed';
-    }
     let param = {
       customerPets: pets,
       // customerPetsPropRelations: customerPetsPropRelations,
@@ -639,26 +637,31 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === 'unknown Breed' ? true : false,
       isUnknownDisabled:
         currentPet.petsBreed === 'unknown Breed' ? false : true,
-      breedName:
-        currentPet.petsBreed === 'unknown Breed'
-          ? ''
-          : filteredBreed
-          ? filteredBreed.name
-          : '',
-      breed:
-        currentPet.petsBreed === 'unknown Breed'
-          ? ''
-          : filteredBreed
-          ? filteredBreed.valueEn
-          : '',
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 1 ? true : false,
       birthdate: currentPet.birthOfPets,
       activity: currentPet.activity,
       lifestyle: currentPet.lifestyle,
       weightObj,
-      sensitivity: currentPet.needs
+      sensitivity: currentPet.needs,
+      isPurebred: currentPet.isPurebred
     };
+    if (currentPet.isPurebred === 1) {
+      param.breedName =
+        currentPet.petsBreed === 'unknown Breed'
+          ? ''
+          : filteredBreed
+          ? filteredBreed.name
+          : '';
+      param.breed =
+        currentPet.petsBreed === 'unknown Breed'
+          ? ''
+          : filteredBreed
+          ? filteredBreed.valueEn
+          : '';
+    } else {
+      param.breedcode = currentPet.petsBreed;
+    }
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
       param.isUnknown = true;
@@ -669,9 +672,6 @@ class PetForm extends React.Component {
       param.isUnknown = false;
       // param.isInputDisabled = true;
       param.breed = '';
-      param.isPurebred = false;
-    } else {
-      param.isPurebred = true;
     }
 
     let filterSize = this.sizeOptions.filter(
