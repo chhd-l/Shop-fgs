@@ -35,7 +35,7 @@ const HowItWorks = (props) => {
                 style={{ display: 'flex' }}
                 className="justify-content-between howitworks"
               >
-                <div>
+                <div className="text-center">
                   <article>
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
