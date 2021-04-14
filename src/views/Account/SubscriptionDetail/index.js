@@ -4461,6 +4461,7 @@ class SubscriptionDetail extends React.Component {
                                                     </div>
                                                   </div>
                                                 ))}
+
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
@@ -4475,6 +4476,30 @@ class SubscriptionDetail extends React.Component {
                                                   </strong>
                                                 </div>
                                               </div>
+
+                                              {/* 运费折扣 */}
+                                              {el.tradePrice
+                                                .freeShippingFlag ? (
+                                                <>
+                                                  <div className="row">
+                                                    <div className="col-1 col-md-3" />
+                                                    <label className="col-5 text-left">
+                                                      <FormattedMessage id="payment.shippingDiscount" />
+                                                    </label>
+                                                    <div className="text-right col-5 col-md-3 green">
+                                                      <strong>
+                                                        {el.tradePrice
+                                                          .freeShippingDiscountPrice >
+                                                          0 && '-'}
+                                                        {formatMoney(
+                                                          el.tradePrice
+                                                            .freeShippingDiscountPrice
+                                                        )}
+                                                      </strong>
+                                                    </div>
+                                                  </div>
+                                                </>
+                                              ) : null}
 
                                               {/* 
                                                 customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
@@ -4500,6 +4525,8 @@ class SubscriptionDetail extends React.Component {
                                                   </div>
                                                 </div>
                                               ) : null}
+
+                                              {/* 总价 */}
                                               <div className="row">
                                                 <div className="col-1 col-md-3" />
                                                 <label className="col-5 text-left">
