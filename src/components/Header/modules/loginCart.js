@@ -274,7 +274,7 @@ class LoginCart extends React.Component {
                         val: (
                           <b style={{ fontWeight: 500 }}>
                             {this.props.intl.formatMessage(
-                              { id: 'cart.totalProduct' },
+                              { id: 'minicart.totalProduct' },
                               { val: totalNum }
                             )}
                           </b>
@@ -331,7 +331,7 @@ class LoginCart extends React.Component {
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
                                           <FormattedMessage
-                                            id="quantityText"
+                                            id="minicart.quantityText"
                                             values={{
                                               specText: item.specText,
                                               buyCount: item.buyCount

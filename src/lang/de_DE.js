@@ -174,6 +174,7 @@ const de_DE = {
   'cart.miniCartTitle':
     'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',
   'cart.totalProduct': 'Artikel im Warenkorb',
+  'minicart.totalProduct': 'Artikel im Warenkorb',
   'cart.totalProduct_nounit': 'Artikel im Warenkorb',
   'cart.yourShoppingCart': 'Ihr Warenkorb',
   Cat: 'Katze',
@@ -842,6 +843,7 @@ const de_DE = {
   quantity: 'Menge',
   quantityCannotExceed10: 'Menge darf 10 nicht überschreiten',
   quantityText: '{specText} Anzahl: {buyCount}',
+  'minicart.quantityText': '{specText} Anzahl: {buyCount}',
   'order.quantityText': '{specText} Anzahl: {buyCount}',
   queryDataFailed: 'Abfragedaten fehlgeschlagen',
   ratingGrade1: 'Most Recent',

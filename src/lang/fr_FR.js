@@ -178,6 +178,7 @@ const fr_FR = {
   'cart.miniCartTitle':
     '10% de réduction sur toutes les commandes en Abonnement',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
+  'minicart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
   'cart.totalProduct_nounit': 'Vous avez {val} dans votre panier',
   'cart.yourShoppingCart': 'Mon panier',
   Cat: 'Chat',
@@ -891,6 +892,7 @@ const fr_FR = {
   quantity: 'Quantité',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
   quantityText: '{specText} - {buyCount} Quantité(s)',
+  'minicart.quantityText': '{specText} - {buyCount} Quantité(s)',
   'order.quantityText': '{specText} - {buyCount} Quantité(s)',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
