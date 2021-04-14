@@ -14,15 +14,8 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: 开, 1: 关
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：含税，1：不含税
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
-@inject('checkoutStore')
+@inject('checkoutStore', 'configStore')
 @injectIntl
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -410,8 +403,33 @@ class PayProductInfo extends React.Component {
                       </div>
                     </div>
 
-                    {/* 税额 */}
-                    {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                    {/* 运费折扣 俄罗斯 */}
+                    {this.freeShippingFlag ? (
+                      <div className="row leading-lines shipping-item green">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span>
+                              <FormattedMessage id="payment.shippingDiscount" />
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost">
+                              {this.freeShippingDiscountPrice > 0 && '-'}
+                              {formatMoney(this.freeShippingDiscountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {/* 
+                      customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+                      enterPriceType 买入价格开关 0：含税，1：不含税
+                    */}
+                    {this.props.configStore.customTaxSettingOpenFlag == 0 &&
+                    this.props.configStore.enterPriceType == 1 ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">

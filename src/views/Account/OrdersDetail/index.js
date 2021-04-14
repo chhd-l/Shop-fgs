@@ -40,14 +40,6 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
 
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: on, 1: off
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：Inclusive of tax，1：Exclusive of tax
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
 function Progress({ progressList, currentProgerssIndex }) {
   return (
     <div className="od-prg-container ml-2 mr-2 ml-md-4 mr-md-4">
@@ -1407,9 +1399,32 @@ class AccountOrders extends React.Component {
                                     )}
                                   </div>
 
-                                  {/* 税额 */}
-                                  {customTaxSettingOpenFlag == 0 &&
-                                  enterPriceType == 1 ? (
+                                  {details.tradePrice.freeShippingFlag ? (
+                                    <>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-md-2 mb-2 green">
+                                        <FormattedMessage id="payment.shippingDiscount" />
+                                      </div>
+                                      <div className="col-6 col-md-3 text-right green text-nowrap">
+                                        {details.tradePrice
+                                          .freeShippingDiscountPrice > 0 && '-'}
+                                        {formatMoney(
+                                          details.tradePrice
+                                            .freeShippingDiscountPrice
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null}
+
+                                  {/* 
+                                    customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+                                    enterPriceType 买入价格开关 0：含税，1：不含税
+                                  */}
+                                  {this.props.configStore
+                                    .customTaxSettingOpenFlag == 0 &&
+                                  this.props.configStore.enterPriceType == 1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;
