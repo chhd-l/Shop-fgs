@@ -435,6 +435,7 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
+    sessionItemRoyal.remove('orderSource');
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -1161,7 +1162,11 @@ class Payment extends React.Component {
           fingerprint: this.fingerprint
         });
       }
-
+      // 线下店orderSource埋点L_ATELIER_FELIN
+      let orderSource = sessionItemRoyal.get('orderSource');
+      if (orderSource) {
+        parameters.orderSource = orderSource;
+      }
       let isRepay = this.state.tid ? true : false;
       payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
       /* 4)调用支付 */
