@@ -679,7 +679,7 @@ class Form extends React.Component {
     const integrity = this.getDuDataAddressIntegrity(data);
     if (integrity) {
       // DuData相关参数
-      caninForm.province = data.region;
+      caninForm.province = data.province;
       caninForm.area = data.area;
       caninForm.settlement = data.settlement;
       caninForm.street = data.street;
