@@ -1369,8 +1369,8 @@ class UnLoginCart extends React.Component {
             customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
             enterPriceType 买入价格开关 0：含税，1：不含税
           */}
-          {this.props.configStore.customTaxSettingOpenFlag == 0 &&
-          this.props.configStore.enterPriceType == 1 ? (
+          {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
+          this.props.configStore?.enterPriceType == 1 ? (
             <div className="row">
               <div className="col-8">
                 <p>
@@ -1407,8 +1407,8 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0">
-                  {this.props.configStore.customTaxSettingOpenFlag == 0 &&
-                  this.props.configStore.enterPriceType == 1 ? (
+                  {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
+                  this.props.configStore?.enterPriceType == 1 ? (
                     <>
                       {this.tradePrice > 0 ? (
                         formatMoney(this.tradePrice)

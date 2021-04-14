@@ -147,6 +147,7 @@
     "build:shopsite_fr": "dotenv -e .env.shopsite.fr node scripts/build.js",
     "build:shopsite_fr2": "dotenv -e .env.shopsite.fr2 node scripts/build.js",
     "build:shopsite_mx": "dotenv -e .env.shopsite.mx node scripts/build.js",
+    "build:shopsite_us": "dotenv -e .env.shopsite.us node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
     "build:prod_fr": "dotenv -e .env.production.fr node scripts/build.js",
