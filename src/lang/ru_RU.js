@@ -1116,6 +1116,7 @@ const ru_RU = {
   Lifestyle: 'Образ жизни',
   Activity: 'Активность',
   Weight: 'Вес',
+  weight: 'Вес',
   Expire: ' ',
   xProduct: '{val} товар (а/ов)',
   'onlineStore.breedcrumb': 'Королевская собака',

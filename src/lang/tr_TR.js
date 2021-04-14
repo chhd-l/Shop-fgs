@@ -1060,6 +1060,7 @@ const tr_TR = {
   Lifestyle: 'Yaşam Tarzı',
   Activity: 'Aktivite Seviyesi',
   Weight: 'Ağırlık',
+  weight: 'Ağırlık',
   Expire: ' ',
   'onlineStore.breedcrumb': 'Boutique Royal Canin',
   'onlineStore.header.title': 'Boutique Royal Canin',
