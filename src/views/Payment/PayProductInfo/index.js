@@ -19,17 +19,14 @@ let isGACheckoutLock = false;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: 开, 1: 关
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：含税，1：不含税
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
 const localItemRoyal = window.__.localItemRoyal;
-
-@inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'paymentStore',
+  'clinicStore',
+  'configStore'
+)
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -503,7 +500,6 @@ class PayProductInfo extends React.Component {
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
     const subtractionSign = '-';
-    // console.log(this.props, customTaxSettingOpenFlag == 0 && enterPriceType == 1, customTaxSettingOpenFlag, enterPriceType, 'this.props')
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -838,8 +834,12 @@ class PayProductInfo extends React.Component {
                   </div>
                 ) : null}
 
-                {/* 税额 */}
-                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                {/* 
+                  customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+                  enterPriceType 买入价格开关 0：含税，1：不含税
+                */}
+                {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
+                this.props.configStore?.enterPriceType == 1 ? (
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">
@@ -915,8 +915,8 @@ class PayProductInfo extends React.Component {
                     {/* 是否在cart页面 */}
                     {this.props.isGuestCart && (
                       <>
-                        {customTaxSettingOpenFlag == 0 &&
-                        enterPriceType == 1 ? (
+                        {this.props.configStore?.customTaxSettingOpenFlag ==
+                          0 && this.props.configStore?.enterPriceType == 1 ? (
                           <strong>{subtractionSign}</strong>
                         ) : (
                           formatMoney(this.tradePrice)

@@ -40,14 +40,6 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
 
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: on, 1: off
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：Inclusive of tax，1：Exclusive of tax
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
 function Progress({ progressList, currentProgerssIndex }) {
   return (
     <div className="od-prg-container ml-2 mr-2 ml-md-4 mr-md-4">
@@ -1411,9 +1403,14 @@ class AccountOrders extends React.Component {
                                     </>
                                   ) : null}
 
-                                  {/* 税额 */}
-                                  {customTaxSettingOpenFlag == 0 &&
-                                  enterPriceType == 1 ? (
+                                  {/* 
+                                    customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+                                    enterPriceType 买入价格开关 0：含税，1：不含税
+                                  */}
+                                  {this.props.configStore
+                                    ?.customTaxSettingOpenFlag == 0 &&
+                                  this.props.configStore?.enterPriceType ==
+                                    1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;

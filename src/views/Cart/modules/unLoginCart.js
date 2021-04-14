@@ -52,14 +52,6 @@ const isGift = true;
 const isHubGA = process.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: 开, 1: 关
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：含税，1：不含税
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
 @injectIntl
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @observer
@@ -891,7 +883,7 @@ class UnLoginCart extends React.Component {
                       index={index}
                       toolTipVisible={this.state.toolTipVisible}
                       computedList={this.computedList.filter(
-                        (el) => el.goodsInfoFlag === pitem.goodsInfoFlag
+                        (el) => el.goodsInfoFlag === 1
                       )}
                       chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
                         this,
@@ -916,7 +908,7 @@ class UnLoginCart extends React.Component {
                       index={index}
                       toolTipVisible={this.state.toolTipVisible}
                       computedList={this.computedList.filter(
-                        (el) => el.goodsInfoFlag === pitem.goodsInfoFlag
+                        (el) => el.goodsInfoFlag === 2
                       )}
                       chooseSubscription={this.hanldeToggleOneOffOrSub.bind(
                         this,
@@ -1373,8 +1365,12 @@ class UnLoginCart extends React.Component {
             </div>
           ) : null}
 
-          {/* 税额 */}
-          {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+          {/* 
+            customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+            enterPriceType 买入价格开关 0：含税，1：不含税
+          */}
+          {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
+          this.props.configStore?.enterPriceType == 1 ? (
             <div className="row">
               <div className="col-8">
                 <p>
@@ -1411,7 +1407,8 @@ class UnLoginCart extends React.Component {
               </div>
               <div className="col-5">
                 <p className="text-right grand-total-sum medium mb-0">
-                  {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                  {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
+                  this.props.configStore?.enterPriceType == 1 ? (
                     <>
                       {this.tradePrice > 0 ? (
                         formatMoney(this.tradePrice)
