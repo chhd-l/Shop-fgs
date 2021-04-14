@@ -64,14 +64,6 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: 开, 1: 关
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：含税，1：不含税
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
-
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
 @observer
@@ -1223,8 +1215,12 @@ class LoginCart extends React.Component {
           </div>
         ) : null}
 
-        {/* 税额 */}
-        {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+        {/* 
+          customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+          enterPriceType 买入价格开关 0：含税，1：不含税
+        */}
+        {this.props.configStore.customTaxSettingOpenFlag == 0 &&
+        this.props.configStore.enterPriceType == 1 ? (
           <div className="row">
             <div className="col-8">
               <p>
@@ -1254,7 +1250,8 @@ class LoginCart extends React.Component {
             </div>
             <div className="col-5">
               <p className="text-right grand-total-sum medium mb-0 text-nowrap">
-                {customTaxSettingOpenFlag == 0 && enterPriceType == 1 ? (
+                {this.props.configStore.customTaxSettingOpenFlag == 0 &&
+                this.props.configStore.enterPriceType == 1 ? (
                   <>
                     {this.tradePrice > 0 ? (
                       formatMoney(this.tradePrice)

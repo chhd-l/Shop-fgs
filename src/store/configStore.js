@@ -15,8 +15,13 @@ class ConfigStore {
     return this.info ? this.info.maxGoodsPrice : 0;
   }
 
+  // 税额开关 0: 开, 1: 关
   @computed get customTaxSettingOpenFlag() {
-    return this.info ? this.info.customTaxSettingOpenFlag : 0;
+    return this.info?.customTaxSettingOpenFlag;
+  }
+  // 买入价格开关 0：含税，1：不含税
+  @computed get enterPriceType() {
+    return this.info?.systemTaxSetting?.configVOList[1]?.context;
   }
 
   @computed get storeContactPhoneNumber() {
