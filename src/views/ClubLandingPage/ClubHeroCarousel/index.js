@@ -204,7 +204,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_002',
               webUrl: `${trsliderone}`,
               webImgName: 'WeChat Image_20210225172634.jpg',
-              webSkipUrl: '/subscription-landing',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
               mobiUrl: `${Slidermobile1}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',

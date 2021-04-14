@@ -310,7 +310,7 @@ export function SubscriptionBenefits() {
       ),
       tr: (
         <>
-          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+          <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LazyLoad height={200}>
@@ -330,7 +330,7 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+          <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LazyLoad height={200}>
@@ -350,7 +350,7 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+          <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LazyLoad height={200}>
@@ -370,7 +370,7 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+          <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LazyLoad height={200}>
@@ -390,7 +390,7 @@ export function SubscriptionBenefits() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+          <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <LazyLoad height={200}>
