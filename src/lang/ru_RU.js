@@ -1227,7 +1227,7 @@ const ru_RU = {
   searchBreed: 'Поиск породы',
   answeredQuestions: 'Ответы на вопросы',
   next: 'Следующий',
-  pirceRange: 'От {fromPrice} к {toPrice}',
+  pirceRange: 'От {fromPrice} до {toPrice}',
   'petform.subscription': 'Affiliate Subscriptions',
   'pet.deletePet': 'Удалить профиль питомца',
   messengers: 'Мессенджеры',
