@@ -262,6 +262,7 @@ const en_US = {
     '30% off first purchase, plus 5% off every order and additional perks with autoship',
   // 'cart.totalProduct': '{val} item(s) in the basket',
   'cart.totalProduct': '{val} item(s)',
+  'minicart.totalProduct': '{val} item(s)',
   'cart.totalProduct_nounit': 'You have {val} in your cart',
   'cart.yourShoppingCart': 'Your shopping cart',
   catNutrition: 'Cat nutrition',
@@ -275,6 +276,7 @@ const en_US = {
   checkboxIsRequiredForSubscription:
     'this checkbox is required for subscription',
   checkout: 'Buy now',
+  'minicart.checkout': 'Buy now',
   checkoutTip: 'Please enter your information below',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
@@ -957,6 +959,7 @@ const en_US = {
   quantity: 'Quantity',
   quantityCannotExceed10: 'Quantity cannot exceed 10',
   quantityText: '{specText} - {buyCount} item(s)',
+  'minicart.quantityText': '{specText} - {buyCount} item(s)',
   'order.quantityText': '{specText} - Qty {buyCount}',
   queryDataFailed: 'Query Data Failed',
   ratingGrade1: 'Most Recent',

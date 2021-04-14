@@ -1510,6 +1510,7 @@ class Payment extends React.Component {
         country: payosdata.country_code,
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
+        cardType: payosdata.card_type,
         lastFourDigits: payosdata.last_4_digits,
         holderName: payosdata.holder_name,
         paymentVendor: payosdata.vendor,

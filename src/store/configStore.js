@@ -120,6 +120,12 @@ class ConfigStore {
       : '';
   }
 
+  @computed get isPrescriberMap() {
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.prescriberMap
+      : '';
+  }
+
   @action.bound
   async queryConfig() {
     let res = this.info;
