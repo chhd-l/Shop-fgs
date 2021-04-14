@@ -130,7 +130,7 @@ export const LoginUserBox = ({ self, className }) => {
       link: '/faq',
       href: '/about-us/faqs',
       isHubOuterLink: true,
-      isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
+      isShow: true,
       text: (
         <>
           <span className="iconfont rc-text-colour--iconography">&#xe696;</span>{' '}
