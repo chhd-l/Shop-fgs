@@ -621,6 +621,7 @@ const ru_RU = {
   'orderStatus.INITTip':
     'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
   'order.viewOrder': 'Посмотреть заказ',
+  orderDetail: 'Детали заказа',
   orders: 'Заказы',
   orderSummary: 'Итого',
   outOfStockContent_cart:
