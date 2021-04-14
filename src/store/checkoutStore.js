@@ -271,6 +271,10 @@ class CheckoutStore {
       //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
       if (sessionItemRoyal.get('recommend_product')) {
         recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
+        //兼容下面需要selected字段
+        recommend_data.forEach((element) => {
+          element.selected = true;
+        });
       }
       if (!data) {
         data = recommend_data || this.cartData;
