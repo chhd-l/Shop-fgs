@@ -48,7 +48,7 @@ const menuList = [
   },
   {
     catogery: 'Faq',
-    isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
+    isShow: true,
     icon: <span className="iconfont">&#xe696;</span>,
     langKey: 'footer.FAQ',
     url: '/faq',
