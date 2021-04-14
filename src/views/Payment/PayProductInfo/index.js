@@ -410,16 +410,20 @@ class PayProductInfo extends React.Component {
                       style={{ fontSize: '.8em' }}
                     >
                       &#xe675;
-                    </span>
-                    &nbsp; <FormattedMessage id="Vous avez économisé" />{' '}
-                    <span className="green">
-                      {formatMoney(
-                        el.buyCount * el.salePrice -
-                          el.buyCount * el.subscriptionPrice
-                      )}
                     </span>{' '}
-                    <FormattedMessage id="avecLabonnement" />
-                    &nbsp;
+                    <FormattedMessage
+                      id="cart.autoshipSavedtip"
+                      values={{
+                        discount: (
+                          <span className="green">
+                            {formatMoney(
+                              el.buyCount * el.salePrice -
+                                el.buyCount * el.subscriptionPrice
+                            )}
+                          </span>
+                        )
+                      }}
+                    />
                     {/* <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
                       val1:(
                         <span className="green">

@@ -1857,9 +1857,9 @@ class Payment extends React.Component {
       taxFeeData: {
         country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
         region: stateNo, // 省份简写
-        city: data.city,
-        street: data.address1,
-        postalCode: data.postCode,
+        city: data?.city,
+        street: data?.address1,
+        postalCode: data?.postCode,
         customerAccount: this.state.email
       },
       address1: data?.address1,
@@ -2121,21 +2121,22 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo }
     } = this.props;
+    console.log(this.state.billingAddress, 'billingAddress');
     const {
       adyenPayParam,
       paymentTypeVal,
       billingAddress: {
-        firstName,
-        lastName,
-        address1,
-        address2,
-        country,
-        province,
-        cityId,
-        city,
-        postCode,
-        email,
-        phoneNumber
+        // firstName,
+        // lastName,
+        // address1,
+        // address2,
+        // country,
+        // province,
+        // cityId,
+        // city,
+        // postCode,
+        email
+        // phoneNumber
       },
       cyberPaymentForm: {
         cardholderName,
@@ -2155,6 +2156,7 @@ class Payment extends React.Component {
     }
     let cyberPaymentParam = {};
     let cyberParams = {};
+
     if (paymentTypeVal == 'cyber') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;

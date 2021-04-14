@@ -413,7 +413,7 @@ const ru_RU = {
   'forgetPassword.createNewPassword': 'Создать новый пароль',
   'forgetPassword.forgetPasswordTip':
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
-  freeShipping: 'Бесплатная доставка',
+  freeShipping: 'Бесплатная доставка от 2500',
   from: 'От',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
@@ -1261,7 +1261,9 @@ const ru_RU = {
   clubGiftTips3: 'Ваш персональный помощник Службы Заботы с 9 до 21 ',
   clubGiftTips4: 'Возможность изменения частоты доставок',
   clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory',
-  'mobile.cart.orderSummary': 'Итого'
+  'mobile.cart.orderSummary': 'Итого',
+  'cart.autoshipSavedtip':
+    'Вы сэкономите {discount} от данного заказа при подписке'
 };
 
 export default ru_RU;
