@@ -190,21 +190,27 @@ class AddressList extends React.Component {
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
     console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
-    const { addressList } = this.state;
     try {
       let address1 = obj.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
       if (res?.context && res?.context?.addressList.length > 0) {
-        // 根据地址获取到的地址列表
+        // 根据地址获取到的地址列表匹配当前选中的地址
         let addls = res.context.addressList;
         let dladdress = Object.assign({}, obj);
         addls.forEach((item) => {
-          if (item.unrestrictedValue == address1) {
+          if (item.unrestrictedValue === address1) {
             dladdress.DuData = item;
-            // 计算运费
-            this.getShippingCalculation(dladdress);
           }
         });
+        if (dladdress.DuData) {
+          // 计算运费
+          this.getShippingCalculation(dladdress);
+        } else {
+          this.setState({
+            validationLoading: false
+          });
+          this.showErrMsg(this.props.wrongAddressMsg);
+        }
       } else {
         this.setState({
           validationLoading: false
