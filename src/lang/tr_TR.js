@@ -1128,7 +1128,7 @@ const tr_TR = {
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: "{fromPrice} 'den {toPrice} 'ye kadar",
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Sipariş özeti',
   'welcome.createdSuccessfully': 'Hesabınız başarıyla oluşturuldu!',
   'welcome.confirmEmail':
     'Hesabınızın oluşturulmasını tamamlamak için lütfen aşağıdaki e-posta adresine gönderilen e-postadaki "Onayla" yı tıklayın:',

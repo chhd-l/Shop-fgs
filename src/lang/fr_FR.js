@@ -1525,7 +1525,7 @@ const fr_FR = {
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: 'De {fromPrice} à {toPrice}',
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Récapitulatif de la commande',
   'welcome.createdSuccessfully': 'Votre compte a été créé avec succès!',
   'welcome.confirmEmail':
     "Pour terminer la création de votre compte, veuillez cliquer sur 'Confirmer' dans l'e-mail envoyé à l'adresse e-mail suivante:",
