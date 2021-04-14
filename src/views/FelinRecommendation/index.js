@@ -466,42 +466,50 @@ class FelinRecommendation extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      if (loginStore.isLogin) {
-        await this.hanldeLoginAddToCart();
-      } else {
-        let res = await getProductPetConfig({
-          goodsInfos: inStockProducts.map((el) => {
-            el.goodsInfo.buyCount = el.recommendationNumber;
-            return el.goodsInfo;
-          })
-        });
-        let handledData = inStockProducts.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          el.sizeList = el.goodsInfo.goods.sizeList;
-          return el;
-        });
-        // let handledData = res.context.goodsInfos;
-        let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setAuditData(AuditData);
-        let autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setPetFlag(res.context.petFlag);
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        sessionItemRoyal.set(
-          'recommend_product',
-          JSON.stringify(inStockProducts)
-        );
-        if (!needLogin) {
-          const url = await distributeLinktoPrecriberOrPaymentPage({
-            configStore: this.props.configStore,
-            checkoutStore,
-            clinicStore,
-            isLogin: loginStore.isLogin
+      this.setState({ buttonLoading: true });
+      try {
+        if (loginStore.isLogin) {
+          await this.hanldeLoginAddToCart();
+        } else {
+          let res = await getProductPetConfig({
+            goodsInfos: inStockProducts.map((el) => {
+              el.goodsInfo.buyCount = el.recommendationNumber;
+              return el.goodsInfo;
+            })
           });
-          await this.hanldeUnloginAddToCart(this.state.productList, url);
-          // url && history.push(url);
-          // history.push('/prescription');
+          let handledData = inStockProducts.map((el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            el.sizeList = el.goodsInfo.goods.sizeList;
+            return el;
+          });
+          // let handledData = res.context.goodsInfos;
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          checkoutStore.setAuditData(AuditData);
+          let autoAuditFlag = res.context.autoAuditFlag;
+          checkoutStore.setPetFlag(res.context.petFlag);
+          checkoutStore.setAutoAuditFlag(autoAuditFlag);
+          sessionItemRoyal.set(
+            'recommend_product',
+            JSON.stringify(inStockProducts)
+          );
+          sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
+          if (!needLogin) {
+            const url = await distributeLinktoPrecriberOrPaymentPage({
+              configStore: this.props.configStore,
+              checkoutStore,
+              clinicStore,
+              isLogin: loginStore.isLogin
+            });
+            await this.hanldeUnloginAddToCart(this.state.productList, url);
+            // url && history.push(url);
+            // history.push('/prescription');
+          }
         }
+      } catch (err) {
+        console.info('err', err);
+      } finally {
+        this.setState({ buttonLoading: false });
       }
     }
   };

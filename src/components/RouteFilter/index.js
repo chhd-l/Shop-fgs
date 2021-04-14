@@ -230,6 +230,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('recommend_product');
+        sessionItemRoyal.remove('orderSource');
       }
       if (prevPath.includes('/confirmation')) {
         if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
