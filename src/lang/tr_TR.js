@@ -1141,6 +1141,8 @@ const tr_TR = {
   'welcome.adChoices': 'AdChoices',
   'welcome.cASupplyChainTransparencyAct': 'CA Tedarik Zinciri Şeffaflık Yasası',
   'welcome.modernSlaveryAct': 'Modern Kölelik Yasası',
-  'welcome.contactUS': 'Bize Ulaşın'
+  'welcome.contactUS': 'Bize Ulaşın',
+  'cart.autoshipSavedtip':
+    'Вы сэкономите {discount} от данного заказа при подписке'
 };
 export default tr_TR;

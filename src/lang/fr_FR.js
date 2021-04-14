@@ -136,7 +136,6 @@ const fr_FR = {
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
   autoShipStarted: "Date de création de l'Abonnement",
   autoshop: 'en abonnement',
-  avecLabonnement: "avec l'abonnement",
   backToAuthorization: "Retour à l'autorisation",
   // SubscriptionLanding End
   bankCard: 'Carte Bancaire',
@@ -1539,6 +1538,7 @@ const fr_FR = {
   'welcome.cASupplyChainTransparencyAct':
     "Loi sur la transparence de la chaîne d'approvisionnement CA",
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
-  'welcome.contactUS': 'Contactez-nous'
+  'welcome.contactUS': 'Contactez-nous',
+  'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement"
 };
 export default fr_FR;
