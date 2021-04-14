@@ -136,7 +136,6 @@ const fr_FR = {
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
   autoShipStarted: "Date de création de l'Abonnement",
   autoshop: 'en abonnement',
-  avecLabonnement: "avec l'abonnement",
   backToAuthorization: "Retour à l'autorisation",
   // SubscriptionLanding End
   bankCard: 'Carte Bancaire',
@@ -173,11 +172,12 @@ const fr_FR = {
     'Vous ne pouvez pas passer votre commande, produit supprimé: {val}',
   'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
   'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
-  // 'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL', // before text
+  'cart.errorAllProductNumLimit': 'Le nombre de {val} commandes est limité.',
   'cart.fullPrice': ' ',
   'cart.miniCartTitle':
     '10% de réduction sur toutes les commandes en Abonnement',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
+  'minicart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
   'cart.totalProduct_nounit': 'Vous avez {val} dans votre panier',
   'cart.yourShoppingCart': 'Mon panier',
   Cat: 'Chat',
@@ -891,6 +891,7 @@ const fr_FR = {
   quantity: 'Quantité',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
   quantityText: '{specText} - {buyCount} Quantité(s)',
+  'minicart.quantityText': '{specText} - {buyCount} Quantité(s)',
   'order.quantityText': '{specText} - {buyCount} Quantité(s)',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
@@ -1541,7 +1542,7 @@ const fr_FR = {
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
   pirceRange: 'De {fromPrice} à {toPrice}',
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Récapitulatif de la commande',
   'welcome.createdSuccessfully': 'Votre compte a été créé avec succès!',
   'welcome.confirmEmail':
     "Pour terminer la création de votre compte, veuillez cliquer sur 'Confirmer' dans l'e-mail envoyé à l'adresse e-mail suivante:",
@@ -1555,6 +1556,7 @@ const fr_FR = {
   'welcome.cASupplyChainTransparencyAct':
     "Loi sur la transparence de la chaîne d'approvisionnement CA",
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
-  'welcome.contactUS': 'Contactez-nous'
+  'welcome.contactUS': 'Contactez-nous',
+  'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement"
 };
 export default fr_FR;

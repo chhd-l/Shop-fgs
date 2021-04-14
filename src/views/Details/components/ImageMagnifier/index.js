@@ -365,7 +365,6 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    console.log(cssStyle, 'cssStyle123');
     let {
       images,
       video,
@@ -373,8 +372,6 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
-    console.info('images', images);
-    console.info('spuImages', spuImages);
     if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
