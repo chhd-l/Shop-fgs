@@ -1020,7 +1020,7 @@ class List extends React.Component {
   hubGAProductImpression(productList, totalElements, keywords) {
     const products = productList.map((item, index) => {
       const {
-        minMarketPrice,
+        fromPrice,
         goodsCate,
         goodsNo,
         goodsInfos,
@@ -1040,7 +1040,7 @@ class List extends React.Component {
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
-        price: minMarketPrice,
+        price: fromPrice,
         specie,
         range: cateName?.[1] || '',
         name: goodsName,
