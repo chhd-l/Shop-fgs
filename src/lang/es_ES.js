@@ -178,6 +178,7 @@ const es_ES = {
   checkboxIsRequiredForSubscription:
     'esta casilla de verificación es necesaria para la suscripción',
   checkout: 'Comprar',
+  'minicart.checkout': 'Comprar',
   'payment.checkout': 'Comprar',
   checkoutTip: 'Introduzca sus datos a continuación.',
   choosePayment: 'Elija el pago',

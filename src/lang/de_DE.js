@@ -115,8 +115,8 @@ const de_DE = {
   addShippingAddress: 'Neue Adresse hinzufügen',
   adyenCard: 'Kreditkarte',
   adyenPayFail: 'Zahlung fehlgeschlagen',
-  adyenPayLater: 'Klarna Pay later',
-  adyenPayNow: 'Klarna Pay now',
+  adyenPayLater: 'Klarna Rechnungskauf',
+  adyenPayNow: 'Klarna Sofortüberweisung',
   age: 'Alter',
   all: 'Alles',
   allOrders: 'Alle Bestellungen',
@@ -171,7 +171,7 @@ const de_DE = {
     'Die Anzahl von {val} Bestellungen ist begrenzt.',
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
   'cart.miniCartTitle':
-    'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',
+    'Schließen Sie eine regelmäßige Lieferung ab und sparen Sie zusätzliche 10% auf IhreBestellung!',
   'cart.totalProduct': 'Artikel im Warenkorb',
   'minicart.totalProduct': 'Artikel im Warenkorb',
   'cart.totalProduct_nounit': 'Artikel im Warenkorb',
@@ -187,6 +187,7 @@ const de_DE = {
   checkboxIsRequiredForSubscription:
     'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
   checkout: 'Kasse',
+  'minicart.checkout': 'zur Kasse',
   'payment.checkout': 'Kasse',
   checkoutTip:
     'Geben Sie Ihre Lieferadresse ein und wählen Sie Ihre gewünschte Zahlungsmethode aus.{val1}Bitte beachten Sie, dass eine Lieferung ausschließlich innerhalb Deutschlands angeboten wird.',

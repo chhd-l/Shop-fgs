@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
 import noPic from '@/assets/images/noPic.png';
-import ImageMagnifier from './components/ImageMagnifier';
+import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
 import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
@@ -98,6 +98,7 @@ class Recommendation extends React.Component {
     this.state = {
       isNoMoreProduct: false,
       promotionCode: '',
+      promotionCodeText: '',
       // secondlist: secondlistArr,
       showMore: true,
       petType: 1, //0 dog;1 cat
@@ -204,21 +205,25 @@ class Recommendation extends React.Component {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let token = getParaByName(search, 'token');
+    let promotionCode = getParaByName(search, 'coupon');
+    let promotionCodeText = promotionCode?.toUpperCase();
     let prescription = getParaByName(search, 'prescription');
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    this.setState({ isMobile: getDeviceType() === 'H5' });
-    this.setState({ loading: true });
+    this.setState({
+      isMobile: getDeviceType() === 'H5',
+      promotionCodeText,
+      loading: true
+    });
     let params = token;
     let requestName = getRecommendationList_token;
     if (isFr) {
       requestName = getRecommendationList_prescriberId;
       params = prescription;
     }
-    debugger;
     requestName(params)
       .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
@@ -711,6 +716,21 @@ class Recommendation extends React.Component {
       this.hanldeUnloginAddToCart(productList, '/cart');
     }
   };
+  copyPromotion = () => {
+    let { promotionCodeText } = this.state;
+    var copy = function (e) {
+      e.preventDefault();
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', promotionCodeText);
+      } else if (window.clipboardData) {
+        window.clipboardData.setData('promotionCodeText', promotionCodeText);
+      }
+    };
+    console.info('promotionCodeText', promotionCodeText);
+    window.addEventListener('copy', copy);
+    document.execCommand('copy');
+    window.removeEventListener('copy', copy);
+  };
   render(h) {
     let otherShow = {
       ru: (
@@ -746,7 +766,8 @@ class Recommendation extends React.Component {
       activeIndex,
       currentModalObj,
       isMobile,
-      promotionCode
+      promotionCode,
+      promotionCodeText
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -857,14 +878,35 @@ class Recommendation extends React.Component {
               className="text-center"
               style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
             >
-              <div className="rc-max-width--md text-center rc-margin-y--md">
-                <div className="rc-alpha inherit-fontsize">
-                  <h1 style={{ marginBottom: '0.67em' }}>
+              <div
+                className={`${
+                  isFr ? 'rc-max-width--lg' : 'rc-max-width--md'
+                } text-center rc-margin-y--md`}
+              >
+                <div
+                  className={`rc-alpha inherit-fontsize ${
+                    isFr && 'sx rc-margin-bottom--xs'
+                  }`}
+                >
+                  <h1 style={{ marginBottom: isFr ? '0px' : '0.67em' }}>
                     <FormattedMessage id="recommendation.welcomeText1" />
                   </h1>
                 </div>
-                <div className="rc-beta inherit-fontsize">
-                  <p style={{ marginBottom: '1rem' }}>
+                {isFr && (
+                  <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                    <span
+                      style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
+                    >
+                      <FormattedMessage id="recommendation.welcomeSubText1" />
+                    </span>
+                  </div>
+                )}
+                <div
+                  className={`rc-beta inherit-fontsize ${
+                    isFr && 'sx rc-margin-bottom--xs'
+                  }`}
+                >
+                  <p style={{ marginBottom: '0px' }}>
                     <FormattedMessage id="recommendation.welcomeText2" />
                     {/* Merci pour votre visite en magasin, voici notre recommandation. */}
                   </p>
@@ -872,30 +914,57 @@ class Recommendation extends React.Component {
                 {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2> */}
-                <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
                   <span
                     style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
                   >
-                    <FormattedMessage id="recommendation.welcomeSubText" />
+                    <FormattedMessage
+                      values={{
+                        val: (
+                          <span
+                            style={{ color: '#e2001a', fontSize: '1.5rem' }}
+                          >
+                            E
+                          </span>
+                        )
+                      }}
+                      id="recommendation.welcomeSubText"
+                    />
                     {/* La recommandation a été faite en fonction des besoins uniques de
                 votre animal. */}
                   </span>
                 </div>
 
                 <p>
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      this.state.buttonLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      this.state.inStockProducts.length
-                        ? ''
-                        : 'rc-btn-solid-disabled'
-                    }`}
-                    onClick={this.addCart}
-                  >
-                    <FormattedMessage id="recommendation.welcomeBtn" />
-                    {/* Voir le panier */}
-                  </button>
+                  {(isRu || isUs) && (
+                    <button
+                      className={`rc-btn rc-btn--one ${
+                        this.state.buttonLoading ? 'ui-btn-loading' : ''
+                      } ${
+                        this.state.inStockProducts.length
+                          ? ''
+                          : 'rc-btn-solid-disabled'
+                      }`}
+                      onClick={this.addCart}
+                    >
+                      <FormattedMessage id="recommendation.welcomeBtn" />
+                      {/* Voir le panier */}
+                    </button>
+                  )}
+                  {isFr && promotionCodeText && (
+                    <>
+                      <button
+                        className={`rc-btn rc-btn--two`}
+                        onClick={this.copyPromotion}
+                      >
+                        {' '}
+                        {promotionCodeText}
+                      </button>
+                      <div className="rc-margin-top--xs">
+                        <FormattedMessage id="recommendation.copyTips" />
+                      </div>
+                    </>
+                  )}
                 </p>
               </div>
             </section>

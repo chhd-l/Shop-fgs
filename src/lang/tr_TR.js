@@ -160,6 +160,7 @@ const tr_TR = {
   changepic: 'Resim ekle',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Sipariş ver',
+  'minicart.checkout': 'Sipariş ver',
   'payment.checkout': 'Ödeme',
   checkoutTip: 'Lütfen bilgilerinizi girin',
   choosePayment: 'Ödemeyi seçin',
@@ -1151,6 +1152,7 @@ const tr_TR = {
   'welcome.modernSlaveryAct': 'Modern Kölelik Yasası',
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip':
-    'Вы сэкономите {discount} от данного заказа при подписке'
+    'Вы сэкономите {discount} от данного заказа при подписке',
+  'pet.deletePet': 'Evcil Hayvan Profilini Sil'
 };
 export default tr_TR;
