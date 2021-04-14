@@ -1525,7 +1525,7 @@ class Details extends React.Component {
   }
   getFrequencyDictDom = () => {
     return (
-      <div className="freqency order-3 order-md-2 col-12 col-md-4 text-right">
+      <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
         <span>
           <FormattedMessage id="subscription.frequency" />:
         </span>
@@ -2081,7 +2081,7 @@ class Details extends React.Component {
                                 }`}
                                 onClick={this.ChangeFormat.bind(this, 0)}
                               >
-                                <div className="radioBox order-1 order-md-1 col-8 col-md-4">
+                                <div className="radioBox order-1 order-md-1 col-8 col-md-5">
                                   <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                     <FormattedMessage id="email">
                                       {(txt) => (
@@ -2114,11 +2114,9 @@ class Details extends React.Component {
                                       </span>
                                     </label>
                                     <br />
-                                    {process.env.REACT_APP_LANG !== 'ru' ? (
-                                      <div className="freeshippingBox">
-                                        <FormattedMessage id="freeShipping" />
-                                      </div>
-                                    ) : null}
+                                    <div className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
+                                    </div>
                                   </div>
                                 </div>
                                 <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
@@ -2132,7 +2130,7 @@ class Details extends React.Component {
                                     {/* Delivery 1 time only */}
                                   </span>
                                 </div>
-                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
+                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                   <div>
                                     {formatMoney(currentUnitPrice)}
                                     <span className="red unit-star">
@@ -2174,7 +2172,7 @@ class Details extends React.Component {
                                   }`}
                                   onClick={this.ChangeFormat.bind(this, 1)}
                                 >
-                                  <div className="radioBox order-1 order-md-1 col-8 col-md-4">
+                                  <div className="radioBox order-1 order-md-1 col-8 col-md-5">
                                     <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
                                       <FormattedMessage id="email">
                                         {(txt) => (
@@ -2247,15 +2245,13 @@ class Details extends React.Component {
                                       />
                                     </div>
                                     <br />
-                                    {process.env.REACT_APP_LANG !== 'ru' ? (
-                                      <div className="freeshippingBox">
-                                        <FormattedMessage id="freeShipping" />
-                                      </div>
-                                    ) : null}
+                                    <div className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
+                                    </div>
                                   </div>
                                   {this.state.details.promotions &&
                                     this.getFrequencyDictDom()}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
+                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                     <div>
                                       {formatMoney(
                                         currentSubscriptionPrice || 0
@@ -2300,7 +2296,7 @@ class Details extends React.Component {
                                   }`}
                                   onClick={this.ChangeFormat.bind(this, 2)}
                                 >
-                                  <div className="radioBox order-1 order-md-1 col-8 col-md-4">
+                                  <div className="radioBox order-1 order-md-1 col-8 col-md-5">
                                     <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
                                       <FormattedMessage id="email">
                                         {(txt) => (
@@ -2353,12 +2349,9 @@ class Details extends React.Component {
                                       />
                                     </div>
                                     <br />
-                                    {process.env.REACT_APP_LANG !== 'ru' ? (
-                                      <div className="freeshippingBox">
-                                        <FormattedMessage id="freeShipping" />
-                                      </div>
-                                    ) : null}
-
+                                    <div className="freeshippingBox">
+                                      <FormattedMessage id="freeShipping" />
+                                    </div>
                                     <div className="learnMore">
                                       <span
                                         className="rc-styled-link"
@@ -2370,7 +2363,7 @@ class Details extends React.Component {
                                   </div>
                                   {this.state.details.promotions &&
                                     this.getFrequencyDictDom()}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-4">
+                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                     <div>
                                       {formatMoney(
                                         currentSubscriptionPrice || 0

@@ -411,7 +411,7 @@ const ru_RU = {
   'forgetPassword.createNewPassword': 'Создать новый пароль',
   'forgetPassword.forgetPasswordTip':
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
-  freeShipping: 'Бесплатная доставка',
+  freeShipping: 'Бесплатная доставка от 2500',
   from: 'От',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
