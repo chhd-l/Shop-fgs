@@ -434,7 +434,6 @@ class Question extends React.Component {
           finderNumber,
           questionParams: tmpQuestionParams
         });
-        // const petsInfo = await clubSubscriptionSavePets({questionParams: tmpQuestionParams})
         sessionItemRoyal.set(
           'pr-question-params',
           JSON.stringify(tmpQuestionParams)
@@ -452,8 +451,8 @@ class Question extends React.Component {
           );
         }
         let tmpUrl;
+        sessionItemRoyal.set('pf-result', JSON.stringify(proRes.context));
         if (proRes.context && proRes.context.mainProduct) {
-          sessionItemRoyal.set('pf-result', JSON.stringify(proRes.context));
           tmpUrl = '/product-finder-recommendation';
         } else {
           tmpUrl = '/product-finder-noresult';
@@ -501,7 +500,7 @@ class Question extends React.Component {
           Array.from({ length: 49 }).map((item, i) => {
             return {
               label: `${i + 1} Kg`,
-              key: i + 1
+              key: i + i
             };
           })
         ];
@@ -731,7 +730,7 @@ class Question extends React.Component {
 
                 {questionType ? (
                   <div className="row text-center text-md-left">
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-5">
                       <button
                         className="rc-btn rc-btn--one rc-btn--sm"
                         disabled={!this.state.valid}

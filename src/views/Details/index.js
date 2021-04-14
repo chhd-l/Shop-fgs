@@ -368,11 +368,15 @@ class Details extends React.Component {
 
     const Fr = process.env.REACT_APP_LANG === 'fr';
     const Ru = process.env.REACT_APP_LANG === 'ru';
+    const Tr = process.env.REACT_APP_LANG === 'tr';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
     } else if (Ru) {
-      contactUs = 'https://www.royalcanin.com/ru/contact-us';
+      // contactUs = 'https://www.royalcanin.com/ru/contact-us';
+      contactUs = 'mailto:royalcanin.careservice@voxys.ru';
+    } else if (Tr) {
+      contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
     }
 
     this.setState({
@@ -1961,7 +1965,7 @@ class Details extends React.Component {
                                       className="rc-styled-link backProductFinder mt-0 pb-0"
                                       to="/product-finder-recommendation"
                                     >
-                                      Go back to recommendation
+                                      <FormattedMessage id="Go back to recommendation" />
                                     </Link>
                                   </div>
                                 ) : (
@@ -1973,7 +1977,7 @@ class Details extends React.Component {
                                       className="rc-styled-link mt-0 pb-0"
                                       to="/product-finder"
                                     >
-                                      Product finder
+                                      <FormattedMessage id="details.findProductTips" />
                                     </Link>
                                   </div>
                                 )}
@@ -2110,9 +2114,11 @@ class Details extends React.Component {
                                       </span>
                                     </label>
                                     <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
+                                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
@@ -2241,9 +2247,11 @@ class Details extends React.Component {
                                       />
                                     </div>
                                     <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
+                                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    ) : null}
                                   </div>
                                   {this.state.details.promotions &&
                                     this.getFrequencyDictDom()}
@@ -2345,9 +2353,12 @@ class Details extends React.Component {
                                       />
                                     </div>
                                     <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
+                                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    ) : null}
+
                                     <div className="learnMore">
                                       <span
                                         className="rc-styled-link"
