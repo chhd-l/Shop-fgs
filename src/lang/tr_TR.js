@@ -667,6 +667,13 @@ const tr_TR = {
   price: 'Fiyat',
   printEbanx: 'Ebanx Yazdır',
   privacyPolicy: 'Gizlilik Politikası',
+  seeAllOurProducts: 'Tüm Ürünlerimizi Gör',
+  'productFinder.rigisterMyPetProfile':
+    "Evcil hayvan profilinizi RoyalCanin'e kaydedin ve en iyi ürün mevcut olduğunda bir bildirim alın.",
+  'productFinder.searchResultTip3': 'Üzgünüz!',
+  'productFinder.searchResultTip4':
+    'Evcil hayvanınız için en doğru beslenme şu anda mevcut değil.',
+  'productFinder.index': "Ürün Arama'yı",
   'productFinder.resultHlep':
     "Pazartesi saat 8.30'dan 12.30'dan ve sabah saat 2'den 5'ye kadar",
   'productFinder.resultPage': 'Beslenme sur mesure',
