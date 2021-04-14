@@ -168,6 +168,8 @@ const de_DE = {
     'Sie können Ihre Bestellung nicht aufgeben, gelöschtes Produkt: {val}',
   'cart.errorMaxCate': 'Der Warenkorb darf 30 Artikel nicht überschreiten',
   'cart.errorMaxInfo': 'Die Anzahl darf 30 nicht überschreiten',
+  'cart.errorAllProductNumLimit':
+    'Die Anzahl von {val} Bestellungen ist begrenzt.',
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
   'cart.miniCartTitle':
     'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',

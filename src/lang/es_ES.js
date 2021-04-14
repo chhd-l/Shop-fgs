@@ -160,6 +160,7 @@ const es_ES = {
   'cart.errorMaxCate':
     'El carrito de compras no puede exceder los {val} artículos.',
   'cart.errorMaxInfo': 'El número no puede exceder de {val}',
+  'cart.errorAllProductNumLimit': 'El número de {val} pedidos es limitado.',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
   'cart.miniCartTitle':
     '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
