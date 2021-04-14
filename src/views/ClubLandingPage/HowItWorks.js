@@ -76,7 +76,10 @@ const HowItWorks = (props) => {
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
                         <h5>
-                          <FormattedMessage id="club.howitworks.img2.titile" />
+                          <FormattedMessage
+                            id="club.howitworks.img2.titile"
+                            values={{ val: <br /> }}
+                          />
                         </h5>
                       </p>
                     </div>
@@ -153,7 +156,10 @@ const HowItWorks = (props) => {
                     <div className="rc-card__body">
                       <p className="rc-card__meta">
                         <h5>
-                          <FormattedMessage id="club.howitworks.img4.titile" />
+                          <FormattedMessage
+                            id="club.howitworks.img4.titile"
+                            values={{ val: <p /> }}
+                          />
                         </h5>
                       </p>
                     </div>
