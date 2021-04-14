@@ -1153,6 +1153,7 @@ const tr_TR = {
   'welcome.modernSlaveryAct': 'Modern Kölelik Yasası',
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip':
-    'Вы сэкономите {discount} от данного заказа при подписке'
+    'Вы сэкономите {discount} от данного заказа при подписке',
+  'pet.deletePet': 'Evcil Hayvan Profilini Sil'
 };
 export default tr_TR;
