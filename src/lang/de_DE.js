@@ -310,7 +310,7 @@ const de_DE = {
   'details.inStock': 'sofort versandfertig, Lieferzeit: 1-3 Tage.',
   'details.OffShelves': 'Nicht verfügbar',
   'details.OneOFF': 'Einmaliger Kauf',
-  'details.outStock': 'Nicht vorrättig',
+  'details.outStock': 'Nicht vorrätig',
   'details.shippedTime': 'Versand innerhalb von 2 Werktagen',
   'details.Subscription': 'Regelmäßige Lieferung',
   'details.theSize': 'Die Größe',
