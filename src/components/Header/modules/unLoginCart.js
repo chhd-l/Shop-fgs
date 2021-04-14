@@ -272,7 +272,7 @@ class UnloginCart extends React.Component {
                     }`}
                     history={this.props.history}
                   >
-                    <FormattedMessage id="checkout" />
+                    <FormattedMessage id="minicart.checkout" />
                   </LoginButton>
                 </div>
                 {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
@@ -304,7 +304,7 @@ class UnloginCart extends React.Component {
                         val: (
                           <b style={{ fontWeight: 500 }}>
                             {this.props.intl.formatMessage(
-                              { id: 'cart.totalProduct' },
+                              { id: 'minicart.totalProduct' },
                               { val: this.totalNum }
                             )}
                           </b>
@@ -353,7 +353,7 @@ class UnloginCart extends React.Component {
                                     <div className="item-attributes">
                                       <p className="line-item-attributes">
                                         <FormattedMessage
-                                          id="quantityText"
+                                          id="minicart.quantityText"
                                           values={{
                                             specText: find(
                                               item.sizeList,

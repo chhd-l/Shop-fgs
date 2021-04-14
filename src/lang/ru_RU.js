@@ -213,7 +213,8 @@ const ru_RU = {
   'cart.fullPrice': 'Подберите подходящий рацион для своего питомца',
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
-  'cart.totalProduct': '{val} товара товара в',
+  'cart.totalProduct': '{val} товар (а/ов)',
+  'minicart.totalProduct': '{val} товара товара в',
   'cart.totalProduct_nounit': 'У вас {val} корзине',
   'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
@@ -227,6 +228,7 @@ const ru_RU = {
   checkboxIsRequiredForSubscription:
     'при подписке на корм данное поле является обязательным для заполнения',
   checkout: 'Оформить заказ',
+  'minicart.checkout': 'Оформить заказ',
   'payment.checkout': 'Оформить заказ',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
@@ -794,7 +796,8 @@ const ru_RU = {
     'Наши обязательства в области качества и пищевой безопасности',
   quantity: 'Количество',
   quantityCannotExceed10: 'Количество не может превышать 10',
-  quantityText: '{specText} - {buyCount} товар',
+  quantityText: '{specText} - {buyCount} товар (а/ов)',
+  'minicart.quantityText': '{specText} - {buyCount} товар',
   queryDataFailed: 'Ошибка данных запроса',
   ratingGrade1: 'Самые последние',
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
@@ -905,7 +908,7 @@ const ru_RU = {
   'subscription.deliveryDate': 'Следующая дата доставки',
   'subscription.detail': 'Детали подписки',
   'subscription.frequency': 'Частота',
-  'minicart.frequency': 'Периодичность',
+  'minicart.frequency': 'Частота',
   'subscription.nextOrder': 'Следующий заказ',
   'subscription.noDataTip': 'Без подписки',
   'subscription.notYet': 'Пока не отправлено',
@@ -1259,7 +1262,9 @@ const ru_RU = {
   clubGiftTips3: 'Ваш персональный помощник Службы Заботы с 9 до 21 ',
   clubGiftTips4: 'Возможность изменения частоты доставок',
   clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory',
-  'mobile.cart.orderSummary': 'Итого'
+  'mobile.cart.orderSummary': 'Итого',
+  'cart.autoshipSavedtip':
+    'Вы сэкономите {discount} от данного заказа при подписке'
 };
 
 export default ru_RU;

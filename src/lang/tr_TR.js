@@ -143,6 +143,7 @@ const tr_TR = {
   'cart.miniCartTitle':
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün',
+  'minicart.totalProduct': '{val} ürün',
   'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Sepetiniz',
   clubGiftTips1: 'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
@@ -159,6 +160,7 @@ const tr_TR = {
   changepic: 'Resim ekle',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Sipariş ver',
+  'minicart.checkout': 'Sipariş ver',
   'payment.checkout': 'Ödeme',
   checkoutTip: 'Lütfen bilgilerinizi girin',
   choosePayment: 'Ödemeyi seçin',
@@ -667,6 +669,13 @@ const tr_TR = {
   price: 'Fiyat',
   printEbanx: 'Ebanx Yazdır',
   privacyPolicy: 'Gizlilik Politikası',
+  seeAllOurProducts: 'Tüm Ürünlerimizi Gör',
+  'productFinder.rigisterMyPetProfile':
+    "Evcil hayvan profilinizi RoyalCanin'e kaydedin ve en iyi ürün mevcut olduğunda bir bildirim alın.",
+  'productFinder.searchResultTip3': 'Üzgünüz!',
+  'productFinder.searchResultTip4':
+    'Evcil hayvanınız için en doğru beslenme şu anda mevcut değil.',
+  'productFinder.index': "Ürün Arama'yı",
   'productFinder.resultHlep':
     "Pazartesi saat 8.30'dan 12.30'dan ve sabah saat 2'den 5'ye kadar",
   'productFinder.resultPage': 'Beslenme sur mesure',
@@ -730,6 +739,7 @@ const tr_TR = {
   quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} Ürün',
+  'minicart.quantityText': '{specText} - {buyCount} Ürün',
   'order.quantityText': '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
@@ -950,14 +960,13 @@ const tr_TR = {
     'EVCIL HAYVANINIZ IÇIN EN UYGUN MAMAYI VE MIKTARI BULUN',
   'club.howitworks.img1.description':
     'Birkaç basit soru yanıtlayarak evcil hayvanınız için en uygun mama önerisini alın',
-  'club.howitworks.img2.titile': "  {val} CLUB'A ABONE OLUN",
+  'club.howitworks.img2.titile': " CLUB'A ABONE OLUN",
   'club.howitworks.img2.description':
     'Abone olmak için satın alma işlemine devam edin. İlk siparişinizle birlikte bir hoşgeldin paketi alacaksınız',
   'club.howitworks.img3.titile': 'Siparişinizi kontrol edin',
   'club.howitworks.img3.description':
     'İstediğiniz zaman hesabınıza girerek aboneliğinizi yönetebilirsiniz. CLUB abonesi olarak size otomarik gönderimden faydalanın',
-  'club.howitworks.img4.titile':
-    ' {val}Özel hediye & servislerin keyfini çıkarın',
+  'club.howitworks.img4.titile': ' Özel hediye & servislerin keyfini çıkarın',
   'club.howitworks.img4.description':
     'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
   'club.joinsubscription.title': 'CLUB abonesi olun!',
@@ -1141,6 +1150,9 @@ const tr_TR = {
   'welcome.adChoices': 'AdChoices',
   'welcome.cASupplyChainTransparencyAct': 'CA Tedarik Zinciri Şeffaflık Yasası',
   'welcome.modernSlaveryAct': 'Modern Kölelik Yasası',
-  'welcome.contactUS': 'Bize Ulaşın'
+  'welcome.contactUS': 'Bize Ulaşın',
+  'cart.autoshipSavedtip':
+    'Вы сэкономите {discount} от данного заказа при подписке',
+  'pet.deletePet': 'Evcil Hayvan Profilini Sil'
 };
 export default tr_TR;

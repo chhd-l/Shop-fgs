@@ -619,7 +619,7 @@ class Details extends React.Component {
     let anchorElement = document.getElementById(anchorName);
     // 如果对应id的锚点存在，就跳转到锚点
     if (anchorElement) {
-      anchorElement.scrollIntoView();
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
   toClubTab = () => {
@@ -1756,7 +1756,7 @@ class Details extends React.Component {
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
-                              <div className="desAndStars rc-margin-bottom--xs">
+                              <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap">
                                 <div className="des">
                                   <h2
                                     className="text-break mb-1 mt-2"
@@ -1767,7 +1767,7 @@ class Details extends React.Component {
                                 </div>
                                 {!!+process.env
                                   .REACT_APP_PDP_RATING_VISIBLE && (
-                                  <div className="stars">
+                                  <div className="stars text-nowrap">
                                     <div className="rc-card__price flex-inline">
                                       <div
                                         className="display-inline"
@@ -1995,7 +1995,7 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <div
-                                className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center 1 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 1 ml-0 mr-0 ui-cursor-pointer-pure ${
                                   form.buyWay === 0
                                     ? 'border-red'
                                     : 'border-d7d7d7'
@@ -2041,15 +2041,7 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                                 <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
-                                  <span
-                                    style={{
-                                      height: '73px',
-                                      lineHeight: '55px'
-                                    }}
-                                  >
-                                    <FormattedMessage id="deliveryOneTimeOnly" />
-                                    {/* Delivery 1 time only */}
-                                  </span>
+                                  <FormattedMessage id="deliveryOneTimeOnly" />
                                 </div>
                                 <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                   <div>
@@ -2086,7 +2078,7 @@ class Details extends React.Component {
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
                                 <div
-                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center 2 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
                                     form.buyWay === 1
                                       ? 'border-red'
                                       : 'border-d7d7d7'
