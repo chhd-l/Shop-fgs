@@ -79,15 +79,6 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-
-const sessionItemRoyal = window.__.sessionItemRoyal;
-const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-// 税额开关 0: 开, 1: 关
-const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
-// 买入价格开关 0：含税，1：不含税
-const enterPriceType =
-  storeInfo?.systemTaxSetting?.configVOList &&
-  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 @inject('checkoutStore', 'loginStore', 'configStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -4485,9 +4476,15 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               </div>
 
-                                              {/* 税额 */}
-                                              {customTaxSettingOpenFlag == 0 &&
-                                              enterPriceType == 1 ? (
+                                              {/* 
+                                                customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
+                                                enterPriceType 买入价格开关 0：含税，1：不含税
+                                              */}
+                                              {this.props.configStore
+                                                .customTaxSettingOpenFlag ==
+                                                0 &&
+                                              this.props.configStore
+                                                .enterPriceType == 1 ? (
                                                 <div className="row">
                                                   <div className="col-1 col-md-3" />
                                                   <label className="col-5 text-left">
