@@ -368,16 +368,7 @@ class PetForm extends React.Component {
           this.setState({
             currentStep: 'success'
           });
-          if (
-            this.props.location.state &&
-            this.props.location.state.subscribeId
-          ) {
-            this.props.history.push(
-              `/account/subscription/order/detail/${this.props.location.state.subscribeId}`
-            );
-          } else {
-            this.props.history.push('/account/pets/');
-          }
+          this.gotoNext();
         })
         .catch((err) => {
           this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
@@ -393,7 +384,7 @@ class PetForm extends React.Component {
           this.setState({
             currentStep: currentStep
           });
-          this.props.history.push('/account/pets/');
+          this.gotoNext();
         })
         .catch((err) => {
           this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
@@ -403,6 +394,15 @@ class PetForm extends React.Component {
         });
     }
   };
+  gotoNext() {
+    if (this.props.location.state && this.props.location.state.subscribeId) {
+      this.props.history.push(
+        `/account/subscription/order/detail/${this.props.location.state.subscribeId}`
+      );
+    } else {
+      this.props.history.push('/account/pets/');
+    }
+  }
   nextStep() {
     let step = this.state.step;
     let isEdit = this.state.isEdit;
