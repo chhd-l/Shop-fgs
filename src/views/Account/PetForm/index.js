@@ -550,7 +550,7 @@ class PetForm extends React.Component {
   };
   selectedBreed = (item) => {
     this.setState({
-      breed: item.name,
+      breed: item.valueEn,
       showBreedList: false
     });
   };
@@ -582,7 +582,7 @@ class PetForm extends React.Component {
       }
     });
   };
-  edit = (currentPet) => {
+  edit = async (currentPet) => {
     let weightObj = {
       measure: '',
       measureUnit: 'kg',
@@ -593,6 +593,24 @@ class PetForm extends React.Component {
         weightObj = JSON.parse(currentPet.weight);
       }
     } catch (e) {}
+    let breedList = [];
+    try {
+      let res = await getDict({
+        type: currentPet.petsType === 'cat' ? 'catBreed' : 'dogBreed',
+        delFlag: 0,
+        storeId: process.env.REACT_APP_STOREID
+      });
+      breedList = res.context.sysDictionaryVOS;
+    } catch (err) {
+      this.showErrorMsg(
+        err.message.toString() || this.props.intl.messages.getDataFailed
+      );
+      this.setState({ breedListLoading: false, showBreedListNoneTip: true });
+    }
+    let filteredBreed = breedList.filter(
+      (el) => el.valueEn === currentPet.petsBreed
+    )[0];
+    console.log(filteredBreed, 'aaaa');
     let param = {
       isEdit: true,
       step: 1,
@@ -608,7 +626,11 @@ class PetForm extends React.Component {
       isUnknownDisabled:
         currentPet.petsBreed === 'unknown Breed' ? false : true,
       breed:
-        currentPet.petsBreed === 'unknown Breed' ? '' : currentPet.petsBreed,
+        currentPet.petsBreed === 'unknown Breed'
+          ? ''
+          : filteredBreed
+          ? filteredBreed.name
+          : '',
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 1 ? true : false,
       birthdate: currentPet.birthOfPets,
