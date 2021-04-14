@@ -34,13 +34,16 @@ const benifitList =
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
     ],
     tr: [
-      { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
-      { iconCls: 'rc-loading--xs rc-iconography--xs', text: 'İade imkânı' },
+      { iconCls: 'rc-lock--xs rc-iconography--xs', text: '%100 güvenli ödeme' },
+      {
+        iconCls: 'rc-loading--xs rc-iconography--xs',
+        text: 'Memnun kalmazsanız iade edin'
+      },
       {
         iconCls: 'rc-low-maintenance--xs rc-iconography',
-        text: 'Premium Kalite'
+        text: 'Üstün kalite'
       },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Ücretsiz Kargo' }
+      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Hızlı teslimat' }
     ],
     fr: [
       {

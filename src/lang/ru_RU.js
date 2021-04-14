@@ -195,11 +195,11 @@ const ru_RU = {
   cardCvvIsInvalid: 'CVV вашей карты недействителен',
   cardNumber: 'Номер карты',
   cardNumberIsInvalid: 'номер вашей карты недействителен',
-  'cart.catDiet': 'Подберите подходящий рацион для Для кошек',
+  'cart.catDiet': 'Для кошек',
   'cart.deletInfo': 'Удалить товар?',
   'cart.deletInfo2': 'Вы уверены, что хотите удалить этот товар из корзины?',
   'cart.delivery': 'Доставка',
-  'cart.dogDiet': 'Подберите подходящий рацион для Для собак',
+  'cart.dogDiet': 'Для собак',
   'cart.errorInfo': 'Число не может быть меньше 1',
   'cart.errorInfo2':
     'Вы не можете разместить заказ, товар отсутствует в наличии.',
@@ -209,7 +209,8 @@ const ru_RU = {
   'cart.errorInfo5': 'Вы не можете разместить заказ, продукт удален: {val}',
   'cart.errorMaxCate': 'В корзине не может быть более {val} товаров',
   'cart.errorMaxInfo': 'Число не может быть больше {val}',
-  'cart.fullPrice': 'ПОЛНЫЙ РИС ДЛЯ ВАШЕГО ДОМАШНИКА',
+  'cart.errorAllProductNumLimit': 'Количество "{val}" заказов ограничено.',
+  'cart.fullPrice': 'Подберите подходящий рацион для своего питомца',
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товара товара в',
@@ -411,7 +412,7 @@ const ru_RU = {
   'forgetPassword.createNewPassword': 'Создать новый пароль',
   'forgetPassword.forgetPasswordTip':
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
-  freeShipping: 'Бесплатная доставка',
+  freeShipping: 'Бесплатная доставка от 2500',
   from: 'От',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
@@ -451,10 +452,10 @@ const ru_RU = {
   'header.User.myPersonalInformation': 'Профиль',
   'header.User.mySubscriptions': 'Подписки на корм',
   'header.User.newUser': 'Новый пользователь?',
-  'header.User.or': 'or',
+  'header.User.or': 'или',
   'header.User.pets': 'Питомцы',
   'header.User.registerNow': 'Зарегистрироваться',
-  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач?',
+  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач',
   'header.User.vetPortal': 'Ветеринарный врач',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
@@ -1116,6 +1117,7 @@ const ru_RU = {
   Lifestyle: 'Образ жизни',
   Activity: 'Активность',
   Weight: 'Вес',
+  weight: 'Вес',
   Expire: ' ',
   xProduct: '{val} товар (а/ов)',
   'onlineStore.breedcrumb': 'Королевская собака',
@@ -1227,7 +1229,7 @@ const ru_RU = {
   searchBreed: 'Поиск породы',
   answeredQuestions: 'Ответы на вопросы',
   next: 'Следующий',
-  pirceRange: 'От {fromPrice} к {toPrice}',
+  pirceRange: 'От {fromPrice} до {toPrice}',
   'petform.subscription': 'Affiliate Subscriptions',
   'pet.deletePet': 'Удалить профиль питомца',
   messengers: 'Мессенджеры',
@@ -1256,7 +1258,10 @@ const ru_RU = {
   clubGiftTips2: 'Приветственный подарок, вознаграждения и сервисы',
   clubGiftTips3: 'Ваш персональный помощник Службы Заботы с 9 до 21 ',
   clubGiftTips4: 'Возможность изменения частоты доставок',
-  clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory'
+  clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory',
+  'mobile.cart.orderSummary': 'Итого',
+  'cart.autoshipSavedtip':
+    'Вы сэкономите {discount} от данного заказа при подписке'
 };
 
 export default ru_RU;

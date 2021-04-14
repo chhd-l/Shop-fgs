@@ -4,6 +4,7 @@ const api = {
   getList: `/${process.env.REACT_APP_STOREID}/subs`,
   getSubDetail: '/sub/',
   updateDetail: `/${process.env.REACT_APP_STOREID}/sub/`,
+  changeSubscriptionDetailPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionDetailPets`,
   getAddressDetail: '/customer/address/',
   skipNextSub: `/${process.env.REACT_APP_STOREID}/sub/cancel-next`,
   cancelAllSub: '/sub/cancel',
@@ -38,6 +39,13 @@ export function getSubListForPet(parameter) {
   });
 }
 
+export function changeSubscriptionDetailPets(parameter) {
+  return axios({
+    url: `${api.changeSubscriptionDetailPets}`,
+    method: 'put',
+    data: parameter
+  });
+}
 export function updateDetail(parameter) {
   return axios({
     url: `${api.updateDetail}${parameter.subscribeId}`,

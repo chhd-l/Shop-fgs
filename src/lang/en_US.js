@@ -254,6 +254,7 @@ const en_US = {
   'cart.errorInfo6': 'You cannot place your order, not seable: {val}',
   'cart.errorMaxCate': "The shopping cart can't exceed {val} items",
   'cart.errorMaxInfo': "The number can't be exceed than {val}",
+  'cart.errorAllProductNumLimit': 'The number of {val} orders is limited.',
   'cart.firstOrderDiscountTip':
     'The 30% discount for your first order will be applied during checkout',
   'cart.fullPrice': 'Find your pet’s precise formula',
@@ -1247,8 +1248,7 @@ const en_US = {
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   securePaymentProcessing: 'Secure payment processing',
-  'Vous avez économisé': 'You saved',
-  avecLabonnement: 'with autoship',
+  'cart.autoshipSavedtip': 'Autoship ile {discount} tasarruf ettiniz',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
