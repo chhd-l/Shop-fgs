@@ -48,6 +48,7 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import ClubBanner_Logo from '@/assets/images/club_banner_logo.png';
 //import Carousel from '../components/Carousel';
 import ResponsiveCarousel from '@/components/Carousel';
 import { setSeoConfig } from '@/utils/utils';
@@ -883,32 +884,44 @@ class LoginCart extends React.Component {
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}
             >
-              <div className="name-info flex-column-gift d-flex">
-                <img className="img" src={foodDispenserPic} />
+              <div
+                className="name-info flex-column-gift d-flex"
+                style={{ width: '400px' }}
+              >
+                <img
+                  className="img"
+                  src={ClubBanner_Logo}
+                  style={{ width: '400px' }}
+                />
               </div>
-              <div className="logo-info text-center">
+              {/* <div className="logo-info text-center">
                 <img
                   style={{ display: 'inline-block' }}
                   src={Club_Logo}
                   alt="Club logo"
                 />
-              </div>
+              </div> */}
               <div className="tips-info mobile-text-center">
                 <ul>
                   <li className="rc-list__item">
-                    <strong>Best-in-class nutrition</strong> for your pet
+                    <FormattedMessage id="clubGiftTips1" />
+                    {/* <strong>Best-in-class nutrition</strong> for your pet */}
                   </li>
                   <li className="rc-list__item">
-                    <strong>Adapted tips</strong> to care for your pet
+                    <FormattedMessage id="clubGiftTips2" />
+                    {/* <strong>Adapted tips</strong> to care for your pet */}
                   </li>
                   <li className="rc-list__item">
-                    Your personal <strong>Pet advisor</strong>
+                    <FormattedMessage id="clubGiftTips3" />
+                    {/* Your personal <strong>Pet advisor</strong> */}
                   </li>
                   <li className="rc-list__item">
-                    Exclusive <strong>rewards & offers</strong>
+                    <FormattedMessage id="clubGiftTips4" />
+                    {/* Exclusive <strong>rewards & offers</strong> */}
                   </li>
                   <li className="rc-list__item">
-                    <strong>Free, automatic delivery</strong> on every refill
+                    <FormattedMessage id="clubGiftTips5" />
+                    {/* <strong>Free, automatic delivery</strong> on every refill */}
                   </li>
                 </ul>
                 {/* You can cancel your subscription anytime, but you will have to
