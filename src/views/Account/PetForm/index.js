@@ -119,7 +119,8 @@ class PetForm extends React.Component {
         measureUnit: 'kg',
         type: 2
       },
-      breedName: ''
+      breedName: '',
+      breedcode: ''
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -367,7 +368,8 @@ class PetForm extends React.Component {
       activity: this.state.activity,
       lifestyle: this.state.lifestyle,
       weight: JSON.stringify(this.state.weightObj),
-      needs: this.state.sensitivity
+      needs: this.state.sensitivity,
+      breedcode: this.state.breedcode
     };
 
     if (!this.state.isPurebred) {
@@ -861,7 +863,8 @@ class PetForm extends React.Component {
     console.log(data);
     this.setState({
       weight: data.value,
-      selectedSizeObj: { value: data.value }
+      selectedSizeObj: { value: data.value },
+      breedcode: data.description
     });
   }
   lifestyleChange(data) {
