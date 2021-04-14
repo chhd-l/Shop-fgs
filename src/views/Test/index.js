@@ -14,6 +14,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
+import IMask from 'imask';
 
 import './index.less';
 
@@ -34,13 +35,18 @@ class Test extends React.Component {
         provinceId: '',
         province: '',
         postCode: '',
-        phoneNumber: ''
+        phoneNumber: '+7 (923) 456 78 90'
       },
       isValid: false
     };
   }
   componentWillUnmount() {}
-  componentDidMount() {}
+  componentDidMount() {
+    // 设置手机号输入限制
+    let element = document.getElementById('testinput');
+    let maskOptions = { mask: '+{7} (000) 000-00-00' };
+    let pval = IMask(element, maskOptions);
+  }
   validData = async ({ data }) => {
     console.log('------------------- > validData data: ', data);
     try {
@@ -70,16 +76,55 @@ class Test extends React.Component {
   handleClickConfirm = () => {
     const { isValid } = this.state;
   };
+  // 文本框输入改变
+  inputChange = (e) => {
+    const { form } = this.state;
+    const target = e.target;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    console.log('111111--------- ', name, ' : ', value);
+    form['phoneNumber'] = value;
+    this.setState({ form }, () => {
+      console.log('222222--------- ', name, ' : ', value);
+    });
+  };
+  // 文本框失去焦点
+  inputBlur = async (e) => {
+    const { form } = this.state;
+    const target = e?.target;
+    const tname = target?.name;
+    const value = target?.type === 'checkbox' ? target?.checked : target?.value;
+    form['phoneNumber'] = value;
+    this.setState({ form }, () => {
+      console.log('333333--------- ', tname, ' : ', value);
+    });
+  };
   render() {
     const { form, isValid } = this.state;
     return (
       <div style={{ padding: '30px' }}>
-        <Form
+        <br />
+        <input
+          className={`rc-input__control testInputShipping`}
+          value={form.phoneNumber}
+          id="testinput"
+          type="text"
+          name="testinput"
+          maxLength="18"
+          style={{ border: '1px solid #000' }}
+          onChange={(e) => this.inputChange(e)}
+          onBlur={this.inputBlur}
+        />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        {/* <Form
           type="delivery"
           initData={form}
           isLogin={false}
           updateData={this.handleEditFormChange}
-        />
+        /> */}
         <div className="d-flex justify-content-end mb-2">
           <button
             className="rc-btn rc-btn--one rc-btn--sm"
