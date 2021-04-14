@@ -514,7 +514,7 @@ const de_DE = {
     'Keine Produkte gefunden. Bitte ändern Sie Ihren Suchbegriff und versuchen Sie es erneut.',
   'list.youSearchedFor': 'Sie suchten nach',
   listPrice: 'UVP',
-  login: 'Anmeldung',
+  login: 'Anmelden',
   'login.firstCheck': '',
   'login.forgetPassword': 'Passwort vergessen?',
   'login.guestContinue': 'Weiter mit einem Gast',
