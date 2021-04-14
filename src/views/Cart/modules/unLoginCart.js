@@ -36,6 +36,7 @@ import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import Club_Logo from '@/assets/images/Logo_club.png';
+import ClubBanner_Logo from '@/assets/images/club_banner_logo.png';
 import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
@@ -941,36 +942,51 @@ class UnLoginCart extends React.Component {
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}
             >
-              <div className="name-info flex-column-gift d-flex">
+              <div
+                className="name-info flex-column-gift d-flex"
+                style={{ width: '400px' }}
+              >
+                <img
+                  className="img"
+                  src={ClubBanner_Logo}
+                  style={{ width: '400px' }}
+                />
+              </div>
+              {/* <div className="name-info flex-column-gift d-flex">
                 <img
                   className="img"
                   src={foodDispenserPic}
                   alt="food dispenserPic"
                 />
-              </div>
-              <div className="text-center" style={{ width: '200px' }}>
+              </div> */}
+              {/* <div className="text-center" style={{ width: '200px' }}>
                 <img
                   style={{ display: 'inline-block', width: '108px' }}
                   src={Club_Logo}
                   alt="Club Logo"
                 />
-              </div>
+              </div> */}
               <div className="tips-info mobile-text-center">
                 <ul>
                   <li className="rc-list__item">
-                    <strong>Best-in-class nutrition</strong> for your pet
+                    <FormattedMessage id="clubGiftTips1" />
+                    {/* <strong>Best-in-class nutrition</strong> for your pet */}
                   </li>
                   <li className="rc-list__item">
-                    <strong>Adapted tips</strong> to care for your pet
+                    <FormattedMessage id="clubGiftTips2" />
+                    {/* <strong>Adapted tips</strong> to care for your pet */}
                   </li>
                   <li className="rc-list__item">
-                    Your personal <strong>Pet advisor</strong>
+                    <FormattedMessage id="clubGiftTips3" />
+                    {/* Your personal <strong>Pet advisor</strong> */}
                   </li>
                   <li className="rc-list__item">
-                    Exclusive <strong>rewards & offers</strong>
+                    <FormattedMessage id="clubGiftTips4" />
+                    {/* Exclusive <strong>rewards & offers</strong> */}
                   </li>
                   <li className="rc-list__item">
-                    <strong>Free, automatic delivery</strong> on every refill
+                    <FormattedMessage id="clubGiftTips5" />
+                    {/* <strong>Free, automatic delivery</strong> on every refill */}
                   </li>
                 </ul>
                 {/* You can cancel your subscription anytime, but you will have to
