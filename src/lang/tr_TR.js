@@ -292,7 +292,7 @@ const tr_TR = {
   'details.youCanSave': 'Kurtarabilirsin',
   'details.buyFromRetailer': 'Yerel satıcı bul',
   'Club subscription': 'Club Aboneliği',
-  saveExtra: 'Kazan',
+  saveExtra: '{val} Kazan',
   dogs: 'KÖPEK',
   dogs2: 'Köpek',
   dogs3: 'Köpek',

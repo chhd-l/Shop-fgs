@@ -431,8 +431,8 @@ class PayProductInfo extends React.Component {
                       customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
                       enterPriceType 买入价格开关 0：含税，1：不含税
                     */}
-                    {this.props.configStore.customTaxSettingOpenFlag == 0 &&
-                    this.props.configStore.enterPriceType == 1 ? (
+                    {this.props.configStore?.customTaxSettingOpenFlag == 0 &&
+                    this.props.configStore?.enterPriceType == 1 ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">

@@ -46,8 +46,17 @@ export function formatMoney(
     val = parseFloat(val);
   }
   val += '';
+  let length = val.length;
   if (process.env.REACT_APP_LANG === 'tr') {
     return val + ' TL';
+  }
+  if (process.env.REACT_APP_LANG === 'ru') {
+    val = parseInt(val);
+    return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
+      style: 'currency',
+      currency: process.env.REACT_APP_CURRENCY,
+      maximumSignificantDigits: length
+    }).format(val);
   }
 
   return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {

@@ -455,7 +455,8 @@ class AccountOrders extends React.Component {
             tradeState.payState === 'NOT_PAID' &&
             new Date(resContext.orderTimeOut).getTime() >
               new Date(res.defaultLocalDateTime).getTime() &&
-            (!resContext.payWay || resContext.payWay.toUpperCase() !== 'OXXO')
+            (!resContext.payWay ||
+              !['OXXO', 'COD'].includes(resContext.payWay.toUpperCase()))
         });
       })
       .catch((err) => {
@@ -1408,8 +1409,9 @@ class AccountOrders extends React.Component {
                                     enterPriceType 买入价格开关 0：含税，1：不含税
                                   */}
                                   {this.props.configStore
-                                    .customTaxSettingOpenFlag == 0 &&
-                                  this.props.configStore.enterPriceType == 1 ? (
+                                    ?.customTaxSettingOpenFlag == 0 &&
+                                  this.props.configStore?.enterPriceType ==
+                                    1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;
