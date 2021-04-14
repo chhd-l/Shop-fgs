@@ -959,14 +959,13 @@ const tr_TR = {
     'EVCIL HAYVANINIZ IÇIN EN UYGUN MAMAYI VE MIKTARI BULUN',
   'club.howitworks.img1.description':
     'Birkaç basit soru yanıtlayarak evcil hayvanınız için en uygun mama önerisini alın',
-  'club.howitworks.img2.titile': "  {val} CLUB'A ABONE OLUN",
+  'club.howitworks.img2.titile': " CLUB'A ABONE OLUN",
   'club.howitworks.img2.description':
     'Abone olmak için satın alma işlemine devam edin. İlk siparişinizle birlikte bir hoşgeldin paketi alacaksınız',
   'club.howitworks.img3.titile': 'Siparişinizi kontrol edin',
   'club.howitworks.img3.description':
     'İstediğiniz zaman hesabınıza girerek aboneliğinizi yönetebilirsiniz. CLUB abonesi olarak size otomarik gönderimden faydalanın',
-  'club.howitworks.img4.titile':
-    ' {val}Özel hediye & servislerin keyfini çıkarın',
+  'club.howitworks.img4.titile': ' Özel hediye & servislerin keyfini çıkarın',
   'club.howitworks.img4.description':
     'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
   'club.joinsubscription.title': 'CLUB abonesi olun!',
