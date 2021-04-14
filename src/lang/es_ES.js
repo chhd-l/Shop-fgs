@@ -165,6 +165,7 @@ const es_ES = {
   'cart.miniCartTitle':
     '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
+  'minicart.totalProduct': '{val} artículo(s) en la canasta',
   'cart.totalProduct_nounit': '{val} producto(s) en total en la canasta',
   'cart.yourShoppingCart': 'Tu carrito de la compra',
   cats: 'GATOS',
@@ -764,6 +765,7 @@ const es_ES = {
   quantity: 'Cantidad',
   quantityCannotExceed10: 'La cantidad no puede exceder 10',
   quantityText: '{specText} - {buyCount} producto(s)',
+  'minicart.quantityText': '{specText} - {buyCount} producto(s)',
   'order.quantityText': '{specText} - {buyCount} producto(s)',
   queryDataFailed: 'Datos de consulta fallidos',
   ratingGrade1: 'Más reciente',

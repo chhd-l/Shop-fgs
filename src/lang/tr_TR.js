@@ -143,6 +143,7 @@ const tr_TR = {
   'cart.miniCartTitle':
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün',
+  'minicart.totalProduct': '{val} ürün',
   'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Sepetiniz',
   clubGiftTips1: 'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
@@ -737,6 +738,7 @@ const tr_TR = {
   quantity: 'Adet',
   quantityCannotExceed10: "Miktar 10'u geçemez",
   quantityText: '{specText} - {buyCount} Ürün',
+  'minicart.quantityText': '{specText} - {buyCount} Ürün',
   'order.quantityText': '{specText} - {buyCount} product(s)',
   queryDataFailed: 'Sorgu Verisi Başarısız',
   ratingGrade1: 'En Yeniler',
