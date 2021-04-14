@@ -900,7 +900,23 @@ const fr_FR = {
   ratingGrade3: 'Note la plus élevée à la plus basse',
   receiver: 'destinataire',
   recommandedForyou: 'Recommandé pour vous',
+  // 'recommendation.plusTitle':'',
+  'recommendation.noMoreRecommendation':
+    "Le produit n'est plus disponible ou non disponible à la vente",
+  'recommendation.plusContent':
+    "Adopter un animal implique un certain nombre de devoirs et d’obligations morales pour subvenir à ses besoins, assurer sa santé, sa sécurité et son bien-être. En agissant en propriétaire responsable, vous contribuerez à construire jour après jour une relation unique avec votre animal afin de lui offrir ce qu’il y a de meilleur. Lui proposer l’aliment le plus adapté pour lui, c’est agir de façon responsable. Chez Royal Canin, nous plaçons les besoins nutritionnels de l'animal au cœur de notre démarche pour créer des solutions nutritionnelles précises et sur mesure.",
+  'recommendation.plusImg': 'frplusImg.png',
+  'recommendation.guidelinesTips':
+    "Les conseils d'alimentation de Royal Canin figurent également sur l'emballage du produit.",
+  'recommendation.welcomeText1': 'Félicitations !',
+  'recommendation.welcomeSubText1':
+    'Adopter un animal est un engagement sur le long terme. Lui proposer l’aliment le plus adapté pour lui, c’est agir de façon responsable pour aider votre animal à être en bonne santé le plus longtemps possible',
+  'recommendation.welcomeText2': 'Voici la recommandation de votre éleveur :',
+  'recommendation.welcomeSubText':
+    '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
   'recommendation.buyNow': 'Acheter maintenant',
+  'recommendation.copyTips':
+    'Dans votre panier, entrez le code promotionnel et commandez !',
   'recommendation.firstContent':
     'Cliquez pour commencer dès maintenant pour vos achats, ou continuez à lire pour en savoir plus sur les avantages de la nutrition santé vétérinaire.',
   'recommendation.firstTitle':
