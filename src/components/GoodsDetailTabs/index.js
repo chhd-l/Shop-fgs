@@ -15,8 +15,8 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 const clubListData = [
   {
-    text: <FormattedMessage id="clubListData.tip1" />,
-    img: phoneicon,
+    text: <FormattedMessage id="clubListData.tip5" />,
+    img: nutrition,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
@@ -35,8 +35,8 @@ const clubListData = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage id="clubListData.tip5" />,
-    img: nutrition,
+    text: <FormattedMessage id="clubListData.tip1" />,
+    img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
@@ -121,9 +121,13 @@ const GoodsDetailTabs = function (props) {
 
                   ret = null;
                 } else if (isVet) {
-                  ret = `<p style="white-space: pre-line;">${prescriberDesc}</p>`;
+                  ret = prescriberDesc
+                    ? `<p style="white-space: pre-line;">${prescriberDesc}</p>`
+                    : '';
                 } else {
-                  ret = `<p style="white-space: pre-line;">${shortDesc}</p>`;
+                  ret = shortDesc
+                    ? `<p style="white-space: pre-line;">${shortDesc}</p>`
+                    : '';
                 }
                 break;
               case 'Benefits':

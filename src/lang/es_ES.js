@@ -160,6 +160,7 @@ const es_ES = {
   'cart.errorMaxCate':
     'El carrito de compras no puede exceder los {val} artículos.',
   'cart.errorMaxInfo': 'El número no puede exceder de {val}',
+  'cart.errorAllProductNumLimit': 'El número de {val} pedidos es limitado.',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
   'cart.miniCartTitle':
     '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
@@ -1063,7 +1064,7 @@ const es_ES = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
-  'mobile.cart.orderSummary': 'Order summary',
+  'mobile.cart.orderSummary': 'Resumen de pedido',
   'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
   'welcome.confirmEmail':
     'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
