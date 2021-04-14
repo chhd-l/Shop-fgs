@@ -54,6 +54,7 @@ import { Link } from 'react-router-dom';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import {
   updateDetail,
+  changeSubscriptionDetailPets,
   getAddressDetail,
   getSubDetail,
   skipNextSub,
@@ -93,6 +94,7 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      petsType: '',
       errMsgPage: '',
       errorMsgAddPet: '',
       errMsgDetail: '',
@@ -717,8 +719,8 @@ class SubscriptionDetail extends React.Component {
   async componentDidMount() {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
-    let updateFromEail = getParaByName(search, 'updateFromEail');
-    if (updateFromEail) {
+    let clubPetsLifeStageFlag = getParaByName(search, 'clubPetsLifeStageFlag');
+    if (clubPetsLifeStageFlag) {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
     }
@@ -770,6 +772,24 @@ class SubscriptionDetail extends React.Component {
     return this.props.loginStore.userInfo;
   }
   getPetList = async () => {
+    let { promotions, petsType } = this.state;
+    //plan同时存在goodsCategory为dog和cat的商品
+    let isCatAndDog = petsType === 'CatAndDog';
+    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
+    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
+    let errorMsg = '';
+    if (isAutoshipAndClub) {
+      errorMsg =
+        'There are club and autoship products, please go to the pet details to bind the products';
+    }
+    if (isCatAndDog) {
+      errorMsg =
+        'There are cat and dog products, please go to the pet details to bind the products';
+    }
+    if (isCantLinkPet) {
+      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
+      return;
+    }
     if (!this.userInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
@@ -779,11 +799,15 @@ class SubscriptionDetail extends React.Component {
     }
     this.setState({ loadingPage: true });
     await getPetList({
+      petsType,
       customerId: this.userInfo.customerId,
       consumerAccount: this.userInfo.customerAccount
     })
       .then((res) => {
-        let petList = res.context.context || [];
+        let petsList = res.context.context || [];
+        let petList = petsList?.filter(
+          (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
+        );
         this.setState({
           loading: false,
           petList,
@@ -1246,11 +1270,27 @@ class SubscriptionDetail extends React.Component {
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
-      let subDetail = res.context;
+      let subDetail = res.context || {};
       let noStartYear = {};
       let completedYear = {};
       let noStartYearOption = [];
       let completedYearOption = [];
+      let isCatArr =
+        subDetail.goodsInfo?.filter(
+          (el) => el.goodsCategory?.match(/cat/i)?.index > -1
+        ) || null;
+      let isDogArr =
+        subDetail.goodsInfo?.filter(
+          (el) => el.goodsCategory?.match(/dog/i)?.index > -1
+        ) || null;
+      let petsType = '';
+      if (isCatArr?.length == subDetail.goodsInfo?.length) {
+        petsType = 'Cat';
+      } else if (isDogArr?.length == subDetail.goodsInfo?.length) {
+        petsType = 'Dog';
+      } else {
+        petsType = 'CatAndDog';
+      }
       let completeOption = new Set(
         (subDetail.completedTradeList || []).map((el) => {
           return el.tradeState.createTime.split('-')[0];
@@ -1302,6 +1342,7 @@ class SubscriptionDetail extends React.Component {
       // );
       this.setState(
         {
+          petsType,
           isGift: isGift,
           subDetail: subDetail,
           currentCardInfo: subDetail.payPaymentInfo,
@@ -2596,51 +2637,25 @@ class SubscriptionDetail extends React.Component {
     }
   };
   linkPets = async (petsId) => {
-    let promotions = this.state.details.promotions;
-    let isCatArr = this.state.subDetail.goodsInfo.filter(
-      (el) => el.goodsCategory?.match(/cat/i)?.index > -1
-    );
-    let isDogArr = this.state.subDetail.goodsInfo.filter(
-      (el) => el.goodsCategory?.match(/dog/i)?.index > -1
-    );
-    //plan同时存在goodsCategory为dog和cat的商品
-    let isCatAndDog = isCatArr.length && isDogArr.length;
-    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
-    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
-    let errorMsg = '';
-    if (isAutoshipAndClub) {
-      errorMsg =
-        'There are club and autoship products, please go to the pet details to bind the products';
-    }
-    if (isCatAndDog) {
-      errorMsg =
-        'There are cat and dog products, please go to the pet details to bind the products';
-    }
-    if (isCantLinkPet) {
-      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
-      return;
-    }
     this.closeAddNewPet();
     this.setState({ loadingPage: true });
-    let { subscribeId, goodsInfo } = this.state.subDetail;
-    let goodsItems = goodsInfo.map((item) => {
-      let skuId = item.skuId;
-      return { skuId };
-    });
+    let { subscribeId } = this.state.subDetail;
     try {
       let param = {
         subscribeId,
-        petsId,
-        goodsItems
+        petsId
       };
-      await this.doUpdateDetail(param);
-      await this.getDetail();
+      let res = await changeSubscriptionDetailPets(param);
+      let newSubscribeId = res.context;
+      if (newSubscribeId === subscribeId) {
+        await this.getDetail();
+      } else {
+        this.props.history.push(
+          `/account/subscription/order/detail/${newSubscribeId}`
+        );
+      }
     } catch (err) {
-      this.showErrMsgs(
-        'The replacement product is the same as the current product',
-        'errorMsgAddPet'
-      );
-      this.showErrMsg(err.message);
+      this.showErrMsgs(err.message, 'errorMsgAddPet');
     } finally {
       this.setState({ loadingPage: false });
     }

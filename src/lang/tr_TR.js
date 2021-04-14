@@ -949,27 +949,30 @@ const tr_TR = {
     'EVCIL HAYVANINIZ IÇIN EN UYGUN MAMAYI VE MIKTARI BULUN',
   'club.howitworks.img1.description':
     'Birkaç basit soru yanıtlayarak evcil hayvanınız için en uygun mama önerisini alın',
-  'club.howitworks.img2.titile': "CLUB'A ABONE OLUN",
+  'club.howitworks.img2.titile': "  {val} CLUB'A ABONE OLUN",
   'club.howitworks.img2.description':
     'Abone olmak için satın alma işlemine devam edin. İlk siparişinizle birlikte bir hoşgeldin paketi alacaksınız',
   'club.howitworks.img3.titile': 'Siparişinizi kontrol edin',
   'club.howitworks.img3.description':
     'İstediğiniz zaman hesabınıza girerek aboneliğinizi yönetebilirsiniz. CLUB abonesi olarak size otomarik gönderimden faydalanın',
-  'club.howitworks.img4.titile': 'Özel hediye & servislerin keyfini çıkarın',
+  'club.howitworks.img4.titile':
+    ' {val}Özel hediye & servislerin keyfini çıkarın',
   'club.howitworks.img4.description':
     'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
   'club.joinsubscription.title': 'CLUB abonesi olun!',
   'club.joinsubscription.description':
     'Ona en uygun beslenme önerilerini alabilmek için, bize evcil hayvanınızdan bahsedin.',
   'club.joinsubscription.button': 'Başlayın',
-  'club.loyal.customers': 'Sadık müşterilerimiz',
+  'club.loyal.customers': 'Sizden gelenler',
   'club.wheretohelp': 'Size yardımcı olmak için buradayız!',
   'club.wheretohelp.description':
     'Ekibimiz, sorularınızı yanıtlamak ve en iyi deneyimi yaşadığınızdan emin olmak için burada. Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:',
   'club.wheretohelp.card.callus.title': 'Bizi arayın',
+  'club.wheretohelp.subtitile':
+    'Ekibimiz, sorularınızı yanıtlamak ve en iyi deneyimi yaşadığınızdan emin olmak için burada. Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:',
   'club.wheretohelp.card.callus.description':
     'Evcil hayvan uzmanlarımız haftaiçi her gün 09:00 - 18:00 arasında sorularınızı yanıtlamaktan mutluluk duyacaktır.',
-  'club.wheretohelp.card.callus.number': '0874 657 890',
+  'club.wheretohelp.card.callus.number': '0850 737 1200',
   'club.wheretohelp.card.email.title': 'Bize e-posta gönderin',
   'club.wheretohelp.card.email.description':
     '12 saat içerisinde, size olabildiğince hızlı dönmek için elimizden geleni yapacağız.',

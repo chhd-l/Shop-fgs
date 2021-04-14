@@ -12,6 +12,7 @@ import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
 import en from 'date-fns/locale/en-US';
+import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
@@ -669,6 +670,9 @@ function getDatePickerConfig() {
     case 'en':
       registerLocale('en', en);
       break;
+    case 'ru':
+      registerLocale('ru', ru);
+      break;
     default:
       break;
   }
@@ -678,6 +682,7 @@ function getDatePickerConfig() {
     de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
     fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
     en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
+    ru: { format: 'MM/dd/yyyy', locale: 'ru', locale_module: ru },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
