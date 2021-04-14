@@ -324,6 +324,8 @@ class PayProductInfo extends React.Component {
     );
   }
   getProductsForLogin(plist) {
+    // 线下店数量展示和正常流程有区别
+    let orderSource = sessionItemRoyal.get('orderSource');
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
@@ -362,13 +364,17 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    <FormattedMessage
-                      id="quantityText"
-                      values={{
-                        specText: el.specText,
-                        buyCount: el.buyCount
-                      }}
-                    />
+                    {orderSource === 'L_ATELIER_FELIN' ? (
+                      `${10 * el.buyCount}g`
+                    ) : (
+                      <FormattedMessage
+                        id="quantityText"
+                        values={{
+                          specText: el.specText,
+                          buyCount: el.buyCount
+                        }}
+                      />
+                    )}
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
