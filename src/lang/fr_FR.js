@@ -192,6 +192,7 @@ const fr_FR = {
   checkboxIsRequiredForSubscription:
     "cette case est obligatoire pour l'abonnement",
   checkout: 'Commander',
+  'minicart.checkout': 'Commander',
   'payment.checkout': 'Commander',
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   'Choose your pet type': "Quelle est l'espèce de votre animal",

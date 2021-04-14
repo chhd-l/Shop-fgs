@@ -160,6 +160,7 @@ const tr_TR = {
   changepic: 'Resim ekle',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   checkout: 'Sipariş ver',
+  'minicart.checkout': 'Sipariş ver',
   'payment.checkout': 'Ödeme',
   checkoutTip: 'Lütfen bilgilerinizi girin',
   choosePayment: 'Ödemeyi seçin',

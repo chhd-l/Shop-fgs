@@ -263,7 +263,7 @@ class LoginCart extends React.Component {
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
                     }`}
                   >
-                    <FormattedMessage id="checkout" />
+                    <FormattedMessage id="minicart.checkout" />
                   </a>
                 </div>
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">

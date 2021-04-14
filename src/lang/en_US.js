@@ -276,6 +276,7 @@ const en_US = {
   checkboxIsRequiredForSubscription:
     'this checkbox is required for subscription',
   checkout: 'Buy now',
+  'minicart.checkout': 'Buy now',
   checkoutTip: 'Please enter your information below',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',

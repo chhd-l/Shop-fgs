@@ -228,6 +228,7 @@ const ru_RU = {
   checkboxIsRequiredForSubscription:
     'при подписке на корм данное поле является обязательным для заполнения',
   checkout: 'Оформить заказ',
+  'minicart.checkout': 'Оформить заказ',
   'payment.checkout': 'Оформить заказ',
   checkoutTip: 'Пожалуйста, заполните следующие поля',
   choosePayment: 'Выбрать платеж',
