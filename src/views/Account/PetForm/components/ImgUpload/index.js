@@ -15,43 +15,31 @@ export default class ImgUpload extends React.Component {
     this.uploadDom = React.createRef();
   }
 
-  handleChange(e) {
-    console.log('测试图片类型');
-    const imgType = e.target.files[0].name || null;
-    console.log(imgType);
-    let errMsg = 'File type is not valid';
-    if (/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|mp4|rmvb|avi|ts)$/.test(imgType)) {
-      console.log('flag状态改变', errMsg);
-      errMsg = '';
-    }
+  async handleChange(e) {
+    try {
+      const imgType = e.target.files[0].name || null;
+      if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|mp4|rmvb|avi|ts)$/.test(imgType)) {
+        throw new Error('File type is not valid');
+      }
 
-    const { imgList } = this.state;
-    const files = e.target.files;
-    if (imgList.length > 8) {
-      errMsg = 'The number of pictures cannot exceed 9';
-    }
-    if (files.length && files[0].size >= 1048576) {
-      console.log('上传图片大小不得超过1M');
-      this.props.geterrMessage('Image uploaded is too large');
-      return false;
-    }
-    console.log('falg:', errMsg);
-
-    if (errMsg) {
-      console.log('文件类型错误');
-    } else {
+      const { imgList } = this.state;
+      const files = e.target.files;
+      if (imgList.length > 8) {
+        throw new Error('The number of pictures cannot exceed 9');
+      }
+      if (files.length && files[0].size >= 1048576) {
+        throw new Error('Upload image size should not exceed 1M');
+      }
       const formData = new FormData();
       formData.append('uploadFile', files[0]);
       this.props.showLoading();
-      uploadResource(formData)
-        .then((res) => {
-          this.props.handleChange(res.context[0]);
-          this.props.hiddenLoading();
-          myAccountActionPushEvent('Add picture');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const res = await uploadResource(formData);
+      this.props.handleChange(res.context[0]);
+      myAccountActionPushEvent('Add picture');
+    } catch (err) {
+      this.props.showErrMessage(err.message);
+    } finally {
+      this.props.hiddenLoading();
     }
   }
   hanldeDelete(idx) {
@@ -76,7 +64,6 @@ export default class ImgUpload extends React.Component {
           >
             <a
               className="rc-styled-link"
-              href="#/"
               onClick={(e) => {
                 e.preventDefault();
                 this.uploadDom.current.click();
