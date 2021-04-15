@@ -202,7 +202,7 @@ const tr_TR = {
   'confirmation.rateTip3': 'En fazla 50 karakter girin',
   'confirmation.rateTip4': 'Lütfen önce puan verin.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with the mark',
+    'Autoship ile {val1} tasarruf ettiniz',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmek istiyor musunuz?',
   confirmDeleteAddress: 'Adresi silmek istiyor musunuz?',
