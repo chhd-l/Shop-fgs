@@ -231,7 +231,7 @@ class Payment extends React.Component {
       installMentParam: null, // 分期参数
       //cyber参数
       cyberPaymentForm: {
-        cardholderName: '', //Didier Valansot
+        cardholderName: '', //Didier Valansot
         cardNumber: '', //4111111111111111
         expirationMonth: '',
         expirationYear: '',
@@ -309,7 +309,7 @@ class Payment extends React.Component {
       const { paymentStore, clinicStore, history } = this.props;
       const { tid } = this.state;
       setSeoConfig({
-        pageName: 'Checkout page'
+        pageName: 'Checkout page'
       }).then((res) => {
         this.setState({ seoConfig: res });
       });
@@ -367,8 +367,9 @@ class Payment extends React.Component {
         //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
         {
           needPrescriber:
-            handledData.filter((el) => el.prescriberFlag).length > 0 &&
-            sessionItemRoyal.get('needShowPrescriber') === 'true'
+            (handledData.filter((el) => el.prescriberFlag).length > 0 &&
+              sessionItemRoyal.get('needShowPrescriber') === 'true') ||
+            (clinicStore.linkClinicId && clinicStore.linkClinicName)
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
