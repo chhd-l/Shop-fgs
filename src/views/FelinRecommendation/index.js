@@ -331,6 +331,7 @@ class FelinRecommendation extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
+    let cartDataCopy = [];
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
 
@@ -340,8 +341,7 @@ class FelinRecommendation extends React.Component {
       });
       // let cartDataCopy = cloneDeep(
       //   toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      // );
-      let cartDataCopy = [];
+      // )
       let flag = true;
       if (cartDataCopy && cartDataCopy.length) {
         const historyItem = find(
