@@ -1153,6 +1153,7 @@ const tr_TR = {
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  'pet.deletePet': 'Evcil Hayvan Profilini Sil'
+  'pet.deletePet': 'Evcil Hayvan Profilini Sil',
+  shipmentOn: 'Yeni gönderim'
 };
 export default tr_TR;

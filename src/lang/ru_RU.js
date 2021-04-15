@@ -1265,7 +1265,8 @@ const ru_RU = {
   clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory',
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
-    'Вы сэкономите {discount} от данного заказа при подписке'
+    'Вы сэкономите {discount} от данного заказа при подписке',
+  shipmentOn: 'Новая доставка'
 };
 
 export default ru_RU;
