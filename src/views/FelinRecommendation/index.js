@@ -22,7 +22,7 @@ import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
-import { sitePurchase } from '@/api/cart';
+import { sitePurchase, siteMiniPurchases } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
@@ -338,10 +338,10 @@ class FelinRecommendation extends React.Component {
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-      let cartDataCopy = cloneDeep(
-        toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      );
-
+      // let cartDataCopy = cloneDeep(
+      //   toJS(this.props.checkoutStore.cartData).filter((el) => el)
+      // );
+      let cartDataCopy = [];
       let flag = true;
       if (cartDataCopy && cartDataCopy.length) {
         const historyItem = find(
@@ -395,7 +395,10 @@ class FelinRecommendation extends React.Component {
         cartDataCopy.push(tmpData);
       }
       console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+
+      await this.props.checkoutStore.updateUnloginCart({
+        cartData: cartDataCopy
+      });
     }
     this.props.history.push(path);
   }
@@ -415,7 +418,6 @@ class FelinRecommendation extends React.Component {
     }, 5000);
   };
   buyNow = async () => {
-    debugger;
     let needLogin = false; // one off商品
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
