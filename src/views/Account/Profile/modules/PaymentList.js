@@ -23,7 +23,8 @@ import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 import { showCardType } from '@/utils/constant/cyber';
 
 function CardItem(props) {
-  const { data } = props;
+  const { data, listVisible } = props;
+  console.log(2222, listVisible);
   return (
     <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
       <div
@@ -32,7 +33,14 @@ function CardItem(props) {
       >
         {props.operateBtnJSX}
       </div>
-      <div className={`pt-4 pt-md-2 pb-2 w-100`}>
+      <div
+        className={[
+          'pt-4',
+          'pb-2',
+          'w-100',
+          listVisible ? 'pt-md-4' : 'pt-md-2'
+        ].join(' ')}
+      >
         <div className="row">
           <div className={`col-4 d-flex flex-column justify-content-center`}>
             <LazyLoad height={100}>
@@ -412,6 +420,7 @@ class PaymentList extends React.Component {
                       >
                         <CardItem
                           data={el}
+                          listVisible={listVisible}
                           operateBtnJSX={
                             <>
                               {el.isDefault === 1 ? (
