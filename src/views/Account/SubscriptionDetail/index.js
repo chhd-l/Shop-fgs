@@ -3477,7 +3477,7 @@ class SubscriptionDetail extends React.Component {
                                               this.showChangeProduct([el])
                                             }
                                           >
-                                            change product
+                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
                                           </span>
                                         )}
                                       </div>

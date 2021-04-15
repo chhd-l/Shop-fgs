@@ -871,7 +871,9 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.goods.promotions && pitem.goods.promotions.includes('club') ? (
+          {pitem.goods.promotions &&
+          pitem.goods.promotions.includes('club') &&
+          pitem.goodsInfoFlag === 2 ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}

@@ -929,7 +929,9 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.promotions && pitem.promotions.includes('club') ? (
+          {pitem.promotions &&
+          pitem.promotions.includes('club') &&
+          pitem.goodsInfoFlag === 2 ? (
             <div
               className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
               style={{ marginTop: '-1.5rem' }}

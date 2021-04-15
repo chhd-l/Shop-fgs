@@ -644,7 +644,6 @@ class CheckoutStore {
         // 1 单个产品数量限制
         // 2 所有产品数量限制
         // 3 所有产品种类限制
-
         if (cartItem.quantity > +process.env.REACT_APP_LIMITED_NUM) {
           throw new Error(
             CURRENT_LANGFILE['cart.errorMaxInfo'].replace(
