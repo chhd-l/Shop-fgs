@@ -148,6 +148,11 @@ class PetForm extends React.Component {
       lifestyleOptions,
       activityOptions
     });
+    let petsType = this.props.location.state?.petsType;
+    if (petsType) {
+      let isCat = petsType === 'Cat';
+      this.petTypeChange(isCat);
+    }
 
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
