@@ -128,7 +128,8 @@ export const LoginUserBox = ({ self, className }) => {
     },
     {
       link: '/faq',
-      href: '/about-us/faqs',
+      href:
+        process.env.REACT_APP_LANG == 'ru' ? '/about-us/faq' : '/about-us/faqs',
       isHubOuterLink: true,
       isShow: true,
       text: (

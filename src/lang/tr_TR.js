@@ -1154,6 +1154,8 @@ const tr_TR = {
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
-  shipmentOn: 'Yeni gönderim'
+  shipmentOn: 'Yeni gönderim',
+  addedtoCart: 'Sepete Eklendi',
+  goToCart: 'Sepete Git'
 };
 export default tr_TR;
