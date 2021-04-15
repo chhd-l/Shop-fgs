@@ -304,7 +304,6 @@ class FelinRecommendation extends React.Component {
     //   }
     // }
     console.info('outOfStockProducts', outOfStockProducts);
-    debugger;
     if (outOfStockProducts.length > 0) {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
@@ -416,6 +415,7 @@ class FelinRecommendation extends React.Component {
     }, 5000);
   };
   buyNow = async () => {
+    debugger;
     let needLogin = false; // one off商品
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
@@ -468,7 +468,7 @@ class FelinRecommendation extends React.Component {
       // }
       this.setState({ buttonLoading: true });
       try {
-        if (loginStore.isLogin) {
+        if (loginStore.isLogin && false) {
           await this.hanldeLoginAddToCart();
         } else {
           let res = await getProductPetConfig({

@@ -326,6 +326,7 @@ class PayProductInfo extends React.Component {
   getProductsForLogin(plist) {
     // 线下店数量展示和正常流程有区别
     let orderSource = sessionItemRoyal.get('orderSource');
+    console.log(orderSource, 'orderSource');
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
