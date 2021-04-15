@@ -1268,7 +1268,9 @@ const ru_RU = {
     'Вы сэкономите {discount} от данного заказа при подписке',
   shipmentOn: 'Новая доставка',
   addedtoCart: 'Добавлено в корзину',
-  goToCart: 'Перейти в корзину'
+  goToCart: 'Перейти в корзину',
+  'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',
+  'order.completeTip': 'Посылка была доставлена вручную по адресу доставки.'
 };
 
 export default ru_RU;

@@ -1156,6 +1156,9 @@ const tr_TR = {
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
   shipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
-  goToCart: 'Sepete Git'
+  goToCart: 'Sepete Git',
+  'order.inTranistTip':
+    'Siparişiniz gönderildi ve ürünü yakında alacaksınız {val}',
+  'order.completeTip': 'Paket teslimat adresine elden teslim edildi.'
 };
 export default tr_TR;
