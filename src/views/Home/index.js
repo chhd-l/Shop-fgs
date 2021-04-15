@@ -11,7 +11,6 @@ import FooterImage from './modules/FooterImage';
 import SalesCategory from './modules/SalesCategory';
 import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
-import LimitLoginModal from './modules/LimitLoginModal';
 import { Ads } from './ad';
 import { TopAds } from './ad';
 import { Advantage } from './advantage';
@@ -595,7 +594,6 @@ class Home extends React.Component {
             </div>
           </div>
           <Footer />
-          <LimitLoginModal />
         </main>
       </div>
     );
