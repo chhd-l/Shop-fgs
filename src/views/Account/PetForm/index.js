@@ -1,6 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import Modal from '@/components/Modal';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -44,7 +45,10 @@ import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
-import { findPetProductForClub } from '@/api/subscription';
+import {
+  findPetProductForClub,
+  changeSubscriptionDetailPets
+} from '@/api/subscription';
 
 const selectedPet = {
   border: '3px solid #ec001a'
@@ -64,6 +68,7 @@ class PetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isEditAlert: false,
       loading: true,
       precent: 12.5,
       step: 1,
@@ -386,48 +391,69 @@ class PetForm extends React.Component {
       weight: JSON.stringify(this.state.weightObj),
       needs: this.state.sensitivity
     };
-
+    let isEditAlert = false;
     let param = {
       customerPets: pets,
       // customerPetsPropRelations: customerPetsPropRelations,
       storeId: process.env.REACT_APP_STOREID,
       userId: consumerAccount
     };
+    let action = addPet;
     if (pets.petsId) {
-      await editPets(param)
-        .then((res) => {
-          this.setState({
-            currentStep: 'success'
-          });
-          setTimeout(() => {
-            this.petsById(pets.petsId);
-          }, 3000);
-          this.props.history.push('/account/pets/');
-        })
-        .catch((err) => {
-          this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
-          this.setState({
-            loading: false
-          });
-        });
-    } else {
-      await addPet(param)
-        .then((res) => {
-          myAccountActionPushEvent('Add pet');
-          let currentStep = 'success';
-          this.setState({
-            currentStep: currentStep
-          });
-          this.props.history.push('/account/pets/');
-        })
-        .catch((err) => {
-          this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
-          this.setState({
-            loading: false
-          });
-        });
+      action = editPets;
+    }
+    try {
+      let res = await action(param);
+      let subscribeId = this.props.location.state?.subscribeId;
+      if (!pets.petsId) {
+        myAccountActionPushEvent('Add pet');
+        let petsType = this.props.location.state?.petsType;
+        if (subscribeId) {
+          if (petsType) {
+            // 从subdetail过来新增宠物的需要单独linksub
+            let params = {
+              subscribeId,
+              petsId
+            };
+            try {
+              await changeSubscriptionDetailPets(params);
+            } catch (err) {
+              this.showErrorMsg(err.message);
+            }
+          }
+        }
+      } else {
+        if (subscribeId) {
+          // 从subdetail过来编辑宠物的需要弹提示框
+          isEditAlert = true;
+          this.setState({ isEditAlert: true });
+        }
+      }
+      this.setState({
+        currentStep: 'success'
+      });
+      if (!isEditAlert) {
+        this.gotoNext();
+      }
+    } catch (err) {
+      this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
+      this.setState({
+        loading: false
+      });
     }
   };
+
+  gotoNext(stateText = 'isFromPets') {
+    if (this.props.location.state && this.props.location.state.subscribeId) {
+      this.props.history.push({
+        pathname: `/account/subscription/order/detail/${this.props.location.state.subscribeId}`,
+        state: { [stateText]: true }
+      });
+    } else {
+      this.props.history.push('/account/pets/');
+    }
+  }
+
   nextStep() {
     let step = this.state.step;
     let isEdit = this.state.isEdit;
@@ -1724,6 +1750,31 @@ class PetForm extends React.Component {
               ) : null}
             </div>
           </div>
+          <Modal
+            headerVisible={true}
+            footerVisible={false}
+            visible={this.state.isEditAlert}
+            modalTitle={''}
+            close={() => {
+              this.setState({ isEditAlert: false });
+            }}
+          >
+            <div className="text-center">
+              <p>
+                <div>Your pet's infomation has been saved!</div>
+                Based on this infomationn,we recommend a new product for your
+                pet
+              </p>
+              <p>
+                <button
+                  onClick={() => this.gotoNext('clubPetsLifeStageFlag')}
+                  className="rc-btn rc-btn--one rc-btn--sm"
+                >
+                  See recommendation
+                </button>
+              </p>
+            </div>
+          </Modal>
           <Footer />
         </main>
       </div>

@@ -1039,7 +1039,7 @@ const tr_TR = {
   'order.total': ' Toplam',
   'order.iVAIncluido': 'KDV Dahil ',
   units: 'adet',
-  autoShipStarted: 'Abonelik yaratılma tarihi',
+  autoShipStarted: 'Abonelik Başlangıç',
   nextShipment: 'Gelecek gönderi',
   'payment.installment': 'Taksit',
   bankCard: 'Kredi Kartı',

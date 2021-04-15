@@ -68,8 +68,7 @@ class Confirmation extends React.Component {
   };
   render() {
     const { panelStatus } = this;
-    const { checkoutStore } = this.props;
-    const { totalPrice, tradePrice } = checkoutStore;
+    const { tradePrice } = this.props;
     const { isValid } = this.state;
     const titleJSXForPrepare = (
       <h5 className={`mb-0`}>
@@ -137,7 +136,7 @@ class Confirmation extends React.Component {
               <div className="rc-text--right">
                 {}
                 <p className="rc-meta d-flex d-md-block align-items-center rc-margin-bottom--none ">
-                  <span className="rc-icon rc-lock--xs rc-iconography--xs"></span>
+                  <span className="rc-icon rc-lock--xs rc-iconography--xs" />
                   <span className="rc-margin-left--xs">
                     <FormattedMessage id="securePaymentProcessing" />
                   </span>
