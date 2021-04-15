@@ -20,6 +20,7 @@ function throttle(fn, delay) {
 class SearchSelection extends React.Component {
   static defaultProps = {
     customStyle: false,
+    inputCustomStyle: false, //input框是否要全长
     customCls: '',
     isBottomPaging: false, // 滑倒底部翻页
     freeText: false,
@@ -217,7 +218,7 @@ class SearchSelection extends React.Component {
   render() {
     const { optionList, form } = this.state;
     return (
-      <div>
+      <div style={{ flex: this.props.inputCustomStyle ? 'auto' : '' }}>
         <div
           className={`${this.props.customCls} ${
             this.props.customStyle

@@ -144,7 +144,7 @@ class ClinicForm extends React.Component {
               className={`rc-icon rc-vet--xs ${
                 isEdit ? 'rc-brand1' : 'rc-iconography'
               }`}
-            ></em>{' '}
+            />{' '}
             {this.isLogin ? (
               <FormattedMessage id="payment.clinicTitle2" />
             ) : (
@@ -188,6 +188,7 @@ class ClinicForm extends React.Component {
                 key={this.state.form.clinicName}
                 placeholder={this.props.intl.messages.enterClinicName}
                 customCls="flex-fill"
+                inputCustomStyle={true}
               />
               <span className="ml-3">
                 <span

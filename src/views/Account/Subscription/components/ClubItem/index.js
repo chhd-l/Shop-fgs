@@ -18,7 +18,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   return (
     <div
-      className="row rc-margin-x--none row align-items-center card-container pb-3"
+      className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox"
       style={{ marginTop: '0', marginBottom: '1.25rem' }}
       key={subItem.subscribeId}
     >
@@ -136,14 +136,19 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
           </p>
         </span>
       </div>
-      <div className="col-4 col-md-1 ml-3">
-        {subItem.subscribeStatus === '0' || subItem.subscribeStatus === '1' ? (
-          <div>
+      <div className="col-4 col-md-1 ml-3 status">
+        {subItem.subscribeStatus === '0' ? (
+          <div className="ui-text-overflow-line1">
             <em className="greenCircle" />
             <FormattedMessage id="active" />
           </div>
+        ) : subItem.subscribeStatus === '1' ? (
+          <div className="ui-text-overflow-line1">
+            <em className="yellowCircle" />
+            <FormattedMessage id="paused" />
+          </div>
         ) : (
-          <div>
+          <div className="ui-text-overflow-line1">
             <em className="yellowCircle" />
             <FormattedMessage id="inactive" />
           </div>

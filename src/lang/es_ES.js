@@ -1081,6 +1081,7 @@ const es_ES = {
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
   'welcome.contactUS': 'Kontaktieren Sie uns',
-  'cart.autoshipSavedtip': 'Ahorraste {discount} con envío automático'
+  'cart.autoshipSavedtip': 'Ahorraste {discount} con envío automático',
+  paused: 'Pausado'
 };
 export default es_ES;

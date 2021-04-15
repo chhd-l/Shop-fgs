@@ -95,7 +95,7 @@ class VisitorAddress extends React.Component {
       });
       this.props.updateData(data);
     } catch (err) {
-      console.error(' err msg: ', err);
+      console.log(' err msg: ', err);
       this.setState({ isValid: false, visitorValidationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
