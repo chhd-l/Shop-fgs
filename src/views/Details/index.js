@@ -440,7 +440,10 @@ class Details extends React.Component {
         'One-off purchase': 0
       }[targetDefaultPurchaseTypeItem.valueEn];
       if (defaultPurchaseType === 1) {
-        buyWay = details.promotions === 'club' ? 2 : 1;
+        buyWay =
+          details.promotions === 'club' || checkoutStore.pr_petsInfo.petsId
+            ? 2
+            : 1;
       } else {
         buyWay = defaultPurchaseType;
       }
