@@ -1627,13 +1627,13 @@ class PetForm extends React.Component {
               </div>
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {getClubFlag() ? (
+            {currentPet.petsId && getClubFlag() ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
                 setState={this.setState.bind(this)}
                 errorMsg={this.state.errorMsg}
-                petsType={this.state.isCat ? 'cat' : 'dog'}
+                petsType={currentPet.petsType}
               />
             ) : null}
 
