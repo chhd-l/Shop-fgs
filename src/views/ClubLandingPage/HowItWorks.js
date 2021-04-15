@@ -38,7 +38,7 @@ const HowItWorks = (props) => {
                 <div className="text-center">
                   <article>
                     <div className="rc-card__body" style={{ height: '120px' }}>
-                      <p className="rc-card__meta">
+                      <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img1.titile" />
                         </h5>
@@ -54,7 +54,10 @@ const HowItWorks = (props) => {
                       />
                     </LazyLoad>
                     <div className="rc-card__body">
-                      <p className="rc-card__meta">
+                      <p
+                        className="rc-card__meta club_subscription_intro_center"
+                        style={{ fontSize: '1rem' }}
+                      >
                         <FormattedMessage id="club.howitworks.img1.description" />
                       </p>
                     </div>
@@ -64,7 +67,8 @@ const HowItWorks = (props) => {
                   style={{
                     alignSelf: 'center',
                     marginLeft: '.625rem',
-                    marginRight: '.625rem'
+                    marginRight: '.625rem',
+                    marginTop: '-1.5rem'
                   }}
                 >
                   <article>
@@ -74,7 +78,7 @@ const HowItWorks = (props) => {
                 <div>
                   <article>
                     <div className="rc-card__body" style={{ height: '120px' }}>
-                      <p className="rc-card__meta">
+                      <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img2.titile" />
                         </h5>
@@ -90,7 +94,10 @@ const HowItWorks = (props) => {
                       />
                     </LazyLoad>
                     <div className="rc-card__body">
-                      <p className="rc-card__meta">
+                      <p
+                        className="rc-card__meta club_subscription_intro_center"
+                        style={{ fontSize: '1rem' }}
+                      >
                         <FormattedMessage id="club.howitworks.img2.description" />
                       </p>
                     </div>
@@ -100,7 +107,8 @@ const HowItWorks = (props) => {
                   style={{
                     alignSelf: 'center',
                     marginLeft: '.625rem',
-                    marginRight: '.625rem'
+                    marginRight: '.625rem',
+                    marginTop: '-1.5rem'
                   }}
                 >
                   <article>
@@ -111,7 +119,7 @@ const HowItWorks = (props) => {
                 <div>
                   <article>
                     <div className="rc-card__body" style={{ height: '120px' }}>
-                      <p className="rc-card__meta">
+                      <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img3.titile" />
                         </h5>
@@ -127,7 +135,10 @@ const HowItWorks = (props) => {
                       />
                     </LazyLoad>
                     <div className="rc-card__body">
-                      <p className="rc-card__meta">
+                      <p
+                        className="rc-card__meta club_subscription_intro_center"
+                        style={{ fontSize: '1rem' }}
+                      >
                         <FormattedMessage id="club.howitworks.img3.description" />
                       </p>
                     </div>
@@ -137,7 +148,8 @@ const HowItWorks = (props) => {
                   style={{
                     alignSelf: 'center',
                     marginLeft: '.625rem',
-                    marginRight: '.625rem'
+                    marginRight: '.625rem',
+                    marginTop: '-1.5rem'
                   }}
                 >
                   <article>
@@ -148,7 +160,7 @@ const HowItWorks = (props) => {
                 <div>
                   <article>
                     <div className="rc-card__body" style={{ height: '120px' }}>
-                      <p className="rc-card__meta">
+                      <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img4.titile" />
                         </h5>
@@ -164,7 +176,10 @@ const HowItWorks = (props) => {
                       />
                     </LazyLoad>
                     <div className="rc-card__body">
-                      <p className="rc-card__meta">
+                      <p
+                        className="rc-card__meta club_subscription_intro_center"
+                        style={{ fontSize: '1rem' }}
+                      >
                         <FormattedMessage id="club.howitworks.img4.description" />
                       </p>
                     </div>

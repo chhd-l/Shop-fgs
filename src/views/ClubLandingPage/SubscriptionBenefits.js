@@ -14,6 +14,7 @@ import spetadviser from './ClubImage/pictospetadviser@4x.png';
 import shippingicon from './ClubImage/pictoshipping@4x.png';
 import nutrition from './ClubImage/pictonutrition@4x.png';
 import iconsix from './ClubImage/iconsix.png';
+import './index.css';
 
 export function SubscriptionBenefits() {
   const defaultJSX = (
@@ -199,8 +200,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon1" />
                 </p>
               </div>
@@ -219,8 +220,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon2" />
                 </p>
               </div>
@@ -239,8 +240,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon3" />
                 </p>
               </div>
@@ -259,8 +260,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon4" />
                 </p>
               </div>
@@ -279,8 +280,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon5" />
                 </p>
               </div>
@@ -299,8 +300,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon5" />
                 </p>
               </div>
@@ -323,8 +324,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon1" />
                 </p>
               </div>
@@ -343,8 +344,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon2" />
                 </p>
               </div>
@@ -363,8 +364,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon3" />
                 </p>
               </div>
@@ -383,8 +384,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon4" />
                 </p>
               </div>
@@ -403,8 +404,8 @@ export function SubscriptionBenefits() {
                   />
                 </LazyLoad>
               </div>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
+              <div className="d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
                   <FormattedMessage id="club.subscription.icon5" />
                 </p>
               </div>

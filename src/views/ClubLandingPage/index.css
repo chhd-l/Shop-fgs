@@ -59,6 +59,10 @@
   cursor: pointer;
 }
 
+.club_subscription_intro_center {
+  text-align: center !important;
+}
+
 @media (max-width: 639.98px) {
   .ui-pop .img-container {
     width: 80%;
