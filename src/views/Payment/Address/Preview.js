@@ -1,6 +1,8 @@
 import React from 'react';
+import { inject } from 'mobx-react';
 import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
+@inject('configStore')
 export default class AddressPreview extends React.Component {
   static defaultProps = { form: null, countryListDict: [], boldName: true };
   constructor(props) {
@@ -18,6 +20,9 @@ export default class AddressPreview extends React.Component {
   render() {
     const { form, boldName, isLogin } = this.props;
 
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore?.localAddressForm;
+
     return form ? (
       <div className="children-nomargin">
         {/* {JSON.stringify(form)} */}
@@ -25,7 +30,9 @@ export default class AddressPreview extends React.Component {
           {form.firstName + ' ' + form.lastName}
         </p>
         <p>{form.address1}</p>
-        {form.address2 ? <p>{form.address2}</p> : null}
+        {localAddressForm['address2'] && form.address2 && (
+          <p>{form.address2}</p>
+        )}
 
         {/* 俄罗斯计算运费 */}
         {process.env.REACT_APP_LANG == 'ru' ? (
@@ -76,16 +83,28 @@ export default class AddressPreview extends React.Component {
                   </span>
                 </>
               )}
-              {/* <span>{[form.postCode, form.city, ' '].join(',')}</span> */}
-              <span>
-                {form.city}
-                {', '}
-              </span>
 
-              {form.province && form.province != null && (
-                <span>{form.province} </span>
+              {/* 城市 */}
+              {localAddressForm['city'] && (
+                <span>
+                  {form.city}
+                  {', '}
+                </span>
               )}
-              {form.postCode}
+
+              {/* 区域 */}
+              {localAddressForm['region'] && (
+                <span>
+                  {form.region}
+                  {', '}
+                </span>
+              )}
+
+              {/* 省份 */}
+              {localAddressForm['state'] && <span>{form.province}</span>}
+
+              {/* 邮件 */}
+              {localAddressForm['postCode'] && <span>{form.postCode}</span>}
             </p>
             <p>{form.phoneNumber || form.consigneeNumber} </p>
           </>

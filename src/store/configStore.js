@@ -1,5 +1,10 @@
 import { action, observable, computed } from 'mobx';
-import { getConfig, getIsNeedPrescriber } from '@/api';
+import {
+  getConfig,
+  getSystemConfig,
+  getAddressSetting,
+  getIsNeedPrescriber
+} from '@/api';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -10,8 +15,12 @@ class ConfigStore {
     : null;
 
   @observable isNeedPrescriber = null; //prescription页面是否需要显示prescriber弹框
-
   @observable prescriberSelectType = null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
+
+  // 获取本地存储的需要显示的地址字段
+  @computed get localAddressForm() {
+    return localItemRoyal.get('rc-address-form') || null;
+  }
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -165,6 +174,65 @@ class ConfigStore {
     }
     this.isNeedPrescriber = isNeedPrescriber;
     this.prescriberSelectType = prescriberSelectType;
+  }
+
+  // 1、查询form表单配置开关
+  @action.bound
+  async getSystemFormConfig() {
+    let addressForm = localItemRoyal.get('rc-address-form') || null;
+    if (addressForm) {
+      return;
+    }
+    try {
+      const res = await getSystemConfig({ configType: 'address_input_type' });
+      if (res?.context?.configVOList) {
+        let manually = '',
+          automatically = '';
+        let robj = res.context.configVOList;
+        robj.forEach((item) => {
+          if (item.configKey == 'address_input_type_manually') {
+            manually = item.context;
+          } else if (item.configKey == 'address_input_type_automatically') {
+            automatically = item.context;
+          }
+        });
+        let fromSetSwitch =
+          manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
+        // 根据接口类型查询表单数据
+        this.getAddressSettingByApi(fromSetSwitch);
+      } else {
+        console.error('地址表单接口返回空，找后端配置。');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
+  @action.bound
+  async getAddressSettingByApi(formSettingSwitch) {
+    try {
+      const res = await getAddressSetting({
+        addressApiType: formSettingSwitch
+      });
+      if (res?.context?.addressDisplaySettings) {
+        let addressSettings = res.context.addressDisplaySettings;
+        // 把查询到的address配置存到本地
+        let addressForm = {};
+        addressSettings.forEach((item) => {
+          if (item.enableFlag == 1) {
+            addressForm[item.fieldKey] = item.fieldKey;
+          } else {
+            addressForm[item.fieldKey] = '';
+          }
+        });
+        localItemRoyal.set('rc-address-form', addressForm);
+      } else {
+        console.error('地址表单接口返回空，找后端配置。');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 export default ConfigStore;
