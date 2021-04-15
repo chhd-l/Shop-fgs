@@ -51,10 +51,9 @@ export default class LimitLoginModal extends Component {
   contentFrag() {
     return (
       <div style={contentStyle}>
-        Maintenance is planned for April 17th, 2021 from 8am-4pm CST. Account
-        access may be unavailable during this time. Please check back after 4pm
-        CST for account access, or check out as a guest during this time. We
-        apologize for the inconvenience. Thank you!
+        Maintenance is planned for April 17th, 2021 from 8am-4pm CST.  Checkout
+        and account access may be unavailable during this time. Please check
+        back after 4pm CST.  We apologize for the inconvenience. Thank you!
       </div>
     );
   }
