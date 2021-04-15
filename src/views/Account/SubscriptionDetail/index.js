@@ -2797,6 +2797,9 @@ class SubscriptionDetail extends React.Component {
     };
     const data = this.state;
     const { checkoutStore } = this.props;
+    // 获取本地存储的需要显示的地址字段
+    debugger;
+    const localAddressForm = this.props.configStore?.localAddressForm;
     let {
       isChangeQuatity,
       discount,
@@ -5041,23 +5044,29 @@ class SubscriptionDetail extends React.Component {
                               <p className="mb-0 sd_mb_address1">
                                 {currentDeliveryAddress.address1}
                               </p>
-                              {currentDeliveryAddress.address2 ? (
-                                <p className="mb-0 od_mb_address2">
-                                  {currentDeliveryAddress.address2}
-                                </p>
-                              ) : null}
+                              {localAddressForm['address2'] &&
+                                currentDeliveryAddress.address2 && (
+                                  <p className="mb-0 sd_mb_address2">
+                                    {currentDeliveryAddress.address2}
+                                  </p>
+                                )}
 
                               <p className="mb-0 sd_mb_cpp">
                                 {/* 城市 */}
-                                {currentDeliveryAddress.city}
-                                {', '}
+                                {localAddressForm['city'] &&
+                                  currentDeliveryAddress.city + ', '}
+
+                                {/* 区域 */}
+                                {localAddressForm['region'] &&
+                                  currentDeliveryAddress.region + ', '}
+
                                 {/* 省份 / State */}
-                                {currentDeliveryAddress?.province &&
-                                currentDeliveryAddress?.province != null
-                                  ? currentDeliveryAddress.province
-                                  : null}{' '}
+                                {localAddressForm['state'] &&
+                                  currentDeliveryAddress.province + ' '}
+
                                 {/* 邮编 */}
-                                {currentDeliveryAddress.postCode}
+                                {localAddressForm['postCode'] &&
+                                  currentDeliveryAddress.postCode}
                               </p>
                             </div>
                           </div>

@@ -191,6 +191,18 @@ class Form extends React.Component {
           },
           () => {
             let narr = null;
+
+            // 把查询到的address配置存到本地
+            let addressForm = {};
+            this.state.addressSettings.forEach((item) => {
+              if (item.enableFlag == 1) {
+                addressForm[item.fieldKey] = item.fieldKey;
+              } else {
+                addressForm[item.fieldKey] = '';
+              }
+            });
+            localItemRoyal.set('rc-address-form', addressForm);
+
             // 过滤掉不可用的
             if (this.props.isCyberBillingAddress) {
               // 美国加卡不要电话号码
@@ -207,14 +219,6 @@ class Form extends React.Component {
                 (item) => item.enableFlag == 1
               );
             }
-
-            // 把查询到的address配置存到本地
-            let addressForm = {};
-            narr.forEach((item) => {
-              addressForm[item.fieldKey] = item.fieldKey;
-            });
-            console.log(addressForm);
-            localItemRoyal.set('rc-address-form', addressForm);
 
             let ress = this.formListByRow(narr, (item) => {
               return [item.sequence];
