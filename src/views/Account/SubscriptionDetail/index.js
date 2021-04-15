@@ -621,7 +621,8 @@ class SubscriptionDetail extends React.Component {
             {petsInfo?.petsName}
           </h4>
           <div>
-            Date of birth:<strong> {petsInfo?.birthOfPets}</strong>
+            <FormattedMessage id="age" />:
+            <strong> {petsInfo?.birthOfPets}</strong>
           </div>
         </div>
         <div className="rc-padding-right--md">
@@ -654,7 +655,14 @@ class SubscriptionDetail extends React.Component {
           </div>
           <div>
             <FormattedMessage id="Sterilized" />:{' '}
-            <strong> {petsInfo?.sterilized ? 'yes' : 'no'}</strong>
+            <strong>
+              {' '}
+              {petsInfo?.sterilized ? (
+                <FormattedMessage id="account.yes" />
+              ) : (
+                <FormattedMessage id="account.no" />
+              )}
+            </strong>
           </div>
         </div>
         <div className="rc-md-up">
