@@ -167,27 +167,7 @@ class PetForm extends React.Component {
       .catch((err) => {
         this.showErrorMsg(err.message);
       });
-    await getDictionary({ type: 'specialNeeds' })
-      .then((res) => {
-        this.setState({
-          specialNeeds: res
-        });
-      })
-      .catch((err) => {
-        this.showErrorMsg(err.message);
-      });
     this.getPetList();
-  }
-  get specialNeedsOptions() {
-    let option = this.state.specialNeeds.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.valueEn,
-        ...ele
-      };
-    });
-
-    return option;
   }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
@@ -227,14 +207,20 @@ class PetForm extends React.Component {
           if (currentPet) {
             this.edit(currentPet);
             this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-            this.setState({
-              currentPetId: currentPet.petsId,
-              currentPet: currentPet,
-              imgUrl:
-                currentPet.petsImg && currentPet.petsImg.includes('http')
-                  ? currentPet.petsImg
-                  : ''
-            });
+            this.setState(
+              {
+                currentPetId: currentPet.petsId,
+                currentPet: currentPet,
+                imgUrl:
+                  currentPet.petsImg && currentPet.petsImg.includes('http')
+                    ? currentPet.petsImg
+                    : '',
+                isCat: currentPet.petsType == 'cat' ? true : false
+              },
+              () => {
+                this.getTypeDict();
+              }
+            );
           }
         } else {
           this.setState({
@@ -842,12 +828,48 @@ class PetForm extends React.Component {
     }
   }
   petTypeChange(isCat) {
+    this.setState(
+      {
+        isChoosePetType: true,
+        isCat: isCat,
+        isDisabled: false
+      },
+      () => {
+        this.getTypeDict();
+      }
+    );
+  }
+
+  async getTypeDict() {
+    let sensitivityCat = [],
+      sensitivityDog = [],
+      specialneedsCat = [],
+      specialneedsDog = [];
+    if (this.state.isCat) {
+      sensitivityCat = await getDictionary({ type: 'sensitivity_cat' });
+      sensitivityCat.map((el) => {
+        el.value = el.valueEn;
+      });
+      specialneedsCat = await getDictionary({ type: 'specialneeds_cat' });
+      specialneedsCat.map((el) => {
+        el.value = el.valueEn;
+      });
+    } else {
+      sensitivityDog = await getDictionary({ type: 'sensitivity_dog' });
+      sensitivityDog.map((el) => {
+        el.value = el.valueEn;
+      });
+      specialneedsDog = await getDictionary({ type: 'specialneeds_dog' });
+      specialneedsDog.map((el) => {
+        el.value = el.valueEn;
+      });
+    }
     this.setState({
-      isChoosePetType: true,
-      isCat: isCat,
-      isDisabled: false
+      sensitivityList: this.state.isCat ? sensitivityCat : sensitivityDog,
+      specialNeeds: this.state.isCat ? specialneedsCat : specialneedsDog
     });
   }
+
   specialNeedsOptionsChange(data) {
     this.setState({ sensitivity: data.value });
     // console.log(data);
@@ -1268,7 +1290,7 @@ class PetForm extends React.Component {
                         <FormattedMessage id="Special Need" />
                       </label>
                       <Selection
-                        optionList={this.specialNeedsOptions}
+                        optionList={this.state.specialNeeds}
                         selectedItemChange={(el) =>
                           this.specialNeedsOptionsChange(el)
                         }
