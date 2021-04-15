@@ -492,6 +492,10 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   //获取是否显示prescriber弹框
   await configStore.getIsNeedPrescriber();
   const showPrescriberModal = configStore.isShowPrescriberModal;
+  const prescriberSelectType = configStore.prescriberSelectTyped;
+  if (prescriberSelectType === 1) {
+    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
+  }
   // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
   if (!showPrescriberModal) {
     if (
