@@ -8,7 +8,6 @@ import {
   getSubListForPet,
   changeSubscriptionGoods
 } from '@/api/subscription';
-import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -20,7 +19,7 @@ const LinkedSubs = (props) => {
   let [subList, setSubList] = useState([]);
   let [frequencyList, setFrequencyList] = useState([]);
   let [isShowAll, setIsShowAll] = useState(false);
-  const { loading, errorMsg, petsType } = props;
+  const { loading, errorMsg } = props;
   const isMobile = getDeviceType() !== 'PC';
   const querySubList = () => {
     props.setState({ loading: true });
@@ -33,10 +32,9 @@ const LinkedSubs = (props) => {
     //     ? localItemRoyal.get('rc-userinfo')['customerAccount']
     //     : ''
     // };
-    console.log('type', props);
     getSubListForPet({
       petsId: props.petsId,
-      subscriptionPlanType: petsType
+      subscriptionPlanType: props.petsType
     })
       .then((res) => {
         setSubList(res.context);
@@ -72,7 +70,7 @@ const LinkedSubs = (props) => {
       {subList.length ? (
         <div>
           <h4 className="rc-delta rc-margin--none pb-2">
-            <FormattedMessage id="petform.subscription" />
+            <FormattedMessage id="subscription" />
           </h4>
         </div>
       ) : null}
@@ -208,15 +206,15 @@ const LinkedSubs = (props) => {
                             addGoodsItems: [
                               {
                                 skuId: subItem.skuId,
-                                subscribeNum: subItem.subscribeNum,
+                                goodsNum: subItem.subscribeNum,
                                 goodsInfoFlag: subItem.goodsInfoFlag,
                                 periodTypeId: subItem.periodTypeId,
                                 subscribeId: subItem.subscribeId
                               }
                             ]
                           };
-                          changeSubscriptionGoodsByPets(params).then((res) => {
-                            querySubList();
+                          changeSubscriptionGoods(params).then((res) => {
+                            subItem.petsId = props.petsId;
                           });
                         }}
                       >
@@ -238,8 +236,8 @@ const LinkedSubs = (props) => {
                               }
                             ]
                           };
-                          changeSubscriptionGoodsByPets(params).then((res) => {
-                            querySubList();
+                          changeSubscriptionGoods(params).then((res) => {
+                            subItem.petsId = null;
                           });
                         }}
                       >
