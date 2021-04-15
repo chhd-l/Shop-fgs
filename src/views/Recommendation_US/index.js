@@ -1223,8 +1223,19 @@ class Recommendation extends React.Component {
                                 {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
                               </div>
-                              <div className="rc-margin-bottom--none rc-meta text-center w-100">
-                                <FormattedMessage id="recommendation.guidelinesTips" />
+                              <div
+                                className={`rc-margin-bottom--none rc-meta w-100 ${
+                                  isRu
+                                    ? 'rc-padding-x--sm d-flex text-left'
+                                    : ' text-center'
+                                }`}
+                              >
+                                {isRu && (
+                                  <span className="rc-icon rc-info--xs rc-iconography"></span>
+                                )}
+                                <span>
+                                  <FormattedMessage id="recommendation.guidelinesTips" />
+                                </span>
                               </div>
                             </div>
 
