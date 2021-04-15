@@ -102,9 +102,10 @@ class Form extends React.Component {
     initData.state = initData.province;
 
     console.log('104 -------------★ EditForm initData: ', initData);
-    console.log('105-------------★ EditForm caninForm: ', caninForm);
+    // console.log('105-------------★ EditForm caninForm: ', caninForm);
 
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
+      console.log('108-------------★ Form');
       this.props.updateData(this.state.caninForm);
     });
 
