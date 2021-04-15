@@ -702,7 +702,7 @@ const ru_RU = {
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
   // 'payment.totalProduct': '{val} total product (s)',
   'payment.totalProduct': '{val} товар (а/ов)',
-  'payment.yourOrder': 'Твоя очередь',
+  'payment.yourOrder': 'Детали заказа',
   'payment.deliveryDate': 'срок поставки - {min} - {max} рабочих дня.',
   'payment.deliveryDate2': 'срок поставки {val} рабочих дня.',
   'payment.shippingDiscount': 'Скидка на доставку',
@@ -1265,7 +1265,9 @@ const ru_RU = {
   clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory',
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
-    'Вы сэкономите {discount} от данного заказа при подписке'
+    'Вы сэкономите {discount} от данного заказа при подписке',
+  addedtoCart: 'Добавлено в корзину',
+  goToCart: 'Перейти в корзину'
 };
 
 export default ru_RU;
