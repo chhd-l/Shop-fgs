@@ -259,7 +259,7 @@ const ru_RU = {
     'Прокомментируйте, пожалуйста, опыт покупок',
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
-  'confirmation.account': 'Зайти в мой аккаунт',
+  'confirmation.account': 'Посмотреть заказ',
   'confirmation.customerInformation': 'Персональные данные',
   'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
@@ -563,7 +563,7 @@ const ru_RU = {
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
   modalSkipTitle: 'Пропустить следующую доставку',
-  moreAddress: 'Подробнее Адрес',
+  moreAddress: 'Свернуть мои адреса',
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
     'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
@@ -997,6 +997,7 @@ const ru_RU = {
   writeYourReview: 'Напишите свой отзыв',
   yes: 'Подтвердить',
   yes2: 'Подтвердить',
+  yes3: 'Разместить заказ',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
 
