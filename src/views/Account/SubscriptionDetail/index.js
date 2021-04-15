@@ -2719,7 +2719,7 @@ class SubscriptionDetail extends React.Component {
   statusText = () => {
     let { subDetail, isNotInactive } = this.state;
     return subDetail.subscribeId ? (
-      isNotInactive ? (
+      subDetail.subscribeStatus === '0' ? (
         <span
           style={{
             background: '#E0F3D4',
@@ -2730,6 +2730,18 @@ class SubscriptionDetail extends React.Component {
           }}
         >
           <FormattedMessage id="active" />
+        </span>
+      ) : subDetail.subscribeStatus === '1' ? (
+        <span
+          style={{
+            background: '#FCEBD4',
+            color: '#ED8A00',
+            fontSize: '.875rem',
+            padding: '0 5px'
+            // marginLeft: '.625rem'
+          }}
+        >
+          <FormattedMessage id="paused" />
         </span>
       ) : (
         <span

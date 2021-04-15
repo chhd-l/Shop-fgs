@@ -1319,6 +1319,7 @@ const en_US = {
   'welcome.contactUS': 'Contact Us',
   'Other products to consider': 'Other products to consider',
   recommendProductTip:
-    'The recommendations provided here are for infomational purpose only.Ie should not be cosidered as guarantee for what may be best for your individual pet. Quantity,Size and Frequency will be set up in the CLUB management page'
+    'The recommendations provided here are for infomational purpose only.Ie should not be cosidered as guarantee for what may be best for your individual pet. Quantity,Size and Frequency will be set up in the CLUB management page',
+  paused: 'Paused'
 };
 export default en_US;

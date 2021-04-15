@@ -1,5 +1,6 @@
 import React from 'react';
-import ClubBanner_Logo from '@/assets/images/club_banner_logo.png';
+import ClubBanner_Logo_ru from '@/assets/images/club_banner_logo_ru.png';
+import ClubBanner_Logo_en from '@/assets/images/club_banner_logo_en.png';
 import { FormattedMessage } from 'react-intl';
 
 export default function ClubGiftBanner() {
@@ -9,7 +10,14 @@ export default function ClubGiftBanner() {
         className="name-info flex-column-gift d-flex mr-md-3 ml-md-3"
         style={{ flex: 1 }}
       >
-        <img className="img w-100" src={ClubBanner_Logo} />
+        <img
+          className="img w-100"
+          src={
+            process.env.REACT_APP_LANG === 'ru'
+              ? ClubBanner_Logo_ru
+              : ClubBanner_Logo_en
+          }
+        />
       </div>
       {/* <div className="logo-info text-center">
     <img
