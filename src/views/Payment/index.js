@@ -636,8 +636,11 @@ class Payment extends React.Component {
       };
     });
     let listData = [];
-    if (!this.isLogin && process.env.REACT_APP_LANG == 'en') {
-      listData = [...requiredList]; //美国游客只显示必选项
+    if (
+      !this.isLogin &&
+      (process.env.REACT_APP_LANG == 'en' || process.env.REACT_APP_LANG == 'ru')
+    ) {
+      listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
     } else {
       listData = [...requiredList, ...optioalList]; //必填项+选填项
     }
