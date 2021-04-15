@@ -1021,6 +1021,7 @@ const tr_TR = {
   'account.yes': 'Evet',
   'account.no': 'Hayır',
   Sensitivity: 'Hassasiyet',
+  Size: 'Boyut',
   petMale: 'Erkek',
   saveChange: 'Değişiklikleri kaydet',
   allOrders: 'Tüm siparişler',
