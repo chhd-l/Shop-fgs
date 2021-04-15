@@ -470,7 +470,8 @@ class FelinRecommendation extends React.Component {
       // }
       this.setState({ buttonLoading: true });
       try {
-        if (loginStore.isLogin && false) {
+        if (loginStore.isLogin) {
+          sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
           await this.hanldeLoginAddToCart();
         } else {
           let res = await getProductPetConfig({
