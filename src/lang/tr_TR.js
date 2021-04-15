@@ -1159,6 +1159,7 @@ const tr_TR = {
   goToCart: 'Sepete Git',
   'order.inTranistTip':
     'Siparişiniz gönderildi ve ürünü yakında alacaksınız {val}',
-  'order.completeTip': 'Paket teslimat adresine elden teslim edildi.'
+  'order.completeTip': 'Paket teslimat adresine elden teslim edildi.',
+  paused: 'Duraklatıldı'
 };
 export default tr_TR;
