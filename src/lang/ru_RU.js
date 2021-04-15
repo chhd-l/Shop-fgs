@@ -30,8 +30,8 @@ const ru_RU = {
   'account.catOrDog': 'У тебя есть кошка или собака?',
   'account.dateTip': 'Пожалуйста, выберите прошедшую дату.',
   'account.deleteMyaccountDesc':
-    'как только ваш счёт будет удален, вы не сможете использовать этот счёт для доступа к сервису Royal Canin.',
-  'account.deleteMyaccountTitle': 'Удалить счёт',
+    'как только ваш аккаунт будет удален, вы не сможете использовать этот аккаунт для доступа к сервису Royal Canin.',
+  'account.deleteMyaccountTitle': 'Удалить аккаунт',
   'account.dog': 'Собака',
   'account.Email': 'Е-mail адрес',
   'account.enterBirthDare': 'Введите дату рождения вашего питомца.',
@@ -702,7 +702,7 @@ const ru_RU = {
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
   // 'payment.totalProduct': '{val} total product (s)',
   'payment.totalProduct': '{val} товар (а/ов)',
-  'payment.yourOrder': 'Твоя очередь',
+  'payment.yourOrder': 'Детали заказа',
   'payment.deliveryDate': 'срок поставки - {min} - {max} рабочих дня.',
   'payment.deliveryDate2': 'срок поставки {val} рабочих дня.',
   'payment.shippingDiscount': 'Скидка на доставку',
@@ -745,7 +745,7 @@ const ru_RU = {
   price: 'Цена',
   printEbanx: 'Войти в аккаунт',
   privacyPolicy: 'Политика конфиденциальности',
-  proceedToTheDeletion: 'продолжить удаление',
+  proceedToTheDeletion: 'Удалить мой аккаунт',
   'productFinder.ageErrorShow':
     'Возрастной выбор должен быть больше 0 месяцев.',
   'productFinder.resultHlep':
@@ -868,8 +868,8 @@ const ru_RU = {
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
-  saveSuccessfullly2: 'Ваша информация была правильно сохранена',
-  saveSuccessfullly3: 'Ваша информация была правильно сохранена',
+  saveSuccessfullly2: 'Ваша информация была успешно сохранена',
+  saveSuccessfullly3: 'Ваша информация была успешно сохранена',
   deleteSuccessFullly: 'Başarıyla silindi',
   search: 'Поиск',
   searchForAProductOrArtical: 'Найдите продукт или статью',
@@ -1265,7 +1265,10 @@ const ru_RU = {
   clubGiftTips5: 'Бесплатные онлайн консультации нутрициолога в PetStory',
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
-    'Вы сэкономите {discount} от данного заказа при подписке'
+    'Вы сэкономите {discount} от данного заказа при подписке',
+  shipmentOn: 'Новая доставка',
+  addedtoCart: 'Добавлено в корзину',
+  goToCart: 'Перейти в корзину'
 };
 
 export default ru_RU;

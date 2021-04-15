@@ -29,19 +29,15 @@ import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
 import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
-import cartImg from './images/cart.png';
 import { getProductPetConfig } from '@/api/payment';
-import Selection from '@/components/Selection';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
-import Club_Logo from '@/assets/images/Logo_club.png';
-import ClubBanner_Logo from '@/assets/images/club_banner_logo.png';
 import './index.less';
 import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
-// import Carousel from '../components/Carousel';
+import ClubGiftBanner from '../components/ClubGiftBanner';
 import ResponsiveCarousel from '@/components/Carousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
@@ -110,16 +106,6 @@ class UnLoginCart extends React.Component {
     return this.props.checkoutStore.subscriptionPrice;
   }
   get totalPrice() {
-    // let totalPrice = 0;
-    // this.props.checkoutStore.cartData.map((el) => {
-    //   let skuItem = el.sizeList.filter((el) => el.selected)[0];
-    //   // if (el.goodsInfoFlag) {
-    //   //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
-    //   // } else {
-    //   totalPrice = totalPrice + el.quantity * skuItem.salePrice;
-    //   // }
-    // });
-    // return totalPrice;
     return this.props.checkoutStore.totalPrice;
   }
   get tradePrice() {
@@ -553,6 +539,13 @@ class UnLoginCart extends React.Component {
     try {
       const { productList } = this.state;
       this.setState({ checkoutLoading: true });
+      if (
+        productList.reduce((pre, cur) => {
+          return Number(pre) + Number(cur.quantity);
+        }, 0) > +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+      ) {
+        debugger;
+      }
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
         isThrowErr,
@@ -929,63 +922,10 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.promotions && pitem.promotions.includes('club') ? (
-            <div
-              className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info"
-              style={{ marginTop: '-1.5rem' }}
-            >
-              <div
-                className="name-info flex-column-gift d-flex"
-                style={{ width: '400px' }}
-              >
-                <img
-                  className="img"
-                  src={ClubBanner_Logo}
-                  style={{ width: '400px' }}
-                />
-              </div>
-              {/* <div className="name-info flex-column-gift d-flex">
-                <img
-                  className="img"
-                  src={foodDispenserPic}
-                  alt="food dispenserPic"
-                />
-              </div> */}
-              {/* <div className="text-center" style={{ width: '200px' }}>
-                <img
-                  style={{ display: 'inline-block', width: '108px' }}
-                  src={Club_Logo}
-                  alt="Club Logo"
-                />
-              </div> */}
-              <div className="tips-info mobile-text-center">
-                <ul>
-                  <li className="rc-list__item">
-                    <FormattedMessage id="clubGiftTips1" />
-                    {/* <strong>Best-in-class nutrition</strong> for your pet */}
-                  </li>
-                  <li className="rc-list__item">
-                    <FormattedMessage id="clubGiftTips2" />
-                    {/* <strong>Adapted tips</strong> to care for your pet */}
-                  </li>
-                  <li className="rc-list__item">
-                    <FormattedMessage id="clubGiftTips3" />
-                    {/* Your personal <strong>Pet advisor</strong> */}
-                  </li>
-                  <li className="rc-list__item">
-                    <FormattedMessage id="clubGiftTips4" />
-                    {/* Exclusive <strong>rewards & offers</strong> */}
-                  </li>
-                  <li className="rc-list__item">
-                    <FormattedMessage id="clubGiftTips5" />
-                    {/* <strong>Free, automatic delivery</strong> on every refill */}
-                  </li>
-                </ul>
-                {/* You can cancel your subscription anytime, but you will have to
-                pay the remaining balance of the dispenser market price of 120
-                euros.* */}
-              </div>
-            </div>
+          {pitem.promotions &&
+          pitem.promotions.includes('club') &&
+          pitem.goodsInfoFlag === 2 ? (
+            <ClubGiftBanner />
           ) : null}
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1004,7 +944,7 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="tips-info mobile-text-center">
+                <div className="tips-info mobile-text-center mr-3">
                   You can cancel your subscription anytime, but you will have to
                   pay the remaining balance of the dispenser market price of 120
                   euros.*

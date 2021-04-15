@@ -712,28 +712,30 @@ class Form extends React.Component {
     let dstreet = data?.street,
       dpcode = data?.postCode,
       dhouse = data?.house;
-    if (dstreet == null || dpcode == null || dhouse == null) {
+    // if (dstreet == null || dpcode == null || dhouse == null) {
+    if (dpcode == null || dhouse == null) {
       this.props.getRussiaAddressValidFlag(false);
-      if (dstreet == null) {
-        errMsg = streets;
-      }
+      // if (dstreet == null) {
+      //   errMsg = streets;
+      // }
       if (dpcode == null) {
         errMsg = postCode;
       }
       if (dhouse == null) {
         errMsg = house;
       }
-      if (dstreet == null && dpcode == null) {
-        errMsg = streets + ', ' + postCode;
-      }
-      if (dstreet == null && dhouse == null) {
-        errMsg = streets + ', ' + house;
-      }
+      // if (dstreet == null && dpcode == null) {
+      //   errMsg = streets + ', ' + postCode;
+      // }
+      // if (dstreet == null && dhouse == null) {
+      //   errMsg = streets + ', ' + house;
+      // }
       if (dpcode == null && dhouse == null) {
         errMsg = postCode + ', ' + house;
       }
       errMsg = this.getIntlMsg('payment.pleaseInput') + errMsg;
-      if (dstreet == null && dpcode == null && dhouse == null) {
+      // if (dstreet == null && dpcode == null && dhouse == null) {
+      if (dpcode == null && dhouse == null) {
         errMsg = this.getIntlMsg('payment.wrongAddress');
       }
       // 显示错误信息

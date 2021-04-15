@@ -58,9 +58,7 @@ class Carousel extends React.Component {
     var circlesLis = circles.getElementsByTagName('li');
 
     var length = imageLis.length;
-    if (circlesLis.length < 1) {
-      return;
-    }
+
     //idx可能是5，但是我们的小圆点下标最大是4，所以用n过渡一下：
     var n = idx > length - 1 ? 0 : idx;
     //排他
@@ -180,20 +178,16 @@ class Carousel extends React.Component {
           <FormattedMessage id="recommandedForyou" />
         </div>
         <div className="carousel-wrap">
-          {this.props.recommendData.length > 4 && (
-            <>
-              <a
-                className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer"
-                id="leftBtn"
-                onClick={this.leftBtnClick}
-              ></a>
-              <a
-                className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer"
-                id="rightBtn"
-                onClick={this.rightBtnClick}
-              ></a>
-            </>
-          )}
+          <a
+            className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer"
+            id="leftBtn"
+            onClick={this.leftBtnClick}
+          ></a>
+          <a
+            className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer"
+            id="rightBtn"
+            onClick={this.rightBtnClick}
+          ></a>
           <div className="carousel" id="carousel">
             <div className="m_unit" id="m_unit">
               <ul>
