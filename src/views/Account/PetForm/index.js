@@ -315,7 +315,7 @@ class PetForm extends React.Component {
       return;
     }
     if (process.env.REACT_APP_LANG !== 'en') {
-      if (!this.state.activity || !this.state.lifestyle) {
+      if (!this.state.activity || (!this.state.lifestyle && this.state.isCat)) {
         this.showErrorMsg(
           this.props.intl.messages.pleasecompleteTheRequiredItem
         );
@@ -602,7 +602,7 @@ class PetForm extends React.Component {
     };
     try {
       if (currentPet.weight) {
-        weightObj = JSON.parse(JSON.parse(currentPet.weight));
+        weightObj = JSON.parse(currentPet.weight);
       }
     } catch (e) {}
     let breedList = [];
@@ -903,6 +903,8 @@ class PetForm extends React.Component {
       isChoosePetType,
       isCat
     } = this.state;
+    const RuTr =
+      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1420,24 +1422,26 @@ class PetForm extends React.Component {
                     )}
                     {process.env.REACT_APP_LANG !== 'en' ? (
                       <>
-                        <div className="form-group col-lg-6 pull-left required">
-                          <label
-                            className="form-control-label rc-full-width"
-                            htmlFor="Lifestyle"
-                          >
-                            <FormattedMessage id="Lifestyle" />
-                          </label>
-                          <Selection
-                            optionList={this.state.lifestyleOptions}
-                            selectedItemChange={(el) =>
-                              this.lifestyleChange(el)
-                            }
-                            selectedItemData={{
-                              value: this.state.lifestyle
-                            }}
-                            key={this.state.lifestyle}
-                          />
-                        </div>
+                        {RuTr && this.state.isCat ? (
+                          <div className="form-group col-lg-6 pull-left required">
+                            <label
+                              className="form-control-label rc-full-width"
+                              htmlFor="Lifestyle"
+                            >
+                              <FormattedMessage id="Lifestyle" />
+                            </label>
+                            <Selection
+                              optionList={this.state.lifestyleOptions}
+                              selectedItemChange={(el) =>
+                                this.lifestyleChange(el)
+                              }
+                              selectedItemData={{
+                                value: this.state.lifestyle
+                              }}
+                              key={this.state.lifestyle}
+                            />
+                          </div>
+                        ) : null}
                         <div className="form-group col-lg-6 pull-left required">
                           <label
                             className="form-control-label rc-full-width"
