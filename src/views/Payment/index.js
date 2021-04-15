@@ -2532,6 +2532,7 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
+      const { paymentTypeVal } = this.state;
       // console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
@@ -2540,7 +2541,11 @@ class Payment extends React.Component {
             disabled={disabled}
             onClick={this.clickConfirmPaymentPanel}
           >
-            <FormattedMessage id="yes2" />
+            {paymentTypeVal == 'cod' ? (
+              <FormattedMessage id="yes3" />
+            ) : (
+              <FormattedMessage id="yes2" />
+            )}
           </button>
         </div>
       );
