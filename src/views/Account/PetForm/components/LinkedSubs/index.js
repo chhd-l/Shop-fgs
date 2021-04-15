@@ -8,6 +8,7 @@ import {
   getSubListForPet,
   changeSubscriptionGoods
 } from '@/api/subscription';
+import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
