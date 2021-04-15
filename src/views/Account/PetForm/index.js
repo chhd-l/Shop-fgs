@@ -356,7 +356,9 @@ class PetForm extends React.Component {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.isPurebred
+      petsBreed: this.state.isCat
+        ? 'mixed_breed'
+        : this.state.isPurebred
         ? this.state.breed
         : this.state.breedcode,
       petsName: this.state.nickname,
