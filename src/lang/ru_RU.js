@@ -565,7 +565,7 @@ const ru_RU = {
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
   modalSkipTitle: 'Пропустить следующую доставку',
-  moreAddress: 'Свернуть мои адреса',
+  moreAddress: 'Развернуть мои адреса',
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
     'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
@@ -675,7 +675,7 @@ const ru_RU = {
   'payment.frequencyTip1': 'Да, сделай мою жизнь проще!',
   'payment.frequencyTip2': 'Нет, спасибо.',
   'payment.frequencyTip3': 'Ваши товары будут отправлены только один раз',
-  'payment.further': 'Оплатить',
+  'payment.further': 'Разместить заказ',
   'payment.howToDelivery': 'Как доставить',
   'payment.itemTotalProduct': 'товар всего товара',
   'payment.lastName': 'Фамилия',
@@ -984,7 +984,7 @@ const ru_RU = {
   totalIncluMessage: '',
   twoPasswordsYouTypedDoNotMatch: 'Два введенных вами пароля не совпадают!',
   type: 'ТИП',
-  unfoldAddress: 'Развернуть адрес',
+  unfoldAddress: 'Свернуть мои адреса',
   unLoginSubscriptionTips:
     'Участие в клубной программе только для зарегистрированных пользователей',
   userAgreement: 'Пользовательское Соглашение',
@@ -999,7 +999,6 @@ const ru_RU = {
   writeYourReview: 'Напишите свой отзыв',
   yes: 'Подтвердить',
   yes2: 'Подтвердить',
-  yes3: 'Разместить заказ',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
 

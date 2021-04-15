@@ -2534,11 +2534,7 @@ class Payment extends React.Component {
             disabled={disabled}
             onClick={this.clickConfirmPaymentPanel}
           >
-            {paymentTypeVal == 'cod' ? (
-              <FormattedMessage id="yes3" />
-            ) : (
-              <FormattedMessage id="yes2" />
-            )}
+            <FormattedMessage id="yes2" />
           </button>
         </div>
       );
