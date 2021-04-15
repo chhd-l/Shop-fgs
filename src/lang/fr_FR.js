@@ -1559,6 +1559,7 @@ const fr_FR = {
     "Loi sur la transparence de la chaîne d'approvisionnement CA",
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
   'welcome.contactUS': 'Contactez-nous',
-  'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement"
+  'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement",
+  paused: 'En pause'
 };
 export default fr_FR;
