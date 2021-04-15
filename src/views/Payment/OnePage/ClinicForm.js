@@ -89,6 +89,7 @@ class ClinicForm extends React.Component {
     }, 500);
   }
   handleClickEdit = () => {
+    this.props.paymentStore.setStsToEdit({ key: 'clinic', hideOthers: true });
     this.setState({ isEdit: true });
   };
   handleClickConfirm = () => {
