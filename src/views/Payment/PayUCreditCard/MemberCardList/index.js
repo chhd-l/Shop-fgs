@@ -293,18 +293,22 @@ class MemberCardList extends React.Component {
   async validFormData() {
     const { mustSaveForFutherPayments } = this.props;
     const {
-      creditCardInfoForm: { savedCardChecked }
+      creditCardInfoForm: { savedCardChecked },
+      isEdit
     } = this.state;
     let isValid = false;
     try {
       // 必须保存卡时，没有勾选保存卡按钮时，校验不通过
-      if (mustSaveForFutherPayments && !savedCardChecked) {
+      if (isEdit && mustSaveForFutherPayments && !savedCardChecked) {
         throw new Error('must checked the saved card checkbox');
       }
-      await validData(
-        PAYMENT_METHOD_PAU_CHECKOUT_RULE,
-        this.state.creditCardInfoForm
-      );
+      if (isEdit) {
+        await validData(
+          PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+          this.state.creditCardInfoForm
+        );
+      }
+
       this.setState({ isValid: true });
       isValid = true;
     } catch (err) {
@@ -511,9 +515,6 @@ class MemberCardList extends React.Component {
       .filter((c) => c.id === selectedId)[0];
     this.props.getSelectedValue(s || null);
     this.props.onVisitorPayosDataConfirm(s || null);
-    this.props.updateFormValidStatus(
-      s && (s.cardCvv || s.encrypted_cvv) ? true : false
-    );
     this.props.updateFormValidStatus(
       s && (s.cardCvv || s.encrypted_cvv) ? true : false
     );

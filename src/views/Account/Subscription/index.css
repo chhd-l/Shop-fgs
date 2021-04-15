@@ -108,6 +108,10 @@
 .card-img {
   width: 100%;
 }
+.autoshipBox .status > div,
+.clubBox .status > div {
+  width: 80px;
+}
 /* .row {
     margin-left: 0;
     margin-right: 0;

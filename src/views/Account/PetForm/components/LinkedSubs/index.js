@@ -19,6 +19,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const LinkedSubs = (props) => {
   let [subList, setSubList] = useState([]);
   let [frequencyList, setFrequencyList] = useState([]);
+  let [btnLoading, setBtnLoading] = useState(false);
   let [isShowAll, setIsShowAll] = useState(false);
   const { loading, errorMsg } = props;
   const isMobile = getDeviceType() !== 'PC';
@@ -65,9 +66,8 @@ const LinkedSubs = (props) => {
     });
     querySubList();
   }, []);
-  console.log(subList, 'subList');
   return (
-    <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+    <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop linkedSubsBox">
       {subList.length ? (
         <div>
           <h4 className="rc-delta rc-margin--none pb-2">
@@ -200,8 +200,13 @@ const LinkedSubs = (props) => {
                   >
                     {!subItem.petsId ? (
                       <button
-                        className="rc-btn rc-btn--two rc-btn--sm"
+                        className={`rc-btn rc-btn--two rc-btn--sm text-plain ${
+                          btnLoading ? 'ui-btn-loading' : ''
+                        }`}
                         onClick={() => {
+                          if (btnLoading) {
+                            return;
+                          }
                           let params = {
                             petsId: props.petsId,
                             addGoodsItems: [
@@ -214,8 +219,17 @@ const LinkedSubs = (props) => {
                               }
                             ]
                           };
-                          changeSubscriptionGoods(params).then((res) => {
-                            subItem.petsId = props.petsId;
+                          setBtnLoading(true);
+                          changeSubscriptionGoodsByPets(params).then((res) => {
+                            let currentSubList = subList.map((el, index) => {
+                              if (index === i) {
+                                el.petsId = props.petsId;
+                              }
+                              return el;
+                            });
+                            console.log(currentSubList, 'currentSubList1');
+                            setBtnLoading(false);
+                            setSubList(currentSubList);
                           });
                         }}
                       >
@@ -223,8 +237,13 @@ const LinkedSubs = (props) => {
                       </button>
                     ) : (
                       <a
-                        className="rc-styled-link"
+                        className={`rc-styled-link text-plain ${
+                          btnLoading ? 'ui-btn-loading' : ''
+                        }`}
                         onClick={() => {
+                          if (btnLoading) {
+                            return;
+                          }
                           let params = {
                             petsId: props.petsId,
                             deleteGoodsItems: [
@@ -237,8 +256,18 @@ const LinkedSubs = (props) => {
                               }
                             ]
                           };
-                          changeSubscriptionGoods(params).then((res) => {
-                            subItem.petsId = null;
+                          setBtnLoading(true);
+                          changeSubscriptionGoodsByPets(params).then((res) => {
+                            let currentSubList = subList.map((el, index) => {
+                              if (index === i) {
+                                el.petsId = null;
+                              }
+                              return el;
+                            });
+                            console.log(currentSubList, 'currentSubList2');
+                            // subItem.petsId = null;
+                            setBtnLoading(false);
+                            setSubList(currentSubList);
                           });
                         }}
                       >

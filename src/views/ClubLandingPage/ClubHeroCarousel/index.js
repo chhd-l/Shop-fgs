@@ -124,30 +124,30 @@ class ClubHeroCarousel extends React.Component {
                 'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
               alt: 'Специализированное питание Royal Canin'
             },
-            {
-              bannerId: '2c918085751fa3ad01752099f30a0002',
-              storeId: 123457910,
-              bannerName: 'us_003',
-              webUrl: `${Sliderthree}`,
-              webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
-              webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile3}`,
-              mobiImgName: 'us_003_b.jpg',
-              mobiSkipUrl: '/help',
-              mobiUuid: 'rc-upload-1602569663057-15',
-              isMobiVideo: '0',
-              isVideo: '0',
-              delFlag: 0,
-              createTime: '2021-02-24 05:55:42.000',
-              updateTime: '2021-02-24 05:55:42.000',
-              bannerNo: 3,
-              sliderTitle:
-                'Советы научных сотрудников и экспертов в области питания',
-              sliderContent:
-                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
-              alt: 'Эксперт в области питания животных'
-            },
+            // {
+            //   bannerId: '2c918085751fa3ad01752099f30a0002',
+            //   storeId: 123457910,
+            //   bannerName: 'us_003',
+            //   webUrl: `${Sliderthree}`,
+            //   webImgName: 'us_003_a.jpg',
+            //   webSkipUrl: '/help',
+            //   webUuid: 'rc-upload-1602569663057-13',
+            //   mobiUrl: `${Slidermobile3}`,
+            //   mobiImgName: 'us_003_b.jpg',
+            //   mobiSkipUrl: '/help',
+            //   mobiUuid: 'rc-upload-1602569663057-15',
+            //   isMobiVideo: '0',
+            //   isVideo: '0',
+            //   delFlag: 0,
+            //   createTime: '2021-02-24 05:55:42.000',
+            //   updateTime: '2021-02-24 05:55:42.000',
+            //   bannerNo: 3,
+            //   sliderTitle:
+            //     'Советы научных сотрудников и экспертов в области питания',
+            //   sliderContent:
+            //     'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
+            //   alt: 'Эксперт в области питания животных'
+            // },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
@@ -242,28 +242,28 @@ class ClubHeroCarousel extends React.Component {
               sliderContent:
                 'Kaliteli besin içeriğine sahip 160 formül arasından evcil hayvanınızın özel ihtiyaçlarına en uygun beslenme çözümünü alın'
             },
-            {
-              bannerId: '2c918085751fa3ad01752099f30a0002',
-              storeId: 123457910,
-              bannerName: 'us_003',
-              webUrl: `${trsliderthree}`,
-              webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
-              webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile3}`,
-              mobiImgName: 'us_003_b.jpg',
-              mobiSkipUrl: '/help',
-              mobiUuid: 'rc-upload-1602569663057-15',
-              isMobiVideo: '0',
-              isVideo: '0',
-              delFlag: 0,
-              createTime: '2021-02-24 05:55:42.000',
-              updateTime: '2021-02-24 05:55:42.000',
-              bannerNo: 3,
-              sliderTitle: 'Uzmanlardan bilimsel kaynaklı güvenilir tavsiyeler',
-              sliderContent:
-                'Sağlıklı yaşam ve ideal bakım için beslenme danışmanınızdan destek alın'
-            },
+            // {
+            //   bannerId: '2c918085751fa3ad01752099f30a0002',
+            //   storeId: 123457910,
+            //   bannerName: 'us_003',
+            //   webUrl: `${trsliderthree}`,
+            //   webImgName: 'us_003_a.jpg',
+            //   webSkipUrl: '/help',
+            //   webUuid: 'rc-upload-1602569663057-13',
+            //   mobiUrl: `${Slidermobile3}`,
+            //   mobiImgName: 'us_003_b.jpg',
+            //   mobiSkipUrl: '/help',
+            //   mobiUuid: 'rc-upload-1602569663057-15',
+            //   isMobiVideo: '0',
+            //   isVideo: '0',
+            //   delFlag: 0,
+            //   createTime: '2021-02-24 05:55:42.000',
+            //   updateTime: '2021-02-24 05:55:42.000',
+            //   bannerNo: 3,
+            //   sliderTitle: 'Uzmanlardan bilimsel kaynaklı güvenilir tavsiyeler',
+            //   sliderContent:
+            //     'Sağlıklı yaşam ve ideal bakım için beslenme danışmanınızdan destek alın'
+            // },
             {
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,

@@ -174,6 +174,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_LANG == 'ru' && str == 'confirm') {
       this.setState({
@@ -353,6 +354,9 @@ class AddressList extends React.Component {
       province: '',
       postCode: '',
       phoneNumber: '',
+      comment: '',
+      entrance: '',
+      apartment: '',
       isDefalt: false
     };
 
@@ -373,6 +377,9 @@ class AddressList extends React.Component {
         province: tmp.province,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
+        comment: tmp.comment,
+        entrance: tmp.entrance,
+        apartment: tmp.apartment,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
@@ -430,7 +437,7 @@ class AddressList extends React.Component {
       });
       this.props.updateData(data);
     } catch (err) {
-      console.error(' err msg: ', err);
+      console.log(' err msg: ', err);
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });

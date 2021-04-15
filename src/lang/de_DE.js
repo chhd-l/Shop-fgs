@@ -1283,7 +1283,8 @@ const de_DE = {
   'welcome.adChoices': 'AdChoices',
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
-  'welcome.contactUS': 'Kontaktieren Sie uns'
+  'welcome.contactUS': 'Kontaktieren Sie uns',
+  paused: 'Pause'
 };
 
 export default de_DE;

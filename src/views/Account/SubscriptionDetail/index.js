@@ -22,6 +22,7 @@ import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { IMG_DEFAULT } from '@/utils/constant';
 import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
+import Banner_Dog from './../PetForm/images/banner_Dog.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
@@ -710,7 +711,9 @@ class SubscriptionDetail extends React.Component {
   async componentDidMount() {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
-    let clubPetsLifeStageFlag = getParaByName(search, 'clubPetsLifeStageFlag');
+    let clubPetsLifeStageFlag =
+      getParaByName(search, 'clubPetsLifeStageFlag') ||
+      this.props.location.state?.clubPetsLifeStageFlag;
     if (clubPetsLifeStageFlag) {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
@@ -1256,7 +1259,7 @@ class SubscriptionDetail extends React.Component {
                 <img
                   style={{ paddingLeft: '2rem' }}
                   className="pet-icon"
-                  src={Banner_Cat}
+                  src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
                 />
               </div>
             </div>
@@ -2716,7 +2719,7 @@ class SubscriptionDetail extends React.Component {
   statusText = () => {
     let { subDetail, isNotInactive } = this.state;
     return subDetail.subscribeId ? (
-      isNotInactive ? (
+      subDetail.subscribeStatus === '0' ? (
         <span
           style={{
             background: '#E0F3D4',
@@ -2727,6 +2730,18 @@ class SubscriptionDetail extends React.Component {
           }}
         >
           <FormattedMessage id="active" />
+        </span>
+      ) : subDetail.subscribeStatus === '1' ? (
+        <span
+          style={{
+            background: '#FCEBD4',
+            color: '#ED8A00',
+            fontSize: '.875rem',
+            padding: '0 5px'
+            // marginLeft: '.625rem'
+          }}
+        >
+          <FormattedMessage id="paused" />
         </span>
       ) : (
         <span

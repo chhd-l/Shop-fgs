@@ -364,28 +364,27 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {orderSource === 'L_ATELIER_FELIN' ? (
-                      `${10 * el.buyCount}g`
-                    ) : (
-                      <FormattedMessage
-                        id="quantityText"
-                        values={{
-                          specText: el.specText,
-                          buyCount: el.buyCount
-                        }}
-                      />
-                    )}
-                    <br />
+                    <p className="mb-0">
+                      {orderSource === 'L_ATELIER_FELIN' ? (
+                        `${10 * el.buyCount}g`
+                      ) : (
+                        <FormattedMessage
+                          id="quantityText"
+                          values={{
+                            specText: el.specText,
+                            buyCount: el.buyCount
+                          }}
+                        />
+                      )}
+                    </p>
                     {el.goodsInfoFlag ? (
-                      <>
-                        <span>
-                          <FormattedMessage id="subscription.frequency" /> :{' '}
-                          {matchNamefromDict(
-                            this.state.frequencyList,
-                            el.periodTypeId
-                          )}{' '}
-                        </span>
-                      </>
+                      <p className="mb-0">
+                        <FormattedMessage id="subscription.frequency" /> :{' '}
+                        {matchNamefromDict(
+                          this.state.frequencyList,
+                          el.periodTypeId
+                        )}
+                      </p>
                     ) : null}
                   </div>
                   <div className="line-item-total-price text-nowrap">
