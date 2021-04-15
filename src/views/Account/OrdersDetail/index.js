@@ -177,7 +177,7 @@ function LogisticsProgress(props) {
   );
 }
 
-@inject('checkoutStore')
+@inject('checkoutStore', 'configStore')
 @injectIntl
 @observer
 class AccountOrders extends React.Component {
@@ -1059,6 +1059,9 @@ class AccountOrders extends React.Component {
       }
     };
 
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore?.localAddressForm;
+
     const {
       details,
       payRecord,
@@ -1484,9 +1487,7 @@ class AccountOrders extends React.Component {
                                       <p className="mb-0 od_mb_tel">
                                         {details.consignee.phone}
                                       </p>
-                                      {/* <p className="mb-0">
-                                        {[details.consignee.postCode,details.consignee.phone].filter((d) => d).join(' ')}
-                                      </p> */}
+
                                       {/* 国家 */}
                                       {process.env.REACT_APP_LANG ==
                                       'en' ? null : (
@@ -1501,21 +1502,29 @@ class AccountOrders extends React.Component {
                                       <p className="mb-0 od_mb_address1">
                                         {details.consignee.detailAddress1}
                                       </p>
-                                      {details.consignee.detailAddress2 ? (
-                                        <p className="mb-0 od_mb_address2">
-                                          {details.consignee.detailAddress2}
-                                        </p>
-                                      ) : null}
+                                      {localAddressForm['address2'] &&
+                                        details.consignee.detailAddress2 && (
+                                          <p className="mb-0 od_mb_address2">
+                                            {details.consignee.detailAddress2}
+                                          </p>
+                                        )}
+
                                       <p className="mb-0 od_mb_cpp">
                                         {/* 市 */}
-                                        {details.consignee.city}
-                                        {', '}
+                                        {localAddressForm['city'] &&
+                                          details.consignee.city + ', '}
+
+                                        {/* 区域 */}
+                                        {localAddressForm['region'] &&
+                                          details.consignee.region + ', '}
+
                                         {/* 省份 */}
-                                        {details?.consignee?.province
-                                          ? details?.consignee?.province
-                                          : null}{' '}
+                                        {localAddressForm['state'] &&
+                                          details.consignee.province + ' '}
+
                                         {/* 邮编 */}
-                                        {details.consignee.postCode}
+                                        {localAddressForm['postCode'] &&
+                                          details.consignee.postCode}
                                       </p>
                                       {details.consignee.rfc ? (
                                         <p className="mb-0">
@@ -1581,14 +1590,7 @@ class AccountOrders extends React.Component {
                                         <p className="mb-0 od_mb_tel">
                                           {details.invoice.phone}
                                         </p>
-                                        {/* <p className="mb-0">
-                                        {[
-                                          details.invoice.postCode,
-                                          details.invoice.phone
-                                        ]
-                                          .filter((d) => d)
-                                          .join(' ')}
-                                      </p> */}
+
                                         {/* 国家 */}
                                         {process.env.REACT_APP_LANG ==
                                         'en' ? null : (
@@ -1603,21 +1605,29 @@ class AccountOrders extends React.Component {
                                         <p className="mb-0 od_mb_address1">
                                           {details.invoice.address1}
                                         </p>
-                                        {details.invoice.address2 ? (
-                                          <p className="mb-0 od_mb_address2">
-                                            {details.invoice.address2}
-                                          </p>
-                                        ) : null}
+                                        {localAddressForm['address2'] &&
+                                          details.invoice.address2 && (
+                                            <p className="mb-0 od_mb_address2">
+                                              {details.invoice.address2}
+                                            </p>
+                                          )}
+
                                         <p className="mb-0 od_mb_cpp">
                                           {/* 城市 */}
-                                          {details.invoice.city}
-                                          {', '}
+                                          {localAddressForm['city'] &&
+                                            details.invoice.postCode + ', '}
+
+                                          {/* 区域 */}
+                                          {localAddressForm['region'] &&
+                                            details.invoice.region + ', '}
+
                                           {/* 省份 */}
-                                          {details?.invoice?.province
-                                            ? details?.invoice?.province
-                                            : null}{' '}
+                                          {localAddressForm['state'] &&
+                                            details.invoice.province + ' '}
+
                                           {/* 邮编 */}
-                                          {details.invoice.postCode}
+                                          {localAddressForm['postCode'] &&
+                                            details.invoice.postCode + ' '}
                                         </p>
                                         {details.invoice.rfc ? (
                                           <p className="mb-0">

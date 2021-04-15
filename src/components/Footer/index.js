@@ -12,7 +12,6 @@ import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
 @inject('configStore', 'loginStore')
 @observer
 class Footer extends React.Component {
@@ -26,6 +25,9 @@ class Footer extends React.Component {
   }
   async componentDidMount() {
     this.props.configStore.queryConfig();
+
+    // 查询address form表单配置开关
+    this.props.configStore.getSystemFormConfig();
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
