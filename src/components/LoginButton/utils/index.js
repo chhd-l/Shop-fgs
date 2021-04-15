@@ -5,8 +5,8 @@ import { isDuringDate, transTime } from '@/utils/utils';
 
 const TimeZone = 'America/Chicago'; //需要重新转化的时区
 
-const START_TIME = '2021/04/15 07:00';
-const END_TIME = '2021/04/15 08:00';
+const START_TIME = '2021/04/15 05:30';
+const END_TIME = '2021/04/15 06:00';
 
 //是否限制登录
 export const isLimitLogin = () => {
