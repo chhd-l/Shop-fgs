@@ -30,8 +30,8 @@ const ru_RU = {
   'account.catOrDog': 'У тебя есть кошка или собака?',
   'account.dateTip': 'Пожалуйста, выберите прошедшую дату.',
   'account.deleteMyaccountDesc':
-    'как только ваш счёт будет удален, вы не сможете использовать этот счёт для доступа к сервису Royal Canin.',
-  'account.deleteMyaccountTitle': 'Удалить счёт',
+    'как только ваш аккаунт будет удален, вы не сможете использовать этот аккаунт для доступа к сервису Royal Canin.',
+  'account.deleteMyaccountTitle': 'Удалить аккаунт',
   'account.dog': 'Собака',
   'account.Email': 'Е-mail адрес',
   'account.enterBirthDare': 'Введите дату рождения вашего питомца.',
@@ -98,6 +98,7 @@ const ru_RU = {
     'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
+  'recommendation.benefit': 'Полезные свойства',
   'recommendation.noMoreRecommendation':
     'Товар больше не доступен или недоступен для продажи',
   'recommendation.buyNow': 'Купить',
@@ -120,7 +121,7 @@ const ru_RU = {
   'recommendation.helpContentText.emailTitle': 'Напишите нам',
   'recommendation.helpContentText.emailDes':
     'Мы сделаем все возможное, чтобы ответить вам как можно быстрее в течение 12 часов.',
-  'recommendation.helpContentText.emailLink': '/help/contact',
+  'recommendation.helpContentText.emailLink': '/ru/contact-us',
   'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
   'recommendation.helpContentText.phone': '8-800-200-37-35',
   'recommendation.helpContentText.email': 'Отправьте нам Email',
@@ -272,7 +273,7 @@ const ru_RU = {
   'confirmation.rateTip3': 'Введите до 50 символов',
   'confirmation.rateTip4': 'Пожалуйста, забейте первым.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with the mark',
+    'Вы сэкономили {val1} с помощью автошипа',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDeleteAddress: 'Вы хотите удалить адрес?',
@@ -745,7 +746,7 @@ const ru_RU = {
   price: 'Цена',
   printEbanx: 'Войти в аккаунт',
   privacyPolicy: 'Политика конфиденциальности',
-  proceedToTheDeletion: 'продолжить удаление',
+  proceedToTheDeletion: 'Удалить мой аккаунт',
   'productFinder.ageErrorShow':
     'Возрастной выбор должен быть больше 0 месяцев.',
   'productFinder.resultHlep':
@@ -868,8 +869,8 @@ const ru_RU = {
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
-  saveSuccessfullly2: 'Ваша информация была правильно сохранена',
-  saveSuccessfullly3: 'Ваша информация была правильно сохранена',
+  saveSuccessfullly2: 'Ваша информация была успешно сохранена',
+  saveSuccessfullly3: 'Ваша информация была успешно сохранена',
   deleteSuccessFullly: 'Başarıyla silindi',
   search: 'Поиск',
   searchForAProductOrArtical: 'Найдите продукт или статью',
@@ -1266,8 +1267,11 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
+  shipmentOn: 'Новая доставка',
   addedtoCart: 'Добавлено в корзину',
-  goToCart: 'Перейти в корзину'
+  goToCart: 'Перейти в корзину',
+  'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',
+  'order.completeTip': 'Посылка была доставлена вручную по адресу доставки.'
 };
 
 export default ru_RU;

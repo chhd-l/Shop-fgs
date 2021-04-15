@@ -15,6 +15,7 @@ import { usPaymentInfo } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
+import IMask from 'imask';
 
 @inject('loginStore')
 @injectIntl
@@ -104,6 +105,37 @@ class PaymentEditForm extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+  // 设置手机号输入限制
+  setPhoneNumberReg = () => {
+    let element = document.getElementById('paymentPhoneNumber');
+    let maskOptions = {};
+    let phoneReg = '';
+    switch (process.env.REACT_APP_LANG) {
+      case 'fr':
+        phoneReg = '+{33}000000000';
+        break;
+      case 'en':
+        phoneReg = '000-000-0000';
+        break;
+      case 'ru':
+        phoneReg = '+{7} (000) 000-00-00';
+        break;
+      case 'mx':
+        phoneReg = '0000000000';
+        break;
+      case 'de':
+        phoneReg = '0000 000000 000';
+        break;
+      case 'tr':
+        phoneReg = '{0} (000) 000-00-00';
+        break;
+      default:
+        phoneReg = '00000000000';
+        break;
+    }
+    maskOptions = { mask: phoneReg };
+    let pval = IMask(element, maskOptions);
+  };
   componentDidMount() {
     //查询国家
     getDictionary({ type: 'country' }).then((res) => {
@@ -122,6 +154,11 @@ class PaymentEditForm extends React.Component {
         stateList: res.context.systemStates
       });
     });
+
+    if (this.props.needPhone) {
+      // 设置手机号输入限制
+      this.setPhoneNumberReg();
+    }
   }
   toTop = () => {
     window.scrollTo({
@@ -130,9 +167,9 @@ class PaymentEditForm extends React.Component {
     });
   };
   cardInfoInputChange = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const target = e?.target;
+    const value = target?.type === 'checkbox' ? target?.checked : target?.value;
+    const name = target?.name;
     const { creditCardInfoForm } = this.state;
     if (name === 'cardNumber') {
       let beforeValue = value.substr(0, value.length - 1);
@@ -164,6 +201,7 @@ class PaymentEditForm extends React.Component {
     }
     this.setState({ creditCardInfoForm }, () => {
       this.validFormData();
+      this.inputBlur(e);
     });
   };
   // 实时获取卡类型
@@ -316,21 +354,27 @@ class PaymentEditForm extends React.Component {
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
-    const { errMsgObj } = this.state;
-    const target = e.target;
-    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
-    const value = target.value;
+    const { creditCardInfoForm, errMsgObj } = this.state;
+    const target = e?.target;
+    const tname = target?.name;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === tname);
+    const value = target?.value;
+    // 如果需要输入电话
+    if (this.props.needPhone) {
+      creditCardInfoForm[tname] = value;
+      this.setState({ creditCardInfoForm });
+    }
     try {
-      await validData(targetRule, { [target.name]: value });
+      await validData(targetRule, { [tname]: value });
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: ''
+          [tname]: ''
         })
       });
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
-          [target.name]: err.message
+          [tname]: err.message
         })
       });
     }
@@ -890,13 +934,14 @@ class PaymentEditForm extends React.Component {
                         data-js-warning-message="*Phone Number isn’t valid"
                       >
                         <input
-                          type="number"
+                          type="text"
                           className="rc-input__control input__phoneField shippingPhoneNumber"
+                          id="paymentPhoneNumber"
                           min-lenght="18"
                           max-length="18"
                           data-phonelength="18"
                           // data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                          data-js-pattern="(^\d{10}$)"
+                          // data-js-pattern="(^\d{10}$)"
                           data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
                           onChange={this.cardInfoInputChange}

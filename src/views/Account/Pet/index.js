@@ -12,6 +12,7 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
+import { getDict } from '@/api/dict';
 import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import Female from '@/assets/images/female.png';
 import Male from '@/assets/images/male.png';
@@ -38,7 +39,9 @@ class Pet extends React.Component {
         metaDescription: 'Royal canin'
       },
       isMobile: false,
-      loading: true
+      loading: true,
+      catBreedList: [],
+      dogBreedList: []
     };
   }
   componentDidMount() {
@@ -52,6 +55,26 @@ class Pet extends React.Component {
     this.getPetList();
   }
 
+  getBreedList() {
+    getDict({
+      type: 'catBreed',
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.setState({
+        catBreedList: res.context.sysDictionaryVOS
+      });
+    });
+    getDict({
+      type: 'dogBreed',
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.setState({
+        dogBreedList: res.context.sysDictionaryVOS
+      });
+    });
+  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
@@ -60,6 +83,7 @@ class Pet extends React.Component {
     let customerId = this.userInfo && this.userInfo.customerId;
     let consumerAccount = this.userInfo && this.userInfo.consumerAccount;
     if (!customerId) {
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
       });
@@ -71,10 +95,15 @@ class Pet extends React.Component {
     })
       .then((res) => {
         let petList = res.context.context;
-        this.setState({
-          loading: false,
-          petList: petList
-        });
+        this.setState(
+          {
+            loading: false,
+            petList: petList
+          },
+          () => {
+            this.getBreedList();
+          }
+        );
       })
       .catch((err) => {
         this.setState({
@@ -283,9 +312,21 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.petsBreed && (
-                                      <FormattedMessage id={el.petsBreed} />
-                                    )}
+                                    {el.isPurebred
+                                      ? el.petsBreed && el.petsType === 'dog'
+                                        ? (this.state.dogBreedList.length &&
+                                            this.state.dogBreedList.filter(
+                                              (item) =>
+                                                item.valueEn == el.petsBreed
+                                            )?.[0]?.name) ||
+                                          el.petsBreed
+                                        : (this.state.catBreedList.length &&
+                                            this.state.catBreedList.filter(
+                                              (item) =>
+                                                item.valueEn == el.petsBreed
+                                            )?.[0]?.name) ||
+                                          el.petsBreed
+                                      : 'Mixed Breed'}
                                   </span>
                                 </div>
                               </div>

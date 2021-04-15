@@ -10,7 +10,7 @@ import './index.css';
 
 const HowItWorks = (props) => {
   const headerHeight =
-    document.querySelector('.rc-header__nav')?.offsetHeight || 80;
+    document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
     <div
       style={{ position: 'relative' }}

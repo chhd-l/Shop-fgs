@@ -452,7 +452,7 @@ const GoodsDetailTabs = function (props) {
                 className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
                 aria-expanded={activeTabIdxLists.includes(i) ? 'true' : 'false'}
               >
-                <div className="block">
+                <div className={`block ${ele.descriptionName}`}>
                   <p
                     className="content rc-scroll--x detail-content-tabinfo"
                     style={{ marginBottom: '4rem' }}
