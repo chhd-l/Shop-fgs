@@ -2135,19 +2135,7 @@ class Payment extends React.Component {
     const {
       adyenPayParam,
       paymentTypeVal,
-      billingAddress: {
-        // firstName,
-        // lastName,
-        // address1,
-        // address2,
-        // country,
-        // province,
-        // cityId,
-        // city,
-        // postCode,
-        email
-        // phoneNumber
-      },
+      billingAddress,
       cyberPaymentForm: {
         cardholderName,
         cardNumber,
@@ -2167,6 +2155,7 @@ class Payment extends React.Component {
     let cyberPaymentParam = {};
     let cyberParams = {};
 
+    // todo 存在tid时，需从orderDetails中取billing信息
     if (paymentTypeVal == 'cyber') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;
@@ -2182,7 +2171,11 @@ class Payment extends React.Component {
       cyberPaymentParam.city = newBillingAddress.city;
       cyberPaymentParam.zipCode = newBillingAddress.postCode;
       cyberPaymentParam.phone = newBillingAddress.phoneNumber;
-      cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
+      cyberPaymentParam.email = isLogin
+        ? tid
+          ? orderDetails?.invoice?.email
+          : billingAddress.email
+        : this.state.guestEmail;
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: currentCardTypeInfo.cardType,
         cardTypeValue: currentCardTypeInfo.cardTypeValue,
