@@ -109,16 +109,17 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    <FormattedMessage
-                      id="quantityText"
-                      values={{
-                        specText: item.specDetails,
-                        buyCount: item.num
-                      }}
-                    />
-                    <br />
+                    <p className="mb-0">
+                      <FormattedMessage
+                        id="quantityText"
+                        values={{
+                          specText: item.specDetails,
+                          buyCount: item.num
+                        }}
+                      />
+                    </p>
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
-                      <>
+                      <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
                         {matchNamefromDict(
                           this.state.frequencyList,
@@ -130,7 +131,7 @@ class PayProductInfo extends React.Component {
                         >
                           &#xe675;
                         </span>
-                      </>
+                      </p>
                     ) : null}
                   </div>
                   <div className="line-item-total-price text-nowrap">

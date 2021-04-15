@@ -3403,6 +3403,11 @@ class Payment extends React.Component {
                   listData={listData}
                   checkRequiredItem={this.checkRequiredItem}
                   checkoutStore={checkoutStore}
+                  tradePrice={
+                    tid && orderDetails
+                      ? orderDetails.tradePrice.totalPrice
+                      : this.tradePrice
+                  }
                 />
               </div>
               <div className="rc-column pl-md-0 rc-md-up ">
@@ -3438,10 +3443,10 @@ class Payment extends React.Component {
                 {installMentParam ? (
                   <div className="pl-3 pr-3 pt-1 pb-0 red">
                     <div className="row">
-                      <div className="col-9">
+                      <div className="col-7">
                         <FormattedMessage id="installMent.additionalFee" />
                       </div>
-                      <div className="col-3 text-right">
+                      <div className="col-5 text-right">
                         {formatMoney(installMentParam.additionalFee)}
                       </div>
                     </div>
