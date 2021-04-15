@@ -10,6 +10,7 @@ import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
+import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
@@ -96,6 +97,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tmpGoodsDescriptionDetailList: [],
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
@@ -767,7 +769,8 @@ class Recommendation extends React.Component {
       currentModalObj,
       isMobile,
       promotionCode,
-      promotionCodeText
+      promotionCodeText,
+      tmpGoodsDescriptionDetailList
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -1030,6 +1033,11 @@ class Recommendation extends React.Component {
                                       this.setState({ activeIndex: i })
                                     }
                                   >
+                                    {/* <div className={{display:'none'}}>
+                                    {el?.goods?.goodsId && (
+                                      <GoodsDetailTabs detailRes={el}  setState={this.setState.bind(this)}/>
+                                    )}
+                                    </div> */}
                                     <img
                                       src={el.images[0].artworkUrl}
                                       style={{

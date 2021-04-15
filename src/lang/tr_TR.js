@@ -1110,7 +1110,7 @@ const tr_TR = {
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.changeProduct': 'ürün değiştirmek',
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',

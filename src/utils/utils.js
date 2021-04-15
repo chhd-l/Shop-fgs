@@ -51,7 +51,7 @@ export function formatMoney(
     return val + ' TL';
   }
   if (process.env.REACT_APP_LANG === 'ru') {
-    val = parseInt(val);
+    val = Math.round(val);
     return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
       style: 'currency',
       currency: process.env.REACT_APP_CURRENCY,
