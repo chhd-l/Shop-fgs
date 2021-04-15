@@ -259,7 +259,7 @@ const ru_RU = {
     'Прокомментируйте, пожалуйста, опыт покупок',
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
-  'confirmation.account': 'Зайти в мой аккаунт',
+  'confirmation.account': 'Посмотреть заказ',
   'confirmation.customerInformation': 'Персональные данные',
   'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
