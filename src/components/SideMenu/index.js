@@ -52,7 +52,8 @@ const menuList = [
     icon: <span className="iconfont">&#xe696;</span>,
     langKey: 'footer.FAQ',
     url: '/faq',
-    href: '/about-us/faqs',
+    href:
+      process.env.REACT_APP_LANG == 'ru' ? '/about-us/faq' : '/about-us/faqs',
     isHubOuterLink: true
   }
   // {
