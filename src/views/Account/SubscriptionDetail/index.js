@@ -4481,12 +4481,12 @@ class SubscriptionDetail extends React.Component {
                                               {el.tradePrice
                                                 .freeShippingFlag ? (
                                                 <>
-                                                  <div className="row">
+                                                  <div className="row green">
                                                     <div className="col-1 col-md-3" />
                                                     <label className="col-5 text-left">
                                                       <FormattedMessage id="payment.shippingDiscount" />
                                                     </label>
-                                                    <div className="text-right col-5 col-md-3 green">
+                                                    <div className="text-right col-5 col-md-3">
                                                       <strong>
                                                         {el.tradePrice
                                                           .freeShippingDiscountPrice >
