@@ -1,5 +1,3 @@
-import React from 'react';
-
 const en_US = {
   aboutUs: 'ABOUT US',
   'aboutUs.description':

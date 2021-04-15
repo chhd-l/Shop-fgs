@@ -70,7 +70,7 @@ const tr_TR = {
     'Evcil hayvanlarınıza bakıp bilgilerini güncelleyin, yeni evcil hayvan ekleyin.',
   'account.preferredContactMethod': 'Tercih Edilen İletişim Yöntemi',
   'account.preferredMethodOfCommunication': 'Tercih edilen iletişim yöntemi',
-  'account.profile': 'Kişisel Bilgilerim',
+  'account.profile': 'Bilgilerim',
   'account.profileTip': 'Bilgilerinize göz atın, veya profilinizi güncelleyin.',
   'account.requiredFields': 'Gerekli alanlar',
   'account.shippingAddressTip': 'Gönderim adresinizi oluşturun ve düzenleyin.',
@@ -202,7 +202,7 @@ const tr_TR = {
   'confirmation.rateTip3': 'En fazla 50 karakter girin',
   'confirmation.rateTip4': 'Lütfen önce puan verin.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with the mark',
+    'Autoship ile {val1} tasarruf ettiniz',
   'confirmation.visitOnlineStore': 'Çevrimiçi mağazayı ziyaret edin',
   confirmDelete: 'Silmek istiyor musunuz?',
   confirmDeleteAddress: 'Adresi silmek istiyor musunuz?',
@@ -835,7 +835,7 @@ const tr_TR = {
   sterilized: 'Kısırlaştırma',
   submit: 'Sunmak',
   subscribeDiscount: 'Abonelik İndirim İndirimi',
-  subscription: 'Abonelikler',
+  subscription: 'Aboneliklerim',
   'subscription.all': 'herşey',
   'subscription.autoship': 'otomatik gemi',
   'subscription.club': 'kulüp',
@@ -1110,7 +1110,7 @@ const tr_TR = {
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.changeProduct': 'ürün değiştirmek',
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',
@@ -1156,6 +1156,9 @@ const tr_TR = {
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
   shipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
-  goToCart: 'Sepete Git'
+  goToCart: 'Sepete Git',
+  'order.inTranistTip':
+    'Siparişiniz gönderildi ve ürünü yakında alacaksınız {val}',
+  'order.completeTip': 'Paket teslimat adresine elden teslim edildi.'
 };
 export default tr_TR;

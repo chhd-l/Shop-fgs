@@ -118,7 +118,9 @@ class PetForm extends React.Component {
         measure: '',
         measureUnit: 'kg',
         type: 2
-      }
+      },
+      breedName: '',
+      breedcode: ''
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -313,7 +315,7 @@ class PetForm extends React.Component {
       return;
     }
     if (process.env.REACT_APP_LANG !== 'en') {
-      if (!this.state.activity || !this.state.lifestyle) {
+      if (!this.state.activity || (!this.state.lifestyle && this.state.isCat)) {
         this.showErrorMsg(
           this.props.intl.messages.pleasecompleteTheRequiredItem
         );
@@ -354,7 +356,9 @@ class PetForm extends React.Component {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.breed,
+      petsBreed: this.state.isPurebred
+        ? this.state.breed
+        : this.state.breedcode,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
       petsSizeValueId: '10086',
@@ -369,9 +373,6 @@ class PetForm extends React.Component {
       needs: this.state.sensitivity
     };
 
-    if (!this.state.isPurebred) {
-      pets.petsBreed = 'Other Breed';
-    }
     let param = {
       customerPets: pets,
       // customerPetsPropRelations: customerPetsPropRelations,
@@ -504,7 +505,7 @@ class PetForm extends React.Component {
       showBreedList = false;
     }
     this.setState({
-      breed: e.target.value,
+      breedName: e.target.value,
       isDisabled: isDisabled,
       isUnknownDisabled: isUnknownDisabled,
       showBreedList: showBreedList,
@@ -561,7 +562,8 @@ class PetForm extends React.Component {
   selectedBreed = (item) => {
     this.setState({
       breed: item.valueEn,
-      showBreedList: false
+      showBreedList: false,
+      breedName: item.name
     });
   };
   add = () => {
@@ -600,7 +602,7 @@ class PetForm extends React.Component {
     };
     try {
       if (currentPet.weight) {
-        weightObj = JSON.parse(JSON.parse(currentPet.weight));
+        weightObj = JSON.parse(currentPet.weight);
       }
     } catch (e) {}
     let breedList = [];
@@ -635,20 +637,31 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === 'unknown Breed' ? true : false,
       isUnknownDisabled:
         currentPet.petsBreed === 'unknown Breed' ? false : true,
-      breed:
-        currentPet.petsBreed === 'unknown Breed'
-          ? ''
-          : filteredBreed
-          ? filteredBreed.name
-          : '',
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 1 ? true : false,
       birthdate: currentPet.birthOfPets,
       activity: currentPet.activity,
       lifestyle: currentPet.lifestyle,
       weightObj,
-      sensitivity: currentPet.sensitivity
+      sensitivity: currentPet.needs,
+      isPurebred: currentPet.isPurebred
     };
+    if (currentPet.isPurebred === 1) {
+      param.breedName =
+        currentPet.petsBreed === 'unknown Breed'
+          ? ''
+          : filteredBreed
+          ? filteredBreed.name
+          : '';
+      param.breed =
+        currentPet.petsBreed === 'unknown Breed'
+          ? ''
+          : filteredBreed
+          ? filteredBreed.valueEn
+          : '';
+    } else {
+      param.breedcode = currentPet.petsBreed;
+    }
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
       param.isUnknown = true;
@@ -659,9 +672,6 @@ class PetForm extends React.Component {
       param.isUnknown = false;
       // param.isInputDisabled = true;
       param.breed = '';
-      param.isPurebred = false;
-    } else {
-      param.isPurebred = true;
     }
 
     let filterSize = this.sizeOptions.filter(
@@ -853,7 +863,8 @@ class PetForm extends React.Component {
     console.log(data);
     this.setState({
       weight: data.value,
-      selectedSizeObj: { value: data.value }
+      selectedSizeObj: { value: data.value },
+      breedcode: data.description
     });
   }
   lifestyleChange(data) {
@@ -892,6 +903,8 @@ class PetForm extends React.Component {
       isChoosePetType,
       isCat
     } = this.state;
+    const RuTr =
+      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1331,7 +1344,7 @@ class PetForm extends React.Component {
                             id="dog-breed"
                             placeholder={this.props.intl.messages.enterDogBreed}
                             className="form-control input-pet breed"
-                            value={this.state.breed}
+                            value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
                               display: this.state.isCat ? 'none' : null
@@ -1346,7 +1359,7 @@ class PetForm extends React.Component {
                             id="cat-breed"
                             placeholder={this.props.intl.messages.enterCatBreed}
                             className="form-control input-pet breed"
-                            value={this.state.breed}
+                            value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
                               display: !this.state.isCat ? 'none' : null
@@ -1409,24 +1422,26 @@ class PetForm extends React.Component {
                     )}
                     {process.env.REACT_APP_LANG !== 'en' ? (
                       <>
-                        <div className="form-group col-lg-6 pull-left required">
-                          <label
-                            className="form-control-label rc-full-width"
-                            htmlFor="Lifestyle"
-                          >
-                            <FormattedMessage id="Lifestyle" />
-                          </label>
-                          <Selection
-                            optionList={this.state.lifestyleOptions}
-                            selectedItemChange={(el) =>
-                              this.lifestyleChange(el)
-                            }
-                            selectedItemData={{
-                              value: this.state.lifestyle
-                            }}
-                            key={this.state.lifestyle}
-                          />
-                        </div>
+                        {RuTr && this.state.isCat ? (
+                          <div className="form-group col-lg-6 pull-left required">
+                            <label
+                              className="form-control-label rc-full-width"
+                              htmlFor="Lifestyle"
+                            >
+                              <FormattedMessage id="Lifestyle" />
+                            </label>
+                            <Selection
+                              optionList={this.state.lifestyleOptions}
+                              selectedItemChange={(el) =>
+                                this.lifestyleChange(el)
+                              }
+                              selectedItemData={{
+                                value: this.state.lifestyle
+                              }}
+                              key={this.state.lifestyle}
+                            />
+                          </div>
+                        ) : null}
                         <div className="form-group col-lg-6 pull-left required">
                           <label
                             className="form-control-label rc-full-width"
@@ -1612,13 +1627,13 @@ class PetForm extends React.Component {
               </div>
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {getClubFlag() ? (
+            {currentPet.petsId && getClubFlag() ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
                 setState={this.setState.bind(this)}
                 errorMsg={this.state.errorMsg}
-                petsType={this.state.isCat ? 'cat' : 'dog'}
+                petsType={currentPet.petsType}
               />
             ) : null}
 

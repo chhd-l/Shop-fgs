@@ -98,6 +98,7 @@ const ru_RU = {
     'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
+  'recommendation.benefit': 'Полезные свойства',
   'recommendation.noMoreRecommendation':
     'Товар больше не доступен или недоступен для продажи',
   'recommendation.buyNow': 'Купить',
@@ -120,7 +121,7 @@ const ru_RU = {
   'recommendation.helpContentText.emailTitle': 'Напишите нам',
   'recommendation.helpContentText.emailDes':
     'Мы сделаем все возможное, чтобы ответить вам как можно быстрее в течение 12 часов.',
-  'recommendation.helpContentText.emailLink': '/help/contact',
+  'recommendation.helpContentText.emailLink': '/ru/contact-us',
   'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
   'recommendation.helpContentText.phone': '8-800-200-37-35',
   'recommendation.helpContentText.email': 'Отправьте нам Email',
@@ -258,7 +259,7 @@ const ru_RU = {
     'Прокомментируйте, пожалуйста, опыт покупок',
   CompleteRequiredItems: 'Пожалуйста, заполните необходимые пункты',
   confirmation: 'Подтверждение',
-  'confirmation.account': 'Зайти в мой аккаунт',
+  'confirmation.account': 'Посмотреть заказ',
   'confirmation.customerInformation': 'Персональные данные',
   'confirmation.info1': 'Спасибо за Ваш заказ',
   'confirmation.info2':
@@ -272,7 +273,7 @@ const ru_RU = {
   'confirmation.rateTip3': 'Введите до 50 символов',
   'confirmation.rateTip4': 'Пожалуйста, забейте первым.',
   'confirmation.subscriptionDiscountPriceDes':
-    'You saved {val1}  with the mark',
+    'Вы сэкономили {val1} с помощью автошипа',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDeleteAddress: 'Вы хотите удалить адрес?',
@@ -562,7 +563,7 @@ const ru_RU = {
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
   modalSkipTitle: 'Пропустить следующую доставку',
-  moreAddress: 'Подробнее Адрес',
+  moreAddress: 'Свернуть мои адреса',
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
     'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
@@ -996,6 +997,7 @@ const ru_RU = {
   writeYourReview: 'Напишите свой отзыв',
   yes: 'Подтвердить',
   yes2: 'Подтвердить',
+  yes3: 'Разместить заказ',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
 
@@ -1268,7 +1270,9 @@ const ru_RU = {
     'Вы сэкономите {discount} от данного заказа при подписке',
   shipmentOn: 'Новая доставка',
   addedtoCart: 'Добавлено в корзину',
-  goToCart: 'Перейти в корзину'
+  goToCart: 'Перейти в корзину',
+  'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',
+  'order.completeTip': 'Посылка была доставлена вручную по адресу доставки.'
 };
 
 export default ru_RU;

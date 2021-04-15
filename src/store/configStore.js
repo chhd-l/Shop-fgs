@@ -21,6 +21,8 @@ class ConfigStore {
     return localItemRoyal.get('rc-address-form') || null;
   }
 
+  @observable prescriberSelectType = null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
+
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
   }
@@ -109,6 +111,11 @@ class ConfigStore {
     return this.isNeedPrescriber !== null && this.isNeedPrescriber === 1;
   }
 
+  // 返回prescriber select Type:0:Prescriber Map / 1:Recommendation Code
+  @computed get prescriberSelectTyped() {
+    return this.prescriberSelectType !== null ? this.prescriberSelectType : '';
+  }
+
   // 显示onePageCheckout样式
   @computed get isOnePageCheckout() {
     return (
@@ -152,16 +159,22 @@ class ConfigStore {
   @action.bound
   async getIsNeedPrescriber() {
     let res = await getIsNeedPrescriber();
+    let isNeedPrescriber = null;
+    let prescriberSelectType = null;
     if (res.context) {
-      res = res.context.find((item) => {
+      isNeedPrescriber = res.context.find((item) => {
         return item.configType === 'if_prescriber_is_not_mandatory';
       });
-      res = res ? res.status : null;
-    } else {
-      res = res.context;
+      prescriberSelectType = res.context.find((item) => {
+        return item.configType === 'selection_type';
+      });
+      isNeedPrescriber = isNeedPrescriber ? isNeedPrescriber.status : null;
+      prescriberSelectType = prescriberSelectType
+        ? prescriberSelectType.status
+        : null;
     }
-    console.log('是否显示prescriber弹框:', res);
-    this.isNeedPrescriber = res;
+    this.isNeedPrescriber = isNeedPrescriber;
+    this.prescriberSelectType = prescriberSelectType;
   }
 
   // 1、查询form表单配置开关

@@ -10,6 +10,7 @@ import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
+import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
@@ -96,6 +97,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tmpGoodsDescriptionDetailList: [],
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
@@ -158,9 +160,9 @@ class Recommendation extends React.Component {
       emailDes: this.props.intl.messages[
         'recommendation.helpContentText.emailDes'
       ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ],
+      emailLink: isRu
+        ? `${location.protocol}//${location.host}${this.props.intl.messages['recommendation.helpContentText.emailLink']}`
+        : this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
       phoneTitle: this.props.intl.messages[
         'recommendation.helpContentText.phoneTitle'
       ],
@@ -732,6 +734,7 @@ class Recommendation extends React.Component {
     window.removeEventListener('copy', copy);
   };
   render(h) {
+    console.info('helpContentText', this.helpContentText);
     let otherShow = {
       ru: (
         <UsAndRu
@@ -767,7 +770,8 @@ class Recommendation extends React.Component {
       currentModalObj,
       isMobile,
       promotionCode,
-      promotionCodeText
+      promotionCodeText,
+      tmpGoodsDescriptionDetailList
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -1030,6 +1034,11 @@ class Recommendation extends React.Component {
                                       this.setState({ activeIndex: i })
                                     }
                                   >
+                                    {/* <div className={{display:'none'}}>
+                                    {el?.goods?.goodsId && (
+                                      <GoodsDetailTabs detailRes={el}  setState={this.setState.bind(this)}/>
+                                    )}
+                                    </div> */}
                                     <img
                                       src={el.images[0].artworkUrl}
                                       style={{

@@ -492,35 +492,17 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   }
   //获取是否显示prescriber弹框
   await configStore.getIsNeedPrescriber();
-  const showPrescriberModal = configStore.isShowPrescriberModal;
-  // 不需要显示弹框的情况下才校验本地prescriber缓存，有则跳过prescriber页面
-  if (!showPrescriberModal) {
-    if (
-      (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
-        localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
-      ((localItemRoyal.get(`rc-clinic-id-link`) &&
-        localItemRoyal.get(`rc-clinic-name-link`)) ||
-        (localItemRoyal.get(`rc-clinic-id-select`) &&
-          localItemRoyal.get(`rc-clinic-name-select`)) ||
-        (localItemRoyal.get(`rc-clinic-id-default`) &&
-          localItemRoyal.get(`rc-clinic-name-default`)))
-    ) {
-      if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-        if (clinicStore.linkClinicId) {
-          clinicStore.setSelectClinicId(clinicStore.linkClinicId);
-          clinicStore.setSelectClinicName(clinicStore.linkClinicName);
-        }
-      } else if (
-        !clinicStore.linkClinicId &&
-        !clinicStore.selectClinicId &&
-        clinicStore.defaultClinicId
-      ) {
-        clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
-        clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
-      }
-      sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber信息
-      url = '/checkout';
-    }
+  const prescriberSelectType = configStore.prescriberSelectTyped;
+  if (prescriberSelectType === 1) {
+    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
+  }
+  // 指定clinic/recommendation code链接/landing page进入，校验本地prescriber缓存，有clinic id link则跳过prescriber页面
+  if (
+    localItemRoyal.get(`rc-clinic-id-link`) &&
+    localItemRoyal.get(`rc-clinic-name-link`)
+  ) {
+    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber信息
+    url = '/checkout';
   }
   return url;
 }

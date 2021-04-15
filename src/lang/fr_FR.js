@@ -901,6 +901,7 @@ const fr_FR = {
   receiver: 'destinataire',
   recommandedForyou: 'Recommandé pour vous',
   // 'recommendation.plusTitle':'',
+  'recommendation.benefit': 'Bénéfices',
   'recommendation.noMoreRecommendation':
     "Le produit n'est plus disponible ou non disponible à la vente",
   'recommendation.plusContent':
