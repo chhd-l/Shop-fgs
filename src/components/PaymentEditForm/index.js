@@ -618,7 +618,7 @@ class PaymentEditForm extends React.Component {
         paymentForm: newPaymentForm
       });
     } catch (err) {
-      console.error(' err msg: ', err);
+      console.log(' err msg: ', err);
     }
   };
   render() {
