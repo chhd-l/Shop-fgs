@@ -176,15 +176,36 @@ const HelpComponents = (props) => {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                <Link to="/faq">
-                                  <p style={{ textDecoration: 'underline' }}>
-                                    {/*  {*/}
-                                    {/*  this.props.configStore*/}
-                                    {/*    .contactTimePeriod*/}
-                                    {/*}*/}
-                                    <FormattedMessage id="club.wheretohelp.card.faq" />
+                                {process.env.REACT_APP_LANG == 'tr' ? (
+                                  <p>
+                                    <FormattedMessage
+                                      id="club.wheretohelp.card.faq"
+                                      values={{
+                                        val: (
+                                          <Link
+                                            to="/faq"
+                                            style={{
+                                              textDecoration: 'underline'
+                                            }}
+                                          >
+                                            <FormattedMessage id="club.wheretohelp.card.faq2" />
+                                          </Link>
+                                        )
+                                      }}
+                                    />
                                   </p>
-                                </Link>
+                                ) : (
+                                  <Link to="/faq">
+                                    <p style={{ textDecoration: 'underline' }}>
+                                      {/*  {*/}
+                                      {/*  this.props.configStore*/}
+                                      {/*    .contactTimePeriod*/}
+                                      {/*}*/}
+                                      <FormattedMessage id="club.wheretohelp.card.faq" />
+                                    </p>
+                                  </Link>
+                                )}
+
                                 <div className="rc-margin-top--xs">
                                   <p
                                     style={{ color: '#00BCA3' }}

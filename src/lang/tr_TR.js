@@ -988,7 +988,8 @@ const tr_TR = {
     '12 saat içerisinde, size olabildiğince hızlı dönmek için elimizden geleni yapacağız.',
   'club.wheretohelp.card.email.send': 'Bize e-posta gönderin',
   'club.wheretohelp.card.faq':
-    'Sıkça Sorulan Sorular sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.',
+    '{val} sayfamıza göz atarak, sorunuzun daha önce yanıtlanmış olup olmadığına bakabilirsiniz.',
+  'club.wheretohelp.card.faq2': 'Sıkça Sorulan Sorular',
   'club.howitworks.alt1': 'UYGUN  MAMAYI VE ÖLÇÜLERİ BULUN',
   'club.howitworks.alt2': 'CLUB ABONELİĞİ SEÇENEĞİNİ İŞARETLEYİN',
   'club.howitworks.alt3': 'ABONELİĞİNİZİN KONTROLÜ SİZDE',
