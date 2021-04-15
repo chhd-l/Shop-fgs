@@ -142,32 +142,35 @@ class MemberCardList extends React.Component {
       this.handleSelectedIdChange();
     }
   }
+  /**
+   * 默认同步地址里相关信息
+   */
   initCardInfo() {
     // 默认填充delivery相关信息
-    const {
-      paymentStore: { defaultCardDataFromAddr: defaultVal }
-    } = this.props;
-    let tmpDefaultName = '';
-    if (defaultVal) {
-      const { firstName, lastName } = defaultVal;
-      tmpDefaultName = [firstName, lastName].filter((n) => !!n).join(' ');
-    }
-    this.setState(
-      {
-        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-          cardNumber: '',
-          cardMmyy: '',
-          cardCvv: '',
-          currentVendor: '',
-          cardOwner: tmpDefaultName || '',
-          email: (defaultVal && defaultVal.email) || '',
-          phoneNumber: (defaultVal && defaultVal.phoneNumber) || ''
-        })
-      },
-      () => {
-        this.validFormData();
-      }
-    );
+    // const {
+    //   paymentStore: { defaultCardDataFromAddr: defaultVal }
+    // } = this.props;
+    // let tmpDefaultName = '';
+    // if (defaultVal) {
+    //   const { firstName, lastName } = defaultVal;
+    //   tmpDefaultName = [firstName, lastName].filter((n) => !!n).join(' ');
+    // }
+    // this.setState(
+    //   {
+    //     creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+    //       cardNumber: '',
+    //       cardMmyy: '',
+    //       cardCvv: '',
+    //       currentVendor: '',
+    //       cardOwner: tmpDefaultName || '',
+    //       email: (defaultVal && defaultVal.email) || '',
+    //       phoneNumber: (defaultVal && defaultVal.phoneNumber) || ''
+    //     })
+    //   },
+    //   () => {
+    //     this.validFormData();
+    //   }
+    // );
   }
   showErrorMsg = (message) => {
     this.setState(
