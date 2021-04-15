@@ -1759,7 +1759,7 @@ class Details extends React.Component {
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
-                              <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap">
+                              <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
                                 <div className="des">
                                   <h2
                                     className="text-break mb-1 mt-2"

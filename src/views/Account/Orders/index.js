@@ -226,8 +226,7 @@ class AccountOrders extends React.Component {
               ele.tradeDelivers &&
               ele.tradeDelivers.length,
             canDownInvoice:
-              process.env.REACT_APP_LANG !== 'es' &&
-              process.env.REACT_APP_LANG !== 'en' &&
+              !['en', 'es', 'ru'].includes(process.env.REACT_APP_LANG) &&
               tradeState.deliverStatus === 'SHIPPED'
           });
         });
