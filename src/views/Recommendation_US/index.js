@@ -250,7 +250,7 @@ class Recommendation extends React.Component {
             if (g.content && g.contentType === 'json') {
               try {
                 const parsedContent = JSON.parse(g.content).map((el) => {
-                  el = JSON.parse(el);
+                  // el = JSON.parse(el);
                   return el;
                 });
                 let tempContentMobile = '';
@@ -263,7 +263,7 @@ class Recommendation extends React.Component {
                         tempContent +
                         `<li>
                             <div class="">${
-                              Object.values(JSON.parse(ele))[0]['Description']
+                              Object.values(ele)[0]['Description']
                             }</div>
                           </li>`;
                       tempContentMobile =
@@ -287,7 +287,7 @@ class Recommendation extends React.Component {
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
                           >
-                            ${Object.values(JSON.parse(ele))[0]['Description']}
+                            ${Object.values(ele)[0]['Description']}
                           </dd>
                         </div>
                           `;
@@ -1223,8 +1223,19 @@ class Recommendation extends React.Component {
                                 {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
                               </div>
-                              <div className="rc-margin-bottom--none rc-meta text-center w-100">
-                                <FormattedMessage id="recommendation.guidelinesTips" />
+                              <div
+                                className={`rc-margin-bottom--none rc-meta w-100 ${
+                                  isRu
+                                    ? 'rc-padding-x--sm d-flex text-left'
+                                    : ' text-center'
+                                }`}
+                              >
+                                {isRu && (
+                                  <span className="rc-icon rc-info--xs rc-iconography"></span>
+                                )}
+                                <span>
+                                  <FormattedMessage id="recommendation.guidelinesTips" />
+                                </span>
                               </div>
                             </div>
 

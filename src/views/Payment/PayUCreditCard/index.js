@@ -207,11 +207,14 @@ class PayOs extends React.Component {
         inited: true
       });
     }
-    this.initForm();
+    // this.initForm();
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
+  /**
+   * 默认同步地址里相关信息
+   */
   initForm() {
     const {
       paymentStore: { defaultCardDataFromAddr: defaultVal }

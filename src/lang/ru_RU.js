@@ -98,6 +98,8 @@ const ru_RU = {
     'Добро пожаловать, {val}, Здесь вы можете управлять своим профилем, редактировать информацию о питомцах, проверять статус по заказам и подписке.',
   'account.weight': 'Какой вес у взрослой собаки вашей породы {val}?',
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
+  Sensitivity: 'Особые потребности ',
+  Size: 'Памер',
   'recommendation.benefit': 'Полезные свойства',
   'recommendation.noMoreRecommendation':
     'Товар больше не доступен или недоступен для продажи',
@@ -563,7 +565,7 @@ const ru_RU = {
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
   modalSkipTitle: 'Пропустить следующую доставку',
-  moreAddress: 'Подробнее Адрес',
+  moreAddress: 'Свернуть мои адреса',
   moreChoicesAvailable: 'Доступны другие варианты',
   mustChooseACommunicationMethodTip:
     'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
@@ -997,6 +999,7 @@ const ru_RU = {
   writeYourReview: 'Напишите свой отзыв',
   yes: 'Подтвердить',
   yes2: 'Подтвердить',
+  yes3: 'Разместить заказ',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
 

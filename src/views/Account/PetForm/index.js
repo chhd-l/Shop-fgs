@@ -148,6 +148,11 @@ class PetForm extends React.Component {
       lifestyleOptions,
       activityOptions
     });
+    let petsType = this.props.location.state?.petsType;
+    if (petsType) {
+      let isCat = petsType === 'Cat';
+      this.petTypeChange(isCat);
+    }
 
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -189,6 +194,7 @@ class PetForm extends React.Component {
 
     return option;
   }
+
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
       delete ele.value;
@@ -227,14 +233,20 @@ class PetForm extends React.Component {
           if (currentPet) {
             this.edit(currentPet);
             this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-            this.setState({
-              currentPetId: currentPet.petsId,
-              currentPet: currentPet,
-              imgUrl:
-                currentPet.petsImg && currentPet.petsImg.includes('http')
-                  ? currentPet.petsImg
-                  : ''
-            });
+            this.setState(
+              {
+                currentPetId: currentPet.petsId,
+                currentPet: currentPet,
+                imgUrl:
+                  currentPet.petsImg && currentPet.petsImg.includes('http')
+                    ? currentPet.petsImg
+                    : '',
+                isCat: currentPet.petsType == 'cat' ? true : false
+              },
+              () => {
+                this.getTypeDict();
+              }
+            );
           }
         } else {
           this.setState({
@@ -356,7 +368,9 @@ class PetForm extends React.Component {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.isPurebred
+      petsBreed: this.state.isCat
+        ? 'mixed_breed'
+        : this.state.isPurebred
         ? this.state.breed
         : this.state.breedcode,
       petsName: this.state.nickname,
@@ -840,12 +854,38 @@ class PetForm extends React.Component {
     }
   }
   petTypeChange(isCat) {
+    this.setState(
+      {
+        isChoosePetType: true,
+        isCat: isCat,
+        isDisabled: false
+      },
+      () => {
+        this.getTypeDict();
+      }
+    );
+  }
+  async getTypeDict() {
+    let sensitivityCat = [],
+      sensitivityDog = [];
+    if (this.state.isCat) {
+      sensitivityCat = await getDictionary({ type: 'sensitivity_cat' });
+      sensitivityCat.map((el) => {
+        el.value = el.valueEn;
+      });
+      console.log(sensitivityCat, 'sensitivityCat');
+    } else {
+      sensitivityDog = await getDictionary({ type: 'sensitivity_dog' });
+      sensitivityDog.map((el) => {
+        el.value = el.valueEn;
+      });
+      console.log(sensitivityDog, 'sensitivityDog');
+    }
     this.setState({
-      isChoosePetType: true,
-      isCat: isCat,
-      isDisabled: false
+      sensitivityList: this.state.isCat ? sensitivityCat : sensitivityDog
     });
   }
+
   specialNeedsOptionsChange(data) {
     this.setState({ sensitivity: data.value });
     // console.log(data);
@@ -1261,22 +1301,45 @@ class PetForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group col-lg-6 pull-left required">
-                      <label
-                        className="form-control-label rc-full-width"
-                        htmlFor="weight"
-                      >
-                        <FormattedMessage id="Special Need" />
-                      </label>
-                      <Selection
-                        optionList={this.specialNeedsOptions}
-                        selectedItemChange={(el) =>
-                          this.specialNeedsOptionsChange(el)
-                        }
-                        selectedItemData={{
-                          value: this.state.sensitivity
-                        }}
-                        key={this.state.sensitivity}
-                      />
+                      {RuTr ? (
+                        <>
+                          <label
+                            className="form-control-label rc-full-width"
+                            htmlFor="Sensitivity"
+                          >
+                            <FormattedMessage id="Sensitivity" />
+                          </label>
+                          <Selection
+                            optionList={this.state.sensitivityList}
+                            selectedItemChange={(el) =>
+                              this.specialNeedsOptionsChange(el)
+                            }
+                            selectedItemData={{
+                              value: this.state.sensitivity
+                            }}
+                            key={this.state.sensitivity}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            className="form-control-label rc-full-width"
+                            htmlFor="weight"
+                          >
+                            <FormattedMessage id="Special Need" />
+                          </label>
+                          <Selection
+                            optionList={this.specialNeedsOptions}
+                            selectedItemChange={(el) =>
+                              this.specialNeedsOptionsChange(el)
+                            }
+                            selectedItemData={{
+                              value: this.state.sensitivity
+                            }}
+                            key={this.state.sensitivity}
+                          />
+                        </>
+                      )}
                       <div
                         className="invalid-feedback"
                         style={{ display: 'none' }}
