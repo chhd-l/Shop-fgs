@@ -15,13 +15,12 @@ class ConfigStore {
     : null;
 
   @observable isNeedPrescriber = null; //prescription页面是否需要显示prescriber弹框
+  @observable prescriberSelectType = null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
 
   // 获取本地存储的需要显示的地址字段
   @computed get localAddressForm() {
     return localItemRoyal.get('rc-address-form') || null;
   }
-
-  @observable prescriberSelectType = null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
