@@ -1020,6 +1020,7 @@ const tr_TR = {
   'Special Need': 'Özel ihtiyaçlar',
   'account.yes': 'Evet',
   'account.no': 'Hayır',
+  Sensitivity: 'Hassasiyet',
   petMale: 'Erkek',
   saveChange: 'Değişiklikleri kaydet',
   allOrders: 'Tüm siparişler',
