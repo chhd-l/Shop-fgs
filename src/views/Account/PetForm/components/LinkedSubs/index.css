@@ -6,3 +6,7 @@
   color: #666;
   border-bottom-color: #aaa;
 }
+
+.linkedSubsBox .text-plain.ui-btn-loading:before {
+  border: 1px solid #ec001a;
+}
