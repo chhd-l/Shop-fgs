@@ -88,7 +88,7 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: '240px',
+          // width: '240px',
           height: '100%',
           margin: '0 auto',
           display: 'block'

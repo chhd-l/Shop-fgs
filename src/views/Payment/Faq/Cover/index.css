@@ -60,6 +60,6 @@
 .rc-list__accordion-item.active .rc-list__content_faq {
   max-height: 35rem;
 }
-.rc-list__header {
+.faq-cover .rc-list__header {
   padding-right: 3.5rem !important;
 }

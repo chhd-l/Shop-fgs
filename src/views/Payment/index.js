@@ -3195,7 +3195,23 @@ class Payment extends React.Component {
         {loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
           <div className="rc-bottom-spacing data-checkout-stage1 rc-max-width--lg">
-            <Progress type="payment" />
+            {/*<Progress type="payment" />*/}
+            {/*checkout页面所有国家都不用流程图*/}
+            <div className="rc-padding--sm rc-padding-top--none">
+              <div className="title">
+                <h4>
+                  <FormattedMessage id="payment.checkout" />
+                </h4>
+                <p>
+                  <FormattedMessage
+                    id="checkoutTip"
+                    values={{
+                      val1: <br />
+                    }}
+                  />
+                </p>
+              </div>
+            </div>
             <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示，errorMsg==This Error No Display时不显示  */}

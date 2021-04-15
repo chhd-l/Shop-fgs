@@ -36,7 +36,7 @@ class Faq extends Component {
     const { activeIdx } = this.state;
     return (
       <>
-        <div className="rc-padding-top--md rc-content-v-middle">
+        <div className="rc-padding-top--md rc-content-v-middle faq-cover">
           <ul className="rc-list rc-list--blank">
             {benifitList.map((item, idx) => (
               <li

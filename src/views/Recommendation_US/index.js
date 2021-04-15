@@ -813,6 +813,7 @@ class Recommendation extends React.Component {
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
+      fr: tabDesText,
       en:
         productList[activeIndex]?.productMessage ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
@@ -954,12 +955,20 @@ class Recommendation extends React.Component {
                   {isFr && promotionCodeText && (
                     <>
                       <button
+                        title=""
+                        data-tooltip-placement="top"
+                        data-tooltip="top-tooltip"
                         className={`rc-btn rc-btn--two`}
                         onClick={this.copyPromotion}
                       >
                         {' '}
                         {promotionCodeText}
                       </button>
+                      <div id="top-tooltip" class="rc-tooltip">
+                        <div className="rc-padding-x--xs rc-padding-y--xs">
+                          copié !
+                        </div>
+                      </div>
                       <div className="rc-margin-top--xs">
                         <FormattedMessage id="recommendation.copyTips" />
                       </div>

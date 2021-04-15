@@ -414,7 +414,7 @@ const ru_RU = {
   'forgetPassword.createNewPassword': 'Создать новый пароль',
   'forgetPassword.forgetPasswordTip':
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
-  freeShipping: 'Бесплатная доставка от 2500',
+  freeShipping: 'Бесплатная доставка от 2500₽',
   from: 'От',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
@@ -621,6 +621,7 @@ const ru_RU = {
   'orderStatus.INITTip':
     'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
   'order.viewOrder': 'Посмотреть заказ',
+  orderDetail: 'Детали заказа',
   orders: 'Заказы',
   orderSummary: 'Итого',
   outOfStockContent_cart:
