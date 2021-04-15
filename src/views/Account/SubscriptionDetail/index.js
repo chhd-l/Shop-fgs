@@ -1240,9 +1240,9 @@ class SubscriptionDetail extends React.Component {
                 <div>
                   <Link
                     to={{
-                      pathname: `/account/pets/petForm/${petsId}`,
+                      pathname: `/account/pets/petForm`,
                       state: {
-                        isNewPetAndNeedLinksub: true,
+                        petsType: this.state.petsType,
                         subscribeId: this.state.subDetail.subscribeId
                       }
                     }}

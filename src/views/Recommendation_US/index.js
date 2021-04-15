@@ -250,7 +250,7 @@ class Recommendation extends React.Component {
             if (g.content && g.contentType === 'json') {
               try {
                 const parsedContent = JSON.parse(g.content).map((el) => {
-                  el = JSON.parse(el);
+                  // el = JSON.parse(el);
                   return el;
                 });
                 let tempContentMobile = '';
@@ -263,7 +263,7 @@ class Recommendation extends React.Component {
                         tempContent +
                         `<li>
                             <div class="">${
-                              Object.values(JSON.parse(ele))[0]['Description']
+                              Object.values(ele)[0]['Description']
                             }</div>
                           </li>`;
                       tempContentMobile =
@@ -287,7 +287,7 @@ class Recommendation extends React.Component {
                             aria-labelledby="heading-${idx}"
                             style="text-align:left"
                           >
-                            ${Object.values(JSON.parse(ele))[0]['Description']}
+                            ${Object.values(ele)[0]['Description']}
                           </dd>
                         </div>
                           `;

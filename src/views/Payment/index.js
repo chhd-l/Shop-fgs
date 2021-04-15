@@ -1031,8 +1031,8 @@ class Payment extends React.Component {
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl,
-        deliveryAddressId: this.state.deliveryAddress.addressId,
-        billAddressId: this.state.billingAddress.addressId,
+        deliveryAddressId: this.state.deliveryAddress?.addressId,
+        billAddressId: this.state.billingAddress?.addressId,
         domainName: process.env.REACT_APP_DOMAIN || '',
         phone
       });
@@ -1048,7 +1048,7 @@ class Payment extends React.Component {
     try {
       await this.valideCheckoutLimitRule();
       const commonParameter = this.packagePayParam();
-      let phone = this.state.billingAddress.phoneNumber; //获取电话号码
+      let phone = this.state.billingAddress?.phoneNumber; //获取电话号码
       return new Promise((resolve) => {
         resolve({ commonParameter, phone });
       });
@@ -1484,18 +1484,18 @@ class Payment extends React.Component {
      * 否则支付时会刷新preview显示的参数
      */
     let param = {
-      firstName: deliveryAddress.firstName,
-      lastName: deliveryAddress.lastName,
-      zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.city,
-      cityId: deliveryAddress.cityId,
-      provinceId: deliveryAddress.provinceId,
-      provinceNo: deliveryAddress.provinceNo,
-      province: deliveryAddress.province,
-      phone: creditCardInfo.phoneNumber,
-      email: creditCardInfo.email || deliveryAddress.email,
-      line1: deliveryAddress.address1,
-      line2: deliveryAddress.address2,
+      firstName: deliveryAddress?.firstName,
+      lastName: deliveryAddress?.lastName,
+      zipcode: deliveryAddress?.postCode,
+      city: deliveryAddress?.city,
+      cityId: deliveryAddress?.cityId,
+      provinceId: deliveryAddress?.provinceId,
+      provinceNo: deliveryAddress?.provinceNo,
+      province: deliveryAddress?.province,
+      phone: creditCardInfo?.phoneNumber,
+      email: creditCardInfo?.email || deliveryAddress?.email,
+      line1: deliveryAddress?.address1,
+      line2: deliveryAddress?.address2,
       comment: deliveryAddress?.comment,
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName,
@@ -1503,11 +1503,11 @@ class Payment extends React.Component {
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-      payAccountName: creditCardInfo.cardOwner,
-      payPhoneNumber: creditCardInfo.phoneNumber,
+      payAccountName: creditCardInfo?.cardOwner,
+      payPhoneNumber: creditCardInfo?.phoneNumber,
       petsId: '',
-      deliveryAddressId: deliveryAddress.addressId,
-      billAddressId: billingAddress.addressId,
+      deliveryAddressId: deliveryAddress?.addressId,
+      billAddressId: billingAddress?.addressId,
       maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
@@ -2135,19 +2135,7 @@ class Payment extends React.Component {
     const {
       adyenPayParam,
       paymentTypeVal,
-      billingAddress: {
-        // firstName,
-        // lastName,
-        // address1,
-        // address2,
-        // country,
-        // province,
-        // cityId,
-        // city,
-        // postCode,
-        email
-        // phoneNumber
-      },
+      billingAddress,
       cyberPaymentForm: {
         cardholderName,
         cardNumber,
@@ -2167,6 +2155,7 @@ class Payment extends React.Component {
     let cyberPaymentParam = {};
     let cyberParams = {};
 
+    // todo 存在tid时，需从orderDetails中取billing信息
     if (paymentTypeVal == 'cyber') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;
@@ -2182,7 +2171,11 @@ class Payment extends React.Component {
       cyberPaymentParam.city = newBillingAddress.city;
       cyberPaymentParam.zipCode = newBillingAddress.postCode;
       cyberPaymentParam.phone = newBillingAddress.phoneNumber;
-      cyberPaymentParam.email = isLogin ? email : this.state.guestEmail;
+      cyberPaymentParam.email = isLogin
+        ? tid
+          ? orderDetails?.invoice?.email
+          : billingAddress.email
+        : this.state.guestEmail;
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: currentCardTypeInfo.cardType,
         cardTypeValue: currentCardTypeInfo.cardTypeValue,
