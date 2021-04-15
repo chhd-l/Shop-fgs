@@ -1162,6 +1162,11 @@ const tr_TR = {
   'order.inTranistTip':
     'Siparişiniz gönderildi ve ürünü yakında alacaksınız {val}',
   'order.completeTip': 'Paket teslimat adresine elden teslim edildi.',
-  paused: 'Duraklatıldı'
+  paused: 'Duraklatıldı',
+  units: 'Adet',
+  'See recommendation': 'Öneriyi gör',
+  petSaveTips2:
+    'Bu bilgiler dahilinde, evcil hayvanınız için yeni bir ürün önerimiz var.',
+  petSaveTips1: 'Evcil hayvan bilgileriniz kaydedildi!'
 };
 export default tr_TR;
