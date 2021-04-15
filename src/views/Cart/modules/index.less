@@ -2,7 +2,7 @@
   display: flex;
   border: 1px solid #aaa;
   border-radius: 5px;
-  padding: .9375rem 1.25rem;
+  padding: 0.9375rem 1.25rem;
 
   .price {
     padding-top: 0.5rem;
@@ -11,12 +11,12 @@
 }
 @media screen and(max-width:1180px) and(min-width:770px) {
   .for_ipad_pro_price {
-    padding: 7px 0px!important;
+    padding: 7px 0px !important;
     .buyMethodInnerBox {
       flex-direction: column;
       min-width: 140px;
       .font15 {
-        font-size: .8125rem !important;
+        font-size: 0.8125rem !important;
       }
     }
   }
@@ -28,32 +28,17 @@
   margin: 0 0.5rem;
   .name-info {
     align-items: center;
-    .img {
-      margin: 0 3rem 0 1.5rem;
-      height: 8rem;
-    }
-  }
-  .tips-info {
-    width: 22rem;
-    margin-right: 2rem;
   }
 }
-
 
 .Carts .club-box {
   align-items: center;
   background-color: #f8f8f8;
   border-top: 0;
-  margin: 0 0.5rem;
-  height: 230px;
+  margin: -1.5rem 0.5rem 0;
   justify-content: space-around;
   .name-info {
     align-items: center;
-    width: 239px;
-    .img {
-      margin: 0 3rem 0 1.5rem;
-      // height: 8rem;
-    }
   }
   .logo-info {
     width: 200px;
@@ -62,8 +47,7 @@
     }
   }
   .tips-info {
-    width: 390px;
-    font-size: .9375rem;
+    font-size: 0.9375rem;
     ul > li.rc-list__item {
       list-style: outside;
       margin: 7px 0;
@@ -108,7 +92,7 @@
   .radioBox img {
     width: 1.25rem;
     display: inline-block;
-    margin-right: .625rem;
+    margin-right: 0.625rem;
     vertical-align: middle;
   }
   .singlePrice {
@@ -121,7 +105,7 @@
   }
 }
 .Carts {
-  .outOfStock > span{
+  .outOfStock > span {
     background: #ccc;
     border: 1px solid #ccc;
   }
@@ -144,7 +128,7 @@
   }
   .rc-icon-btnback {
     display: flex;
-    margin-left: -.6875rem;
+    margin-left: -0.6875rem;
   }
   .rc-icon-btnback.rc-iconography {
     &:after {
@@ -166,7 +150,6 @@
       }
       .tips-info {
         width: 100%;
-        padding: 2rem 1rem 1rem;
         margin: 0;
       }
     }
@@ -178,10 +161,7 @@
     }
   }
 }
-@media (max-width: 769px){
-  //.cart-quantity-container {
-  //  margin-left: -100px;
-  //}
+@media (max-width: 769px) {
   .Carts .club-box {
     align-items: center;
     background-color: #f8f8f8;
@@ -189,15 +169,9 @@
     margin: 0 0.5rem;
     justify-content: space-around;
     flex-wrap: wrap;
-    height: auto;
-    margin-left: calc(-100px - .5rem);
+    margin-top: -1.25rem;
     .name-info {
       align-items: center;
-      width: 180px;
-      .img {
-        margin: 0 3rem 0 1.5rem;
-        height: 8rem;
-      }
     }
     .logo-info {
       width: 120px;
@@ -206,8 +180,6 @@
       }
     }
     .tips-info {
-      width: 304px;
-      padding-left: 1rem;
       ul > li.rc-list__item {
         list-style: outside;
         margin: 7px 0;
