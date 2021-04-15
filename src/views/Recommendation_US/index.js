@@ -160,9 +160,9 @@ class Recommendation extends React.Component {
       emailDes: this.props.intl.messages[
         'recommendation.helpContentText.emailDes'
       ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ],
+      emailLink: isRu
+        ? `${location.protocol}//${location.host}${this.props.intl.messages['recommendation.helpContentText.emailLink']}`
+        : this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
       phoneTitle: this.props.intl.messages[
         'recommendation.helpContentText.phoneTitle'
       ],
@@ -734,6 +734,7 @@ class Recommendation extends React.Component {
     window.removeEventListener('copy', copy);
   };
   render(h) {
+    console.info('helpContentText', this.helpContentText);
     let otherShow = {
       ru: (
         <UsAndRu
