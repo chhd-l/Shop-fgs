@@ -397,13 +397,18 @@ class ImageMagnifier extends Component {
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{
+                height: '100%',
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
               {images.filter((el) => el.artworkUrl).length ? (
                 images.map((el, i) => (
-                  <div className="detail_img_box" key={i}>
-                    <LazyLoad>
+                  <div
+                    className="detail_img_box"
+                    style={{ height: '100%' }}
+                    key={i}
+                  >
+                    <LazyLoad style={{ height: '100%' }}>
                       <img
                         style={cssStyle.imgStyle}
                         // src={currentImg || noPic}

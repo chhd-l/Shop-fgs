@@ -189,10 +189,10 @@ const tr_TR = {
   CompleteRequiredItems: 'Lütfen gerekli maddeleri tamamlayın',
   confirmation: 'Onay',
   'confirmation.account': 'Hesabıma git',
-  'confirmation.customerInformation': 'Müşteri Bilgileri',
-  'confirmation.info1': 'Siparişiniz için teşekkür ederiz.',
+  'confirmation.customerInformation': 'Müşteri bilgisi',
+  'confirmation.info1': 'Siparişiniz için teşekkürler',
   'confirmation.info2':
-    'Kısa süre içinde {val1} adresinde bir e-posta onayı alacaksınız',
+    'Birazdan {val1} adresine  bir doğrulama mesajı gönderilecektir.',
   'confirmation.info3':
     'Adresler ve nakliye yöntemleri mallarınızın altında belirtilmiştir.',
   'confirmation.oneShoot': 'Alışverişe devam',
@@ -263,7 +263,7 @@ const tr_TR = {
     'Üzgünüz, bu kredi kartı zaten bir aboneliğe tabi olduğu için silinemez.',
   delivery: 'Kargo',
   delivery2: 'Gönderi adresim',
-  deliveryAddress: 'Gönderim adresi',
+  deliveryAddress: 'Teslimat adresi',
   'detail.answer':
     'Danışmanlarımız gerçek uzmanlar ve tutkulu. Herhangi bir talebi cevaplamak için emrinizdedirler.',
   'detail.email': 'Eposta ile',
@@ -513,7 +513,7 @@ const tr_TR = {
   of: '-',
   oldPassword: 'Eski şifre *',
   operateSuccessfully: 'Başarıyla çalıştırın!',
-  or: 'veya',
+  or: 'ya da',
   'order.cancelOrder': 'Siparişi iptal et',
   'order.confirmCancelOrderInfo':
     'Siparişi gerçekten iptal etmek istiyor musunuz?',
@@ -530,7 +530,7 @@ const tr_TR = {
   'order.noDataTip': 'Veri yok',
   'order.orderDate': 'Sipariş tarihi',
   'order.orderDetails': 'sipariş detayları',
-  'order.orderInformation': 'Sipariş Bilgisi',
+  'order.orderInformation': 'Sipariş onayı',
   'order.orderNumber': 'Sipariş numarası',
   'order.orderStatus': 'Sipariş durumu',
   'order.paymentNumber': 'Ödeme numarası',
@@ -611,7 +611,7 @@ const tr_TR = {
   'payment.normalDelivery2': 'Normal teslimat',
   'payment.normalDelivery3': '(1-4 gün)',
   'payment.payment': 'Ödeme yöntemim',
-  'payment.paymentInformation': 'Ödeme Yöntemi',
+  'payment.paymentInformation': 'Ödeme',
   'payment.phoneNumber': 'Telefon numarası',
   'payment.phoneNumber2': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
@@ -1110,7 +1110,7 @@ const tr_TR = {
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product',
+  'subscriptionDetail.changeProduct': 'ürün değiştirmek',
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',

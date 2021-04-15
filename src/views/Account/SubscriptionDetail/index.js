@@ -3477,7 +3477,7 @@ class SubscriptionDetail extends React.Component {
                                               this.showChangeProduct([el])
                                             }
                                           >
-                                            change product
+                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
                                           </span>
                                         )}
                                       </div>
@@ -4481,12 +4481,12 @@ class SubscriptionDetail extends React.Component {
                                               {el.tradePrice
                                                 .freeShippingFlag ? (
                                                 <>
-                                                  <div className="row green">
+                                                  <div className="row">
                                                     <div className="col-1 col-md-3" />
                                                     <label className="col-5 text-left">
                                                       <FormattedMessage id="payment.shippingDiscount" />
                                                     </label>
-                                                    <div className="text-right col-5 col-md-3">
+                                                    <div className="text-right col-5 col-md-3 green">
                                                       <strong>
                                                         {el.tradePrice
                                                           .freeShippingDiscountPrice >
