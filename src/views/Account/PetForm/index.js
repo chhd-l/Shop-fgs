@@ -1431,6 +1431,7 @@ class PetForm extends React.Component {
                           <input
                             type="text"
                             id="dog-breed"
+                            autocomplete="off"
                             placeholder={this.props.intl.messages.enterDogBreed}
                             className="form-control input-pet breed"
                             value={this.state.breedName}
@@ -1446,6 +1447,7 @@ class PetForm extends React.Component {
                           <input
                             type="text"
                             id="cat-breed"
+                            autocomplete="off"
                             placeholder={this.props.intl.messages.enterCatBreed}
                             className="form-control input-pet breed"
                             value={this.state.breedName}
