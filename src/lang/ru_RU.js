@@ -30,8 +30,8 @@ const ru_RU = {
   'account.catOrDog': 'У тебя есть кошка или собака?',
   'account.dateTip': 'Пожалуйста, выберите прошедшую дату.',
   'account.deleteMyaccountDesc':
-    'как только ваш счёт будет удален, вы не сможете использовать этот счёт для доступа к сервису Royal Canin.',
-  'account.deleteMyaccountTitle': 'Удалить счёт',
+    'как только ваш аккаунт будет удален, вы не сможете использовать этот аккаунт для доступа к сервису Royal Canin.',
+  'account.deleteMyaccountTitle': 'Удалить аккаунт',
   'account.dog': 'Собака',
   'account.Email': 'Е-mail адрес',
   'account.enterBirthDare': 'Введите дату рождения вашего питомца.',
@@ -745,7 +745,7 @@ const ru_RU = {
   price: 'Цена',
   printEbanx: 'Войти в аккаунт',
   privacyPolicy: 'Политика конфиденциальности',
-  proceedToTheDeletion: 'продолжить удаление',
+  proceedToTheDeletion: 'Удалить мой аккаунт',
   'productFinder.ageErrorShow':
     'Возрастной выбор должен быть больше 0 месяцев.',
   'productFinder.resultHlep':
@@ -868,8 +868,8 @@ const ru_RU = {
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
   saveSuccessfullly: 'Успешно сохраним',
-  saveSuccessfullly2: 'Ваша информация была правильно сохранена',
-  saveSuccessfullly3: 'Ваша информация была правильно сохранена',
+  saveSuccessfullly2: 'Ваша информация была успешно сохранена',
+  saveSuccessfullly3: 'Ваша информация была успешно сохранена',
   deleteSuccessFullly: 'Başarıyla silindi',
   search: 'Поиск',
   searchForAProductOrArtical: 'Найдите продукт или статью',
