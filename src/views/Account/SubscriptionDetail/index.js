@@ -1238,7 +1238,15 @@ class SubscriptionDetail extends React.Component {
                 className="border-dot height100 align-items-center d-flex"
               >
                 <div>
-                  <Link to="/account/pets/petForm">
+                  <Link
+                    to={{
+                      pathname: `/account/pets/petForm/${petsId}`,
+                      state: {
+                        isNewPetAndNeedLinksub: true,
+                        subscribeId: this.state.subDetail.subscribeId
+                      }
+                    }}
+                  >
                     +{' '}
                     <strong>
                       <FormattedMessage id="subscriptionDetail.addNewCat" />
