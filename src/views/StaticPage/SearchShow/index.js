@@ -9,8 +9,10 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { getEmailWay } from './config';
 
 const pageLink = window.location.href;
+
 @inject('configStore')
 @observer
 class SearchShow extends React.Component {
@@ -139,14 +141,7 @@ class SearchShow extends React.Component {
                                 <strong>
                                   <FormattedMessage id="searchNoResult.email" />
                                 </strong>
-                                <div>
-                                  <a
-                                    href={`mailto:info.de@royalcanin.com`}
-                                    className="rc-styled-link"
-                                  >
-                                    <FormattedMessage id="searchNoResult.email.content" />
-                                  </a>
-                                </div>
+                                <div>{getEmailWay()}</div>
                               </div>
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">

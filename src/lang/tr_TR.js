@@ -972,10 +972,10 @@ const tr_TR = {
   'club.howitworks.img2.titile': " CLUB'A ABONE OLUN",
   'club.howitworks.img2.description':
     'Abone olmak için satın alma işlemine devam edin. İlk siparişinizle birlikte bir hoşgeldin paketi alacaksınız',
-  'club.howitworks.img3.titile': 'Siparişinizi kontrol edin',
+  'club.howitworks.img3.titile': 'SIPARIŞINIZI KONTROL EDIN',
   'club.howitworks.img3.description':
     'İstediğiniz zaman hesabınıza girerek aboneliğinizi yönetebilirsiniz. CLUB abonesi olarak size otomarik gönderimden faydalanın',
-  'club.howitworks.img4.titile': ' Özel hediye & servislerin keyfini çıkarın',
+  'club.howitworks.img4.titile': ' ÖZEL HEDIYE & SERVISLERIN KEYFINI ÇIKARIN',
   'club.howitworks.img4.description':
     'Abonelikle birlikte gelecek özel teklifler ve beslenme danışmanı gibi özel  hizmetlerden yararlanın',
   'club.joinsubscription.title': 'CLUB abonesi olun!',

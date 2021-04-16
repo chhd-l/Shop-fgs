@@ -9,54 +9,9 @@ import './index.css';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
-function FaqLink() {
-  const defaultLink = (
-    <Link to="/faq">
-      <p style={{ textDecoration: 'underline' }}>
-        {/*  {*/}
-        {/*  this.props.configStore*/}
-        {/*    .contactTimePeriod*/}
-        {/*}*/}
-        <FormattedMessage id="club.wheretohelp.card.faq" />
-      </p>
-    </Link>
-  );
-  return (
-    {
-      tr: (
-        <p>
-          <FormattedMessage
-            id="club.wheretohelp.card.faq"
-            values={{
-              val: (
-                <Link
-                  to="/faq"
-                  style={{
-                    textDecoration: 'underline'
-                  }}
-                >
-                  <FormattedMessage id="club.wheretohelp.card.faq2" />
-                </Link>
-              )
-            }}
-          />
-        </p>
-      ),
-      ru: (
-        <DistributeHubLinkOrATag
-          href={'/about-us/faq'}
-          ariaLabel="Links to faq"
-        >
-          <p style={{ textDecoration: 'underline' }}>
-            <FormattedMessage id="club.wheretohelp.card.faq" />
-          </p>
-        </DistributeHubLinkOrATag>
-      )
-    }[process.env.REACT_APP_LANG] || defaultLink
-  );
-}
-
 const HelpComponents = (props) => {
+  const RU = process.env.REACT_APP_LANG == 'ru';
+  const TR = process.env.REACT_APP_LANG == 'tr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -161,7 +116,7 @@ const HelpComponents = (props) => {
                                   {/*}*/}
                                   <FormattedMessage id="club.wheretohelp.card.email.description" />
                                 </p>
-                                {process.env.REACT_APP_LANG == 'ru' ? (
+                                {TR || RU ? (
                                   <DistributeHubLinkOrATag
                                     href={'/contact-us'}
                                     ariaLabel="Links to contact us"
@@ -236,8 +191,26 @@ const HelpComponents = (props) => {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                <FaqLink />
-
+                                {TR || RU ? (
+                                  <DistributeHubLinkOrATag
+                                    href={'/about-us/faq'}
+                                    ariaLabel="Links to faq"
+                                  >
+                                    <p style={{ textDecoration: 'underline' }}>
+                                      <FormattedMessage id="club.wheretohelp.card.faq" />
+                                    </p>
+                                  </DistributeHubLinkOrATag>
+                                ) : (
+                                  <Link to="/faq">
+                                    <p style={{ textDecoration: 'underline' }}>
+                                      {/*  {*/}
+                                      {/*  this.props.configStore*/}
+                                      {/*    .contactTimePeriod*/}
+                                      {/*}*/}
+                                      <FormattedMessage id="club.wheretohelp.card.faq" />
+                                    </p>
+                                  </Link>
+                                )}
                                 <div className="rc-margin-top--xs">
                                   <p
                                     style={{ color: '#00BCA3' }}
