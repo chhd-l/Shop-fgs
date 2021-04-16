@@ -13,7 +13,8 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage,
   unique,
-  cancelPrevRequest
+  cancelPrevRequest,
+  getDeviceType
 } from '@/utils/utils';
 import {
   GAInitUnLogin,
@@ -45,6 +46,7 @@ import { Helmet } from 'react-helmet';
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const isGift = true;
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 
@@ -610,7 +612,7 @@ class UnLoginCart extends React.Component {
     let isGift = !!pitem.subscriptionPlanGiftList;
     return (
       <div
-        className={`product-quickview product-null product-wrapper product-detail  ${
+        className={`product-quickview product-null product-wrapper product-detail ${
           isGift ? 'gift-size-mobile-fr' : ''
         }`}
         // style={{ display: `${isGift ? 'initial' : 'none'}` }}
@@ -628,10 +630,7 @@ class UnLoginCart extends React.Component {
                   {pitem.goodsSpecs &&
                     pitem.goodsSpecs.map((sItem, i) => (
                       <div key={i} className="overflow-hidden">
-                        <div
-                          className="text-left ml-1"
-                          style={{ textTransform: 'capitalize' }}
-                        >
+                        <div className="text-left ml-1 text-capitalize">
                           {sItem.specName}:
                         </div>
                         {sItem.chidren.map((sdItem, i2) => (
@@ -663,41 +662,51 @@ class UnLoginCart extends React.Component {
     );
   };
   getProducts(plist) {
-    const { loginStore } = this.props;
-    const { form, isMobile } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
       }
       return (
-        <div>
+        <div className="product-info" key={index}>
           <div
             className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile ${
               isGift ? 'no-margin-bottom' : 'has-margin-bottom'
             }`}
-            key={index}
           >
+            <span className="remove-product-btn">
+              <span
+                className="rc-icon rc-close--sm rc-iconography"
+                onClick={() => {
+                  this.updateConfirmTooltipVisible(pitem, true);
+                  this.setState({ currentProductIdx: index });
+                }}
+              />
+              <ConfirmTooltip
+                containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                arrowStyle={{ left: '89%' }}
+                display={pitem.confirmTooltipVisible}
+                confirm={(e) => this.deleteProduct(pitem)}
+                updateChildDisplay={(status) =>
+                  this.updateConfirmTooltipVisible(pitem, status)
+                }
+                content={<FormattedMessage id="confirmDeleteProduct" />}
+              />
+            </span>
             <div
               className="rc-input rc-input--inline position-absolute hidden"
               style={{ left: '1%' }}
               onClick={() => this.toggleSelect(pitem)}
             >
-              {pitem.selected ? (
-                <input
-                  type="checkbox"
-                  className="rc-input__checkbox"
-                  key={1}
-                  checked
-                />
-              ) : (
-                <input type="checkbox" className="rc-input__checkbox" key={2} />
-              )}
+              <input
+                type="checkbox"
+                className="rc-input__checkbox"
+                checked={pitem.selected}
+              />
               <label className="rc-input__label--inline">&nbsp;</label>
             </div>
-            {/* <div className="d-flex pl-3"> */}
             <div className="d-flex">
               <div
-                className="product-info__img w-100 mr-2"
+                className="product-info__img mr-2"
                 style={{ overflow: 'hidden' }}
               >
                 <LazyLoad>
@@ -712,45 +721,34 @@ class UnLoginCart extends React.Component {
                   />
                 </LazyLoad>
               </div>
-              <div className="product-info__desc w-100 relative">
-                <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                  <Link
-                    className="ui-cursor-pointer"
-                    to={`/${pitem.goodsName
-                      .toLowerCase()
-                      .split(' ')
-                      .join('-')
-                      .replace('/', '')}-${pitem.goodsNo}`}
+              <div
+                className="product-info__desc ui-text-overflow-line2 ui-text-overflow-md-line1 relative"
+                style={{ flex: 1 }}
+              >
+                <Link
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-flex align-items-md-center flex-column flex-md-row"
+                  to={`/${pitem.goodsName
+                    .toLowerCase()
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${pitem.goodsNo}`}
+                >
+                  <h4
+                    className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
+                    title={pitem.goodsName}
                   >
-                    <h4
-                      className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
-                      title={pitem.goodsName}
-                    >
-                      {pitem.goodsName}
-                    </h4>
-                  </Link>
-                </div>
-                <div className="cart-product-error-msg"></div>
-                <span className="remove-product-btn">
-                  <span
-                    className="rc-icon rc-close--sm rc-iconography"
-                    onClick={() => {
-                      this.updateConfirmTooltipVisible(pitem, true);
-                      this.setState({ currentProductIdx: index });
-                    }}
-                  />
-                  <ConfirmTooltip
-                    containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                    arrowStyle={{ left: '89%' }}
-                    display={pitem.confirmTooltipVisible}
-                    confirm={(e) => this.deleteProduct(pitem)}
-                    updateChildDisplay={(status) =>
-                      this.updateConfirmTooltipVisible(pitem, status)
-                    }
-                    content={<FormattedMessage id="confirmDeleteProduct" />}
-                  />
-                </span>
-
+                    {pitem.goodsName}
+                  </h4>
+                  {pitem.taggingForImageAtCart?.taggingImgUrl ? (
+                    <LazyLoad className="order-1 order-md-3">
+                      <img
+                        src={pitem.taggingForImageAtCart?.taggingImgUrl}
+                        className="cart-item__tagging_image ml-2"
+                        alt="tagging image"
+                      />
+                    </LazyLoad>
+                  ) : null}
+                </Link>
                 <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                   <div
                     style={{
@@ -1557,10 +1555,9 @@ class UnLoginCart extends React.Component {
           match={this.props.match}
         />
         <main
-          className={[
-            'rc-content--fixed-header',
+          className={`rc-content--fixed-header ${
             productList.length ? '' : 'cart-empty'
-          ].join(' ')}
+          }`}
         >
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0 rc-padding-x--none--mobile">
