@@ -419,6 +419,7 @@ class PetForm extends React.Component {
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = this.props.location.state?.petsType;
+        let petsId = res.context?.result;
         if (subscribeId) {
           if (petsType) {
             // 从subdetail过来新增宠物的需要单独linksub
