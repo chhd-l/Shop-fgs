@@ -101,7 +101,8 @@ class ConfigStore {
   // 显示prescriber map开关
   @computed get prescriberMap() {
     return (
-      this.info && this.info.storeVO && this.info.storeVO.prescriberMap === '1'
+      // this.info && this.info.storeVO && this.info.storeVO.prescriberMap === '1'
+      this.prescriberSelectType && this.prescriberSelectType === 0 //是否打开prescriber Map信息从prescriber setting 接口取
     );
   }
 
@@ -137,9 +138,7 @@ class ConfigStore {
   }
 
   @computed get isPrescriberMap() {
-    return this.info && this.info.storeVO
-      ? this.info.storeVO.prescriberMap
-      : '';
+    return this.prescriberSelectType ? String(this.prescriberSelectType) : ''; //是否打开prescriber Map信息从prescriber setting 接口取
   }
 
   @action.bound
