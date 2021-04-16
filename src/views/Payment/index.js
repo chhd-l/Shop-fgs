@@ -364,7 +364,7 @@ class Payment extends React.Component {
         return el;
       });
       this.setState(
-        //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
+        //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
           needPrescriber:
             (handledData.filter((el) => el.prescriberFlag).length > 0 &&
