@@ -147,9 +147,9 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    if (process.env.REACT_APP_LANG == 'en' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
-      return loginStore.changeLimitLoginModal(true)
-    }
+    // if (process.env.REACT_APP_LANG == 'en' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    //   return loginStore.changeLimitLoginModal(true)
+    // }
     try {
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set(

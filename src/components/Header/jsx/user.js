@@ -94,13 +94,13 @@ const UserJSX = (props) => {
                     <span
                       className="rc-styled-link"
                       onClick={() => {
-                        if (
-                          process.env.REACT_APP_LANG == 'en' &&
-                          isLimitLogin()
-                        ) {
-                          // 美国4/17的美国中部时间早8点到晚4点不能登录账户
-                          return loginStore.changeLimitLoginModal(true);
-                        }
+                        // if (
+                        //   process.env.REACT_APP_LANG == 'en' &&
+                        //   isLimitLogin()
+                        // ) {
+                        //   // 美国4/17的美国中部时间早8点到晚4点不能登录账户
+                        //   return loginStore.changeLimitLoginModal(true);
+                        // }
                         // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                         // window.location.href =
                         //   process.env.REACT_APP_RegisterPrefix +
