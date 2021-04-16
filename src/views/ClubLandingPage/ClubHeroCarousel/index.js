@@ -126,31 +126,31 @@ class ClubHeroCarousel extends React.Component {
                 'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
               alt: 'Специализированное питание Royal Canin'
             },
-            {
-              isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
-              bannerId: '2c918085751fa3ad01752099f30a0002',
-              storeId: 123457910,
-              bannerName: 'us_003',
-              webUrl: `${Sliderthree}`,
-              webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
-              webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile3}`,
-              mobiImgName: 'us_003_b.jpg',
-              mobiSkipUrl: '/help',
-              mobiUuid: 'rc-upload-1602569663057-15',
-              isMobiVideo: '0',
-              isVideo: '0',
-              delFlag: 0,
-              createTime: '2021-02-24 05:55:42.000',
-              updateTime: '2021-02-24 05:55:42.000',
-              bannerNo: 3,
-              sliderTitle:
-                'Советы научных сотрудников и экспертов в области питания',
-              sliderContent:
-                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
-              alt: 'Эксперт в области питания животных'
-            },
+            // {
+            //   isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
+            //   bannerId: '2c918085751fa3ad01752099f30a0002',
+            //   storeId: 123457910,
+            //   bannerName: 'us_003',
+            //   webUrl: `${Sliderthree}`,
+            //   webImgName: 'us_003_a.jpg',
+            //   webSkipUrl: '/help',
+            //   webUuid: 'rc-upload-1602569663057-13',
+            //   mobiUrl: `${Slidermobile3}`,
+            //   mobiImgName: 'us_003_b.jpg',
+            //   mobiSkipUrl: '/help',
+            //   mobiUuid: 'rc-upload-1602569663057-15',
+            //   isMobiVideo: '0',
+            //   isVideo: '0',
+            //   delFlag: 0,
+            //   createTime: '2021-02-24 05:55:42.000',
+            //   updateTime: '2021-02-24 05:55:42.000',
+            //   bannerNo: 3,
+            //   sliderTitle:
+            //     'Советы научных сотрудников и экспертов в области питания',
+            //   sliderContent:
+            //     'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
+            //   alt: 'Эксперт в области питания животных'
+            // },
             {
               isShow: true,
               bannerId: '2c918085751fa3ad01752099f30a0002',
@@ -444,86 +444,82 @@ class ClubHeroCarousel extends React.Component {
           <Slider {...settings}>
             {banner.map((el, i) => (
               <>
-                {el.isShow && (
-                  <div className="hero-carousel__slide" key={i}>
-                    <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                      {el.isVideo && el.isVideo === '1' ? (
-                        videoJSX(el, i)
-                      ) : (
-                        <>
-                          {el.webSkipUrl ? (
-                            <Link
-                              className="h-100"
-                              to={el.webSkipUrl}
-                              onClick={this.GABannerClick.bind(this, i)}
-                            >
-                              <img
-                                className="rc-md-up mh-100"
-                                src={el.webUrl}
-                                alt={el.alt}
-                              />
-                              <div>{el.bannerNo}</div>
-                            </Link>
-                          ) : (
-                            <span
-                              className="h-100 rc-styled-link"
-                              onClick={this.scrollToHowItWorks}
-                            >
-                              <img
-                                className="rc-md-up mh-100"
-                                src={el.webUrl}
-                                alt={el.alt}
-                              />
-                              <div>{el.bannerNo}</div>
-                            </span>
-                          )}
+                <div className="hero-carousel__slide" key={i}>
+                  <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                    {el.isVideo && el.isVideo === '1' ? (
+                      videoJSX(el, i)
+                    ) : (
+                      <>
+                        {el.webSkipUrl ? (
+                          <Link
+                            className="h-100"
+                            to={el.webSkipUrl}
+                            onClick={this.GABannerClick.bind(this, i)}
+                          >
+                            <img
+                              className="rc-md-up mh-100"
+                              src={el.webUrl}
+                              alt={el.alt}
+                            />
+                            <div>{el.bannerNo}</div>
+                          </Link>
+                        ) : (
+                          <span
+                            className="h-100 rc-styled-link"
+                            onClick={this.scrollToHowItWorks}
+                          >
+                            <img
+                              className="rc-md-up mh-100"
+                              src={el.webUrl}
+                              alt={el.alt}
+                            />
+                            <div>{el.bannerNo}</div>
+                          </span>
+                        )}
 
-                          {el.mobiSkipUrl ? (
-                            <Link
-                              className="h-100"
-                              to={el.mobiSkipUrl}
-                              onClick={this.GABannerClick.bind(this, i)}
-                            >
-                              <img
-                                className="rc-md-down w-100 mh-100"
-                                src={el.mobiUrl}
-                                alt={el.alt}
-                              />
-                            </Link>
-                          ) : (
+                        {el.mobiSkipUrl ? (
+                          <Link
+                            className="h-100"
+                            to={el.mobiSkipUrl}
+                            onClick={this.GABannerClick.bind(this, i)}
+                          >
                             <img
                               className="rc-md-down w-100 mh-100"
                               src={el.mobiUrl}
                               alt={el.alt}
                             />
-                          )}
-                        </>
-                      )}
-                    </div>
-                    <div className="experience-component experience-layouts-1to2columnRatio indexmobile">
-                      <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                        <div className="rc-max-width--md text-center rc-margin-y--md">
-                          <div className="rc-alpha inherit-fontsize">
-                            <h1>{el.sliderTitle}</h1>
-                          </div>
-                          <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                            <p>{el.sliderContent}</p>
-                          </div>
-                          <br />
-                          {process.env.REACT_APP_LANG == 'ru' ? (
-                            <button className="rc-btn rc-btn--one">
-                              Узнать больше
-                            </button>
-                          ) : (
-                            <button className="rc-btn rc-btn--one">
-                              Keşfet
-                            </button>
-                          )}
+                          </Link>
+                        ) : (
+                          <img
+                            className="rc-md-down w-100 mh-100"
+                            src={el.mobiUrl}
+                            alt={el.alt}
+                          />
+                        )}
+                      </>
+                    )}
+                  </div>
+                  <div className="experience-component experience-layouts-1to2columnRatio indexmobile">
+                    <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                      <div className="rc-max-width--md text-center rc-margin-y--md">
+                        <div className="rc-alpha inherit-fontsize">
+                          <h1>{el.sliderTitle}</h1>
                         </div>
+                        <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                          <p>{el.sliderContent}</p>
+                        </div>
+                        <br />
+                        {process.env.REACT_APP_LANG == 'ru' ? (
+                          <button className="rc-btn rc-btn--one">
+                            Узнать больше
+                          </button>
+                        ) : (
+                          <button className="rc-btn rc-btn--one">Keşfet</button>
+                        )}
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </>
             ))}
           </Slider>

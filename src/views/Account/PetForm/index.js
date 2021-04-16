@@ -1433,6 +1433,7 @@ class PetForm extends React.Component {
                           <input
                             type="text"
                             id="dog-breed"
+                            autocomplete="off"
                             placeholder={this.props.intl.messages.enterDogBreed}
                             className="form-control input-pet breed"
                             value={this.state.breedName}
@@ -1448,6 +1449,7 @@ class PetForm extends React.Component {
                           <input
                             type="text"
                             id="cat-breed"
+                            autocomplete="off"
                             placeholder={this.props.intl.messages.enterCatBreed}
                             className="form-control input-pet breed"
                             value={this.state.breedName}
@@ -1763,16 +1765,17 @@ class PetForm extends React.Component {
           >
             <div className="text-center">
               <p>
-                <div>Your pet's infomation has been saved!</div>
-                Based on this infomationn,we recommend a new product for your
-                pet
+                <div>
+                  <FormattedMessage id="petSaveTips1" />
+                </div>
+                <FormattedMessage id="petSaveTips2" />
               </p>
               <p>
                 <button
                   onClick={() => this.gotoNext('clubPetsLifeStageFlag')}
                   className="rc-btn rc-btn--one rc-btn--sm"
                 >
-                  See recommendation
+                  <FormattedMessage id="See recommendation" />
                 </button>
               </p>
             </div>
