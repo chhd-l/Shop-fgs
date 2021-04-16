@@ -77,7 +77,7 @@ class SearchShow extends React.Component {
                     <FormattedMessage id="searchNoResult.title" />!
                   </h2>
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
-                    Aucun résultat ne correspond à votre recherche :{' '}
+                    <FormattedMessage id="searchNoResult.content1" /> :{' '}
                     <br className="d-block d-md-none" />“
                     <strong>{this.state.searchWords}</strong>”
                   </div>
@@ -86,8 +86,7 @@ class SearchShow extends React.Component {
                   <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--lg">
                     <div className="rc-full-width rc-text--center rc-padding-x--sm noSearch-desc">
                       <p>
-                        Vous pouvez contacter nos spécialistes pour trouver la
-                        nourriture la plus adaptée aux besoins de votre animal.
+                        <FormattedMessage id="searchNoResult.content2" />
                       </p>
                     </div>
                     <div className="rc-layout-container rc-two-column">
@@ -97,10 +96,10 @@ class SearchShow extends React.Component {
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
                                 <b style={{ color: '#00A4A6' }}>
-                                  Par téléphone
+                                  <FormattedMessage id="searchNoResult.telephone" />
                                 </b>
                                 <p>
-                                  Appel Gratuit - Du lundi au vendredi 8h-20h.
+                                  <FormattedMessage id="searchNoResult.telephone" />
                                 </p>
                                 <div>
                                   <a
@@ -108,7 +107,7 @@ class SearchShow extends React.Component {
                                     style={{ color: '#00A4A6' }}
                                     className="rc-numeric"
                                   >
-                                    0800-005-360
+                                    <FormattedMessage id="searchNoResult.telephone.number" />
                                   </a>
                                 </div>
                               </div>
