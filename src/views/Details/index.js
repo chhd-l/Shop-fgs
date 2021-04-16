@@ -1897,12 +1897,13 @@ class Details extends React.Component {
                                         <FormattedMessage id="details.recommendedDaily.info" />
                                       </span>
                                     </div>
-                                    <Link
-                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                    <DistributeHubLinkOrATag
+                                      href="/product-finder/product-finder-result-page"
                                       to="/product-finder-recommendation"
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
                                     >
                                       <FormattedMessage id="Go back to recommendation" />
-                                    </Link>
+                                    </DistributeHubLinkOrATag>
                                   </div>
                                 ) : (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">

@@ -276,7 +276,8 @@ class Widerrufsbelehrung extends React.Component {
                     2, 50674 Köln
                   </p>
                   <p>
-                    Tel.: +49 (0) 221 937060-610, Fax: +49 (0) 221 937060-800
+                    Tel.: +49 (0) 221 937060-650, Fax: +49 (0) 221 937060-820
+                    oder per E-Mail an service.de@royalcanin.com
                   </p>
                   <p>
                     – Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*)

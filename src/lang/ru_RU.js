@@ -205,7 +205,7 @@ const ru_RU = {
   'cart.dogDiet': 'Для собак',
   'cart.errorInfo': 'Число не может быть меньше 1',
   'cart.errorInfo2':
-    'Вы не можете разместить заказ, товар отсутствует в наличии.',
+    'Вы не можете разместить заказ, товар отсутствует в наличии: {val}',
   'cart.errorInfo3':
     '* Сумма вашего заказа еще не достигла минимальной суммы для бесплатной доставки （{val}）',
   'cart.errorInfo4': 'Вы не можете разместить свой заказ, товар с полок',
@@ -275,7 +275,7 @@ const ru_RU = {
   'confirmation.rateTip3': 'Введите до 50 символов',
   'confirmation.rateTip4': 'Пожалуйста, забейте первым.',
   'confirmation.subscriptionDiscountPriceDes':
-    'Вы сэкономили {val1} с помощью автошипа',
+    'Вы сэкономили {val1} от данного заказа по подписке',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDeleteAddress: 'Вы хотите удалить адрес?',
@@ -1205,10 +1205,11 @@ const ru_RU = {
   'subscriptionDetail.linkProfile':
     'Привяжите профиль питомца к Клубной программе',
   'subscriptionDetail.addNewCat': 'новая Кошка',
+  'subscriptionDetail.addNewDog': 'новая собака',
   Link: 'Привязан',
   Unlink: 'Не привязан',
   'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
-  'subscription.productDetails': 'Product details',
+  'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
   'subscription.productRecommendation': 'Рекомендации продукта',
   'subscription.productRecommendationTip':

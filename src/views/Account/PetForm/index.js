@@ -68,6 +68,7 @@ class PetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      subList: [],
       isEditAlert: false,
       loading: true,
       precent: 12.5,
@@ -304,7 +305,16 @@ class PetForm extends React.Component {
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
-    const { selectedSpecialNeeds } = this.state;
+    const { selectedSpecialNeeds, isPurebred, subList } = this.state;
+    if (isPurebred) {
+      this.setState({
+        weight: ''
+      });
+    } else if (!isPurebred) {
+      this.setState({
+        breed: ''
+      });
+    }
     let consumerAccount = '';
     if (this.userInfo && this.userInfo.customerAccount) {
       consumerAccount = this.userInfo.customerAccount;
@@ -405,6 +415,7 @@ class PetForm extends React.Component {
     try {
       let res = await action(param);
       let subscribeId = this.props.location.state?.subscribeId;
+      debugger;
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = this.props.location.state?.petsType;
@@ -423,8 +434,9 @@ class PetForm extends React.Component {
           }
         }
       } else {
-        if (subscribeId) {
-          // 从subdetail过来编辑宠物的需要弹提示框
+        // 有链接sub的，编辑宠物需要弹提示框
+        let isLinkedSub = subList.find((el) => el.petsId)?.petsId;
+        if (isLinkedSub) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }
@@ -444,9 +456,13 @@ class PetForm extends React.Component {
   };
 
   gotoNext(stateText = 'isFromPets') {
-    if (this.props.location.state && this.props.location.state.subscribeId) {
+    let isLinkedSub = this.state.subList.find((el) => el.petsId);
+    let petsIdLinkedSub = isLinkedSub?.petsId;
+    let subscribeId =
+      this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
+    if (subscribeId || petsIdLinkedSub) {
       this.props.history.push({
-        pathname: `/account/subscription/order/detail/${this.props.location.state.subscribeId}`,
+        pathname: `/account/subscription/order/detail/${subscribeId}`,
         state: { [stateText]: true }
       });
     } else {
@@ -1279,8 +1295,7 @@ class PetForm extends React.Component {
                             name="Is Purebred"
                             onChange={(e) => {
                               this.setState({
-                                isPurebred: true,
-                                weight: ''
+                                isPurebred: true
                               });
                             }}
                           />
@@ -1301,8 +1316,7 @@ class PetForm extends React.Component {
                             name="Is Purebred"
                             onChange={(e) => {
                               this.setState({
-                                isPurebred: false,
-                                breed: ''
+                                isPurebred: false
                               });
                             }}
                           />
