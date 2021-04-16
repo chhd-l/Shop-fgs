@@ -100,6 +100,7 @@ const ru_RU = {
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
   Sensitivity: 'Особые потребности ',
   Size: 'Памер',
+  'Mixed Breed': 'Смешанная порода',
   'recommendation.benefit': 'Полезные свойства',
   'recommendation.noMoreRecommendation':
     'Товар больше не доступен или недоступен для продажи',
@@ -1209,6 +1210,7 @@ const ru_RU = {
   Link: 'Привязан',
   Unlink: 'Не привязан',
   'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
+  'subscription.chooseThisProduct': 'выберите этот продукт',
   'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
   'subscription.productRecommendation': 'Рекомендации продукта',
@@ -1281,7 +1283,15 @@ const ru_RU = {
   'See recommendation': 'Посмотреть рекомендации',
   petSaveTips2:
     'Основываясь на этих данных, мы подберем новый продукт для Вашего питомца. ',
-  petSaveTips1: 'Информация о Вашем питомце сохранена!'
+  petSaveTips1: 'Информация о Вашем питомце сохранена!',
+  'searchNoResult.title': 'Извините',
+  'searchNoResult.content1': 'Мы не нашли ничего для',
+  'searchNoResult.content2':
+    'Мы рекомендуем Вам связаться с нашими экспертами по питанию домашних животных, чтобы получить советы по правильному питанию и помочь Вам подобрать наиболее точный рацион для Вашего питомца.',
+  'searchNoResult.telephone': 'Позвоните нам',
+  'searchNoResult.email': 'Напишите нам',
+  'searchNoResult.email.content': 'Отправьте нам Email',
+  'searchNoBreed.breedName': 'Результаты поиска'
 };
 
 export default ru_RU;

@@ -7,8 +7,12 @@ import BannerTip from '@/components/BannerTip';
 import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
+import { inject, observer } from 'mobx-react';
 
 const pageLink = window.location.href;
+@inject('configStore')
+@observer
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
@@ -72,9 +76,11 @@ class SearchShow extends React.Component {
             <section className="rc-bg-colour--brand3">
               <div className="noSearch-result">
                 <div className="rc-text--center rc-text--center rc-padding-top--sm--mobile">
-                  <h2 className="rc-alpha rc-margin-bottom--none">Désolé!</h2>
+                  <h2 className="rc-alpha rc-margin-bottom--none">
+                    <FormattedMessage id="searchNoResult.title" />!
+                  </h2>
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
-                    Aucun résultat ne correspond à votre recherche :{' '}
+                    <FormattedMessage id="searchNoResult.content1" /> :{' '}
                     <br className="d-block d-md-none" />“
                     <strong>{this.state.searchWords}</strong>”
                   </div>
@@ -83,8 +89,7 @@ class SearchShow extends React.Component {
                   <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--lg">
                     <div className="rc-full-width rc-text--center rc-padding-x--sm noSearch-desc">
                       <p>
-                        Vous pouvez contacter nos spécialistes pour trouver la
-                        nourriture la plus adaptée aux besoins de votre animal.
+                        <FormattedMessage id="searchNoResult.content2" />
                       </p>
                     </div>
                     <div className="rc-layout-container rc-two-column">
@@ -94,18 +99,24 @@ class SearchShow extends React.Component {
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
                                 <b style={{ color: '#00A4A6' }}>
-                                  Par téléphone
+                                  <FormattedMessage id="searchNoResult.telephone" />
                                 </b>
                                 <p>
-                                  Appel Gratuit - Du lundi au vendredi 8h-20h.
+                                  {this.props.configStore.contactTimePeriod}
                                 </p>
                                 <div>
                                   <a
-                                    href="tel:0800-005-360"
+                                    href={
+                                      this.props.configStore
+                                        .storeContactPhoneNumber
+                                    }
                                     style={{ color: '#00A4A6' }}
                                     className="rc-numeric"
                                   >
-                                    0800-005-360
+                                    {
+                                      this.props.configStore
+                                        .storeContactPhoneNumber
+                                    }
                                   </a>
                                 </div>
                               </div>
@@ -125,13 +136,15 @@ class SearchShow extends React.Component {
                           <div className="row rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight">
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
-                                <strong>Par mail</strong>
+                                <strong>
+                                  <FormattedMessage id="searchNoResult.email" />
+                                </strong>
                                 <div>
                                   <a
-                                    href="mailto:info.de@royalcanin.com"
+                                    href={`mailto:info.de@royalcanin.com`}
                                     className="rc-styled-link"
                                   >
-                                    Envoyer un email
+                                    <FormattedMessage id="searchNoResult.email.content" />
                                   </a>
                                 </div>
                               </div>

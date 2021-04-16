@@ -545,8 +545,7 @@ class SubscriptionDetail extends React.Component {
     idArr = selectedArr.map((el) => el.specDetailId);
     //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-
-    details.sizeList.map((item, i) => {
+    details.sizeList?.map((item, i) => {
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -661,7 +660,7 @@ class SubscriptionDetail extends React.Component {
             <div>
               <FormattedMessage id="breed" />:
               <strong>
-                {petBreed || 'Mixed Breed'}
+                {petBreed || <FormattedMessage id="Mixed Breed" />}
                 {/* {petsInfo?.petsBreed} */}
               </strong>{' '}
             </div>
@@ -1187,7 +1186,12 @@ class SubscriptionDetail extends React.Component {
           </strong>
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
-          <span className="rc-styled-link" onClick={this.showChangeProduct}>
+          <span
+            className="rc-styled-link"
+            onClick={() => {
+              this.showChangeProduct([...this.state.subDetail.goodsInfo]);
+            }}
+          >
             <FormattedMessage id="subscription.seeOtherRecommendation" />
           </span>
           <div className="for-mobile-colum d-flex">
@@ -2272,12 +2276,14 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: false });
   };
   queryProductList = async (els, cb) => {
+    console.info(els, 'sdsdsdsdsdsdsdsds');
     this.setState({ productListLoading: true });
     if (els) {
       this.setState({ currentGoodsItems: [...els] });
     }
     let { petsId } = this.state.subDetail;
     try {
+      debugger;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
       this.setState({ productListLoading: false });
@@ -2295,11 +2301,13 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: true, details: {} }); //清空details
   };
   showChangeProduct = async (els, isNoModal) => {
+    debugger;
     if (!els) {
       this.doSthShow();
       return;
     }
     if (!isNoModal) {
+      debugger;
       this.queryProductList(els, () => {
         this.doSthShow();
       });
@@ -5397,8 +5405,12 @@ class SubscriptionDetail extends React.Component {
               headerVisible={true}
               footerVisible={true}
               visible={this.state.produtctDetailVisible}
-              cancelBtnText="See other recommendation"
-              confirmBtnText="Choose this product"
+              cancelBtnText={
+                <FormattedMessage id="subscription.seeOtherRecommendation" />
+              }
+              confirmBtnText={
+                <FormattedMessage id="subscription.chooseThisProduct" />
+              }
               modalTitle={''}
               cancel={this.closeAndShowChangeProduct}
               hanldeClickConfirm={this.showChangeRecommendation}

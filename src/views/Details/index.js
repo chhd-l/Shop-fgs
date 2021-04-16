@@ -375,9 +375,6 @@ class Details extends React.Component {
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
-    } else if (Ru) {
-      // contactUs = 'https://www.royalcanin.com/ru/contact-us';
-      contactUs = 'mailto:royalcanin.careservice@voxys.ru';
     } else if (Tr) {
       contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
     }
@@ -2236,15 +2233,17 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    <div className="discountBox">
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
+                                    {!Tr ? (
+                                      <div className="discountBox">
+                                        <FormattedMessage
+                                          id="saveExtra"
+                                          values={{
+                                            val:
+                                              selectedSpecItem?.subscriptionPercentage
+                                          }}
+                                        />
+                                      </div>
+                                    ) : null}
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
@@ -2337,18 +2336,20 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    <div
-                                      className="discountBox"
-                                      style={{ background: '#3ab41d' }}
-                                    >
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
+                                    {!Tr ? (
+                                      <div
+                                        className="discountBox"
+                                        style={{ background: '#3ab41d' }}
+                                      >
+                                        <FormattedMessage
+                                          id="saveExtra"
+                                          values={{
+                                            val:
+                                              selectedSpecItem.subscriptionPercentage
+                                          }}
+                                        />
+                                      </div>
+                                    ) : null}
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
