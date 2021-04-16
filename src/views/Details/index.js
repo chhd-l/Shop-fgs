@@ -686,10 +686,12 @@ class Details extends React.Component {
       isMyProductFinder = false;
     }
     if (this.isLogin && savePetFlag) {
-      let pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+      let pf_params = {};
       if (!isMyProductFinder) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
         pf_params = '' + pf_params.age;
+      } else {
+        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
       }
       try {
         petsRes = await clubSubscriptionSavePets({
