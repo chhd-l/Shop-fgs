@@ -195,6 +195,8 @@ class Recommendation extends React.Component {
     getPrescriberByPrescriberIdAndStoreId({ prescriberId, storeId }).then(
       (res) => {
         console.info('resstoreIdstoreId', res);
+        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+        this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         let locationPath = res.context?.location;
         this.setState({ locationPath });
       }
@@ -388,8 +390,10 @@ class Recommendation extends React.Component {
           }
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
-        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-        this.props.clinicStore.setLinkClinicName('');
+        if (!isRu) {
+          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicName('');
+        }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
         // });
