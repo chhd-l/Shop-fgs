@@ -660,7 +660,7 @@ class SubscriptionDetail extends React.Component {
             <div>
               <FormattedMessage id="breed" />:
               <strong>
-                {petBreed || <FormattedMessage id="Mixed Breed" />}
+                {petBreed || <FormattedMessage id="Mixed Breed" />}
                 {/* {petsInfo?.petsBreed} */}
               </strong>{' '}
             </div>
