@@ -146,6 +146,8 @@ const tr_TR = {
   'minicart.totalProduct': '{val} ürün',
   'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Sepetiniz',
+  recommendProductTip:
+    "Burada sağlanan öneriler yalnızca bilgi amaçlıdır. evcil hayvanınız için neyin en iyisi olduğuna dair bir garanti olarak alınmamalıdır. Miktar, boyut ve sıklık CLUB'da belirlenecektir. Kontrol sayfası",
   clubGiftTips1: 'İhtiyaçlara yönelik geliştirilen kaliteli beslenme çözümleri',
   clubGiftTips2: 'Hoş geldin paketi, hediyeler ve özel hizmetler',
   clubGiftTips3: 'Size özel Beslenme danışmanınız',
@@ -165,6 +167,7 @@ const tr_TR = {
   checkoutTip: 'Lütfen bilgilerinizi girin',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
+  chooseTheProduct: 'Ürünü seçin',
   clickConfirmCardButton: 'Lütfen kartı onayla düğmesini tıklayın',
   clickConfirmCvvButton:
     "Bu kredi kartını kullanmak istiyorsanız, lütfen CVV'yi girin ve Uygula düğmesini tıklayın",
@@ -1099,7 +1102,7 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
   generalTermsConditions: 'Şartlar ve Koşullar',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
-  'details.recommendedDaily.info': '57g/day',
+  'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
     'uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın',
@@ -1117,10 +1120,11 @@ const tr_TR = {
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',
-  'subscriptionDetail.addNewCat': 'a new cat',
-  'subscription.seeOtherRecommendation': 'See other recommendation',
-  'subscription.productDetails': ' Product details',
-  'subscription.changeNow': 'Change now',
+  'subscriptionDetail.addNewCat': 'yeni bir kedi',
+  'subscriptionDetail.addNewDog': 'yeni bir köpek',
+  'subscription.seeOtherRecommendation': 'Diğer önerilere bakın',
+  'subscription.productDetails': 'Ürün Detayları',
+  'subscription.changeNow': 'Şimdi değiştir',
   'subscription.productRecommendation': 'Your product recommendation',
   'subscription.productRecommendationTip':
     "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",

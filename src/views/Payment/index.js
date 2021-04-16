@@ -366,7 +366,7 @@ class Payment extends React.Component {
         return el;
       });
       this.setState(
-        //调整checkout页面第一行显示prescriber信息条件：商品需要进入prescription页面并且选择了prescriber
+        //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
           needPrescriber:
             (handledData.filter((el) => el.prescriberFlag).length > 0 &&
@@ -2157,7 +2157,6 @@ class Payment extends React.Component {
     let cyberPaymentParam = {};
     let cyberParams = {};
 
-    // todo 存在tid时，需从orderDetails中取billing信息
     if (paymentTypeVal == 'cyber') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;
@@ -2456,6 +2455,7 @@ class Payment extends React.Component {
       key: 'paymentMethod',
       hideOthers: true
     });
+    this.payUCreditCardRef?.current?.handleClickEditBtn();
 
     if (!billingChecked) {
       paymentStore.setStsToEdit({

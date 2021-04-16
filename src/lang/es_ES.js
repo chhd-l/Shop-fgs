@@ -1031,7 +1031,7 @@ const es_ES = {
   Expire: ' ',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
   'subscription.dailyRation': 'your daily ration',
-  'details.recommendedDaily.info': '57g/day',
+  'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
@@ -1048,6 +1048,7 @@ const es_ES = {
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',
   'subscriptionDetail.addNewCat': 'a new cat',
+  'subscriptionDetail.addNewDog': 'a new dog',
   'subscription.seeOtherRecommendation': 'See other recommendation',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',

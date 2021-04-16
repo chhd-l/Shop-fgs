@@ -380,7 +380,8 @@ class TermUse extends React.Component {
                     - An ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring
                     2, 50674 Köln
                     <br />
-                    Tel.: +49 (0) 221 937060-610, Fax: +49 (0) 221 937060-800
+                    Tel.: +49 (0) 221 937060-650, Fax: +49 (0) 221 937060-820
+                    oder per E-Mail an service.de@royalcanin.com
                   </div>
                   <div className="pl-5 mt-3">
                     - Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*)

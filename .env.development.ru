@@ -86,7 +86,7 @@ REACT_APP_DELETE_My_ACCOUNT_URL = https://prd-weu1-rc-df-myaccount-app-webapp-st
 REACT_APP_PDP_RATING_VISIBLE = 0
 
 #HUB_GA
-REACT_APP_HUB_GA = 1
+REACT_APP_HUB_GA = 
 #PLP cover style
 REACT_APP_PLP_STYLE = 'layout-global'
 
