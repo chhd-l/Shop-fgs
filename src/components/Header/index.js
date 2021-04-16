@@ -35,7 +35,6 @@ import {
 import { getNavigation } from '@/api/hub';
 import queryNavigation from './mock/navigation';
 import './index.less';
-import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -546,7 +545,6 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
-        <LimitLoginModal />
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}

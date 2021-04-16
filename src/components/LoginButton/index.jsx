@@ -16,10 +16,11 @@ import stores from '@/store';
 import { FormattedMessage } from 'react-intl';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
-import { mergeUnloginCartData} from '@/utils/utils';
-import {isLimitLogin} from './utils'
+import { mergeUnloginCartData } from '@/utils/utils';
+import { isLimitLogin } from './utils'
 import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal'
+import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -146,7 +147,7 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    if(process.env.REACT_APP_LANG=='en' &&isLimitLogin()){// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    if (process.env.REACT_APP_LANG == 'en' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
       return loginStore.changeLimitLoginModal(true)
     }
     try {
@@ -179,15 +180,19 @@ const LoginButton = (props) => {
   };
 
   return (
-    <button
-      className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
-      style={props.btnStyle || {}}
-      onClick={login}
-      ref={props.buttonRef}
-      id="J-btn-login"
-    >
-      {props.children || <FormattedMessage id="login" />}
-    </button>
+    <>
+      <button
+        className={props.btnClass || props.className || 'rc-btn rc-btn--one'}
+        style={props.btnStyle || {}}
+        onClick={login}
+        ref={props.buttonRef}
+        id="J-btn-login"
+      >
+        {props.children || <FormattedMessage id="login" />}
+      </button>
+      <LimitLoginModal />
+    </>
+
   );
 };
 export default LoginButton;
