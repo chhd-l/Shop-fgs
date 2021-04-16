@@ -700,7 +700,10 @@ class SubscriptionDetail extends React.Component {
           display: 'inline-block'
         }}
       >
-        Daily ration: {rations}
+        <span style={{ fontSize: '12px' }}>
+          <FormattedMessage id="subscription.dailyRation" />
+        </span>
+        : {rations}
       </span>
     );
   };
@@ -2419,11 +2422,17 @@ class SubscriptionDetail extends React.Component {
     );
   };
   productDailyRation = (rations) => (
-    <div>
-      <div
-        className="text-center"
-        style={{ textAlign: 'center', background: '#f9f9f9', color: '#000' }}
-      >
+    <div
+      style={{
+        textAlign: 'center',
+        background: '#f9f9f9',
+        color: '#000',
+        maxWidth: '400px',
+        margin: '0 auto'
+      }}
+      className="text-center rc-padding--xs"
+    >
+      <div style={{ fontSize: '12px' }}>
         <FormattedMessage id="subscription.dailyRation" />
       </div>
       <div>{rations}</div>
