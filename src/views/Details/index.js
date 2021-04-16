@@ -666,9 +666,6 @@ class Details extends React.Component {
         sessionItemRoyal.get('pf-result')
       );
     }
-    if (localStorage.getItem('pfls')) {
-      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-    }
     let savePetFlag = false;
     let isMyProductFinder = true;
     if (
@@ -691,6 +688,9 @@ class Details extends React.Component {
     } else {
       savePetFlag = false;
       isMyProductFinder = true;
+    }
+    if (localStorage.getItem('pfls')) {
+      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
     }
     if (this.isLogin && savePetFlag) {
       let pf_params = {};
