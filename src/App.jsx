@@ -652,11 +652,12 @@ const App = () => {
                   path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                   render={(props) => {
                     if (props.location.state && props.location.state.noresult) {
-                      if (process.env.REACT_APP_LANG == 'en') {
-                        return <US_SearchShow {...props} />;
-                      } else {
-                        return <SearchShow {...props} />;
-                      }
+                      // if (process.env.REACT_APP_LANG == 'en') {
+                      //   return <US_SearchShow {...props} />;
+                      // } else {
+                      //   return <SearchShow {...props} />;
+                      // }
+                      return <SearchShow {...props} />;
                     } else {
                       return <List key={props.location.search} {...props} />;
                     }

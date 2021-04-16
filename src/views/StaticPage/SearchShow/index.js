@@ -9,6 +9,7 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 
 const pageLink = window.location.href;
 @inject('configStore')
@@ -140,12 +141,21 @@ class SearchShow extends React.Component {
                                   <FormattedMessage id="searchNoResult.email" />
                                 </strong>
                                 <div>
-                                  <a
-                                    href={`mailto:info.de@royalcanin.com`}
-                                    className="rc-styled-link"
-                                  >
-                                    <FormattedMessage id="searchNoResult.email.content" />
-                                  </a>
+                                  {process.env.REACT_APP_HUB ? (
+                                    <a
+                                      href={`${process.env.REACT_APP_HUBPAGE_PREFIX}/contact-us`}
+                                      className="rc-styled-link"
+                                    >
+                                      <FormattedMessage id="searchNoResult.email.content" />
+                                    </a>
+                                  ) : (
+                                    <Link
+                                      to="/help/contact"
+                                      className="rc-styled-link"
+                                    >
+                                      <FormattedMessage id="searchNoResult.email.content" />
+                                    </Link>
+                                  )}
                                 </div>
                               </div>
                             </div>
