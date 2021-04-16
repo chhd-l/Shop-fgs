@@ -30,7 +30,9 @@ class VisitorAddress extends React.Component {
     isValidationModal: true, // 是否显示验证弹框
     updateFormValidStatus: () => {},
     updateValidationStaus: () => {},
-    setPaymentToCompleted: () => {}
+    setPaymentToCompleted: () => {},
+    calculateFreight: () => {},
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -104,6 +106,10 @@ class VisitorAddress extends React.Component {
   // 接收form表单输入
   updateDeliveryAddress = (data) => {
     this.validData({ data });
+  };
+  // 计算运费
+  calculateFreight = (data) => {
+    this.props.calculateFreight(data);
   };
   // 游客确认 Delivery address
   handleClickConfirm = () => {
@@ -327,6 +333,7 @@ class VisitorAddress extends React.Component {
         isLogin={false}
         getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
         updateData={this.updateDeliveryAddress}
+        calculateFreight={this.calculateFreight}
       />
     );
     const _title = panelStatus.isPrepare

@@ -57,7 +57,7 @@ class SearchSelection extends React.Component {
     try {
       form.value = target.value;
       // 返回搜索框输入的值
-      this.props.searchInputChange(target.value);
+      this.props.searchInputChange(e);
       this.setState({
         form: form,
         searchForNoResult: true

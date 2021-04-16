@@ -38,6 +38,7 @@ class Form extends React.Component {
     isCyberBillingAddress: false,
     isLogin: false,
     updateData: () => {},
+    calculateFreight: () => {},
     getRussiaAddressValidFlag: () => {}
   };
   constructor(props) {
@@ -549,7 +550,8 @@ class Form extends React.Component {
           },
           () => {
             this.props.getRussiaAddressValidFlag(true);
-            this.props.updateData(this.state.caninForm);
+            // 计算运费
+            this.props.calculateFreight(this.state.caninForm);
           }
         );
       } else {
@@ -626,41 +628,40 @@ class Form extends React.Component {
   inputChange = (e) => {
     const { caninForm } = this.state;
     const target = e.target;
-    let value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    console.log('--------- ', name, ' : ', value);
-    if (name == 'postCode') {
-      value = value.replace(/\s+/g, '');
-      if (!this.isNumber(value)) {
-        value = '';
+    let tvalue = target.type === 'checkbox' ? target.checked : target.value;
+    const tname = target.name;
+    if (tname == 'postCode') {
+      tvalue = tvalue.replace(/\s+/g, '');
+      if (!this.isNumber(tvalue)) {
+        tvalue = '';
         return;
       }
       switch (process.env.REACT_APP_LANG) {
         case 'en':
-          value = value
+          tvalue = tvalue
             .replace(/\s/g, '')
             .replace(/-$/, '')
             .replace(/(\d{5})(?:\d)/g, '$1-');
           break;
         default:
-          value = value.replace(/\s+/g, '');
+          tvalue = tvalue.replace(/\s+/g, '');
           break;
       }
     }
-    caninForm[name] = value;
+    caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
-      this.inputBlur(e);
+      this.validvalidationData(tname, tvalue);
     });
   };
   // 文本框失去焦点
-  inputBlur = async (e) => {
-    const { errMsgObj, caninForm } = this.state;
+  inputBlur = (e) => {
+    const { caninForm } = this.state;
     const target = e?.target;
     const tname = target?.name;
-    const targetRule = caninForm.formRule.filter((e) => e.key === tname);
-    const value = target?.type === 'checkbox' ? target?.checked : target?.value;
-    caninForm[tname] = value;
+    const tvalue =
+      target?.type === 'checkbox' ? target?.checked : target?.value;
+    caninForm[tname] = tvalue;
     this.setState(
       {
         caninForm
@@ -669,8 +670,16 @@ class Form extends React.Component {
         this.props.updateData(this.state.caninForm);
       }
     );
+    // 验证数据
+    this.validvalidationData(tname, tvalue);
+  };
+  // 验证数据
+  validvalidationData = async (tname, tvalue) => {
+    const { errMsgObj, caninForm } = this.state;
+    const targetRule = caninForm.formRule.filter((e) => e.key === tname);
     try {
-      await validData(targetRule, { [tname]: value });
+      await validData(targetRule, { [tname]: tvalue });
+      console.log('验证数据  验证通过 ', tname);
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
@@ -799,8 +808,13 @@ class Form extends React.Component {
     }
   };
   // 地址搜索框输入值接收，控制按钮状态 3
-  getSearchInputChange = (val) => {
+  getSearchInputChange = (e) => {
+    const target = e?.target;
+    const tname = target?.name;
+    const tvalue = target?.value;
     this.props.getRussiaAddressValidFlag(false);
+    // 验证数据
+    this.validvalidationData(tname, tvalue);
   };
 
   // 地址搜索框

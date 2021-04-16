@@ -1847,10 +1847,10 @@ class Payment extends React.Component {
   };
 
   // 计算税额、运费、运费折扣
-  updateDeliveryAddrData = async (data) => {
+  calculateFreight = async (data) => {
+    console.log('1851 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
     const { ruShippingDTO } = this.state;
     let param = {};
-    console.log('1810 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
 
     var dudata = data?.DuData;
     if (dudata) {
@@ -1859,6 +1859,9 @@ class Payment extends React.Component {
       ruShippingDTO.cityFias = dudata?.cityId;
       ruShippingDTO.settlementFias = dudata?.settlementId;
       ruShippingDTO.postalCode = dudata?.postCode;
+      this.setState({
+        ruShippingDTO
+      });
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
@@ -1877,16 +1880,6 @@ class Payment extends React.Component {
       address1: data?.address1,
       ruShippingDTO: ruShippingDTO
     };
-
-    if (this.state.billingChecked) {
-      this.setState({
-        billingAddress: data
-      });
-    }
-    this.setState({
-      ruShippingDTO,
-      deliveryAddress: data
-    });
     try {
       // 获取税额
       if (this.isLogin) {
@@ -1898,6 +1891,16 @@ class Payment extends React.Component {
     } catch (err) {
       console.warn(err);
     }
+  };
+  updateDeliveryAddrData = (data) => {
+    if (this.state.billingChecked) {
+      this.setState({
+        billingAddress: data
+      });
+    }
+    this.setState({
+      deliveryAddress: data
+    });
   };
 
   // 修改BillingAddress数据
@@ -1938,6 +1941,7 @@ class Payment extends React.Component {
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               updateData={this.updateDeliveryAddrData}
+              calculateFreight={this.calculateFreight}
             />
           ) : (
             <VisitorAddress
@@ -1949,6 +1953,7 @@ class Payment extends React.Component {
               guestEmail={guestEmail}
               updateValidationStaus={this.updateValidationStaus}
               updateData={this.updateDeliveryAddrData}
+              calculateFreight={this.calculateFreight}
             />
           )}
         </div>

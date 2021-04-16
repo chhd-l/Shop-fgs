@@ -33,6 +33,7 @@ class AddressList extends React.Component {
     isAddOrEdit: () => {},
     updateValidationStaus: () => {},
     updateFormValidStatus: () => {},
+    calculateFreight: () => {},
     updateData: () => {}
   };
   constructor(props) {
@@ -136,9 +137,10 @@ class AddressList extends React.Component {
 
       const tmpObj =
         find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
-      this.props.updateData(tmpObj);
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+
+      this.props.updateData(tmpObj);
 
       this.setState(
         {
@@ -252,7 +254,7 @@ class AddressList extends React.Component {
                 deliveryAddress: newaddr
               },
               () => {
-                this.props.updateData(this.state.deliveryAddress);
+                this.props.calculateFreight(this.state.deliveryAddress);
                 this.isDeliverAddress &&
                   this.props.paymentStore.setDefaultCardDataFromAddr(
                     this.state.deliveryAddress
@@ -422,9 +424,9 @@ class AddressList extends React.Component {
     console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
-      if (data?.calculationStatus) {
-        this.props.updateData(data);
-      }
+      // if (data?.calculationStatus) {
+      //   this.props---.updateData(data);
+      // }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
@@ -434,17 +436,23 @@ class AddressList extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
+        console.log('--------- ★★★★★★ List 验证通过');
+        // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
       });
     } catch (err) {
-      console.log(' err msg: ', err);
+      console.warn(' err msg: ', err);
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
     } finally {
       this.setState({ deliveryAddress: data });
     }
+  };
+  // 计算运费
+  calculateFreight = (data) => {
+    this.props.calculateFreight(data);
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
@@ -924,6 +932,7 @@ class AddressList extends React.Component {
             initData={deliveryAddress}
             getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
             updateData={this.updateDeliveryAddress}
+            calculateFreight={this.calculateFreight}
           />
         )}
 
