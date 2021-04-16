@@ -1973,12 +1973,19 @@ class Details extends React.Component {
                                     <div>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
-                                    <Link
+                                    {/* <Link
                                       className="rc-styled-link mt-0 pb-0"
                                       to="/product-finder"
                                     >
                                       <FormattedMessage id="details.findProductTips" />
-                                    </Link>
+                                    </Link> */}
+                                    <DistributeHubLinkOrATag
+                                      href="/product-finder"
+                                      to="/product-finder"
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                    >
+                                      <FormattedMessage id="details.findProductTips" />
+                                    </DistributeHubLinkOrATag>
                                   </div>
                                 )}
                               </div>
