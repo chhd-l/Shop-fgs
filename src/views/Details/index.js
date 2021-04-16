@@ -2233,15 +2233,17 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    <div className="discountBox">
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
+                                    {!Tr ? (
+                                      <div className="discountBox">
+                                        <FormattedMessage
+                                          id="saveExtra"
+                                          values={{
+                                            val:
+                                              selectedSpecItem?.subscriptionPercentage
+                                          }}
+                                        />
+                                      </div>
+                                    ) : null}
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
@@ -2334,18 +2336,20 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    <div
-                                      className="discountBox"
-                                      style={{ background: '#3ab41d' }}
-                                    >
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
+                                    {!Tr ? (
+                                      <div
+                                        className="discountBox"
+                                        style={{ background: '#3ab41d' }}
+                                      >
+                                        <FormattedMessage
+                                          id="saveExtra"
+                                          values={{
+                                            val:
+                                              selectedSpecItem.subscriptionPercentage
+                                          }}
+                                        />
+                                      </div>
+                                    ) : null}
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
