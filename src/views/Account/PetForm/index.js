@@ -372,7 +372,7 @@ class PetForm extends React.Component {
         petsId: this.state.currentPetId,
         propId: propId,
         propName: selectedSpecialNeeds[i],
-        relationId: '10086',
+        relationId: '',
         sort: 0,
         propType: 'needsName'
       };
@@ -390,7 +390,7 @@ class PetForm extends React.Component {
         : this.state.breedcode,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
-      petsSizeValueId: '10086',
+      petsSizeValueId: '',
       petsSizeValueName: this.state.weight,
       petsType: this.state.isCat ? 'cat' : 'dog',
       sterilized: this.state.isSterilized ? '1' : '0',

@@ -1102,7 +1102,7 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
   generalTermsConditions: 'Şartlar ve Koşullar',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
-  'details.recommendedDaily.info': '57g/day',
+  'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
     'uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın',

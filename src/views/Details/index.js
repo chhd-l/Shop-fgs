@@ -16,6 +16,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
+import { clubSubscriptionSavePets } from '@/api/pet';
 import {
   formatMoney,
   setSeoConfig,
@@ -27,7 +28,8 @@ import {
   getDictionary,
   unique,
   filterObjectValue,
-  isCountriesContainer
+  isCountriesContainer,
+  getRation
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -334,7 +336,8 @@ class Details extends React.Component {
       ccidBtnDisplay: false,
       relatedGoods: [],
       relatedGoodsList: [],
-      relatedGoodsLoading: false
+      relatedGoodsLoading: false,
+      rationInfo: {}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -654,6 +657,71 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
+    let petsRes = {};
+
+    // 对比productFinder 之前信息
+    if (sessionItemRoyal.get('pf-result')) {
+      sessionItemRoyal.set(
+        'pf-result-before',
+        sessionItemRoyal.get('pf-result')
+      );
+    }
+    if (localStorage.getItem('pfls')) {
+      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
+    }
+    let savePetFlag = false;
+    let isMyProductFinder = true;
+    if (
+      sessionItemRoyal.get('pf-result') &&
+      sessionItemRoyal.get('pf-result') !==
+        sessionItemRoyal.get('pf-result-before')
+    ) {
+      savePetFlag = true;
+      isMyProductFinder = true;
+    } else {
+      savePetFlag = false;
+      isMyProductFinder = false;
+    }
+    if (
+      localStorage.getItem('pfls') &&
+      localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
+    ) {
+      savePetFlag = true;
+      isMyProductFinder = false;
+    } else {
+      savePetFlag = false;
+      isMyProductFinder = true;
+    }
+    if (this.isLogin && savePetFlag) {
+      let pf_params = {};
+      if (!isMyProductFinder) {
+        pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
+        pf_params = '' + pf_params.age;
+      } else {
+        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+      }
+      try {
+        petsRes = await clubSubscriptionSavePets({
+          questionParams: pf_params
+        });
+        if (petsRes.code === 'K-000000') {
+          let petsInfo = petsRes.context;
+          localItemRoyal.set('pr-petsInfo', petsRes.context);
+          let rationRes = getRation({
+            spuNoList: [goodsNo],
+            petsId: petsInfo.petsId
+          });
+          console.log(rationRes, 'rationRes');
+          if (rationRes.code === 'K-000000') {
+            this.setState({
+              rationInfo: rationRes.context.rationResponseItems[0]
+            });
+          }
+        }
+      } catch (err) {
+        console.log(err, 'error111');
+      }
+    }
     Promise.all([
       requestName(param),
       getFrequencyDict(),
@@ -678,6 +746,7 @@ class Details extends React.Component {
             }
           });
         }
+
         const res = resList[0];
         const frequencyDictRes = resList[1];
         let autoshipDictRes = frequencyDictRes.filter(
@@ -1511,7 +1580,8 @@ class Details extends React.Component {
       ccidBtnDisplay,
       seoConfig,
       exclusiveFlag,
-      loading
+      loading,
+      rationInfo
     } = this.state;
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
@@ -1878,8 +1948,18 @@ class Details extends React.Component {
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div>
                                       <FormattedMessage id="details.recommendedDaily" />
+                                      &nbsp;
                                       <span className="strong">
-                                        <FormattedMessage id="details.recommendedDaily.info" />
+                                        <FormattedMessage
+                                          id="details.recommendedDaily.info"
+                                          values={{
+                                            val: rationInfo.weight
+                                              ? rationInfo.weight +
+                                                '/' +
+                                                rationInfo.weightUnit
+                                              : '0g/day'
+                                          }}
+                                        />
                                       </span>
                                     </div>
                                     <DistributeHubLinkOrATag
@@ -1895,12 +1975,19 @@ class Details extends React.Component {
                                     <div>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
-                                    <Link
+                                    {/* <Link
                                       className="rc-styled-link mt-0 pb-0"
                                       to="/product-finder"
                                     >
                                       <FormattedMessage id="details.findProductTips" />
-                                    </Link>
+                                    </Link> */}
+                                    <DistributeHubLinkOrATag
+                                      href="/product-finder"
+                                      to="/product-finder"
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                    >
+                                      <FormattedMessage id="details.findProductTips" />
+                                    </DistributeHubLinkOrATag>
                                   </div>
                                 )}
                               </div>

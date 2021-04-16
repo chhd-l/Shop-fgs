@@ -3,6 +3,7 @@ import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
 import { getDict } from '@/api/dict';
 import { findFilterList, findSortList } from '@/api/list';
+import { getRation as getRation_api } from '@/api/pet';
 import find from 'lodash/find';
 import flatten from 'lodash/flatten';
 import stores from '@/store';
@@ -828,4 +829,9 @@ export const filterOrderId = (orderId) => {
       en: orderId.replace(/RCFUS/, '')
     }[process.env.REACT_APP_LANG] || orderId
   );
+};
+
+export const getRation = async (params) => {
+  let res = await getRation_api(params);
+  console.log(res, 'res');
 };

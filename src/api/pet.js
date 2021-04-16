@@ -10,7 +10,8 @@ const api = {
   batchAddPets: '/pets/batchAddPets',
   getRecommendProducts: '/product/finder/pets/products',
   clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets',
-  changeSubscriptionGoodsByPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`
+  changeSubscriptionGoodsByPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`,
+  getRation: `/product/finder/club/ration`
 };
 
 export default api;
@@ -91,6 +92,13 @@ export function changeSubscriptionGoodsByPets(parameter) {
   return axios({
     url: `${api.changeSubscriptionGoodsByPets}`,
     method: 'put',
+    data: parameter
+  });
+}
+export function getRation(parameter) {
+  return axios({
+    url: `${api.getRation}`,
+    method: 'post',
     data: parameter
   });
 }
