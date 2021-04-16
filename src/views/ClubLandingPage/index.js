@@ -18,6 +18,7 @@ import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -579,11 +580,14 @@ class ClubLandingPage extends React.Component {
                   </div>
                 </div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <Link to="/product-finder">
+                  <DistributeHubLinkOrATag
+                    href={'/product-finder'}
+                    ariaLabel="Links to product finder"
+                  >
                     <button className="rc-btn rc-btn--one">
                       <FormattedMessage id="club.subscription.button" />
                     </button>
-                  </Link>
+                  </DistributeHubLinkOrATag>
                 </h4>
               </div>
             </div>
@@ -618,11 +622,14 @@ class ClubLandingPage extends React.Component {
                                 <p>
                                   <FormattedMessage id="club.video.detail.description.two" />
                                 </p>
-                                <Link to="/product-finder">
+                                <DistributeHubLinkOrATag
+                                  href={'/product-finder'}
+                                  ariaLabel="Links to product finder"
+                                >
                                   <button className="rc-btn rc-btn--two">
                                     <FormattedMessage id="club.video.detail.button" />
                                   </button>
-                                </Link>
+                                </DistributeHubLinkOrATag>
                               </div>
                             </div>
                             <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">

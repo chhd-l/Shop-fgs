@@ -377,6 +377,8 @@ class Details extends React.Component {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
     } else if (Tr) {
       contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
+    } else if (Ru) {
+      contactUs = 'mailto:contact.ru@royalcanin.com';
     }
 
     this.setState({
@@ -804,17 +806,22 @@ class Details extends React.Component {
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 promotions: goods?.promotions?.toLowerCase(),
-                taggingForText: (taggingList || []).filter(
+                taggingForTextAtPDP: (taggingList || []).filter(
+                  (e) => e.taggingType === 'Text' && e.showPage?.includes('PDP')
+                )[0],
+                taggingForImageAtPDP: (taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Image' && e.showPage?.includes('PDP')
+                )[0],
+                taggingForTextAtCart: (taggingList || []).filter(
                   (e) =>
                     e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PDP')
+                    e.showPage?.includes('Shopping cart page')
                 )[0],
-                taggingForImage: (taggingList || []).filter(
+                taggingForImageAtCart: (taggingList || []).filter(
                   (e) =>
                     e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PDP')
+                    e.showPage?.includes('Shopping cart page')
                 )[0],
                 fromPrice: res.context.fromPrice,
                 toPrice: res.context.toPrice,
@@ -1754,12 +1761,12 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {details.taggingForImage ? (
+                                  {details.taggingForImageAtPDP ? (
                                     <div className="product-item-flag-image product-item-flag-image__pdp position-absolute">
                                       <LazyLoad>
                                         <img
                                           src={
-                                            details.taggingForImage
+                                            details.taggingForImageAtPDP
                                               .taggingImgUrl
                                           }
                                           alt="tagging image"
@@ -1782,8 +1789,12 @@ class Details extends React.Component {
                                       config={
                                         this.state.imageMagnifierCfg.config
                                       }
-                                      taggingForText={details.taggingForText}
-                                      taggingForImage={details.taggingForImage}
+                                      taggingForText={
+                                        details.taggingForTextAtPDP
+                                      }
+                                      taggingForImage={
+                                        details.taggingForImageAtPDP
+                                      }
                                       spuImages={
                                         filterImages.length
                                           ? filterImages
@@ -1800,8 +1811,12 @@ class Details extends React.Component {
                                       config={
                                         this.state.imageMagnifierCfg.config
                                       }
-                                      taggingForText={details.taggingForText}
-                                      taggingForImage={details.taggingForImage}
+                                      taggingForText={
+                                        details.taggingForTextAtPDP
+                                      }
+                                      taggingForImage={
+                                        details.taggingForImageAtPDP
+                                      }
                                       spuImages={spuImages}
                                     />
                                   )}

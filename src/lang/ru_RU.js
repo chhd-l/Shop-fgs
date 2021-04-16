@@ -1231,6 +1231,7 @@ const ru_RU = {
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
   'clubListData.tip5': 'Возможность изменения частоты доставок',
+  'clubListData.tip6': 'Бесплатные онлайн консультации нутрициолога в PetStory',
   'subscriptionDetail.deliveryDate': 'Дата доставки',
   'subscriptionDetail.product': 'Product',
   'subscription.restart': 'Обновить подписку',
