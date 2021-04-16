@@ -377,6 +377,8 @@ class Details extends React.Component {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
     } else if (Tr) {
       contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
+    } else if (Ru) {
+      contactUs = 'mailto:contact.ru@royalcanin.com';
     }
 
     this.setState({
