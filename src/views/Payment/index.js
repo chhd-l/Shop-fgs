@@ -2155,7 +2155,6 @@ class Payment extends React.Component {
     let cyberPaymentParam = {};
     let cyberParams = {};
 
-    // todo 存在tid时，需从orderDetails中取billing信息
     if (paymentTypeVal == 'cyber') {
       cyberPaymentParam.cardholderName = cardholderName;
       cyberPaymentParam.cardNumber = cardNumber;
@@ -2454,6 +2453,7 @@ class Payment extends React.Component {
       key: 'paymentMethod',
       hideOthers: true
     });
+    this.payUCreditCardRef?.current?.handleClickEditBtn();
 
     if (!billingChecked) {
       paymentStore.setStsToEdit({
