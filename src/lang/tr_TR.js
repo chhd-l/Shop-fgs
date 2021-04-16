@@ -1125,6 +1125,7 @@ const tr_TR = {
   'subscriptionDetail.addNewCat': 'yeni bir kedi',
   'subscriptionDetail.addNewDog': 'yeni bir köpek',
   'subscription.seeOtherRecommendation': 'Diğer önerilere bakın',
+  'subscription.chooseThisProduct': 'bu ürünü seç',
   'subscription.productDetails': 'Ürün Detayları',
   'subscription.changeNow': 'Şimdi değiştir',
   'subscription.productRecommendation': 'Your product recommendation',
