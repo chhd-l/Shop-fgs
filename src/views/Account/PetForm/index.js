@@ -305,7 +305,16 @@ class PetForm extends React.Component {
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
-    const { selectedSpecialNeeds } = this.state;
+    const { selectedSpecialNeeds, isPurebred } = this.state;
+    if (isPurebred) {
+      this.setState({
+        weight: ''
+      });
+    } else if (!isPurebred) {
+      this.setState({
+        breed: ''
+      });
+    }
     let consumerAccount = '';
     if (this.userInfo && this.userInfo.customerAccount) {
       consumerAccount = this.userInfo.customerAccount;
@@ -1281,8 +1290,7 @@ class PetForm extends React.Component {
                             name="Is Purebred"
                             onChange={(e) => {
                               this.setState({
-                                isPurebred: true,
-                                weight: ''
+                                isPurebred: true
                               });
                             }}
                           />
@@ -1303,8 +1311,7 @@ class PetForm extends React.Component {
                             name="Is Purebred"
                             onChange={(e) => {
                               this.setState({
-                                isPurebred: false,
-                                breed: ''
+                                isPurebred: false
                               });
                             }}
                           />
