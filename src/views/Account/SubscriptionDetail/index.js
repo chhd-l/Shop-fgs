@@ -3177,13 +3177,13 @@ class SubscriptionDetail extends React.Component {
                             >
                               <div style={{ display: 'flex' }}>
                                 <div className="for-mobile-colum">
-                                  <LazyLoad>
-                                    <img
-                                      src={el.goodsPic || IMG_DEFAULT}
-                                      style={{ width: '100px' }}
-                                      alt={el.goodsName}
-                                    />
-                                  </LazyLoad>
+                                  {/* <LazyLoad> */}
+                                  <img
+                                    src={el.goodsPic || IMG_DEFAULT}
+                                    style={{ width: '100px' }}
+                                    alt={el.goodsName}
+                                  />
+                                  {/* </LazyLoad> */}
                                   {isClub && !!subDetail.petsId && (
                                     <span
                                       className={`rc-styled-link ${
@@ -3538,12 +3538,12 @@ class SubscriptionDetail extends React.Component {
                                       style={{ width: '80%', padding: 0 }}
                                     >
                                       <div className="img-container">
-                                        <LazyLoad>
-                                          <img
-                                            src={el.goodsPic || IMG_DEFAULT}
-                                            alt={el.goodsName}
-                                          />
-                                        </LazyLoad>
+                                        {/* <LazyLoad> */}
+                                        <img
+                                          src={el.goodsPic || IMG_DEFAULT}
+                                          alt={el.goodsName}
+                                        />
+                                        {/* </LazyLoad> */}
                                         {isClub && !!subDetail.petsId && (
                                           <span
                                             style={{ whiteSpace: 'nowrap' }}
