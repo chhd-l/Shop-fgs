@@ -263,7 +263,11 @@ class RouteFilter extends Component {
       pathname !== '/product-finder-recommendation'
     ) {
       sessionItemRoyal.remove('pr-question-params');
+      sessionItemRoyal.remove('pf-result');
+      sessionItemRoyal.remove('pf-result-before');
       localItemRoyal.remove('pr-petsInfo');
+      localStorage.removeItem('pfls');
+      localStorage.removeItem('pfls-before');
     }
 
     sessionItemRoyal.set('prevPath', curPath);
