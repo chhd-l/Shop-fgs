@@ -4,6 +4,7 @@ import find from 'lodash/find';
 import { toJS } from 'mobx';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const nullTaxFeeData = {
   country: '',
   region: '',
