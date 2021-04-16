@@ -695,7 +695,7 @@ class Details extends React.Component {
       let pf_params = {};
       if (!isMyProductFinder) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-        pf_params = '' + pf_params.age;
+        pf_params.age = '' + pf_params.age;
       } else {
         pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
       }

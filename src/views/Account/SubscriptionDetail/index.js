@@ -1346,10 +1346,13 @@ class SubscriptionDetail extends React.Component {
         let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
         // get rations
         let rationsParams = { petsId, spuNoList };
-        let rationRes = await getRation(rationsParams);
-        let rations = rationRes?.context?.rationResponseItems;
-        debugger;
-        console.info('.....', rations);
+        let rations = [];
+        try {
+          let rationRes = await getRation(rationsParams);
+          rations = rationRes?.context?.rationResponseItems;
+        } catch (err) {
+          console.log(err, 'err1111');
+        }
         subDetail.goodsInfo?.forEach((el) => {
           rations?.forEach((ration) => {
             if (el.spuNo == ration.mainItem) {
@@ -2202,7 +2205,6 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeRecommendationVisible: false });
   };
   showErrMsgs(msg, errorMsgKey = 'errorMsg') {
-    debugger;
     this.setState({
       [errorMsgKey]: msg
     });
@@ -2304,7 +2306,6 @@ class SubscriptionDetail extends React.Component {
     }
     let { petsId } = this.state.subDetail;
     try {
-      debugger;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
       let { mainProduct, otherProducts } = res.context;
@@ -2338,13 +2339,11 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: true, details: {} }); //清空details
   };
   showChangeProduct = async (els, isNoModal) => {
-    debugger;
     if (!els) {
       this.doSthShow();
       return;
     }
     if (!isNoModal) {
-      debugger;
       this.queryProductList(els, () => {
         this.doSthShow();
       });
@@ -2934,7 +2933,6 @@ class SubscriptionDetail extends React.Component {
     const data = this.state;
     const { checkoutStore } = this.props;
     // 获取本地存储的需要显示的地址字段
-    debugger;
     const localAddressForm = this.props.configStore?.localAddressForm;
     let {
       isChangeQuatity,

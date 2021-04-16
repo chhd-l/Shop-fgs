@@ -14,7 +14,7 @@ import landingBanner from './image/landing-banner.jpg';
 import iconsix from './image/iconsix.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
-const clubListData = [
+let clubListData = [
   {
     text: <FormattedMessage id="clubListData.tip1" />,
     img: nutrition,
@@ -40,12 +40,14 @@ const clubListData = [
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
-  // {
-  //   text: <FormattedMessage id="clubListData.tip6" />,
-  //   img: iconsix,
-  //   alt: 'CLUB BENEFITS PET ADVISOR'
-  // }
 ];
+if (process.env.REACT_APP_LANG === 'ru') {
+  clubListData.push({
+    text: <FormattedMessage id="clubListData.tip6" />,
+    img: iconsix,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  });
+}
 const GoodsDetailTabs = function (props) {
   let hubGA = process.env.REACT_APP_HUB_GA == '1';
   let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
