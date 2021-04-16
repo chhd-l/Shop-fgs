@@ -2217,18 +2217,20 @@ class SubscriptionDetail extends React.Component {
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
-    let currentGoodsItem = this.state.currentGoodsItems[0] || {};
-    let deleteGoodsItems = {
-      // subscribeNum: currentGoodsItem.subscribeNum,
-      // periodTypeId: currentGoodsItem.periodTypeId,
-      // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
-      subscribeId,
-      skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
-    };
-    if (
-      currentGoodsItem.goodsInfoVO?.goodsInfoId ==
-      currentSelectedSize.goodsInfoId
-    ) {
+    // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
+    let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
+      return {
+        // subscribeNum: currentGoodsItem.subscribeNum,
+        // periodTypeId: currentGoodsItem.periodTypeId,
+        // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
+        subscribeId,
+        skuId: el.goodsInfoVO?.goodsInfoId
+      };
+    });
+    let isTheSamePro = deleteGoodsItems.find(
+      (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
+    );
+    if (isTheSamePro?.length) {
       //替换的skuid一致，不能正常提交
       this.showErrMsgs(
         'The replacement product is the same as the current product',
@@ -2243,7 +2245,7 @@ class SubscriptionDetail extends React.Component {
     let params = {
       subscribeId,
       addGoodsItems: [addGoodsItems],
-      deleteGoodsItems: [deleteGoodsItems]
+      deleteGoodsItems
     };
     try {
       changeSubscriptionGoods(params).then((res) => {

@@ -493,7 +493,11 @@ const tr_TR = {
   MMYY: 'AA / YY',
   modalCancelAllContent:
     'Aşağıdaki tüm teslimatları iptal etmek istediğinizden emin misiniz?',
-  modalCancelAllTitle: 'TÜM SİPARİŞLER İPTAL EDİLSİN Mİ?',
+  modalCancelAllTitle:
+    'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
+  modalChangeDateContent:
+    'Вы уверены, что хотите изменить дату следующей доставки?',
+  modalChangeDateTitle: 'Gönderim tarihini değiştirin',
   modalOrderNowContent: 'Bu siparişi şimdi vermek istediğinizden emin misiniz?',
   modalOrderNowTitle: 'ŞİMDİ SİPARİŞ VER?',
   modalSkipContent:
