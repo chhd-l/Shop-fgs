@@ -275,7 +275,7 @@ const ru_RU = {
   'confirmation.rateTip3': 'Введите до 50 символов',
   'confirmation.rateTip4': 'Пожалуйста, забейте первым.',
   'confirmation.subscriptionDiscountPriceDes':
-    'Вы сэкономили {val1} с помощью автошипа',
+    'Вы сэкономили {val1} от данного заказа по подписке',
   'confirmation.visitOnlineStore': 'Посетить интернет-магазин',
   confirmDelete: 'Вы хотите удалить адрес?',
   confirmDeleteAddress: 'Вы хотите удалить адрес?',
