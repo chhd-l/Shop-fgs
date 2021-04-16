@@ -677,6 +677,10 @@ class Details extends React.Component {
         sessionItemRoyal.get('pf-result-before')
     ) {
       savePetFlag = true;
+      isMyProductFinder = true;
+    } else {
+      savePetFlag = false;
+      isMyProductFinder = false;
     }
     if (
       localStorage.getItem('pfls') &&
@@ -684,6 +688,9 @@ class Details extends React.Component {
     ) {
       savePetFlag = true;
       isMyProductFinder = false;
+    } else {
+      savePetFlag = false;
+      isMyProductFinder = true;
     }
     if (this.isLogin && savePetFlag) {
       let pf_params = {};
@@ -715,11 +722,6 @@ class Details extends React.Component {
         console.log(err, 'error111');
       }
     }
-    console.log(
-      JSON.parse(sessionItemRoyal.get('pf-result')).queryParams,
-      petsRes,
-      'pf-result'
-    );
     Promise.all([
       requestName(param),
       getFrequencyDict(),
