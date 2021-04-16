@@ -1561,6 +1561,7 @@ const fr_FR = {
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
   'welcome.contactUS': 'Contactez-nous',
   'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement",
-  paused: 'En pause'
+  paused: 'En pause',
+  'searchNoResult.title': 'Désolé'
 };
 export default fr_FR;

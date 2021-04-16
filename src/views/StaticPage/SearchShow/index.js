@@ -7,6 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
 
 const pageLink = window.location.href;
 class SearchShow extends React.Component {
@@ -72,7 +73,9 @@ class SearchShow extends React.Component {
             <section className="rc-bg-colour--brand3">
               <div className="noSearch-result">
                 <div className="rc-text--center rc-text--center rc-padding-top--sm--mobile">
-                  <h2 className="rc-alpha rc-margin-bottom--none">Désolé!</h2>
+                  <h2 className="rc-alpha rc-margin-bottom--none">
+                    <FormattedMessage id="searchNoResult.title" />!
+                  </h2>
                   <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">
                     Aucun résultat ne correspond à votre recherche :{' '}
                     <br className="d-block d-md-none" />“
