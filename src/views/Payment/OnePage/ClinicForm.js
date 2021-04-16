@@ -56,6 +56,15 @@ class ClinicForm extends React.Component {
     if (this.prescriberMap || (nName && nId)) {
       this.confirmToNextPanel();
     }
+
+    // 监听回车键
+    document.addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) {
+        if (this.state.isEdit && this.state.form.clinicName) {
+          this.handleClickConfirm();
+        }
+      }
+    });
   }
   get prescriberMap() {
     return this.props.configStore.prescriberMap;
@@ -93,6 +102,7 @@ class ClinicForm extends React.Component {
     this.setState({ isEdit: true });
   };
   handleClickConfirm = () => {
+    console.log(this.state.form.clinicName);
     if (!this.state.form.clinicName) {
       return false;
     }

@@ -46,6 +46,10 @@ class Test extends React.Component {
     let element = document.getElementById('testinput');
     let maskOptions = { mask: '+{7} (000) 000-00-00' };
     let pval = IMask(element, maskOptions);
+
+    document.addEventListener('keyup', (e) => {
+      console.log(e.keyCode);
+    });
   }
   validData = async ({ data }) => {
     console.log('------------------- > validData data: ', data);
@@ -99,6 +103,12 @@ class Test extends React.Component {
       console.log('333333--------- ', tname, ' : ', value);
     });
   };
+  // 按回车键
+  handleKeyUpConfirm = (e) => {
+    console.log('----------------- keyCode: ', e.keyCode);
+    if (e.keyCode === 13) {
+    }
+  };
   render() {
     const { form, isValid } = this.state;
     return (
@@ -129,7 +139,8 @@ class Test extends React.Component {
           <button
             className="rc-btn rc-btn--one rc-btn--sm"
             onClick={this.handleClickConfirm}
-            disabled={!isValid}
+            onKeyDown={(e) => this.handleKeyUpConfirm(e)}
+            // disabled={!isValid}
           >
             <FormattedMessage id="clinic.confirm3" />
           </button>
