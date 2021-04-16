@@ -41,6 +41,7 @@ const LinkedSubs = (props) => {
       .then((res) => {
         setSubList(res.context);
         props.setState({
+          subList: subList,
           loading: false
         });
       })
