@@ -3,7 +3,6 @@ import axios from '@/utils/request';
 const api = {
   getAddressList: '/customer/addrs',
   addressInfo: '/customer/addressInfo',
-  // addressInfoNew: '/customer/addr/default',
   setDefaltAddress: '/customer/addr/default',
   saveAddress: '/customer/addr',
   getAddressById: '/customer/address/'

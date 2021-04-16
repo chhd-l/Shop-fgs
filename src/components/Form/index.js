@@ -57,6 +57,8 @@ class Form extends React.Component {
         countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         cityId: '',
         city: '',
+        areaId: '',
+        area: '',
         regionId: '',
         region: '',
         provinceNo: '',
@@ -101,19 +103,21 @@ class Form extends React.Component {
     initData.stateNo = initData.provinceNo;
     initData.state = initData.province;
 
-    console.log('104 -------------★ EditForm initData: ', initData);
-    // console.log('105-------------★ EditForm caninForm: ', caninForm);
+    // 土耳其 region 存在 area 中
+    caninForm.regionId = initData.areaId;
+    initData.regionId = initData.areaId;
 
+    // console.log('112 -------------★ EditForm initData: ', initData);
+    // console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
-      console.log('108-------------★ Form');
       this.props.updateData(this.state.caninForm);
     });
 
     // 1、查询form表单配置开关
     this.getSystemFormConfig();
 
-    // 如果有regionId
-    if (initData?.regionId && initData?.regionId != '') {
+    // 如果有areaId
+    if (initData?.areaId != '') {
       this.getRegionDataByCityId(initData.cityId);
     }
   }
@@ -172,10 +176,10 @@ class Form extends React.Component {
         // 根据接口类型查询表单数据
         this.getAddressSettingByApi(manually, automatically);
       } else {
-        console.error('地址表单接口返回空，找后端配置。');
+        console.warn('地址表单接口返回空，找后端配置。');
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
   // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
@@ -395,7 +399,7 @@ class Form extends React.Component {
         });
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
   // 5、查询州列表（美国 state）
@@ -420,7 +424,7 @@ class Form extends React.Component {
         });
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
   // 6-1、查询city list
@@ -443,7 +447,7 @@ class Form extends React.Component {
         });
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
   };
   // 6-2、根据cityId查询region
@@ -455,19 +459,29 @@ class Form extends React.Component {
         let regarr = [];
         let obj = res.context.systemRegions;
         obj.forEach((item) => {
-          let res = {
+          let robj = {
             id: item.id,
             name: item.regionName,
             no: item.regionNo
           };
-          regarr.push(res);
+          regarr.push(robj);
           // 赋值region
-          if (caninForm?.regionId == item.id) {
+          if (caninForm?.areaId == item.id) {
+            caninForm.areaId = item.id;
+            caninForm.area = item.regionName;
             caninForm.regionId = item.id;
             caninForm.region = item.regionName;
-            this.setState({
-              caninForm
-            });
+            this.setState(
+              {
+                caninForm
+              },
+              () => {
+                console.log(
+                  '479 -- ★  根据cityId查询region caninForm: ',
+                  caninForm
+                );
+              }
+            );
           }
         });
         this.setState({
@@ -577,7 +591,10 @@ class Form extends React.Component {
       });
       this.getRegionDataByCityId(data.value);
     } else if (key == 'region') {
+      caninForm.area = data.name;
+      caninForm.areaId = data.value;
       caninForm.region = data.name;
+      caninForm.regionId = data.value;
     }
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
@@ -644,7 +661,14 @@ class Form extends React.Component {
     const targetRule = caninForm.formRule.filter((e) => e.key === tname);
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
     caninForm[tname] = value;
-    this.setState({ caninForm });
+    this.setState(
+      {
+        caninForm
+      },
+      () => {
+        this.props.updateData(this.state.caninForm);
+      }
+    );
     try {
       await validData(targetRule, { [tname]: value });
       this.setState({

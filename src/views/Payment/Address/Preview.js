@@ -93,12 +93,12 @@ export default class AddressPreview extends React.Component {
               )}
 
               {/* 区域 */}
-              {localAddressForm['region'] && (
+              {/* {localAddressForm['region'] && (
                 <span>
-                  {form.region}
+                  {form.area}
                   {', '}
                 </span>
-              )}
+              )} */}
 
               {/* 省份 */}
               {localAddressForm['state'] && <span>{form.province}</span>}

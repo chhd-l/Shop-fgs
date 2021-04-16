@@ -1515,8 +1515,8 @@ class AccountOrders extends React.Component {
                                           details.consignee.city + ', '}
 
                                         {/* 区域 */}
-                                        {localAddressForm['region'] &&
-                                          details.consignee.region + ', '}
+                                        {/* {localAddressForm['region'] &&
+                                          details.consignee.area + ', '} */}
 
                                         {/* 省份 */}
                                         {localAddressForm['state'] &&
@@ -1618,8 +1618,8 @@ class AccountOrders extends React.Component {
                                             details.invoice.postCode + ', '}
 
                                           {/* 区域 */}
-                                          {localAddressForm['region'] &&
-                                            details.invoice.region + ', '}
+                                          {/* {localAddressForm['region'] &&
+                                            details.invoice.area + ', '} */}
 
                                           {/* 省份 */}
                                           {localAddressForm['state'] &&
