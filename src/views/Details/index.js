@@ -1958,7 +1958,7 @@ class Details extends React.Component {
                               <div>
                                 {sessionItemRoyal.get('pr-question-params') ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
-                                    <div>
+                                    <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.recommendedDaily" />
                                       &nbsp;
                                       <span className="strong">
@@ -1984,7 +1984,7 @@ class Details extends React.Component {
                                   </div>
                                 ) : (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
-                                    <div>
+                                    <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
                                     {/* <Link
