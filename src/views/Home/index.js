@@ -512,6 +512,9 @@ class Home extends React.Component {
     if (parametersString.indexOf('redirect=baseinfo') >= 0) {
       sessionItemRoyal.set('okta-redirectUrl', '/account/information');
     }
+    if (parametersString.indexOf('redirect=pets') >= 0) {
+      sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+    }
     if (parametersString.indexOf('toOkta=true') >= 0) {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;

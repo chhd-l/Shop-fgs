@@ -429,6 +429,9 @@ class PetForm extends React.Component {
             };
             try {
               await changeSubscriptionDetailPets(params);
+              // 有链接sub的，编辑宠物需要弹提示框
+              isEditAlert = true;
+              this.setState({ isEditAlert: true });
             } catch (err) {
               this.showErrorMsg(err.message);
             }

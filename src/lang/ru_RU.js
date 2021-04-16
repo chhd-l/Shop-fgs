@@ -100,6 +100,7 @@ const ru_RU = {
   'account.welcome': 'Добро пожаловать в семью ROYAL CANIN®!',
   Sensitivity: 'Особые потребности ',
   Size: 'Памер',
+  'Mixed Breed': 'Смешанная порода',
   'recommendation.benefit': 'Полезные свойства',
   'recommendation.noMoreRecommendation':
     'Товар больше не доступен или недоступен для продажи',
@@ -1209,6 +1210,7 @@ const ru_RU = {
   Link: 'Привязан',
   Unlink: 'Не привязан',
   'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
+  'subscription.chooseThisProduct': 'выберите этот продукт',
   'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
   'subscription.productRecommendation': 'Рекомендации продукта',

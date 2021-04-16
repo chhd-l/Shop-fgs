@@ -375,9 +375,6 @@ class Details extends React.Component {
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
-    } else if (Ru) {
-      // contactUs = 'https://www.royalcanin.com/ru/contact-us';
-      contactUs = 'mailto:royalcanin.careservice@voxys.ru';
     } else if (Tr) {
       contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
     }
