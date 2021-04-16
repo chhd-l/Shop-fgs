@@ -89,6 +89,7 @@ const tr_TR = {
   'account.weight':
     'Sizin cinsiniz {val} olan yetişkin bir köpeğin ağırlığı nedir?',
   'account.welcome': 'ROYAL CANIN® ailesine hoş geldiniz!',
+  'Mixed Breed': 'Melez ırk',
   active: 'Aktif',
   addANewPaymentMethod: 'Yeni ödeme yöntemi ekle',
   addNewCreditCard: 'Yeni kredi kartı ekle',
