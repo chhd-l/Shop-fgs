@@ -7,6 +7,7 @@ import howitworck4 from './ClubImage/howit4.png';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
 const JoinToday = (props) => {
@@ -63,7 +64,10 @@ const JoinToday = (props) => {
                           <FormattedMessage id="club.joinsubscription.description" />
                         </h5>
                       </div>
-                      <Link to="/product-finder">
+                      <DistributeHubLinkOrATag
+                        href={'/product-finder'}
+                        ariaLabel="Links to product finder"
+                      >
                         <div style={{ display: 'flex' }}>
                           <button
                             style={{ margin: '0 auto' }}
@@ -72,7 +76,7 @@ const JoinToday = (props) => {
                             <FormattedMessage id="club.joinsubscription.button" />
                           </button>
                         </div>
-                      </Link>
+                      </DistributeHubLinkOrATag>
                     </div>
                     <div className="col-12 col-md-4 order-2 order-md-2 indexdesktop ">
                       <div className="rc-column rc-padding--none">
