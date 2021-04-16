@@ -1569,6 +1569,8 @@ const fr_FR = {
   'searchNoResult.telephone': 'Par téléphone',
   'searchNoResult.telephone.content':
     'Appel Gratuit - Du lundi au vendredi 8h-20h.',
-  'searchNoResult.telephone.number': '0800-005-360'
+  'searchNoResult.telephone.number': '0800-005-360',
+  'searchNoResult.email': 'Par mail',
+  'searchNoResult.email.content': 'Envoyer un email'
 };
 export default fr_FR;
