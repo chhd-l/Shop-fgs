@@ -10,7 +10,7 @@ const nullTaxFeeData = {
   city: '',
   street: '',
   postalCode: '',
-  customerAccount: '',
+  customerAccount: ''
 };
 
 class CheckoutStore {
@@ -31,7 +31,7 @@ class CheckoutStore {
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
-  @observable GA_product = {}
+  @observable GA_product = {};
 
   @computed get tradePrice() {
     return this.cartPrice && this.cartPrice.tradePrice
@@ -204,8 +204,8 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice,
       firstOrderOnThePlatformDiscountPrice:
         purchasesRes.firstOrderOnThePlatformDiscountPrice,
-      goodsInfos:purchasesRes.goodsInfos
-  });
+      goodsInfos: purchasesRes.goodsInfos
+    });
   }
   // 游客
   @action.bound
@@ -215,8 +215,17 @@ class CheckoutStore {
     purchaseFlag,
     taxFeeData
   ) {
+    let recommend_data = null;
+    //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
+    if (sessionItemRoyal.get('recommend_product')) {
+      recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
+      //兼容下面需要selected字段
+      recommend_data.forEach((element) => {
+        element.selected = true;
+      });
+    }
     if (!data) {
-      data = this.cartData;
+      data = recommend_data || this.cartData;
     }
     let param = data
       .filter((ele) => ele.selected)
@@ -412,7 +421,7 @@ class CheckoutStore {
           subscriptionPrice: sitePurchasesRes.subscriptionPrice,
           firstOrderOnThePlatformDiscountPrice:
             sitePurchasesRes.firstOrderOnThePlatformDiscountPrice,
-          goodsInfos:sitePurchasesRes.goodsInfos
+          goodsInfos: sitePurchasesRes.goodsInfos
         };
 
         if (
@@ -473,8 +482,8 @@ class CheckoutStore {
 
   //存储GA需要的product变量 给confirmation用
   @action
-  saveGAProduct(data){
-    localItemRoyal.set('rc-ga-product',data)
+  saveGAProduct(data) {
+    localItemRoyal.set('rc-ga-product', data);
   }
 }
 export default CheckoutStore;
