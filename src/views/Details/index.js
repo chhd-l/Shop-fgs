@@ -16,6 +16,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
+import { clubSubscriptionSavePets } from '@/api/pet';
 import {
   formatMoney,
   setSeoConfig,
@@ -27,7 +28,8 @@ import {
   getDictionary,
   unique,
   filterObjectValue,
-  isCountriesContainer
+  isCountriesContainer,
+  getRation
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -654,6 +656,18 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
+    let petsRes = {};
+    if (this.isLogin) {
+      petsRes = await clubSubscriptionSavePets({
+        questionParams: JSON.parse(sessionItemRoyal.get('pf-result'))
+          .queryParams
+      });
+    }
+    console.log(
+      JSON.parse(sessionItemRoyal.get('pf-result')).queryParams,
+      petsRes,
+      'pf-result'
+    );
     Promise.all([
       requestName(param),
       getFrequencyDict(),
@@ -678,6 +692,7 @@ class Details extends React.Component {
             }
           });
         }
+
         const res = resList[0];
         const frequencyDictRes = resList[1];
         let autoshipDictRes = frequencyDictRes.filter(
