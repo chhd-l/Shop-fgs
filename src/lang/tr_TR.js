@@ -417,10 +417,11 @@ const tr_TR = {
   'help.tip3': 'Size en fazla 12 saat içinde cevap vereceğiz.',
   'help.tip4': 'Herhangi bir soruna her an cevap verebilirler.',
   here: 'aquí',
-  'home.convenientTip1': 'Evcil hayvanınızın ihtiyacına göre diyet seçimi',
-  'home.convenientTip2': "{val} 'dan sipariş verirken hızlı ücretsiz gönderim.",
-  'home.convenientTip3': 'Destek servisi',
-  'home.convenientTitle': 'ROYAL CANIN® ile alışveriş yapmak neden uygun?',
+  'home.convenientTip1': 'Evcil hayvanınız için doğru mamayı bulun',
+  'home.convenientTip2': 'Hızlı teslimat, ücretsiz kargo',
+  'home.convenientTip3': 'Evcil hayvan uzmanları ile iletişimde olun',
+  'home.convenientTip4': 'Otomatik gönderimle evinizde mama bitmesin',
+  'home.convenientTitle': 'Neden Royal Canin?',
   'home.note1':
     'Evcil hayvanlarımızın sağlığı için hizmet vermeye devam ediyoruz.',
   'home.note2': 'Tüm siparişlerinizde Ücretsiz kargo ve Hızlı teslimat.',
@@ -1178,6 +1179,14 @@ const tr_TR = {
   'See recommendation': 'Öneriyi gör',
   petSaveTips2:
     'Bu bilgiler dahilinde, evcil hayvanınız için yeni bir ürün önerimiz var.',
-  petSaveTips1: 'Evcil hayvan bilgileriniz kaydedildi!'
+  petSaveTips1: 'Evcil hayvan bilgileriniz kaydedildi!',
+  'searchNoResult.title': 'Üzgünüz',
+  'searchNoResult.content1': 'Şu arama için bir sonuç bulamadık',
+  'searchNoResult.content2':
+    'Evcil hayvanınızın ihtiyaçlarına en uygun mamayı bulmak için uzmanlarımız ile iletişime geçebilirsiniz.',
+  'searchNoResult.telephone': 'Bizi arayın!',
+  'searchNoResult.email': 'Bize e-posta gönderin!',
+  'searchNoResult.email.content': 'İletişim',
+  'searchNoBreed.breedName': 'Arama Sonuçları'
 };
 export default tr_TR;
