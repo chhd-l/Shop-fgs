@@ -8,8 +8,13 @@ import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
+import { inject, observer } from 'mobx-react';
+import { getEmailWay } from './config';
 
 const pageLink = window.location.href;
+
+@inject('configStore')
+@observer
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
@@ -99,15 +104,21 @@ class SearchShow extends React.Component {
                                   <FormattedMessage id="searchNoResult.telephone" />
                                 </b>
                                 <p>
-                                  <FormattedMessage id="searchNoResult.telephone" />
+                                  {this.props.configStore.contactTimePeriod}
                                 </p>
                                 <div>
                                   <a
-                                    href="tel:0800-005-360"
+                                    href={
+                                      this.props.configStore
+                                        .storeContactPhoneNumber
+                                    }
                                     style={{ color: '#00A4A6' }}
                                     className="rc-numeric"
                                   >
-                                    <FormattedMessage id="searchNoResult.telephone.number" />
+                                    {
+                                      this.props.configStore
+                                        .storeContactPhoneNumber
+                                    }
                                   </a>
                                 </div>
                               </div>
@@ -127,15 +138,10 @@ class SearchShow extends React.Component {
                           <div className="row rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight">
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
-                                <strong>Par mail</strong>
-                                <div>
-                                  <a
-                                    href="mailto:info.de@royalcanin.com"
-                                    className="rc-styled-link"
-                                  >
-                                    Envoyer un email
-                                  </a>
-                                </div>
+                                <strong>
+                                  <FormattedMessage id="searchNoResult.email" />
+                                </strong>
+                                <div>{getEmailWay()}</div>
                               </div>
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">

@@ -1285,6 +1285,7 @@ const en_US = {
   'subscriptionDetail.addNewCat': 'a new cat',
   'subscriptionDetail.addNewDog': 'a new dog',
   'subscription.seeOtherRecommendation': 'See other recommendation',
+  'subscription.chooseThisProduct': 'choose this product',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
   'subscription.productRecommendation': 'Your product recommendation',
@@ -1321,6 +1322,14 @@ const en_US = {
   'Other products to consider': 'Other products to consider',
   recommendProductTip:
     'The recommendations provided here are for infomational purpose only.Ie should not be cosidered as guarantee for what may be best for your individual pet. Quantity,Size and Frequency will be set up in the CLUB management page',
-  paused: 'Paused'
+  paused: 'Paused',
+  'searchNoResult.title': "We're Sorry",
+  'searchNoResult.content1': 'We could not find any products matching',
+  'searchNoResult.content2':
+    'Please try a different search, or contact our expert pet advisors for help finding tailored nutrition for your pet.',
+  'searchNoResult.telephone': 'Call Us',
+  'searchNoResult.email': 'Email Us',
+  'searchNoResult.email.content': 'Send us an Email',
+  'searchNoBreed.breedName': 'Search Results'
 };
 export default en_US;

@@ -111,7 +111,6 @@ import OnlineStore from '@/views/StaticPage/OnlineStore/index';
 import QualitySafety from '@/views/StaticPage/QualitySafety/index';
 import US_QualitySafety from '@/views/StaticPage/QualitySafety/US_index';
 import SearchShow from '@/views/StaticPage/SearchShow/index';
-import US_SearchShow from '@/views/StaticPage/SearchShow/US_index';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import AboutUsDe from '@/views/StaticPage/AboutUs/de-index';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
@@ -652,11 +651,7 @@ const App = () => {
                   path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                   render={(props) => {
                     if (props.location.state && props.location.state.noresult) {
-                      if (process.env.REACT_APP_LANG == 'en') {
-                        return <US_SearchShow {...props} />;
-                      } else {
-                        return <SearchShow {...props} />;
-                      }
+                      return <SearchShow {...props} />;
                     } else {
                       return <List key={props.location.search} {...props} />;
                     }

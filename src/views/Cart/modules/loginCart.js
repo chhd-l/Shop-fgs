@@ -592,7 +592,7 @@ class LoginCart extends React.Component {
                 className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                 data-quantity-error-msg="Вы не можете заказать больше 10"
                 onClick={this.addQuantity.bind(this, pitem)}
-              ></span>
+              />
             </div>
           </div>
         </div>
@@ -621,7 +621,9 @@ class LoginCart extends React.Component {
                   {pitem.goodsSpecs &&
                     pitem.goodsSpecs.map((sItem, i) => (
                       <div key={i} className="overflow-hidden">
-                        <div className="text-left ml-1">{sItem.specName}:</div>
+                        <div className="text-left ml-1 text-capitalize">
+                          {sItem.specName}:
+                        </div>
                         {sItem.chidren.map((sdItem, i2) => (
                           <div
                             style={{
@@ -654,19 +656,35 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
-    let { form } = this.state;
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
-        console.log(pitem, 'pitem');
       }
       return (
-        <div className="product-info ">
+        <div className="product-info" key={index}>
           <div
             className={`rc-border-all rc-border-colour--interface product-info p-3 rc-padding-bottom--none--mobile
             ${isGift ? 'no-margin-bottom' : 'has-margin-bottom'}`}
-            key={index}
           >
+            <span className="remove-product-btn">
+              <span
+                className="rc-icon rc-close--sm rc-iconography"
+                onClick={() => {
+                  this.updateConfirmTooltipVisible(pitem, true);
+                  this.setState({ currentProductIdx: index });
+                }}
+              />
+              <ConfirmTooltip
+                containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                arrowStyle={{ left: '89%' }}
+                display={pitem.confirmTooltipVisible}
+                confirm={this.deleteProduct.bind(this, pitem)}
+                updateChildDisplay={(status) =>
+                  this.updateConfirmTooltipVisible(pitem, status)
+                }
+                content={<FormattedMessage id="confirmDeleteProduct" />}
+              />
+            </span>
             <div
               className="rc-input rc-input--inline position-absolute hidden"
               style={{ left: '1%' }}
@@ -680,7 +698,7 @@ class LoginCart extends React.Component {
             </div>
             <div className="d-flex">
               <div
-                className="product-info__img w-100 mr-2"
+                className="product-info__img mr-2"
                 style={{ overflow: 'hidden' }}
               >
                 <LazyLoad>
@@ -692,43 +710,34 @@ class LoginCart extends React.Component {
                   />
                 </LazyLoad>
               </div>
-              <div className="product-info__desc w-100 relative">
-                <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                  <Link
-                    className="ui-cursor-pointer"
-                    to={`/${pitem.goodsName
-                      .toLowerCase()
-                      .split(' ')
-                      .join('-')
-                      .replace('/', '')}-${pitem.goods.goodsNo}`}
+              <div
+                className="product-info__desc ui-text-overflow-line2 ui-text-overflow-md-line1 relative"
+                style={{ flex: 1 }}
+              >
+                <Link
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-flex align-items-md-center flex-column flex-md-row"
+                  to={`/${pitem.goodsName
+                    .toLowerCase()
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${pitem.goods.goodsNo}`}
+                >
+                  <h4
+                    className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
+                    title={pitem.goodsName}
                   >
-                    <h4
-                      className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
-                      title={pitem.goodsName}
-                    >
-                      {pitem.goodsName}
-                    </h4>
-                  </Link>
-                </div>
-                <span className="remove-product-btn">
-                  <span
-                    className="rc-icon rc-close--sm rc-iconography"
-                    onClick={() => {
-                      this.updateConfirmTooltipVisible(pitem, true);
-                      this.setState({ currentProductIdx: index });
-                    }}
-                  />
-                  <ConfirmTooltip
-                    containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                    arrowStyle={{ left: '89%' }}
-                    display={pitem.confirmTooltipVisible}
-                    confirm={this.deleteProduct.bind(this, pitem)}
-                    updateChildDisplay={(status) =>
-                      this.updateConfirmTooltipVisible(pitem, status)
-                    }
-                    content={<FormattedMessage id="confirmDeleteProduct" />}
-                  />
-                </span>
+                    {pitem.goodsName}
+                  </h4>
+                  {pitem.taggingForImage?.taggingImgUrl ? (
+                    <LazyLoad className="order-1 order-md-3">
+                      <img
+                        src={pitem.taggingForImage?.taggingImgUrl}
+                        className="cart-item__tagging_image ml-2"
+                        alt="tagging image"
+                      />
+                    </LazyLoad>
+                  ) : null}
+                </Link>
                 <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                   <div
                     style={{
@@ -913,7 +922,7 @@ class LoginCart extends React.Component {
     let { productList } = this.state;
     item.confirmTooltipVisible = status;
     this.setState({
-      productList: productList
+      productList
     });
   }
   handlerChange = (e) => {
@@ -1468,8 +1477,7 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, initLoading, errorMsg, goodsIdArr } = this.state;
-    const { history, location } = this.props;
+    const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
     const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
     const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;

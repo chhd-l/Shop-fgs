@@ -562,6 +562,9 @@ const ru_RU = {
   MMYY: 'ММ / ГГ',
   modalCancelAllContent: 'Вы уверены, что хотите удалить Вашу подписку?',
   modalCancelAllTitle: 'Удаление подписки?',
+  modalChangeDateContent:
+    'Вы уверены, что хотите изменить дату следующей доставки?',
+  modalChangeDateTitle: 'Изменить дату доставки',
   modalOrderNowContent: 'Вы уверены, что хотите разместить этот заказ сейчас?',
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
@@ -1210,6 +1213,7 @@ const ru_RU = {
   Link: 'Привязан',
   Unlink: 'Не привязан',
   'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
+  'subscription.chooseThisProduct': 'выберите этот продукт',
   'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
   'subscription.productRecommendation': 'Рекомендации продукта',
@@ -1230,6 +1234,7 @@ const ru_RU = {
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
   'clubListData.tip5': 'Возможность изменения частоты доставок',
+  'clubListData.tip6': 'Бесплатные онлайн консультации нутрициолога в PetStory',
   'subscriptionDetail.deliveryDate': 'Дата доставки',
   'subscriptionDetail.product': 'Product',
   'subscription.restart': 'Обновить подписку',
@@ -1282,7 +1287,15 @@ const ru_RU = {
   'See recommendation': 'Посмотреть рекомендации',
   petSaveTips2:
     'Основываясь на этих данных, мы подберем новый продукт для Вашего питомца. ',
-  petSaveTips1: 'Информация о Вашем питомце сохранена!'
+  petSaveTips1: 'Информация о Вашем питомце сохранена!',
+  'searchNoResult.title': 'Извините',
+  'searchNoResult.content1': 'Мы не нашли ничего для',
+  'searchNoResult.content2':
+    'Мы рекомендуем Вам связаться с нашими экспертами по питанию домашних животных, чтобы получить советы по правильному питанию и помочь Вам подобрать наиболее точный рацион для Вашего питомца.',
+  'searchNoResult.telephone': 'Позвоните нам',
+  'searchNoResult.email': 'Напишите нам',
+  'searchNoResult.email.content': 'Отправьте нам Email',
+  'searchNoBreed.breedName': 'Результаты поиска'
 };
 
 export default ru_RU;

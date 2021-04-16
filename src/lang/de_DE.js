@@ -1253,6 +1253,7 @@ const de_DE = {
   'subscriptionDetail.addNewCat': 'a new cat',
   'subscriptionDetail.addNewDog': 'a new dog',
   'subscription.seeOtherRecommendation': 'See other recommendation',
+  'subscription.chooseThisProduct': 'choose this product',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
   'subscription.productRecommendation': 'Your product recommendation',
@@ -1285,7 +1286,15 @@ const de_DE = {
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
   'welcome.contactUS': 'Kontaktieren Sie uns',
-  paused: 'Pause'
+  paused: 'Pause',
+  'searchNoResult.title': 'Tut uns leid',
+  'searchNoResult.content1': 'Wir konnten keine passenden Produkte finden',
+  'searchNoResult.content2':
+    'Bitte versuchen Sie eine andere Suche, oder kontaktieren Sie unsere erfahrenen Tierberater für die Suche nach maßgeschneiderter Ernährung für Ihr Haustier.',
+  'searchNoResult.telephone': 'Rufen Sie uns an',
+  'searchNoResult.email': 'E-Mail an uns',
+  'searchNoResult.email.content': 'Senden Sie uns eine Email',
+  'searchNoBreed.breedName': 'Ergebnisse suchen'
 };
 
 export default de_DE;

@@ -1526,6 +1526,7 @@ const fr_FR = {
   'subscriptionDetail.addNewCat': 'a new cat',
   'subscriptionDetail.addNewDog': 'a new dog',
   'subscription.seeOtherRecommendation': 'See other recommendation',
+  'subscription.chooseThisProduct': 'choose this product',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
   'subscription.productRecommendation': 'Your product recommendation',
@@ -1567,10 +1568,8 @@ const fr_FR = {
   'searchNoResult.content2':
     'Vous pouvez contacter nos spécialistes pour trouver la nourriture la plus adaptée aux besoins de votre animal.',
   'searchNoResult.telephone': 'Par téléphone',
-  'searchNoResult.telephone.content':
-    'Appel Gratuit - Du lundi au vendredi 8h-20h.',
-  'searchNoResult.telephone.number': '0800-005-360',
   'searchNoResult.email': 'Par mail',
-  'searchNoResult.email.content': 'Envoyer un email'
+  'searchNoResult.email.content': 'Envoyer un email',
+  'searchNoBreed.breedName': 'Résultats de la recherche'
 };
 export default fr_FR;

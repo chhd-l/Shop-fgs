@@ -472,6 +472,18 @@ class CheckoutStore {
           }
           return g.goodsInfoId === good.goodsInfoId;
         })[0];
+        good.taggingForText = (good.taggingVOList || []).filter(
+          (e) =>
+            e.taggingType === 'Text' &&
+            e.showPage &&
+            e.showPage.includes('Shopping cart page')
+        )[0];
+        good.taggingForImage = (good.taggingVOList || []).filter(
+          (e) =>
+            e.taggingType === 'Image' &&
+            e.showPage &&
+            e.showPage.includes('Shopping cart page')
+        )[0];
         let specList = good.goodsSpecs;
         let specDetailList = good.goodsSpecDetails || [];
         (specList || []).map((sItem) => {

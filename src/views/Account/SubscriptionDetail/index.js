@@ -26,7 +26,7 @@ import Banner_Dog from './../PetForm/images/banner_Dog.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
-import { filterOrderId } from '@/utils/utils';
+import { filterOrderId, getRation } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -545,8 +545,7 @@ class SubscriptionDetail extends React.Component {
     idArr = selectedArr.map((el) => el.specDetailId);
     //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-
-    details.sizeList.map((item, i) => {
+    details.sizeList?.map((item, i) => {
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -661,7 +660,7 @@ class SubscriptionDetail extends React.Component {
             <div>
               <FormattedMessage id="breed" />:
               <strong>
-                {petBreed || 'Mixed Breed'}
+                {petBreed || <FormattedMessage id="Mixed Breed" />}
                 {/* {petsInfo?.petsBreed} */}
               </strong>{' '}
             </div>
@@ -691,20 +690,19 @@ class SubscriptionDetail extends React.Component {
       </React.Fragment>
     );
   };
-  DailyRation = () => {
-    return null;
-    // return (
-    //   <span
-    //     style={{
-    //       background: '#F5F5F5',
-    //       padding: '6px',
-    //       marginTop: '10px',
-    //       display: 'inline-block'
-    //     }}
-    //   >
-    //     Daily ration: 57g/day
-    //   </span>
-    // );
+  DailyRation = (rations) => {
+    return (
+      <span
+        style={{
+          background: '#F5F5F5',
+          padding: '6px',
+          marginTop: '10px',
+          display: 'inline-block'
+        }}
+      >
+        Daily ration: {rations}
+      </span>
+    );
   };
   bundleMatchGoods() {
     let {
@@ -1187,7 +1185,12 @@ class SubscriptionDetail extends React.Component {
           </strong>
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
-          <span className="rc-styled-link" onClick={this.showChangeProduct}>
+          <span
+            className="rc-styled-link"
+            onClick={() => {
+              this.showChangeProduct([...this.state.subDetail.goodsInfo]);
+            }}
+          >
             <FormattedMessage id="subscription.seeOtherRecommendation" />
           </span>
           <div className="for-mobile-colum d-flex">
@@ -1335,6 +1338,23 @@ class SubscriptionDetail extends React.Component {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
+      let petsId = subDetail.petsInfo?.petsId;
+      if (petsId) {
+        let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
+        // get rations
+        let rationsParams = { petsId, spuNoList };
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        debugger;
+        console.info('.....', rations);
+        subDetail.goodsInfo?.forEach((el) => {
+          rations?.forEach((ration) => {
+            if (el.spuNo == ration.mainItem) {
+              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            }
+          });
+        });
+      }
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });
@@ -2213,18 +2233,20 @@ class SubscriptionDetail extends React.Component {
       goodsInfoFlag
       // productFinderFlag: currentSelectedSize.productFinderFlag
     };
-    let currentGoodsItem = this.state.currentGoodsItems[0] || {};
-    let deleteGoodsItems = {
-      // subscribeNum: currentGoodsItem.subscribeNum,
-      // periodTypeId: currentGoodsItem.periodTypeId,
-      // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
-      subscribeId,
-      skuId: currentGoodsItem.goodsInfoVO?.goodsInfoId
-    };
-    if (
-      currentGoodsItem.goodsInfoVO?.goodsInfoId ==
-      currentSelectedSize.goodsInfoId
-    ) {
+    // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
+    let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
+      return {
+        // subscribeNum: currentGoodsItem.subscribeNum,
+        // periodTypeId: currentGoodsItem.periodTypeId,
+        // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
+        subscribeId,
+        skuId: el.goodsInfoVO?.goodsInfoId
+      };
+    });
+    let isTheSamePro = deleteGoodsItems.find(
+      (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
+    );
+    if (isTheSamePro?.length) {
       //替换的skuid一致，不能正常提交
       this.showErrMsgs(
         'The replacement product is the same as the current product',
@@ -2239,7 +2261,7 @@ class SubscriptionDetail extends React.Component {
     let params = {
       subscribeId,
       addGoodsItems: [addGoodsItems],
-      deleteGoodsItems: [deleteGoodsItems]
+      deleteGoodsItems
     };
     try {
       changeSubscriptionGoods(params).then((res) => {
@@ -2272,14 +2294,32 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: false });
   };
   queryProductList = async (els, cb) => {
+    console.info(els, 'sdsdsdsdsdsdsdsds');
     this.setState({ productListLoading: true });
     if (els) {
       this.setState({ currentGoodsItems: [...els] });
     }
     let { petsId } = this.state.subDetail;
     try {
+      debugger;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
+      let { mainProduct, otherProducts } = res.context;
+      let productArr = [mainProduct, ...otherProducts];
+      let spuNoList = productArr?.map((el) => el.spuCode);
+      let rationsParams = { petsId, spuNoList };
+      let rationRes = await getRation(rationsParams);
+      let rations = rationRes?.context?.rationResponseItems;
+      rations?.forEach((ration) => {
+        if (mainProduct.spuCode == ration.mainItem) {
+          mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+        }
+        otherProducts?.map((el) => {
+          if (el.spuCode == ration.mainItem) {
+            el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+          }
+        });
+      });
       this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
@@ -2295,11 +2335,13 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: true, details: {} }); //清空details
   };
   showChangeProduct = async (els, isNoModal) => {
+    debugger;
     if (!els) {
       this.doSthShow();
       return;
     }
     if (!isNoModal) {
+      debugger;
       this.queryProductList(els, () => {
         this.doSthShow();
       });
@@ -2376,6 +2418,17 @@ class SubscriptionDetail extends React.Component {
       </div>
     );
   };
+  productDailyRation = (rations) => (
+    <div>
+      <div
+        className="text-center"
+        style={{ textAlign: 'center', background: '#f9f9f9', color: '#000' }}
+      >
+        <FormattedMessage id="subscription.dailyRation" />
+      </div>
+      <div>{rations}</div>
+    </div>
+  );
   ProductRecommendations = () => {
     const { productDetail, errMsgDetail } = this.state;
     return (
@@ -2424,9 +2477,9 @@ class SubscriptionDetail extends React.Component {
                   >
                     {productDetail.mainProduct?.subTitle}
                   </div>
-                  <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                    <FormattedMessage id="subscription.dailyRation" />
-                  </div>
+                  {this.productDailyRation(
+                    productDetail.mainProduct?.petsRation
+                  )}
                   <div className="text-center mt-2 card--product-contaner-price">
                     {productDetail.mainProduct?.toPrice ? (
                       <FormattedMessage
@@ -2521,9 +2574,7 @@ class SubscriptionDetail extends React.Component {
                       >
                         {ele.subTitle}
                       </div>
-                      <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                        your daily ration
-                      </div>
+                      {this.productDailyRation(ele?.petsRation)}
                       <div className="text-center mt-2 card--product-contaner-price">
                         {productDetail.mainProduct?.toPrice ? (
                           <FormattedMessage
@@ -3222,7 +3273,9 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
-                                  {isClub && this.DailyRation()}
+                                  {isClub &&
+                                    !!subDetail.petsId &&
+                                    this.DailyRation(el.petsRation)}
                                 </div>
                               </div>
                               <div style={{ marginTop: '.9375rem' }}>
@@ -3758,7 +3811,9 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
-                                        {isClub && this.DailyRation()}
+                                        {isClub &&
+                                          !!subDetail.petsId &&
+                                          this.DailyRation(el.petsRation)}
                                       </div>
                                     </div>
                                   </div>
@@ -5397,8 +5452,12 @@ class SubscriptionDetail extends React.Component {
               headerVisible={true}
               footerVisible={true}
               visible={this.state.produtctDetailVisible}
-              cancelBtnText="See other recommendation"
-              confirmBtnText="Choose this product"
+              cancelBtnText={
+                <FormattedMessage id="subscription.seeOtherRecommendation" />
+              }
+              confirmBtnText={
+                <FormattedMessage id="subscription.chooseThisProduct" />
+              }
               modalTitle={''}
               cancel={this.closeAndShowChangeProduct}
               hanldeClickConfirm={this.showChangeRecommendation}

@@ -1,3 +1,10 @@
+const searchNoResult = {
+  fr: '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show',
+  en: '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
+  ru: '/on/demandware.store/Sites-RU-Site/ru_RU/Search-Show',
+  tr: '/on/demandware.store/Sites-TR-Site/tr_TR/Search-Show',
+  de: '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
+};
 const breadcrumbNameMap = {
   '/account': [{ name: 'home' }],
   '/account/information': [{ name: 'account.profile' }],
@@ -147,11 +154,8 @@ const breadcrumbNameMap = {
   ],
   '/cat-nutrition': [{ name: 'catNutrition' }],
   '/kitten-nutrition': [{ name: 'Nutrition chatons' }],
-  '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show': [
-    { name: 'Search Results' }
-  ],
-  '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show': [
-    { name: 'Search Results' }
+  [searchNoResult[process.env.REACT_APP_LANG]]: [
+    { name: 'searchNoBreed.breedName' }
   ],
   '/retail-products': [{ name: 'onlineStore.breedcrumb' }]
 };

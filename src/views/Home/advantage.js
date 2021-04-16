@@ -9,423 +9,198 @@ import delivery from '@/assets/images/home/delivery@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 
 export function Advantage() {
-  const defaultJSX = (
-    <>
-      <div className="col-12 col-md-6 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-        <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
-          <LazyLoad height={200}>
-            <img
-              className="value-proposition__img"
-              src={pack}
-              alt="pack icon"
-              title=""
-            />
-          </LazyLoad>
-
-          <div className="pl-3 d-flex align-items-center value-proposition__text">
-            <p className="rc-margin-bottom--none rc-intro">
-              <FormattedMessage id="home.convenientTip1" />
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-md-6 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-        <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
-          <LazyLoad height={200}>
-            <img
-              className="value-proposition__img"
-              src={delivery}
-              alt="delivery image"
-              title=""
-            />
-          </LazyLoad>
-          <div className="pl-3 d-flex align-items-center value-proposition__text">
-            <p className="rc-margin-bottom--none rc-intro">
-              <FormattedMessage
-                id="home.convenientTip2"
-                values={{
-                  val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-                }}
-              />
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-md-6 col-xxl-4 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-        <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
-          <LazyLoad height={200}>
-            <img
-              className="value-proposition__img"
-              src={question}
-              alt="question icon"
-              title=""
-            />
-          </LazyLoad>
-          <div className="pl-3 d-flex align-items-center value-proposition__text">
-            <p className="rc-margin-bottom--none rc-intro">
-              <FormattedMessage id="home.convenientTip3" />
-            </p>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-
-  return (
+  const defaultList = [
     {
-      en: (
-        <>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="ideal formula"
-                  title="ideal formula"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`}
-                />
-              </LazyLoad>
-
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
-                  Find the Ideal Formula for Your Pet’s Health
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="club benefits"
-                  title="club benefits"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`}
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
-                  Save 5% on Every Autoship Order Plus, 30% Off Your First Order
-                  Through Royal Canin Club
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="Welcome Box"
-                  title="Welcome Box"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`}
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
-                  Get Expert Advice & Support with Royal Canin Pet Advisor Live
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  className="value-proposition__img lazyloaded"
-                  alt="Free Automatic Shipping"
-                  title="Free Automatic Shipping"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`}
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p className="rc-margin-bottom--none rc-intro">
-                  Free Automatic Shipping
-                </p>
-              </div>
-            </div>
-          </div>
-        </>
-      ),
-      fr: (
-        <>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={pack}
-                  alt="pack icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip1" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={autoship}
-                  alt="autoship icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  Bénéficiez d'une livraison automatique
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={delivery}
-                  alt="delivery icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage
-                    id="home.convenientTip2"
-                    values={{
-                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-                    }}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={question}
-                  alt="question icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip3" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </>
-      ),
-      de: (
-        <>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={pack}
-                  alt="pack icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip1" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={autoship}
-                  alt="autoship icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip2" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={delivery}
-                  alt="delivery icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage
-                    id="home.convenientTip3"
-                    values={{
-                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-                    }}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={question}
-                  alt="question icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip4" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </>
-      ),
-      ru: (
-        <>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={pack}
-                  alt="pack icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip1" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={autoship}
-                  alt="autoship icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip4" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={delivery}
-                  alt="delivery icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage
-                    id="home.convenientTip2"
-                    values={{
-                      val: 2500
-                    }}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-              <LazyLoad height={200}>
-                <img
-                  style={{ width: '80px' }}
-                  className="value-proposition__img"
-                  src={question}
-                  alt="question icon"
-                  title=""
-                />
-              </LazyLoad>
-              <div className="pl-3 d-flex align-items-center value-proposition__text">
-                <p
-                  className="rc-margin-bottom--none rc-intro"
-                  style={{ textAlign: 'left' }}
-                >
-                  <FormattedMessage id="home.convenientTip3" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </>
+      imgUrl: pack,
+      imgAlt: 'pack icon',
+      text: <FormattedMessage id="home.convenientTip1" />
+    },
+    {
+      imgUrl: delivery,
+      imgAlt: 'delivery image',
+      text: (
+        <FormattedMessage
+          id="home.convenientTip2"
+          values={{
+            val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+          }}
+        />
       )
-    }[process.env.REACT_APP_LANG] || defaultJSX
-  );
+    },
+    {
+      imgUrl: question,
+      imgAlt: 'question icon',
+      text: <FormattedMessage id="home.convenientTip3" />
+    }
+  ];
+
+  const list =
+    {
+      en: [
+        {
+          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
+          imgAlt: 'ideal formula',
+          text: 'Find the Ideal Formula for Your Pet’s Health'
+        },
+        {
+          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
+          imgAlt: 'club benefits',
+          text:
+            'Save 5% on Every Autoship Order Plus, 30% Off Your First Order Through Royal Canin Club'
+        },
+        {
+          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`,
+          imgAlt: 'Welcome Box',
+          text: 'Get Expert Advice & Support with Royal Canin Pet Advisor Live'
+        },
+        {
+          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`,
+          imgAlt: 'Free Automatic Shipping',
+          text: 'Free Automatic Shipping'
+        }
+      ],
+      fr: [
+        {
+          imgUrl: pack,
+          imgAlt: 'pack icon',
+          text: <FormattedMessage id="home.convenientTip1" />
+        },
+        {
+          imgUrl: autoship,
+          imgAlt: 'autoship icon',
+          text: "Bénéficiez d'une livraison automatique"
+        },
+        {
+          imgUrl: delivery,
+          imgAlt: 'delivery icon',
+          text: (
+            <FormattedMessage
+              id="home.convenientTip2"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+              }}
+            />
+          )
+        },
+        {
+          imgUrl: question,
+          imgAlt: 'question icon',
+          text: <FormattedMessage id="home.convenientTip3" />
+        }
+      ],
+      de: [
+        {
+          imgUrl: pack,
+          imgAlt: 'pack icon',
+          text: <FormattedMessage id="home.convenientTip1" />
+        },
+        {
+          imgUrl: autoship,
+          imgAlt: 'autoship icon',
+          text: <FormattedMessage id="home.convenientTip2" />
+        },
+        {
+          imgUrl: delivery,
+          imgAlt: 'delivery icon',
+          text: (
+            <FormattedMessage
+              id="home.convenientTip3"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+              }}
+            />
+          )
+        },
+        {
+          imgUrl: question,
+          imgAlt: 'question icon',
+          text: <FormattedMessage id="home.convenientTip4" />
+        }
+      ],
+      ru: [
+        {
+          imgUrl: pack,
+          imgAlt: 'pack icon',
+          text: <FormattedMessage id="home.convenientTip1" />
+        },
+        {
+          imgUrl: autoship,
+          imgAlt: 'autoship icon',
+          text: <FormattedMessage id="home.convenientTip4" />
+        },
+        {
+          imgUrl: delivery,
+          imgAlt: 'delivery icon',
+          text: (
+            <FormattedMessage
+              id="home.convenientTip2"
+              values={{
+                val: 2500
+              }}
+            />
+          )
+        },
+        {
+          imgUrl: question,
+          imgAlt: 'question icon',
+          text: <FormattedMessage id="home.convenientTip3" />
+        }
+      ],
+      tr: [
+        {
+          imgUrl: pack,
+          imgAlt: 'pack icon',
+          text: <FormattedMessage id="home.convenientTip1" />
+        },
+        {
+          imgUrl: autoship,
+          imgAlt: 'autoship icon',
+          text: <FormattedMessage id="home.convenientTip4" />
+        },
+        {
+          imgUrl: delivery,
+          imgAlt: 'delivery image',
+          text: (
+            <FormattedMessage
+              id="home.convenientTip2"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+              }}
+            />
+          )
+        },
+        {
+          imgUrl: question,
+          imgAlt: 'question icon',
+          text: <FormattedMessage id="home.convenientTip3" />
+        }
+      ]
+    }[process.env.REACT_APP_LANG] || defaultList;
+
+  return list.map((item, i) => (
+    <div
+      className={`col-12 col-md-6 col-xxl-${
+        12 / list.length
+      } d-flex px-0 pl-md-0 pr-md-2 pr-xxl-3 pl-xxl-0 justify-content-center`}
+      key={i}
+    >
+      <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
+        <LazyLoad height={200}>
+          <img
+            className="value-proposition__img"
+            style={{ width: '80px' }}
+            src={item.imgUrl}
+            alt={item.imgAlt}
+            title=""
+          />
+        </LazyLoad>
+
+        <div className="pl-3 d-flex align-items-center value-proposition__text">
+          <p className="rc-margin-bottom--none rc-intro text-left">
+            {item.text}
+          </p>
+        </div>
+      </div>
+    </div>
+  ));
 }
