@@ -833,5 +833,6 @@ export const filterOrderId = (orderId) => {
 
 export const getRation = async (params) => {
   let res = await getRation_api(params);
+  return res;
   console.log(res, 'res');
 };

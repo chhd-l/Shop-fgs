@@ -26,7 +26,7 @@ import Banner_Dog from './../PetForm/images/banner_Dog.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
 import Club_Logo from '@/assets/images/Logo_club.png';
-import { filterOrderId } from '@/utils/utils';
+import { filterOrderId, getRation } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -690,20 +690,19 @@ class SubscriptionDetail extends React.Component {
       </React.Fragment>
     );
   };
-  DailyRation = () => {
-    return null;
-    // return (
-    //   <span
-    //     style={{
-    //       background: '#F5F5F5',
-    //       padding: '6px',
-    //       marginTop: '10px',
-    //       display: 'inline-block'
-    //     }}
-    //   >
-    //     Daily ration: 57g/day
-    //   </span>
-    // );
+  DailyRation = (rations) => {
+    return (
+      <span
+        style={{
+          background: '#F5F5F5',
+          padding: '6px',
+          marginTop: '10px',
+          display: 'inline-block'
+        }}
+      >
+        Daily ration: {rations}
+      </span>
+    );
   };
   bundleMatchGoods() {
     let {
@@ -1339,6 +1338,23 @@ class SubscriptionDetail extends React.Component {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
+      let petsId = subDetail.petsInfo?.petsId;
+      if (petsId) {
+        let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
+        // get rations
+        let rationsParams = { petsId, spuNoList };
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        debugger;
+        console.info('.....', rations);
+        subDetail.goodsInfo?.forEach((el) => {
+          rations?.forEach((ration) => {
+            if (el.spuNo == ration.mainItem) {
+              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            }
+          });
+        });
+      }
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });
@@ -2288,6 +2304,22 @@ class SubscriptionDetail extends React.Component {
       debugger;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       console.info(res, 'res');
+      let { mainProduct, otherProducts } = res.context;
+      let productArr = [mainProduct, ...otherProducts];
+      let spuNoList = productArr?.map((el) => el.spuCode);
+      let rationsParams = { petsId, spuNoList };
+      let rationRes = await getRation(rationsParams);
+      let rations = rationRes?.context?.rationResponseItems;
+      rations?.forEach((ration) => {
+        if (mainProduct.spuCode == ration.mainItem) {
+          mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+        }
+        otherProducts?.map((el) => {
+          if (el.spuCode == ration.mainItem) {
+            el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+          }
+        });
+      });
       this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
@@ -2386,6 +2418,17 @@ class SubscriptionDetail extends React.Component {
       </div>
     );
   };
+  productDailyRation = (rations) => (
+    <div>
+      <div
+        className="text-center"
+        style={{ textAlign: 'center', background: '#f9f9f9', color: '#000' }}
+      >
+        <FormattedMessage id="subscription.dailyRation" />
+      </div>
+      <div>{rations}</div>
+    </div>
+  );
   ProductRecommendations = () => {
     const { productDetail, errMsgDetail } = this.state;
     return (
@@ -2434,9 +2477,9 @@ class SubscriptionDetail extends React.Component {
                   >
                     {productDetail.mainProduct?.subTitle}
                   </div>
-                  <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                    <FormattedMessage id="subscription.dailyRation" />
-                  </div>
+                  {this.productDailyRation(
+                    productDetail.mainProduct?.petsRation
+                  )}
                   <div className="text-center mt-2 card--product-contaner-price">
                     {productDetail.mainProduct?.toPrice ? (
                       <FormattedMessage
@@ -2531,9 +2574,7 @@ class SubscriptionDetail extends React.Component {
                       >
                         {ele.subTitle}
                       </div>
-                      <div className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen">
-                        your daily ration
-                      </div>
+                      {this.productDailyRation(ele?.petsRation)}
                       <div className="text-center mt-2 card--product-contaner-price">
                         {productDetail.mainProduct?.toPrice ? (
                           <FormattedMessage
@@ -3232,7 +3273,9 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
-                                  {isClub && this.DailyRation()}
+                                  {isClub &&
+                                    !!subDetail.petsId &&
+                                    this.DailyRation(el.petsRation)}
                                 </div>
                               </div>
                               <div style={{ marginTop: '.9375rem' }}>
@@ -3768,7 +3811,9 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
-                                        {isClub && this.DailyRation()}
+                                        {isClub &&
+                                          !!subDetail.petsId &&
+                                          this.DailyRation(el.petsRation)}
                                       </div>
                                     </div>
                                   </div>
