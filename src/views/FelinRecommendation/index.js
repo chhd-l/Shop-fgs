@@ -22,7 +22,7 @@ import { inject, observer } from 'mobx-react';
 import { getFelinReco } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
-import { sitePurchase } from '@/api/cart';
+import { sitePurchase, siteMiniPurchases } from '@/api/cart';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
@@ -304,7 +304,6 @@ class FelinRecommendation extends React.Component {
     //   }
     // }
     console.info('outOfStockProducts', outOfStockProducts);
-    debugger;
     if (outOfStockProducts.length > 0) {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
@@ -332,6 +331,7 @@ class FelinRecommendation extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
+    let cartDataCopy = [];
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
 
@@ -339,10 +339,9 @@ class FelinRecommendation extends React.Component {
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-      let cartDataCopy = cloneDeep(
-        toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      );
-
+      // let cartDataCopy = cloneDeep(
+      //   toJS(this.props.checkoutStore.cartData).filter((el) => el)
+      // )
       let flag = true;
       if (cartDataCopy && cartDataCopy.length) {
         const historyItem = find(
@@ -397,6 +396,9 @@ class FelinRecommendation extends React.Component {
       }
       console.log(cartDataCopy, 'cartDataCopy');
       await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+      // await this.props.checkoutStore.updateUnloginCart({
+      //   cartData: cartDataCopy
+      // });
     }
     this.props.history.push(path);
   }
@@ -466,42 +468,51 @@ class FelinRecommendation extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      if (loginStore.isLogin) {
-        await this.hanldeLoginAddToCart();
-      } else {
-        let res = await getProductPetConfig({
-          goodsInfos: inStockProducts.map((el) => {
-            el.goodsInfo.buyCount = el.recommendationNumber;
-            return el.goodsInfo;
-          })
-        });
-        let handledData = inStockProducts.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          el.sizeList = el.goodsInfo.goods.sizeList;
-          return el;
-        });
-        // let handledData = res.context.goodsInfos;
-        let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setAuditData(AuditData);
-        let autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setPetFlag(res.context.petFlag);
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        sessionItemRoyal.set(
-          'recommend_product',
-          JSON.stringify(inStockProducts)
-        );
-        if (!needLogin) {
-          const url = await distributeLinktoPrecriberOrPaymentPage({
-            configStore: this.props.configStore,
-            checkoutStore,
-            clinicStore,
-            isLogin: loginStore.isLogin
+      this.setState({ buttonLoading: true });
+      try {
+        if (loginStore.isLogin) {
+          sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
+          await this.hanldeLoginAddToCart();
+        } else {
+          let res = await getProductPetConfig({
+            goodsInfos: inStockProducts.map((el) => {
+              el.goodsInfo.buyCount = el.recommendationNumber;
+              return el.goodsInfo;
+            })
           });
-          await this.hanldeUnloginAddToCart(this.state.productList, url);
-          // url && history.push(url);
-          // history.push('/prescription');
+          let handledData = inStockProducts.map((el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            el.sizeList = el.goodsInfo.goods.sizeList;
+            return el;
+          });
+          // let handledData = res.context.goodsInfos;
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          checkoutStore.setAuditData(AuditData);
+          let autoAuditFlag = res.context.autoAuditFlag;
+          checkoutStore.setPetFlag(res.context.petFlag);
+          checkoutStore.setAutoAuditFlag(autoAuditFlag);
+          sessionItemRoyal.set(
+            'recommend_product',
+            JSON.stringify(inStockProducts)
+          );
+          sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
+          if (!needLogin) {
+            const url = await distributeLinktoPrecriberOrPaymentPage({
+              configStore: this.props.configStore,
+              checkoutStore,
+              clinicStore,
+              isLogin: loginStore.isLogin
+            });
+            await this.hanldeUnloginAddToCart(this.state.productList, url);
+            // url && history.push(url);
+            // history.push('/prescription');
+          }
         }
+      } catch (err) {
+        console.info('err', err);
+      } finally {
+        this.setState({ buttonLoading: false });
       }
     }
   };
@@ -664,7 +675,7 @@ class FelinRecommendation extends React.Component {
                 Bienvenue !
               </h1>
               <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
-                Merci pour votre visite en magasin, voici notre recommandation.
+                voici notre recommandation.
               </h2>
               {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
@@ -849,7 +860,7 @@ class FelinRecommendation extends React.Component {
                                 <span>{formatMoney(MaxPrice)}</span>
                               )
                             ) : null}
-
+                            <p style={{ color: '#333' }}>(10g)</p>
                             <p
                               style={{
                                 width: '100%',

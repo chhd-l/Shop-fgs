@@ -8,7 +8,7 @@ import {
   getFrequencyDict,
   matchNamefromDict
 } from '@/utils/utils';
-import { GAInitUnLogin, GAInitLogin } from "@/utils/GA"
+import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
@@ -22,7 +22,9 @@ const storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
 // 税额开关 0: 开, 1: 关
 const customTaxSettingOpenFlag = storeInfo?.customTaxSettingOpenFlag;
 // 买入价格开关 0：含税，1：不含税
-const enterPriceType = storeInfo?.systemTaxSetting?.configVOList && storeInfo?.systemTaxSetting?.configVOList[1]?.context;
+const enterPriceType =
+  storeInfo?.systemTaxSetting?.configVOList &&
+  storeInfo?.systemTaxSetting?.configVOList[1]?.context;
 
 @inject('checkoutStore', 'loginStore', 'paymentStore', 'clinicStore')
 @observer
@@ -124,10 +126,21 @@ class PayProductInfo extends React.Component {
 
   //Hub-GA checkout页面初始化
   GAInitialProductArray(productList) {
-    if (this.props.currentPage != 'checkout') return //只允许checkout页面才调用
-    if (!isGACheckoutLock) {//防止重复调用
-      isGACheckoutLock = true
-      this.isLogin ? GAInitLogin({ productList, frequencyList: this.state.frequencyList, props: this.props }) : GAInitUnLogin({ productList, frequencyList: this.state.frequencyList, props: this.props })
+    if (this.props.currentPage != 'checkout') return; //只允许checkout页面才调用
+    if (!isGACheckoutLock) {
+      //防止重复调用
+      isGACheckoutLock = true;
+      this.isLogin
+        ? GAInitLogin({
+            productList,
+            frequencyList: this.state.frequencyList,
+            props: this.props
+          })
+        : GAInitUnLogin({
+            productList,
+            frequencyList: this.state.frequencyList,
+            props: this.props
+          });
     }
   }
 
@@ -296,6 +309,8 @@ class PayProductInfo extends React.Component {
     );
   }
   getProductsForLogin(plist) {
+    // 线下店数量展示和正常流程有区别
+    let orderSource = sessionItemRoyal.get('orderSource');
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
@@ -322,8 +337,9 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {el.specText} -{' '}
-                    {el.buyCount > 1 ? (
+                    {orderSource === 'L_ATELIER_FELIN' ? (
+                      `${10 * el.buyCount}g`
+                    ) : el.specText - el.buyCount > 1 ? (
                       <FormattedMessage
                         id="items"
                         values={{ val: el.buyCount }}
@@ -525,12 +541,12 @@ class PayProductInfo extends React.Component {
                           isShowValidCode: true
                         });
                         this.props.sendPromotionCode('');
-                        clearTimeout(this.timer)
+                        clearTimeout(this.timer);
                         this.timer = setTimeout(() => {
                           this.setState({
                             isShowValidCode: false
                           });
-                        }, 5000)
+                        }, 5000);
                       }
                       this.setState({
                         isClickApply: false,
@@ -705,7 +721,7 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                
+
                 {/* 显示 promotionCode */}
                 {!this.state.isShowValidCode &&
                 this.promotionDiscountPrice > 0 ? (
