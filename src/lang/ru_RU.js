@@ -1204,10 +1204,11 @@ const ru_RU = {
   'subscriptionDetail.linkProfile':
     'Привяжите профиль питомца к Клубной программе',
   'subscriptionDetail.addNewCat': 'новая Кошка',
+  'subscriptionDetail.addNewDog': 'новая собака',
   Link: 'Привязан',
   Unlink: 'Не привязан',
   'subscription.seeOtherRecommendation': 'Посмотреть другие рекомендации',
-  'subscription.productDetails': 'Product details',
+  'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
   'subscription.productRecommendation': 'Рекомендации продукта',
   'subscription.productRecommendationTip':

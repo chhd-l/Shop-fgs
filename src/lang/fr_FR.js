@@ -1524,6 +1524,7 @@ const fr_FR = {
   'subscriptionDetail.linkProfile':
     'Link a pet profile to your CLUB subscription',
   'subscriptionDetail.addNewCat': 'a new cat',
+  'subscriptionDetail.addNewDog': 'a new dog',
   'subscription.seeOtherRecommendation': 'See other recommendation',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',

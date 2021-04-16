@@ -68,6 +68,7 @@ import {
   changeSubscriptionGoods,
   findPetProductForClub
 } from '@/api/subscription';
+import { getDict } from '@/api/dict';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
@@ -86,6 +87,8 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dogBreedList: [],
+      catBreedList: [],
       petsType: '',
       errMsgPage: '',
       errorMsgAddPet: '',
@@ -584,94 +587,110 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
-  PetsInfo = (petsInfo, petsId, history) => (
-    <React.Fragment>
-      <img
-        style={{ marginLeft: '1rem', marginRight: '1rem' }}
-        className="pet-img text-center rc-margin-y--sm"
-        alt="pet img"
-        src={
-          (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
-            ? petsInfo.petsImg
-            : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
-        }
-      />
-      <div className="rc-md-down">{this.statusText()}</div>
-      <Link
-        className="rc-md-down rc-margin-y--sm"
-        to={{
-          pathname: `/account/pets/petForm/${petsId}`,
-          state: {
-            isFromSubscriptionDetail: true,
-            subscribeId: this.state.subDetail.subscribeId
+  PetsInfo = (petsInfo, petsId, history) => {
+    let petBreed =
+      petsInfo.petsType === 'dog'
+        ? (this.state.dogBreedList.length &&
+            this.state.dogBreedList.filter(
+              (item) => item.valueEn == petsInfo.petsBreed
+            )?.[0]?.name) ||
+          petsInfo.petsBreed
+        : this.state.catBreedList.length &&
+          this.state.catBreedList.filter(
+            (item) => item.valueEn == petsInfo.petsBreed
+          )?.[0]?.name;
+    return (
+      <React.Fragment>
+        <img
+          style={{ marginLeft: '1rem', marginRight: '1rem' }}
+          className="pet-img text-center rc-margin-y--sm"
+          alt="pet img"
+          src={
+            (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
+              ? petsInfo.petsImg
+              : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
           }
-        }}
-      >
-        <div
-          className="rc-styled-link"
-          // onClick={this.showEditRecommendation}
+        />
+        <div className="rc-md-down">{this.statusText()}</div>
+        <Link
+          className="rc-md-down rc-margin-y--sm"
+          to={{
+            pathname: `/account/pets/petForm/${petsId}`,
+            state: {
+              isFromSubscriptionDetail: true,
+              subscribeId: this.state.subDetail.subscribeId
+            }
+          }}
         >
-          <FormattedMessage id="subscriptionDetail.editPetProfile" />
-        </div>
-      </Link>
-      <div className="d-flex align-items-center">
-        <div className="rc-padding-right--md">
-          <h4 className="rc-md-up" style={{ color: '#e2001a', margin: 0 }}>
-            <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
-            {petsInfo?.petsName}
-          </h4>
-          <div>
-            <FormattedMessage id="age" />:
-            <strong> {petsInfo?.birthOfPets}</strong>
-          </div>
-        </div>
-        <div className="rc-padding-right--md">
-          <Link
-            className="rc-md-up"
-            to={{
-              pathname: `/account/pets/petForm/${petsId}`,
-              state: {
-                isFromSubscriptionDetail: true,
-                subscribeId: this.state.subDetail.subscribeId
-              }
-            }}
+          <div
+            className="rc-styled-link"
+            // onClick={this.showEditRecommendation}
           >
-            <div
-              className="rc-styled-link"
-              // onClick={this.showEditRecommendation}
-            >
-              <FormattedMessage id="subscriptionDetail.editPetProfile" />
+            <FormattedMessage id="subscriptionDetail.editPetProfile" />
+          </div>
+        </Link>
+        <div className="d-flex align-items-center">
+          <div className="rc-padding-right--md">
+            <h4 className="rc-md-up" style={{ color: '#e2001a', margin: 0 }}>
+              <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
+              {petsInfo?.petsName}
+            </h4>
+            <div>
+              <FormattedMessage id="age" />:
+              <strong> {petsInfo?.birthOfPets}</strong>
             </div>
-          </Link>
-          <div>
-            <FormattedMessage id="breed" />:
-            <strong>{petsInfo?.petsBreed}</strong>{' '}
           </div>
-        </div>
-        <div className="rc-padding-right--md">
-          <div className="rc-md-up" style={{ color: '#fff' }}>
-            {' '}
-            &nbsp:;
+          <div className="rc-padding-right--md">
+            <Link
+              className="rc-md-up"
+              to={{
+                pathname: `/account/pets/petForm/${petsId}`,
+                state: {
+                  isFromSubscriptionDetail: true,
+                  subscribeId: this.state.subDetail.subscribeId
+                }
+              }}
+            >
+              <div
+                className="rc-styled-link"
+                // onClick={this.showEditRecommendation}
+              >
+                <FormattedMessage id="subscriptionDetail.editPetProfile" />
+              </div>
+            </Link>
+            <div>
+              <FormattedMessage id="breed" />:
+              <strong>
+                {petBreed || 'Mixed Breed'}
+                {/* {petsInfo?.petsBreed} */}
+              </strong>{' '}
+            </div>
           </div>
-          <div>
-            <FormattedMessage id="Sterilized" />:{' '}
-            <strong>
+          <div className="rc-padding-right--md">
+            <div className="rc-md-up" style={{ color: '#fff' }}>
               {' '}
-              {petsInfo?.sterilized ? (
-                <FormattedMessage id="account.yes" />
-              ) : (
-                <FormattedMessage id="account.no" />
-              )}
-            </strong>
+              &nbsp:;
+            </div>
+            <div>
+              <FormattedMessage id="sterilized" />:{' '}
+              <strong>
+                {' '}
+                {petsInfo?.sterilized ? (
+                  <FormattedMessage id="account.yes" />
+                ) : (
+                  <FormattedMessage id="account.no" />
+                )}
+              </strong>
+            </div>
+          </div>
+          <div className="rc-md-up">
+            <div style={{ color: '#fff' }}> &nbsp:;</div>
+            <span>{this.statusText()}</span>
           </div>
         </div>
-        <div className="rc-md-up">
-          <div style={{ color: '#fff' }}> &nbsp:;</div>
-          <span>{this.statusText()}</span>
-        </div>
-      </div>
-    </React.Fragment>
-  );
+      </React.Fragment>
+    );
+  };
   DailyRation = () => {
     return null;
     // return (
@@ -726,6 +745,7 @@ class SubscriptionDetail extends React.Component {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
     }
+    this.getBreedList();
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -1260,7 +1280,11 @@ class SubscriptionDetail extends React.Component {
                   >
                     +{' '}
                     <strong>
-                      <FormattedMessage id="subscriptionDetail.addNewCat" />
+                      {this.state.petsType == 'Cat' ? (
+                        <FormattedMessage id="subscriptionDetail.addNewCat" />
+                      ) : (
+                        <FormattedMessage id="subscriptionDetail.addNewDog" />
+                      )}
                     </strong>
                   </Link>
                 </div>
@@ -2455,7 +2479,7 @@ class SubscriptionDetail extends React.Component {
         {!!productDetail.otherProducts && (
           <>
             <p className="text-center rc-margin-top--xs">
-              <FormattedMessage id="Other products to consider" />
+              <FormattedMessage id="productFinder.otherProductsToConsider" />
             </p>
             <div className="rc-scroll--x pb-4 rc-padding-x--xl">
               <div className="d-flex">
@@ -2813,6 +2837,27 @@ class SubscriptionDetail extends React.Component {
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
+  };
+
+  getBreedList = () => {
+    getDict({
+      type: 'catBreed',
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.setState({
+        catBreedList: res.context.sysDictionaryVOS
+      });
+    });
+    getDict({
+      type: 'dogBreed',
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.setState({
+        dogBreedList: res.context.sysDictionaryVOS
+      });
+    });
   };
   render() {
     console.info('frequencyListOptions', this.frequencyListOptions);

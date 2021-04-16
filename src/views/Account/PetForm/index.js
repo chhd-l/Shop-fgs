@@ -68,6 +68,7 @@ class PetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      subList: [],
       isEditAlert: false,
       loading: true,
       precent: 12.5,
@@ -423,8 +424,9 @@ class PetForm extends React.Component {
           }
         }
       } else {
-        if (subscribeId) {
-          // 从subdetail过来编辑宠物的需要弹提示框
+        // 有链接sub的，编辑宠物需要弹提示框
+        let isLinkedSub = this.state.subList.find((el) => el.petsId);
+        if (isLinkedSub) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }
