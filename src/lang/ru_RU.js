@@ -1281,7 +1281,15 @@ const ru_RU = {
   'See recommendation': 'Посмотреть рекомендации',
   petSaveTips2:
     'Основываясь на этих данных, мы подберем новый продукт для Вашего питомца. ',
-  petSaveTips1: 'Информация о Вашем питомце сохранена!'
+  petSaveTips1: 'Информация о Вашем питомце сохранена!',
+  'searchNoResult.title': 'Извините',
+  'searchNoResult.content1': 'Мы не нашли ничего для',
+  'searchNoResult.content2':
+    'Мы рекомендуем Вам связаться с нашими экспертами по питанию домашних животных, чтобы получить советы по правильному питанию и помочь Вам подобрать наиболее точный рацион для Вашего питомца.',
+  'searchNoResult.telephone': 'Позвоните нам',
+  'searchNoResult.email': 'Напишите нам',
+  'searchNoResult.email.content': 'Отправьте нам Email',
+  'searchNoBreed.breedName': 'Результаты поиска'
 };
 
 export default ru_RU;

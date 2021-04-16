@@ -1172,6 +1172,14 @@ const tr_TR = {
   'See recommendation': 'Öneriyi gör',
   petSaveTips2:
     'Bu bilgiler dahilinde, evcil hayvanınız için yeni bir ürün önerimiz var.',
-  petSaveTips1: 'Evcil hayvan bilgileriniz kaydedildi!'
+  petSaveTips1: 'Evcil hayvan bilgileriniz kaydedildi!',
+  'searchNoResult.title': 'Üzgünüz',
+  'searchNoResult.content1': 'Şu arama için bir sonuç bulamadık',
+  'searchNoResult.content2':
+    'Evcil hayvanınızın ihtiyaçlarına en uygun mamayı bulmak için uzmanlarımız ile iletişime geçebilirsiniz.',
+  'searchNoResult.telephone': 'Bizi arayın!',
+  'searchNoResult.email': 'Bize e-posta gönderin!',
+  'searchNoResult.email.content': 'İletişim',
+  'searchNoBreed.breedName': 'Arama Sonuçları'
 };
 export default tr_TR;
