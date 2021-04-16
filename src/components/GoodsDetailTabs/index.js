@@ -16,7 +16,7 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 const clubListData = [
   {
-    text: <FormattedMessage id="clubListData.tip5" />,
+    text: <FormattedMessage id="clubListData.tip1" />,
     img: nutrition,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
@@ -36,15 +36,15 @@ const clubListData = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage id="clubListData.tip1" />,
+    text: <FormattedMessage id="clubListData.tip5" />,
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
-  },
-  {
-    text: <FormattedMessage id="clubListData.tip6" />,
-    img: iconsix,
-    alt: 'CLUB BENEFITS PET ADVISOR'
   }
+  // {
+  //   text: <FormattedMessage id="clubListData.tip6" />,
+  //   img: iconsix,
+  //   alt: 'CLUB BENEFITS PET ADVISOR'
+  // }
 ];
 const GoodsDetailTabs = function (props) {
   let hubGA = process.env.REACT_APP_HUB_GA == '1';
