@@ -6,7 +6,55 @@ import pictofaq from './img/pictofaq.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import './index.css';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
+
+function FaqLink() {
+  const defaultLink = (
+    <Link to="/faq">
+      <p style={{ textDecoration: 'underline' }}>
+        {/*  {*/}
+        {/*  this.props.configStore*/}
+        {/*    .contactTimePeriod*/}
+        {/*}*/}
+        <FormattedMessage id="club.wheretohelp.card.faq" />
+      </p>
+    </Link>
+  );
+  return (
+    {
+      tr: (
+        <p>
+          <FormattedMessage
+            id="club.wheretohelp.card.faq"
+            values={{
+              val: (
+                <Link
+                  to="/faq"
+                  style={{
+                    textDecoration: 'underline'
+                  }}
+                >
+                  <FormattedMessage id="club.wheretohelp.card.faq2" />
+                </Link>
+              )
+            }}
+          />
+        </p>
+      ),
+      ru: (
+        <DistributeHubLinkOrATag
+          href={'/about-us/faq'}
+          ariaLabel="Links to faq"
+        >
+          <p style={{ textDecoration: 'underline' }}>
+            <FormattedMessage id="club.wheretohelp.card.faq" />
+          </p>
+        </DistributeHubLinkOrATag>
+      )
+    }[process.env.REACT_APP_LANG] || defaultLink
+  );
+}
 
 const HelpComponents = (props) => {
   return (
@@ -113,11 +161,23 @@ const HelpComponents = (props) => {
                                   {/*}*/}
                                   <FormattedMessage id="club.wheretohelp.card.email.description" />
                                 </p>
-                                <Link to="/help/contact">
-                                  <p style={{ textDecoration: 'underline' }}>
-                                    <FormattedMessage id="club.wheretohelp.card.email.send" />
-                                  </p>
-                                </Link>
+                                {process.env.REACT_APP_LANG == 'ru' ? (
+                                  <DistributeHubLinkOrATag
+                                    href={'/contact-us'}
+                                    ariaLabel="Links to contact us"
+                                  >
+                                    <p style={{ textDecoration: 'underline' }}>
+                                      <FormattedMessage id="club.wheretohelp.card.email.send" />
+                                    </p>
+                                  </DistributeHubLinkOrATag>
+                                ) : (
+                                  <Link to="/help/contact">
+                                    <p style={{ textDecoration: 'underline' }}>
+                                      <FormattedMessage id="club.wheretohelp.card.email.send" />
+                                    </p>
+                                  </Link>
+                                )}
+
                                 <div className="rc-margin-top--xs">
                                   <p
                                     style={{ color: '#00BCA3' }}
@@ -176,35 +236,7 @@ const HelpComponents = (props) => {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                {process.env.REACT_APP_LANG == 'tr' ? (
-                                  <p>
-                                    <FormattedMessage
-                                      id="club.wheretohelp.card.faq"
-                                      values={{
-                                        val: (
-                                          <Link
-                                            to="/faq"
-                                            style={{
-                                              textDecoration: 'underline'
-                                            }}
-                                          >
-                                            <FormattedMessage id="club.wheretohelp.card.faq2" />
-                                          </Link>
-                                        )
-                                      }}
-                                    />
-                                  </p>
-                                ) : (
-                                  <Link to="/faq">
-                                    <p style={{ textDecoration: 'underline' }}>
-                                      {/*  {*/}
-                                      {/*  this.props.configStore*/}
-                                      {/*    .contactTimePeriod*/}
-                                      {/*}*/}
-                                      <FormattedMessage id="club.wheretohelp.card.faq" />
-                                    </p>
-                                  </Link>
-                                )}
+                                <FaqLink />
 
                                 <div className="rc-margin-top--xs">
                                   <p
