@@ -11,6 +11,7 @@ import spetadviser from './image/pictospetadviser@4x.png';
 import shippingicon from './image/pictoshipping@4x.png';
 import nutrition from './image/pictonutrition@4x.png';
 import landingBanner from './image/landing-banner.jpg';
+import iconsix from './image/iconsix.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 const clubListData = [
@@ -37,6 +38,11 @@ const clubListData = [
   {
     text: <FormattedMessage id="clubListData.tip1" />,
     img: phoneicon,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: <FormattedMessage id="clubListData.tip6" />,
+    img: iconsix,
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
