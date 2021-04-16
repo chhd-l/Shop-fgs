@@ -1428,6 +1428,12 @@ pre code {
   .width-sub-img {
     width: 10%;
   }
+
+  .ui-text-overflow-md-line1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 @media (min-width: 992px) {
