@@ -1562,6 +1562,16 @@ const fr_FR = {
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
   'welcome.contactUS': 'Contactez-nous',
   'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement",
-  paused: 'En pause'
+  paused: 'En pause',
+  'searchNoResult.title': 'Désolé',
+  'searchNoResult.content1': 'Aucun résultat ne correspond à votre recherche',
+  'searchNoResult.content2':
+    'Vous pouvez contacter nos spécialistes pour trouver la nourriture la plus adaptée aux besoins de votre animal.',
+  'searchNoResult.telephone': 'Par téléphone',
+  'searchNoResult.telephone.content':
+    'Appel Gratuit - Du lundi au vendredi 8h-20h.',
+  'searchNoResult.telephone.number': '0800-005-360',
+  'searchNoResult.email': 'Par mail',
+  'searchNoResult.email.content': 'Envoyer un email'
 };
 export default fr_FR;

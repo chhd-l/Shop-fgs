@@ -62,7 +62,7 @@ function CardItem(props) {
         <p className="mb-0 mp_mb_cpp">
           {/* 城市 */}
           {localAddressForm['city'] && data.city + ', '}
-          {localAddressForm['region'] && data.region + ', '}
+          {/* {localAddressForm['region'] && data.area + ', '} */}
           {/* 省份 */}
           {localAddressForm['state'] && data.province + ' '}
           {/* 邮编 */}
@@ -119,16 +119,7 @@ class AddressList extends React.Component {
       if (hideBillingAddr) {
         addressList = res.context.filter((item) => item.type === 'DELIVERY');
       }
-      // let cityRes = await queryCityNameById({
-      //   id: addressList.map((ele) => ele.cityId)
-      // });
-      // cityRes = cityRes.context.systemCityVO || [];
-      // Array.from(addressList, (ele) => {
-      //   ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-      //     ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-      //     : ele.cityId;
-      //   return ele;
-      // });
+
       this.setState({
         addressList,
         listLoading: false

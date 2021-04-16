@@ -23,32 +23,57 @@ class PaymentStore {
     {
       key: 'clinic',
       order: 1,
-      status: { isPrepare: false, isEdit: true, isCompleted: false }
+      status: {
+        isPrepare: false,
+        isEdit: true,
+        isCompleted: false,
+        hasCompleted: false // 是否曾completed过
+      }
     },
     {
       key: 'email',
       order: 2,
-      status: { isPrepare: true, isEdit: true, isCompleted: false }
+      status: {
+        isPrepare: true,
+        isEdit: true,
+        isCompleted: false,
+        hasCompleted: false
+      }
     },
     {
       key: 'deliveryAddr',
       order: 3,
-      status: { isPrepare: true, isEdit: false, isCompleted: false }
+      status: {
+        isPrepare: true,
+        isEdit: false,
+        isCompleted: false,
+        hasCompleted: false
+      }
     },
     {
       key: 'paymentMethod',
       order: 4,
-      status: { isPrepare: true, isEdit: false, isCompleted: false }
+      status: {
+        isPrepare: true,
+        isEdit: false,
+        isCompleted: false,
+        hasCompleted: false
+      }
     },
     {
       key: 'billingAddr',
       order: 5,
-      status: { isPrepare: true, isEdit: false, isCompleted: false }
+      status: {
+        isPrepare: true,
+        isEdit: false,
+        isCompleted: false,
+        hasCompleted: false
+      }
     },
     {
       key: 'confirmation',
       order: 6,
-      status: { isPrepare: true, isEdit: false }
+      status: { isPrepare: true, isEdit: false, hasCompleted: false }
     }
   ];
 
@@ -93,6 +118,9 @@ class PaymentStore {
     }
     if (isCompleted !== 'default') {
       tmpStatus.isCompleted = isCompleted;
+      if (isCompleted) {
+        tmpStatus.hasCompleted = true;
+      }
     }
   }
 
@@ -312,9 +340,14 @@ class PaymentStore {
       const panelStatusJS = toJS(this.panelStatus);
       for (let tmpKey in panelStatusJS) {
         const tmpSts = this.panelStatus[tmpKey].status;
+        // 当前是edit状态的，如果已经complete过，则isCompleted=true，否则isPrepare=true
         if (tmpSts.isEdit) {
           tmpSts.isEdit = false;
-          tmpSts.isPrepare = true;
+          if (tmpSts.hasCompleted) {
+            tmpSts.isCompleted = true;
+          } else {
+            tmpSts.isPrepare = true;
+          }
         }
       }
     }

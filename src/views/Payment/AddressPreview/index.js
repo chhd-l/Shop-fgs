@@ -104,16 +104,16 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {localAddressForm['region'] && (
+                        {/* {localAddressForm['region'] && (
                           <>
                             <div className="col-md-6">
                               <FormattedMessage id="payment.region" />
                             </div>
                             <div className="col-md-6">
-                              &nbsp;{details.consignee.region}
+                              &nbsp;{details.consignee.area}
                             </div>
                           </>
-                        )}
+                        )} */}
 
                         {localAddressForm['state'] && (
                           <>
@@ -228,16 +228,16 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {localAddressForm['region'] && (
+                          {/* {localAddressForm['region'] && (
                             <>
                               <div className="col-md-6">
                                 <FormattedMessage id="payment.region" />
                               </div>
                               <div className="col-md-6">
-                                &nbsp;{details.invoice.region}
+                                &nbsp;{details.invoice.area}
                               </div>
                             </>
-                          )}
+                          )} */}
 
                           {localAddressForm['state'] && (
                             <>

@@ -666,9 +666,6 @@ class Details extends React.Component {
         sessionItemRoyal.get('pf-result')
       );
     }
-    if (localStorage.getItem('pfls')) {
-      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-    }
     let savePetFlag = false;
     let isMyProductFinder = true;
     if (
@@ -677,6 +674,10 @@ class Details extends React.Component {
         sessionItemRoyal.get('pf-result-before')
     ) {
       savePetFlag = true;
+      isMyProductFinder = true;
+    } else {
+      savePetFlag = false;
+      isMyProductFinder = false;
     }
     if (
       localStorage.getItem('pfls') &&
@@ -684,12 +685,20 @@ class Details extends React.Component {
     ) {
       savePetFlag = true;
       isMyProductFinder = false;
+    } else {
+      savePetFlag = false;
+      isMyProductFinder = true;
+    }
+    if (localStorage.getItem('pfls')) {
+      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
     }
     if (this.isLogin && savePetFlag) {
-      let pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+      let pf_params = {};
       if (!isMyProductFinder) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
         pf_params = '' + pf_params.age;
+      } else {
+        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
       }
       try {
         petsRes = await clubSubscriptionSavePets({
@@ -713,11 +722,6 @@ class Details extends React.Component {
         console.log(err, 'error111');
       }
     }
-    console.log(
-      JSON.parse(sessionItemRoyal.get('pf-result'))?.queryParams,
-      petsRes,
-      'pf-result'
-    );
     Promise.all([
       requestName(param),
       getFrequencyDict(),
@@ -1971,12 +1975,19 @@ class Details extends React.Component {
                                     <div>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
-                                    <Link
+                                    {/* <Link
                                       className="rc-styled-link mt-0 pb-0"
                                       to="/product-finder"
                                     >
                                       <FormattedMessage id="details.findProductTips" />
-                                    </Link>
+                                    </Link> */}
+                                    <DistributeHubLinkOrATag
+                                      href="/product-finder"
+                                      to="/product-finder"
+                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                    >
+                                      <FormattedMessage id="details.findProductTips" />
+                                    </DistributeHubLinkOrATag>
                                   </div>
                                 )}
                               </div>
