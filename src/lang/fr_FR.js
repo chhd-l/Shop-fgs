@@ -1526,6 +1526,7 @@ const fr_FR = {
   'subscriptionDetail.addNewCat': 'a new cat',
   'subscriptionDetail.addNewDog': 'a new dog',
   'subscription.seeOtherRecommendation': 'See other recommendation',
+  'subscription.chooseThisProduct': 'choose this product',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
   'subscription.productRecommendation': 'Your product recommendation',

@@ -714,7 +714,7 @@ class Details extends React.Component {
       }
     }
     console.log(
-      JSON.parse(sessionItemRoyal.get('pf-result')).queryParams,
+      JSON.parse(sessionItemRoyal.get('pf-result'))?.queryParams,
       petsRes,
       'pf-result'
     );
