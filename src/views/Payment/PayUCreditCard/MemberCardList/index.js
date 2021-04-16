@@ -58,8 +58,9 @@ class MemberCardList extends React.Component {
         paymentTransactionId: '',
         paymentCustomerId: '',
         installmentChecked: false,
-        savedCardChecked: false,
-        savedDefaultCardChecked: false
+        // 订阅支付时，保存卡选项，默认勾选且不能取消；设置为默认卡选项，默认勾选
+        savedCardChecked: this.props.mustSaveForFutherPayments || false,
+        savedDefaultCardChecked: this.props.mustSaveForFutherPayments || false
       },
       listLoading: true,
       saveLoading: false,
@@ -683,7 +684,8 @@ class MemberCardList extends React.Component {
         id: 'id-payu-saved-card-account',
         langKey: 'payment.saveCardToAccount',
         value: creditCardInfoForm.savedCardChecked,
-        visible: true
+        visible: true,
+        disabled: this.props.mustSaveForFutherPayments
       },
       {
         key: 'savedDefaultCardChecked',
@@ -1030,6 +1032,7 @@ class MemberCardList extends React.Component {
                         // value={item.value}
                         type="checkbox"
                         checked={item.value}
+                        disabled={item.disabled}
                       />
                       <label
                         className="rc-input__label--inline text-break"
