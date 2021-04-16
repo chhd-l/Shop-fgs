@@ -326,29 +326,43 @@ export default class Search extends React.Component {
         {+process.env.REACT_APP_HUB ? (
           <>
             <div className="search-contaner">
-              <span className="iconfont icon-search">&#xe6a5;</span>
-              {keywords ? (
-                <span
-                  className="iconfont icon-close"
-                  onClick={this.hanldeSearchCloseClick}
+              <form
+                role="search"
+                name="simpleSearch"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                <button
+                  className="iconfont icon-search"
+                  type="submit"
+                  onClick={this.handleSearch}
                 >
-                  &#xe6fb;
-                </span>
-              ) : null}
-              <FormattedMessage id="searchForAProductOrArtical">
-                {(txt) => (
-                  <input
-                    ref={this.inputRef}
-                    className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light limit-md-width"
-                    type="search"
-                    autoComplete="off"
-                    placeholder={txt}
-                    onFocus={this.hanldeSearchFocus}
-                    onChange={this.handleSearchInputChange}
-                    value={keywords}
-                  />
-                )}
-              </FormattedMessage>
+                  &#xe6a5;
+                </button>
+                {keywords ? (
+                  <span
+                    className="iconfont icon-close"
+                    onClick={this.hanldeSearchCloseClick}
+                  >
+                    &#xe6fb;
+                  </span>
+                ) : null}
+                <FormattedMessage id="searchForAProductOrArtical">
+                  {(txt) => (
+                    <input
+                      ref={this.inputRef}
+                      className="search-field rc-bg-colour--brand4 ui-cursor-pointer-pure font-weight-light limit-md-width"
+                      type="search"
+                      autoComplete="off"
+                      placeholder={txt}
+                      onFocus={this.hanldeSearchFocus}
+                      onChange={this.handleSearchInputChange}
+                      value={keywords}
+                    />
+                  )}
+                </FormattedMessage>
+              </form>
             </div>
             {result ? (
               <div style={{ position: 'relative', top: '.2rem' }}>
@@ -357,44 +371,6 @@ export default class Search extends React.Component {
                 </div>
               </div>
             ) : null}
-            {/* <div
-              className={`rc-shade searchbar ${showSearchInput ? '' : 'rc-hidden'}`}
-            />
-            <div
-              className={`search-contaner__shadow rc-bg-colour--brand4 ${
-                showSearchInput ? '' : 'rc-hidden'
-              } ${
-                result && result.Items && result.Items.length ? 'result' : ''
-              }`}
-            >
-              <div className="search-contaner">
-                <span className="iconfont icon-search">&#xe6a5;</span>
-                <span
-                  className="iconfont icon-close"
-                  onClick={this.hanldeSearchCloseClick}
-                >
-                  &#xe6fb;
-                </span>
-                <FormattedMessage id="startTypingToSearch">
-                  {(txt) => (
-                    <input
-                      ref={this.inputRef}
-                      className={`search-field`}
-                      type="search"
-                      autoComplete="off"
-                      placeholder={txt}
-                      value={keywords}
-                      onChange={this.handleSearchInputChange}
-                      onFocus={this.hanldeSearchClick}
-                    />
-                  )}
-                </FormattedMessage>
-              </div>
-              <div className="suggestions-wrapper w-100">
-                {this.renderResultJsx()}
-              </div>
-            </div>
-           */}
           </>
         ) : (
           <>
