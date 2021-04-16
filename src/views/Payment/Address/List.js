@@ -344,6 +344,8 @@ class AddressList extends React.Component {
       lastName: '',
       address1: '',
       address2: '',
+      areaId: '',
+      area: '',
       rfc: '',
       countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
@@ -367,11 +369,15 @@ class AddressList extends React.Component {
         lastName: tmp.lastName,
         address1: tmp.address1,
         address2: tmp.address2,
+        areaId: tmp.areaId,
+        area: tmp.area,
         rfc: tmp.rfc,
         countryId: tmp.countryId,
         country: tmp.country,
         cityId: tmp.cityId,
         city: tmp.city,
+        areaId: tmp.areaId,
+        area: tmp.area,
         provinceNo: tmp.provinceNo,
         provinceId: tmp.provinceId,
         province: tmp.province,
@@ -429,13 +435,8 @@ class AddressList extends React.Component {
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
-        console.log('------------- isValid: ', this.state.isValid);
-        console.log(
-          '------------- russiaAddressValid: ',
-          this.state.russiaAddressValid
-        );
+        this.props.updateData(data);
       });
-      this.props.updateData(data);
     } catch (err) {
       console.log(' err msg: ', err);
       this.setState({ isValid: false }, () => {
@@ -486,8 +487,7 @@ class AddressList extends React.Component {
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
-        area: deliveryAddress.region,
-        areaId: deliveryAddress.regionId,
+        areaId: deliveryAddress.areaId,
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         countryId: deliveryAddress.countryId,

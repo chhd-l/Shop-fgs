@@ -154,6 +154,8 @@ class Payment extends React.Component {
         countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         cityId: '',
         city: '',
+        area: '',
+        areaId: '',
         regionId: '',
         region: '',
         provinceNo: '',
