@@ -29,23 +29,33 @@ export default function ClubGiftBanner() {
       <div className="tips-info mobile-text-center mr-3 ml-4 ml-md-0">
         <ul>
           <li className="rc-list__item">
-            <FormattedMessage id="clubGiftTips1" />
+            <strong>
+              <FormattedMessage id="clubGiftTips1" />
+            </strong>
             {/* <strong>Best-in-class nutrition</strong> for your pet */}
           </li>
           <li className="rc-list__item">
-            <FormattedMessage id="clubGiftTips2" />
+            <strong>
+              <FormattedMessage id="clubGiftTips2" />
+            </strong>
             {/* <strong>Adapted tips</strong> to care for your pet */}
           </li>
           <li className="rc-list__item">
-            <FormattedMessage id="clubGiftTips3" />
+            <strong>
+              <FormattedMessage id="clubGiftTips3" />
+            </strong>
             {/* Your personal <strong>Pet advisor</strong> */}
           </li>
           <li className="rc-list__item">
-            <FormattedMessage id="clubGiftTips4" />
+            <strong>
+              <FormattedMessage id="clubGiftTips4" />
+            </strong>
             {/* Exclusive <strong>rewards & offers</strong> */}
           </li>
           <li className="rc-list__item">
-            <FormattedMessage id="clubGiftTips5" />
+            <strong>
+              <FormattedMessage id="clubGiftTips5" />
+            </strong>
             {/* <strong>Free, automatic delivery</strong> on every refill */}
           </li>
         </ul>

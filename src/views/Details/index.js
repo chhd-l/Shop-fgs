@@ -705,7 +705,7 @@ class Details extends React.Component {
         });
         if (petsRes.code === 'K-000000') {
           let petsInfo = petsRes.context;
-          localItemRoyal.set('pr-petsInfo', petsRes.context);
+          sessionItemRoyal.set('pr-petsInfo', petsRes.context);
           let rationRes = getRation({
             spuNoList: [goodsNo],
             petsId: petsInfo.petsId
