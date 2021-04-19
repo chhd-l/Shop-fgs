@@ -1489,8 +1489,9 @@ class AccountOrders extends React.Component {
                                       </p>
 
                                       {/* 国家 */}
-                                      {process.env.REACT_APP_LANG ==
-                                      'en' ? null : (
+                                      {process.env.REACT_APP_LANG == 'en' ||
+                                      process.env.REACT_APP_LANG ==
+                                        'ru' ? null : (
                                         <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
                                             this.state.countryList,
@@ -1592,8 +1593,9 @@ class AccountOrders extends React.Component {
                                         </p>
 
                                         {/* 国家 */}
-                                        {process.env.REACT_APP_LANG ==
-                                        'en' ? null : (
+                                        {process.env.REACT_APP_LANG == 'en' ||
+                                        process.env.REACT_APP_LANG ==
+                                          'ru' ? null : (
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(
                                               this.state.countryList,

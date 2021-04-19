@@ -3066,6 +3066,8 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'AddressComp' ? 'block' : 'none' }}
                 >
                   <AddressComp
+                    customerAccount={subDetail?.customerAccount}
+                    tradeItems={subDetail?.noStartTradeList}
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
@@ -5167,7 +5169,8 @@ class SubscriptionDetail extends React.Component {
                               </p>
 
                               {/* 国家 */}
-                              {process.env.REACT_APP_LANG == 'en' ? null : (
+                              {process.env.REACT_APP_LANG == 'en' ||
+                              process.env.REACT_APP_LANG == 'ru' ? null : (
                                 <p className="mb-0 sd_mb_country">
                                   {this.state.countryList.length &&
                                   this.state.countryList.filter(

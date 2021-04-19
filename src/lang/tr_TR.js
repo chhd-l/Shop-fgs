@@ -295,6 +295,7 @@ const tr_TR = {
   'details.unitPrice': 'Birim fiyat',
   'details.youCanSave': 'Kurtarabilirsin',
   'details.buyFromRetailer': 'Yerel satıcı bul',
+  'detail.subscriptionBuyTip': 'Taahhüt vermeden abone olun',
   'Club subscription': 'Club Aboneliği',
   saveExtra: '{val} Kazan',
   dogs: 'KÖPEK',
