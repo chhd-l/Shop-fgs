@@ -289,11 +289,17 @@ class PetForm extends React.Component {
       loading: true,
       currentPet: currentPet
     });
-    await delPets(params);
-
-    myAccountActionPushEvent('Remove pet');
-
-    this.props.history.push('/account/pets/');
+    try {
+      await delPets(params);
+      myAccountActionPushEvent('Remove pet');
+      this.props.history.push('/account/pets/');
+    } catch (err) {
+      this.showErrorMsg(err.message);
+    } finally {
+      this.setState({
+        loading: false
+      });
+    }
   };
   savePet = async () => {
     const { selectedSpecialNeeds, isPurebred, subList } = this.state;
