@@ -3248,6 +3248,7 @@ class Payment extends React.Component {
                         {!this.isLogin ? (
                           <OnePageEmailForm
                             history={history}
+                            currentEmailVal={guestEmail}
                             onChange={this.updateGuestEmail}
                           />
                         ) : null}
