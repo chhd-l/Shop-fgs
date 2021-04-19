@@ -178,15 +178,6 @@ class PetForm extends React.Component {
       .catch((err) => {
         this.showErrorMsg(err.message);
       });
-    await getDictionary({ type: 'specialNeeds' })
-      .then((res) => {
-        this.setState({
-          specialNeeds: res
-        });
-      })
-      .catch((err) => {
-        this.showErrorMsg(err.message);
-      });
     this.getPetList();
   }
   get specialNeedsOptions() {
@@ -911,24 +902,34 @@ class PetForm extends React.Component {
       }
     );
   }
+
   async getTypeDict() {
     let sensitivityCat = [],
-      sensitivityDog = [];
+      sensitivityDog = [],
+      specialneedsCat = [],
+      specialneedsDog = [];
     if (this.state.isCat) {
       sensitivityCat = await getDictionary({ type: 'sensitivity_cat' });
       sensitivityCat.map((el) => {
         el.value = el.valueEn;
       });
-      console.log(sensitivityCat, 'sensitivityCat');
+      specialneedsCat = await getDictionary({ type: 'specialneeds_cat' });
+      specialneedsCat.map((el) => {
+        el.value = el.valueEn;
+      });
     } else {
       sensitivityDog = await getDictionary({ type: 'sensitivity_dog' });
       sensitivityDog.map((el) => {
         el.value = el.valueEn;
       });
-      console.log(sensitivityDog, 'sensitivityDog');
+      specialneedsDog = await getDictionary({ type: 'specialneeds_dog' });
+      specialneedsDog.map((el) => {
+        el.value = el.valueEn;
+      });
     }
     this.setState({
-      sensitivityList: this.state.isCat ? sensitivityCat : sensitivityDog
+      sensitivityList: this.state.isCat ? sensitivityCat : sensitivityDog,
+      specialNeeds: this.state.isCat ? specialneedsCat : specialneedsDog
     });
   }
 

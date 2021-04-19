@@ -834,5 +834,30 @@ export const filterOrderId = (orderId) => {
 export const getRation = async (params) => {
   let res = await getRation_api(params);
   return res;
-  console.log(res, 'res');
+};
+/**
+ * transTime [把传进来的时间，通过时区转化成当地时间]
+ * @param    date   [date:Date] [需要转换的时间,默认为当前时间]
+ * @param    timeZone   [timeZone: String]   [需要转的时区]
+ * @return   Date
+ */
+export const transTime = ({ date = new Date(), timeZone }) => {
+  return utcToZonedTime(date, timeZone);
+};
+
+/**
+ * isDuringDate(判断时间是否处于某个时间段内)
+ * @param    date   [date:Date] [需要比较的时间]
+ * @param    beginDateStr   [beginDateStr: String] [开始时间]
+ * @param   endDateStr [endDateStr: String] [结束时间]
+ * @return Boolean
+ */
+export const isDuringDate = (date, beginDateStr, endDateStr) => {
+  let beginDate = new Date(beginDateStr),
+    endDate = new Date(endDateStr);
+  //console.log({date,beginDate,endDate})
+  if (date >= beginDate && date <= endDate) {
+    return true;
+  }
+  return false;
 };

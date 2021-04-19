@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { getDeviceType } from '@/utils/utils';
+import { isLimitLogin } from '@/components/LoginButton/utils';
 import './index.less';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -21,6 +22,35 @@ function Container({ children }) {
   );
 }
 
+function AlertTips() {
+  return (
+    <span class="rc-margin-right--xs rc-margin-left--xs">
+      Important Notice: Due to an increase in demand, your preferred product may
+      be currently unavailable.
+      <br />
+      Your pet’s health is our top priority, and we’re working hard to ensure
+      their formulas are back in stock soon.
+      <br />
+      Thank you for your patience.
+    </span>
+  );
+}
+
+// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+function LimitLoginAlertTips() {
+  return (
+    <span class="rc-margin-right--xs rc-margin-left--xs">
+      Important Notice: Maintenance is planned for April 17th, 2021 from 8am-4pm
+      CST.
+      <br />
+      Checkout and account access may be unavailable during this time. Please
+      check back after 4pm CST.
+      <br />
+      We apologize for the inconvenience. Thank you!
+    </span>
+  );
+}
+
 export const bannerTips = () => {
   return (
     <div
@@ -35,15 +65,11 @@ export const bannerTips = () => {
               <div class="rc-layout-container rc-content-h-middle">
                 <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
                   <div class="d-flex align-items-center">
-                    <span class="rc-margin-right--xs rc-margin-left--xs">
-                      Important Notice: Due to an increase in demand, your
-                      preferred product may be currently unavailable.
-                      <br />
-                      Your pet’s health is our top priority, and we’re working
-                      hard to ensure their formulas are back in stock soon.
-                      <br />
-                      Thank you for your patience.
-                    </span>
+                    {process.env.REACT_APP_LANG == 'en' && isLimitLogin() ? (
+                      <LimitLoginAlertTips />
+                    ) : (
+                      <AlertTips />
+                    )}
                     <div></div>
                   </div>
                 </div>
