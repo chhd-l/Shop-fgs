@@ -441,7 +441,11 @@ class Details extends React.Component {
         Subscription: 1,
         'One-off purchase': 0
       }[targetDefaultPurchaseTypeItem.valueEn];
-      if (defaultPurchaseType === 1 || this.checkoutStore.pr_petsInfo.petsId) {
+      if (
+        defaultPurchaseType === 1 ||
+        sessionItemRoyal.get('pf-result') ||
+        localStorage.getItem('pfls')
+      ) {
         buyWay = details.promotions === 'club' ? 2 : 1;
       } else {
         buyWay = defaultPurchaseType;
