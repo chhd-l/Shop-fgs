@@ -27,6 +27,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import './index.less';
 
+const localItemRoyal = window.__.localItemRoyal;
 const CURRENT_LANGFILE = locales;
 @injectIntl
 class Form extends React.Component {
@@ -134,6 +135,8 @@ class Form extends React.Component {
         });
         // 根据接口类型查询表单数据
         this.getAddressSettingByApi(manually, automatically);
+      } else {
+        console.error('地址表单接口返回空，找后端配置。');
       }
     } catch (err) {
       console.log(err);
@@ -169,6 +172,14 @@ class Form extends React.Component {
                 (item) => item.enableFlag == 1
               );
             }
+
+            // 把查询到的address配置存到本地
+            let addressForm = {};
+            narr.forEach((item) => {
+              addressForm[item.fieldKey] = item.fieldKey;
+            });
+            console.log(addressForm);
+            localItemRoyal.set('rc-address-form', addressForm);
 
             let ress = this.formListByRow(narr, (item) => {
               return [item.sequence];
