@@ -1,19 +1,19 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Modal from '@/components/Modal';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { Link } from 'react-router-dom';
 import './index.less';
+// import dog from '@/assets/images/animal-1.jpg';
+// import cat from '@/assets/images/animal-2.jpg';
+import success from '@/assets/images/check-success.svg';
+import edit from '@/assets/images/edit.svg';
 import { Helmet } from 'react-helmet';
-import { myAccountActionPushEvent } from '@/utils/GA';
-import LinkedSubs from './components/LinkedSubs';
-import LazyLoad from 'react-lazyload';
 
 import {
   getPetList,
@@ -28,16 +28,13 @@ import {
   getDictionary,
   getDeviceType,
   datePickerConfig,
-  setSeoConfig,
-  getFormatDate,
-  getZoneTime,
-  getClubFlag
+  setSeoConfig
 } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { format } from 'date-fns';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -45,10 +42,7 @@ import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
-import {
-  findPetProductForClub,
-  changeSubscriptionDetailPets
-} from '@/api/subscription';
+import LazyLoad from 'react-lazyload';
 
 const selectedPet = {
   border: '3px solid #ec001a'
@@ -60,16 +54,12 @@ const noSelect = {
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-console.log(datePickerConfig, 'datePickerConfig');
-
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      subList: [],
-      isEditAlert: false,
       loading: true,
       precent: 12.5,
       step: 1,
@@ -79,9 +69,9 @@ class PetForm extends React.Component {
       isInputDisabled: false,
       isUnknownDisabled: false,
       seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
       },
       //pet
       currentPetId: '',
@@ -117,16 +107,7 @@ class PetForm extends React.Component {
       isMobile: false,
       isChoosePetType: this.props.match.params.id ? true : false,
       isPurebred: true,
-      recommendData: [],
-      lifestyle: '',
-      activity: '',
-      weightObj: {
-        measure: '',
-        measureUnit: 'kg',
-        type: 2
-      },
-      breedName: '',
-      breedcode: ''
+      recommendData: []
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -134,7 +115,6 @@ class PetForm extends React.Component {
     this.selectWeight = this.selectWeight.bind(this);
     this.setSterilized = this.setSterilized.bind(this);
     this.inputBlur = this.inputBlur.bind(this);
-    this.delPets = this.delPets.bind(this);
   }
 
   componentWillUnmount() {
@@ -142,24 +122,6 @@ class PetForm extends React.Component {
   }
   async componentDidMount() {
     console.log(this.props, 'props');
-    const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
-    const activityOptions = await getDictionary({ type: 'Activity' });
-    lifestyleOptions.map((el) => {
-      el.value = el.valueEn;
-    });
-    activityOptions.map((el) => {
-      el.value = el.valueEn;
-    });
-    this.setState({
-      lifestyleOptions,
-      activityOptions
-    });
-    let petsType = this.props.location.state?.petsType;
-    if (petsType) {
-      let isCat = petsType === 'Cat';
-      this.petTypeChange(isCat);
-    }
-
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -200,7 +162,6 @@ class PetForm extends React.Component {
 
     return option;
   }
-
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
       delete ele.value;
@@ -210,66 +171,86 @@ class PetForm extends React.Component {
       };
     });
   }
-  get userInfo() {
+  getUserInfo() {
     return this.props.loginStore.userInfo;
   }
+
+  getAccount = () => {
+    let consumerAccount = '';
+    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
+      consumerAccount = this.getUserInfo().customerAccount;
+    } else {
+      getCustomerInfo().then((res) => {
+        const context = res.context;
+        this.props.loginStore.setUserInfo(context);
+        consumerAccount = context.consumerAccount;
+      });
+    }
+    return consumerAccount;
+  };
+
   getPetList = async () => {
-    if (!this.userInfo.customerAccount) {
+    if (!this.getAccount()) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
       });
       return false;
     }
-    await getPetList({
-      customerId: this.userInfo.customerId,
-      consumerAccount: this.userInfo.customerAccount
-    })
+    let params = {
+      consumerAccount: this.getAccount(),
+      customerId: this.getUserInfo().customerId
+    };
+    await getPetList(params)
       .then((res) => {
-        let petList = res.context.context;
-        if (petList.length > 0) {
-          let currentPet = petList.filter(
-            (el) => el.petsId === this.props.match.params.id
-          )[0];
-          this.setState({
-            loading: false,
-            showList: true,
-            petList
-          });
-          if (currentPet) {
-            this.edit(currentPet);
-            this.getSpecialNeeds(currentPet.customerPetsPropRelations);
-            this.setState(
-              {
+        if (res.code === 'K-000000') {
+          let petList = res.context.context;
+          if (petList.length > 0) {
+            let currentPet = petList.filter(
+              (el) => el.petsId === this.props.match.params.id
+            )[0];
+            this.setState({
+              loading: false,
+              showList: true,
+              petList: petList
+            });
+            if (currentPet) {
+              this.edit(currentPet);
+              this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+              console.log(currentPet.petsImg, 'haha');
+              this.setState({
                 currentPetId: currentPet.petsId,
                 currentPet: currentPet,
-                imgUrl:
-                  currentPet.petsImg && currentPet.petsImg.includes('http')
-                    ? currentPet.petsImg
-                    : '',
-                isCat: currentPet.petsType == 'cat' ? true : false
-              },
-              () => {
-                this.getTypeDict();
-              }
-            );
+                imgUrl: currentPet.petsImg.includes('http')
+                  ? currentPet.petsImg
+                  : ''
+              });
+            }
+          } else {
+            this.setState({
+              loading: false,
+              showList: false,
+              petList: petList
+            });
+            this.add();
           }
         } else {
           this.setState({
             loading: false,
-            showList: false,
-            petList
+            showList: false
           });
-          this.add();
+          this.showErrorMsg(
+            res.message || this.props.intl.messages.getDataFailed
+          );
         }
       })
       .catch((err) => {
         this.setState({
           loading: false
         });
-        this.showErrorMsg(
-          err.message || this.props.intl.messages.getDataFailed
-        );
+        console.log(err);
+
+        this.showErrorMsg(this.props.intl.messages.getDataFailed);
       });
   };
 
@@ -281,14 +262,16 @@ class PetForm extends React.Component {
       loading: true
     });
     const res = await petsById(params);
-    let currentPet = res.context.context;
-    this.setState({
-      currentPet: currentPet,
-      showList: true,
-      loading: false,
-      currentPetId: currentPet.petsId
-    });
-    this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+    if (res.code === 'K-000000') {
+      let currentPet = res.context.context;
+      this.setState({
+        currentPet: currentPet,
+        showList: true,
+        loading: false,
+        currentPetId: currentPet.petsId
+      });
+      this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+    }
   };
   delPets = async (currentPet) => {
     // let params = { petsIds: [currentPet.petsId] };
@@ -300,24 +283,13 @@ class PetForm extends React.Component {
     });
     await delPets(params);
 
-    myAccountActionPushEvent('Remove pet');
-
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
-    const { selectedSpecialNeeds, isPurebred, subList } = this.state;
-    if (isPurebred) {
-      this.setState({
-        weight: ''
-      });
-    } else if (!isPurebred) {
-      this.setState({
-        breed: ''
-      });
-    }
+    const { selectedSpecialNeeds } = this.state;
     let consumerAccount = '';
-    if (this.userInfo && this.userInfo.customerAccount) {
-      consumerAccount = this.userInfo.customerAccount;
+    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
+      consumerAccount = this.getUserInfo().customerAccount;
     } else {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       return;
@@ -337,25 +309,9 @@ class PetForm extends React.Component {
         return;
       }
     }
-    if (!this.state.sensitivity) {
+    if (!selectedSpecialNeeds.length) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
-    }
-    if (process.env.REACT_APP_LANG !== 'en') {
-      if (!this.state.activity || (!this.state.lifestyle && this.state.isCat)) {
-        this.showErrorMsg(
-          this.props.intl.messages.pleasecompleteTheRequiredItem
-        );
-        return;
-      }
-      for (let k in this.state.weightObj) {
-        if (!this.state.weightObj[k]) {
-          this.showErrorMsg(
-            this.props.intl.messages.pleasecompleteTheRequiredItem
-          );
-          return;
-        }
-      }
     }
 
     this.setState({
@@ -372,108 +328,96 @@ class PetForm extends React.Component {
         petsId: this.state.currentPetId,
         propId: propId,
         propName: selectedSpecialNeeds[i],
-        relationId: '',
-        sort: 0,
-        propType: 'needsName'
+        relationId: '10086',
+        sort: 0
       };
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
+
     let pets = {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.isCat
-        ? 'mixed_breed'
-        : this.state.isPurebred
-        ? this.state.breed
-        : this.state.breedcode,
+      petsBreed: this.state.breed,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
-      petsSizeValueId: '',
+      petsSizeValueId: '10086',
       petsSizeValueName: this.state.weight,
       petsType: this.state.isCat ? 'cat' : 'dog',
       sterilized: this.state.isSterilized ? '1' : '0',
-      storeId: process.env.REACT_APP_STOREID,
-      isPurebred: this.state.isPurebred ? '1' : '0',
-      activity: this.state.activity,
-      lifestyle: this.state.lifestyle,
-      weight: JSON.stringify(this.state.weightObj),
-      needs: this.state.sensitivity
+      storeId: process.env.REACT_APP_STOREID
     };
-    let isEditAlert = false;
+    // if (this.state.isUnknown) {
+    //   pets.petsBreed = 'unknown Breed';
+    // }
+    if (!this.state.isPurebred) {
+      pets.petsBreed = 'mixed Breed';
+    }
     let param = {
       customerPets: pets,
-      // customerPetsPropRelations: customerPetsPropRelations,
+      customerPetsPropRelations: customerPetsPropRelations,
       storeId: process.env.REACT_APP_STOREID,
       userId: consumerAccount
     };
-    let action = addPet;
     if (pets.petsId) {
-      action = editPets;
-    }
-    try {
-      let res = await action(param);
-      let subscribeId = this.props.location.state?.subscribeId;
-      debugger;
-      if (!pets.petsId) {
-        myAccountActionPushEvent('Add pet');
-        let petsType = this.props.location.state?.petsType;
-        let petsId = res.context?.result;
-        if (subscribeId) {
-          if (petsType) {
-            // 从subdetail过来新增宠物的需要单独linksub
-            let params = {
-              subscribeId,
-              petsId
-            };
-            try {
-              await changeSubscriptionDetailPets(params);
-              // 有链接sub的，编辑宠物需要弹提示框
-              isEditAlert = true;
-              this.setState({ isEditAlert: true });
-            } catch (err) {
-              this.showErrorMsg(err.message);
-            }
+      await editPets(param)
+        .then((res) => {
+          if (res.code === 'K-000000') {
+            let currentStep = 'success';
+            this.setState({
+              currentStep: currentStep
+            });
+            setTimeout(() => {
+              this.petsById(pets.petsId);
+            }, 3000);
+          } else {
+            this.showErrorMsg(
+              res.message || this.props.intl.messages.saveFailed
+            );
+
+            this.setState({
+              loading: false
+            });
           }
-        }
-      } else {
-        // 有链接sub的，编辑宠物需要弹提示框
-        let isLinkedSub = subList.find((el) => el.petsId)?.petsId;
-        if (isLinkedSub) {
-          isEditAlert = true;
-          this.setState({ isEditAlert: true });
-        }
-      }
-      this.setState({
-        currentStep: 'success'
-      });
-      if (!isEditAlert) {
-        this.gotoNext();
-      }
-    } catch (err) {
-      this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
-      this.setState({
-        loading: false
-      });
+          this.props.history.push('/account/pets/');
+        })
+        .catch((err) => {
+          this.showErrorMsg(this.props.intl.messages.saveFailed);
+          this.setState({
+            loading: false
+          });
+        });
+    } else {
+      await addPet(param)
+        .then((res) => {
+          if (res.code === 'K-000000') {
+            let currentStep = 'success';
+            this.setState({
+              currentStep: currentStep
+            });
+            setTimeout(() => {
+              this.getPetList();
+            }, 3000);
+          } else {
+            this.showErrorMsg(
+              res.message || this.props.intl.messages.saveFailed
+            );
+
+            this.setState({
+              loading: false
+            });
+          }
+          this.props.history.push('/account/pets/');
+        })
+        .catch((err) => {
+          this.showErrorMsg(this.props.intl.messages.saveFailed);
+          this.setState({
+            loading: false
+          });
+        });
     }
   };
-
-  gotoNext(stateText = 'isFromPets') {
-    let isLinkedSub = this.state.subList.find((el) => el.petsId);
-    let petsIdLinkedSub = isLinkedSub?.petsId;
-    let subscribeId =
-      this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
-    if (subscribeId || petsIdLinkedSub) {
-      this.props.history.push({
-        pathname: `/account/subscription/order/detail/${subscribeId}`,
-        state: { [stateText]: true }
-      });
-    } else {
-      this.props.history.push('/account/pets/');
-    }
-  }
-
   nextStep() {
     let step = this.state.step;
     let isEdit = this.state.isEdit;
@@ -565,7 +509,7 @@ class PetForm extends React.Component {
       showBreedList = false;
     }
     this.setState({
-      breedName: e.target.value,
+      breed: e.target.value,
       isDisabled: isDisabled,
       isUnknownDisabled: isUnknownDisabled,
       showBreedList: showBreedList,
@@ -621,9 +565,8 @@ class PetForm extends React.Component {
   }
   selectedBreed = (item) => {
     this.setState({
-      breed: item.valueEn,
-      showBreedList: false,
-      breedName: item.name
+      breed: item.name,
+      showBreedList: false
     });
   };
   add = () => {
@@ -644,45 +587,10 @@ class PetForm extends React.Component {
       birthdate: '',
       selectedSpecialNeeds: [],
       isUnknownDisabled: false,
-      isInputDisabled: false,
-      activity: '',
-      lifestyle: '',
-      weightObj: {
-        measure: '',
-        measureUnit: 'kg',
-        type: 2
-      }
+      isInputDisabled: false
     });
   };
-  edit = async (currentPet) => {
-    let weightObj = {
-      measure: '',
-      measureUnit: 'kg',
-      type: 2
-    };
-    try {
-      if (currentPet.weight) {
-        weightObj = JSON.parse(currentPet.weight);
-      }
-    } catch (e) {}
-    let breedList = [];
-    try {
-      let res = await getDict({
-        type: currentPet.petsType === 'cat' ? 'catBreed' : 'dogBreed',
-        delFlag: 0,
-        storeId: process.env.REACT_APP_STOREID
-      });
-      breedList = res.context.sysDictionaryVOS;
-    } catch (err) {
-      this.showErrorMsg(
-        err.message.toString() || this.props.intl.messages.getDataFailed
-      );
-      this.setState({ breedListLoading: false, showBreedListNoneTip: true });
-    }
-    let filteredBreed = breedList.filter(
-      (el) => el.valueEn === currentPet.petsBreed
-    )[0];
-    console.log(filteredBreed, 'aaaa');
+  edit = (currentPet) => {
     let param = {
       isEdit: true,
       step: 1,
@@ -697,41 +605,25 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === 'unknown Breed' ? true : false,
       isUnknownDisabled:
         currentPet.petsBreed === 'unknown Breed' ? false : true,
+      breed:
+        currentPet.petsBreed === 'unknown Breed' ? '' : currentPet.petsBreed,
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 1 ? true : false,
-      birthdate: currentPet.birthOfPets,
-      activity: currentPet.activity,
-      lifestyle: currentPet.lifestyle,
-      weightObj,
-      sensitivity: currentPet.needs,
-      isPurebred: currentPet.isPurebred
+      birthdate: currentPet.birthOfPets
     };
-    if (currentPet.isPurebred === 1) {
-      param.breedName =
-        currentPet.petsBreed === 'unknown Breed'
-          ? ''
-          : filteredBreed
-          ? filteredBreed.name
-          : '';
-      param.breed =
-        currentPet.petsBreed === 'unknown Breed'
-          ? ''
-          : filteredBreed
-          ? filteredBreed.valueEn
-          : '';
-    } else {
-      param.breedcode = currentPet.petsBreed;
-    }
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
       param.isUnknown = true;
       // param.isInputDisabled = true;
       param.breed = '';
-    } else if (currentPet.petsBreed === 'Other Breed') {
+    } else if (currentPet.petsBreed === 'mixed Breed') {
       param.isMix = true;
       param.isUnknown = false;
       // param.isInputDisabled = true;
       param.breed = '';
+      param.isPurebred = false;
+    } else {
+      param.isPurebred = true;
     }
 
     let filterSize = this.sizeOptions.filter(
@@ -762,10 +654,10 @@ class PetForm extends React.Component {
     //   param.selectedSpecialNeedsObj = { value: 'none' };
     // }
     param.selectedSpecialNeedsObj = {
-      value: currentPet.customerPetsPropRelations[0]?.propName
+      value: currentPet.customerPetsPropRelations[0].propName
     };
     let params = {
-      breedCode: param.isPurebred ? param.breed : 'Other Breed',
+      breedCode: param.isPurebred ? param.breed : 'mixed Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
       // mainReason: selectedSpecialNeedsObj
@@ -775,32 +667,16 @@ class PetForm extends React.Component {
     if (param.weight) {
       params.size = param.weight;
     }
-    if (getClubFlag()) {
-      findPetProductForClub({
-        petsId: this.props.match.params.id,
-        apiTree: 'club_V2'
-      }).then((res) => {
-        let result = res.context;
-        if (result.otherProducts) {
-          let recommendData = result.otherProducts;
-          recommendData.unshift(result.mainProduct);
-          this.setState({
-            recommendData: recommendData
-          });
-        }
-      });
-    } else {
-      getRecommendProducts(params).then((res) => {
-        let result = res.context;
-        if (result.otherProducts) {
-          let recommendData = result.otherProducts;
-          recommendData.unshift(result.mainProduct);
-          this.setState({
-            recommendData: recommendData
-          });
-        }
-      });
-    }
+    getRecommendProducts(params).then((res) => {
+      let result = res.context.context;
+      if (result.otherProducts) {
+        let recommendData = result.otherProducts;
+        recommendData.unshift(result.mainProduct);
+        this.setState({
+          recommendData: recommendData
+        });
+      }
+    });
     this.setState(param);
   };
   getDict = (type, name) => {
@@ -825,12 +701,11 @@ class PetForm extends React.Component {
       errorMsg: message
     });
     this.scrollToErrorMsg();
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
+    setTimeout(() => {
       this.setState({
         errorMsg: ''
       });
-    }, 5000);
+    }, 3000);
   };
 
   showSuccessMsg = (message) => {
@@ -875,6 +750,12 @@ class PetForm extends React.Component {
       });
     }
   };
+  cancel = () => {
+    this.setState({
+      loading: true
+    });
+    this.getPetList();
+  };
   updateConfirmTooltipVisible = (status) => {
     let { currentPet } = this.state;
     currentPet.confirmTooltipVisible = status;
@@ -900,41 +781,25 @@ class PetForm extends React.Component {
     }
   }
   petTypeChange(isCat) {
-    this.setState(
-      {
-        isChoosePetType: true,
-        isCat: isCat,
-        isDisabled: false
-      },
-      () => {
-        this.getTypeDict();
-      }
-    );
-  }
-  async getTypeDict() {
-    let sensitivityCat = [],
-      sensitivityDog = [];
-    if (this.state.isCat) {
-      sensitivityCat = await getDictionary({ type: 'sensitivity_cat' });
-      sensitivityCat.map((el) => {
-        el.value = el.valueEn;
-      });
-      console.log(sensitivityCat, 'sensitivityCat');
-    } else {
-      sensitivityDog = await getDictionary({ type: 'sensitivity_dog' });
-      sensitivityDog.map((el) => {
-        el.value = el.valueEn;
-      });
-      console.log(sensitivityDog, 'sensitivityDog');
-    }
     this.setState({
-      sensitivityList: this.state.isCat ? sensitivityCat : sensitivityDog
+      isChoosePetType: true,
+      isCat: isCat,
+      isDisabled: false
     });
+    // if (e.currentTarget.value === '0') {
+    //   this.setState({
+    //     isCat: true,
+    //     isDisabled: false
+    //   });
+    // } else if (e.currentTarget.value === '1') {
+    //   this.setState({
+    //     isCat: false,
+    //     isDisabled: false
+    //   });
+    // }
   }
-
   specialNeedsOptionsChange(data) {
-    this.setState({ sensitivity: data.value });
-    // console.log(data);
+    console.log(data);
     if (data.value === 'none') {
       this.setState({
         selectedSpecialNeeds: ['none']
@@ -949,18 +814,7 @@ class PetForm extends React.Component {
     console.log(data);
     this.setState({
       weight: data.value,
-      selectedSizeObj: { value: data.value },
-      breedcode: data.description
-    });
-  }
-  lifestyleChange(data) {
-    this.setState({
-      lifestyle: data.value
-    });
-  }
-  activityChange(data) {
-    this.setState({
-      activity: data.value
+      selectedSizeObj: { value: data.value }
     });
   }
   handelImgChange(data) {
@@ -968,32 +822,18 @@ class PetForm extends React.Component {
     this.setState({ imgUrl: data });
   }
   handleErrMessage = () => {};
-
   render() {
-    const event = {
-      page: {
-        type: 'myAccountPet',
-        theme: '',
-        path: this.props.location.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      }
-    };
     const {
+      petList,
       currentPet,
       selectedSpecialNeedsObj,
       selectedSizeObj,
       imgUrl,
       isMobile,
-      isChoosePetType,
-      isCat
+      isChoosePetType
     } = this.state;
-    const RuTr =
-      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
     return (
       <div className="petForm">
-        <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
@@ -1036,29 +876,25 @@ class PetForm extends React.Component {
                 </h5>
                 <div className="content mt-2 mt-md-4">
                   <LazyLoad>
-                    <img
-                      src={Banner_Dog}
-                      style={{ left: '40px' }}
-                      alt="Banner Dog"
-                    />
+                    <img src={Banner_Dog} style={{ left: '40px' }} alt="" />
                   </LazyLoad>
                   <div className="buttonBox">
                     <p
                       style={{
                         color: '#333333',
                         fontWeight: 400,
-                        fontSize: '1.375rem'
+                        fontSize: '22px'
                       }}
                     >
                       <FormattedMessage id="Choose your pet type" />
                     </p>
-                    <p style={{ color: '#E2001A', fontSize: '1.375rem' }}>
+                    <p style={{ color: '#E2001A', fontSize: '22px' }}>
                       <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
                       <button
                         className="rc-btn rc-btn--sm rc-btn--one"
-                        style={{ marginRight: '1.25rem' }}
+                        style={{ marginRight: '20px' }}
                         onClick={() => {
                           this.petTypeChange(false);
                         }}
@@ -1076,11 +912,7 @@ class PetForm extends React.Component {
                     </div>
                   </div>
                   <LazyLoad>
-                    <img
-                      src={Banner_Cat}
-                      style={{ right: '40px' }}
-                      alt="Banner Cat"
-                    />
+                    <img src={Banner_Cat} style={{ right: '40px' }} alt="" />
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
@@ -1123,8 +955,8 @@ class PetForm extends React.Component {
                         marginTop: '40px',
                         borderRadius: '50%'
                       }}
-                      src={imgUrl || (isCat ? Cat : Dog)}
-                      alt="photo box"
+                      src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                      alt=""
                     />
                     {/* </LazyLoad> */}
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
@@ -1133,7 +965,7 @@ class PetForm extends React.Component {
                     <UploadImg
                       tipVisible={false}
                       handleChange={(data) => this.handelImgChange(data)}
-                      geterrMessage={this.showErrorMsg.bind(this)}
+                      geterrMessage={this.handleErrMessage}
                       showLoading={() => {
                         this.setState({ loading: true });
                       }}
@@ -1258,7 +1090,7 @@ class PetForm extends React.Component {
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate
-                              ? getZoneTime(this.state.birthdate)
+                              ? new Date(this.state.birthdate)
                               : ''
                           }
                           onChange={(date) => this.onDateChange(date)}
@@ -1284,9 +1116,7 @@ class PetForm extends React.Component {
                         className="form-control-label rc-full-width"
                         htmlFor="Is Purebred"
                       >
-                        <FormattedMessage
-                          id={`${isCat ? 'isPurebredCat' : 'isPurebredDog'}`}
-                        />
+                        <FormattedMessage id="isPurebred" />
                       </label>
                       <div style={{ padding: '.5rem 0' }}>
                         <div className="rc-input rc-input--inline">
@@ -1299,7 +1129,8 @@ class PetForm extends React.Component {
                             name="Is Purebred"
                             onChange={(e) => {
                               this.setState({
-                                isPurebred: true
+                                isPurebred: true,
+                                weight: ''
                               });
                             }}
                           />
@@ -1320,7 +1151,8 @@ class PetForm extends React.Component {
                             name="Is Purebred"
                             onChange={(e) => {
                               this.setState({
-                                isPurebred: false
+                                isPurebred: false,
+                                breed: ''
                               });
                             }}
                           />
@@ -1345,45 +1177,24 @@ class PetForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group col-lg-6 pull-left required">
-                      {RuTr ? (
-                        <>
-                          <label
-                            className="form-control-label rc-full-width"
-                            htmlFor="Sensitivity"
-                          >
-                            <FormattedMessage id="Sensitivity" />
-                          </label>
-                          <Selection
-                            optionList={this.state.sensitivityList}
-                            selectedItemChange={(el) =>
-                              this.specialNeedsOptionsChange(el)
-                            }
-                            selectedItemData={{
-                              value: this.state.sensitivity
-                            }}
-                            key={this.state.sensitivity}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <label
-                            className="form-control-label rc-full-width"
-                            htmlFor="weight"
-                          >
-                            <FormattedMessage id="Special Need" />
-                          </label>
-                          <Selection
-                            optionList={this.specialNeedsOptions}
-                            selectedItemChange={(el) =>
-                              this.specialNeedsOptionsChange(el)
-                            }
-                            selectedItemData={{
-                              value: this.state.sensitivity
-                            }}
-                            key={this.state.sensitivity}
-                          />
-                        </>
-                      )}
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="weight"
+                      >
+                        <FormattedMessage id="Special Need" />
+                      </label>
+                      <Selection
+                        optionList={this.specialNeedsOptions}
+                        selectedItemChange={(el) =>
+                          this.specialNeedsOptionsChange(el)
+                        }
+                        selectedItemData={{
+                          value: selectedSpecialNeedsObj.value
+                          // value: ''
+                        }}
+                        disabled={this.state.specialNeedsDisable}
+                        key={selectedSpecialNeedsObj.value}
+                      />
                       <div
                         className="invalid-feedback"
                         style={{ display: 'none' }}
@@ -1444,15 +1255,14 @@ class PetForm extends React.Component {
                         <span
                           className="rc-input rc-input--label rc-input--full-width"
                           input-setup="true"
-                          style={{ marginBottom: '.625rem' }}
+                          style={{ marginBottom: '10px' }}
                         >
                           <input
                             type="text"
                             id="dog-breed"
-                            autocomplete="off"
                             placeholder={this.props.intl.messages.enterDogBreed}
                             className="form-control input-pet breed"
-                            value={this.state.breedName}
+                            value={this.state.breed}
                             onChange={this.inputBreed}
                             style={{
                               display: this.state.isCat ? 'none' : null
@@ -1465,10 +1275,9 @@ class PetForm extends React.Component {
                           <input
                             type="text"
                             id="cat-breed"
-                            autocomplete="off"
                             placeholder={this.props.intl.messages.enterCatBreed}
                             className="form-control input-pet breed"
-                            value={this.state.breedName}
+                            value={this.state.breed}
                             onChange={this.inputBreed}
                             style={{
                               display: !this.state.isCat ? 'none' : null
@@ -1529,110 +1338,104 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
-                    {process.env.REACT_APP_LANG !== 'en' ? (
-                      <>
-                        {RuTr && this.state.isCat ? (
-                          <div className="form-group col-lg-6 pull-left required">
-                            <label
-                              className="form-control-label rc-full-width"
-                              htmlFor="Lifestyle"
-                            >
-                              <FormattedMessage id="Lifestyle" />
-                            </label>
-                            <Selection
-                              optionList={this.state.lifestyleOptions}
-                              selectedItemChange={(el) =>
-                                this.lifestyleChange(el)
-                              }
-                              selectedItemData={{
-                                value: this.state.lifestyle
-                              }}
-                              key={this.state.lifestyle}
-                            />
-                          </div>
-                        ) : null}
-                        <div className="form-group col-lg-6 pull-left required">
-                          <label
-                            className="form-control-label rc-full-width"
-                            htmlFor="Activity"
-                          >
-                            <FormattedMessage id="Activity" />
-                          </label>
-                          <Selection
-                            optionList={this.state.activityOptions}
-                            selectedItemChange={(el) => this.activityChange(el)}
-                            selectedItemData={{
-                              value: this.state.activity
-                            }}
-                            key={this.state.activity}
-                          />
-                        </div>
-                        <div className="form-group col-lg-6 pull-left required">
-                          <label
-                            className="form-control-label rc-full-width"
-                            htmlFor="Weight"
-                          >
-                            <FormattedMessage id="Weight" />
-                          </label>
-                          <span
-                            className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                            input-setup="true"
-                            style={{ display: 'inline-block' }}
-                          >
-                            <input
-                              type="number"
-                              className="rc-input__control"
-                              name="weight"
-                              required=""
-                              aria-required="true"
-                              style={{ padding: '.5rem 0' }}
-                              value={this.state.weightObj.measure}
-                              onChange={(e) => {
-                                let { weightObj } = this.state;
-                                let valueArr = e.target.value.split('.');
-                                if (valueArr.length > 1) {
-                                  console.log(valueArr);
-                                  valueArr[1] = valueArr[1].slice(0, 2);
-                                }
-                                weightObj.measure = valueArr.join('.');
-                                this.setState({
-                                  weightObj
-                                });
-                              }}
-                              maxLength="50"
-                              autoComplete="address-line"
-                            />
-                            <label
-                              className="rc-input__label"
-                              htmlFor="weight"
-                            ></label>
-                          </span>
-                          <Selection
-                            customContainerStyle={{
-                              display: 'inline-block',
-                              height: '40px',
-                              marginLeft: '4px'
-                            }}
-                            optionList={[
-                              { value: 'kg', name: 'kg' }
-                              // { value: 'g', name: 'g' }
-                            ]}
-                            selectedItemChange={(el) => {
-                              let { weightObj } = this.state;
-                              weightObj.measureUnit = el.value;
-                              this.setState({
-                                weightObj
-                              });
-                            }}
-                            selectedItemData={{
-                              value: this.state.weightObj.measureUnit
-                            }}
-                            key={this.state.activity}
-                          />
-                        </div>
-                      </>
-                    ) : null}
-
+                    {/* <div className="form-group col-lg-6 pull-left"> */}
+                    {/* <div className="rc-input rc-input--inline">
+                      <input
+                        className="rc-input__checkbox"
+                        id="noSpecialNeeds"
+                        value="in necesidades especiales"
+                        type="checkbox"
+                        name="noSpecialNeeds"
+                        checked={this.state.specialNeedsDisable}
+                        onClick={(e) =>
+                          this.specialNeedsOptionsChange({
+                            name: 'Sin necesidades especiales'
+                          })
+                        }
+                      />
+                      <label
+                        className="rc-input__label--inline"
+                        htmlFor="noSpecialNeeds"
+                      >
+                        <FormattedMessage id="noSpecialNeeds" />
+                      </label>
+                    </div> */}
+                    {/* </div> */}
+                    {/* <div className="form-group col-lg-6 pull-left">
+                    <div className="rc-input rc-input--inline">
+                      {this.state.isMix ? (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isMix}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label className="rc-input__label--inline" htmlFor="Mix breed">
+                        Mix breed
+                      </label>
+                    </div>
+                    <div className="rc-input rc-input--inline">
+                      {this.state.isUnknown ? (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isUnknown}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label className="rc-input__label--inline" htmlFor="Don't know">
+                        Don't know
+                      </label>
+                    </div>
+                  </div> */}
+                    {/* <div className="form-group col-lg-6 pull-left">
+                    <div className="rc-input rc-input--inline">
+                      <input
+                        className="rc-input__checkbox"
+                        id="noSpecialNeeds"
+                        value="in necesidades especiales"
+                        type="checkbox"
+                        name="noSpecialNeeds"
+                        checked={this.state.specialNeedsDisable}
+                        onClick={(e) =>
+                          this.specialNeedsOptionsChange({
+                            name: 'Sin necesidades especiales'
+                          })
+                        }
+                      />
+                      <label
+                        className="rc-input__label--inline"
+                        htmlFor="noSpecialNeeds"
+                      >
+                        <FormattedMessage id="noSpecialNeeds" />
+                      </label>
+                    </Fdiv>
+                  </div> */}
                     <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"
@@ -1703,23 +1506,31 @@ class PetForm extends React.Component {
                           </button>
                           <br />
                           {this.props.match.params.id && (
-                            <span
+                            <a
                               className="rc-styled-link"
-                              onClick={this.delPets.bind(this, currentPet)}
+                              href="#/"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.delPets(currentPet);
+                              }}
                             >
                               <FormattedMessage id="pet.deletePet" />
-                            </span>
+                            </a>
                           )}
                         </p>
                       ) : (
                         <p style={{ textAlign: 'right' }}>
                           {this.props.match.params.id && (
-                            <span
+                            <a
                               className="rc-styled-link"
-                              onClick={this.delPets.bind(this, currentPet)}
+                              href="#/"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.delPets(currentPet);
+                              }}
                             >
                               <FormattedMessage id="pet.deletePet" />
-                            </span>
+                            </a>
                           )}
                           <button
                             className="rc-btn rc-btn--one"
@@ -1735,26 +1546,6 @@ class PetForm extends React.Component {
                 </div>
               </div>
             </div>
-            {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId && getClubFlag() ? (
-              <LinkedSubs
-                petsId={this.props.match.params.id}
-                loading={this.state.loading}
-                setState={this.setState.bind(this)}
-                errorMsg={this.state.errorMsg}
-                petsType={currentPet.petsType}
-              />
-            ) : null}
-
-            {/* {
-            ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1?
-            <LinkedSubs
-              petsId={this.props.match.params.id}
-              loading={this.state.loading}
-              setState={this.setState.bind(this)}
-              errorMsg={this.state.errorMsg}
-            />: null
-            } */}
             <div>
               {this.state.recommendData.length && this.state.isChoosePetType ? (
                 <Carousel
@@ -1770,34 +1561,8 @@ class PetForm extends React.Component {
               ) : null}
             </div>
           </div>
-          <Modal
-            headerVisible={true}
-            footerVisible={false}
-            visible={this.state.isEditAlert}
-            modalTitle={''}
-            close={() => {
-              this.setState({ isEditAlert: false });
-            }}
-          >
-            <div className="text-center">
-              <p>
-                <div>
-                  <FormattedMessage id="petSaveTips1" />
-                </div>
-                <FormattedMessage id="petSaveTips2" />
-              </p>
-              <p>
-                <button
-                  onClick={() => this.gotoNext('clubPetsLifeStageFlag')}
-                  className="rc-btn rc-btn--one rc-btn--sm"
-                >
-                  <FormattedMessage id="See recommendation" />
-                </button>
-              </p>
-            </div>
-          </Modal>
-          <Footer />
         </main>
+        <Footer />
       </div>
     );
   }
