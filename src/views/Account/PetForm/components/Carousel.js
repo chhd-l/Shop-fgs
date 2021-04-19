@@ -208,7 +208,7 @@ class Carousel extends React.Component {
                                   height: '180px',
                                   backgroundSize: '150px 180px',
                                   backgroundImage: 'url(' + item.goodsImg + ')',
-                                  margin: '10px auto 0'
+                                  margin: '.625rem auto 0'
                                 }}
                               ></div>
                               <div className="goodsName">{item.goodsName}</div>
@@ -242,32 +242,28 @@ class Carousel extends React.Component {
                                   <div
                                     className={`rc-full-width PriceFitScreen`}
                                   >
-                                    <span
-                                      style={{
-                                        color: '#000'
-                                      }}
-                                      className="value sales"
-                                    >
+                                    <span className="value sales card--product-contaner-price">
                                       {item.toPrice ? (
-                                        <span
-                                          className="mr-1"
-                                          style={{ fontSize: '.8em' }}
-                                        >
-                                          <FormattedMessage id="startFrom" />
+                                        <FormattedMessage
+                                          id="pirceRange"
+                                          values={{
+                                            fromPrice: (
+                                              <span className="contaner-price__value">
+                                                {formatMoney(item.fromPrice)}
+                                              </span>
+                                            ),
+                                            toPrice: (
+                                              <span className="contaner-price__value">
+                                                {formatMoney(item.toPrice)}
+                                              </span>
+                                            )
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="contaner-price__value">
+                                          {formatMoney(item.fromPrice)}
                                         </span>
-                                      ) : null}
-                                      {formatMoney(item.fromPrice)}
-                                      {item.toPrice ? (
-                                        <>
-                                          <span
-                                            className="ml-1 mr-1"
-                                            style={{ fontSize: '.8em' }}
-                                          >
-                                            <FormattedMessage id="startEnd" />
-                                          </span>
-                                          {formatMoney(item.toPrice)}
-                                        </>
-                                      ) : null}
+                                      )}
                                     </span>
                                   </div>
                                 </div>

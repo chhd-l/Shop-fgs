@@ -143,9 +143,9 @@ export async function getDictionary({ type, name = '' }) {
 
 export function getDeviceType() {
   let t = '';
-  if(navigator.userAgent.match(/(pad|iPad)/i)){
+  if (navigator.userAgent.match(/(pad|iPad)/i)) {
     t = 'Pad';
-  }else if (
+  } else if (
     navigator.userAgent.match(
       /(phone|pod|iPhone|iPod|ios|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
     )
@@ -588,15 +588,15 @@ export function getFormatDate(date, callback) {
       },
       cache
     );
-    if(callback && typeof callback === "function") {
-      return callback(intl.formatDate(date))
-    }else {
+    if (callback && typeof callback === 'function') {
+      return callback(intl.formatDate(date));
+    } else {
       return intl.formatDate(date);
     }
   } else {
-    if(callback && typeof callback === "function") {
-      return callback(date)
-    }else {
+    if (callback && typeof callback === 'function') {
+      return callback(date);
+    } else {
       return date;
     }
   }
@@ -684,10 +684,10 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
 // 处理对象属性值（排除属性值为：“”/null/undefined）
 export function filterObjectValue(obj) {
   let nonEmpty = {};
-  if(obj === null || obj === undefined || obj === "") return nonEmpty;
-  for(let key in obj) {
-    if(obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
-      nonEmpty[key] = obj[key]
+  if (obj === null || obj === undefined || obj === '') return nonEmpty;
+  for (let key in obj) {
+    if (obj[key] !== '' && obj[key] !== null && obj[key] !== undefined) {
+      nonEmpty[key] = obj[key];
     }
   }
   return nonEmpty;
@@ -696,20 +696,37 @@ export function filterObjectValue(obj) {
 // 递归处理对象属性值（排除属性值为：“”/null/undefined）
 export function filterObjectValueDeep(obj) {
   let nonEmpty = {};
-    for (let key in obj) {
-      let type = Object.prototype.toString.call(obj[key]).slice(8, -1);
-      if (type !== 'Object' && obj[key] !== "" && obj[key] !== null && obj[key] !== undefined) {
-        nonEmpty[key] = obj[key]
-      }
-      if (type === 'Object') {
-        nonEmpty[key] = filterObjectValueDeep(obj[key])
-      }
+  for (let key in obj) {
+    let type = Object.prototype.toString.call(obj[key]).slice(8, -1);
+    if (
+      type !== 'Object' &&
+      obj[key] !== '' &&
+      obj[key] !== null &&
+      obj[key] !== undefined
+    ) {
+      nonEmpty[key] = obj[key];
     }
+    if (type === 'Object') {
+      nonEmpty[key] = filterObjectValueDeep(obj[key]);
+    }
+  }
 
-    for(let key in nonEmpty) { //删除空对象
-      if(JSON.stringify(nonEmpty[key]) === '{}') {
-        delete nonEmpty[key]
-      }
+  for (let key in nonEmpty) {
+    //删除空对象
+    if (JSON.stringify(nonEmpty[key]) === '{}') {
+      delete nonEmpty[key];
     }
+  }
   return nonEmpty;
+}
+
+export function getClubFlag() {
+  return ['tr', 'ru', 'de'].indexOf(process.env.REACT_APP_LANG) > -1;
+}
+
+export function getZoneTime(date) {
+  if (process.env.REACT_APP_LANG === 'en') {
+    return new Date(date).addHours(12);
+  }
+  return new Date(date);
 }

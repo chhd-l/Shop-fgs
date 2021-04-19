@@ -12,6 +12,7 @@ import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
+import { getDict } from '@/api/dict';
 import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import Female from '@/assets/images/female.png';
 import Male from '@/assets/images/male.png';
@@ -33,34 +34,54 @@ class Pet extends React.Component {
       loading: false,
       petList: [],
       seoConfig: {
-        title: '',
-        metaKeywords: '',
-        metaDescription: ''
+        title: 'Royal canin',
+        metaKeywords: 'Royal canin',
+        metaDescription: 'Royal canin'
       },
       isMobile: false,
-      loading: true
+      loading: true,
+      catBreedList: [],
+      dogBreedList: []
     };
   }
   componentDidMount() {
-    myAccountPushEvent('Pets')
+    myAccountPushEvent('Pets');
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig().then((res) => {
+    setSeoConfig({
+      pageName: 'Account pet'
+    }).then((res) => {
       this.setState({ seoConfig: res });
     });
     this.getPetList();
   }
-  isHavePet() {
-    const { history } = this.props;
-    // history.push('/account/pets/petForm');
-  }
 
+  getBreedList() {
+    getDict({
+      type: 'catBreed',
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.setState({
+        catBreedList: res.context.sysDictionaryVOS
+      });
+    });
+    getDict({
+      type: 'dogBreed',
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.setState({
+        dogBreedList: res.context.sysDictionaryVOS
+      });
+    });
+  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
 
   getPetList = async () => {
-    let customerId = this.userInfo && this.userInfo.customerId
-    let consumerAccount = this.userInfo && this.userInfo.consumerAccount
+    let customerId = this.userInfo && this.userInfo.customerId;
+    let consumerAccount = this.userInfo && this.userInfo.consumerAccount;
     if (!customerId) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
@@ -68,22 +89,27 @@ class Pet extends React.Component {
       });
       return false;
     }
-    await getPetList({
+    getPetList({
       customerId,
       consumerAccount
     })
-    .then((res) => {
-      let petList = res.context.context;
-      this.setState({
-        loading: false,
-        petList: petList
+      .then((res) => {
+        let petList = res.context.context;
+        this.setState(
+          {
+            loading: false,
+            petList: petList
+          },
+          () => {
+            this.getBreedList();
+          }
+        );
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false
+        });
       });
-    })
-    .catch((err) => {
-      this.setState({
-        loading: false
-      });
-    });
   };
   render() {
     const event = {
@@ -160,9 +186,9 @@ class Pet extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
-                          <div className="children-nomargin">
-                            <p style={{ wordBreak: 'break-all' }}>
-                              <FormattedMessage id="account.noPet"></FormattedMessage>
+                          <div className="children-nomargin text-break">
+                            <p>
+                              <FormattedMessage id="account.noPet" />
                             </p>
                           </div>
                           <div
@@ -206,6 +232,7 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
+                                    alt="Pet avatar"
                                   />
                                 </LazyLoad>
                               </div>
@@ -214,8 +241,9 @@ class Pet extends React.Component {
                                   {el.petsName}{' '}
                                   <LazyLoad>
                                     <img
-                                      style={{ width: '20px' }}
+                                      style={{ width: '1.25rem' }}
                                       src={!el.petsSex ? Male : Female}
+                                      alt="pet sex icon"
                                     />
                                   </LazyLoad>
                                 </h1>
@@ -258,6 +286,7 @@ class Pet extends React.Component {
                                         : null) ||
                                       (el.petsType === 'cat' ? Cat : Dog)
                                     }
+                                    alt="Pet avatar"
                                   />
                                 </LazyLoad>
                               </div>
@@ -266,8 +295,9 @@ class Pet extends React.Component {
                                   {el.petsName}{' '}
                                   <LazyLoad>
                                     <img
-                                      style={{ width: '15px' }}
+                                      style={{ width: '.9375rem' }}
                                       src={!el.petsSex ? Male : Female}
+                                      alt="pet sex icon"
                                     />
                                   </LazyLoad>
                                 </h1>
@@ -282,8 +312,24 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.petsBreed && (
-                                      <FormattedMessage id={el.petsBreed} />
+                                    {el.isPurebred ? (
+                                      el.petsBreed && el.petsType === 'dog' ? (
+                                        (this.state.dogBreedList.length &&
+                                          this.state.dogBreedList.filter(
+                                            (item) =>
+                                              item.valueEn == el.petsBreed
+                                          )?.[0]?.name) ||
+                                        el.petsBreed
+                                      ) : (
+                                        (this.state.catBreedList.length &&
+                                          this.state.catBreedList.filter(
+                                            (item) =>
+                                              item.valueEn == el.petsBreed
+                                          )?.[0]?.name) ||
+                                        el.petsBreed
+                                      )
+                                    ) : (
+                                      <FormattedMessage id="Mixed Breed" />
                                     )}
                                   </span>
                                 </div>
@@ -305,7 +351,10 @@ class Pet extends React.Component {
                           display: 'block'
                         }}
                       >
-                        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" style={{ fontSize: '42px' }} />{' '}
+                        <span
+                          className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1"
+                          style={{ fontSize: '42px' }}
+                        />{' '}
                         <span>
                           <FormattedMessage id="pet.addNewPet" />
                         </span>
@@ -317,8 +366,8 @@ class Pet extends React.Component {
               </div>
             </div>
           </div>
+          <Footer />
         </main>
-        <Footer />
       </div>
     );
   }

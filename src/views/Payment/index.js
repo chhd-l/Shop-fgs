@@ -1077,7 +1077,10 @@ class Payment extends React.Component {
         postVisitorRegisterAndLoginRes.context.token
       );
       if (sessionItemRoyal.get('recommend_product')) {
+        // 线下店orderSource埋点L_ATELIER_FELIN
+        let orderSource = sessionItemRoyal.get('orderSource');
         await batchAdd({
+          orderSource,
           goodsInfos: this.state.recommend_data.map((ele) => {
             return {
               verifyStock: false,

@@ -8,7 +8,10 @@ const api = {
   delPets: '/pets/delPets',
   editPets: '/pets',
   batchAddPets: '/pets/batchAddPets',
-  getRecommendProducts: '/product/finder/pets/products'
+  getRecommendProducts: '/product/finder/pets/products',
+  clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets',
+  changeSubscriptionGoodsByPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`,
+  getRation: `/product/finder/club/ration`
 };
 
 export default api;
@@ -45,7 +48,6 @@ export function batchAddPets(parameter) {
 
 export function petsById(parameter) {
   return axios({
-    url: `${api.petsById}`,
     url: `${api.petsById}${parameter.petsId}`,
     method: 'post',
     data: parameter
@@ -75,5 +77,28 @@ export function getRecommendProducts(parameter) {
     url: `${api.getRecommendProducts}?${param.slice(0, param.length - 1)}`,
     method: 'get'
     // data: JSON.stringify(parameter)
+  });
+}
+
+export function clubSubscriptionSavePets(parameter) {
+  return axios({
+    url: `${api.clubSubscriptionSavePets}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function changeSubscriptionGoodsByPets(parameter) {
+  return axios({
+    url: `${api.changeSubscriptionGoodsByPets}`,
+    method: 'put',
+    data: parameter
+  });
+}
+export function getRation(parameter) {
+  return axios({
+    url: `${api.getRation}`,
+    method: 'post',
+    data: parameter
   });
 }
