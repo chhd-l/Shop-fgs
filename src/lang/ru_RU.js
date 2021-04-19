@@ -1296,7 +1296,8 @@ const ru_RU = {
   'searchNoResult.telephone': 'Позвоните нам',
   'searchNoResult.email': 'Напишите нам',
   'searchNoResult.email.content': 'Отправьте нам Email',
-  'searchNoBreed.breedName': 'Результаты поиска'
+  'searchNoBreed.breedName': 'Результаты поиска',
+  kg: 'kr'
 };
 
 export default ru_RU;
