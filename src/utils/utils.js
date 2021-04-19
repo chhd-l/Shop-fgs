@@ -87,7 +87,10 @@ export async function hanldePurchases(goodsInfoDTOList) {
  */
 export async function mergeUnloginCartData() {
   const unloginCartData = checkoutStore.cartData;
+  // 线下店orderSource埋点L_ATELIER_FELIN
+  let orderSource = sessionItemRoyal.get('orderSource') || '';
   await mergePurchase({
+    orderSource,
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
         goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
