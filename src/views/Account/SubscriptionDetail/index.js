@@ -692,19 +692,21 @@ class SubscriptionDetail extends React.Component {
   };
   DailyRation = (rations) => {
     return (
-      <span
-        style={{
-          background: '#F5F5F5',
-          padding: '6px',
-          marginTop: '10px',
-          display: 'inline-block'
-        }}
-      >
-        <span style={{ fontSize: '12px' }}>
-          <FormattedMessage id="subscription.dailyRation" />
+      rations && (
+        <span
+          style={{
+            background: '#F5F5F5',
+            padding: '6px',
+            marginTop: '10px',
+            display: 'inline-block'
+          }}
+        >
+          <span style={{ fontSize: '12px' }}>
+            <FormattedMessage id="subscription.dailyRation" />
+          </span>
+          : {rations}
         </span>
-        : {rations}
-      </span>
+      )
     );
   };
   bundleMatchGoods() {
@@ -2420,23 +2422,24 @@ class SubscriptionDetail extends React.Component {
       </div>
     );
   };
-  productDailyRation = (rations) => (
-    <div
-      style={{
-        textAlign: 'center',
-        background: '#f9f9f9',
-        color: '#000',
-        maxWidth: '400px',
-        margin: '0 auto'
-      }}
-      className="text-center rc-padding--xs"
-    >
-      <div style={{ fontSize: '12px' }}>
-        <FormattedMessage id="subscription.dailyRation" />
+  productDailyRation = (rations) =>
+    rations && (
+      <div
+        style={{
+          textAlign: 'center',
+          background: '#f9f9f9',
+          color: '#000',
+          maxWidth: '400px',
+          margin: '0 auto'
+        }}
+        className="text-center rc-padding--xs"
+      >
+        <div style={{ fontSize: '12px' }} className="rc-padding-bottom--xs">
+          <FormattedMessage id="subscription.dailyRation" />
+        </div>
+        <div style={{ fontSize: '1rem' }}>{rations}</div>
       </div>
-      <div>{rations}</div>
-    </div>
-  );
+    );
   ProductRecommendations = () => {
     const { productDetail, errMsgDetail } = this.state;
     return (
@@ -2584,29 +2587,25 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       {this.productDailyRation(ele?.petsRation)}
                       <div className="text-center mt-2 card--product-contaner-price">
-                        {productDetail.mainProduct?.toPrice ? (
+                        {ele?.toPrice ? (
                           <FormattedMessage
                             id="pirceRange"
                             values={{
                               fromPrice: (
                                 <span className="contaner-price__value">
-                                  {formatMoney(
-                                    productDetail.mainProduct?.fromPrice
-                                  )}
+                                  {formatMoney(ele?.fromPrice)}
                                 </span>
                               ),
                               toPrice: (
                                 <span className="contaner-price__value">
-                                  {formatMoney(
-                                    productDetail.mainProduct?.toPrice
-                                  )}
+                                  {formatMoney(ele?.toPrice)}
                                 </span>
                               )
                             }}
                           />
                         ) : (
                           <span className="contaner-price__value">
-                            {formatMoney(productDetail.mainProduct?.fromPrice)}
+                            {formatMoney(ele?.fromPrice)}
                           </span>
                         )}
                       </div>
