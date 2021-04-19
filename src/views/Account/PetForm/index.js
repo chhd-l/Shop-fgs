@@ -1457,7 +1457,8 @@ class PetForm extends React.Component {
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: this.state.isCat ? 'none' : null
+                              display: this.state.isCat ? 'none' : null,
+                              height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
@@ -1473,7 +1474,8 @@ class PetForm extends React.Component {
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: !this.state.isCat ? 'none' : null
+                              display: !this.state.isCat ? 'none' : null,
+                              height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
@@ -1579,7 +1581,7 @@ class PetForm extends React.Component {
                           <span
                             className="rc-input rc-input--label rc-margin--none rc-input--full-width"
                             input-setup="true"
-                            style={{ display: 'inline-block' }}
+                            style={{ display: 'inline-block', height: '48px' }}
                           >
                             <input
                               type="number"
@@ -1612,7 +1614,7 @@ class PetForm extends React.Component {
                           <Selection
                             customContainerStyle={{
                               display: 'inline-block',
-                              height: '40px',
+                              height: '48px',
                               marginLeft: '4px'
                             }}
                             optionList={[
