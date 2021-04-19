@@ -31,7 +31,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-let RCDrawPng= `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`
+let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -105,7 +105,7 @@ function HealthNutrition() {
                                   />
                                 </picture>
                               </LazyLoad>
-                              </div>
+                            </div>
                           </Link>
                         </div>
                       </div>
@@ -157,7 +157,7 @@ function HealthNutrition() {
                                   />
                                 </picture>
                               </LazyLoad>
-                              </div>
+                            </div>
                           </Link>
                         </div>
                       </div>
@@ -497,6 +497,10 @@ class Home extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/account/information');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
+      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      return <Loading bgColor={'#fff'} />;
+    }
+    if (parametersString.indexOf('origin=forgot') >= 0) {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }

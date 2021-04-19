@@ -503,6 +503,10 @@ class ClubLandingPage extends React.Component {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
+    if (parametersString.indexOf('origin=forgot') >= 0) {
+      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      return <Loading bgColor={'#fff'} />;
+    }
 
     return (
       <div>
@@ -528,13 +532,12 @@ class ClubLandingPage extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={history} />
             </div>
           </div>
-          <BreadCrumbs/>
+          <BreadCrumbs />
           {/*猫猫狗狗*/}
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
@@ -545,44 +548,55 @@ class ClubLandingPage extends React.Component {
                   </h4>
                   <div className="value-proposition__container">
                     <div className="row mx-0">
-                      <SubscriptionBenefits/>
+                      <SubscriptionBenefits />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
-          <Divider/>
-
+          <Divider />
 
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div
-                    className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                    <a id="Food Quality and Safety" name="Food Quality and Safety" className="page-section-anchor" aria-hidden="true"></a>
+                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                    <a
+                      id="Food Quality and Safety"
+                      name="Food Quality and Safety"
+                      className="page-section-anchor"
+                      aria-hidden="true"
+                    ></a>
                     <div className="row align-items-md-center">
                       <div className=" col-12 col-lg-6">
                         <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text">
                             EVER PET IS UNIQUE,THEIR NUTRITION SHOULD BE TOO
                           </h2>
-                          <p>Our commitment to nutritional quality and product
-                          safety is at the heart of our operations worldwide.
-                          </p>
-                          <p>Our commitment to nutritional quality and product
+                          <p>
+                            Our commitment to nutritional quality and product
                             safety is at the heart of our operations worldwide.
                           </p>
-                          <button className="rc-btn rc-btn--two">Join the Club</button>
+                          <p>
+                            Our commitment to nutritional quality and product
+                            safety is at the heart of our operations worldwide.
+                          </p>
+                          <button className="rc-btn rc-btn--two">
+                            Join the Club
+                          </button>
                         </div>
                       </div>
                       <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                          {/*引入U2B*/}
-                          {/*<iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.fr"*/}
-                          {/*        title="making a better world for pets" frameBorder="0"></iframe>*/}
-                          <iframe src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1" frameBorder="no"
-                                  scrolling="no" style={{width:'500px',height:'300px'}}></iframe>
+                        {/*引入U2B*/}
+                        {/*<iframe src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.fr"*/}
+                        {/*        title="making a better world for pets" frameBorder="0"></iframe>*/}
+                        <iframe
+                          src="//player.bilibili.com/player.html?aid=84267566&amp;cid=145147963&amp;page=1"
+                          frameBorder="no"
+                          scrolling="no"
+                          style={{ width: '500px', height: '300px' }}
+                        ></iframe>
                         {/*<div className="rc-layout-container">*/}
                         {/*  <div className="rc-column">*/}
                         {/*    <div className="rc-video-wrapper">*/}
@@ -599,12 +613,11 @@ class ClubLandingPage extends React.Component {
             </div>
           </div>
 
-
           <Divider />
-          <HowItWorks/>
-          <JoinToday/>
-          <CommentCarousel/>
-          <HelpComponents/>
+          <HowItWorks />
+          <JoinToday />
+          <CommentCarousel />
+          <HelpComponents />
         </main>
         <Footer />
       </div>
