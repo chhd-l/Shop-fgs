@@ -23,7 +23,8 @@ const SPECAIL_CONSENT_ENUM =
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
-    needPhone: true
+    needPhone: true,
+    needMessengers: true
   };
   constructor(props) {
     super(props);
@@ -33,7 +34,11 @@ class CommunicationDataEditForm extends React.Component {
       list: [],
       isLoading: false,
       saveLoading: false,
-      form: { communicationPhone: '', communicationEmail: '' },
+      form: {
+        communicationPhone: '',
+        communicationEmail: '',
+        communicationPrint: ''
+      },
       errorMsg: ''
     };
     this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
@@ -129,7 +134,7 @@ class CommunicationDataEditForm extends React.Component {
   //保存
   handleSave = async () => {
     try {
-      const { userInfo, needPhone } = this.props;
+      const { userInfo, needPhone, needMessengers } = this.props;
       const { form, list } = this.state;
       let errMsg = null;
       const theConset = list.filter((l) =>
@@ -138,17 +143,20 @@ class CommunicationDataEditForm extends React.Component {
       const hasCheckedTheConsent = list.filter(
         (l) => SPECAIL_CONSENT_ENUM.includes(l.consentDesc) && l.isChecked
       ).length;
-      // 1 勾选了某条特殊consent情况下，phone/email不能同时取消
-      // 2 勾选了phone/email，必须勾选某条特殊consent
+      // 1 勾选了某条特殊consent情况下，phone/email/messengers不能同时取消
+      // 2 勾选了phone/email/messengers，必须勾选某条特殊consent
       if (
         hasCheckedTheConsent &&
         !+form.communicationEmail &&
-        (!needPhone || !+form.communicationPhone)
+        (!needPhone || !+form.communicationPhone) &&
+        (!needMessengers || !+form.communicationPrint)
       ) {
         errMsg = <FormattedMessage id="mustChooseACommunicationMethodTip" />;
       } else if (
         theConset &&
-        (+form.communicationEmail || (needPhone && +form.communicationPhone)) &&
+        (+form.communicationEmail ||
+          (needPhone && +form.communicationPhone) ||
+          (needMessengers && +form.communicationPrint)) &&
         !hasCheckedTheConsent
       ) {
         errMsg = <FormattedMessage id="mustChooseTheConsentTip" />;
@@ -173,13 +181,16 @@ class CommunicationDataEditForm extends React.Component {
         ...submitParam,
         ...{ oktaToken },
         customerId: (userInfo && userInfo.customerId) || '',
+        consentPage: 'myAccount',
         communicationEmail: form.communicationEmail,
-        communicationPhone: needPhone ? form.communicationPhone : null
+        communicationPhone: needPhone ? form.communicationPhone : null,
+        communicationPrint: needMessengers ? form.communicationPrint : null
       });
       await updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           communicationEmail: form.communicationEmail,
           communicationPhone: form.communicationPhone,
+          communicationPrint: form.communicationPrint,
           oktaToken
         })
       );
@@ -239,31 +250,32 @@ class CommunicationDataEditForm extends React.Component {
       <div className={classNames({ border: curPageAtCover })}>
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            {curPageAtCover ? (
-              <h5 className="mb-0">
-                <svg
-                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
-                  aria-hidden="true"
-                  style={{ width: '1.2em', height: '1.2em' }}
-                >
-                  <use xlinkHref="#iconcommunication" />
-                </svg>
-                <FormattedMessage id="account.myCommunicationPreferencesTitle" />
-              </h5>
-            ) : (
-              <h5
-                className="ui-cursor-pointer"
-                onClick={this.handleClickGoBack}
+            <h5
+              className="mb-0"
+              style={{ display: curPageAtCover ? 'block' : 'none' }}
+            >
+              <svg
+                className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                aria-hidden="true"
+                style={{ width: '1.3em', height: '1.3em' }}
               >
-                <span>&larr; </span>
-                <FormattedMessage id="account.myCommunicationPreferencesTitle" />
-              </h5>
-            )}
+                <use xlinkHref="#iconcommunication"></use>
+              </svg>
+              <FormattedMessage id="account.myCommunicationPreferencesTitle" />
+            </h5>
+            <h5
+              className="ui-cursor-pointer"
+              style={{ display: curPageAtCover ? 'none' : 'block' }}
+              onClick={this.handleClickGoBack}
+            >
+              <span>&larr; </span>
+              <FormattedMessage id="account.myCommunicationPreferencesTitle" />
+            </h5>
 
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  style={{ minWidth: '52px' }}
+                  // style={{ minWidth: '52px' }}
                   className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
@@ -307,9 +319,9 @@ class CommunicationDataEditForm extends React.Component {
             </div>
 
             <span className={`rc-meta ${editFormVisible ? 'hidden' : ''}`}>
-              <b>
+              <strong>
                 <FormattedMessage id="account.myCommunicationPreferencesDesc" />
-              </b>
+              </strong>
             </span>
             <div
               className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
@@ -323,34 +335,49 @@ class CommunicationDataEditForm extends React.Component {
                   <FormattedMessage id="account.preferredMethodOfCommunication" />
                 </label>
                 {[
-                  { type: 'communicationPhone', langKey: 'phone' },
-                  { type: 'communicationEmail', langKey: 'email' }
-                ].map((ele, idx) => (
-                  <div className="rc-input rc-input--inline" key={idx}>
-                    <input
-                      type="checkbox"
-                      className="rc-input__checkbox"
-                      id={`basicinfo-communication-checkbox-${ele.type}`}
-                      onChange={this.handleCommunicationCheckBoxChange.bind(
-                        this,
-                        ele
-                      )}
-                      checked={+form[ele.type] || false}
-                    />
-                    <label
-                      className="rc-input__label--inline text-break"
-                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
-                    >
-                      <FormattedMessage id={ele.langKey} />
-                    </label>
-                  </div>
-                ))}
+                  {
+                    type: 'communicationPhone',
+                    langKey: 'phone',
+                    visible: this.props.needPhone
+                  },
+                  {
+                    type: 'communicationEmail',
+                    langKey: 'email',
+                    visible: true
+                  },
+                  {
+                    type: 'communicationPrint',
+                    langKey: 'messengers',
+                    visible: this.props.needMessengers
+                  }
+                ]
+                  .filter((c) => c.visible)
+                  .map((ele, idx) => (
+                    <div className="rc-input rc-input--inline" key={idx}>
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        id={`basicinfo-communication-checkbox-${ele.type}`}
+                        onChange={this.handleCommunicationCheckBoxChange.bind(
+                          this,
+                          ele
+                        )}
+                        checked={+form[ele.type] || false}
+                      />
+                      <label
+                        className="rc-input__label--inline text-break"
+                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                      >
+                        <FormattedMessage id={ele.langKey} />
+                      </label>
+                    </div>
+                  ))}
               </div>
 
               <span className={`rc-meta`}>
-                <b>
+                <strong>
                   <FormattedMessage id="account.myCommunicationPreferencesContent2" />
-                </b>
+                </strong>
               </span>
               <div id="wrap" style={{ marginLeft: '30px' }}>
                 {/* checkbox组 */}
@@ -358,7 +385,7 @@ class CommunicationDataEditForm extends React.Component {
                   list={list}
                   sendList={this.sendList}
                   disabled={!editFormVisible}
-                  checkboxPadding={'10px'}
+                  checkboxPadding={'.625rem'}
                   zoom={'150%'}
                   key={'profile'}
                 />
