@@ -418,7 +418,7 @@ class Register extends Component {
                       <p>
                         <div>
                           {errorMessage ? (
-                            errorMessage + '. '
+                            errorMessage + ' '
                           ) : (
                             <FormattedMessage id="registerErrorMessage" />
                           )}
