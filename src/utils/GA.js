@@ -12,6 +12,65 @@ const getPromotionInfo = () => {
   });
 };
 
+//{0:'One Shot', 1:'Subscription', 2:'Club'}
+const getSubscriptionAttr = (goodsInfoFlag) => {
+  return (
+    {
+      0: 'One Shot',
+      1: 'Subscription',
+      2: 'Club'
+    }[goodsInfoFlag] || 'One Shot'
+  );
+};
+
+//species属性
+const getSpecies = (cateId) => {
+  return (
+    {
+      1158: 'Cat', //Russia Cat SPT food
+      1159: 'Cat', //Russia Cat VET Food
+      1160: 'Dog', //Russia Dog SPT food
+      1161: 'Dog', //Russia Dog VET food
+      1165: 'Cat', //Turkey Cat SPT food
+      1166: 'Cat', //Turkey Cat VET Food
+      1167: 'Dog', //Turkey Dog SPT food
+      1168: 'Dog', //Turkey Dog VET food
+      1133: 'Dog', //France Dog SPT food
+      1134: 'Cat', //France Cat SPT food
+      1153: 'Dog', //France Dog VET food
+      1154: 'Cat', //France Cat VET Food
+      1172: 'Cat', //US Cat SPT food
+      1173: 'Cat', //US Cat VET food
+      1174: 'Dog', //US Dog SPT food
+      1175: 'Dog' //US Dog VET food
+    }[cateId] || 'Cat'
+  );
+};
+
+//SpeciesId属性
+const getSpeciesId = (cateId) => {
+  return (
+    {
+      1158: '1', //Russia Cat SPT food
+      1159: '1', //Russia Cat VET Food
+      1160: '2', //Russia Dog SPT food
+      1161: '2', //Russia Dog VET food
+      1165: '1', //Turkey Cat SPT food
+      1166: '1', //Turkey Cat VET Food
+      1167: '2', //Turkey Dog SPT food
+      1168: '2', //Turkey Dog VET food
+      1133: '2', //France Dog SPT food
+      1134: '1', //France Cat SPT food
+      1153: '2', //France Dog VET food
+      1154: '1', //France Cat VET Food
+      1172: '1', //US Cat SPT food
+      1173: '1', //US Cat VET food
+      1174: '2', //US Dog SPT food
+      1175: '2' //US Dog VET food
+    }[cateId] || ''
+  );
+};
+
 // //删除对象中空属性
 export function deleteObjEmptyAttr(obj) {
   for (var key in obj) {
@@ -120,18 +179,18 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
     let obj = deleteObjEmptyAttr({
       price: price, //Product Price, including discount if promo code activated for this product
-      specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+      specie: getSpecies(item.cateId), //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goodsNo, //Main item code
       SKU: goodsInfoNo, //product SKU
-      subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+      subscription: getSubscriptionAttr(item.goodsInfoFlag), //'One Shot', 'Subscription', 'Club'
       technology: technology, //'Dry', 'Wet', 'Pack'
       brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
       size: variant || '', //Same wording as displayed on the site, with units depending on the country (oz, grams…)
       quantity: item.quantity, //Number of products, only if already added to cartequals 'Subscription or Club'
       subscriptionFrequency:
-        item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
+        item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
@@ -176,19 +235,19 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
       });
 
     let obj = deleteObjEmptyAttr({
-      price: item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
-      specie: item.cateId == '1134' ? 'Cat' : 'Dog', //'Cat' or 'Dog',
+      price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
+      specie: getSpecies(item.cateId), //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
       SKU: item.goodsInfoNo, //product SKU
-      subscription: item.goodsInfoFlag == 1 ? 'Subscription' : 'One Shot', //'One Shot', 'Subscription', 'Club'
+      subscription: getSubscriptionAttr(item.goodsInfoFlag), //'One Shot', 'Subscription', 'Club'
       technology: technology, //'Dry', 'Wet', 'Pack'
       brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
       size: item.specText, //Same wording as displayed on the site, with units depending on the country (oz, grams…)
       quantity: item.buyCount, //Number of products, only if already added to cartequals 'Subscription or Club'
       subscriptionFrequency:
-        item.goodsInfoFlag == 1 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
+        item.goodsInfoFlag > 0 ? subscriptionFrequency : '', //Frequency in weeks, to populate only if 'subscription'
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
@@ -245,19 +304,11 @@ export const doGetGAVal = (props) => {
         .forEach((item2) => {
           breed.push(item2.goodsAttributeValue);
         });
-      if (item.cateId == '1134') {
-        id.push(1);
-      } else {
-        id.push(2);
-      }
+      id.push(getSpeciesId(item.cateId));
     }
   } else {
     cartData.forEach((item) => {
-      if (item.cateId == '1134') {
-        id.push(1);
-      } else {
-        id.push(2);
-      }
+      id.push(getSpeciesId(item.cateId));
     });
 
     let arr = (cartData[0] && cartData[0].goodsAttributesValueRelList) || [];
