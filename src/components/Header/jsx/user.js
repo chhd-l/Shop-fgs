@@ -6,8 +6,12 @@ import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import { UnLoginUserBox, LoginUserBox } from './UserBox';
 import { getDeviceType } from '@/utils/utils.js';
+import stores from '@/store';
+import { isLimitLogin } from '@/components/LoginButton/utils';
 
 import '../css/user.less';
+
+const loginStore = stores.loginStore;
 
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
@@ -90,6 +94,13 @@ const UserJSX = (props) => {
                     <span
                       className="rc-styled-link"
                       onClick={() => {
+                        // if (
+                        //   process.env.REACT_APP_LANG == 'en' &&
+                        //   isLimitLogin()
+                        // ) {
+                        //   // 美国4/17的美国中部时间早8点到晚4点不能登录账户
+                        //   return loginStore.changeLimitLoginModal(true);
+                        // }
                         // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                         // window.location.href =
                         //   process.env.REACT_APP_RegisterPrefix +
@@ -185,24 +196,27 @@ const UserJSX = (props) => {
   return +process.env.REACT_APP_HUB ? (
     //clientWidth用于兼容 ipad pro展示
     !isMobile || clientWidth > 769 ? (
-      <li
+      // <li onMouseOver={self.handleMouseOver} onMouseOut={self.handleMouseOut} onClick={self.loginIcon}>
+      <div
         onMouseOver={self.handleMouseOver}
         onMouseOut={self.handleMouseOut}
         onClick={self.loginIcon}
       >
         {/* 未登录 */}
         {!isLogin && (
-          <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
+          // <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
+          <div className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
             <UnLoginUserBox
               className={`${showCart ? '' : 'rc-hidden'}`}
               self={self}
               {...props}
             />
-          </a>
+          </div>
         )}
         {/* 登录 */}
         {isLogin && (
-          <a className="brefName ui-cursor-pointer">
+          // <a className="brefName ui-cursor-pointer">
+          <div className="brefName ui-cursor-pointer">
             <Link to="/account" className="text-white">
               {firstNameLetter}
             </Link>{' '}
@@ -211,9 +225,9 @@ const UserJSX = (props) => {
               self={self}
               {...props}
             />
-          </a>
+          </div>
         )}
-      </li>
+      </div>
     ) : null
   ) : (
     defaultJSX

@@ -463,6 +463,7 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(456);
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
       var callOktaCallBack = getOktaCallBackUrl(
@@ -516,6 +517,10 @@ class Home extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
+      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      return <Loading bgColor={'#fff'} />;
+    }
+    if (parametersString.indexOf('origin=forgot') >= 0) {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }

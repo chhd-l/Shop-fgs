@@ -36,9 +36,11 @@ function IconPanel({ data, item, handleClickNavItem }) {
         ) : null}
         <div>
           {item.Link && item.Link.Url ? (
-            <a href={item.Link.Url} className="rc-large-body tel red">
-              {item.Title}
-            </a>
+            // <a href={item.Link.Url} className="rc-large-body tel red">
+            //   {item.Title}
+            // </a>
+            // 外面已经有一层a标签了
+            <div className="rc-large-body tel red">{item.Title}</div>
           ) : (
             <span className="rc-large-body tel red">{item.Title}</span>
           )}

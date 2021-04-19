@@ -9,6 +9,9 @@ import { EMAIL_REGEXP } from '@/utils/constant';
 @injectIntl
 @observer
 class EmailForm extends React.Component {
+  static defaultProps = {
+    currentEmailVal: ''
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -142,7 +145,7 @@ class EmailForm extends React.Component {
             </div>
           </div>
         ) : emailPanelStatus.isCompleted ? (
-          <div>{form.email}</div>
+          <div>{this.props.currentEmailVal}</div>
         ) : null}
       </div>
     );
