@@ -679,7 +679,8 @@ const ru_RU = {
   'payment.frequencyTip1': 'Да, сделай мою жизнь проще!',
   'payment.frequencyTip2': 'Нет, спасибо.',
   'payment.frequencyTip3': 'Ваши товары будут отправлены только один раз',
-  'payment.further': 'Разместить заказ',
+  'payment.further': 'Оплатить',
+  'payment.further2': 'Разместить заказ',
   'payment.howToDelivery': 'Как доставить',
   'payment.itemTotalProduct': 'товар всего товара',
   'payment.lastName': 'Фамилия',
@@ -1295,7 +1296,8 @@ const ru_RU = {
   'searchNoResult.telephone': 'Позвоните нам',
   'searchNoResult.email': 'Напишите нам',
   'searchNoResult.email.content': 'Отправьте нам Email',
-  'searchNoBreed.breedName': 'Результаты поиска'
+  'searchNoBreed.breedName': 'Результаты поиска',
+  kg: 'kr'
 };
 
 export default ru_RU;

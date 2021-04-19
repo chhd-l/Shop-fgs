@@ -855,9 +855,17 @@ export const transTime = ({ date = new Date(), timeZone }) => {
 export const isDuringDate = (date, beginDateStr, endDateStr) => {
   let beginDate = new Date(beginDateStr),
     endDate = new Date(endDateStr);
-  //console.log({date,beginDate,endDate})
   if (date >= beginDate && date <= endDate) {
     return true;
   }
   return false;
+};
+
+//延时函数
+export const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
 };

@@ -463,7 +463,7 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(456);
+    console.log(123);
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
       var callOktaCallBack = getOktaCallBackUrl(

@@ -1615,7 +1615,10 @@ class PetForm extends React.Component {
                               marginLeft: '4px'
                             }}
                             optionList={[
-                              { value: 'kg', name: 'kg' }
+                              {
+                                value: 'kg',
+                                name: this.props.intl.messages['kg']
+                              }
                               // { value: 'g', name: 'g' }
                             ]}
                             selectedItemChange={(el) => {

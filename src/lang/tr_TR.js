@@ -295,6 +295,7 @@ const tr_TR = {
   'details.unitPrice': 'Birim fiyat',
   'details.youCanSave': 'Kurtarabilirsin',
   'details.buyFromRetailer': 'Yerel satıcı bul',
+  'detail.subscriptionBuyTip': 'Taahhüt vermeden abone olun',
   'Club subscription': 'Club Aboneliği',
   saveExtra: '{val} Kazan',
   dogs: 'KÖPEK',
@@ -1111,7 +1112,7 @@ const tr_TR = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın',
+    "ürün Arama'yı kullanarak uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın",
   'details.findProductTips': "Ürün Arama'yı",
   'details.learnMore': 'Daha fazla bilgi',
   xMonths: '{val} Aylar',

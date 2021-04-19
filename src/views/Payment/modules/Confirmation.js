@@ -8,6 +8,9 @@ import TermsCommon from '../Terms/common';
 @injectIntl
 @observer
 class Confirmation extends React.Component {
+  static defaultProps = {
+    paymentTypeVal: ''
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -127,7 +130,13 @@ class Confirmation extends React.Component {
                 disabled={!isValid}
                 onClick={this.clickPay}
               >
-                <FormattedMessage id="payment.further" />{' '}
+                <FormattedMessage
+                  id={
+                    this.props.paymentTypeVal == 'cod'
+                      ? 'payment.further2'
+                      : 'payment.further'
+                  }
+                />{' '}
                 {formatMoney(tradePrice)}
               </button>
             </div>

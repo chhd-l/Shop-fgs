@@ -1363,7 +1363,9 @@ class Details extends React.Component {
               name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
-              type: { 0: 'one-time', 1: 'subscription' }[form.buyWay] || '',
+              type:
+                { 0: 'one-time', 1: 'subscription', 2: 'club' }[form.buyWay] ||
+                '',
               price:
                 {
                   0: cur_selected_size[0]?.marketPrice,
@@ -1636,7 +1638,6 @@ class Details extends React.Component {
         specieId
       }
     };
-
     return (
       <div id="Details">
         <button
@@ -2248,17 +2249,15 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    {!Tr ? (
-                                      <div className="discountBox">
-                                        <FormattedMessage
-                                          id="saveExtra"
-                                          values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
-                                          }}
-                                        />
-                                      </div>
-                                    ) : null}
+                                    <div className="discountBox">
+                                      <FormattedMessage
+                                        id="saveExtra"
+                                        values={{
+                                          val:
+                                            selectedSpecItem?.subscriptionPercentage
+                                        }}
+                                      />
+                                    </div>
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
@@ -2351,20 +2350,18 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    {!Tr ? (
-                                      <div
-                                        className="discountBox"
-                                        style={{ background: '#3ab41d' }}
-                                      >
-                                        <FormattedMessage
-                                          id="saveExtra"
-                                          values={{
-                                            val:
-                                              selectedSpecItem.subscriptionPercentage
-                                          }}
-                                        />
-                                      </div>
-                                    ) : null}
+                                    <div
+                                      className="discountBox"
+                                      style={{ background: '#3ab41d' }}
+                                    >
+                                      <FormattedMessage
+                                        id="saveExtra"
+                                        values={{
+                                          val:
+                                            selectedSpecItem.subscriptionPercentage
+                                        }}
+                                      />
+                                    </div>
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
@@ -2470,6 +2467,14 @@ class Details extends React.Component {
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
                               />
+                              {Tr && form.buyWay === 2 ? (
+                                <p
+                                  className="text-right"
+                                  style={{ fontWeight: '400' }}
+                                >
+                                  <FormattedMessage id="detail.subscriptionBuyTip" />
+                                </p>
+                              ) : null}
                             </div>
                           </div>
                         )}
