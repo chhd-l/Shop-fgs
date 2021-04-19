@@ -226,14 +226,6 @@ class Form extends React.Component {
               );
             }
 
-            // 把查询到的address配置存到本地
-            let addressForm = {};
-            narr.forEach((item) => {
-              addressForm[item.fieldKey] = item.fieldKey;
-            });
-            console.log(addressForm);
-            localItemRoyal.set('rc-address-form', addressForm);
-
             let ress = this.formListByRow(narr, (item) => {
               return [item.sequence];
             });
