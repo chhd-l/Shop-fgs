@@ -3403,6 +3403,7 @@ class Payment extends React.Component {
                     this.renderPayPreview()}
                 </div>
                 <Confirmation
+                  paymentTypeVal={this.state.paymentTypeVal}
                   clickPay={this.clickPay}
                   listData={listData}
                   checkRequiredItem={this.checkRequiredItem}
