@@ -510,7 +510,7 @@ class Recommendation extends React.Component {
       let product = products[i];
 
       let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
+      let tmpData = Object.assign({}, product.goods, product.goodsInfo.goods, {
         quantity: quantityNew
       });
       let cartDataCopy = cloneDeep(
