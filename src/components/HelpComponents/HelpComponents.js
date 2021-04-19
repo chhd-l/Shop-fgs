@@ -191,7 +191,7 @@ const HelpComponents = (props) => {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                {TR || RU ? (
+                                {RU ? (
                                   <DistributeHubLinkOrATag
                                     href={'/about-us/faq'}
                                     ariaLabel="Links to faq"
@@ -200,6 +200,28 @@ const HelpComponents = (props) => {
                                       <FormattedMessage id="club.wheretohelp.card.faq" />
                                     </p>
                                   </DistributeHubLinkOrATag>
+                                ) : TR ? (
+                                  <p>
+                                    <FormattedMessage
+                                      id="club.wheretohelp.card.faq"
+                                      values={{
+                                        val: (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              Sıkça Sorulan Sorular
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        )
+                                      }}
+                                    />
+                                  </p>
                                 ) : (
                                   <Link to="/faq">
                                     <p style={{ textDecoration: 'underline' }}>
