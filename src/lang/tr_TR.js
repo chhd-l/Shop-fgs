@@ -1111,7 +1111,7 @@ const tr_TR = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın',
+    "ürün Arama'yı kullanarak uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın",
   'details.findProductTips': "Ürün Arama'yı",
   'details.learnMore': 'Daha fazla bilgi',
   xMonths: '{val} Aylar',

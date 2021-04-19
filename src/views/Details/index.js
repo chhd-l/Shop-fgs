@@ -2248,17 +2248,15 @@ class Details extends React.Component {
                                       </label>
                                     </div>
                                     <br />
-                                    {!Tr ? (
-                                      <div className="discountBox">
-                                        <FormattedMessage
-                                          id="saveExtra"
-                                          values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
-                                          }}
-                                        />
-                                      </div>
-                                    ) : null}
+                                    <div className="discountBox">
+                                      <FormattedMessage
+                                        id="saveExtra"
+                                        values={{
+                                          val:
+                                            selectedSpecItem?.subscriptionPercentage
+                                        }}
+                                      />
+                                    </div>
                                     <br />
                                     <div className="freeshippingBox">
                                       <FormattedMessage id="freeShipping" />
