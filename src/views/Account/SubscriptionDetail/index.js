@@ -3061,6 +3061,8 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'AddressComp' ? 'block' : 'none' }}
                 >
                   <AddressComp
+                    customerAccount={subDetail?.customerAccount}
+                    tradeItems={subDetail?.noStartTradeList}
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}

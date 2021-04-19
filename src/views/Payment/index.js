@@ -264,24 +264,11 @@ class Payment extends React.Component {
       billingAddressAddOrEdit: false, // billingAddress编辑或者添加地址
       validationAddress: [], // 校验地址
       ruShippingDTO: {
-        sourceRegionFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-        sourceAreaFias: null,
-        sourceCityFias: '0c5b2444-70a0-4932-980c-b4dc0d3f02b5',
-        sourceSettlementFias: null,
-        sourcePostalCode: null,
         regionFias: '',
         areaFias: '',
         cityFias: '',
         settlementFias: '',
-        postalCode: '',
-        weight: '1',
-        insuranceSum: 0,
-        codSum: 0,
-        dimensions: {
-          height: '1',
-          width: '1',
-          depth: '1'
-        }
+        postalCode: ''
       } // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
@@ -1407,10 +1394,10 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-      // console.log(
-      //   '----------- 游客注册并登录&批量添加后台购物车 param 222 : ',
-      //   param
-      // );
+      console.log(
+        '----------- 游客注册并登录&批量添加后台购物车 param 222 : ',
+        param
+      );
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
