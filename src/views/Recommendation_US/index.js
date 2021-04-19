@@ -745,8 +745,9 @@ class Recommendation extends React.Component {
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
       page: {
-        type: 'Content',
-        theme: ''
+        type: 'Recommendation',
+        theme: '',
+        path: this.props.location.pathname
       }
     };
     const createMarkup = (text) => ({ __html: text });
@@ -815,7 +816,7 @@ class Recommendation extends React.Component {
     };
     return (
       <div className="Recommendation_FR Recommendation_US">
-        {/* <GoogleTagManager additionalEvents={event} />*/}
+        <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
