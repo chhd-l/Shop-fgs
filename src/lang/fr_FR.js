@@ -1573,6 +1573,7 @@ const fr_FR = {
   'searchNoBreed.breedName': 'Résultats de la recherche',
   Activity: 'Activité',
   Weight: 'Poids',
-  Sensitivity: 'Sensibilité'
+  Sensitivity: 'Sensibilité',
+  Lifestyle: 'Mode de vie'
 };
 export default fr_FR;
