@@ -526,6 +526,10 @@ class ClubLandingPage extends React.Component {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
+    if (parametersString.indexOf('origin=forgot') >= 0) {
+      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      return <Loading bgColor={'#fff'} />;
+    }
 
     return (
       <div>
