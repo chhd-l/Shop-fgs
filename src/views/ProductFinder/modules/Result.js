@@ -9,7 +9,7 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import LoginButton from '@/components/LoginButton';
 import Help from './Help';
-import { setSeoConfig, formatMoney } from '@/utils/utils';
+import { setSeoConfig, formatMoney, getRation } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
@@ -225,6 +225,27 @@ class ProductFinderResult extends React.Component {
       const neuteredItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'neutered'
       );
+      let { mainProduct, otherProducts } = productDetail;
+      let productArr = [mainProduct, ...otherProducts];
+      let spuNoList = productArr?.map((el) => el.spuCode);
+      let rationsParams = { ...productDetail.queryParams, spuNoList };
+      try {
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        rations?.forEach((ration) => {
+          if (mainProduct.spuCode == ration.mainItem) {
+            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+          }
+          otherProducts?.map((el) => {
+            if (el.spuCode == ration.mainItem) {
+              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            }
+          });
+        });
+      } catch (err) {
+        console.info(err.message);
+      }
+
       this.setState({
         productDetail: productDetail,
         questionlist: parsedQuestionlist,
@@ -325,6 +346,26 @@ class ProductFinderResult extends React.Component {
     sessionItemRoyal.remove('pf-edit-order');
     this.props.history.push(`/product-finder`);
   };
+  productDailyRation = (rations) =>
+    rations && (
+      <div
+        style={{
+          textAlign: 'center',
+          background: '#f9f9f9',
+          color: '#000',
+          maxWidth: '400px',
+          margin: '0 auto'
+        }}
+        className="text-center rc-padding--xs"
+      >
+        <div style={{ fontSize: '12px' }}>
+          <FormattedMessage id="subscription.dailyRation" />
+        </div>
+        <div style={{ fontSize: '1rem' }} className="rc-padding-bottom--xs">
+          {rations}
+        </div>
+      </div>
+    );
   render() {
     const { location, history, match } = this.props;
     const event = {
@@ -452,6 +493,10 @@ class ProductFinderResult extends React.Component {
                       >
                         {productDetail.mainProduct.subTitle}
                       </div>
+                      {this.productDailyRation(
+                        productDetail.mainProduct?.petsRation
+                      )}
+
                       <div className="text-center mt-2 card--product-contaner-price">
                         {productDetail.mainProduct?.toPrice ? (
                           <FormattedMessage
@@ -549,6 +594,7 @@ class ProductFinderResult extends React.Component {
                           >
                             {ele.subTitle}
                           </div>
+                          {this.productDailyRation(ele?.petsRation)}
                           <div className="text-center mt-2 card--product-contaner-price">
                             {ele.toPrice ? (
                               <FormattedMessage

@@ -1,6 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { inject } from 'mobx-react';
 import find from 'lodash/find';
 import {
   getAddressList,
@@ -16,6 +17,8 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import classNames from 'classnames';
 import './index.less';
+
+const localItemRoyal = window.__.localItemRoyal;
 
 function CardItem(props) {
   const { data } = props;
@@ -61,12 +64,15 @@ function CardItem(props) {
     </div>
   );
 }
+@inject('checkoutStore')
 /**
  * address list(delivery/billing) - member
  */
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
+    customerAccount: '',
+    tradeItems: null,
     type: 'delivery'
   };
   constructor(props) {
@@ -107,7 +113,14 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress',
-      itemIdx: ''
+      itemIdx: '',
+      ruShippingDTO: {
+        regionFias: '',
+        areaFias: '',
+        cityFias: '',
+        settlementFias: '',
+        postalCode: ''
+      } // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
     this.confirmValidationAddress = this.confirmValidationAddress.bind(this);
@@ -304,6 +317,61 @@ class AddressList extends React.Component {
       }
     );
   }
+  // 计算税额、运费、运费折扣
+  calculateFreight = async (data) => {
+    console.log(
+      '310 ★★ -- SubscriptionDetail 计算税额、运费、运费折扣: ',
+      data
+    );
+    const { ruShippingDTO } = this.state;
+    let param = {};
+
+    var dudata = data?.DuData;
+    if (dudata) {
+      ruShippingDTO.regionFias = dudata?.provinceId;
+      ruShippingDTO.areaFias = dudata?.areaId;
+      ruShippingDTO.cityFias = dudata?.cityId;
+      ruShippingDTO.settlementFias = dudata?.settlementId;
+      ruShippingDTO.postalCode = dudata?.postCode;
+      this.setState({
+        ruShippingDTO
+      });
+      // 把查询运费折扣相关参数存到本地
+      localItemRoyal.set('rc-calculation-param', data);
+    }
+    let stateNo = data?.state?.stateNo;
+    param = {
+      promotionCode: '',
+      purchaseFlag: false, // 购物车: true，checkout: false
+      subscriptionFlag: true,
+      taxFeeData: {
+        country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+        region: stateNo, // 省份简写
+        city: data?.city,
+        street: data?.address1,
+        postalCode: data?.postCode,
+        customerAccount: this.props.customerAccount
+      },
+      address1: data?.address1,
+      ruShippingDTO: ruShippingDTO
+    };
+    if (this.props.tradeItems) {
+      let tradeItems = this.props.tradeItems;
+      tradeItems = tradeItems[0].tradeItems;
+      let gids = [];
+      tradeItems.forEach((item) => {
+        console.log(item.skuId);
+        gids.push(item.skuId);
+      });
+      param.goodsInfoIds = gids;
+    }
+    try {
+      // 获取税额
+      await this.props.checkoutStore.updateLoginCart(param);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
     const headerWidget = document.querySelector('.rc-header__scrolled')
@@ -584,19 +652,6 @@ class AddressList extends React.Component {
     try {
       let res = await getAddressList();
       let addressList = res.context;
-
-      // console.log('----------------------- ★ AddressComp addressList: ',addressList);
-
-      // let cityRes = await queryCityNameById({
-      //   id: addressList.map((ele) => ele.cityId)
-      // });
-      // cityRes = cityRes.context.systemCityVO || [];
-      // Array.from(addressList, (ele) => {
-      //   ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
-      //     ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
-      //     : ele.cityId;
-      //   return ele;
-      // });
       this.setState({
         addressList,
         listLoading: false
@@ -857,6 +912,7 @@ class AddressList extends React.Component {
                     initData={deliveryAddress}
                     isLogin={true}
                     updateData={(data) => this.updateDeliveryAddress(data)}
+                    calculateFreight={(data) => this.calculateFreight(data)}
                   />
                 )}
 
