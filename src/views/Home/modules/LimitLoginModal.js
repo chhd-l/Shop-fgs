@@ -15,7 +15,7 @@ const buttonStyle = {
   outline: 'none',
   width: '100%',
   height: '40px',
-  'line-height': '40px',
+  lineHeight: '40px',
   margin: '10px 40px 50px',
   background: '#D81E07',
   color: '#fff',

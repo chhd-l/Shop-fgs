@@ -196,24 +196,27 @@ const UserJSX = (props) => {
   return +process.env.REACT_APP_HUB ? (
     //clientWidth用于兼容 ipad pro展示
     !isMobile || clientWidth > 769 ? (
-      <li
+      // <li onMouseOver={self.handleMouseOver} onMouseOut={self.handleMouseOut} onClick={self.loginIcon}>
+      <div
         onMouseOver={self.handleMouseOver}
         onMouseOut={self.handleMouseOut}
         onClick={self.loginIcon}
       >
         {/* 未登录 */}
         {!isLogin && (
-          <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
+          // <a className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
+          <div className="rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography">
             <UnLoginUserBox
               className={`${showCart ? '' : 'rc-hidden'}`}
               self={self}
               {...props}
             />
-          </a>
+          </div>
         )}
         {/* 登录 */}
         {isLogin && (
-          <a className="brefName ui-cursor-pointer">
+          // <a className="brefName ui-cursor-pointer">
+          <div className="brefName ui-cursor-pointer">
             <Link to="/account" className="text-white">
               {firstNameLetter}
             </Link>{' '}
@@ -222,9 +225,9 @@ const UserJSX = (props) => {
               self={self}
               {...props}
             />
-          </a>
+          </div>
         )}
-      </li>
+      </div>
     ) : null
   ) : (
     defaultJSX

@@ -1363,7 +1363,9 @@ class Details extends React.Component {
               name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
-              type: { 0: 'one-time', 1: 'subscription' }[form.buyWay] || '',
+              type:
+                { 0: 'one-time', 1: 'subscription', 2: 'club' }[form.buyWay] ||
+                '',
               price:
                 {
                   0: cur_selected_size[0]?.marketPrice,
