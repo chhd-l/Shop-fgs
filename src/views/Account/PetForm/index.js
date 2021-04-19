@@ -405,8 +405,10 @@ class PetForm extends React.Component {
     }
     try {
       let res = await action(param);
-      let subscribeId = this.props.location.state?.subscribeId;
-      debugger;
+      let isLinkedSub = this.state.subList.find((el) => el.petsId);
+      let petsIdLinkedSub = isLinkedSub?.petsId;
+      let subscribeId =
+        this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = this.props.location.state?.petsType;
@@ -430,8 +432,7 @@ class PetForm extends React.Component {
         }
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
-        let isLinkedSub = subList.find((el) => el.petsId)?.petsId;
-        if (isLinkedSub) {
+        if (petsIdLinkedSub) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }

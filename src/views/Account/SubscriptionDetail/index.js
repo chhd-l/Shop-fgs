@@ -266,6 +266,7 @@ class SubscriptionDetail extends React.Component {
       return;
     }
     this.setState({ productListLoading: true });
+    // getDetailsBySpuNo(3003)
     getDetailsBySpuNo(id)
       .then((res) => {
         const goodsRes = res && res.context && res.context.goods;
@@ -586,18 +587,22 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
-  PetsInfo = (petsInfo, petsId, history) => {
-    let petBreed =
-      petsInfo.petsType === 'dog'
+  getBreedName = (petsType, petsBreed) => {
+    let name =
+      petsType?.toLowerCase() === 'dog'
         ? (this.state.dogBreedList.length &&
             this.state.dogBreedList.filter(
-              (item) => item.valueEn == petsInfo.petsBreed
+              (item) => item.valueEn == petsBreed
             )?.[0]?.name) ||
-          petsInfo.petsBreed
+          petsBreed
         : this.state.catBreedList.length &&
           this.state.catBreedList.filter(
-            (item) => item.valueEn == petsInfo.petsBreed
+            (item) => item.valueEn == petsBreed
           )?.[0]?.name;
+    return name;
+  };
+  PetsInfo = (petsInfo, petsId, history) => {
+    let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
     return (
       <React.Fragment>
         <img
@@ -697,14 +702,14 @@ class SubscriptionDetail extends React.Component {
           style={{
             background: '#F5F5F5',
             padding: '6px',
-            marginTop: '10px',
+            marginTop: '30px',
             display: 'inline-block'
           }}
         >
           <span style={{ fontSize: '12px' }}>
             <FormattedMessage id="subscription.dailyRation" />
           </span>
-          : {rations}
+          :<strong>{rations}</strong>
         </span>
       )
     );
@@ -1268,24 +1273,25 @@ class SubscriptionDetail extends React.Component {
                   </div>
                   <div style={{ paddingLeft: '1rem' }}>
                     <div style={{ color: '#e2001a' }}>{el.petsName}</div>
-                    <div>{el.birthOfPets}</div>
+                    {/* <div>{el.birthOfPets}</div> */}
+                    <div>{this.getBreedName(el.petsType, el.petsBreed)}</div>
                   </div>
                 </div>
               ))}
-              <div
-                style={{ paddingLeft: '2rem' }}
-                className="border-dot height100 align-items-center d-flex"
+              <Link
+                to={{
+                  pathname: `/account/pets/petForm`,
+                  state: {
+                    petsType: this.state.petsType,
+                    subscribeId: this.state.subDetail.subscribeId
+                  }
+                }}
               >
-                <div>
-                  <Link
-                    to={{
-                      pathname: `/account/pets/petForm`,
-                      state: {
-                        petsType: this.state.petsType,
-                        subscribeId: this.state.subDetail.subscribeId
-                      }
-                    }}
-                  >
+                <div
+                  style={{ paddingLeft: '2rem' }}
+                  className="border-dot height100 align-items-center d-flex"
+                >
+                  <div>
                     +{' '}
                     <strong>
                       {this.state.petsType == 'Cat' ? (
@@ -1294,14 +1300,14 @@ class SubscriptionDetail extends React.Component {
                         <FormattedMessage id="subscriptionDetail.addNewDog" />
                       )}
                     </strong>
-                  </Link>
+                  </div>
+                  <img
+                    style={{ paddingLeft: '2rem' }}
+                    className="pet-icon"
+                    src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
+                  />
                 </div>
-                <img
-                  style={{ paddingLeft: '2rem' }}
-                  className="pet-icon"
-                  src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
-                />
-              </div>
+              </Link>
             </div>
           </div>
         </Modal>
