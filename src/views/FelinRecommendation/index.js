@@ -311,6 +311,7 @@ class FelinRecommendation extends React.Component {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
           await sitePurchase({
+            orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
@@ -529,6 +530,7 @@ class FelinRecommendation extends React.Component {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
           await sitePurchase({
+            orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
