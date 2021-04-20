@@ -35,14 +35,12 @@ podTemplate(label: label, cloud: 'kubernetes',
                  git branch: "${GIT_BRANCH}", changelog: false, credentialsId: "${GIT_CREADENTIAL}", poll: false, url: "${GIT_URL}"
             }
         }
-        stage('Mvn Package'){
+        stage('npm package'){
                 dir("$jenworkspace"){
-                    configFileProvider([configFile(fileId: "${MAVEN_SETTINGS_ID}", targetLocation: "settings.xml")]){
                        echo "hello, world 2"
                            sh "mvn clean deploy -Dmaven.test.skip=true --settings settings.xml"
-                         // sh "mvn clean install -Dmaven.test.skip=true  -U  -s  $sharefile/settings.xml"
-                        
-                      }
+                        sh "npm install"
+                        sh "npm run build:sit_mx"
                 }
         }
         stage('Docker build'){
