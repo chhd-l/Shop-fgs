@@ -1343,7 +1343,8 @@ class PetForm extends React.Component {
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: this.state.isCat ? 'none' : null
+                              display: this.state.isCat ? 'none' : null,
+                              height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
@@ -1359,7 +1360,8 @@ class PetForm extends React.Component {
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: !this.state.isCat ? 'none' : null
+                              display: !this.state.isCat ? 'none' : null,
+                              height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
