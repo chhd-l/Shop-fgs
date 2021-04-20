@@ -754,7 +754,6 @@ class Details extends React.Component {
             }
           });
         }
-
         const res = resList[0];
         const frequencyDictRes = resList[1];
         let autoshipDictRes = frequencyDictRes.filter(

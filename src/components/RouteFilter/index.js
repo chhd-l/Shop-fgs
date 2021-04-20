@@ -197,6 +197,7 @@ class RouteFilter extends Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+
   render() {
     const oktaTokenString =
       this.props.authState && this.props.authState.accessToken

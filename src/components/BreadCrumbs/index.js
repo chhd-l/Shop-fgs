@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 
 const BreadCrumbs = withRouter((props) => {
   const { location, match } = props;
-  console.log({ location, match });
   const breadcrumbNameMap = BreadcrumbNameMap;
 
   const url = location.pathname;

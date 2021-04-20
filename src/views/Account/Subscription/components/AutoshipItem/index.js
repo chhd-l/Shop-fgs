@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import Club_Logo from '@/assets/images/Logo_club.png';
-import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
+import {
+  getFormatDate,
+  getFrequencyDict,
+  getDeviceType,
+  getClubLogo
+} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import Skeleton from 'react-skeleton-loader';

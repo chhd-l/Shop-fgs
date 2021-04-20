@@ -311,6 +311,7 @@ class FelinRecommendation extends React.Component {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
           await sitePurchase({
+            orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
@@ -471,6 +472,10 @@ class FelinRecommendation extends React.Component {
       this.setState({ buttonLoading: true });
       try {
         if (loginStore.isLogin) {
+          sessionItemRoyal.set(
+            'recommend_product',
+            JSON.stringify(inStockProducts)
+          );
           sessionItemRoyal.set('orderSource', 'L_ATELIER_FELIN');
           await this.hanldeLoginAddToCart();
         } else {
@@ -529,6 +534,7 @@ class FelinRecommendation extends React.Component {
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
           await sitePurchase({
+            orderSource: 'L_ATELIER_FELIN',
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
