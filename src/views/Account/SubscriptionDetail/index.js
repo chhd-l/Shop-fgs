@@ -590,16 +590,15 @@ class SubscriptionDetail extends React.Component {
   getBreedName = (petsType, petsBreed) => {
     let name =
       petsType?.toLowerCase() === 'dog'
-        ? (this.state.dogBreedList.length &&
-            this.state.dogBreedList.filter(
-              (item) => item.valueEn == petsBreed
-            )?.[0]?.name) ||
-          petsBreed
+        ? this.state.dogBreedList.length &&
+          this.state.dogBreedList.filter(
+            (item) => item.valueEn == petsBreed
+          )?.[0]?.name
         : this.state.catBreedList.length &&
           this.state.catBreedList.filter(
             (item) => item.valueEn == petsBreed
           )?.[0]?.name;
-    return name;
+    return name || this.props.intl.messages['Mixed Breed'];
   };
   PetsInfo = (petsInfo, petsId, history) => {
     let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
@@ -665,7 +664,7 @@ class SubscriptionDetail extends React.Component {
             <div>
               <FormattedMessage id="breed" />:
               <strong>
-                {petBreed || <FormattedMessage id="Mixed Breed" />}
+                {petBreed}
                 {/* {petsInfo?.petsBreed} */}
               </strong>{' '}
             </div>
@@ -808,18 +807,23 @@ class SubscriptionDetail extends React.Component {
     let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
     let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let errorMsg = '';
+    debugger;
     if (isAutoshipAndClub) {
-      errorMsg =
-        'There are club and autoship products, please go to the pet details to bind the products';
+      errorMsg = this.props.intl.messages[
+        'subscriptionDetail.cantBindPetsErr1'
+      ];
     }
     if (isCatAndDog) {
-      errorMsg =
-        'There are cat and dog products, please go to the pet details to bind the products';
+      errorMsg = this.props.intl.messages[
+        'subscriptionDetail.cantBindPetsErr1'
+      ];
     }
     if (isCantLinkPet) {
-      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
+      this.showErrMsgs(errorMsg, 'errMsgPage');
       return;
     }
+    debugger;
+
     if (!this.userInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
