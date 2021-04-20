@@ -441,7 +441,11 @@ class Details extends React.Component {
         Subscription: 1,
         'One-off purchase': 0
       }[targetDefaultPurchaseTypeItem.valueEn];
-      if (defaultPurchaseType === 1 || this.checkoutStore.pr_petsInfo.petsId) {
+      if (
+        defaultPurchaseType === 1 ||
+        sessionItemRoyal.get('pf-result') ||
+        localStorage.getItem('pfls')
+      ) {
         buyWay = details.promotions === 'club' ? 2 : 1;
       } else {
         buyWay = defaultPurchaseType;
@@ -659,37 +663,42 @@ class Details extends React.Component {
     let petsRes = {};
 
     // 对比productFinder 之前信息
+    let savePetFlag = false;
+    let isMyProductFinder = true;
+
+    if (localStorage.getItem('pfls')) {
+      if (
+        localStorage.getItem('pfls') &&
+        localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
+      ) {
+        savePetFlag = true;
+        isMyProductFinder = false;
+      } else {
+        savePetFlag = false;
+        isMyProductFinder = true;
+      }
+    } else {
+      if (
+        sessionItemRoyal.get('pf-result') &&
+        sessionItemRoyal.get('pf-result') !==
+          sessionItemRoyal.get('pf-result-before')
+      ) {
+        savePetFlag = true;
+        isMyProductFinder = true;
+      } else {
+        savePetFlag = false;
+        isMyProductFinder = false;
+      }
+    }
+
+    if (localStorage.getItem('pfls')) {
+      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
+    }
     if (sessionItemRoyal.get('pf-result')) {
       sessionItemRoyal.set(
         'pf-result-before',
         sessionItemRoyal.get('pf-result')
       );
-    }
-    let savePetFlag = false;
-    let isMyProductFinder = true;
-    if (
-      sessionItemRoyal.get('pf-result') &&
-      sessionItemRoyal.get('pf-result') !==
-        sessionItemRoyal.get('pf-result-before')
-    ) {
-      savePetFlag = true;
-      isMyProductFinder = true;
-    } else {
-      savePetFlag = false;
-      isMyProductFinder = false;
-    }
-    if (
-      localStorage.getItem('pfls') &&
-      localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
-    ) {
-      savePetFlag = true;
-      isMyProductFinder = false;
-    } else {
-      savePetFlag = false;
-      isMyProductFinder = true;
-    }
-    if (localStorage.getItem('pfls')) {
-      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
     }
     if (this.isLogin && savePetFlag) {
       let pf_params = {};
@@ -705,7 +714,7 @@ class Details extends React.Component {
         });
         if (petsRes.code === 'K-000000') {
           let petsInfo = petsRes.context;
-          sessionItemRoyal.set('pr-petsInfo', petsRes.context);
+          this.props.checkoutStore.setPetInfo(petsRes.context);
           let rationRes = getRation({
             spuNoList: [goodsNo],
             petsId: petsInfo.petsId
@@ -1957,7 +1966,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {sessionItemRoyal.get('pr-question-params') ? (
+                                {this.props.checkoutStore.pr_petsInfo.petsId ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.recommendedDaily" />
@@ -1984,7 +1993,11 @@ class Details extends React.Component {
                                     </DistributeHubLinkOrATag>
                                   </div>
                                 ) : (
-                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
+                                  <div
+                                    className={`productFinderBox ${
+                                      isMobile ? '' : 'd-flex'
+                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left`}
+                                  >
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
@@ -1997,7 +2010,9 @@ class Details extends React.Component {
                                     <DistributeHubLinkOrATag
                                       href="/product-finder"
                                       to="/product-finder"
-                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                      className={`rc-styled-link backProductFinder mt-0 pb-0 ${
+                                        isMobile ? 'float-none' : ''
+                                      }`}
                                     >
                                       <FormattedMessage id="details.findProductTips" />
                                     </DistributeHubLinkOrATag>
@@ -2467,15 +2482,15 @@ class Details extends React.Component {
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
                               />
-                              {Tr && form.buyWay === 2 ? (
-                                <p
-                                  className="text-right"
-                                  style={{ fontWeight: '400' }}
-                                >
-                                  <FormattedMessage id="detail.subscriptionBuyTip" />
-                                </p>
-                              ) : null}
                             </div>
+                            {Tr && form.buyWay === 2 ? (
+                              <p
+                                className="text-right"
+                                style={{ fontWeight: '400' }}
+                              >
+                                <FormattedMessage id="detail.subscriptionBuyTip" />
+                              </p>
+                            ) : null}
                           </div>
                         )}
                       </div>

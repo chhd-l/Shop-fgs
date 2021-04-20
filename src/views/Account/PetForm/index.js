@@ -126,7 +126,8 @@ class PetForm extends React.Component {
         type: 2
       },
       breedName: '',
-      breedcode: ''
+      breedcode: '',
+      isDeleteModalShow: false
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -289,11 +290,17 @@ class PetForm extends React.Component {
       loading: true,
       currentPet: currentPet
     });
-    await delPets(params);
-
-    myAccountActionPushEvent('Remove pet');
-
-    this.props.history.push('/account/pets/');
+    try {
+      await delPets(params);
+      myAccountActionPushEvent('Remove pet');
+      this.props.history.push('/account/pets/');
+    } catch (err) {
+      this.showErrorMsg(err.message);
+    } finally {
+      this.setState({
+        loading: false
+      });
+    }
   };
   savePet = async () => {
     const { selectedSpecialNeeds, isPurebred, subList } = this.state;
@@ -405,8 +412,10 @@ class PetForm extends React.Component {
     }
     try {
       let res = await action(param);
-      let subscribeId = this.props.location.state?.subscribeId;
-      debugger;
+      let isLinkedSub = this.state.subList.find((el) => el.petsId);
+      let petsIdLinkedSub = isLinkedSub?.petsId;
+      let subscribeId =
+        this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = this.props.location.state?.petsType;
@@ -430,8 +439,7 @@ class PetForm extends React.Component {
         }
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
-        let isLinkedSub = subList.find((el) => el.petsId)?.petsId;
-        if (isLinkedSub) {
+        if (petsIdLinkedSub) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }
@@ -1774,6 +1782,32 @@ class PetForm extends React.Component {
               ) : null}
             </div>
           </div>
+          <Modal
+            headerVisible={true}
+            footerVisible={false}
+            visible={this.state.isDeleteModalShow}
+            modalTitle={''}
+            close={() => {
+              this.setState({ isDeleteModalShow: false });
+            }}
+          >
+            <div className="text-center">
+              <p>
+                <div>
+                  <FormattedMessage id="petSaveTips1" />
+                </div>
+                <FormattedMessage id="petSaveTips2" />
+              </p>
+              <p>
+                <button
+                  onClick={() => {}}
+                  className="rc-btn rc-btn--one rc-btn--sm"
+                >
+                  <FormattedMessage id="pet.deletePet" />
+                </button>
+              </p>
+            </div>
+          </Modal>
           <Modal
             headerVisible={true}
             footerVisible={false}

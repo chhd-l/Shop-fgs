@@ -266,6 +266,7 @@ class SubscriptionDetail extends React.Component {
       return;
     }
     this.setState({ productListLoading: true });
+    // getDetailsBySpuNo(3003)
     getDetailsBySpuNo(id)
       .then((res) => {
         const goodsRes = res && res.context && res.context.goods;
@@ -586,18 +587,21 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
-  PetsInfo = (petsInfo, petsId, history) => {
-    let petBreed =
-      petsInfo.petsType === 'dog'
-        ? (this.state.dogBreedList.length &&
-            this.state.dogBreedList.filter(
-              (item) => item.valueEn == petsInfo.petsBreed
-            )?.[0]?.name) ||
-          petsInfo.petsBreed
+  getBreedName = (petsType, petsBreed) => {
+    let name =
+      petsType?.toLowerCase() === 'dog'
+        ? this.state.dogBreedList.length &&
+          this.state.dogBreedList.filter(
+            (item) => item.valueEn == petsBreed
+          )?.[0]?.name
         : this.state.catBreedList.length &&
           this.state.catBreedList.filter(
-            (item) => item.valueEn == petsInfo.petsBreed
+            (item) => item.valueEn == petsBreed
           )?.[0]?.name;
+    return name || this.props.intl.messages['Mixed Breed'];
+  };
+  PetsInfo = (petsInfo, petsId, history) => {
+    let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
     return (
       <React.Fragment>
         <img
@@ -660,7 +664,7 @@ class SubscriptionDetail extends React.Component {
             <div>
               <FormattedMessage id="breed" />:
               <strong>
-                {petBreed || <FormattedMessage id="Mixed Breed" />}
+                {petBreed}
                 {/* {petsInfo?.petsBreed} */}
               </strong>{' '}
             </div>
@@ -697,14 +701,14 @@ class SubscriptionDetail extends React.Component {
           style={{
             background: '#F5F5F5',
             padding: '6px',
-            marginTop: '10px',
+            marginTop: '30px',
             display: 'inline-block'
           }}
         >
           <span style={{ fontSize: '12px' }}>
             <FormattedMessage id="subscription.dailyRation" />
           </span>
-          : {rations}
+          :<strong>{rations}</strong>
         </span>
       )
     );
@@ -804,15 +808,17 @@ class SubscriptionDetail extends React.Component {
     let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let errorMsg = '';
     if (isAutoshipAndClub) {
-      errorMsg =
-        'There are club and autoship products, please go to the pet details to bind the products';
+      errorMsg = this.props.intl.messages[
+        'subscriptionDetail.cantBindPetsErr1'
+      ];
     }
     if (isCatAndDog) {
-      errorMsg =
-        'There are cat and dog products, please go to the pet details to bind the products';
+      errorMsg = this.props.intl.messages[
+        'subscriptionDetail.cantBindPetsErr1'
+      ];
     }
     if (isCantLinkPet) {
-      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
+      this.showErrMsgs(errorMsg, 'errMsgPage');
       return;
     }
     if (!this.userInfo.customerAccount) {
@@ -830,9 +836,10 @@ class SubscriptionDetail extends React.Component {
     })
       .then((res) => {
         let petsList = res.context.context || [];
-        let petList = petsList?.filter(
-          (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
-        );
+        let petList =
+          petsList?.filter(
+            (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
+          ) || [];
         this.setState({
           loading: false,
           petList,
@@ -1268,24 +1275,25 @@ class SubscriptionDetail extends React.Component {
                   </div>
                   <div style={{ paddingLeft: '1rem' }}>
                     <div style={{ color: '#e2001a' }}>{el.petsName}</div>
-                    <div>{el.birthOfPets}</div>
+                    {/* <div>{el.birthOfPets}</div> */}
+                    <div>{this.getBreedName(el.petsType, el.petsBreed)}</div>
                   </div>
                 </div>
               ))}
-              <div
-                style={{ paddingLeft: '2rem' }}
-                className="border-dot height100 align-items-center d-flex"
+              <Link
+                to={{
+                  pathname: `/account/pets/petForm`,
+                  state: {
+                    petsType: this.state.petsType,
+                    subscribeId: this.state.subDetail.subscribeId
+                  }
+                }}
               >
-                <div>
-                  <Link
-                    to={{
-                      pathname: `/account/pets/petForm`,
-                      state: {
-                        petsType: this.state.petsType,
-                        subscribeId: this.state.subDetail.subscribeId
-                      }
-                    }}
-                  >
+                <div
+                  style={{ paddingLeft: '2rem' }}
+                  className="border-dot height100 align-items-center d-flex"
+                >
+                  <div>
                     +{' '}
                     <strong>
                       {this.state.petsType == 'Cat' ? (
@@ -1294,14 +1302,14 @@ class SubscriptionDetail extends React.Component {
                         <FormattedMessage id="subscriptionDetail.addNewDog" />
                       )}
                     </strong>
-                  </Link>
+                  </div>
+                  <img
+                    style={{ paddingLeft: '2rem' }}
+                    className="pet-icon"
+                    src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
+                  />
                 </div>
-                <img
-                  style={{ paddingLeft: '2rem' }}
-                  className="pet-icon"
-                  src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
-                />
-              </div>
+              </Link>
             </div>
           </div>
         </Modal>
@@ -2309,23 +2317,25 @@ class SubscriptionDetail extends React.Component {
     let { petsId } = this.state.subDetail;
     try {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
-      console.info(res, 'res');
-      let { mainProduct, otherProducts } = res.context;
-      let productArr = [mainProduct, ...otherProducts];
-      let spuNoList = productArr?.map((el) => el.spuCode);
-      let rationsParams = { petsId, spuNoList };
-      let rationRes = await getRation(rationsParams);
-      let rations = rationRes?.context?.rationResponseItems;
-      rations?.forEach((ration) => {
-        if (mainProduct.spuCode == ration.mainItem) {
-          mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
-        }
-        otherProducts?.map((el) => {
-          if (el.spuCode == ration.mainItem) {
-            el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+      let mainProduct = res.context.mainProduct;
+      let otherProducts = res.context.otherProducts;
+      if (mainProduct) {
+        let productArr = [mainProduct, ...otherProducts];
+        let spuNoList = productArr?.map((el) => el.spuCode);
+        let rationsParams = { petsId, spuNoList };
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        rations?.forEach((ration) => {
+          if (mainProduct.spuCode == ration.mainItem) {
+            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
           }
+          otherProducts?.map((el) => {
+            if (el.spuCode == ration.mainItem) {
+              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            }
+          });
         });
-      });
+      }
       this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
@@ -3614,8 +3624,8 @@ class SubscriptionDetail extends React.Component {
                                         {/* </LazyLoad> */}
                                         {isClub && !!subDetail.petsId && (
                                           <span
-                                            style={{ whiteSpace: 'nowrap' }}
-                                            className={`text-plain rc-styled-link ${
+                                            style={{ width: '100%' }}
+                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
                                               this.state.productListLoading
                                                 ? 'ui-btn-loading'
                                                 : ''
@@ -4235,7 +4245,8 @@ class SubscriptionDetail extends React.Component {
                                                     />
                                                   </LazyLoad>
                                                   <a
-                                                    className="rc-styled-link"
+                                                    className="rc-styled-link ui-text-overflow-line1"
+                                                    style={{ width: '60px' }}
                                                     href="#/"
                                                     onClick={(e) => {
                                                       e.preventDefault();

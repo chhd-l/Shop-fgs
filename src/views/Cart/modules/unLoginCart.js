@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -260,7 +261,6 @@ class UnLoginCart extends React.Component {
   setCartData({ initPage = false } = {}) {
     !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
     const { configStore } = this.props;
-    console.log(configStore.frequencyId, '🐖');
     let productList = this.props.checkoutStore.cartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -277,15 +277,27 @@ class UnLoginCart extends React.Component {
           frequencyType: filterData.type
         };
       } else {
-        el.form = {
-          frequencyVal: filterData.valueEn,
-          frequencyName: filterData.name,
-          frequencyId:
-            el.goods?.defaultFrequencyId ||
-            configStore.defaultSubscriptionFrequencyId ||
-            filterData.id,
-          frequencyType: filterData.type
-        };
+        if (el.promotions?.includes('club')) {
+          el.form = {
+            frequencyVal: filterData.valueEn,
+            frequencyName: filterData.name,
+            frequencyId:
+              el.goods?.defaultFrequencyId ||
+              configStore.info.storeVO.defaultSubscriptionClubFrequencyId ||
+              filterData.id,
+            frequencyType: filterData.type
+          };
+        } else {
+          el.form = {
+            frequencyVal: filterData.valueEn,
+            frequencyName: filterData.name,
+            frequencyId:
+              el.goods?.defaultFrequencyId ||
+              configStore.info.storeVO.defaultSubscriptionFrequencyId ||
+              filterData.id,
+            frequencyType: filterData.type
+          };
+        }
       }
       return el;
     });

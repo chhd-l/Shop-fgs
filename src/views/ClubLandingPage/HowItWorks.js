@@ -4,11 +4,15 @@ import howitworck1 from './ClubImage/howit1.png';
 import howitworck2 from './ClubImage/howIt2.png';
 import howitworck3 from './ClubImage/howit3.png';
 import howitworck4 from './ClubImage/howit4.png';
+import how02 from './ClubImage/How02@2x.png';
+import how04 from './ClubImage/How04@2x.png';
 import workflowicon from './ClubImage/howitworkflow.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
+  const RU = process.env.REACT_APP_LANG == 'ru';
+  const TR = process.env.REACT_APP_LANG == 'tr';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
@@ -84,15 +88,37 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={howitworck2}
-                        alt={props.intl.formatMessage({
-                          id: 'club.howitworks.alt2'
-                        })}
-                      />
-                    </LazyLoad>
+                    {RU ? (
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={howitworck2}
+                          alt={props.intl.formatMessage({
+                            id: 'club.howitworks.alt2'
+                          })}
+                        />
+                      </LazyLoad>
+                    ) : TR ? (
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={how02}
+                          alt={props.intl.formatMessage({
+                            id: 'club.howitworks.alt2'
+                          })}
+                        />
+                      </LazyLoad>
+                    ) : (
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={howitworck2}
+                          alt={props.intl.formatMessage({
+                            id: 'club.howitworks.alt2'
+                          })}
+                        />
+                      </LazyLoad>
+                    )}
                     <div className="rc-card__body">
                       <p
                         className="rc-card__meta club_subscription_intro_center"
@@ -166,15 +192,37 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={howitworck4}
-                        alt={props.intl.formatMessage({
-                          id: 'club.howitworks.alt4'
-                        })}
-                      />
-                    </LazyLoad>
+                    {RU ? (
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={howitworck4}
+                          alt={props.intl.formatMessage({
+                            id: 'club.howitworks.alt4'
+                          })}
+                        />
+                      </LazyLoad>
+                    ) : TR ? (
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={how04}
+                          alt={props.intl.formatMessage({
+                            id: 'club.howitworks.alt4'
+                          })}
+                        />
+                      </LazyLoad>
+                    ) : (
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={howitworck4}
+                          alt={props.intl.formatMessage({
+                            id: 'club.howitworks.alt4'
+                          })}
+                        />
+                      </LazyLoad>
+                    )}
                     <div className="rc-card__body">
                       <p
                         className="rc-card__meta club_subscription_intro_center"

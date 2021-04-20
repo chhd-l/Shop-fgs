@@ -86,6 +86,12 @@ class CheckoutStore {
   }
 
   @action.bound
+  setPetInfo(data) {
+    this.pr_petsInfo = data;
+    localItemRoyal.set('pr-petsInfo', data);
+  }
+
+  @action.bound
   setPromotionCode(data) {
     this.promotionCode = data;
     localItemRoyal.set('rc-promotionCode', data);

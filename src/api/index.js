@@ -16,7 +16,7 @@ const api = {
   seo: 'seo/setting',
   getSystemConfig: '/system/config',
   addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
-  getIsNeedPrescriber: '/order/config/listSystemConfig' //查询是否需要显示用户选择绑定prescriber弹框
+  getPrescriberSettingInfo: '/order/config/listSystemConfig' //查询是否需要显示用户选择绑定prescriber弹框
 };
 
 export default api;
@@ -140,9 +140,9 @@ export function getAddressSetting(parameter) {
 }
 
 //查询prescription页面是否需要显示用户选择绑定prescriber弹框
-export function getIsNeedPrescriber() {
+export function getPrescriberSettingInfo() {
   return axios({
-    url: `${api.getIsNeedPrescriber}`,
+    url: `${api.getPrescriberSettingInfo}`,
     method: 'get',
     params: { storeId: process.env.REACT_APP_STOREID }
   });

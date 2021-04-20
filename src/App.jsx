@@ -136,7 +136,6 @@ import FelinRecommendation from '@/views/FelinRecommendation';
 
 import ClubLandingPage from './views/ClubLandingPage';
 import {redirectFun} from "@/redirect/utils"
-import RedirectUrlJSON from './redirectUrl';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
