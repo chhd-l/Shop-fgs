@@ -807,7 +807,6 @@ class SubscriptionDetail extends React.Component {
     let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
     let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let errorMsg = '';
-    debugger;
     if (isAutoshipAndClub) {
       errorMsg = this.props.intl.messages[
         'subscriptionDetail.cantBindPetsErr1'
@@ -822,8 +821,6 @@ class SubscriptionDetail extends React.Component {
       this.showErrMsgs(errorMsg, 'errMsgPage');
       return;
     }
-    debugger;
-
     if (!this.userInfo.customerAccount) {
       // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
@@ -839,9 +836,10 @@ class SubscriptionDetail extends React.Component {
     })
       .then((res) => {
         let petsList = res.context.context || [];
-        let petList = petsList?.filter(
-          (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
-        );
+        let petList =
+          petsList?.filter(
+            (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
+          ) || [];
         this.setState({
           loading: false,
           petList,
@@ -2319,23 +2317,25 @@ class SubscriptionDetail extends React.Component {
     let { petsId } = this.state.subDetail;
     try {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
-      console.info(res, 'res');
-      let { mainProduct, otherProducts } = res.context;
-      let productArr = [mainProduct, ...otherProducts];
-      let spuNoList = productArr?.map((el) => el.spuCode);
-      let rationsParams = { petsId, spuNoList };
-      let rationRes = await getRation(rationsParams);
-      let rations = rationRes?.context?.rationResponseItems;
-      rations?.forEach((ration) => {
-        if (mainProduct.spuCode == ration.mainItem) {
-          mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
-        }
-        otherProducts?.map((el) => {
-          if (el.spuCode == ration.mainItem) {
-            el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+      let mainProduct = res.context.mainProduct;
+      let otherProducts = res.context.otherProducts;
+      if (mainProduct) {
+        let productArr = [mainProduct, ...otherProducts];
+        let spuNoList = productArr?.map((el) => el.spuCode);
+        let rationsParams = { petsId, spuNoList };
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        rations?.forEach((ration) => {
+          if (mainProduct.spuCode == ration.mainItem) {
+            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
           }
+          otherProducts?.map((el) => {
+            if (el.spuCode == ration.mainItem) {
+              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            }
+          });
         });
-      });
+      }
       this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
