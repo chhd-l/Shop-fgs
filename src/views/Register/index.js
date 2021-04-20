@@ -331,7 +331,8 @@ class Register extends Component {
           window.scrollTo(0, 0);
           this.setState({
             circleLoading: false,
-            hasError: true
+            hasError: true,
+            errorMessage: res.code === 'K-000001' ? null : res.message
           });
         }
       })
