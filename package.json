@@ -143,6 +143,7 @@
     "build:fr": "dotenv -e ./env/fr/.env.development -e ./env/fr/.env node scripts/build.js",
     "build:shopstg_fr": "dotenv -e ./env/fr/.env.shopsite -e ./env/fr/.env node scripts/build.js",
     "build:shopsite_fr": "dotenv -e ./env/fr/.env.shopsite -e ./env/fr/.env node scripts/build.js",
+    "build:stgwedding_fr": "dotenv -e ./env/fr/.env.stgwedding -e ./env/fr/.env node scripts/build.js",
     "build:prod_fr": "dotenv -e ./env/fr/.env.production -e ./env/fr/.env node scripts/build.js",
     "build:prod_fr_hub": "dotenv -e ./env/fr/.env.production.hub -e ./env/fr/.env node scripts/build.js",
     "build:ru": "dotenv -e ./env/ru/.env.development -e ./env/ru/.env node scripts/build.js",
