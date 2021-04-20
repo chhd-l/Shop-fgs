@@ -1162,6 +1162,11 @@ class Payment extends React.Component {
       }
       let isRepay = this.state.tid ? true : false;
       payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
+      // 线下店orderSource埋点L_ATELIER_FELIN
+      let orderSource = sessionItemRoyal.get('orderSource');
+      if (orderSource) {
+        parameters.orderSource = orderSource;
+      }
       /* 4)调用支付 */
       const res = await action(parameters);
       // console.log(parameters);
@@ -1175,13 +1180,8 @@ class Payment extends React.Component {
       switch (type) {
         case 'oxxo':
           const oxxoContent = res.context;
-          const oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
-            oxxoArgs &&
-            oxxoArgs.additionalDetails &&
-            oxxoArgs.additionalDetails.data[0]
-              ? oxxoArgs.additionalDetails.data[0].href
-              : '';
+            oxxoContent?.args?.additionalDetails?.data[0]?.href || '';
           subOrderNumberList = tidList.length
             ? tidList
             : oxxoContent && oxxoContent.tidList;
@@ -1419,7 +1419,10 @@ class Payment extends React.Component {
         postVisitorRegisterAndLoginRes.context.token
       );
       if (sessionItemRoyal.get('recommend_product')) {
+        // 线下店orderSource埋点L_ATELIER_FELIN
+        let orderSource = sessionItemRoyal.get('orderSource');
         await batchAdd({
+          orderSource,
           goodsInfos: this.state.recommend_data.map((ele) => {
             return {
               verifyStock: false,

@@ -878,7 +878,9 @@ class PetForm extends React.Component {
       isCat
     } = this.state;
     const RuTr =
-      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
+      process.env.REACT_APP_LANG == 'ru' ||
+      process.env.REACT_APP_LANG == 'tr' ||
+      process.env.REACT_APP_LANG == 'fr';
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1343,7 +1345,8 @@ class PetForm extends React.Component {
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: this.state.isCat ? 'none' : null
+                              display: this.state.isCat ? 'none' : null,
+                              height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
@@ -1359,7 +1362,8 @@ class PetForm extends React.Component {
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: !this.state.isCat ? 'none' : null
+                              display: !this.state.isCat ? 'none' : null,
+                              height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null

@@ -108,7 +108,10 @@ export async function hanldePurchases(goodsInfoDTOList) {
  */
 export async function mergeUnloginCartData() {
   const unloginCartData = checkoutStore.cartData;
+  // 线下店orderSource埋点L_ATELIER_FELIN
+  let orderSource = sessionItemRoyal.get('orderSource') || '';
   await mergePurchase({
+    orderSource,
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
         goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
@@ -591,17 +594,6 @@ export async function fetchHeaderNavigations() {
   }
   return ret;
 }
-export function getZoneTime(date) {
-  if (process.env.REACT_APP_LANG === 'en') {
-    return new Date(date).addHours(12);
-  }
-  return new Date(date);
-}
-function isMatchedLang(langArr, lang) {
-  return langArr?.find(
-    (crLang) => process.env.REACT_APP_LANG === crLang || lang === crLang
-  );
-}
 
 export function getFormatDate(date, callback, lang) {
   if (isMatchedLang(['fr'])) {
@@ -866,7 +858,12 @@ export const sleep = (time) => {
     }, time);
   });
 };
-
+export function getZoneTime(date) {
+  if (process.env.REACT_APP_LANG === 'en') {
+    return new Date(date).addHours(12);
+  }
+  return new Date(date);
+}
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 export function getClubLogo() {
