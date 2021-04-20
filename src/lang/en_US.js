@@ -1120,7 +1120,7 @@ const en_US = {
   single: 'Single',
   singlePurchase: 'Single purchase',
   skip: 'Skip',
-  skiped: 'Skiped',
+  skiped: 'Skipped',
   sofort: 'Sofort',
   sortBy: 'Sort by',
   sortedBy: 'Sorted by',
