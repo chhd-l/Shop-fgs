@@ -681,7 +681,6 @@ function getDatePickerConfig() {
   return curDatePickerCfg;
 }
 let datePickerConfig = getDatePickerConfig();
-debugger;
 export { datePickerConfig };
 
 /**
