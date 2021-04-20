@@ -845,6 +845,7 @@ class List extends React.Component {
 
     // ru filter seo
     let allPrefv = [];
+    let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
@@ -855,6 +856,8 @@ class List extends React.Component {
       } else {
         allPrefv.push(fvEles);
       }
+
+      if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
     const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
@@ -862,6 +865,7 @@ class List extends React.Component {
       pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`,
       prefv1,
       animalType,
+      sizePrefv: sizePrefv.join(' '),
       allPrefv: allPrefv.join(' ')
     });
   }
@@ -1040,6 +1044,19 @@ class List extends React.Component {
     keywords,
     type
   ) {
+    const { sizePrefv = [], filterList = [] } = this.state;
+    const filterPrefv = sizePrefv.split('|');
+    const sizeAttr = filterList.filter(
+      (item) => item.attributeName == 'Size'
+    )?.[0]?.attributesValueList;
+    let sizeFilter = [];
+    for (let index = 0; index < filterPrefv.length; index++) {
+      const attrName = sizeAttr?.filter(
+        (item) => item.attributeDetailNameEnSplitByLine == filterPrefv[index]
+      )?.[0]?.attributeDetailName;
+      sizeFilter.push(attrName);
+    }
+    const sizeCategory = sizeFilter.join('|');
     const products = productList.map((item, index) => {
       const {
         fromPrice,
@@ -1072,7 +1089,8 @@ class List extends React.Component {
         SKU,
         technology: cateName?.[2] || '',
         brand: 'Royal Canin',
-        breed
+        breed,
+        sizeCategory
       };
       let res = filterObjectValue(productItem);
       return res;
