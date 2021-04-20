@@ -140,15 +140,20 @@ class PetForm extends React.Component {
     console.log(this.props, 'props');
     const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
     const activityOptions = await getDictionary({ type: 'Activity' });
+    const specialNeedsOptions = await getDictionary({ type: 'specialNeeds' }); //为了暂时解决fr的字典问题，后期字典应该还会调整，每个国家这里的字典都有区别
     lifestyleOptions.map((el) => {
       el.value = el.valueEn;
     });
     activityOptions.map((el) => {
       el.value = el.valueEn;
     });
+    specialNeedsOptions.map((el) => {
+      el.value = el.valueEn;
+    });
     this.setState({
       lifestyleOptions,
-      activityOptions
+      activityOptions,
+      specialNeedsOptions
     });
     let petsType = this.props.location.state?.petsType;
     if (petsType) {
@@ -175,17 +180,6 @@ class PetForm extends React.Component {
         this.showErrorMsg(err.message);
       });
     this.getPetList();
-  }
-  get specialNeedsOptions() {
-    let option = this.state.specialNeeds.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.valueEn,
-        ...ele
-      };
-    });
-
-    return option;
   }
 
   get sizeOptions() {
@@ -822,7 +816,7 @@ class PetForm extends React.Component {
 
   specialNeedsOptionsChange(data) {
     this.setState({ sensitivity: data.value });
-    // console.log(data);
+    console.log(data);
     if (data.value === 'none') {
       this.setState({
         selectedSpecialNeeds: ['none']
@@ -878,9 +872,8 @@ class PetForm extends React.Component {
       isCat
     } = this.state;
     const RuTr =
-      process.env.REACT_APP_LANG == 'ru' ||
-      process.env.REACT_APP_LANG == 'tr' ||
-      process.env.REACT_APP_LANG == 'fr';
+      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
+    const Us = process.env.REACT_APP_LANG == 'en';
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1262,8 +1255,13 @@ class PetForm extends React.Component {
                           >
                             <FormattedMessage id="Special Need" />
                           </label>
+                          {/* 这里的字典每个国家取得都不一样 比较混乱，合并代码需要注意一下，暂时除了us,tr,ru定了其他国家都还没定== */}
                           <Selection
-                            optionList={this.specialNeedsOptions}
+                            optionList={
+                              Us
+                                ? this.state.specialNeeds
+                                : this.state.specialNeedsOptions
+                            }
                             selectedItemChange={(el) =>
                               this.specialNeedsOptionsChange(el)
                             }
