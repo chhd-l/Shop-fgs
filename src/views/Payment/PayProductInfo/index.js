@@ -6,12 +6,13 @@ import find from 'lodash/find';
 import {
   formatMoney,
   getFrequencyDict,
-  matchNamefromDict
+  matchNamefromDict,
+  getClubLogo
 } from '@/utils/utils';
+console.log(getClubLogo(), 'getClubLogo');
 import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
-import Club_Logo from '@/assets/images/Logo_club.png';
 import './index.css';
 
 const guid = uuidv4();
@@ -270,7 +271,7 @@ class PayProductInfo extends React.Component {
                     {el.promotions && el.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={Club_Logo}
+                        src={getClubLogo()}
                         alt="club logo"
                       />
                     ) : null}
@@ -353,7 +354,7 @@ class PayProductInfo extends React.Component {
                     el.goods.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={Club_Logo}
+                        src={getClubLogo()}
                         alt="club logo"
                       />
                     ) : null}

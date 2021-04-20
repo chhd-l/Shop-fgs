@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import Club_Logo from '@/assets/images/Logo_club.png';
-import { getFormatDate, getFrequencyDict, getDeviceType } from '@/utils/utils';
+import {
+  getFormatDate,
+  getFrequencyDict,
+  getDeviceType,
+  getClubLogo
+} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import {
   getSubList,
@@ -152,7 +156,7 @@ const LinkedSubs = (props) => {
                   <div className="col-4 col-md-2 text-nowrap">
                     <LazyLoad>
                       <img
-                        src={Club_Logo}
+                        src={getClubLogo()}
                         style={{
                           width: '75px',
                           display: 'inline-block',

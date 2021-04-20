@@ -5,12 +5,12 @@ import Skeleton from 'react-skeleton-loader';
 import {
   formatMoney,
   getFrequencyDict,
-  matchNamefromDict
+  matchNamefromDict,
+  getClubLogo
 } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
-import Club_Logo from '@/assets/images/Logo_club.png';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -98,7 +98,7 @@ class PayProductInfo extends React.Component {
                     {item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"
-                        src={Club_Logo}
+                        src={getClubLogo()}
                         alt="club-logo"
                       />
                     ) : null}

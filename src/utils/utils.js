@@ -848,3 +848,13 @@ export const sleep = (time) => {
     }, time);
   });
 };
+
+import Club_Logo from '@/assets/images/Logo_club.png';
+import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
+export function getClubLogo() {
+  if (process.env.REACT_APP_LANG === 'ru') {
+    return Club_Logo_ru;
+  } else {
+    return Club_Logo;
+  }
+}

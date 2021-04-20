@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
-import Club_Logo from '@/assets/images/Logo_club.png';
 import {
   getFormatDate,
   getFrequencyDict,
   filterOrderId,
-  getDeviceType
+  getDeviceType,
+  getClubLogo
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
@@ -95,7 +95,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         <LazyLoad>
           <img
-            src={Club_Logo}
+            src={getClubLogo()}
             style={{
               width: '75px',
               display: 'inline-block',
