@@ -188,7 +188,7 @@ export default class Felin extends React.Component {
           this.buildTimeOption();
           getConsentList({ consentGroup: 'appointment' })
             .then((res) => {
-              console.log(res);
+              this.setState({ consentList: res.context });
             })
             .catch((err) => {
               console.log(err);
@@ -643,7 +643,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
-    // console.log(consentList, 'consentList');
+    console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
