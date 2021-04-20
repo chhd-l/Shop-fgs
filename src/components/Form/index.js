@@ -118,7 +118,7 @@ class Form extends React.Component {
     this.getSystemFormConfig();
 
     // 如果有areaId
-    if (initData?.areaId != '') {
+    if (initData?.areaId) {
       this.getRegionDataByCityId(initData.cityId);
     }
   }
@@ -591,7 +591,11 @@ class Form extends React.Component {
         regionList: [],
         dataLoading: true
       });
-      this.getRegionDataByCityId(data.value);
+      // 获取本地存储的需要显示的地址字段
+      const localAddressForm = localItemRoyal.get('rc-address-form') || null;
+      if (localAddressForm['region']) {
+        this.getRegionDataByCityId(data.value);
+      }
     } else if (key == 'region') {
       caninForm.area = data.name;
       caninForm.areaId = data.value;
@@ -656,20 +660,10 @@ class Form extends React.Component {
   };
   // 文本框失去焦点
   inputBlur = (e) => {
-    const { caninForm } = this.state;
     const target = e?.target;
     const tname = target?.name;
     const tvalue =
       target?.type === 'checkbox' ? target?.checked : target?.value;
-    caninForm[tname] = tvalue;
-    this.setState(
-      {
-        caninForm
-      },
-      () => {
-        this.props.updateData(this.state.caninForm);
-      }
-    );
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
@@ -679,7 +673,6 @@ class Form extends React.Component {
     const targetRule = caninForm.formRule.filter((e) => e.key === tname);
     try {
       await validData(targetRule, { [tname]: tvalue });
-      console.log('验证数据  验证通过 ', tname);
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''

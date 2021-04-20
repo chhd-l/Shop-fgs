@@ -101,7 +101,7 @@ class ConfigStore {
     return true;
   }
 
-  // 显示prescriber map开关
+  // //获取是否需要prescriber Map
   @computed get prescriberMap() {
     return (
       this.prescriberSettingInfo &&
@@ -145,8 +145,11 @@ class ConfigStore {
       : '';
   }
 
+  //获取是否需要prescriber Map
   @computed get isPrescriberMap() {
-    return this.prescriberSelectType ? String(this.prescriberSelectType) : ''; //是否打开prescriber Map信息从prescriber setting 接口取
+    return this.prescriberSettingInfo
+      ? String(this.prescriberSettingInfo.prescriberSelectType)
+      : ''; //是否打开prescriber Map信息从prescriber setting 接口取
   }
 
   @action.bound

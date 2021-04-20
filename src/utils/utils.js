@@ -11,7 +11,8 @@ import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
-import fr from 'date-fns/locale/de';
+import fr from 'date-fns/locale/fr';
+import tr from 'date-fns/locale/tr';
 import en from 'date-fns/locale/en-US';
 import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
@@ -107,7 +108,10 @@ export async function hanldePurchases(goodsInfoDTOList) {
  */
 export async function mergeUnloginCartData() {
   const unloginCartData = checkoutStore.cartData;
+  // 线下店orderSource埋点L_ATELIER_FELIN
+  let orderSource = sessionItemRoyal.get('orderSource') || '';
   await mergePurchase({
+    orderSource,
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
         goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
@@ -590,15 +594,9 @@ export async function fetchHeaderNavigations() {
   }
   return ret;
 }
-export function getZoneTime(date) {
-  if (process.env.REACT_APP_LANG === 'en') {
-    return new Date(date).addHours(12);
-  }
-  return new Date(date);
-}
 
 export function getFormatDate(date, callback, lang) {
-  if (process.env.REACT_APP_LANG === 'fr' || lang === 'fr') {
+  if (isMatchedLang(['fr'])) {
     const cache = createIntlCache();
     const intl = createIntl(
       {
@@ -612,8 +610,16 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(getZoneTime(date));
     }
-  } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
+  } else if (isMatchedLang(['en'])) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
+      locale: datePickerConfig.locale_module
+    });
+  } else if (isMatchedLang(['tr'])) {
+    return format(getZoneTime(date), 'dd-MM-yyyy', {
+      locale: datePickerConfig.locale_module
+    });
+  } else if (isMatchedLang(['ru'])) {
+    return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
   } else {
@@ -645,6 +651,9 @@ function getDatePickerConfig() {
     case 'ru':
       registerLocale('ru', ru);
       break;
+    case 'tr':
+      registerLocale('tr', tr);
+      break;
     default:
       break;
   }
@@ -654,7 +663,8 @@ function getDatePickerConfig() {
     de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
     fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
     en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
-    ru: { format: 'MM/dd/yyyy', locale: 'ru', locale_module: ru },
+    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
+    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
@@ -848,3 +858,18 @@ export const sleep = (time) => {
     }, time);
   });
 };
+export function getZoneTime(date) {
+  if (process.env.REACT_APP_LANG === 'en') {
+    return new Date(date).addHours(12);
+  }
+  return new Date(date);
+}
+import Club_Logo from '@/assets/images/Logo_club.png';
+import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
+export function getClubLogo() {
+  if (process.env.REACT_APP_LANG === 'ru') {
+    return Club_Logo_ru;
+  } else {
+    return Club_Logo;
+  }
+}

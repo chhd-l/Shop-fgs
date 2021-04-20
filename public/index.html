@@ -62,8 +62,9 @@
   <!-- <script crossorigin src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-router-dom@5.1.2/umd/react-router-dom.min.js"></script> -->
+  <!-- seo is not searched -->
   <script>
-    if ("<%= process.env.REACT_APP_LANG %>" == 'en' || "<%= process.env.REACT_APP_NO_INDEX %>" == "1") {
+    if ("<%= process.env.REACT_APP_LANG %>" == 'en' || "<%= process.env.NODE_ENV %>" !== "production") {
       var metaTag = document.createElement('meta');
       metaTag.name = 'robots';
       metaTag.content = 'noindex';
@@ -105,7 +106,7 @@
   <div id="alert-tip"></div>
   <noscript>You need to enable JavaScript to run this app.</noscript>
 
-  <div class="<%= process.env.REACT_APP_ROOT_CLS %>" id="root">
+  <div class="<%= process.env.REACT_APP_ROOT_CLS %> 3333" id="root">
   </div>
   <!--
       This HTML file is a template.

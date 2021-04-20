@@ -875,7 +875,7 @@ const ru_RU = {
   save: 'Сохранить',
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
-  saveSuccessfullly: 'Успешно сохраним',
+  saveSuccessfullly: 'Адрес успешно сохранен',
   saveSuccessfullly2: 'Ваша информация была успешно сохранена',
   saveSuccessfullly3: 'Ваша информация была успешно сохранена',
   deleteSuccessFullly: 'Başarıyla silindi',
@@ -1016,7 +1016,8 @@ const ru_RU = {
     'Ваш персональный помощник Службы Заботы с 9 до 21',
   'club.subscription.icon4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
-  'club.subscription.icon5': 'Возможность изменения частоты доставок',
+  'club.subscription.icon5':
+    'Бесплатные онлайн-консультации нутрициолога в Petstory',
   'club.subscription.icon6':
     'Бесплатные онлайн консультации нутрициолога в PetStory',
   'club.subscription.button': 'Начать',

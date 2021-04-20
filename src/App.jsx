@@ -44,7 +44,6 @@ import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
 import Test from '@/views/Test';
 import List from '@/views/List';
-import ListSource from '@/views/List/source';
 import Login from '@/views/Login';
 // import Details from '@/views/Details';
 import Details from '@/views/Details/index.js';

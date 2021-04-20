@@ -715,7 +715,7 @@ class Details extends React.Component {
         if (petsRes.code === 'K-000000') {
           let petsInfo = petsRes.context;
           this.props.checkoutStore.setPetInfo(petsRes.context);
-          let rationRes = getRation({
+          let rationRes = await getRation({
             spuNoList: [goodsNo],
             petsId: petsInfo.petsId
           });
@@ -754,7 +754,6 @@ class Details extends React.Component {
             }
           });
         }
-
         const res = resList[0];
         const frequencyDictRes = resList[1];
         let autoshipDictRes = frequencyDictRes.filter(
@@ -1280,6 +1279,7 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
       const { currentUnitPrice, quantity, form, details } = this.state;
+      this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
@@ -1398,7 +1398,7 @@ class Details extends React.Component {
     dataLayer.push({
       event: 'pdpAddToCart',
       pdpAddToCartQuantity: this.state.quantity,
-      pdpAddToCartCtA: { 0: 'One-Shot', 1: 'Subscription' }[
+      pdpAddToCartCtA: { 0: 'One-Shot', 2: 'Subscription' }[
         this.state.form.buyWay
       ]
     });
@@ -1598,6 +1598,7 @@ class Details extends React.Component {
       loading,
       rationInfo
     } = this.state;
+    console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {

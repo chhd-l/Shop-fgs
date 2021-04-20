@@ -410,7 +410,7 @@ class Register extends Component {
                 <a
                   href={
                     isHub
-                      ? process.env.REACT_APP_HUBPAGE_PREFIX
+                      ? process.env.REACT_APP_HUB_URLPREFIX
                       : process.env.REACT_APP_ACCESS_PATH
                   }
                   className="logo-home d-inline-block border-bottom border-transparent"

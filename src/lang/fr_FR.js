@@ -1574,6 +1574,11 @@ const fr_FR = {
   'searchNoResult.telephone': 'Par téléphone',
   'searchNoResult.email': 'Par mail',
   'searchNoResult.email.content': 'Envoyer un email',
-  'searchNoBreed.breedName': 'Résultats de la recherche'
+  'searchNoBreed.breedName': 'Résultats de la recherche',
+  kg: 'kg',
+  Activity: 'Activité',
+  Weight: 'Poids',
+  Sensitivity: 'Sensibilité',
+  Lifestyle: 'Mode de vie'
 };
 export default fr_FR;

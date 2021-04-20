@@ -1120,7 +1120,7 @@ const en_US = {
   single: 'Single',
   singlePurchase: 'Single purchase',
   skip: 'Skip',
-  skiped: 'Skiped',
+  skiped: 'Skipped',
   sofort: 'Sofort',
   sortBy: 'Sort by',
   sortedBy: 'Sorted by',
@@ -1334,6 +1334,7 @@ const en_US = {
   'searchNoResult.telephone': 'Call Us',
   'searchNoResult.email': 'Email Us',
   'searchNoResult.email.content': 'Send us an Email',
-  'searchNoBreed.breedName': 'Search Results'
+  'searchNoBreed.breedName': 'Search Results',
+  kg: 'kg'
 };
 export default en_US;
