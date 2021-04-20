@@ -63,6 +63,14 @@ export default function ClubGiftBanner() {
             </strong>
             {/* <strong>Free, automatic delivery</strong> on every refill */}
           </li>
+          {process.env.REACT_APP_LANG === 'ru' ? (
+            <li className="rc-list__item">
+              <strong>
+                <FormattedMessage id="clubGiftTips6" />
+              </strong>
+              {/* <strong>Free, automatic delivery</strong> on every refill */}
+            </li>
+          ) : null}
         </ul>
         {/* You can cancel your subscription anytime, but you will have to
     pay the remaining balance of the dispenser market price of 120
