@@ -18,7 +18,7 @@ podTemplate(label: label, cloud: 'kubernetes',
             name: 'jnlp',
             image: 'k8sregistrysit.azurecr.io/repository:393',
             ttyEnabled: true,
-            alwaysPullImage: false)
+            alwaysPullImage: true)
     ],
     volumes: [
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock'),
