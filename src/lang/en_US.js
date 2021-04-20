@@ -1334,6 +1334,7 @@ const en_US = {
   'searchNoResult.telephone': 'Call Us',
   'searchNoResult.email': 'Email Us',
   'searchNoResult.email.content': 'Send us an Email',
-  'searchNoBreed.breedName': 'Search Results'
+  'searchNoBreed.breedName': 'Search Results',
+  kg: 'kg'
 };
 export default en_US;

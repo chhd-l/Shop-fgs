@@ -656,20 +656,10 @@ class Form extends React.Component {
   };
   // 文本框失去焦点
   inputBlur = (e) => {
-    const { caninForm } = this.state;
     const target = e?.target;
     const tname = target?.name;
     const tvalue =
       target?.type === 'checkbox' ? target?.checked : target?.value;
-    caninForm[tname] = tvalue;
-    this.setState(
-      {
-        caninForm
-      },
-      () => {
-        this.props.updateData(this.state.caninForm);
-      }
-    );
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
@@ -679,7 +669,6 @@ class Form extends React.Component {
     const targetRule = caninForm.formRule.filter((e) => e.key === tname);
     try {
       await validData(targetRule, { [tname]: tvalue });
-      console.log('验证数据  验证通过 ', tname);
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: ''
