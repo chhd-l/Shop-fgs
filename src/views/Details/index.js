@@ -1280,6 +1280,7 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
       const { currentUnitPrice, quantity, form, details } = this.state;
+      this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
@@ -1398,7 +1399,7 @@ class Details extends React.Component {
     dataLayer.push({
       event: 'pdpAddToCart',
       pdpAddToCartQuantity: this.state.quantity,
-      pdpAddToCartCtA: { 0: 'One-Shot', 1: 'Subscription' }[
+      pdpAddToCartCtA: { 0: 'One-Shot', 2: 'Subscription' }[
         this.state.form.buyWay
       ]
     });
