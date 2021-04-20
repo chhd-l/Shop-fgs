@@ -118,7 +118,7 @@ class Form extends React.Component {
     this.getSystemFormConfig();
 
     // 如果有areaId
-    if (initData?.areaId != '') {
+    if (initData?.areaId) {
       this.getRegionDataByCityId(initData.cityId);
     }
   }
