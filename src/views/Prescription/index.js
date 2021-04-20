@@ -119,7 +119,6 @@ class Prescription extends React.Component {
       this.setState({ seoConfig: res });
     });
     //获取是否显示prescriber弹框
-    await this.props.configStore.getIsNeedPrescriber();
     const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
     this.setState(
       {
