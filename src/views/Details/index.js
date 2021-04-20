@@ -2476,15 +2476,15 @@ class Details extends React.Component {
                               <ErrMsgForCheckoutPanel
                                 checkOutErrMsg={checkOutErrMsg}
                               />
-                              {Tr && form.buyWay === 2 ? (
-                                <p
-                                  className="text-right"
-                                  style={{ fontWeight: '400' }}
-                                >
-                                  <FormattedMessage id="detail.subscriptionBuyTip" />
-                                </p>
-                              ) : null}
                             </div>
+                            {Tr && form.buyWay === 2 ? (
+                              <p
+                                className="text-right"
+                                style={{ fontWeight: '400' }}
+                              >
+                                <FormattedMessage id="detail.subscriptionBuyTip" />
+                              </p>
+                            ) : null}
                           </div>
                         )}
                       </div>
