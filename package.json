@@ -140,7 +140,7 @@
     "build:prod_mx": "dotenv -e ./env/mx/.env.production -e ./env/mx/.env node scripts/build.js",
 
     "build:de": "dotenv -e ./env/de/.env.development -e ./env/de/.env node scripts/build.js",
-    "build:shopstg_de": "dotenv ./env/de/.env.shopstg -e ./env/de/.env node scripts/build.js",
+    "build:shopstg_de": "dotenv -e ./env/de/.env.shopstg -e ./env/de/.env node scripts/build.js",
     "build:prod_de": "dotenv -e ./env/de/.env.production -e ./env/de/.env node scripts/build.js",  
 
     "build:us": "dotenv -e ./env/us/.env.development -e ./env/us/.env node scripts/build.js",
