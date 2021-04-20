@@ -1993,7 +1993,11 @@ class Details extends React.Component {
                                     </DistributeHubLinkOrATag>
                                   </div>
                                 ) : (
-                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left">
+                                  <div
+                                    className={`productFinderBox ${
+                                      isMobile ? '' : 'd-flex'
+                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left`}
+                                  >
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.findProductTip" />{' '}
                                     </div>
@@ -2006,7 +2010,9 @@ class Details extends React.Component {
                                     <DistributeHubLinkOrATag
                                       href="/product-finder"
                                       to="/product-finder"
-                                      className="rc-styled-link backProductFinder mt-0 pb-0"
+                                      className={`rc-styled-link backProductFinder mt-0 pb-0 ${
+                                        isMobile ? 'float-none' : ''
+                                      }`}
                                     >
                                       <FormattedMessage id="details.findProductTips" />
                                     </DistributeHubLinkOrATag>

@@ -3617,8 +3617,8 @@ class SubscriptionDetail extends React.Component {
                                         {/* </LazyLoad> */}
                                         {isClub && !!subDetail.petsId && (
                                           <span
-                                            style={{ whiteSpace: 'nowrap' }}
-                                            className={`text-plain rc-styled-link ${
+                                            style={{ width: '100%' }}
+                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
                                               this.state.productListLoading
                                                 ? 'ui-btn-loading'
                                                 : ''
