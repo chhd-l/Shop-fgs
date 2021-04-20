@@ -3,7 +3,7 @@ import {
   getConfig,
   getSystemConfig,
   getAddressSetting,
-  getIsNeedPrescriber
+  getPrescriberSettingInfo
 } from '@/api';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -14,8 +14,11 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
 
-  @observable isNeedPrescriber = null; //prescription页面是否需要显示prescriber弹框
-  @observable prescriberSelectType = null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
+  @observable prescriberSettingInfo = sessionItemRoyal.get(
+    'prescriberSettingInfo'
+  )
+    ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
+    : null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
 
   // 获取本地存储的需要显示的地址字段
   @computed get localAddressForm() {
@@ -101,19 +104,24 @@ class ConfigStore {
   // 显示prescriber map开关
   @computed get prescriberMap() {
     return (
-      // this.info && this.info.storeVO && this.info.storeVO.prescriberMap === '1'
-      this.prescriberSelectType && this.prescriberSelectType === 0 //是否打开prescriber Map信息从prescriber setting 接口取
+      this.prescriberSettingInfo &&
+      this.prescriberSettingInfo.prescriberSelectType === 0 //是否打开prescriber Map信息从prescriber setting 接口取
     );
   }
 
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
   @computed get isShowPrescriberModal() {
-    return this.isNeedPrescriber !== null && this.isNeedPrescriber === 1;
+    return (
+      this.prescriberSettingInfo &&
+      this.prescriberSettingInfo.isNeedPrescriber === 1
+    );
   }
 
   // 返回prescriber select Type:0:Prescriber Map / 1:Recommendation Code
   @computed get prescriberSelectTyped() {
-    return this.prescriberSelectType !== null ? this.prescriberSelectType : '';
+    return this.prescriberSettingInfo
+      ? this.prescriberSettingInfo.prescriberSelectType
+      : '';
   }
 
   // 显示onePageCheckout样式
@@ -155,8 +163,8 @@ class ConfigStore {
 
   //查询prescription页面是否需要显示用户选择绑定prescriber弹框
   @action.bound
-  async getIsNeedPrescriber() {
-    let res = await getIsNeedPrescriber();
+  async getPrescriberSettingInfo() {
+    let res = await getPrescriberSettingInfo();
     let isNeedPrescriber = null;
     let prescriberSelectType = null;
     if (res.context) {
@@ -171,8 +179,17 @@ class ConfigStore {
         ? prescriberSelectType.status
         : null;
     }
-    this.isNeedPrescriber = isNeedPrescriber;
-    this.prescriberSelectType = prescriberSelectType;
+    sessionItemRoyal.set(
+      'prescriberSettingInfo',
+      JSON.stringify({
+        isNeedPrescriber: isNeedPrescriber,
+        prescriberSelectType: prescriberSelectType
+      })
+    );
+    this.prescriberSettingInfo = {
+      isNeedPrescriber: isNeedPrescriber,
+      prescriberSelectType: prescriberSelectType
+    };
   }
 
   // 1、查询form表单配置开关
