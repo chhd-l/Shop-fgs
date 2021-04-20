@@ -783,7 +783,7 @@ class SubscriptionDetail extends React.Component {
       this.state.editRecommendationVisible &&
         this.showChangeProduct(goodsInfo, true);
     });
-    await this.doGetPromotionPrice();
+    // await this.doGetPromotionPrice();
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
@@ -912,7 +912,7 @@ class SubscriptionDetail extends React.Component {
   //订阅数量更改
   async onQtyChange() {
     try {
-      await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
+      // await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
       this.setState({ isDataChange: true });
     } catch (err) {
       this.showErrMsg(err.message);
@@ -3300,7 +3300,7 @@ class SubscriptionDetail extends React.Component {
                                     onClick={() => {
                                       if (el.subscribeNum > 1) {
                                         el.subscribeNum = el.subscribeNum - 1;
-                                        this.doGetPromotionPrice();
+                                        // this.doGetPromotionPrice();
                                         this.setState({
                                           subDetail,
                                           isDataChange: true
@@ -3665,7 +3665,7 @@ class SubscriptionDetail extends React.Component {
                                                 if (el.subscribeNum > 1) {
                                                   el.subscribeNum =
                                                     el.subscribeNum - 1;
-                                                  this.doGetPromotionPrice();
+                                                  // this.doGetPromotionPrice();
                                                   this.setState({
                                                     subDetail,
                                                     isDataChange: true
@@ -3759,7 +3759,7 @@ class SubscriptionDetail extends React.Component {
                                                 ) {
                                                   el.subscribeNum =
                                                     el.subscribeNum + 1;
-                                                  this.doGetPromotionPrice();
+                                                  // this.doGetPromotionPrice();
                                                   this.setState({
                                                     subDetail,
                                                     isDataChange: true
@@ -4463,45 +4463,45 @@ class SubscriptionDetail extends React.Component {
                                                 ].join(' ')}
                                                 style={{ marginTop: '.625rem' }}
                                                 onClick={async () => {
-                                                  let result = {};
-                                                  if (
-                                                    !this.state
-                                                      .promotionInputValue
-                                                  )
-                                                    return;
-                                                  this.setState({
-                                                    isClickApply: true,
-                                                    isShowValidCode: false,
-                                                    lastPromotionInputValue: this
-                                                      .state.promotionInputValue
-                                                  });
-                                                  //会员
-                                                  result = await this.doGetPromotionPrice(
-                                                    this.state
-                                                      .promotionInputValue
-                                                  );
-                                                  if (
-                                                    !result.context
-                                                      .promotionFlag
-                                                  ) {
-                                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
-                                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                                    this.setState({
-                                                      discount,
-                                                      promotionDesc:
-                                                        result.context
-                                                          .promotionDesc
-                                                    });
-                                                  } else {
-                                                    this.setState({
-                                                      isShowValidCode: true
-                                                    });
-                                                  }
-                                                  this.setState({
-                                                    isClickApply: false,
-                                                    promotionInputValue: '',
-                                                    loading: false
-                                                  });
+                                                  // let result = {};
+                                                  // if (
+                                                  //   !this.state
+                                                  //     .promotionInputValue
+                                                  // )
+                                                  //   return;
+                                                  // this.setState({
+                                                  //   isClickApply: true,
+                                                  //   isShowValidCode: false,
+                                                  //   lastPromotionInputValue: this
+                                                  //     .state.promotionInputValue
+                                                  // });
+                                                  // //会员
+                                                  // result = await this.doGetPromotionPrice(
+                                                  //   this.state
+                                                  //     .promotionInputValue
+                                                  // );
+                                                  // if (
+                                                  //   !result.context
+                                                  //     .promotionFlag
+                                                  // ) {
+                                                  //   //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
+                                                  //   discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                                                  //   this.setState({
+                                                  //     discount,
+                                                  //     promotionDesc:
+                                                  //       result.context
+                                                  //         .promotionDesc
+                                                  //   });
+                                                  // } else {
+                                                  //   this.setState({
+                                                  //     isShowValidCode: true
+                                                  //   });
+                                                  // }
+                                                  // this.setState({
+                                                  //   isClickApply: false,
+                                                  //   promotionInputValue: '',
+                                                  //   loading: false
+                                                  // });
                                                 }}
                                               >
                                                 <FormattedMessage id="apply" />

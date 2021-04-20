@@ -1076,7 +1076,7 @@ const tr_TR = {
   'orderStatus.COMPLETED': 'Tamamlandı',
   'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.',
   'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}',
-  'subscription.see_more': 'Diğer Aboneliğe Bakın',
+  'subscription.see_more': 'Diğer abonelikleri gör',
   'bindPrescriber.modal.title':
     'Есть ли у вас рекомендация от ветеринарного врача?',
   'bindPrescriber.modal.content':
@@ -1118,7 +1118,7 @@ const tr_TR = {
   xMonths: '{val} Aylar',
   xYears: '{val} Yıl',
   'help.title': 'Yardıma mı ihtiyacınız var?',
-  'subscriptionDetail.editPetProfile': 'Edit pet profile',
+  'subscriptionDetail.editPetProfile': 'Evcil hayvan profilini düzenle',
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',
@@ -1126,16 +1126,16 @@ const tr_TR = {
   'subscriptionDetail.changeProduct': 'ürün değiştirmek',
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
-    'Link a pet profile to your CLUB subscription',
-  'subscriptionDetail.addNewCat': 'yeni bir kedi',
-  'subscriptionDetail.addNewDog': 'yeni bir köpek',
+    'Evcil hayvan profilinizi CLUB aboneliğiniz ile eşleştirin',
+  'subscriptionDetail.addNewCat': 'yeni kedi',
+  'subscriptionDetail.addNewDog': 'yeni köpek',
   'subscription.seeOtherRecommendation': 'Diğer önerilere bakın',
   'subscription.chooseThisProduct': 'bu ürünü seç',
   'subscription.productDetails': 'Ürün Detayları',
   'subscription.changeNow': 'Şimdi değiştir',
-  'subscription.productRecommendation': 'Your product recommendation',
+  'subscription.productRecommendation': 'Ürün öneriniz.',
   'subscription.productRecommendationTip':
-    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
+    'Evcil hayvan profilinize göre, size aşağıdaki ürünleri öneriyoruz. Aboneliğinizi güncellemek için lütfen ürün değişikliğini onaylayın.',
   switchProductTip1: 'This is currently the best product for',
   switchProductTip2: 'based on',
   'switchProductTip.his': 'his',
@@ -1188,6 +1188,10 @@ const tr_TR = {
   'searchNoResult.telephone': 'Bizi arayın!',
   'searchNoResult.email': 'Bize e-posta gönderin!',
   'searchNoResult.email.content': 'İletişim',
-  'searchNoBreed.breedName': 'Arama Sonuçları'
+  'searchNoBreed.breedName': 'Arama Sonuçları',
+  Link: 'Eşle',
+  Unlink: 'Eşleşmeyi Kaldır',
+  'petform.subscription': 'Bağlı Abonelikler',
+  kg: 'kg'
 };
 export default tr_TR;

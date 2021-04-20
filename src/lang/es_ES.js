@@ -1084,6 +1084,7 @@ const es_ES = {
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
   'welcome.contactUS': 'Kontaktieren Sie uns',
   'cart.autoshipSavedtip': 'Ahorraste {discount} con envío automático',
-  paused: 'Pausado'
+  paused: 'Pausado',
+  kg: 'kg'
 };
 export default es_ES;

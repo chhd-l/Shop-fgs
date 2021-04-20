@@ -1294,7 +1294,8 @@ const de_DE = {
   'searchNoResult.telephone': 'Rufen Sie uns an',
   'searchNoResult.email': 'E-Mail an uns',
   'searchNoResult.email.content': 'Senden Sie uns eine Email',
-  'searchNoBreed.breedName': 'Ergebnisse suchen'
+  'searchNoBreed.breedName': 'Ergebnisse suchen',
+  kg: 'kg'
 };
 
 export default de_DE;

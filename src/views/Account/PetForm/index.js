@@ -89,7 +89,6 @@ class PetForm extends React.Component {
       isMale: null,
       nickname: '',
       isUnknown: false,
-      isMix: false,
       breed: '',
       weight: '',
       isSterilized: true,
@@ -129,12 +128,8 @@ class PetForm extends React.Component {
       breedcode: '',
       isDeleteModalShow: false
     };
-    this.nextStep = this.nextStep.bind(this);
-    this.selectPetType = this.selectPetType.bind(this);
-    this.selectSex = this.selectSex.bind(this);
-    this.selectWeight = this.selectWeight.bind(this);
+
     this.setSterilized = this.setSterilized.bind(this);
-    this.inputBlur = this.inputBlur.bind(this);
     this.delPets = this.delPets.bind(this);
   }
 
@@ -283,7 +278,6 @@ class PetForm extends React.Component {
     this.getSpecialNeeds(currentPet.customerPetsPropRelations);
   };
   delPets = async (currentPet) => {
-    // let params = { petsIds: [currentPet.petsId] };
     let params = { petsIds: [this.props.match.params.id] };
     currentPet.confirmTooltipVisible = false;
     this.setState({
@@ -473,51 +467,6 @@ class PetForm extends React.Component {
     }
   }
 
-  nextStep() {
-    let step = this.state.step;
-    let isEdit = this.state.isEdit;
-    let currentStep;
-    if (step >= 8) {
-      this.savePet();
-    } else {
-      step += 1;
-      if (this.state.isCat && step === 5) {
-        step += 1;
-      }
-      currentStep = 'step' + step;
-    }
-    this.setState({
-      step: step,
-      currentStep: currentStep,
-      isDisabled: isEdit ? false : true
-    });
-  }
-  selectPetType(type) {
-    if (type === 'cat') {
-      this.setState({
-        isCat: true,
-        isDisabled: false
-      });
-    } else if (type === 'dog') {
-      this.setState({
-        isCat: false,
-        isDisabled: false
-      });
-    }
-  }
-  selectSex(type) {
-    if (type === 'male') {
-      this.setState({
-        isMale: true,
-        isDisabled: false
-      });
-    } else if (type === 'female') {
-      this.setState({
-        isMale: false,
-        isDisabled: false
-      });
-    }
-  }
   inputNickname = (e) => {
     let isDisabled = true;
     if (e.target.value !== '') {
@@ -530,26 +479,7 @@ class PetForm extends React.Component {
       isDisabled: isDisabled
     });
   };
-  setUnknown = () => {
-    let isUnknown = !this.state.isUnknown;
-    let inputBreed = this.state.inputBreed;
-    let isDisabled = this.state.isDisabled;
-    let isInputDisabled = this.state.isInputDisabled;
-    if (isUnknown) {
-      inputBreed = '';
-      isDisabled = false;
-      isInputDisabled = true;
-    } else {
-      isDisabled = true;
-      isInputDisabled = false;
-    }
-    this.setState({
-      isUnknown: isUnknown,
-      inputBreed: inputBreed,
-      isDisabled: isDisabled,
-      isInputDisabled: isInputDisabled
-    });
-  };
+
   inputBreed = (e) => {
     let isDisabled = true;
     let isUnknownDisabled = false;
@@ -596,12 +526,7 @@ class PetForm extends React.Component {
     //   e.target.value
     // );
   };
-  selectWeight(val) {
-    this.setState({
-      weight: val,
-      isDisabled: false
-    });
-  }
+
   setSterilized(val) {
     console.log(val);
     this.setState({
@@ -610,14 +535,6 @@ class PetForm extends React.Component {
     });
   }
 
-  inputBlur(e) {
-    if (e.target.value && e.target.value !== '') {
-      this.setState({
-        birthdate: e.target.value,
-        isDisabled: false
-      });
-    }
-  }
   selectedBreed = (item) => {
     this.setState({
       breed: item.valueEn,
@@ -741,25 +658,7 @@ class PetForm extends React.Component {
         value: filterSize[0].value
       });
     }
-    // if (
-    //   currentPet.customerPetsPropRelations[0].propName !==
-    //   'none'
-    // ) {
-    //   // param.selectedSpecialNeedsObj = Object.assign(
-    //   //   this.state.selectedSpecialNeedsObj,
-    //   //   {
-    //   //     value: this.specialNeedsOptions.filter(
-    //   //       (el) => el.name === currentPet.customerPetsPropRelations[0].propName
-    //   //     )[0].valueEn
-    //   //   }
-    //   // );
-    //   // param.selectedSpecialNeeds = [
-    //   //   currentPet.customerPetsPropRelations[0].propName
-    //   // ];
-    //   param.selectedSpecialNeedsObj = { value: currentPet.customerPetsPropRelations[0].propName };
-    // } else {
-    //   param.selectedSpecialNeedsObj = { value: 'none' };
-    // }
+
     param.selectedSpecialNeedsObj = {
       value: currentPet.customerPetsPropRelations[0]?.propName
     };
@@ -767,7 +666,6 @@ class PetForm extends React.Component {
       breedCode: param.isPurebred ? param.breed : 'Other Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
-      // mainReason: selectedSpecialNeedsObj
       mainReason: param.selectedSpecialNeedsObj.value,
       sterilized: currentPet.sterilized
     };
@@ -832,18 +730,6 @@ class PetForm extends React.Component {
     }, 5000);
   };
 
-  showSuccessMsg = (message) => {
-    this.setState({
-      successMsg: message
-    });
-    this.scrollToErrorMsg();
-    setTimeout(() => {
-      this.setState({
-        successMsg: ''
-      });
-    }, 2000);
-  };
-
   //定位
   scrollToErrorMsg() {
     const widget = document.querySelector('.rc-layout-container');
@@ -873,13 +759,6 @@ class PetForm extends React.Component {
         selectedSpecialNeeds: needs
       });
     }
-  };
-  updateConfirmTooltipVisible = (status) => {
-    let { currentPet } = this.state;
-    currentPet.confirmTooltipVisible = status;
-    this.setState({
-      currentPet: currentPet
-    });
   };
   onDateChange(date) {
     this.setState({
@@ -1594,7 +1473,7 @@ class PetForm extends React.Component {
                               name="weight"
                               required=""
                               aria-required="true"
-                              style={{ padding: '.5rem 0' }}
+                              style={{ padding: '.5rem 0', height: '44px' }}
                               value={this.state.weightObj.measure}
                               onChange={(e) => {
                                 let { weightObj } = this.state;
@@ -1619,7 +1498,7 @@ class PetForm extends React.Component {
                           <Selection
                             customContainerStyle={{
                               display: 'inline-block',
-                              height: '40px',
+                              height: '48px',
                               marginLeft: '4px'
                             }}
                             optionList={[

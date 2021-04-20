@@ -715,7 +715,7 @@ class Details extends React.Component {
         if (petsRes.code === 'K-000000') {
           let petsInfo = petsRes.context;
           this.props.checkoutStore.setPetInfo(petsRes.context);
-          let rationRes = getRation({
+          let rationRes = await getRation({
             spuNoList: [goodsNo],
             petsId: petsInfo.petsId
           });
@@ -1598,6 +1598,7 @@ class Details extends React.Component {
       loading,
       rationInfo
     } = this.state;
+    console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
