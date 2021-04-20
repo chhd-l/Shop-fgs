@@ -49,10 +49,7 @@ class Register extends Component {
       emailMessage: '',
       requiredConsentCount: 0,
       hasError: false,
-      errorMessage: '',
-      needConfirmEmail:
-        process.env.REACT_APP_LANG === 'tr' ||
-        process.env.REACT_APP_LANG === 'ru'
+      errorMessage: ''
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -68,51 +65,57 @@ class Register extends Component {
     if (isLogin) {
       this.props.history.push('/');
     }
-    if (this.state.needConfirmEmail === false) {
-      this.initConsent();
-      var windowWidth = document.body.clientWidth;
-      if (windowWidth < 640) {
-        this.setState({
-          width: '80%',
-          zoom: '120%',
-          fontZoom: '100%'
-        });
-      }
-      if (windowWidth >= 640) {
-        this.setState({
-          width: '90%',
-          zoom: '150%',
-          fontZoom: '120%'
-        });
-      }
-      document.getElementById('wrap').addEventListener('click', (e) => {
-        if (e.target.localName === 'font') {
-          let keyWords = e.target.innerText;
-          let index = Number(
-            e.target.parentNode.parentNode.parentNode.parentNode.parentNode
-              .parentNode.parentNode.id
-          );
-          let arr = this.state.list[index].detailList.filter((item) => {
-            return item.contentTitle === keyWords;
-          });
-
-          let tempArr = [...this.state.list];
-          tempArr[index].innerHtml = tempArr[index].innerHtml
-            ? ''
-            : arr[0]
-            ? arr[0].contentBody
-            : '';
-
-          this.setState({ list: tempArr });
-        }
-      });
-    } else {
+    const registerBack =
+      window.location.search.indexOf('?origin=register') >= 0 &&
+      window.location.search.indexOf('&token') >= 0;
+    if (registerBack) {
+      //example ?origin=register&token=20111jIFz6c2R4OpVzInpzlH9dBwgtgy2dgUi5toMSwMBGdC7JjEbWm
+      var searchList = window.location.search.split('&');
+      var tokenUrl = searchList.length > 1 ? searchList[1].split('=') : '';
+      var sessionToken = tokenUrl.length > 1 ? tokenUrl[1] : '';
+      localItemRoyal.set('okta-session-token', sessionToken);
+      var callOktaCallBack = getOktaCallBackUrl(
+        localItemRoyal.get('okta-session-token')
+      );
+      window.location.href = callOktaCallBack;
+    } // from email register and the login automatically
+    this.initConsent();
+    var windowWidth = document.body.clientWidth;
+    if (windowWidth < 640) {
       this.setState({
-        circleLoading: false,
-        styleObj: { display: 'block' },
-        isLoading: false
+        width: '80%',
+        zoom: '120%',
+        fontZoom: '100%'
       });
     }
+    if (windowWidth >= 640) {
+      this.setState({
+        width: '90%',
+        zoom: '150%',
+        fontZoom: '120%'
+      });
+    }
+    document.getElementById('wrap').addEventListener('click', (e) => {
+      if (e.target.localName === 'font') {
+        let keyWords = e.target.innerText;
+        let index = Number(
+          e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+            .parentNode.parentNode.id
+        );
+        let arr = this.state.list[index].detailList.filter((item) => {
+          return item.contentTitle === keyWords;
+        });
+
+        let tempArr = [...this.state.list];
+        tempArr[index].innerHtml = tempArr[index].innerHtml
+          ? ''
+          : arr[0]
+          ? arr[0].contentBody
+          : '';
+
+        this.setState({ list: tempArr });
+      }
+    });
   }
 
   initConsent = async () => {
@@ -268,11 +271,17 @@ class Register extends Component {
     this.setState({
       circleLoading: true
     });
+    let accessPath = process.env.REACT_APP_ACCESS_PATH;
+    let registerUrl =
+      accessPath.substring(accessPath.length - 1, accessPath.length) === '/'
+        ? 'register'
+        : '/register';
     await oktaRegister({
       storeId: process.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
-      customerName: registerForm.name
+      customerName: registerForm.name,
+      callback: process.env.REACT_APP_ACCESS_PATH + registerUrl
     })
       .then(async (res) => {
         if (res.code === 'K-000000') {
@@ -292,7 +301,6 @@ class Register extends Component {
             await mergeUnloginCartData();
             await checkoutStore.updateLoginCart();
           }
-
           if (res.context.oktaSessionToken) {
             loginStore.changeLoginModal(false);
             loginStore.changeIsLogin(true);
@@ -313,6 +321,7 @@ class Register extends Component {
             );
             window.location.href = callOktaCallBack;
           } else {
+            loginStore.setUserInfo(res.context.customerDetail); // For compare email
             this.props.history.push({
               pathname: '/welcome',
               state: { email: registerForm.email }
@@ -365,8 +374,7 @@ class Register extends Component {
       requiredConsentCount,
       list,
       hasError,
-      errorMessage,
-      needConfirmEmail
+      errorMessage
     } = this.state;
     const allValid =
       nameValid &&
@@ -435,7 +443,7 @@ class Register extends Component {
                       <p>
                         <div>
                           {errorMessage ? (
-                            errorMessage + '. '
+                            errorMessage + ' '
                           ) : (
                             <FormattedMessage id="registerErrorMessage" />
                           )}
@@ -787,17 +795,15 @@ class Register extends Component {
                             />
                           </div>
                         </div>
-                        {needConfirmEmail ? null : (
-                          <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
-                            <span
-                              style={{ marginRight: '.625rem' }}
-                              className="rc-text-colour--brand1"
-                            >
-                              *
-                            </span>
-                            <FormattedMessage id="registerMandatory" />
-                          </p>
-                        )}
+                        <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
+                          <span
+                            style={{ marginRight: '.625rem' }}
+                            className="rc-text-colour--brand1"
+                          >
+                            *
+                          </span>
+                          <FormattedMessage id="registerMandatory" />
+                        </p>
                         <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
                           <button
                             id="registerSubmitBtn"

@@ -180,12 +180,11 @@ const LoginCallback = (props) => {
   const authStateReady = !authState.isPending;
 
   useEffect(async () => {
-    const consentString = localItemRoyal.get('rc-consent-list');
+    const sessionToken = localItemRoyal.get('okta-session-token');
     const authCallBack =
       window.location.search.indexOf('?code') >= 0 &&
       window.location.search.indexOf('&state') >= 0;
-
-    if (consentString && !authStateReady && !authCallBack) {
+    if (sessionToken && !authStateReady && !authCallBack) {
       await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } else {
       if (authStateReady) {

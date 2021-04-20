@@ -64,6 +64,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-token');
       localItemRoyal.remove('rc-register');
       localItemRoyal.remove('rc-consent-list');
+      localItemRoyal.remove('okta-session-token')
       localItemRoyal.remove('rc-userinfo')
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
