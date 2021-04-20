@@ -1297,7 +1297,7 @@ const ru_RU = {
   'searchNoResult.email': 'Напишите нам',
   'searchNoResult.email.content': 'Отправьте нам Email',
   'searchNoBreed.breedName': 'Результаты поиска',
-  kg: 'kr'
+  kg: 'кг'
 };
 
 export default ru_RU;
