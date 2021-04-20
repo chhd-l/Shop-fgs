@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -6,6 +6,7 @@ import Selection from '@/components/Selection';
 
 const ClubSelection = function (props) {
   console.log(props, 'props');
+  useEffect(() => {}, []);
   const {
     isGift,
     pitem,

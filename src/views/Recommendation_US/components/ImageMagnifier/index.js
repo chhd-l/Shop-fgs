@@ -194,7 +194,7 @@ class ImageMagnifier extends Component {
       this.setState({
         positionLeft: positionLeft,
         currentImg:
-          selectedSizeInfo[0].goodsInfoImg || selectedSizeInfo[0].artworkUrl,
+          selectedSizeInfo[0]?.goodsInfoImg || selectedSizeInfo[0]?.artworkUrl,
         videoShow: false,
         hoverIndex,
         offsetX: hoverIndex * 240
