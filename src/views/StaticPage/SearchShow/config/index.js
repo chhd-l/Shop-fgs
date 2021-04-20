@@ -17,7 +17,7 @@ const mailFrag = (
 //2.跳转hub他们的constUs
 const hubFrag = (
   <a
-    href={`${process.env.REACT_APP_HUBPAGE_PREFIX}/contact-us`}
+    href={`${process.env.REACT_APP_HUB_URLPREFIX}/contact-us`}
     className="rc-styled-link"
   >
     <FormattedMessage id="searchNoResult.email.content" />

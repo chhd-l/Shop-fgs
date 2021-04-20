@@ -16,7 +16,7 @@ class DistributeHubLinkOrATag extends React.Component {
     } = this.props;
     return +process.env.REACT_APP_HUB ? (
       <a
-        href={`${process.env.REACT_APP_HUBPAGE_PREFIX}${href}`}
+        href={`${process.env.REACT_APP_HUB_URLPREFIX}${href}`}
         className={className}
         style={style}
         onClick={onClick}
