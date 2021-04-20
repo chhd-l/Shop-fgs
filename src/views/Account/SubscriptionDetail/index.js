@@ -701,7 +701,7 @@ class SubscriptionDetail extends React.Component {
           style={{
             background: '#F5F5F5',
             padding: '6px',
-            marginTop: '30px',
+            // marginTop: '30px',
             display: 'inline-block'
           }}
         >
@@ -782,7 +782,7 @@ class SubscriptionDetail extends React.Component {
       this.state.editRecommendationVisible &&
         this.showChangeProduct(goodsInfo, true);
     });
-    await this.doGetPromotionPrice();
+    // await this.doGetPromotionPrice();
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
@@ -914,7 +914,7 @@ class SubscriptionDetail extends React.Component {
   //订阅数量更改
   async onQtyChange() {
     try {
-      await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
+      // await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
       this.setState({ isDataChange: true });
     } catch (err) {
       this.showErrMsg(err.message);
@@ -2281,12 +2281,14 @@ class SubscriptionDetail extends React.Component {
     try {
       changeSubscriptionGoods(params).then((res) => {
         this.getDetail();
-        this.setState({ changeNowLoading: false });
         this.closeRecommendation();
         this.closeEditRecommendation();
       });
     } catch (err) {
       this.showErrMsgs(err.message, 'errorMsgSureChange');
+      this.setState({ changeNowLoading: false });
+    } finally {
+      this.setState({ changeNowLoading: false });
     }
   };
   changePets = () => {
@@ -3298,6 +3300,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
+                                  ..........
                                   {isClub &&
                                     !!subDetail.petsId &&
                                     this.DailyRation(el.petsRation)}
@@ -3311,7 +3314,7 @@ class SubscriptionDetail extends React.Component {
                                     onClick={() => {
                                       if (el.subscribeNum > 1) {
                                         el.subscribeNum = el.subscribeNum - 1;
-                                        this.doGetPromotionPrice();
+                                        // this.doGetPromotionPrice();
                                         this.setState({
                                           subDetail,
                                           isDataChange: true
@@ -3623,19 +3626,34 @@ class SubscriptionDetail extends React.Component {
                                         />
                                         {/* </LazyLoad> */}
                                         {isClub && !!subDetail.petsId && (
-                                          <span
-                                            style={{ width: '100%' }}
-                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                              this.state.productListLoading
-                                                ? 'ui-btn-loading'
-                                                : ''
-                                            }`}
-                                            onClick={() =>
-                                              this.showChangeProduct([el])
-                                            }
-                                          >
-                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                          </span>
+                                          <div style={{ position: 'relative' }}>
+                                            <span
+                                              style={{
+                                                width: '100%',
+                                                lineHight: '32px'
+                                              }}
+                                              className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
+                                                this.state.productListLoading
+                                                  ? 'ui-btn-loading'
+                                                  : ''
+                                              }`}
+                                              onClick={() =>
+                                                this.showChangeProduct([el])
+                                              }
+                                            >
+                                              <FormattedMessage id="subscriptionDetail.changeProduct" />
+                                            </span>
+                                            <div
+                                              style={{
+                                                position: 'absolute',
+                                                left: '100px',
+                                                whiteSpace: 'nowrap',
+                                                top: 0
+                                              }}
+                                            >
+                                              {this.DailyRation(el.petsRation)}
+                                            </div>
+                                          </div>
                                         )}
                                       </div>
                                       <div
@@ -3676,7 +3694,7 @@ class SubscriptionDetail extends React.Component {
                                                 if (el.subscribeNum > 1) {
                                                   el.subscribeNum =
                                                     el.subscribeNum - 1;
-                                                  this.doGetPromotionPrice();
+                                                  // this.doGetPromotionPrice();
                                                   this.setState({
                                                     subDetail,
                                                     isDataChange: true
@@ -3770,7 +3788,7 @@ class SubscriptionDetail extends React.Component {
                                                 ) {
                                                   el.subscribeNum =
                                                     el.subscribeNum + 1;
-                                                  this.doGetPromotionPrice();
+                                                  // this.doGetPromotionPrice();
                                                   this.setState({
                                                     subDetail,
                                                     isDataChange: true
@@ -3836,9 +3854,6 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
-                                        {isClub &&
-                                          !!subDetail.petsId &&
-                                          this.DailyRation(el.petsRation)}
                                       </div>
                                     </div>
                                   </div>
@@ -4474,45 +4489,45 @@ class SubscriptionDetail extends React.Component {
                                                 ].join(' ')}
                                                 style={{ marginTop: '.625rem' }}
                                                 onClick={async () => {
-                                                  let result = {};
-                                                  if (
-                                                    !this.state
-                                                      .promotionInputValue
-                                                  )
-                                                    return;
-                                                  this.setState({
-                                                    isClickApply: true,
-                                                    isShowValidCode: false,
-                                                    lastPromotionInputValue: this
-                                                      .state.promotionInputValue
-                                                  });
-                                                  //会员
-                                                  result = await this.doGetPromotionPrice(
-                                                    this.state
-                                                      .promotionInputValue
-                                                  );
-                                                  if (
-                                                    !result.context
-                                                      .promotionFlag
-                                                  ) {
-                                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
-                                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                                    this.setState({
-                                                      discount,
-                                                      promotionDesc:
-                                                        result.context
-                                                          .promotionDesc
-                                                    });
-                                                  } else {
-                                                    this.setState({
-                                                      isShowValidCode: true
-                                                    });
-                                                  }
-                                                  this.setState({
-                                                    isClickApply: false,
-                                                    promotionInputValue: '',
-                                                    loading: false
-                                                  });
+                                                  // let result = {};
+                                                  // if (
+                                                  //   !this.state
+                                                  //     .promotionInputValue
+                                                  // )
+                                                  //   return;
+                                                  // this.setState({
+                                                  //   isClickApply: true,
+                                                  //   isShowValidCode: false,
+                                                  //   lastPromotionInputValue: this
+                                                  //     .state.promotionInputValue
+                                                  // });
+                                                  // //会员
+                                                  // result = await this.doGetPromotionPrice(
+                                                  //   this.state
+                                                  //     .promotionInputValue
+                                                  // );
+                                                  // if (
+                                                  //   !result.context
+                                                  //     .promotionFlag
+                                                  // ) {
+                                                  //   //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
+                                                  //   discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                                                  //   this.setState({
+                                                  //     discount,
+                                                  //     promotionDesc:
+                                                  //       result.context
+                                                  //         .promotionDesc
+                                                  //   });
+                                                  // } else {
+                                                  //   this.setState({
+                                                  //     isShowValidCode: true
+                                                  //   });
+                                                  // }
+                                                  // this.setState({
+                                                  //   isClickApply: false,
+                                                  //   promotionInputValue: '',
+                                                  //   loading: false
+                                                  // });
                                                 }}
                                               >
                                                 <FormattedMessage id="apply" />

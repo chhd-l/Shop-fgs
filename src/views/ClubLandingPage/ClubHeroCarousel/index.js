@@ -109,7 +109,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_002',
               webUrl: `${Slidertwo}`,
               webImgName: 'WeChat Image_20210225172634.jpg',
-              webSkipUrl: '/subscription-landing',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
               mobiUrl: `${Slidermobile2}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
@@ -126,31 +126,7 @@ class ClubHeroCarousel extends React.Component {
                 'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
               alt: 'Специализированное питание Royal Canin'
             },
-            // {
-            //   isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
-            //   bannerId: '2c918085751fa3ad01752099f30a0002',
-            //   storeId: 123457910,
-            //   bannerName: 'us_003',
-            //   webUrl: `${Sliderthree}`,
-            //   webImgName: 'us_003_a.jpg',
-            //   webSkipUrl: '/help',
-            //   webUuid: 'rc-upload-1602569663057-13',
-            //   mobiUrl: `${Slidermobile3}`,
-            //   mobiImgName: 'us_003_b.jpg',
-            //   mobiSkipUrl: '/help',
-            //   mobiUuid: 'rc-upload-1602569663057-15',
-            //   isMobiVideo: '0',
-            //   isVideo: '0',
-            //   delFlag: 0,
-            //   createTime: '2021-02-24 05:55:42.000',
-            //   updateTime: '2021-02-24 05:55:42.000',
-            //   bannerNo: 3,
-            //   sliderTitle:
-            //     'Советы научных сотрудников и экспертов в области питания',
-            //   sliderContent:
-            //     'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
-            //   alt: 'Эксперт в области питания животных'
-            // },
+
             {
               isShow: true,
               bannerId: '2c918085751fa3ad01752099f30a0002',
@@ -158,7 +134,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_003',
               webUrl: `${Sliderfive}`,
               webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
               mobiUrl: `${Slidermobile5}`,
               mobiImgName: 'us_003_b.jpg',
@@ -182,7 +158,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_003',
               webUrl: `${Sliderseven}`,
               webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
               mobiUrl: `${Slidermobile7}`,
               mobiImgName: 'us_003_b.jpg',
@@ -198,6 +174,31 @@ class ClubHeroCarousel extends React.Component {
               sliderContent:
                 'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
               alt: 'Подарки для питомцев'
+            },
+            {
+              isShow: true,
+              bannerId: '2c918085751fa3ad01752099f30a0002',
+              storeId: 123457910,
+              bannerName: 'us_003',
+              webUrl: `${Sliderthree}`,
+              webImgName: 'us_003_a.jpg',
+              webSkipUrl: '',
+              webUuid: 'rc-upload-1602569663057-13',
+              mobiUrl: `${Slidermobile3}`,
+              mobiImgName: 'us_003_b.jpg',
+              mobiSkipUrl: '/help',
+              mobiUuid: 'rc-upload-1602569663057-15',
+              isMobiVideo: '0',
+              isVideo: '0',
+              delFlag: 0,
+              createTime: '2021-02-24 05:55:42.000',
+              updateTime: '2021-02-24 05:55:42.000',
+              bannerNo: 3,
+              sliderTitle:
+                'Советы научных сотрудников и экспертов в области питания',
+              sliderContent:
+                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
+              alt: 'Эксперт в области питания животных'
             }
           ]
         })
@@ -233,7 +234,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_002',
               webUrl: `${trslidertwo}`,
               webImgName: 'WeChat Image_20210225172634.jpg',
-              webSkipUrl: '/subscription-landing',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
               mobiUrl: `${Slidermobile2}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
@@ -256,7 +257,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_003',
               webUrl: `${trsliderthree}`,
               webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
               mobiUrl: `${Slidermobile3}`,
               mobiImgName: 'us_003_b.jpg',
@@ -279,7 +280,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_003',
               webUrl: `${trsliderfive}`,
               webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
               mobiUrl: `${Slidermobile5}`,
               mobiImgName: 'us_003_b.jpg',
@@ -302,7 +303,7 @@ class ClubHeroCarousel extends React.Component {
               bannerName: 'us_003',
               webUrl: `${trsliderseven}`,
               webImgName: 'us_003_a.jpg',
-              webSkipUrl: '/help',
+              webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
               mobiUrl: `${Slidermobile7}`,
               mobiImgName: 'us_003_b.jpg',
