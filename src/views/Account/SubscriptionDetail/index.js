@@ -25,8 +25,7 @@ import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
 import Banner_Dog from './../PetForm/images/banner_Dog.jpg';
 import Loading from '@/components/Loading';
 import play_png from './images/play.png';
-import Club_Logo from '@/assets/images/Logo_club.png';
-import { filterOrderId, getRation } from '@/utils/utils';
+import { filterOrderId, getRation, getClubLogo } from '@/utils/utils';
 
 import {
   getDictionary,
@@ -2397,7 +2396,7 @@ class SubscriptionDetail extends React.Component {
           <img
             className="m-auto"
             style={{ maxWidth: '100px' }}
-            src={Club_Logo}
+            src={getClubLogo()}
             alt="club icon"
           />
           <div className="rc-layout-container rc-five-column">
@@ -2460,7 +2459,7 @@ class SubscriptionDetail extends React.Component {
         {!!productDetail.mainProduct && (
           <>
             <div className="p-f-result-box">
-              <img className="m-auto" src={Club_Logo} alt="club icon" />
+              <img className="m-auto" src={getClubLogo()} alt="club icon" />
               <h4 className="red text-center mb-3 mt-3">
                 <FormattedMessage id="subscription.productRecommendation" />
               </h4>
@@ -2682,7 +2681,7 @@ class SubscriptionDetail extends React.Component {
               <img
                 className="m-auto"
                 style={{ maxWidth: '100px' }}
-                src={Club_Logo}
+                src={getClubLogo()}
                 alt="club icon"
               />
               <p className="text-center red" style={{ fontSize: '1.5rem' }}>
@@ -2864,7 +2863,11 @@ class SubscriptionDetail extends React.Component {
     let { petsId, petsInfo } = this.state.subDetail;
     return (
       <>
-        <img src={Club_Logo} style={{ maxWidth: '100px' }} alt="club Icon" />
+        <img
+          src={getClubLogo()}
+          style={{ maxWidth: '100px' }}
+          alt="club Icon"
+        />
         <div className="d-flex align-items-center add-pet-btn-wrap">
           {petsId ? (
             this.PetsInfo(petsInfo, petsId, this.props.history)
