@@ -864,6 +864,11 @@ export function getZoneTime(date) {
   }
   return new Date(date);
 }
+function isMatchedLang(langArr, lang) {
+  return langArr?.find(
+    (crLang) => process.env.REACT_APP_LANG === crLang || lang === crLang
+  );
+}
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 export function getClubLogo() {
