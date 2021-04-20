@@ -1162,11 +1162,7 @@ class Payment extends React.Component {
       }
       let isRepay = this.state.tid ? true : false;
       payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
-      // 线下店orderSource埋点L_ATELIER_FELIN
-      let orderSource = sessionItemRoyal.get('orderSource');
-      if (orderSource) {
-        parameters.orderSource = orderSource;
-      }
+
       /* 4)调用支付 */
       const res = await action(parameters);
       // console.log(parameters);
