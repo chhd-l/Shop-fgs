@@ -156,13 +156,13 @@
 
     "build:ru": "dotenv -e ./env/ru/.env.development -e ./env/ru/.env node scripts/build.js",
     "build:shopstg_ru": "dotenv ./env/ru/.env.shopsite -e ./env/ru/.env node scripts/build.js",
-    "build:stgwedding_ru": "dotenv -e ./env/ru/.env.stgwedding -e ./env/ru/.env node scripts/start.js",
+    "build:stgwedding_ru": "dotenv -e ./env/ru/.env.stgwedding -e ./env/ru/.env node scripts/build.js",
     "build:uatwedding_ru": "dotenv -e ./env/ru/.env.uatwedding -e ./env/ru/.env node scripts/build.js",
     "build:prod_ru_hub": "dotenv -e ./env/ru/.env.production.hub -e ./env/ru/.env node scripts/build.js",   
     
     "build:tr": "dotenv -e ./env/tr/.env.development -e ./env/tr/.env node scripts/build.js",
     "build:shopstg_tr": "dotenv ./env/tr/.env.shopsite -e ./env/tr/.env node scripts/build.js",
-    "build:stgwedding_tr": "dotenv -e ./env/tr/.env.stgwedding -e ./env/tr/.env node scripts/start.js",
+    "build:stgwedding_tr": "dotenv -e ./env/tr/.env.stgwedding -e ./env/tr/.env node scripts/build.js",
     "build:uatwedding_tr": "dotenv -e ./env/tr/.env.uatwedding -e ./env/tr/.env node scripts/build.js",
     "build:prod_tr_hub": "dotenv -e ./env/tr/.env.production.hub -e ./env/tr/.env node scripts/build.js",        
 
