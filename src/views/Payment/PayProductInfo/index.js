@@ -268,7 +268,9 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
-                    {el.promotions && el.promotions.includes('club') ? (
+                    {el.promotions &&
+                    el?.goodsInfoFlag > 0 &&
+                    el.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
                         src={getClubLogo()}
@@ -351,6 +353,7 @@ class PayProductInfo extends React.Component {
                       {el.goodsName || el.goods.goodsName}
                     </span>
                     {el?.goods?.promotions &&
+                    el?.goodsInfoFlag > 0 &&
                     el.goods.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
