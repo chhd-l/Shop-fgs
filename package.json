@@ -145,7 +145,7 @@
     "build:prod_de": "dotenv -e ./env/de/.env.production -e ./env/de/.env node scripts/build.js",  
 
     "build:us": "dotenv -e ./env/us/.env.development -e ./env/us/.env node scripts/build.js",
-    "build:shopstg_us": "dotenv ./env/us/.env.shopstg -e ./env/us/.env node scripts/build.js",
+    "build:shopstg_us": "dotenv -e ./env/us/.env.shopstg -e ./env/us/.env node scripts/build.js",
     "build:shopsite_us": "dotenv -e ./env/us/.env.shopsite -e ./env/us/.env node scripts/build.js",
     "build:prod_us": "dotenv -e ./env/us/.env.production -e ./env/us/.env node scripts/build.js", 
 
