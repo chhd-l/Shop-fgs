@@ -1966,7 +1966,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {sessionItemRoyal.get('pr-question-params') ? (
+                                {this.props.checkoutStore.pr_petsInfo.petsId ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.recommendedDaily" />

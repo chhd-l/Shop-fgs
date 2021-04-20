@@ -26,7 +26,10 @@ export default function ClubGiftBanner() {
       alt="Club logo"
     />
   </div> */}
-      <div className="tips-info mobile-text-center mr-3 ml-4 ml-md-0">
+      <div
+        className="tips-info mobile-text-center mr-3 ml-4 ml-md-0"
+        style={{ paddingLeft: '10px' }}
+      >
         <ul>
           <li className="rc-list__item">
             <strong>
