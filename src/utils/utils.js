@@ -597,9 +597,14 @@ export function getZoneTime(date) {
   }
   return new Date(date);
 }
+function isMatchedLang(langArr, lang) {
+  return langArr?.find(
+    (crLang) => process.env.REACT_APP_LANG === crLang || lang === crLang
+  );
+}
 
 export function getFormatDate(date, callback, lang) {
-  if (process.env.REACT_APP_LANG === 'fr' || lang === 'fr') {
+  if (isMatchedLang(['fr'])) {
     const cache = createIntlCache();
     const intl = createIntl(
       {
@@ -613,12 +618,16 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(getZoneTime(date));
     }
-  } else if (process.env.REACT_APP_LANG === 'en' || lang === 'en') {
+  } else if (isMatchedLang(['en'])) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (process.env.REACT_APP_LANG === 'tr' || lang === 'tr') {
+  } else if (isMatchedLang(['tr'])) {
     return format(getZoneTime(date), 'dd-MM-yyyy', {
+      locale: datePickerConfig.locale_module
+    });
+  } else if (isMatchedLang(['ru'])) {
+    return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
   } else {
@@ -662,7 +671,7 @@ function getDatePickerConfig() {
     de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
     fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
     en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
-    ru: { format: 'MM/dd/yyyy', locale: 'ru', locale_module: ru },
+    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
     tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
@@ -672,6 +681,7 @@ function getDatePickerConfig() {
   return curDatePickerCfg;
 }
 let datePickerConfig = getDatePickerConfig();
+debugger;
 export { datePickerConfig };
 
 /**
