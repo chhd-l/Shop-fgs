@@ -462,40 +462,19 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   } = checkoutStore;
   console.log(toJS(AuditData), 'sas');
   let url = '/prescription';
+  if (configStore.prescriberSelectTyped === 1) {
+    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
+  }
   // 不开启地图，跳过prescriber页面
+  console.log(configStore.prescriberMap);
   if (!configStore.prescriberMap) {
     url = '/checkout';
   }
-  // 校验审核
-  //调整：商品中所属category的Need Prescriber都为NO,直接进入checkout页面
-  if (isLogin) {
-    let needPrescriber;
-    // if (autoAuditFlag) {
-    needPrescriber = loginCartData.filter((el) => el.prescriberFlag).length > 0;
-    // } else {
-    //   needPrescriber = AuditData.length > 0;
-    // }
-    //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
-    if (!needPrescriber) {
-      url = '/checkout';
-    }
-  } else {
-    let needPrescriber;
-    // if (autoAuditFlag) {
-    needPrescriber = cartData.filter((el) => el.prescriberFlag).length > 0;
-    // } else {
-    //   needPrescriber = AuditData.length > 0;
-    // }
-    //|| localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
-    if (!needPrescriber) {
-      url = '/checkout';
-    }
-  }
-  //获取是否显示prescriber弹框
-  await configStore.getIsNeedPrescriber();
-  const prescriberSelectType = configStore.prescriberSelectTyped;
-  if (prescriberSelectType === 1) {
-    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
+  const productData = isLogin ? loginCartData : cartData;
+  const needPrescriber =
+    productData.filter((el) => el.prescriberFlag).length > 0;
+  if (!needPrescriber) {
+    url = '/checkout';
   }
   // 指定clinic/recommendation code链接/landing page进入，校验本地prescriber缓存，有clinic id link则跳过prescriber页面
   if (

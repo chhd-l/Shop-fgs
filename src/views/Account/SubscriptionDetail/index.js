@@ -590,16 +590,15 @@ class SubscriptionDetail extends React.Component {
   getBreedName = (petsType, petsBreed) => {
     let name =
       petsType?.toLowerCase() === 'dog'
-        ? (this.state.dogBreedList.length &&
-            this.state.dogBreedList.filter(
-              (item) => item.valueEn == petsBreed
-            )?.[0]?.name) ||
-          petsBreed
+        ? this.state.dogBreedList.length &&
+          this.state.dogBreedList.filter(
+            (item) => item.valueEn == petsBreed
+          )?.[0]?.name
         : this.state.catBreedList.length &&
           this.state.catBreedList.filter(
             (item) => item.valueEn == petsBreed
           )?.[0]?.name;
-    return name;
+    return name || this.props.intl.messages['Mixed Breed'];
   };
   PetsInfo = (petsInfo, petsId, history) => {
     let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
@@ -665,7 +664,7 @@ class SubscriptionDetail extends React.Component {
             <div>
               <FormattedMessage id="breed" />:
               <strong>
-                {petBreed || <FormattedMessage id="Mixed Breed" />}
+                {petBreed}
                 {/* {petsInfo?.petsBreed} */}
               </strong>{' '}
             </div>
@@ -809,15 +808,17 @@ class SubscriptionDetail extends React.Component {
     let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let errorMsg = '';
     if (isAutoshipAndClub) {
-      errorMsg =
-        'There are club and autoship products, please go to the pet details to bind the products';
+      errorMsg = this.props.intl.messages[
+        'subscriptionDetail.cantBindPetsErr1'
+      ];
     }
     if (isCatAndDog) {
-      errorMsg =
-        'There are cat and dog products, please go to the pet details to bind the products';
+      errorMsg = this.props.intl.messages[
+        'subscriptionDetail.cantBindPetsErr1'
+      ];
     }
     if (isCantLinkPet) {
-      this.showErrMsgs(errorMsg, 'errorMsgAddPet');
+      this.showErrMsgs(errorMsg, 'errMsgPage');
       return;
     }
     if (!this.userInfo.customerAccount) {
@@ -835,9 +836,10 @@ class SubscriptionDetail extends React.Component {
     })
       .then((res) => {
         let petsList = res.context.context || [];
-        let petList = petsList?.filter(
-          (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
-        );
+        let petList =
+          petsList?.filter(
+            (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
+          ) || [];
         this.setState({
           loading: false,
           petList,
@@ -2315,23 +2317,25 @@ class SubscriptionDetail extends React.Component {
     let { petsId } = this.state.subDetail;
     try {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
-      console.info(res, 'res');
-      let { mainProduct, otherProducts } = res.context;
-      let productArr = [mainProduct, ...otherProducts];
-      let spuNoList = productArr?.map((el) => el.spuCode);
-      let rationsParams = { petsId, spuNoList };
-      let rationRes = await getRation(rationsParams);
-      let rations = rationRes?.context?.rationResponseItems;
-      rations?.forEach((ration) => {
-        if (mainProduct.spuCode == ration.mainItem) {
-          mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
-        }
-        otherProducts?.map((el) => {
-          if (el.spuCode == ration.mainItem) {
-            el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+      let mainProduct = res.context.mainProduct;
+      let otherProducts = res.context.otherProducts;
+      if (mainProduct) {
+        let productArr = [mainProduct, ...otherProducts];
+        let spuNoList = productArr?.map((el) => el.spuCode);
+        let rationsParams = { petsId, spuNoList };
+        let rationRes = await getRation(rationsParams);
+        let rations = rationRes?.context?.rationResponseItems;
+        rations?.forEach((ration) => {
+          if (mainProduct.spuCode == ration.mainItem) {
+            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
           }
+          otherProducts?.map((el) => {
+            if (el.spuCode == ration.mainItem) {
+              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            }
+          });
         });
-      });
+      }
       this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
@@ -2959,9 +2963,16 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
-    // let isClub = true;
+
     let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
-    // console.log(noStartYear, currentCardInfo, 'hahaha');
+
+    let minDeliveryTime = null;
+    let maxDeliveryTime = null;
+    if (subDetail?.noStartTradeList) {
+      let snsl = subDetail.noStartTradeList[0];
+      minDeliveryTime = snsl.minDeliveryTime;
+      maxDeliveryTime = snsl.maxDeliveryTime;
+    }
     return (
       <div className="subscriptionDetail">
         <div>
@@ -3613,8 +3624,8 @@ class SubscriptionDetail extends React.Component {
                                         {/* </LazyLoad> */}
                                         {isClub && !!subDetail.petsId && (
                                           <span
-                                            style={{ whiteSpace: 'nowrap' }}
-                                            className={`text-plain rc-styled-link ${
+                                            style={{ width: '100%' }}
+                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
                                               this.state.productListLoading
                                                 ? 'ui-btn-loading'
                                                 : ''
@@ -5215,6 +5226,33 @@ class SubscriptionDetail extends React.Component {
                                 {localAddressForm['postCode'] &&
                                   currentDeliveryAddress.postCode}
                               </p>
+
+                              {maxDeliveryTime &&
+                                minDeliveryTime &
+                                (
+                                  <>
+                                    {minDeliveryTime && (
+                                      <>
+                                        {minDeliveryTime == maxDeliveryTime ? (
+                                          <FormattedMessage
+                                            id="payment.deliveryDate2"
+                                            values={{
+                                              val: minDeliveryTime
+                                            }}
+                                          />
+                                        ) : (
+                                          <FormattedMessage
+                                            id="payment.deliveryDate"
+                                            values={{
+                                              min: minDeliveryTime,
+                                              max: maxDeliveryTime
+                                            }}
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                  </>
+                                )}
                             </div>
                           </div>
                         </div>

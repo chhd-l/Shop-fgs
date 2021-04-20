@@ -875,7 +875,7 @@ const ru_RU = {
   save: 'Сохранить',
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
-  saveSuccessfullly: 'Успешно сохраним',
+  saveSuccessfullly: 'Адрес успешно сохранен',
   saveSuccessfullly2: 'Ваша информация была успешно сохранена',
   saveSuccessfullly3: 'Ваша информация была успешно сохранена',
   deleteSuccessFullly: 'Başarıyla silindi',
@@ -1200,6 +1200,10 @@ const ru_RU = {
   'details.learnMore': 'Узнать больше',
   'Club subscription': 'Клубная подписка',
   'help.title': 'Нужна помощь?',
+  'subscriptionDetail.cantBindPetsErr1':
+    'Есть товары для клубов и автошип, перейдите к сведениям о домашних животных, чтобы привязать товары',
+  'subscriptionDetail.cantBindPetsErr2':
+    'Есть товары для кошек и собак, пожалуйста, перейдите к сведениям о домашних животных, чтобы привязать товары',
   'subscriptionDetail.editPetProfile': 'Редактировать профиль питомца',
   'subscriptionDetail.clubFor': 'КЛУБ для',
   'subscriptionDetail.better':

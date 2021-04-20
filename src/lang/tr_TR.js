@@ -1119,6 +1119,11 @@ const tr_TR = {
   xYears: '{val} Yıl',
   'help.title': 'Yardıma mı ihtiyacınız var?',
   'subscriptionDetail.editPetProfile': 'Evcil hayvan profilini düzenle',
+  'subscriptionDetail.cantBindPetsErr1':
+    'Kulüp ve otomatik nakliye ürünleri var, lütfen ürünleri bağlamak için evcil hayvan detaylarına gidin',
+  'subscriptionDetail.cantBindPetsErr2':
+    'Kedi ve köpek ürünleri var, lütfen ürünleri bağlamak için evcil hayvan detaylarına gidiniz.',
+  'subscriptionDetail.editPetProfile': 'Edit pet profile',
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
     'For a better experience we recommend linking a pet profile to your Club subscription',

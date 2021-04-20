@@ -26,6 +26,8 @@ class Footer extends React.Component {
   async componentDidMount() {
     this.props.configStore.queryConfig();
 
+    this.props.configStore.getPrescriberSettingInfo(); //查询prescriber setting信息
+
     // 查询address form表单配置开关
     this.props.configStore.getSystemFormConfig();
   }

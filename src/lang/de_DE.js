@@ -1241,6 +1241,10 @@ const de_DE = {
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
   'details.learnMore': 'Learn more',
+  'subscriptionDetail.cantBindPetsErr1':
+    'There are club and autoship products, please go to the pet details to bind the products',
+  'subscriptionDetail.cantBindPetsErr2':
+    'There are cat and dog products, please go to the pet details to bind the products',
   'subscriptionDetail.editPetProfile': 'Edit pet profile',
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
