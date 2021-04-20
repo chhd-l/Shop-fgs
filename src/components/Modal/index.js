@@ -7,43 +7,19 @@ export default class Modal extends React.Component {
     modalText: '',
     visible: false,
     headerVisible: true,
-    headerStyle: {},
-    headerCenter: false,
     confirmLoading: false,
     cancelBtnText: <FormattedMessage id="cancel" />,
     confirmBtnText: <FormattedMessage id="yes" />,
     cancelBtnVisible: true,
     footerVisible: true,
-    footerCenter: false,
     cancelBtnIsLink: false,
-    confirmBtnFrag: '',
-    cancel: null,
-    closeButton: true
+    cancel: null
   };
   close() {
     this.props.close();
   }
   hanldeClickConfirm() {
     this.props.hanldeClickConfirm();
-  }
-  confirmBtnJSX() {
-    const { confirmBtnFrag } = this.props;
-    const defaultConfirmBtnJSX = () => {
-      return (
-        <button
-          id="modalFooterConfirm"
-          type="button"
-          className={`btn btn-primary cart-delete-confirmation-btn ${
-            this.props.confirmLoading ? 'ui-btn-loading' : ''
-          }`}
-          data-dismiss="modal"
-          onClick={() => this.hanldeClickConfirm()}
-        >
-          {this.props.confirmBtnText}
-        </button>
-      );
-    };
-    return confirmBtnFrag || defaultConfirmBtnJSX();
   }
   render() {
     const { visible } = this.props;
@@ -71,28 +47,19 @@ export default class Modal extends React.Component {
           >
             <div className="modal-content mt-0">
               {this.props.headerVisible && (
-                <div
-                  className={[
-                    'modal-header',
-                    'delete-confirmation-header',
-                    this.props.headerCenter ? 'rc-content-v-middle' : ''
-                  ].join(' ')}
-                  style={{ ...this.props.headerStyle }}
-                >
+                <div className="modal-header delete-confirmation-header">
                   <h4 className="modal-title" id="removeProductLineItemModal">
                     {this.props.modalTitle}
                   </h4>
-                  {this.props.closeButton ? (
-                    <button
-                      type="button"
-                      className="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => this.close()}
-                    >
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  ) : null}
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => this.close()}
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
                 </div>
               )}
 
@@ -107,12 +74,7 @@ export default class Modal extends React.Component {
                 {this.props.children}
               </div>
               {this.props.footerVisible && (
-                <div
-                  className={
-                    ('modal-footer',
-                    this.props.footerCenter ? 'rc-content-v-middle' : '')
-                  }
-                >
+                <div className="modal-footer">
                   {this.props.cancelBtnVisible &&
                   !this.props.cancelBtnIsLink ? (
                     <button
@@ -140,7 +102,17 @@ export default class Modal extends React.Component {
                       {this.props.cancelBtnText}
                     </a>
                   ) : null}
-                  {this.confirmBtnJSX()}
+                  <button
+                    id="modalFooterConfirm"
+                    type="button"
+                    className={`btn btn-primary cart-delete-confirmation-btn ${
+                      this.props.confirmLoading ? 'ui-btn-loading' : ''
+                    }`}
+                    data-dismiss="modal"
+                    onClick={() => this.hanldeClickConfirm()}
+                  >
+                    {this.props.confirmBtnText}
+                  </button>
                 </div>
               )}
             </div>
