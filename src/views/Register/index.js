@@ -332,7 +332,7 @@ class Register extends Component {
           this.setState({
             circleLoading: false,
             hasError: true,
-            errorMessage: res.messages
+            errorMessage: res.code === 'K-000001' ? null : res.message
           });
         }
       })
