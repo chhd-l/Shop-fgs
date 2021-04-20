@@ -1123,11 +1123,11 @@ const tr_TR = {
     'Kulüp ve otomatik nakliye ürünleri var, lütfen ürünleri bağlamak için evcil hayvan detaylarına gidin',
   'subscriptionDetail.cantBindPetsErr2':
     'Kedi ve köpek ürünleri var, lütfen ürünleri bağlamak için evcil hayvan detaylarına gidiniz.',
-  'subscriptionDetail.editPetProfile': 'Edit pet profile',
-  'subscriptionDetail.clubFor': 'CLUB for',
+  'subscriptionDetail.editPetProfile': 'Evcil hayvan profilini düzenle',
+  'subscriptionDetail.clubFor': 'Club Aboneliği',
   'subscriptionDetail.better':
-    'For a better experience we recommend linking a pet profile to your Club subscription',
-  'subscriptionDetail.link': 'Link a profile',
+    'Daha iyi bir deneyim için, evcil hayvan profilinizi Club aboneliğinize bağlamanızı öneriyoruz.',
+  'subscriptionDetail.link': 'Evcil hayvan profili ile eşleştir',
   'subscriptionDetail.changeProduct': 'ürün değiştirmek',
   'subscriptionDetail.newProduct': 'New product recommendation',
   'subscriptionDetail.linkProfile':
