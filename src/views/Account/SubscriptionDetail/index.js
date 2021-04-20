@@ -700,7 +700,7 @@ class SubscriptionDetail extends React.Component {
           style={{
             background: '#F5F5F5',
             padding: '6px',
-            marginTop: '30px',
+            // marginTop: '30px',
             display: 'inline-block'
           }}
         >
@@ -2280,12 +2280,14 @@ class SubscriptionDetail extends React.Component {
     try {
       changeSubscriptionGoods(params).then((res) => {
         this.getDetail();
-        this.setState({ changeNowLoading: false });
         this.closeRecommendation();
         this.closeEditRecommendation();
       });
     } catch (err) {
       this.showErrMsgs(err.message, 'errorMsgSureChange');
+      this.setState({ changeNowLoading: false });
+    } finally {
+      this.setState({ changeNowLoading: false });
     }
   };
   changePets = () => {
@@ -3301,6 +3303,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     {el.specText}
                                   </p>
+                                  ..........
                                   {isClub &&
                                     !!subDetail.petsId &&
                                     this.DailyRation(el.petsRation)}
@@ -3626,19 +3629,34 @@ class SubscriptionDetail extends React.Component {
                                         />
                                         {/* </LazyLoad> */}
                                         {isClub && !!subDetail.petsId && (
-                                          <span
-                                            style={{ width: '100%' }}
-                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                              this.state.productListLoading
-                                                ? 'ui-btn-loading'
-                                                : ''
-                                            }`}
-                                            onClick={() =>
-                                              this.showChangeProduct([el])
-                                            }
-                                          >
-                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                          </span>
+                                          <div style={{ position: 'relative' }}>
+                                            <span
+                                              style={{
+                                                width: '100%',
+                                                lineHight: '32px'
+                                              }}
+                                              className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
+                                                this.state.productListLoading
+                                                  ? 'ui-btn-loading'
+                                                  : ''
+                                              }`}
+                                              onClick={() =>
+                                                this.showChangeProduct([el])
+                                              }
+                                            >
+                                              <FormattedMessage id="subscriptionDetail.changeProduct" />
+                                            </span>
+                                            <div
+                                              style={{
+                                                position: 'absolute',
+                                                left: '100px',
+                                                whiteSpace: 'nowrap',
+                                                top: 0
+                                              }}
+                                            >
+                                              {this.DailyRation(el.petsRation)}
+                                            </div>
+                                          </div>
                                         )}
                                       </div>
                                       <div
@@ -3839,9 +3857,6 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                         </div>
-                                        {isClub &&
-                                          !!subDetail.petsId &&
-                                          this.DailyRation(el.petsRation)}
                                       </div>
                                     </div>
                                   </div>
