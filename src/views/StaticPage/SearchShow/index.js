@@ -106,7 +106,7 @@ class SearchShow extends React.Component {
                                 <p>
                                   {this.props.configStore.contactTimePeriod}
                                 </p>
-                                <div>
+                                <div style={{ width: '180px' }}>
                                   <a
                                     href={
                                       this.props.configStore
@@ -138,7 +138,7 @@ class SearchShow extends React.Component {
                           <div className="row rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight">
                             <div className="col-8 rc-column rc-double-width rc-padding-top--md--mobile">
                               <div>
-                                <strong>
+                                <strong style={{ color: '#0087BD' }}>
                                   <FormattedMessage id="searchNoResult.email" />
                                 </strong>
                                 <div>{getEmailWay()}</div>

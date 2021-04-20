@@ -126,7 +126,8 @@ class PetForm extends React.Component {
         type: 2
       },
       breedName: '',
-      breedcode: ''
+      breedcode: '',
+      isDeleteModalShow: false
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -1781,6 +1782,32 @@ class PetForm extends React.Component {
               ) : null}
             </div>
           </div>
+          <Modal
+            headerVisible={true}
+            footerVisible={false}
+            visible={this.state.isDeleteModalShow}
+            modalTitle={''}
+            close={() => {
+              this.setState({ isDeleteModalShow: false });
+            }}
+          >
+            <div className="text-center">
+              <p>
+                <div>
+                  <FormattedMessage id="petSaveTips1" />
+                </div>
+                <FormattedMessage id="petSaveTips2" />
+              </p>
+              <p>
+                <button
+                  onClick={() => {}}
+                  className="rc-btn rc-btn--one rc-btn--sm"
+                >
+                  <FormattedMessage id="pet.deletePet" />
+                </button>
+              </p>
+            </div>
+          </Modal>
           <Modal
             headerVisible={true}
             footerVisible={false}
