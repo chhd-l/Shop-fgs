@@ -11,7 +11,8 @@ import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
-import fr from 'date-fns/locale/de';
+import fr from 'date-fns/locale/fr';
+import tr from 'date-fns/locale/tr';
 import en from 'date-fns/locale/en-US';
 import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
@@ -616,6 +617,10 @@ export function getFormatDate(date, callback, lang) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
+  } else if (process.env.REACT_APP_LANG === 'tr' || lang === 'tr') {
+    return format(getZoneTime(date), 'dd-MM-yyyy', {
+      locale: datePickerConfig.locale_module
+    });
   } else {
     if (callback && typeof callback === 'function') {
       return callback(date);
@@ -645,6 +650,9 @@ function getDatePickerConfig() {
     case 'ru':
       registerLocale('ru', ru);
       break;
+    case 'tr':
+      registerLocale('tr', tr);
+      break;
     default:
       break;
   }
@@ -655,6 +663,7 @@ function getDatePickerConfig() {
     fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
     en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
     ru: { format: 'MM/dd/yyyy', locale: 'ru', locale_module: ru },
+    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 

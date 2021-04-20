@@ -38,18 +38,9 @@ class SubscriptionSelect extends Component {
         {
           frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal:
-              process.env.REACT_APP_FREQUENCY_ID || res[0]
-                ? res[0].valueEn
-                : '',
-            frequencyName:
-              process.env.REACT_APP_FREQUENCY_VAL || res[0] ? res[0].name : '',
-            frequencyId:
-              (process.env.REACT_APP_FREQUENCY_ID &&
-                parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
-              res[0]
-                ? res[0].id
-                : ''
+            frequencyVal: res[0]?.valueEn || '',
+            frequencyName: res[0]?.name || '',
+            frequencyId: res[0]?.id || ''
           })
         },
         () => {
