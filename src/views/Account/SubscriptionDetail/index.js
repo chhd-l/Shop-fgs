@@ -4234,7 +4234,8 @@ class SubscriptionDetail extends React.Component {
                                                     />
                                                   </LazyLoad>
                                                   <a
-                                                    className="rc-styled-link"
+                                                    className="rc-styled-link ui-text-overflow-line1"
+                                                    style={{ width: '60px' }}
                                                     href="#/"
                                                     onClick={(e) => {
                                                       e.preventDefault();

@@ -248,7 +248,7 @@ class Pet extends React.Component {
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span>
+                                  <span className="ui-text-overflow-line1">
                                     <FormattedMessage id="birthday" />
                                   </span>
                                   <span>
@@ -302,7 +302,7 @@ class Pet extends React.Component {
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span>
+                                  <span className="ui-text-overflow-line1">
                                     <FormattedMessage id="birthday" />
                                   </span>
                                   <span>
