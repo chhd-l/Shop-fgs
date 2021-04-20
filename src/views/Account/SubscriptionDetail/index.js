@@ -2953,9 +2953,16 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
-    // let isClub = true;
+
     let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
-    // console.log(noStartYear, currentCardInfo, 'hahaha');
+
+    let minDeliveryTime = null;
+    let maxDeliveryTime = null;
+    if (subDetail?.noStartTradeList) {
+      let snsl = subDetail.noStartTradeList[0];
+      minDeliveryTime = snsl.minDeliveryTime;
+      maxDeliveryTime = snsl.maxDeliveryTime;
+    }
     return (
       <div className="subscriptionDetail">
         <div>
@@ -5208,6 +5215,33 @@ class SubscriptionDetail extends React.Component {
                                 {localAddressForm['postCode'] &&
                                   currentDeliveryAddress.postCode}
                               </p>
+
+                              {maxDeliveryTime &&
+                                minDeliveryTime &
+                                (
+                                  <>
+                                    {minDeliveryTime && (
+                                      <>
+                                        {minDeliveryTime == maxDeliveryTime ? (
+                                          <FormattedMessage
+                                            id="payment.deliveryDate2"
+                                            values={{
+                                              val: minDeliveryTime
+                                            }}
+                                          />
+                                        ) : (
+                                          <FormattedMessage
+                                            id="payment.deliveryDate"
+                                            values={{
+                                              min: minDeliveryTime,
+                                              max: maxDeliveryTime
+                                            }}
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                  </>
+                                )}
                             </div>
                           </div>
                         </div>
