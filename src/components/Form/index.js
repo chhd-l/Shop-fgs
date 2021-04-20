@@ -591,7 +591,11 @@ class Form extends React.Component {
         regionList: [],
         dataLoading: true
       });
-      this.getRegionDataByCityId(data.value);
+      // 获取本地存储的需要显示的地址字段
+      const localAddressForm = localItemRoyal.get('rc-address-form') || null;
+      if (localAddressForm['region']) {
+        this.getRegionDataByCityId(data.value);
+      }
     } else if (key == 'region') {
       caninForm.area = data.name;
       caninForm.areaId = data.value;
