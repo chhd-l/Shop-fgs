@@ -712,22 +712,33 @@ class Details extends React.Component {
         petsRes = await clubSubscriptionSavePets({
           questionParams: pf_params
         });
-        if (petsRes.code === 'K-000000') {
-          let petsInfo = petsRes.context;
-          this.props.checkoutStore.setPetInfo(petsRes.context);
-          let rationRes = await getRation({
-            spuNoList: [goodsNo],
-            petsId: petsInfo.petsId
-          });
-          console.log(rationRes, 'rationRes');
-          if (rationRes.code === 'K-000000') {
-            this.setState({
-              rationInfo: rationRes.context.rationResponseItems[0]
-            });
-          }
-        }
       } catch (err) {
         console.log(err, 'error111');
+      }
+    }
+    if (petsRes.code === 'K-000000') {
+      let petsInfo = petsRes.context;
+      this.props.checkoutStore.setPetInfo(petsRes.context);
+      let rationRes = await getRation({
+        spuNoList: [goodsNo],
+        petsId: petsInfo.petsId
+      });
+      console.log(rationRes, 'rationRes');
+      if (rationRes.code === 'K-000000') {
+        this.setState({
+          rationInfo: rationRes.context.rationResponseItems[0]
+        });
+      }
+    } else if (this.props.checkoutStore.pr_petsInfo.petsId) {
+      let rationRes = await getRation({
+        spuNoList: [goodsNo],
+        petsId: this.props.checkoutStore.pr_petsInfo.petsId
+      });
+      console.log(rationRes, 'rationRes');
+      if (rationRes.code === 'K-000000') {
+        this.setState({
+          rationInfo: rationRes.context.rationResponseItems[0]
+        });
       }
     }
     Promise.all([
