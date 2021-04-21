@@ -26,7 +26,7 @@ podTemplate(label: label, cloud: 'kubernetes',
             image: 'k8sregistrysit.azurecr.io/repository:393',
             ttyEnabled: true,
             alwaysPullImage: true
-            resourceRequestCPU: 100m,
+            resourceRequestCpu: 100m,
             resourceRequestMemory: 2000Mi
             )
     ],
