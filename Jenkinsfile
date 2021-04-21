@@ -99,9 +99,8 @@ podTemplate(label: label, cloud: 'kubernetes',
 
                   # Execute upload to Azure
                    az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
-                   az storage blob upload-batch --destination ${JOB_NAME} --source ./text --auth-mode login
-                 # Logout from Azure
-                 az logout
+                   az storage blob upload-batch --destination ${JOB_NAME} --source ./text --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
+                 
                 '''
           }
         }
