@@ -54,8 +54,7 @@ podTemplate(label: label, cloud: 'kubernetes',
             dir("$jenworkspace"){
                 // 创建 Dockerfile 文件，但只能在方法块内使用
                 docker1 = readFile encoding: "UTF-8", file: "./Dockerfile"
-                dockerfile = docker1.replaceAll("#APP_PATH","${APP_PATH}")
-                                        .replaceAll("#APP_OPTS","${APP_OPTS}")
+                dockerfile = docker1.replaceAll("#APP_OPTS","${APP_OPTS}")
                                         .replaceAll("#APP_NAME","${APP_NAME}")
 
                 writeFile encoding: 'UTF-8', file: './Dockerfile', text: "${dockerfile}"
