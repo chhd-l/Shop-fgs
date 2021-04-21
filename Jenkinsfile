@@ -81,7 +81,7 @@ podTemplate(label: label, cloud: 'kubernetes',
 
          stage('Push Content to CDN'){
             dir("$jenworkspace"){
-                  echo ${container_name}
+                sh  "echo $container_name"
 
                   # Execute upload to Azure
                   # az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --subscription $AZURE_SUBSCRIPTION_ID --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A=="  --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
