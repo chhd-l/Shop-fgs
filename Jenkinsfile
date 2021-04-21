@@ -61,10 +61,10 @@ podTemplate(label: label, cloud: 'kubernetes',
 
 
                 // 设置 Docker 镜像名称
-                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_COUNTRY}:${APP_VERSION}"
+                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 sh "cat Dockerfile"
                 if ("${DOCKER_HUB_GROUP}" == '') {
-                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_COUNTRY}:${APP_VERSION}"
+                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 }
 
                 // 提供 Docker 环境，使用 Docker 工具来进行 Docker 镜像构建与推送
@@ -96,7 +96,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                     // 读取 Kubernetes 部署文件
                        deploy = readFile encoding: "UTF-8", file: "./deployment.yaml"
                     // 替换部署文件中的变量，并将替换后的文本赋予 deployfile 变量
-                    deployfile = deploy.replaceAll("#APP_NAME","${APP_NAME}")
+                    deployfile = deploy.replaceAll("#APP_NAME","${TARGET_ENV}-${APP_NAME}")
                                                   .replaceAll("#APP_REPLICAS","${KUBERNETES_APP_REPLICAS}")
                                                   .replaceAll("#APP_IMAGE_NAME","${dockerImageName}")
                                                   .replaceAll("#APP_PORT","${APP_PORT}")
