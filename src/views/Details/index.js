@@ -337,7 +337,8 @@ class Details extends React.Component {
       relatedGoods: [],
       relatedGoodsList: [],
       relatedGoodsLoading: false,
-      rationInfo: {}
+      rationInfo: {},
+      isFromPR: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -665,7 +666,7 @@ class Details extends React.Component {
     // 对比productFinder 之前信息
     let savePetFlag = false;
     let isMyProductFinder = true;
-
+    let isFromPR = true;
     if (localStorage.getItem('pfls')) {
       if (
         localStorage.getItem('pfls') &&
@@ -677,7 +678,7 @@ class Details extends React.Component {
         savePetFlag = false;
         isMyProductFinder = true;
       }
-    } else {
+    } else if (sessionItemRoyal.get('pf-result')) {
       if (
         sessionItemRoyal.get('pf-result') &&
         sessionItemRoyal.get('pf-result') !==
@@ -689,18 +690,20 @@ class Details extends React.Component {
         savePetFlag = false;
         isMyProductFinder = false;
       }
+    } else {
+      isFromPR = false;
     }
-
-    if (localStorage.getItem('pfls')) {
-      localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-    }
-    if (sessionItemRoyal.get('pf-result')) {
-      sessionItemRoyal.set(
-        'pf-result-before',
-        sessionItemRoyal.get('pf-result')
-      );
-    }
-    if (this.isLogin && savePetFlag) {
+    this.setState({ isFromPR });
+    if (isFromPR) {
+      if (localStorage.getItem('pfls')) {
+        localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
+      }
+      if (sessionItemRoyal.get('pf-result')) {
+        sessionItemRoyal.set(
+          'pf-result-before',
+          sessionItemRoyal.get('pf-result')
+        );
+      }
       let pf_params = {};
       if (!isMyProductFinder) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
@@ -708,39 +711,33 @@ class Details extends React.Component {
       } else {
         pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
       }
-      try {
-        petsRes = await clubSubscriptionSavePets({
-          questionParams: pf_params
-        });
-      } catch (err) {
-        console.log(err, 'error111');
+
+      if (this.isLogin && savePetFlag) {
+        try {
+          petsRes = await clubSubscriptionSavePets({
+            questionParams: pf_params
+          });
+          let petsInfo = petsRes.context;
+          this.props.checkoutStore.setPetInfo(petsRes.context);
+        } catch (err) {
+          console.log(err, 'error111');
+        }
       }
-    }
-    if (petsRes.code === 'K-000000') {
-      let petsInfo = petsRes.context;
-      this.props.checkoutStore.setPetInfo(petsRes.context);
-      let rationRes = await getRation({
-        spuNoList: [goodsNo],
-        petsId: petsInfo.petsId
-      });
-      console.log(rationRes, 'rationRes');
-      if (rationRes.code === 'K-000000') {
-        this.setState({
-          rationInfo: rationRes.context.rationResponseItems[0]
-        });
-      }
-    } else if (this.props.checkoutStore.pr_petsInfo.petsId) {
-      let rationRes = await getRation({
-        spuNoList: [goodsNo],
-        petsId: this.props.checkoutStore.pr_petsInfo.petsId
-      });
-      console.log(rationRes, 'rationRes');
+      let rationRes = await getRation(
+        Object.assign(
+          {
+            spuNoList: [goodsNo]
+          },
+          pf_params
+        )
+      );
       if (rationRes.code === 'K-000000') {
         this.setState({
           rationInfo: rationRes.context.rationResponseItems[0]
         });
       }
     }
+
     Promise.all([
       requestName(param),
       getFrequencyDict(),
@@ -1978,7 +1975,7 @@ class Details extends React.Component {
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <div>
-                                {this.props.checkoutStore.pr_petsInfo.petsId ? (
+                                {this.state.isFromPR ? (
                                   <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.recommendedDaily" />
