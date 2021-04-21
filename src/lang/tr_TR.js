@@ -340,8 +340,8 @@ const tr_TR = {
   'footer.cookies': 'Kurabiye',
   'footer.copyrightInfo':
     "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
-  'footer.FAQ': 'S.S.S',
-  'footer.FAQ2': 'S.S.S',
+  'footer.FAQ': 'SSS',
+  'footer.FAQ2': 'SSS',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',
   'footer.informationForParents': 'Ebeveynler için Bilgiler',
@@ -509,6 +509,8 @@ const tr_TR = {
   moreChoicesAvailable: 'Daha Fazla Seçenek Mevcut',
   mustChooseACommunicationMethodTip:
     'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
+  mustChooseTheConsentTip:
+    "Royal Canin'den promosyon amaçlı iletişim almayı kabul ettiğinizi onaylamak için lütfen aşağıdaki uygun kutuyu işaretleyin.",
   name: 'İsim',
   name2: 'İSİM',
   nameInvalid: 'Adın geçersiz',
@@ -654,7 +656,7 @@ const tr_TR = {
   petName: 'Evcil Hayvan adı',
   pets: 'Evcil Hayvanlar',
   petType: 'Evcil Hayvan Türü',
-  phone: 'Telefon',
+  phone: 'Cep telefonu',
   pleasecompleteTheRequiredItem: 'Lütfen gerekli öğeyi tamamlayın',
   pleaseEnterTheCorrectEmail: 'Lütfen doğru e-postayı girin',
   PleaseFillInstructions: 'Lütfen iade talimatlarını doldurun',
@@ -845,7 +847,7 @@ const tr_TR = {
   sterilized: 'Kısırlaştırma',
   submit: 'Sunmak',
   subscribeDiscount: 'Abonelik İndirim İndirimi',
-  subscription: 'Aboneliklerim',
+  subscription: 'Bağlı Abonelikler',
   'subscription.all': 'herşey',
   'subscription.autoship': 'otomatik gemi',
   'subscription.club': 'kulüp',
@@ -1109,7 +1111,7 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
   generalTermsConditions: 'Şartlar ve Koşullar',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
-  'details.recommendedDaily.info': '{val}',
+  'details.recommendedDaily.info': '{val}/günde',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
     "ürün Arama'yı kullanarak uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın",
@@ -1197,6 +1199,7 @@ const tr_TR = {
   Link: 'Eşle',
   Unlink: 'Eşleşmeyi Kaldır',
   'petform.subscription': 'Bağlı Abonelikler',
-  kg: 'kg'
+  kg: 'kg',
+  messengers: 'Haberciler'
 };
 export default tr_TR;

@@ -129,7 +129,7 @@ class Form extends React.Component {
     let phoneReg = '';
     switch (process.env.REACT_APP_LANG) {
       case 'fr':
-        phoneReg = '+{33}000000000';
+        phoneReg = '+(33)000000000';
         break;
       case 'en':
         phoneReg = '000-000-0000';
@@ -140,9 +140,9 @@ class Form extends React.Component {
       case 'mx':
         phoneReg = '0000000000';
         break;
-      case 'de':
-        phoneReg = '0000 000000 000';
-        break;
+      // case 'de':
+      //   phoneReg = '0000 000000 000';
+      //   break;
       case 'tr':
         phoneReg = '{0} (000) 000-00-00';
         break;
@@ -226,9 +226,7 @@ class Form extends React.Component {
               );
             }
 
-            let ress = this.formListByRow(narr, (item) => {
-              return [item.sequence];
-            });
+            let ress = this.formListFormat(narr);
             this.setState(
               {
                 formList: ress
@@ -246,10 +244,19 @@ class Form extends React.Component {
                   },
                   () => {
                     this.props.updateData(caninForm);
-                    // 设置手机号输入限制
-                    this.setPhoneNumberReg();
                   }
                 );
+                ress.forEach((item) => {
+                  if (
+                    item.fieldKey == 'phoneNumber' &&
+                    item.requiredFlag == 1
+                  ) {
+                    // 设置手机号输入限制
+                    setTimeout(() => {
+                      this.setPhoneNumberReg();
+                    }, 1000);
+                  }
+                });
               }
             );
           }
@@ -265,10 +272,10 @@ class Form extends React.Component {
       });
     }
   };
+
   // 3、格式化表单json
-  formListByRow(array, fn) {
+  formListFormat(array) {
     const { caninForm } = this.state;
-    const groups = {};
     let rule = [];
 
     // 绑卡页面添加 email
@@ -346,29 +353,18 @@ class Form extends React.Component {
       }
       item.regExp = regExp;
       item.errMsg = errMsg;
+
       // 组装rule
       let ruleItem = {};
+      ruleItem = {
+        errMsg: errMsg,
+        key: item.fieldKey,
+        require: item.requiredFlag == 1 ? true : false
+      };
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
-        ruleItem = {
-          regExp: regExp,
-          errMsg: errMsg,
-          key: item.fieldKey,
-          require: item.requiredFlag == 1 ? true : false
-        };
-      } else {
-        ruleItem = {
-          errMsg: errMsg,
-          key: item.fieldKey,
-          require: item.requiredFlag == 1 ? true : false
-        };
+        ruleItem.regExp = regExp;
       }
-
       rule.push(ruleItem);
-
-      // 利用对象的key值唯一性的，创建数组
-      const group = JSON.stringify(fn(item));
-      groups[group] = groups[group] || [];
-      groups[group].push(item);
 
       // 查询城市列表
       if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
@@ -380,10 +376,7 @@ class Form extends React.Component {
     this.setState({
       caninForm
     });
-    // 最后再利用map循环处理分组出来
-    return Object.keys(groups).map((group) => {
-      return groups[group];
-    });
+    return array;
   }
   // 4、查询国家
   getCountryList = async () => {
@@ -1013,101 +1006,89 @@ class Form extends React.Component {
     );
   };
   render() {
-    const {
-      dataLoading,
-      formLoading,
-      caninForm,
-      formList,
-      errMsgObj
-    } = this.state;
+    const { dataLoading, formLoading, formList, errMsgObj } = this.state;
     return (
       <>
         {formLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
           <div className="row rc_form_box">
-            {/* {JSON.stringify(formList)} */}
             {formList &&
-              formList.map((fobj, idx) => (
+              formList.map((item, index) => (
                 <>
-                  {fobj.map((item, index) => (
-                    <>
-                      <div
-                        className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
-                        key={index}
+                  <div
+                    className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
+                    key={index}
+                  >
+                    {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
+                    <div
+                      className={`form-group ${
+                        item.requiredFlag == 1 ? 'required' : ''
+                      }`}
+                    >
+                      <label
+                        className="form-control-label"
+                        htmlFor={`${item.fieldKey}Shipping`}
                       >
-                        {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
-                        <div
-                          className={`form-group ${
-                            item.requiredFlag == 1 ? 'required' : ''
-                          }`}
-                        >
-                          <label
-                            className="form-control-label"
-                            htmlFor={`${item.fieldKey}Shipping`}
-                          >
-                            <FormattedMessage id={`payment.${item.fieldKey}`} />
-                          </label>
+                        <FormattedMessage id={`payment.${item.fieldKey}`} />
+                      </label>
 
-                          {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
-                          {item.inputFreeTextFlag == 1 &&
-                          item.inputSearchBoxFlag == 0 ? (
-                            <>
-                              {item.fieldKey == 'comment'
-                                ? this.textareaJSX(item)
-                                : this.inputJSX(item)}
-                            </>
-                          ) : null}
+                      {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
+                      {item.inputFreeTextFlag == 1 &&
+                      item.inputSearchBoxFlag == 0 ? (
+                        <>
+                          {item.fieldKey == 'comment'
+                            ? this.textareaJSX(item)
+                            : this.inputJSX(item)}
+                        </>
+                      ) : null}
 
-                          {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                          {item.inputFreeTextFlag == 1 &&
-                          item.inputSearchBoxFlag == 1 ? (
-                            <>
-                              {item.fieldKey == 'address1'
-                                ? this.addressSearchSelectionJSX(item)
-                                : null}
-                              {item.fieldKey == 'city'
-                                ? this.citySearchSelectiontJSX(item)
-                                : null}
-                            </>
-                          ) : null}
-
-                          {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
-                          {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
-                          {item.inputFreeTextFlag == 0 &&
-                          item.inputSearchBoxFlag == 0 &&
-                          item.inputDropDownBoxFlag == 1
-                            ? this.dropDownBoxJSX(item)
+                      {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
+                      {item.inputFreeTextFlag == 1 &&
+                      item.inputSearchBoxFlag == 1 ? (
+                        <>
+                          {item.fieldKey == 'address1'
+                            ? this.addressSearchSelectionJSX(item)
                             : null}
+                          {item.fieldKey == 'city'
+                            ? this.citySearchSelectiontJSX(item)
+                            : null}
+                        </>
+                      ) : null}
 
-                          {/* 输入邮编提示 */}
-                          {item.fieldKey == 'postCode' && (
-                            <span className="ui-lighter">
-                              <FormattedMessage id="example" />:{' '}
-                              <FormattedMessage id="examplePostCode" />
-                            </span>
-                          )}
-                          {/* 输入电话号码提示 */}
-                          {item.fieldKey == 'phoneNumber' && (
-                            <span className="ui-lighter">
-                              <FormattedMessage id="examplePhone" />
-                            </span>
-                          )}
-                          {/* 输入提示 */}
-                          {errMsgObj[item.fieldKey] &&
-                          item.requiredFlag == 1 ? (
-                            <div className="text-danger-2">
-                              {errMsgObj[item.fieldKey]}
-                            </div>
-                          ) : null}
+                      {/* inputDropDownBoxFlag 是否是下拉框选择:0.不是,1.是 */}
+                      {/* 当 inputDropDownBoxFlag=1，必定：inputFreeTextFlag=0 && inputSearchBoxFlag=0 */}
+                      {item.inputFreeTextFlag == 0 &&
+                      item.inputSearchBoxFlag == 0 &&
+                      item.inputDropDownBoxFlag == 1
+                        ? this.dropDownBoxJSX(item)
+                        : null}
+
+                      {/* 输入邮编提示 */}
+                      {item.fieldKey == 'postCode' && (
+                        <span className="ui-lighter">
+                          <FormattedMessage id="example" />:{' '}
+                          <FormattedMessage id="examplePostCode" />
+                        </span>
+                      )}
+                      {/* 输入电话号码提示 */}
+                      {item.fieldKey == 'phoneNumber' && (
+                        <span className="ui-lighter">
+                          <FormattedMessage id="examplePhone" />
+                        </span>
+                      )}
+                      {/* 输入提示 */}
+                      {errMsgObj[item.fieldKey] && item.requiredFlag == 1 ? (
+                        <div className="text-danger-2">
+                          {errMsgObj[item.fieldKey]}
                         </div>
-                      </div>
-                      {/* 个人中心添加 email 和 birthData */}
-                      {this.props.personalData &&
-                        item.fieldKey == 'lastName' &&
-                        this.emailAndBirthDataJSX()}
-                    </>
-                  ))}
+                      ) : null}
+                    </div>
+                  </div>
+                  {/* 个人中心添加 email 和 birthData */}
+                  {this.props.personalData &&
+                    item.fieldKey == 'lastName' &&
+                    this.emailAndBirthDataJSX()}
                 </>
               ))}
           </div>

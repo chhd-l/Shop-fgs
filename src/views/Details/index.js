@@ -712,22 +712,33 @@ class Details extends React.Component {
         petsRes = await clubSubscriptionSavePets({
           questionParams: pf_params
         });
-        if (petsRes.code === 'K-000000') {
-          let petsInfo = petsRes.context;
-          this.props.checkoutStore.setPetInfo(petsRes.context);
-          let rationRes = await getRation({
-            spuNoList: [goodsNo],
-            petsId: petsInfo.petsId
-          });
-          console.log(rationRes, 'rationRes');
-          if (rationRes.code === 'K-000000') {
-            this.setState({
-              rationInfo: rationRes.context.rationResponseItems[0]
-            });
-          }
-        }
       } catch (err) {
         console.log(err, 'error111');
+      }
+    }
+    if (petsRes.code === 'K-000000') {
+      let petsInfo = petsRes.context;
+      this.props.checkoutStore.setPetInfo(petsRes.context);
+      let rationRes = await getRation({
+        spuNoList: [goodsNo],
+        petsId: petsInfo.petsId
+      });
+      console.log(rationRes, 'rationRes');
+      if (rationRes.code === 'K-000000') {
+        this.setState({
+          rationInfo: rationRes.context.rationResponseItems[0]
+        });
+      }
+    } else if (this.props.checkoutStore.pr_petsInfo.petsId) {
+      let rationRes = await getRation({
+        spuNoList: [goodsNo],
+        petsId: this.props.checkoutStore.pr_petsInfo.petsId
+      });
+      console.log(rationRes, 'rationRes');
+      if (rationRes.code === 'K-000000') {
+        this.setState({
+          rationInfo: rationRes.context.rationResponseItems[0]
+        });
       }
     }
     Promise.all([
@@ -1978,9 +1989,8 @@ class Details extends React.Component {
                                           values={{
                                             val: rationInfo.weight
                                               ? rationInfo.weight +
-                                                '/' +
                                                 rationInfo.weightUnit
-                                              : '0g/day'
+                                              : '0g'
                                           }}
                                         />
                                       </span>
@@ -2283,6 +2293,9 @@ class Details extends React.Component {
                                     this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                     <div>
+                                      <span className="text-line-through-price">
+                                        {formatMoney(currentUnitPrice)}
+                                      </span>
                                       {formatMoney(
                                         currentSubscriptionPrice || 0
                                       )}
@@ -2395,6 +2408,9 @@ class Details extends React.Component {
                                     this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                     <div>
+                                      <span className="text-line-through-price">
+                                        {formatMoney(currentUnitPrice)}
+                                      </span>
                                       {formatMoney(
                                         currentSubscriptionPrice || 0
                                       )}

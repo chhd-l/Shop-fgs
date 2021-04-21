@@ -352,6 +352,9 @@ class Payment extends React.Component {
         el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
         return el;
       });
+      if (this.props.configStore.prescriberSelectTyped === 1) {
+        sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
+      }
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
@@ -1417,8 +1420,7 @@ class Payment extends React.Component {
       if (sessionItemRoyal.get('recommend_product')) {
         // 线下店orderSource埋点L_ATELIER_FELIN
         let orderSource = sessionItemRoyal.get('orderSource');
-        await batchAdd({
-          orderSource,
+        let addPramas = {
           goodsInfos: this.state.recommend_data.map((ele) => {
             return {
               verifyStock: false,
@@ -1427,7 +1429,12 @@ class Payment extends React.Component {
                 .goodsInfoId
             };
           })
-        });
+        };
+        if (orderSource) {
+          addPramas.orderSource = orderSource;
+        }
+
+        await batchAdd(addPramas);
       } else {
         await batchAdd({
           goodsInfos: cartData.map((ele) => {
@@ -1824,12 +1831,45 @@ class Payment extends React.Component {
       });
     }
     this.setState({ billingChecked: val });
+
     // 勾选，则 billingAddress = deliveryAddress
+    let billadd = null;
     if (val) {
-      this.setState({
-        billingAddress: this.state.deliveryAddress
-      });
+      billadd = this.state.deliveryAddress;
+    } else {
+      billadd = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        birthdate: '',
+        address1: '',
+        address2: '',
+        country: '',
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        cityId: '',
+        city: '',
+        areaId: '',
+        area: '',
+        regionId: '',
+        region: '',
+        provinceNo: '',
+        provinceId: '',
+        province: '',
+        stateId: '',
+        postCode: '',
+        phoneNumber: '',
+        entrance: '',
+        apartment: '',
+        comment: '',
+        minDeliveryTime: 0,
+        maxDeliveryTime: 0,
+        DuData: null,
+        formRule: []
+      };
     }
+    this.setState({
+      billingAddress: billadd
+    });
   };
 
   // 计算税额、运费、运费折扣
