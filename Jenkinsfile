@@ -25,7 +25,7 @@ podTemplate(label: label, cloud: 'kubernetes',
             name: 'jnlp',
             image: 'k8sregistrysit.azurecr.io/repository:393',
             ttyEnabled: true,
-            alwaysPullImage: true
+            alwaysPullImage: true,
             resourceRequestCpu: 100m,
             resourceRequestMemory: 2000Mi
             )
