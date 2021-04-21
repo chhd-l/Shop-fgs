@@ -384,10 +384,10 @@ class PetForm extends React.Component {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.isCat
-        ? 'mixed_breed'
-        : this.state.isPurebred
+      petsBreed: this.state.isPurebred
         ? this.state.breed
+        : this.state.isCat
+        ? 'mixed_breed'
         : this.state.breedcode,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
@@ -1721,6 +1721,7 @@ class PetForm extends React.Component {
             visible={this.state.isEditAlert}
             modalTitle={''}
             close={() => {
+              this.props.history.push('/account/pets/');
               this.setState({ isEditAlert: false });
             }}
           >
