@@ -34,7 +34,7 @@ const benifitList =
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
     ],
     tr: [
-      { iconCls: 'rc-lock--xs rc-iconography--xs', text: '%100 güvenli ödeme' },
+      { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
       {
         iconCls: 'rc-loading--xs rc-iconography--xs',
         text: 'Memnun kalmazsanız iade edin'
@@ -145,7 +145,7 @@ const faqList =
       {
         title: 'GÜVENLİ ÖDEME',
         context: `<h1 class="rc-zeta"></h1>
-    <p></p><p>Royal Canin online mağazasında yapacağınız alışverişlerde, %100 güvenli ödeme yöntemi kullanılır. Ödeme ve kart bilgileriniz, SSL sistemiyle güvence altına alınmaktadır.</p>
+    <p></p><p>Royal Canin online mağazasında yapacağınız alışverişlerde, 100% güvenli ödeme yöntemi kullanılır. Ödeme ve kart bilgileriniz, SSL sistemiyle güvence altına alınmaktadır.</p>
     <p>Kabul edilen ödeme yöntemleri Visa, Mastercard ve American Express'tir.</p><p></p>`,
         gaContext: 'How secure is my payment information'
       },
