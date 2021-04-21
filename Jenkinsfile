@@ -66,6 +66,13 @@ podTemplate(label: label, cloud: 'kubernetes',
                 }
             }
         }
+
+
+         stage('Push Content to CDN'){
+            dir("$jenworkspace"){
+                //PUSH
+                }
+        }
         stage('K8S Deploy'){
                     // 使用 Kubectl Cli 插件的方法，提供 Kubernetes 环境，在其方法块内部能够执行 kubectl 命令
                     withKubeConfig([credentialsId: "${KUBERNETES_CREADENTIAL}",serverUrl: "${KUBERNETES_URL}"]) {
