@@ -340,8 +340,8 @@ const tr_TR = {
   'footer.cookies': 'Kurabiye',
   'footer.copyrightInfo':
     "Telif hakkı © Mars 2021®, Mars Incorporated'ın Ticari Markası ve iştirakleri",
-  'footer.FAQ': 'S.S.S',
-  'footer.FAQ2': 'S.S.S',
+  'footer.FAQ': 'SSS',
+  'footer.FAQ2': 'SSS',
   'footer.healthAndNutrition': 'Sağlık ve Beslenme',
   'footer.help': 'YARDIM',
   'footer.informationForParents': 'Ebeveynler için Bilgiler',
