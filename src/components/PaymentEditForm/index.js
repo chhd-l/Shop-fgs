@@ -155,7 +155,7 @@ class PaymentEditForm extends React.Component {
       });
     });
 
-    if (this.props.needPhone) {
+    if (this.props.needPhone && this.props.paymentType == 'PAYU') {
       // 设置手机号输入限制
       this.setPhoneNumberReg();
     }

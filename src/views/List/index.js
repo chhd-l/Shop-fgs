@@ -1773,12 +1773,17 @@ class List extends React.Component {
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
               const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
-                .filter((item) => item.goodsAttributeName == 'breeds')
+                .filter(
+                  (item) => item?.goodsAttributeName.toLowerCase() == 'breeds'
+                )
                 .map((t) => t.goodsAttributeValueEn);
               const technologyAttr = (
                 ele.goodsAttributesValueRelVOAllList || []
               )
-                .filter((item) => item.goodsAttributeName == 'Technology')
+                .filter(
+                  (item) =>
+                    item?.goodsAttributeName.toLowerCase() == 'technology'
+                )
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               let ret = Object.assign({}, ele, {

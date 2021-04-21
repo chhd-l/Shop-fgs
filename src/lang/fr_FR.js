@@ -352,7 +352,7 @@ const fr_FR = {
   every: 'Tout',
   example: 'Exemple',
   examplePhone:
-    '06 23 45 67 89 (tel. mobile pour un meilleur suivi de votre commande)',
+    'Exemple: 06 23 45 67 89 (tel. mobile pour un meilleur suivi de votre commande)',
   examplePostCode: '12345',
   expirationDateIsInvalid:
     "La date d'expiration de votre carte n'est pas valide",

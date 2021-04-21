@@ -1831,12 +1831,45 @@ class Payment extends React.Component {
       });
     }
     this.setState({ billingChecked: val });
+
     // 勾选，则 billingAddress = deliveryAddress
+    let billadd = null;
     if (val) {
-      this.setState({
-        billingAddress: this.state.deliveryAddress
-      });
+      billadd = this.state.deliveryAddress;
+    } else {
+      billadd = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        birthdate: '',
+        address1: '',
+        address2: '',
+        country: '',
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        cityId: '',
+        city: '',
+        areaId: '',
+        area: '',
+        regionId: '',
+        region: '',
+        provinceNo: '',
+        provinceId: '',
+        province: '',
+        stateId: '',
+        postCode: '',
+        phoneNumber: '',
+        entrance: '',
+        apartment: '',
+        comment: '',
+        minDeliveryTime: 0,
+        maxDeliveryTime: 0,
+        DuData: null,
+        formRule: []
+      };
     }
+    this.setState({
+      billingAddress: billadd
+    });
   };
 
   // 计算税额、运费、运费折扣

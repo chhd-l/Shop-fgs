@@ -25,7 +25,10 @@ podTemplate(label: label, cloud: 'kubernetes',
             name: 'jnlp',
             image: 'k8sregistrysit.azurecr.io/repository:393',
             ttyEnabled: true,
-            alwaysPullImage: true)
+            alwaysPullImage: true,
+            resourceRequestCpu: '100m',
+            resourceRequestMemory: '2000Mi'
+            )
     ],
     volumes: [
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock'),
@@ -47,25 +50,24 @@ podTemplate(label: label, cloud: 'kubernetes',
                     sh "node --version"
                     sh "npm --version"
                     sh "npm install"
-                    sh "npm run build:${TARGET_COUNTRY}"
+                    sh "npm run build:${TARGET_BUILD}"
                 }
         }
         stage('Docker build'){
             dir("$jenworkspace"){
                 // 创建 Dockerfile 文件，但只能在方法块内使用
                 docker1 = readFile encoding: "UTF-8", file: "./Dockerfile"
-                dockerfile = docker1.replaceAll("#APP_PATH","${APP_PATH}")
-                                        .replaceAll("#APP_OPTS","${APP_OPTS}")
+                dockerfile = docker1.replaceAll("#APP_OPTS","${APP_OPTS}")
                                         .replaceAll("#APP_NAME","${APP_NAME}")
 
                 writeFile encoding: 'UTF-8', file: './Dockerfile', text: "${dockerfile}"
 
 
                 // 设置 Docker 镜像名称
-                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}:${APP_VERSION}"
+                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 sh "cat Dockerfile"
                 if ("${DOCKER_HUB_GROUP}" == '') {
-                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}:${APP_VERSION}"
+                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 }
 
                 // 提供 Docker 环境，使用 Docker 工具来进行 Docker 镜像构建与推送
@@ -83,7 +85,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                    //az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --subscription $AZURE_SUBSCRIPTION_ID --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A=="  --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
                   // az storage blob upload-batch --destination ${container_name} --source ./build/ --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D" --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D" "
                 sh '''
-                 az  storage blob upload-batch --destination "cdn" --source ./build/  --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --destination-path ${COUNTRY}
+                 az  storage blob upload-batch --destination "cdn" --source ./build/static  --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --destination-path ${TARGET_COUNTRY}/static
                 '''
             }
        }
@@ -97,7 +99,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                     // 读取 Kubernetes 部署文件
                        deploy = readFile encoding: "UTF-8", file: "./deployment.yaml"
                     // 替换部署文件中的变量，并将替换后的文本赋予 deployfile 变量
-                    deployfile = deploy.replaceAll("#APP_NAME","${APP_NAME}")
+                    deployfile = deploy.replaceAll("#APP_NAME","${TARGET_ENV}-${APP_NAME}")
                                                   .replaceAll("#APP_REPLICAS","${KUBERNETES_APP_REPLICAS}")
                                                   .replaceAll("#APP_IMAGE_NAME","${dockerImageName}")
                                                   .replaceAll("#APP_PORT","${APP_PORT}")
