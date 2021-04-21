@@ -764,7 +764,7 @@ module.exports = function (webpackEnv) {
           formatter: isEnvProduction ? typescriptFormatter : undefined
         }),
       // 打包不同国家的seo文件到build目录
-      isEnvProduction && new CopyPlugin([{ from: paths.appSEO, to: paths.appBuild }])
+      // isEnvProduction && new CopyPlugin([{ from: paths.appSEO, to: paths.appBuild }])
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
