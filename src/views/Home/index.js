@@ -390,7 +390,13 @@ function AdvantageTips() {
       <div className="experience-component experience-assets-centeredIconList">
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
           <div className="rc-sm-down">
-            <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
+            <div
+              style={{
+                maxWidth: deviceType !== 'PC' ? '100%' : '',
+                padding: deviceType !== 'PC' ? '0' : ''
+              }}
+              className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center"
+            >
               {iconList.map((ele, i) => (
                 <div className="col-6 centered-icon-list__icon" key={i}>
                   <FormattedMessage id={ele.langKey}>
@@ -463,6 +469,7 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(456);
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
       var callOktaCallBack = getOktaCallBackUrl(

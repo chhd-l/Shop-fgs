@@ -1420,8 +1420,7 @@ class Payment extends React.Component {
       if (sessionItemRoyal.get('recommend_product')) {
         // 线下店orderSource埋点L_ATELIER_FELIN
         let orderSource = sessionItemRoyal.get('orderSource');
-        await batchAdd({
-          orderSource,
+        let addPramas = {
           goodsInfos: this.state.recommend_data.map((ele) => {
             return {
               verifyStock: false,
@@ -1430,7 +1429,12 @@ class Payment extends React.Component {
                 .goodsInfoId
             };
           })
-        });
+        };
+        if (orderSource) {
+          addPramas.orderSource = orderSource;
+        }
+
+        await batchAdd(addPramas);
       } else {
         await batchAdd({
           goodsInfos: cartData.map((ele) => {

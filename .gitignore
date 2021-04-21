@@ -4,3 +4,4 @@ build
 debug.log
 .env.development.local
 build_tmp
+package-lock.json

@@ -1193,7 +1193,7 @@ const ru_RU = {
   'details.recommendedDaily':
     'Рекомендуемая суточная норма потребления для Вашего питомца',
   'subscription.dailyRation': 'Суточная норма Вашего котенка',
-  'details.recommendedDaily.info': '{val}',
+  'details.recommendedDaily.info': '{val}/день',
   'details.backRecommendedDaily': 'Вернуться к рекомендациям',
   'details.findProductTip':
     'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
