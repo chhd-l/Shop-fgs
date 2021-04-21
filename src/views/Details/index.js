@@ -673,11 +673,10 @@ class Details extends React.Component {
         localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
       ) {
         savePetFlag = true;
-        isMyProductFinder = false;
       } else {
         savePetFlag = false;
-        isMyProductFinder = true;
       }
+      isMyProductFinder = false;
     } else if (sessionItemRoyal.get('pf-result')) {
       if (
         sessionItemRoyal.get('pf-result') &&
@@ -685,11 +684,10 @@ class Details extends React.Component {
           sessionItemRoyal.get('pf-result-before')
       ) {
         savePetFlag = true;
-        isMyProductFinder = true;
       } else {
         savePetFlag = false;
-        isMyProductFinder = false;
       }
+      isMyProductFinder = true;
     } else {
       isFromPR = false;
     }
