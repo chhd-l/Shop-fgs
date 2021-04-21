@@ -178,6 +178,7 @@ const GoodsDetailTabs = function (props) {
                 }
                 break;
               case 'Guide':
+                console.log(parsedContent, 'parsedContent');
                 ret = parsedContent[0]['Table']['Description'];
             }
           } catch (err) {
