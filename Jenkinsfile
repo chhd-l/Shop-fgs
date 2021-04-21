@@ -25,7 +25,10 @@ podTemplate(label: label, cloud: 'kubernetes',
             name: 'jnlp',
             image: 'k8sregistrysit.azurecr.io/repository:393',
             ttyEnabled: true,
-            alwaysPullImage: true)
+            alwaysPullImage: true
+            resourceRequestCpu: 100m,
+            resourceRequestMemory: 2000Mi
+            )
     ],
     volumes: [
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock'),
@@ -61,7 +64,7 @@ podTemplate(label: label, cloud: 'kubernetes',
 
 
                 // 设置 Docker 镜像名称
-                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-{TARGET_ENV}:${APP_VERSION}"
+                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 sh "cat Dockerfile"
                 if ("${DOCKER_HUB_GROUP}" == '') {
                     dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
