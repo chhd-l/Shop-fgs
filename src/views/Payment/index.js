@@ -352,6 +352,9 @@ class Payment extends React.Component {
         el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
         return el;
       });
+      if (this.props.configStore.prescriberSelectTyped === 1) {
+        sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
+      }
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
