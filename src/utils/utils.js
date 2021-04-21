@@ -111,7 +111,6 @@ export async function mergeUnloginCartData() {
   // 线下店orderSource埋点L_ATELIER_FELIN
   let orderSource = sessionItemRoyal.get('orderSource') || '';
   let params = {
-    orderSource,
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
         goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,

@@ -186,7 +186,7 @@ const de_DE = {
   changepic: 'Bild hochladen',
   checkboxIsRequiredForSubscription:
     'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
-  checkout: 'Kasse',
+  checkout: 'zur Kasse',
   'minicart.checkout': 'zur Kasse',
   'payment.checkout': 'Kasse',
   checkoutTip:

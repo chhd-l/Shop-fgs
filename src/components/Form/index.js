@@ -129,7 +129,7 @@ class Form extends React.Component {
     let phoneReg = '';
     switch (process.env.REACT_APP_LANG) {
       case 'fr':
-        phoneReg = '+{33}000000000';
+        phoneReg = '+(33)000000000';
         break;
       case 'en':
         phoneReg = '000-000-0000';
