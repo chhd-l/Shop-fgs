@@ -89,8 +89,6 @@ podTemplate(label: label, cloud: 'kubernetes',
 
          stage('Push Content to CDN'){
             dir("$jenworkspace"){
-                post {
-                  success {
                       withCredentials([usernamePassword(credentialsId: 'azure-cdn-no-prod', 
                           passwordVariable: 'uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==', 
                           usernameVariable: 'd2cshop')]) {
@@ -102,11 +100,9 @@ podTemplate(label: label, cloud: 'kubernetes',
                    az storage blob upload-batch --destination ${JOB_NAME} --source ./text --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
                  
                 '''
-          }
-        }
-     }
-                }
-        }
+                          }
+            }
+       }
         stage('K8S Deploy'){
                     // 使用 Kubectl Cli 插件的方法，提供 Kubernetes 环境，在其方法块内部能够执行 kubectl 命令
                     withKubeConfig([credentialsId: "${KUBERNETES_CREADENTIAL}",serverUrl: "${KUBERNETES_URL}"]) {
