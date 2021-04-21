@@ -287,10 +287,12 @@ class PetForm extends React.Component {
       myAccountActionPushEvent('Remove pet');
       this.props.history.push('/account/pets/');
     } catch (err) {
-      this.setState({
-        isDeleteModalShow: true,
-        deleteWarningMessage: err.message
-      });
+      if (err.code === 'P-010003') {
+        this.setState({
+          isDeleteModalShow: true,
+          deleteWarningMessage: err.message
+        });
+      }
       this.showErrorMsg(err.message);
     } finally {
       this.setState({
