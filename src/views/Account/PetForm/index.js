@@ -126,7 +126,8 @@ class PetForm extends React.Component {
       },
       breedName: '',
       breedcode: '',
-      isDeleteModalShow: false
+      isDeleteModalShow: false,
+      deleteWarningMessage: ''
     };
 
     this.setSterilized = this.setSterilized.bind(this);
@@ -271,8 +272,11 @@ class PetForm extends React.Component {
     });
     this.getSpecialNeeds(currentPet.customerPetsPropRelations);
   };
-  delPets = async (currentPet) => {
-    let params = { petsIds: [this.props.match.params.id] };
+  delPets = async (currentPet, deleteFlag) => {
+    let params = {
+      petsIds: [this.props.match.params.id],
+      deleteFlag: deleteFlag
+    };
     currentPet.confirmTooltipVisible = false;
     this.setState({
       loading: true,
@@ -283,6 +287,10 @@ class PetForm extends React.Component {
       myAccountActionPushEvent('Remove pet');
       this.props.history.push('/account/pets/');
     } catch (err) {
+      this.setState({
+        isDeleteModalShow: true,
+        deleteWarningMessage: err.message
+      });
       this.showErrorMsg(err.message);
     } finally {
       this.setState({
@@ -376,10 +384,10 @@ class PetForm extends React.Component {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
       petsImg: this.state.imgUrl,
-      petsBreed: this.state.isCat
-        ? 'mixed_breed'
-        : this.state.isPurebred
+      petsBreed: this.state.isPurebred
         ? this.state.breed
+        : this.state.isCat
+        ? 'mixed_breed'
         : this.state.breedcode,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
@@ -1605,7 +1613,11 @@ class PetForm extends React.Component {
                           {this.props.match.params.id && (
                             <span
                               className="rc-styled-link"
-                              onClick={this.delPets.bind(this, currentPet)}
+                              onClick={this.delPets.bind(
+                                this,
+                                currentPet,
+                                false
+                              )}
                             >
                               <FormattedMessage id="pet.deletePet" />
                             </span>
@@ -1616,7 +1628,11 @@ class PetForm extends React.Component {
                           {this.props.match.params.id && (
                             <span
                               className="rc-styled-link"
-                              onClick={this.delPets.bind(this, currentPet)}
+                              onClick={this.delPets.bind(
+                                this,
+                                currentPet,
+                                false
+                              )}
                             >
                               <FormattedMessage id="pet.deletePet" />
                             </span>
@@ -1682,14 +1698,17 @@ class PetForm extends React.Component {
             <div className="text-center">
               <p>
                 <div>
-                  <FormattedMessage id="petSaveTips1" />
+                  {this.state.deleteWarningMessage}
+                  {/* <FormattedMessage id="petSaveTips1" /> */}
                 </div>
-                <FormattedMessage id="petSaveTips2" />
+                {/* <FormattedMessage id="petSaveTips2" /> */}
               </p>
               <p>
                 <button
-                  onClick={() => {}}
-                  className="rc-btn rc-btn--one rc-btn--sm"
+                  onClick={this.delPets.bind(this, currentPet, true)}
+                  className={`rc-btn rc-btn--one rc-btn--sm text-plain ${
+                    this.state.loading ? 'ui-btn-loading' : ''
+                  }`}
                 >
                   <FormattedMessage id="pet.deletePet" />
                 </button>
@@ -1702,6 +1721,7 @@ class PetForm extends React.Component {
             visible={this.state.isEditAlert}
             modalTitle={''}
             close={() => {
+              this.props.history.push('/account/pets/');
               this.setState({ isEditAlert: false });
             }}
           >
