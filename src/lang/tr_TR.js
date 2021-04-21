@@ -509,6 +509,8 @@ const tr_TR = {
   moreChoicesAvailable: 'Daha Fazla Seçenek Mevcut',
   mustChooseACommunicationMethodTip:
     'Üzgünüz, iletişim onayını kontrol ettiniz, bu yüzden bir iletişim yöntemi seçmelisiniz',
+  mustChooseTheConsentTip:
+    "Royal Canin'den promosyon amaçlı iletişim almayı kabul ettiğinizi onaylamak için lütfen aşağıdaki uygun kutuyu işaretleyin.",
   name: 'İsim',
   name2: 'İSİM',
   nameInvalid: 'Adın geçersiz',
@@ -654,7 +656,7 @@ const tr_TR = {
   petName: 'Evcil Hayvan adı',
   pets: 'Evcil Hayvanlar',
   petType: 'Evcil Hayvan Türü',
-  phone: 'Telefon',
+  phone: 'Cep telefonu',
   pleasecompleteTheRequiredItem: 'Lütfen gerekli öğeyi tamamlayın',
   pleaseEnterTheCorrectEmail: 'Lütfen doğru e-postayı girin',
   PleaseFillInstructions: 'Lütfen iade talimatlarını doldurun',
@@ -1197,6 +1199,7 @@ const tr_TR = {
   Link: 'Eşle',
   Unlink: 'Eşleşmeyi Kaldır',
   'petform.subscription': 'Bağlı Abonelikler',
-  kg: 'kg'
+  kg: 'kg',
+  messengers: 'Haberciler'
 };
 export default tr_TR;
