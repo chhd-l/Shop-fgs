@@ -1075,6 +1075,7 @@ const tr_TR = {
   noStart: 'Gelecek siparişlerim',
   completed: 'Tamamlandı',
   skip: 'Sipariş atla',
+  skiped: 'Atlandı',
   'orderStatus.COMPLETED': 'Tamamlandı',
   'payment.cardInfoErr': 'Kart bilgileri yanlış, lütfen kontrol edin.',
   'cart.errorInfo6': 'Siparişinizi veremezsiniz, görülemez: {val}',
