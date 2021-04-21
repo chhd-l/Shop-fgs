@@ -1020,7 +1020,15 @@ export default {
       redirectUrl: '/dogs/retail-products'
     },
     {
+      shortUrl: '/dog-size/giant-(>-45-kg)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
       shortUrl: '/dog-size/maxi-%2826-44-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi-(26-44-kg)/',
       redirectUrl: '/dogs/retail-products'
     },
     {
@@ -1028,11 +1036,23 @@ export default {
       redirectUrl: '/dogs/retail-products'
     },
     {
+      shortUrl: '/dog-size/medium-(11-25-kg)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
       shortUrl: '/dog-size/mini-%281-10-kg%29/',
       redirectUrl: '/dogs/retail-products'
     },
     {
+      shortUrl: '/dog-size/mini-(1-10-kg)/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
       shortUrl: '/dog-size/x-small-%281-4-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small-(1-4-kg)/',
       redirectUrl: '/dogs/retail-products'
     },
     {

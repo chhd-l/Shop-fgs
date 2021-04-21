@@ -11,6 +11,23 @@ def sharefile="/home/jenkins/sharefile"
 // deployment等K8S的yaml文件目录
 def k8srepo='/home/jenkins/k8s_repos'
 
+//容器名字
+def container_name='sit'
+
+
+//Azure Blob Storage
+def AZURE_SUBSCRIPTION_ID='8f4713bb-f57a-4ea1-a1fc-90cd570648a1'
+def AZURE_TENANT_ID='99999999-9999-9999-9999-999999999999'
+def AZURE_STORAGE_ACCOUNT='d2cshop'
+
+def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
+
+//Azure account
+def AZURE_CLIENT_ID=""
+
+def AZURE_CLIENT_SECRET=""
+
+
 // cloud为我们前面提供的云名称，nodeSelector是K8S运行pod的节点选择
 podTemplate(label: label, cloud: 'kubernetes',
     containers: [
@@ -72,7 +89,26 @@ podTemplate(label: label, cloud: 'kubernetes',
 
          stage('Push Content to CDN'){
             dir("$jenworkspace"){
-                //PUSH
+                post {
+                  success {
+                      withCredentials([usernamePassword(credentialsId: 'azure-cdn-no-prod', 
+                          passwordVariable: 'uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==', 
+                          usernameVariable: 'd2cshop')]) {
+                     sh '''
+                  echo $container_name
+                   # Login to Azure with ServicePrincipal
+                   az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
+                   # Set default subscription
+                   az account set --subscription $AZURE_SUBSCRIPTION_ID
+                  # Execute upload to Azure
+                   az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --auth-mode login
+                   az storage blob upload-batch --destination ${JOB_NAME} --source ./text --auth-mode login
+                 # Logout from Azure
+                 az logout
+                '''
+          }
+        }
+     }
                 }
         }
         stage('K8S Deploy'){
