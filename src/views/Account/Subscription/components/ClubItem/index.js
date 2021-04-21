@@ -16,6 +16,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 const localItemRoyal = window.__.localItemRoyal;
 const ClubItem = ({ subItem, frequencyList, history }) => {
   const isMobile = getDeviceType() !== 'PC';
+  console.log(subItem, 'subItem------');
   return (
     <div
       className="row rc-margin-x--none row align-items-center card-container pb-3 clubBox"
@@ -43,20 +44,20 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
       </div>
       <div className="col-12 col-md-4 d-flex flex-wrap">
         {subItem.goodsInfo &&
-          subItem.goodsInfo.map((item) => (
+          subItem.goodsInfo.map((item, i) => (
             <div style={{ margin: '.625rem 1.25rem' }}>
-              <LazyLoad>
-                <img
-                  style={{
-                    width: '70px',
-                    display: 'inline-block'
-                  }}
-                  key={item.spuId}
-                  src={item.goodsPic || IMG_DEFAULT}
-                  alt={item.goodsName}
-                  title={item.goodsName}
-                />
-              </LazyLoad>
+              {/* <LazyLoad> */}
+              <img
+                style={{
+                  width: '70px',
+                  display: 'inline-block'
+                }}
+                key={item.spuId}
+                src={item.goodsPic || IMG_DEFAULT}
+                alt={item.goodsName}
+                title={item.goodsName}
+              />
+              {/* </LazyLoad> */}
               <span
                 style={{
                   display: 'inline-block',
@@ -93,27 +94,27 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
           ))}
       </div>
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
-        <LazyLoad>
-          <img
-            src={getClubLogo()}
-            style={{
-              width: '75px',
-              display: 'inline-block',
-              marginRight: '30px'
-            }}
-            alt="club logo"
-          />
-        </LazyLoad>
-        <LazyLoad>
-          <img
-            src={autoshipIcon}
-            style={{
-              width: '40px',
-              display: 'inline-block'
-            }}
-            alt="autoship icon"
-          />
-        </LazyLoad>
+        {/* <LazyLoad> */}
+        <img
+          src={getClubLogo()}
+          style={{
+            width: '75px',
+            display: 'inline-block',
+            marginRight: '30px'
+          }}
+          alt="club logo"
+        />
+        {/* </LazyLoad> */}
+        {/* <LazyLoad> */}
+        <img
+          src={autoshipIcon}
+          style={{
+            width: '40px',
+            display: 'inline-block'
+          }}
+          alt="autoship icon"
+        />
+        {/* </LazyLoad> */}
         <span
           style={{
             display: 'inline-block',
