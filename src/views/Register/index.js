@@ -67,10 +67,10 @@ class Register extends Component {
     if (registerBack) {
       return;
     }
-    // const isLogin = !!localItemRoyal.get('rc-token');
-    // if (isLogin) {
-    //   this.props.history.push('/');
-    // }
+    const isLogin = !!localItemRoyal.get('rc-token');
+    if (isLogin) {
+      this.props.history.push('/');
+    }
     this.initConsent();
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
