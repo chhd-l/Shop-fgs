@@ -845,7 +845,7 @@ const tr_TR = {
   sterilized: 'Kısırlaştırma',
   submit: 'Sunmak',
   subscribeDiscount: 'Abonelik İndirim İndirimi',
-  subscription: 'Aboneliklerim',
+  subscription: 'Bağlı Abonelikler',
   'subscription.all': 'herşey',
   'subscription.autoship': 'otomatik gemi',
   'subscription.club': 'kulüp',
