@@ -2572,6 +2572,103 @@ export default {
     {
       shortUrl: '/dogs/products/retail-products/yorkshire-terrier-8',
       redirectUrl: '/yorkshire-terrier-8+-1260'
+    },
+    //新添加
+    {
+      shortUrl: '/Такса%3A-от-10-месяцев-2042_RU.html',
+      redirectUrl: '/Такса%3A-от-10-месяцев-2042'
+    },
+    {
+      shortUrl: '/Померанский-шпиц%3A-с-8-месячного-возраста-1256_RU.html',
+      redirectUrl: '/Померанский-шпиц%3A-с-8-месячного-возраста-1256'
+    },
+    {
+      shortUrl: '/Мини-Паппи%3A-в-возрасте-до-10-месяцев-1099_RU.html',
+      redirectUrl: '/Мини-Паппи%3A-в-возрасте-до-10-месяцев-1099'
+    },
+    {
+      shortUrl: '/Медиум-эдалт%3A-с-12-месяцев-и-старше-1095_RU.html',
+      redirectUrl: '/Медиум-эдалт%3A-с-12-месяцев-и-старше-1095'
+    },
+    {
+      shortUrl: '/Макси-эдалт%3A-с-15-месяцев-до-5-лет-1094_RU.html',
+      redirectUrl: '/Макси-эдалт%3A-с-15-месяцев-до-5-лет-1094'
+    },
+    {
+      shortUrl: '/Макси-Паппи%3A-в-возрасте-до-15-месяцев-1097_RU.html',
+      redirectUrl: '/Макси-Паппи%3A-в-возрасте-до-15-месяцев-1097'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-Moderate-Calorie-%28в-соусе%29-4080_RU.html',
+      redirectUrl: '/Urinary-S%2FO-Moderate-Calorie-%28в-соусе%29-4080'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-Moderate-Calorie-(в-соусе)-4080_RU.html',
+      redirectUrl: '/Urinary-S%2FO-Moderate-Calorie-(в-соусе)-4080'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-%28паштет%29-4021_RU.html',
+      redirectUrl: '/Urinary-S%2FO-%28паштет%29-4021'
+    },
+    {
+      shortUrl: '/Urinary-S%2FO-(паштет)-4021_RU.html',
+      redirectUrl: '/Urinary-S%2FO-(паштет)-4021'
+    },
+    {
+      shortUrl: '/Sterilised-%28в-паштете%29-4147_RU.html',
+      redirectUrl: '/Sterilised-%28в-паштете%29-4147'
+    },
+    {
+      shortUrl: '/Sterilised-(в-паштете)-4147_RU.html',
+      redirectUrl: '/Sterilised-(в-паштете)-4147'
+    },
+    {
+      shortUrl: '/Mother-%26-Babycat-%28мусс%29-4098_RU.html',
+      redirectUrl: '/Mother-%26-Babycat-%28мусс%29-4098'
+    },
+    {
+      shortUrl: '/Mother-%26-Babycat-(мусс)-4098_RU.html',
+      redirectUrl: '/Mother-%26-Babycat-(мусс)-4098'
+    },
+    {
+      shortUrl: '/Indoor-Sterilised-7%2B-years-%28в-желе%29-1313_RU.html',
+      redirectUrl: '/Indoor-Sterilised-7%2B-years-%28в-желе%29-1313'
+    },
+    {
+      shortUrl: '/Indoor-Sterilised-7%2B-years-(в-желе)-1313_RU.html',
+      redirectUrl: '/Indoor-Sterilised-7%2B-years-(в-желе)-1313'
+    },
+    {
+      shortUrl: '/Hairball-Care-%28в-соусе%29-4158_RU.html',
+      redirectUrl: '/Hairball-Care-%28в-соусе%29-4158'
+    },
+    {
+      shortUrl: '/Hairball-Care-(в-соусе)-4158_RU.html',
+      redirectUrl: '/Hairball-Care-(в-соусе)-4158'
+    },
+    {
+      shortUrl: '/Cardiac-%28паштет%29-4023_RU.html',
+      redirectUrl: '/Cardiac-%28паштет%29-4023'
+    },
+    {
+      shortUrl: '/Cardiac-(паштет)-4023_RU.html',
+      redirectUrl: '/Cardiac-(паштет)-4023'
+    },
+    {
+      shortUrl: '/Ageing-12%2B-%28в-соусе%29-4082_RU.html',
+      redirectUrl: '/Ageing-12%2B-%28в-соусе%29-4082'
+    },
+    {
+      shortUrl: '/Ageing-12%2B-(в-соусе)-4082_RU.html',
+      redirectUrl: '/Ageing-12%2B-(в-соусе)-4082.html'
+    },
+    {
+      shortUrl: '/Ageing-12%2B-%28в-желе%29-4153_RU.html',
+      redirectUrl: '/Ageing-12%2B-%28в-желе%29-4153'
+    },
+    {
+      shortUrl: '/Ageing-12%2B-(в-желе)-4153_RU.html',
+      redirectUrl: '/Ageing-12%2B-(в-желе)-4153'
     }
   ]
 };
