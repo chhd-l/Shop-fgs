@@ -4,6 +4,7 @@ import Landingpagecat from './ClubImage/Landingpagecat.png';
 import Landingpagedog from './ClubImage/landingpagedog.png';
 import catanddog from './ClubImage/catanddog.PNG';
 import howitworck4 from './ClubImage/howit4.png';
+import LogoClub from './ClubImage/LogoClub.png';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -50,7 +51,11 @@ const JoinToday = (props) => {
                             alt="Логотип ROYAL CANIN® КЛУБА"
                           />
                         ) : (
-                          <Logo />
+                          <img
+                            src={LogoClub}
+                            alt="rc-logo-club"
+                            style={{ width: '180px' }}
+                          />
                         )}
                       </div>
                       <br />
