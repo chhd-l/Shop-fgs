@@ -110,7 +110,7 @@ export async function mergeUnloginCartData() {
   const unloginCartData = checkoutStore.cartData;
   // 线下店orderSource埋点L_ATELIER_FELIN
   let orderSource = sessionItemRoyal.get('orderSource') || '';
-  await mergePurchase({
+  let params = {
     orderSource,
     purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
@@ -123,7 +123,12 @@ export async function mergeUnloginCartData() {
         petsId: find(ele.sizeList, (s) => s.selected).petsId
       };
     })
-  });
+  };
+  if (orderSource) {
+    params.orderSource = orderSource;
+  }
+
+  await mergePurchase(params);
   checkoutStore.removeCartData();
 }
 
