@@ -1017,18 +1017,26 @@ class List extends React.Component {
   }
 
   // hub商品列表 埋点
-  hubGAProductImpression(productList, totalElements, keywords) {
+  hubGAProductImpression(
+    productList,
+    goodsList,
+    totalElements,
+    keywords,
+    type
+  ) {
     const products = productList.map((item, index) => {
       const {
         fromPrice,
         goodsCate,
-        goodsNo,
         goodsInfos,
         goodsBrand,
         goodsName,
         goodsAttributesValueRelVOAllList = [],
         goodsCateName
       } = item;
+      const goodsNo = goodsList.filter(
+        (good) => good.goodsName == goodsName
+      )?.[0]?.goodsNo;
       const breed = goodsAttributesValueRelVOAllList
         .filter(
           (attr) =>
@@ -1058,13 +1066,14 @@ class List extends React.Component {
       products
     });
 
-    dataLayer.push({
-      event: 'plpScreenLoad',
-      plpScreenLoad: {
-        nbResults: totalElements,
-        userRequest: keywords || ''
-      }
-    });
+    type !== 'pageChange' &&
+      dataLayer.push({
+        event: 'plpScreenLoad',
+        plpScreenLoad: {
+          nbResults: totalElements,
+          userRequest: keywords || ''
+        }
+      });
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1074,18 +1083,20 @@ class List extends React.Component {
   }
 
   // hubGa点击页码切换埋点
-  hubGAPageChange(productList) {
+  hubGAPageChange(productList, goodsList) {
     const products = productList.map((item, index) => {
       const {
-        minMarketPrice,
+        fromPrice,
         goodsCate,
-        goodsNo,
         goodsInfos,
         goodsBrand,
         goodsName,
         goodsAttributesValueRelVOAllList = [],
         goodsCateName
       } = item;
+      const goodsNo = goodsList.filter(
+        (good) => good.goodsName == goodsName
+      )?.[0]?.goodsNo;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const breed = goodsAttributesValueRelVOAllList
         .filter(
@@ -1097,7 +1108,7 @@ class List extends React.Component {
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const cateName = goodsCateName?.split('/');
       let productItem = {
-        price: minMarketPrice,
+        price: fromPrice,
         specie,
         range: cateName?.[1] || '',
         name: goodsName,
@@ -1825,8 +1836,10 @@ class List extends React.Component {
               this.hubGA
                 ? this.hubGAProductImpression(
                     esGoodsPage.content,
+                    res.context.goodsList,
                     totalElements,
-                    keywords
+                    keywords,
+                    type
                   )
                 : this.GAProductImpression(
                     esGoodsPage.content,
@@ -1837,7 +1850,10 @@ class List extends React.Component {
               // hubGa点击页码切换埋点
               this.hubGA &&
                 type === 'pageChange' &&
-                this.hubGAPageChange(esGoodsPage.content);
+                this.hubGAPageChange(
+                  esGoodsPage.content,
+                  res.context.goodsList
+                );
             }
           );
         } else {
