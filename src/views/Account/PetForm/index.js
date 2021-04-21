@@ -1702,6 +1702,7 @@ class PetForm extends React.Component {
             visible={this.state.isEditAlert}
             modalTitle={''}
             close={() => {
+              this.props.history.push('/account/pets/');
               this.setState({ isEditAlert: false });
             }}
           >
