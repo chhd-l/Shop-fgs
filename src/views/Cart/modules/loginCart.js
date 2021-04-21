@@ -883,7 +883,7 @@ class LoginCart extends React.Component {
           {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 ? (
-            <ClubGiftBanner />
+            <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (

@@ -1989,9 +1989,8 @@ class Details extends React.Component {
                                           values={{
                                             val: rationInfo.weight
                                               ? rationInfo.weight +
-                                                '/' +
                                                 rationInfo.weightUnit
-                                              : '0g/day'
+                                              : '0g'
                                           }}
                                         />
                                       </span>
