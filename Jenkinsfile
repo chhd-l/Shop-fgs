@@ -15,9 +15,6 @@ def k8srepo='/home/jenkins/k8s_repos'
 def container_name='sit'
 
 
-//Azure Blob Storage
-def AZURE_SUBSCRIPTION_ID='8f4713bb-f57a-4ea1-a1fc-90cd570648a1'
-def AZURE_TENANT_ID='2fc13e34-f03f-498b-982a-7cb446e25bc6'
 def AZURE_STORAGE_ACCOUNT='d2cshop'
 
 def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
@@ -89,25 +86,16 @@ podTemplate(label: label, cloud: 'kubernetes',
 
          stage('Push Content to CDN'){
             dir("$jenworkspace"){
-                post {
-                  success {
-                      withCredentials([usernamePassword(credentialsId: 'azure-cdn-no-prod', 
-                          passwordVariable: 'uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==', 
-                          usernameVariable: 'd2cshop')]) {
-                     sh '''
+                sh '''
                   echo $container_name
 
                   # Execute upload to Azure
-                   az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
-                   az storage blob upload-batch --destination ${JOB_NAME} --source ./text --auth-mode login
-                 # Logout from Azure
-                 az logout
+                  # az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --subscription $AZURE_SUBSCRIPTION_ID --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A=="  --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
+                  # az storage blob upload-batch --destination $container_name --source ./build/ --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D" --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
+                 az storage blob upload-batch --destination $container_name --source ./build/  --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net"
                 '''
-          }
-        }
-     }
-                }
-        }
+            }
+       }
         stage('K8S Deploy'){
                     // 使用 Kubectl Cli 插件的方法，提供 Kubernetes 环境，在其方法块内部能够执行 kubectl 命令
                     withKubeConfig([credentialsId: "${KUBERNETES_CREADENTIAL}",serverUrl: "${KUBERNETES_URL}"]) {
