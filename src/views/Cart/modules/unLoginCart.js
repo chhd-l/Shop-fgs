@@ -914,7 +914,7 @@ class UnLoginCart extends React.Component {
           {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 ? (
-            <ClubGiftBanner />
+            <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
             pitem.subscriptionPlanGiftList.map((gift) => (
