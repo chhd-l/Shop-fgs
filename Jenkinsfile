@@ -61,10 +61,10 @@ podTemplate(label: label, cloud: 'kubernetes',
 
 
                 // 设置 Docker 镜像名称
-                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}:${APP_VERSION}"
+                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_COUNTRY}:${APP_VERSION}"
                 sh "cat Dockerfile"
                 if ("${DOCKER_HUB_GROUP}" == '') {
-                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}:${APP_VERSION}"
+                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_COUNTRY}:${APP_VERSION}"
                 }
 
                 // 提供 Docker 环境，使用 Docker 工具来进行 Docker 镜像构建与推送
