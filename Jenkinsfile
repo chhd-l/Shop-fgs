@@ -37,6 +37,8 @@ podTemplate(label: label, cloud: 'kubernetes',
         }
         stage('npm package'){
                 dir("$jenworkspace"){
+                    sh "node --version"
+                    sh "npm --version"
                     sh "npm install"
                     sh "npm run build:${TARGET_COUNTRY}"
                 }
