@@ -31,9 +31,8 @@ podTemplate(label: label, cloud: 'kubernetes',
             )
     ],
     volumes: [
-        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock'),
-        persistentVolumeClaim(mountPath: "$sharefile", claimName: 'sharefile-repo-pvc', readOnly: false)
-    ],
+        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock')
+            ],
     imagePullSecrets: [ 'sit-docker' ]
 )
 {
