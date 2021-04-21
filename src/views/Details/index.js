@@ -2293,6 +2293,9 @@ class Details extends React.Component {
                                     this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                     <div>
+                                      <span className="text-line-through-price">
+                                        {formatMoney(currentUnitPrice)}
+                                      </span>
                                       {formatMoney(
                                         currentSubscriptionPrice || 0
                                       )}
@@ -2405,6 +2408,9 @@ class Details extends React.Component {
                                     this.getFrequencyDictDom()}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
                                     <div>
+                                      <span className="text-line-through-price">
+                                        {formatMoney(currentUnitPrice)}
+                                      </span>
                                       {formatMoney(
                                         currentSubscriptionPrice || 0
                                       )}
