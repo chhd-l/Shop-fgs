@@ -47,15 +47,14 @@ podTemplate(label: label, cloud: 'kubernetes',
                     sh "node --version"
                     sh "npm --version"
                     sh "npm install"
-                    sh "npm run build:${TARGET_COUNTRY}"
+                    sh "npm run build:${TARGET_BUILD}"
                 }
         }
         stage('Docker build'){
             dir("$jenworkspace"){
                 // 创建 Dockerfile 文件，但只能在方法块内使用
                 docker1 = readFile encoding: "UTF-8", file: "./Dockerfile"
-                dockerfile = docker1.replaceAll("#APP_PATH","${APP_PATH}")
-                                        .replaceAll("#APP_OPTS","${APP_OPTS}")
+                dockerfile = docker1.replaceAll("#APP_OPTS","${APP_OPTS}")
                                         .replaceAll("#APP_NAME","${APP_NAME}")
 
                 writeFile encoding: 'UTF-8', file: './Dockerfile', text: "${dockerfile}"
@@ -83,7 +82,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                    //az storage container create --account-name $AZURE_STORAGE_ACCOUNT --name $JOB_NAME --subscription $AZURE_SUBSCRIPTION_ID --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A=="  --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D"
                   // az storage blob upload-batch --destination ${container_name} --source ./build/ --subscription $AZURE_SUBSCRIPTION_ID  --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D" --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --sas-token "sp=racwdl&st=2021-04-21T06:38:14Z&se=2025-04-21T14:38:14Z&sv=2020-02-10&sr=c&sig=pQ5GFlHpA3%2FgfXJfNak2F8izC5Z5NAnmjWwjPIKDV7k%3D" "
                 sh '''
-                 az  storage blob upload-batch --destination "cdn" --source ./build/static  --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --destination-path ${COUNTRY}/static
+                 az  storage blob upload-batch --destination "cdn" --source ./build/static  --account-key "uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==" --connection-string "DefaultEndpointsProtocol=https;AccountName=d2cshop;AccountKey=uSocCVy+hIgNMeTHgABvjtvQVPJjpoe0q5j8ESIMyvZ/42iHi0s2jvVaD3VDikUdRUqY1iK4HmiGTWei4qFy2A==;EndpointSuffix=core.windows.net" --destination-path ${TARGET_COUNTRY}/static
                 '''
             }
        }

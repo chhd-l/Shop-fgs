@@ -191,7 +191,8 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
-    params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
+    // params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
+    params.auditAuthority = true;
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -204,7 +205,8 @@ class Prescription extends React.Component {
   async getAllPrescription() {
     let params = {
       storeId: process.env.REACT_APP_STOREID,
-      auditAuthority: this.props.checkoutStore.autoAuditFlag
+      // auditAuthority: this.props.checkoutStore.autoAuditFlag
+      auditAuthority: true
     };
     const res = await getAllPrescription(params);
     let clinicArr = res.context.prescriberVo;
