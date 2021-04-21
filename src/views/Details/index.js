@@ -729,7 +729,7 @@ class Details extends React.Component {
           rationInfo: rationRes.context.rationResponseItems[0]
         });
       }
-    } else {
+    } else if (this.props.checkoutStore.pr_petsInfo.petsId) {
       let rationRes = await getRation({
         spuNoList: [goodsNo],
         petsId: this.props.checkoutStore.pr_petsInfo.petsId
