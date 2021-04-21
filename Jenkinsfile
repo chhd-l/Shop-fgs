@@ -17,7 +17,7 @@ def container_name='sit'
 
 //Azure Blob Storage
 def AZURE_SUBSCRIPTION_ID='8f4713bb-f57a-4ea1-a1fc-90cd570648a1'
-def AZURE_TENANT_ID='99999999-9999-9999-9999-999999999999'
+def AZURE_TENANT_ID='2fc13e34-f03f-498b-982a-7cb446e25bc6'
 def AZURE_STORAGE_ACCOUNT='d2cshop'
 
 def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
