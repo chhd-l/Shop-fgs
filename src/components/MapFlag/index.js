@@ -24,12 +24,16 @@ class MapFlag extends React.Component {
       setSelectClinicId,
       setSelectClinicName,
       removeLinkClinicId,
-      removeLinkClinicName
+      removeLinkClinicName,
+      setLinkClinicId,
+      setLinkClinicName
     } = this.props.clinicStore;
     removeLinkClinicId();
     removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
+    setLinkClinicId(item.id);
+    setLinkClinicName(item.prescriberName);
     this.props.history.push('/checkout');
   };
   handleClose = () => {

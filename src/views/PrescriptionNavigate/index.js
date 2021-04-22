@@ -240,6 +240,8 @@ class Prescription extends React.Component {
     const {
       setSelectClinicId,
       setSelectClinicName,
+      setLinkClinicId,
+      setLinkClinicName,
       removeLinkClinicId,
       removeLinkClinicName
     } = this.props.clinicStore;
@@ -247,6 +249,8 @@ class Prescription extends React.Component {
     removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
+    setLinkClinicId(item.id);
+    setLinkClinicName(item.prescriberName);
     this.props.history.push('/checkout');
   };
   getSonMess(center) {
