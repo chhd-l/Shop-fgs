@@ -1580,6 +1580,9 @@ const fr_FR = {
   Weight: 'Poids',
   Sensitivity: 'Sensibilité',
   Lifestyle: 'Mode de vie',
-  imageLargeError: "L'image importée est trop grande"
+  imageLargeError: "L'image importée est trop grande",
+  'subscription.all': 'Tout',
+  'subscription.autoship': 'Abonnement',
+  'subscription.club': 'club'
 };
 export default fr_FR;

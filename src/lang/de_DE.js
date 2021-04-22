@@ -1300,7 +1300,10 @@ const de_DE = {
   'searchNoResult.email.content': 'Senden Sie uns eine Email',
   'searchNoBreed.breedName': 'Ergebnisse suchen',
   kg: 'kg',
-  imageLargeError: 'Das hochgeladene Bild ist zu groß'
+  imageLargeError: 'Das hochgeladene Bild ist zu groß',
+  'subscription.all': 'alle',
+  'subscription.autoship': 'Autoship',
+  'subscription.club': 'Verein'
 };
 
 export default de_DE;
