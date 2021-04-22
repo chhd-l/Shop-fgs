@@ -129,7 +129,7 @@ class Form extends React.Component {
     let phoneReg = '';
     switch (process.env.REACT_APP_LANG) {
       case 'fr':
-        phoneReg = '+(33)000000000';
+        phoneReg = '(+33) 0 00 00 00 00';
         break;
       case 'en':
         phoneReg = '000-000-0000';
@@ -140,9 +140,6 @@ class Form extends React.Component {
       case 'mx':
         phoneReg = '0000000000';
         break;
-      // case 'de':
-      //   phoneReg = '0000 000000 000';
-      //   break;
       case 'tr':
         phoneReg = '{0} (000) 000-00-00';
         break;
@@ -272,7 +269,6 @@ class Form extends React.Component {
       });
     }
   };
-
   // 3、格式化表单json
   formListFormat(array) {
     const { caninForm } = this.state;
@@ -328,7 +324,8 @@ class Form extends React.Component {
           break;
         case 'phoneNumber':
           if (process.env.REACT_APP_LANG == 'fr') {
-            regExp = /[+(33)|0]\d{9}$/;
+            // regExp = /[(+33)|0]\d{9}$/;
+            regExp = /[(+33)|0][\s\-][0-9][\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_LANG == 'en') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
