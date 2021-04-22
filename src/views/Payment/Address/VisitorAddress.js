@@ -14,6 +14,8 @@ import {
 import AddressPreview from './Preview';
 import './VisitorAddress.css';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 /**
  * delivery/billing adress module - visitor
  */
@@ -113,21 +115,19 @@ class VisitorAddress extends React.Component {
   };
   // 游客确认 Delivery address
   handleClickConfirm = () => {
-    const { isValid } = this.state;
-    console.log(
-      '★ ----------------- 游客确认 Delivery address ',
-      this.props.isValidationModal
-    );
+    const { isValid, validationAddress } = this.state;
+    const { isValidationModal } = this.props;
     if (!isValid) {
       return false;
     }
+    console.log('★ ----- 游客确认 isValidationModal:', isValidationModal);
+    console.log('★ ----- 游客确认 validationAddress:', validationAddress);
     // 地址验证
     // visitorValidationModalVisible - 控制是否查询数据
-    if (this.props.isValidationModal) {
+    if (isValidationModal) {
       this.setState({
         visitorValidationLoading: true
       });
-      console.log('★ ----------------- VisitorAddress 地址校验');
       setTimeout(() => {
         this.setState({
           visitorValidationModalVisible: true
@@ -135,8 +135,10 @@ class VisitorAddress extends React.Component {
         this.props.updateValidationStaus(false);
       }, 800);
     }
-
-    if (this.props.type !== 'delivery') {
+    // 是否地址验证
+    const addressValidationFlag =
+      localItemRoyal.get('rc-address-validation-flag') || null;
+    if (this.props.type !== 'delivery' && addressValidationFlag) {
       throw new Error('This Error No Display');
     }
   };
