@@ -1299,7 +1299,8 @@ const de_DE = {
   'searchNoResult.email': 'E-Mail an uns',
   'searchNoResult.email.content': 'Senden Sie uns eine Email',
   'searchNoBreed.breedName': 'Ergebnisse suchen',
-  kg: 'kg'
+  kg: 'kg',
+  imageLargeError: 'Das hochgeladene Bild ist zu groß'
 };
 
 export default de_DE;

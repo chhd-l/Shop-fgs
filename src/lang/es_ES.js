@@ -1089,6 +1089,7 @@ const es_ES = {
   'welcome.contactUS': 'Kontaktieren Sie uns',
   'cart.autoshipSavedtip': 'Ahorraste {discount} con envío automático',
   paused: 'Pausado',
-  kg: 'kg'
+  kg: 'kg',
+  imageLargeError: 'La imagen cargada es demasiado grande'
 };
 export default es_ES;
