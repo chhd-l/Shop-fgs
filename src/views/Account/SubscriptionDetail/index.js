@@ -232,10 +232,7 @@ class SubscriptionDetail extends React.Component {
       minDate: new Date(),
       maxDate: new Date(),
       todaydate: new Date(),
-      tabName: [
-        this.props.intl.messages.noStart,
-        this.props.intl.messages.completed
-      ],
+      tabName: [],
       activeTabIdx: 0,
       noStartYearOption: [],
       completedYearOption: [],
@@ -1376,9 +1373,17 @@ class SubscriptionDetail extends React.Component {
       completedYear = {
         value: (completedYearOption[0] && completedYearOption[0]['value']) || ''
       };
+
       noStartOption.forEach((el) => {
         noStartYearOption.push({ name: el, value: el });
       });
+      let tabName = [];
+      if (noStartYearOption.length > 0) {
+        tabName.push(this.props.intl.messages.noStart);
+      }
+      if (completedYearOption.length > 0) {
+        tabName.push(this.props.intl.messages.completed);
+      }
       noStartYear = {
         value: noStartYearOption[0] && noStartYearOption[0]['value'],
         name: noStartYearOption[0] && noStartYearOption[0]['value']
@@ -1422,6 +1427,7 @@ class SubscriptionDetail extends React.Component {
           noStartYear,
           completedYear,
           isActive: subDetail.subscribeStatus === '0',
+          tabName,
           isNotInactive:
             subDetail.subscribeStatus === '0' ||
             subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
@@ -2934,6 +2940,7 @@ class SubscriptionDetail extends React.Component {
   };
   render() {
     console.info('frequencyListOptions', this.frequencyListOptions);
+
     const event = {
       page: {
         type: 'Account',
@@ -2968,7 +2975,7 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
-
+    console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
 
     let minDeliveryTime = null;
@@ -4054,9 +4061,7 @@ class SubscriptionDetail extends React.Component {
                                   textAlign: 'left'
                                 }}
                               >
-                                {this.state.activeTabIdx === 0 &&
-                                noStartYearOption.length &&
-                                completedYearOption.length ? (
+                                {this.state.activeTabIdx === 0 ? (
                                   <Selection
                                     optionList={noStartYearOption}
                                     selectedItemData={noStartYear}

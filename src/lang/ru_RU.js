@@ -124,7 +124,7 @@ const ru_RU = {
   'recommendation.helpContentText.emailTitle': 'Напишите нам',
   'recommendation.helpContentText.emailDes':
     'Мы сделаем все возможное, чтобы ответить вам как можно быстрее в течение 12 часов.',
-  'recommendation.helpContentText.emailLink': '/ru/contact-us',
+  'recommendation.helpContentText.emailLink': '/contact-us',
   'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
   'recommendation.helpContentText.phone': '8-800-200-37-35',
   'recommendation.helpContentText.email': 'Отправьте нам Email',
@@ -1059,7 +1059,7 @@ const ru_RU = {
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
   'club.wheretohelp.card.email.send': 'Отправьте нам e-mail',
   'club.wheretohelp.card.faq':
-    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
+    'Посмотрите {val}: возможно, на Ваш вопрос уже есть ответ',
   'club.howitworks.alt1': 'Оптимальный рацион для питомца',
   'club.howitworks.alt2': 'Опции клубной программы',
   'club.howitworks.alt3': 'Управление подпиской',
@@ -1308,7 +1308,8 @@ const ru_RU = {
   'searchNoResult.email': 'Напишите нам',
   'searchNoResult.email.content': 'Отправьте нам Email',
   'searchNoBreed.breedName': 'Результаты поиска',
-  kg: 'кг'
+  kg: 'кг',
+  imageLargeError: 'Загруженное изображение слишком велико'
 };
 
 export default ru_RU;

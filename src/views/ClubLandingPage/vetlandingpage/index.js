@@ -156,13 +156,13 @@ class VetLandingPage extends React.Component {
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item">
                                   <em className="wof rc-margin-right--xs"></em>
-                                  Вы экономите 10% с каждого заказа orders
+                                  Вы экономите 10% с каждого заказа
                                 </li>
                                 <li className="rc-list__item">
                                   <em className="wof rc-margin-right--xs"></em>
                                   Автоматическое пополнение запасов корма с
                                   бесплатной доставкой при подписке на сумму от
-                                  2500 руб. time
+                                  2500 руб
                                 </li>
                                 <li className="rc-list__item">
                                   <em className="wof rc-margin-right--xs"></em>

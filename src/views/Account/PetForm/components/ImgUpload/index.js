@@ -2,9 +2,10 @@ import React from 'react';
 import { uploadResource } from '@/api';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { myAccountActionPushEvent } from '@/utils/GA';
 
+@injectIntl
 export default class ImgUpload extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +33,7 @@ export default class ImgUpload extends React.Component {
     }
     if (files.length && files[0].size >= 1048576) {
       console.log('上传图片大小不得超过1M');
-      this.props.geterrMessage('Image uploaded is too large');
+      this.props.geterrMessage(this.props.intl.messages['imageLargeError']);
       return false;
     }
     console.log('falg:', errMsg);
