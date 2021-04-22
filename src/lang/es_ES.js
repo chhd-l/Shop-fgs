@@ -1090,6 +1090,9 @@ const es_ES = {
   'cart.autoshipSavedtip': 'Ahorraste {discount} con envío automático',
   paused: 'Pausado',
   kg: 'kg',
-  imageLargeError: 'La imagen cargada es demasiado grande'
+  imageLargeError: 'La imagen cargada es demasiado grande',
+  'subscription.all': 'Todas',
+  'subscription.autoship': 'Autoenvío',
+  'subscription.club': 'club'
 };
 export default es_ES;

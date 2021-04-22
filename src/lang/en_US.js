@@ -1336,6 +1336,9 @@ const en_US = {
   'searchNoResult.email.content': 'Send us an Email',
   'searchNoBreed.breedName': 'Search Results',
   kg: 'kg',
-  imageLargeError: 'Image uploaded is too large'
+  imageLargeError: 'Image uploaded is too large',
+  'subscription.all': 'all',
+  'subscription.autoship': 'autoship',
+  'subscription.club': 'club'
 };
 export default en_US;

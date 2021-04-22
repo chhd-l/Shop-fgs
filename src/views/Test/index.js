@@ -15,8 +15,15 @@ import { Helmet } from 'react-helmet';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
+import Select from 'react-select';
 
 import './index.less';
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+];
 
 class Test extends React.Component {
   constructor(props) {
@@ -37,9 +44,14 @@ class Test extends React.Component {
         postCode: '',
         phoneNumber: '+7 (923) 456 78 90'
       },
-      isValid: false
+      isValid: false,
+      selectedOption: null
     };
   }
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  };
   componentWillUnmount() {}
   componentDidMount() {
     // 设置手机号输入限制
@@ -110,7 +122,7 @@ class Test extends React.Component {
     }
   };
   render() {
-    const { form, isValid } = this.state;
+    const { form, isValid, selectedOption } = this.state;
     return (
       <div style={{ padding: '30px' }}>
         <br />
@@ -145,6 +157,12 @@ class Test extends React.Component {
             <FormattedMessage id="clinic.confirm3" />
           </button>
         </div>
+        <Select
+          value={selectedOption}
+          onChange={this.handleChange}
+          options={options}
+          isMulti
+        />
       </div>
     );
   }

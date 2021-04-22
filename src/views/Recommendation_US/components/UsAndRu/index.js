@@ -110,7 +110,7 @@ const UsAndRu = (props) => {
               <button
                 className={`rc-btn rc-btn--two ${
                   props.buttonLoading ? 'ui-btn-loading' : ''
-                } ${props.inStockProducts.length ? '' : 'rc-btn-disabled'}`}
+                } ${props.addCartBtnStatus ? '' : 'rc-btn-disabled'}`}
                 onClick={props.addCart}
               >
                 <FormattedMessage id="recommendation.plusBtn" />
@@ -185,9 +185,7 @@ const UsAndRu = (props) => {
               <button
                 className={`rc-btn rc-btn--one ${
                   props.buttonLoading ? 'ui-btn-loading' : ''
-                } ${
-                  props.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
-                }`}
+                } ${props.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
                 onClick={props.addCart}
               >
                 Place order
@@ -202,7 +200,7 @@ const UsAndRu = (props) => {
                     id="video-dog"
                     className="optanon-category-4 "
                     src="https://www.youtube.com/embed/ICmjePIyMkI"
-                  ></iframe>
+                  />
                 </div>
               </div>
             </div>

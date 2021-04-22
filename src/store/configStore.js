@@ -35,9 +35,11 @@ class ConfigStore {
   }
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
-    return this.info?.systemTaxSetting?.configVOList
-      ? this.info?.systemTaxSetting?.configVOList[1]?.context
-      : 0;
+    return (
+      (this.info?.systemTaxSetting?.configVOList &&
+        this.info?.systemTaxSetting?.configVOList[1]?.context) ||
+      0
+    );
   }
 
   @computed get storeContactPhoneNumber() {
