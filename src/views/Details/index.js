@@ -775,13 +775,13 @@ class Details extends React.Component {
         if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
-            configStore.info.storeVO.defaultSubscriptionClubFrequencyId ||
+            configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
             (clubDictRes[0] && clubDictRes[0].id) ||
             '';
         } else {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
-            configStore.info.storeVO.defaultSubscriptionFrequencyId ||
+            configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
             (autoshipDictRes[0] && autoshipDictRes[0].id) ||
             '';
         }
@@ -886,7 +886,7 @@ class Details extends React.Component {
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||
-                  configStore.info.storeVO.defaultPurchaseType
+                  configStore.info?.storeVO?.defaultPurchaseType
               });
             }
           );
