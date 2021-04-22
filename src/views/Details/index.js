@@ -1298,7 +1298,7 @@ class Details extends React.Component {
       }
       await checkoutStore.hanldeUnloginAddToCart({
         valid: this.btnStatus,
-        cartItem,
+        cartItemList: [cartItem],
         currentUnitPrice,
         mobileSuccessModalButton: this.refs.mobileSuccessModalButton,
         isMobile
@@ -1622,11 +1622,11 @@ class Details extends React.Component {
     const Tr = process.env.REACT_APP_LANG === 'tr';
     const sptGoods = goodsType === 0 || goodsType === 1;
     const trSpt = Tr && sptGoods;
-    const goodHeading = `<${headingTag || 'h2'}
+    const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
-      </${headingTag || 'h2'}>`;
+      </${headingTag || 'h1'}>`;
     let bundle = goodsType && goodsType === 2;
     const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =
@@ -1654,6 +1654,7 @@ class Details extends React.Component {
         specieId
       }
     };
+
     return (
       <div id="Details">
         <button
@@ -1803,6 +1804,7 @@ class Details extends React.Component {
                                       images={images}
                                       minImg={details.goodsImg}
                                       maxImg={details.goodsImg}
+                                      imgAlt={details?.goodsName}
                                       config={
                                         this.state.imageMagnifierCfg.config
                                       }
@@ -2382,7 +2384,7 @@ class Details extends React.Component {
                                         id="saveExtra"
                                         values={{
                                           val:
-                                            selectedSpecItem.subscriptionPercentage
+                                            selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>

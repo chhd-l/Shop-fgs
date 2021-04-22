@@ -370,7 +370,8 @@ class ImageMagnifier extends Component {
       video,
       taggingForText,
       taggingForImage,
-      spuImages
+      spuImages,
+      imgAlt
     } = this.props;
     if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
@@ -415,7 +416,7 @@ class ImageMagnifier extends Component {
                     style={cssStyle.imgStyle}
                     src={el.artworkUrl || this.state.maxImg || noPic}
                     // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
-                    alt="art work image"
+                    alt={imgAlt}
                   />
                   {/* </LazyLoad> */}
                 </div>
@@ -466,7 +467,7 @@ class ImageMagnifier extends Component {
                   // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                   onLoad={this.handleImageLoaded.bind(this)}
                   onError={this.handleImageErrored.bind(this)}
-                  alt="current image"
+                  alt={imgAlt}
                 />
               </LazyLoad>
               {!imgLoad && 'failed to load'}
