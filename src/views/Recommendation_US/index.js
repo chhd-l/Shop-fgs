@@ -160,9 +160,9 @@ class Recommendation extends React.Component {
       emailDes: this.props.intl.messages[
         'recommendation.helpContentText.emailDes'
       ],
-      emailLink: isRu
-        ? `${location.protocol}//${location.host}${this.props.intl.messages['recommendation.helpContentText.emailLink']}`
-        : this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ], //俄罗斯是其他的链接
       phoneTitle: this.props.intl.messages[
         'recommendation.helpContentText.phoneTitle'
       ],
