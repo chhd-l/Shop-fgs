@@ -14,7 +14,6 @@ import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import LinkedSubs from './components/LinkedSubs';
 import LazyLoad from 'react-lazyload';
-import Select from 'react-select';
 
 import {
   getPetList,
@@ -128,8 +127,7 @@ class PetForm extends React.Component {
       breedName: '',
       breedcode: '',
       isDeleteModalShow: false,
-      deleteWarningMessage: '',
-      selectedOption: null
+      deleteWarningMessage: ''
     };
 
     this.setSterilized = this.setSterilized.bind(this);
@@ -819,19 +817,14 @@ class PetForm extends React.Component {
       });
     } else {
       sensitivityDog = await getDictionary({ type: 'sensitivity_dog' });
-      sensitivityDog = sensitivityDog.map((el) => {
-        el.label = el.name;
+      sensitivityDog.map((el) => {
         el.value = el.valueEn;
-        return el;
       });
       specialneedsDog = await getDictionary({ type: 'specialneeds_dog' });
-      specialneedsDog = specialneedsDog.map((el) => {
-        el.label = el.name;
+      specialneedsDog.map((el) => {
         el.value = el.valueEn;
-        return el;
       });
     }
-    console.log(sensitivityCat, sensitivityDog, 'sensitivityDog');
     this.setState({
       sensitivityList: this.state.isCat ? sensitivityCat : sensitivityDog,
       specialNeeds: this.state.isCat ? specialneedsCat : specialneedsDog
@@ -874,10 +867,7 @@ class PetForm extends React.Component {
     this.setState({ imgUrl: data });
   }
   handleErrMessage = () => {};
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
+
   render() {
     const event = {
       page: {
@@ -896,8 +886,7 @@ class PetForm extends React.Component {
       imgUrl,
       isMobile,
       isChoosePetType,
-      isCat,
-      selectedOption
+      isCat
     } = this.state;
     const RuTr =
       process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
@@ -1264,13 +1253,7 @@ class PetForm extends React.Component {
                           >
                             <FormattedMessage id="Sensitivity" />
                           </label>
-                          <Select
-                            value={selectedOption}
-                            onChange={this.handleChange}
-                            options={this.state.sensitivityList}
-                            isMulti
-                          />
-                          {/* <Selection
+                          <Selection
                             optionList={this.state.sensitivityList}
                             selectedItemChange={(el) =>
                               this.specialNeedsOptionsChange(el)
@@ -1279,7 +1262,7 @@ class PetForm extends React.Component {
                               value: this.state.sensitivity
                             }}
                             key={this.state.sensitivity}
-                          /> */}
+                          />
                         </>
                       ) : (
                         <>
