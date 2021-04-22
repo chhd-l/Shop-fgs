@@ -77,6 +77,7 @@
     "react-intl": "5.6.8",
     "react-lazyload": "^3.1.0",
     "react-scripts": "^3.4.0",
+    "react-select": "^4.3.0",
     "react-slick": "^0.26.1",
     "react-slider": "^1.1.2",
     "react-to-print": "^2.9.0",
@@ -137,7 +138,6 @@
     "build:shopstg_de": "dotenv -e ./env/de/.env.shopstg -e ./env/de/.env node scripts/build.js",
     "build:shopsit_de": "dotenv -e ./env/de/.env.shopsit -e ./env/de/.env node scripts/build.js",
     "build:prod_de": "dotenv -e ./env/de/.env.production -e ./env/de/.env node scripts/build.js",
-
     "build:us": "dotenv -e ./env/us/.env.development -e ./env/us/.env node scripts/build.js",
     "build:shopuat_us": "dotenv -e ./env/us/.env.shopuat -e ./env/us/.env node scripts/build.js",
     "build:shopstg_us": "dotenv -e ./env/us/.env.shopstg -e ./env/us/.env node scripts/build.js",

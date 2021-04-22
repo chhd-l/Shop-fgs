@@ -481,6 +481,9 @@ class Register extends Component {
                         <button
                           className="ciam-alert-close-error-popin rc-alert__close rc-icon rc-alert__close rc-close--xs rc-iconography"
                           data-close=""
+                          onClick={() => {
+                            this.setState({ hasError: false });
+                          }}
                         >
                           <span className="rc-screen-reader-text"></span>
                         </button>

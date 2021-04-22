@@ -626,6 +626,10 @@ export function getFormatDate(date, callback, lang) {
     return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
+  } else if (isMatchedLang(['de'])) {
+    return format(getZoneTime(date), 'dd.MM.yyyy', {
+      locale: datePickerConfig.locale_module
+    });
   } else {
     if (callback && typeof callback === 'function') {
       return callback(date);
