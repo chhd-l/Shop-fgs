@@ -1436,8 +1436,8 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
-                    {process.env.REACT_APP_LANG !== 'en' ||
-                    process.env.REACT_APP_LANG !== 'de' ||
+                    {process.env.REACT_APP_LANG !== 'en' &&
+                    process.env.REACT_APP_LANG !== 'de' &&
                     process.env.REACT_APP_LANG !== 'fr' ? (
                       <>
                         {RuTr && this.state.isCat ? (
