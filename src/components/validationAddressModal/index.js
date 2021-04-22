@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { addressValidation } from '@/api/index';
 import './index.css';
 
+const localItemRoyal = window.__.localItemRoyal;
 class ValidationAddressModal extends React.Component {
   static defaultProps = {
     modalTitle: <FormattedMessage id="information" />,
@@ -55,6 +56,7 @@ class ValidationAddressModal extends React.Component {
   toAddressValidation = async () => {
     const { address } = this.props;
     let valres = null;
+    let valaddFlag = false; // 是否返回地址校验数据
     try {
       let data = {
         city: address.city,
@@ -72,6 +74,7 @@ class ValidationAddressModal extends React.Component {
           modalVisible: true,
           validationAddress: valres
         });
+        valaddFlag = true;
         this.props.updateValidationData(valres);
       } else {
         this.setState({
@@ -79,6 +82,8 @@ class ValidationAddressModal extends React.Component {
         });
         this.props.updateValidationData(null);
       }
+      // 是否地址验证保存本地
+      localItemRoyal.set('rc-address-validation-flag', valaddFlag);
     } catch (err) {
       console.log('addressValidation:' + err.message);
       this.setState({

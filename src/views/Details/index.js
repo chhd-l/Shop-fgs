@@ -1298,7 +1298,7 @@ class Details extends React.Component {
       }
       await checkoutStore.hanldeUnloginAddToCart({
         valid: this.btnStatus,
-        cartItem,
+        cartItemList: [cartItem],
         currentUnitPrice,
         mobileSuccessModalButton: this.refs.mobileSuccessModalButton,
         isMobile
