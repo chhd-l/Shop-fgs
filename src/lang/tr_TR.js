@@ -1111,9 +1111,9 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
   generalTermsConditions: 'Şartlar ve Koşullar',
-  'details.recommendedDaily': 'The recommended daily ration for your pet is',
+  'details.recommendedDaily': 'Evcil hayvanınız için önerilen miktar',
   'details.recommendedDaily.info': '{val}/günde',
-  'details.backRecommendedDaily': 'Go back to recommendation',
+  'Go back to recommendation': 'Öneriye geri dön',
   'details.findProductTip':
     "ürün Arama'yı kullanarak uygun ürünü bulun ve evcil hayvanınız için önerilen beslenme miktarını hesaplayın",
   'details.findProductTips': "Ürün Arama'yı",
