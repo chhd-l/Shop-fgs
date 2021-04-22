@@ -77,8 +77,6 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        //lat: 19.09,
-        //lng: -99.24,
         lat,
         lng
       },
@@ -91,8 +89,6 @@ class Prescription extends React.Component {
         type: 'customer'
       },
       meLocation: {
-        //lat: 19.09,
-        //lng: -99.24,
         lat,
         lng
       },
@@ -104,8 +100,6 @@ class Prescription extends React.Component {
         input: '',
         pageNum: 0,
         pageSize: 3,
-        //latitude: 19.09,//墨西哥纬度
-        //longitude: -99.24,//墨西哥经度
         latitude: lat,
         longitude: lng,
         storeId: process.env.REACT_APP_STOREID
