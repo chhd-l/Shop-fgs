@@ -1201,6 +1201,7 @@ const tr_TR = {
   Unlink: 'Eşleşmeyi Kaldır',
   'petform.subscription': 'Bağlı Abonelikler',
   kg: 'kg',
-  messengers: 'Haberciler'
+  messengers: 'Haberciler',
+  imageLargeError: 'Yüklenen resim çok büyük'
 };
 export default tr_TR;

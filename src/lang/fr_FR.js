@@ -1579,6 +1579,7 @@ const fr_FR = {
   Activity: 'Activité',
   Weight: 'Poids',
   Sensitivity: 'Sensibilité',
-  Lifestyle: 'Mode de vie'
+  Lifestyle: 'Mode de vie',
+  imageLargeError: "L'image importée est trop grande"
 };
 export default fr_FR;
