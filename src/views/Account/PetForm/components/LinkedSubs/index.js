@@ -285,7 +285,7 @@ const LinkedSubs = (props) => {
             </>
           )}
         </div>
-        {!isShowAll && subList.length ? (
+        {!isShowAll && subList.length > 2 ? (
           <p className="more" style={{ marginTop: '1rem' }}>
             <a
               className="rc-styled-link"

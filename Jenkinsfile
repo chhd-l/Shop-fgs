@@ -25,12 +25,14 @@ podTemplate(label: label, cloud: 'kubernetes',
             name: 'jnlp',
             image: 'k8sregistrysit.azurecr.io/repository:393',
             ttyEnabled: true,
-            alwaysPullImage: true)
+            alwaysPullImage: true,
+            resourceRequestCpu: '300m',
+            resourceRequestMemory: '2000Mi'
+            )
     ],
     volumes: [
-        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock'),
-        persistentVolumeClaim(mountPath: "$sharefile", claimName: 'sharefile-repo-pvc', readOnly: false)
-    ],
+        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock')
+            ],
     imagePullSecrets: [ 'sit-docker' ]
 )
 {

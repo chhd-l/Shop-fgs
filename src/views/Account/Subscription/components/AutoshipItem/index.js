@@ -45,18 +45,18 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
           {subItem.goodsInfo &&
             subItem.goodsInfo.map((item) => (
               <div style={{ margin: '.625rem 1.25rem' }}>
-                <LazyLoad>
-                  <img
-                    style={{
-                      width: '70px',
-                      display: 'inline-block'
-                    }}
-                    key={item.spuId}
-                    src={item.goodsPic || IMG_DEFAULT}
-                    alt={item.goodsName}
-                    title={item.goodsName}
-                  />
-                </LazyLoad>
+                {/* <LazyLoad> */}
+                <img
+                  style={{
+                    width: '70px',
+                    display: 'inline-block'
+                  }}
+                  key={item.spuId}
+                  src={item.goodsPic || IMG_DEFAULT}
+                  alt={item.goodsName}
+                  title={item.goodsName}
+                />
+                {/* </LazyLoad> */}
                 <span
                   style={{
                     display: 'inline-block',
@@ -99,16 +99,16 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
             ))}
         </div>
         <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
-          <LazyLoad>
-            <img
-              src={autoshipIcon}
-              style={{
-                width: '40px',
-                display: 'inline-block'
-              }}
-              alt="auttoship icon"
-            />
-          </LazyLoad>
+          {/* <LazyLoad> */}
+          <img
+            src={autoshipIcon}
+            style={{
+              width: '40px',
+              display: 'inline-block'
+            }}
+            alt="auttoship icon"
+          />
+          {/* </LazyLoad> */}
           <span
             style={{
               display: 'inline-block',
