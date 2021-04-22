@@ -306,12 +306,14 @@ class UnLoginCart extends React.Component {
   // 若为空购物车，则要用其他seo
   queryEmptyCartSeo() {
     if (!this.state.productList.length) {
-      cancelPrevRequest();
-      setSeoConfig({
-        pageName: 'Empty Cart page'
-      }).then((res) => {
-        this.setState({ seoConfig: res });
-      });
+      // 延时是为了，页面初始化时，先请求Cart page的seo，再请求Empty Cart page时，会导致第一个先回来
+      setTimeout(() => {
+        setSeoConfig({
+          pageName: 'Empty Cart page'
+        }).then((res) => {
+          this.setState({ seoConfig: res });
+        });
+      }, 1000);
     }
   }
   showErrMsg(msg) {

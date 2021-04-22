@@ -278,13 +278,11 @@ class Recommendation extends React.Component {
           }
           el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
             g = Object.assign({}, g, { selected: false });
-            console.log(g.goodsInfoId, el, 'hhhh');
             if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
               g.selected = true;
             }
             return g;
           });
-          console.log(el, 'el');
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
           if (specList) {
@@ -292,14 +290,11 @@ class Recommendation extends React.Component {
               sItem.chidren = specDetailList.filter((sdItem, i) => {
                 return sdItem.specId === sItem.specId;
               });
-              console.log(sItem, el, 'hhhh');
-
               sItem.chidren.map((child) => {
                 if (
                   el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
                   -1
                 ) {
-                  console.log(child, 'child');
                   child.selected = true;
                 }
                 return child;
@@ -353,15 +348,15 @@ class Recommendation extends React.Component {
     return this.state.inStockProducts.length > 0;
   }
   getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
-    let storeId = process.env.REACT_APP_STOREID;
-    getPrescriberByPrescriberIdAndStoreId({ prescriberId, storeId }).then(
-      (res) => {
-        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-        this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        let locationPath = res.context?.location;
-        this.setState({ locationPath });
-      }
-    );
+    getPrescriberByPrescriberIdAndStoreId({
+      prescriberId,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+      this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+      let locationPath = res.context?.location;
+      this.setState({ locationPath });
+    });
   };
   checkoutStock() {
     let {
@@ -379,7 +374,6 @@ class Recommendation extends React.Component {
         inStockProducts.push(productList[i]);
       }
     }
-    console.log(inStockProducts, 'instock');
     let outOfStockVal = '';
     outOfStockProducts.map((el, i) => {
       if (i === outOfStockProducts.length - 1) {
@@ -450,7 +444,17 @@ class Recommendation extends React.Component {
             quantity: p.recommendationNumber,
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
-            periodTypeId: null
+            periodTypeId: null,
+            taggingForTextAtCart: (p.taggingList || []).filter(
+              (e) =>
+                e.taggingType === 'Text' &&
+                e.showPage?.includes('Shopping cart page')
+            )[0],
+            taggingForImageAtCart: (p.taggingList || []).filter(
+              (e) =>
+                e.taggingType === 'Image' &&
+                e.showPage?.includes('Shopping cart page')
+            )[0]
           }
         );
       })
