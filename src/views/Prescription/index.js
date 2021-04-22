@@ -16,6 +16,7 @@ import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import Modal from './components/Modal';
+import initLocation from '../PrescriptionNavigate/location';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -63,6 +64,9 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
 @observer
 class Prescription extends React.Component {
   constructor(props) {
+    const lang = process.env.REACT_APP_LANG;
+    const lat = initLocation[lang].lat;
+    const lng = initLocation[lang].lng;
     super(props);
     this.state = {
       seoConfig: {
@@ -77,8 +81,10 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        lat: 19.09,
-        lng: -99.24
+        // lat: 19.09,
+        // lng: -99.24
+        lat,
+        lng
       },
       zoom: 12,
       mapKey: 0,
@@ -89,8 +95,10 @@ class Prescription extends React.Component {
         type: 'customer'
       },
       meLocation: {
-        lat: 19.09,
-        lng: -99.24
+        // lat: 19.09,
+        // lng: -99.24
+        lat,
+        lng
       },
       clinicArr: [],
       currentClinicArr: [],
@@ -100,8 +108,10 @@ class Prescription extends React.Component {
         input: '',
         pageNum: 0,
         pageSize: 3,
-        latitude: 19.09,
-        longitude: -99.24,
+        // latitude: 19.09,
+        // longitude: -99.24,
+        latitude: lat,
+        longitude: lng,
         auditAuthority: true,
         storeId: process.env.REACT_APP_STOREID
       },
