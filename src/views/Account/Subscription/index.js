@@ -76,6 +76,7 @@ class Subscription extends React.Component {
           name: <FormattedMessage id="inactive" values={{ val: 2 }} />
         }
       ],
+      subscriptionTypeList: [],
       subscriptionType: 'All',
       isMobile: getDeviceType() !== 'PC',
       testNumber: 0
@@ -96,9 +97,21 @@ class Subscription extends React.Component {
     }
     myAccountPushEvent('Subscriptions');
     setSeoConfig({
-      pageName: 'Account subscriptions'
+      pageName: 'Account subscriptions'
     }).then((res) => {
       this.setState({ seoConfig: res });
+    });
+    const res = await getDictionary({ type: 'SubscriptionType' });
+    console.log('SubscriptionTypeList:');
+    console.log(res);
+    this.setState({
+      subscriptionTypeList: res.map((el) => {
+        return {
+          id: el.id,
+          name: el.name,
+          value: el.valueEn
+        };
+      })
     });
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -224,21 +237,7 @@ class Subscription extends React.Component {
             </h4>
             <div style={{ width: isMobile ? '100px' : '200px' }}>
               <Selection
-                optionList={[
-                  {
-                    name: this.props.intl.messages['subscription.all'],
-                    value: 'All'
-                  },
-                  {
-                    name: this.props.intl.messages['subscription.autoship'],
-                    value: 'Autoship'
-                  },
-                  {
-                    name: this.props.intl.messages['subscription.club'],
-                    value: 'Club'
-                  }
-                  // { name:  this.props.intl.messages['subscription.ContractProduct'], value: 'Contract Product' }
-                ]}
+                optionList={this.state.subscriptionTypeList}
                 selectedItemChange={(el) => {
                   this.setState(
                     { subscriptionType: el.value, currentPage: 1 },
