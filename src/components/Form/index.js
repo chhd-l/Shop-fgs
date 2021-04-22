@@ -653,6 +653,20 @@ class Form extends React.Component {
   };
   // 文本框失去焦点
   inputBlur = (e) => {
+    const { caninForm } = this.state;
+    const target = e?.target;
+    const tname = target?.name;
+    const tvalue =
+      target?.type === 'checkbox' ? target?.checked : target?.value;
+    caninForm[tname] = tvalue;
+    this.setState({ caninForm }, () => {
+      this.props.updateData(this.state.caninForm);
+      // 验证数据
+      this.validvalidationData(tname, tvalue);
+    });
+  };
+  // 查询选择类型的文本框失去焦点
+  selectInputBlur = (e) => {
     const target = e?.target;
     const tname = target?.name;
     const tvalue =
@@ -681,7 +695,7 @@ class Form extends React.Component {
   };
   // 城市搜索框失去焦点
   handleCitySearchSelectionBlur = (e) => {
-    this.inputBlur(e);
+    this.selectInputBlur(e);
   };
   // 城市搜索选择
   handleCityInputChange = (data) => {
@@ -788,7 +802,7 @@ class Form extends React.Component {
         },
         () => {
           this.props.updateData(this.state.caninForm);
-          this.inputBlur(e);
+          this.selectInputBlur(e);
         }
       );
     }
