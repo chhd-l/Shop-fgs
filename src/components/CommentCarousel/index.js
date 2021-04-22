@@ -6,8 +6,14 @@ import CommentOne from './img/CommentOne.png';
 import CommentTwo from './img/CommentTwo.png';
 import CommentThree from './img/CommentThree.png';
 import CommentFour from './img/CommentFour.png';
+import CommentTrOne from './img/FeedbackImage1.png';
+import CommentTrTwo from './img/FeedbackImage2.jpg';
+import CommentTrThree from './img/FeedbackImage3.jpeg';
+import CommentTrFour from './img/FeedbackImage4.jpeg';
 
 const CommentCarousel = () => {
+  const Ru = process.env.REACT_APP_LANG === 'ru';
+  const TR = process.env.REACT_APP_LANG == 'tr';
   return (
     // <div className="experience-component experience-layouts-1column">
     //     //   <div className="row rc-margin-x--none">
@@ -253,22 +259,22 @@ const CommentCarousel = () => {
                 <div className="rc-carousel__card-gal">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img src={CommentOne} alt="alt text" />
-                    </picture>
-                  </article>
-                  <article className="rc-card rc-card--b">
-                    <picture className="rc-card__image">
-                      <img src={CommentTwo} alt="alt text" />
-                    </picture>
-                  </article>
-                  <article className="rc-card rc-card--b">
-                    <picture className="rc-card__image">
-                      <img src={CommentThree} alt="alt text" />
+                      <img src={CommentTrOne} alt="alt text" />
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
                       <img src={CommentFour} alt="alt text" />
+                    </picture>
+                  </article>
+                  <article className="rc-card rc-card--b">
+                    <picture className="rc-card__image">
+                      <img src={CommentOne} alt="alt text" />
+                    </picture>
+                  </article>
+                  <article className="rc-card rc-card--b">
+                    <picture className="rc-card__image">
+                      <img src={CommentTrFour} alt="alt text" />
                     </picture>
                   </article>
                 </div>

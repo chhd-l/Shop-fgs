@@ -192,14 +192,27 @@ const HelpComponents = (props) => {
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
                                 {RU ? (
-                                  <DistributeHubLinkOrATag
-                                    href={'/about-us/faq'}
-                                    ariaLabel="Links to faq"
-                                  >
-                                    <p style={{ textDecoration: 'underline' }}>
-                                      <FormattedMessage id="club.wheretohelp.card.faq" />
-                                    </p>
-                                  </DistributeHubLinkOrATag>
+                                  <p>
+                                    <FormattedMessage
+                                      id="club.wheretohelp.card.faq"
+                                      values={{
+                                        val: (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              часто задаваемые вопросы
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        )
+                                      }}
+                                    />
+                                  </p>
                                 ) : TR ? (
                                   <p>
                                     <FormattedMessage

@@ -8,6 +8,7 @@ import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 const sessionItemRoyal = window.__.sessionItemRoyal;
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 @inject('configStore')
 @observer
@@ -286,12 +287,9 @@ class Help extends React.Component {
                                     }}
                                   > */}
                                   {isRecommendationPage ? (
-                                    <Link
+                                    <DistributeHubLinkOrATag
+                                      href={emailLink}
                                       to={emailLink}
-                                      // style={{
-                                      //   fontSize: '1rem',
-                                      //   borderBottom: '1px solid transparent'
-                                      // }}
                                       onClick={this.saveCurrentScrollTop}
                                       className="rc-styled-link"
                                     >
@@ -300,8 +298,23 @@ class Help extends React.Component {
                                       ) : (
                                         <FormattedMessage id="help.email" />
                                       )}
-                                    </Link>
+                                    </DistributeHubLinkOrATag>
                                   ) : (
+                                    // <Link
+                                    //   to={emailLink}
+                                    //   // style={{
+                                    //   //   fontSize: '1rem',
+                                    //   //   borderBottom: '1px solid transparent'
+                                    //   // }}
+                                    //   onClick={this.saveCurrentScrollTop}
+                                    //   className="rc-styled-link"
+                                    // >
+                                    //   {email ? (
+                                    //     email
+                                    //   ) : (
+                                    //     <FormattedMessage id="help.email" />
+                                    //   )}
+                                    // </Link>
                                     <a
                                       href={this.state.mailAddress}
                                       style={{
