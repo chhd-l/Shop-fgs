@@ -124,7 +124,7 @@ const ru_RU = {
   'recommendation.helpContentText.emailTitle': 'Напишите нам',
   'recommendation.helpContentText.emailDes':
     'Мы сделаем все возможное, чтобы ответить вам как можно быстрее в течение 12 часов.',
-  'recommendation.helpContentText.emailLink': '/ru/contact-us',
+  'recommendation.helpContentText.emailLink': '/contact-us',
   'recommendation.helpContentText.phoneTitle': 'Свяжитесь с нами',
   'recommendation.helpContentText.phone': '8-800-200-37-35',
   'recommendation.helpContentText.email': 'Отправьте нам Email',
