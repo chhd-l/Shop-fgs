@@ -2660,7 +2660,7 @@ export default {
     },
     {
       shortUrl: '/Ageing-12%2B-(в-соусе)-4082_RU.html',
-      redirectUrl: '/Ageing-12%2B-(в-соусе)-4082.html'
+      redirectUrl: '/Ageing-12%2B-(в-соусе)-4082'
     },
     {
       shortUrl: '/Ageing-12%2B-%28в-желе%29-4153_RU.html',
