@@ -31,7 +31,8 @@ import LoginButton from '@/components/LoginButton';
 import Modal from '../Recommendation_FR/components/Modal';
 import {
   setSeoConfig,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  filterObjectValue
 } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -230,10 +231,12 @@ class Recommendation extends React.Component {
     }
     requestName(params)
       .then(async (res) => {
+        console.log(res, 'rrred');
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+        // this.GaProduct(petType,productList)
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
@@ -409,6 +412,33 @@ class Recommendation extends React.Component {
     //   return false;
     // }
   }
+
+  // GaProduct(petType,productList) {
+  // console.log(petType,productList,'FFFFF')
+  // const specie = petType === 1 ? 'Cat' : 'Dog';
+  // const products = productList.map(item =>{
+  //   const{goods,goodsInfos} = item;
+
+  //   const{minMarketPrice,goodsNo,goodsName} = goods;
+  //   const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+  //   let productItem = {
+  //     price: minMarketPrice,
+  //     specie,
+  //     // range: cateName?.[1] || '',
+  //     name: goodsName,
+  //     mainItemCode: goodsNo,
+  //     SKU,
+  //     subscription : 'One Shot',
+  //     subscriptionFrequency : 3,
+  //     // technology: cateName?.[2] || '',
+  //     brand: 'Royal Canin',
+  //     // breed,
+  //     // sizeCategory
+  //   }
+
+  // })
+  // }
+
   checkoutStock() {
     let {
       productList,
@@ -736,6 +766,10 @@ class Recommendation extends React.Component {
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
+
+    // dataLayer.push({
+    //   event: ' breederRecoPromoCodeCTA'
+    // });
   };
   render(h) {
     console.info('helpContentText', this.helpContentText);
