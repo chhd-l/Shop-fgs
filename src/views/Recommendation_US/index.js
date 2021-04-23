@@ -168,12 +168,12 @@ class Recommendation extends React.Component {
     }
     requestName(params)
       .then(async (res) => {
-        console.log(res, 'rrred');
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
-        // this.GaProduct(petType,productList)
+        const currentShowProduct = [].concat(productList)?.splice(0, 1);
+        this.GaProduct(currentShowProduct, 1);
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
@@ -345,31 +345,44 @@ class Recommendation extends React.Component {
     // }
   }
 
-  // GaProduct(petType,productList) {
-  // console.log(petType,productList,'FFFFF')
-  // const specie = petType === 1 ? 'Cat' : 'Dog';
-  // const products = productList.map(item =>{
-  //   const{goods,goodsInfos} = item;
-
-  //   const{minMarketPrice,goodsNo,goodsName} = goods;
-  //   const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-  //   let productItem = {
-  //     price: minMarketPrice,
-  //     specie,
-  //     // range: cateName?.[1] || '',
-  //     name: goodsName,
-  //     mainItemCode: goodsNo,
-  //     SKU,
-  //     subscription : 'One Shot',
-  //     subscriptionFrequency : 3,
-  //     // technology: cateName?.[2] || '',
-  //     brand: 'Royal Canin',
-  //     // breed,
-  //     // sizeCategory
-  //   }
-
-  // })
-  // }
+  GaProduct(productList, type) {
+    const products = productList.map((item) => {
+      const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
+      const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
+      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+      const cateName = goodsCateName?.split('/');
+      const breed = (goodsAttributesValueRelVOAllList || [])
+        .filter(
+          (attr) =>
+            attr.goodsAttributeName &&
+            attr.goodsAttributeName.toLowerCase() == 'breeds'
+        )
+        .map((item) => item.goodsAttributeValue);
+      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      let productItem = {
+        price: minMarketPrice,
+        specie,
+        range: cateName?.[1] || '',
+        name: goodsName,
+        mainItemCode: goodsNo,
+        SKU,
+        technology: cateName?.[2] || '',
+        brand: 'Royal Canin',
+        breed
+      };
+      let res = filterObjectValue(productItem);
+      return res;
+    });
+    type === 1 &&
+      dataLayer.push({
+        products
+      });
+    type === 2 &&
+      dataLayer.push({
+        event: 'breederRecoTabClick',
+        breederRecoTabClickProduct: products
+      });
+  }
 
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -673,10 +686,17 @@ class Recommendation extends React.Component {
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
 
-    // dataLayer.push({
-    //   event: ' breederRecoPromoCodeCTA'
-    // });
+    dataLayer.push({
+      event: ' breederRecoPromoCodeCTA'
+    });
   };
+
+  tabChange(productList, index) {
+    this.setState({ activeIndex: index });
+    const currentProduct = productList.filter((item, i) => i == index && item);
+    this.GaProduct(currentProduct, 2);
+  }
+
   render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
@@ -973,7 +993,7 @@ class Recommendation extends React.Component {
                                       cursor: 'pointer'
                                     }}
                                     onClick={() =>
-                                      this.setState({ activeIndex: i })
+                                      this.tabChange(productList, i)
                                     }
                                   >
                                     {/* <div className={{display:'none'}}>
