@@ -4420,7 +4420,7 @@ class SubscriptionDetail extends React.Component {
                                                   >
                                                     <span className="red">
                                                       {formatMoney(
-                                                        tradeItem.price
+                                                        tradeItem.subscriptionPrice
                                                       )}
                                                     </span>
                                                     <span
@@ -4828,7 +4828,10 @@ class SubscriptionDetail extends React.Component {
                                                     el.tradePrice.discountsPrice
                                                 }
                                               ]
-                                                .filter((ele) => ele.price > 0)
+                                                .filter(
+                                                  (ele) =>
+                                                    ele.subscriptionPrice > 0
+                                                )
                                                 .map((ele, i) => (
                                                   <React.Fragment key={i}>
                                                     {ele.text}:{' '}
@@ -4838,7 +4841,10 @@ class SubscriptionDetail extends React.Component {
                                                         fontWeight: '400'
                                                       }}
                                                     >
-                                                      -{formatMoney(ele.price)}
+                                                      -
+                                                      {formatMoney(
+                                                        ele.subscriptionPrice
+                                                      )}
                                                     </span>
                                                     <br />
                                                   </React.Fragment>

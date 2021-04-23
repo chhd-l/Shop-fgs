@@ -31,7 +31,8 @@ import LoginButton from '@/components/LoginButton';
 import Modal from '../Recommendation_FR/components/Modal';
 import {
   setSeoConfig,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  filterObjectValue
 } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -43,40 +44,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const secondlistArr = [
-  {
-    altText: 'image one',
-    imgPath: `${imgUrlPreFix}/Step1_Normal.png`,
-    imgHover: `${imgUrlPreFix}/Step1_Hover.png`,
-    isHover: false,
-    text:
-      'Find your <strong>personally-selected nutrition products</strong> in your cart.'
-  },
-  {
-    altText: 'image two',
-    imgHover: `${imgUrlPreFix}/Step2_Hover.png`,
-    isHover: false,
-    imgPath: `${imgUrlPreFix}/Step2_Normal.png`,
-    text:
-      'Select your <strong>shipment frequency, delivery </strong>and <strong>payment method.</strong>.'
-  },
-  {
-    imgHover: `${imgUrlPreFix}/Step3_Hover.png`,
-    isHover: false,
-    altText: 'image three',
-    imgPath: `${imgUrlPreFix}/Step3_Normal.png`,
-    text:
-      '<strong>Receive your product automatically </strong>,based on your own schedule'
-  },
-  {
-    imgHover: `${imgUrlPreFix}/Step4_Hover.png`,
-    isHover: false,
-    altText: 'image four',
-    imgPath: `${imgUrlPreFix}/Step4_Normal.png`,
-    text: 'Change your schedule<strong>anytime you want.</strong>'
-  }
-];
-// const helpContentTextObj = {}
 // 不引入样式有问题
 const Test = () => {
   return (
@@ -97,7 +64,6 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tmpGoodsDescriptionDetailList: [],
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
@@ -174,34 +140,6 @@ class Recommendation extends React.Component {
       ]
     };
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  // hoverChange(e, idx) {
-  //   console.info('......', idx);
-  //   let { secondlist } = this.state;
-  //   secondlist.forEach((item, index) => {
-  //     if (index == idx) {
-  //       item.isHover = true;
-  //     } else {
-  //       item.isHover = false;
-  //     }
-  //   });
-  //   console.info('secondlist', secondlist);
-  //   this.setState({ secondlist });
-  // }
-  getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
-    let storeId = process.env.REACT_APP_STOREID;
-    getPrescriberByPrescriberIdAndStoreId({ prescriberId, storeId }).then(
-      (res) => {
-        console.info('resstoreIdstoreId', res);
-        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-        this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        let locationPath = res.context?.location;
-        this.setState({ locationPath });
-      }
-    );
-  };
 
   async componentDidMount() {
     // let paramArr = this.props.location.search.split('&');
@@ -230,10 +168,12 @@ class Recommendation extends React.Component {
     }
     requestName(params)
       .then(async (res) => {
+        console.log(res, 'rrred');
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productList = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+        // this.GaProduct(petType,productList)
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
@@ -341,13 +281,11 @@ class Recommendation extends React.Component {
           }
           el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
             g = Object.assign({}, g, { selected: false });
-            console.log(g.goodsInfoId, el, 'hhhh');
             if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
               g.selected = true;
             }
             return g;
           });
-          console.log(el, 'el');
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
           if (specList) {
@@ -355,14 +293,11 @@ class Recommendation extends React.Component {
               sItem.chidren = specDetailList.filter((sdItem, i) => {
                 return sdItem.specId === sItem.specId;
               });
-              console.log(sItem, el, 'hhhh');
-
               sItem.chidren.map((child) => {
                 if (
                   el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
                   -1
                 ) {
-                  console.log(child, 'child');
                   child.selected = true;
                 }
                 return child;
@@ -409,6 +344,50 @@ class Recommendation extends React.Component {
     //   return false;
     // }
   }
+
+  // GaProduct(petType,productList) {
+  // console.log(petType,productList,'FFFFF')
+  // const specie = petType === 1 ? 'Cat' : 'Dog';
+  // const products = productList.map(item =>{
+  //   const{goods,goodsInfos} = item;
+
+  //   const{minMarketPrice,goodsNo,goodsName} = goods;
+  //   const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+  //   let productItem = {
+  //     price: minMarketPrice,
+  //     specie,
+  //     // range: cateName?.[1] || '',
+  //     name: goodsName,
+  //     mainItemCode: goodsNo,
+  //     SKU,
+  //     subscription : 'One Shot',
+  //     subscriptionFrequency : 3,
+  //     // technology: cateName?.[2] || '',
+  //     brand: 'Royal Canin',
+  //     // breed,
+  //     // sizeCategory
+  //   }
+
+  // })
+  // }
+
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+  }
+  get addCartBtnStatus() {
+    return this.state.inStockProducts.length > 0;
+  }
+  getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
+    getPrescriberByPrescriberIdAndStoreId({
+      prescriberId,
+      storeId: process.env.REACT_APP_STOREID
+    }).then((res) => {
+      this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+      this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+      let locationPath = res.context?.location;
+      this.setState({ locationPath });
+    });
+  };
   checkoutStock() {
     let {
       productList,
@@ -425,7 +404,6 @@ class Recommendation extends React.Component {
         inStockProducts.push(productList[i]);
       }
     }
-    console.log(inStockProducts, 'instock');
     let outOfStockVal = '';
     outOfStockProducts.map((el, i) => {
       if (i === outOfStockProducts.length - 1) {
@@ -484,74 +462,34 @@ class Recommendation extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i];
-
-      let quantityNew = product.recommendationNumber;
-      let tmpData = Object.assign({}, product.goods, product.goodsInfo.goods, {
-        quantity: quantityNew
-      });
-      let cartDataCopy = cloneDeep(
-        toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      );
-
-      let flag = true;
-      if (cartDataCopy && cartDataCopy.length) {
-        const historyItem = find(
-          cartDataCopy,
-          (c) =>
-            c.goodsId === product.goodsInfo.goodsId &&
-            product.goodsInfo.goodsInfoId ===
-              c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-        );
-        console.log(historyItem, 'historyItem');
-        if (historyItem) {
-          flag = false;
-          quantityNew += historyItem.quantity;
-          if (quantityNew > 30) {
-            this.setState({ addToCartLoading: false });
-            return;
+    this.setState({ buttonLoading: true });
+    await this.props.checkoutStore.hanldeUnloginAddToCart({
+      valid: this.addCartBtnStatus,
+      cartItemList: products.map((p) => {
+        return Object.assign(
+          p,
+          { ...p.goods, ...p.goodsInfo.goods },
+          {
+            selected: true,
+            quantity: p.recommendationNumber,
+            currentUnitPrice: p.goodsInfo.marketPrice,
+            goodsInfoFlag: 0,
+            periodTypeId: null,
+            taggingForTextAtCart: (p.taggingList || []).filter(
+              (e) =>
+                e.taggingType === 'Text' &&
+                e.showPage?.includes('Shopping cart page')
+            )[0],
+            taggingForImageAtCart: (p.taggingList || []).filter(
+              (e) =>
+                e.taggingType === 'Image' &&
+                e.showPage?.includes('Shopping cart page')
+            )[0]
           }
-          tmpData = Object.assign(tmpData, { quantity: quantityNew });
-        }
-      }
-
-      const idx = findIndex(
-        cartDataCopy,
-        (c) =>
-          c.goodsId === product.goodsInfo.goodsId &&
-          product.goodsInfo.goodsInfoId ===
-            find(c.sizeList, (s) => s.selected).goodsInfoId
-      );
-      tmpData = Object.assign(tmpData, {
-        currentAmount: product.goodsInfo.marketPrice * quantityNew,
-        selected: true,
-        quantity: quantityNew,
-        goodsInfoFlag: 0,
-        periodTypeId: null
-      });
-      console.log(idx, 'idx');
-      if (idx > -1) {
-        cartDataCopy.splice(idx, 1, tmpData);
-      } else {
-        if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
-          this.setState({
-            checkOutErrMsg: (
-              <FormattedMessage
-                id="cart.errorMaxCate"
-                values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
-              />
-            )
-          });
-          return;
-        }
-        cartDataCopy.push(tmpData);
-      }
-      console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart({
-        cartData: cartDataCopy
-      });
-    }
+        );
+      })
+    });
+    this.setState({ buttonLoading: false });
     this.props.history.push(path);
   }
   showErrorMsg = (msg) => {
@@ -652,8 +590,6 @@ class Recommendation extends React.Component {
             isLogin: loginStore.isLogin
           });
           await this.hanldeUnloginAddToCart(this.state.productList, url);
-          // url && history.push(url);
-          // history.push('/prescription');
         }
       }
     }
@@ -736,21 +672,25 @@ class Recommendation extends React.Component {
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
+
+    // dataLayer.push({
+    //   event: ' breederRecoPromoCodeCTA'
+    // });
   };
-  render(h) {
+  render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
       ru: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
-          inStockProducts={this.state.inStockProducts}
+          addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
       en: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
-          inStockProducts={this.state.inStockProducts}
+          addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
@@ -775,8 +715,7 @@ class Recommendation extends React.Component {
       currentModalObj,
       isMobile,
       promotionCode,
-      promotionCodeText,
-      tmpGoodsDescriptionDetailList
+      promotionCodeText
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -951,9 +890,7 @@ class Recommendation extends React.Component {
                       className={`rc-btn rc-btn--one ${
                         this.state.buttonLoading ? 'ui-btn-loading' : ''
                       } ${
-                        this.state.inStockProducts.length
-                          ? ''
-                          : 'rc-btn-solid-disabled'
+                        this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'
                       }`}
                       onClick={this.addCart}
                     >
@@ -1286,7 +1223,7 @@ class Recommendation extends React.Component {
                                     ? 'ui-btn-loading'
                                     : ''
                                 } ${
-                                  this.state.inStockProducts.length
+                                  this.addCartBtnStatus
                                     ? ''
                                     : 'rc-btn-solid-disabled'
                                 }`}

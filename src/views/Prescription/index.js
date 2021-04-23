@@ -302,6 +302,8 @@ class Prescription extends React.Component {
     const {
       setSelectClinicId,
       setSelectClinicName,
+      setLinkClinicId,
+      setLinkClinicName,
       removeLinkClinicId,
       removeLinkClinicName
     } = this.props.clinicStore;
@@ -310,6 +312,8 @@ class Prescription extends React.Component {
     this.mapFlag(item.prescriberName);
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
+    setLinkClinicId(item.id);
+    setLinkClinicName(item.prescriberName);
     sessionItemRoyal.set('needShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };

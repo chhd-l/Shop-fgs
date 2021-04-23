@@ -108,6 +108,8 @@ class ClinicForm extends React.Component {
     }
     this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
     this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
+    this.props.clinicStore.setLinkClinicId(this.state.form.clinicId);
+    this.props.clinicStore.setLinkClinicName(this.state.form.clinicName);
     this.confirmToNextPanel();
     this.setState({ isEdit: false });
   };

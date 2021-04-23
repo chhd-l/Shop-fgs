@@ -188,7 +188,7 @@ export default class Felin extends React.Component {
           this.buildTimeOption();
           getConsentList({ consentGroup: 'appointment' })
             .then((res) => {
-              console.log(res);
+              this.setState({ consentList: res.context });
             })
             .catch((err) => {
               console.log(err);
@@ -643,7 +643,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
-    // console.log(consentList, 'consentList');
+    console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
@@ -853,10 +853,9 @@ export default class Felin extends React.Component {
                         appropriée à ses besoins…
                       </p>
                       <p className="mb-20">
-                        Des comportementalistes félins et vétérinaires sont là
-                        pour établir le profil de votre chat et vous apporter
-                        des conseils personnalisés et spécifiques à la vie en
-                        appartement.
+                        Des comportementalistes félins sont là pour établir le
+                        profil de votre chat et vous apporter des conseils
+                        personnalisés et spécifiques à la vie en appartement.
                       </p>
                       <button
                         className="rc-btn rc-btn--two"
@@ -1551,9 +1550,11 @@ export default class Felin extends React.Component {
                       this.state.step === 5 ? (
                         <p style={{ textAlign: 'center', fontSize: '.875rem' }}>
                           Du 20 avril au 13 juin 2021, prenez rendez vous pour
-                          discuter avec nos experts du comportement de votre
-                          chat et découvrir l’aliment le plus adapté à ses
-                          besoins.
+                          discuter avec{' '}
+                          <span className="red">
+                            nos experts du comportement de votre chat et
+                            découvrir l’aliment le plus adapté à ses besoins.
+                          </span>
                           <p style={{ fontSize: '.75rem', marginTop: '1rem' }}>
                             (Dans notre Atelier Félin ou par telephone du Mardi
                             au Dimanche de 10h à 19h, et uniquement par

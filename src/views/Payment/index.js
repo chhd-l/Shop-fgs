@@ -1522,8 +1522,8 @@ class Payment extends React.Component {
       });
     }
     if (needPrescriber) {
-      param.clinicsId = clinicStore.selectClinicId;
-      param.clinicsName = clinicStore.selectClinicName;
+      param.clinicsId = clinicStore.clinicId;
+      param.clinicsName = clinicStore.clinicName;
     }
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
