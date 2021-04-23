@@ -82,6 +82,7 @@ const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('checkoutStore', 'loginStore', 'configStore')
 @injectIntl
+@observer
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
