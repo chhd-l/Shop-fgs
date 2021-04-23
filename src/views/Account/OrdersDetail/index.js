@@ -11,7 +11,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import {
   formatMoney,
   getDictionary,
@@ -177,7 +177,7 @@ function LogisticsProgress(props) {
   );
 }
 
-@inject('checkoutStore')
+@inject('checkoutStore', 'configStore')
 @injectIntl
 @observer
 class AccountOrders extends React.Component {
@@ -1423,7 +1423,7 @@ class AccountOrders extends React.Component {
                                     enterPriceType 买入价格开关 0：含税，1：不含税
                                   */}
                                   {this.props.configStore
-                                    .customTaxSettingOpenFlag == 0 &&
+                                    ?.customTaxSettingOpenFlag == 0 &&
                                   this.props.configStore.enterPriceType == 1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import {
   formatMoney,
@@ -17,6 +17,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('checkoutStore', 'configStore')
 @injectIntl
+@observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false,
