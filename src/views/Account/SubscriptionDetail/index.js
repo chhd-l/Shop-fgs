@@ -1143,15 +1143,17 @@ class SubscriptionDetail extends React.Component {
               </div>
             </div>
             <p className="frequency rc-margin-right--xs rc-margin-left--xs">
-              <span>
+              <div style={{ marginBottom: '4px' }}>
                 <FormattedMessage id="subscription.frequency" />:
-              </span>
+              </div>
               {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
-              <div>
+              <div
+                className={!isMobile && 'subscriptionDetail-choose-frequency'}
+              >
                 <Selection
                   customContainerStyle={{
                     display: 'inline-block',
-                    marginLeft: isMobile ? '50px' : '1.5rem',
+                    marginLeft: isMobile ? '50px' : '0px',
                     height: isMobile ? '70px' : 'auto'
                   }}
                   selectedItemChange={this.handleSelectedItemChange}
@@ -1189,7 +1191,7 @@ class SubscriptionDetail extends React.Component {
               </div>
             </p>
           </div>
-          <strong className="rc-md-up">
+          <strong className="rc-md-up" style={{ marginTop: '20px' }}>
             ={formatMoney(currentSubscriptionPrice * quantity)}
           </strong>
         </div>
@@ -1211,14 +1213,16 @@ class SubscriptionDetail extends React.Component {
             >
               <FormattedMessage id="subscription.productDetails" />
             </button>
-            <button
-              onClick={this.changePets}
-              className={`rc-btn rc-btn--one rc-btn--sm ${
-                this.state.changeNowLoading ? 'ui-btn-loading' : ''
-              }`}
-            >
-              <FormattedMessage id="subscription.changeNow" />
-            </button>
+            {this.state.isNotInactive && (
+              <button
+                onClick={this.changePets}
+                className={`rc-btn rc-btn--one rc-btn--sm ${
+                  this.state.changeNowLoading ? 'ui-btn-loading' : ''
+                }`}
+              >
+                <FormattedMessage id="subscription.changeNow" />
+              </button>
+            )}
           </div>
         </div>
       </React.Fragment>
@@ -3648,36 +3652,42 @@ class SubscriptionDetail extends React.Component {
                                           alt={el.goodsName}
                                         />
                                         {/* </LazyLoad> */}
-                                        {isClub && !!subDetail.petsId && (
-                                          <div style={{ position: 'relative' }}>
-                                            <span
-                                              style={{
-                                                width: '100%',
-                                                paddingTop: '10px'
-                                              }}
-                                              className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                                this.state.productListLoading
-                                                  ? 'ui-btn-loading'
-                                                  : ''
-                                              }`}
-                                              onClick={() =>
-                                                this.showChangeProduct([el])
-                                              }
-                                            >
-                                              <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                            </span>
+                                        {isClub &&
+                                          !!subDetail.petsId &&
+                                          isNotInactive && (
                                             <div
-                                              style={{
-                                                position: 'absolute',
-                                                left: '100px',
-                                                whiteSpace: 'nowrap',
-                                                top: 0
-                                              }}
+                                              style={{ position: 'relative' }}
                                             >
-                                              {this.DailyRation(el.petsRation)}
+                                              <span
+                                                style={{
+                                                  width: '100%',
+                                                  paddingTop: '10px'
+                                                }}
+                                                className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
+                                                  this.state.productListLoading
+                                                    ? 'ui-btn-loading'
+                                                    : ''
+                                                }`}
+                                                onClick={() =>
+                                                  this.showChangeProduct([el])
+                                                }
+                                              >
+                                                <FormattedMessage id="subscriptionDetail.changeProduct" />
+                                              </span>
+                                              <div
+                                                style={{
+                                                  position: 'absolute',
+                                                  left: '100px',
+                                                  whiteSpace: 'nowrap',
+                                                  top: 0
+                                                }}
+                                              >
+                                                {this.DailyRation(
+                                                  el.petsRation
+                                                )}
+                                              </div>
                                             </div>
-                                          </div>
-                                        )}
+                                          )}
                                       </div>
                                       <div
                                         className="v-center"
