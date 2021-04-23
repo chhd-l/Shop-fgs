@@ -385,7 +385,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
       ) : null}
       <div className="product-price">
         <div className="card--product-contaner-price">
-          {item.toPrice ? (
+          {item.fromPrice ? (
             <FormattedMessage
               id="pirceRange"
               values={{
