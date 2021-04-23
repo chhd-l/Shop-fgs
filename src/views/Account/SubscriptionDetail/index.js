@@ -2325,12 +2325,16 @@ class SubscriptionDetail extends React.Component {
   };
   queryProductList = async (els, cb) => {
     console.info(els, 'sdsdsdsdsdsdsdsds');
-    this.setState({ productListLoading: true });
-    if (els) {
-      this.setState({ currentGoodsItems: [...els] });
-    }
-    let { petsId } = this.state.subDetail;
     try {
+      this.setState({ productListLoading: true });
+      if (els) {
+        this.setState({ currentGoodsItems: [...els] });
+      }
+      if (this.state.productDetail?.mainProduct) {
+        cb && cb();
+        return;
+      }
+      let { petsId } = this.state.subDetail;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
