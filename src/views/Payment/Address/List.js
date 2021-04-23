@@ -186,6 +186,9 @@ class AddressList extends React.Component {
       this.getAddressListByKeyWord(tmpObj);
     } else {
       this.props.updateData(tmpObj);
+      if (this.props.type == 'delivery') {
+        this.props.calculateFreight(this.state.deliveryAddress);
+      }
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
     }

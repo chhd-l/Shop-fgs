@@ -82,6 +82,7 @@ const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('checkoutStore', 'loginStore', 'configStore')
 @injectIntl
+@observer
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -1194,7 +1195,9 @@ class SubscriptionDetail extends React.Component {
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
           <span
-            className="rc-styled-link"
+            className={`text-plain rc-styled-link ${
+              this.state.productListLoading ? 'ui-btn-loading' : ''
+            }`}
             onClick={() => {
               this.showChangeProduct([...this.state.subDetail.goodsInfo]);
             }}
@@ -2220,6 +2223,12 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeRecommendationVisible: false });
   };
   showErrMsgs(msg, errorMsgKey = 'errorMsg') {
+    // 特殊处理需要关闭changeRecommendationVisible展示errpage
+    // if(this.state.changeRecommendationVisible){
+    //   this.setState({
+    //     changeRecommendationVisible: false
+    //   })
+    // }
     this.setState({
       [errorMsgKey]: msg
     });
@@ -2235,55 +2244,55 @@ class SubscriptionDetail extends React.Component {
     this.closeEditRecommendation();
   };
   changeSubscriptionGoods = async () => {
-    const { quantity, form, details } = this.state;
-    const { sizeList } = details;
-    let currentSelectedSize = sizeList[0];
-    this.setState({ changeNowLoading: true });
-    if (details.goodsSpecDetails) {
-      currentSelectedSize = find(sizeList, (s) => s.selected);
-    }
-    let buyWay = parseInt(form.buyWay);
-    let goodsInfoFlag =
-      buyWay && details.promotions?.includes('club') ? 2 : buyWay;
-    let subscribeId = this.state.subDetail.subscribeId;
-
-    let addGoodsItems = {
-      skuId: currentSelectedSize.goodsInfoId,
-      subscribeNum: quantity,
-      goodsInfoFlag
-      // productFinderFlag: currentSelectedSize.productFinderFlag
-    };
-    // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
-    let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
-      return {
-        // subscribeNum: currentGoodsItem.subscribeNum,
-        // periodTypeId: currentGoodsItem.periodTypeId,
-        // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
-        subscribeId,
-        skuId: el.goodsInfoVO?.goodsInfoId
-      };
-    });
-    let isTheSamePro = deleteGoodsItems.find(
-      (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
-    );
-    if (isTheSamePro?.length) {
-      //替换的skuid一致，不能正常提交
-      this.showErrMsgs(
-        'The replacement product is the same as the current product',
-        'errorMsgSureChange'
-      );
-      this.setState({ changeNowLoading: false });
-      return;
-    }
-    if (buyWay) {
-      addGoodsItems.periodTypeId = form.frequencyId;
-    }
-    let params = {
-      subscribeId,
-      addGoodsItems: [addGoodsItems],
-      deleteGoodsItems
-    };
     try {
+      const { quantity, form, details } = this.state;
+      const { sizeList } = details;
+      let currentSelectedSize = sizeList[0];
+      this.setState({ changeNowLoading: true });
+      if (details.goodsSpecDetails) {
+        currentSelectedSize = find(sizeList, (s) => s.selected);
+      }
+      let buyWay = parseInt(form.buyWay);
+      let goodsInfoFlag =
+        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
+      let subscribeId = this.state.subDetail.subscribeId;
+
+      let addGoodsItems = {
+        skuId: currentSelectedSize.goodsInfoId,
+        subscribeNum: quantity,
+        goodsInfoFlag
+        // productFinderFlag: currentSelectedSize.productFinderFlag
+      };
+      // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
+      let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
+        return {
+          // subscribeNum: currentGoodsItem.subscribeNum,
+          // periodTypeId: currentGoodsItem.periodTypeId,
+          // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
+          subscribeId,
+          skuId: el.goodsInfoVO?.goodsInfoId
+        };
+      });
+      let isTheSamePro = deleteGoodsItems.find(
+        (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
+      );
+      if (isTheSamePro?.length) {
+        //替换的skuid一致，不能正常提交
+        this.showErrMsgs(
+          'The replacement product is the same as the current product',
+          'errorMsgSureChange'
+        );
+        this.setState({ changeNowLoading: false });
+        return;
+      }
+      if (buyWay) {
+        addGoodsItems.periodTypeId = form.frequencyId;
+      }
+      let params = {
+        subscribeId,
+        addGoodsItems: [addGoodsItems],
+        deleteGoodsItems
+      };
       changeSubscriptionGoods(params).then((res) => {
         this.getDetail();
         this.closeRecommendation();
@@ -2317,12 +2326,16 @@ class SubscriptionDetail extends React.Component {
   };
   queryProductList = async (els, cb) => {
     console.info(els, 'sdsdsdsdsdsdsdsds');
-    this.setState({ productListLoading: true });
-    if (els) {
-      this.setState({ currentGoodsItems: [...els] });
-    }
-    let { petsId } = this.state.subDetail;
     try {
+      this.setState({ productListLoading: true });
+      if (els) {
+        this.setState({ currentGoodsItems: [...els] });
+      }
+      if (this.state.productDetail?.mainProduct) {
+        cb && cb();
+        return;
+      }
+      let { petsId } = this.state.subDetail;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
@@ -2343,19 +2356,19 @@ class SubscriptionDetail extends React.Component {
           });
         });
       }
-      this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
       });
     } catch (err) {
-      this.setState({ productListLoading: false });
       this.showErrMsgs(err && err.message, 'errMsgPage');
+    } finally {
+      this.setState({ productListLoading: false });
     }
   };
   doSthShow = () => {
     this.closeProdutctDetail();
     this.closeRecommendation();
-    this.setState({ changeProductVisible: true, details: {} }); //清空details
+    this.setState({ changeProductVisible: true }); //清空details
   };
   showChangeProduct = async (els, isNoModal) => {
     if (!els) {
@@ -3640,7 +3653,7 @@ class SubscriptionDetail extends React.Component {
                                             <span
                                               style={{
                                                 width: '100%',
-                                                lineHight: '32px'
+                                                paddingTop: '10px'
                                               }}
                                               className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
                                                 this.state.productListLoading

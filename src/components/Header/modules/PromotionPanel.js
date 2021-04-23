@@ -13,7 +13,7 @@ export default function PromotionPanel({ item }) {
           </a>
         </div>
         <LazyLoad
-          scrollContainer=".rc-nav"
+          // scrollContainer=".rc-nav"
           style={{
             flex: 1,
             width: '100%',

@@ -388,7 +388,7 @@ class Payment extends React.Component {
 
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
-          localItemRoyal.remove('rc-iframe-from-storepotal');
+          sessionItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
@@ -397,7 +397,7 @@ class Payment extends React.Component {
           (!this.cartData.length ||
             !this.cartData.filter((ele) => ele.selected).length)
         ) {
-          localItemRoyal.remove('rc-iframe-from-storepotal');
+          sessionItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
@@ -695,7 +695,7 @@ class Payment extends React.Component {
       };
       if (
         process.env.REACT_APP_LANG === 'ru' &&
-        localItemRoyal.get('rc-iframe-from-storepotal')
+        sessionItemRoyal.get('rc-iframe-from-storepotal')
       ) {
         payMethodsObj = {
           COD: {
@@ -1470,7 +1470,7 @@ class Payment extends React.Component {
       promotionCode
     } = this.state;
 
-    // 获取本地存储的计算运费折扣
+    // 获取本地存储的计算运费折扣参数
     const calculationParam = localItemRoyal.get('rc-calculation-param') || null;
 
     /**
