@@ -1194,7 +1194,9 @@ class SubscriptionDetail extends React.Component {
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
           <span
-            className="rc-styled-link"
+            className={`text-plain rc-styled-link ${
+              this.state.productListLoading ? 'ui-btn-loading' : ''
+            }`}
             onClick={() => {
               this.showChangeProduct([...this.state.subDetail.goodsInfo]);
             }}
@@ -2349,19 +2351,19 @@ class SubscriptionDetail extends React.Component {
           });
         });
       }
-      this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
       });
     } catch (err) {
-      this.setState({ productListLoading: false });
       this.showErrMsgs(err && err.message, 'errMsgPage');
+    } finally {
+      this.setState({ productListLoading: false });
     }
   };
   doSthShow = () => {
     this.closeProdutctDetail();
     this.closeRecommendation();
-    this.setState({ changeProductVisible: true, details: {} }); //清空details
+    this.setState({ changeProductVisible: true }); //清空details
   };
   showChangeProduct = async (els, isNoModal) => {
     if (!els) {
