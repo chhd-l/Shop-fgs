@@ -1774,7 +1774,7 @@ class List extends React.Component {
             goodsContent = goodsContent.map((ele) => {
               const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
                 .filter(
-                  (item) => item?.goodsAttributeName.toLowerCase() == 'breeds'
+                  (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const technologyAttr = (
@@ -1782,7 +1782,7 @@ class List extends React.Component {
               )
                 .filter(
                   (item) =>
-                    item?.goodsAttributeName.toLowerCase() == 'technology'
+                    item?.goodsAttributeName?.toLowerCase() == 'technology'
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；

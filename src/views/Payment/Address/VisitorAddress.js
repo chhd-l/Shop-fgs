@@ -295,6 +295,7 @@ class VisitorAddress extends React.Component {
         });
         paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
         if (isDeliveryAddr) {
+          this.props.calculateFreight(this.state.form);
           setTimeout(() => {
             scrollPaymentPanelIntoView();
           });
