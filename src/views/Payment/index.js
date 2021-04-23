@@ -1470,7 +1470,7 @@ class Payment extends React.Component {
       promotionCode
     } = this.state;
 
-    // 获取本地存储的计算运费折扣
+    // 获取本地存储的计算运费折扣参数
     const calculationParam = localItemRoyal.get('rc-calculation-param') || null;
 
     /**
