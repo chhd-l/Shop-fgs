@@ -5426,14 +5426,10 @@ export default {
         '/dog-range/size-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
       redirectUrl: '/dogs/retail-products'
     },
-    {
-      shortUrl: '/dogs',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/',
-      redirectUrl: '/dogs/retail-products'
-    },
+    // {
+    //   shortUrl: '/dogs',
+    //   redirectUrl: '/dogs/retail-products'
+    // },
     {
       shortUrl:
         '/dogs/?prefn1=ages&prefv1=Chiot%20de%200%20%C3%A0%202%20mois%7CChiot%20de%20plus%20de%202%20mois',
