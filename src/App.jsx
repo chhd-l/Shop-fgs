@@ -720,6 +720,7 @@ const App = () => {
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
 
+
                        // PDP文件重定向end
 
                       if (redirectUrl) {
@@ -739,7 +740,7 @@ const App = () => {
                       let redirectUrl = '';
                       if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
-                      } else if (specailPlpUrlMapping[pathname + search]) {
+                      } else if (specailPlpUrlMapping[pathname + search]) {      
                         redirectUrl = specailPlpUrlMapping[pathname + search];
                       }
                       // 除去PDP页面文件重定向end
