@@ -1176,7 +1176,7 @@ const tr_TR = {
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  'pet.deletePet': 'Evcil Hayvan Profilini Sil',
+  'pet.deletePet': 'Evcil hayvan profilini sil',
   shipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
   goToCart: 'Sepete Git',

@@ -86,7 +86,10 @@ const GoodsDetailTabs = function (props) {
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(
       (a, b) => a.sort - b.sort
     );
-
+    let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
+    let goodsNo = location.pathname.split('-')[
+      location.pathname.split('-').length - 1
+    ];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -119,7 +122,8 @@ const GoodsDetailTabs = function (props) {
                     return ele['Prescriber Blod Description'];
                   })
                   .filter((e) => e)[0];
-                if (goodsType === 2) {
+                // if (goodsType === 2) {
+                if (packProducts.includes(goodsNo)) {
                   ret = `<p style="white-space: pre-line; font-weight: 400">${blodDesc}</p><p style="white-space: pre-line; font-weight: 400">${prescriberDesc}</p><p style="white-space: pre-line;">${shortDesc}</p>`;
                 } else if (!saleableFlag && displayFlag) {
                   props.setState &&
@@ -155,7 +159,8 @@ const GoodsDetailTabs = function (props) {
 
                 break;
               case 'Compositions':
-                if (goodsType === 2) {
+                // if (goodsType === 2) {
+                if (packProducts.includes(goodsNo)) {
                   ret = parsedContent
                     .map((ele, i) => {
                       return `<p><div class="title">${
