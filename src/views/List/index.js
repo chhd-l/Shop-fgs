@@ -1117,18 +1117,20 @@ class List extends React.Component {
   }
 
   // hubGa点击页码切换埋点
-  hubGAPageChange(productList) {
+  hubGAPageChange(productList, goodsList) {
     const products = productList.map((item, index) => {
       const {
         fromPrice,
         goodsCate,
-        goodsNo,
         goodsInfos,
         goodsBrand,
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName
       } = item;
+      const goodsNo = goodsList.filter(
+        (good) => good.goodsName == goodsName
+      )?.[0]?.goodsNo;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter(
@@ -1774,7 +1776,7 @@ class List extends React.Component {
             goodsContent = goodsContent.map((ele) => {
               const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
                 .filter(
-                  (item) => item?.goodsAttributeName.toLowerCase() == 'breeds'
+                  (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const technologyAttr = (
@@ -1782,7 +1784,7 @@ class List extends React.Component {
               )
                 .filter(
                   (item) =>
-                    item?.goodsAttributeName.toLowerCase() == 'technology'
+                    item?.goodsAttributeName?.toLowerCase() == 'technology'
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
@@ -1889,7 +1891,10 @@ class List extends React.Component {
               // hubGa点击页码切换埋点
               this.hubGA &&
                 type === 'pageChange' &&
-                this.hubGAPageChange(esGoodsPage.content);
+                this.hubGAPageChange(
+                  esGoodsPage.content,
+                  res.context.goodsList
+                );
             }
           );
         } else {

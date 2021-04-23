@@ -170,7 +170,7 @@ const tokenFromUrl = window.location.search
   .filter((ele) => ele.includes('stoken'))?.[0]
   ?.split('=')[1];
 if (tokenFromUrl) {
-  localItemRoyal.set('rc-iframe-from-storepotal', 1);
+  sessionItemRoyal.set('rc-iframe-from-storepotal', 1);
   localItemRoyal.set('rc-token', tokenFromUrl);
 }
 
