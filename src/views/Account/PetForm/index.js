@@ -1540,6 +1540,7 @@ class PetForm extends React.Component {
                               value: this.state.weightObj.measureUnit
                             }}
                             key={this.state.activity}
+                            customCls="weight-unit-select"
                           />
                         </div>
                       </>
