@@ -107,7 +107,7 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
-    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+    if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
       this.setState({ circleLoading: true });
     }
 
@@ -148,7 +148,7 @@ class LoginCart extends React.Component {
     this.setData({ initPage: true });
 
     //给代客下单用 start
-    if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+    if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
       let timer = null;
       timer = setInterval(async () => {
         console.log(1234, this.props.checkoutStore.loginCartData.length);
@@ -422,7 +422,7 @@ class LoginCart extends React.Component {
         isLogin: true
       });
 
-      if (localItemRoyal.get('rc-iframe-from-storepotal')) {
+      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         this.setState({ circleLoading: false });
       }
 

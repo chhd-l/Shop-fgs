@@ -11,7 +11,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import {
   formatMoney,
   getDictionary,
@@ -178,7 +178,7 @@ function LogisticsProgress(props) {
 }
 
 @inject('checkoutStore', 'configStore')
-@injectIntl
+// @injectIntl
 @observer
 class AccountOrders extends React.Component {
   constructor(props) {
