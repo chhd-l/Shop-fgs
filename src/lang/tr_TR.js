@@ -1174,8 +1174,7 @@ const tr_TR = {
   'welcome.cASupplyChainTransparencyAct': 'CA Tedarik Zinciri Şeffaflık Yasası',
   'welcome.modernSlaveryAct': 'Modern Kölelik Yasası',
   'welcome.contactUS': 'Bize Ulaşın',
-  'cart.autoshipSavedtip':
-    'Вы сэкономите {discount} от данного заказа при подписке',
+  'cart.autoshipSavedtip': 'Bu emirlerde {discount} kurtarabilirsin.',
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
   shipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
