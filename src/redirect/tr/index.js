@@ -1,24 +1,32 @@
 export default {
   RECORDS: [
     {
+      shortUrl: '/',
+      redirectUrl: '/'
+    },
+    {
+      shortUrl: '/s/TR/tr/club',
+      redirectUrl: '/club-subscription'
+    },
+    {
       shortUrl: '/ageing-12-2561_TR.html',
-      redirectUrl: '/ageing-12-2561'
+      redirectUrl: '/ageing-12+-2561'
     },
     {
       shortUrl: '/ageing-12-256102000_TR.html',
-      redirectUrl: '/ageing-12-2561'
+      redirectUrl: '/ageing-12+-2561'
     },
     {
       shortUrl: '/ageing-12-gravy-%28x12%29-408201020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/ageing-12-gravy-4082'
+      redirectUrl: '/ageing-12+-gravy-4082'
     },
     {
       shortUrl: '/ageing-12-gravy-(x12)-408201020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/ageing-12-gravy-4082'
+      redirectUrl: '/ageing-12+-gravy-4082'
     },
     {
       shortUrl: '/ageing-12-gravy-4082_TR.html',
-      redirectUrl: '/ageing-12-gravy-4082'
+      redirectUrl: '/ageing-12+-gravy-4082'
     },
     {
       shortUrl: '/babycat-milk-2553_TR.html',
@@ -66,10 +74,6 @@ export default {
       redirectUrl: '/british-shorthair-2032'
     },
     {
-      shortUrl: '/british-shorthair-(x12)-203201020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/british-shorthair-2032'
-    },
-    {
       shortUrl: '/british-shorthair-2032_TR.html',
       redirectUrl: '/british-shorthair-2032'
     },
@@ -102,6 +106,58 @@ export default {
       redirectUrl: '/bulldog-puppy-3967'
     },
     {
+      shortUrl: '/cart',
+      redirectUrl: '/cart'
+    },
+    {
+      shortUrl: '/cat-age/cat-adult/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/cat-kitten/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/cat-mature/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-age/cat-senior/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/irklara-ozel-mamalar/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/ozel-bakim-mamalari/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/saglikli-kedi-mamalari/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/yas-mama-kedi/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cat-range/yeni-irklara-ozel-mamalar/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/cat-age/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/catmain/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/cats/cat-range/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
       shortUrl: '/cavalier-king-charles-adult-3968_TR.html',
       redirectUrl: '/cavalier-king-charles-adult-3968'
     },
@@ -115,10 +171,6 @@ export default {
     },
     {
       shortUrl: '/chihuahua-%28x12%29-204101020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/chihuahua-2041'
-    },
-    {
-      shortUrl: '/chihuahua-(x12)-204101020_INNERBOX_12_UNIT_TR.html',
       redirectUrl: '/chihuahua-2041'
     },
     {
@@ -140,6 +192,14 @@ export default {
     {
       shortUrl: '/chihuahua-puppy-243801500_TR.html',
       redirectUrl: '/chihuahua-puppy-2438'
+    },
+    {
+      shortUrl: '/club',
+      redirectUrl: '/club'
+    },
+    {
+      shortUrl: '/club?cgid=hnc',
+      redirectUrl: '/club'
     },
     {
       shortUrl: '/cocker-adult-3969_TR.html',
@@ -198,6 +258,70 @@ export default {
     {
       shortUrl: '/digest-sensitive-gravy-4076_TR.html',
       redirectUrl: '/digest-sensitive-gravy-4076'
+    },
+    {
+      shortUrl: '/dog-age/yasli/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/yavru/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-age/yetiskin/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/irklara-ozel/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/ozel-bakim/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/yas-mama/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-range/yeni-irklara-ozel-mamalar/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/dog-age/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/dog-range/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/dog-size/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant-%28%3E-45-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/giant-%28>-45-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/maxi-%2826-44-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/medium-%2811-25-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/mini-%281-10-kg%29/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dog-size/x-small-%281-4-kg%29/',
+      redirectUrl: '/dogs/retail-products'
     },
     {
       shortUrl: '/educ-3100_TR.html',
@@ -314,15 +438,15 @@ export default {
     {
       shortUrl:
         '/instinctive-7-gravy-%28x12%29-408301020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/instinctive-7-gravy-4083'
+      redirectUrl: '/instinctive-7+-gravy-4083'
     },
     {
       shortUrl: '/instinctive-7-gravy-(x12)-408301020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/instinctive-7-gravy-4083'
+      redirectUrl: '/instinctive-7+-gravy-4083'
     },
     {
       shortUrl: '/instinctive-7-gravy-4083_TR.html',
-      redirectUrl: '/instinctive-7-gravy-4083'
+      redirectUrl: '/instinctive-7+-gravy-4083'
     },
     {
       shortUrl:
@@ -401,6 +525,18 @@ export default {
     {
       shortUrl: '/junior-430000195_TR.html',
       redirectUrl: '/junior-4300'
+    },
+    {
+      shortUrl: '/kategori/kedi/',
+      redirectUrl: '/cats/retail-products'
+    },
+    {
+      shortUrl: '/kategori/kopek/',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/kedi-irklarina-ozel-saglikli-beslenme/',
+      redirectUrl: '/dogs/retail-products'
     },
     {
       shortUrl: '/kitten-2522_TR.html',
@@ -562,11 +698,11 @@ export default {
     },
     {
       shortUrl: '/mini-adult-8-3002_TR.html',
-      redirectUrl: '/mini-adult-8-3002'
+      redirectUrl: '/mini-adult-+8-3002'
     },
     {
       shortUrl: '/mini-adult-8-300202000_TR.html',
-      redirectUrl: '/mini-adult-8-3002'
+      redirectUrl: '/mini-adult-+8-3002'
     },
     {
       shortUrl: '/mini-ageing-%28x12%29-109301020_INNERBOX_12_UNIT_TR.html',
@@ -888,11 +1024,11 @@ export default {
     },
     {
       shortUrl: '/x-small-ageing-12-1005_TR.html',
-      redirectUrl: '/x-small-ageing-12-1005'
+      redirectUrl: '/x-small-ageing-12+-1005'
     },
     {
       shortUrl: '/x-small-ageing-12-100501500_TR.html',
-      redirectUrl: '/x-small-ageing-12-1005'
+      redirectUrl: '/x-small-ageing-12+-1005'
     },
     {
       shortUrl: '/x-small-puppy-1002_TR.html',
@@ -928,264 +1064,24 @@ export default {
       redirectUrl: '/yorkshire-terrier-puppy-3972'
     },
     {
-      shortUrl: '/cat-age/cat-adult/',
+      shortUrl: '/cats/products/retail-products',
       redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-age/cat-kitten/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-age/cat-mature/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-age/cat-senior/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/irklara-ozel-mamalar/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/ozel-bakim-mamalari/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/saglikli-kedi-mamalari/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/yas-mama-kedi/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cat-range/yeni-irklara-ozel-mamalar/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/cat-age/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/catmain/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/cat-range/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/dog-age/yasli/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-age/yavru/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-age/yetiskin/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/irklara-ozel/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/ozel-bakim/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/yas-mama/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-range/yeni-irklara-ozel-mamalar/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/dog-age/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/dog-range/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/dog-size/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dog-size/giant-%28>-45-kg%29/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    // {
-    //   shortUrl: '/dog-size/giant-(>-45-kg)/',
-    //   redirectUrl: '/dogs/retail-products'
-    // },
-    {
-      shortUrl: '/dog-size/maxi-%2826-44-kg%29/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    // {
-    //   shortUrl: '/dog-size/maxi-(26-44-kg)/',
-    //   redirectUrl: '/dogs/retail-products'
-    // },
-    {
-      shortUrl: '/dog-size/medium-%2811-25-kg%29/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    // {
-    //   shortUrl: '/dog-size/medium-(11-25-kg)/',
-    //   redirectUrl: '/dogs/retail-products'
-    // },
-    {
-      shortUrl: '/dog-size/mini-%281-10-kg%29/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    // {
-    //   shortUrl: '/dog-size/mini-(1-10-kg)/',
-    //   redirectUrl: '/dogs/retail-products'
-    // },
-    {
-      shortUrl: '/dog-size/x-small-%281-4-kg%29/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    // {
-    //   shortUrl: '/dog-size/x-small-(1-4-kg)/',
-    //   redirectUrl: '/dogs/retail-products'
-    // },
-    {
-      shortUrl: '/kategori/kedi/',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/kategori/kopek/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/kedi-irklarina-ozel-saglikli-beslenme/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: 'https://www.shop.royalcanin.com.tr/',
-      redirectUrl: 'https://www.royalcanin.com/tr'
-    },
-    {
-      shortUrl: 'https://www.shop.royalcanin.com.tr/s/TR/tr/club',
-      redirectUrl: '/club'
-    },
-    {
-      shortUrl: '/About-Us.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/about-us'
-    },
-    {
-      shortUrl: '/cart',
-      redirectUrl: '/cart'
-    },
-    {
-      shortUrl: '/club',
-      redirectUrl: '/club'
-    },
-    {
-      shortUrl: '/club?cgid=hnc',
-      redirectUrl: '/club'
-    },
-    {
-      shortUrl: '/Cookiepolicy.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/cookiepolicy'
-    },
-    {
-      shortUrl: '/faq.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/about-us/faqs'
-    },
-    {
-      shortUrl: '/general-terms-conditions.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/general-terms-conditions'
-    },
-    {
-      shortUrl: '/help.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/help'
-    },
-    {
-      shortUrl: '/privacy-statement.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/privacy-statement'
-    },
-    {
-      shortUrl: '/product-finder',
-      redirectUrl: 'https://www.royalcanin.com/tr/product-finder'
-    },
-    {
-      shortUrl: '/product-finder.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/product-finder'
-    },
-    {
-      shortUrl: '/product-finder-landing.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/product-finder'
-    },
-    {
-      shortUrl: '/Quality-safety.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/quality-safety'
-    },
-    {
-      shortUrl: '/saglik-beslenme/Tailorednutrition.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/tailored-nutrition'
-    },
-    {
-      shortUrl: '/Values.html',
-      redirectUrl: 'https://www.royalcanin.com/tr/values'
-    },
-    {
-      shortUrl: '/home',
-      redirectUrl: 'https://www.royalcanin.com/tr'
-    },
-    {
-      shortUrl: '/product-finder.html?species=dog',
-      redirectUrl: 'https://www.royalcanin.com/tr/product-finder'
-    },
-    {
-      shortUrl: '/product-finder-landing.html?species=cat',
-      redirectUrl: 'https://www.royalcanin.com/tr/product-finder'
-    },
-    {
-      shortUrl: '/product-finder-questions.html?species=dog',
-      redirectUrl: 'https://www.royalcanin.com/tr/product-finder'
-    },
-    {
-      shortUrl: '/dog-size/giant-%28%3E-45-kg%29/',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/ageing-12-kuru',
-      redirectUrl: '/ageing-12+-2561'
     },
     {
       shortUrl: '/cats/products/retail-products/ageing-12-gravy-ya',
       redirectUrl: '/ageing-12+-gravy-4082'
     },
     {
+      shortUrl: '/cats/products/retail-products/ageing-12-kuru',
+      redirectUrl: '/ageing-12+-2561'
+    },
+    {
       shortUrl: '/cats/products/retail-products/babycat-milk',
       redirectUrl: '/babycat-milk-2553'
     },
     {
-      shortUrl: '/dogs/products/retail-products/babydog-milk',
-      redirectUrl: '/babydog-milk-2300'
-    },
-    {
       shortUrl: '/cats/products/retail-products/bengal-adult-kuru',
       redirectUrl: '/bengal-adult-4370'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/boxer-adult-kuru',
-      redirectUrl: '/boxer-adult-2588'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/boxer-puppy-kuru',
-      redirectUrl: '/boxer-puppy-3966'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/british-shorthair-ya',
-      redirectUrl: '/british-shorthair-2032'
     },
     {
       shortUrl: '/cats/products/retail-products/british-shorthair-adult-kuru',
@@ -1196,118 +1092,16 @@ export default {
       redirectUrl: '/british-shorthair-kitten-2566'
     },
     {
-      shortUrl: '/dogs/products/retail-products/bulldog-adult-kuru',
-      redirectUrl: '/bulldog-adult-2590'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/bulldog-puppy-kuru',
-      redirectUrl: '/bulldog-puppy-3967'
-    },
-    {
-      shortUrl: '/cats/products/retail-products',
-      redirectUrl: '/cats/retail-products'
-    },
-    {
-      shortUrl: '/cats/products/vet-products',
-      redirectUrl: '/cats/vet-products'
-    },
-    {
-      shortUrl:
-        '/dogs/products/retail-products/cavalier-king-charles-adult-kuru',
-      redirectUrl: '/cavalier-king-charles-adult-3968'
-    },
-    {
-      shortUrl:
-        '/dogs/products/retail-products/cavalier-king-charles-puppy-kuru',
-      redirectUrl: '/cavalier-king-charles-puppy-4132'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/chihuahua-ya',
-      redirectUrl: '/chihuahua-2041'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/chihuahua-adult-kuru',
-      redirectUrl: '/chihuahua-adult-2210'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/chihuahua-puppy-kuru',
-      redirectUrl: '/chihuahua-puppy-2438'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/cocker-adult-kuru',
-      redirectUrl: '/cocker-adult-3969'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/cocker-puppy-kuru',
-      redirectUrl: '/cocker-puppy-4133'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/dachshund-adult-kuru',
-      redirectUrl: '/dachshund-adult-3059'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/dachshund-puppy-kuru',
-      redirectUrl: '/dachshund-puppy-2437'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/dermacomfort-ya',
-      redirectUrl: '/dermacomfort-1181'
+      shortUrl: '/cats/products/retail-products/british-shorthair-ya',
+      redirectUrl: '/british-shorthair-2032'
     },
     {
       shortUrl: '/cats/products/retail-products/digest-sensitive-gravy-ya',
       redirectUrl: '/digest-sensitive-gravy-4076'
     },
     {
-      shortUrl: '/dogs/products/retail-products',
-      redirectUrl: '/dogs/retail-products'
-    },
-    {
-      shortUrl: '/dogs/products/vet-products',
-      redirectUrl: '/dogs/vet-products'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/educ-kuru',
-      redirectUrl: '/educ-3100'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/exigent-ya',
-      redirectUrl: '/exigent-1185'
-    },
-    {
       shortUrl: '/cats/products/retail-products/fit-32-kuru',
       redirectUrl: '/fit-32-2520'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/french-bulldog-adult-kuru',
-      redirectUrl: '/french-bulldog-adult-3991'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/french-bulldog-puppy-kuru',
-      redirectUrl: '/french-bulldog-puppy-3990'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/german-shepherd-adult-kuru',
-      redirectUrl: '/german-shepherd-adult-2518'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/german-shepherd-puppy-kuru',
-      redirectUrl: '/german-shepherd-puppy-2519'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/giant-adult-kuru',
-      redirectUrl: '/giant-adult-3009'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/giant-junior-kuru',
-      redirectUrl: '/giant-junior-3031'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/golden-retriever-adult-kuru',
-      redirectUrl: '/golden-retriever-adult-3970'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/golden-retriever-puppy-kuru',
-      redirectUrl: '/golden-retriever-puppy-3979'
     },
     {
       shortUrl: '/cats/products/retail-products/hair-and-skin-care-kuru',
@@ -1346,6 +1140,331 @@ export default {
       redirectUrl: '/intense-beauty-jelly-4151'
     },
     {
+      shortUrl: '/cats/products/retail-products/kitten-gravy-ya',
+      redirectUrl: '/kitten-gravy-4058'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-jelly-ya',
+      redirectUrl: '/kitten-jelly-4150'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/kitten-kuru',
+      redirectUrl: '/kitten-2522'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/light-weight-care-kuru',
+      redirectUrl: '/light-weight-care-2524'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-adult-kuru',
+      redirectUrl: '/maine-coon-2031'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-kitten-kuru',
+      redirectUrl: '/maine-coon-kitten-2558'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/maine-coon-ya',
+      redirectUrl: '/maine-coon-adult-2550'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/mother-and-babycat-kuru',
+      redirectUrl: '/mother-and-babycat-2544'
+    },
+    {
+      shortUrl:
+        '/cats/products/retail-products/mother-and-babycat-ultra-soft-mousse-ya',
+      redirectUrl: '/mother-and-babycat-ultra-soft-mousse-4098'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/oral-care-kuru',
+      redirectUrl: '/oral-care-2532'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/persian-kitten-kuru',
+      redirectUrl: '/persian-kitten-2554'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/persian-kuru',
+      redirectUrl: '/persian-2552'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/persian-loaf-ya',
+      redirectUrl: '/persian-loaf-2030'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/savour-exigent-kuru',
+      redirectUrl: '/savour-exigent-2531'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sensible-33-kuru',
+      redirectUrl: '/sensible-33-2521'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/siamese-kuru',
+      redirectUrl: '/siamese-2551'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sphynx-kuru',
+      redirectUrl: '/sphynx-2556'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-37-kuru',
+      redirectUrl: '/sterilised-37-2537'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-7-kuru',
+      redirectUrl: '/sterilised-7+-2560'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-gravy-ya',
+      redirectUrl: '/sterilised-gravy-4095'
+    },
+    {
+      shortUrl: '/cats/products/retail-products/sterilised-jelly-ya',
+      redirectUrl: '/sterilised-jelly-4156'
+    },
+    {
+      shortUrl: '/cats/products/vet-products',
+      redirectUrl: '/cats/vet-products'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/anallergenic-kuru',
+      redirectUrl: '/anallergenic-1950'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/calm-cc-36-kuru',
+      redirectUrl: '/'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/diabetic-kuru',
+      redirectUrl: '/diabetic-3906'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/diabetic-ya',
+      redirectUrl: '/diabetic-4085'
+    },
+    {
+      shortUrl:
+        '/cats/products/vet-products/gastrointestinal-moderate-calorie-kuru',
+      redirectUrl: '/gastrointestinal-moderate-calorie-4008'
+    },
+    {
+      shortUrl:
+        '/cats/products/vet-products/gastro-intestinal-moderate-calorie-ya',
+      redirectUrl: '/gastro-intestinal-moderate-calorie-4009'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/gastro-intestinal-ya',
+      redirectUrl: '/gastrointestinal-4039'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/hypoallergenic-dr-25-kuru',
+      redirectUrl: '/hypoallergenic-3902'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-adult-maintenance-wet-ya',
+      redirectUrl: '/neutered-adult-maintenance-wet-4089'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-young-female-kuru',
+      redirectUrl: '/neutered-young-female-2614'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/neutered-young-male-kuru',
+      redirectUrl: '/neutered-young-male-2613'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/pediatric-growth-kuru',
+      redirectUrl: '/pediatric-growth-2604'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/pediatric-growth-ya',
+      redirectUrl: '/pediatric-growth-4087'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/pediatric-weaning-kuru',
+      redirectUrl: '/pediatric-weaning-2612'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/pediatric-weaning-ya',
+      redirectUrl: '/pediatric-weaning-4099'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-feline-dry-kuru',
+      redirectUrl: '/renal-3900'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-liquid-cat',
+      redirectUrl: '/renal-liquid-cat-4951'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-with-beef-wet---pouch-ya',
+      redirectUrl: '/renal-with-beef-4031'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-with-chicken-wet---pouch-ya',
+      redirectUrl: '/renal-with-chicken-4030'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/renal-with-tuna-cig-ya',
+      redirectUrl: '/renal-with-fish-4067'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/satiety-weight-management-kuru',
+      redirectUrl: '/satiety-weight-management-3943'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/satiety-weight-management-ya',
+      redirectUrl: '/satiety-weight-management-1070'
+    },
+    {
+      shortUrl:
+        '/cats/products/vet-products/senior-consult-stage-1-balance-kuru',
+      redirectUrl: '/senior-consult-stage-1-balance-2725'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/skin-coat-formula-ya',
+      redirectUrl: '/skin-&-coat-4092'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/skin-hairball-kuru',
+      redirectUrl: '/skin-hairball-2722'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-kuru',
+      redirectUrl: '/urinary-so-3901'
+    },
+    {
+      shortUrl: '/cats/products/vet-products/urinary-so-ya',
+      redirectUrl: '/urinary-so-4032'
+    },
+    {
+      shortUrl: '/dogs/products',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products?feedingperiod=26.1&filter=9aa92484-9e12-4a3f-b173-4ac9b1ae2be4',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products?feedingperiod=56.5&filter=9aa92484-9e12-4a3f-b173-4ac9b1ae2be4',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products?feedingperiod=364&filter=9aa92484-9e12-4a3f-b173-4ac9b1ae2be4',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products',
+      redirectUrl: '/dogs/retail-products'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/babydog-milk',
+      redirectUrl: '/babydog-milk-2300'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/boxer-adult-kuru',
+      redirectUrl: '/boxer-adult-2588'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/boxer-puppy-kuru',
+      redirectUrl: '/boxer-puppy-3966'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/bulldog-adult-kuru',
+      redirectUrl: '/bulldog-adult-2590'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/bulldog-puppy-kuru',
+      redirectUrl: '/bulldog-puppy-3967'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products/cavalier-king-charles-adult-kuru',
+      redirectUrl: '/cavalier-king-charles-adult-3968'
+    },
+    {
+      shortUrl:
+        '/dogs/products/retail-products/cavalier-king-charles-puppy-kuru',
+      redirectUrl: '/cavalier-king-charles-puppy-4132'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/chihuahua-adult-kuru',
+      redirectUrl: '/chihuahua-adult-2210'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/chihuahua-puppy-kuru',
+      redirectUrl: '/chihuahua-puppy-2438'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/chihuahua-ya',
+      redirectUrl: '/chihuahua-2041'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/cocker-adult-kuru',
+      redirectUrl: '/cocker-adult-3969'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/cocker-puppy-kuru',
+      redirectUrl: '/cocker-puppy-4133'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dachshund-adult-kuru',
+      redirectUrl: '/dachshund-adult-3059'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dachshund-puppy-kuru',
+      redirectUrl: '/dachshund-puppy-2437'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/dermacomfort-ya',
+      redirectUrl: '/dermacomfort-1181'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/educ-kuru',
+      redirectUrl: '/educ-3100'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/exigent-ya',
+      redirectUrl: '/exigent-1185'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/french-bulldog-adult-kuru',
+      redirectUrl: '/french-bulldog-adult-3991'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/french-bulldog-puppy-kuru',
+      redirectUrl: '/french-bulldog-puppy-3990'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/german-shepherd-adult-kuru',
+      redirectUrl: '/german-shepherd-adult-2518'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/german-shepherd-puppy-kuru',
+      redirectUrl: '/german-shepherd-puppy-2519'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/giant-adult-kuru',
+      redirectUrl: '/giant-adult-3009'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/giant-junior-kuru',
+      redirectUrl: '/giant-junior-3031'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/golden-retriever-adult-kuru',
+      redirectUrl: '/golden-retriever-adult-3970'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/golden-retriever-puppy-kuru',
+      redirectUrl: '/golden-retriever-puppy-3979'
+    },
+    {
       shortUrl: '/dogs/products/retail-products/jack-russell-adult-kuru',
       redirectUrl: '/jack-russell-adult-2100'
     },
@@ -1358,40 +1477,12 @@ export default {
       redirectUrl: '/junior-4300'
     },
     {
-      shortUrl: '/cats/products/retail-products/kitten-kuru',
-      redirectUrl: '/kitten-2522'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/kitten-gravy-ya',
-      redirectUrl: '/kitten-gravy-4058'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/kitten-jelly-ya',
-      redirectUrl: '/kitten-jelly-4150'
-    },
-    {
       shortUrl: '/dogs/products/retail-products/labrador-retriever-adult-kuru',
       redirectUrl: '/labrador-retriever-adult-2487'
     },
     {
       shortUrl: '/dogs/products/retail-products/labrador-retriever-puppy-kuru',
       redirectUrl: '/labrador-retriever-puppy-2491'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/light-weight-care-kuru',
-      redirectUrl: '/light-weight-care-2524'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/maine-coon-adult-kuru',
-      redirectUrl: '/maine-coon-2031'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/maine-coon-ya',
-      redirectUrl: '/maine-coon-adult-2550'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/maine-coon-kitten-kuru',
-      redirectUrl: '/maine-coon-kitten-2558'
     },
     {
       shortUrl: '/dogs/products/retail-products/maltese-adult-kuru',
@@ -1422,16 +1513,12 @@ export default {
       redirectUrl: '/medium-puppy-3003'
     },
     {
-      shortUrl: '/dogs/products/retail-products/mini-mature-8-kuru',
-      redirectUrl: '/mini-adult-+8-3002'
+      shortUrl: '/dogs/products/retail-products/mini-adult-kuru',
+      redirectUrl: '/mini-adult-3001'
     },
     {
       shortUrl: '/dogs/products/retail-products/mini-adult-ya',
       redirectUrl: '/mini-adult-1096'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/mini-adult-kuru',
-      redirectUrl: '/mini-adult-3001'
     },
     {
       shortUrl: '/dogs/products/retail-products/mini-ageing-ya',
@@ -1462,12 +1549,16 @@ export default {
       redirectUrl: '/mini-light-weight-care-3018'
     },
     {
-      shortUrl: '/dogs/products/retail-products/mini-puppy-ya',
-      redirectUrl: '/mini-puppy-1099'
+      shortUrl: '/dogs/products/retail-products/mini-mature-8-kuru',
+      redirectUrl: '/mini-adult-+8-3002'
     },
     {
       shortUrl: '/dogs/products/retail-products/mini-puppy-kuru',
       redirectUrl: '/mini-puppy-3000'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/mini-puppy-ya',
+      redirectUrl: '/mini-puppy-1099'
     },
     {
       shortUrl: '/dogs/products/retail-products/mini-starter-kuru',
@@ -1478,37 +1569,8 @@ export default {
       redirectUrl: '/mini-sterilised-3185'
     },
     {
-      shortUrl: '/cats/products/retail-products/mother-and-babycat-kuru',
-      redirectUrl: '/mother-and-babycat-2544'
-    },
-    {
-      shortUrl:
-        '/cats/products/retail-products/mother-and-babycat-ultra-soft-mousse-ya',
-      redirectUrl: '/mother-and-babycat-ultra-soft-mousse-4098'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/oral-care-kuru',
-      redirectUrl: '/oral-care-2532'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/persian-kuru',
-      redirectUrl: '/persian-2552'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/persian-kitten-kuru',
-      redirectUrl: '/persian-kitten-2554'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/persian-loaf-ya',
-      redirectUrl: '/persian-loaf-2030'
-    },
-    {
       shortUrl: '/dogs/products/retail-products/pomeranian-adult-kuru',
       redirectUrl: '/pomeranian-adult-1255'
-    },
-    {
-      shortUrl: '/dogs/products/retail-products/poodle-ya',
-      redirectUrl: '/poodle-2043'
     },
     {
       shortUrl: '/dogs/products/retail-products/poodle-adult-kuru',
@@ -1517,6 +1579,10 @@ export default {
     {
       shortUrl: '/dogs/products/retail-products/poodle-puppy-kuru',
       redirectUrl: '/poodle-puppy-3080'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/poodle-ya',
+      redirectUrl: '/poodle-2043'
     },
     {
       shortUrl: '/dogs/products/retail-products/pug-adult-kuru',
@@ -1535,28 +1601,12 @@ export default {
       redirectUrl: '/rottweiler-puppy-3987'
     },
     {
-      shortUrl: '/cats/products/retail-products/savour-exigent-kuru',
-      redirectUrl: '/savour-exigent-2531'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/sensible-33-kuru',
-      redirectUrl: '/sensible-33-2521'
-    },
-    {
       shortUrl: '/dogs/products/retail-products/shih-tzu-adult-kuru',
       redirectUrl: '/shih-tzu-adult-2200'
     },
     {
       shortUrl: '/dogs/products/retail-products/shih-tzu-puppy-kuru',
       redirectUrl: '/shih-tzu-puppy-2439'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/siamese-kuru',
-      redirectUrl: '/siamese-2551'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/sphynx-kuru',
-      redirectUrl: '/sphynx-2556'
     },
     {
       shortUrl:
@@ -1566,22 +1616,6 @@ export default {
     {
       shortUrl: '/dogs/products/retail-products/sterilised-ya',
       redirectUrl: '/sterilised-1179'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/sterilised-37-kuru',
-      redirectUrl: '/sterilised-37-2537'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/sterilised-7-kuru',
-      redirectUrl: '/sterilised-7+-2560'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/sterilised-gravy-ya',
-      redirectUrl: '/sterilised-gravy-4095'
-    },
-    {
-      shortUrl: '/cats/products/retail-products/sterilised-jelly-ya',
-      redirectUrl: '/sterilised-jelly-4156'
     },
     {
       shortUrl:
@@ -1601,16 +1635,116 @@ export default {
       redirectUrl: '/x-small-puppy-1002'
     },
     {
-      shortUrl: '/dogs/products/retail-products/yorkshire-terrier-ya',
-      redirectUrl: '/yorkshire-terrier-2040'
-    },
-    {
       shortUrl: '/dogs/products/retail-products/yorkshire-terrier-adult-kuru',
       redirectUrl: '/yorkshire-terrier-adult-3051'
     },
     {
       shortUrl: '/dogs/products/retail-products/yorkshire-terrier-puppy-kuru',
       redirectUrl: '/yorkshire-terrier-puppy-3972'
+    },
+    {
+      shortUrl: '/dogs/products/retail-products/yorkshire-terrier-ya',
+      redirectUrl: '/yorkshire-terrier-2040'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products',
+      redirectUrl: '/dogs/vet-products'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/anallergenic-kuru',
+      redirectUrl: '/anallergenic-4014'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/calm-kuru',
+      redirectUrl: '/calm-dog-dry-3956'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/cardiac-canine-wet-ya',
+      redirectUrl: '/cardiac-canine-wet-4023'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/cardiac-kuru',
+      redirectUrl: '/cardiac-3930'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/diabetic-kuru',
+      redirectUrl: '/diabetic-4086'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-kuru',
+      redirectUrl: '/gastro-intestinal-3911'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-low-fat-kuru',
+      redirectUrl: '/gastrointestinal-low-fat-3932'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/gastro-intestinal-ya',
+      redirectUrl: '/gastrointestinal-loaf-4038'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hepatic-kuru',
+      redirectUrl: '/hepatic-3927'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hepatic-ya',
+      redirectUrl: '/hepatic-loaf-4022'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hypoallergenic-dr-21-kuru',
+      redirectUrl: '/hypoallergenic-3910'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/hypoallergenic-ya',
+      redirectUrl: '/hypoallergenic-4084'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/mobility-c2p-kuru',
+      redirectUrl: '/mobility-c2p+-4221'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/neutered-adult-small-dog-kuru',
+      redirectUrl: '/neutered-adult-small-dog-3712'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/recovery-liquid-dog-cat',
+      redirectUrl: '/recovery-liquid-(kedi-ve-k%C3%B6pek)-4910'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/recovery-ya',
+      redirectUrl: '/recovery-4055'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-canine-wet-ya',
+      redirectUrl: '/renal-canine-wet-4020'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/renal-dry-kuru',
+      redirectUrl: '/renal-3916'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/satiety-small-dog-kuru',
+      redirectUrl: '/satiety-small-dog-4252'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/satiety-weight-management-kuru',
+      redirectUrl: '/satiety-weight-management-3948'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/satiety-weight-management-ya',
+      redirectUrl: '/satiety-weight-management-4250'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/skin-support-ss-23-kuru',
+      redirectUrl: '/skin-support-3921'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/urinary-so-kuru',
+      redirectUrl: '/urinary-so-3913'
+    },
+    {
+      shortUrl: '/dogs/products/vet-products/urinary-so-ya',
+      redirectUrl: '/urinary-so-4021'
     }
   ]
 };
