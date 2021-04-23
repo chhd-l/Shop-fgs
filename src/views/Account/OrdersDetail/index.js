@@ -178,7 +178,7 @@ function LogisticsProgress(props) {
 }
 
 @inject('checkoutStore', 'configStore')
-@injectIntl
+// @injectIntl
 @observer
 class AccountOrders extends React.Component {
   constructor(props) {
