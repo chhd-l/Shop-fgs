@@ -1552,8 +1552,10 @@ export default class Felin extends React.Component {
                           Du 20 avril au 13 juin 2021, prenez rendez vous pour
                           discuter avec{' '}
                           <span className="red">
-                            nos experts du comportement de votre chat et
-                            découvrir l’aliment le plus adapté à ses besoins.
+                            <strong>
+                              nos experts du comportement de votre chat et
+                              découvrir l’aliment le plus adapté à ses besoins.
+                            </strong>
                           </span>
                           <p style={{ fontSize: '.75rem', marginTop: '1rem' }}>
                             (Dans notre Atelier Félin ou par telephone du Mardi
