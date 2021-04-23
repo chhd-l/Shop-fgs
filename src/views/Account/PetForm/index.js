@@ -292,8 +292,9 @@ class PetForm extends React.Component {
           isDeleteModalShow: true,
           deleteWarningMessage: err.message
         });
+      } else {
+        this.showErrorMsg(err.message);
       }
-      this.showErrorMsg(err.message);
     } finally {
       this.setState({
         loading: false
