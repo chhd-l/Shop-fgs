@@ -775,8 +775,13 @@ class SubscriptionDetail extends React.Component {
 
     await this.getDetail(() => {
       let goodsInfo = [...this.state.subDetail.goodsInfo];
+      if (!this.state.isNotInactive) {
+        // 非激活状态就不展示
+        this.setState({ editRecommendationVisible: false });
+      }
       // 如果一进来就需要被动更换商品,删除以前所有商品
       this.state.editRecommendationVisible &&
+        this.state.isNotInactive &&
         this.showChangeProduct(goodsInfo, true);
     });
     // await this.doGetPromotionPrice();
