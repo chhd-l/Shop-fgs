@@ -383,31 +383,33 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
       {item.technologyOrBreedsAttr ? (
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
-      <div className="product-price">
-        <div className="card--product-contaner-price">
-          {item.fromPrice ? (
-            <FormattedMessage
-              id="pirceRange"
-              values={{
-                fromPrice: (
-                  <span className="contaner-price__value">
-                    {formatMoney(item.fromPrice)}
-                  </span>
-                ),
-                toPrice: (
-                  <span className="contaner-price__value">
-                    {formatMoney(item.toPrice)}
-                  </span>
-                )
-              }}
-            />
-          ) : (
-            <span className="contaner-price__value">
-              {formatMoney(item.fromPrice)}
-            </span>
-          )}
+      {item.fromPrice ? (
+        <div className="product-price">
+          <div className="card--product-contaner-price">
+            {item.toPrice ? (
+              <FormattedMessage
+                id="pirceRange"
+                values={{
+                  fromPrice: (
+                    <span className="contaner-price__value">
+                      {formatMoney(item.fromPrice)}
+                    </span>
+                  ),
+                  toPrice: (
+                    <span className="contaner-price__value">
+                      {formatMoney(item.toPrice)}
+                    </span>
+                  )
+                }}
+              />
+            ) : (
+              <span className="contaner-price__value">
+                {formatMoney(item.fromPrice)}
+              </span>
+            )}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }
