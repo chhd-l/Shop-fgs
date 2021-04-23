@@ -82,6 +82,7 @@ const pageLink = window.location.href;
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('checkoutStore', 'loginStore', 'configStore')
 @injectIntl
+@observer
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -1194,7 +1195,9 @@ class SubscriptionDetail extends React.Component {
         </div>
         <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
           <span
-            className="rc-styled-link"
+            className={`text-plain rc-styled-link ${
+              this.state.productListLoading ? 'ui-btn-loading' : ''
+            }`}
             onClick={() => {
               this.showChangeProduct([...this.state.subDetail.goodsInfo]);
             }}
@@ -2323,12 +2326,16 @@ class SubscriptionDetail extends React.Component {
   };
   queryProductList = async (els, cb) => {
     console.info(els, 'sdsdsdsdsdsdsdsds');
-    this.setState({ productListLoading: true });
-    if (els) {
-      this.setState({ currentGoodsItems: [...els] });
-    }
-    let { petsId } = this.state.subDetail;
     try {
+      this.setState({ productListLoading: true });
+      if (els) {
+        this.setState({ currentGoodsItems: [...els] });
+      }
+      if (this.state.productDetail?.mainProduct) {
+        cb && cb();
+        return;
+      }
+      let { petsId } = this.state.subDetail;
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
@@ -2349,19 +2356,19 @@ class SubscriptionDetail extends React.Component {
           });
         });
       }
-      this.setState({ productListLoading: false });
       this.setState({ productDetail: res.context }, () => {
         cb && cb();
       });
     } catch (err) {
-      this.setState({ productListLoading: false });
       this.showErrMsgs(err && err.message, 'errMsgPage');
+    } finally {
+      this.setState({ productListLoading: false });
     }
   };
   doSthShow = () => {
     this.closeProdutctDetail();
     this.closeRecommendation();
-    this.setState({ changeProductVisible: true, details: {} }); //清空details
+    this.setState({ changeProductVisible: true }); //清空details
   };
   showChangeProduct = async (els, isNoModal) => {
     if (!els) {

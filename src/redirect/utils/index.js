@@ -14,7 +14,10 @@ const redirectFun = () => {
       (item) => item.shortUrl !== item.redirectUrl
     )
       .map((item) => ({
-        [item.shortUrl]: item.redirectUrl
+        //[item.shortUrl]: item.redirectUrl
+        [item.shortUrl
+          .replace('%28', '(')
+          .replace('%29', ')')]: item.redirectUrl //%28,%29会在浏览器自动转义成括号，所以这里提前替换成
       }))
       .forEach((item) => {
         RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}
