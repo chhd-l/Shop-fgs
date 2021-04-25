@@ -1166,7 +1166,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.frequency': 'Fréquence',
+  'subscription.frequency': 'Recevoir mon produit toutes les',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
     'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
