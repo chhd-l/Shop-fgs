@@ -2201,127 +2201,136 @@ class Details extends React.Component {
                               currentSubscriptionPrice &&
                               (!details.promotions ||
                                 !details.promotions.includes('club')) ? (
-                                <div
-                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                    form.buyWay === 1
-                                      ? 'border-red'
-                                      : 'border-d7d7d7'
-                                  }`}
-                                  onClick={this.ChangeFormat.bind(this, 1)}
-                                >
-                                  <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                    <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                      <FormattedMessage id="email">
-                                        {(txt) => (
-                                          <input
-                                            className="rc-input__radio"
-                                            id="type_frequency"
-                                            type="radio"
-                                            alt={txt}
-                                            name="buyWay"
-                                            value="1"
-                                            key="1"
-                                            checked={form.buyWay === 1}
-                                          />
-                                        )}
-                                      </FormattedMessage>
-                                      <label
-                                        className="rc-input__label--inline"
-                                        htmlFor="type_frequency"
-                                      >
-                                        <span
-                                          style={{
-                                            fontWeight: '400',
-                                            color: '#333'
-                                          }}
+                                <div>
+                                  <div
+                                    className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
+                                      form.buyWay === 1
+                                        ? 'border-red'
+                                        : 'border-d7d7d7'
+                                    }`}
+                                    onClick={this.ChangeFormat.bind(this, 1)}
+                                  >
+                                    <div className="radioBox order-1 order-md-1 col-8 col-md-5">
+                                      <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
+                                        <FormattedMessage id="email">
+                                          {(txt) => (
+                                            <input
+                                              className="rc-input__radio"
+                                              id="type_frequency"
+                                              type="radio"
+                                              alt={txt}
+                                              name="buyWay"
+                                              value="1"
+                                              key="1"
+                                              checked={form.buyWay === 1}
+                                            />
+                                          )}
+                                        </FormattedMessage>
+                                        <label
+                                          className="rc-input__label--inline"
+                                          htmlFor="type_frequency"
                                         >
-                                          <span className="iconfont mr-2">
-                                            &#xe675;
-                                          </span>
-                                          <FormattedMessage id="autoship" />
                                           <span
-                                            className="info-tooltip delivery-method-tooltip"
-                                            onMouseEnter={() => {
-                                              this.setState({
-                                                toolTipVisible: true
-                                              });
-                                            }}
-                                            onMouseLeave={() => {
-                                              this.setState({
-                                                toolTipVisible: false
-                                              });
+                                            style={{
+                                              fontWeight: '400',
+                                              color: '#333'
                                             }}
                                           >
-                                            i
+                                            <span className="iconfont mr-2">
+                                              &#xe675;
+                                            </span>
+                                            <FormattedMessage id="autoship" />
+                                            <span
+                                              className="info-tooltip delivery-method-tooltip"
+                                              onMouseEnter={() => {
+                                                this.setState({
+                                                  toolTipVisible: true
+                                                });
+                                              }}
+                                              onMouseLeave={() => {
+                                                this.setState({
+                                                  toolTipVisible: false
+                                                });
+                                              }}
+                                            >
+                                              i
+                                            </span>
+                                            <ConfirmTooltip
+                                              arrowStyle={{ left: '79%' }}
+                                              display={
+                                                this.state.toolTipVisible
+                                              }
+                                              cancelBtnVisible={false}
+                                              confirmBtnVisible={false}
+                                              updateChildDisplay={(status) =>
+                                                this.setState({
+                                                  toolTipVisible: status
+                                                })
+                                              }
+                                              content={
+                                                <FormattedMessage id="subscription.promotionTip2" />
+                                              }
+                                            />
                                           </span>
-                                          <ConfirmTooltip
-                                            arrowStyle={{ left: '79%' }}
-                                            display={this.state.toolTipVisible}
-                                            cancelBtnVisible={false}
-                                            confirmBtnVisible={false}
-                                            updateChildDisplay={(status) =>
-                                              this.setState({
-                                                toolTipVisible: status
-                                              })
-                                            }
-                                            content={
-                                              <FormattedMessage id="subscription.promotionTip2" />
-                                            }
+                                        </label>
+                                      </div>
+                                      <br />
+                                      <div className="discountBox">
+                                        <FormattedMessage
+                                          id="saveExtra"
+                                          values={{
+                                            val:
+                                              selectedSpecItem?.subscriptionPercentage
+                                          }}
+                                        />
+                                      </div>
+                                      <br />
+                                      <div className="freeshippingBox">
+                                        <FormattedMessage id="freeShipping" />
+                                      </div>
+                                    </div>
+                                    {this.state.details.promotions &&
+                                      this.getFrequencyDictDom()}
+                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                      <div>
+                                        <span className="text-line-through-price">
+                                          {formatMoney(currentUnitPrice)}
+                                        </span>
+                                        {formatMoney(
+                                          currentSubscriptionPrice || 0
+                                        )}
+                                        <span className="red unit-star">
+                                          <FormattedMessage
+                                            id="starUnit"
+                                            defaultMessage=" "
                                           />
                                         </span>
-                                      </label>
-                                    </div>
-                                    <br />
-                                    <div className="discountBox">
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
-                                    <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
-                                  </div>
-                                  {this.state.details.promotions &&
-                                    this.getFrequencyDictDom()}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
-                                    <div>
-                                      <span className="text-line-through-price">
-                                        {formatMoney(currentUnitPrice)}
-                                      </span>
-                                      {formatMoney(
-                                        currentSubscriptionPrice || 0
-                                      )}
-                                      <span className="red unit-star">
-                                        <FormattedMessage
-                                          id="starUnit"
-                                          defaultMessage=" "
-                                        />
-                                      </span>
-                                    </div>
-                                    {De && selectedSpecItem ? (
-                                      <div
-                                        style={{
-                                          fontSize: '.875rem',
-                                          color: '#999'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          (
-                                            currentSubscriptionPrice /
-                                            parseFloat(
-                                              selectedSpecItem.goodsInfoWeight
-                                            )
-                                          ).toFixed(2)
-                                        )}
-                                        /{selectedSpecItem.goodsInfoUnit}{' '}
                                       </div>
-                                    ) : null}
+                                      {De && selectedSpecItem ? (
+                                        <div
+                                          style={{
+                                            fontSize: '.875rem',
+                                            color: '#999'
+                                          }}
+                                        >
+                                          {formatMoney(
+                                            (
+                                              currentSubscriptionPrice /
+                                              parseFloat(
+                                                selectedSpecItem.goodsInfoWeight
+                                              )
+                                            ).toFixed(2)
+                                          )}
+                                          /{selectedSpecItem.goodsInfoUnit}{' '}
+                                        </div>
+                                      ) : null}
+                                    </div>
                                   </div>
+                                  {process.env.REACT_APP_LANG == 'fr' ? (
+                                    <div>
+                                      Résiliation gratuite à tout moment{' '}
+                                    </div>
+                                  ) : null}
                                 </div>
                               ) : null}
                               {currentSubscriptionStatus &&
@@ -2440,9 +2449,6 @@ class Details extends React.Component {
                                 </div>
                               ) : null}
                             </div>
-                            {process.env.REACT_APP_LANG == 'fr' ? (
-                              <div>Résiliation gratuite à tout moment </div>
-                            ) : null}
                             <div className="rc-md-up">
                               <div
                                 className="mb-2 mr-2 text-right"

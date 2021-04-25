@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { payu3dsPaymentsDetails } from '@/api/payment';
-import { getRequest } from '@/utils/utils';
+import { getRequest, sleep } from '@/utils/utils';
 import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -35,6 +35,7 @@ class Payu3dsResult extends Component {
       }
     } catch (err) {
     } finally {
+      await sleep(2000); //防止还没跳转
       this.setState({
         circleLoading: false
       });
