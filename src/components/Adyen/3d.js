@@ -7,20 +7,18 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('paymentStore')
 @observer
 class Adyen3DForm extends React.Component {
-  static defaultProps = {
- 
-  };
+  static defaultProps = {};
   constructor(props) {
     super(props);
     this.state = {
-        action:{}
+      action: {}
     };
   }
   static getDerivedStateFromProps(props, state) {
-    const {action} = props
+    const { action } = props;
     if (action !== state.action) {
       return {
-        action,
+        action
       };
     }
   }
@@ -37,7 +35,7 @@ class Adyen3DForm extends React.Component {
             locale: process.env.REACT_APP_Adyen_locale,
             translations
           });
-        
+
           // 跳转到3DS页面
           checkout.createFromAction(action).mount('#adyen-3d-form');
         }
@@ -45,12 +43,10 @@ class Adyen3DForm extends React.Component {
     });
   }
   render() {
-    if(Object.keys(this.state.action).length>0){
-        this.initForm(this.state.action);
+    if (Object.keys(this.state.action).length > 0) {
+      this.initForm(this.state.action);
     }
-    return (
-        <div  id="adyen-3d-form"></div>
-    );
+    return <div id="adyen-3d-form"></div>;
   }
 }
 

@@ -86,6 +86,7 @@ const GoodsDetailTabs = function (props) {
     let tmpGoodsDescriptionDetailList = (goodsDescriptionDetailList || []).sort(
       (a, b) => a.sort - b.sort
     );
+
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
     let goodsNo = location.pathname.split('-')[
       location.pathname.split('-').length - 1

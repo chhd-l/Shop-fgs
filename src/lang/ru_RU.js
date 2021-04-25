@@ -1223,6 +1223,7 @@ const ru_RU = {
   'subscription.chooseThisProduct': 'выберите этот продукт',
   'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
+  'subscription.thesameProd': 'Заменяемый продукт такой же, как и текущий.',
   'subscription.productRecommendation': 'Рекомендации продукта',
   'subscription.productRecommendationTip':
     'Основываясь на профиле Вашего питомца, мы рекомендуем следующие продукты, учитывающие его потребности. Пожалуйста, подтвердите изменение продукта, чтобы обновить подписку. ',

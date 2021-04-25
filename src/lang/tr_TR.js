@@ -565,6 +565,7 @@ const tr_TR = {
   'orderStatus.INITTip':
     'Siparişiniz ödenmedi, lütfen mümkün olan en kısa sürede ödeyin. {val}',
   'order.viewOrder': 'Siparişi görüntüle',
+  orderDetail: 'Sipariş detayları',
   orders: 'Emirler',
   orderSummary: 'Özet',
   outOfStockContent_cart:
@@ -1141,7 +1142,8 @@ const tr_TR = {
   'subscription.seeOtherRecommendation': 'Diğer önerilere bakın',
   'subscription.chooseThisProduct': 'bu ürünü seç',
   'subscription.productDetails': 'Ürün Detayları',
-  'subscription.changeNow': 'Şimdi değiştir',
+  'subscription.changeNow': 'Değişikliği yap',
+  'subscription.thesameProd': 'Değiştirilen ürün, mevcut ürün ile aynıdır',
   'subscription.productRecommendation': 'Ürün öneriniz.',
   'subscription.productRecommendationTip':
     'Evcil hayvan profilinize göre, size aşağıdaki ürünleri öneriyoruz. Aboneliğinizi güncellemek için lütfen ürün değişikliğini onaylayın.',
