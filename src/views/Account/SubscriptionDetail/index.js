@@ -2489,7 +2489,12 @@ class SubscriptionDetail extends React.Component {
         {!!productDetail.mainProduct && (
           <>
             <div className="p-f-result-box">
-              <img className="m-auto" src={getClubLogo()} alt="club icon" />
+              <img
+                className="m-auto"
+                style={{ maxWidth: '200px' }}
+                src={getClubLogo()}
+                alt="club icon"
+              />
               <h4 className="red text-center mb-3 mt-3">
                 <FormattedMessage id="subscription.productRecommendation" />
               </h4>
