@@ -849,6 +849,7 @@ const tr_TR = {
   subscribeDiscount: 'Abonelik İndirim İndirimi',
   subscription: 'Bağlı Abonelikler',
   'subscription.all': 'herşey',
+  'subscription.restart': 'Tekrar başlat',
   'subscription.autoship': 'otomatik gemi',
   'subscription.club': 'kulüp',
   'subscription.ContractProduct': 'Sözleşme Ürün',
