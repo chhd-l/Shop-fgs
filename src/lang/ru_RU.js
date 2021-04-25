@@ -1316,7 +1316,8 @@ const ru_RU = {
     'Извините, вы еще не являетесь участником Royal Canin CLUB.',
   'subscription.clubNoSubscription.tip2':
     'Нажмите ниже, чтобы присоединиться к программе подписки CLUB и получить доступ к эксклюзивным преимуществам членства.',
-  'subscription.clubNoSubscription.getStart': 'Узнать подробнее'
+  'subscription.clubNoSubscription.getStart': 'Узнать подробнее',
+  'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin'
 };
 
 export default ru_RU;
