@@ -1309,7 +1309,13 @@ const ru_RU = {
   'searchNoResult.email.content': 'Отправьте нам Email',
   'searchNoBreed.breedName': 'Результаты поиска',
   kg: 'кг',
-  imageLargeError: 'Загруженное изображение слишком велико'
+  imageLargeError: 'Загруженное изображение слишком велико',
+  'subscription.clubNoSubscription': 'Royal Canin CLUB',
+  'subscription.clubNoSubscription.tip1':
+    'Извините, вы еще не являетесь участником Royal Canin CLUB.',
+  'subscription.clubNoSubscription.tip2':
+    'Нажмите ниже, чтобы присоединиться к программе подписки CLUB и получить доступ к эксклюзивным преимуществам членства.',
+  'subscription.clubNoSubscription.getStart': 'Узнать подробнее'
 };
 
 export default ru_RU;

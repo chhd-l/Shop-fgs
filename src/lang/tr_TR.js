@@ -1202,6 +1202,12 @@ const tr_TR = {
   'petform.subscription': 'Bağlı Abonelikler',
   kg: 'kg',
   messengers: 'Haberciler',
-  imageLargeError: 'Yüklenen resim çok büyük'
+  imageLargeError: 'Yüklenen resim çok büyük',
+  'subscription.clubNoSubscription': 'Royal Canin CLUB',
+  'subscription.clubNoSubscription.tip1':
+    'Üzgünüz, henüz Royal Canin CLUB abonesi değilsiniz.',
+  'subscription.clubNoSubscription.tip2':
+    'CLUB abonelik programına katılmak ve özel üyelik avantajlarından yararlanmak için aşağıyı tıklayın.',
+  'subscription.clubNoSubscription.getStart': 'Abone olun'
 };
 export default tr_TR;
