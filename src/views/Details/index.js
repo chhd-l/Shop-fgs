@@ -2440,6 +2440,9 @@ class Details extends React.Component {
                                 </div>
                               ) : null}
                             </div>
+                            {process.env.REACT_APP_LANG == 'fr' ? (
+                              <div>Résiliation gratuite à tout moment </div>
+                            ) : null}
                             <div className="rc-md-up">
                               <div
                                 className="mb-2 mr-2 text-right"

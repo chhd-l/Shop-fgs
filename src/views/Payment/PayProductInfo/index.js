@@ -9,7 +9,6 @@ import {
   matchNamefromDict,
   getClubLogo
 } from '@/utils/utils';
-console.log(getClubLogo(), 'getClubLogo');
 import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
