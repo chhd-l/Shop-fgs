@@ -36,6 +36,7 @@ import spetadviser from '../../../components/GoodsDetailTabs/image/pictospetadvi
 import shippingicon from '../../../components/GoodsDetailTabs/image/pictoshipping@4x.png';
 import phoneicon from '../../../components/GoodsDetailTabs/image/phoneicon@4x.png';
 import landingBanner from '../../../components/GoodsDetailTabs/image/landing-banner.jpg';
+import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -79,6 +80,13 @@ const clubNoSubscription = function () {
       alt: 'CLUB BENEFITS PET ADVISOR'
     }
   ];
+  if (process.env.REACT_APP_LANG === 'ru') {
+    clubListData.push({
+      text: <FormattedMessage id="clubListData.tip6" />,
+      img: iconsix,
+      alt: 'CLUB BENEFITS PET ADVISOR'
+    });
+  }
   return (
     <>
       <div className="subscription-club-no-subscription">

@@ -221,10 +221,30 @@ class PetForm extends React.Component {
           if (currentPet) {
             this.edit(currentPet);
             this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+            let oldCurrentPet = {
+              activity: currentPet.activity,
+              birthOfPets: currentPet.birthOfPets,
+              isPurebred: currentPet.isPurebred,
+              lifestyle: currentPet.lifestyle,
+              needs: currentPet.needs,
+              petsBreed: currentPet.petsBreed,
+              petsId: currentPet.petsId,
+              petsImg: currentPet.petsImg,
+              petsName: currentPet.petsName,
+              petsSex: currentPet.petsSex,
+              petsBreed: currentPet.petsBreed,
+              petsSizeValueId: '',
+              storeId: process.env.REACT_APP_STOREID,
+              petsSizeValueName: currentPet.petsSizeValueName,
+              petsType: currentPet.petsType,
+              sterilized: currentPet.sterilized,
+              weight: currentPet.weight
+            };
             this.setState(
               {
                 currentPetId: currentPet.petsId,
                 currentPet: currentPet,
+                oldCurrentPet, //存储当前eidt宠物，比对修改了哪些字段，如果是只改了名字，就不会弹出跳转subscriptionDetail
                 imgUrl:
                   currentPet.petsImg && currentPet.petsImg.includes('http')
                     ? currentPet.petsImg
@@ -301,8 +321,30 @@ class PetForm extends React.Component {
       });
     }
   };
+  equalProps = (a, b) => {
+    var newObj = {};
+    for (var key in a) {
+      if (Array.isArray(a[key])) {
+        a[key]?.map((el, i) => {
+          this.equalProps(el, b[key] && b[key][i]);
+        });
+      } else if (typeof a[key] === 'object' && a[key] !== null) {
+        var obj = this.equalProps(a[key], b[key]);
+        newObj[key] = obj;
+      } else if (a[key] != b[key]) {
+        newObj[key] = a[key];
+      }
+    }
+    return newObj;
+  };
   savePet = async () => {
-    const { selectedSpecialNeeds, isPurebred, subList } = this.state;
+    const {
+      selectedSpecialNeeds,
+      isPurebred,
+      subList,
+      currentPet,
+      oldCurrentPet
+    } = this.state;
     if (isPurebred) {
       this.setState({
         weight: ''
@@ -420,6 +462,14 @@ class PetForm extends React.Component {
     if (pets.petsId) {
       action = editPets;
     }
+    console.info(pets, oldCurrentPet);
+    let hasChangedProps = this.equalProps(pets, oldCurrentPet);
+    let diffIndex = 0;
+    for (let key in hasChangedProps) {
+      if (key !== 'petsName') {
+        ++diffIndex;
+      }
+    }
     try {
       let res = await action(param);
       let isLinkedSub = this.state.subList.find((el) => el.petsId);
@@ -449,7 +499,7 @@ class PetForm extends React.Component {
         }
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
-        if (petsIdLinkedSub) {
+        if (petsIdLinkedSub && diffIndex > 0) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }

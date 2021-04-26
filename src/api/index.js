@@ -16,7 +16,8 @@ const api = {
   seo: 'seo/setting',
   getSystemConfig: '/system/config',
   addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
-  getPrescriberSettingInfo: '/order/config/listSystemConfig' //查询是否需要显示用户选择绑定prescriber弹框
+  getPrescriberSettingInfo: '/order/config/listSystemConfig', //查询是否需要显示用户选择绑定prescriber弹框
+  cancelEmail: '/customer/updateCustomerSendEmailFlag' //取消用户邮箱绑定
 };
 
 export default api;
@@ -145,5 +146,14 @@ export function getPrescriberSettingInfo() {
     url: `${api.getPrescriberSettingInfo}`,
     method: 'get',
     params: { storeId: process.env.REACT_APP_STOREID }
+  });
+}
+
+//取消用户邮箱的绑定
+export function cancelEmailBind(parameter) {
+  return axios({
+    url: `${api.cancelEmail}`,
+    method: 'put',
+    params: parameter
   });
 }

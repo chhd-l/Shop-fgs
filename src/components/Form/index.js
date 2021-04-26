@@ -420,6 +420,9 @@ class Form extends React.Component {
   };
   // 6-1、查询city list
   getAllCityList = async () => {
+    this.setState({
+      dataLoading: true
+    });
     try {
       const res = await getCityList();
       if (res?.context?.systemCityVO) {
@@ -437,13 +440,22 @@ class Form extends React.Component {
           cityList: Object.assign(obj, starr)
         });
       }
+      this.setState({
+        dataLoading: false
+      });
     } catch (err) {
       console.warn(err);
+      this.setState({
+        dataLoading: false
+      });
     }
   };
   // 6-2、根据cityId查询region
   getRegionDataByCityId = async (cityId) => {
     const { caninForm } = this.state;
+    this.setState({
+      dataLoading: true
+    });
     try {
       const res = await getRegionByCityId({ cityId: cityId });
       if (res?.context?.systemRegions) {
@@ -578,8 +590,7 @@ class Form extends React.Component {
     } else if (key == 'city') {
       caninForm.city = data.name;
       this.setState({
-        regionList: [],
-        dataLoading: true
+        regionList: []
       });
       // 获取本地存储的需要显示的地址字段
       const localAddressForm = localItemRoyal.get('rc-address-form') || null;

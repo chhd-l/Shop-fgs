@@ -1210,6 +1210,8 @@ const tr_TR = {
     'Üzgünüz, henüz Royal Canin CLUB abonesi değilsiniz.',
   'subscription.clubNoSubscription.tip2':
     'CLUB abonelik programına katılmak ve özel üyelik avantajlarından yararlanmak için aşağıyı tıklayın.',
-  'subscription.clubNoSubscription.getStart': 'Abone olun'
+  'subscription.clubNoSubscription.getStart': 'Abone olun',
+  'cancelEmail.content':
+    'Royal Canin online mağazamızın pazarlama amacıyla gönderilen e-mail listesinden <{val}> aboneliğinizi başarıyla iptal ettiniz.'
 };
 export default tr_TR;
