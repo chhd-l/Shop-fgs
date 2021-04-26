@@ -21,20 +21,10 @@ class MapFlag extends React.Component {
     });
   };
   handleConfirm = (item) => {
-    const {
-      setSelectClinicId,
-      setSelectClinicName,
-      removeLinkClinicId,
-      removeLinkClinicName,
-      setLinkClinicId,
-      setLinkClinicName
-    } = this.props.clinicStore;
-    removeLinkClinicId();
-    removeLinkClinicName();
+    const { setSelectClinicId, setSelectClinicName } = this.props.clinicStore;
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
-    setLinkClinicId(item.id);
-    setLinkClinicName(item.prescriberName);
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
   handleClose = () => {
