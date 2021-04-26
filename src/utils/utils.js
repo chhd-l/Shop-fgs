@@ -886,3 +886,19 @@ export function getClubLogo() {
     return Club_Logo;
   }
 }
+
+export function bindSubmitParam(list) {
+  let obj = { optionalList: [], requiredList: [] };
+  list
+    .filter((item) => !item.isRequired)
+    .forEach((item) => {
+      obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
+    });
+  list
+    .filter((item) => item.isRequired)
+    .forEach((item) => {
+      obj.requiredList.push({ id: item.id, selectedFlag: true });
+    });
+
+  return obj;
+}
