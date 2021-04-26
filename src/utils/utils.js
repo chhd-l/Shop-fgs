@@ -469,30 +469,56 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     cartData
   } = checkoutStore;
   console.log(toJS(AuditData), 'sas');
-  let url = '/prescription';
-  if (configStore.prescriberSelectTyped === 1) {
-    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
-  }
-  // 不开启地图，跳过prescriber页面
-  console.log(configStore.prescriberMap);
-  if (!configStore.prescriberMap) {
-    url = '/checkout';
-  }
+  //1、先判断商品是否含VET商品（store Portal商品类型的Need Prescriber是否打开）
   const productData = isLogin ? loginCartData : cartData;
   const needPrescriber =
     productData.filter((el) => el.prescriberFlag).length > 0;
   if (!needPrescriber) {
-    url = '/checkout';
+    //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
+    return '/checkout';
   }
-  // 指定clinic/recommendation code链接/landing page进入，校验本地prescriber缓存，有clinic id link则跳过prescriber页面
+  //2、判断是否是通过推荐链接购买
+  // 通过推荐链接，指定clinic/recommendation code/recommendation id/recommendation token进入
   if (
     localItemRoyal.get(`rc-clinic-id-link`) &&
     localItemRoyal.get(`rc-clinic-name-link`)
   ) {
-    sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber信息
-    url = '/checkout';
+    //直接进入checkout页面并且在checkout页面上方显示prescriber信息
+    clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
+    clinicStore.setSelectClinicName(localItemRoyal.get(`rc-clinic-name-link`));
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
+    return '/checkout';
   }
-  return url;
+  //3、正常购买流程判断
+  //3.1没有开启mandatory且浏览器有缓存直接进入并且在页面上方显示prescriber信息
+  if (!configStore.isShowPrescriberModal) {
+    if (
+      localItemRoyal.get(`rc-clinic-id-select`) &&
+      localItemRoyal.get(`rc-clinic-name-select`)
+    ) {
+      localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
+      return '/checkout';
+    }
+    if (
+      localItemRoyal.get(`rc-clinic-id-default`) &&
+      localItemRoyal.get(`rc-clinic-name-default`)
+    ) {
+      //没有缓存但是my account 有默认clinic
+      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-default`));
+      clinicStore.setSelectClinicName(
+        localItemRoyal.get(`rc-clinic-name-default`)
+      );
+      localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
+      return '/checkout';
+    }
+  }
+  //3.2 如果selectType是recommendation Code直接进入checkout并且在页面上方显示prescriber--recommendation code输入框
+  if (configStore.prescriberSelectTyped === 1) {
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
+    return '/checkout';
+  }
+  return '/prescription';
 }
 
 export async function getFrequencyDict(frequencyType) {

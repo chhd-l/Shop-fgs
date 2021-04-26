@@ -344,25 +344,11 @@ class Payment extends React.Component {
           });
         }
       }
-      //解决从prescription页面到checkout页面prescriberFlag变成null的问题，重新请求商品prescriberFlag参数
-      const productData = this.isLogin ? this.loginCartData : this.cartData;
-      let res = await getProductPetConfig({
-        goodsInfos: productData
-      });
-      let handledData = productData.map((el, i) => {
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-        return el;
-      });
-      if (this.props.configStore.prescriberSelectTyped === 1) {
-        sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
-      }
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
           needPrescriber:
-            (handledData.filter((el) => el.prescriberFlag).length > 0 &&
-              sessionItemRoyal.get('needShowPrescriber') === 'true') ||
-            (clinicStore.linkClinicId && clinicStore.linkClinicName)
+            localItemRoyal.get('checkOutNeedShowPrescriber') === 'true'
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
