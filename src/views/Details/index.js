@@ -566,7 +566,8 @@ class Details extends React.Component {
       currentLinePrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
-      stock
+      stock,
+      form
     } = this.state;
     let selectedArr = [];
     let idArr = [];
@@ -609,6 +610,7 @@ class Details extends React.Component {
 
       return item;
     });
+    skuPromotions == 'club' ? (form.buyWay = 2) : (form.buyWay = 1);
     this.setState(
       {
         details,
@@ -617,7 +619,8 @@ class Details extends React.Component {
         currentSubscriptionPrice,
         currentSubscriptionStatus,
         stock,
-        skuPromotions
+        skuPromotions,
+        form
       },
       () => {
         this.updateInstockStatus();
@@ -1605,7 +1608,8 @@ class Details extends React.Component {
       seoConfig,
       exclusiveFlag,
       loading,
-      rationInfo
+      rationInfo,
+      skuPromotions
     } = this.state;
     console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
@@ -2202,8 +2206,7 @@ class Details extends React.Component {
                               </div>
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
-                              (!details.promotions ||
-                                !details.promotions.includes('club')) ? (
+                              skuPromotions == 'autoship' ? (
                                 <div>
                                   <div
                                     className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
@@ -2338,8 +2341,7 @@ class Details extends React.Component {
                               ) : null}
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
-                              details?.promotions &&
-                              details.promotions.includes('club') ? (
+                              skuPromotions == 'club' ? (
                                 <div
                                   className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
                                     form.buyWay === 2
@@ -2383,13 +2385,7 @@ class Details extends React.Component {
                                           >
                                             &#xe602;
                                           </span>
-                                          <FormattedMessage
-                                            id={
-                                              this.state.skuPromotions == 'club'
-                                                ? 'Club subscription'
-                                                : 'autoship'
-                                            }
-                                          />
+                                          <FormattedMessage id="Club subscription" />
                                         </span>
                                       </label>
                                     </div>
