@@ -172,7 +172,7 @@
     "pub:dev_us": "npm run build:us && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_us && rm -rf build_tmp",
     "pub:dev_fr": "npm run build:fr && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_fr && rm -rf build_tmp",
     "pub:dev_ru": "npm run build:ru && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_ru && rm -rf build_tmp",
-    "pub:dev_tr": "npm run build:uat_tr && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_tr && rm -rf build_tmp",
+    "pub:dev_tr": "npm run build:tr && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@39.107.226.140:/app01/nginx/html_tr && rm -rf build_tmp",
     "push:shopstg_de": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_de && rm -rf build_tmp",
     "push:shopstg_us": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_us && rm -rf build_tmp",
     "push:shopstg_fr": "rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal build_tmp/static && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr && rm -rf build_tmp",
