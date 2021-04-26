@@ -384,6 +384,9 @@ class UnLoginCart extends React.Component {
           autoAuditFlag = res.context.autoAuditFlag;
         } else {
           let paramData = checkoutStore.cartData.map((el) => {
+            if (typeof el.questionParams === 'object') {
+              el.questionParams = JSON.stringify(el.questionParams);
+            }
             el.goodsInfoId = el.sizeList.filter(
               (item) => item.selected
             )[0].goodsInfoId;

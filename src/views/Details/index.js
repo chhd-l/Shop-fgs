@@ -338,7 +338,8 @@ class Details extends React.Component {
       relatedGoodsList: [],
       relatedGoodsLoading: false,
       rationInfo: {},
-      isFromPR: false
+      isFromPR: false,
+      questionParams: JSON.stringify('')
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -664,66 +665,11 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
+
     let petsRes = {};
-
-    // 对比productFinder 之前信息
-    let savePetFlag = false;
-    let isMyProductFinder = true;
-    let isFromPR = true;
+    let pf_params = {};
     if (localStorage.getItem('pfls')) {
-      if (
-        localStorage.getItem('pfls') &&
-        localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
-      ) {
-        savePetFlag = true;
-      } else {
-        savePetFlag = false;
-      }
-      isMyProductFinder = false;
-    } else if (sessionItemRoyal.get('pf-result')) {
-      if (
-        sessionItemRoyal.get('pf-result') &&
-        sessionItemRoyal.get('pf-result') !==
-          sessionItemRoyal.get('pf-result-before')
-      ) {
-        savePetFlag = true;
-      } else {
-        savePetFlag = false;
-      }
-      isMyProductFinder = true;
-    } else {
-      isFromPR = false;
-    }
-    this.setState({ isFromPR });
-    if (isFromPR) {
-      if (localStorage.getItem('pfls')) {
-        localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-      }
-      if (sessionItemRoyal.get('pf-result')) {
-        sessionItemRoyal.set(
-          'pf-result-before',
-          sessionItemRoyal.get('pf-result')
-        );
-      }
-      let pf_params = {};
-      if (!isMyProductFinder) {
-        pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-        pf_params.age = '' + pf_params.age;
-      } else {
-        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-      }
-
-      if (this.isLogin && savePetFlag) {
-        try {
-          petsRes = await clubSubscriptionSavePets({
-            questionParams: pf_params
-          });
-          let petsInfo = petsRes.context;
-          this.props.checkoutStore.setPetInfo(petsRes.context);
-        } catch (err) {
-          console.log(err, 'error111');
-        }
-      }
+      pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
       let rationRes = await getRation(
         Object.assign(
           {
@@ -732,12 +678,108 @@ class Details extends React.Component {
           pf_params
         )
       );
+      this.setState({
+        questionParams: JSON.stringify(pf_params) || JSON.stringify(''),
+        isFromPR: true
+      });
+      if (rationRes.code === 'K-000000') {
+        this.setState({
+          rationInfo: rationRes.context.rationResponseItems[0]
+        });
+      }
+    } else if (sessionItemRoyal.get('pf-result')) {
+      pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+      let rationRes = await getRation(
+        Object.assign(
+          {
+            spuNoList: [goodsNo]
+          },
+          pf_params
+        )
+      );
+      this.setState({
+        questionParams: JSON.stringify(pf_params) || JSON.stringify(''),
+        isFromPR: true
+      });
       if (rationRes.code === 'K-000000') {
         this.setState({
           rationInfo: rationRes.context.rationResponseItems[0]
         });
       }
     }
+
+    // 对比productFinder 之前信息
+    // let savePetFlag = false;
+    // let isMyProductFinder = true;
+    // let isFromPR = true;
+    // if (localStorage.getItem('pfls')) {
+    //   if (
+    //     localStorage.getItem('pfls') &&
+    //     localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
+    //   ) {
+    //     savePetFlag = true;
+    //   } else {
+    //     savePetFlag = false;
+    //   }
+    //   isMyProductFinder = false;
+    // } else if (sessionItemRoyal.get('pf-result')) {
+    //   if (
+    //     sessionItemRoyal.get('pf-result') &&
+    //     sessionItemRoyal.get('pf-result') !==
+    //       sessionItemRoyal.get('pf-result-before')
+    //   ) {
+    //     savePetFlag = true;
+    //   } else {
+    //     savePetFlag = false;
+    //   }
+    //   isMyProductFinder = true;
+    // } else {
+    //   isFromPR = false;
+    // }
+    // this.setState({ isFromPR });
+    // if (isFromPR) {
+    //   if (localStorage.getItem('pfls')) {
+    //     localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
+    //   }
+    //   if (sessionItemRoyal.get('pf-result')) {
+    //     sessionItemRoyal.set(
+    //       'pf-result-before',
+    //       sessionItemRoyal.get('pf-result')
+    //     );
+    //   }
+    //   let pf_params = {};
+    //   if (!isMyProductFinder) {
+    //     pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
+    //     pf_params.age = '' + pf_params.age;
+    //   } else {
+    //     pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+    //   }
+
+    //   if (this.isLogin && savePetFlag) {
+    //     try {
+    //       petsRes = await clubSubscriptionSavePets({
+    //         questionParams: pf_params
+    //       });
+    //       let petsInfo = petsRes.context;
+    //       this.props.checkoutStore.setPetInfo(petsRes.context);
+    //     } catch (err) {
+    //       console.log(err, 'error111');
+    //     }
+    //   }
+    //   let rationRes = await getRation(
+    //     Object.assign(
+    //       {
+    //         spuNoList: [goodsNo]
+    //       },
+    //       pf_params
+    //     )
+    //   );
+    //   if (rationRes.code === 'K-000000') {
+    //     this.setState({
+    //       rationInfo: rationRes.context.rationResponseItems[0]
+    //     });
+    //   }
+    // }
 
     Promise.all([
       requestName(param),
@@ -1236,7 +1278,7 @@ class Details extends React.Component {
         clinicStore,
         headerCartStore
       } = this.props;
-      const { quantity, form, details } = this.state;
+      const { quantity, form, details, questionParams } = this.state;
 
       this.hubGA
         ? this.hubGAAToCar(quantity, details)
@@ -1258,7 +1300,8 @@ class Details extends React.Component {
         goodsNum: quantity,
         goodsInfoFlag,
         petsId: currentSelectedSize.petsId,
-        petsType: currentSelectedSize.petsType
+        petsType: currentSelectedSize.petsType,
+        questionParams
       };
       if (buyWay) {
         param.periodTypeId = form.frequencyId;
@@ -1287,13 +1330,20 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details } = this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
         periodTypeId: parseInt(form.buyWay) ? form.frequencyId : '',
-        quantity
+        quantity,
+        questionParams
       });
       //requestJson是shelter和breeder产品的参数，有就加上
       if (Object.keys(this.state.requestJson).length > 0) {
