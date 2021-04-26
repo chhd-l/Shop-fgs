@@ -1113,7 +1113,7 @@ const tr_TR = {
   'onlineStore.BottomInfo.faq.content2': 'Sorulara cevaplar',
   'onlineStore.BottomInfo.faq.title': 'Task Des?',
   generalTermsConditions: 'Şartlar ve Koşullar',
-  'details.recommendedDaily': 'Evcil hayvanınız için önerilen miktar',
+  'details.recommendedDaily': 'Evcil hayvanınız için önerilen miktar:',
   'details.recommendedDaily.info': '{val}/günde',
   'Go back to recommendation': 'Öneriye geri dön',
   'details.findProductTip':

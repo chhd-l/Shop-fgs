@@ -7,9 +7,14 @@ import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { oktaRegister } from '@/api/user';
 import stores from '@/store';
-import { mergeUnloginCartData, getOktaCallBackUrl } from '@/utils/utils';
+import {
+  mergeUnloginCartData,
+  getOktaCallBackUrl,
+  bindSubmitParam
+} from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import { userBindConsent } from '@/api/consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -313,11 +318,36 @@ class Register extends Component {
             );
             window.location.href = callOktaCallBack;
           } else {
-            loginStore.setUserInfo(res.context.customerDetail); // For compare email
-            this.props.history.push({
-              pathname: '/welcome',
-              state: { email: registerForm.email }
-            });
+            let customerDetail = res.context.customerDetail;
+            let submitParam = bindSubmitParam(this.state.list);
+            userBindConsent({
+              ...submitParam,
+              useBackendOktaTokenFlag: true,
+              customerId: customerDetail.customerId
+            })
+              .then((res) => {
+                if (res.code === 'K-000000') {
+                  loginStore.setUserInfo(customerDetail); // For compare email
+                  this.props.history.push({
+                    pathname: '/welcome',
+                    state: { email: registerForm.email }
+                  });
+                } else {
+                  window.scrollTo(0, 0);
+                  this.setState({
+                    circleLoading: false,
+                    hasError: true,
+                    errorMessage: res.message
+                  });
+                }
+              })
+              .catch((err) => {
+                this.setState({
+                  circleLoading: false,
+                  hasError: true,
+                  errorMessage: err.message
+                });
+              });
           }
         } else {
           window.scrollTo(0, 0);

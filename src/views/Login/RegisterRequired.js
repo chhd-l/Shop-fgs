@@ -12,6 +12,7 @@ import { withOktaAuth } from '@okta/okta-react';
 import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
+import { bindSubmitParam } from '@/utils/utils';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -60,21 +61,6 @@ class RegisterRequired extends Component {
       }
     );
   }
-  bindSubmitParam = (list) => {
-    let obj = { optionalList: [], requiredList: [] };
-    list
-      .filter((item) => !item.isRequired)
-      .forEach((item) => {
-        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
-      });
-    list
-      .filter((item) => item.isRequired)
-      .forEach((item) => {
-        obj.requiredList.push({ id: item.id, selectedFlag: true });
-      });
-
-    return obj;
-  };
   //会员提交
   submitLogin = async () => {
     this.setState({
@@ -99,7 +85,7 @@ class RegisterRequired extends Component {
         .every((item) => item.isChecked);
       if (isRequiredChecked) {
         //组装submit参数
-        let submitParam = this.bindSubmitParam(this.state.list);
+        let submitParam = bindSubmitParam(this.state.list);
         // debugger
         let customerId = this.userInfo && this.userInfo.customerId;
         const result = await userBindConsent({

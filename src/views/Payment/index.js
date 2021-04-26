@@ -79,6 +79,7 @@ import { de } from 'date-fns/locale';
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
+import { bindSubmitParam } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1402,7 +1403,7 @@ class Payment extends React.Component {
       );
 
       //游客绑定consent 一定要在游客注册之后 start
-      let submitParam = this.bindSubmitParam(this.state.listData);
+      let submitParam = bindSubmitParam(this.state.listData);
       userBindConsent({
         ...submitParam,
         ...{ oktaToken: '' },
@@ -3081,7 +3082,7 @@ class Payment extends React.Component {
         ? this.props.authState.accessToken.value
         : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
-    let submitParam = this.bindSubmitParam(this.state.listData);
+    let submitParam = bindSubmitParam(this.state.listData);
     userBindConsent({
       ...submitParam,
       ...{ oktaToken },
@@ -3089,22 +3090,6 @@ class Payment extends React.Component {
       customerId: this.userInfo?.customerId || ''
     });
   }
-  // 3、
-  bindSubmitParam = (list) => {
-    let obj = { optionalList: [], requiredList: [] };
-    list
-      .filter((item) => !item.isRequired)
-      .forEach((item) => {
-        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
-      });
-    list
-      .filter((item) => item.isRequired)
-      .forEach((item) => {
-        obj.requiredList.push({ id: item.id, selectedFlag: true });
-      });
-
-    return obj;
-  };
 
   render() {
     const { paymentMethodPanelStatus } = this;
