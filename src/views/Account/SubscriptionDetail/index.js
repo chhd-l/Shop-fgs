@@ -2285,9 +2285,9 @@ class SubscriptionDetail extends React.Component {
         };
       });
       let isTheSamePro = deleteGoodsItems.find(
-        (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
+        (el) => el?.skuId == currentSelectedSize?.goodsInfoId
       );
-      if (isTheSamePro?.length) {
+      if (isTheSamePro?.skuId) {
         //替换的skuid一致，不能正常提交
         this.showErrMsgs(
           this.props.intl.messages['subscription.thesameProd'],
@@ -2354,6 +2354,25 @@ class SubscriptionDetail extends React.Component {
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
       if (mainProduct) {
+        let theSameProduct = this.state.currentGoodsItems.find(
+          (el) => mainProduct?.spuCode == el?.spuNo
+        );
+        // if(theSameProduct?.spuCode){
+        //   // 如果主商品有同样的spu，需要直接不展示所有推荐商品
+        //   this.setState({ productDetail: {} }, () => {
+        //     cb && cb();
+        //   });
+        //   return
+        // }
+        let newOtherProduct = [];
+        if (otherProducts?.length) {
+          otherProducts.map((item) => {
+            newOtherProduct = this.state.currentGoodsItems.filter(
+              (el) => item.spuCode != el?.spuNo
+            );
+          });
+        }
+        otherProducts = [...newOtherProduct];
         let productArr = [mainProduct, ...otherProducts];
         let spuNoList = productArr?.map((el) => el.spuCode);
         let rationsParams = { petsId, spuNoList };
