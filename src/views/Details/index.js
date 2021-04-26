@@ -792,22 +792,6 @@ class Details extends React.Component {
       })
     ])
       .then((resList) => {
-        if (process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID) {
-          loadJS({
-            url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-            id: 'cci-widget',
-            dataSets: {
-              token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-              locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-              displaylanguage:
-                process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
-              widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
-              ean: '3182550784436',
-              subid: '',
-              trackingid: ''
-            }
-          });
-        }
         const res = resList[0];
         const frequencyDictRes = resList[1];
         let autoshipDictRes = frequencyDictRes.filter(
@@ -936,6 +920,8 @@ class Details extends React.Component {
                   goodsRes.defaultPurchaseType ||
                   configStore.info?.storeVO?.defaultPurchaseType
               });
+
+              this.loadWidgetIdBtn();
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -1170,6 +1156,31 @@ class Details extends React.Component {
           initing: false
         });
       });
+  }
+
+  loadWidgetIdBtn() {
+    const { goodsType } = this.state;
+    console.log(goodsType, 'goodsTypegoodsType');
+
+    const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
+    const id = goodsType === 3 ? vetWidgetId : widgetId;
+    if (widgetId || vetWidgetId) {
+      loadJS({
+        url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+        id: 'cci-widget',
+        dataSets: {
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+          displaylanguage:
+            process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+          widgetid: id,
+          ean: '3182550784436',
+          subid: '',
+          trackingid: ''
+        }
+      });
+    }
   }
   updateInstockStatus() {
     this.setState({
