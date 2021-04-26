@@ -742,10 +742,10 @@ class SubscriptionDetail extends React.Component {
   async componentDidMount() {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
-    let clubPetsLifeStageFlag =
-      getParaByName(search, 'clubPetsLifeStageFlag') ||
-      this.props.location.state?.clubPetsLifeStageFlag;
-    if (clubPetsLifeStageFlag) {
+    let updateLifeStage =
+      getParaByName(search, 'updateLifeStage') ||
+      this.props.location.state?.updateLifeStage;
+    if (updateLifeStage) {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
     }
@@ -1222,8 +1222,11 @@ class SubscriptionDetail extends React.Component {
               <button
                 onClick={() => this.changePets()}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
-                  this.state.changeNowLoading ? 'ui-btn-loading' : ''
-                }`}
+                  specList || [].find((el) => el.selected)?.length
+                    ? ''
+                    : 'rc-btn-disabled'
+                }
+                ${this.state.changeNowLoading ? 'ui-btn-loading' : ''}`}
               >
                 <FormattedMessage id="subscription.changeNow" />
               </button>
@@ -2282,9 +2285,9 @@ class SubscriptionDetail extends React.Component {
         };
       });
       let isTheSamePro = deleteGoodsItems.find(
-        (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
+        (el) => el?.skuId == currentSelectedSize?.goodsInfoId
       );
-      if (isTheSamePro?.length) {
+      if (isTheSamePro?.skuId) {
         //替换的skuid一致，不能正常提交
         this.showErrMsgs(
           this.props.intl.messages['subscription.thesameProd'],
@@ -2351,6 +2354,25 @@ class SubscriptionDetail extends React.Component {
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
       if (mainProduct) {
+        let theSameProduct = this.state.currentGoodsItems.find(
+          (el) => mainProduct?.spuCode == el?.spuNo
+        );
+        // if(theSameProduct?.spuCode){
+        //   // 如果主商品有同样的spu，需要直接不展示所有推荐商品
+        //   this.setState({ productDetail: {} }, () => {
+        //     cb && cb();
+        //   });
+        //   return
+        // }
+        let newOtherProduct = [];
+        if (otherProducts?.length) {
+          otherProducts.map((item) => {
+            newOtherProduct = this.state.currentGoodsItems.filter(
+              (el) => item.spuCode != el?.spuNo
+            );
+          });
+        }
+        otherProducts = [...newOtherProduct];
         let productArr = [mainProduct, ...otherProducts];
         let spuNoList = productArr?.map((el) => el.spuCode);
         let rationsParams = { petsId, spuNoList };

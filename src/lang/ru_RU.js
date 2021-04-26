@@ -1075,7 +1075,7 @@ const ru_RU = {
   noStart: 'Предстоящие доставки',
   completed: 'Прошлые доставки',
   skip: 'Пропустить',
-  skiped: 'Пропущено',
+  skiped: 'Пропущена',
   'order.total': 'Общая стоимость',
   'order.iVAIncluido': '',
   isPurebredDog: 'Породистая собака',

@@ -88,9 +88,14 @@ class AddressList extends React.Component {
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
+    const { deliveryAddress } = this.state;
     getDictionary({ type: 'country' }).then((res) => {
+      let cfm = deliveryAddress;
+      cfm.country = res[0].value;
+      cfm.countryId = res[0].id;
       this.setState({
-        countryList: res
+        countryList: res,
+        deliveryAddress: Object.assign(this.state.deliveryAddress, cfm)
       });
     });
     this.queryAddressList({ init: true });
@@ -187,7 +192,7 @@ class AddressList extends React.Component {
     } else {
       this.props.updateData(tmpObj);
       if (this.props.type == 'delivery') {
-        this.props.calculateFreight(this.state.deliveryAddress);
+        this.props.calculateFreight(tmpObj);
       }
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);

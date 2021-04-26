@@ -23,6 +23,11 @@ class EmailForm extends React.Component {
   }
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true });
+    this.setState({
+      form: Object.assign(this.state.form, {
+        email: this.props.currentEmailVal
+      })
+    });
   };
   handleClickConfirm = () => {
     const { form } = this.state;
