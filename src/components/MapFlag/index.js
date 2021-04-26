@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import './index.css';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('clinicStore')
 @observer
 class MapFlag extends React.Component {
