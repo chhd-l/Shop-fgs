@@ -182,7 +182,7 @@ class Payment extends React.Component {
         entrance: '',
         apartment: '',
         comment: '',
-        countryId: 0,
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         country: '',
         cityId: '',
         city: '',
@@ -344,25 +344,11 @@ class Payment extends React.Component {
           });
         }
       }
-      //解决从prescription页面到checkout页面prescriberFlag变成null的问题，重新请求商品prescriberFlag参数
-      const productData = this.isLogin ? this.loginCartData : this.cartData;
-      let res = await getProductPetConfig({
-        goodsInfos: productData
-      });
-      let handledData = productData.map((el, i) => {
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-        return el;
-      });
-      if (this.props.configStore.prescriberSelectTyped === 1) {
-        sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
-      }
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
           needPrescriber:
-            (handledData.filter((el) => el.prescriberFlag).length > 0 &&
-              sessionItemRoyal.get('needShowPrescriber') === 'true') ||
-            (clinicStore.linkClinicId && clinicStore.linkClinicName)
+            localItemRoyal.get('checkOutNeedShowPrescriber') === 'true'
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
@@ -965,7 +951,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -975,7 +961,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -985,7 +971,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -1285,20 +1271,20 @@ class Payment extends React.Component {
       }
 
       // update clinic
-      if (this.checkoutWithClinic) {
-        if (
-          clinicStore.linkClinicId &&
-          clinicStore.linkClinicId !== clinicStore.selectClinicId
-        ) {
-          clinicStore.removeLinkClinicId();
-          clinicStore.removeLinkClinicName();
-          clinicStore.removeAuditAuthority();
-        }
-        // clinicStore.setSelectClinicId(clinicStore.clinicId);
-        // clinicStore.setSelectClinicName(clinicStore.clinicName);
-        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
-        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
-      }
+      // if (this.checkoutWithClinic) {
+      //   if (
+      //     clinicStore.linkClinicId &&
+      //     clinicStore.linkClinicId !== clinicStore.selectClinicId
+      //   ) {
+      //     clinicStore.removeLinkClinicId();
+      //     clinicStore.removeLinkClinicName();
+      //     clinicStore.removeAuditAuthority();
+      //   }
+      // clinicStore.setSelectClinicId(clinicStore.clinicId);
+      // clinicStore.setSelectClinicName(clinicStore.clinicName);
+      // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+      // clinicStore.setDefaultClinicName(clinicStore.clinicName);
+      // }
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
@@ -1383,6 +1369,7 @@ class Payment extends React.Component {
           billAddress2: billingAddress.address2,
           billCity: billingAddress.city,
           billCityId: billingAddress.cityId,
+          billCountryId: billingAddress.countryId,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1876,7 +1863,7 @@ class Payment extends React.Component {
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
     console.log('1851 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
-    const { ruShippingDTO } = this.state;
+    const { ruShippingDTO, guestEmail } = this.state;
     let param = {};
 
     var dudata = data?.DuData;
@@ -1892,7 +1879,12 @@ class Payment extends React.Component {
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
-    let stateNo = data?.state?.stateNo;
+    let stateNo = '';
+    if (this.isLogin) {
+      stateNo = data?.state?.stateNo;
+    } else {
+      stateNo = data?.stateNo;
+    }
     param = {
       promotionCode: this.state.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
@@ -1902,7 +1894,7 @@ class Payment extends React.Component {
         city: data?.city,
         street: data?.address1,
         postalCode: data?.postCode,
-        customerAccount: this.state.email
+        customerAccount: guestEmail
       },
       address1: data?.address1,
       ruShippingDTO: ruShippingDTO
@@ -3046,10 +3038,10 @@ class Payment extends React.Component {
           city: deliveryAddress.city,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
-          customerAccount: guestEmail,
-          ruShippingDTO: this.state.ruShippingDTO
+          customerAccount: guestEmail
         },
-        address1: deliveryAddress?.address1
+        address1: deliveryAddress?.address1,
+        ruShippingDTO: this.state.ruShippingDTO
       });
     });
   };

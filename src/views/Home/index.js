@@ -513,7 +513,10 @@ class Home extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
     }
     if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
+      sessionItemRoyal.set(
+        'okta-redirectUrl',
+        '/account/subscription' + history.location.search
+      );
     }
     if (parametersString.indexOf('redirect=baseinfo') >= 0) {
       sessionItemRoyal.set('okta-redirectUrl', '/account/information');

@@ -238,7 +238,7 @@ class Prescription extends React.Component {
   closeModal = () => {
     this.hubGaModalPopupClick('No, go to buy');
     this.setState({ modalShow: false });
-    sessionItemRoyal.set('needShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
     this.props.history.push('/checkout');
   };
   //需要绑定prescriber，直接关闭弹框显示当前页面
@@ -302,22 +302,11 @@ class Prescription extends React.Component {
   }
 
   handleConfirm = (item) => {
-    const {
-      setSelectClinicId,
-      setSelectClinicName,
-      setLinkClinicId,
-      setLinkClinicName,
-      removeLinkClinicId,
-      removeLinkClinicName
-    } = this.props.clinicStore;
-    // removeLinkClinicId();
-    // removeLinkClinicName();
+    const { setSelectClinicId, setSelectClinicName } = this.props.clinicStore;
     this.mapFlag(item.prescriberName);
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
-    setLinkClinicId(item.id);
-    setLinkClinicName(item.prescriberName);
-    sessionItemRoyal.set('needShowPrescriber', 'true'); //在checkout页面显示prescriber信息
+    localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
     this.props.history.push('/checkout');
   };
   getSonMess(center) {
