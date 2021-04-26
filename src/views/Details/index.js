@@ -339,7 +339,7 @@ class Details extends React.Component {
       relatedGoodsLoading: false,
       rationInfo: {},
       isFromPR: false,
-      questionParams: JSON.stringify('')
+      questionParams: undefined
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -679,7 +679,7 @@ class Details extends React.Component {
         )
       );
       this.setState({
-        questionParams: JSON.stringify(pf_params) || JSON.stringify(''),
+        questionParams: JSON.stringify(pf_params),
         isFromPR: true
       });
       if (rationRes.code === 'K-000000') {
@@ -698,7 +698,7 @@ class Details extends React.Component {
         )
       );
       this.setState({
-        questionParams: JSON.stringify(pf_params) || JSON.stringify(''),
+        questionParams: JSON.stringify(pf_params),
         isFromPR: true
       });
       if (rationRes.code === 'K-000000') {
