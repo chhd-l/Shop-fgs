@@ -570,6 +570,7 @@ class Details extends React.Component {
     } = this.state;
     let selectedArr = [];
     let idArr = [];
+    let skuPromotions = '';
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -601,6 +602,7 @@ class Details extends React.Component {
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
         stock = item.stock;
+        skuPromotions = item.promotions;
       } else {
         item.selected = false;
       }
@@ -614,7 +616,8 @@ class Details extends React.Component {
         currentLinePrice,
         currentSubscriptionPrice,
         currentSubscriptionStatus,
-        stock
+        stock,
+        skuPromotions
       },
       () => {
         this.updateInstockStatus();
@@ -2380,7 +2383,13 @@ class Details extends React.Component {
                                           >
                                             &#xe602;
                                           </span>
-                                          <FormattedMessage id="Club subscription" />
+                                          <FormattedMessage
+                                            id={
+                                              this.state.skuPromotions == 'club'
+                                                ? 'Club subscription'
+                                                : 'autoship'
+                                            }
+                                          />
                                         </span>
                                       </label>
                                     </div>
