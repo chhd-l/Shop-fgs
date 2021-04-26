@@ -158,7 +158,7 @@ class PetForm extends React.Component {
     });
     let petsType = this.props.location.state?.petsType;
     if (petsType) {
-      let isCat = petsType === 'Cat';
+      let isCat = petsType?.toLowerCase() === 'cat';
       this.petTypeChange(isCat);
     }
 

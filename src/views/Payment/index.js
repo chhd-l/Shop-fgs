@@ -182,7 +182,7 @@ class Payment extends React.Component {
         entrance: '',
         apartment: '',
         comment: '',
-        countryId: 0,
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         country: '',
         cityId: '',
         city: '',
@@ -1369,6 +1369,7 @@ class Payment extends React.Component {
           billAddress2: billingAddress.address2,
           billCity: billingAddress.city,
           billCityId: billingAddress.cityId,
+          billCountryId: billingAddress.countryId,
           billCountry: billingAddress.country,
           billFirstName: billingAddress.firstName,
           billLastName: billingAddress.lastName,
@@ -1862,7 +1863,7 @@ class Payment extends React.Component {
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
     console.log('1851 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
-    const { ruShippingDTO } = this.state;
+    const { ruShippingDTO, guestEmail } = this.state;
     let param = {};
 
     var dudata = data?.DuData;
@@ -1878,7 +1879,12 @@ class Payment extends React.Component {
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
-    let stateNo = data?.state?.stateNo;
+    let stateNo = '';
+    if (this.isLogin) {
+      stateNo = data?.state?.stateNo;
+    } else {
+      stateNo = data?.stateNo;
+    }
     param = {
       promotionCode: this.state.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
@@ -1888,7 +1894,7 @@ class Payment extends React.Component {
         city: data?.city,
         street: data?.address1,
         postalCode: data?.postCode,
-        customerAccount: this.state.email
+        customerAccount: guestEmail
       },
       address1: data?.address1,
       ruShippingDTO: ruShippingDTO
@@ -3032,10 +3038,10 @@ class Payment extends React.Component {
           city: deliveryAddress.city,
           street: deliveryAddress.address1,
           postalCode: deliveryAddress.postCode,
-          customerAccount: guestEmail,
-          ruShippingDTO: this.state.ruShippingDTO
+          customerAccount: guestEmail
         },
-        address1: deliveryAddress?.address1
+        address1: deliveryAddress?.address1,
+        ruShippingDTO: this.state.ruShippingDTO
       });
     });
   };
