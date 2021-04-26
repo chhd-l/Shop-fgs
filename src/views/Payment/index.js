@@ -1270,26 +1270,13 @@ class Payment extends React.Component {
         sessionItemRoyal.set('oxxoPayUrl', oxxoPayUrl);
       }
 
-      // update clinic
-      // if (this.checkoutWithClinic) {
-      //   if (
-      //     clinicStore.linkClinicId &&
-      //     clinicStore.linkClinicId !== clinicStore.selectClinicId
-      //   ) {
-      //     clinicStore.removeLinkClinicId();
-      //     clinicStore.removeLinkClinicName();
-      //     clinicStore.removeAuditAuthority();
-      //   }
-      // clinicStore.setSelectClinicId(clinicStore.clinicId);
-      // clinicStore.setSelectClinicName(clinicStore.clinicName);
-      // clinicStore.setDefaultClinicId(clinicStore.clinicId);
-      // clinicStore.setDefaultClinicName(clinicStore.clinicName);
-      // }
-
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
+        //支付成功清除推荐者信息
+        this.props.clinicStore.removeLinkClinicId();
+        this.props.clinicStore.removeLinkClinicName();
         // 跳转 confirmation
         this.props.history.push('/confirmation');
       }
@@ -1482,6 +1469,8 @@ class Payment extends React.Component {
       comment: deliveryAddress?.comment,
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName,
+      clinicsId: clinicStore.selectClinicId,
+      clinicsName: clinicStore.selectClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -1508,10 +1497,6 @@ class Payment extends React.Component {
         paymentVendor: payosdata.vendor,
         expirationDate: payosdata.expiration_date
       });
-    }
-    if (needPrescriber) {
-      param.clinicsId = clinicStore.clinicId;
-      param.clinicsName = clinicStore.clinicName;
     }
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {

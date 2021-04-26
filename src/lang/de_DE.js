@@ -1240,7 +1240,7 @@ const de_DE = {
   'details.findProductTip':
     'Find the right product and calculate your pet ration using our',
   'details.findProductTips': ' Product finder',
-  'details.learnMore': 'Learn more',
+  'details.learnMore': 'Mehr erfahren',
   'subscriptionDetail.cantBindPetsErr1':
     'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':

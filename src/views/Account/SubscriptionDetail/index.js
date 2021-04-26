@@ -2357,22 +2357,18 @@ class SubscriptionDetail extends React.Component {
         let theSameProduct = this.state.currentGoodsItems.find(
           (el) => mainProduct?.spuCode == el?.spuNo
         );
-        // if(theSameProduct?.spuCode){
-        //   // 如果主商品有同样的spu，需要直接不展示所有推荐商品
-        //   this.setState({ productDetail: {} }, () => {
-        //     cb && cb();
-        //   });
-        //   return
-        // }
-        let newOtherProduct = [];
-        if (otherProducts?.length) {
-          otherProducts.map((item) => {
-            newOtherProduct = this.state.currentGoodsItems.filter(
-              (el) => item.spuCode != el?.spuNo
-            );
+        if (theSameProduct?.spuCode) {
+          // 如果主商品有同样的spu，需要直接不展示所有推荐商品
+          this.setState({ productDetail: {} }, () => {
+            cb && cb();
           });
+          return;
         }
-        otherProducts = [...newOtherProduct];
+        let currentSpus = this.state.currentGoodsItems?.map((el) => el.spuNo);
+        let newOtherProducts =
+          otherProducts?.filter((item) => !currentSpus.includes(item.spuNo)) ||
+          [];
+        otherProducts = [...newOtherProducts];
         let productArr = [mainProduct, ...otherProducts];
         let spuNoList = productArr?.map((el) => el.spuCode);
         let rationsParams = { petsId, spuNoList };
@@ -2389,9 +2385,17 @@ class SubscriptionDetail extends React.Component {
           });
         });
       }
-      this.setState({ productDetail: res.context }, () => {
-        cb && cb();
-      });
+      this.setState(
+        {
+          productDetail: {
+            otherProducts,
+            mainProduct
+          }
+        },
+        () => {
+          cb && cb();
+        }
+      );
     } catch (err) {
       this.showErrMsgs(err && err.message, 'errMsgPage');
     } finally {
