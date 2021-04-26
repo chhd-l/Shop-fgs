@@ -40,8 +40,8 @@ class ClinicForm extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const nName = this.props.clinicStore.selectClinicName;
-    const nId = this.props.clinicStore.selectClinicId;
+    const nName = this.props.clinicStore.selectClinicNameInfo;
+    const nId = this.props.clinicStore.selectClinicIdInfo;
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {

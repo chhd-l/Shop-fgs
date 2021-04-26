@@ -33,10 +33,10 @@ class ClinicStore {
     );
   }
 
-  @computed get selectClinicId() {
+  @computed get selectClinicIdInfo() {
     return this.selectClinicId;
   }
-  @computed get selectClinicName() {
+  @computed get selectClinicNameInfo() {
     return this.selectClinicName;
   }
 
