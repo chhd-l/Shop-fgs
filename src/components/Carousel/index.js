@@ -49,7 +49,9 @@ export default class Responsive extends Component {
                   <div className="marketPrice">
                     {formatMoney(item.minMarketPrice)}
                     {item.minLinePrice && (
-                      <span>{formatMoney(item.minLinePrice)}</span>
+                      <span style={{ display: 'none' }}>
+                        {formatMoney(item.minLinePrice)}
+                      </span>
                     )}
                   </div>
                   {item.minSubscriptionPrice ? (

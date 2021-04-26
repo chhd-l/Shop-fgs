@@ -1220,7 +1220,7 @@ class SubscriptionDetail extends React.Component {
             </button>
             {this.state.isNotInactive && (
               <button
-                onClick={this.changePets}
+                onClick={() => this.changePets()}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
                   this.state.changeNowLoading ? 'ui-btn-loading' : ''
                 }`}
@@ -2252,13 +2252,12 @@ class SubscriptionDetail extends React.Component {
     this.closeRecommendation();
     this.closeEditRecommendation();
   };
-  changeSubscriptionGoods = async () => {
+  changeSubscriptionGoods = () => {
     try {
       const { quantity, form, details } = this.state;
       const { sizeList } = details;
       let currentSelectedSize = sizeList[0];
-      this.setState({ changeNowLoading: true });
-      if (details.goodsSpecDetails) {
+      if (details?.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       }
       let buyWay = parseInt(form.buyWay);
@@ -2288,7 +2287,7 @@ class SubscriptionDetail extends React.Component {
       if (isTheSamePro?.length) {
         //替换的skuid一致，不能正常提交
         this.showErrMsgs(
-          'The replacement product is the same as the current product',
+          this.props.intl.messages['subscription.thesameProd'],
           'errorMsgSureChange'
         );
         this.setState({ changeNowLoading: false });
@@ -2302,19 +2301,23 @@ class SubscriptionDetail extends React.Component {
         addGoodsItems: [addGoodsItems],
         deleteGoodsItems
       };
-      changeSubscriptionGoods(params).then((res) => {
-        this.getDetail();
-        this.closeRecommendation();
-        this.closeEditRecommendation();
-      });
+      changeSubscriptionGoods(params)
+        .then((res) => {
+          this.getDetail();
+          this.closeRecommendation();
+          this.closeEditRecommendation();
+        })
+        .catch((err) => {
+          this.setState({ changeNowLoading: false });
+          this.showErrMsgs(err && err.message, 'errorMsgSureChange');
+        });
     } catch (err) {
-      this.showErrMsgs(err.message, 'errorMsgSureChange');
-      this.setState({ changeNowLoading: false });
-    } finally {
+      this.showErrMsgs(err && err.message, 'errorMsgSureChange');
       this.setState({ changeNowLoading: false });
     }
   };
   changePets = () => {
+    this.setState({ changeNowLoading: true });
     this.changeSubscriptionGoods();
   };
   closeEditRecommendation = () => {
@@ -2334,7 +2337,6 @@ class SubscriptionDetail extends React.Component {
     this.setState({ changeProductVisible: false });
   };
   queryProductList = async (els, cb) => {
-    console.info(els, 'sdsdsdsdsdsdsdsds');
     try {
       this.setState({ productListLoading: true });
       if (els) {
@@ -2487,7 +2489,12 @@ class SubscriptionDetail extends React.Component {
         {!!productDetail.mainProduct && (
           <>
             <div className="p-f-result-box">
-              <img className="m-auto" src={getClubLogo()} alt="club icon" />
+              <img
+                className="m-auto"
+                style={{ maxWidth: '200px' }}
+                src={getClubLogo()}
+                alt="club icon"
+              />
               <h4 className="red text-center mb-3 mt-3">
                 <FormattedMessage id="subscription.productRecommendation" />
               </h4>

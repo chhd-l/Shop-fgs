@@ -177,7 +177,7 @@ const fr_FR = {
   'cart.miniCartTitle':
     '10% de réduction sur toutes les commandes en Abonnement',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
-  'minicart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
+  'minicart.totalProduct': '{val} produit(s)',
   'cart.totalProduct_nounit': 'Vous avez {val} dans votre panier',
   'cart.yourShoppingCart': 'Mon panier',
   Cat: 'Chat',
@@ -1166,7 +1166,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.frequency': 'Fréquence',
+  'subscription.frequency': 'Recevoir mon produit toutes les',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
     'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',

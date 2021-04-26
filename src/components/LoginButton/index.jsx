@@ -16,7 +16,7 @@ import stores from '@/store';
 import { FormattedMessage } from 'react-intl';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
-import { mergeUnloginCartData } from '@/utils/utils';
+import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
 import { isLimitLogin } from './utils'
 import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal'
@@ -161,22 +161,6 @@ const LoginButton = (props) => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const bindSubmitParam = (list) => {
-    let obj = { optionalList: [], requiredList: [] };
-    list
-      .filter((item) => !item.isRequired)
-      .forEach((item) => {
-        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
-      });
-    list
-      .filter((item) => item.isRequired)
-      .forEach((item) => {
-        obj.requiredList.push({ id: item.id, selectedFlag: true });
-      });
-
-    return obj;
   };
 
   return (

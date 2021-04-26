@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 import './index.css';
 
 @inject('clinicStore')
@@ -149,11 +150,11 @@ class MapFlag extends React.Component {
               </div>
 
               {/* <div style={{marginTop:"1rem"}}>
-              <a className="rc-styled-link" 
-                style={{ backgroundColor: "gray",color: "white",padding: "5px",marginRight:"1rem"}} 
+              <a className="rc-styled-link"
+                style={{ backgroundColor: "gray",color: "white",padding: "5px",marginRight:"1rem"}}
                 onClick={this.handleClose}>Close</a>
-              <a className="rc-styled-link" 
-                style={{ backgroundColor: "red",color: "white",padding: "5px"}} 
+              <a className="rc-styled-link"
+                style={{ backgroundColor: "red",color: "white",padding: "5px"}}
                 onClick={this.handleConfirm}>Comfirm</a>
             </div> */}
             </div>
@@ -163,4 +164,4 @@ class MapFlag extends React.Component {
     );
   }
 }
-export default MapFlag;
+export default withRouter(MapFlag);
