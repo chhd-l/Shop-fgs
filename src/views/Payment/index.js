@@ -951,7 +951,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -961,7 +961,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -971,7 +971,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
