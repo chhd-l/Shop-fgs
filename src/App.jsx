@@ -132,6 +132,7 @@ import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 import FelinRecommendation from '@/views/FelinRecommendation';
+import CancelEmail from '@/views/StaticPage/cancelEmail';
 
 import ClubLandingPage from './views/ClubLandingPage';
 import {redirectFun} from "@/redirect/utils"
@@ -238,6 +239,7 @@ const App = () => {
               <RouteFilter />
               <Switch>
                 <Route exact path={'/'} component={Home} />
+                <Route exact path={'/cancelEmail'} component={CancelEmail} />
                 <Route
                   exact
                   path={'/okta-login-page'}
@@ -314,7 +316,7 @@ const App = () => {
                         break;
                       case 'tr':
                         fragment = <TermsConditionsTr {...props} />;
-                        break; 
+                        break;
                     }
                     return fragment;
                   }}
@@ -624,7 +626,7 @@ const App = () => {
                   path="/smart-feeder-subscription"
                   component={smartFeederSubscription}
                 />
-                
+
                 <Route path="/FelinRecommendation/:id" component={FelinRecommendation} />
                 <Route path="/latelier/felin" component={Felin} />
                 {/* 特殊处理匹配PLP/PDP页面 */}
@@ -710,7 +712,7 @@ const App = () => {
                         redirectUrl = pathname.split(splitName)[0];
                       } else if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
-                      } 
+                      }
 
                       // PDP文件重定向start
                       const specailPlpUrlMapping = {
@@ -740,7 +742,7 @@ const App = () => {
                       let redirectUrl = '';
                       if (pathname.split('.html').length > 1) {
                         redirectUrl = pathname.split('.html')[0];
-                      } else if (specailPlpUrlMapping[pathname + search]) {      
+                      } else if (specailPlpUrlMapping[pathname + search]) {
                         redirectUrl = specailPlpUrlMapping[pathname + search];
                       }
                       // 除去PDP页面文件重定向end

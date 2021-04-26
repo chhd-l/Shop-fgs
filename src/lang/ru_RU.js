@@ -1223,6 +1223,7 @@ const ru_RU = {
   'subscription.chooseThisProduct': 'выберите этот продукт',
   'subscription.productDetails': 'Информация о продукте',
   'subscription.changeNow': 'Выбрать сейчас',
+  'subscription.thesameProd': 'Заменяемый продукт такой же, как и текущий.',
   'subscription.productRecommendation': 'Рекомендации продукта',
   'subscription.productRecommendationTip':
     'Основываясь на профиле Вашего питомца, мы рекомендуем следующие продукты, учитывающие его потребности. Пожалуйста, подтвердите изменение продукта, чтобы обновить подписку. ',
@@ -1309,7 +1310,14 @@ const ru_RU = {
   'searchNoResult.email.content': 'Отправьте нам Email',
   'searchNoBreed.breedName': 'Результаты поиска',
   kg: 'кг',
-  imageLargeError: 'Загруженное изображение слишком велико'
+  imageLargeError: 'Загруженное изображение слишком велико',
+  'subscription.clubNoSubscription': 'Royal Canin КЛУБ',
+  'subscription.clubNoSubscription.tip1':
+    'Сейчас Вы не являетесь подписчиком клубной программы.',
+  'subscription.clubNoSubscription.tip2':
+    'Присоединяйтесь к клубной подписке и воспользуйтесь всеми преимуществами участника КЛУБА.',
+  'subscription.clubNoSubscription.getStart': 'Начать',
+  'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin'
 };
 
 export default ru_RU;

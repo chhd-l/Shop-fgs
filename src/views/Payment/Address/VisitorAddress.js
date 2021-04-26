@@ -40,6 +40,7 @@ class VisitorAddress extends React.Component {
     super(props);
     this.state = {
       form: this.props.initData,
+      unConfirmedForm: '', //未确认时 但验证成功时的表单数据
       validationAddress: {
         suggestionAddress: null,
         address1: null,
@@ -94,7 +95,7 @@ class VisitorAddress extends React.Component {
         return;
       }
       await validData(data.formRule, data); // 数据验证
-      this.setState({ isValid: true, form: data }, () => {
+      this.setState({ isValid: true, unConfirmedForm: data }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
       this.props.updateData(data);
@@ -120,6 +121,8 @@ class VisitorAddress extends React.Component {
     if (!isValid) {
       return false;
     }
+
+    this.setState({ form: this.state.unConfirmedForm }); //qhx 只有在确认后才赋值给form字段
     console.log('★ ----- 游客确认 isValidationModal:', isValidationModal);
     console.log('★ ----- 游客确认 validationAddress:', validationAddress);
     // 地址验证
@@ -328,6 +331,8 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible,
       selectVisitorValidationOption
     } = this.state;
+
+    console.log(234, form);
 
     const _editForm = (
       <EditForm

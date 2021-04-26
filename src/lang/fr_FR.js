@@ -177,7 +177,7 @@ const fr_FR = {
   'cart.miniCartTitle':
     '10% de réduction sur toutes les commandes en Abonnement',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
-  'minicart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
+  'minicart.totalProduct': '{val} produit(s)',
   'cart.totalProduct_nounit': 'Vous avez {val} dans votre panier',
   'cart.yourShoppingCart': 'Mon panier',
   Cat: 'Chat',

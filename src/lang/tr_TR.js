@@ -565,6 +565,7 @@ const tr_TR = {
   'orderStatus.INITTip':
     'Siparişiniz ödenmedi, lütfen mümkün olan en kısa sürede ödeyin. {val}',
   'order.viewOrder': 'Siparişi görüntüle',
+  orderDetail: 'Sipariş detayları',
   orders: 'Emirler',
   orderSummary: 'Özet',
   outOfStockContent_cart:
@@ -1141,7 +1142,8 @@ const tr_TR = {
   'subscription.seeOtherRecommendation': 'Diğer önerilere bakın',
   'subscription.chooseThisProduct': 'bu ürünü seç',
   'subscription.productDetails': 'Ürün Detayları',
-  'subscription.changeNow': 'Şimdi değiştir',
+  'subscription.changeNow': 'Değişikliği yap',
+  'subscription.thesameProd': 'Değiştirilen ürün, mevcut ürün ile aynıdır',
   'subscription.productRecommendation': 'Ürün öneriniz.',
   'subscription.productRecommendationTip':
     'Evcil hayvan profilinize göre, size aşağıdaki ürünleri öneriyoruz. Aboneliğinizi güncellemek için lütfen ürün değişikliğini onaylayın.',
@@ -1202,6 +1204,14 @@ const tr_TR = {
   'petform.subscription': 'Bağlı Abonelikler',
   kg: 'kg',
   messengers: 'Haberciler',
-  imageLargeError: 'Yüklenen resim çok büyük'
+  imageLargeError: 'Yüklenen resim çok büyük',
+  'subscription.clubNoSubscription': 'Royal Canin CLUB',
+  'subscription.clubNoSubscription.tip1':
+    'Üzgünüz, henüz Royal Canin CLUB abonesi değilsiniz.',
+  'subscription.clubNoSubscription.tip2':
+    'CLUB abonelik programına katılmak ve özel üyelik avantajlarından yararlanmak için aşağıyı tıklayın.',
+  'subscription.clubNoSubscription.getStart': 'Abone olun',
+  'cancelEmail.content':
+    'Royal Canin online mağazamızın pazarlama amacıyla gönderilen e-mail listesinden <{val}> aboneliğinizi başarıyla iptal ettiniz.'
 };
 export default tr_TR;

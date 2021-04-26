@@ -16,7 +16,8 @@ import {
   getDeviceType,
   getFrequencyDict,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  getClubLogo
 } from '@/utils/utils';
 import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
@@ -29,6 +30,13 @@ import AutoshipItem from './components/AutoshipItem';
 import ClubItem from './components/ClubItem';
 
 import './index.css';
+import nutrition from '../../../components/GoodsDetailTabs/image/pictonutrition@4x.png';
+import gifticon from '../../../components/GoodsDetailTabs/image/pictogifts@4x.png';
+import spetadviser from '../../../components/GoodsDetailTabs/image/pictospetadviser@4x.png';
+import shippingicon from '../../../components/GoodsDetailTabs/image/pictoshipping@4x.png';
+import phoneicon from '../../../components/GoodsDetailTabs/image/phoneicon@4x.png';
+import landingBanner from '../../../components/GoodsDetailTabs/image/landing-banner.jpg';
+import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -41,6 +49,94 @@ const subscriptionLandingRouter = (lang) => {
     ru: '/subscription-landing-ru',
     tr: '/subscription-landing-tr'
   }[lang];
+};
+
+//针对ru和tr noSubscription采用这个页面
+const clubNoSubscription = function () {
+  let clubListData = [
+    {
+      text: <FormattedMessage id="clubListData.tip1" />,
+      img: nutrition,
+      alt: 'CLUB BENEFITS PET ADVISOR'
+    },
+    {
+      text: <FormattedMessage id="clubListData.tip2" />,
+      img: gifticon,
+      alt: 'CLUB BENEFITS DISCOUNT'
+    },
+    {
+      text: <FormattedMessage id="clubListData.tip3" />,
+      img: spetadviser,
+      alt: 'CLUB BENEFITS PET ADVISOR'
+    },
+    {
+      text: <FormattedMessage id="clubListData.tip4" />,
+      img: shippingicon,
+      alt: 'CLUB BENEFITS PET ADVISOR'
+    },
+    {
+      text: <FormattedMessage id="clubListData.tip5" />,
+      img: phoneicon,
+      alt: 'CLUB BENEFITS PET ADVISOR'
+    }
+  ];
+  if (process.env.REACT_APP_LANG === 'ru') {
+    clubListData.push({
+      text: <FormattedMessage id="clubListData.tip6" />,
+      img: iconsix,
+      alt: 'CLUB BENEFITS PET ADVISOR'
+    });
+  }
+  return (
+    <>
+      <div className="subscription-club-no-subscription">
+        <img
+          className="m-auto subscription-club-no-subscription-logo"
+          src={getClubLogo()}
+          alt="club icon"
+        />
+        <p>
+          <FormattedMessage id="subscription.clubNoSubscription.tip1" />
+        </p>
+        <p>
+          <FormattedMessage id="subscription.clubNoSubscription.tip2" />
+        </p>
+        <div className="rc-margin-top--sm">
+          <Link className="rc-btn rc-btn--one" to="/subscription-landing">
+            <FormattedMessage id="subscription.clubNoSubscription.getStart" />
+          </Link>
+        </div>
+      </div>
+      <div className="block">
+        <h3 className="red">
+          <FormattedMessage id="subscription.clubNoSubscription" />
+        </h3>
+        <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
+          <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+            {clubListData.map((item) => (
+              <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none club-no-subscription">
+                <img
+                  src={item.img}
+                  alt={item.alt}
+                  className="m-auto rc-margin--none--desktop"
+                />
+                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                  <p className="mb-0" style={{ textAlign: 'left' }}>
+                    {item.text}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="col-12 col-md-6">
+            <div className="rc-video-wrapper">
+              <img src={landingBanner} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 @injectIntl
@@ -298,6 +394,9 @@ class Subscription extends React.Component {
                   return subItemComp;
                 })}
               </>
+            ) : process.env.REACT_APP_LANG === 'ru' ||
+              process.env.REACT_APP_LANG === 'tr' ? (
+              clubNoSubscription()
             ) : (
               <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                 <div className="rc-column">
