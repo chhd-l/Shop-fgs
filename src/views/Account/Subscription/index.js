@@ -102,7 +102,7 @@ const clubNoSubscription = function () {
           <FormattedMessage id="subscription.clubNoSubscription.tip2" />
         </p>
         <div className="rc-margin-top--sm">
-          <Link className="rc-btn rc-btn--one" to="/subscription-landing">
+          <Link className="rc-btn rc-btn--one" to="/club-subscription">
             <FormattedMessage id="subscription.clubNoSubscription.getStart" />
           </Link>
         </div>
