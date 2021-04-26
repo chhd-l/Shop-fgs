@@ -742,10 +742,10 @@ class SubscriptionDetail extends React.Component {
   async componentDidMount() {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
-    let clubPetsLifeStageFlag =
-      getParaByName(search, 'clubPetsLifeStageFlag') ||
-      this.props.location.state?.clubPetsLifeStageFlag;
-    if (clubPetsLifeStageFlag) {
+    let updateLifeStage =
+      getParaByName(search, 'updateLifeStage') ||
+      this.props.location.state?.updateLifeStage;
+    if (updateLifeStage) {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
     }
@@ -1222,8 +1222,11 @@ class SubscriptionDetail extends React.Component {
               <button
                 onClick={() => this.changePets()}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
-                  this.state.changeNowLoading ? 'ui-btn-loading' : ''
-                }`}
+                  specList || [].find((el) => el.selected)?.length
+                    ? ''
+                    : 'rc-btn-disabled'
+                }
+                ${this.state.changeNowLoading ? 'ui-btn-loading' : ''}`}
               >
                 <FormattedMessage id="subscription.changeNow" />
               </button>

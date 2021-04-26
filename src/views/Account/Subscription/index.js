@@ -16,6 +16,7 @@ import {
   getDeviceType,
   getFrequencyDict,
   setSeoConfig,
+  getParaByName,
   getFormatDate,
   getClubLogo
 } from '@/utils/utils';
@@ -182,6 +183,22 @@ class Subscription extends React.Component {
         this.setState({ testNumber: this.state.testNumber + i });
         console.log(this.state.testNumber, 'testNumber');
       }, 1000);
+    }
+    let search = this.props.location.search;
+    let subscriptionId = search && getParaByName(search, 'subscriptionId');
+    let updateLifeStage = search && getParaByName(search, 'updateLifeStage');
+    if (subscriptionId) {
+      let res = await getSubList({ subscribeId: subscriptionId });
+      console.info('res.contextres.contextres.context');
+      let hasDetails = res.context?.subscriptionResponses?.length;
+      if (hasDetails) {
+        let url = `/account/subscription/order/detail/${subscriptionId}`;
+        if (updateLifeStage) {
+          url += '?updateLifeStage=true';
+        }
+        this.props.history.push(url);
+        return;
+      }
     }
     myAccountPushEvent('Subscriptions');
     setSeoConfig({
