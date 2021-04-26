@@ -1271,20 +1271,20 @@ class Payment extends React.Component {
       }
 
       // update clinic
-      if (this.checkoutWithClinic) {
-        if (
-          clinicStore.linkClinicId &&
-          clinicStore.linkClinicId !== clinicStore.selectClinicId
-        ) {
-          clinicStore.removeLinkClinicId();
-          clinicStore.removeLinkClinicName();
-          clinicStore.removeAuditAuthority();
-        }
-        // clinicStore.setSelectClinicId(clinicStore.clinicId);
-        // clinicStore.setSelectClinicName(clinicStore.clinicName);
-        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
-        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
-      }
+      // if (this.checkoutWithClinic) {
+      //   if (
+      //     clinicStore.linkClinicId &&
+      //     clinicStore.linkClinicId !== clinicStore.selectClinicId
+      //   ) {
+      //     clinicStore.removeLinkClinicId();
+      //     clinicStore.removeLinkClinicName();
+      //     clinicStore.removeAuditAuthority();
+      //   }
+      // clinicStore.setSelectClinicId(clinicStore.clinicId);
+      // clinicStore.setSelectClinicName(clinicStore.clinicName);
+      // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+      // clinicStore.setDefaultClinicName(clinicStore.clinicName);
+      // }
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {

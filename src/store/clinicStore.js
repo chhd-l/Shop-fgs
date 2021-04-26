@@ -33,6 +33,13 @@ class ClinicStore {
     );
   }
 
+  @computed get selectClinicId() {
+    return this.selectClinicId;
+  }
+  @computed get selectClinicName() {
+    return this.selectClinicName;
+  }
+
   @action.bound
   setAuditAuthority(data) {
     this.linkedAuditAuthorityFlag = data;
