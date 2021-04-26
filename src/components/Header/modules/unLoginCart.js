@@ -94,9 +94,6 @@ class UnloginCart extends React.Component {
         if (this.isLogin) {
         } else {
           let paramData = checkoutStore.cartData.map((el) => {
-            if (typeof el.questionParams === 'object') {
-              el.questionParams = JSON.stringify(el.questionParams);
-            }
             el.goodsInfoId = el.sizeList.filter(
               (item) => item.selected
             )[0].goodsInfoId;
