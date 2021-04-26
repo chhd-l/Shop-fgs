@@ -112,7 +112,7 @@ class CommunicationDataEditForm extends React.Component {
     }
   };
   //组装submit参数
-  bindSubmitParam = (list) => {
+  bindOptionSubmitParam = (list) => {
     let obj = { optionalList: [] };
     list
       .filter((item) => !item.isRequired)
@@ -175,7 +175,7 @@ class CommunicationDataEditForm extends React.Component {
           ? this.props.authState.accessToken.value
           : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
-      let submitParam = this.bindSubmitParam(this.state.list);
+      let submitParam = this.bindOptionSubmitParam(this.state.list);
 
       await userBindConsent({
         ...submitParam,

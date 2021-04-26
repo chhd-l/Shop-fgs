@@ -79,6 +79,7 @@ import { de } from 'date-fns/locale';
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
+import { bindSubmitParam } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -343,25 +344,11 @@ class Payment extends React.Component {
           });
         }
       }
-      //解决从prescription页面到checkout页面prescriberFlag变成null的问题，重新请求商品prescriberFlag参数
-      const productData = this.isLogin ? this.loginCartData : this.cartData;
-      let res = await getProductPetConfig({
-        goodsInfos: productData
-      });
-      let handledData = productData.map((el, i) => {
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-        return el;
-      });
-      if (this.props.configStore.prescriberSelectTyped === 1) {
-        sessionItemRoyal.set('needShowPrescriber', 'true'); //需要在checkout页面显示prescriber--recommendation code信息
-      }
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
           needPrescriber:
-            (handledData.filter((el) => el.prescriberFlag).length > 0 &&
-              sessionItemRoyal.get('needShowPrescriber') === 'true') ||
-            (clinicStore.linkClinicId && clinicStore.linkClinicName)
+            localItemRoyal.get('checkOutNeedShowPrescriber') === 'true'
           // needPrescriber: checkoutStore.autoAuditFlag
           //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
           //       (el) => el.prescriberFlag
@@ -964,7 +951,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -974,7 +961,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -984,7 +971,7 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email
@@ -1284,20 +1271,20 @@ class Payment extends React.Component {
       }
 
       // update clinic
-      if (this.checkoutWithClinic) {
-        if (
-          clinicStore.linkClinicId &&
-          clinicStore.linkClinicId !== clinicStore.selectClinicId
-        ) {
-          clinicStore.removeLinkClinicId();
-          clinicStore.removeLinkClinicName();
-          clinicStore.removeAuditAuthority();
-        }
-        // clinicStore.setSelectClinicId(clinicStore.clinicId);
-        // clinicStore.setSelectClinicName(clinicStore.clinicName);
-        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
-        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
-      }
+      // if (this.checkoutWithClinic) {
+      //   if (
+      //     clinicStore.linkClinicId &&
+      //     clinicStore.linkClinicId !== clinicStore.selectClinicId
+      //   ) {
+      //     clinicStore.removeLinkClinicId();
+      //     clinicStore.removeLinkClinicName();
+      //     clinicStore.removeAuditAuthority();
+      //   }
+      // clinicStore.setSelectClinicId(clinicStore.clinicId);
+      // clinicStore.setSelectClinicName(clinicStore.clinicName);
+      // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+      // clinicStore.setDefaultClinicName(clinicStore.clinicName);
+      // }
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
@@ -1403,7 +1390,7 @@ class Payment extends React.Component {
       );
 
       //游客绑定consent 一定要在游客注册之后 start
-      let submitParam = this.bindSubmitParam(this.state.listData);
+      let submitParam = bindSubmitParam(this.state.listData);
       userBindConsent({
         ...submitParam,
         ...{ oktaToken: '' },
@@ -3087,7 +3074,7 @@ class Payment extends React.Component {
         ? this.props.authState.accessToken.value
         : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
-    let submitParam = this.bindSubmitParam(this.state.listData);
+    let submitParam = bindSubmitParam(this.state.listData);
     userBindConsent({
       ...submitParam,
       ...{ oktaToken },
@@ -3095,22 +3082,6 @@ class Payment extends React.Component {
       customerId: this.userInfo?.customerId || ''
     });
   }
-  // 3、
-  bindSubmitParam = (list) => {
-    let obj = { optionalList: [], requiredList: [] };
-    list
-      .filter((item) => !item.isRequired)
-      .forEach((item) => {
-        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
-      });
-    list
-      .filter((item) => item.isRequired)
-      .forEach((item) => {
-        obj.requiredList.push({ id: item.id, selectedFlag: true });
-      });
-
-    return obj;
-  };
 
   render() {
     const { paymentMethodPanelStatus } = this;

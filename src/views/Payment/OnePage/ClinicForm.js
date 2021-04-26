@@ -40,8 +40,8 @@ class ClinicForm extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const nName = this.props.clinicStore.clinicName;
-    const nId = this.props.clinicStore.clinicId;
+    const nName = this.props.clinicStore.selectClinicNameInfo;
+    const nId = this.props.clinicStore.selectClinicIdInfo;
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {
@@ -108,8 +108,8 @@ class ClinicForm extends React.Component {
     }
     this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
     this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
-    this.props.clinicStore.setLinkClinicId(this.state.form.clinicId);
-    this.props.clinicStore.setLinkClinicName(this.state.form.clinicName);
+    // this.props.clinicStore.setLinkClinicId(this.state.form.clinicId);
+    // this.props.clinicStore.setLinkClinicName(this.state.form.clinicName);
     this.confirmToNextPanel();
     this.setState({ isEdit: false });
   };
@@ -144,7 +144,7 @@ class ClinicForm extends React.Component {
             <FormattedMessage id="edit" />
           </p>
         </div>
-        <div>{this.props.clinicStore.clinicName}</div>
+        <div>{this.state.form.clinicName}</div>
       </div>
     );
 
