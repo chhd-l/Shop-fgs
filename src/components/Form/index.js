@@ -791,9 +791,7 @@ class Form extends React.Component {
         }
       }
       errMsg = this.getIntlMsg('payment.pleaseInput') + errMsg;
-      // if (dpcode == null && dhouse == null) {
-      //   errMsg = this.getIntlMsg('payment.wrongAddress');
-      // }
+      // errMsg = this.getIntlMsg('payment.wrongAddress');
       // 显示错误信息
       this.setState({
         errMsgObj: {
