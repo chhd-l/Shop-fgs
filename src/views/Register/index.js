@@ -294,16 +294,16 @@ class Register extends Component {
           });
           //GA 注册成功 end
 
-          if (checkoutStore.cartData.length) {
-            await mergeUnloginCartData();
-            await checkoutStore.updateLoginCart();
-          }
           if (res.context.oktaSessionToken) {
             loginStore.changeLoginModal(false);
             loginStore.changeIsLogin(true);
 
             localItemRoyal.set('rc-token', res.context.token);
             localItemRoyal.set('rc-register', true);
+            if (checkoutStore.cartData.length) {
+              await mergeUnloginCartData();
+              await checkoutStore.updateLoginCart();
+            }
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
               'okta-session-token',
