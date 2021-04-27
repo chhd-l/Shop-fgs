@@ -1147,6 +1147,7 @@ const tr_TR = {
   'subscription.changeNow': 'Değişikliği yap',
   'subscription.thesameProd': 'Değiştirilen ürün, mevcut ürün ile aynıdır',
   'subscription.productRecommendation': 'Ürün öneriniz.',
+  'Your product recommendatio': 'Ürün öneriniz.',
   'subscription.productRecommendationTip':
     'Evcil hayvan profilinize göre, size aşağıdaki ürünleri öneriyoruz. Aboneliğinizi güncellemek için lütfen ürün değişikliğini onaylayın.',
   switchProductTip1: 'Profil bilgilerine göre, şu an',

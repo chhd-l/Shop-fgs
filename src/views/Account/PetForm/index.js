@@ -470,6 +470,9 @@ class PetForm extends React.Component {
           ++diffIndex;
         }
       }
+    } else {
+      // 新增的情况下都会改变
+      diffIndex = 1;
     }
 
     try {
@@ -510,7 +513,7 @@ class PetForm extends React.Component {
         currentStep: 'success'
       });
       if (!isEditAlert) {
-        this.gotoNext();
+        this.gotoNext(null, diffIndex);
       }
     } catch (err) {
       this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
@@ -520,19 +523,21 @@ class PetForm extends React.Component {
     }
   };
 
-  gotoNext(stateText = 'isFromPets') {
+  gotoNext(stateText = 'isFromPets', diffIndex) {
     let isLinkedSub = this.state.subList.find((el) => el.petsId);
     let petsIdLinkedSub = isLinkedSub?.petsId;
     let subscribeId =
       this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
+    let url = '/account/pets/';
     if (subscribeId || petsIdLinkedSub) {
-      this.props.history.push({
-        pathname: `/account/subscription/order/detail/${subscribeId}`,
-        state: { [stateText]: true }
-      });
-    } else {
-      this.props.history.push('/account/pets/');
+      if (diffIndex) {
+        url = {
+          pathname: `/account/subscription/order/detail/${subscribeId}`,
+          state: { [stateText]: true }
+        };
+      }
     }
+    this.props.history.push(url);
   }
 
   inputNickname = (e) => {
