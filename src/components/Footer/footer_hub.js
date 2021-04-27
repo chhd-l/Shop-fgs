@@ -42,10 +42,15 @@ class FooterHub extends React.Component {
     widget && widget.scrollIntoView();
   };
   render() {
-    if (Object.keys(this.state.footerInfo).length == 0) return null;
+    console.log(123, this.state.footerInfo);
+    if (
+      Object.keys(this.state.footerInfo).length == 0 ||
+      Object.keys(this.state.footerInfo.LocalMarketSettings).length == 0
+    )
+      return null;
     const { isLogin, history } = this.props;
     const {
-      LocalMarketSettings: { ContactUsUrl, ContactPhone },
+      LocalMarketSettings: { ContactUsUrl = '', ContactPhone = '' },
       MenuGroups,
       MenuInfoItems,
       MenuItems
