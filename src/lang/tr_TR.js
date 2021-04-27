@@ -632,6 +632,8 @@ const tr_TR = {
   'payment.pleaseInput': 'Lütfen girin: ',
   'payment.streets': 'Sokak',
   'payment.house': 'ev',
+  'payment.privince': 'privince',
+  'payment.settlement': 'anlaşma',
   'payment.wrongAddress':
     'Lütfen internet dükkanının teslim alanına adresinizi girin.Saifedeki teslim şartların "parçası yardım" olduğunu görebilirsiniz.',
   'payment.rfc': 'Referans',

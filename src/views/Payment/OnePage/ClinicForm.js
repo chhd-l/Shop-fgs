@@ -183,9 +183,9 @@ class ClinicForm extends React.Component {
                 queryList={async ({ inputVal }) => {
                   let res = await getPrescriberByCode({
                     code: inputVal,
-                    storeId: process.env.REACT_APP_STOREID,
+                    storeId: process.env.REACT_APP_STOREID
                     // auditAuthority: this.props.checkoutStore.autoAuditFlag
-                    auditAuthority: true
+                    // auditAuthority: true
                   });
                   return (
                     (res.context && res.context.prescriberVo) ||

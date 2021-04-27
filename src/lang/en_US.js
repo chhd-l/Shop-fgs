@@ -817,6 +817,8 @@ const en_US = {
   'payment.pleaseInput': 'Please input: ',
   'payment.streets': 'streets',
   'payment.house': 'house',
+  'payment.privince': 'privince',
+  'payment.settlement': 'settlement',
   'payment.wrongAddress':
     'Please enter your address in the delivery area of the online store. You can see the "partial help" of the delivery terms on the page',
   'payment.rfc': 'Reference',
