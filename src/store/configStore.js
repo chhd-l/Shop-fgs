@@ -8,6 +8,21 @@ import {
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const addressFormNull = {
+  firstName: '',
+  lastName: '',
+  address1: '',
+  address2: '',
+  city: '',
+  state: '',
+  country: '',
+  region: '',
+  postCode: '',
+  entrance: '',
+  apartment: '',
+  phoneNumber: '',
+  comment: ''
+};
 
 class ConfigStore {
   @observable info = sessionItemRoyal.get('storeContentInfo')
@@ -225,9 +240,11 @@ class ConfigStore {
         this.getAddressSettingByApi(fromSetSwitch);
       } else {
         console.error('地址表单接口返回空，找后端配置。');
+        localItemRoyal.set('rc-address-form', addressFormNull);
       }
     } catch (err) {
       console.log(err);
+      localItemRoyal.set('rc-address-form', addressFormNull);
     }
   }
 
@@ -252,9 +269,11 @@ class ConfigStore {
         localItemRoyal.set('rc-address-form', addressForm);
       } else {
         console.error('地址表单接口返回空，找后端配置。');
+        localItemRoyal.set('rc-address-form', addressFormNull);
       }
     } catch (err) {
       console.log(err);
+      localItemRoyal.set('rc-address-form', addressFormNull);
     }
   }
 }
