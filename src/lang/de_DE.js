@@ -635,7 +635,7 @@ const de_DE = {
     'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkt',
   oxxo: 'OXXO',
   oxxoTransactionFee: '(Does not include the OXXO transaction fee)',
-  packageX: 'Package {val}',
+  packageX: 'Paket {val}',
   password: 'Passwort *',
   passwordHide: 'Passwort',
   payAtOxxO: 'Bezahlen Sie bei jedem OXXO mit Bargeld in Mexiko',
