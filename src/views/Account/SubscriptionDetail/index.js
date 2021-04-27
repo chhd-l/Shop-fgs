@@ -978,6 +978,13 @@ class SubscriptionDetail extends React.Component {
       currentSubscriptionPrice,
       errorMsgSureChange
     } = this.state;
+    let selected = false;
+    specList.forEach((el) => {
+      if (!selected) {
+        selected = el?.chidren.find((item) => item.selected)?.goodsId;
+      }
+    });
+    console.info(selected, 'dskjdhsjdhsjhk');
     return (
       <React.Fragment>
         {this.showErrorDom(errorMsgSureChange)}
@@ -1222,9 +1229,7 @@ class SubscriptionDetail extends React.Component {
               <button
                 onClick={() => this.changePets()}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
-                  specList || [].find((el) => el.selected)?.length
-                    ? ''
-                    : 'rc-btn-disabled'
+                  selected ? '' : 'rc-btn-disabled'
                 }
                 ${this.state.changeNowLoading ? 'ui-btn-loading' : ''}`}
               >
@@ -2357,7 +2362,7 @@ class SubscriptionDetail extends React.Component {
         let theSameProduct = this.state.currentGoodsItems.find(
           (el) => mainProduct?.spuCode == el?.spuNo
         );
-        if (theSameProduct?.spuCode) {
+        if (theSameProduct?.spuNo) {
           // 如果主商品有同样的spu，需要直接不展示所有推荐商品
           this.setState({ productDetail: {} }, () => {
             cb && cb();
@@ -5262,12 +5267,12 @@ class SubscriptionDetail extends React.Component {
                                     margin: '25px 0 .625rem'
                                   }}
                                 >
-                                  {currentDeliveryAddress.consigneeName}
+                                  {currentDeliveryAddress?.consigneeName}
                                 </span>
                               </p>
                               {/* 电话 */}
                               <p className="mb-0 sd_mb_tel">
-                                {currentDeliveryAddress.consigneeNumber}
+                                {currentDeliveryAddress?.consigneeNumber}
                               </p>
 
                               {/* 国家 */}
@@ -5290,31 +5295,35 @@ class SubscriptionDetail extends React.Component {
                               )}
                               {/* 地址 */}
                               <p className="mb-0 sd_mb_address1">
-                                {currentDeliveryAddress.address1}
+                                {currentDeliveryAddress?.address1}
                               </p>
-                              {localAddressForm['address2'] &&
-                                currentDeliveryAddress.address2 && (
+                              {localAddressForm &&
+                                localAddressForm['address2'] &&
+                                currentDeliveryAddress?.address2 && (
                                   <p className="mb-0 sd_mb_address2">
-                                    {currentDeliveryAddress.address2}
+                                    {currentDeliveryAddress?.address2}
                                   </p>
                                 )}
 
                               <p className="mb-0 sd_mb_cpp">
                                 {/* 城市 */}
-                                {localAddressForm['city'] &&
-                                  currentDeliveryAddress.city + ', '}
+                                {localAddressForm &&
+                                  localAddressForm['city'] &&
+                                  currentDeliveryAddress?.city + ', '}
 
                                 {/* 区域 */}
                                 {/* {localAddressForm['region'] &&
                                   currentDeliveryAddress.area + ', '} */}
 
                                 {/* 省份 / State */}
-                                {localAddressForm['state'] &&
-                                  currentDeliveryAddress.province + ' '}
+                                {localAddressForm &&
+                                  localAddressForm['state'] &&
+                                  currentDeliveryAddress?.province + ' '}
 
                                 {/* 邮编 */}
-                                {localAddressForm['postCode'] &&
-                                  currentDeliveryAddress.postCode}
+                                {localAddressForm &&
+                                  localAddressForm['postCode'] &&
+                                  currentDeliveryAddress?.postCode}
                               </p>
 
                               {maxDeliveryTime &&
