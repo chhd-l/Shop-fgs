@@ -217,7 +217,7 @@ const LinkedSubs = (props) => {
                             addGoodsItems: [
                               {
                                 skuId: subItem.skuId,
-                                goodsNum: subItem.subscribeNum,
+                                subscribeNum: subItem.subscribeNum,
                                 goodsInfoFlag: subItem.goodsInfoFlag,
                                 periodTypeId: subItem.periodTypeId,
                                 subscribeId: subItem.subscribeId
@@ -258,7 +258,7 @@ const LinkedSubs = (props) => {
                             deleteGoodsItems: [
                               {
                                 skuId: subItem.skuId,
-                                goodsNum: subItem.subscribeNum,
+                                subscribeNum: subItem.subscribeNum,
                                 goodsInfoFlag: subItem.goodsInfoFlag,
                                 periodTypeId: subItem.periodTypeId,
                                 subscribeId: subItem.subscribeId
