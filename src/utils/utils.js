@@ -523,6 +523,8 @@ export async function distributeLinktoPrecriberOrPaymentPage({
 }
 
 export async function getFrequencyDict(frequencyType) {
+  const lang = process.env.REACT_APP_LANG;
+
   let autoShipFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day' }),
     getDictionary({ type: 'Frequency_week' }),
@@ -530,8 +532,15 @@ export async function getFrequencyDict(frequencyType) {
   ]);
   autoShipFrequency = flatten(autoShipFrequency).map((el) => {
     el.goodsInfoFlag = 1;
+    // 设置法国周一、周二不可选
+    if (lang == 'fr') {
+      el.id == 5744 || el.id == 3558
+        ? (el.disabled = true)
+        : (el.disabled = false);
+    }
     return el;
   });
+
   let clubFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day_club' }),
     getDictionary({ type: 'Frequency_week_club' }),
@@ -539,8 +548,15 @@ export async function getFrequencyDict(frequencyType) {
   ]);
   clubFrequency = flatten(clubFrequency).map((el) => {
     el.goodsInfoFlag = 2;
+    // 设置法国周一、周二不可选
+    if (lang == 'fr') {
+      el.id == 5744 || el.id == 3558
+        ? (el['disabled'] = true)
+        : (el['disabled'] = false);
+    }
     return el;
   });
+
   if (!frequencyType) {
     return Promise.resolve(autoShipFrequency.concat(clubFrequency));
   } else if (frequencyType === 'club') {

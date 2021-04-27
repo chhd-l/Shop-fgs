@@ -320,36 +320,33 @@ class Prescription extends React.Component {
 
   render(h) {
     let flags = [];
-    //解决Map还没初始化完MapFlag就加载出来的问题
-    setTimeout(() => {
+    flags.push(
+      <AnyReactComponent
+        key={this.state.me.id}
+        lat={+this.state.meLocation.lat}
+        lng={+this.state.meLocation.lng}
+        obj={this.state.me}
+        // show={false}
+      />
+    );
+    for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(
         <AnyReactComponent
-          key={this.state.me.id}
-          lat={+this.state.meLocation.lat}
-          lng={+this.state.meLocation.lng}
-          obj={this.state.me}
-          // show={false}
+          props={this.props}
+          key={this.state.clinicArr[i].id}
+          lat={+this.state.clinicArr[i].latitude}
+          lng={+this.state.clinicArr[i].longitude}
+          obj={this.state.clinicArr[i]}
+          sonMess={this.getSonMess.bind(this)}
+          show={
+            +this.state.clinicArr[i].longitude ===
+              +this.state.currentSelectClinic.lng &&
+            +this.state.clinicArr[i].latitude ===
+              +this.state.currentSelectClinic.lat
+          }
         />
       );
-      for (var i = 0; i < this.state.clinicArr.length; i++) {
-        flags.push(
-          <AnyReactComponent
-            props={this.props}
-            key={this.state.clinicArr[i].id}
-            lat={+this.state.clinicArr[i].latitude}
-            lng={+this.state.clinicArr[i].longitude}
-            obj={this.state.clinicArr[i]}
-            sonMess={this.getSonMess.bind(this)}
-            show={
-              +this.state.clinicArr[i].longitude ===
-                +this.state.currentSelectClinic.lng &&
-              +this.state.clinicArr[i].latitude ===
-                +this.state.currentSelectClinic.lat
-            }
-          />
-        );
-      }
-    }, 300);
+    }
     const event = {
       page: {
         type: 'Checkout',
