@@ -474,7 +474,9 @@ class PetForm extends React.Component {
 
       // 如果编辑的，需判断是否只有name更变了
       let hasChangedProps = this.equalProps(pets, oldCurrentPet);
-      console.log(hasChangedProps, 'hasChangedProps');
+      // console.log(hasChangedProps, 'hasChangedProps');
+      // return
+
       for (let key in hasChangedProps) {
         if (key !== 'petsName') {
           ++diffIndex;
@@ -538,6 +540,7 @@ class PetForm extends React.Component {
     let subscribeId =
       this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
     let url = '/account/pets/';
+
     if (subscribeId || petsIdLinkedSub) {
       if (diffIndex) {
         url = {
@@ -1810,7 +1813,7 @@ class PetForm extends React.Component {
               </p>
               <p>
                 <button
-                  onClick={() => this.gotoNext('updateLifeStage')}
+                  onClick={() => this.gotoNext('updateLifeStage', true)}
                   className="rc-btn rc-btn--one rc-btn--sm"
                 >
                   <FormattedMessage id="See recommendation" />

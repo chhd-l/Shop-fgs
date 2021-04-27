@@ -2311,6 +2311,7 @@ class SubscriptionDetail extends React.Component {
       };
       changeSubscriptionGoods(params)
         .then((res) => {
+          this.setState({ changeNowLoading: false });
           this.getDetail();
           this.closeRecommendation();
           this.closeEditRecommendation();
