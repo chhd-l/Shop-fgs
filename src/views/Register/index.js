@@ -294,16 +294,16 @@ class Register extends Component {
           });
           //GA 注册成功 end
 
-          if (checkoutStore.cartData.length) {
-            await mergeUnloginCartData();
-            await checkoutStore.updateLoginCart();
-          }
           if (res.context.oktaSessionToken) {
             loginStore.changeLoginModal(false);
             loginStore.changeIsLogin(true);
 
             localItemRoyal.set('rc-token', res.context.token);
             localItemRoyal.set('rc-register', true);
+            if (checkoutStore.cartData.length) {
+              await mergeUnloginCartData();
+              await checkoutStore.updateLoginCart();
+            }
             loginStore.setUserInfo(res.context.customerDetail);
             localItemRoyal.set(
               'okta-session-token',
@@ -328,10 +328,7 @@ class Register extends Component {
               .then((res) => {
                 if (res.code === 'K-000000') {
                   loginStore.setUserInfo(customerDetail); // For compare email
-                  this.props.history.push({
-                    pathname: '/welcome',
-                    state: { email: registerForm.email }
-                  });
+                  this.props.history.push('/welcome/' + registerForm.email);
                 } else {
                   window.scrollTo(0, 0);
                   this.setState({

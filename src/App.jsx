@@ -620,7 +620,7 @@ const App = () => {
                 <Route path="/consent1-tr" component={Consent1TR} />
                 <Route path="/consent2-tr" component={Consent2TR} />
                 <Route path="/register" component={register} />
-                <Route path="/welcome" component={welcome} />
+                <Route path="/welcome/:id" component={welcome} />
 
                 <Route
                   path="/smart-feeder-subscription"

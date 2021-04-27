@@ -645,6 +645,8 @@ const es_ES = {
   'payment.pleaseInput': 'Por favor, introduzca: ',
   'payment.streets': 'Calle',
   'payment.house': 'Casa',
+  'payment.privince': 'Privacidad',
+  'payment.settlement': 'Resolver',
   'payment.wrongAddress':
     'Por favor, introduzca su dirección en el área de entrega de la tienda en línea.Puede ver "ayuda parcial" para los términos de entrega en la página',
   'payment.rfc': 'Referencia',

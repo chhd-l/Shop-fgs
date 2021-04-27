@@ -136,8 +136,11 @@ class RegisterRequired extends Component {
         oktaToken: localItemRoyal.get('oktaToken')
       });
       //没有必选项，直接跳回
+      console.log(sessionItemRoyal.get('okta-redirectUrl'));
       if (result.context.requiredList.length === 0) {
-        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
+          ? sessionItemRoyal.get('okta-redirectUrl')
+          : '/';
         if (tmpUrl === '/prescription') {
           const url = await distributeLinktoPrecriberOrPaymentPage({
             configStore,

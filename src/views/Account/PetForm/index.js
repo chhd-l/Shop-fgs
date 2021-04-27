@@ -459,17 +459,19 @@ class PetForm extends React.Component {
       userId: consumerAccount
     };
     let action = addPet;
+    let diffIndex = 0;
     if (pets.petsId) {
       action = editPets;
-    }
-    console.info(pets, oldCurrentPet);
-    let hasChangedProps = this.equalProps(pets, oldCurrentPet);
-    let diffIndex = 0;
-    for (let key in hasChangedProps) {
-      if (key !== 'petsName') {
-        ++diffIndex;
+      console.info(pets, oldCurrentPet);
+      // 如果编辑的，需判断是否只有name更变了
+      let hasChangedProps = this.equalProps(pets, oldCurrentPet);
+      for (let key in hasChangedProps) {
+        if (key !== 'petsName') {
+          ++diffIndex;
+        }
       }
     }
+
     try {
       let res = await action(param);
       let isLinkedSub = this.state.subList.find((el) => el.petsId);
@@ -1794,7 +1796,7 @@ class PetForm extends React.Component {
               </p>
               <p>
                 <button
-                  onClick={() => this.gotoNext('clubPetsLifeStageFlag')}
+                  onClick={() => this.gotoNext('updateLifeStage')}
                   className="rc-btn rc-btn--one rc-btn--sm"
                 >
                   <FormattedMessage id="See recommendation" />

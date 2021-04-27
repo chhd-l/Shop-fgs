@@ -637,7 +637,7 @@ class SubscriptionDetail extends React.Component {
             </h4>
             <div>
               <FormattedMessage id="age" />:
-              <strong> {petsInfo?.birthOfPets}</strong>
+              <strong> {getFormatDate(petsInfo?.birthOfPets || '')}</strong>
             </div>
           </div>
           <div className="rc-padding-right--md">
