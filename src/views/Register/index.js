@@ -328,10 +328,7 @@ class Register extends Component {
               .then((res) => {
                 if (res.code === 'K-000000') {
                   loginStore.setUserInfo(customerDetail); // For compare email
-                  this.props.history.push({
-                    pathname: '/welcome',
-                    state: { email: registerForm.email }
-                  });
+                  this.props.history.push('/welcome/' + registerForm.email);
                 } else {
                   window.scrollTo(0, 0);
                   this.setState({
