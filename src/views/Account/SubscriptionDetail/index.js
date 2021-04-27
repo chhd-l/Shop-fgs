@@ -318,6 +318,10 @@ class SubscriptionDetail extends React.Component {
                 sdItem.isEmpty = filterproducts.every(
                   (item) => item.stock === 0
                 );
+                sdItem.isClub = filterproducts.every(
+                  (item) =>
+                    item.subscriptionStatus === 1 && item.subscriptionPrice > 0
+                );
                 console.info('sdItem.isEmpty', sdItem.isEmpty);
 
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
@@ -1087,9 +1091,13 @@ class SubscriptionDetail extends React.Component {
                               key={i}
                               className={`rc-swatch__item ${
                                 sdItem.selected ? 'selected' : ''
-                              } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
+                              } ${
+                                sdItem.isEmpty || !sdItem.isClub
+                                  ? 'outOfStock'
+                                  : ''
+                              }`}
                               onClick={() => {
-                                if (sdItem.isEmpty) {
+                                if (sdItem.isEmpty || !sdItem.isClub) {
                                   return false;
                                 } else {
                                   this.handleChooseSize(
@@ -2276,9 +2284,11 @@ class SubscriptionDetail extends React.Component {
       let addGoodsItems = {
         skuId: currentSelectedSize.goodsInfoId,
         subscribeNum: quantity,
-        goodsInfoFlag
+        goodsInfoFlag: 2
         // productFinderFlag: currentSelectedSize.productFinderFlag
       };
+      console.log(currentSelectedSize, form, 'currentSelectedSize');
+      return;
       // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
       let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
         return {
