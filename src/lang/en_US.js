@@ -851,7 +851,7 @@ const en_US = {
   petFemale: 'Female',
   petInfo: 'Pet information',
   petMale: 'Male',
-  petName: 'Pet Name',
+  petName: 'Name',
   pets: 'Pets',
   petType: 'Pet Type',
   phone: 'Phone',

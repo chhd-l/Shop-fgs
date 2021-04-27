@@ -978,6 +978,13 @@ class SubscriptionDetail extends React.Component {
       currentSubscriptionPrice,
       errorMsgSureChange
     } = this.state;
+    let selected = false;
+    specList.forEach((el) => {
+      if (!selected) {
+        selected = el?.chidren.find((item) => item.selected)?.goodsId;
+      }
+    });
+    console.info(selected, 'dskjdhsjdhsjhk');
     return (
       <React.Fragment>
         {this.showErrorDom(errorMsgSureChange)}
@@ -1222,10 +1229,7 @@ class SubscriptionDetail extends React.Component {
               <button
                 onClick={() => this.changePets()}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
-                  (specList || []).find((el) => el.selected) &&
-                  (specList || []).find((el) => el.selected)[0]?.goodsId
-                    ? ''
-                    : 'rc-btn-disabled'
+                  selected ? '' : 'rc-btn-disabled'
                 }
                 ${this.state.changeNowLoading ? 'ui-btn-loading' : ''}`}
               >
@@ -2307,6 +2311,7 @@ class SubscriptionDetail extends React.Component {
       };
       changeSubscriptionGoods(params)
         .then((res) => {
+          this.setState({ changeNowLoading: false });
           this.getDetail();
           this.closeRecommendation();
           this.closeEditRecommendation();
@@ -5293,7 +5298,8 @@ class SubscriptionDetail extends React.Component {
                               <p className="mb-0 sd_mb_address1">
                                 {currentDeliveryAddress?.address1}
                               </p>
-                              {localAddressForm['address2'] &&
+                              {localAddressForm &&
+                                localAddressForm['address2'] &&
                                 currentDeliveryAddress?.address2 && (
                                   <p className="mb-0 sd_mb_address2">
                                     {currentDeliveryAddress?.address2}
@@ -5302,7 +5308,8 @@ class SubscriptionDetail extends React.Component {
 
                               <p className="mb-0 sd_mb_cpp">
                                 {/* 城市 */}
-                                {localAddressForm['city'] &&
+                                {localAddressForm &&
+                                  localAddressForm['city'] &&
                                   currentDeliveryAddress?.city + ', '}
 
                                 {/* 区域 */}
@@ -5310,11 +5317,13 @@ class SubscriptionDetail extends React.Component {
                                   currentDeliveryAddress.area + ', '} */}
 
                                 {/* 省份 / State */}
-                                {localAddressForm['state'] &&
+                                {localAddressForm &&
+                                  localAddressForm['state'] &&
                                   currentDeliveryAddress?.province + ' '}
 
                                 {/* 邮编 */}
-                                {localAddressForm['postCode'] &&
+                                {localAddressForm &&
+                                  localAddressForm['postCode'] &&
                                   currentDeliveryAddress?.postCode}
                               </p>
 

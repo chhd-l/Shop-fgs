@@ -12,6 +12,7 @@ import axios from 'axios';
 import { cancelPrevRequest } from '@/utils/utils';
 
 const isHub = process.env.REACT_APP_HUB === '1';
+let sessionItemRoyal = window.__.sessionItemRoyal;
 export default class Search extends React.Component {
   static defaultProps = {
     onClose: () => {},
@@ -209,6 +210,13 @@ export default class Search extends React.Component {
                             <Link
                               className="ui-cursor-pointer"
                               style={{ width: '100%' }}
+                              onClick={() => {
+                                sessionItemRoyal.remove('pr-question-params');
+                                sessionItemRoyal.remove('pf-result');
+                                sessionItemRoyal.remove('pf-result-before');
+                                localStorage.removeItem('pfls');
+                                localStorage.removeItem('pfls-before');
+                              }}
                               to={{
                                 pathname: `/${item.lowGoodsName
                                   .split(' ')
@@ -238,6 +246,13 @@ export default class Search extends React.Component {
                           </div>
                           <div className="col-8 col-md-9 col-lg-10">
                             <Link
+                              onClick={() => {
+                                sessionItemRoyal.remove('pr-question-params');
+                                sessionItemRoyal.remove('pf-result');
+                                sessionItemRoyal.remove('pf-result-before');
+                                localStorage.removeItem('pfls');
+                                localStorage.removeItem('pfls-before');
+                              }}
                               to={{
                                 pathname: `/${item.lowGoodsName
                                   .split(' ')
