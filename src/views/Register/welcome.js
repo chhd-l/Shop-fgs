@@ -6,7 +6,7 @@ export default class welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: this.props.location.state && this.props.location.state.email
+      email: this.props.match.params && this.props.match.params.id
     };
   }
   render() {
