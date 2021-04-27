@@ -656,7 +656,7 @@ const tr_TR = {
   personal: 'Kişisel',
   petFemale: 'Dişi',
   petInfo: 'Evcil hayvan bilgisi',
-  petName: 'Evcil Hayvan adı',
+  petName: 'İsim',
   pets: 'Evcil Hayvanlar',
   petType: 'Evcil Hayvan Türü',
   phone: 'Cep telefonu',
