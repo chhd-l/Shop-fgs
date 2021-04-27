@@ -1110,9 +1110,10 @@ class SubscriptionDetail extends React.Component {
                             >
                               <span
                                 style={{
-                                  backgroundColor: sdItem.isEmpty
-                                    ? '#ccc'
-                                    : '#fff',
+                                  backgroundColor:
+                                    sdItem.isEmpty || !sdItem.isClub
+                                      ? '#ccc'
+                                      : '#fff',
                                   cursor: sdItem.isEmpty
                                     ? 'not-allowed'
                                     : 'pointer'
