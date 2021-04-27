@@ -5263,12 +5263,12 @@ class SubscriptionDetail extends React.Component {
                                     margin: '25px 0 .625rem'
                                   }}
                                 >
-                                  {currentDeliveryAddress.consigneeName}
+                                  {currentDeliveryAddress?.consigneeName}
                                 </span>
                               </p>
                               {/* 电话 */}
                               <p className="mb-0 sd_mb_tel">
-                                {currentDeliveryAddress.consigneeNumber}
+                                {currentDeliveryAddress?.consigneeNumber}
                               </p>
 
                               {/* 国家 */}
@@ -5291,19 +5291,19 @@ class SubscriptionDetail extends React.Component {
                               )}
                               {/* 地址 */}
                               <p className="mb-0 sd_mb_address1">
-                                {currentDeliveryAddress.address1}
+                                {currentDeliveryAddress?.address1}
                               </p>
                               {localAddressForm['address2'] &&
-                                currentDeliveryAddress.address2 && (
+                                currentDeliveryAddress?.address2 && (
                                   <p className="mb-0 sd_mb_address2">
-                                    {currentDeliveryAddress.address2}
+                                    {currentDeliveryAddress?.address2}
                                   </p>
                                 )}
 
                               <p className="mb-0 sd_mb_cpp">
                                 {/* 城市 */}
                                 {localAddressForm['city'] &&
-                                  currentDeliveryAddress.city + ', '}
+                                  currentDeliveryAddress?.city + ', '}
 
                                 {/* 区域 */}
                                 {/* {localAddressForm['region'] &&
@@ -5311,11 +5311,11 @@ class SubscriptionDetail extends React.Component {
 
                                 {/* 省份 / State */}
                                 {localAddressForm['state'] &&
-                                  currentDeliveryAddress.province + ' '}
+                                  currentDeliveryAddress?.province + ' '}
 
                                 {/* 邮编 */}
                                 {localAddressForm['postCode'] &&
-                                  currentDeliveryAddress.postCode}
+                                  currentDeliveryAddress?.postCode}
                               </p>
 
                               {maxDeliveryTime &&
