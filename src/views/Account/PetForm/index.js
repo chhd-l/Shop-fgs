@@ -138,6 +138,8 @@ class PetForm extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    document.querySelector('.receiveDate').disabled = true;
+
     console.log(this.props, 'props');
     const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
     const activityOptions = await getDictionary({ type: 'Activity' });
