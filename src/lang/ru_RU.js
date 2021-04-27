@@ -695,6 +695,8 @@ const ru_RU = {
   'payment.pleaseInput': 'Пожалуйста, укажите: ',
   'payment.streets': 'Улица',
   'payment.house': 'Дом',
+  'payment.privince': 'privince',
+  'payment.settlement': 'settlement',
   'payment.wrongAddress':
     'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" в разделе "Помощь"',
   'payment.postCode2': 'Почтовый Код',
