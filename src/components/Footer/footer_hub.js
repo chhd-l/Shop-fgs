@@ -44,13 +44,14 @@ class FooterHub extends React.Component {
   render() {
     console.log(123, this.state.footerInfo);
     if (
-      Object.keys(this.state.footerInfo).length == 0 ||
-      Object.keys(this.state.footerInfo.LocalMarketSettings).length == 0
+      Object.prototype.toString.call(this.state.footerInfo).slice(8, -1) !==
+      'Object'
     )
-      return null;
+      return;
+    if (Object.keys(this.state.footerInfo).length == 0) return null;
     const { isLogin, history } = this.props;
     const {
-      LocalMarketSettings: { ContactUsUrl = '', ContactPhone = '' },
+      LocalMarketSettings: { ContactUsUrl, ContactPhone },
       MenuGroups,
       MenuInfoItems,
       MenuItems
