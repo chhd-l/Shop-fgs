@@ -465,8 +465,16 @@ class PetForm extends React.Component {
     if (pets.petsId) {
       action = editPets;
       console.info(pets, oldCurrentPet);
+      if (!oldCurrentPet.petsSizeValueName) {
+        oldCurrentPet.petsSizeValueName = '';
+      }
+      if (!oldCurrentPet.petsImg) {
+        oldCurrentPet.petsImg = '';
+      }
+
       // 如果编辑的，需判断是否只有name更变了
       let hasChangedProps = this.equalProps(pets, oldCurrentPet);
+      console.log(hasChangedProps, 'hasChangedProps');
       for (let key in hasChangedProps) {
         if (key !== 'petsName') {
           ++diffIndex;
@@ -476,7 +484,6 @@ class PetForm extends React.Component {
       // 新增的情况下都会改变
       diffIndex = 1;
     }
-
     try {
       let res = await action(param);
       let isLinkedSub = this.state.subList.find((el) => el.petsId);

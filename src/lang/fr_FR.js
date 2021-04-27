@@ -47,7 +47,7 @@ const fr_FR = {
   'account.helpTip':
     "Vous avez des questions? Notre équipe d'experts se fera un plaisir de vous aider.",
   'account.male': 'Masculin',
-  'account.mixBreed': 'Race mixte',
+  'account.mixBreed': 'Croisé ou sans race',
   'account.monRoyalCanin': 'Mon Royal Canin',
   'account.myAccount': 'Mon compte',
   'account.myAddresses': 'Mes adresses',
@@ -98,7 +98,7 @@ const fr_FR = {
   'account.subscriptionTitle': 'Mes abonnements',
   'account.TheAddressBook': "Le carnet d'adresses",
   'account.toComeIn': 'Entrer',
-  'account.unknownBreed': 'Race inconnue',
+  'account.unknownBreed': 'Inconnu',
   'account.warmNotice':
     "Bienvenue {val}, cet espace est dédié à la gestion de votre compte. Vous pouvez facilement modifier les informations de votre profil, gérer les besoins nutritionnels de votre animal, vérifier l'état de vos commandes et de votre livraison automatique.",
   'account.weight': "Quel est le poids d'un chien adulte de votre race {val}?",
@@ -519,7 +519,7 @@ const fr_FR = {
   isContinue: 'Que ce soit pour continuer?',
   isGiftSubscription: 'Smart Feeder Subscription',
   isPurebredDog: 'Chien de race',
-  isPurebredCat: 'Chien de race',
+  isPurebredCat: 'Chat de race',
   item: 'Numéro: {val}',
   items: 'Numéro: {val}',
   IVAIncluido: 'TVA incluse',
@@ -736,8 +736,6 @@ const fr_FR = {
   'payment.pleaseInput': 'Veuillez entrer: ',
   'payment.streets': 'Rue',
   'payment.house': 'La maison',
-  'payment.privince': 'Vie privée',
-  'payment.settlement': 'Résolution',
   'payment.wrongAddress':
     'Veuillez saisir votre adresse dans la zone de livraison de la boutique en ligne.Vous pouvez voir "aide partielle" pour les conditions de livraison sur la page',
   'payment.rfc': "Référence d'adresse",
