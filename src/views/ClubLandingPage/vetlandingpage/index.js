@@ -174,16 +174,16 @@ class VetLandingPage extends React.Component {
                               <br />
                               <br />
                               <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
-                                <a href="/fr/shop/cats">
+                                <Link to="/cats/vet-products">
                                   <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                                     Корм для Кошки
                                   </button>
-                                </a>
-                                <a href="/fr/shop/dogs">
+                                </Link>
+                                <Link to="/dogs/vet-products">
                                   <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
                                     Корм для Собаки
                                   </button>
-                                </a>
+                                </Link>
                               </div>
                             </div>
                           </div>
