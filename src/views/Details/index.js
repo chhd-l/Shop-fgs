@@ -333,6 +333,7 @@ class Details extends React.Component {
       barcode: '',
       descContent: '',
       contactUs: '',
+      contactPhoneNumber: '',
       ccidBtnDisplay: false,
       relatedGoods: [],
       relatedGoodsList: [],
@@ -375,16 +376,19 @@ class Details extends React.Component {
     const Ru = process.env.REACT_APP_LANG === 'ru';
     const Tr = process.env.REACT_APP_LANG === 'tr';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
+    let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
       contactUs = 'https://www.royalcanin.com/fr/contact-us';
     } else if (Tr) {
-      contactUs = 'mailto:opsroyalcanin@tr.webhelp.com';
+      contactUs = 'mailto:opsroyalcanin@tr.webhelp.com'; //邮箱以后不要再代码里面修改了 可以直接在storePortal配置的哦
+      contactPhoneNumber = 'https://www.royalcanin.com/tr/contact-us';
     } else if (Ru) {
       contactUs = 'mailto:contact.ru@royalcanin.com';
     }
 
     this.setState({
-      contactUs
+      contactUs,
+      contactPhoneNumber
     });
   }
 
@@ -2647,15 +2651,20 @@ class Details extends React.Component {
                     </p>
                     <div className="good-contact-link d-flex">
                       <a
-                        href={`tel:${configStore.storeContactPhoneNumber}`}
+                        href={this.state.contactPhoneNumber}
                         className="good-contact-tel d-flex"
                       >
                         <div>
                           <p>
                             <FormattedMessage id="detail.telephone" />
                           </p>
-                          <span>{configStore.storeContactPhoneNumber}</span>
-                          <p>{configStore.contactTimePeriod}</p>
+                          {!Tr && (
+                            <>
+                              {' '}
+                              <span>{configStore.storeContactPhoneNumber}</span>
+                              <p>{configStore.contactTimePeriod}</p>
+                            </>
+                          )}
                         </div>
                         <span className="rc-icon rc-contact rc-iconography rc-brand1" />
                       </a>
