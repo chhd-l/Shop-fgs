@@ -750,40 +750,50 @@ class Form extends React.Component {
   // 判断是否是完整地址 1-2
   getDuDataAddressIntegrity = (data) => {
     // 根据地址组装对应的提示信息
-    let errMsg = '';
+    let errMsg = '',
+      errArr = [];
+
+    // DuData                   we
+    // -------------------------------
+    // address1                 street    √
+    // postalCode               postCode  √
+    // house                    house     √
+    // city                     city      √
+    // districtCode             privince
+    // settlement               settlement
+
     let streets = this.getIntlMsg('payment.streets'),
       postCode = this.getIntlMsg('payment.postCode'),
-      house = this.getIntlMsg('payment.house');
+      house = this.getIntlMsg('payment.house'),
+      city = this.getIntlMsg('payment.city'),
+      districtCode = this.getIntlMsg('payment.privince'),
+      settlement = this.getIntlMsg('payment.settlement');
+
+    console.log('根据地址组装对应的提示信息: ', data);
 
     let dstreet = data?.street,
       dpcode = data?.postCode,
-      dhouse = data?.house;
-    // if (dstreet == null || dpcode == null || dhouse == null) {
-    if (dpcode == null || dhouse == null) {
+      dhouse = data?.house,
+      dcity = data?.city;
+
+    if (dstreet == null || dpcode == null || dhouse == null || dcity == null) {
       this.props.getRussiaAddressValidFlag(false);
-      // if (dstreet == null) {
-      //   errMsg = streets;
-      // }
-      if (dpcode == null) {
-        errMsg = postCode;
-      }
-      if (dhouse == null) {
-        errMsg = house;
-      }
-      // if (dstreet == null && dpcode == null) {
-      //   errMsg = streets + ', ' + postCode;
-      // }
-      // if (dstreet == null && dhouse == null) {
-      //   errMsg = streets + ', ' + house;
-      // }
-      if (dpcode == null && dhouse == null) {
-        errMsg = postCode + ', ' + house;
+
+      dstreet == null ? errArr.push(streets) : null;
+      dpcode == null ? errArr.push(postCode) : null;
+      dhouse == null ? errArr.push(house) : null;
+      dcity == null ? errArr.push(city) : null;
+      for (let i = 0; i < errArr.length; i++) {
+        if (errMsg == '') {
+          errMsg = errArr[i];
+        } else {
+          errMsg += ',' + errArr[i];
+        }
       }
       errMsg = this.getIntlMsg('payment.pleaseInput') + errMsg;
-      // if (dstreet == null && dpcode == null && dhouse == null) {
-      if (dpcode == null && dhouse == null) {
-        errMsg = this.getIntlMsg('payment.wrongAddress');
-      }
+      // if (dpcode == null && dhouse == null) {
+      //   errMsg = this.getIntlMsg('payment.wrongAddress');
+      // }
       // 显示错误信息
       this.setState({
         errMsgObj: {
