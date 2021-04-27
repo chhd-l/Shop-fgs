@@ -1141,7 +1141,7 @@ const tr_TR = {
     'Evcil hayvan profilinizi CLUB aboneliğiniz ile eşleştirin',
   'subscriptionDetail.addNewCat': 'yeni kedi',
   'subscriptionDetail.addNewDog': 'yeni köpek',
-  'subscription.seeOtherRecommendation': 'Diğer önerilere bakın',
+  'subscription.seeOtherRecommendation': 'Diğer öneriyi gör',
   'subscription.chooseThisProduct': 'bu ürünü seç',
   'subscription.productDetails': 'Ürün Detayları',
   'subscription.changeNow': 'Değişikliği yap',

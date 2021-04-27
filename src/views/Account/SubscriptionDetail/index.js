@@ -1222,7 +1222,8 @@ class SubscriptionDetail extends React.Component {
               <button
                 onClick={() => this.changePets()}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
-                  specList || [].find((el) => el.selected)?.length
+                  (specList || []).find((el) => el.selected) &&
+                  (specList || []).find((el) => el.selected)[0]?.goodsId
                     ? ''
                     : 'rc-btn-disabled'
                 }
@@ -2357,7 +2358,7 @@ class SubscriptionDetail extends React.Component {
         let theSameProduct = this.state.currentGoodsItems.find(
           (el) => mainProduct?.spuCode == el?.spuNo
         );
-        if (theSameProduct?.spuCode) {
+        if (theSameProduct?.spuNo) {
           // 如果主商品有同样的spu，需要直接不展示所有推荐商品
           this.setState({ productDetail: {} }, () => {
             cb && cb();
