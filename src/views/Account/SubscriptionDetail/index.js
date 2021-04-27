@@ -2284,11 +2284,10 @@ class SubscriptionDetail extends React.Component {
       let addGoodsItems = {
         skuId: currentSelectedSize.goodsInfoId,
         subscribeNum: quantity,
-        goodsInfoFlag: 2
+        goodsInfoFlag: 2,
+        periodTypeId: form.frequencyId
         // productFinderFlag: currentSelectedSize.productFinderFlag
       };
-      console.log(currentSelectedSize, form, 'currentSelectedSize');
-      return;
       // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
       let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
         return {
