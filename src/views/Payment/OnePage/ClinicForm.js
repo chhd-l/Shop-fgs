@@ -40,8 +40,8 @@ class ClinicForm extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const nName = this.props.clinicStore.selectClinicId;
-    const nId = this.props.clinicStore.selectClinicName;
+    const nName = this.props.clinicStore.selectClinicName;
+    const nId = this.props.clinicStore.selectClinicId;
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {
@@ -183,9 +183,9 @@ class ClinicForm extends React.Component {
                 queryList={async ({ inputVal }) => {
                   let res = await getPrescriberByCode({
                     code: inputVal,
-                    storeId: process.env.REACT_APP_STOREID,
+                    storeId: process.env.REACT_APP_STOREID
                     // auditAuthority: this.props.checkoutStore.autoAuditFlag
-                    auditAuthority: true
+                    // auditAuthority: true
                   });
                   return (
                     (res.context && res.context.prescriberVo) ||

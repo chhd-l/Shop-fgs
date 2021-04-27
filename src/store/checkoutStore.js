@@ -444,6 +444,15 @@ class CheckoutStore {
       let siteMiniPurchasesRes = await siteMiniPurchases();
       siteMiniPurchasesRes = siteMiniPurchasesRes.context;
 
+      //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
+      if (sessionItemRoyal.get('recommend_product')) {
+        recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
+        //兼容下面需要selected字段
+        recommend_data.forEach((element) => {
+          element.selected = true;
+        });
+        siteMiniPurchasesRes = recommend_data;
+      }
       // 获取总价
       let sitePurchasesRes = await sitePurchases({
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
