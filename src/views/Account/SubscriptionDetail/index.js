@@ -1227,9 +1227,9 @@ class SubscriptionDetail extends React.Component {
             </button>
             {this.state.isNotInactive && (
               <button
-                onClick={() => this.changePets()}
+                onClick={() => this.changePets(selected)}
                 className={`rc-btn rc-btn--one rc-btn--sm ${
-                  selected ? '' : 'rc-btn-disabled'
+                  selected ? '' : 'rc-btn-solid-disabled'
                 }
                 ${this.state.changeNowLoading ? 'ui-btn-loading' : ''}`}
               >
@@ -2325,7 +2325,10 @@ class SubscriptionDetail extends React.Component {
       this.setState({ changeNowLoading: false });
     }
   };
-  changePets = () => {
+  changePets = (selected) => {
+    if (!selected) {
+      return;
+    }
     this.setState({ changeNowLoading: true });
     this.changeSubscriptionGoods();
   };
