@@ -138,6 +138,8 @@ class PetForm extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    document.querySelector('.receiveDate').disabled = true;
+
     console.log(this.props, 'props');
     const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
     const activityOptions = await getDictionary({ type: 'Activity' });
@@ -470,6 +472,9 @@ class PetForm extends React.Component {
           ++diffIndex;
         }
       }
+    } else {
+      // 新增的情况下都会改变
+      diffIndex = 1;
     }
 
     try {
@@ -510,7 +515,7 @@ class PetForm extends React.Component {
         currentStep: 'success'
       });
       if (!isEditAlert) {
-        this.gotoNext();
+        this.gotoNext(null, diffIndex);
       }
     } catch (err) {
       this.showErrorMsg(err.message || this.props.intl.messages.saveFailed);
@@ -520,19 +525,21 @@ class PetForm extends React.Component {
     }
   };
 
-  gotoNext(stateText = 'isFromPets') {
+  gotoNext(stateText = 'isFromPets', diffIndex) {
     let isLinkedSub = this.state.subList.find((el) => el.petsId);
     let petsIdLinkedSub = isLinkedSub?.petsId;
     let subscribeId =
       this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
+    let url = '/account/pets/';
     if (subscribeId || petsIdLinkedSub) {
-      this.props.history.push({
-        pathname: `/account/subscription/order/detail/${subscribeId}`,
-        state: { [stateText]: true }
-      });
-    } else {
-      this.props.history.push('/account/pets/');
+      if (diffIndex) {
+        url = {
+          pathname: `/account/subscription/order/detail/${subscribeId}`,
+          state: { [stateText]: true }
+        };
+      }
     }
+    this.props.history.push(url);
   }
 
   inputNickname = (e) => {
@@ -1105,7 +1112,7 @@ class PetForm extends React.Component {
                         className="form-control-label rc-full-width "
                         htmlFor="name"
                       >
-                        <FormattedMessage id="name" />
+                        <FormattedMessage id="petName" />
                       </label>
                       <span
                         className="rc-input rc-input--label rc-margin--none rc-input--full-width"
@@ -1136,7 +1143,7 @@ class PetForm extends React.Component {
                         <FormattedMessage
                           id="payment.errorInfo"
                           values={{
-                            val: <FormattedMessage id="name" />
+                            val: <FormattedMessage id="petName" />
                           }}
                         />
                       </div>
