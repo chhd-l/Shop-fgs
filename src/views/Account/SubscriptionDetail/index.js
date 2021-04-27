@@ -5293,9 +5293,9 @@ class SubscriptionDetail extends React.Component {
                                 {currentDeliveryAddress.address1}
                               </p>
                               {localAddressForm['address2'] &&
-                                currentDeliveryAddress.address2 && (
+                                currentDeliveryAddress?.address2 && (
                                   <p className="mb-0 sd_mb_address2">
-                                    {currentDeliveryAddress.address2}
+                                    {currentDeliveryAddress?.address2}
                                   </p>
                                 )}
 
