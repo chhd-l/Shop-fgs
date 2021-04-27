@@ -730,7 +730,7 @@ const de_DE = {
   petFemale: 'männlich',
   petInfo: 'Haustierinformationen',
   petMale: 'weiblich',
-  petName: 'Haustiername',
+  petName: 'Name',
   pets: 'Meine Tiere',
   petType: 'Haustiertyp',
   phone: 'Telefon',

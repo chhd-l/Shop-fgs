@@ -671,7 +671,7 @@ const es_ES = {
     'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
   petFemale: 'Female',
   petInfo: 'Pet information',
-  petName: 'Pet Name',
+  petName: 'nombre',
   pets: 'Mascotas',
   petType: 'Pet Type',
   phone: 'Teléfono',

@@ -1103,7 +1103,7 @@ class PetForm extends React.Component {
                         className="form-control-label rc-full-width "
                         htmlFor="name"
                       >
-                        <FormattedMessage id="name" />
+                        <FormattedMessage id="petName" />
                       </label>
                       <span
                         className="rc-input rc-input--label rc-margin--none rc-input--full-width"
@@ -1134,7 +1134,7 @@ class PetForm extends React.Component {
                         <FormattedMessage
                           id="payment.errorInfo"
                           values={{
-                            val: <FormattedMessage id="name" />
+                            val: <FormattedMessage id="petName" />
                           }}
                         />
                       </div>
