@@ -119,7 +119,8 @@ export async function mergeUnloginCartData() {
         periodTypeId: ele.periodTypeId,
         invalid: false,
         goodsCategory: ele.goodsCategory,
-        petsId: find(ele.sizeList, (s) => s.selected).petsId
+        petsId: find(ele.sizeList, (s) => s.selected).petsId,
+        questionParams: ele.questionParams
       };
     })
   };
@@ -905,6 +906,7 @@ function isMatchedLang(langArr, lang) {
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
+import { el } from 'date-fns/locale';
 export function getClubLogo() {
   if (process.env.REACT_APP_LANG === 'ru') {
     return Club_Logo_ru;

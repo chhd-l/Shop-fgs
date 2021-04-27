@@ -225,17 +225,21 @@ const LinkedSubs = (props) => {
                             ]
                           };
                           setBtnLoading(true);
-                          changeSubscriptionGoodsByPets(params).then((res) => {
-                            let currentSubList = subList.map((el, index) => {
-                              if (index === i) {
-                                el.petsId = props.petsId;
-                              }
-                              return el;
+                          changeSubscriptionGoodsByPets(params)
+                            .then((res) => {
+                              let currentSubList = subList.map((el, index) => {
+                                if (index === i) {
+                                  el.petsId = props.petsId;
+                                }
+                                return el;
+                              });
+                              console.log(currentSubList, 'currentSubList1');
+                              setBtnLoading(false);
+                              setSubList(currentSubList);
+                            })
+                            .catch((err) => {
+                              setBtnLoading(false);
                             });
-                            console.log(currentSubList, 'currentSubList1');
-                            setBtnLoading(false);
-                            setSubList(currentSubList);
-                          });
                         }}
                       >
                         <FormattedMessage id="Link" />
@@ -262,18 +266,22 @@ const LinkedSubs = (props) => {
                             ]
                           };
                           setBtnLoading(true);
-                          changeSubscriptionGoodsByPets(params).then((res) => {
-                            let currentSubList = subList.map((el, index) => {
-                              if (index === i) {
-                                el.petsId = null;
-                              }
-                              return el;
+                          changeSubscriptionGoodsByPets(params)
+                            .then((res) => {
+                              let currentSubList = subList.map((el, index) => {
+                                if (index === i) {
+                                  el.petsId = null;
+                                }
+                                return el;
+                              });
+                              console.log(currentSubList, 'currentSubList2');
+                              // subItem.petsId = null;
+                              setBtnLoading(false);
+                              setSubList(currentSubList);
+                            })
+                            .catch((err) => {
+                              setBtnLoading(false);
                             });
-                            console.log(currentSubList, 'currentSubList2');
-                            // subItem.petsId = null;
-                            setBtnLoading(false);
-                            setSubList(currentSubList);
-                          });
                         }}
                       >
                         <FormattedMessage id="Unlink" />

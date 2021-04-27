@@ -338,7 +338,8 @@ class Details extends React.Component {
       relatedGoodsList: [],
       relatedGoodsLoading: false,
       rationInfo: {},
-      isFromPR: false
+      isFromPR: false,
+      questionParams: undefined
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -566,7 +567,8 @@ class Details extends React.Component {
       currentLinePrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
-      stock
+      stock,
+      form
     } = this.state;
     let selectedArr = [];
     let idArr = [];
@@ -609,6 +611,7 @@ class Details extends React.Component {
 
       return item;
     });
+    skuPromotions == 'club' ? (form.buyWay = 2) : (form.buyWay = 1);
     this.setState(
       {
         details,
@@ -617,7 +620,8 @@ class Details extends React.Component {
         currentSubscriptionPrice,
         currentSubscriptionStatus,
         stock,
-        skuPromotions
+        skuPromotions,
+        form
       },
       () => {
         this.updateInstockStatus();
@@ -664,66 +668,11 @@ class Details extends React.Component {
       requestName = this.isLogin ? getLoginDetails : getDetails;
       param = id;
     }
+
     let petsRes = {};
-
-    // 对比productFinder 之前信息
-    let savePetFlag = false;
-    let isMyProductFinder = true;
-    let isFromPR = true;
+    let pf_params = {};
     if (localStorage.getItem('pfls')) {
-      if (
-        localStorage.getItem('pfls') &&
-        localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
-      ) {
-        savePetFlag = true;
-      } else {
-        savePetFlag = false;
-      }
-      isMyProductFinder = false;
-    } else if (sessionItemRoyal.get('pf-result')) {
-      if (
-        sessionItemRoyal.get('pf-result') &&
-        sessionItemRoyal.get('pf-result') !==
-          sessionItemRoyal.get('pf-result-before')
-      ) {
-        savePetFlag = true;
-      } else {
-        savePetFlag = false;
-      }
-      isMyProductFinder = true;
-    } else {
-      isFromPR = false;
-    }
-    this.setState({ isFromPR });
-    if (isFromPR) {
-      if (localStorage.getItem('pfls')) {
-        localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-      }
-      if (sessionItemRoyal.get('pf-result')) {
-        sessionItemRoyal.set(
-          'pf-result-before',
-          sessionItemRoyal.get('pf-result')
-        );
-      }
-      let pf_params = {};
-      if (!isMyProductFinder) {
-        pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-        pf_params.age = '' + pf_params.age;
-      } else {
-        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-      }
-
-      if (this.isLogin && savePetFlag) {
-        try {
-          petsRes = await clubSubscriptionSavePets({
-            questionParams: pf_params
-          });
-          let petsInfo = petsRes.context;
-          this.props.checkoutStore.setPetInfo(petsRes.context);
-        } catch (err) {
-          console.log(err, 'error111');
-        }
-      }
+      pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
       let rationRes = await getRation(
         Object.assign(
           {
@@ -732,12 +681,108 @@ class Details extends React.Component {
           pf_params
         )
       );
+      this.setState({
+        questionParams: JSON.stringify(pf_params),
+        isFromPR: true
+      });
+      if (rationRes.code === 'K-000000') {
+        this.setState({
+          rationInfo: rationRes.context.rationResponseItems[0]
+        });
+      }
+    } else if (sessionItemRoyal.get('pf-result')) {
+      pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+      let rationRes = await getRation(
+        Object.assign(
+          {
+            spuNoList: [goodsNo]
+          },
+          pf_params
+        )
+      );
+      this.setState({
+        questionParams: JSON.stringify(pf_params),
+        isFromPR: true
+      });
       if (rationRes.code === 'K-000000') {
         this.setState({
           rationInfo: rationRes.context.rationResponseItems[0]
         });
       }
     }
+
+    // 对比productFinder 之前信息
+    // let savePetFlag = false;
+    // let isMyProductFinder = true;
+    // let isFromPR = true;
+    // if (localStorage.getItem('pfls')) {
+    //   if (
+    //     localStorage.getItem('pfls') &&
+    //     localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
+    //   ) {
+    //     savePetFlag = true;
+    //   } else {
+    //     savePetFlag = false;
+    //   }
+    //   isMyProductFinder = false;
+    // } else if (sessionItemRoyal.get('pf-result')) {
+    //   if (
+    //     sessionItemRoyal.get('pf-result') &&
+    //     sessionItemRoyal.get('pf-result') !==
+    //       sessionItemRoyal.get('pf-result-before')
+    //   ) {
+    //     savePetFlag = true;
+    //   } else {
+    //     savePetFlag = false;
+    //   }
+    //   isMyProductFinder = true;
+    // } else {
+    //   isFromPR = false;
+    // }
+    // this.setState({ isFromPR });
+    // if (isFromPR) {
+    //   if (localStorage.getItem('pfls')) {
+    //     localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
+    //   }
+    //   if (sessionItemRoyal.get('pf-result')) {
+    //     sessionItemRoyal.set(
+    //       'pf-result-before',
+    //       sessionItemRoyal.get('pf-result')
+    //     );
+    //   }
+    //   let pf_params = {};
+    //   if (!isMyProductFinder) {
+    //     pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
+    //     pf_params.age = '' + pf_params.age;
+    //   } else {
+    //     pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+    //   }
+
+    //   if (this.isLogin && savePetFlag) {
+    //     try {
+    //       petsRes = await clubSubscriptionSavePets({
+    //         questionParams: pf_params
+    //       });
+    //       let petsInfo = petsRes.context;
+    //       this.props.checkoutStore.setPetInfo(petsRes.context);
+    //     } catch (err) {
+    //       console.log(err, 'error111');
+    //     }
+    //   }
+    //   let rationRes = await getRation(
+    //     Object.assign(
+    //       {
+    //         spuNoList: [goodsNo]
+    //       },
+    //       pf_params
+    //     )
+    //   );
+    //   if (rationRes.code === 'K-000000') {
+    //     this.setState({
+    //       rationInfo: rationRes.context.rationResponseItems[0]
+    //     });
+    //   }
+    // }
 
     Promise.all([
       requestName(param),
@@ -747,22 +792,6 @@ class Details extends React.Component {
       })
     ])
       .then((resList) => {
-        if (process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID) {
-          loadJS({
-            url: 'https://fi-v2.global.commerce-connector.com/cc.js',
-            id: 'cci-widget',
-            dataSets: {
-              token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-              locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
-              displaylanguage:
-                process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
-              widgetid: process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID,
-              ean: '3182550784436',
-              subid: '',
-              trackingid: ''
-            }
-          });
-        }
         const res = resList[0];
         const frequencyDictRes = resList[1];
         let autoshipDictRes = frequencyDictRes.filter(
@@ -891,6 +920,8 @@ class Details extends React.Component {
                   goodsRes.defaultPurchaseType ||
                   configStore.info?.storeVO?.defaultPurchaseType
               });
+
+              this.loadWidgetIdBtn();
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -1126,6 +1157,31 @@ class Details extends React.Component {
         });
       });
   }
+
+  loadWidgetIdBtn() {
+    const { goodsType } = this.state;
+    console.log(goodsType, 'goodsTypegoodsType');
+
+    const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
+    const id = goodsType === 3 ? vetWidgetId : widgetId;
+    if (widgetId || vetWidgetId) {
+      loadJS({
+        url: 'https://fi-v2.global.commerce-connector.com/cc.js',
+        id: 'cci-widget',
+        dataSets: {
+          token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
+          locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+          displaylanguage:
+            process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+          widgetid: id,
+          ean: '3182550784436',
+          subid: '',
+          trackingid: ''
+        }
+      });
+    }
+  }
   updateInstockStatus() {
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
@@ -1236,7 +1292,7 @@ class Details extends React.Component {
         clinicStore,
         headerCartStore
       } = this.props;
-      const { quantity, form, details } = this.state;
+      const { quantity, form, details, questionParams } = this.state;
 
       this.hubGA
         ? this.hubGAAToCar(quantity, details)
@@ -1258,7 +1314,8 @@ class Details extends React.Component {
         goodsNum: quantity,
         goodsInfoFlag,
         petsId: currentSelectedSize.petsId,
-        petsType: currentSelectedSize.petsType
+        petsType: currentSelectedSize.petsType,
+        questionParams
       };
       if (buyWay) {
         param.periodTypeId = form.frequencyId;
@@ -1287,13 +1344,20 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details } = this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
         periodTypeId: parseInt(form.buyWay) ? form.frequencyId : '',
-        quantity
+        quantity,
+        questionParams
       });
       //requestJson是shelter和breeder产品的参数，有就加上
       if (Object.keys(this.state.requestJson).length > 0) {
@@ -1605,7 +1669,8 @@ class Details extends React.Component {
       seoConfig,
       exclusiveFlag,
       loading,
-      rationInfo
+      rationInfo,
+      skuPromotions
     } = this.state;
     console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
@@ -2202,8 +2267,7 @@ class Details extends React.Component {
                               </div>
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
-                              (!details.promotions ||
-                                !details.promotions.includes('club')) ? (
+                              skuPromotions == 'autoship' ? (
                                 <div>
                                   <div
                                     className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
@@ -2338,8 +2402,7 @@ class Details extends React.Component {
                               ) : null}
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
-                              details?.promotions &&
-                              details.promotions.includes('club') ? (
+                              skuPromotions == 'club' ? (
                                 <div
                                   className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
                                     form.buyWay === 2
@@ -2383,13 +2446,7 @@ class Details extends React.Component {
                                           >
                                             &#xe602;
                                           </span>
-                                          <FormattedMessage
-                                            id={
-                                              this.state.skuPromotions == 'club'
-                                                ? 'Club subscription'
-                                                : 'autoship'
-                                            }
-                                          />
+                                          <FormattedMessage id="Club subscription" />
                                         </span>
                                       </label>
                                     </div>

@@ -2285,9 +2285,9 @@ class SubscriptionDetail extends React.Component {
         };
       });
       let isTheSamePro = deleteGoodsItems.find(
-        (el) => el?.goodsInfoVO?.goodsInfoId == currentSelectedSize.goodsInfoId
+        (el) => el?.skuId == currentSelectedSize?.goodsInfoId
       );
-      if (isTheSamePro?.length) {
+      if (isTheSamePro?.skuId) {
         //替换的skuid一致，不能正常提交
         this.showErrMsgs(
           this.props.intl.messages['subscription.thesameProd'],
@@ -2354,6 +2354,21 @@ class SubscriptionDetail extends React.Component {
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
       if (mainProduct) {
+        let theSameProduct = this.state.currentGoodsItems.find(
+          (el) => mainProduct?.spuCode == el?.spuNo
+        );
+        if (theSameProduct?.spuCode) {
+          // 如果主商品有同样的spu，需要直接不展示所有推荐商品
+          this.setState({ productDetail: {} }, () => {
+            cb && cb();
+          });
+          return;
+        }
+        let currentSpus = this.state.currentGoodsItems?.map((el) => el.spuNo);
+        let newOtherProducts =
+          otherProducts?.filter((item) => !currentSpus.includes(item.spuNo)) ||
+          [];
+        otherProducts = [...newOtherProducts];
         let productArr = [mainProduct, ...otherProducts];
         let spuNoList = productArr?.map((el) => el.spuCode);
         let rationsParams = { petsId, spuNoList };
@@ -2370,9 +2385,17 @@ class SubscriptionDetail extends React.Component {
           });
         });
       }
-      this.setState({ productDetail: res.context }, () => {
-        cb && cb();
-      });
+      this.setState(
+        {
+          productDetail: {
+            otherProducts,
+            mainProduct
+          }
+        },
+        () => {
+          cb && cb();
+        }
+      );
     } catch (err) {
       this.showErrMsgs(err && err.message, 'errMsgPage');
     } finally {
