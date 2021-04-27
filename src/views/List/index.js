@@ -525,7 +525,7 @@ function ListItemBody({ item, headingTag }) {
     </>
   );
   return (
-    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0">
+    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0 pc-product-card">
       {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly pl-4 pr-4">

@@ -42,12 +42,6 @@ class FooterHub extends React.Component {
     widget && widget.scrollIntoView();
   };
   render() {
-    console.log(123, this.state.footerInfo);
-    if (
-      Object.prototype.toString.call(this.state.footerInfo).slice(8, -1) !==
-      'Object'
-    )
-      return;
     if (Object.keys(this.state.footerInfo).length == 0) return null;
     const { isLogin, history } = this.props;
     const {
