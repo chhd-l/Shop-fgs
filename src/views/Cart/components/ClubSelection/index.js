@@ -25,7 +25,7 @@ const ClubSelection = function (props) {
       }}
       onClick={props.chooseSubscription}
     >
-      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center flex-wrap">
         <div className="radioBox mr-2">
           <span
             style={{
@@ -78,7 +78,7 @@ const ClubSelection = function (props) {
             />
           </span>
         </div>
-        <div className="price">
+        <div className="price text-nowrap">
           <div
             style={{
               fontSize: '.9375rem',
