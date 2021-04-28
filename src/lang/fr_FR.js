@@ -565,6 +565,7 @@ const fr_FR = {
   menu: 'menu',
   miniBasket: 'Mini panier',
   'mixed Breed': 'race Mixte',
+  'Mixed Breed': 'race Mixte',
   MMYY: 'MM / AA',
   modalCancelAllContent:
     'Êtes-vous sûr(e) de vouloir supprimer cet abonnement ?',
