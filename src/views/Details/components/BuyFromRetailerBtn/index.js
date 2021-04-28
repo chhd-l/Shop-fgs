@@ -7,7 +7,7 @@ class BuyFromRetailerBtn extends React.Component {
   }
 
   render() {
-    const { ccidBtnDisplay, onClick, barcode } = this.props;
+    const { ccidBtnDisplay, onClick, barcode, goodsType } = this.props;
     const Fr = process.env.REACT_APP_LANG === 'fr';
     return (
       <div>
@@ -25,7 +25,13 @@ class BuyFromRetailerBtn extends React.Component {
             <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />
             {!ccidBtnDisplay ? (
               <span className="default-txt">
-                <FormattedMessage id="details.buyFromRetailer" />
+                <FormattedMessage
+                  id={
+                    goodsType === 3
+                      ? 'details.vetBuyFromRetailer'
+                      : 'details.buyFromRetailer'
+                  }
+                />
               </span>
             ) : null}
           </div>
