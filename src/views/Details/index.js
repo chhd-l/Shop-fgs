@@ -2062,7 +2062,7 @@ class Details extends React.Component {
                             details.promotions.includes('club') ? (
                               <div>
                                 {this.state.isFromPR ? (
-                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
+                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap">
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.recommendedDaily" />
                                       &nbsp;
@@ -2090,7 +2090,7 @@ class Details extends React.Component {
                                   <div
                                     className={`productFinderBox ${
                                       isMobile ? '' : 'd-flex'
-                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left`}
+                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
                                   >
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.findProductTip" />{' '}
