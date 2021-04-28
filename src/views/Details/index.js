@@ -511,7 +511,8 @@ class Details extends React.Component {
       currentUnitPrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
-      stock
+      stock,
+      skuPromotions
     } = this.state;
     let skuPromotions = '';
     currentUnitPrice = details.goodsInfos[0].salePrice;
