@@ -32,9 +32,11 @@ import Modal from '../Recommendation_FR/components/Modal';
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
-  filterObjectValue
+  getFrequencyDict
 } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import { GARecommendationProduct } from '@/utils/GA';
+
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
@@ -64,6 +66,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      frequencyList: '',
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
@@ -142,6 +145,11 @@ class Recommendation extends React.Component {
   }
 
   async componentDidMount() {
+    await getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res
+      });
+    });
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
@@ -173,7 +181,7 @@ class Recommendation extends React.Component {
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
         const currentShowProduct = [].concat(productList)?.splice(0, 1);
-        this.GaProduct(currentShowProduct, 1);
+        GARecommendationProduct(currentShowProduct, 1, frequencyList);
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
@@ -343,45 +351,6 @@ class Recommendation extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-  }
-
-  GaProduct(productList, type) {
-    const products = productList.map((item) => {
-      const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
-      const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
-      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const cateName = goodsCateName?.split('/');
-      const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter(
-          (attr) =>
-            attr.goodsAttributeName &&
-            attr.goodsAttributeName.toLowerCase() == 'breeds'
-        )
-        .map((item) => item.goodsAttributeValue);
-      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
-      let productItem = {
-        price: minMarketPrice,
-        specie,
-        range: cateName?.[1] || '',
-        name: goodsName,
-        mainItemCode: goodsNo,
-        SKU,
-        technology: cateName?.[2] || '',
-        brand: 'Royal Canin',
-        breed
-      };
-      let res = filterObjectValue(productItem);
-      return res;
-    });
-    type === 1 &&
-      dataLayer.push({
-        products
-      });
-    type === 2 &&
-      dataLayer.push({
-        event: 'breederRecoTabClick',
-        breederRecoTabClickProduct: products
-      });
   }
 
   componentWillUnmount() {
@@ -694,7 +663,7 @@ class Recommendation extends React.Component {
   tabChange(productList, index) {
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
-    this.GaProduct(currentProduct, 2);
+    GARecommendationProduct(currentProduct, 2, frequencyList);
   }
 
   render() {
