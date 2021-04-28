@@ -2253,7 +2253,7 @@ class Details extends React.Component {
                                 <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
                                   <FormattedMessage id="deliveryOneTimeOnly" />
                                 </div>
-                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                   <div>
                                     {formatMoney(currentUnitPrice)}
                                     <span className="red unit-star">
@@ -2376,7 +2376,7 @@ class Details extends React.Component {
                                     </div>
                                     {this.state.details.promotions &&
                                       this.getFrequencyDictDom()}
-                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                       <div>
                                         <span className="text-line-through-price">
                                           {formatMoney(currentUnitPrice)}
@@ -2496,7 +2496,7 @@ class Details extends React.Component {
                                   </div>
                                   {this.state.details.promotions &&
                                     this.getFrequencyDictDom()}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                     <div>
                                       <span className="text-line-through-price">
                                         {formatMoney(currentUnitPrice)}
