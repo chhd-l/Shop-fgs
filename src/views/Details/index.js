@@ -623,7 +623,11 @@ class Details extends React.Component {
 
       return item;
     });
-    skuPromotions == 'club' ? (form.buyWay = 2) : (form.buyWay = 1);
+    !details.promotions || !details.promotions.includes('club')
+      ? (form.buyWay = 0)
+      : skuPromotions == 'club'
+      ? (form.buyWay = 2)
+      : (form.buyWay = 1);
     this.setState(
       {
         details,
@@ -2062,7 +2066,7 @@ class Details extends React.Component {
                             details.promotions.includes('club') ? (
                               <div>
                                 {this.state.isFromPR ? (
-                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap text-center text-md-left">
+                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap">
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.recommendedDaily" />
                                       &nbsp;
@@ -2090,7 +2094,7 @@ class Details extends React.Component {
                                   <div
                                     className={`productFinderBox ${
                                       isMobile ? '' : 'd-flex'
-                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap  text-center text-md-left`}
+                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
                                   >
                                     <div style={{ flex: '1' }}>
                                       <FormattedMessage id="details.findProductTip" />{' '}
@@ -2123,7 +2127,7 @@ class Details extends React.Component {
                                     </div>
                                     <div data-attr="size">
                                       <div
-                                        className="rc-swatch __select-size"
+                                        className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
                                         id="id-single-select-size"
                                       >
                                         {sItem.chidren.map((sdItem, i) => (
@@ -2253,7 +2257,7 @@ class Details extends React.Component {
                                 <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
                                   <FormattedMessage id="deliveryOneTimeOnly" />
                                 </div>
-                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                   <div>
                                     {formatMoney(currentUnitPrice)}
                                     <span className="red unit-star">
@@ -2376,7 +2380,7 @@ class Details extends React.Component {
                                     </div>
                                     {this.state.details.promotions &&
                                       this.getFrequencyDictDom()}
-                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                       <div>
                                         <span className="text-line-through-price">
                                           {formatMoney(currentUnitPrice)}
@@ -2496,7 +2500,7 @@ class Details extends React.Component {
                                   </div>
                                   {this.state.details.promotions &&
                                     this.getFrequencyDictDom()}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3">
+                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                     <div>
                                       <span className="text-line-through-price">
                                         {formatMoney(currentUnitPrice)}
