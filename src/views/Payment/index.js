@@ -1467,8 +1467,10 @@ class Payment extends React.Component {
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
       comment: deliveryAddress?.comment,
+      //推荐者信息
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName,
+      //审核者信息
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
       storeId: process.env.REACT_APP_STOREID,

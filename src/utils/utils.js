@@ -476,9 +476,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     productData.filter((el) => el.prescriberFlag).length > 0;
   if (!needPrescriber) {
     //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息
-    //并且下单时不传审核者信息
-    // clinicStore.removeLinkClinicId();
-    // clinicStore.removeLinkClinicName();
+    //并且下单时不传审核者信息,但是推荐者信息要回传回去
     localItemRoyal.remove(`rc-clinic-id-select`);
     localItemRoyal.remove(`rc-clinic-name-select`);
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
