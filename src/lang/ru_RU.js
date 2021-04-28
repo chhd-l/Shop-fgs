@@ -462,7 +462,7 @@ const ru_RU = {
   'header.User.or': 'или',
   'header.User.pets': 'Питомцы',
   'header.User.registerNow': 'Зарегистрироваться',
-  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач?',
+  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач',
   'header.User.vetPortal': 'Ветеринарный врач',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
