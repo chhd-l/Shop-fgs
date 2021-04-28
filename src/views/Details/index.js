@@ -512,10 +512,11 @@ class Details extends React.Component {
       currentSubscriptionStatus,
       stock
     } = this.state;
-
+    let skuPromotions = '';
     currentUnitPrice = details.goodsInfos[0].salePrice;
     currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
+    skuPromotions = details.goodsInfos[0].promotions;
     stock = details.goodsInfos[0].stock;
     details.sizeList[0].selected = true;
     this.setState(
@@ -524,7 +525,8 @@ class Details extends React.Component {
         currentUnitPrice,
         currentSubscriptionPrice,
         currentSubscriptionStatus,
-        stock
+        stock,
+        skuPromotions
       },
       () => {
         this.updateInstockStatus();
@@ -587,7 +589,7 @@ class Details extends React.Component {
     idArr = selectedArr.map((el) => el.specDetailId);
     //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-
+    console.log(details, 'item---');
     details.sizeList.map((item, i) => {
       let specTextArr = [];
       for (let specItem of specList) {
@@ -601,6 +603,11 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ');
+      console.log(
+        item,
+        'item---',
+        unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')
+      );
       if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
         item.selected = true;
         currentUnitPrice = item.salePrice;
@@ -1726,7 +1733,12 @@ class Details extends React.Component {
         specieId
       }
     };
-
+    console.log(
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      'aaaaa'
+    );
     return (
       <div id="Details">
         <button
