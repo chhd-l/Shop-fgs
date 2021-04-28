@@ -200,6 +200,7 @@ class AddressList extends React.Component {
   }
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
+    const { addressList } = this.state;
     console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
     try {
       let address1 = obj.address1;
@@ -214,8 +215,48 @@ class AddressList extends React.Component {
           }
         });
         if (dladdress.DuData) {
-          // 计算运费
-          this.getShippingCalculation(dladdress);
+          // Москва 和 Московская 不请求查询运费接口，delivery fee=400, MinDeliveryTime:1,MaxDeliveryTime:2
+          if (
+            dladdress.DuData.province == 'Москва' ||
+            dladdress.DuData.province == 'Московская'
+          ) {
+            let calculation = {
+              deliveryPrice: 400,
+              price: 400,
+              maxDeliveryTime: 2,
+              minDeliveryTime: 1
+            };
+            dladdress.calculation = calculation;
+            dladdress.minDeliveryTime = calculation.minDeliveryTime;
+            dladdress.maxDeliveryTime = calculation.maxDeliveryTime;
+            addressList.forEach((item, i) => {
+              if (item.deliveryAddressId == dladdress.deliveryAddressId) {
+                addressList[i] = dladdress;
+              }
+            });
+            this.setState(
+              {
+                addressList,
+                deliveryAddress: dladdress
+              },
+              () => {
+                this.props.updateData(this.state.deliveryAddress);
+                // purchases接口计算运费
+                this.props.calculateFreight(this.state.deliveryAddress);
+                this.isDeliverAddress &&
+                  this.props.paymentStore.setDefaultCardDataFromAddr(
+                    this.state.deliveryAddress
+                  );
+                this.confirmToNextPanel();
+                this.setState({
+                  validationLoading: false
+                });
+              }
+            );
+          } else {
+            // 计算运费
+            this.getShippingCalculation(dladdress);
+          }
         } else {
           this.setState({
             validationLoading: false
