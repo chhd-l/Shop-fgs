@@ -160,7 +160,9 @@ class Header extends React.Component {
         // 根据id查询Clinic详情
         const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
-          linkClinicId = idRes.context.id;
+          // linkClinicId = idRes.context.id;
+          //推荐者Id取prescriberId
+          linkClinicId = idRes.context.prescriberId;
           linkClinicName = res.context.prescriberName;
         }
         if (linkClinicName) {
