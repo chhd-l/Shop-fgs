@@ -2123,7 +2123,7 @@ class Details extends React.Component {
                                     </div>
                                     <div data-attr="size">
                                       <div
-                                        className="rc-swatch __select-size"
+                                        className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
                                         id="id-single-select-size"
                                       >
                                         {sItem.chidren.map((sdItem, i) => (
