@@ -3070,7 +3070,11 @@ class SubscriptionDetail extends React.Component {
     } = this.state;
     console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
-
+    let { promotions, petsType } = this.state;
+    //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
+    let isCatAndDog = petsType === 'CatAndDog';
+    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
+    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let minDeliveryTime = null;
     let maxDeliveryTime = null;
     if (subDetail?.noStartTradeList) {
@@ -3316,7 +3320,8 @@ class SubscriptionDetail extends React.Component {
                     {(isClub && this.state.isActive) ||
                     (isClub &&
                       this.state.isNotInactive &&
-                      this.state.subDetail.petsId) ? (
+                      this.state.subDetail.petsId &&
+                      !isCantLinkPet) ? (
                       this.ClubTitle()
                     ) : (
                       <h4
