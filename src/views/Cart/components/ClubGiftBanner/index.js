@@ -3,6 +3,8 @@ import ClubBanner_Logo_ru from '@/assets/images/club_banner_logo_ru.png';
 import ClubBanner_Logo_en from '@/assets/images/club_banner_logo_en.png';
 import ClubBanner_Logo_tr from '@/assets/images/club_banner_logo_tr.png';
 import { FormattedMessage } from 'react-intl';
+import LazyLoad from 'react-lazyload';
+
 let ClubBanner_Logo = ClubBanner_Logo_en;
 if (process.env.REACT_APP_LANG === 'ru') {
   ClubBanner_Logo = ClubBanner_Logo_ru;
@@ -13,12 +15,11 @@ if (process.env.REACT_APP_LANG === 'ru') {
 export default function ClubGiftBanner(props) {
   console.log(props, 'props');
   return (
-    <div className="d-flex club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info">
-      <div
-        className="name-info flex-column-gift d-flex mr-md-3 ml-md-3"
-        style={{ flex: 1 }}
-      >
-        <img className="img w-100" src={ClubBanner_Logo} />
+    <div className="club-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info row">
+      <div className="col-12 col-md-6 d-flex">
+        <LazyLoad>
+          <img className="img w-100" src={ClubBanner_Logo} />
+        </LazyLoad>
       </div>
       {/* <div className="logo-info text-center">
     <img
@@ -27,10 +28,7 @@ export default function ClubGiftBanner(props) {
       alt="Club logo"
     />
   </div> */}
-      <div
-        className="tips-info mobile-text-center mr-3 ml-4 ml-md-0"
-        style={{ paddingLeft: '10px', flex: 1 }}
-      >
+      <div className="col-12 col-md-6 tips-info ml-4 ml-md-0">
         <ul>
           <li
             className="rc-list__item"

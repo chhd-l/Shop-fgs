@@ -357,15 +357,18 @@ const GoodsDetailTabs = function (props) {
                     : 'rc-icon rc-down rc-iconography'
                 }`}
                 style={{ right: '1rem', height: '28px' }}
-              ></span>
+              />
             </div>
             <div className={`rc-list__content`} style={{ overflowX: 'auto' }}>
               <p>
                 <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
                   <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                    {clubListData.map((item) => (
-                      <div className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none">
-                        <div style={{ width: '100px' }}>
+                    {clubListData.map((item, i) => (
+                      <div
+                        className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
+                        key={i}
+                      >
+                        <div style={{ width: '80px' }}>
                           <LazyLoad>
                             <img
                               src={item.img}
@@ -374,7 +377,7 @@ const GoodsDetailTabs = function (props) {
                             />
                           </LazyLoad>
                         </div>
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center">
+                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center value-proposition__text">
                           <p style={{ textAlign: 'left' }}>{item.text}</p>
                         </div>
                       </div>
