@@ -289,6 +289,7 @@ const ru_RU = {
   contactUs: 'Связаться с нами',
   continue: 'Продолжать',
   continueAsGuest: 'Продолжить как гость',
+  continueMyPurchases: 'продолжить покупки',
   continueShopping: 'Продолжить покупки',
   country: 'Страна *',
   createAnAccount: 'Завести аккаунт',
