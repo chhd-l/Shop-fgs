@@ -157,7 +157,7 @@ function LogisticsProgress(props) {
                 {/*{getFormatDate(item.date)}*/}
                 {format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')}
                 <br />
-                {format(new Date(item.timestamp).getTime(), 'hh:mm:ss')}
+                {format(new Date(item.timestamp).getTime(), 'HH:mm:ss')}
               </span>
               <div className="logi-text pl-4 pr-4 pt-3 pb-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -339,10 +339,11 @@ class AccountOrders extends React.Component {
             //   flowStateIds.push(orderStatusMap[3010]?.flowStateId);
             //   break;
             case 4000:
-              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
+              flowStateIds.push(orderStatusMap[3010]?.flowStateId);
               // flowStateIds.push(orderStatusMap[5000]?.flowStateId);
               break;
             case 5000:
+              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
               flowStateIds.push(orderStatusMap[9000]?.flowStateId);
               break;
           }
@@ -410,7 +411,6 @@ class AccountOrders extends React.Component {
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
-
           currentProgerssIndex = findIndex(normalProgressList, (ele) =>
             ele.flowStateIds.includes(tradeState.flowState)
           );
@@ -759,7 +759,7 @@ class AccountOrders extends React.Component {
                               alt={ele.itemName}
                               title={ele.itemName}
                               style={{
-                                width: '70%',
+                                width: 'auto',
                                 margin: '0 auto',
                                 height: '80px'
                               }}
@@ -831,7 +831,7 @@ class AccountOrders extends React.Component {
                       {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
                       {format(
                         new Date(item.deliverTime).getTime(),
-                        'yyyy-MM-dd hh:mm:ss'
+                        'yyyy-MM-dd HH:mm:ss'
                       )}
                     </span>
                   </div>
