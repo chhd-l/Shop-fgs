@@ -1467,8 +1467,10 @@ class Payment extends React.Component {
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
       comment: deliveryAddress?.comment,
+      //推荐者信息
       recommendationId: clinicStore.linkClinicId,
       recommendationName: clinicStore.linkClinicName,
+      //审核者信息
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
       storeId: process.env.REACT_APP_STOREID,
@@ -1897,14 +1899,15 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    this.setState({
+      deliveryAddress: data
+    });
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
       });
     }
-    this.setState({
-      deliveryAddress: data
-    });
   };
 
   // 修改BillingAddress数据

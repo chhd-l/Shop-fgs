@@ -34,6 +34,7 @@ import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { format } from 'date-fns';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -139,40 +140,51 @@ function LogisticsProgress(props) {
   } = props;
   return (
     <ul className="text-break">
-      {(props.list || []).map((item, i) => (
-        <li
-          className={`logi-item align-items-center ${
-            item.active ? 'active' : ''
-          } ${
-            !hasMoreLessOperation || !i || moreLogistics ? 'd-flex' : 'hidden'
-          }`}
-          key={i}
-        >
-          <span className={`logi-time text-right ${customDateCls}`}>
-            {getFormatDate(item.date)}
-          </span>
-          <div className="logi-text pl-4 pr-4 pt-3 pb-3">
-            <svg className="svg-icon logi-icon" aria-hidden="true">
-              <use
-                xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
-              />
-            </svg>
-
-            <span className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}>
-              {item.details}
-              {item.statusDescription}
-            </span>
-          </div>
-          {hasMoreLessOperation && !i ? (
-            <span
-              className={`iconfont ui-cursor-pointer ${!i ? 'red' : ''}`}
-              onClick={handleToggleMoreLess}
+      {(props.list || []).map(
+        (item, i) =>
+          item.shown && (
+            <li
+              className={`logi-item align-items-center ${
+                item.active ? 'active' : ''
+              } ${
+                !hasMoreLessOperation || !i || moreLogistics
+                  ? 'd-flex'
+                  : 'hidden'
+              }`}
+              key={i}
             >
-              {moreLogistics ? <>&#xe6b1;</> : <>&#xe6b0;</>}
-            </span>
-          ) : null}
-        </li>
-      ))}
+              <span className={`logi-time text-right ${customDateCls}`}>
+                {/*{getFormatDate(item.date)}*/}
+                {format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')}
+                <br />
+                {format(new Date(item.timestamp).getTime(), 'HH:mm:ss')}
+              </span>
+              <div className="logi-text pl-4 pr-4 pt-3 pb-3">
+                <svg className="svg-icon logi-icon" aria-hidden="true">
+                  <use
+                    xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
+                  />
+                </svg>
+
+                <span
+                  className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}
+                >
+                  {/*{item.details}*/}
+                  {/*{item.statusDescription}*/}
+                  {item.longDescription}
+                </span>
+              </div>
+              {hasMoreLessOperation && !i ? (
+                <span
+                  className={`iconfont ui-cursor-pointer ${!i ? 'red' : ''}`}
+                  onClick={handleToggleMoreLess}
+                >
+                  {moreLogistics ? <>&#xe6b1;</> : <>&#xe6b0;</>}
+                </span>
+              ) : null}
+            </li>
+          )
+      )}
     </ul>
   );
 }
@@ -327,10 +339,11 @@ class AccountOrders extends React.Component {
             //   flowStateIds.push(orderStatusMap[3010]?.flowStateId);
             //   break;
             case 4000:
-              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
+              flowStateIds.push(orderStatusMap[3010]?.flowStateId);
               // flowStateIds.push(orderStatusMap[5000]?.flowStateId);
               break;
             case 5000:
+              flowStateIds.push(orderStatusMap[4010]?.flowStateId);
               flowStateIds.push(orderStatusMap[9000]?.flowStateId);
               break;
           }
@@ -389,20 +402,15 @@ class AccountOrders extends React.Component {
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
+              // logisticsList: new Array(3).fill((res.context && res.context.tradeDelivers[0])) || []
               logisticsList: (res.context && res.context.tradeDelivers) || []
             });
           });
-          // 'O202011041057213979'
-          // queryLogistics('O202011090822133614').then((res) => {
-          //   this.setState({
-          //     logisticsList: (res.context && res.context.tradeDelivers) || []
-          //   });
-          // });
         }
+        console.log(this.state.logisticsList);
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
-
           currentProgerssIndex = findIndex(normalProgressList, (ele) =>
             ele.flowStateIds.includes(tradeState.flowState)
           );
@@ -684,15 +692,13 @@ class AccountOrders extends React.Component {
   };
   renderLogitiscsJSX = () => {
     const { moreLogistics, logisticsList, activeTabIdx } = this.state;
+    console.log('logisticsList');
+    console.log(logisticsList);
     const filteredLogisticsList = logisticsList
-      .map((ele) =>
-        ele.syncLogisticsInfo &&
-        ele.syncLogisticsInfo.originInfo &&
-        ele.syncLogisticsInfo.originInfo.trackInfo
-          ? ele
-          : null
-      )
+      .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
+    console.log('filteredLogisticsList');
+    console.log(filteredLogisticsList);
     return (
       <>
         {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
@@ -729,10 +735,14 @@ class AccountOrders extends React.Component {
                   >
                     <LogisticsProgress
                       list={
-                        (item.syncLogisticsInfo &&
-                          item.syncLogisticsInfo.originInfo &&
-                          item.syncLogisticsInfo.originInfo.trackInfo) ||
-                        []
+                        item.tradeLogisticsDetails
+                          ? item.tradeLogisticsDetails.sort((a, b) => {
+                              return (
+                                new Date(b.timestamp).getTime() -
+                                new Date(a.timestamp).getTime()
+                              );
+                            })
+                          : []
                       }
                       hasMoreLessOperation={true}
                       moreLogistics={moreLogistics}
@@ -748,7 +758,11 @@ class AccountOrders extends React.Component {
                               src={ele.pic || IMG_DEFAULT}
                               alt={ele.itemName}
                               title={ele.itemName}
-                              style={{ width: '70%', margin: '0 auto' }}
+                              style={{
+                                width: 'auto',
+                                margin: '0 auto',
+                                height: '60px'
+                              }}
                             />
                           </LazyLoad>
                           <p className="font-weight-normal ui-text-overflow-line1">
@@ -811,23 +825,30 @@ class AccountOrders extends React.Component {
                 >
                   <div className="col-10 medium color-444 d-flex align-items-center">
                     <span>
-                      {getFormatDate(
-                        item.syncLogisticsInfo.originInfo.trackInfo[0].date
+                      {/*{getFormatDate(*/}
+                      {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
+                      {/*)}*/}
+                      {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
+                      {format(
+                        new Date(item.deliverTime).getTime(),
+                        'yyyy-MM-dd HH:mm:ss'
                       )}
                     </span>
                   </div>
                   <div className="col-2">
-                    <span
-                      className="rc-icon rc-right rc-iconography rc-md-down"
-                      style={{ transform: 'scale(.85)' }}
-                    />
+                    {/*<span*/}
+                    {/*  className="rc-icon rc-right rc-iconography rc-md-down"*/}
+                    {/*  style={{ transform: 'scale(.85)' }}*/}
+                    {/*/>*/}
+                    <span className="icon iconfont">&#xe6f9;</span>
                   </div>
                   <div className="col-12 mt-2">
-                    {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
-                    {
-                      item.syncLogisticsInfo.originInfo.trackInfo[0]
-                        .statusDescription
-                    }
+                    {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
+                    {/*{*/}
+                    {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
+                    {/*    .statusDescription*/}
+                    {/*}*/}
+                    {item.tradeLogisticsDetailStatus || ''}
                   </div>
                   <div className="col-12 row mt-2">
                     {item.shippingItems.map((sItem) => (
@@ -837,6 +858,7 @@ class AccountOrders extends React.Component {
                             className="rc-bg-colour--brand4"
                             src={sItem.pic}
                             alt="shipping Items image"
+                            style={{ width: '70%' }}
                           />
                         </LazyLoad>
                       </div>
@@ -1407,7 +1429,7 @@ class AccountOrders extends React.Component {
                                     </>
                                   ) : null}
 
-                                  {/* 
+                                  {/*
                                     customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
                                     enterPriceType 买入价格开关 0：含税，1：不含税
                                   */}
@@ -1715,11 +1737,12 @@ class AccountOrders extends React.Component {
                   <div className="row">
                     <LogisticsProgress
                       list={
-                        (curLogisticInfo.syncLogisticsInfo &&
-                          curLogisticInfo.syncLogisticsInfo.originInfo &&
-                          curLogisticInfo.syncLogisticsInfo.originInfo
-                            .trackInfo) ||
-                        []
+                        curLogisticInfo.tradeLogisticsDetails.sort((a, b) => {
+                          return (
+                            new Date(b.timestamp).getTime() -
+                            new Date(a.timestamp).getTime()
+                          );
+                        }) || []
                       }
                     />
                     <div
@@ -1734,6 +1757,7 @@ class AccountOrders extends React.Component {
                               src={ele.pic || IMG_DEFAULT}
                               alt={ele.itemName}
                               title={ele.itemName}
+                              style={{ width: '70%' }}
                             />
                           </LazyLoad>
                         </div>

@@ -478,7 +478,8 @@ class LoginCart extends React.Component {
           goodsInfoId: item.goodsInfoId,
           goodsNum: item.buyCount,
           verifyStock: false,
-          periodTypeId: item.periodTypeId
+          periodTypeId: item.periodTypeId,
+          goodsInfoFlag: item.goodsInfoFlag
         });
       }, 500);
     }
@@ -494,7 +495,8 @@ class LoginCart extends React.Component {
         goodsInfoId: item.goodsInfoId,
         goodsNum: item.buyCount,
         verifyStock: false,
-        periodTypeId: item.periodTypeId
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
       });
     } else {
       this.showErrMsg(
@@ -516,7 +518,8 @@ class LoginCart extends React.Component {
         goodsInfoId: item.goodsInfoId,
         goodsNum: item.buyCount,
         verifyStock: false,
-        periodTypeId: item.periodTypeId
+        periodTypeId: item.periodTypeId,
+        goodsInfoFlag: item.goodsInfoFlag
       });
     } else {
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
