@@ -511,12 +511,14 @@ class Details extends React.Component {
       currentUnitPrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
-      stock
+      stock,
+      skuPromotions
     } = this.state;
 
     currentUnitPrice = details.goodsInfos[0].salePrice;
     currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
+    skuPromotions = details.goodsInfos[0].promotions;
     stock = details.goodsInfos[0].stock;
     details.sizeList[0].selected = true;
     this.setState(
@@ -525,7 +527,8 @@ class Details extends React.Component {
         currentUnitPrice,
         currentSubscriptionPrice,
         currentSubscriptionStatus,
-        stock
+        stock,
+        skuPromotions
       },
       () => {
         this.updateInstockStatus();
