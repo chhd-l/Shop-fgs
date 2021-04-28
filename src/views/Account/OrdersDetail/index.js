@@ -761,7 +761,7 @@ class AccountOrders extends React.Component {
                               style={{
                                 width: 'auto',
                                 margin: '0 auto',
-                                height: '80px'
+                                height: '60px'
                               }}
                             />
                           </LazyLoad>
