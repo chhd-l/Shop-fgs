@@ -29,7 +29,8 @@ import {
   unique,
   filterObjectValue,
   isCountriesContainer,
-  getRation
+  getRation,
+  getClubFlag
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -682,7 +683,7 @@ class Details extends React.Component {
 
     let petsRes = {};
     let pf_params = {};
-    if (localStorage.getItem('pfls')) {
+    if (localStorage.getItem('pfls') && getClubFlag()) {
       pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
       let rationRes = await getRation(
         Object.assign(
@@ -701,7 +702,7 @@ class Details extends React.Component {
           rationInfo: rationRes.context.rationResponseItems[0]
         });
       }
-    } else if (sessionItemRoyal.get('pf-result')) {
+    } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
       pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
       let rationRes = await getRation(
         Object.assign(
@@ -2010,6 +2011,7 @@ class Details extends React.Component {
                               <BuyFromRetailerBtn
                                 ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
+                                goodsType={goodsType}
                                 onClick={this.handleBuyFromRetailer}
                                 ref={(el) => this.ccidBtnRef(el)}
                               />
@@ -2578,6 +2580,7 @@ class Details extends React.Component {
                                     <BuyFromRetailerBtn
                                       ccidBtnDisplay={ccidBtnDisplay}
                                       barcode={barcode}
+                                      goodsType={goodsType}
                                       onClick={this.handleBuyFromRetailer}
                                       ref={(el) => this.ccidBtnRef(el)}
                                     />
@@ -2734,6 +2737,7 @@ class Details extends React.Component {
                   <BuyFromRetailerBtn
                     ccidBtnDisplay={ccidBtnDisplay}
                     barcode={barcode}
+                    goodsType={goodsType}
                     onClick={this.handleBuyFromRetailer}
                     ref={(el) => this.ccidBtnRef(el)}
                   />
