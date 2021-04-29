@@ -229,7 +229,7 @@ const de_DE = {
     'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':
     'Adressen und Versandarten sind unter Ihrer Ware angegeben.',
-  'confirmation.oneShoot': 'zu meinem Profil',
+  'confirmation.oneShoot': 'Mit dem Einkaufen fortfahren',
   'confirmation.orderNumber': 'Bestellnummer',
   'confirmation.rateTip': 'Wie würden Sie Ihr Einkaufserlebnis bewerten?',
   'confirmation.rateTip2': 'Was können wir tun, um uns zu verbessern?',

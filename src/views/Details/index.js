@@ -1027,7 +1027,10 @@ class Details extends React.Component {
                   }
                 }
                 // 如果所有sku都没有库存 取第一个规格
-                if (sItem.chidren.filter((el) => el.selected).length === 0) {
+                if (
+                  sItem.chidren.filter((el) => el.selected).length === 0 &&
+                  sItem.chidren.length
+                ) {
                   sItem.chidren[0].selected = true;
                 }
               }
@@ -1770,7 +1773,8 @@ class Details extends React.Component {
         ) : null}
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
+          {/* <title>{seoConfig.title}</title> */}
+          <title>PROD &#174;FED-Shop</title>
           <meta name="description" content={seoConfig.metaDescription} />
           <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
@@ -2129,7 +2133,11 @@ class Details extends React.Component {
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
-                                  <div id="choose-select" key={i}>
+                                  <div
+                                    id="choose-select"
+                                    className="spec-choose-select"
+                                    key={i}
+                                  >
                                     <div className="rc-margin-bottom--xs">
                                       <FormattedMessage id={sItem.specName} />:
                                     </div>
