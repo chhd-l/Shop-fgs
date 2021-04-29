@@ -132,7 +132,7 @@ import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 import FelinRecommendation from '@/views/FelinRecommendation';
-import CancelEmail from '@/views/StaticPage/cancelEmail';
+import CancelEmail from '@/views/StaticPage/CancelEmail';
 
 import ClubLandingPage from './views/ClubLandingPage';
 import {redirectFun} from "@/redirect/utils"
@@ -373,6 +373,15 @@ const App = () => {
                   render={(props) => {
                     return (
                       <Recommendation key={props.match.params.id} {...props} />
+                    );
+                  }}
+                />
+                <Route
+                  exact
+                  path="/recommendationfr"
+                  render={(props) => {
+                    return (
+                      <Recommendation_FR  {...props} />
                     );
                   }}
                 />
