@@ -440,7 +440,10 @@ class Recommendation extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 0,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -464,6 +467,9 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&

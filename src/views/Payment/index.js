@@ -1469,9 +1469,9 @@ class Payment extends React.Component {
       line2: deliveryAddress?.address2,
       comment: deliveryAddress?.comment,
       //推荐者信息下放到商品行
-      recommendationId: clinicStore.linkClinicId,
-      recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-      recommendationName: clinicStore.linkClinicName,
+      // recommendationId: clinicStore.linkClinicId,
+      // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
+      // recommendationName: clinicStore.linkClinicName,
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
@@ -1517,9 +1517,9 @@ class Payment extends React.Component {
           petsId: ele.petsId,
           petsName: ele.petsName,
           goodsInfoFlag: 0,
-          recommendationId: clinicStore.linkClinicId,
-          recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-          recommendationName: clinicStore.linkClinicName
+          recommendationId: ele.recommendationId || '',
+          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          recommendationName: ele.recommendationName || ''
         };
       });
     } else if (this.isLogin) {
@@ -1535,9 +1535,9 @@ class Payment extends React.Component {
           petsId: ele.petsId,
           petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag,
-          recommendationId: clinicStore.linkClinicId,
-          recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-          recommendationName: clinicStore.linkClinicName
+          recommendationId: ele.recommendationId || '',
+          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          recommendationName: ele.recommendationName || ''
         };
       });
     } else {
@@ -1551,9 +1551,9 @@ class Payment extends React.Component {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
-          recommendationId: clinicStore.linkClinicId,
-          recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-          recommendationName: clinicStore.linkClinicName
+          recommendationId: ele.recommendationId || '',
+          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          recommendationName: ele.recommendationName || ''
         };
       });
     }
@@ -1575,9 +1575,9 @@ class Payment extends React.Component {
             petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
-            recommendationId: clinicStore.linkClinicId,
-            recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-            recommendationName: clinicStore.linkClinicName
+            recommendationId: g.recommendationId || '',
+            recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
+            recommendationName: g.recommendationName || ''
           };
         });
       // if(sessionItemRoyal.get('recommend_product')) {
@@ -1621,9 +1621,9 @@ class Payment extends React.Component {
             petsType: g.petsType,
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
-            recommendationId: clinicStore.linkClinicId,
-            recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-            recommendationName: clinicStore.linkClinicName
+            recommendationId: g.recommendationId || '',
+            recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
+            recommendationName: g.recommendationName || ''
           };
         });
       // }
