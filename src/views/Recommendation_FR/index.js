@@ -300,7 +300,10 @@ class Help extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 0,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -355,7 +358,10 @@ class Help extends React.Component {
         selected: true,
         quantity: quantityNew,
         goodsInfoFlag: 0,
-        periodTypeId: null
+        periodTypeId: null,
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+        recommendationName: this.props.clinicStore.linkClinicName
       });
       console.log(idx, 'idx');
       if (idx > -1) {
