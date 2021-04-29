@@ -1412,7 +1412,7 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo?.forEach((el) => {
           rations?.forEach((ration) => {
             if (el.spuNo == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+              el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
             }
           });
         });
@@ -2416,11 +2416,11 @@ class SubscriptionDetail extends React.Component {
         let rations = rationRes?.context?.rationResponseItems;
         rations?.forEach((ration) => {
           if (mainProduct.spuCode == ration.mainItem) {
-            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
           }
           otherProducts?.map((el) => {
             if (el.spuCode == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+              el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
             }
           });
         });
