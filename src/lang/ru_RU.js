@@ -689,7 +689,7 @@ const ru_RU = {
   'payment.normalDelivery2': 'Нормальная доставка',
   'payment.normalDelivery3': '(1-4 дня)',
   'payment.payment': 'Способ оплаты',
-  'payment.paymentInformation': 'Способо оплаты',
+  'payment.paymentInformation': 'Способ оплаты',
   'payment.phoneNumber': 'Номер телефона',
   'payment.phoneNumber2': 'Телефонный номер',
   'payment.postCode': 'Индекс',
