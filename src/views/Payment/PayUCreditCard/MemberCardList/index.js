@@ -12,7 +12,8 @@ import {
 } from '@/api/payment';
 import {
   CREDIT_CARD_IMG_ENUM,
-  PAYMENT_METHOD_PAU_CHECKOUT_RULE
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+  PAYMENT_METHOD_PAU_ACCOUNT_RULE
 } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
@@ -259,6 +260,7 @@ class MemberCardList extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfoForm } = this.state;
+    console.log(name + '   ' + value);
     if (name === 'cardNumber') {
       let beforeValue = value.substr(0, value.length - 1);
       let inputValue = value.substr(value.length - 1, 1);
@@ -292,7 +294,7 @@ class MemberCardList extends React.Component {
     });
   };
   async validFormData() {
-    const { mustSaveForFutherPayments } = this.props;
+    const { mustSaveForFutherPayments, needEmail, needPhone } = this.props;
     const {
       creditCardInfoForm: { savedCardChecked },
       isEdit
@@ -304,10 +306,13 @@ class MemberCardList extends React.Component {
         throw new Error('must checked the saved card checkbox');
       }
       if (isEdit) {
-        await validData(
-          PAYMENT_METHOD_PAU_CHECKOUT_RULE,
-          this.state.creditCardInfoForm
-        );
+        let rules = null;
+        if (needEmail && needPhone) {
+          rules = PAYMENT_METHOD_PAU_ACCOUNT_RULE;
+        } else {
+          rules = PAYMENT_METHOD_PAU_CHECKOUT_RULE;
+        }
+        await validData(rules, this.state.creditCardInfoForm);
       }
 
       this.setState({ isValid: true });
