@@ -704,7 +704,6 @@ class CheckoutStore {
             )
           );
         }
-
         await this.updateUnloginCart({ cartData: cartDataCopy });
         if (isMobile) {
           mobileSuccessModalButton.click();
