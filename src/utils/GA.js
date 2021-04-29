@@ -75,6 +75,7 @@ const getSpeciesId = (cateId) => {
 export function deleteObjEmptyAttr(obj) {
   for (var key in obj) {
     if (
+      obj[key] === undefined ||
       obj[key] === null ||
       obj[key] === '' ||
       (Array.isArray(obj[key]) && obj[key].length == 0)
@@ -273,7 +274,14 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
 };
 
 //recommendation-product
-export const GARecommendationProduct = (productList, type, frequencyList) => {
+export const GARecommendationProduct = (
+  productList,
+  type,
+  frequencyList,
+  promotionCode,
+  GAPrice
+) => {
+  console.log(111, productList);
   const calculatedWeeks = getComputedWeeks(frequencyList);
   const products = productList.map((item) => {
     const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
@@ -292,7 +300,7 @@ export const GARecommendationProduct = (productList, type, frequencyList) => {
       ? calculatedWeeks[item.periodTypeId]
       : '';
     let productItem = {
-      price: minMarketPrice,
+      price: GAPrice,
       specie,
       range: cateName?.[1] || '',
       name: goodsName,
@@ -307,7 +315,7 @@ export const GARecommendationProduct = (productList, type, frequencyList) => {
       breed,
       quantity: item.buyCount,
       sizeCategory: '',
-      promoCodeName: '',
+      promoCodeName: promotionCode || '',
       promoCodeAmount: ''
     };
     let res = deleteObjEmptyAttr(productItem);
@@ -450,5 +458,17 @@ export const productFinderPushEvent = ({
       number: stepOrder, //Step number
       previousAnswer: getStepCurrentPreviousAnswer(answerdQuestionList) //Answer to previous question, generic name, in English
     }
+  });
+};
+
+export const GABuyNow = () => {
+  dataLayer.push({
+    'event ': ' breederRecoBuyNow'
+  });
+};
+
+export const GABreederRecoPromoCodeCTA = () => {
+  dataLayer.push({
+    'event ': ' breederRecoPromoCodeCTA'
   });
 };
