@@ -40,7 +40,8 @@ class PayProductInfo extends React.Component {
     guestEmail: '',
     isGuestCart: false,
     isCheckOut: false,
-    deliveryAddress: []
+    deliveryAddress: [],
+    paymentPurchasesPara: null
   };
   constructor(props) {
     super(props);
@@ -502,7 +503,7 @@ class PayProductInfo extends React.Component {
       needHideProductList,
       isShowValidCode
     } = this.state;
-    const { checkoutStore } = this.props;
+    const { checkoutStore, paymentPurchasesPara } = this.props;
     const List =
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
@@ -681,16 +682,24 @@ class PayProductInfo extends React.Component {
                             onClick={async () => {
                               let result = {};
                               await checkoutStore.removePromotionCode();
+                              // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
+                              let purchasesPara = Object.assign(
+                                {},
+                                paymentPurchasesPara
+                              );
+                              purchasesPara.promotionCode = '';
                               if (!this.props.loginStore.isLogin) {
-                                //游客
-                                result = await checkoutStore.updateUnloginCart();
+                                // 游客
+                                result = await checkoutStore.updateUnloginCart(
+                                  purchasesPara
+                                );
                               } else {
-                                //会员
-                                result = await checkoutStore.updateLoginCart({
-                                  promotionCode: '',
-                                  subscriptionFlag:
-                                    this.props.buyWay === 'frequency'
-                                });
+                                purchasesPara.subscriptionFlag =
+                                  this.props.buyWay === 'frequency';
+                                // 会员
+                                result = await checkoutStore.updateLoginCart(
+                                  purchasesPara
+                                );
                               }
                               discount.pop();
                               this.props.sendPromotionCode('');

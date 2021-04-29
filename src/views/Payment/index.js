@@ -257,6 +257,7 @@ class Payment extends React.Component {
       isShowCardList: false,
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
+      paymentPurchasesPara: null,
       paymentValidationLoading: false, // 地址校验loading
       btnLoading: false,
       validationModalVisible: false, // 地址校验查询开关
@@ -1894,6 +1895,10 @@ class Payment extends React.Component {
       } else {
         await this.props.checkoutStore.updateUnloginCart(param);
       }
+      // 传到 PayProductInfo 组件中用
+      this.setState({
+        paymentPurchasesPara: param
+      });
     } catch (err) {
       console.warn(err);
     }
@@ -3092,7 +3097,8 @@ class Payment extends React.Component {
       paymentValidationLoading,
       validationModalVisible,
       billingAddress,
-      selectValidationOption
+      selectValidationOption,
+      paymentPurchasesPara
     } = this.state;
     const event = {
       page: {
@@ -3433,6 +3439,7 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
+                    paymentPurchasesPara={paymentPurchasesPara}
                   />
                 )}
                 {/* 分期手续费 */}
