@@ -376,6 +376,15 @@ const App = () => {
                     );
                   }}
                 />
+                <Route
+                  exact
+                  path="/recommendationfr"
+                  render={(props) => {
+                    return (
+                      <Recommendation_FR  {...props} />
+                    );
+                  }}
+                />
                 {/* <Route
                   exact
                   path="/recommendation"

@@ -66,6 +66,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSPT: false,
       frequencyList: '',
       isNoMoreProduct: false,
       promotionCode: '',
@@ -669,6 +670,152 @@ class Recommendation extends React.Component {
     const currentProduct = productList.filter((item, i) => i == index && item);
     GARecommendationProduct(currentProduct, 2, this.state.frequencyList);
   }
+  isSPTUp = () => (
+    <div>
+      <section
+        className="text-center"
+        style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
+      >
+        <h1 style={{ color: '#E2001A', margin: '1.25rem' }}>Bienvenue !</h1>
+        <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
+          Merci pour votre visite en magasin, voici notre recommandation.
+        </h2>
+        {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+      <FormattedMessage id="recommendation.firstTitle" />
+    </h2> */}
+        <p style={{ fontSize: '1.125rem' }}>
+          {/* <FormattedMessage id="recommendation.firstContent" /> */}
+          La recommandation a été faite en fonction des besoins uniques de votre
+          animal.
+        </p>
+        <p>
+          <button
+            className={`rc-btn rc-btn--one ${
+              this.state.buttonLoading ? 'ui-btn-loading' : ''
+            } ${
+              this.state.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
+            }`}
+            onClick={() => {
+              if (loginStore.isLogin) {
+                this.hanldeLoginAddToCart();
+              } else {
+                this.hanldeUnloginAddToCart(productList, '/cart');
+              }
+            }}
+          >
+            {/* <FormattedMessage id="recommendation.viewInCart" /> */}
+            Voir le panier
+          </button>
+        </p>
+      </section>
+    </div>
+  );
+  commonUp = () => {
+    let { promotionCodeText, isMobile } = this.state;
+    let showBannerTip = true;
+    let bannerHight = showBannerTip
+      ? document.querySelector('.nav-slim-banner')?.offsetHeight
+      : 0;
+
+    return (
+      <div style={{ paddingTop: bannerHight }}>
+        <section
+          className="text-center"
+          style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
+        >
+          <div
+            className={`${
+              isFr ? 'rc-max-width--lg' : 'rc-max-width--md'
+            } text-center rc-margin-y--md`}
+          >
+            <div
+              className={`rc-alpha inherit-fontsize ${
+                isFr && 'sx rc-margin-bottom--xs'
+              }`}
+            >
+              <h1 style={{ marginBottom: isFr ? '0px' : '0.67em' }}>
+                <FormattedMessage id="recommendation.welcomeText1" />
+              </h1>
+            </div>
+            {isFr && (
+              <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                <span
+                  style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
+                >
+                  <FormattedMessage id="recommendation.welcomeSubText1" />
+                </span>
+              </div>
+            )}
+            <div
+              className={`rc-beta inherit-fontsize ${
+                isFr && 'sx rc-margin-bottom--xs'
+              }`}
+            >
+              <p style={{ marginBottom: '0px' }}>
+                <FormattedMessage id="recommendation.welcomeText2" />
+                {/* Merci pour votre visite en magasin, voici notre recommandation. */}
+              </p>
+            </div>
+            {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+        <FormattedMessage id="recommendation.firstTitle" />
+      </h2> */}
+            <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+              <span style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}>
+                <FormattedMessage
+                  values={{
+                    val: (
+                      <span style={{ color: '#e2001a', fontSize: '1.5rem' }}>
+                        E
+                      </span>
+                    )
+                  }}
+                  id="recommendation.welcomeSubText"
+                />
+                {/* La recommandation a été faite en fonction des besoins uniques de
+          votre animal. */}
+              </span>
+            </div>
+
+            <p>
+              {(isRu || isUs) && (
+                <button
+                  className={`rc-btn rc-btn--one ${
+                    this.state.buttonLoading ? 'ui-btn-loading' : ''
+                  } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                  onClick={this.addCart}
+                >
+                  <FormattedMessage id="recommendation.welcomeBtn" />
+                  {/* Voir le panier */}
+                </button>
+              )}
+              {isFr && promotionCodeText && (
+                <>
+                  <button
+                    title=""
+                    data-tooltip-placement="top"
+                    data-tooltip="top-tooltip"
+                    className={`rc-btn rc-btn--two`}
+                    onClick={this.copyPromotion}
+                  >
+                    {' '}
+                    {promotionCodeText}
+                  </button>
+                  <div id="top-tooltip" class="rc-tooltip">
+                    <div className="rc-padding-x--xs rc-padding-y--xs">
+                      copié !
+                    </div>
+                  </div>
+                  <div className="rc-margin-top--xs">
+                    <FormattedMessage id="recommendation.copyTips" />
+                  </div>
+                </>
+              )}
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  };
 
   render() {
     console.info('helpContentText', this.helpContentText);
@@ -687,7 +834,15 @@ class Recommendation extends React.Component {
           addCart={this.addCart}
         />
       ),
-      fr: <Fr />
+      fr: (
+        <Fr
+          configStore={this.props.configStore}
+          addCart={this.addCart}
+          inStockProducts={this.state.inStockProducts}
+          buttonLoading={this.state.buttonLoading}
+          isSPT={this.state.isSPT}
+        />
+      )
     };
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
@@ -745,10 +900,6 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
-    let showBannerTip = true;
-    let bannerHight = showBannerTip
-      ? document.querySelector('.nav-slim-banner')?.offsetHeight
-      : 0;
 
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
@@ -815,108 +966,7 @@ class Recommendation extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <div style={{ paddingTop: bannerHight }}>
-            <section
-              className="text-center"
-              style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
-            >
-              <div
-                className={`${
-                  isFr ? 'rc-max-width--lg' : 'rc-max-width--md'
-                } text-center rc-margin-y--md`}
-              >
-                <div
-                  className={`rc-alpha inherit-fontsize ${
-                    isFr && 'sx rc-margin-bottom--xs'
-                  }`}
-                >
-                  <h1 style={{ marginBottom: isFr ? '0px' : '0.67em' }}>
-                    <FormattedMessage id="recommendation.welcomeText1" />
-                  </h1>
-                </div>
-                {isFr && (
-                  <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                    <span
-                      style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
-                    >
-                      <FormattedMessage id="recommendation.welcomeSubText1" />
-                    </span>
-                  </div>
-                )}
-                <div
-                  className={`rc-beta inherit-fontsize ${
-                    isFr && 'sx rc-margin-bottom--xs'
-                  }`}
-                >
-                  <p style={{ marginBottom: '0px' }}>
-                    <FormattedMessage id="recommendation.welcomeText2" />
-                    {/* Merci pour votre visite en magasin, voici notre recommandation. */}
-                  </p>
-                </div>
-                {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              <FormattedMessage id="recommendation.firstTitle" />
-            </h2> */}
-                <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                  <span
-                    style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
-                  >
-                    <FormattedMessage
-                      values={{
-                        val: (
-                          <span
-                            style={{ color: '#e2001a', fontSize: '1.5rem' }}
-                          >
-                            E
-                          </span>
-                        )
-                      }}
-                      id="recommendation.welcomeSubText"
-                    />
-                    {/* La recommandation a été faite en fonction des besoins uniques de
-                votre animal. */}
-                  </span>
-                </div>
-
-                <p>
-                  {(isRu || isUs) && (
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${
-                        this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'
-                      }`}
-                      onClick={this.addCart}
-                    >
-                      <FormattedMessage id="recommendation.welcomeBtn" />
-                      {/* Voir le panier */}
-                    </button>
-                  )}
-                  {isFr && promotionCodeText && (
-                    <>
-                      <button
-                        title=""
-                        data-tooltip-placement="top"
-                        data-tooltip="top-tooltip"
-                        className={`rc-btn rc-btn--two`}
-                        onClick={this.copyPromotion}
-                      >
-                        {' '}
-                        {promotionCodeText}
-                      </button>
-                      <div id="top-tooltip" class="rc-tooltip">
-                        <div className="rc-padding-x--xs rc-padding-y--xs">
-                          copié !
-                        </div>
-                      </div>
-                      <div className="rc-margin-top--xs">
-                        <FormattedMessage id="recommendation.copyTips" />
-                      </div>
-                    </>
-                  )}
-                </p>
-              </div>
-            </section>
-          </div>
+          {this.state.isSPT ? this.isSPTUp() : this.commonUp()}
           {this.state.isNoMoreProduct ? (
             <div
               className="rc-max-width--xl"
