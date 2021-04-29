@@ -67,8 +67,8 @@ class PayProductInfo extends React.Component {
     const { details } = this.props;
     // console.log(plist, details, 'hahaha');
     const List = plist.map((item, i) => {
-      let isGift =
-        item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;
+      let isGift = false;
+      // item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;
       let giftArr = item.subscriptionPlanGiftList;
       return (
         <div
@@ -179,6 +179,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
           {isGift &&
+            false &&
             giftArr.map((gift) => (
               <div className="product-line-item no-border gift-top-border-mobile">
                 <div className="product-line-item-details d-flex flex-row">

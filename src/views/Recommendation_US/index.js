@@ -187,6 +187,10 @@ class Recommendation extends React.Component {
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
         const currentShowProduct = [].concat(productList)?.splice(0, 1);
+        if (res.context.structureType != 'breeder' && isFr) {
+          // 法国区分stp和breeder
+          this.setState({ isSPT: true });
+        }
         GARecommendationProduct(
           currentShowProduct,
           1,
@@ -346,7 +350,8 @@ class Recommendation extends React.Component {
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
         if (!isRu) {
-          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicId(res.context.id);
+          this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
           this.props.clinicStore.setLinkClinicName('');
         }
         this.props.clinicStore.setAuditAuthority(false);
@@ -376,7 +381,8 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
-      this.props.clinicStore.setLinkClinicId(res.context?.prescriberId);
+      this.props.clinicStore.setLinkClinicId(res.context?.id);
+      this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
@@ -445,7 +451,10 @@ class Recommendation extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 0,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -469,6 +478,9 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&

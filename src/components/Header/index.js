@@ -124,6 +124,7 @@ class Header extends React.Component {
       window.location.search || (location ? location.search : ''),
       'clinic'
     );
+    let linkClinicBusId = ''; //推荐者主键Id
     let linkClinicName = '';
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
@@ -143,11 +144,13 @@ class Header extends React.Component {
           res.context.prescriberVo.length
         ) {
           linkClinicId = res.context.prescriberVo[0].id;
+          linkClinicBusId = res.context.prescriberVo[0].prescriberId;
           linkClinicName = res.context.prescriberVo[0].prescriberName;
         }
         if (linkClinicId && linkClinicName) {
           clinicStore.setClinicRecoCode(clinciRecoCode);
           clinicStore.setLinkClinicId(linkClinicId);
+          clinicStore.setLinkClinicBusId(linkClinicBusId);
           clinicStore.setLinkClinicName(linkClinicName);
         }
       } else if (linkClinicId && location.pathname === '/') {
@@ -160,13 +163,13 @@ class Header extends React.Component {
         // 根据id查询Clinic详情
         const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
-          // linkClinicId = idRes.context.id;
-          //推荐者Id取prescriberId
-          linkClinicId = idRes.context.prescriberId;
+          linkClinicId = idRes.context.id;
+          linkClinicBusId = idRes.context.prescriberId;
           linkClinicName = res.context.prescriberName;
         }
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
+          clinicStore.setLinkClinicBusId(linkClinicBusId);
           clinicStore.setLinkClinicName(linkClinicName);
           clinicStore.setAuditAuthority(res.context.auditAuthority);
         }

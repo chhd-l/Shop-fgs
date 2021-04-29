@@ -170,6 +170,7 @@ class Help extends React.Component {
         });
         getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
           this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicBusId(res.context.id);
           this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
           this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
           this.setState({ prescriberInfo: res.context, loading: false });
@@ -234,7 +235,11 @@ class Help extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 0,
+            //推荐链接购买商品，推荐者信息跟着商品走
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -289,7 +294,11 @@ class Help extends React.Component {
         selected: true,
         quantity: quantityNew,
         goodsInfoFlag: 0,
-        periodTypeId: null
+        periodTypeId: null,
+        //推荐链接购买商品，推荐者信息跟着商品走
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+        recommendationName: this.props.clinicStore.linkClinicName
       });
       // console.log(idx, 'idx');
       if (idx > -1) {

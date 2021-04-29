@@ -920,6 +920,7 @@ class UnLoginCart extends React.Component {
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
+            false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
               <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info">
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">

@@ -755,6 +755,10 @@ class SubscriptionDetail extends React.Component {
     let updateLifeStage =
       getParaByName(search, 'updateLifeStage') ||
       this.props.location.state?.updateLifeStage;
+    let needBindPet =
+      getParaByName(search, 'needBindPet') ||
+      this.props.location.state?.needBindPet;
+
     if (updateLifeStage) {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
@@ -789,6 +793,8 @@ class SubscriptionDetail extends React.Component {
         // 非激活状态就不展示
         this.setState({ editRecommendationVisible: false });
       }
+      // 邮件展示需要绑定宠物
+      needBindPet && this.showAddNewPet();
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
       goodsInfo?.length == 1 &&
         this.state.editRecommendationVisible &&
