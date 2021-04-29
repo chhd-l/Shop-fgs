@@ -47,12 +47,39 @@ export default class Responsive extends Component {
                   <div className="Name">{item.goodsName}</div>
                   <div className="Subtitle">{item.goodsSubtitle}</div>
                   <div className="marketPrice">
-                    {formatMoney(item.minMarketPrice)}
+                    {/* {formatMoney(item.minMarketPrice)}
                     {item.minLinePrice && (
                       <span style={{ display: 'none' }}>
                         {formatMoney(item.minLinePrice)}
                       </span>
-                    )}
+                    )} */}
+                    {item.fromPrice ? (
+                      <div className="product-price">
+                        <div className="card--product-contaner-price">
+                          {item.toPrice ? (
+                            <FormattedMessage
+                              id="pirceRange"
+                              values={{
+                                fromPrice: (
+                                  <span className="contaner-price__value">
+                                    {formatMoney(item.fromPrice)}
+                                  </span>
+                                ),
+                                toPrice: (
+                                  <span className="contaner-price__value">
+                                    {formatMoney(item.toPrice)}
+                                  </span>
+                                )
+                              }}
+                            />
+                          ) : (
+                            <span className="contaner-price__value">
+                              {formatMoney(item.fromPrice)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                   {item.minSubscriptionPrice ? (
                     <p className="subscriptionPrice">
