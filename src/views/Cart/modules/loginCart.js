@@ -726,12 +726,13 @@ class LoginCart extends React.Component {
                 style={{ flex: 1 }}
               >
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-flex align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-block align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
                     .join('-')
                     .replace('/', '')}-${pitem.goods.goodsNo}`}
+                  style={{ marginTop: '0' }}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
