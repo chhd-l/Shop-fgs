@@ -623,7 +623,9 @@ class Details extends React.Component {
 
       return item;
     });
-    !details.promotions || !details.promotions.includes('club')
+    !details.promotions ||
+    !details.promotions.includes('club') ||
+    !skuPromotions
       ? (form.buyWay = 0)
       : skuPromotions == 'club'
       ? (form.buyWay = 2)
