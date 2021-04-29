@@ -459,7 +459,7 @@ class UnloginCart extends React.Component {
                           </div>
                           {toJS(
                             item.sizeList.filter((e) => e.selected)[0].planId
-                          )
+                          ) && false
                             ? toJS(
                                 item.sizeList.filter((e) => e.selected)[0]
                                   .planGifts

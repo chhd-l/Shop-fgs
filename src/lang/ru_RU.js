@@ -947,6 +947,7 @@ const ru_RU = {
   'subscription.subscriptionNumberTip': 'Пожалуйста, введите номер подписки',
   'subscription.toBeDelivered': 'Доставка',
   'subscription.total': 'Всего',
+  'day-unit': 'gün',
   'subscription.totalInclu': 'Итого (включая НДС)',
   'subscriptionLanding.catButton': 'Корм для Кошки',
   'subscriptionLanding.content1':

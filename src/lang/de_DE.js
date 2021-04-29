@@ -1263,6 +1263,7 @@ const de_DE = {
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
   'subscription.productRecommendation': 'Your product recommendation',
+  'day-unit': 'tag',
   'subscription.productRecommendationTip':
     "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
   switchProductTip1: 'This is currently the best product for',

@@ -1059,6 +1059,7 @@ const es_ES = {
   'subscription.chooseThisProduct': 'choose this product',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
+  'day-unit': 'día',
   'subscription.productRecommendation': 'Your product recommendation',
   'subscription.productRecommendationTip':
     "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
