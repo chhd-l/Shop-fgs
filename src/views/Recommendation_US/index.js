@@ -181,7 +181,11 @@ class Recommendation extends React.Component {
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
         const currentShowProduct = [].concat(productList)?.splice(0, 1);
-        GARecommendationProduct(currentShowProduct, 1, frequencyList);
+        GARecommendationProduct(
+          currentShowProduct,
+          1,
+          this.state.frequencyList
+        );
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
@@ -663,7 +667,7 @@ class Recommendation extends React.Component {
   tabChange(productList, index) {
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
-    GARecommendationProduct(currentProduct, 2, frequencyList);
+    GARecommendationProduct(currentProduct, 2, this.state.frequencyList);
   }
 
   render() {
