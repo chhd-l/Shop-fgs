@@ -814,12 +814,12 @@ const tr_TR = {
   reviewisRequired: 'İnceleme gerekli.',
   reviews: 'Yorumlar',
   royalCanin: 'Royal Canin',
-  'salesCategory.cat': 'Kedi için',
+  'salesCategory.cat': 'Kedi',
   'salesCategory.content':
-    'Her formül, boyutları, ırkı, yaşı veya yaşam tarzı ne olursa olsun {val1} sağlık ihtiyaçlarına uygun beslenmeyi sağlamak için oluşturulmuştur.',
-  'salesCategory.dog': 'Köpek için',
+    'Her bir formül, ırkı, yaşı veya yaşam tarzı ne olursa olsun evcil hayvanınızın sağlık ihtiyaçlarına göre uyarlanmış besinleri sağlamak üzere oluşturulmuştur.',
+  'salesCategory.dog': 'Köpek',
   //salesCategory
-  'salesCategory.title': '{val1} yiyecek çeşitlerimizi keşfedin',
+  'salesCategory.title': '{val1} Ürünlerimizi keşfedin',
   save: 'Kaydet',
   saveFailed: 'Kayıt başarısız!',
   saveSuccess: 'Başarıyı Kaydet',
