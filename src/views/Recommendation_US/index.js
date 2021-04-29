@@ -183,10 +183,10 @@ class Recommendation extends React.Component {
     requestName(params)
       .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
-        let productList = res.context.recommendationGoodsInfoRels;
+        let productLists = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
-        const currentShowProduct = [].concat(productList)?.splice(0, 1);
+        const currentShowProduct = [].concat(productLists)?.splice(0, 1);
         if (res.context.structureType != 'breeder' && isFr) {
           // 法国区分stp和breeder
           this.setState({ isSPT: true });
@@ -210,7 +210,7 @@ class Recommendation extends React.Component {
         prescriberId &&
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
-        productList.map((el) => {
+        productLists.map((el) => {
           el?.goodsDescriptionDetailList?.forEach((g) => {
             let ret = g.content;
             if (g.content && g.contentType === 'json') {
@@ -335,7 +335,7 @@ class Recommendation extends React.Component {
           return el;
         });
         let promotionCode = res.context.promotionCode || '';
-        let filterProducts = productList.filter((el) => {
+        let filterProducts = productLists.filter((el) => {
           return el.goodsInfo.addedFlag;
         });
         // 只展示上架商品
@@ -943,7 +943,7 @@ class Recommendation extends React.Component {
       // );
     }
 
-    this.calculateGAPrice(MaxMarketPrice, MinMarketPrice);
+    // this.calculateGAPrice(MaxMarketPrice, MinMarketPrice);
 
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
