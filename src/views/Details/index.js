@@ -2133,7 +2133,11 @@ class Details extends React.Component {
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">
                                 {specList.map((sItem, i) => (
-                                  <div id="choose-select" key={i}>
+                                  <div
+                                    id="choose-select"
+                                    className="spec-choose-select"
+                                    key={i}
+                                  >
                                     <div className="rc-margin-bottom--xs">
                                       <FormattedMessage id={sItem.specName} />:
                                     </div>
