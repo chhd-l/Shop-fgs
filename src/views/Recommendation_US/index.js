@@ -182,6 +182,10 @@ class Recommendation extends React.Component {
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
         const currentShowProduct = [].concat(productList)?.splice(0, 1);
+        if (res.context.structureType != 'breeder' && isFr) {
+          // 法国区分stp和breeder
+          this.setState({ isSPT: true });
+        }
         GARecommendationProduct(
           currentShowProduct,
           1,
