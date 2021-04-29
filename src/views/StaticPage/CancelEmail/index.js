@@ -9,7 +9,7 @@ import { cancelEmailBind } from '@/api';
 
 const pageLink = window.location.href;
 
-class cancelEmail extends React.Component {
+class CancelEmail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,4 +73,4 @@ class cancelEmail extends React.Component {
   }
 }
 
-export default cancelEmail;
+export default CancelEmail;
