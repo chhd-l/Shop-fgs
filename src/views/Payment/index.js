@@ -1040,6 +1040,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
+      console.log(parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1467,10 +1468,11 @@ class Payment extends React.Component {
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
       comment: deliveryAddress?.comment,
-      //推荐者信息
+      //推荐者信息下放到商品行
       recommendationId: clinicStore.linkClinicId,
+      recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
       recommendationName: clinicStore.linkClinicName,
-      //审核者信息
+      //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
       storeId: process.env.REACT_APP_STOREID,
@@ -1516,6 +1518,7 @@ class Payment extends React.Component {
           petsName: ele.petsName,
           goodsInfoFlag: 0,
           recommendationId: clinicStore.linkClinicId,
+          recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
           recommendationName: clinicStore.linkClinicName
         };
       });
@@ -1533,6 +1536,7 @@ class Payment extends React.Component {
           petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag,
           recommendationId: clinicStore.linkClinicId,
+          recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
           recommendationName: clinicStore.linkClinicName
         };
       });
@@ -1548,6 +1552,7 @@ class Payment extends React.Component {
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
           recommendationId: clinicStore.linkClinicId,
+          recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
           recommendationName: clinicStore.linkClinicName
         };
       });
@@ -1571,6 +1576,7 @@ class Payment extends React.Component {
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
             recommendationName: clinicStore.linkClinicName
           };
         });
@@ -1616,6 +1622,7 @@ class Payment extends React.Component {
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
             recommendationName: clinicStore.linkClinicName
           };
         });

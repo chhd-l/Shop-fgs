@@ -170,6 +170,7 @@ class Help extends React.Component {
         });
         getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
           this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicBusId(res.context.id);
           this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
           this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
           this.setState({ prescriberInfo: res.context, loading: false });
