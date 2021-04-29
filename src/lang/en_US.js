@@ -1342,6 +1342,7 @@ const en_US = {
   imageLargeError: 'Image uploaded is too large',
   'subscription.all': 'all',
   'subscription.autoship': 'autoship',
-  'subscription.club': 'club'
+  'subscription.club': 'club',
+  'detail.subscriptionBuyTip': 'Subscription without participation'
 };
 export default en_US;
