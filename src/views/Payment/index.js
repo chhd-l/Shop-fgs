@@ -1894,18 +1894,20 @@ class Payment extends React.Component {
       address1: data?.address1,
       ruShippingDTO: ruShippingDTO
     };
+    if (this.isLogin) {
+      param.subscriptionFlag = false;
+    }
+    // 传到 PayProductInfo 组件中用
+    this.setState({
+      paymentPurchasesPara: param
+    });
     try {
       // 获取税额
       if (this.isLogin) {
-        param.subscriptionFlag = false;
         await this.props.checkoutStore.updateLoginCart(param);
       } else {
         await this.props.checkoutStore.updateUnloginCart(param);
       }
-      // 传到 PayProductInfo 组件中用
-      this.setState({
-        paymentPurchasesPara: param
-      });
     } catch (err) {
       console.warn(err);
     }
