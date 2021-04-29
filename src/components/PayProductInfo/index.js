@@ -179,6 +179,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
           {isGift &&
+            false &&
             giftArr.map((gift) => (
               <div className="product-line-item no-border gift-top-border-mobile">
                 <div className="product-line-item-details d-flex flex-row">

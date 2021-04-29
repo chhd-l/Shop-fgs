@@ -1336,7 +1336,10 @@ class Details extends React.Component {
         goodsInfoFlag,
         petsId: currentSelectedSize.petsId,
         petsType: currentSelectedSize.petsType,
-        questionParams
+        questionParams,
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+        recommendationName: this.props.clinicStore.linkClinicName
       };
       if (buyWay) {
         param.periodTypeId = form.frequencyId;
@@ -1378,7 +1381,10 @@ class Details extends React.Component {
         goodsInfoFlag: parseInt(form.buyWay),
         periodTypeId: parseInt(form.buyWay) ? form.frequencyId : '',
         quantity,
-        questionParams
+        questionParams,
+        recommendationId: this.props.clinicStore.linkClinicId,
+        recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+        recommendationName: this.props.clinicStore.linkClinicName
       });
       //requestJson是shelter和breeder产品的参数，有就加上
       if (Object.keys(this.state.requestJson).length > 0) {
