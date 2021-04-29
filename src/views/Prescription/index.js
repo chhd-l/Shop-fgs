@@ -238,6 +238,9 @@ class Prescription extends React.Component {
   closeModal = () => {
     this.hubGaModalPopupClick('No, go to buy');
     this.setState({ modalShow: false });
+    //不需要审核者
+    localItemRoyal.remove(`rc-clinic-id-select`);
+    localItemRoyal.remove(`rc-clinic-name-select`);
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false'); //在checkout页面不显示prescriber信息
     this.props.history.push('/checkout');
   };

@@ -42,7 +42,8 @@ class Test extends React.Component {
         provinceId: '',
         province: '',
         postCode: '',
-        phoneNumber: '+7 (923) 456 78 90'
+        phoneNumber: '+7 (923) 456 78 90',
+        testText: ''
       },
       isValid: false,
       selectedOption: null
@@ -99,7 +100,7 @@ class Test extends React.Component {
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     console.log('111111--------- ', name, ' : ', value);
-    form['phoneNumber'] = value;
+    form[name] = value;
     this.setState({ form }, () => {
       console.log('222222--------- ', name, ' : ', value);
     });
@@ -110,7 +111,7 @@ class Test extends React.Component {
     const target = e?.target;
     const tname = target?.name;
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
-    form['phoneNumber'] = value;
+    form[tname] = value;
     this.setState({ form }, () => {
       console.log('333333--------- ', tname, ' : ', value);
     });
@@ -140,6 +141,17 @@ class Test extends React.Component {
         <hr />
         <hr />
         <hr />
+        <hr />
+        <input
+          className={`rc-input__control testInputShipping`}
+          value={form.firstName}
+          id="firstName"
+          type="text"
+          name="firstName"
+          maxLength="18"
+          style={{ border: '1px solid #000' }}
+          onChange={(e) => this.inputChange(e)}
+        />
         <hr />
         {/* <Form
           type="delivery"

@@ -263,7 +263,7 @@ class SubscriptionDetail extends React.Component {
       return;
     }
     this.setState({ productListLoading: true });
-    // getDetailsBySpuNo(3003)
+    // getDetailsBySpuNo('MKT00006')
     getDetailsBySpuNo(id)
       .then((res) => {
         const goodsRes = res && res.context && res.context.goods;
@@ -320,6 +320,7 @@ class SubscriptionDetail extends React.Component {
                 );
                 sdItem.isClub = filterproducts.every(
                   (item) =>
+                    // item.promotions=='club'&&
                     item.subscriptionStatus === 1 && item.subscriptionPrice > 0
                 );
                 console.info('sdItem.isEmpty', sdItem.isEmpty);
@@ -331,7 +332,10 @@ class SubscriptionDetail extends React.Component {
             let defaultSelcetdSku = -1;
             if (defaultSelcetdSku > -1) {
               // 默认选择该sku
-              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+              if (
+                !sItem.chidren[defaultSelcetdSku].isEmpty &&
+                sItem.chidren[defaultSelcetdSku]?.isClub
+              ) {
                 // 如果是sku进来的，需要默认当前sku被选择
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
@@ -339,17 +343,19 @@ class SubscriptionDetail extends React.Component {
               if (
                 process.env.REACT_APP_LANG === 'de' &&
                 sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
+                !sItem.chidren[1].isEmpty &&
+                sItem.chidren[1].isClub
               ) {
                 sItem.chidren[1].selected = true;
               } else if (
                 sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
+                !sItem.chidren[1].isEmpty &&
+                sItem.chidren[1].isClub
               ) {
                 sItem.chidren[1].selected = true;
               } else {
                 for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
+                  if (sItem.chidren[i].isEmpty || !sItem.chidren[i].isClub) {
                   } else {
                     sItem.chidren[i].selected = true;
                     break;
@@ -749,6 +755,10 @@ class SubscriptionDetail extends React.Component {
     let updateLifeStage =
       getParaByName(search, 'updateLifeStage') ||
       this.props.location.state?.updateLifeStage;
+    let needBindPet =
+      getParaByName(search, 'needBindPet') ||
+      this.props.location.state?.needBindPet;
+
     if (updateLifeStage) {
       // 从邮件过来的，需要添加被动更换商品
       this.setState({ editRecommendationVisible: true });
@@ -783,8 +793,11 @@ class SubscriptionDetail extends React.Component {
         // 非激活状态就不展示
         this.setState({ editRecommendationVisible: false });
       }
-      // 如果一进来就需要被动更换商品,删除以前所有商品
-      this.state.editRecommendationVisible &&
+      // 邮件展示需要绑定宠物
+      needBindPet && this.showAddNewPet();
+      // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
+      goodsInfo?.length == 1 &&
+        this.state.editRecommendationVisible &&
         this.state.isNotInactive &&
         this.showChangeProduct(goodsInfo, true);
     });
@@ -983,6 +996,14 @@ class SubscriptionDetail extends React.Component {
       errorMsgSureChange
     } = this.state;
     let selected = false;
+    if (
+      specList?.length == 0 &&
+      details?.subscriptionStatus &&
+      details?.promotions == 'club'
+    ) {
+      // 兼容bundle商品
+      selected = true;
+    }
     specList.forEach((el) => {
       if (!selected) {
         selected = el?.chidren.find((item) => item.selected)?.goodsId;
@@ -1391,7 +1412,7 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo?.forEach((el) => {
           rations?.forEach((ration) => {
             if (el.spuNo == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+              el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
             }
           });
         });
@@ -2395,11 +2416,11 @@ class SubscriptionDetail extends React.Component {
         let rations = rationRes?.context?.rationResponseItems;
         rations?.forEach((ration) => {
           if (mainProduct.spuCode == ration.mainItem) {
-            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
           }
           otherProducts?.map((el) => {
             if (el.spuCode == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+              el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
             }
           });
         });
@@ -2767,12 +2788,17 @@ class SubscriptionDetail extends React.Component {
               <p className="text-center red" style={{ fontSize: '1.5rem' }}>
                 <FormattedMessage id="switchProductTip1" />{' '}
                 {subDetail.petsInfo?.petsName}{' '}
-                <FormattedMessage id="switchProductTip2" />{' '}
-                {subDetail.petsInfo?.petsSex ? (
-                  <FormattedMessage id="switchProductTip.his" />
-                ) : (
-                  <FormattedMessage id="switchProductTip.her" />
+                {process.env.REACT_APP_LANG != 'tr' && (
+                  <FormattedMessage id="switchProductTip2" />
                 )}
+                {process.env.REACT_APP_LANG != 'tr' && ' '}
+                {process.env.REACT_APP_LANG != 'tr' &&
+                  (subDetail.petsInfo?.petsSex ? (
+                    <FormattedMessage id="switchProductTip.his" />
+                  ) : (
+                    <FormattedMessage id="switchProductTip.her" />
+                  ))}
+                {process.env.REACT_APP_LANG != 'tr' && ' '}
                 <FormattedMessage id="switchProductTip3" />!
               </p>
               <div className="d-flex align-items-center justify-content-center rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
@@ -3051,7 +3077,11 @@ class SubscriptionDetail extends React.Component {
     } = this.state;
     console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
-
+    let { promotions, petsType } = this.state;
+    //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
+    let isCatAndDog = petsType === 'CatAndDog';
+    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
+    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let minDeliveryTime = null;
     let maxDeliveryTime = null;
     if (subDetail?.noStartTradeList) {
@@ -3297,7 +3327,8 @@ class SubscriptionDetail extends React.Component {
                     {(isClub && this.state.isActive) ||
                     (isClub &&
                       this.state.isNotInactive &&
-                      this.state.subDetail.petsId) ? (
+                      this.state.subDetail.petsId &&
+                      !isCantLinkPet) ? (
                       this.ClubTitle()
                     ) : (
                       <h4

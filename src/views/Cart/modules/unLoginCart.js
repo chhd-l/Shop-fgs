@@ -733,12 +733,13 @@ class UnLoginCart extends React.Component {
                 style={{ flex: 1 }}
               >
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-flex align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-block align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
                     .join('-')
                     .replace('/', '')}-${pitem.goodsNo}`}
+                  style={{ marginTop: '0' }}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 ui-text-overflow-md-line1 d-md-inline-block cart-item-md__tagging_title order-2"
@@ -919,6 +920,7 @@ class UnLoginCart extends React.Component {
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
+            false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
               <div className="d-flex food-dispensor-box rc-border-all gift-text-center-mobile-gift rc-border-colour--interface product-info">
                 <div className="name-info flex-column-gift rc-main-content__wrapper d-flex">

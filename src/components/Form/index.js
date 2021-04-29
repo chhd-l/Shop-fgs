@@ -737,9 +737,33 @@ class Form extends React.Component {
       caninForm.address1 = data.unrestrictedValue;
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
+
       this.setState({ caninForm }, () => {
-        // 根据地址查询运费
-        this.getShippingCalculation(data);
+        // Москва 和 Московская 不请求查询运费接口，delivery fee=400, MinDeliveryTime:1,MaxDeliveryTime:2
+        if (data.province == 'Москва' || data.province == 'Московская') {
+          let calculation = {
+            deliveryPrice: 400,
+            price: 400,
+            maxDeliveryTime: 2,
+            minDeliveryTime: 1
+          };
+          caninForm.calculation = calculation;
+          caninForm.minDeliveryTime = calculation.minDeliveryTime;
+          caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
+          this.setState(
+            {
+              caninForm
+            },
+            () => {
+              this.props.getRussiaAddressValidFlag(true);
+              // purchases接口计算运费
+              this.props.calculateFreight(this.state.caninForm);
+            }
+          );
+        } else {
+          // 根据地址查询运费
+          this.getShippingCalculation(data);
+        }
       });
     }
   };

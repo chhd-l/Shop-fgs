@@ -476,6 +476,9 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     productData.filter((el) => el.prescriberFlag).length > 0;
   if (!needPrescriber) {
     //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息
+    //并且下单时不传审核者信息,但是推荐者信息要回传回去
+    localItemRoyal.remove(`rc-clinic-id-select`);
+    localItemRoyal.remove(`rc-clinic-name-select`);
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
     return '/checkout';
   }
@@ -486,7 +489,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     localItemRoyal.get(`rc-clinic-name-link`)
   ) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
-    clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
+    clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-bus-id-link`));
     clinicStore.setSelectClinicName(localItemRoyal.get(`rc-clinic-name-link`));
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';

@@ -257,6 +257,7 @@ class Payment extends React.Component {
       isShowCardList: false,
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
+      paymentPurchasesPara: null,
       paymentValidationLoading: false, // 地址校验loading
       btnLoading: false,
       validationModalVisible: false, // 地址校验查询开关
@@ -1040,6 +1041,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
+      console.log(parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1467,8 +1469,11 @@ class Payment extends React.Component {
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
       comment: deliveryAddress?.comment,
-      recommendationId: clinicStore.linkClinicId,
-      recommendationName: clinicStore.linkClinicName,
+      //推荐者信息下放到商品行
+      // recommendationId: clinicStore.linkClinicId,
+      // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
+      // recommendationName: clinicStore.linkClinicName,
+      //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
       storeId: process.env.REACT_APP_STOREID,
@@ -1513,8 +1518,9 @@ class Payment extends React.Component {
           petsId: ele.petsId,
           petsName: ele.petsName,
           goodsInfoFlag: 0,
-          recommendationId: clinicStore.linkClinicId,
-          recommendationName: clinicStore.linkClinicName
+          recommendationId: ele.recommendationId || '',
+          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          recommendationName: ele.recommendationName || ''
         };
       });
     } else if (this.isLogin) {
@@ -1530,8 +1536,9 @@ class Payment extends React.Component {
           petsId: ele.petsId,
           petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag,
-          recommendationId: clinicStore.linkClinicId,
-          recommendationName: clinicStore.linkClinicName
+          recommendationId: ele.recommendationId || '',
+          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          recommendationName: ele.recommendationName || ''
         };
       });
     } else {
@@ -1545,8 +1552,9 @@ class Payment extends React.Component {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
-          recommendationId: clinicStore.linkClinicId,
-          recommendationName: clinicStore.linkClinicName
+          recommendationId: ele.recommendationId || '',
+          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          recommendationName: ele.recommendationName || ''
         };
       });
     }
@@ -1568,8 +1576,9 @@ class Payment extends React.Component {
             petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
-            recommendationId: clinicStore.linkClinicId,
-            recommendationName: clinicStore.linkClinicName
+            recommendationId: g.recommendationId || '',
+            recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
+            recommendationName: g.recommendationName || ''
           };
         });
       // if(sessionItemRoyal.get('recommend_product')) {
@@ -1613,8 +1622,9 @@ class Payment extends React.Component {
             petsType: g.petsType,
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
-            recommendationId: clinicStore.linkClinicId,
-            recommendationName: clinicStore.linkClinicName
+            recommendationId: g.recommendationId || '',
+            recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
+            recommendationName: g.recommendationName || ''
           };
         });
       // }
@@ -1884,10 +1894,16 @@ class Payment extends React.Component {
       address1: data?.address1,
       ruShippingDTO: ruShippingDTO
     };
+    if (this.isLogin) {
+      param.subscriptionFlag = false;
+    }
+    // 传到 PayProductInfo 组件中用
+    this.setState({
+      paymentPurchasesPara: param
+    });
     try {
       // 获取税额
       if (this.isLogin) {
-        param.subscriptionFlag = false;
         await this.props.checkoutStore.updateLoginCart(param);
       } else {
         await this.props.checkoutStore.updateUnloginCart(param);
@@ -1897,14 +1913,15 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    this.setState({
+      deliveryAddress: data
+    });
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
       });
     }
-    this.setState({
-      deliveryAddress: data
-    });
   };
 
   // 修改BillingAddress数据
@@ -3089,7 +3106,8 @@ class Payment extends React.Component {
       paymentValidationLoading,
       validationModalVisible,
       billingAddress,
-      selectValidationOption
+      selectValidationOption,
+      paymentPurchasesPara
     } = this.state;
     const event = {
       page: {
@@ -3430,6 +3448,7 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
+                    paymentPurchasesPara={paymentPurchasesPara}
                   />
                 )}
                 {/* 分期手续费 */}

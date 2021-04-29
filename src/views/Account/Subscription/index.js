@@ -195,6 +195,7 @@ class Subscription extends React.Component {
     let search = this.props.location.search;
     let subscriptionId = search && getParaByName(search, 'subscriptionId');
     let updateLifeStage = search && getParaByName(search, 'updateLifeStage');
+    let needBindPet = search && getParaByName(search, 'needBindPet');
     if (subscriptionId) {
       let res = await getSubList({ subscribeId: subscriptionId });
       console.info('res.contextres.contextres.context');
@@ -203,6 +204,9 @@ class Subscription extends React.Component {
         let url = `/account/subscription/order/detail/${subscriptionId}`;
         if (updateLifeStage) {
           url += '?updateLifeStage=true';
+        }
+        if (needBindPet) {
+          url += '?needBindPet=true';
         }
         this.props.history.push(url);
         return;

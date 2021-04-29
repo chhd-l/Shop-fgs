@@ -336,7 +336,7 @@ const ru_RU = {
   //pdp
   'detail.question': 'У вас еще остались вопросы об этом продукте?',
   'detail.telephone': 'По телефону',
-  'details.addToCart': 'Добавить в корзину',
+  'details.addToCart': 'Разовая покупка',
   'details.availability': 'Доступность',
   'details.beneficialFeatures': 'Полезные функции',
   'details.bySubscription': 'по подписке',
@@ -462,7 +462,7 @@ const ru_RU = {
   'header.User.or': 'или',
   'header.User.pets': 'Питомцы',
   'header.User.registerNow': 'Зарегистрироваться',
-  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач?',
+  'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач',
   'header.User.vetPortal': 'Ветеринарный врач',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
@@ -689,7 +689,7 @@ const ru_RU = {
   'payment.normalDelivery2': 'Нормальная доставка',
   'payment.normalDelivery3': '(1-4 дня)',
   'payment.payment': 'Способ оплаты',
-  'payment.paymentInformation': 'Способо оплаты',
+  'payment.paymentInformation': 'Способ оплаты',
   'payment.phoneNumber': 'Номер телефона',
   'payment.phoneNumber2': 'Телефонный номер',
   'payment.postCode': 'Индекс',
@@ -874,7 +874,7 @@ const ru_RU = {
     'Каждая формула была создана для обеспечения питания, адаптированного к особым потребностям животного, в зависимости от его размера, возраста и образа жизни.',
   'salesCategory.dog': 'для собак',
   //salesCategory
-  'salesCategory.title': 'Наши продукты по категориям',
+  'salesCategory.title': 'Найдите рацион, который подойдет Вашему питомцу',
   save: 'Сохранить',
   saveFailed: 'Сохранить не удалось!',
   saveSuccess: 'Сохранить успех',
@@ -947,6 +947,7 @@ const ru_RU = {
   'subscription.subscriptionNumberTip': 'Пожалуйста, введите номер подписки',
   'subscription.toBeDelivered': 'Доставка',
   'subscription.total': 'Всего',
+  'day-unit': 'gün',
   'subscription.totalInclu': 'Итого (включая НДС)',
   'subscriptionLanding.catButton': 'Корм для Кошки',
   'subscriptionLanding.content1':
@@ -1111,7 +1112,7 @@ const ru_RU = {
     'Сохранить этот способ оплаты как предпочтительный',
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
-  subscribe: 'Добавить в корзину',
+  subscribe: 'Подписка на корм',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
   saveExtra: 'Сэкономьте {val} на этой подписке',
@@ -1320,7 +1321,8 @@ const ru_RU = {
   'subscription.clubNoSubscription.tip2':
     'Присоединяйтесь к клубной подписке и воспользуйтесь всеми преимуществами участника КЛУБА.',
   'subscription.clubNoSubscription.getStart': 'Начать',
-  'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin'
+  'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin',
+  'detail.subscriptionBuyTip': 'Подписка без участия'
 };
 
 export default ru_RU;

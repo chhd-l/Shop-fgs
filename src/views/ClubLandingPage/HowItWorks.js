@@ -41,7 +41,7 @@ const HowItWorks = (props) => {
               >
                 <div className="text-center">
                   <article>
-                    <div className="rc-card__body" style={{ height: '130px' }}>
+                    <div className="rc-card__body textheight">
                       <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img1.titile" />
@@ -81,7 +81,7 @@ const HowItWorks = (props) => {
                 </div>
                 <div>
                   <article>
-                    <div className="rc-card__body" style={{ height: '130px' }}>
+                    <div className="rc-card__body textheight">
                       <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img2.titile" />
@@ -144,7 +144,7 @@ const HowItWorks = (props) => {
                 </div>
                 <div>
                   <article>
-                    <div className="rc-card__body" style={{ height: '130px' }}>
+                    <div className="rc-card__body textheight">
                       <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img3.titile" />
@@ -185,7 +185,7 @@ const HowItWorks = (props) => {
                 </div>
                 <div>
                   <article>
-                    <div className="rc-card__body" style={{ height: '130px' }}>
+                    <div className="rc-card__body textheight">
                       <p className="rc-card__meta club_subscription_intro_center">
                         <h5>
                           <FormattedMessage id="club.howitworks.img4.titile" />

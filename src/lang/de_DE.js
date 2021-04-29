@@ -229,7 +229,7 @@ const de_DE = {
     'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':
     'Adressen und Versandarten sind unter Ihrer Ware angegeben.',
-  'confirmation.oneShoot': 'zu meinem Profil',
+  'confirmation.oneShoot': 'Mit dem Einkaufen fortfahren',
   'confirmation.orderNumber': 'Bestellnummer',
   'confirmation.rateTip': 'Wie würden Sie Ihr Einkaufserlebnis bewerten?',
   'confirmation.rateTip2': 'Was können wir tun, um uns zu verbessern?',
@@ -1263,6 +1263,7 @@ const de_DE = {
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
   'subscription.productRecommendation': 'Your product recommendation',
+  'day-unit': 'tag',
   'subscription.productRecommendationTip':
     "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
   switchProductTip1: 'This is currently the best product for',

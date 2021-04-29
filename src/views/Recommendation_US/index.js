@@ -32,9 +32,15 @@ import Modal from '../Recommendation_FR/components/Modal';
 import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage,
-  filterObjectValue
+  getFrequencyDict
 } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import {
+  GARecommendationProduct,
+  GABuyNow,
+  GABreederRecoPromoCodeCTA
+} from '@/utils/GA';
+
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
 const isRu = process.env.REACT_APP_LANG === 'ru';
@@ -64,6 +70,9 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      GAPrice: '',
+      isSPT: false,
+      frequencyList: '',
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
@@ -142,6 +151,11 @@ class Recommendation extends React.Component {
   }
 
   async componentDidMount() {
+    await getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res
+      });
+    });
     // let paramArr = this.props.location.search.split('&');
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
@@ -169,11 +183,21 @@ class Recommendation extends React.Component {
     requestName(params)
       .then(async (res) => {
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
-        let productList = res.context.recommendationGoodsInfoRels;
+        let productLists = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
-        const currentShowProduct = [].concat(productList)?.splice(0, 1);
-        this.GaProduct(currentShowProduct, 1);
+        const currentShowProduct = [].concat(productLists)?.splice(0, 1);
+        if (res.context.structureType != 'breeder' && isFr) {
+          // 法国区分stp和breeder
+          this.setState({ isSPT: true });
+        }
+        GARecommendationProduct(
+          currentShowProduct,
+          1,
+          this.state.frequencyList,
+          promotionCode,
+          this.state.GAPrice
+        );
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
@@ -186,7 +210,7 @@ class Recommendation extends React.Component {
         prescriberId &&
           isRu &&
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
-        productList.map((el) => {
+        productLists.map((el) => {
           el?.goodsDescriptionDetailList?.forEach((g) => {
             let ret = g.content;
             if (g.content && g.contentType === 'json') {
@@ -311,7 +335,7 @@ class Recommendation extends React.Component {
           return el;
         });
         let promotionCode = res.context.promotionCode || '';
-        let filterProducts = productList.filter((el) => {
+        let filterProducts = productLists.filter((el) => {
           return el.goodsInfo.addedFlag;
         });
         // 只展示上架商品
@@ -326,7 +350,8 @@ class Recommendation extends React.Component {
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
         if (!isRu) {
-          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicId(res.context.id);
+          this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
           this.props.clinicStore.setLinkClinicName('');
         }
         this.props.clinicStore.setAuditAuthority(false);
@@ -345,45 +370,6 @@ class Recommendation extends React.Component {
     // }
   }
 
-  GaProduct(productList, type) {
-    const products = productList.map((item) => {
-      const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
-      const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
-      const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const cateName = goodsCateName?.split('/');
-      const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter(
-          (attr) =>
-            attr.goodsAttributeName &&
-            attr.goodsAttributeName.toLowerCase() == 'breeds'
-        )
-        .map((item) => item.goodsAttributeValue);
-      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
-      let productItem = {
-        price: minMarketPrice,
-        specie,
-        range: cateName?.[1] || '',
-        name: goodsName,
-        mainItemCode: goodsNo,
-        SKU,
-        technology: cateName?.[2] || '',
-        brand: 'Royal Canin',
-        breed
-      };
-      let res = filterObjectValue(productItem);
-      return res;
-    });
-    type === 1 &&
-      dataLayer.push({
-        products
-      });
-    type === 2 &&
-      dataLayer.push({
-        event: 'breederRecoTabClick',
-        breederRecoTabClickProduct: products
-      });
-  }
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -395,7 +381,8 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
-      this.props.clinicStore.setLinkClinicId(res.context?.prescriberId);
+      this.props.clinicStore.setLinkClinicId(res.context?.id);
+      this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
@@ -464,7 +451,10 @@ class Recommendation extends React.Component {
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
-            goodsInfoFlag: 0
+            goodsInfoFlag: 0,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -488,6 +478,9 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
+            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            recommendationName: this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&
@@ -664,6 +657,7 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
+    GABuyNow();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
@@ -686,15 +680,183 @@ class Recommendation extends React.Component {
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
 
-    dataLayer.push({
-      event: ' breederRecoPromoCodeCTA'
-    });
+    GABreederRecoPromoCodeCTA();
   };
 
   tabChange(productList, index) {
+    let promotionCode = getParaByName(search, 'coupon');
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
-    this.GaProduct(currentProduct, 2);
+    GARecommendationProduct(
+      currentProduct,
+      2,
+      this.state.frequencyList,
+      promotionCode,
+      this.state.GAPrice
+    );
+  }
+  isSPTUp = () => (
+    <div>
+      <section
+        className="text-center"
+        style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
+      >
+        <h1 style={{ color: '#E2001A', margin: '1.25rem' }}>Bienvenue !</h1>
+        <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
+          Merci pour votre visite en magasin, voici notre recommandation.
+        </h2>
+        {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+      <FormattedMessage id="recommendation.firstTitle" />
+    </h2> */}
+        <p style={{ fontSize: '1.125rem' }}>
+          {/* <FormattedMessage id="recommendation.firstContent" /> */}
+          La recommandation a été faite en fonction des besoins uniques de votre
+          animal.
+        </p>
+        <p>
+          <button
+            className={`rc-btn rc-btn--one ${
+              this.state.buttonLoading ? 'ui-btn-loading' : ''
+            } ${
+              this.state.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
+            }`}
+            onClick={() => {
+              if (loginStore.isLogin) {
+                this.hanldeLoginAddToCart();
+              } else {
+                this.hanldeUnloginAddToCart(productList, '/cart');
+              }
+            }}
+          >
+            {/* <FormattedMessage id="recommendation.viewInCart" /> */}
+            Voir le panier
+          </button>
+        </p>
+      </section>
+    </div>
+  );
+  commonUp = () => {
+    let { promotionCodeText, isMobile } = this.state;
+    let showBannerTip = true;
+    let bannerHight = showBannerTip
+      ? document.querySelector('.nav-slim-banner')?.offsetHeight
+      : 0;
+
+    return (
+      <div style={{ paddingTop: bannerHight }}>
+        <section
+          className="text-center"
+          style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
+        >
+          <div
+            className={`${
+              isFr ? 'rc-max-width--lg' : 'rc-max-width--md'
+            } text-center rc-margin-y--md`}
+          >
+            <div
+              className={`rc-alpha inherit-fontsize ${
+                isFr && 'sx rc-margin-bottom--xs'
+              }`}
+            >
+              <h1 style={{ marginBottom: isFr ? '0px' : '0.67em' }}>
+                <FormattedMessage id="recommendation.welcomeText1" />
+              </h1>
+            </div>
+            {isFr && (
+              <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                <span
+                  style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
+                >
+                  <FormattedMessage id="recommendation.welcomeSubText1" />
+                </span>
+              </div>
+            )}
+            <div
+              className={`rc-beta inherit-fontsize ${
+                isFr && 'sx rc-margin-bottom--xs'
+              }`}
+            >
+              <p style={{ marginBottom: '0px' }}>
+                <FormattedMessage id="recommendation.welcomeText2" />
+                {/* Merci pour votre visite en magasin, voici notre recommandation. */}
+              </p>
+            </div>
+            {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+        <FormattedMessage id="recommendation.firstTitle" />
+      </h2> */}
+            <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+              <span style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}>
+                <FormattedMessage
+                  values={{
+                    val: (
+                      <span style={{ color: '#e2001a', fontSize: '1.5rem' }}>
+                        E
+                      </span>
+                    )
+                  }}
+                  id="recommendation.welcomeSubText"
+                />
+                {/* La recommandation a été faite en fonction des besoins uniques de
+          votre animal. */}
+              </span>
+            </div>
+
+            <p>
+              {(isRu || isUs) && (
+                <button
+                  className={`rc-btn rc-btn--one ${
+                    this.state.buttonLoading ? 'ui-btn-loading' : ''
+                  } ${this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                  onClick={this.addCart}
+                >
+                  <FormattedMessage id="recommendation.welcomeBtn" />
+                  {/* Voir le panier */}
+                </button>
+              )}
+              {isFr && promotionCodeText && (
+                <>
+                  <button
+                    title=""
+                    data-tooltip-placement="top"
+                    data-tooltip="top-tooltip"
+                    className={`rc-btn rc-btn--two`}
+                    onClick={this.copyPromotion}
+                  >
+                    {' '}
+                    {promotionCodeText}
+                  </button>
+                  <div id="top-tooltip" class="rc-tooltip">
+                    <div className="rc-padding-x--xs rc-padding-y--xs">
+                      copié !
+                    </div>
+                  </div>
+                  <div className="rc-margin-top--xs">
+                    <FormattedMessage id="recommendation.copyTips" />
+                  </div>
+                </>
+              )}
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  };
+
+  calculateGAPrice(MaxMarketPrice, MinMarketPrice) {
+    let GAPrice = '';
+    if (MaxMarketPrice > 0) {
+      if (MaxMarketPrice === MinMarketPrice) {
+        GAPrice = MaxMarketPrice * 0.8;
+        this.setState({
+          GAPrice: Math.round(GAPrice)
+        });
+      } else {
+        GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
+        this.setState({
+          GAPrice
+        });
+      }
+    }
   }
 
   render() {
@@ -714,7 +876,15 @@ class Recommendation extends React.Component {
           addCart={this.addCart}
         />
       ),
-      fr: <Fr />
+      fr: (
+        <Fr
+          configStore={this.props.configStore}
+          addCart={this.addCart}
+          inStockProducts={this.state.inStockProducts}
+          buttonLoading={this.state.buttonLoading}
+          isSPT={this.state.isSPT}
+        />
+      )
     };
     let PetsImg = `${imgUrlPreFix}/${this.props.intl.messages['recommendation.petsImg']}`;
     const event = {
@@ -772,10 +942,8 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
-    let showBannerTip = true;
-    let bannerHight = showBannerTip
-      ? document.querySelector('.nav-slim-banner')?.offsetHeight
-      : 0;
+
+    // this.calculateGAPrice(MaxMarketPrice, MinMarketPrice);
 
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
@@ -842,108 +1010,7 @@ class Recommendation extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <div style={{ paddingTop: bannerHight }}>
-            <section
-              className="text-center"
-              style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
-            >
-              <div
-                className={`${
-                  isFr ? 'rc-max-width--lg' : 'rc-max-width--md'
-                } text-center rc-margin-y--md`}
-              >
-                <div
-                  className={`rc-alpha inherit-fontsize ${
-                    isFr && 'sx rc-margin-bottom--xs'
-                  }`}
-                >
-                  <h1 style={{ marginBottom: isFr ? '0px' : '0.67em' }}>
-                    <FormattedMessage id="recommendation.welcomeText1" />
-                  </h1>
-                </div>
-                {isFr && (
-                  <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                    <span
-                      style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
-                    >
-                      <FormattedMessage id="recommendation.welcomeSubText1" />
-                    </span>
-                  </div>
-                )}
-                <div
-                  className={`rc-beta inherit-fontsize ${
-                    isFr && 'sx rc-margin-bottom--xs'
-                  }`}
-                >
-                  <p style={{ marginBottom: '0px' }}>
-                    <FormattedMessage id="recommendation.welcomeText2" />
-                    {/* Merci pour votre visite en magasin, voici notre recommandation. */}
-                  </p>
-                </div>
-                {/* <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              <FormattedMessage id="recommendation.firstTitle" />
-            </h2> */}
-                <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                  <span
-                    style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}
-                  >
-                    <FormattedMessage
-                      values={{
-                        val: (
-                          <span
-                            style={{ color: '#e2001a', fontSize: '1.5rem' }}
-                          >
-                            E
-                          </span>
-                        )
-                      }}
-                      id="recommendation.welcomeSubText"
-                    />
-                    {/* La recommandation a été faite en fonction des besoins uniques de
-                votre animal. */}
-                  </span>
-                </div>
-
-                <p>
-                  {(isRu || isUs) && (
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${
-                        this.addCartBtnStatus ? '' : 'rc-btn-solid-disabled'
-                      }`}
-                      onClick={this.addCart}
-                    >
-                      <FormattedMessage id="recommendation.welcomeBtn" />
-                      {/* Voir le panier */}
-                    </button>
-                  )}
-                  {isFr && promotionCodeText && (
-                    <>
-                      <button
-                        title=""
-                        data-tooltip-placement="top"
-                        data-tooltip="top-tooltip"
-                        className={`rc-btn rc-btn--two`}
-                        onClick={this.copyPromotion}
-                      >
-                        {' '}
-                        {promotionCodeText}
-                      </button>
-                      <div id="top-tooltip" class="rc-tooltip">
-                        <div className="rc-padding-x--xs rc-padding-y--xs">
-                          copié !
-                        </div>
-                      </div>
-                      <div className="rc-margin-top--xs">
-                        <FormattedMessage id="recommendation.copyTips" />
-                      </div>
-                    </>
-                  )}
-                </p>
-              </div>
-            </section>
-          </div>
+          {this.state.isSPT ? this.isSPTUp() : this.commonUp()}
           {this.state.isNoMoreProduct ? (
             <div
               className="rc-max-width--xl"
