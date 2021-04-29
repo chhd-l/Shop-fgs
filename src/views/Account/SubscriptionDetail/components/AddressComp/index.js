@@ -95,6 +95,7 @@ class AddressList extends React.Component {
         phoneNumber: '',
         isDefalt: false
       },
+      russiaAddressValid: false,
       errMsg: '',
       loading: true,
       isValid: false,
@@ -673,12 +674,20 @@ class AddressList extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     this.updateConfirmTooltipVisible(data, true);
   }
+  // 俄罗斯地址校验flag，控制按钮是否可用
+  getRussiaAddressValidFlag = (flag) => {
+    // console.log('AddressComp: ',flag);
+    this.setState({
+      russiaAddressValid: flag
+    });
+  };
   render() {
     let {
       deliveryAddress,
       addOrEdit,
       loading,
       isValid,
+      russiaAddressValid,
       addressList,
       isBillSame,
       countryList,
@@ -913,6 +922,7 @@ class AddressList extends React.Component {
                     isLogin={true}
                     updateData={(data) => this.updateDeliveryAddress(data)}
                     calculateFreight={(data) => this.calculateFreight(data)}
+                    getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
                   />
                 )}
 
@@ -972,7 +982,9 @@ class AddressList extends React.Component {
                             className="rc-btn rc-btn--one submitBtn"
                             name="contactPreference"
                             type="submit"
-                            disabled={!isValid}
+                            disabled={
+                              isValid && russiaAddressValid ? false : true
+                            }
                             onClick={() => this.handleSave()}
                           >
                             <FormattedMessage id="save" />
@@ -992,7 +1004,9 @@ class AddressList extends React.Component {
                             className="rc-btn rc-btn--one submitBtn"
                             name="contactPreference"
                             type="submit"
-                            disabled={!isValid}
+                            disabled={
+                              isValid && russiaAddressValid ? false : true
+                            }
                             onClick={() => this.handleSave()}
                           >
                             <FormattedMessage id="save" />

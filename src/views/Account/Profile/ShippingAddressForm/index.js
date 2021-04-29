@@ -41,6 +41,7 @@ class ShippingAddressFrom extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
+      russiaAddressValid: false,
       loading: false,
       saveLoading: false,
       showModal: false,
@@ -354,11 +355,19 @@ class ShippingAddressFrom extends React.Component {
       }
     );
   };
+  // 俄罗斯地址校验flag，控制按钮是否可用
+  getRussiaAddressValidFlag = (flag) => {
+    // console.log('ShippingAddressForm: ',flag);
+    this.setState({
+      russiaAddressValid: flag
+    });
+  };
   render() {
     const { hideBillingAddr } = this.props;
     const {
       addressForm,
       isValid,
+      russiaAddressValid,
       curType,
       successMsg,
       errorMsg,
@@ -449,6 +458,7 @@ class ShippingAddressFrom extends React.Component {
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
+                    getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
                   />
 
                   {addressForm.addressType === 'DELIVERY' ? (
@@ -496,7 +506,7 @@ class ShippingAddressFrom extends React.Component {
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
-                    disabled={!isValid}
+                    disabled={isValid && russiaAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
                     <FormattedMessage id="save" />
