@@ -98,7 +98,9 @@
   .indexmobile {
     display: none;
   }
-
+  .textheight {
+    height: 130px;
+  }
   .club-video {
     width: 400px;
     height: 250px;
