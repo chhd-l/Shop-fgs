@@ -2566,7 +2566,7 @@ class Details extends React.Component {
                                   <span className="default-txt">
                                     <FormattedMessage
                                       id={`${
-                                        form.buyWay === 1
+                                        form.buyWay === 1 || form.buyWay === 2
                                           ? 'subscribe'
                                           : 'details.addToCart'
                                       }`}
