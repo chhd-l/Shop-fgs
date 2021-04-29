@@ -457,9 +457,10 @@ class UnloginCart extends React.Component {
                             </div>
                             <div className="item-options" />
                           </div>
-                          {(toJS(
+                          {toJS(
                             item.sizeList.filter((e) => e.selected)[0].planId
-                          ) &&false)? toJS(
+                          ) && false
+                            ? toJS(
                                 item.sizeList.filter((e) => e.selected)[0]
                                   .planGifts
                               ).map((gift) => (
