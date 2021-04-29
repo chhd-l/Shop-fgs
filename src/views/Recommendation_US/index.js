@@ -35,7 +35,11 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
-import { GARecommendationProduct } from '@/utils/GA';
+import {
+  GARecommendationProduct,
+  GABuyNow,
+  GABreederRecoPromoCodeCTA
+} from '@/utils/GA';
 
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const isUs = process.env.REACT_APP_LANG === 'en';
@@ -66,6 +70,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      GAPrice: '',
       isSPT: false,
       frequencyList: '',
       isNoMoreProduct: false,
@@ -185,7 +190,9 @@ class Recommendation extends React.Component {
         GARecommendationProduct(
           currentShowProduct,
           1,
-          this.state.frequencyList
+          this.state.frequencyList,
+          promotionCode,
+          this.state.GAPrice
         );
         if (curScrollTop) {
           window.scrollTo({
@@ -638,6 +645,7 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
+    GABuyNow();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
@@ -660,15 +668,20 @@ class Recommendation extends React.Component {
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
 
-    dataLayer.push({
-      event: ' breederRecoPromoCodeCTA'
-    });
+    GABreederRecoPromoCodeCTA();
   };
 
   tabChange(productList, index) {
+    let promotionCode = getParaByName(search, 'coupon');
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
-    GARecommendationProduct(currentProduct, 2, this.state.frequencyList);
+    GARecommendationProduct(
+      currentProduct,
+      2,
+      this.state.frequencyList,
+      promotionCode,
+      this.state.GAPrice
+    );
   }
   isSPTUp = () => (
     <div>
@@ -817,6 +830,23 @@ class Recommendation extends React.Component {
     );
   };
 
+  calculateGAPrice(MaxMarketPrice, MinMarketPrice) {
+    let GAPrice = '';
+    if (MaxMarketPrice > 0) {
+      if (MaxMarketPrice === MinMarketPrice) {
+        GAPrice = MaxMarketPrice * 0.8;
+        this.setState({
+          GAPrice: Math.round(GAPrice)
+        });
+      } else {
+        GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
+        this.setState({
+          GAPrice
+        });
+      }
+    }
+  }
+
   render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
@@ -900,6 +930,8 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
+
+    this.calculateGAPrice(MaxMarketPrice, MinMarketPrice);
 
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
