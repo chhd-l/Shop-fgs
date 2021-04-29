@@ -52,6 +52,7 @@ class PersonalDataEditForm extends React.Component {
       provinceList: [], // 省份列表
       isValid: false,
       errMsgObj: {},
+      russiaAddressValid: false,
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
@@ -330,12 +331,20 @@ class PersonalDataEditForm extends React.Component {
       }
     );
   };
+  // 俄罗斯地址校验flag，控制按钮是否可用
+  getRussiaAddressValidFlag = (flag) => {
+    // console.log('PersonalDataEditForm: ',flag);
+    this.setState({
+      russiaAddressValid: flag
+    });
+  };
 
   render() {
     const {
       editFormVisible,
       form,
       isValid,
+      russiaAddressValid,
       errorMsg,
       successTipVisible,
       errMsgObj,
@@ -484,6 +493,7 @@ class PersonalDataEditForm extends React.Component {
                   isLogin={true}
                   personalData={true}
                   updateData={this.handleEditFormChange}
+                  getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
                 />
               )}
 
@@ -509,7 +519,7 @@ class PersonalDataEditForm extends React.Component {
                   })}
                   name="personalInformation"
                   type="submit"
-                  disabled={!isValid}
+                  disabled={isValid && russiaAddressValid ? false : true}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
