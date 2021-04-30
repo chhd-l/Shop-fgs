@@ -940,7 +940,7 @@ const fr_FR = {
     'En tant que véritables amoureux des animaux de compagnie et experts en nutrition sur mesure, nous sommes là pour vous aider à préserver la bonne santé de votre animal, tout au long de sa vie.',
   'recommendation.thirdTitle': 'Nous sommes là pour vous aider',
   'recommendation.viewDetail': 'Voir les détails',
-  'recommendation.viewInCart': 'Voir dans le panier',
+  'recommendation.viewInCart': 'Acheter maintenant',
   registerAname: 'Un nombre',
   registerCloud: 'Architecture de référence Commerce Cloud Storefront',
   registerCompleteForm:

@@ -1168,6 +1168,30 @@ class Recommendation extends React.Component {
                                   </div>
                                 </div>
                               )}
+
+                              <p
+                                style={{
+                                  marginTop: '30px',
+                                  textAlign: 'center',
+                                  marginBottom: isMobile ? '0' : '30px'
+                                }}
+                              >
+                                <button
+                                  className={`rc-btn rc-btn--one rc-btn--sm ${
+                                    this.state.buttonLoading
+                                      ? 'ui-btn-loading'
+                                      : ''
+                                  } ${
+                                    this.addCartBtnStatus
+                                      ? ''
+                                      : 'rc-btn-solid-disabled'
+                                  }`}
+                                  onClick={this.addCart}
+                                >
+                                  <FormattedMessage id="recommendation.viewInCart" />
+                                </button>
+                              </p>
+
                               {isRu && promotionCode ? (
                                 <>
                                   <div style={{ marginBottom: '.75rem' }}>
@@ -1278,29 +1302,6 @@ class Recommendation extends React.Component {
                                 </p>
                               </React.Fragment>
                             ) : null}
-
-                            <p
-                              style={{
-                                marginTop: '30px',
-                                textAlign: 'center',
-                                marginBottom: isMobile ? '0' : '30px'
-                              }}
-                            >
-                              <button
-                                className={`rc-btn rc-btn--one rc-btn--sm ${
-                                  this.state.buttonLoading
-                                    ? 'ui-btn-loading'
-                                    : ''
-                                } ${
-                                  this.addCartBtnStatus
-                                    ? ''
-                                    : 'rc-btn-solid-disabled'
-                                }`}
-                                onClick={this.addCart}
-                              >
-                                <FormattedMessage id="recommendation.viewInCart" />
-                              </button>
-                            </p>
                           </div>
                         </div>
                       </div>
