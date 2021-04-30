@@ -566,10 +566,11 @@ class PayProductInfo extends React.Component {
                         // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
                         let purchasesPara =
                           localItemRoyal.get('rc-payment-purchases-param') ||
-                          null;
+                          {};
                         purchasesPara.promotionCode = this.state.promotionInputValue;
                         purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
                         purchasesPara.address1 = this.props.deliveryAddress?.address1;
+                        console.log('------- ', purchasesPara);
                         if (!this.isLogin) {
                           purchasesPara.guestEmail = this.props.guestEmail;
                           //游客
@@ -689,7 +690,7 @@ class PayProductInfo extends React.Component {
                               let purchasesPara =
                                 localItemRoyal.get(
                                   'rc-payment-purchases-param'
-                                ) || null;
+                                ) || {};
                               purchasesPara.promotionCode = '';
                               if (!this.props.loginStore.isLogin) {
                                 // 游客
