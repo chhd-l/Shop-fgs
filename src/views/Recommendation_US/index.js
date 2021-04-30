@@ -786,7 +786,7 @@ class Recommendation extends React.Component {
       </h2> */}
             <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
               <span style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}>
-                <FormattedMessage
+                {/* <FormattedMessage
                   values={{
                     val: (
                       <span style={{ color: '#e2001a', fontSize: '1.5rem' }}>
@@ -795,7 +795,8 @@ class Recommendation extends React.Component {
                     )
                   }}
                   id="recommendation.welcomeSubText"
-                />
+                /> */}
+                <FormattedMessage id="recommendation.welcomeSubText" />
                 {/* La recommandation a été faite en fonction des besoins uniques de
           votre animal. */}
               </span>

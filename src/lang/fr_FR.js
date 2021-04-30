@@ -915,8 +915,9 @@ const fr_FR = {
   'recommendation.welcomeSubText1':
     'Adopter un animal est un engagement sur le long terme. Lui proposer l’aliment le plus adapté pour lui, c’est agir de façon responsable pour aider votre animal à être en bonne santé le plus longtemps possible',
   'recommendation.welcomeText2': 'Voici la recommandation de votre éleveur :',
+  // 'recommendation.welcomeSubText': '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
   'recommendation.welcomeSubText':
-    '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
+    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une réduction de 5 à 20€ selon le format du produit acheté',
   'recommendation.buyNow': 'Acheter maintenant',
   'recommendation.copyTips':
     'Dans votre panier, entrez le code promotionnel et commandez !',
