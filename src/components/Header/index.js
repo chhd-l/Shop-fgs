@@ -150,7 +150,7 @@ class Header extends React.Component {
         if (linkClinicId && linkClinicName) {
           clinicStore.setClinicRecoCode(clinciRecoCode);
           clinicStore.setLinkClinicId(linkClinicId);
-          clinicStore.setLinkClinicBusId(linkClinicBusId);
+          // clinicStore.setLinkClinicBusId(linkClinicBusId);
           clinicStore.setLinkClinicName(linkClinicName);
         }
       } else if (linkClinicId && location.pathname === '/') {
@@ -169,7 +169,7 @@ class Header extends React.Component {
         }
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
-          clinicStore.setLinkClinicBusId(linkClinicBusId);
+          // clinicStore.setLinkClinicBusId(linkClinicBusId);
           clinicStore.setLinkClinicName(linkClinicName);
           clinicStore.setAuditAuthority(res.context.auditAuthority);
         }

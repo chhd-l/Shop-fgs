@@ -1518,7 +1518,7 @@ class Payment extends React.Component {
           petsName: ele.petsName,
           goodsInfoFlag: 0,
           recommendationId: ele.recommendationId || '',
-          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: ele.recommendationName || ''
         };
       });
@@ -1536,7 +1536,7 @@ class Payment extends React.Component {
           petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag,
           recommendationId: ele.recommendationId || '',
-          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: ele.recommendationName || ''
         };
       });
@@ -1552,7 +1552,7 @@ class Payment extends React.Component {
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
           recommendationId: ele.recommendationId || '',
-          recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
+          // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: ele.recommendationName || ''
         };
       });
@@ -1576,7 +1576,7 @@ class Payment extends React.Component {
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
             recommendationId: g.recommendationId || '',
-            recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
+            // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
             recommendationName: g.recommendationName || ''
           };
         });
@@ -1622,7 +1622,7 @@ class Payment extends React.Component {
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
             recommendationId: g.recommendationId || '',
-            recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
+            // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
             recommendationName: g.recommendationName || ''
           };
         });
