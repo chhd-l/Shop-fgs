@@ -349,15 +349,19 @@ class Recommendation extends React.Component {
             this.checkoutStock();
           }
         );
-        // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
-        if (!isRu) {
-          this.props.clinicStore.setLinkClinicId(res.context.id);
-          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName('');
-        }
-        this.props.clinicStore.setAuditAuthority(false);
-        this.setState({ loading: false });
-        // });
+        getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
+          if (!isRu) {
+            this.props.clinicStore.setLinkClinicId(
+              res2.context?.id || res2.context.prescriberId
+            );
+            // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+            this.props.clinicStore.setLinkClinicName(
+              res2.context.prescriberName
+            );
+          }
+          this.props.clinicStore.setAuditAuthority(false);
+          this.setState({ loading: false });
+        });
       })
       .catch((err) => {
         console.log(err, 'err');
