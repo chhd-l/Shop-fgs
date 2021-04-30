@@ -1773,8 +1773,7 @@ class Details extends React.Component {
         ) : null}
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          {/* <title>{seoConfig.title}</title> */}
-          <title>PROD &#174;FED-Shop</title>
+          <title>{seoConfig.title}</title>
           <meta name="description" content={seoConfig.metaDescription} />
           <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
