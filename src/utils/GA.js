@@ -2,6 +2,8 @@ const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
+const isRu = process.env.REACT_APP_LANG === 'ru';
+
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
   return promotionInfo?.goodsInfos?.map((item) => {
@@ -273,15 +275,39 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
   props.checkoutStore.saveGAProduct({ products: arr });
 };
 
+const calculateGAPrice = (productList, activeIndex) => {
+  let MaxMarketPrice = Math.max.apply(
+    null,
+    productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+  );
+  let MinMarketPrice = Math.min.apply(
+    null,
+    productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+  );
+  if (isRu) {
+    MaxMarketPrice = MinMarketPrice; // 俄罗斯只展示最低价格
+  }
+
+  let GAPrice = '';
+  if (MaxMarketPrice > 0) {
+    if (MaxMarketPrice === MinMarketPrice) {
+      GAPrice = Math.round(MaxMarketPrice * 0.8);
+    } else {
+      GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
+    }
+  }
+
+  return GAPrice;
+};
+
 //recommendation-product
 export const GARecommendationProduct = (
   productList,
   type,
   frequencyList,
   promotionCode,
-  GAPrice
+  activeIndex
 ) => {
-  console.log(111, productList);
   const calculatedWeeks = getComputedWeeks(frequencyList);
   const products = productList.map((item) => {
     const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
@@ -300,7 +326,7 @@ export const GARecommendationProduct = (
       ? calculatedWeeks[item.periodTypeId]
       : '';
     let productItem = {
-      price: GAPrice,
+      price: calculateGAPrice(productList, activeIndex),
       specie,
       range: cateName?.[1] || '',
       name: goodsName,

@@ -70,7 +70,6 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      GAPrice: '',
       isSPT: false,
       frequencyList: '',
       isNoMoreProduct: false,
@@ -196,7 +195,7 @@ class Recommendation extends React.Component {
           1,
           this.state.frequencyList,
           promotionCode,
-          this.state.GAPrice
+          this.state.activeIndex
         );
         if (curScrollTop) {
           window.scrollTo({
@@ -684,6 +683,7 @@ class Recommendation extends React.Component {
   };
 
   tabChange(productList, index) {
+    let { search } = this.props.history.location;
     let promotionCode = getParaByName(search, 'coupon');
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
@@ -692,7 +692,7 @@ class Recommendation extends React.Component {
       2,
       this.state.frequencyList,
       promotionCode,
-      this.state.GAPrice
+      this.state.activeIndex
     );
   }
   isSPTUp = () => (
@@ -842,23 +842,6 @@ class Recommendation extends React.Component {
     );
   };
 
-  calculateGAPrice(MaxMarketPrice, MinMarketPrice) {
-    let GAPrice = '';
-    if (MaxMarketPrice > 0) {
-      if (MaxMarketPrice === MinMarketPrice) {
-        GAPrice = MaxMarketPrice * 0.8;
-        this.setState({
-          GAPrice: Math.round(GAPrice)
-        });
-      } else {
-        GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
-        this.setState({
-          GAPrice
-        });
-      }
-    }
-  }
-
   render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
@@ -942,8 +925,6 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
-
-    // this.calculateGAPrice(MaxMarketPrice, MinMarketPrice);
 
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
