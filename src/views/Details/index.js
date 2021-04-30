@@ -2580,7 +2580,7 @@ class Details extends React.Component {
                                   <span className="default-txt">
                                     <FormattedMessage
                                       id={`${
-                                        form.buyWay === 1
+                                        form.buyWay === 1 || form.buyWay === 2
                                           ? 'subscribe'
                                           : 'details.addToCart'
                                       }`}
@@ -2611,11 +2611,8 @@ class Details extends React.Component {
                                 checkOutErrMsg={checkOutErrMsg}
                               />
                             </div>
-                            {Tr && form.buyWay === 2 ? (
-                              <p
-                                className="text-right"
-                                style={{ fontWeight: '400' }}
-                              >
+                            {form.buyWay === 2 ? (
+                              <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
                             ) : null}

@@ -138,8 +138,9 @@ class PetForm extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    document.querySelector('.receiveDate').disabled = true;
-
+    let datePickerDom = document.querySelector('.receiveDate');
+    datePickerDom.disabled = true;
+    datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
     console.log(this.props, 'props');
     const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
     const activityOptions = await getDictionary({ type: 'Activity' });
