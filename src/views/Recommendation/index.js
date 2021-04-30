@@ -169,8 +169,8 @@ class Help extends React.Component {
           this.checkoutStock();
         });
         getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
-          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicBusId(res.context.id);
+          this.props.clinicStore.setLinkClinicId(res.context.id);
+          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
           this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
           this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
           this.setState({ prescriberInfo: res.context, loading: false });
@@ -238,7 +238,7 @@ class Help extends React.Component {
             goodsInfoFlag: 0,
             //推荐链接购买商品，推荐者信息跟着商品走
             recommendationId: this.props.clinicStore.linkClinicId,
-            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
@@ -297,7 +297,7 @@ class Help extends React.Component {
         periodTypeId: null,
         //推荐链接购买商品，推荐者信息跟着商品走
         recommendationId: this.props.clinicStore.linkClinicId,
-        recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+        //recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
         recommendationName: this.props.clinicStore.linkClinicName
       });
       // console.log(idx, 'idx');

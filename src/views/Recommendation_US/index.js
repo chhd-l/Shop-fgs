@@ -350,7 +350,7 @@ class Recommendation extends React.Component {
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
         if (!isRu) {
           this.props.clinicStore.setLinkClinicId(res.context.id);
-          this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
           this.props.clinicStore.setLinkClinicName('');
         }
         this.props.clinicStore.setAuditAuthority(false);
@@ -381,7 +381,7 @@ class Recommendation extends React.Component {
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
       this.props.clinicStore.setLinkClinicId(res.context?.id);
-      this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
+      // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
@@ -452,7 +452,7 @@ class Recommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0,
             recommendationId: this.props.clinicStore.linkClinicId,
-            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
@@ -478,7 +478,7 @@ class Recommendation extends React.Component {
             goodsInfoFlag: 0,
             periodTypeId: null,
             recommendationId: this.props.clinicStore.linkClinicId,
-            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
@@ -786,7 +786,7 @@ class Recommendation extends React.Component {
       </h2> */}
             <div className="inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
               <span style={{ fontSize: '1.125rem', color: 'rgb(61, 61, 60)' }}>
-                <FormattedMessage
+                {/* <FormattedMessage
                   values={{
                     val: (
                       <span style={{ color: '#e2001a', fontSize: '1.5rem' }}>
@@ -795,7 +795,8 @@ class Recommendation extends React.Component {
                     )
                   }}
                   id="recommendation.welcomeSubText"
-                />
+                /> */}
+                <FormattedMessage id="recommendation.welcomeSubText" />
                 {/* La recommandation a été faite en fonction des besoins uniques de
           votre animal. */}
               </span>

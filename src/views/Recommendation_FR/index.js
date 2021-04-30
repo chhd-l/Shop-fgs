@@ -220,7 +220,7 @@ class Help extends React.Component {
         });
         // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
         this.props.clinicStore.setLinkClinicId(res.context.id);
-        this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+        // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
         this.props.clinicStore.setLinkClinicName('');
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
@@ -302,7 +302,7 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0,
             recommendationId: this.props.clinicStore.linkClinicId,
-            recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+            // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
@@ -360,7 +360,7 @@ class Help extends React.Component {
         goodsInfoFlag: 0,
         periodTypeId: null,
         recommendationId: this.props.clinicStore.linkClinicId,
-        recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
+        // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
         recommendationName: this.props.clinicStore.linkClinicName
       });
       console.log(idx, 'idx');
