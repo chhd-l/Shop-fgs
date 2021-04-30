@@ -139,7 +139,7 @@ class PetForm extends React.Component {
   }
   async componentDidMount() {
     let datePickerDom = document.querySelector('.receiveDate');
-    datePickerDom.disabled = true;
+    // datePickerDom.disabled = true;
     datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
     console.log(this.props, 'props');
     const lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
