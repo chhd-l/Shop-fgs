@@ -854,7 +854,7 @@ const ru_RU = {
   rememberMe: 'Запомнить меня',
   removeAllFilters: 'Удалить все фильтры',
   replyComments: 'Ответить на комментарии',
-  rePurchase: 'Выкуп',
+  rePurchase: 'Повторить',
   'required.checkRequired': 'Отметьте необходимые предметы',
   'required.complete': 'Завершить процесс входа в систему',
   'required.continue': 'длительность',
