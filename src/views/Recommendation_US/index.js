@@ -721,10 +721,10 @@ class Recommendation extends React.Component {
               this.state.inStockProducts.length ? '' : 'rc-btn-solid-disabled'
             }`}
             onClick={() => {
-              if (loginStore.isLogin) {
+              if (this.props.loginStore.isLogin) {
                 this.hanldeLoginAddToCart();
               } else {
-                this.hanldeUnloginAddToCart(productList, '/cart');
+                this.hanldeUnloginAddToCart(this.state.productList, '/cart');
               }
             }}
           >
