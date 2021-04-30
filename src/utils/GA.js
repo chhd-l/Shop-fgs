@@ -326,7 +326,7 @@ export const GARecommendationProduct = (
       ? calculatedWeeks[item.periodTypeId]
       : '';
     let productItem = {
-      price: calculateGAPrice(productList, activeIndex),
+      price: minMarketPrice,
       specie,
       range: cateName?.[1] || '',
       name: goodsName,
