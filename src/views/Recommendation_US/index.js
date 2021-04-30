@@ -123,7 +123,9 @@ class Recommendation extends React.Component {
       inStockProducts: [],
       needLogin: false,
       isMobile: false,
-      currentBenefit: ''
+      currentBenefit: '',
+      checkPromotionCodeAndCopy: false, // 控制点击查看promotion code并复制按钮
+      viewShoppingCartWidth: 0
     };
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
@@ -664,6 +666,7 @@ class Recommendation extends React.Component {
       this.hanldeUnloginAddToCart(productList, '/cart');
     }
   };
+  // 复制 promotion code
   copyPromotion = () => {
     let { promotionCodeText } = this.state;
     var copy = function (e) {
@@ -681,7 +684,25 @@ class Recommendation extends React.Component {
 
     GABreederRecoPromoCodeCTA();
   };
-
+  // 查看 promotion code
+  checkPromotionCode = () => {
+    this.setState(
+      {
+        checkPromotionCodeAndCopy: true
+      },
+      () => {
+        let elWidth = document.getElementById('btnCopyPromotionCode')
+          .clientWidth;
+        this.setState({
+          viewShoppingCartWidth: elWidth
+        });
+      }
+    );
+  };
+  // 查看购物车
+  viewShoppingCart = () => {
+    this.props.history.push('/cart');
+  };
   tabChange(productList, index) {
     let { search } = this.props.history.location;
     let promotionCode = getParaByName(search, 'coupon');
@@ -736,7 +757,12 @@ class Recommendation extends React.Component {
     </div>
   );
   commonUp = () => {
-    let { promotionCodeText, isMobile } = this.state;
+    let {
+      promotionCodeText,
+      isMobile,
+      checkPromotionCodeAndCopy,
+      viewShoppingCartWidth
+    } = this.state;
     let showBannerTip = true;
     let bannerHight = showBannerTip
       ? document.querySelector('.nav-slim-banner')?.offsetHeight
@@ -802,7 +828,7 @@ class Recommendation extends React.Component {
               </span>
             </div>
 
-            <p>
+            <div className="">
               {(isRu || isUs) && (
                 <button
                   className={`rc-btn rc-btn--one ${
@@ -814,29 +840,55 @@ class Recommendation extends React.Component {
                   {/* Voir le panier */}
                 </button>
               )}
-              {isFr && promotionCodeText && (
+
+              {/* promotion code */}
+              {/* 查看promotion code按钮 */}
+              {isFr && promotionCodeText && !checkPromotionCodeAndCopy && (
                 <>
                   <button
-                    title=""
-                    data-tooltip-placement="top"
-                    data-tooltip="top-tooltip"
-                    className={`rc-btn rc-btn--two`}
-                    onClick={this.copyPromotion}
+                    className="rc-btn rc-btn--one"
+                    onClick={this.checkPromotionCode}
                   >
-                    {' '}
-                    {promotionCodeText}
+                    <FormattedMessage id="recommendation.copyPromotionCodeText" />
                   </button>
-                  <div id="top-tooltip" class="rc-tooltip">
-                    <div className="rc-padding-x--xs rc-padding-y--xs">
-                      copié !
+                </>
+              )}
+              {/* 点击查看promotion code按钮后显示 */}
+              {isFr && promotionCodeText && checkPromotionCodeAndCopy && (
+                <>
+                  <p>
+                    <button
+                      id="btnCopyPromotionCode"
+                      title=""
+                      data-tooltip-placement="top"
+                      data-tooltip="top-tooltip"
+                      className={`rc-btn rc-btn--two`}
+                      onClick={this.copyPromotion}
+                    >
+                      {' '}
+                      {promotionCodeText}
+                    </button>
+                    <div id="top-tooltip" class="rc-tooltip">
+                      <div className="rc-padding-x--xs rc-padding-y--xs">
+                        copié !
+                      </div>
                     </div>
-                  </div>
+                  </p>
                   {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
                   </div> */}
+                  <p>
+                    <button
+                      className={`rc-btn rc-btn--one`}
+                      style={{ width: viewShoppingCartWidth + 'px' }}
+                      onClick={this.viewShoppingCart}
+                    >
+                      <FormattedMessage id="recommendation.viewShoppingCart" />
+                    </button>
+                  </p>
                 </>
               )}
-            </p>
+            </div>
           </div>
         </section>
       </div>
