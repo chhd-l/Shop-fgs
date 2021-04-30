@@ -40,8 +40,7 @@ class PayProductInfo extends React.Component {
     guestEmail: '',
     isGuestCart: false,
     isCheckOut: false,
-    deliveryAddress: [],
-    paymentPurchasesPara: null
+    deliveryAddress: []
   };
   constructor(props) {
     super(props);
@@ -503,7 +502,7 @@ class PayProductInfo extends React.Component {
       needHideProductList,
       isShowValidCode
     } = this.state;
-    const { checkoutStore, paymentPurchasesPara } = this.props;
+    const { checkoutStore } = this.props;
     const List =
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
@@ -564,22 +563,27 @@ class PayProductInfo extends React.Component {
                           lastPromotionInputValue: this.state
                             .promotionInputValue
                         });
+                        // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
+                        let purchasesPara =
+                          localItemRoyal.get('rc-payment-purchases-param') ||
+                          {};
+                        purchasesPara.promotionCode = this.state.promotionInputValue;
+                        purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
+                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
+                        console.log('------- ', purchasesPara);
                         if (!this.isLogin) {
+                          purchasesPara.guestEmail = this.props.guestEmail;
                           //游客
-                          result = await checkoutStore.updateUnloginCart({
-                            promotionCode: this.state.promotionInputValue,
-                            purchaseFlag: false, // 购物车: true，checkout: false
-                            guestEmail: this.props.guestEmail,
-                            address1: this.props.deliveryAddress?.address1
-                          });
+                          result = await checkoutStore.updateUnloginCart(
+                            purchasesPara
+                          );
                         } else {
+                          purchasesPara.subscriptionFlag =
+                            this.props.buyWay === 'frequency';
                           //会员
-                          result = await checkoutStore.updateLoginCart({
-                            promotionCode: this.state.promotionInputValue,
-                            subscriptionFlag: this.props.buyWay === 'frequency',
-                            purchaseFlag: false, // 购物车: true，checkout: false
-                            address1: this.props.deliveryAddress?.address1
-                          });
+                          result = await checkoutStore.updateLoginCart(
+                            purchasesPara
+                          );
                         }
 
                         if (
@@ -683,10 +687,10 @@ class PayProductInfo extends React.Component {
                               let result = {};
                               await checkoutStore.removePromotionCode();
                               // 删除掉之后 promotionCode 后再使用之前的参数查询一遍 purchase接口
-                              let purchasesPara = Object.assign(
-                                {},
-                                paymentPurchasesPara
-                              );
+                              let purchasesPara =
+                                localItemRoyal.get(
+                                  'rc-payment-purchases-param'
+                                ) || {};
                               purchasesPara.promotionCode = '';
                               if (!this.props.loginStore.isLogin) {
                                 // 游客

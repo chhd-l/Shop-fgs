@@ -699,7 +699,7 @@ class Recommendation extends React.Component {
     <div>
       <section
         className="text-center"
-        style={{ width: isMobile ? '95%' : '60%', margin: '0 auto' }}
+        style={{ width: this.state.isMobile ? '95%' : '60%', margin: '0 auto' }}
       >
         <h1 style={{ color: '#E2001A', margin: '1.25rem' }}>Bienvenue !</h1>
         <h2 style={{ color: '#E2001A', margin: '1.25rem' }}>
@@ -830,9 +830,9 @@ class Recommendation extends React.Component {
                       copié !
                     </div>
                   </div>
-                  <div className="rc-margin-top--xs">
+                  {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
-                  </div>
+                  </div> */}
                 </>
               )}
             </p>

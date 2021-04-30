@@ -257,7 +257,6 @@ class Payment extends React.Component {
       isShowCardList: false,
       isShowCyberBindCardBtn: false,
       cardListLength: 0,
-      paymentPurchasesPara: null,
       paymentValidationLoading: false, // 地址校验loading
       btnLoading: false,
       validationModalVisible: false, // 地址校验查询开关
@@ -1897,10 +1896,10 @@ class Payment extends React.Component {
     if (this.isLogin) {
       param.subscriptionFlag = false;
     }
-    // 传到 PayProductInfo 组件中用
-    this.setState({
-      paymentPurchasesPara: param
-    });
+
+    // PayProductInfo 组件中用到的参数
+    localItemRoyal.set('rc-payment-purchases-param', param);
+
     try {
       // 获取税额
       if (this.isLogin) {
@@ -2384,13 +2383,19 @@ class Payment extends React.Component {
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     paymentStore.setStsToEdit({ key: 'confirmation' });
 
-    this.setState({
-      billingAddressAddOrEdit: false,
-      saveBillingLoading: false,
-      isShowValidationModal: true,
-      paymentValidationLoading: false,
-      btnLoading: false
-    });
+    this.setState(
+      {
+        billingAddressAddOrEdit: false,
+        saveBillingLoading: false,
+        isShowValidationModal: true,
+        paymentValidationLoading: false,
+        btnLoading: false
+      },
+      () => {
+        // 清除purchases参数
+        localItemRoyal.remove('rc-payment-purchases-param');
+      }
+    );
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -3106,8 +3111,7 @@ class Payment extends React.Component {
       paymentValidationLoading,
       validationModalVisible,
       billingAddress,
-      selectValidationOption,
-      paymentPurchasesPara
+      selectValidationOption
     } = this.state;
     const event = {
       page: {
@@ -3448,7 +3452,6 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
-                    paymentPurchasesPara={paymentPurchasesPara}
                   />
                 )}
                 {/* 分期手续费 */}
