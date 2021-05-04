@@ -824,7 +824,16 @@ class Recommendation extends React.Component {
                   }}
                   id="recommendation.welcomeSubText"
                 /> */}
-                <FormattedMessage id="recommendation.welcomeSubText" />
+                <FormattedMessage
+                  id="recommendation.welcomeSubText"
+                  values={{
+                    val: (
+                      <strong style={{ color: '#e2001a' }}>
+                        réduction de 5 à 20€
+                      </strong>
+                    )
+                  }}
+                />
                 {/* La recommandation a été faite en fonction des besoins uniques de
           votre animal. */}
               </span>
@@ -856,7 +865,7 @@ class Recommendation extends React.Component {
                 </>
               )}
               {/* 点击查看promotion code按钮后显示 */}
-              {isFr && promotionCodeText && checkPromotionCodeAndCopy && (
+              {isFr && promotionCodeText && (
                 <>
                   <p>
                     <button
@@ -864,7 +873,9 @@ class Recommendation extends React.Component {
                       title=""
                       data-tooltip-placement="top"
                       data-tooltip="top-tooltip"
-                      className={`rc-btn rc-btn--two`}
+                      className={`rc-btn rc-btn--two ${
+                        checkPromotionCodeAndCopy ? 'show' : 'hide'
+                      }`}
                       onClick={this.copyPromotion}
                     >
                       {' '}
@@ -879,7 +890,7 @@ class Recommendation extends React.Component {
                   {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
                   </div> */}
-                  <p>
+                  {/* <p>
                     <button
                       className={`rc-btn rc-btn--one`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
@@ -887,7 +898,7 @@ class Recommendation extends React.Component {
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
-                  </p>
+                  </p> */}
                 </>
               )}
             </div>
@@ -943,7 +954,8 @@ class Recommendation extends React.Component {
       currentModalObj,
       isMobile,
       promotionCode,
-      promotionCodeText
+      promotionCodeText,
+      isSPT
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -985,7 +997,10 @@ class Recommendation extends React.Component {
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
-      fr: tabDesText,
+      fr: isSPT
+        ? tabDesText
+        : productList[activeIndex]?.productMessage ||
+          "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
       en:
         productList[activeIndex]?.productMessage ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
@@ -1242,7 +1257,11 @@ class Recommendation extends React.Component {
                                   }`}
                                   onClick={this.addCart}
                                 >
-                                  <FormattedMessage id="recommendation.viewInCart" />
+                                  {isFr && !isSPT ? (
+                                    'Voir mon panier'
+                                  ) : (
+                                    <FormattedMessage id="recommendation.viewInCart" />
+                                  )}
                                 </button>
                               </p>
 
