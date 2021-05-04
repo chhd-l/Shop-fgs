@@ -75,6 +75,7 @@ class Recommendation extends React.Component {
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
+      prescriptionJson: '',
       // secondlist: secondlistArr,
       showMore: true,
       petType: 1, //0 dog;1 cat
@@ -187,6 +188,7 @@ class Recommendation extends React.Component {
         let productLists = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+        let prescriptionJson = res.context.prescriptionJson || '';
         const currentShowProduct = [].concat(productLists)?.splice(0, 1);
         if (res.context.structureType != 'breeder' && isFr) {
           // 法国区分stp和breeder
@@ -344,7 +346,12 @@ class Recommendation extends React.Component {
           this.setState({ isNoMoreProduct: true });
         }
         this.setState(
-          { productList: filterProducts, petType, promotionCode },
+          {
+            productList: filterProducts,
+            petType,
+            promotionCode,
+            prescriptionJson
+          },
           () => {
             this.checkoutStock();
           }
@@ -668,22 +675,65 @@ class Recommendation extends React.Component {
       this.hanldeUnloginAddToCart(productList, '/cart');
     }
   };
+
   // 复制 promotion code
   copyPromotion = () => {
     let { promotionCodeText } = this.state;
     var copy = function (e) {
       e.preventDefault();
       if (e.clipboardData) {
+        e.clipboardData.clearData();
         e.clipboardData.setData('text/plain', promotionCodeText);
-      } else if (window.clipboardData) {
+      } else if (window.netscape) {
+        try {
+          netscape.security.PrivilegeManager.enablePrivilege(
+            'UniversalXPConnect'
+          );
+        } catch (e) {
+          alert(
+            "被浏览器拒绝！\n请在浏览器地址栏输入'about:config'并回车\n然后将 'signed.applets.codebase_principal_support'设置为'true'"
+          );
+        }
+        var clip = Components.classes[
+          '@mozilla.org/widget/clipboard;1'
+        ].createInstance(Components.interfaces.nsIClipboard);
+        if (!clip) return;
+        var trans = Components.classes[
+          '@mozilla.org/widget/transferable;1'
+        ].createInstance(Components.interfaces.nsITransferable);
+        if (!trans) return;
+        trans.addDataFlavor('text/unicode');
+        var str = new Object();
+        var len = new Object();
+        var str = Components.classes[
+          '@mozilla.org/supports-string;1'
+        ].createInstance(Components.interfaces.nsISupportsString);
+        var copytext = promotionCodeText;
+        str.data = copytext;
+        trans.setTransferData('text/unicode', str, copytext.length * 2);
+        var clipid = Components.interfaces.nsIClipboard;
+        if (!clip) return false;
+        clip.setData(trans, null, clipid.kGlobalClipboard);
+        alert('复制成功！');
+      } else {
         window.clipboardData.setData('promotionCodeText', promotionCodeText);
       }
     };
-    console.info('promotionCodeText', promotionCodeText);
+    // var copy = function (e) {
+    //   e.preventDefault();
+    //   debugger
+    //   if (e.clipboardData) {
+    // console.info('2222promotionCodeText', promotionCodeText);
+    //     e.clipboardData.clearData()
+    //     e.clipboardData.setData('text/plain', promotionCodeText);
+    //   } else if (window.clipboardData) {
+    // console.info('1111promotionCodeText', promotionCodeText);
+    //     window.clipboardData.setData('promotionCodeText', promotionCodeText);
+    //   }
+    // };
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
-
     GABreederRecoPromoCodeCTA();
   };
   // 查看 promotion code
@@ -881,7 +931,7 @@ class Recommendation extends React.Component {
                       {' '}
                       {promotionCodeText}
                     </button>
-                    <div id="top-tooltip" class="rc-tooltip">
+                    <div id="top-tooltip" className="rc-tooltip">
                       <div className="rc-padding-x--xs rc-padding-y--xs">
                         copié !
                       </div>
@@ -992,14 +1042,16 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
-
+    let nutritionalReco =
+      this.state.prescriptionJson &&
+      JSON.parse(this.state.prescriptionJson)?.nutritionalReco;
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
       fr: isSPT
         ? tabDesText
-        : productList[activeIndex]?.productMessage ||
+        : nutritionalReco ||
           "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
       en:
         productList[activeIndex]?.productMessage ||
