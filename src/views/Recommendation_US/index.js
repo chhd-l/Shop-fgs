@@ -757,13 +757,15 @@ class Recommendation extends React.Component {
   };
   // 查看 promotion code
   checkPromotionCode = () => {
+    this.copyPromotion();
     this.setState(
       {
         checkPromotionCodeAndCopy: true
       },
       () => {
-        let elWidth = document.getElementById('btnCopyPromotionCode')
-          .clientWidth;
+        let el = document.getElementById('btnCopyPromotionCode');
+        el.click();
+        let elWidth = el.clientWidth;
         this.setState({
           viewShoppingCartWidth: elWidth
         });
@@ -926,11 +928,21 @@ class Recommendation extends React.Component {
               {isFr && promotionCodeText && !checkPromotionCodeAndCopy && (
                 <>
                   <button
-                    className="rc-btn rc-btn--one"
+                    className={`rc-btn rc-btn--one click-and-show-promotioncode ${
+                      !checkPromotionCodeAndCopy ? 'show' : 'hide'
+                    }`}
+                    // title=""
+                    // data-tooltip-placement="top"
+                    // data-tooltip="top-tooltip"
                     onClick={this.checkPromotionCode}
                   >
                     <FormattedMessage id="recommendation.copyPromotionCodeText" />
                   </button>
+                  {/* <div id="top-tooltip" className="rc-tooltip">
+                    <div className="rc-padding-x--xs rc-padding-y--xs">
+                      copié !
+                    </div>
+                  </div> */}
                 </>
               )}
               {/* 点击查看promotion code按钮后显示 */}

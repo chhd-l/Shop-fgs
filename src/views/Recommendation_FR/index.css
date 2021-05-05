@@ -8,6 +8,10 @@
 .Recommendation_FR.Recommendation_US #btnCopyPromotionCode.hide {
   display: none !important;
 }
+.Recommendation_FR.Recommendation_US .click-and-show-promotioncode.hide {
+  display: none !important;
+}
+
 .Recommendation_FR .type-icon {
   border: 1px solid #ec001a;
   border-radius: 100%;
