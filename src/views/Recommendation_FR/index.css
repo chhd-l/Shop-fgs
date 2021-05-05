@@ -4,8 +4,9 @@
 .Recommendation_FR .benefit {
   text-align: left;
 }
-.Recommendation_FR .hide {
-  display: none;
+
+.Recommendation_FR.Recommendation_US #btnCopyPromotionCode.hide {
+  display: none !important;
 }
 .Recommendation_FR .type-icon {
   border: 1px solid #ec001a;
@@ -38,6 +39,12 @@
   .Recommendation_FR .product_info {
     width: 100%;
     padding: 0px;
+  }
+}
+@media (max-width: 769px) {
+  .Recommendation_US
+    .product-recommendation__message.rc-padding--lg--mobile.rc-padding--lg--mobile {
+    padding: 2rem;
   }
 }
 .Recommendation_FR .recommendation_feeding_box .reason {

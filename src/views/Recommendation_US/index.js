@@ -70,6 +70,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showCur: -1,
       isSPT: false,
       frequencyList: '',
       isNoMoreProduct: false,
@@ -150,6 +151,18 @@ class Recommendation extends React.Component {
         'recommendation.helpContentText.phoneDes2'
       ]
     };
+  }
+
+  handleSelect(id) {
+    if (id === this.state.showCur) {
+      this.setState({
+        showCur: -1
+      });
+    } else {
+      this.setState({
+        showCur: id
+      });
+    }
   }
 
   async componentDidMount() {
@@ -238,9 +251,15 @@ class Recommendation extends React.Component {
                       tempContentMobile =
                         tempContentMobile +
                         `
-                          <div class="rc-list__accordion-item">
+                          <div class="rc-list__accordion-item
+                          ${
+                            this.state.showCur === idx
+                              ? 'showItem'
+                              : 'hiddenItem'
+                          }">
                           <dt>
                             <button
+                              onClick=this.handleSelect.bind(this, idx)
                               class="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
