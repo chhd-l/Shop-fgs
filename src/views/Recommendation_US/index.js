@@ -70,11 +70,13 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showCur: -1,
       isSPT: false,
       frequencyList: '',
       isNoMoreProduct: false,
       promotionCode: '',
       promotionCodeText: '',
+      prescriptionJson: '',
       // secondlist: secondlistArr,
       showMore: true,
       petType: 1, //0 dog;1 cat
@@ -151,6 +153,18 @@ class Recommendation extends React.Component {
     };
   }
 
+  handleSelect(id) {
+    if (id === this.state.showCur) {
+      this.setState({
+        showCur: -1
+      });
+    } else {
+      this.setState({
+        showCur: id
+      });
+    }
+  }
+
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -187,6 +201,7 @@ class Recommendation extends React.Component {
         let productLists = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
         let curScrollTop = await sessionItemRoyal.get('recommendation-scroll');
+        let prescriptionJson = res.context.prescriptionJson || '';
         const currentShowProduct = [].concat(productLists)?.splice(0, 1);
         if (res.context.structureType != 'breeder' && isFr) {
           // 法国区分stp和breeder
@@ -236,9 +251,15 @@ class Recommendation extends React.Component {
                       tempContentMobile =
                         tempContentMobile +
                         `
-                          <div class="rc-list__accordion-item">
+                          <div class="rc-list__accordion-item
+                          ${
+                            this.state.showCur === idx
+                              ? 'showItem'
+                              : 'hiddenItem'
+                          }">
                           <dt>
                             <button
+                              onClick=this.handleSelect.bind(this, idx)
                               class="rc-list__header"
                               id="heading-${idx}"
                               data-toggle="content-${idx}"
@@ -344,7 +365,12 @@ class Recommendation extends React.Component {
           this.setState({ isNoMoreProduct: true });
         }
         this.setState(
-          { productList: filterProducts, petType, promotionCode },
+          {
+            productList: filterProducts,
+            petType,
+            promotionCode,
+            prescriptionJson
+          },
           () => {
             this.checkoutStock();
           }
@@ -668,33 +694,78 @@ class Recommendation extends React.Component {
       this.hanldeUnloginAddToCart(productList, '/cart');
     }
   };
+
   // 复制 promotion code
   copyPromotion = () => {
     let { promotionCodeText } = this.state;
     var copy = function (e) {
       e.preventDefault();
       if (e.clipboardData) {
+        e.clipboardData.clearData();
         e.clipboardData.setData('text/plain', promotionCodeText);
-      } else if (window.clipboardData) {
+      } else if (window.netscape) {
+        try {
+          netscape.security.PrivilegeManager.enablePrivilege(
+            'UniversalXPConnect'
+          );
+        } catch (e) {
+          alert(
+            "被浏览器拒绝！\n请在浏览器地址栏输入'about:config'并回车\n然后将 'signed.applets.codebase_principal_support'设置为'true'"
+          );
+        }
+        var clip = Components.classes[
+          '@mozilla.org/widget/clipboard;1'
+        ].createInstance(Components.interfaces.nsIClipboard);
+        if (!clip) return;
+        var trans = Components.classes[
+          '@mozilla.org/widget/transferable;1'
+        ].createInstance(Components.interfaces.nsITransferable);
+        if (!trans) return;
+        trans.addDataFlavor('text/unicode');
+        var str = new Object();
+        var len = new Object();
+        var str = Components.classes[
+          '@mozilla.org/supports-string;1'
+        ].createInstance(Components.interfaces.nsISupportsString);
+        var copytext = promotionCodeText;
+        str.data = copytext;
+        trans.setTransferData('text/unicode', str, copytext.length * 2);
+        var clipid = Components.interfaces.nsIClipboard;
+        if (!clip) return false;
+        clip.setData(trans, null, clipid.kGlobalClipboard);
+        alert('复制成功！');
+      } else {
         window.clipboardData.setData('promotionCodeText', promotionCodeText);
       }
     };
-    console.info('promotionCodeText', promotionCodeText);
+    // var copy = function (e) {
+    //   e.preventDefault();
+    //   debugger
+    //   if (e.clipboardData) {
+    // console.info('2222promotionCodeText', promotionCodeText);
+    //     e.clipboardData.clearData()
+    //     e.clipboardData.setData('text/plain', promotionCodeText);
+    //   } else if (window.clipboardData) {
+    // console.info('1111promotionCodeText', promotionCodeText);
+    //     window.clipboardData.setData('promotionCodeText', promotionCodeText);
+    //   }
+    // };
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
-
     GABreederRecoPromoCodeCTA();
   };
   // 查看 promotion code
   checkPromotionCode = () => {
+    this.copyPromotion();
     this.setState(
       {
         checkPromotionCodeAndCopy: true
       },
       () => {
-        let elWidth = document.getElementById('btnCopyPromotionCode')
-          .clientWidth;
+        let el = document.getElementById('btnCopyPromotionCode');
+        el.click();
+        let elWidth = el.clientWidth;
         this.setState({
           viewShoppingCartWidth: elWidth
         });
@@ -824,7 +895,16 @@ class Recommendation extends React.Component {
                   }}
                   id="recommendation.welcomeSubText"
                 /> */}
-                <FormattedMessage id="recommendation.welcomeSubText" />
+                <FormattedMessage
+                  id="recommendation.welcomeSubText"
+                  values={{
+                    val: (
+                      <strong style={{ color: '#e2001a' }}>
+                        réduction de 5 à 20€
+                      </strong>
+                    )
+                  }}
+                />
                 {/* La recommandation a été faite en fonction des besoins uniques de
           votre animal. */}
               </span>
@@ -848,15 +928,25 @@ class Recommendation extends React.Component {
               {isFr && promotionCodeText && !checkPromotionCodeAndCopy && (
                 <>
                   <button
-                    className="rc-btn rc-btn--one"
+                    className={`rc-btn rc-btn--one click-and-show-promotioncode ${
+                      !checkPromotionCodeAndCopy ? 'show' : 'hide'
+                    }`}
+                    // title=""
+                    // data-tooltip-placement="top"
+                    // data-tooltip="top-tooltip"
                     onClick={this.checkPromotionCode}
                   >
                     <FormattedMessage id="recommendation.copyPromotionCodeText" />
                   </button>
+                  {/* <div id="top-tooltip" className="rc-tooltip">
+                    <div className="rc-padding-x--xs rc-padding-y--xs">
+                      copié !
+                    </div>
+                  </div> */}
                 </>
               )}
               {/* 点击查看promotion code按钮后显示 */}
-              {isFr && promotionCodeText && checkPromotionCodeAndCopy && (
+              {isFr && promotionCodeText && (
                 <>
                   <p>
                     <button
@@ -864,13 +954,15 @@ class Recommendation extends React.Component {
                       title=""
                       data-tooltip-placement="top"
                       data-tooltip="top-tooltip"
-                      className={`rc-btn rc-btn--two`}
+                      className={`rc-btn rc-btn--two ${
+                        checkPromotionCodeAndCopy ? 'show' : 'hide'
+                      }`}
                       onClick={this.copyPromotion}
                     >
                       {' '}
                       {promotionCodeText}
                     </button>
-                    <div id="top-tooltip" class="rc-tooltip">
+                    <div id="top-tooltip" className="rc-tooltip">
                       <div className="rc-padding-x--xs rc-padding-y--xs">
                         copié !
                       </div>
@@ -879,7 +971,7 @@ class Recommendation extends React.Component {
                   {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
                   </div> */}
-                  <p>
+                  {/* <p>
                     <button
                       className={`rc-btn rc-btn--one`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
@@ -887,7 +979,7 @@ class Recommendation extends React.Component {
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
-                  </p>
+                  </p> */}
                 </>
               )}
             </div>
@@ -943,7 +1035,8 @@ class Recommendation extends React.Component {
       currentModalObj,
       isMobile,
       promotionCode,
-      promotionCodeText
+      promotionCodeText,
+      isSPT
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -980,12 +1073,17 @@ class Recommendation extends React.Component {
       //   productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       // );
     }
-
+    let nutritionalReco =
+      this.state.prescriptionJson &&
+      JSON.parse(this.state.prescriptionJson)?.nutritionalReco;
     let tabDes =
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
-      fr: tabDesText,
+      fr: isSPT
+        ? tabDesText
+        : nutritionalReco ||
+          "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
       en:
         productList[activeIndex]?.productMessage ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
@@ -1242,7 +1340,11 @@ class Recommendation extends React.Component {
                                   }`}
                                   onClick={this.addCart}
                                 >
-                                  <FormattedMessage id="recommendation.viewInCart" />
+                                  {isFr && !isSPT ? (
+                                    'Voir mon panier'
+                                  ) : (
+                                    <FormattedMessage id="recommendation.viewInCart" />
+                                  )}
                                 </button>
                               </p>
 

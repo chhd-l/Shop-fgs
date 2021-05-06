@@ -917,7 +917,7 @@ const fr_FR = {
   'recommendation.welcomeText2': 'Voici la recommandation de votre éleveur :',
   // 'recommendation.welcomeSubText': '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
   'recommendation.welcomeSubText':
-    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une réduction de 5 à 20€ selon le format du produit acheté',
+    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une {val} selon le format du produit acheté',
   'recommendation.buyNow': 'Acheter maintenant',
   'recommendation.copyTips':
     'Dans votre panier, entrez le code promotionnel et commandez !',
