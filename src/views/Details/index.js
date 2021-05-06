@@ -619,7 +619,13 @@ class Details extends React.Component {
 
       return item;
     });
-    skuPromotions == 'club' ? (form.buyWay = 2) : (form.buyWay = 1);
+    !details.promotions ||
+    !details.promotions.includes('club') ||
+    !skuPromotions
+      ? (form.buyWay = 0)
+      : skuPromotions == 'club'
+      ? (form.buyWay = 2)
+      : (form.buyWay = 1);
     this.setState(
       {
         details,
