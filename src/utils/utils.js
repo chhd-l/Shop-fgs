@@ -118,6 +118,7 @@ export async function mergeUnloginCartData() {
         goodsInfoFlag: ele.goodsInfoFlag,
         periodTypeId: ele.periodTypeId,
         invalid: false,
+        recommendationInfos: ele.recommendationInfos,
         recommendationId: ele.recommendationId,
         recommendationName: ele.recommendationName,
         goodsCategory: ele.goodsCategory,

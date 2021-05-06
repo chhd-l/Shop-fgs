@@ -375,6 +375,16 @@ class Recommendation extends React.Component {
             this.checkoutStock();
           }
         );
+        let recommendationInfos = {
+          recommenderName: res.context?.recommendationName || '',
+          recommenderId: res.context?.recommendationId || '',
+          referenceObject: res.context?.structureType || '',
+          referenceData: res.context?.prescriptionJson || ''
+        };
+        let recommendationInfosStr = JSON.stringify(recommendationInfos);
+        this.props.clinicStore.setLinkClinicRecommendationInfos(
+          recommendationInfos
+        );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
         if (!isRu) {
           this.props.clinicStore.setLinkClinicId(
@@ -482,6 +492,8 @@ class Recommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0,
             recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
@@ -507,6 +519,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             recommendationId: this.props.clinicStore.linkClinicId,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName,

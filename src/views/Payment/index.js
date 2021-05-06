@@ -1277,6 +1277,7 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-calculation-param');
         //支付成功清除推荐者信息
         this.props.clinicStore.removeLinkClinicId();
+        this.props.clinicStore.removeLinkClinicRecommendationInfos();
         this.props.clinicStore.removeLinkClinicName();
         // 跳转 confirmation
         this.props.history.push('/confirmation');
@@ -1504,6 +1505,14 @@ class Payment extends React.Component {
     }
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
+        let recommendationInfos = ele.recommendationInfos || {};
+        let {
+          referenceObject,
+          recommenderId,
+          referenceData,
+          recommenderName
+        } = recommendationInfos;
+        let referenceId = recommenderId || ele.recommendationId;
         return {
           //shelter和breeder产品参数 start
           utmSource: ele.utmSource || '',
@@ -1517,6 +1526,11 @@ class Payment extends React.Component {
           petsId: ele.petsId,
           petsName: ele.petsName,
           goodsInfoFlag: 0,
+          referenceObject,
+          recommenderId,
+          referenceData,
+          recommenderName,
+          referenceId,
           recommendationId: ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: ele.recommendationName || ''
@@ -1524,6 +1538,14 @@ class Payment extends React.Component {
       });
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
+        let recommendationInfos = ele.recommendationInfos || {};
+        let {
+          referenceObject,
+          recommenderId,
+          referenceData,
+          recommenderName
+        } = recommendationInfos;
+        let referenceId = recommenderId || ele.recommendationId;
         return {
           utmSource: ele.utmSource || '',
           utmMedium: ele.utmMedium || '',
@@ -1535,6 +1557,11 @@ class Payment extends React.Component {
           petsId: ele.petsId,
           petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag,
+          referenceObject,
+          recommenderId,
+          referenceData,
+          recommenderName,
+          referenceId,
           recommendationId: ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: ele.recommendationName || ''
@@ -1542,6 +1569,14 @@ class Payment extends React.Component {
       });
     } else {
       param.tradeItems = cartData.map((ele) => {
+        let recommendationInfos = ele.recommendationInfos || {};
+        let {
+          referenceObject,
+          recommenderId,
+          referenceData,
+          recommenderName
+        } = recommendationInfos;
+        let referenceId = recommenderId || ele.recommendationId;
         return {
           utmSource: ele.utmSource || '',
           utmMedium: ele.utmMedium || '',
@@ -1551,6 +1586,11 @@ class Payment extends React.Component {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
+          referenceObject,
+          recommenderId,
+          referenceData,
+          recommenderName,
+          referenceId,
           recommendationId: ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: ele.recommendationName || ''
@@ -1563,6 +1603,14 @@ class Payment extends React.Component {
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
+          let recommendationInfos = g.recommendationInfos || {};
+          let {
+            referenceObject,
+            recommenderId,
+            referenceData,
+            recommenderName
+          } = recommendationInfos;
+          let referenceId = recommenderId || g.recommendationId;
           return {
             utmSource: g.utmSource || '',
             utmMedium: g.utmMedium || '',
@@ -1575,6 +1623,11 @@ class Payment extends React.Component {
             petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
+            referenceObject,
+            recommenderId,
+            referenceData,
+            recommenderName,
+            referenceId,
             recommendationId: g.recommendationId || '',
             // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
             recommendationName: g.recommendationName || ''
@@ -1600,6 +1653,14 @@ class Payment extends React.Component {
             ele.goodsInfoFlag
         )
         .map((g) => {
+          let recommendationInfos = g.recommendationInfos || {};
+          let {
+            referenceObject,
+            recommenderId,
+            referenceData,
+            recommenderName
+          } = recommendationInfos;
+          let referenceId = recommenderId || g.recommendationId;
           return {
             settingPrice: g.settingPrice,
             packageId: g.packageId,
@@ -1621,6 +1682,11 @@ class Payment extends React.Component {
             petsType: g.petsType,
             petsName: g.petsName,
             periodTypeId: g.periodTypeId,
+            referenceObject,
+            recommenderId,
+            referenceData,
+            recommenderName,
+            referenceId,
             recommendationId: g.recommendationId || '',
             // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
             recommendationName: g.recommendationName || ''
