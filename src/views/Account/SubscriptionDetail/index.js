@@ -759,10 +759,12 @@ class SubscriptionDetail extends React.Component {
       getParaByName(search, 'needBindPet') ||
       this.props.location.state?.needBindPet;
 
-    if (updateLifeStage) {
-      // 从邮件过来的，需要添加被动更换商品
-      this.setState({ editRecommendationVisible: true });
-    }
+    // if (updateLifeStage) {
+    //   // 从邮件过来的，需要添加被动更换商品
+    //   this.setState({ editRecommendationVisible: true });
+    // }
+    // 只有一个商品的情况下都需要添加被动更换商品
+    this.setState({ editRecommendationVisible: true });
     this.getBreedList();
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
