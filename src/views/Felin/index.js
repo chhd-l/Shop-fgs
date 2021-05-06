@@ -147,7 +147,7 @@ export default class Felin extends React.Component {
       isContactUs: false,
       currentTabIndex: 0,
       topVal: '159px',
-      currentDate: '',
+      currentDate: new Date(),
       calendarInitObserver: null,
       timeOption: [],
       qrCode1: '',
@@ -161,7 +161,8 @@ export default class Felin extends React.Component {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
-      }
+      },
+      toDay: new Date()
     };
   }
   componentDidMount() {
@@ -1101,8 +1102,24 @@ export default class Felin extends React.Component {
                                 date.getDay() === 1 ||
                                 format(date, 'yyyy-MM-dd') === '2021-05-01'
                               }
-                              minDate={new Date('2021-04-20')}
-                              maxDate={new Date('2021-06-13')}
+                              minDate={
+                                new Date(
+                                  format(this.state.toDay, 'yyyy-MM-dd')
+                                ) > new Date('2021-04-20')
+                                  ? new Date(
+                                      format(this.state.toDay, 'yyyy-MM-dd')
+                                    )
+                                  : new Date('2021-04-20')
+                              }
+                              maxDate={
+                                new Date(
+                                  format(this.state.toDay, 'yyyy-MM-dd')
+                                ) < new Date('2021-06-13')
+                                  ? new Date('2021-06-13')
+                                  : new Date(
+                                      format(this.state.toDay, 'yyyy-MM-dd')
+                                    )
+                              }
                               onChange={(date) => {
                                 if (
                                   format(date, 'yyyy-MM-dd') ===
