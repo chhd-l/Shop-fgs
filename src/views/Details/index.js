@@ -341,7 +341,8 @@ class Details extends React.Component {
       relatedGoodsLoading: false,
       rationInfo: {},
       isFromPR: false,
-      questionParams: undefined
+      questionParams: undefined,
+      defaultPurchaseType: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -441,9 +442,10 @@ class Details extends React.Component {
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
       (ele) => ele.id && id && ele.id + '' === id + ''
     )[0];
+    let defaultPurchaseType = 0;
     if (targetDefaultPurchaseTypeItem) {
       let buyWay = 0;
-      let defaultPurchaseType = {
+      defaultPurchaseType = {
         None: -1,
         Subscription: 1,
         'One-off purchase': 0
@@ -460,7 +462,8 @@ class Details extends React.Component {
       this.setState({
         form: Object.assign(this.state.form, {
           buyWay
-        })
+        }),
+        defaultPurchaseType
       });
     }
   }
@@ -575,7 +578,8 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       stock,
-      form
+      form,
+      defaultPurchaseType
     } = this.state;
     let selectedArr = [];
     let idArr = [];
@@ -604,12 +608,10 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ');
-      console.log(
-        item,
-        'item---',
-        unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')
-      );
-      if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
+      if (
+        unique(item.mockSpecDetailIds).sort().join(',') ===
+        idArr.sort().join(',')
+      ) {
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
@@ -623,13 +625,19 @@ class Details extends React.Component {
 
       return item;
     });
-    !details.promotions ||
-    !details.promotions.includes('club') ||
-    !skuPromotions
-      ? (form.buyWay = 0)
-      : skuPromotions == 'club'
-      ? (form.buyWay = 2)
-      : (form.buyWay = 1);
+
+    // !details.promotions ||
+    // !details.promotions.includes('club') || !details.promotions.includes('autoship')
+    // !skuPromotions
+    //   ? (form.buyWay = 0)
+    //   : skuPromotions == 'club'
+    //   ? (form.buyWay = 2)
+    //   : (form.buyWay = 1);
+    defaultPurchaseType === 1
+      ? skuPromotions == 'club'
+        ? (form.buyWay = 2)
+        : (form.buyWay = 1)
+      : (form.buyWay = 0);
     this.setState(
       {
         details,

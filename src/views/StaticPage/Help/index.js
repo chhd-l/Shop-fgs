@@ -237,7 +237,10 @@ class Help extends React.Component {
                                                 className="rc-styled-link"
                                               >
                                                 {/* <FormattedMessage id="help.email" /> */}
-                                                {this.state.mailAddress}
+                                                {
+                                                  this.props.configStore
+                                                    .storeContactEmail
+                                                }
                                               </a>
                                             </span>
                                           </p>

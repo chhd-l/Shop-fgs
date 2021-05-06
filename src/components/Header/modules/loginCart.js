@@ -353,7 +353,7 @@ class LoginCart extends React.Component {
                                               : '#666',
                                             textDecoration: item.goodsInfoFlag
                                               ? 'line-through'
-                                              : 'inhert',
+                                              : '',
                                             display:
                                               item.goodsInfoFlag &&
                                               item.subscriptionPlanGiftList

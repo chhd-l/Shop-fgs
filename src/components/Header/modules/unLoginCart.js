@@ -378,7 +378,7 @@ class UnloginCart extends React.Component {
                                             : '#666',
                                           textDecoration: item.goodsInfoFlag
                                             ? 'line-through'
-                                            : 'inhert'
+                                            : ''
                                           // textDecoration: 'line-through'
                                         }}
                                       >

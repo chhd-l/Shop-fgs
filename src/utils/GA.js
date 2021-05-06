@@ -300,6 +300,16 @@ const calculateGAPrice = (productList, activeIndex) => {
   return GAPrice;
 };
 
+//cart cartChangeSubscription
+export const GACartChangeSubscription = (btnContent) => {
+  if (!isHubGA) return;
+  dataLayer.push({
+    event: 'cartChangeSubscription',
+    cartChangeSubscription: {
+      button: btnContent //Values : 'Single purchase', 'Autoship'
+    }
+  });
+};
 //recommendation-product
 export const GARecommendationProduct = (
   productList,
@@ -357,18 +367,6 @@ export const GARecommendationProduct = (
       breederRecoTabClickProduct: products
     });
 };
-
-//cart cartChangeSubscription
-export const GACartChangeSubscription = (btnContent) => {
-  if (!isHubGA) return;
-  dataLayer.push({
-    event: 'cartChangeSubscription',
-    cartChangeSubscription: {
-      button: btnContent //Values : 'Single purchase', 'Autoship'
-    }
-  });
-};
-
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
   if (!isHubGA) return;
