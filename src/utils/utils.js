@@ -118,6 +118,8 @@ export async function mergeUnloginCartData() {
         goodsInfoFlag: ele.goodsInfoFlag,
         periodTypeId: ele.periodTypeId,
         invalid: false,
+        recommendationId: ele.recommendationId || undefined,
+        recommendationName: ele.recommendationName || undefined,
         goodsCategory: ele.goodsCategory,
         petsId: find(ele.sizeList, (s) => s.selected).petsId,
         questionParams: ele.questionParams
