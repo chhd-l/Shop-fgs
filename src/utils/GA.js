@@ -282,7 +282,63 @@ export const GACartChangeSubscription = (btnContent) => {
     }
   });
 };
-
+//recommendation-product
+export const GARecommendationProduct = (
+  productList,
+  type,
+  frequencyList,
+  promotionCode,
+  activeIndex
+) => {
+  const calculatedWeeks = getComputedWeeks(frequencyList);
+  const products = productList.map((item) => {
+    const { goods, goodsInfos, goodsAttributesValueRelVOAllList } = item;
+    const { minMarketPrice, goodsNo, goodsName, goodsCateName } = goods;
+    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
+    const cateName = goodsCateName?.split('/');
+    const breed = (goodsAttributesValueRelVOAllList || [])
+      .filter(
+        (attr) =>
+          attr.goodsAttributeName &&
+          attr.goodsAttributeName.toLowerCase() == 'breeds'
+      )
+      .map((item) => item.goodsAttributeValue);
+    const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+    let subscriptionFrequency = item.periodTypeId
+      ? calculatedWeeks[item.periodTypeId]
+      : '';
+    let productItem = {
+      price: minMarketPrice,
+      specie,
+      range: cateName?.[1] || '',
+      name: goodsName,
+      mainItemCode: goodsNo,
+      SKU,
+      subscription: getSubscriptionAttr(item.goodsInfoFlag),
+      subscriptionFrequency:
+        item.goodsInfoFlag > 0 ? subscriptionFrequency : '',
+      technology: cateName?.[2] || '',
+      brand: 'Royal Canin',
+      size: item.specText,
+      breed,
+      quantity: item.buyCount,
+      sizeCategory: '',
+      promoCodeName: promotionCode || '',
+      promoCodeAmount: ''
+    };
+    let res = deleteObjEmptyAttr(productItem);
+    return res;
+  });
+  type === 1 &&
+    dataLayer.push({
+      products
+    });
+  type === 2 &&
+    dataLayer.push({
+      event: 'breederRecoTabClick',
+      breederRecoTabClickProduct: products
+    });
+};
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
   if (!isHubGA) return;
@@ -398,5 +454,17 @@ export const productFinderPushEvent = ({
       number: stepOrder, //Step number
       previousAnswer: getStepCurrentPreviousAnswer(answerdQuestionList) //Answer to previous question, generic name, in English
     }
+  });
+};
+
+export const GABuyNow = () => {
+  dataLayer.push({
+    'event ': ' breederRecoBuyNow'
+  });
+};
+
+export const GABreederRecoPromoCodeCTA = () => {
+  dataLayer.push({
+    'event ': ' breederRecoPromoCodeCTA'
   });
 };
