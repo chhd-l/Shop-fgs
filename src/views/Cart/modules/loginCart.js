@@ -726,7 +726,7 @@ class LoginCart extends React.Component {
                 style={{ flex: 1 }}
               >
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-inline-block align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
