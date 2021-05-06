@@ -565,6 +565,7 @@ const fr_FR = {
   menu: 'menu',
   miniBasket: 'Mini panier',
   'mixed Breed': 'race Mixte',
+  'Mixed Breed': 'race Mixte',
   MMYY: 'MM / AA',
   modalCancelAllContent:
     'Êtes-vous sûr(e) de vouloir supprimer cet abonnement ?',
@@ -914,8 +915,9 @@ const fr_FR = {
   'recommendation.welcomeSubText1':
     'Adopter un animal est un engagement sur le long terme. Lui proposer l’aliment le plus adapté pour lui, c’est agir de façon responsable pour aider votre animal à être en bonne santé le plus longtemps possible',
   'recommendation.welcomeText2': 'Voici la recommandation de votre éleveur :',
+  // 'recommendation.welcomeSubText': '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
   'recommendation.welcomeSubText':
-    '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
+    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une {val} selon le format du produit acheté',
   'recommendation.buyNow': 'Acheter maintenant',
   'recommendation.copyTips':
     'Dans votre panier, entrez le code promotionnel et commandez !',
@@ -938,7 +940,9 @@ const fr_FR = {
     'En tant que véritables amoureux des animaux de compagnie et experts en nutrition sur mesure, nous sommes là pour vous aider à préserver la bonne santé de votre animal, tout au long de sa vie.',
   'recommendation.thirdTitle': 'Nous sommes là pour vous aider',
   'recommendation.viewDetail': 'Voir les détails',
-  'recommendation.viewInCart': 'Voir dans le panier',
+  'recommendation.viewInCart': 'Acheter maintenant',
+  'recommendation.viewShoppingCart': 'Voir mon panier',
+  'recommendation.copyPromotionCodeText': 'Voir mon code promo et le copier',
   registerAname: 'Un nombre',
   registerCloud: 'Architecture de référence Commerce Cloud Storefront',
   registerCompleteForm:
@@ -1534,6 +1538,7 @@ const fr_FR = {
   'subscription.chooseThisProduct': 'choose this product',
   'subscription.productDetails': ' Product details',
   'subscription.changeNow': 'Change now',
+  'day-unit': 'journée',
   'subscription.productRecommendation': 'Your product recommendation',
   'subscription.productRecommendationTip':
     "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
