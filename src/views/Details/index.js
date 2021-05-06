@@ -609,7 +609,10 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ');
-      if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
+      if (
+        unique(item.mockSpecDetailIds).sort().join(',') ===
+        idArr.sort().join(',')
+      ) {
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
