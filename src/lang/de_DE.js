@@ -171,7 +171,7 @@ const de_DE = {
     'Die Anzahl von {val} Bestellungen ist begrenzt.',
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
   'cart.miniCartTitle':
-    'Schließen Sie eine regelmäßige Lieferung ab und sparen Sie zusätzliche 10% auf IhreBestellung!',
+    'Schließen Sie eine regelmäßige Lieferung ab und sparen Sie zusätzliche 10% auf Ihre Bestellung!',
   'cart.totalProduct': 'Artikel im Warenkorb',
   'minicart.totalProduct': 'Artikel im Warenkorb',
   'cart.totalProduct_nounit': 'Artikel im Warenkorb',
