@@ -1781,7 +1781,7 @@ class List extends React.Component {
                   (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
                 .map((t) => t.goodsAttributeValueEn);
-              const speciesAttr = (ele.goodsAttributesValueRelVOAllList || [])
+              const specificAttr = (ele.goodsAttributesValueRelVOAllList || [])
                 .filter(
                   (item) =>
                     item?.goodsAttributeName?.toLowerCase() == 'specific needs'
@@ -1796,9 +1796,14 @@ class List extends React.Component {
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-              const RuAttrs = speciesAttr.concat(technologyAttr).join(',');
+              const species = specificAttr?.[0]?.split('_')?.[1];
+              const ruAttrs = species
+                ? [species, ...technologyAttr]
+                : technologyAttr;
               const technologyOrBreedsAttr =
-                isHub && process.env.REACT_APP_LANG === 'ru' ? RuAttrs : attrs;
+                isHub && process.env.REACT_APP_LANG === 'ru'
+                  ? ruAttrs.join(',')
+                  : attrs;
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
