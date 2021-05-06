@@ -1732,7 +1732,9 @@ class PetForm extends React.Component {
               </div>
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId && getClubFlag() ? (
+            {currentPet.petsId &&
+            getClubFlag() &&
+            process.env.REACT_APP_LANG !== 'ru' ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
