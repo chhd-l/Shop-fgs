@@ -857,7 +857,10 @@ class Register extends Component {
                           </div>
                           <div className="rc-meta rc-margin-top--sm rc-text--left">
                             <p>
-                              <FormattedMessage id="registerFooter1" />
+                              <FormattedMessage
+                                id="registerFooter1"
+                                defaultMessage={' '}
+                              />
                               {process.env.REACT_APP_LANG === 'en' ? (
                                 <a href={homePage + contactUrl}>&nbsp;here</a>
                               ) : null}

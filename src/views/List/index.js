@@ -427,9 +427,9 @@ function ListItemBody({ item, headingTag }) {
         <h6
           className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
           style={{ color: '#4a4a4a' }}
-          title={item.goodsSubtitle}
+          title={item.goodsNewSubtitle}
         >
-          {item.goodsSubtitle}
+          {item.goodsNewSubtitle}
         </h6>
       </div>
       {/*商品评分和评论数目*/}

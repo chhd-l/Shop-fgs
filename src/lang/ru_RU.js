@@ -831,8 +831,7 @@ const ru_RU = {
   registerFailed: 'Ошибка регистрации',
   registerFeckbook: 'Подключиться к Facebook',
   registerFillIn: 'Пожалуйста, заполните это поле',
-  registerFooter1:
-    'Для отправки формы вам должно быть не менее 16 лет. Вы можете связаться с нами, написав в Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES или по электронной почте на адрес ',
+  registerFooter1: '',
   registerGoogle: 'Подключиться к Google',
   registerHaveAccount: 'У вас уже есть аккаунт?',
   registerLength: '8 символов',
