@@ -88,6 +88,14 @@ class Form extends React.Component {
     };
   }
   componentDidMount() {
+    let timer = setInterval(() => {
+      let datePickerDom = document.querySelector('.receiveDate');
+      // datePickerDom.disabled = true;
+      if (datePickerDom) {
+        datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
+        clearInterval(timer);
+      }
+    }, 3000);
     const { initData = {} } = this.props;
     const { caninForm } = this.state;
     this.setState({
@@ -1004,7 +1012,7 @@ class Form extends React.Component {
   // birthData onchange
   onDateChange(date) {
     const { caninForm } = this.state;
-    caninForm['birthdate'] = format(date, 'yyyy/MM/dd');
+    caninForm['birthdate'] = date ? format(date, 'yyyy/MM/dd') : '';
     this.setState({ caninForm }, () => {
       this.props.updateData(this.state.caninForm);
     });
