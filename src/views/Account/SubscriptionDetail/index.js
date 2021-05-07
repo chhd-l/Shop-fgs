@@ -3078,7 +3078,9 @@ class SubscriptionDetail extends React.Component {
       remainingsVisible
     } = this.state;
     console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
-    let isClub = subDetail.subscriptionType?.toLowerCase().includes('club');
+    let isClub =
+      subDetail.subscriptionType?.toLowerCase().includes('club') &&
+      process.env.REACT_APP_LANG != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
     let { promotions, petsType } = this.state;
     //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
     let isCatAndDog = petsType === 'CatAndDog';
@@ -3305,6 +3307,7 @@ class SubscriptionDetail extends React.Component {
                   <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
                     {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
                     {subDetail.petsId &&
+                      isClub &&
                       this.state.editRecommendationVisible &&
                       (this.state.recommendationVisibleLoading ? (
                         <div className="mt-4 1111" style={{ width: '100%' }}>
@@ -3333,15 +3336,27 @@ class SubscriptionDetail extends React.Component {
                       !isCantLinkPet) ? (
                       this.ClubTitle()
                     ) : (
-                      <h4
-                        className="rc-delta font-weight-normal mb-2"
-                        style={{ color: '#666' }}
-                      >
-                        {subDetail.subscribeId ? (
-                          <span>{filterOrderId(subDetail.subscribeId)}</span>
-                        ) : null}
-                        {this.statusText()}
-                      </h4>
+                      <>
+                        {subDetail.subscriptionType
+                          ?.toLowerCase()
+                          .includes('club') &&
+                          process.env.REACT_APP_LANG == 'ru' && (
+                            <img
+                              src={getClubLogo()}
+                              style={{ maxWidth: '100px', marginRight: '10px' }}
+                              alt="club Icon"
+                            />
+                          )}
+                        <h4
+                          className="rc-delta font-weight-normal mb-2"
+                          style={{ color: '#666' }}
+                        >
+                          {subDetail.subscribeId ? (
+                            <span>{filterOrderId(subDetail.subscribeId)}</span>
+                          ) : null}
+                          {this.statusText()}
+                        </h4>
+                      </>
                     )}
                   </div>
                   {/* <hr className="rc-margin-top---none" /> */}

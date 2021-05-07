@@ -218,7 +218,7 @@ const ru_RU = {
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товар (а/ов)',
-  'minicart.totalProduct': '{val} товара товара в',
+  'minicart.totalProduct': '{val} товара в',
   'cart.totalProduct_nounit': 'У вас {val} корзине',
   'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
@@ -576,7 +576,8 @@ const ru_RU = {
     'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
   mustChooseTheConsentTip:
     'Чтобы подтвердить, что вы согласны на получение рекламных сообщений от Royal Canin, пожалуйста, поставьте соответствующий флажок ниже.',
-  name: 'Кличка',
+  name: 'Имя',
+  // name: 'Кличка',
   name2: 'ИМЯ',
   nameInvalid: 'Ваше имя недействительно',
   newAddress: 'Новый адрес',
@@ -1114,7 +1115,7 @@ const ru_RU = {
   subscribe: 'Подписка на корм',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
-  saveExtra: 'Сэкономьте {val} на этой подписке',
+  saveExtra: 'Сэкономьте {val} по подписке',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Приостановлена',
@@ -1200,8 +1201,8 @@ const ru_RU = {
   'details.recommendedDaily.info': '{val}/день',
   'details.backRecommendedDaily': 'Вернуться к рекомендациям',
   'details.findProductTip':
-    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
-  'details.findProductTips': 'подборщика продуктов',
+    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца',
+  'details.findProductTips': 'Начните сейчас',
   'details.learnMore': 'Узнать больше',
   'Club subscription': 'Клубная подписка',
   'help.title': 'Нужна помощь?',
