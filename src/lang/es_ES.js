@@ -546,8 +546,6 @@ const es_ES = {
   'order.inTranistTip':
     'Su pedido ha sido enviado y pronto recibirá el producto. {val}',
   'order.iVAIncluido': '(IVA incluido)',
-  'order.lastXDays': 'Últimos {val} días',
-  'order.lastXMonths': 'Últimos {val} meses',
   'order.noDataTip': 'Sin datos',
   'order.orderDate': 'Fecha de orden',
   'order.orderDetails': 'Detalles del pedido',

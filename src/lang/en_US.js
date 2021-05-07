@@ -713,8 +713,6 @@ const en_US = {
   'order.inputReturnNumberTip': 'Please input return number',
   'order.inTranistTip':
     'Your order has been shipped and you will receive the product soon. {val}',
-  'order.lastXDays': 'Last {val} days',
-  'order.lastXMonths': 'Last {val} months',
   'order.noDataTip': 'No data',
   'order.orderDate': 'Order Date',
   'order.orderDetails': 'Order Details',

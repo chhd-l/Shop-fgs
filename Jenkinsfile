@@ -108,7 +108,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                     // 输出新创建的部署 yaml 文件内容
                     sh "cat deploy.yaml"
                     // 执行 Kuberctl 命令进行部署操作
-                    //sh "kubectl replace --force -n ${PROJECT_ENV} -f deploy.yaml"
+                    sh "kubectl replace --force -n ${PROJECT_ENV} -f deploy.yaml"
                     }
                 }
         }

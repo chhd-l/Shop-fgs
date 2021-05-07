@@ -18,7 +18,8 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  getParaByName
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
@@ -86,13 +87,26 @@ class AccountOrders extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
+  async componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
       pageName: 'Account orders'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
+
+    let search = this.props.location.search;
+    let orderId = search && getParaByName(search, 'orderId');
+    if (orderId) {
+      let res = await getOrderList({ id: orderId });
+      let hasDetails = res.context?.content?.length;
+      if (hasDetails) {
+        let url = `/account/orders/detail/${orderId}`;
+        this.props.history.push(url);
+        return;
+      }
+    }
+
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -102,45 +116,12 @@ class AccountOrders extends React.Component {
     this.queryOrderList();
   }
   async FormateOderTimeFilter() {
-    let res = await getDictionary({ type: 'orderTimeFilter' });
-    let duringTimeOptions =
-      res &&
-      res.map((item) => {
-        let value, values;
-        if (Number(item.valueEn) === 7) {
-          value = item.valueEn;
-          values = 7;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else if (Number(item.valueEn) === 30) {
-          value = item.valueEn;
-          values = 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else {
-          value = item.valueEn;
-          values = item.valueEn / 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage
-                id="order.lastXMonths"
-                values={{ val: values }}
-              />
-            )
-          };
-        }
-      });
+    const res = await getDictionary({ type: 'orderTimeFilter' });
     this.setState({
-      duringTimeOptions
+      duringTimeOptions: (res || []).map((item) => ({
+        value: item.valueEn,
+        name: item.name
+      }))
     });
   }
   handleDuringTimeChange = (data) => {
