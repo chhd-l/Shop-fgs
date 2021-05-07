@@ -33,7 +33,8 @@ class ClinicForm extends React.Component {
         clinicId: ''
       },
       toolTipVisible: false,
-      isEdit: false
+      isEdit: false,
+      tempPrescriberData: null // 临时存放查询到的 prescriber
     };
 
     this.handleMouseOver = this.handleMouseOver.bind(this);
@@ -60,8 +61,17 @@ class ClinicForm extends React.Component {
     // 监听回车键
     document.addEventListener('keyup', (e) => {
       if (e.keyCode === 13) {
-        if (this.state.isEdit && this.state.form.clinicName) {
+        if (
+          this.state.isEdit &&
+          this.state.form.clinicName &&
+          !this.state.tempPrescriberData
+        ) {
           this.handleClickConfirm();
+        }
+
+        // 如果有查询出数据，按下回车键选中查询的数据
+        if (this.state.isEdit && this.state.tempPrescriberData) {
+          this.handleSelectedItemChange(this.state.tempPrescriberData);
         }
       }
     });
@@ -78,7 +88,10 @@ class ClinicForm extends React.Component {
     const { form } = this.state;
     form.clinicName = data.prescriberName;
     form.clinicId = data.id;
-    this.setState({ form: form });
+    this.setState({
+      form: form,
+      tempPrescriberData: null
+    });
   };
   handleMouseOver() {
     this.flag = 1;
@@ -102,14 +115,16 @@ class ClinicForm extends React.Component {
     this.setState({ isEdit: true });
   };
   handleClickConfirm = () => {
-    console.log(this.state.form.clinicName);
-    if (!this.state.form.clinicName) {
+    const { form } = this.state;
+    if (!form.clinicName) {
       return false;
     }
-    this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
-    this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
+    this.props.clinicStore.setSelectClinicId(form.clinicId);
+    this.props.clinicStore.setSelectClinicName(form.clinicName);
     this.confirmToNextPanel();
-    this.setState({ isEdit: false });
+    this.setState({
+      isEdit: false
+    });
   };
   confirmToNextPanel() {
     const { paymentStore } = this.props;
@@ -187,12 +202,20 @@ class ClinicForm extends React.Component {
                     // auditAuthority: this.props.checkoutStore.autoAuditFlag
                     // auditAuthority: true
                   });
-                  return (
+                  let resobj = (
                     (res.context && res.context.prescriberVo) ||
                     []
                   ).map((ele) =>
                     Object.assign(ele, { name: ele.prescriberName })
                   );
+                  let temp = null;
+                  if (resobj) {
+                    temp = resobj[0];
+                  }
+                  this.setState({
+                    tempPrescriberData: temp
+                  });
+                  return resobj;
                 }}
                 selectedItemChange={this.handleSelectedItemChange}
                 defaultValue={this.state.form.clinicName}

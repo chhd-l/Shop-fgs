@@ -420,7 +420,9 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
-      this.props.clinicStore.setLinkClinicId(res.context?.id);
+      this.props.clinicStore.setLinkClinicId(
+        res.context?.id || res.context?.prescriberId
+      );
       // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
