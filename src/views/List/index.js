@@ -1776,17 +1776,19 @@ class List extends React.Component {
           let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
+              //hub商品图片下方展示的属性
               const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
                 .filter(
                   (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
                 .map((t) => t.goodsAttributeValueEn);
-              const specificAttr = (ele.goodsAttributesValueRelVOAllList || [])
+              const breedsValueAttr = (
+                ele.goodsAttributesValueRelVOAllList || []
+              )
                 .filter(
-                  (item) =>
-                    item?.goodsAttributeName?.toLowerCase() == 'specific needs'
+                  (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
-                .map((t) => t.goodsAttributeValueEn);
+                .map((t) => t.goodsAttributeValue);
               const technologyAttr = (
                 ele.goodsAttributesValueRelVOAllList || []
               )
@@ -1796,14 +1798,15 @@ class List extends React.Component {
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-              const species = specificAttr?.[0]?.split('_')?.[1];
-              const ruAttrs = species
-                ? [species, ...technologyAttr]
-                : technologyAttr;
+              const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
+              const breed =
+                breedValue.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+              const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_LANG === 'ru'
                   ? ruAttrs.join(',')
                   : attrs;
+
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
