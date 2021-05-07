@@ -4264,7 +4264,7 @@ class SubscriptionDetail extends React.Component {
                                                     : '0 .9375rem 0 1.25rem'
                                                 }}
                                               >
-                                                <FormattedMessage id="shipmentOn" />
+                                                <FormattedMessage id="nextShipmentOn" />
                                                 :
                                                 <br />
                                                 <span
@@ -4919,7 +4919,7 @@ class SubscriptionDetail extends React.Component {
                                               }`}
                                               style={{ paddingLeft: '1.25rem' }}
                                             >
-                                              <FormattedMessage id="shipmentOn" />
+                                              <FormattedMessage id="prevShipmentOn" />
                                               :{' '}
                                               <span
                                                 style={{

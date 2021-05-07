@@ -14,6 +14,7 @@ import initLocation from './location';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import '../Prescription/index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;

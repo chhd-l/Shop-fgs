@@ -356,6 +356,14 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     const { pathname, state } = this.props.location;
+    let timer = setInterval(() => {
+      if (document.querySelector('#mars-footer-panel')) {
+        document
+          .querySelector('#mars-footer-panel')
+          .setAttribute('style', 'padding-bottom: 61px !important');
+        clearInterval(timer);
+      }
+    }, 1000);
     this.getUrlParam();
     if (state) {
       if (!!state.GAListParam) {
@@ -1562,7 +1570,6 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       skuPromotions
     });
-    debugger;
     let content = ['Single Purchase'];
     if (
       currentSubscriptionStatus &&

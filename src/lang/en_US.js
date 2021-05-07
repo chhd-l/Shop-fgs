@@ -713,8 +713,6 @@ const en_US = {
   'order.inputReturnNumberTip': 'Please input return number',
   'order.inTranistTip':
     'Your order has been shipped and you will receive the product soon. {val}',
-  'order.lastXDays': 'Last {val} days',
-  'order.lastXMonths': 'Last {val} months',
   'order.noDataTip': 'No data',
   'order.orderDate': 'Order Date',
   'order.orderDetails': 'Order Details',
@@ -1113,7 +1111,8 @@ const en_US = {
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
-  shipmentOn: 'Shipment on',
+  prevShipmentOn: 'Shipment on',
+  nextShipmentOn: 'Shipment on',
   shipmentTrackingFalse: 'Please check this box if you wish to continue.',
   shipping: 'Shipping',
   shippingAddress: 'Address Management',

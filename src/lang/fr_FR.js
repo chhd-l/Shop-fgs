@@ -639,8 +639,6 @@ const fr_FR = {
   'order.inTranistTip':
     'Votre commande a été expédiée et vous recevrez bientôt le produit. {val}',
   'order.iVAIncluido': 'TVA Inclus',
-  'order.lastXDays': 'Les {val} derniers jours',
-  'order.lastXMonths': 'Les {val} derniers mois',
   'order.noDataTip': 'Pas de données',
   'order.orderDate': 'Date de commande',
   'order.orderDetails': 'Détails de la commande',
@@ -1039,7 +1037,8 @@ const fr_FR = {
   setDefaltAddressSuccess: "Définir le succès de l'adresse Defalt",
   setDefaultAddress: 'Définir comme adresse par défaut',
   setDefaultPaymentMethod: 'Définir comme mode de paiement par défaut',
-  shipmentOn: 'Envoi le',
+  prevShipmentOn: 'Expédition le',
+  nextShipmentOn: 'Expédition le',
   shipmentTrackingFalse:
     'Veuillez cocher cette case si vous souhaitez continuer.',
   shipping: 'Livraison',

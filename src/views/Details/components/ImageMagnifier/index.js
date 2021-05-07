@@ -47,11 +47,11 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 1.5,
         // 组件宽
-        width: isMobile ? '230' : (props.config && props.config.width) || '250',
+        width: isMobile ? '230' : (props.config && props.config.width) || '300',
         // 组件高
         height: isMobile
           ? '324'
-          : (props.config && props.config.height) || '354'
+          : (props.config && props.config.height) || '404'
       },
       // 缩略图
       minImg: '',
@@ -289,7 +289,7 @@ class ImageMagnifier extends Component {
     cssStyle.magnifierContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.left = parseInt(params.width) + 120 + 'px';
     cssStyle.imgStyle2.width = params.width + 'px';
-    cssStyle.imgStyle2.height = params.height + 'px';
+    cssStyle.imgStyle2.height = 'auto'; //不能重置成params.height,图片尺寸不统一会变形
     cssStyle.imgStyle2.transform = 'scale(' + params.scale + ')';
 
     this.setState({

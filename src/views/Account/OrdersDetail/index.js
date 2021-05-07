@@ -842,17 +842,21 @@ class AccountOrders extends React.Component {
                     {/*/>*/}
                     <span className="icon iconfont">&#xe6f9;</span>
                   </div>
-                  <div className="col-12 mt-2">
-                    {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
-                    {/*{*/}
-                    {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
-                    {/*    .statusDescription*/}
-                    {/*}*/}
-                    {item.tradeLogisticsDetailStatus || ''}
-                  </div>
+                  {/*<div className="col-12 mt-2">*/}
+                  {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
+                  {/*{*/}
+                  {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
+                  {/*    .statusDescription*/}
+                  {/*}*/}
+                  {/*{item.tradeLogisticsDetailStatus || ''}*/}
+                  {/*</div>*/}
                   <div className="col-12 row mt-2">
                     {item.shippingItems.map((sItem) => (
-                      <div className="col-3" key={sItem.skuId}>
+                      <div
+                        className="col-3"
+                        style={{ display: 'flex', alignItems: 'flex-end' }}
+                        key={sItem.skuId}
+                      >
                         <LazyLoad>
                           <img
                             className="rc-bg-colour--brand4"
