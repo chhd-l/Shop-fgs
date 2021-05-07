@@ -127,45 +127,12 @@ class AccountOrders extends React.Component {
     this.queryOrderList();
   }
   async FormateOderTimeFilter() {
-    let res = await getDictionary({ type: 'orderTimeFilter' });
-    let duringTimeOptions =
-      res &&
-      res.map((item) => {
-        let value, values;
-        if (Number(item.valueEn) === 7) {
-          value = item.valueEn;
-          values = 7;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else if (Number(item.valueEn) === 30) {
-          value = item.valueEn;
-          values = 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else {
-          value = item.valueEn;
-          values = item.valueEn / 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage
-                id="order.lastXMonths"
-                values={{ val: values }}
-              />
-            )
-          };
-        }
-      });
+    const res = await getDictionary({ type: 'orderTimeFilter' });
     this.setState({
-      duringTimeOptions
+      duringTimeOptions: (res || []).map((item) => ({
+        value: item.valueEn,
+        name: item.name
+      }))
     });
   }
   handleDuringTimeChange = (data) => {
