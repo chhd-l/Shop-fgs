@@ -1800,7 +1800,7 @@ class List extends React.Component {
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
               const breed =
-                breedValue.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+                breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
               const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_LANG === 'ru'
