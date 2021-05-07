@@ -88,6 +88,14 @@ class Form extends React.Component {
     };
   }
   componentDidMount() {
+    let timer = setInterval(() => {
+      let datePickerDom = document.querySelector('.receiveDate');
+      // datePickerDom.disabled = true;
+      if (datePickerDom) {
+        datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
+        clearInterval(timer);
+      }
+    }, 3000);
     const { initData = {} } = this.props;
     const { caninForm } = this.state;
     this.setState({
