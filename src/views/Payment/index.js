@@ -803,10 +803,12 @@ class Payment extends React.Component {
       errorMsg: msg,
       loading: false
     });
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    if (msg) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
@@ -2457,7 +2459,6 @@ class Payment extends React.Component {
   // 已绑卡 下一步
   cvvConfirmNextPanel = async () => {
     const { isLogin } = this;
-    const { billingChecked, billingAddressAddOrEdit } = this.state;
     const { paymentStore } = this.props;
     // 清空 VisitorAddress 参数 && !billingChecked
     if (
@@ -2485,10 +2486,6 @@ class Payment extends React.Component {
         localItemRoyal.remove('rc-payment-purchases-param');
       }
     );
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   };
 
   /***** 地址校验相关 *******/
