@@ -1200,8 +1200,8 @@ const ru_RU = {
   'details.recommendedDaily.info': '{val}/день',
   'details.backRecommendedDaily': 'Вернуться к рекомендациям',
   'details.findProductTip':
-    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца с помощью',
-  'details.findProductTips': 'подборщика продуктов',
+    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца',
+  'details.findProductTips': 'Начните сейчас',
   'details.learnMore': 'Узнать больше',
   'Club subscription': 'Клубная подписка',
   'help.title': 'Нужна помощь?',
