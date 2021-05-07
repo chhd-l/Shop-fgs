@@ -766,42 +766,44 @@ class AddressList extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    <div
-                      className="d-flex align-items-center justify-content-between flex-wrap"
-                      style={{ lineHeight: '40px' }}
-                    >
+                    {process.env.REACT_APP_LANG !== 'ru' ? (
                       <div
-                        className={`rc-input rc-input--inline ${
-                          this.props.type === 'delivery' ? '' : 'hidden'
-                        }`}
-                        onClick={() => {
-                          isBillSame = !isBillSame;
-                          console.log(isBillSame);
-                          this.setState({ isBillSame });
-                        }}
-                        style={{ maxWidth: '450px' }}
+                        className="d-flex align-items-center justify-content-between flex-wrap"
+                        style={{ lineHeight: '40px' }}
                       >
-                        {isBillSame ? (
-                          <input
-                            type="checkbox"
-                            className="rc-input__checkbox"
-                            value={true}
-                            key={1}
-                            checked
-                          />
-                        ) : (
-                          <input
-                            type="checkbox"
-                            className="rc-input__checkbox"
-                            key={2}
-                            value={false}
-                          />
-                        )}
-                        <label className="rc-input__label--inline text-break billingSame">
-                          <FormattedMessage id="biliingAddressSameAs" />
-                        </label>
+                        <div
+                          className={`rc-input rc-input--inline ${
+                            this.props.type === 'delivery' ? '' : 'hidden'
+                          }`}
+                          onClick={() => {
+                            isBillSame = !isBillSame;
+                            console.log(isBillSame);
+                            this.setState({ isBillSame });
+                          }}
+                          style={{ maxWidth: '450px' }}
+                        >
+                          {isBillSame ? (
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              value={true}
+                              key={1}
+                              checked
+                            />
+                          ) : (
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              key={2}
+                              value={false}
+                            />
+                          )}
+                          <label className="rc-input__label--inline text-break billingSame">
+                            <FormattedMessage id="biliingAddressSameAs" />
+                          </label>
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                     <div
                       className={classNames({
                         // hidden: !listVisible || editFormVisible
