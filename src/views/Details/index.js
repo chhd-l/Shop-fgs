@@ -1562,7 +1562,6 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       skuPromotions
     });
-    debugger;
     let content = ['Single Purchase'];
     if (
       currentSubscriptionStatus &&
