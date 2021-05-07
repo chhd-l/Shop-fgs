@@ -537,8 +537,6 @@ const tr_TR = {
   'order.historyOfOrders': 'Emirlerin tarihi',
   'order.inputOrderNumberTip': 'Lütfen sipariş numarasını girin',
   'order.inputReturnNumberTip': 'Lütfen dönüş numarasını giriniz',
-  'order.lastXDays': 'Son {val} gün',
-  'order.lastXMonths': 'Son {val} ay',
   'order.noDataTip': 'Veri yok',
   'order.orderDate': 'Sipariş tarihi',
   'order.orderDetails': 'sipariş detayları',
