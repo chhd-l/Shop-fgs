@@ -289,7 +289,7 @@ class ImageMagnifier extends Component {
     cssStyle.magnifierContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.left = parseInt(params.width) + 120 + 'px';
     cssStyle.imgStyle2.width = params.width + 'px';
-    cssStyle.imgStyle2.height = params.height + 'px';
+    cssStyle.imgStyle2.height = 'auto'; //不能重置成params.height,图片尺寸不统一会变形
     cssStyle.imgStyle2.transform = 'scale(' + params.scale + ')';
 
     this.setState({

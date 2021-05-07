@@ -542,23 +542,25 @@ class Register extends Component {
                         </a>
                       </p>
                       {process.env.REACT_APP_LANG !== 'ru' ? (
-                        <SocialRegister />
+                        <>
+                          <SocialRegister />
+                          <div className="rc-column">
+                            <p className="rc-margin-bottom--none text-center rc-padding--xs">
+                              <FormattedMessage id="registerContinuing" />
+                            </p>
+                          </div>
+                          <div className="rc-column ouPadding">
+                            <div className="auth-divider">
+                              <span
+                                className="auth-divider-text"
+                                data-i18n="loginPage_or"
+                              >
+                                <FormattedMessage id="registerOr" />
+                              </span>
+                            </div>
+                          </div>
+                        </>
                       ) : null}
-                      <div className="rc-column">
-                        <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                          <FormattedMessage id="registerContinuing" />
-                        </p>
-                      </div>
-                      <div className="rc-column ouPadding">
-                        <div className="auth-divider">
-                          <span
-                            className="auth-divider-text"
-                            data-i18n="loginPage_or"
-                          >
-                            <FormattedMessage id="registerOr" />
-                          </span>
-                        </div>
-                      </div>
                       <div className="rc-column">
                         <form
                           id="registrationForm"

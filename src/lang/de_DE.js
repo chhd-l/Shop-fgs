@@ -595,8 +595,6 @@ const de_DE = {
   'order.inTranistTip':
     'Ihre Bestellung wurde versendet und Sie erhalten das Produkt bald. {val}',
   'order.iVAIncluido': '',
-  'order.lastXDays': 'Letzte {val} Tage',
-  'order.lastXMonths': 'Letzte {val} Monate',
   'order.noDataTip': 'Keine Daten',
   'order.orderDate': 'Auftragsdatum',
   'order.orderDetails': 'Bestelldetails',

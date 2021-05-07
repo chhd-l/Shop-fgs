@@ -81,6 +81,7 @@ import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
 import { bindSubmitParam } from '@/utils/utils';
+import { registerCustomerList, guestList } from './tr_consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -580,10 +581,18 @@ class Payment extends React.Component {
     if (groups) {
       params.groups = groups;
     }
-    const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-      params
-    );
-    this.isExistListFun(res); //现在游客会员 统一
+    let res = '';
+    try {
+      res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
+        params
+      );
+    } catch (err) {
+      console.log(err.message);
+    }
+    if (res) {
+      this.isExistListFun(res); //现在游客会员 统一
+    }
+    //this.getTrConsentList();
   }
   //重新组装listData
   rebindListData(listData) {
@@ -598,7 +607,7 @@ class Payment extends React.Component {
   }
   //游客+会员必填项和选填项全部显示，只result结果不同
   isExistListFun(result) {
-    const optioalList = result.context.optionalList.map((item) => {
+    const optionalList = result.context.optionalList.map((item) => {
       return {
         id: item.id,
         consentTitle: item.consentTitle,
@@ -617,35 +626,30 @@ class Payment extends React.Component {
       };
     });
 
-    // todo
-    // if (process.env.REACT_APP_LANG === 'tr') {
-    //   requiredList = [
-    //     {
-    //       id: '0',
-    //       consentTitle: `Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" data-modal-trigger="standard-sales-agreement">Formu incele</span>`,
-    //       isChecked: false,
-    //       isRequired: true
-    //     },
-    //     {
-    //       id: '1',
-    //       consentTitle: `Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline">Formu incele</span>`,
-    //       isChecked: false,
-    //       isRequired: true
-    //     }
-    //   ];
-    // }
-
     let listData = [];
     if (
       !this.isLogin &&
       (process.env.REACT_APP_LANG == 'en' || process.env.REACT_APP_LANG == 'ru')
     ) {
       listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
+    } else if (process.env.REACT_APP_LANG == 'ru') {
+      listData = [...requiredList]; //俄罗斯-会员-必填项
     } else {
-      listData = [...requiredList, ...optioalList]; //必填项+选填项
+      listData = [...requiredList, ...optionalList]; //必填项+选填项
     }
 
     this.rebindListData(listData);
+  }
+  //土耳其consent
+  getTrConsentList() {
+    if (process.env.REACT_APP_LANG === 'tr') {
+      let listData = [];
+
+      listData = this.isLogin ? [...registerCustomerList] : [...guestList];
+      //listData = [...registerCustomerList];
+      //listData = [...guestList];
+      this.rebindListData(listData);
+    }
   }
   //获取支付方式
   initPaymentWay = async () => {
