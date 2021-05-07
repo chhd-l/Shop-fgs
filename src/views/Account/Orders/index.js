@@ -86,13 +86,38 @@ class AccountOrders extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
+  async componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
       pageName: 'Account orders'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
+
+    // getOrderList({id: 'RCFRU000001981'}).then(res => {
+    //   console.log(res, 'res')
+    // })
+    // let search = this.props.location.search;
+    // let subscriptionId = search && getParaByName(search, 'subscriptionId');
+    // let updateLifeStage = search && getParaByName(search, 'updateLifeStage');
+    // let needBindPet = search && getParaByName(search, 'needBindPet');
+    // if (subscriptionId) {
+    //   let res = await getSubList({ subscribeId: subscriptionId });
+    //   console.info('res.contextres.contextres.context');
+    //   let hasDetails = res.context?.subscriptionResponses?.length;
+    //   if (hasDetails) {
+    //     let url = `/account/subscription/order/detail/${subscriptionId}`;
+    //     if (updateLifeStage) {
+    //       url += '?updateLifeStage=true';
+    //     }
+    //     if (needBindPet) {
+    //       url += '?needBindPet=true';
+    //     }
+    //     this.props.history.push(url);
+    //     return;
+    //   }
+    // }
+
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');

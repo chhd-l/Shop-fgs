@@ -985,15 +985,17 @@ class Recommendation extends React.Component {
                   {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
                   </div> */}
-                  {/* <p>
+                  <p>
                     <button
-                      className={`rc-btn rc-btn--one`}
+                      className={`rc-btn rc-btn--one click-and-show-promotioncode ${
+                        checkPromotionCodeAndCopy ? 'show' : 'hide'
+                      }`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
                       onClick={this.viewShoppingCart}
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
-                  </p> */}
+                  </p>
                 </>
               )}
             </div>
