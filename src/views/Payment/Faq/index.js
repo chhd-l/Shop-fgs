@@ -122,7 +122,7 @@ const faqList =
       {
         title: 'Возврат товара',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p><a href="${process.env.REACT_APP_HOMEPAGE}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
+        <p></p><p><a href="${process.env.REACT_APP_HUB_URLPREFIX}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
         gaContext: 'Free return'
       }
     ],
