@@ -18,7 +18,8 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  getParaByName
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
@@ -94,29 +95,17 @@ class AccountOrders extends React.Component {
       this.setState({ seoConfig: res });
     });
 
-    // getOrderList({id: 'RCFRU000001981'}).then(res => {
-    //   console.log(res, 'res')
-    // })
-    // let search = this.props.location.search;
-    // let subscriptionId = search && getParaByName(search, 'subscriptionId');
-    // let updateLifeStage = search && getParaByName(search, 'updateLifeStage');
-    // let needBindPet = search && getParaByName(search, 'needBindPet');
-    // if (subscriptionId) {
-    //   let res = await getSubList({ subscribeId: subscriptionId });
-    //   console.info('res.contextres.contextres.context');
-    //   let hasDetails = res.context?.subscriptionResponses?.length;
-    //   if (hasDetails) {
-    //     let url = `/account/subscription/order/detail/${subscriptionId}`;
-    //     if (updateLifeStage) {
-    //       url += '?updateLifeStage=true';
-    //     }
-    //     if (needBindPet) {
-    //       url += '?needBindPet=true';
-    //     }
-    //     this.props.history.push(url);
-    //     return;
-    //   }
-    // }
+    let search = this.props.location.search;
+    let orderId = search && getParaByName(search, 'orderId');
+    if (orderId) {
+      let res = await getOrderList({ id: orderId });
+      let hasDetails = res.context?.content?.length;
+      if (hasDetails) {
+        let url = `/account/orders/detail/${orderId}`;
+        this.props.history.push(url);
+        return;
+      }
+    }
 
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
