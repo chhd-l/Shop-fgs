@@ -1,5 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import Modal from '@/components/Modal';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
@@ -606,7 +607,7 @@ class Payment extends React.Component {
         detailList: item.detailList
       };
     });
-    const requiredList = result.context.requiredList.map((item) => {
+    let requiredList = result.context.requiredList.map((item) => {
       return {
         id: item.id,
         consentTitle: item.consentTitle,
@@ -615,6 +616,25 @@ class Payment extends React.Component {
         detailList: item.detailList
       };
     });
+
+    // todo
+    // if (process.env.REACT_APP_LANG === 'tr') {
+    //   requiredList = [
+    //     {
+    //       id: '0',
+    //       consentTitle: `Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" data-modal-trigger="standard-sales-agreement">Formu incele</span>`,
+    //       isChecked: false,
+    //       isRequired: true
+    //     },
+    //     {
+    //       id: '1',
+    //       consentTitle: `Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline">Formu incele</span>`,
+    //       isChecked: false,
+    //       isRequired: true
+    //     }
+    //   ];
+    // }
+
     let listData = [];
     if (
       !this.isLogin &&
@@ -3621,6 +3641,15 @@ class Payment extends React.Component {
           closeNew={this.closeNew}
           confirm={this.petComfirm}
           close={this.closePetModal}
+        />
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+          // close={() => this.handelClose()}
+          // hanldeClickConfirm={() => this.hanldeConfirm()}
         />
       </div>
     );

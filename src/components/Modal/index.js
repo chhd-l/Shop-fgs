@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import FullScreenModal from './FullScreenModal';
 
 export default class Modal extends React.Component {
   static defaultProps = {
@@ -22,7 +23,10 @@ export default class Modal extends React.Component {
     this.props.hanldeClickConfirm();
   }
   render() {
-    const { visible } = this.props;
+    const { visible, type } = this.props;
+    if (type === 'fullscreen') {
+      return <FullScreenModal />;
+    }
     return (
       <React.Fragment>
         {/* modal */}
@@ -66,7 +70,7 @@ export default class Modal extends React.Component {
               <div
                 className="modal-body delete-confirmation-body"
                 style={{
-                  maxHeight: '50vh',
+                  // maxHeight: '50vh',
                   overflowY: this.props.overflowVisible ? 'visible' : 'auto'
                 }}
               >
