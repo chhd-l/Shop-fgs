@@ -89,8 +89,8 @@ function ListItemH5ForGlobalStyle(props) {
                   </h3>
                 </div>
                 <div
-                  className="d-flex rc-padding-top--md margin-top-mobile-20"
-                  style={{ fontSize: 'large' }}
+                  className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
+                  style={{ fontSize: 'large', zIndex: 2 }}
                 >
                   <FormattedMessage
                     id="plp.retail.cat.product.finder.detail"
