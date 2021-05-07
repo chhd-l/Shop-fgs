@@ -218,7 +218,7 @@ const ru_RU = {
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товар (а/ов)',
-  'minicart.totalProduct': '{val} товара товара в',
+  'minicart.totalProduct': '{val} товара в',
   'cart.totalProduct_nounit': 'У вас {val} корзине',
   'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',

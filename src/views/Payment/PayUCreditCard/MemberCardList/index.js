@@ -385,6 +385,7 @@ class MemberCardList extends React.Component {
       if (!isValid || !isEdit) {
         !isEdit &&
           this.props.onInstallMentParamChange(this.state.installMentParam);
+        scrollPaymentPanelIntoView();
         return false;
       }
       this.setState({
