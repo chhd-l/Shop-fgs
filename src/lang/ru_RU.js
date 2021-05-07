@@ -602,8 +602,6 @@ const ru_RU = {
   'order.historyOfOrders': 'История заказов',
   'order.inputOrderNumberTip': 'Введите номер заказа',
   'order.inputReturnNumberTip': 'Введите номер возврата',
-  'order.lastXDays': 'Последние {val} дн.',
-  'order.lastXMonths': 'Последние {val} месяцев.',
   'order.noDataTip': 'Нет данных',
   'order.orderDate': 'Дата заказа',
   'order.orderDetails': 'Детали заказа',
@@ -995,7 +993,7 @@ const ru_RU = {
   type: 'ТИП',
   unfoldAddress: 'Свернуть мои адреса',
   unLoginSubscriptionTips:
-    'Участие в клубной программе только для зарегистрированных пользователей',
+    'Оформить подписку или вступить в Клуб возможно только после регистрации',
   userAgreement: 'Пользовательское Соглашение',
   viewAll: 'Посмотреть все',
   viewAllResults: 'Посмотреть все результаты',
