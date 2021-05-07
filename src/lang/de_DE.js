@@ -957,7 +957,8 @@ const de_DE = {
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Als Standardadresse festlegen',
   setDefaultPaymentMethod: 'Als Standardzahlungsmethode festlegen',
-  shipmentOn: 'Versand am',
+  prevShipmentOn: 'Versand am',
+  nextShipmentOn: 'Versand am',
   shipmentTrackingFalse:
     'Bitte klicken Sie dieses Kästchen an, wenn Sie fortfahren möchten.',
   shipping: 'Versand',
