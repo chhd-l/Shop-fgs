@@ -852,7 +852,11 @@ class AccountOrders extends React.Component {
                   {/*</div>*/}
                   <div className="col-12 row mt-2">
                     {item.shippingItems.map((sItem) => (
-                      <div className="col-3" key={sItem.skuId}>
+                      <div
+                        className="col-3"
+                        style={{ display: 'flex', alignItems: 'flex-end' }}
+                        key={sItem.skuId}
+                      >
                         <LazyLoad>
                           <img
                             className="rc-bg-colour--brand4"
