@@ -1525,12 +1525,18 @@ class Payment extends React.Component {
     }
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
-        let recommendationInfos = ele.recommendationInfos || {};
+        let recommendationInfos = {};
+        if (ele.recommendationInfos) {
+          recommendationInfos =
+            typeof ele.recommendationInfos == 'string'
+              ? JSON.parse(ele.recommendationInfos)
+              : el.recommendationInfos;
+        }
         let {
-          referenceObject,
-          recommenderId,
-          referenceData,
-          recommenderName
+          referenceObject = '',
+          recommenderId = '',
+          referenceData = '',
+          recommenderName = ''
         } = recommendationInfos;
         let referenceId = recommenderId || ele.recommendationId;
         return {
@@ -1558,12 +1564,18 @@ class Payment extends React.Component {
       });
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
-        let recommendationInfos = ele.recommendationInfos || {};
+        let recommendationInfos = {};
+        if (ele.recommendationInfos) {
+          recommendationInfos =
+            typeof ele.recommendationInfos == 'string'
+              ? JSON.parse(ele.recommendationInfos)
+              : el.recommendationInfos;
+        }
         let {
-          referenceObject,
-          recommenderId,
-          referenceData,
-          recommenderName
+          referenceObject = '',
+          recommenderId = '',
+          referenceData = '',
+          recommenderName = ''
         } = recommendationInfos;
         let referenceId = recommenderId || ele.recommendationId;
         return {
@@ -1589,12 +1601,18 @@ class Payment extends React.Component {
       });
     } else {
       param.tradeItems = cartData.map((ele) => {
-        let recommendationInfos = ele.recommendationInfos || {};
+        let recommendationInfos = {};
+        if (ele.recommendationInfos) {
+          recommendationInfos =
+            typeof ele.recommendationInfos == 'string'
+              ? JSON.parse(ele.recommendationInfos)
+              : el.recommendationInfos;
+        }
         let {
-          referenceObject,
-          recommenderId,
-          referenceData,
-          recommenderName
+          referenceObject = '',
+          recommenderId = '',
+          referenceData = '',
+          recommenderName = ''
         } = recommendationInfos;
         let referenceId = recommenderId || ele.recommendationId;
         return {
@@ -1623,12 +1641,18 @@ class Payment extends React.Component {
         // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
-          let recommendationInfos = g.recommendationInfos || {};
+          let recommendationInfos = {};
+          if (g.recommendationInfos) {
+            recommendationInfos =
+              typeof g.recommendationInfos == 'string'
+                ? JSON.parse(g.recommendationInfos)
+                : g.recommendationInfos;
+          }
           let {
-            referenceObject,
-            recommenderId,
-            referenceData,
-            recommenderName
+            referenceObject = '',
+            recommenderId = '',
+            referenceData = '',
+            recommenderName = ''
           } = recommendationInfos;
           let referenceId = recommenderId || g.recommendationId;
           return {
@@ -1673,12 +1697,18 @@ class Payment extends React.Component {
             ele.goodsInfoFlag
         )
         .map((g) => {
-          let recommendationInfos = g.recommendationInfos || {};
+          let recommendationInfos = {};
+          if (g.recommendationInfos) {
+            recommendationInfos =
+              typeof g.recommendationInfos == 'string'
+                ? JSON.parse(g.recommendationInfos)
+                : g.recommendationInfos;
+          }
           let {
-            referenceObject,
-            recommenderId,
-            referenceData,
-            recommenderName
+            referenceObject = '',
+            recommenderId = '',
+            referenceData = '',
+            recommenderName = ''
           } = recommendationInfos;
           let referenceId = recommenderId || g.recommendationId;
           return {
