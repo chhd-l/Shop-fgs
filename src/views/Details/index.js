@@ -2782,7 +2782,7 @@ class Details extends React.Component {
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3" />
                     <span className="default-txt">
-                      {form.buyWay === 1 ? (
+                      {form.buyWay === 1 || form.buyWay === 2 ? (
                         <FormattedMessage id="subscribe" />
                       ) : (
                         <FormattedMessage id="details.addToCart" />
