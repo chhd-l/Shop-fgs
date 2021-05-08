@@ -83,6 +83,9 @@ class PaymentStore {
 
   @observable currentCardTypeInfo = null; //当前卡类型信息(cardLength:18，imgUrl,cvvLength: 3 ...)
 
+  @observable fullScreenModalA = false;
+  @observable fullScreenModalB = false;
+
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
   }
@@ -420,6 +423,11 @@ class PaymentStore {
   @action.bound
   setCurrentCardTypeInfo(data) {
     this.currentCardTypeInfo = data;
+  }
+
+  @action.bound
+  setTrConsentModal(type, data) {
+    this[type] = data;
   }
 }
 export default PaymentStore;

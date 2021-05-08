@@ -1181,7 +1181,8 @@ const tr_TR = {
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip': 'Bu emirlerde {discount} kurtarabilirsin.',
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
-  shipmentOn: 'Yeni gönderim',
+  prevShipmentOn: 'Yeni gönderim',
+  nextShipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
   goToCart: 'Sepete Git',
   'order.inTranistTip':

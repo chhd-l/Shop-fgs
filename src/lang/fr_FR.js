@@ -1037,7 +1037,8 @@ const fr_FR = {
   setDefaltAddressSuccess: "Définir le succès de l'adresse Defalt",
   setDefaultAddress: 'Définir comme adresse par défaut',
   setDefaultPaymentMethod: 'Définir comme mode de paiement par défaut',
-  shipmentOn: 'Envoi le',
+  prevShipmentOn: 'Expédition le',
+  nextShipmentOn: 'Expédition le',
   shipmentTrackingFalse:
     'Veuillez cocher cette case si vous souhaitez continuer.',
   shipping: 'Livraison',

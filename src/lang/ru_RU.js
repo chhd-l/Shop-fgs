@@ -625,8 +625,7 @@ const ru_RU = {
   'order.shippingStatus': 'Статус отправки',
   'order.toBeDeliveredTip':
     'Ваш заказ успешно оплачен, и мы готовим его к отправке.',
-  'orderStatus.INITTip':
-    'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
+  'orderStatus.INITTip': 'Ваш заказ создан и скоро будет подтвержден. {val}',
   'order.viewOrder': 'Посмотреть заказ',
   orderDetail: 'Детали заказа',
   orders: 'Заказы',
@@ -1292,7 +1291,8 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  shipmentOn: 'Новая доставка',
+  prevShipmentOn: 'Новая доставка',
+  nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
   'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',

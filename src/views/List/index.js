@@ -845,22 +845,33 @@ class List extends React.Component {
       tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
     }
 
-    // ru filter seo
-    let allPrefv = [];
+    // ru filter seo 定制化 ==
+    let lifestagesPrefv = [],
+      sterilizedPrefv = [],
+      technologyPrefv = [],
+      breedsPrefv = [];
     let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
       if (fnEle == 'Lifestages') {
-        allPrefv.push('корм для ' + fvEles.replace('|', '/'));
+        lifestagesPrefv.push('корм для ' + fvEles.replace('|', '/'));
       } else if (fnEle == 'Sterilized' && fvEles == 'Нет') {
-        allPrefv.push('СТЕРИЛИЗАЦИЯ');
-      } else {
-        allPrefv.push(fvEles);
+        sterilizedPrefv.push('стерилизованных');
+      } else if (fnEle == 'Technology') {
+        technologyPrefv.push(fvEles);
+      } else if (fnEle == 'Breeds') {
+        breedsPrefv.push(fvEles);
       }
 
       if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
+    let allPrefv = [
+      ...technologyPrefv,
+      ...lifestagesPrefv,
+      ...breedsPrefv,
+      ...sterilizedPrefv
+    ]?.join(' ');
     const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
     this.setState({
@@ -868,7 +879,7 @@ class List extends React.Component {
       prefv1,
       animalType,
       sizePrefv: sizePrefv.join(' '),
-      allPrefv: allPrefv.join(' ')
+      allPrefv: allPrefv?.toLowerCase()
     });
   }
 

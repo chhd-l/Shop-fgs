@@ -1,13 +1,13 @@
 let A = {
   id: 'A',
-  consentTitle: `Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" data-modal-trigger="full-modal-a">Formu incele</span>`,
+  consentTitle: `Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_a">Formu incele</span>`,
   isChecked: false,
   isRequired: false
 };
 
 let B = {
   id: 'B',
-  consentTitle: `Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" data-modal-trigger="full-modal-b">Formu incele</span>`,
+  consentTitle: `Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_b">Formu incele</span>`,
   isChecked: false,
   isRequired: false
 };

@@ -1,5 +1,6 @@
 // 条款组件
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import './index.css';
@@ -8,6 +9,7 @@ import './index.css';
 // import store from "storejs";
 import Consent from '@/components/Consent';
 
+@inject('paymentStore')
 class TermsCommon extends Component {
   static defaultProps = {
     updateValidStatus: () => {}
@@ -18,7 +20,30 @@ class TermsCommon extends Component {
       list: []
     };
   }
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    window.onload = () => {
+      document.getElementById('tr_consent_a') &&
+        document
+          .getElementById('tr_consent_a')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalA', true);
+          });
+      document.getElementById('tr_consent_b') &&
+        document
+          .getElementById('tr_consent_b')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalB', true);
+          });
+    };
+  }
   componentDidMount() {
+    this.addEventListenerFunTr();
     document
       .getElementById(`${this.props.id}`)
       .addEventListener('click', (e) => {
