@@ -537,8 +537,6 @@ const tr_TR = {
   'order.historyOfOrders': 'Emirlerin tarihi',
   'order.inputOrderNumberTip': 'Lütfen sipariş numarasını girin',
   'order.inputReturnNumberTip': 'Lütfen dönüş numarasını giriniz',
-  'order.lastXDays': 'Son {val} gün',
-  'order.lastXMonths': 'Son {val} ay',
   'order.noDataTip': 'Veri yok',
   'order.orderDate': 'Sipariş tarihi',
   'order.orderDetails': 'sipariş detayları',
@@ -1183,7 +1181,8 @@ const tr_TR = {
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip': 'Bu emirlerde {discount} kurtarabilirsin.',
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
-  shipmentOn: 'Yeni gönderim',
+  prevShipmentOn: 'Yeni gönderim',
+  nextShipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
   goToCart: 'Sepete Git',
   'order.inTranistTip':

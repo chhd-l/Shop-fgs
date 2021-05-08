@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 
 import deleteMyAccountImg from './images/icon_deletemyaccount2.png';
 
+const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 class DeleteMyAccount extends React.Component {
   constructor(props) {
     super(props);
@@ -76,6 +79,9 @@ class DeleteMyAccount extends React.Component {
                   style={{
                     // minWidth: '52px',
                     lineHeight: 'inherit'
+                  }}
+                  onClick={(e) => {
+                    localItemRoyal.remove('rc-token');
                   }}
                   href={process.env.REACT_APP_DELETE_My_ACCOUNT_URL}
                 >

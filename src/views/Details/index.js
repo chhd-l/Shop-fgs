@@ -356,6 +356,14 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     const { pathname, state } = this.props.location;
+    let timer = setInterval(() => {
+      if (document.querySelector('#mars-footer-panel')) {
+        document
+          .querySelector('#mars-footer-panel')
+          .setAttribute('style', 'padding-bottom: 61px !important');
+        clearInterval(timer);
+      }
+    }, 1000);
     this.getUrlParam();
     if (state) {
       if (!!state.GAListParam) {
@@ -1105,8 +1113,8 @@ class Details extends React.Component {
               specList,
               barcode
             },
-            () => {
-              this.matchGoods();
+            async () => {
+              await this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
                 ? this.hubGAProductDetailPageView(
@@ -1551,6 +1559,35 @@ class Details extends React.Component {
     this.setState({ eEvents });
   }
 
+  getPdpScreenLoadCTAs() {
+    const {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
+    } = this.state;
+    console.log({
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
+    });
+    let content = ['Single Purchase'];
+    if (
+      currentSubscriptionStatus &&
+      currentSubscriptionPrice &&
+      skuPromotions == 'autoship'
+    ) {
+      content.push('Subscription');
+    }
+    if (
+      currentSubscriptionStatus &&
+      currentSubscriptionPrice &&
+      skuPromotions == 'club'
+    ) {
+      content.push('Club');
+    }
+    return content;
+  }
+
   //hub商品详情页 埋点
   hubGAProductDetailPageView(goodsAttributesValueRelList, item, selectPrice) {
     const {
@@ -1598,7 +1635,8 @@ class Details extends React.Component {
         products: [product]
       });
       dataLayer.push({
-        event: 'pdpScreenLoad'
+        event: 'pdpScreenLoad',
+        pdpScreenLoadCTAs: this.getPdpScreenLoadCTAs()
       });
     }
     this.setState({
@@ -2744,7 +2782,7 @@ class Details extends React.Component {
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3" />
                     <span className="default-txt">
-                      {form.buyWay === 1 ? (
+                      {form.buyWay === 1 || form.buyWay === 2 ? (
                         <FormattedMessage id="subscribe" />
                       ) : (
                         <FormattedMessage id="details.addToCart" />

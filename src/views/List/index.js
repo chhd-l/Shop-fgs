@@ -89,8 +89,8 @@ function ListItemH5ForGlobalStyle(props) {
                   </h3>
                 </div>
                 <div
-                  className="d-flex rc-padding-top--md margin-top-mobile-20"
-                  style={{ fontSize: 'large' }}
+                  className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
+                  style={{ fontSize: 'large', zIndex: 2 }}
                 >
                   <FormattedMessage
                     id="plp.retail.cat.product.finder.detail"
@@ -845,22 +845,35 @@ class List extends React.Component {
       tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
     }
 
-    // ru filter seo
-    let allPrefv = [];
+    // ru filter seo 定制化 ==
+    let lifestagesPrefv = [],
+      sterilizedPrefv = [],
+      technologyPrefv = [],
+      breedsPrefv = [];
     let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
       if (fnEle == 'Lifestages') {
-        allPrefv.push('корм для ' + fvEles.replace('|', '/'));
+        lifestagesPrefv.push(fvEles);
       } else if (fnEle == 'Sterilized' && fvEles == 'Нет') {
-        allPrefv.push('СТЕРИЛИЗАЦИЯ');
-      } else {
-        allPrefv.push(fvEles);
+        sterilizedPrefv.push('стерилизованных');
+      } else if (fnEle == 'Technology') {
+        technologyPrefv.push(fvEles);
+      } else if (fnEle == 'Breeds') {
+        breedsPrefv.push(fvEles);
       }
 
       if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
+
+    if (!lifestagesPrefv.length) lifestagesPrefv.push('корм для кошек');
+    let allPrefv = [
+      ...technologyPrefv,
+      ...lifestagesPrefv,
+      ...breedsPrefv,
+      ...sterilizedPrefv
+    ]?.join(' '); //要排序，因此这样写的==
     const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
     this.setState({
@@ -868,7 +881,7 @@ class List extends React.Component {
       prefv1,
       animalType,
       sizePrefv: sizePrefv.join(' '),
-      allPrefv: allPrefv.join(' ')
+      allPrefv: allPrefv?.toLowerCase()
     });
   }
 
@@ -1776,17 +1789,19 @@ class List extends React.Component {
           let goodsContent = esGoodsPage.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
+              //hub商品图片下方展示的属性
               const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
                 .filter(
                   (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
                 .map((t) => t.goodsAttributeValueEn);
-              const specificAttr = (ele.goodsAttributesValueRelVOAllList || [])
+              const breedsValueAttr = (
+                ele.goodsAttributesValueRelVOAllList || []
+              )
                 .filter(
-                  (item) =>
-                    item?.goodsAttributeName?.toLowerCase() == 'specific needs'
+                  (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
                 )
-                .map((t) => t.goodsAttributeValueEn);
+                .map((t) => t.goodsAttributeValue);
               const technologyAttr = (
                 ele.goodsAttributesValueRelVOAllList || []
               )
@@ -1796,14 +1811,15 @@ class List extends React.Component {
                 )
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-              const species = specificAttr?.[0]?.split('_')?.[1];
-              const ruAttrs = species
-                ? [species, ...technologyAttr]
-                : technologyAttr;
+              const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
+              const breed =
+                breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+              const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_LANG === 'ru'
                   ? ruAttrs.join(',')
                   : attrs;
+
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(

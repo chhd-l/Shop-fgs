@@ -57,7 +57,7 @@ const ru_RU = {
   'account.myPayments': 'Способ оплаты',
   'account.nickname': 'Какое прозвище у вашего питомца?',
   'account.noPet':
-    'Создайте профиль своего питомца сегодня! Заполните информацию и выберите наиболее подходящий рацион',
+    'Создайте профиль своего питомца! Заполните информацию и выберите наиболее подходящий рацион',
   'account.noSubscription':
     'Наша услуга по подписке на корм разработана специально для того, чтобы упростить вашу жизнь и гарантировать, что Вы всегда будете получать питание для Вашего питомца, доставляемое прямо к порогу.',
   'account.noSubscriptionTitle': 'Сделайте свою жизнь проще',
@@ -218,7 +218,7 @@ const ru_RU = {
   'cart.miniCartTitle':
     'Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой',
   'cart.totalProduct': '{val} товар (а/ов)',
-  'minicart.totalProduct': '{val} товара товара в',
+  'minicart.totalProduct': '{val} товара в',
   'cart.totalProduct_nounit': 'У вас {val} корзине',
   'cart.yourShoppingCart': 'Ваша корзина',
   cats: 'КОШКИ',
@@ -576,7 +576,8 @@ const ru_RU = {
     'Вы дали согласие на получение рекламных сообщений от Royal Canin. Укажите, пожалуйста, какие способы связи для Вас предпочтительны.',
   mustChooseTheConsentTip:
     'Чтобы подтвердить, что вы согласны на получение рекламных сообщений от Royal Canin, пожалуйста, поставьте соответствующий флажок ниже.',
-  name: 'Кличка',
+  name: 'Имя',
+  // name: 'Кличка',
   name2: 'ИМЯ',
   nameInvalid: 'Ваше имя недействительно',
   newAddress: 'Новый адрес',
@@ -601,8 +602,6 @@ const ru_RU = {
   'order.historyOfOrders': 'История заказов',
   'order.inputOrderNumberTip': 'Введите номер заказа',
   'order.inputReturnNumberTip': 'Введите номер возврата',
-  'order.lastXDays': 'Последние {val} дн.',
-  'order.lastXMonths': 'Последние {val} месяцев.',
   'order.noDataTip': 'Нет данных',
   'order.orderDate': 'Дата заказа',
   'order.orderDetails': 'Детали заказа',
@@ -626,8 +625,7 @@ const ru_RU = {
   'order.shippingStatus': 'Статус отправки',
   'order.toBeDeliveredTip':
     'Ваш заказ успешно оплачен, и мы готовим его к отправке.',
-  'orderStatus.INITTip':
-    'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
+  'orderStatus.INITTip': 'Ваш заказ создан и скоро будет подтвержден. {val}',
   'order.viewOrder': 'Посмотреть заказ',
   orderDetail: 'Детали заказа',
   orders: 'Заказы',
@@ -994,7 +992,7 @@ const ru_RU = {
   type: 'ТИП',
   unfoldAddress: 'Свернуть мои адреса',
   unLoginSubscriptionTips:
-    'Участие в клубной программе только для зарегистрированных пользователей',
+    'Оформить подписку или вступить в Клуб возможно только после регистрации',
   userAgreement: 'Пользовательское Соглашение',
   viewAll: 'Посмотреть все',
   viewAllResults: 'Посмотреть все результаты',
@@ -1114,7 +1112,7 @@ const ru_RU = {
   subscribe: 'Подписка на корм',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
-  saveExtra: 'Сэкономьте {val} на этой подписке',
+  saveExtra: 'Сэкономьте {val} по подписке',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Приостановлена',
@@ -1293,7 +1291,8 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  shipmentOn: 'Новая доставка',
+  prevShipmentOn: 'Новая доставка',
+  nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
   'order.inTranistTip': 'Ваш заказ отправлен, и вы скоро получите товар. {val}',
