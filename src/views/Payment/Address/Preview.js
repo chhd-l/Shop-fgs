@@ -2,14 +2,18 @@ import React from 'react';
 import { inject } from 'mobx-react';
 import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
-@inject('configStore')
+@inject('configStore', 'paymentStore')
 export default class AddressPreview extends React.Component {
   static defaultProps = { form: null, countryListDict: [], boldName: true };
   constructor(props) {
     super(props);
     this.state = { countryList: [] };
   }
+  saveDeliveryAddressInfo(form) {
+    this.props.paymentStore.saveDeliveryAddressInfo(form);
+  }
   componentDidMount() {
+    this.saveDeliveryAddressInfo(this.props.form);
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
