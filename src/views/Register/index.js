@@ -541,7 +541,8 @@ class Register extends Component {
                           <FormattedMessage id="registerLoginIn" />
                         </a>
                       </p>
-                      {process.env.REACT_APP_LANG !== 'ru' ? (
+                      {process.env.REACT_APP_LANG !== 'ru' &&
+                      process.env.REACT_APP_LANG !== 'tr' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">

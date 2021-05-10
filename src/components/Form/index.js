@@ -1107,8 +1107,16 @@ class Form extends React.Component {
                         </>
                       ) : null}
 
+                      {/* 只是 searchbox */}
+                      {item.inputFreeTextFlag == 0 &&
+                      item.inputDropDownBoxFlag == 0 &&
+                      item.inputSearchBoxFlag == 1
+                        ? this.citySearchSelectiontJSX(item)
+                        : null}
+
                       {/* inputSearchBoxFlag 是否允许搜索:0.不允许,1.允许 */}
-                      {item.inputFreeTextFlag == 1 &&
+                      {item.inputDropDownBoxFlag == 0 &&
+                      item.inputFreeTextFlag == 1 &&
                       item.inputSearchBoxFlag == 1 ? (
                         <>
                           {item.fieldKey == 'address1'
