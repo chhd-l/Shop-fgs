@@ -1009,7 +1009,7 @@ const ru_RU = {
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
 
   //Club新增
-  'club.subscription.titile': 'Что входит в программу ROYAL CANIN® КЛУБ',
+  'club.subscription.titile': 'Что входит в подписку ROYAL CANIN® КЛУБ',
   'club.subscription.icon1':
     'Специализированное питание с учетом особенностей Вашего питомца',
   'club.subscription.icon2': 'Приветственный подарок, вознаграждения и сервисы',
@@ -1017,10 +1017,9 @@ const ru_RU = {
     'Ваш персональный помощник Службы Заботы с 9 до 21',
   'club.subscription.icon4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
-  'club.subscription.icon5':
-    'Бесплатные онлайн-консультации нутрициолога в Petstory',
+  'club.subscription.icon5': 'Возможность изменения частоты доставок',
   'club.subscription.icon6':
-    'Бесплатные онлайн консультации нутрициолога в PetStory',
+    'Бесплатные онлайн консультации нутрициолога в PetStory по промокоду RCCLUB21',
   'club.subscription.button': 'Начать',
   'club.video.detail.title':
     'ПОТРЕБНОСТИ КАЖДОГО ПИТОМЦА УНИКАЛЬНЫ, И ПИТАНИЕ ДОЛЖНО ИМ СООТВЕТСТВОВАТЬ ',

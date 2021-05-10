@@ -855,7 +855,7 @@ class List extends React.Component {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
       if (fnEle == 'Lifestages') {
-        lifestagesPrefv.push('корм для ' + fvEles.replace('|', '/'));
+        lifestagesPrefv.push(fvEles);
       } else if (fnEle == 'Sterilized' && fvEles == 'Нет') {
         sterilizedPrefv.push('стерилизованных');
       } else if (fnEle == 'Technology') {
@@ -866,12 +866,14 @@ class List extends React.Component {
 
       if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
+
+    if (!lifestagesPrefv.length) lifestagesPrefv.push('корм для кошек');
     let allPrefv = [
       ...technologyPrefv,
       ...lifestagesPrefv,
       ...breedsPrefv,
       ...sterilizedPrefv
-    ]?.join(' ');
+    ]?.join(' '); //要排序，因此这样写的==
     const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
     this.setState({
