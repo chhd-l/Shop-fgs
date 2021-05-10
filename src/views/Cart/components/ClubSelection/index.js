@@ -5,7 +5,6 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 
 const ClubSelection = function (props) {
-  console.log(props, 'props');
   useEffect(() => {}, []);
   const {
     isGift,

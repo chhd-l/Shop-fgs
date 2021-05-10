@@ -1938,7 +1938,10 @@ class Payment extends React.Component {
         key: curPanelKey
       });
     }
-    this.setState({ billingChecked: val });
+    console.log('是否勾选自定义billingAddress: ', val);
+    this.setState({
+      billingChecked: val
+    });
 
     // 勾选，则 billingAddress = deliveryAddress
     let billadd = null;
@@ -2256,6 +2259,7 @@ class Payment extends React.Component {
   };
   // 获取 billingAddress 是编辑或者添加地址
   getListAddOrEdit = (flag) => {
+    console.log(' 2258 ----------- getListAddOrEdit: ', flag);
     this.setState({
       billingAddressAddOrEdit: flag
     });
@@ -2468,6 +2472,14 @@ class Payment extends React.Component {
       billingAddressAddOrEdit
     } = this.state;
     console.log('★ ----------------- click ReInput Cvv Confirm');
+    console.log(
+      '★ ----------------- isShowValidationModal: ',
+      isShowValidationModal
+    );
+    console.log(
+      '★ ----------------- billingAddressAddOrEdit: ',
+      billingAddressAddOrEdit
+    );
     // 点击按钮后进入下一步
     if (
       !billingChecked &&
