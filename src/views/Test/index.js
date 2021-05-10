@@ -127,6 +127,10 @@ class Test extends React.Component {
     return (
       <div style={{ padding: '30px' }}>
         <br />
+        <br />
+        <h1>2021-05-10 18:39:39</h1>
+        <br />
+        <br />
         <input
           className={`rc-input__control testInputShipping`}
           value={form.phoneNumber}
