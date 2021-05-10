@@ -899,6 +899,7 @@ class Form extends React.Component {
               : ''
           }
           customStyle={true}
+          isLoadingList={false}
           isBottomPaging={true}
         />
       </>

@@ -23,6 +23,7 @@ class SearchSelection extends React.Component {
     inputCustomStyle: false, //input框是否要全长
     customCls: '',
     isBottomPaging: false, // 滑倒底部翻页
+    isLoadingList: true, // 是否显示loading
     freeText: false,
     name: '',
     isCitySearchSelection: false,
@@ -79,9 +80,10 @@ class SearchSelection extends React.Component {
       );
 
       clearTimeout(this.timer);
+      let tm = this.props.isLoadingList ? 1000 : 500;
       this.timer = setTimeout(() => {
         this.queryList(); // 搜索
-      }, 1000);
+      }, tm);
     } catch (error) {
       console.log(error);
     }
@@ -164,7 +166,14 @@ class SearchSelection extends React.Component {
   };
   async queryList() {
     const { form, optionList } = this.state;
-    this.setState({ loadingList: true, optionPanelVisible: true });
+    if (this.props.isLoadingList) {
+      this.setState({
+        loadingList: true
+      });
+    }
+    this.setState({
+      optionPanelVisible: true
+    });
     try {
       let res = await this.props.queryList({
         inputVal: form.value,
