@@ -275,30 +275,30 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
   props.checkoutStore.saveGAProduct({ products: arr });
 };
 
-const calculateGAPrice = (productList, activeIndex) => {
-  let MaxMarketPrice = Math.max.apply(
-    null,
-    productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
-  );
-  let MinMarketPrice = Math.min.apply(
-    null,
-    productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
-  );
-  if (isRu) {
-    MaxMarketPrice = MinMarketPrice; // 俄罗斯只展示最低价格
-  }
+// const calculateGAPrice = (productList, activeIndex) => {
+//   let MaxMarketPrice = Math.max.apply(
+//     null,
+//     productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+//   );
+//   let MinMarketPrice = Math.min.apply(
+//     null,
+//     productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+//   );
+//   if (isRu) {
+//     MaxMarketPrice = MinMarketPrice; // 俄罗斯只展示最低价格
+//   }
 
-  let GAPrice = '';
-  if (MaxMarketPrice > 0) {
-    if (MaxMarketPrice === MinMarketPrice) {
-      GAPrice = Math.round(MaxMarketPrice * 0.8);
-    } else {
-      GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
-    }
-  }
+//   let GAPrice = '';
+//   if (MaxMarketPrice > 0) {
+//     if (MaxMarketPrice === MinMarketPrice) {
+//       GAPrice = Math.round(MaxMarketPrice * 0.8);
+//     } else {
+//       GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
+//     }
+//   }
 
-  return GAPrice;
-};
+//   return GAPrice;
+// };
 
 //cart cartChangeSubscription
 export const GACartChangeSubscription = (btnContent) => {
@@ -358,7 +358,7 @@ export const GARecommendationProduct = (
     return res;
   });
   type === 1 &&
-    dataLayer.push({
+    dataLayer.unshift({
       products
     });
   type === 2 &&
@@ -487,12 +487,13 @@ export const productFinderPushEvent = ({
 
 export const GABuyNow = () => {
   dataLayer.push({
-    'event ': ' breederRecoBuyNow'
+    'event ': 'breederRecoBuyNow'
   });
+  debugger;
 };
 
 export const GABreederRecoPromoCodeCTA = () => {
   dataLayer.push({
-    'event ': ' breederRecoPromoCodeCTA'
+    'event ': 'breederRecoPromoCodeCTA'
   });
 };
