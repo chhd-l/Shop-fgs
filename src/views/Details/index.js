@@ -382,9 +382,9 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
 
-    const Fr = process.env.REACT_APP_LANG === 'fr';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -867,7 +867,10 @@ class Details extends React.Component {
           });
         }
         if (goodsRes) {
-          const { goods, taggingList, images } = res.context;
+          const { goods, images } = res.context;
+          const taggingList = (res.context?.taggingList || []).filter(
+            (t) => t.displayStatus
+          );
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
@@ -883,19 +886,19 @@ class Details extends React.Component {
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 promotions: goods?.promotions?.toLowerCase(),
-                taggingForTextAtPDP: (taggingList || []).filter(
+                taggingForTextAtPDP: taggingList.filter(
                   (e) => e.taggingType === 'Text' && e.showPage?.includes('PDP')
                 )[0],
-                taggingForImageAtPDP: (taggingList || []).filter(
+                taggingForImageAtPDP: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' && e.showPage?.includes('PDP')
                 )[0],
-                taggingForTextAtCart: (taggingList || []).filter(
+                taggingForTextAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Text' &&
                     e.showPage?.includes('Shopping cart page')
                 )[0],
-                taggingForImageAtCart: (taggingList || []).filter(
+                taggingForImageAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' &&
                     e.showPage?.includes('Shopping cart page')
@@ -1021,7 +1024,7 @@ class Details extends React.Component {
               }
             } else {
               if (
-                process.env.REACT_APP_LANG === 'de' &&
+                process.env.REACT_APP_COUNTRY === 'DE' &&
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
               ) {
@@ -1748,9 +1751,9 @@ class Details extends React.Component {
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_LANG === 'de';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const De = process.env.REACT_APP_COUNTRY === 'DE';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     const sptGoods = goodsType === 0 || goodsType === 1;
     const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h1'}
@@ -2460,7 +2463,7 @@ class Details extends React.Component {
                                       ) : null}
                                     </div>
                                   </div>
-                                  {process.env.REACT_APP_LANG == 'fr' ? (
+                                  {process.env.REACT_APP_COUNTRY == 'FR' ? (
                                     <div>
                                       Résiliation gratuite à tout moment{' '}
                                     </div>

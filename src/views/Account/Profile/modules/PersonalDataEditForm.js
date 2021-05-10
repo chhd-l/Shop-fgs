@@ -90,7 +90,7 @@ class PersonalDataEditForm extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'FR') {
       value = value.replace(/^[0]/, '+(33)');
     }
     form[name] = value;
@@ -255,7 +255,7 @@ class PersonalDataEditForm extends React.Component {
         communicationPhone: form.communicationPhone,
         oktaToken: oktaToken
       };
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_COUNTRY === 'US') {
         mydata.province = form.province;
         mydata.provinceId = form.provinceId;
       }
@@ -456,21 +456,23 @@ class PersonalDataEditForm extends React.Component {
                   },
                   {
                     name:
-                      process.env.REACT_APP_LANG === 'en' ? null : (
+                      process.env.REACT_APP_COUNTRY === 'US' ? null : (
                         <FormattedMessage id="payment.phoneNumber" />
                       ),
                     val:
-                      process.env.REACT_APP_LANG === 'en'
+                      process.env.REACT_APP_COUNTRY === 'US'
                         ? null
                         : data.phoneNumber
                   },
                   {
                     name:
-                      process.env.REACT_APP_LANG === 'en' ? null : (
+                      process.env.REACT_APP_COUNTRY === 'US' ? null : (
                         <FormattedMessage id="payment.address1" />
                       ),
                     val:
-                      process.env.REACT_APP_LANG === 'en' ? null : data.address1
+                      process.env.REACT_APP_COUNTRY === 'US'
+                        ? null
+                        : data.address1
                   }
                 ].map((item, i) => (
                   <React.Fragment key={i}>

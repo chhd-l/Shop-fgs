@@ -135,20 +135,20 @@ class Form extends React.Component {
     let element = document.getElementById('phoneNumberShipping');
     let maskOptions = {};
     let phoneReg = '';
-    switch (process.env.REACT_APP_LANG) {
-      case 'fr':
+    switch (process.env.REACT_APP_COUNTRY) {
+      case 'FR':
         phoneReg = '(+33) 0 00 00 00 00';
         break;
-      case 'en':
+      case 'US':
         phoneReg = '000-000-0000';
         break;
-      case 'ru':
+      case 'RU':
         phoneReg = '+{7} (000) 000-00-00';
         break;
-      case 'mx':
-        phoneReg = '0000000000';
+      case 'MX':
+        phoneReg = '+(52) 000 000 00';
         break;
-      case 'tr':
+      case 'TR':
         phoneReg = '{0} (000) 000-00-00';
         break;
       default:
@@ -321,7 +321,7 @@ class Form extends React.Component {
       let errMsg = '';
       switch (item.fieldKey) {
         case 'postCode':
-          process.env.REACT_APP_LANG == 'en'
+          process.env.REACT_APP_COUNTRY == 'US'
             ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
             : (regExp = /^\d{5}$/);
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
@@ -331,14 +331,17 @@ class Form extends React.Component {
           errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
           break;
         case 'phoneNumber':
-          if (process.env.REACT_APP_LANG == 'fr') {
+          if (process.env.REACT_APP_COUNTRY == 'FR') {
             // regExp = /[(+33)|0]\d{9}$/;
             regExp = /[(+33)|0][\s\-][0-9][\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}$/;
-          } else if (process.env.REACT_APP_LANG == 'en') {
+          } else if (process.env.REACT_APP_COUNTRY == 'US') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-          } else if (process.env.REACT_APP_LANG == 'ru') {
+          } else if (process.env.REACT_APP_COUNTRY == 'MX') {
+            // 墨西哥
+            regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
+          } else if (process.env.REACT_APP_COUNTRY == 'RU') {
             regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-          } else if (process.env.REACT_APP_LANG == 'tr') {
+          } else if (process.env.REACT_APP_COUNTRY == 'TR') {
             regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
@@ -348,7 +351,7 @@ class Form extends React.Component {
         default:
           regExp = /\S/;
           let errstr = '';
-          if (process.env.REACT_APP_LANG == 'ru') {
+          if (process.env.REACT_APP_COUNTRY == 'RU') {
             errstr = 'payment.errorInfo2';
           } else {
             errstr = 'payment.errorInfo';
@@ -651,8 +654,8 @@ class Form extends React.Component {
         tvalue = '';
         return;
       }
-      switch (process.env.REACT_APP_LANG) {
-        case 'en':
+      switch (process.env.REACT_APP_COUNTRY) {
+        case 'US':
           tvalue = tvalue
             .replace(/\s/g, '')
             .replace(/-$/, '')

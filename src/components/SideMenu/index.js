@@ -53,7 +53,9 @@ const menuList = [
     langKey: 'footer.FAQ',
     url: '/faq',
     href:
-      process.env.REACT_APP_LANG == 'ru' ? '/about-us/faq' : '/about-us/faqs',
+      process.env.REACT_APP_COUNTRY == 'RU'
+        ? '/about-us/faq'
+        : '/about-us/faqs',
     isHubOuterLink: true
   }
   // {

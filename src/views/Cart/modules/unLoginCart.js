@@ -1537,8 +1537,10 @@ class UnLoginCart extends React.Component {
     const { history, location } = this.props;
     const List = this.getProducts(this.state.productList);
 
-    const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
-    const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
+    const dogsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+    const catsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1643,7 +1645,7 @@ class UnLoginCart extends React.Component {
                         <div
                           className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                           style={
-                            process.env.REACT_APP_LANG === 'fr'
+                            process.env.REACT_APP_COUNTRY === 'FR'
                               ? {}
                               : { margin: '0 10%' }
                           }

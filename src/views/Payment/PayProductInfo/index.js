@@ -464,7 +464,7 @@ class PayProductInfo extends React.Component {
       >
         {headerIcon}
         <span className="medium">
-          {process.env.REACT_APP_LANG == 'en' && this.props.isCheckOut ? (
+          {process.env.REACT_APP_COUNTRY == 'US' && this.props.isCheckOut ? (
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
@@ -873,7 +873,7 @@ class PayProductInfo extends React.Component {
                       <p className="text-right">
                         <span className="shipping-total-cost">
                           {!this.isLogin &&
-                          process.env.REACT_APP_LANG == 'en' ? (
+                          process.env.REACT_APP_COUNTRY == 'US' ? (
                             <>
                               {/* 是否在cart页面 */}
                               {this.props.isGuestCart && subtractionSign}
@@ -898,7 +898,7 @@ class PayProductInfo extends React.Component {
 
                 {!this.isLogin &&
                 this.props.isGuestCart &&
-                process.env.REACT_APP_LANG == 'en' ? (
+                process.env.REACT_APP_COUNTRY == 'US' ? (
                   <>
                     <div
                       class="row rc-margin-bottom--xs"
@@ -931,7 +931,7 @@ class PayProductInfo extends React.Component {
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
                 {/* 是否登录 */}
-                {!this.isLogin && process.env.REACT_APP_LANG == 'en' ? (
+                {!this.isLogin && process.env.REACT_APP_COUNTRY == 'US' ? (
                   <>
                     {/* 是否在cart页面 */}
                     {this.props.isGuestCart && (
@@ -961,7 +961,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
 
-          {process.env.REACT_APP_LANG == 'de' ? (
+          {process.env.REACT_APP_COUNTRY == 'DE' ? (
             <div
               style={{
                 fontSize: '.75rem',

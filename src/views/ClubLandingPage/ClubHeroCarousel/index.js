@@ -74,7 +74,7 @@ class ClubHeroCarousel extends React.Component {
   componentDidMount() {
     // getBanner().then((res) => {
     //   console.log(res.context,'🌙🌙🌙');
-    process.env.REACT_APP_LANG == 'ru'
+    process.env.REACT_APP_COUNTRY == 'RU'
       ? this.setState({
           banner: [
             {
@@ -251,7 +251,7 @@ class ClubHeroCarousel extends React.Component {
                 'Kaliteli besin içeriğine sahip 160 formül arasından evcil hayvanınızın özel ihtiyaçlarına en uygun beslenme çözümünü alın'
             },
             {
-              isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
+              isShow: process.env.REACT_APP_COUNTRY == 'RU' ? false : true,
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
               bannerName: 'us_003',
@@ -377,7 +377,7 @@ class ClubHeroCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 0,
-      autoplay: process.env.REACT_APP_LANG == 'de' ? true : false,
+      autoplay: process.env.REACT_APP_COUNTRY == 'DE' ? true : false,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
@@ -510,7 +510,7 @@ class ClubHeroCarousel extends React.Component {
                           <p>{el.sliderContent}</p>
                         </div>
                         <br />
-                        {process.env.REACT_APP_LANG == 'ru' ? (
+                        {process.env.REACT_APP_COUNTRY == 'RU' ? (
                           <button className="rc-btn rc-btn--one">
                             Узнать больше
                           </button>

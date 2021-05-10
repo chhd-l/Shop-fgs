@@ -1095,7 +1095,7 @@ class AccountOrders extends React.Component {
       showLogisticsDetail,
       curLogisticInfo
     } = this.state;
-    const isTr = process.env.REACT_APP_LANG === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
+    const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1511,9 +1511,9 @@ class AccountOrders extends React.Component {
                                       </p>
 
                                       {/* 国家 */}
-                                      {process.env.REACT_APP_LANG == 'en' ||
-                                      process.env.REACT_APP_LANG ==
-                                        'ru' ? null : (
+                                      {process.env.REACT_APP_COUNTRY == 'US' ||
+                                      process.env.REACT_APP_COUNTRY ==
+                                        'RU' ? null : (
                                         <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
                                             this.state.countryList,
@@ -1615,8 +1615,9 @@ class AccountOrders extends React.Component {
                                         </p>
 
                                         {/* 国家 */}
-                                        {process.env.REACT_APP_LANG == 'en' ||
-                                        process.env.REACT_APP_LANG ==
+                                        {process.env.REACT_APP_COUNTRY ==
+                                          'US' ||
+                                        process.env.REACT_APP_COUNTRY ==
                                           'ru' ? null : (
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(

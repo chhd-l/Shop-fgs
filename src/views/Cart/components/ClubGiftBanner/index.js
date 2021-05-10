@@ -6,9 +6,9 @@ import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 
 let ClubBanner_Logo = ClubBanner_Logo_en;
-if (process.env.REACT_APP_LANG === 'ru') {
+if (process.env.REACT_APP_COUNTRY === 'RU') {
   ClubBanner_Logo = ClubBanner_Logo_ru;
-} else if (process.env.REACT_APP_LANG === 'tr') {
+} else if (process.env.REACT_APP_COUNTRY === 'TR') {
   ClubBanner_Logo = ClubBanner_Logo_tr;
 }
 
@@ -83,7 +83,7 @@ export default function ClubGiftBanner(props) {
             </strong> */}
             {/* <strong>Free, automatic delivery</strong> on every refill */}
           </li>
-          {process.env.REACT_APP_LANG === 'ru' ? (
+          {process.env.REACT_APP_COUNTRY === 'RU' ? (
             <li
               className="rc-list__item"
               dangerouslySetInnerHTML={{

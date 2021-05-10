@@ -41,7 +41,7 @@ let clubListData = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
-if (process.env.REACT_APP_LANG === 'ru') {
+if (process.env.REACT_APP_COUNTRY === 'RU') {
   clubListData.push({
     text: <FormattedMessage id="clubListData.tip6" />,
     img: iconsix,
@@ -202,7 +202,7 @@ const GoodsDetailTabs = function (props) {
       .filter((e) => e.displayName && e.content);
 
     // 美国需临时加入一个tab
-    if (process.env.REACT_APP_LANG === 'en') {
+    if (process.env.REACT_APP_COUNTRY === 'US') {
       let COHORTPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
       let BENEFITS_WELCOMEPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
       let BENEFITS_DISCOUNT = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
@@ -234,7 +234,7 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
       });
     }
-    // if (process.env.REACT_APP_LANG === 'ru' && saleableFlag && sptGoods) {
+    // if (process.env.REACT_APP_COUNTRY === 'RU' && saleableFlag && sptGoods) {
     //   let mixfeeding = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
     //   let MixfeedingFood = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
     //   tmpGoodsDescriptionDetailList.push({

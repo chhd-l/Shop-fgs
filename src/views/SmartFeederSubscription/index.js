@@ -869,7 +869,7 @@ class SmartFeederSubscription extends Component {
                 }
               } else {
                 if (
-                  process.env.REACT_APP_LANG === 'de' &&
+                  process.env.REACT_APP_COUNTRY === 'DE' &&
                   sItem.chidren.length > 1 &&
                   !sItem.chidren[1].isEmpty
                 ) {
@@ -918,9 +918,9 @@ class SmartFeederSubscription extends Component {
                   if (tmpGoodsDetail[key]) {
                     console.log(tmpGoodsDetail[key], 'ghaha');
                     if (
-                      process.env.REACT_APP_LANG === 'fr' ||
-                      process.env.REACT_APP_LANG === 'ru' ||
-                      process.env.REACT_APP_LANG === 'tr'
+                      process.env.REACT_APP_COUNTRY === 'FR' ||
+                      process.env.REACT_APP_COUNTRY === 'RU' ||
+                      process.env.REACT_APP_COUNTRY === 'TR'
                     ) {
                       let tempObj = {};
                       let tempContent = '';
@@ -1056,9 +1056,9 @@ class SmartFeederSubscription extends Component {
                   if (tmpGoodsDetail[key]) {
                     console.log(tmpGoodsDetail[key], 'ghaha');
                     if (
-                      process.env.REACT_APP_LANG === 'fr' ||
-                      process.env.REACT_APP_LANG === 'ru' ||
-                      process.env.REACT_APP_LANG === 'tr'
+                      process.env.REACT_APP_COUNTRY === 'FR' ||
+                      process.env.REACT_APP_COUNTRY === 'RU' ||
+                      process.env.REACT_APP_COUNTRY === 'TR'
                     ) {
                       let tempObj = {};
                       let tempContent = '';

@@ -1816,26 +1816,24 @@ class List extends React.Component {
                 breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
               const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
-                isHub && process.env.REACT_APP_LANG === 'ru'
+                isHub && process.env.REACT_APP_COUNTRY === 'RU'
                   ? ruAttrs.join(',')
                   : attrs;
+              const taggingVOList = (ele.taggingVOList || []).filter(
+                (t) => t.displayStatus
+              );
 
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
                   (a, b) => a.marketPrice - b.marketPrice
                 )[0].linePrice,
-                taggingForText: (ele.taggingVOList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
+                taggingForText: taggingVOList.filter(
+                  (e) => e.taggingType === 'Text' && e.showPage?.includes('PLP')
                 )[0],
-                taggingForImage: (ele.taggingVOList || []).filter(
+                taggingForImage: taggingVOList.filter(
                   (e) =>
-                    e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
+                    e.taggingType === 'Image' && e.showPage?.includes('PLP')
                 )[0],
                 technologyOrBreedsAttr,
                 fromPrice: ele.fromPrice,
@@ -2115,9 +2113,13 @@ class List extends React.Component {
     const trFilterSeoDesc =
       prefv1 + ' ' + animalType + ' ' + metaDescriptionSeo;
     const filterSeoTitle =
-      process.env.REACT_APP_LANG === 'ru' ? ruFilterSeoTitle : trFilterSeoTitle;
+      process.env.REACT_APP_COUNTRY === 'RU'
+        ? ruFilterSeoTitle
+        : trFilterSeoTitle;
     const filterSeoDesc =
-      process.env.REACT_APP_LANG === 'ru' ? ruFilterSeoDesc : trFilterSeoDesc;
+      process.env.REACT_APP_COUNTRY === 'RU'
+        ? ruFilterSeoDesc
+        : trFilterSeoDesc;
     return (
       <div>
         {this.state.event && (
@@ -2535,7 +2537,7 @@ class List extends React.Component {
             </section>
             <ProductFinderAd {...this.state} />
           </div>
-          {process.env.REACT_APP_LANG == 'de' ? (
+          {process.env.REACT_APP_COUNTRY == 'DE' ? (
             <div className="notate ml-2 mb-2">
               <FormattedMessage
                 id="notate"

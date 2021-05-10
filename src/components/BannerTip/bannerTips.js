@@ -60,12 +60,12 @@ export const bannerTips = () => {
       {process.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div>
           {/* 美国临时加一个写死的Notice  */}
-          {process.env.REACT_APP_LANG === 'en' ? (
+          {process.env.REACT_APP_COUNTRY === 'US' ? (
             <div class="rc-bg-colour--brand4 text-center">
               <div class="rc-layout-container rc-content-h-middle">
                 <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
                   <div class="d-flex align-items-center">
-                    {process.env.REACT_APP_LANG == 'en' && isLimitLogin() ? (
+                    {process.env.REACT_APP_COUNTRY == 'US' && isLimitLogin() ? (
                       <LimitLoginAlertTips />
                     ) : (
                       <AlertTips />

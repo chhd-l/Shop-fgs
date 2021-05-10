@@ -35,7 +35,7 @@ export default class AddressPreview extends React.Component {
         )}
 
         {/* 俄罗斯计算运费 */}
-        {process.env.REACT_APP_LANG == 'ru' ? (
+        {process.env.REACT_APP_COUNTRY == 'RU' ? (
           <>
             <p>{form.phoneNumber || form.consigneeNumber} </p>
             {/* 是否存在运费 */}
@@ -73,7 +73,7 @@ export default class AddressPreview extends React.Component {
         ) : (
           <>
             <p>
-              {process.env.REACT_APP_LANG == 'en' ? null : (
+              {process.env.REACT_APP_COUNTRY == 'US' ? null : (
                 <>
                   <span>
                     {matchNamefromDict(

@@ -1485,8 +1485,10 @@ class LoginCart extends React.Component {
   render() {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
-    const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
-    const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
+    const dogsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+    const catsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1570,7 +1572,7 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          // fixToHeader: process.env.REACT_APP_COUNTRY !== 'FR'
                           fixToHeader: false
                         })}
                       </div>
@@ -1600,7 +1602,7 @@ class LoginCart extends React.Component {
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                               // style={{ margin: '0 10%' }}
                               style={
-                                process.env.REACT_APP_LANG === 'fr'
+                                process.env.REACT_APP_COUNTRY === 'FR'
                                   ? {}
                                   : { margin: '0 10%' }
                               }
