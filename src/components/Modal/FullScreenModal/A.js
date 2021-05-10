@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 export default class FullScreenModalA extends React.Component {
   constructor(props) {
+    super(props);
     this.state = {
       productList: []
     };
