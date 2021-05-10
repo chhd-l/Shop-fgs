@@ -1819,23 +1819,21 @@ class List extends React.Component {
                 isHub && process.env.REACT_APP_COUNTRY === 'RU'
                   ? ruAttrs.join(',')
                   : attrs;
+              const taggingVOList = (ele.taggingVOList || []).filter(
+                (t) => t.displayStatus
+              );
 
               let ret = Object.assign({}, ele, {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
                   (a, b) => a.marketPrice - b.marketPrice
                 )[0].linePrice,
-                taggingForText: (ele.taggingVOList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
+                taggingForText: taggingVOList.filter(
+                  (e) => e.taggingType === 'Text' && e.showPage?.includes('PLP')
                 )[0],
-                taggingForImage: (ele.taggingVOList || []).filter(
+                taggingForImage: taggingVOList.filter(
                   (e) =>
-                    e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
+                    e.taggingType === 'Image' && e.showPage?.includes('PLP')
                 )[0],
                 technologyOrBreedsAttr,
                 fromPrice: ele.fromPrice,
@@ -1876,10 +1874,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
