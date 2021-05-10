@@ -302,7 +302,7 @@ export function SubscriptionBenefits() {
               </div>
               <div className="d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                  <FormattedMessage id="club.subscription.icon5" />
+                  <FormattedMessage id="club.subscription.icon6" />
                 </p>
               </div>
             </div>
