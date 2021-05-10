@@ -8,7 +8,7 @@ class BuyFromRetailerBtn extends React.Component {
 
   render() {
     const { ccidBtnDisplay, onClick, barcode, goodsType } = this.props;
-    const Fr = process.env.REACT_APP_LANG === 'fr';
+    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
     return (
       <div>
         {Fr ? (
@@ -18,7 +18,7 @@ class BuyFromRetailerBtn extends React.Component {
             }`}
             data-ccid="wtb-target"
             data-ean={
-              process.env.REACT_APP_LANG === 'fr' ? '3182550751148' : barcode
+              process.env.REACT_APP_COUNTRY === 'FR' ? '3182550751148' : barcode
             }
             onClick={onClick}
           >

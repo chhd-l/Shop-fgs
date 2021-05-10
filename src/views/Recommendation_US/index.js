@@ -42,9 +42,9 @@ import {
 } from '@/utils/GA';
 
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
-const isUs = process.env.REACT_APP_LANG === 'en';
-const isRu = process.env.REACT_APP_LANG === 'ru';
-const isFr = process.env.REACT_APP_LANG === 'fr';
+const isUs = process.env.REACT_APP_COUNTRY === 'US';
+const isRu = process.env.REACT_APP_COUNTRY === 'RU';
+const isFr = process.env.REACT_APP_COUNTRY === 'FR';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

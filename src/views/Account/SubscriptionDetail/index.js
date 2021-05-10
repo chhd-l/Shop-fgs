@@ -341,7 +341,7 @@ class SubscriptionDetail extends React.Component {
               }
             } else {
               if (
-                process.env.REACT_APP_LANG === 'de' &&
+                process.env.REACT_APP_COUNTRY === 'DE' &&
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty &&
                 sItem.chidren[1].isClub
@@ -2790,17 +2790,17 @@ class SubscriptionDetail extends React.Component {
               <p className="text-center red" style={{ fontSize: '1.5rem' }}>
                 <FormattedMessage id="switchProductTip1" />{' '}
                 {subDetail.petsInfo?.petsName}{' '}
-                {process.env.REACT_APP_LANG != 'tr' && (
+                {process.env.REACT_APP_COUNTRY != 'TR' && (
                   <FormattedMessage id="switchProductTip2" />
                 )}
-                {process.env.REACT_APP_LANG != 'tr' && ' '}
-                {process.env.REACT_APP_LANG != 'tr' &&
+                {process.env.REACT_APP_COUNTRY != 'TR' && ' '}
+                {process.env.REACT_APP_COUNTRY != 'TR' &&
                   (subDetail.petsInfo?.petsSex ? (
                     <FormattedMessage id="switchProductTip.his" />
                   ) : (
                     <FormattedMessage id="switchProductTip.her" />
                   ))}
-                {process.env.REACT_APP_LANG != 'tr' && ' '}
+                {process.env.REACT_APP_COUNTRY != 'TR' && ' '}
                 <FormattedMessage id="switchProductTip3" />!
               </p>
               <div className="d-flex align-items-center justify-content-center rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
@@ -3080,7 +3080,7 @@ class SubscriptionDetail extends React.Component {
     console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
-      process.env.REACT_APP_LANG != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
+      process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
     let { promotions, petsType } = this.state;
     //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
     let isCatAndDog = petsType === 'CatAndDog';
@@ -3340,7 +3340,7 @@ class SubscriptionDetail extends React.Component {
                         {subDetail.subscriptionType
                           ?.toLowerCase()
                           .includes('club') &&
-                          process.env.REACT_APP_LANG == 'ru' && (
+                          process.env.REACT_APP_COUNTRY == 'RU' && (
                             <img
                               src={getClubLogo()}
                               style={{ maxWidth: '100px', marginRight: '10px' }}
@@ -4868,8 +4868,8 @@ class SubscriptionDetail extends React.Component {
                                                   </strong>
                                                 </div>
                                               </div>
-                                              {process.env.REACT_APP_LANG ===
-                                              'en' ? (
+                                              {process.env.REACT_APP_COUNTRY ===
+                                              'US' ? (
                                                 <div className="row">
                                                   <div className="col-1 col-md-3" />
                                                   <label className="col-9 text-left">
@@ -5338,8 +5338,8 @@ class SubscriptionDetail extends React.Component {
                               </p>
 
                               {/* 国家 */}
-                              {process.env.REACT_APP_LANG == 'en' ||
-                              process.env.REACT_APP_LANG == 'ru' ? null : (
+                              {process.env.REACT_APP_COUNTRY == 'US' ||
+                              process.env.REACT_APP_COUNTRY == 'RU' ? null : (
                                 <p className="mb-0 sd_mb_country">
                                   {this.state.countryList.length &&
                                   this.state.countryList.filter(
@@ -5418,7 +5418,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                         {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
-                        {process.env.REACT_APP_LANG !== 'en' &&
+                        {process.env.REACT_APP_COUNTRY !== 'US' &&
                         !Boolean(
                           +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
                         ) ? (
@@ -5480,7 +5480,8 @@ class SubscriptionDetail extends React.Component {
                                   {currentBillingAddress.consigneeNumber}
                                 </p>
                                 <p className="mb-0">
-                                  {process.env.REACT_APP_LANG == 'en' ? null : (
+                                  {process.env.REACT_APP_COUNTRY ==
+                                  'US' ? null : (
                                     <>
                                       {this.state.countryList.length &&
                                       this.state.countryList.filter(

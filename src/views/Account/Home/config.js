@@ -73,7 +73,8 @@ const faqs = {
   titleLangKey: 'account.faqTitle',
   textLangKey: 'account.faqTip',
   link: '/faq',
-  href: process.env.REACT_APP_LANG == 'ru' ? '/about-us/faq' : '/about-us/faqs',
+  href:
+    process.env.REACT_APP_COUNTRY == 'RU' ? '/about-us/faq' : '/about-us/faqs',
   isHubOuterLink: true
 };
 

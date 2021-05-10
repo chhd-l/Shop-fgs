@@ -88,7 +88,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'province',
-    require: process.env.REACT_APP_LANG === 'en' ? true : false,
+    require: process.env.REACT_APP_COUNTRY === 'US' ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.state']
@@ -96,7 +96,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'state',
-    require: process.env.REACT_APP_LANG === 'en' ? true : false,
+    require: process.env.REACT_APP_COUNTRY === 'US' ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.state']
@@ -114,7 +114,7 @@ export const ADDRESS_RULE = [
   {
     key: 'phoneNumber',
     regExp: TELEPHONE_REGEXP,
-    require: process.env.REACT_APP_LANG === 'de' ? false : true,
+    require: process.env.REACT_APP_COUNTRY === 'DE' ? false : true,
     errMsg: CURRENT_LANGFILE['enterCorrectPhoneNumber']
   },
   {
@@ -218,7 +218,7 @@ export const PRESONAL_INFO_RULE = [
   {
     key: 'phoneNumber',
     regExp: TELEPHONE_REGEXP,
-    require: process.env.REACT_APP_LANG == 'de' ? false : true,
+    require: process.env.REACT_APP_COUNTRY == 'DE' ? false : true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.phoneNumber']

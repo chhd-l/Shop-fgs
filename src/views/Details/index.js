@@ -382,9 +382,9 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
 
-    const Fr = process.env.REACT_APP_LANG === 'fr';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -1024,7 +1024,7 @@ class Details extends React.Component {
               }
             } else {
               if (
-                process.env.REACT_APP_LANG === 'de' &&
+                process.env.REACT_APP_COUNTRY === 'DE' &&
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
               ) {
@@ -1758,9 +1758,9 @@ class Details extends React.Component {
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_LANG === 'de';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const De = process.env.REACT_APP_COUNTRY === 'DE';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     const sptGoods = goodsType === 0 || goodsType === 1;
     const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h1'}
@@ -2476,7 +2476,7 @@ class Details extends React.Component {
                                       ) : null}
                                     </div>
                                   </div>
-                                  {process.env.REACT_APP_LANG == 'fr' ? (
+                                  {process.env.REACT_APP_COUNTRY == 'FR' ? (
                                     <div>
                                       Résiliation gratuite à tout moment{' '}
                                     </div>

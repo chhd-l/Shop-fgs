@@ -35,7 +35,7 @@ const Details = ({ goodsDetailTabs, details }) => {
           for (let key in tmpGoodsDetail) {
             if (tmpGoodsDetail[key]) {
               console.log(tmpGoodsDetail[key], 'ghaha');
-              if (process.env.REACT_APP_LANG === 'fr') {
+              if (process.env.REACT_APP_COUNTRY === 'FR') {
                 let tempObj = {};
                 let tempContent = '';
                 try {

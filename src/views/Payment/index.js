@@ -111,7 +111,7 @@ function CreditCardInfoPreview({
           <br />
           <span>
             {getFormatDate(expirationDate, (date) => {
-              if (process.env.REACT_APP_LANG === 'fr') {
+              if (process.env.REACT_APP_COUNTRY === 'FR') {
                 return date.slice(3);
               } else {
                 return date;
@@ -629,10 +629,11 @@ class Payment extends React.Component {
     let listData = [];
     if (
       !this.isLogin &&
-      (process.env.REACT_APP_LANG == 'en' || process.env.REACT_APP_LANG == 'ru')
+      (process.env.REACT_APP_COUNTRY == 'US' ||
+        process.env.REACT_APP_COUNTRY == 'RU')
     ) {
       listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
-    } else if (process.env.REACT_APP_LANG == 'ru') {
+    } else if (process.env.REACT_APP_COUNTRY == 'RU') {
       listData = [...requiredList]; //俄罗斯-会员-必填项
     } else {
       listData = [...requiredList, ...optionalList]; //必填项+选填项
@@ -642,7 +643,7 @@ class Payment extends React.Component {
   }
   //土耳其consent
   getTrConsentList() {
-    if (process.env.REACT_APP_LANG === 'tr') {
+    if (process.env.REACT_APP_COUNTRY === 'TR') {
       let listData = [];
 
       listData = this.isLogin ? [...registerCustomerList] : [...guestList];
@@ -705,7 +706,7 @@ class Payment extends React.Component {
         }
       };
       if (
-        process.env.REACT_APP_LANG === 'ru' &&
+        process.env.REACT_APP_COUNTRY === 'RU' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
       ) {
         payMethodsObj = {
@@ -1732,7 +1733,7 @@ class Payment extends React.Component {
                 ? 2
                 : parseInt(g.goodsInfoFlag),
             questionParams:
-              g.questionParams && process.env.REACT_APP_LANG !== 'ru'
+              g.questionParams && process.env.REACT_APP_COUNTRY !== 'RU'
                 ? g.questionParams
                 : undefined,
             subscribeNum: g.buyCount,

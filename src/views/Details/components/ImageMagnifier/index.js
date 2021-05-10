@@ -373,7 +373,7 @@ class ImageMagnifier extends Component {
       spuImages,
       imgAlt
     } = this.props;
-    if (process.env.REACT_APP_LANG !== 'fr' && spuImages.length) {
+    if (process.env.REACT_APP_COUNTRY !== 'FR' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
       let temImage = spuImages[masterIndex];

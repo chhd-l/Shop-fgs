@@ -172,7 +172,7 @@ class AddressList extends React.Component {
    */
   clickConfirmAddressPanel = async () => {
     this.updateSelectedData('confirm');
-    if (process.env.REACT_APP_LANG != 'ru') {
+    if (process.env.REACT_APP_COUNTRY != 'RU') {
       this.confirmToNextPanel();
     }
   };
@@ -183,7 +183,7 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
-    if (process.env.REACT_APP_LANG == 'ru' && str == 'confirm') {
+    if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       this.setState({
         validationLoading: true
       });
@@ -887,7 +887,7 @@ class AddressList extends React.Component {
             ) : null}
             <br />
             <span>
-              {process.env.REACT_APP_LANG == 'en'
+              {process.env.REACT_APP_COUNTRY == 'US'
                 ? [
                     // matchNamefromDict(this.state.countryList, item.countryId),
                     item.address1,

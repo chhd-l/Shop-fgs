@@ -49,10 +49,10 @@ export function formatMoney(
   }
   val += '';
   let length = val.length;
-  if (process.env.REACT_APP_LANG === 'tr') {
+  if (process.env.REACT_APP_COUNTRY === 'TR') {
     return val + ' TL';
   }
-  if (process.env.REACT_APP_LANG === 'ru') {
+  if (process.env.REACT_APP_COUNTRY === 'RU') {
     // console.log(val, 'val----');
     val = parseInt(Math.round(val));
     return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
@@ -930,7 +930,7 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import { el } from 'date-fns/locale';
 export function getClubLogo() {
-  if (process.env.REACT_APP_LANG === 'ru') {
+  if (process.env.REACT_APP_COUNTRY === 'RU') {
     return Club_Logo_ru;
   } else {
     return Club_Logo;

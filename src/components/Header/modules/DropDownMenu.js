@@ -113,7 +113,7 @@ export default class DropDownMenu extends React.Component {
     return (
       <div
         className={`${
-          process.env.REACT_APP_LANG == 'de' ? 'drop' : ''
+          process.env.REACT_APP_COUNTRY == 'DE' ? 'drop' : ''
         } dropdown-nav d-flex ${activeTopParentId === item.id ? 'show' : ''}`}
         aria-hidden={activeTopParentId === item.id}
         onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}

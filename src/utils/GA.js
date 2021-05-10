@@ -2,7 +2,7 @@ const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
-const isRu = process.env.REACT_APP_LANG === 'ru';
+const isRu = process.env.REACT_APP_COUNTRY === 'RU';
 
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
