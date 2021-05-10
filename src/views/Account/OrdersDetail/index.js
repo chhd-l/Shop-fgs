@@ -1640,7 +1640,7 @@ class AccountOrders extends React.Component {
                                         <p className="mb-0 od_mb_cpp">
                                           {/* 城市 */}
                                           {localAddressForm['city'] &&
-                                            details.invoice.postCode + ', '}
+                                            details.invoice.city + ', '}
 
                                           {/* 区域 */}
                                           {/* {localAddressForm['region'] &&

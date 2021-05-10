@@ -133,7 +133,6 @@ class RouteFilter extends Component {
       );
       history.push('/okta-login-page');
     }
-    console.log('pathname---', pathname);
     // if (sessionItemRoyal.get('okta-redirectUrl') && (pathname === '/' || pathname === '/home/' || pathname === '/home') ) {
     //   history.push(sessionItemRoyal.get('okta-redirectUrl'))
     //   sessionItemRoyal.remove('okta-redirectUrl')

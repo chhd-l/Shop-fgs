@@ -39,7 +39,7 @@ class TermsCommon extends Component {
     };
   }
   componentDidMount() {
-    // if (process.env.REACT_APP_COUNTRY == 'TR') {
+    // if (process.env.REACT_APP_LANG == 'tr') {
     //   this.addEventListenerFunTr();
     // }
 

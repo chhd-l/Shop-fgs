@@ -27,8 +27,8 @@ const LogoutButton = (props) => {
     try {
       const idToken = authState.idToken;
       if (idToken) {
-        if(location.pathname.includes('/account')) {
-          // const redirectUri = 
+        if (location.pathname.includes('/account')) {
+          // const redirectUri =
           // window.location.origin + process.env.REACT_APP_HOMEPAGE;
           // // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
           // window.location.href = `${
@@ -36,13 +36,17 @@ const LogoutButton = (props) => {
           // }/v1/logout?id_token_hint=${
           //   idToken ? idToken.value : ''
           // }&post_logout_redirect_uri=${redirectUri}`;
-          oktaAuth.revokeAccessToken()
+          oktaAuth.revokeAccessToken();
           // oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
-          oktaAuth.signOut({postLogoutRedirectUri: process.env.REACT_APP_ACCESS_PATH});
-        }else {
-          localItemRoyal.set('logout-redirect-url', location.href)
-          oktaAuth.revokeAccessToken()
-          oktaAuth.signOut({postLogoutRedirectUri: process.env.REACT_APP_ACCESS_PATH});
+          oktaAuth.signOut({
+            postLogoutRedirectUri: process.env.REACT_APP_ACCESS_PATH
+          });
+        } else {
+          localItemRoyal.set('logout-redirect-url', location.href);
+          oktaAuth.revokeAccessToken();
+          oktaAuth.signOut({
+            postLogoutRedirectUri: process.env.REACT_APP_ACCESS_PATH
+          });
           // oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
         }
       } else {
@@ -64,8 +68,8 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-token');
       localItemRoyal.remove('rc-register');
       localItemRoyal.remove('rc-consent-list');
-      localItemRoyal.remove('okta-session-token')
-      localItemRoyal.remove('rc-userinfo')
+      localItemRoyal.remove('okta-session-token');
+      localItemRoyal.remove('rc-userinfo');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       // await logout(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
@@ -97,18 +101,18 @@ const LogoutButton = (props) => {
   const hubLogoutBtnJSX = () => {
     return (
       <div
-        className={props.btnClass || 'logoff-style'}
-        style={(props && props.containerStyle) || {}}
+        className={props.containerClassName || 'logoff-style'}
+        style={props.containerStyle || {}}
       >
         <span
           id="J-btn-logoff"
+          className={props.btnClassName}
           onClick={clickLogoff}
           style={Object.assign(
             {
-              marginLeft: '-50px',
               background: '#fff'
             },
-            (props && props.btnStyle) || {}
+            props.btnStyle || {}
           )}
           ref={props && props.buttonRef}
         >
