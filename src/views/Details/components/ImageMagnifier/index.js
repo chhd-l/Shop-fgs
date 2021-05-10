@@ -266,12 +266,6 @@ class ImageMagnifier extends Component {
     /* 计算图片放大位置 */
     cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + 'px';
     cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + 'px';
-    console.log(
-      offsetX,
-      cssStyle.imgStyle2.left,
-      cssStyle.magnifierContainer.left,
-      'cssStyle'
-    );
     this.setState({
       cssStyle: cssStyle
     });
@@ -281,7 +275,6 @@ class ImageMagnifier extends Component {
   initParam() {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     let params = JSON.parse(JSON.stringify(this.state.params));
-    console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
     cssStyle.imgContainer.width = isMobile ? 230 + 'px' : 250 + 'px';
     cssStyle.imgContainer.height = params.height + 'px';
@@ -330,11 +323,9 @@ class ImageMagnifier extends Component {
     if (this.refs.video) {
       this.refs.video['disablePictureInPicture'] = true;
       this.refs.video.addEventListener('play', () => {
-        console.log(false);
         this.setState({ videoModalShow: false });
       });
       this.refs.video.addEventListener('pause', () => {
-        console.log(true);
         this.setState({ videoModalShow: true });
       });
     }

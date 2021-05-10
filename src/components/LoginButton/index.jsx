@@ -124,7 +124,6 @@ const LoginButton = (props) => {
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
                     await mergeUnloginCartData();
-                    console.log(loginStore, 'loginStore');
                     await checkoutStore.updateLoginCart();
                   }
 

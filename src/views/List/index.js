@@ -80,7 +80,7 @@ function ListItemH5ForGlobalStyle(props) {
         style={{ minHeight: '120px' }}
       >
         <div className="fullHeight">
-          <span className="ui-cursor-pointer">
+          <span className="ui-cursor-pointer-pure">
             <article className="rc-card--a  margin-top--5">
               <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
                 <div className="height-product-tile-plpOnly margin-top-mobile-20">
@@ -232,7 +232,7 @@ function ListItemForDefault(props) {
         style={{ minHeight: '120px' }}
       >
         <div className="fullHeight">
-          <span className="ui-cursor-pointer">
+          <span className="ui-cursor-pointer-pure">
             <article className="rc-card--a rc-text--center text-center">
               <div className="pb-0 justify-content-start rc-padding-top--md">
                 <div className="height-product-tile-plpOnly">
@@ -1874,11 +1874,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
