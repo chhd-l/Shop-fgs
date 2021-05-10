@@ -498,7 +498,7 @@ const tr_TR = {
   modalCancelAllTitle:
     'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
   modalChangeDateContent:
-    'Вы уверены, что хотите изменить дату следующей доставки?',
+    'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
   modalChangeDateTitle: 'Gönderim tarihini değiştirin',
   modalOrderNowContent: 'Bu siparişi şimdi vermek istediğinizden emin misiniz?',
   modalOrderNowTitle: 'ŞİMDİ SİPARİŞ VER?',
