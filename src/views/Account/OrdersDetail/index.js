@@ -455,16 +455,12 @@ class AccountOrders extends React.Component {
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
           canPayNow:
-            ((!resContext.isAuditOpen && tradeState.flowState === 'AUDIT') ||
-              (resContext.isAuditOpen &&
-                tradeState.flowState === 'INIT' &&
-                tradeState.auditState === 'NON_CHECKED')) &&
-            tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+            tradeState.flowState === 'INIT' &&
+            tradeState.auditState === 'NON_CHECKED' &&
             tradeState.payState === 'NOT_PAID' &&
             new Date(resContext.orderTimeOut).getTime() >
               new Date(res.defaultLocalDateTime).getTime() &&
-            (!resContext.payWay ||
-              !['OXXO', 'COD'].includes(resContext.payWay.toUpperCase()))
+            !['OXXO', 'COD'].includes(resContext.payWay?.toUpperCase())
         });
       })
       .catch((err) => {

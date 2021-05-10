@@ -28,8 +28,8 @@ export default class Modal extends React.Component {
     if (type === 'fullscreen') {
       return (
         <>
-          <FullScreenModalA />;
-          <FullScreenModalB />;
+          <FullScreenModalA />
+          <FullScreenModalB />
         </>
       );
     }

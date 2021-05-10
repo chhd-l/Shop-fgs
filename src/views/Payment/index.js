@@ -1532,7 +1532,7 @@ class Payment extends React.Component {
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         let recommendationInfos = {};
-        if (ele.recommendationInfos) {
+        if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
           recommendationInfos =
             typeof ele.recommendationInfos == 'string'
               ? JSON.parse(ele.recommendationInfos)
@@ -1571,7 +1571,7 @@ class Payment extends React.Component {
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
         let recommendationInfos = {};
-        if (ele.recommendationInfos) {
+        if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
           recommendationInfos =
             typeof ele.recommendationInfos == 'string'
               ? JSON.parse(ele.recommendationInfos)
@@ -1608,7 +1608,7 @@ class Payment extends React.Component {
     } else {
       param.tradeItems = cartData.map((ele) => {
         let recommendationInfos = {};
-        if (ele.recommendationInfos) {
+        if (ele.recommendationInfos && ele.recommendationInfos != 'null') {
           recommendationInfos =
             typeof ele.recommendationInfos == 'string'
               ? JSON.parse(ele.recommendationInfos)
@@ -1648,7 +1648,7 @@ class Payment extends React.Component {
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
           let recommendationInfos = {};
-          if (g.recommendationInfos) {
+          if (g.recommendationInfos && g.recommendationInfos != 'null') {
             recommendationInfos =
               typeof g.recommendationInfos == 'string'
                 ? JSON.parse(g.recommendationInfos)
@@ -1704,7 +1704,7 @@ class Payment extends React.Component {
         )
         .map((g) => {
           let recommendationInfos = {};
-          if (g.recommendationInfos) {
+          if (g.recommendationInfos && g.recommendationInfos != 'null') {
             recommendationInfos =
               typeof g.recommendationInfos == 'string'
                 ? JSON.parse(g.recommendationInfos)
