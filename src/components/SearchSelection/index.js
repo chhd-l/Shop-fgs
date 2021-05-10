@@ -80,7 +80,7 @@ class SearchSelection extends React.Component {
       );
 
       clearTimeout(this.timer);
-      let tm = this.props.isLoadingList ? 1000 : 500;
+      let tm = this.props.isLoadingList ? 1000 : 0;
       this.timer = setTimeout(() => {
         this.queryList(); // 搜索
       }, tm);

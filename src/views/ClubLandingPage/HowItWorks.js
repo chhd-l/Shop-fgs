@@ -227,6 +227,9 @@ const HowItWorks = (props) => {
                       <p
                         className="rc-card__meta club_subscription_intro_center"
                         style={{ fontSize: '1rem' }}
+                        onClick={() => {
+                          window.PetStoryWC.start();
+                        }}
                       >
                         <FormattedMessage id="club.howitworks.img4.description" />
                       </p>

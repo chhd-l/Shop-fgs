@@ -145,8 +145,8 @@ class Form extends React.Component {
       case 'ru':
         phoneReg = '+{7} (000) 000-00-00';
         break;
-      case 'mx':
-        phoneReg = '0000000000';
+      case 'es':
+        phoneReg = '+(52) 000 000 00';
         break;
       case 'tr':
         phoneReg = '{0} (000) 000-00-00';
@@ -336,6 +336,9 @@ class Form extends React.Component {
             regExp = /[(+33)|0][\s\-][0-9][\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_LANG == 'en') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+          } else if (process.env.REACT_APP_LANG == 'es') {
+            // 墨西哥
+            regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_LANG == 'ru') {
             regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (process.env.REACT_APP_LANG == 'tr') {
