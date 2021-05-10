@@ -7,7 +7,6 @@ import cartImg from '../../modules/images/cart.png';
 import LazyLoad from 'react-lazyload';
 
 const OneOffSelection = function (props) {
-  console.log(props, 'props');
   const {
     isGift,
     pitem,

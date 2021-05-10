@@ -602,7 +602,6 @@ class Details extends React.Component {
     idArr = selectedArr.map((el) => el.specDetailId);
     //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-    console.log(details, 'item---');
     details.sizeList.map((item, i) => {
       let specTextArr = [];
       for (let specItem of specList) {
@@ -837,7 +836,6 @@ class Details extends React.Component {
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
-        console.log(goodsRes, toJS(configStore), 'goodsRes');
         if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
@@ -851,7 +849,6 @@ class Details extends React.Component {
             (autoshipDictRes[0] && autoshipDictRes[0].id) ||
             '';
         }
-        console.log(defaultFrequencyId, 'defaultFrequencyId');
         this.setState(
           {
             purchaseTypeDict: purchaseTypeDictRes,
@@ -1197,7 +1194,6 @@ class Details extends React.Component {
 
   loadWidgetIdBtn() {
     const { goodsType } = this.state;
-    console.log(goodsType, 'goodsTypegoodsType');
 
     const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
@@ -1565,11 +1561,6 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       skuPromotions
     } = this.state;
-    console.log({
-      currentSubscriptionStatus,
-      currentSubscriptionPrice,
-      skuPromotions
-    });
     let content = ['Single Purchase'];
     if (
       currentSubscriptionStatus &&
@@ -1745,7 +1736,6 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
-    console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
@@ -1795,12 +1785,6 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(
-      currentSubscriptionStatus,
-      currentSubscriptionPrice,
-      skuPromotions,
-      'aaaaa'
-    );
     return (
       <div id="Details">
         <button
