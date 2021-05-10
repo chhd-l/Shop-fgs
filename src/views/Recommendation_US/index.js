@@ -769,10 +769,10 @@ class Recommendation extends React.Component {
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
-    GABreederRecoPromoCodeCTA();
   };
   // 查看 promotion code
   checkPromotionCode = () => {
+    GABreederRecoPromoCodeCTA();
     this.copyPromotion();
     this.setState(
       {

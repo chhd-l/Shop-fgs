@@ -24,26 +24,25 @@ class TermsCommon extends Component {
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
     window.onload = () => {
-      document.getElementById('tr_consent_a') &&
-        document
-          .getElementById('tr_consent_a')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalA', true);
-          });
-      document.getElementById('tr_consent_b') &&
-        document
-          .getElementById('tr_consent_b')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalB', true);
-          });
+      document.getElementById('tr_consent_a').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalA', true);
+        //document.getElementById('tr_consent_a').removeEventListener('click',function(){})
+      });
+      document.getElementById('tr_consent_b').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalB', true);
+        //document.getElementById('tr_consent_b').removeEventListener('click',function(){})
+      });
     };
   }
   componentDidMount() {
-    this.addEventListenerFunTr();
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+
     document
       .getElementById(`${this.props.id}`)
       .addEventListener('click', (e) => {
@@ -87,6 +86,25 @@ class TermsCommon extends Component {
   }
   //从子组件传回
   sendList = (list) => {
+    // if(process.env.REACT_APP_LANG=='tr'){
+    //   list.forEach((item)=>{
+    //     if(item.id=='tr_A'){
+    //       if(item.isChecked){
+    //         item.consentTitle ='Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_a">Formu incele</span></span><br/><span style="color:#C03344">Bu alan gereklidir.'
+    //       }else{
+    //         item.consentTitle ='Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_a">Formu incele</span></span>'
+    //       }
+    //     }
+    //     if(item.id=='tr_B'){
+    //       if(item.isChecked){
+    //         item.consentTitle ='Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_b">Formu incele</span></span><br/><span style="color:#C03344">Bu alan gereklidir.'
+    //       }else{
+    //         item.consentTitle ='Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_b">Formu incele</span></span>'
+    //       }
+    //     }
+    //   })
+    // }
+
     this.setState({ list }, () => {
       this.valid();
     });

@@ -1,9 +1,28 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-@inject('paymentStore')
+@inject('paymentStore', 'checkoutStore', 'loginStore')
 @observer
 export default class FullScreenModalA extends React.Component {
+  constructor(props) {
+    this.state = {
+      productList: []
+    };
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
+  componentDidMount() {
+    let productList = [];
+    if (this.isLogin) {
+      productList = this.props.checkoutStore.loginCartData;
+    } else {
+      productList = this.props.checkoutStore.cartData.filter(
+        (ele) => ele.selected
+      );
+      console.log(123, productList);
+    }
+  }
   close = () => {
     const { setTrConsentModal } = this.props.paymentStore;
     setTrConsentModal('fullScreenModalA', false);
