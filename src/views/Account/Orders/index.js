@@ -173,11 +173,8 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
             canPayNow:
-              ((!ele.isAuditOpen && tradeState.flowState === 'AUDIT') ||
-                (ele.isAuditOpen &&
-                  tradeState.flowState === 'INIT' &&
-                  tradeState.auditState === 'NON_CHECKED')) &&
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+              tradeState.flowState === 'INIT' &&
+              tradeState.auditState === 'NON_CHECKED' &&
               tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
                 new Date(res.defaultLocalDateTime).getTime() &&
@@ -202,12 +199,14 @@ class AccountOrders extends React.Component {
             canViewTrackInfo:
               tradeState.payState === 'PAID' &&
               tradeState.auditState === 'CHECKED' &&
-              tradeState.deliverStatus === 'SHIPPED' &&
-              tradeState.flowState === 'DELIVERED' &&
+              (tradeState.deliverStatus === 'SHIPPED' ||
+                tradeState.deliverStatus === 'PARTIALLY_SHIPPED') &&
+              (tradeState.flowState === 'DELIVERED' ||
+                tradeState.flowState === 'PARTIALLY_DELIVERED') &&
               ele.tradeDelivers &&
               ele.tradeDelivers.length,
             canDownInvoice:
-              !['en', 'es', 'ru'].includes(process.env.REACT_APP_LANG) &&
+              ['fr'].includes(process.env.REACT_APP_LANG) &&
               tradeState.deliverStatus === 'SHIPPED'
           });
         });
