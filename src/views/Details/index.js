@@ -203,8 +203,7 @@ function Advantage() {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text:
-        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -418,14 +417,8 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -547,13 +540,8 @@ class Details extends React.Component {
     );
   }
   setGoogleProductStructuredDataMarkup() {
-    const {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo
-    } = this.state;
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
+      this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -870,7 +858,10 @@ class Details extends React.Component {
           });
         }
         if (goodsRes) {
-          const { goods, taggingList, images } = res.context;
+          const { goods, images } = res.context;
+          const taggingList = (res.context?.taggingList || []).filter(
+            (t) => t.displayStatus
+          );
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
@@ -886,19 +877,19 @@ class Details extends React.Component {
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 promotions: goods?.promotions?.toLowerCase(),
-                taggingForTextAtPDP: (taggingList || []).filter(
+                taggingForTextAtPDP: taggingList.filter(
                   (e) => e.taggingType === 'Text' && e.showPage?.includes('PDP')
                 )[0],
-                taggingForImageAtPDP: (taggingList || []).filter(
+                taggingForImageAtPDP: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' && e.showPage?.includes('PDP')
                 )[0],
-                taggingForTextAtCart: (taggingList || []).filter(
+                taggingForTextAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Text' &&
                     e.showPage?.includes('Shopping cart page')
                 )[0],
-                taggingForImageAtCart: (taggingList || []).filter(
+                taggingForImageAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' &&
                     e.showPage?.includes('Shopping cart page')
@@ -1297,8 +1288,9 @@ class Details extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
+    const barcode = images.find(
+      (item) => item.packSize === goodSize
+    )?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -1384,13 +1376,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -2429,8 +2416,7 @@ class Details extends React.Component {
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
+                                            val: selectedSpecItem?.subscriptionPercentage
                                           }}
                                         />
                                       </div>
@@ -2541,8 +2527,7 @@ class Details extends React.Component {
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
+                                          val: selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>
