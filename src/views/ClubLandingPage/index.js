@@ -689,13 +689,13 @@ class ClubLandingPage extends React.Component {
                             <p>
                               <span>
                                 Диетическое питание, которое помогает
-                                поддерживать здоровье кошек с диагностированными
-                                заболеваниями.
+                                поддерживать здоровье питомцев с
+                                диагностированными заболеваниями
                               </span>
                             </p>
                             <Link to="vetlandingpage">
                               <button className="rc-btn rc-btn--two">
-                                Посмотреть ассортимент
+                                Узнать подробнее
                               </button>
                             </Link>
                           </div>
