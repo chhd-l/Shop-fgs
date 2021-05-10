@@ -1536,7 +1536,7 @@ class Payment extends React.Component {
           recommendationInfos =
             typeof ele.recommendationInfos == 'string'
               ? JSON.parse(ele.recommendationInfos)
-              : el.recommendationInfos;
+              : ele.recommendationInfos;
         }
         let {
           referenceObject = '',
@@ -1575,7 +1575,7 @@ class Payment extends React.Component {
           recommendationInfos =
             typeof ele.recommendationInfos == 'string'
               ? JSON.parse(ele.recommendationInfos)
-              : el.recommendationInfos;
+              : ele.recommendationInfos;
         }
         let {
           referenceObject = '',
@@ -1612,7 +1612,7 @@ class Payment extends React.Component {
           recommendationInfos =
             typeof ele.recommendationInfos == 'string'
               ? JSON.parse(ele.recommendationInfos)
-              : el.recommendationInfos;
+              : ele.recommendationInfos;
         }
         let {
           referenceObject = '',
