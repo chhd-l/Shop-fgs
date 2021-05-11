@@ -28,14 +28,11 @@ const Details = ({ goodsDetailTabs, details }) => {
       // let res = await getDetailsBySpuNo(details.goodsNo);
       try {
         let tmpGoodsDetail = res.context.goods.goodsDetail;
-        console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
         if (tmpGoodsDetail) {
           tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-          console.log(tmpGoodsDetail, 'tmpGoodsDetail');
           for (let key in tmpGoodsDetail) {
             if (tmpGoodsDetail[key]) {
-              console.log(tmpGoodsDetail[key], 'ghaha');
-              if (process.env.REACT_APP_LANG === 'fr') {
+              if (process.env.REACT_APP_COUNTRY === 'FR') {
                 let tempObj = {};
                 let tempContent = '';
                 try {
@@ -89,7 +86,6 @@ const Details = ({ goodsDetailTabs, details }) => {
                             contentValue += `<p>${el}</p>`;
                           }
                         );
-                        console.log(tempContent, 'heiheihaha');
                         tempContent =
                           tempContent +
                           `
@@ -125,7 +121,6 @@ const Details = ({ goodsDetailTabs, details }) => {
         //   tabs
         // });
       } catch (err) {
-        console.log(err, 'tmpGoodsDetail');
         getDict({
           type: 'goodsDetailTab',
           storeId: process.env.REACT_APP_STOREID

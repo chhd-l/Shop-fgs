@@ -60,11 +60,8 @@ export const UnLoginUserBox = ({ history, className }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const {
-    personInformationRouter,
-    petsRouter,
-    subscriptionsRouter
-  } = self.props;
+  const { personInformationRouter, petsRouter, subscriptionsRouter } =
+    self.props;
   const menuList = [
     {
       link: '/account',
@@ -129,7 +126,9 @@ export const LoginUserBox = ({ self, className }) => {
     {
       link: '/faq',
       href:
-        process.env.REACT_APP_LANG == 'ru' ? '/about-us/faq' : '/about-us/faqs',
+        process.env.REACT_APP_COUNTRY == 'RU'
+          ? '/about-us/faq'
+          : '/about-us/faqs',
       isHubOuterLink: true,
       isShow: true,
       text: (
@@ -154,8 +153,9 @@ export const LoginUserBox = ({ self, className }) => {
             {userInfo && [userInfo.firstName, userInfo.lastName].join(' ')}
           </Link>
           <LogoutButton
-            btnClass="logoff-style medium ui-cursor-pointer"
+            containerClassName="logoff-style medium ui-cursor-pointer text-left"
             containerStyle={{ background: '#fff', color: '#444' }}
+            btnClassName="ml-2"
           />
         </div>
       </div>

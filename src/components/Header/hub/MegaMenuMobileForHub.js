@@ -328,7 +328,7 @@ class MegaMenuMobileForHub extends React.Component {
                             <span className="iconfont medium">&#xe6f9;</span>
                           </Link>
                           <LogoutButton
-                            btnClass="rc-list__header bg-transparent border-bottom pt-3 pb-3 ml-3 ml-0"
+                            containerClassName="rc-list__header bg-transparent border-bottom pt-3 pb-3 ml-3 ml-0 text-left"
                             btnStyle={{
                               background: 'transparent'
                             }}

@@ -882,7 +882,7 @@ const ru_RU = {
   search: 'Поиск',
   searchForAProductOrArtical: 'Найдите продукт или статью',
   searchNoBreed: 'не родословная',
-  searchPrescriber: 'Обыскать клинику',
+  searchPrescriber: 'Найти клинику',
   securityQuestion: 'Вопрос безопасности',
   selectDeliveryAddress: 'Выберите адрес доставки',
   selectNoneClincTip: 'Выберите рецепт',

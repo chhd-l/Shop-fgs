@@ -58,7 +58,7 @@ class Mentionslegales extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          {process.env.REACT_APP_LANG == 'fr' ? (
+          {process.env.REACT_APP_COUNTRY == 'FR' ? (
             <div
               className="mentionslegales-page"
               style={{ marginBottom: '1rem' }}

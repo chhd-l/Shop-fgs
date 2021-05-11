@@ -43,7 +43,7 @@ const JoinToday = (props) => {
                       <div
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
-                        {process.env.REACT_APP_LANG == 'ru' ? (
+                        {process.env.REACT_APP_COUNTRY == 'RU' ? (
                           <img
                             style={{ width: '200px' }}
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-RU-Library/default/dw8a336819/HNC/Club_Logo_RU@2x(1).png?sw=300&amp;sh=175&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=751&amp;ch=438&amp;sfrm=png"

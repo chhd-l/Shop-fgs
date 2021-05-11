@@ -497,17 +497,18 @@ class CheckoutStore {
           }
           return g.goodsInfoId === good.goodsInfoId;
         })[0];
-        good.taggingForText = (good.taggingVOList || []).filter(
+        const taggingVOList = (good.taggingVOList || []).filter(
+          (t) => t.displayStatus
+        );
+        good.taggingForText = taggingVOList.filter(
           (e) =>
             e.taggingType === 'Text' &&
-            e.showPage &&
-            e.showPage.includes('Shopping cart page')
+            e.showPage?.includes('Shopping cart page')
         )[0];
-        good.taggingForImage = (good.taggingVOList || []).filter(
+        good.taggingForImage = taggingVOList.filter(
           (e) =>
             e.taggingType === 'Image' &&
-            e.showPage &&
-            e.showPage.includes('Shopping cart page')
+            e.showPage?.includes('Shopping cart page')
         )[0];
         let specList = good.goodsSpecs;
         let specDetailList = good.goodsSpecDetails || [];

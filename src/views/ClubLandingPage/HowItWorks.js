@@ -11,8 +11,8 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
-  const RU = process.env.REACT_APP_LANG == 'ru';
-  const TR = process.env.REACT_APP_LANG == 'tr';
+  const RU = process.env.REACT_APP_COUNTRY == 'RU';
+  const TR = process.env.REACT_APP_COUNTRY == 'YR';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
@@ -227,6 +227,9 @@ const HowItWorks = (props) => {
                       <p
                         className="rc-card__meta club_subscription_intro_center"
                         style={{ fontSize: '1rem' }}
+                        onClick={() => {
+                          window.PetStoryWC.start();
+                        }}
                       >
                         <FormattedMessage id="club.howitworks.img4.description" />
                       </p>

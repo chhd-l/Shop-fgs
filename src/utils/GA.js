@@ -2,7 +2,7 @@ const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
-const isRu = process.env.REACT_APP_LANG === 'ru';
+const isRu = process.env.REACT_APP_COUNTRY === 'RU';
 
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
@@ -489,11 +489,16 @@ export const GABuyNow = () => {
   dataLayer.push({
     'event ': 'breederRecoBuyNow'
   });
-  debugger;
 };
 
 export const GABreederRecoPromoCodeCTA = () => {
   dataLayer.push({
     'event ': 'breederRecoPromoCodeCTA'
+  });
+};
+
+export const GABreederRecoSeeInCart = () => {
+  dataLayer.push({
+    'event ': 'breederRecoSeeInCart'
   });
 };

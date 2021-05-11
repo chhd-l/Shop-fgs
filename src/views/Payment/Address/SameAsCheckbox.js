@@ -82,7 +82,7 @@ class SameAsCheckbox extends React.Component {
               >
                 i
               </span>
-              {process.env.REACT_APP_LANG == 'fr' ? null : (
+              {process.env.REACT_APP_COUNTRY == 'FR' ? null : (
                 <ConfirmTooltip
                   containerStyle={{
                     transform: 'translate(-62%, 117%)'

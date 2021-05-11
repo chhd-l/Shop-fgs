@@ -50,7 +50,7 @@ function CardItem(props) {
           </div>
         </div>
         <p className="mb-0">{data.address1}</p>
-        {process.env.REACT_APP_LANG == 'en' ? null : (
+        {process.env.REACT_APP_COUNTRY == 'US' ? null : (
           <>
             <p className="mb-0">{props.countryName}</p>
           </>
@@ -244,7 +244,7 @@ class AddressList extends React.Component {
         email: tmp.email,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
-      if (process.env.REACT_APP_LANG == 'en') {
+      if (process.env.REACT_APP_COUNTRY == 'US') {
         tmpDeliveryAddress.province = tmp.province;
         tmpDeliveryAddress.provinceId = tmp.provinceId;
       }
@@ -766,7 +766,7 @@ class AddressList extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    {process.env.REACT_APP_LANG !== 'ru' ? (
+                    {process.env.REACT_APP_COUNTRY !== 'RU' ? (
                       <div
                         className="d-flex align-items-center justify-content-between flex-wrap"
                         style={{ lineHeight: '40px' }}

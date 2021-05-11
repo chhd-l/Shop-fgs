@@ -122,6 +122,7 @@ class AddressList extends React.Component {
       const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
+
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
@@ -139,6 +140,20 @@ class AddressList extends React.Component {
         addressList,
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
+
+      // 有数据并且 type=billing，判断是否有billingAddress
+      if (addressList.length > 0 && this.props.type == 'billing') {
+        // isAddOrEdit() -> payment中用来判断是否添加或者编辑地址
+        let isbill = 0,
+          isadde = true;
+        for (let i = 0; i < addressList.length; i++) {
+          if (addressList[i].type == 'BILLING') {
+            isbill++;
+          }
+        }
+        isbill > 0 ? (isadde = false) : (isadde = true);
+        this.props.isAddOrEdit(isadde);
+      }
 
       const tmpObj =
         find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
@@ -172,7 +187,7 @@ class AddressList extends React.Component {
    */
   clickConfirmAddressPanel = async () => {
     this.updateSelectedData('confirm');
-    if (process.env.REACT_APP_LANG != 'ru') {
+    if (process.env.REACT_APP_COUNTRY != 'RU') {
       this.confirmToNextPanel();
     }
   };
@@ -183,7 +198,7 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
-    if (process.env.REACT_APP_LANG == 'ru' && str == 'confirm') {
+    if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       this.setState({
         validationLoading: true
       });
@@ -887,7 +902,7 @@ class AddressList extends React.Component {
             ) : null}
             <br />
             <span>
-              {process.env.REACT_APP_LANG == 'en'
+              {process.env.REACT_APP_COUNTRY == 'US'
                 ? [
                     // matchNamefromDict(this.state.countryList, item.countryId),
                     item.address1,

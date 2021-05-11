@@ -26,7 +26,7 @@ export function query(parameter) {
 
 export function edit(parameter) {
   let url = api.nextStep;
-  if (['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1) {
+  if (['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1) {
     url = api.nextStep_club;
     Object.assign(parameter, {
       apiTree: 'club_V2'

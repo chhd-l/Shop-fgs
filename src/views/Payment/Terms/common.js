@@ -86,7 +86,7 @@ class TermsCommon extends Component {
   }
   //从子组件传回
   sendList = (list) => {
-    // if(process.env.REACT_APP_LANG=='tr'){
+    // if(process.env.REACT_APP_COUNTRY=='TR'){
     //   list.forEach((item)=>{
     //     if(item.id=='tr_A'){
     //       if(item.isChecked){
@@ -124,7 +124,7 @@ class TermsCommon extends Component {
           id={this.props.id}
         />
 
-        {process.env.REACT_APP_LANG === 'de' ? (
+        {process.env.REACT_APP_COUNTRY === 'DE' ? (
           <>
             <a style={{ color: '#7F6666', cursor: 'default' }}>
               Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich.
