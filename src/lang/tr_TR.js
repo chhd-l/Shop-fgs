@@ -831,7 +831,6 @@ const tr_TR = {
   searchPrescriber: 'Bir klinik ara',
   securityQuestion: 'Güvenlik Sorusu',
   selectDeliveryAddress: 'Lütfen bir teslimat adresi seçin',
-  selectNoneClincTip: 'Lütfen bir reçete seçin',
   selectPet: 'Bir evcil hayvan seçin',
   selectProduct: 'Lütfen ürünü seçin',
   setAsDefault: 'Varsayılan olarak belirle',

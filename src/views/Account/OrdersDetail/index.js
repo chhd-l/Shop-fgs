@@ -210,7 +210,6 @@ class AccountOrders extends React.Component {
       cancelOrderLoading: false,
       returnOrExchangeLoading: false,
       errMsg: '',
-
       cancelOrderModalVisible: false,
       operateSuccessModalVisible: false,
       errModalVisible: false,
@@ -274,57 +273,6 @@ class AccountOrders extends React.Component {
         const orderStatusMap = resContext.orderStatusMap;
         let currentProgerssIndex = -1;
         let currentCanceledProgerssIndex = -1;
-
-        // Created / To be delivered / Shipped / Delivered
-        // 1000 /    3000 /   4000 /   9000
-        // 1000-2000 / 3000-3010 / 4000-4010-5000 / 9000
-
-        // Created / Cancelled
-        // 9000-9999
-
-        //   {
-        //     "1000": {
-        //         "flowStateId": "INIT",
-        //         "flowStateDesc": "Created"
-        //     },
-        //     "2000": {
-        //         "flowStateId": "PENDING_REVIEW",
-        //         "flowStateDesc": "Processing"
-        //     },
-        //     "3000": {
-        //         "flowStateId": "TO_BE_DELIVERED",
-        //         "flowStateDesc": "Processing"
-        //     },
-        //     "3010": {
-        //         "flowStateId": "PARTIALLY_SHIPPED",
-        //         "flowStateDesc": "Partially Shipped"
-        //     },
-        //     "4000": {
-        //         "flowStateId": "SHIPPED",
-        //         "flowStateDesc": "Shipped"
-        //     },
-        //     "4010": {
-        //         "flowStateId": "PARTIALLY_DELIVERED",
-        //         "flowStateDesc": "Partially Delivered"
-        //     },
-        //     "5000": {
-        //         "flowStateId": "DELIVERED",
-        //         "flowStateDesc": "Delivered"
-        //     },
-        //     "8000": {
-        //         "flowStateId": "REJECTED",
-        //         "flowStateDesc": "Rejected"
-        //     },
-        //     "9000": {
-        //         "flowStateId": "COMPLETED",
-        //         "flowStateDesc": "Completed"
-        //     },
-        //     "9999": {
-        //         "flowStateId": "VOID",
-        //         "flowStateDesc": "Cancelled"
-        //     }
-        // }
-
         normalProgressList = [1000, 2000, 4000, 5000].map((el) => {
           let flowStateIds = [orderStatusMap[el]?.flowStateId];
           // 组装所有归属于此状态的订单状态
@@ -402,12 +350,10 @@ class AccountOrders extends React.Component {
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
-              // logisticsList: new Array(3).fill((res.context && res.context.tradeDelivers[0])) || []
               logisticsList: (res.context && res.context.tradeDelivers) || []
             });
           });
         }
-        console.log(this.state.logisticsList);
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
@@ -688,13 +634,9 @@ class AccountOrders extends React.Component {
   };
   renderLogitiscsJSX = () => {
     const { moreLogistics, logisticsList, activeTabIdx } = this.state;
-    console.log('logisticsList');
-    console.log(logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
-    console.log('filteredLogisticsList');
-    console.log(filteredLogisticsList);
     return (
       <>
         {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
@@ -1030,9 +972,6 @@ class AccountOrders extends React.Component {
                         alt={txt}
                       >
                         {txt}
-                        <span className="warning_blank">
-                          Opens a new window
-                        </span>
                       </Link>
                     )}
                   </FormattedMessage>
@@ -1511,8 +1450,8 @@ class AccountOrders extends React.Component {
                                       </p>
 
                                       {/* 国家 */}
-                                      {process.env.REACT_APP_COUNTRY == 'US' ||
-                                      process.env.REACT_APP_COUNTRY ==
+                                      {process.env.REACT_APP_COUNTRY === 'US' ||
+                                      process.env.REACT_APP_COUNTRY ===
                                         'RU' ? null : (
                                         <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
@@ -1564,7 +1503,7 @@ class AccountOrders extends React.Component {
                                       {details?.maxDeliveryTime != null &&
                                       details?.minDeliveryTime != null ? (
                                         <p className="mb-0 od_mb_yf">
-                                          {details.minDeliveryTime ==
+                                          {details.minDeliveryTime ===
                                           details.maxDeliveryTime ? (
                                             <FormattedMessage
                                               id="payment.deliveryDate2"
@@ -1615,9 +1554,9 @@ class AccountOrders extends React.Component {
                                         </p>
 
                                         {/* 国家 */}
-                                        {process.env.REACT_APP_COUNTRY ==
+                                        {process.env.REACT_APP_COUNTRY ===
                                           'US' ||
-                                        process.env.REACT_APP_COUNTRY ==
+                                        process.env.REACT_APP_COUNTRY ===
                                           'ru' ? null : (
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(
@@ -1679,7 +1618,7 @@ class AccountOrders extends React.Component {
                                         <p className="medium mb-3">
                                           <FormattedMessage id="payment.payment" />
                                         </p>
-                                        <p className="medium mb-2">
+                                        <div className="medium mb-2">
                                           <LazyLoad
                                             style={{ display: 'inline' }}
                                           >
@@ -1701,7 +1640,7 @@ class AccountOrders extends React.Component {
                                               {payRecord.lastFourDigits}
                                             </span>
                                           ) : null}
-                                        </p>
+                                        </div>
 
                                         {payRecord.holderName ? (
                                           <p className="mb-0">

@@ -16,16 +16,14 @@ class PaymentStore {
   @observable md = ''; //3ds参数
 
   @observable selectedCardId = null;
-  @observable defaultCardDataFromAddr = null;
-  @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
     {
       key: 'clinic',
       order: 1,
       status: {
-        isPrepare: false,
-        isEdit: true,
+        isPrepare: true,
+        isEdit: false,
         isCompleted: false,
         hasCompleted: false // 是否曾completed过
       }
