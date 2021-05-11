@@ -38,7 +38,7 @@ class UnloginCart extends React.Component {
         window.location.pathname
       ) === -1
     ) {
-      await this.props.checkoutStore.removePromotionCode();
+      // await this.props.checkoutStore.removePromotionCode();
     }
     getFrequencyDict().then((res) => {
       this.setState({

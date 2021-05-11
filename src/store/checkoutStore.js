@@ -35,6 +35,7 @@ class CheckoutStore {
   @observable deletedProNames = []; // 被删除的商品
   @observable notSeableProNames = []; // 不可销售的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
+  // @observable clixRayPromotionCode = localItemRoyal.get('rc-clixRay-promotionCode')||'';// 是fr breeder的特殊code，需要主动默认填充
   @observable couponCodeFitFlag =
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
   @observable pr_petsInfo = localItemRoyal.get('pr-petsInfo') || {};
@@ -101,6 +102,16 @@ class CheckoutStore {
     this.promotionCode = '';
     localItemRoyal.remove('rc-promotionCode');
   }
+  // @action.bound
+  // setclixRayPromotionCode(data) {
+  //   this.clixRayPromotionCode = data;
+  //   localItemRoyal.set('rc-clixRay-promotionCode', data);
+  // }
+  // @action.bound
+  // removeclixRayPromotionCode(data) {
+  //   this.clixRayPromotionCode = '';
+  //   localItemRoyal.remove('rc-clixRay-promotionCode');
+  // }
 
   @action.bound
   setCouponCodeFitFlag(data) {
@@ -473,7 +484,6 @@ class CheckoutStore {
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
-
       this.setPromotionCode(promotionCode);
       let goodsList = siteMiniPurchasesRes.goodsList;
 
