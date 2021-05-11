@@ -159,7 +159,7 @@ const LoginButton = (props) => {
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set(
         'okta-redirectUrl',
-        props.history && props.history.location.pathname
+        props.history && props.history.location.pathname + props.history.location.search
       );
       
       console.log(props.history && (props.history.location.pathname + props.history.location.search), 'aaaa')
