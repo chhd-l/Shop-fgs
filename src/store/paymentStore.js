@@ -84,8 +84,22 @@ class PaymentStore {
   @observable fullScreenModalA = false;
   @observable fullScreenModalB = false;
 
-  @observable deliveryAddressInfo = {};
-  @observable billingAddressInfo = {};
+  @observable deliveryAddressInfo = {
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    consigneeNumber: ''
+  };
+  @observable billingAddressInfo = {
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    consigneeNumber: ''
+  };
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
