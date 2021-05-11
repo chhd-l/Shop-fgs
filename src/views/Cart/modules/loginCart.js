@@ -116,7 +116,17 @@ class LoginCart extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-
+    this.setState(
+      {
+        promotionInputValue: this.props.checkoutStore.promotionCode
+      },
+      () => {
+        setTimeout(() => {
+          document.getElementById('promotionApply') &&
+            document.getElementById('promotionApply').click();
+        });
+      }
+    );
     this.getGoodsIdArr();
 
     await getFrequencyDict().then((res) => {
@@ -1362,8 +1372,8 @@ class LoginCart extends React.Component {
           selectedSpecDetailId.sort().toString()
     )[0];
     // await this.handleRemovePromotionCode();
-    // this.clearPromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    this.clearPromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
@@ -1377,12 +1387,13 @@ class LoginCart extends React.Component {
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
-    this.setState({
-      discount: [],
-      isShowValidCode: false,
-      lastPromotionInputValue: '',
-      promotionInputValue: ''
-    });
+    this.handleClickPromotionApply();
+    // this.setState({
+    //   discount: [],
+    //   isShowValidCode: false,
+    //   lastPromotionInputValue: '',
+    //   promotionInputValue: ''
+    // });
   }
   async changeFrequencyType(pitem) {
     if (this.state.checkoutLoading) {
@@ -1392,8 +1403,8 @@ class LoginCart extends React.Component {
       checkoutLoading: true
     });
     // await this.handleRemovePromotionCode();
-    // this.clearPromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    this.clearPromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
@@ -1408,7 +1419,7 @@ class LoginCart extends React.Component {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
-    await checkoutStore.removePromotionCode();
+    // await checkoutStore.removePromotionCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({

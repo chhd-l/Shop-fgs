@@ -36,7 +36,7 @@ class LoginCart extends React.Component {
         window.location.pathname
       ) === -1
     ) {
-      await this.checkoutStore.removePromotionCode();
+      // await this.checkoutStore.removePromotionCode();
     }
     try {
       await getFrequencyDict().then((res) => {

@@ -485,6 +485,12 @@ class Recommendation extends React.Component {
     if (outOfStockProducts.length > 0) {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
+      if (isFr && !this.state.isSPT) {
+        // 是fr breeder的特殊code，需要主动默认填充
+        await this.props.checkoutStore.setPromotionCode(
+          this.state.promotionCodeText
+        );
+      }
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
@@ -540,6 +546,12 @@ class Recommendation extends React.Component {
         );
       })
     });
+    if (isFr && !this.state.isSPT) {
+      // 是fr breeder的特殊code，需要主动默认填充
+      await this.props.checkoutStore.setPromotionCode(
+        this.state.promotionCodeText
+      );
+    }
     this.setState({ buttonLoading: false });
     this.props.history.push(path);
   }

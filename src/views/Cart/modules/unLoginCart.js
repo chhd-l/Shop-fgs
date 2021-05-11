@@ -201,6 +201,17 @@ class UnLoginCart extends React.Component {
         })
       });
     });
+    this.setState(
+      {
+        promotionInputValue: this.props.checkoutStore.promotionCode
+      },
+      () => {
+        setTimeout(() => {
+          document.getElementById('promotionApply') &&
+            document.getElementById('promotionApply').click();
+        });
+      }
+    );
     if (isHubGA) {
       GAInitUnLogin({
         productList: this.props.checkoutStore.cartData,
@@ -1000,7 +1011,7 @@ class UnLoginCart extends React.Component {
       productList.splice(tmpIdx, 1);
     }
     // await this.handleRemovePromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     this.setState(
       {
         productList
@@ -1430,7 +1441,7 @@ class UnLoginCart extends React.Component {
   async changeFrequencyType(pitem) {
     this.setState({ errorMsg: '' });
     // await this.handleRemovePromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     this.setState(
       {
         productList: this.state.productList
@@ -1442,12 +1453,13 @@ class UnLoginCart extends React.Component {
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
-    this.setState({
-      discount: [],
-      isShowValidCode: false,
-      lastPromotionInputValue: '',
-      promotionInputValue: ''
-    });
+    this.handleClickPromotionApply();
+    // this.setState({
+    //   discount: [],
+    //   isShowValidCode: false,
+    //   lastPromotionInputValue: '',
+    //   promotionInputValue: ''
+    // });
   }
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
@@ -1502,7 +1514,7 @@ class UnLoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
-    await checkoutStore.removePromotionCode();
+    // await checkoutStore.removePromotionCode();
     if (!loginStore.isLogin) {
       //游客
       result = await checkoutStore.updateUnloginCart();
