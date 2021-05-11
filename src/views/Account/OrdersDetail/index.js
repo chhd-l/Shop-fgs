@@ -671,22 +671,21 @@ class AccountOrders extends React.Component {
                       i === activeTabIdx ? '' : 'hidden'
                     }`}
                   >
-                    <LogisticsProgress
-                      list={
-                        item.tradeLogisticsDetails
-                          ? item.tradeLogisticsDetails.sort((a, b) => {
-                              return (
-                                new Date(b.timestamp).getTime() -
-                                new Date(a.timestamp).getTime()
-                              );
-                            })
-                          : []
-                      }
-                      hasMoreLessOperation={true}
-                      moreLogistics={moreLogistics}
-                      handleToggleMoreLess={this.handleToggleMoreLess}
-                      customDateCls="text-nowrap"
-                    />
+                    {item.tradeLogisticsDetails &&
+                      item.tradeLogisticsDetails.length > 0 && (
+                        <LogisticsProgress
+                          list={item.tradeLogisticsDetails.sort((a, b) => {
+                            return (
+                              new Date(b.timestamp).getTime() -
+                              new Date(a.timestamp).getTime()
+                            );
+                          })}
+                          hasMoreLessOperation={true}
+                          moreLogistics={moreLogistics}
+                          handleToggleMoreLess={this.handleToggleMoreLess}
+                          customDateCls="text-nowrap"
+                        />
+                      )}
 
                     <div className="row">
                       {(item.shippingItems || []).map((ele) => (
@@ -716,9 +715,11 @@ class AccountOrders extends React.Component {
                         </svg>
                         <FormattedMessage id="deliveryDate" />:{' '}
                         <span className="medium">
-                          {getFormatDate(
-                            (item.deliverTime || '').substr(0, 10)
-                          )}
+                          {item.deliverTime
+                            ? getFormatDate(
+                                (item.deliverTime || '').substr(0, 10)
+                              )
+                            : ''}
                         </span>
                       </div>
                       <div className="col-12 col-md-4">
@@ -767,10 +768,12 @@ class AccountOrders extends React.Component {
                       {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
                       {/*)}*/}
                       {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
-                      {format(
-                        new Date(item.deliverTime).getTime(),
-                        'yyyy-MM-dd HH:mm:ss'
-                      )}
+                      {item.deliverTime
+                        ? format(
+                            new Date(item.deliverTime).getTime(),
+                            'yyyy-MM-dd HH:mm:ss'
+                          )
+                        : ''}
                     </span>
                   </div>
                   <div className="col-2">
@@ -1731,9 +1734,14 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="deliveryDate" />
                           <br />
                           <span className="medium color-444">
-                            {getFormatDate(
-                              (curLogisticInfo.deliverTime || '').substr(0, 10)
-                            )}
+                            {curLogisticInfo.deliverTime
+                              ? getFormatDate(
+                                  (curLogisticInfo.deliverTime || '').substr(
+                                    0,
+                                    10
+                                  )
+                                )
+                              : ''}
                           </span>
                         </p>
                       </div>

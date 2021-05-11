@@ -565,7 +565,7 @@ class Payment extends React.Component {
     if (res) {
       this.isExistListFun(res); //现在游客会员 统一
     }
-    //this.getTrConsentList();
+    this.getTrConsentList();
   }
   //重新组装listData
   rebindListData(listData) {
@@ -2471,6 +2471,8 @@ class Payment extends React.Component {
     console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    this.props.paymentStore.saveDeliveryAddressInfo(this.state.deliveryAddress);
+    this.props.paymentStore.saveBillingAddressInfo(this.state.billingAddress);
     paymentStore.setStsToEdit({ key: 'confirmation' });
 
     this.setState(
