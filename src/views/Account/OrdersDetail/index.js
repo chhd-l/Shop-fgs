@@ -972,9 +972,6 @@ class AccountOrders extends React.Component {
                         alt={txt}
                       >
                         {txt}
-                        <span className="warning_blank">
-                          Opens a new window
-                        </span>
                       </Link>
                     )}
                   </FormattedMessage>
