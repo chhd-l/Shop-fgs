@@ -60,11 +60,8 @@ export const UnLoginUserBox = ({ history, className }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const {
-    personInformationRouter,
-    petsRouter,
-    subscriptionsRouter
-  } = self.props;
+  const { personInformationRouter, petsRouter, subscriptionsRouter } =
+    self.props;
   const menuList = [
     {
       link: '/account',
@@ -156,8 +153,9 @@ export const LoginUserBox = ({ self, className }) => {
             {userInfo && [userInfo.firstName, userInfo.lastName].join(' ')}
           </Link>
           <LogoutButton
-            btnClass="logoff-style medium ui-cursor-pointer"
+            containerClassName="logoff-style medium ui-cursor-pointer text-left"
             containerStyle={{ background: '#fff', color: '#444' }}
+            btnClassName="ml-2"
           />
         </div>
       </div>

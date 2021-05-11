@@ -73,7 +73,6 @@ class GoogleTagManager extends React.Component {
     };
 
     let userInfo = this.props.loginStore.userInfo;
-    console.log({ userInfo });
 
     if (userInfo) {
       event.user = {
