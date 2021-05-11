@@ -462,11 +462,38 @@ export default class Felin extends React.Component {
       felinType,
       currentDate,
       userInfo,
-      qrCode1
+      qrCode1,
+      toDay
     } = this.state;
+    if (step === 1) {
+      scrollPaymentPanelIntoView('felinFooter', 0);
+      if (
+        currentDate < new Date('2021-04-20') ||
+        currentDate > new Date('2021-06-13')
+      ) {
+        this.setState({
+          errMsg: 'La date actuelle ne peut pas être sélectionnée'
+        });
+        setTimeout(() => {
+          this.setState({ errMsg: '' });
+        }, 5000);
+        return false;
+      }
+      if (
+        currentDate.getDay() === 1 ||
+        format(currentDate, 'yyyy-MM-dd') === '2021-05-01'
+      ) {
+        this.setState({
+          errMsg: 'La date actuelle ne peut pas être sélectionnée'
+        });
+        setTimeout(() => {
+          this.setState({ errMsg: '' });
+        }, 5000);
+        return false;
+      }
+    }
     this.setState({ step: step + 1 }, () => {
       if (step === 2) {
-        // console.log(step, 'step')
         this.setState({ nextBtnShow: false });
       }
       sessionItemRoyal.set(
@@ -644,7 +671,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
-    console.log(consentList, 'consentList');
+    // console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',

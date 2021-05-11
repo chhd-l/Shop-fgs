@@ -281,9 +281,8 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   get billingAdd() {
     console.log(999, this.state.billingAddress);
@@ -434,11 +433,6 @@ class Payment extends React.Component {
   initPanelStatus() {
     const { paymentStore, clinicStore } = this.props;
     const { tid } = this.state;
-
-    // 登录情况下，无需显示email panel
-    if (this.isLogin) {
-      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
-    }
 
     // repay情况下，地址信息不可编辑，直接置为
     if (tid) {
@@ -1062,7 +1056,9 @@ class Payment extends React.Component {
   //得到支付共同的参数
   async getPayCommonParam() {
     try {
-      await this.valideCheckoutLimitRule();
+      if (!this.state.tid) {
+        await this.valideCheckoutLimitRule();
+      }
       const commonParameter = this.packagePayParam();
       let phone = this.state.billingAddress?.phoneNumber; //获取电话号码
       return new Promise((resolve) => {
@@ -1093,8 +1089,6 @@ class Payment extends React.Component {
   // 根据条件-调用不同的支付接口,进行支付
   async allAdyenPayment(parameters, type) {
     try {
-      const { clinicStore } = this.props;
-      const { paymentTypeVal } = this.state;
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -1407,10 +1401,6 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-      console.log(
-        '----------- 游客注册并登录&批量添加后台购物车 param 222 : ',
-        param
-      );
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
@@ -1478,7 +1468,6 @@ class Payment extends React.Component {
       billingAddress,
       creditCardInfo,
       payosdata,
-      needPrescriber,
       guestEmail,
       promotionCode
     } = this.state;
@@ -1549,12 +1538,14 @@ class Payment extends React.Component {
               : ele.recommendationInfos;
         }
         let {
+          recommendationName = '',
+          recommendationId = '',
           referenceObject = '',
           recommenderId = '',
           referenceData = '',
           recommenderName = ''
         } = recommendationInfos;
-        let referenceId = recommenderId || ele.recommendationId;
+        let referenceId = recommenderId || recommendationId;
         return {
           //shelter和breeder产品参数 start
           utmSource: ele.utmSource || '',
@@ -1573,9 +1564,9 @@ class Payment extends React.Component {
           referenceData,
           recommenderName,
           referenceId,
-          recommendationId: ele.recommendationId || '',
+          recommendationId: recommendationId || ele.recommendationId || '', // 优先去取recommendationInfos里面的recommendationId
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
-          recommendationName: ele.recommendationName || ''
+          recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
     } else if (this.isLogin) {
@@ -1588,12 +1579,14 @@ class Payment extends React.Component {
               : ele.recommendationInfos;
         }
         let {
+          recommendationName = '',
+          recommendationId = '',
           referenceObject = '',
           recommenderId = '',
           referenceData = '',
           recommenderName = ''
         } = recommendationInfos;
-        let referenceId = recommenderId || ele.recommendationId;
+        let referenceId = recommenderId || recommendationId;
         return {
           utmSource: ele.utmSource || '',
           utmMedium: ele.utmMedium || '',
@@ -1610,9 +1603,9 @@ class Payment extends React.Component {
           referenceData,
           recommenderName,
           referenceId,
-          recommendationId: ele.recommendationId || '',
+          recommendationId: recommendationId || ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
-          recommendationName: ele.recommendationName || ''
+          recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
     } else {
@@ -1625,6 +1618,8 @@ class Payment extends React.Component {
               : ele.recommendationInfos;
         }
         let {
+          recommendationName = '',
+          recommendationId = '',
           referenceObject = '',
           recommenderId = '',
           referenceData = '',
@@ -1645,9 +1640,9 @@ class Payment extends React.Component {
           referenceData,
           recommenderName,
           referenceId,
-          recommendationId: ele.recommendationId || '',
+          recommendationId: recommendationId || ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
-          recommendationName: ele.recommendationName || ''
+          recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
     }
@@ -1665,6 +1660,8 @@ class Payment extends React.Component {
                 : g.recommendationInfos;
           }
           let {
+            recommendationName = '',
+            recommendationId = '',
             referenceObject = '',
             recommenderId = '',
             referenceData = '',
@@ -1688,9 +1685,9 @@ class Payment extends React.Component {
             referenceData,
             recommenderName,
             referenceId,
-            recommendationId: g.recommendationId || '',
+            recommendationId: recommendationId || g.recommendationId || '',
             // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
-            recommendationName: g.recommendationName || ''
+            recommendationName: recommendationName || g.recommendationName || ''
           };
         });
       // if(sessionItemRoyal.get('recommend_product')) {
@@ -1721,6 +1718,8 @@ class Payment extends React.Component {
                 : g.recommendationInfos;
           }
           let {
+            recommendationName = '',
+            recommendationId = '',
             referenceObject = '',
             recommenderId = '',
             referenceData = '',
@@ -1756,9 +1755,9 @@ class Payment extends React.Component {
             referenceData,
             recommenderName,
             referenceId,
-            recommendationId: g.recommendationId || '',
+            recommendationId: recommendationId || g.recommendationId || '',
             // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
-            recommendationName: g.recommendationName || ''
+            recommendationName: recommendationName || g.recommendationName || ''
           };
         });
       // }
@@ -1802,7 +1801,6 @@ class Payment extends React.Component {
       delete param.tradeItems;
       delete param.tradeMarketingList;
     }
-    // console.log(param, 'billingAddress');
     return param;
   }
 
@@ -1896,25 +1894,11 @@ class Payment extends React.Component {
   };
   // 校验邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
-    const { checkoutStore, intl } = this.props;
-    const { guestEmail, tid } = this.state;
     try {
-      if (!tid) {
-        if (!this.isLogin && !guestEmail) {
-          throw new Error(
-            intl.formatMessage(
-              { id: 'enterCorrectValue' },
-              {
-                val: intl.formatMessage({ id: 'email' })
-              }
-            )
-          );
-        }
-        await this.saveAddressAndCommentPromise();
-        await checkoutStore.validCheckoutLimitRule({
-          minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-        });
-      }
+      await this.saveAddressAndCommentPromise();
+      await this.props.checkoutStore.validCheckoutLimitRule({
+        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+      });
     } catch (err) {
       console.warn(err);
       throw new Error(err.message);
@@ -1946,7 +1930,6 @@ class Payment extends React.Component {
         key: curPanelKey
       });
     }
-    console.log('是否勾选自定义billingAddress: ', val);
     this.setState({
       billingChecked: val
     });
@@ -2299,7 +2282,6 @@ class Payment extends React.Component {
     const {
       paymentStore: { currentCardTypeInfo }
     } = this.props;
-    console.log(this.state.billingAddress, 'billingAddress');
     const {
       adyenPayParam,
       paymentTypeVal,
@@ -3124,9 +3106,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3398,20 +3379,16 @@ class Payment extends React.Component {
                 ) : (
                   <>
                     <div className="shipping-form" id="J_checkout_panel_email">
-                      <div className="bg-transparent">
-                        {this.checkoutWithClinic ? (
-                          <OnePageClinicForm history={history} />
-                        ) : null}
-                        {!this.isLogin ? (
-                          <OnePageEmailForm
-                            history={history}
-                            currentEmailVal={guestEmail}
-                            onChange={this.updateGuestEmail}
-                          />
-                        ) : null}
+                      {this.checkoutWithClinic ? (
+                        <OnePageClinicForm history={history} />
+                      ) : null}
+                      <OnePageEmailForm
+                        history={history}
+                        currentEmailVal={guestEmail}
+                        onChange={this.updateGuestEmail}
+                      />
 
-                        {this.renderAddressPanel()}
-                      </div>
+                      {this.renderAddressPanel()}
                     </div>
                   </>
                 )}

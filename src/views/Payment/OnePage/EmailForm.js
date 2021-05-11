@@ -5,7 +5,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { searchNextConfirmPanel } from '../modules/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 
-@inject('paymentStore')
+@inject('paymentStore', 'loginStore')
 @injectIntl
 @observer
 class EmailForm extends React.Component {
@@ -20,6 +20,19 @@ class EmailForm extends React.Component {
       },
       isValid: false
     };
+  }
+  // 游客才显示Email panel -> 置为edit状态
+  // 会员不显示Email panel -> 置为complete状态
+  componentDidMount() {
+    const { paymentStore } = this.props;
+    if (this.isLogin) {
+      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+    } else {
+      paymentStore.setStsToEdit({ key: 'email' });
+    }
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true });
@@ -112,7 +125,7 @@ class EmailForm extends React.Component {
       ? titleForCompleted
       : null;
 
-    return (
+    return this.isLogin ? null : (
       <div
         className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
           emailPanelStatus.isEdit ? 'border-333' : 'border-transparent'
