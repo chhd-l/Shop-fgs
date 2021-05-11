@@ -210,7 +210,6 @@ class AccountOrders extends React.Component {
       cancelOrderLoading: false,
       returnOrExchangeLoading: false,
       errMsg: '',
-
       cancelOrderModalVisible: false,
       operateSuccessModalVisible: false,
       errModalVisible: false,
@@ -402,12 +401,10 @@ class AccountOrders extends React.Component {
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
-              // logisticsList: new Array(3).fill((res.context && res.context.tradeDelivers[0])) || []
               logisticsList: (res.context && res.context.tradeDelivers) || []
             });
           });
         }
-        console.log(this.state.logisticsList);
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
@@ -688,13 +685,9 @@ class AccountOrders extends React.Component {
   };
   renderLogitiscsJSX = () => {
     const { moreLogistics, logisticsList, activeTabIdx } = this.state;
-    console.log('logisticsList');
-    console.log(logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
-    console.log('filteredLogisticsList');
-    console.log(filteredLogisticsList);
     return (
       <>
         {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
@@ -1511,8 +1504,8 @@ class AccountOrders extends React.Component {
                                       </p>
 
                                       {/* 国家 */}
-                                      {process.env.REACT_APP_COUNTRY == 'US' ||
-                                      process.env.REACT_APP_COUNTRY ==
+                                      {process.env.REACT_APP_COUNTRY === 'US' ||
+                                      process.env.REACT_APP_COUNTRY ===
                                         'RU' ? null : (
                                         <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
@@ -1564,7 +1557,7 @@ class AccountOrders extends React.Component {
                                       {details?.maxDeliveryTime != null &&
                                       details?.minDeliveryTime != null ? (
                                         <p className="mb-0 od_mb_yf">
-                                          {details.minDeliveryTime ==
+                                          {details.minDeliveryTime ===
                                           details.maxDeliveryTime ? (
                                             <FormattedMessage
                                               id="payment.deliveryDate2"
@@ -1615,9 +1608,9 @@ class AccountOrders extends React.Component {
                                         </p>
 
                                         {/* 国家 */}
-                                        {process.env.REACT_APP_COUNTRY ==
+                                        {process.env.REACT_APP_COUNTRY ===
                                           'US' ||
-                                        process.env.REACT_APP_COUNTRY ==
+                                        process.env.REACT_APP_COUNTRY ===
                                           'ru' ? null : (
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(
