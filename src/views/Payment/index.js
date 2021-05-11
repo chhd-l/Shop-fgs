@@ -282,8 +282,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   get billingAdd() {
     console.log(999, this.state.billingAddress);
@@ -351,7 +352,7 @@ class Payment extends React.Component {
       console.warn(err);
     }
 
-    this.getConsentList();
+    //this.getConsentList();
 
     if (sessionItemRoyal.get('recommend_product')) {
       let recommend_data = JSON.parse(
@@ -3068,8 +3069,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
