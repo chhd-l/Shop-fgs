@@ -281,8 +281,13 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
+  }
+  get billingAdd() {
+    console.log(999, this.state.billingAddress);
+    return this.state.billingAddress;
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -2138,6 +2143,9 @@ class Payment extends React.Component {
       ) : null;
     return moduleJsx;
   };
+  clickAConsent = () => {
+    alert('a');
+  };
 
   renderBillingJSX = ({ type }) => {
     const {
@@ -3024,6 +3032,9 @@ class Payment extends React.Component {
       tid,
       cyberPayParam
     } = this.state;
+
+    //this.props.paymentStore.saveBillingAddressInfo(form)
+
     let paymentMethod;
     if (adyenPayParam) {
       paymentMethod = adyenPayParam;
@@ -3113,8 +3124,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {

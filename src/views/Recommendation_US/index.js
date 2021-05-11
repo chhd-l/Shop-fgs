@@ -38,7 +38,8 @@ import { Helmet } from 'react-helmet';
 import {
   GARecommendationProduct,
   GABuyNow,
-  GABreederRecoPromoCodeCTA
+  GABreederRecoPromoCodeCTA,
+  GABreederRecoSeeInCart
 } from '@/utils/GA';
 
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -790,6 +791,7 @@ class Recommendation extends React.Component {
   };
   // 查看购物车
   viewShoppingCart = () => {
+    GABreederRecoSeeInCart();
     this.props.history.push('/cart');
   };
   tabChange(productList, index) {
