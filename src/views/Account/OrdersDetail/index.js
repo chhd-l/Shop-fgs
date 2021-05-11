@@ -972,13 +972,6 @@ class AccountOrders extends React.Component {
                         alt={txt}
                       >
                         {txt}
-                        {Boolean(
-                          process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                        ) && (
-                          <span className="warning_blank">
-                            Opens a new window
-                          </span>
-                        )}
                       </Link>
                     )}
                   </FormattedMessage>
