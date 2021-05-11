@@ -281,8 +281,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   get billingAdd() {
     console.log(999, this.state.billingAddress);
@@ -1870,7 +1871,7 @@ class Payment extends React.Component {
       // 未开启地图，需校验clinic
       if (
         this.checkoutWithClinic &&
-        !configStore.prescriberMap &&
+        configStore.prescriberSelectTyped !== 0 &&
         (!clinicStore.clinicId || !clinicStore.clinicName)
       ) {
         throw new Error(this.props.intl.messages.selectNoneClincTip);
@@ -3106,8 +3107,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {

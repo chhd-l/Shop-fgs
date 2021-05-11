@@ -1621,7 +1621,7 @@ class AccountOrders extends React.Component {
                                         <p className="medium mb-3">
                                           <FormattedMessage id="payment.payment" />
                                         </p>
-                                        <p className="medium mb-2">
+                                        <div className="medium mb-2">
                                           <LazyLoad
                                             style={{ display: 'inline' }}
                                           >
@@ -1643,7 +1643,7 @@ class AccountOrders extends React.Component {
                                               {payRecord.lastFourDigits}
                                             </span>
                                           ) : null}
-                                        </p>
+                                        </div>
 
                                         {payRecord.holderName ? (
                                           <p className="mb-0">

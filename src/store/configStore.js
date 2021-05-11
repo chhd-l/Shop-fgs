@@ -120,14 +120,6 @@ class ConfigStore {
     return true;
   }
 
-  // //获取是否需要prescriber Map
-  @computed get prescriberMap() {
-    return (
-      this.prescriberSettingInfo &&
-      this.prescriberSettingInfo.prescriberSelectType === 0 //是否打开prescriber Map信息从prescriber setting 接口取
-    );
-  }
-
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
   @computed get isShowPrescriberModal() {
     return (
@@ -162,13 +154,6 @@ class ConfigStore {
     return this.info && this.info.storeVO
       ? this.info.storeVO.defaultSubscriptionFrequencyId
       : '';
-  }
-
-  //获取是否需要prescriber Map
-  @computed get isPrescriberMap() {
-    return this.prescriberSettingInfo
-      ? String(this.prescriberSettingInfo.prescriberSelectType)
-      : ''; //是否打开prescriber Map信息从prescriber setting 接口取
   }
 
   @action.bound
