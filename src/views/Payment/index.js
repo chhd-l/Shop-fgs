@@ -111,7 +111,7 @@ function CreditCardInfoPreview({
           <br />
           <span>
             {getFormatDate(expirationDate, (date) => {
-              if (process.env.REACT_APP_LANG === 'fr') {
+              if (process.env.REACT_APP_COUNTRY === 'FR') {
                 return date.slice(3);
               } else {
                 return date;
@@ -201,9 +201,7 @@ class Payment extends React.Component {
         identifyNumber: '111'
       },
       subForm: {
-        buyWay: 'once',
-        frequencyName: '',
-        frequencyId: ''
+        buyWay: 'once'
       },
       paymentTypeVal: '',
       errorMsg: '',
@@ -296,60 +294,43 @@ class Payment extends React.Component {
   }
   async componentDidMount() {
     if (this.isLogin) {
-      await this.queryList();
+      this.queryList();
     }
     if (!this.isLogin) {
       checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
     }
     try {
-      const { paymentStore, clinicStore, history } = this.props;
+      const { history } = this.props;
       const { tid } = this.state;
+
       setSeoConfig({
         pageName: 'Checkout page'
       }).then((res) => {
         this.setState({ seoConfig: res });
       });
-      if (this.isLogin) {
-        // 登录情况下，无需显示email panel
-        paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
-        if (tid) {
-          paymentStore.setStsToCompleted({
-            key: 'deliveryAddr',
-            isFirstLoad: true
-          });
-          paymentStore.setStsToCompleted({
-            key: 'billingAddr',
-            isFirstLoad: true
-          });
-          this.queryOrderDetails();
-        }
 
-        let cyberPaymentForm = { ...this.state.cyberPaymentForm };
+      if (tid) {
+        this.queryOrderDetails();
+      }
 
-        if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
-          //订阅商品
+      this.setState(
+        {
+          subForm: {
+            buyWay: this.computedCartData.filter((el) => el.goodsInfoFlag)
+              .length
+              ? 'frequency'
+              : 'once'
+          }
+        },
+        () => {
           this.setState({
-            subForm: {
-              buyWay: 'frequency',
-              frequencyName: '',
-              frequencyId: ''
-            },
-            cyberPaymentForm: Object.assign({}, cyberPaymentForm, {
+            cyberPaymentForm: Object.assign({}, this.state.cyberPaymentForm, {
               isSaveCard: true
             })
           });
         }
-      } else {
-        if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
-          this.setState({
-            subForm: {
-              buyWay: 'frequency',
-              frequencyName: '',
-              frequencyId: ''
-            }
-          });
-        }
-      }
+      );
+
       this.setState(
         //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
         {
@@ -360,22 +341,6 @@ class Payment extends React.Component {
           //       (el) => el.prescriberFlag
           //     ).length > 0
           //   : checkoutStore.AuditData.length > 0
-        },
-        () => {
-          const nextConfirmPanel = searchNextConfirmPanel({
-            list: toJS(paymentStore.panelStatus),
-            curKey: 'clinic'
-          });
-
-          // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
-          if (!this.checkoutWithClinic || clinicStore.clinicName) {
-            paymentStore.setStsToCompleted({ key: 'clinic' });
-            paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-          } else {
-            // 把clinic置为edit状态
-            paymentStore.setStsToEdit({ key: 'clinic' });
-            paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
-          }
         }
       );
 
@@ -415,6 +380,7 @@ class Payment extends React.Component {
     }
 
     this.initPaymentWay();
+    this.initPanelStatus();
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -434,6 +400,9 @@ class Payment extends React.Component {
   }
   get loginCartData() {
     return this.props.checkoutStore.loginCartData;
+  }
+  get computedCartData() {
+    return this.isLogin ? this.loginCartData : this.cartData;
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
@@ -458,6 +427,43 @@ class Payment extends React.Component {
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
     return this.state.subForm?.buyWay === 'frequency';
+  }
+  /**
+   * init panel prepare/edit/complete status
+   */
+  initPanelStatus() {
+    const { paymentStore, clinicStore } = this.props;
+    const { tid } = this.state;
+
+    // 登录情况下，无需显示email panel
+    if (this.isLogin) {
+      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+    }
+
+    // repay情况下，地址信息不可编辑，直接置为
+    if (tid) {
+      paymentStore.setStsToCompleted({
+        key: 'deliveryAddr',
+        isFirstLoad: true
+      });
+      paymentStore.setStsToCompleted({
+        key: 'billingAddr',
+        isFirstLoad: true
+      });
+    }
+
+    const nextConfirmPanel = searchNextConfirmPanel({
+      list: toJS(paymentStore.panelStatus),
+      curKey: 'clinic'
+    });
+    // 不需要clinic或clinic已经填写时，需把下一个panel置为edit状态，否则把clinic置为edit状态
+    if (!this.checkoutWithClinic || clinicStore.clinicName) {
+      paymentStore.setStsToCompleted({ key: 'clinic' });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    } else {
+      paymentStore.setStsToEdit({ key: 'clinic' });
+      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+    }
   }
   updateSelectedCardInfo = (data) => {
     let cyberMd5Cvv;
@@ -633,10 +639,11 @@ class Payment extends React.Component {
     let listData = [];
     if (
       !this.isLogin &&
-      (process.env.REACT_APP_LANG == 'en' || process.env.REACT_APP_LANG == 'ru')
+      (process.env.REACT_APP_COUNTRY == 'US' ||
+        process.env.REACT_APP_COUNTRY == 'RU')
     ) {
       listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
-    } else if (process.env.REACT_APP_LANG == 'ru') {
+    } else if (process.env.REACT_APP_COUNTRY == 'RU') {
       listData = [...requiredList]; //俄罗斯-会员-必填项
     } else {
       listData = [...requiredList, ...optionalList]; //必填项+选填项
@@ -646,7 +653,7 @@ class Payment extends React.Component {
   }
   //土耳其consent
   getTrConsentList() {
-    if (process.env.REACT_APP_LANG === 'tr') {
+    if (process.env.REACT_APP_COUNTRY === 'TR') {
       let listData = [];
 
       listData = this.isLogin ? [...registerCustomerList] : [...guestList];
@@ -709,7 +716,7 @@ class Payment extends React.Component {
         }
       };
       if (
-        process.env.REACT_APP_LANG === 'ru' &&
+        process.env.REACT_APP_COUNTRY === 'RU' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
       ) {
         payMethodsObj = {
@@ -1470,7 +1477,6 @@ class Payment extends React.Component {
       deliveryAddress,
       billingAddress,
       creditCardInfo,
-      subForm,
       payosdata,
       needPrescriber,
       guestEmail,
@@ -1736,7 +1742,7 @@ class Payment extends React.Component {
                 ? 2
                 : parseInt(g.goodsInfoFlag),
             questionParams:
-              g.questionParams && process.env.REACT_APP_LANG !== 'ru'
+              g.questionParams && process.env.REACT_APP_COUNTRY !== 'RU'
                 ? g.questionParams
                 : undefined,
             subscribeNum: g.buyCount,
@@ -1757,7 +1763,6 @@ class Payment extends React.Component {
         });
       // }
 
-      param.cycleTypeId = subForm.frequencyId;
       param.paymentMethodId = creditCardInfo.id;
     }
 
@@ -1941,7 +1946,10 @@ class Payment extends React.Component {
         key: curPanelKey
       });
     }
-    this.setState({ billingChecked: val });
+    console.log('是否勾选自定义billingAddress: ', val);
+    this.setState({
+      billingChecked: val
+    });
 
     // 勾选，则 billingAddress = deliveryAddress
     let billadd = null;
@@ -2262,6 +2270,7 @@ class Payment extends React.Component {
   };
   // 获取 billingAddress 是编辑或者添加地址
   getListAddOrEdit = (flag) => {
+    console.log(' 2258 ----------- getListAddOrEdit: ', flag);
     this.setState({
       billingAddressAddOrEdit: flag
     });
@@ -2474,6 +2483,14 @@ class Payment extends React.Component {
       billingAddressAddOrEdit
     } = this.state;
     console.log('★ ----------------- click ReInput Cvv Confirm');
+    console.log(
+      '★ ----------------- isShowValidationModal: ',
+      isShowValidationModal
+    );
+    console.log(
+      '★ ----------------- billingAddressAddOrEdit: ',
+      billingAddressAddOrEdit
+    );
     // 点击按钮后进入下一步
     if (
       !billingChecked &&
@@ -3573,7 +3590,6 @@ class Payment extends React.Component {
                     ref="payProductInfo"
                     location={location}
                     history={history}
-                    frequencyName={subForm.frequencyName}
                     buyWay={subForm.buyWay}
                     sendPromotionCode={this.savePromotionCode}
                     promotionCode={promotionCode}
@@ -3632,7 +3648,6 @@ class Payment extends React.Component {
               ref="payProductInfo"
               location={location}
               history={history}
-              frequencyName={subForm.frequencyName}
               buyWay={subForm.buyWay}
               sendPromotionCode={this.savePromotionCode}
               promotionCode={promotionCode}

@@ -95,7 +95,7 @@ const UserJSX = (props) => {
                       className="rc-styled-link"
                       onClick={() => {
                         // if (
-                        //   process.env.REACT_APP_LANG == 'en' &&
+                        //   process.env.REACT_APP_COUNTRY == 'US' &&
                         //   isLimitLogin()
                         // ) {
                         //   // 美国4/17的美国中部时间早8点到晚4点不能登录账户
@@ -113,10 +113,10 @@ const UserJSX = (props) => {
                           return;
                         }
                         if (
-                          process.env.REACT_APP_LANG === 'tr' ||
-                          process.env.REACT_APP_LANG === 'ru' ||
-                          process.env.REACT_APP_LANG === 'fr' ||
-                          process.env.REACT_APP_LANG === 'en'
+                          process.env.REACT_APP_COUNTRY === 'TR' ||
+                          process.env.REACT_APP_COUNTRY === 'RU' ||
+                          process.env.REACT_APP_COUNTRY === 'FR' ||
+                          process.env.REACT_APP_COUNTRY === 'US'
                         ) {
                           history.push('/register');
                         } else {

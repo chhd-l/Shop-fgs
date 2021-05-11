@@ -71,7 +71,7 @@ class SearchShow extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
+          {process.env.REACT_APP_COUNTRY == 'FR' ? null : <BannerTip />}
           <BreadCrumbs />
 
           <div className="search-results rc-padding--sm rc-max-width--xl">

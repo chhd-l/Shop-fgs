@@ -203,7 +203,8 @@ function Advantage() {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text:
+        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -381,9 +382,9 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
 
-    const Fr = process.env.REACT_APP_LANG === 'fr';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -417,8 +418,14 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -540,8 +547,13 @@ class Details extends React.Component {
     );
   }
   setGoogleProductStructuredDataMarkup() {
-    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
-      this.state;
+    const {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo
+    } = this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -590,7 +602,6 @@ class Details extends React.Component {
     idArr = selectedArr.map((el) => el.specDetailId);
     //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-    console.log(details, 'item---');
     details.sizeList.map((item, i) => {
       let specTextArr = [];
       for (let specItem of specList) {
@@ -825,7 +836,6 @@ class Details extends React.Component {
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
-        console.log(goodsRes, toJS(configStore), 'goodsRes');
         if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
@@ -839,7 +849,6 @@ class Details extends React.Component {
             (autoshipDictRes[0] && autoshipDictRes[0].id) ||
             '';
         }
-        console.log(defaultFrequencyId, 'defaultFrequencyId');
         this.setState(
           {
             purchaseTypeDict: purchaseTypeDictRes,
@@ -1015,7 +1024,7 @@ class Details extends React.Component {
               }
             } else {
               if (
-                process.env.REACT_APP_LANG === 'de' &&
+                process.env.REACT_APP_COUNTRY === 'DE' &&
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
               ) {
@@ -1188,7 +1197,6 @@ class Details extends React.Component {
 
   loadWidgetIdBtn() {
     const { goodsType } = this.state;
-    console.log(goodsType, 'goodsTypegoodsType');
 
     const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
@@ -1288,9 +1296,8 @@ class Details extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find(
-      (item) => item.packSize === goodSize
-    )?.goodsInfoBarcode;
+    const barcode = images.find((item) => item.packSize === goodSize)
+      ?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -1376,8 +1383,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1552,11 +1564,6 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       skuPromotions
     } = this.state;
-    console.log({
-      currentSubscriptionStatus,
-      currentSubscriptionPrice,
-      skuPromotions
-    });
     let content = ['Single Purchase'];
     if (
       currentSubscriptionStatus &&
@@ -1732,7 +1739,6 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
-    console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
@@ -1745,9 +1751,9 @@ class Details extends React.Component {
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_LANG === 'de';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const De = process.env.REACT_APP_COUNTRY === 'DE';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     const sptGoods = goodsType === 0 || goodsType === 1;
     const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h1'}
@@ -1782,12 +1788,6 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(
-      currentSubscriptionStatus,
-      currentSubscriptionPrice,
-      skuPromotions,
-      'aaaaa'
-    );
     return (
       <div id="Details">
         <button
@@ -2416,7 +2416,8 @@ class Details extends React.Component {
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
-                                            val: selectedSpecItem?.subscriptionPercentage
+                                            val:
+                                              selectedSpecItem?.subscriptionPercentage
                                           }}
                                         />
                                       </div>
@@ -2462,7 +2463,7 @@ class Details extends React.Component {
                                       ) : null}
                                     </div>
                                   </div>
-                                  {process.env.REACT_APP_LANG == 'fr' ? (
+                                  {process.env.REACT_APP_COUNTRY == 'FR' ? (
                                     <div>
                                       Résiliation gratuite à tout moment{' '}
                                     </div>
@@ -2527,7 +2528,8 @@ class Details extends React.Component {
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
-                                          val: selectedSpecItem?.subscriptionPercentage
+                                          val:
+                                            selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>

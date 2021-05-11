@@ -81,7 +81,7 @@ const clubNoSubscription = function () {
       alt: 'CLUB BENEFITS PET ADVISOR'
     }
   ];
-  if (process.env.REACT_APP_LANG === 'ru') {
+  if (process.env.REACT_APP_COUNTRY === 'RU') {
     clubListData.push({
       text: <FormattedMessage id="clubListData.tip6" />,
       img: iconsix,
@@ -415,8 +415,8 @@ class Subscription extends React.Component {
                   return subItemComp;
                 })}
               </>
-            ) : process.env.REACT_APP_LANG === 'ru' ||
-              process.env.REACT_APP_LANG === 'tr' ? (
+            ) : process.env.REACT_APP_COUNTRY === 'RU' ||
+              process.env.REACT_APP_COUNTRY === 'TR' ? (
               clubNoSubscription()
             ) : (
               <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">

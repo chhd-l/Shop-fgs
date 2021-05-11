@@ -423,7 +423,7 @@ class Register extends Component {
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
     const isHub = process.env.REACT_APP_HUB == '1';
-    const isTr = process.env.REACT_APP_LANG === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
+    const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
     let homePage = process.env.REACT_APP_HOMEPAGE;
     const contactUrl =
       homePage.substring(homePage.length - 1, homePage.length) === '/'
@@ -486,7 +486,7 @@ class Register extends Component {
                             <strong>
                               <a
                                 href={
-                                  process.env.REACT_APP_LANG === 'en'
+                                  process.env.REACT_APP_COUNTRY === 'US'
                                     ? homePage + contactUrl
                                     : homePage + helpUrl
                                 }
@@ -541,8 +541,8 @@ class Register extends Component {
                           <FormattedMessage id="registerLoginIn" />
                         </a>
                       </p>
-                      {process.env.REACT_APP_LANG !== 'ru' &&
-                      process.env.REACT_APP_LANG !== 'tr' ? (
+                      {process.env.REACT_APP_COUNTRY !== 'RU' &&
+                      process.env.REACT_APP_COUNTRY !== 'TR' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
@@ -864,7 +864,7 @@ class Register extends Component {
                                 id="registerFooter1"
                                 defaultMessage={' '}
                               />
-                              {process.env.REACT_APP_LANG === 'en' ? (
+                              {process.env.REACT_APP_COUNTRY === 'US' ? (
                                 <a href={homePage + contactUrl}>&nbsp;here</a>
                               ) : null}
                             </p>

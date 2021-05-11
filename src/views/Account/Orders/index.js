@@ -465,7 +465,8 @@ class AccountOrders extends React.Component {
             <FormattedMessage
               id="trackDelivery"
               style={{
-                display: process.env.REACT_APP_LANG == 'fr' ? 'none' : 'block'
+                display:
+                  process.env.REACT_APP_COUNTRY == 'FR' ? 'none' : 'block'
               }}
             >
               {(txt) => (

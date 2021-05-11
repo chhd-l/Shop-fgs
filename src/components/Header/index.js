@@ -506,8 +506,8 @@ class Header extends React.Component {
   };
   hanldeClickSignUp = () => {
     if (
-      process.env.REACT_APP_LANG === 'fr' ||
-      process.env.REACT_APP_LANG === 'en'
+      process.env.REACT_APP_COUNTRY === 'FR' ||
+      process.env.REACT_APP_COUNTRY === 'US'
     ) {
       this.props.history.push('/register');
     } else {

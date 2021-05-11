@@ -5,7 +5,7 @@ import fgsJSON_fr from '../fr/fgs';
 
 let New_RedirectUrlJSON_fr = { ...RedirectUrlJSON_fr };
 
-if (process.env.REACT_APP_LANG == 'fr' && process.env.REACT_APP_HUB != 1) {
+if (process.env.REACT_APP_COUNTRY == 'FR' && process.env.REACT_APP_HUB != 1) {
   //说明是法国fgs环境,加上fgs环境需要加上的跳转链接
   for (let item of fgsJSON_fr.RECORDS) {
     New_RedirectUrlJSON_fr.RECORDS.push(item);

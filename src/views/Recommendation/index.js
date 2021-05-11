@@ -533,11 +533,11 @@ class Help extends React.Component {
     let cur_recommendation2 = recommendation2;
     let cur_recommendation3 = recommendation3;
     let cur_recommendation4 = recommendation4;
-    if (process.env.REACT_APP_LANG === 'de') {
+    if (process.env.REACT_APP_COUNTRY === 'DE') {
       cur_recommendation2 = de_recommendation2;
       cur_recommendation3 = de_recommendation3;
       cur_recommendation4 = de_recommendation4;
-    } else if (process.env.REACT_APP_LANG === 'es') {
+    } else if (process.env.REACT_APP_COUNTRY === 'MX') {
       cur_recommendation2 = mx_recommendation2;
       cur_recommendation3 = mx_recommendation3;
       cur_recommendation4 = mx_recommendation4;

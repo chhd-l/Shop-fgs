@@ -657,7 +657,7 @@ class ClubLandingPage extends React.Component {
           <JoinToday />
           <br />
           <CommentCarousel />
-          {process.env.REACT_APP_LANG == 'ru' ? (
+          {process.env.REACT_APP_COUNTRY == 'RU' ? (
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none ">
                 <div className="rc-full-width">

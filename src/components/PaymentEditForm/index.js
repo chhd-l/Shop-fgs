@@ -110,23 +110,23 @@ class PaymentEditForm extends React.Component {
     let element = document.getElementById('paymentPhoneNumber');
     let maskOptions = {};
     let phoneReg = '';
-    switch (process.env.REACT_APP_LANG) {
-      case 'fr':
+    switch (process.env.REACT_APP_COUNTRY) {
+      case 'FR':
         phoneReg = '+{33}000000000';
         break;
-      case 'en':
+      case 'US':
         phoneReg = '000-000-0000';
         break;
-      case 'ru':
+      case 'RU':
         phoneReg = '+{7} (000) 000-00-00';
         break;
-      case 'mx':
-        phoneReg = '0000000000';
+      case 'MX':
+        phoneReg = '+(52) 000 000 00';
         break;
-      case 'de':
+      case 'DE':
         phoneReg = '0000 000000 000';
         break;
-      case 'tr':
+      case 'TR':
         phoneReg = '{0} (000) 000-00-00';
         break;
       default:

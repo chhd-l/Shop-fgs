@@ -124,7 +124,6 @@ const LoginButton = (props) => {
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
                     await mergeUnloginCartData();
-                    console.log(loginStore, 'loginStore');
                     await checkoutStore.updateLoginCart();
                   }
 
@@ -147,7 +146,7 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    // if (process.env.REACT_APP_LANG == 'en' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    // if (process.env.REACT_APP_COUNTRY == 'US' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
     try {

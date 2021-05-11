@@ -385,13 +385,13 @@ class PetForm extends React.Component {
       return;
     }
     if (
-      process.env.REACT_APP_LANG !== 'en' &&
-      process.env.REACT_APP_LANG !== 'de' &&
-      process.env.REACT_APP_LANG !== 'fr'
+      process.env.REACT_APP_COUNTRY !== 'US' &&
+      process.env.REACT_APP_COUNTRY !== 'DE' &&
+      process.env.REACT_APP_COUNTRY !== 'FR'
     ) {
       const RuTr =
-        process.env.REACT_APP_LANG == 'ru' ||
-        process.env.REACT_APP_LANG == 'tr';
+        process.env.REACT_APP_COUNTRY == 'RU' ||
+        process.env.REACT_APP_COUNTRY == 'TR';
       if (
         !this.state.activity ||
         (!this.state.lifestyle && this.state.isCat && RuTr)
@@ -964,8 +964,9 @@ class PetForm extends React.Component {
       isCat
     } = this.state;
     const RuTr =
-      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
-    const Us = process.env.REACT_APP_LANG == 'en';
+      process.env.REACT_APP_COUNTRY == 'RU' ||
+      process.env.REACT_APP_COUNTRY == 'TR';
+    const Us = process.env.REACT_APP_COUNTRY == 'US';
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1511,9 +1512,9 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
-                    {process.env.REACT_APP_LANG !== 'en' &&
-                    process.env.REACT_APP_LANG !== 'de' &&
-                    process.env.REACT_APP_LANG !== 'fr' ? (
+                    {process.env.REACT_APP_COUNTRY !== 'US' &&
+                    process.env.REACT_APP_COUNTRY !== 'DE' &&
+                    process.env.REACT_APP_COUNTRY !== 'FR' ? (
                       <>
                         {RuTr && this.state.isCat ? (
                           <div className="form-group col-lg-6 pull-left required">
@@ -1734,7 +1735,7 @@ class PetForm extends React.Component {
             {/* 土耳其、俄罗斯club绑定订阅 */}
             {currentPet.petsId &&
             getClubFlag() &&
-            process.env.REACT_APP_LANG !== 'ru' ? (
+            process.env.REACT_APP_COUNTRY !== 'RU' ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
@@ -1745,7 +1746,7 @@ class PetForm extends React.Component {
             ) : null}
 
             {/* {
-            ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1?
+            ['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1?
             <LinkedSubs
               petsId={this.props.match.params.id}
               loading={this.state.loading}

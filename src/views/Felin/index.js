@@ -417,7 +417,7 @@ export default class Felin extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    // if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    // if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'FR') {
     //   value = value.replace(/^[0]/, '+(33)');
     // }
     userInfo[name] = value;

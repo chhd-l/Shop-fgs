@@ -137,7 +137,7 @@ class AccountProfile extends React.Component {
         communicationPrint: context.communicationPrint
       };
 
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_COUNTRY === 'US') {
         mydata.provinceNo = context.provinceNo;
         mydata.province = context.province;
         mydata.provinceId = context.provinceId;

@@ -151,7 +151,6 @@ class LoginCart extends React.Component {
     if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
       let timer = null;
       timer = setInterval(async () => {
-        console.log(1234, this.props.checkoutStore.loginCartData.length);
         if (this.props.checkoutStore.loginCartData.length) {
           clearInterval(timer);
           await this.updateCartCache();
@@ -306,7 +305,6 @@ class LoginCart extends React.Component {
   }
   setData({ initPage = false } = {}) {
     const { configStore } = this.props;
-    console.log(configStore.defaultSubscriptionFrequencyId, '🌏');
     //每次数据变化调用
     !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
     let productList = this.checkoutStore.loginCartData.map((el) => {
@@ -527,7 +525,6 @@ class LoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product) {
-    console.log(product);
     const list = [
       {
         name: product.goodsName,
@@ -554,7 +551,6 @@ class LoginCart extends React.Component {
         }
       }
     });
-    console.log(dataLayer);
   }
   async deleteProduct(item) {
     let { currentProductIdx, productList } = this.state;
@@ -930,8 +926,6 @@ class LoginCart extends React.Component {
     this.setState({ mobileCartVisibleKey: name });
   }
   updateConfirmTooltipVisible(item, status) {
-    console.log({ item });
-    console.log({ status });
     let { productList } = this.state;
     item.confirmTooltipVisible = status;
     this.setState({
@@ -1423,7 +1417,6 @@ class LoginCart extends React.Component {
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
-    console.log(promotionInputValue, loginStore.isLogin, 'promotionCode');
     if (!promotionInputValue) return;
     let result = {};
     let lastPromotionInputValue = promotionInputValue;
@@ -1492,9 +1485,10 @@ class LoginCart extends React.Component {
   render() {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
-    const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
-    const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
-    console.log(this.btnStatus, 'this.btnStatus');
+    const dogsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+    const catsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1578,7 +1572,7 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          // fixToHeader: process.env.REACT_APP_COUNTRY !== 'FR'
                           fixToHeader: false
                         })}
                       </div>
@@ -1608,7 +1602,7 @@ class LoginCart extends React.Component {
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                               // style={{ margin: '0 10%' }}
                               style={
-                                process.env.REACT_APP_LANG === 'fr'
+                                process.env.REACT_APP_COUNTRY === 'FR'
                                   ? {}
                                   : { margin: '0 10%' }
                               }
