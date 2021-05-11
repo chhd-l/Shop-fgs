@@ -540,7 +540,7 @@ class Recommendation extends React.Component {
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos:
+            recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
