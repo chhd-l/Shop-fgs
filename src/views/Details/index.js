@@ -633,14 +633,9 @@ class Details extends React.Component {
       return item;
     });
 
-    // !details.promotions ||
-    // !details.promotions.includes('club') || !details.promotions.includes('autoship')
-    // !skuPromotions
-    //   ? (form.buyWay = 0)
-    //   : skuPromotions == 'club'
-    //   ? (form.buyWay = 2)
-    //   : (form.buyWay = 1);
-    defaultPurchaseType === 1
+    defaultPurchaseType === 1 ||
+    sessionItemRoyal.get('pf-result') ||
+    localStorage.getItem('pfls')
       ? skuPromotions == 'club'
         ? (form.buyWay = 2)
         : (form.buyWay = 1)
