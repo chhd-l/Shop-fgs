@@ -664,15 +664,16 @@ class AccountOrders extends React.Component {
                   </nav>
                 ) : null}
 
-                {logisticsList.map((item, i) => (
-                  <div
-                    key={i}
-                    className={`ml-3 mr-3 ${
-                      i === activeTabIdx ? '' : 'hidden'
-                    }`}
-                  >
-                    {item.tradeLogisticsDetails &&
-                      item.tradeLogisticsDetails.length > 0 && (
+                {logisticsList.map(
+                  (item, i) =>
+                    item.tradeLogisticsDetails &&
+                    item.tradeLogisticsDetails.length > 0 && (
+                      <div
+                        key={i}
+                        className={`ml-3 mr-3 ${
+                          i === activeTabIdx ? '' : 'hidden'
+                        }`}
+                      >
                         <LogisticsProgress
                           list={item.tradeLogisticsDetails.sort((a, b) => {
                             return (
@@ -685,132 +686,137 @@ class AccountOrders extends React.Component {
                           handleToggleMoreLess={this.handleToggleMoreLess}
                           customDateCls="text-nowrap"
                         />
-                      )}
-
-                    <div className="row">
-                      {(item.shippingItems || []).map((ele) => (
-                        <div className="text-center col-2" key={ele.skuId}>
-                          {/*<LazyLoad>*/}
-                          <img
-                            src={ele.pic || IMG_DEFAULT}
-                            alt={ele.itemName}
-                            title={ele.itemName}
-                            style={{
-                              width: 'auto',
-                              margin: '0 auto',
-                              height: '60px'
-                            }}
-                          />
-                          {/*</LazyLoad>*/}
-                          <p className="font-weight-normal ui-text-overflow-line1">
-                            {ele.itemName} X {ele.itemNum}
-                          </p>
+                        <div className="row">
+                          {(item.shippingItems || []).map((ele) => (
+                            <div className="text-center col-2" key={ele.skuId}>
+                              {/*<LazyLoad>*/}
+                              <img
+                                src={ele.pic || IMG_DEFAULT}
+                                alt={ele.itemName}
+                                title={ele.itemName}
+                                style={{
+                                  width: 'auto',
+                                  margin: '0 auto',
+                                  height: '60px'
+                                }}
+                              />
+                              {/*</LazyLoad>*/}
+                              <p className="font-weight-normal ui-text-overflow-line1">
+                                {ele.itemName} X {ele.itemNum}
+                              </p>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                    <div className="row border-top m-0 pt-2 pb-2">
-                      <div className="col-12 col-md-3">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconDeliverydate" />
-                        </svg>
-                        <FormattedMessage id="deliveryDate" />:{' '}
-                        <span className="medium">
-                          {item.deliverTime
-                            ? getFormatDate(
-                                (item.deliverTime || '').substr(0, 10)
-                              )
-                            : ''}
-                        </span>
+                        <div className="row border-top m-0 pt-2 pb-2">
+                          <div className="col-12 col-md-3">
+                            <svg className="svg-icon mr-1" aria-hidden="true">
+                              <use xlinkHref="#iconDeliverydate" />
+                            </svg>
+                            <FormattedMessage id="deliveryDate" />:{' '}
+                            <span className="medium">
+                              {item.deliverTime
+                                ? getFormatDate(
+                                    (item.deliverTime || '').substr(0, 10)
+                                  )
+                                : ''}
+                            </span>
+                          </div>
+                          <div className="col-12 col-md-4">
+                            <svg className="svg-icon mr-1" aria-hidden="true">
+                              <use xlinkHref="#iconLogisticscompany" />
+                            </svg>
+                            <FormattedMessage id="logisticsCompany" />:{' '}
+                            <span className="medium">
+                              {item.logistics
+                                ? item.logistics.logisticCompanyName
+                                : ''}
+                            </span>
+                          </div>
+                          <div className="col-12 col-md-5">
+                            <svg className="svg-icon mr-1" aria-hidden="true">
+                              <use xlinkHref="#iconLogisticssinglenumber" />
+                            </svg>
+                            <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                            <span className="medium">
+                              {item.logistics ? item.logistics.logisticNo : ''}
+                            </span>
+                            <CopyToClipboard
+                              text={
+                                item.logistics ? item.logistics.logisticNo : ''
+                              }
+                            >
+                              <span className="iconfont ui-cursor-pointer ml-2">
+                                &#xe6c0;
+                              </span>
+                            </CopyToClipboard>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-12 col-md-4">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticscompany" />
-                        </svg>
-                        <FormattedMessage id="logisticsCompany" />:{' '}
-                        <span className="medium">
-                          {item.logistics
-                            ? item.logistics.logisticCompanyName
-                            : ''}
-                        </span>
-                      </div>
-                      <div className="col-12 col-md-5">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticssinglenumber" />
-                        </svg>
-                        <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                        <span className="medium">
-                          {item.logistics ? item.logistics.logisticNo : ''}
-                        </span>
-                        <CopyToClipboard
-                          text={item.logistics ? item.logistics.logisticNo : ''}
-                        >
-                          <span className="iconfont ui-cursor-pointer ml-2">
-                            &#xe6c0;
-                          </span>
-                        </CopyToClipboard>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    )
+                )}
               </div>
             ) : null}
 
             <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
-              {filteredLogisticsList.map((item, i) => (
-                <div
-                  className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
-                  onClick={this.handleClickLogisticsCard.bind(this, item)}
-                  key={i}
-                >
-                  <div className="col-10 medium color-444 d-flex align-items-center">
-                    <span>
-                      {/*{getFormatDate(*/}
-                      {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
-                      {/*)}*/}
-                      {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
-                      {item.deliverTime
-                        ? format(
-                            new Date(item.deliverTime).getTime(),
-                            'yyyy-MM-dd HH:mm:ss'
-                          )
-                        : ''}
-                    </span>
-                  </div>
-                  <div className="col-2">
-                    {/*<span*/}
-                    {/*  className="rc-icon rc-right rc-iconography rc-md-down"*/}
-                    {/*  style={{ transform: 'scale(.85)' }}*/}
-                    {/*/>*/}
-                    <span className="icon iconfont">&#xe6f9;</span>
-                  </div>
-                  {/*<div className="col-12 mt-2">*/}
-                  {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
-                  {/*{*/}
-                  {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
-                  {/*    .statusDescription*/}
-                  {/*}*/}
-                  {/*{item.tradeLogisticsDetailStatus || ''}*/}
-                  {/*</div>*/}
-                  <div className="col-12 row mt-2">
-                    {item.shippingItems.map((sItem) => (
-                      <div
-                        className="col-3"
-                        style={{ display: 'flex', alignItems: 'flex-end' }}
-                        key={sItem.skuId}
-                      >
-                        <LazyLoad>
-                          <img
-                            className="rc-bg-colour--brand4"
-                            src={sItem.pic}
-                            alt="shipping Items image"
-                            style={{ width: '70%' }}
-                          />
-                        </LazyLoad>
+              {filteredLogisticsList.map(
+                (item, i) =>
+                  item.tradeLogisticsDetails &&
+                  item.tradeLogisticsDetails.length > 0 && (
+                    <div
+                      className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+                      onClick={this.handleClickLogisticsCard.bind(this, item)}
+                      key={i}
+                    >
+                      <div className="col-10 medium color-444 d-flex align-items-center">
+                        <span>
+                          {/*{getFormatDate(*/}
+                          {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
+                          {/*)}*/}
+                          {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
+                          {item.deliverTime
+                            ? format(
+                                new Date(item.deliverTime).getTime(),
+                                'yyyy-MM-dd HH:mm:ss'
+                              )
+                            : ''}
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                      <div className="col-2">
+                        {/*<span*/}
+                        {/*  className="rc-icon rc-right rc-iconography rc-md-down"*/}
+                        {/*  style={{ transform: 'scale(.85)' }}*/}
+                        {/*/>*/}
+                        <span className="icon iconfont">&#xe6f9;</span>
+                      </div>
+                      {/*<div className="col-12 mt-2">*/}
+                      {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
+                      {/*{*/}
+                      {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
+                      {/*    .statusDescription*/}
+                      {/*}*/}
+                      {/*{item.tradeLogisticsDetailStatus || ''}*/}
+                      {/*</div>*/}
+                      <div className="col-12 row mt-2">
+                        {item.shippingItems.map((sItem) => (
+                          <div
+                            className="col-3"
+                            style={{ display: 'flex', alignItems: 'flex-end' }}
+                            key={sItem.skuId}
+                          >
+                            <LazyLoad>
+                              <img
+                                className="rc-bg-colour--brand4"
+                                src={sItem.pic}
+                                alt="shipping Items image"
+                                style={{ width: '70%' }}
+                              />
+                            </LazyLoad>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+              )}
             </div>
           </>
         )}
