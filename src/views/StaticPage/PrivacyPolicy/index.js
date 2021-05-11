@@ -522,7 +522,11 @@ class PrivacyPolicy extends React.Component {
                     rel="nofollow"
                   >
                     Ad Choices
-                    <span className="warning_blank">Opens a new window</span>
+                    {Boolean(
+                      process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    ) && (
+                      <span className="warning_blank">Opens a new window</span>
+                    )}
                   </a>
                   .
                 </p>

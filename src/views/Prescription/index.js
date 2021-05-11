@@ -105,7 +105,6 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: lat,
         longitude: lng,
-        // auditAuthority: true,
         storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
@@ -170,7 +169,6 @@ class Prescription extends React.Component {
     const { params } = this.state;
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
       this.handldKey(this.state.mapKey);
       params.latitude = position.coords.latitude.toString();
       params.longitude = position.coords.longitude.toString();
@@ -195,8 +193,6 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
-    // params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
-    // params.auditAuthority = true;
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -209,11 +205,8 @@ class Prescription extends React.Component {
   async getAllPrescription() {
     let params = {
       storeId: process.env.REACT_APP_STOREID
-      // auditAuthority: this.props.checkoutStore.autoAuditFlag
-      // auditAuthority: true
     };
     const res = await getAllPrescription(params);
-    console.log(res);
     let clinicArr = res.context.prescriberVo;
     //过滤掉经纬度非数字值
     clinicArr = clinicArr.filter((item) => {
@@ -229,7 +222,6 @@ class Prescription extends React.Component {
         +item.longitude <= 180
       );
     });
-    console.log(clinicArr);
     this.setState({
       clinicArr
     });
@@ -272,7 +264,6 @@ class Prescription extends React.Component {
     });
   };
   handleItem = (item) => {
-    console.log(item);
     this.handldKey(this.state.mapKey);
     item.latitude = +item.latitude;
     item.longitude = +item.longitude;

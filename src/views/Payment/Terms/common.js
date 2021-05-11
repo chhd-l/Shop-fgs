@@ -137,7 +137,9 @@ class TermsCommon extends Component {
                 className="rc-styled-link"
               >
                 Geschäftsbedingungen.
-                <span className="warning_blank">Opens a new window</span>
+                {Boolean(
+                  process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                ) && <span className="warning_blank">Opens a new window</span>}
               </Link>
             </a>
             <div style={{ paddingLeft: '0px', marginTop: '1.25rem' }}>
@@ -150,7 +152,11 @@ class TermsCommon extends Component {
                   className="rc-styled-link"
                 >
                   hier
-                  <span className="warning_blank">Opens a new window</span>
+                  {Boolean(
+                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                  ) && (
+                    <span className="warning_blank">Opens a new window</span>
+                  )}
                 </Link>
               </a>
             </div>

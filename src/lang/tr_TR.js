@@ -498,7 +498,7 @@ const tr_TR = {
   modalCancelAllTitle:
     'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
   modalChangeDateContent:
-    'Вы уверены, что хотите изменить дату следующей доставки?',
+    'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
   modalChangeDateTitle: 'Gönderim tarihini değiştirin',
   modalOrderNowContent: 'Bu siparişi şimdi vermek istediğinizden emin misiniz?',
   modalOrderNowTitle: 'ŞİMDİ SİPARİŞ VER?',
@@ -831,7 +831,6 @@ const tr_TR = {
   searchPrescriber: 'Bir klinik ara',
   securityQuestion: 'Güvenlik Sorusu',
   selectDeliveryAddress: 'Lütfen bir teslimat adresi seçin',
-  selectNoneClincTip: 'Lütfen bir reçete seçin',
   selectPet: 'Bir evcil hayvan seçin',
   selectProduct: 'Lütfen ürünü seçin',
   setAsDefault: 'Varsayılan olarak belirle',

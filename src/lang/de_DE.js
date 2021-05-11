@@ -880,8 +880,6 @@ const de_DE = {
   registerContinuing:
     'Indem Sie fortfahren, stimmen Sie unserer MARS-Datenschutzrichtlinie zu. sammelt und verwendet Ihren Vor- und Nachnamen sowie Ihre E-Mail-Adresse, um Ihnen eine personalisierte Erfahrung zu bieten. ',
   registerCreateYourAccout: 'Erstellen Sie Ihr Royal Canin-Konto',
-  registerDescription:
-    '<p> Ihre persönlichen Daten werden gemäß der Datenschutzerklärung von Royal Canin gesammelt und verarbeitet. <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> hier </a> </p> ',
   registerEmail: 'E-Mail-Adresse',
   registerEmailFormate:
     'Die E-Mail-Adresse stimmt nicht mit dem angegebenen Format überein.',
@@ -948,7 +946,6 @@ const de_DE = {
   seeAllOurProducts: 'Alle Produkte anzeigen',
   seeTheProduct: 'Produkt anzeigen',
   selectDeliveryAddress: 'Bitte wählen Sie eine Lieferadresse',
-  selectNoneClincTip: 'Bitte wählen Sie ein Rezept',
   selectPet: 'Wählen Sie ein Haustier',
   selectProduct: 'Bitte Produkt auswählen',
   sendUsAnEmail: 'Schreiben Sie uns eine E-Mail',
