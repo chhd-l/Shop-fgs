@@ -9,11 +9,8 @@ export default class AddressPreview extends React.Component {
     super(props);
     this.state = { countryList: [] };
   }
-  saveDeliveryAddressInfo(form) {
-    this.props.paymentStore.saveDeliveryAddressInfo(form);
-  }
+
   componentDidMount() {
-    this.saveDeliveryAddressInfo(this.props.form);
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -107,7 +104,7 @@ export default class AddressPreview extends React.Component {
               {/* 省份 */}
               {localAddressForm['state'] && <span>{form.province}</span>}
 
-              {/* 邮件 */}
+              {/* 邮编 */}
               {localAddressForm['postCode'] && <span>{form.postCode}</span>}
             </p>
             <p>{form.phoneNumber || form.consigneeNumber} </p>

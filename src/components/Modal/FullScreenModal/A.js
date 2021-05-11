@@ -50,19 +50,17 @@ export default class FullScreenModalA extends React.Component {
       );
     }
     this.setState({ productList });
-    console.log(123, productList);
-    console.log(this.deliveryPrice);
-    console.log(this.tradePrice);
-    // {
-    //   goodsInfoNo,goodsName,salePrice(subscriptionPrice),buyCount
-    // }
   }
   close = () => {
     const { setTrConsentModal } = this.props.paymentStore;
     setTrConsentModal('fullScreenModalA', false);
   };
   render() {
-    const { fullScreenModalA, deliveryAddressInfo } = this.props.paymentStore;
+    const {
+      fullScreenModalA,
+      deliveryAddressInfo,
+      billingAddressInfo
+    } = this.props.paymentStore;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore?.localAddressForm;
 
@@ -221,11 +219,11 @@ export default class FullScreenModalA extends React.Component {
                     </p>
                     <p>
                       Ad Soyad / Unvan:{' '}
-                      <span>{deliveryAddressInfo.firstName}</span>{' '}
-                      <span>{deliveryAddressInfo.lastName}</span>
+                      <span>{deliveryAddressInfo?.firstName}</span>{' '}
+                      <span>{deliveryAddressInfo?.lastName}</span>
                     </p>
                     <p>
-                      Adres: <span>{deliveryAddressInfo.address1},</span>{' '}
+                      Adres: <span>{deliveryAddressInfo?.address1},</span>{' '}
                       {localAddressForm['address2'] && form.address2 && (
                         <span>{form.address2}</span>
                       )}
@@ -233,8 +231,8 @@ export default class FullScreenModalA extends React.Component {
                     <p>
                       Telefon:{' '}
                       <span>
-                        {deliveryAddressInfo.phoneNumber ||
-                          deliveryAddressInfo.consigneeNumber}
+                        {deliveryAddressInfo?.phoneNumber ||
+                          deliveryAddressInfo?.consigneeNumber}
                       </span>{' '}
                     </p>
                     <p>
@@ -248,16 +246,28 @@ export default class FullScreenModalA extends React.Component {
                       <strong>Fatura Bilgileri: </strong>
                     </p>
                     <p>
-                      Ad Soyad / Unvan: <span>kevin</span> <span>Qu</span>
+                      Ad Soyad / Unvan:{' '}
+                      <span>{billingAddressInfo?.firstName}</span>{' '}
+                      <span>{billingAddressInfo?.lastName}</span>
                     </p>
                     <p>
-                      Adres: <span>ASASD,</span> <span>asdsad</span>
+                      Adres: <span>{billingAddressInfo?.address1},</span>{' '}
+                      {localAddressForm['address2'] && form.address2 && (
+                        <span>{form.address2}</span>
+                      )}
                     </p>
                     <p>
-                      Telefon: <span>0 (312) 231-18-61</span>{' '}
+                      Telefon:{' '}
+                      <span>
+                        {billingAddressInfo?.phoneNumber ||
+                          billingAddressInfo?.consigneeNumber}
+                      </span>{' '}
                     </p>
                     <p>
-                      E-posta: <span>qhx717@qq.com</span>{' '}
+                      E-posta:{' '}
+                      <span>
+                        {this.isLogin ? this.userInfo.customerAccount : ''}
+                      </span>{' '}
                     </p>
                     <div className="content-asset">
                       <p>
