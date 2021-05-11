@@ -384,7 +384,6 @@ class Recommendation extends React.Component {
           referenceObject: res.context?.structureType || '',
           referenceData: res.context?.prescriptionJson || ''
         };
-        let recommendationInfosStr = JSON.stringify(recommendationInfos);
         this.props.clinicStore.setLinkClinicRecommendationInfos(
           recommendationInfos
         );
