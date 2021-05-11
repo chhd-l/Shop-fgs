@@ -87,6 +87,7 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      mainProductDetails: {}, //推荐主商品的详情数据
       dogBreedList: [],
       catBreedList: [],
       petsType: '',
@@ -255,9 +256,215 @@ class SubscriptionDetail extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  async queryProductDetails(id, cb) {
-    // let res = goodsDetailTabJSON;
+  productDetailsInit = (res, cb) => {
     let { configStore } = this.props;
+    const goodsRes = res && res.context && res.context.goods;
+    let frequencyDictRes = this.frequencyListOptions.filter((el) => {
+      if (goodsRes.promotions && goodsRes.promotions.includes('club')) {
+        return el.goodsInfoFlag === 2;
+      } else {
+        return el.goodsInfoFlag === 1;
+      }
+    });
+    let defaultSubscriptionFrequencyId =
+      goodsRes.promotions && goodsRes.promotions.includes('club')
+        ? configStore.info.storeVO.defaultSubscriptionClubFrequencyId
+        : configStore.info.storeVO.defaultSubscriptionFrequencyId;
+    this.setState({
+      form: Object.assign(this.state.form, {
+        frequencyId:
+          goodsRes.defaultFrequencyId ||
+          defaultSubscriptionFrequencyId ||
+          (frequencyDictRes[0] && frequencyDictRes[0].id) ||
+          ''
+      })
+    });
+    let petType = 'Cat';
+    let foodType = 'Dry';
+    if (res && res.context?.goodsAttributesValueRelList) {
+      res.context.goodsAttributesValueRelList.forEach((item, idx) => {
+        if (item.goodsAttributeName == 'Lifestages') {
+          petType =
+            item.goodsAttributeValue.split('_') &&
+            item.goodsAttributeValue.split('_')[1];
+        }
+        if (item.goodsAttributeName == 'Technology') {
+          foodType = item.goodsAttributeValue;
+        }
+      });
+    }
+    let sizeList = [];
+    let goodsInfos = res.context.goodsInfos || [];
+    if (res && res.context && res.context.goodsSpecDetails) {
+      let specList = res.context.goodsSpecs;
+      let foodFllType = `${foodType} ${petType} Food`;
+
+      let specDetailList = res.context.goodsSpecDetails;
+      specList.map((sItem, index) => {
+        sItem.chidren = specDetailList.filter((sdItem, i) => {
+          if (index === 0) {
+            let filterproducts = goodsInfos.filter((goodEl) =>
+              goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+            );
+            sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
+            sdItem.isEmpty = filterproducts.every((item) => item.stock === 0);
+            sdItem.isClub = filterproducts.every(
+              (item) =>
+                // item.promotions=='club'&&
+                item.subscriptionStatus === 1 && item.subscriptionPrice > 0
+            );
+            console.info('sdItem.isEmpty', sdItem.isEmpty);
+
+            // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
+          }
+          return sdItem.specId === sItem.specId;
+        });
+        let defaultSelcetdSku = -1;
+        if (defaultSelcetdSku > -1) {
+          // 默认选择该sku
+          if (
+            !sItem.chidren[defaultSelcetdSku].isEmpty &&
+            sItem.chidren[defaultSelcetdSku]?.isClub
+          ) {
+            // 如果是sku进来的，需要默认当前sku被选择
+            sItem.chidren[defaultSelcetdSku].selected = true;
+          }
+        } else {
+          if (
+            process.env.REACT_APP_COUNTRY === 'DE' &&
+            sItem.chidren.length > 1 &&
+            !sItem.chidren[1].isEmpty &&
+            sItem.chidren[1].isClub
+          ) {
+            sItem.chidren[1].selected = true;
+          } else if (
+            sItem.chidren.length > 1 &&
+            !sItem.chidren[1].isEmpty &&
+            sItem.chidren[1].isClub
+          ) {
+            sItem.chidren[1].selected = true;
+          } else {
+            for (let i = 0; i < sItem.chidren.length; i++) {
+              if (sItem.chidren[i].isEmpty || !sItem.chidren[i].isClub) {
+              } else {
+                sItem.chidren[i].selected = true;
+                break;
+              }
+            }
+          }
+        }
+
+        return sItem;
+      });
+      // this.setState({ specList });
+      sizeList = goodsInfos.map((g, i) => {
+        // g = Object.assign({}, g, { selected: false });
+        g = Object.assign({}, g, {
+          selected: i === 0
+        });
+        if (g.selected && !g.subscriptionStatus) {
+          let { form } = this.state;
+          form.buyWay = 0;
+          this.setState({ form });
+        }
+        return g;
+      });
+
+      const goodSize = specList.map((item) =>
+        item.chidren.find((good) => good.selected)
+      )?.[0]?.detailName;
+      const goodsInfoBarcode =
+        goodsInfos.find((item) => item.packSize === goodSize)
+          ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+      const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+
+      let images = [];
+      images = res.context.goodsInfos;
+      this.setState(
+        {
+          foodFllType,
+          goodsDetails: res.context,
+          details: Object.assign({}, this.state.details, res.context.goods, {
+            promotions: res.context.goods?.promotions?.toLowerCase(),
+            sizeList,
+            goodsInfos: res.context.goodsInfos,
+            goodsSpecDetails: res.context.goodsSpecDetails,
+            goodsSpecs: res.context.goodsSpecs,
+            goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
+          }),
+          images,
+          specList,
+          barcode
+        },
+        () => {
+          console.info('detiasdsdsdsd', this.state.details);
+          this.matchGoods();
+          //Product Detail Page view 埋点start
+          // this.hubGA
+          //   ? this.hubGAProductDetailPageView(
+          //       res.context.goodsAttributesValueRelList,
+          //       this.state.details
+          //     )
+          //   : this.GAProductDetailPageView(this.state.details);
+          //Product Detail Page view 埋点end
+        }
+      );
+    } else {
+      let sizeList = [];
+      let foodFllType = `${foodType} ${petType} Food`;
+      let goodsInfos = res.context.goodsInfos || [];
+      sizeList = goodsInfos.map((g, i) => {
+        g = Object.assign({}, g, {
+          selected: i === 0
+        });
+        if (g.selected && !g.subscriptionStatus) {
+          let { form } = this.state;
+          form.buyWay = 0;
+          this.setState({ form });
+        }
+        return g;
+      });
+
+      let images = [];
+      images = res.context.goodsInfos;
+      this.setState(
+        {
+          foodFllType,
+          details: Object.assign({}, this.state.details, res.context.goods, {
+            promotions: res.context.goods?.promotions?.toLowerCase(),
+            sizeList,
+            goodsInfos: res.context.goodsInfos,
+            goodsSpecDetails: res.context.goodsSpecDetails,
+            goodsSpecs: res.context.goodsSpecs,
+            goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
+          }),
+          images
+        },
+        () => {
+          this.bundleMatchGoods();
+          //Product Detail Page view 埋点start
+          // this.hubGA
+          //   ? this.hubGAProductDetailPageView(
+          //       res.context.goodsAttributesValueRelList,
+          //       this.state.details
+          //     )
+          //   : this.GAProductDetailPageView(this.state.details);
+          //Product Detail Page view 埋点end
+        }
+      );
+      // 没有规格的情况
+      // this.setState({
+      //   errMsg: <FormattedMessage id="details.errMsg" />
+      // });
+    }
+    cb && cb(res);
+  };
+  async queryProductDetails(id, cb, mainProductDetails) {
+    // let res = goodsDetailTabJSON;
+    if (mainProductDetails) {
+      this.productDetailsInit(mainProductDetails, cb);
+      return;
+    }
     if (!id) {
       cb && cb();
       return;
@@ -266,220 +473,7 @@ class SubscriptionDetail extends React.Component {
     // getDetailsBySpuNo('MKT00006')
     getDetailsBySpuNo(id)
       .then((res) => {
-        const goodsRes = res && res.context && res.context.goods;
-        let frequencyDictRes = this.frequencyListOptions.filter((el) => {
-          if (goodsRes.promotions && goodsRes.promotions.includes('club')) {
-            return el.goodsInfoFlag === 2;
-          } else {
-            return el.goodsInfoFlag === 1;
-          }
-        });
-        let defaultSubscriptionFrequencyId =
-          goodsRes.promotions && goodsRes.promotions.includes('club')
-            ? configStore.info.storeVO.defaultSubscriptionClubFrequencyId
-            : configStore.info.storeVO.defaultSubscriptionFrequencyId;
-        this.setState({
-          form: Object.assign(this.state.form, {
-            frequencyId:
-              goodsRes.defaultFrequencyId ||
-              defaultSubscriptionFrequencyId ||
-              (frequencyDictRes[0] && frequencyDictRes[0].id) ||
-              ''
-          })
-        });
-        let petType = 'Cat';
-        let foodType = 'Dry';
-        if (res && res.context?.goodsAttributesValueRelList) {
-          res.context.goodsAttributesValueRelList.forEach((item, idx) => {
-            if (item.goodsAttributeName == 'Lifestages') {
-              petType =
-                item.goodsAttributeValue.split('_') &&
-                item.goodsAttributeValue.split('_')[1];
-            }
-            if (item.goodsAttributeName == 'Technology') {
-              foodType = item.goodsAttributeValue;
-            }
-          });
-        }
-        let sizeList = [];
-        let goodsInfos = res.context.goodsInfos || [];
-        if (res && res.context && res.context.goodsSpecDetails) {
-          let specList = res.context.goodsSpecs;
-          let foodFllType = `${foodType} ${petType} Food`;
-
-          let specDetailList = res.context.goodsSpecDetails;
-          specList.map((sItem, index) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              if (index === 0) {
-                let filterproducts = goodsInfos.filter((goodEl) =>
-                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                );
-                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(
-                  (item) => item.stock === 0
-                );
-                sdItem.isClub = filterproducts.every(
-                  (item) =>
-                    // item.promotions=='club'&&
-                    item.subscriptionStatus === 1 && item.subscriptionPrice > 0
-                );
-                console.info('sdItem.isEmpty', sdItem.isEmpty);
-
-                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-              }
-              return sdItem.specId === sItem.specId;
-            });
-            let defaultSelcetdSku = -1;
-            if (defaultSelcetdSku > -1) {
-              // 默认选择该sku
-              if (
-                !sItem.chidren[defaultSelcetdSku].isEmpty &&
-                sItem.chidren[defaultSelcetdSku]?.isClub
-              ) {
-                // 如果是sku进来的，需要默认当前sku被选择
-                sItem.chidren[defaultSelcetdSku].selected = true;
-              }
-            } else {
-              if (
-                process.env.REACT_APP_COUNTRY === 'DE' &&
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty &&
-                sItem.chidren[1].isClub
-              ) {
-                sItem.chidren[1].selected = true;
-              } else if (
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty &&
-                sItem.chidren[1].isClub
-              ) {
-                sItem.chidren[1].selected = true;
-              } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty || !sItem.chidren[i].isClub) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-              }
-            }
-
-            return sItem;
-          });
-          // this.setState({ specList });
-          sizeList = goodsInfos.map((g, i) => {
-            // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, {
-              selected: i === 0
-            });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-
-          const goodSize = specList.map((item) =>
-            item.chidren.find((good) => good.selected)
-          )?.[0]?.detailName;
-          const goodsInfoBarcode =
-            goodsInfos.find((item) => item.packSize === goodSize)
-              ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-          const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-
-          let images = [];
-          images = res.context.goodsInfos;
-          this.setState(
-            {
-              foodFllType,
-              goodsDetails: res.context,
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  promotions: res.context.goods?.promotions?.toLowerCase(),
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs,
-                  goodsAttributesValueRelList:
-                    res.context.goodsAttributesValueRelList
-                }
-              ),
-              images,
-              specList,
-              barcode
-            },
-            () => {
-              console.info('detiasdsdsdsd', this.state.details);
-              this.matchGoods();
-              //Product Detail Page view 埋点start
-              // this.hubGA
-              //   ? this.hubGAProductDetailPageView(
-              //       res.context.goodsAttributesValueRelList,
-              //       this.state.details
-              //     )
-              //   : this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-            }
-          );
-        } else {
-          let sizeList = [];
-          let foodFllType = `${foodType} ${petType} Food`;
-          let goodsInfos = res.context.goodsInfos || [];
-          sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, {
-              selected: i === 0
-            });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-
-          let images = [];
-          images = res.context.goodsInfos;
-          this.setState(
-            {
-              foodFllType,
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  promotions: res.context.goods?.promotions?.toLowerCase(),
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs,
-                  goodsAttributesValueRelList:
-                    res.context.goodsAttributesValueRelList
-                }
-              ),
-              images
-            },
-            () => {
-              this.bundleMatchGoods();
-              //Product Detail Page view 埋点start
-              // this.hubGA
-              //   ? this.hubGAProductDetailPageView(
-              //       res.context.goodsAttributesValueRelList,
-              //       this.state.details
-              //     )
-              //   : this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-            }
-          );
-          // 没有规格的情况
-          // this.setState({
-          //   errMsg: <FormattedMessage id="details.errMsg" />
-          // });
-        }
-        cb && cb();
+        this.productDetailsInit(res, cb);
       })
       .catch((e) => {
         console.log(e);
@@ -2289,8 +2283,13 @@ class SubscriptionDetail extends React.Component {
     }, 3000);
   }
   closeChangePets = () => {
+    this.initMainProduct(); // 需要重置顶部推荐框
     this.closeRecommendation();
-    this.closeEditRecommendation();
+    // this.closeEditRecommendation();
+  };
+  initMainProduct = () => {
+    let mainProductDetails = this.state.mainProductDetails;
+    this.queryProductDetails(undefined, undefined, mainProductDetails);
   };
   changeSubscriptionGoods = () => {
     try {
@@ -2463,7 +2462,10 @@ class SubscriptionDetail extends React.Component {
         // 查详情
         let id = this.state.productDetail.mainProduct?.spuCode;
         if (id) {
-          this.queryProductDetails(id);
+          this.queryProductDetails(id, (res) => {
+            // 保存mainproduct推荐的商品详情
+            this.setState({ mainProductDetails: res });
+          });
         } else {
           // 没有推荐商品的时候直接隐藏被动更换商品
           this.setState({ editRecommendationVisible: false });
@@ -2775,7 +2777,10 @@ class SubscriptionDetail extends React.Component {
           footerVisible={false}
           visible={this.state.changeProductVisible}
           modalTitle={''}
-          close={this.closeChangeProduct}
+          close={() => {
+            this.initMainProduct(); // 需要重置顶部推荐框
+            this.closeChangeProduct();
+          }}
         >
           {productDetail?.mainProduct ? (
             this.ProductRecommendations()
@@ -5677,7 +5682,10 @@ class SubscriptionDetail extends React.Component {
               modalTitle={''}
               cancel={this.closeAndShowChangeProduct}
               hanldeClickConfirm={this.showChangeRecommendation}
-              close={this.closeProdutctDetail}
+              close={() => {
+                this.initMainProduct(); // 需要重置顶部推荐框
+                this.closeProdutctDetail();
+              }}
             >
               {this.getDetailModalInner()}
             </Modal>
