@@ -93,7 +93,7 @@ class Footer extends React.Component {
                                     <>
                                       <Link
                                         to="/account"
-                                        className="rc-list__link text-decoration-none color-f6f6f6"
+                                        className="rc-list__link text-decoration-none color-f6f6f6 55"
                                       >
                                         <FormattedMessage
                                           id={listItem.messageId}
@@ -116,7 +116,7 @@ class Footer extends React.Component {
                                     </>
                                   ) : (
                                     <Link
-                                      className="rc-list__link text-decoration-none color-f6f6f6"
+                                      className="rc-list__link text-decoration-none color-f6f6f6 66"
                                       to={listItem.link}
                                       role="menuitem"
                                     >
@@ -127,7 +127,7 @@ class Footer extends React.Component {
                                   )
                                 ) : (
                                   <a
-                                    className="rc-list__link text-decoration-none color-f6f6f6"
+                                    className="rc-list__link text-decoration-none color-f6f6f6 1111"
                                     href={
                                       (!!listItem.prop &&
                                         this.props.configStore[
@@ -140,9 +140,14 @@ class Footer extends React.Component {
                                     rel="nofollow"
                                   >
                                     <FormattedMessage id={listItem.messageId} />
-                                    <span className="warning_blank">
-                                      Opens a new window
-                                    </span>
+                                    {Boolean(
+                                      process.env
+                                        .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                    ) && (
+                                      <span className="warning_blank">
+                                        Opens a new window
+                                      </span>
+                                    )}
                                   </a>
                                 )}
                               </li>

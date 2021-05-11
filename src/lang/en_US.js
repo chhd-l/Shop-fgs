@@ -1033,8 +1033,6 @@ const en_US = {
   registerContinuing:
     'By continuing you agree to our MARS privacy policy. We will collect and use your name and email address to provide you with a personalized experience.',
   registerCreateYourAccout: 'Create your Royal Canin account',
-  registerDescription:
-    '<p> Your personal data is collected and processed in accordance with the Royal Canin privacy statement, available <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> here </a> </p> ',
   registerEmail: 'Email address',
   registerEmailFormate:
     'The email address does not match the specified format.',

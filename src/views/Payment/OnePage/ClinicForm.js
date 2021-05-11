@@ -274,9 +274,14 @@ class ClinicForm extends React.Component {
                                 className="rc-styled-link font-italic"
                               >
                                 <FormattedMessage id="clickHere3" />
-                                <span className="warning_blank">
-                                  Opens a new window
-                                </span>
+                                {Boolean(
+                                  process.env
+                                    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                ) && (
+                                  <span className="warning_blank">
+                                    Opens a new window
+                                  </span>
+                                )}
                               </Link>
                             )
                           }}
