@@ -869,7 +869,6 @@ const es_ES = {
   securityQuestion: 'Pregunta de Seguridad',
   seeAllOurProducts: 'Ver todos nuestros productos',
   selectDeliveryAddress: 'Por favor seleccione una dirección de entrega',
-  selectNoneClincTip: 'Seleccione una receta',
   selectPet: 'Select a pet',
   selectProduct: 'Por favor seleccione producto',
   sendUsAnEmail: 'Envianos un email',
