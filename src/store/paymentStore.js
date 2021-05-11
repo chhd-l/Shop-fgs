@@ -35,7 +35,7 @@ class PaymentStore {
       order: 2,
       status: {
         isPrepare: true,
-        isEdit: true,
+        isEdit: false,
         isCompleted: false,
         hasCompleted: false
       }
