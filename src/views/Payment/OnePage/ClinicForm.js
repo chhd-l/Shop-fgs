@@ -54,7 +54,7 @@ class ClinicForm extends React.Component {
     this.setState({
       isEdit: !(nId && nName)
     });
-    if (this.prescriberMap || (nName && nId)) {
+    if (this.props.configStore.prescriberSelectTyped === 0 || (nName && nId)) {
       this.confirmToNextPanel();
     }
 
@@ -75,9 +75,6 @@ class ClinicForm extends React.Component {
         }
       }
     });
-  }
-  get prescriberMap() {
-    return this.props.configStore.prescriberMap;
   }
   gotoPrescriptionPage = (e) => {
     e.preventDefault();
@@ -139,6 +136,7 @@ class ClinicForm extends React.Component {
   }
   render() {
     const { isEdit } = this.state;
+    const { prescriberSelectTyped } = this.props.configStore;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
@@ -289,7 +287,7 @@ class ClinicForm extends React.Component {
       </div>
     );
 
-    return <>{this.prescriberMap ? defaultJSX : searchJSX}</>;
+    return <>{prescriberSelectTyped === 0 ? defaultJSX : searchJSX}</>;
   }
 }
 
