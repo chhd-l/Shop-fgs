@@ -503,13 +503,14 @@ class Recommendation extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0,
             recommendationId:
-              this.props.clinicStore.recommendationInfos?.recommendationId ||
-              this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.recommendationInfos?.recommendationName ||
-              this.props.clinicStore.linkClinicId,
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
-            recommendationName: this.props.clinicStore.linkClinicName
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -537,11 +538,11 @@ class Recommendation extends React.Component {
               .linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationId:
-              this.props.clinicStore.recommendationInfos?.recommendationId ||
-              this.props.clinicStore.linkClinicId,
-            recommendationInfos:
-              this.props.clinicStore.recommendationInfos?.recommendationName ||
-              this.props.clinicStore.linkClinicId,
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&
