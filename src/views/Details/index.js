@@ -707,6 +707,10 @@ class Details extends React.Component {
     try {
       if (localStorage.getItem('pfls') && getClubFlag()) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
+        this.setState({
+          questionParams: JSON.stringify(pf_params),
+          isFromPR: true
+        });
         let rationRes = await getRation(
           Object.assign(
             {
@@ -715,10 +719,6 @@ class Details extends React.Component {
             pf_params
           )
         );
-        this.setState({
-          questionParams: JSON.stringify(pf_params),
-          isFromPR: true
-        });
         if (rationRes.code === 'K-000000') {
           this.setState({
             rationInfo: rationRes.context.rationResponseItems[0]
@@ -726,6 +726,10 @@ class Details extends React.Component {
         }
       } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
         pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
+        this.setState({
+          questionParams: JSON.stringify(pf_params),
+          isFromPR: true
+        });
         let rationRes = await getRation(
           Object.assign(
             {
@@ -734,10 +738,6 @@ class Details extends React.Component {
             pf_params
           )
         );
-        this.setState({
-          questionParams: JSON.stringify(pf_params),
-          isFromPR: true
-        });
         if (rationRes.code === 'K-000000') {
           this.setState({
             rationInfo: rationRes.context.rationResponseItems[0]
