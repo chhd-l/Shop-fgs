@@ -885,7 +885,6 @@ const ru_RU = {
   searchPrescriber: 'Найти клинику',
   securityQuestion: 'Вопрос безопасности',
   selectDeliveryAddress: 'Выберите адрес доставки',
-  selectNoneClincTip: 'Выберите рецепт',
   selectPet: 'Выберите питомца',
   selectProduct: 'Пожалуйста, выберите продукт',
   setAsDefault: 'Определить как основной',

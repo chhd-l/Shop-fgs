@@ -89,42 +89,35 @@ class SideMenu extends React.Component {
       >
         {/* 俄罗斯隐藏掉 Faq */}
         {menuList.map((item, i) => (
-          <>
-            <h2
-              key={i}
-              className={`
+          <h2
+            key={i}
+            className={`
             nav_item medium ui-cursor-pointer mb-4 ${
               type === item.catogery ? 'active red' : ''
             } ${item.isShow ? '' : 'hidden'}
             `}
-            >
-              <FormattedMessage id={item.langKey}>
-                {(txt) => (
-                  <>
-                    {item.icon}
-                    {item.isHubOuterLink ? (
-                      <DistributeHubLinkOrATag
-                        to={item.url}
-                        href={item.href}
-                        className="ml-2"
-                      >
-                        {txt}
-                      </DistributeHubLinkOrATag>
-                    ) : (
-                      <Link
-                        to={item.url}
-                        title={txt}
-                        alt={txt}
-                        className="ml-2"
-                      >
-                        {txt}
-                      </Link>
-                    )}
-                  </>
-                )}
-              </FormattedMessage>
-            </h2>
-          </>
+          >
+            <FormattedMessage id={item.langKey}>
+              {(txt) => (
+                <>
+                  {item.icon}
+                  {item.isHubOuterLink ? (
+                    <DistributeHubLinkOrATag
+                      to={item.url}
+                      href={item.href}
+                      className="ml-2"
+                    >
+                      {txt}
+                    </DistributeHubLinkOrATag>
+                  ) : (
+                    <Link to={item.url} title={txt} alt={txt} className="ml-2">
+                      {txt}
+                    </Link>
+                  )}
+                </>
+              )}
+            </FormattedMessage>
+          </h2>
         ))}
         {process.env.REACT_APP_HUB_MONROYALCANIN ? (
           <h2

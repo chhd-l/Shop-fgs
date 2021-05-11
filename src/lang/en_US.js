@@ -1102,7 +1102,6 @@ const en_US = {
   seeAllOurProducts: 'See all our products',
   seeTheProduct: 'See the product',
   selectDeliveryAddress: 'Please select a delivery address',
-  selectNoneClincTip: 'Please select a prescription',
   selectPet: 'Select a pet',
   selectProduct: 'Please select product',
   sendUsAnEmail: 'Send us an Email',

@@ -948,7 +948,6 @@ const de_DE = {
   seeAllOurProducts: 'Alle Produkte anzeigen',
   seeTheProduct: 'Produkt anzeigen',
   selectDeliveryAddress: 'Bitte wählen Sie eine Lieferadresse',
-  selectNoneClincTip: 'Bitte wählen Sie ein Rezept',
   selectPet: 'Wählen Sie ein Haustier',
   selectProduct: 'Bitte Produkt auswählen',
   sendUsAnEmail: 'Schreiben Sie uns eine E-Mail',

@@ -82,9 +82,8 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -370,7 +369,7 @@ class AddressList extends React.Component {
         isFirstLoad: init
       });
 
-      let isReadyPrev = isPrevReady({
+      const isReadyPrev = isPrevReady({
         list: toJS(paymentStore.panelStatus),
         curKey: this.curPanelKey
       });
@@ -684,11 +683,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });

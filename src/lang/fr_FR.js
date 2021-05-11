@@ -1024,7 +1024,6 @@ const fr_FR = {
   seeAllOurProducts: 'Voir tous nos produits',
   seeTheProduct: 'Voir le produit',
   selectDeliveryAddress: 'Veuillez sélectionner une adresse de livraison',
-  selectNoneClincTip: 'Veuillez remplir les champs obligatoires.',
   selectPet: 'Choisissez un animal',
   selectProduct: 'Veuillez sélectionner un produit',
   sendUsAnEmail: 'Envoyez-nous un e-mail',

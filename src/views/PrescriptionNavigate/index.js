@@ -28,7 +28,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
         sonMess={sonMess}
         props={props}
         mode="navigate"
-      ></MapFlag>
+      />
     );
   } else {
     return (
@@ -138,7 +138,6 @@ class Prescription extends React.Component {
     const { params } = this.state;
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
       this.handldKey(this.state.mapKey);
       params.latitude = position.coords.latitude.toString();
       params.longitude = position.coords.longitude.toString();
@@ -162,8 +161,6 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
-    // params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
-    // params.auditAuthority = true;
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -176,8 +173,6 @@ class Prescription extends React.Component {
   async getAllPrescription() {
     let params = {
       storeId: process.env.REACT_APP_STOREID
-      // auditAuthority: this.props.checkoutStore.autoAuditFlag
-      // auditAuthority: true
     };
     const res = await getAllPrescription(params);
     let clinicArr = res.context.prescriberVo;
@@ -223,7 +218,6 @@ class Prescription extends React.Component {
     });
   };
   handleItem = (item) => {
-    console.log(item);
     this.handldKey(this.state.mapKey);
     item.latitude = +item.latitude;
     item.longitude = +item.longitude;
@@ -368,13 +362,13 @@ class Prescription extends React.Component {
                       )}
                     </FormattedMessage>
                     <label className="rc-input__label" htmlFor="id-submit-2">
-                      <span className="rc-input__label-text"></span>
+                      <span className="rc-input__label-text" />
                     </label>
                     <em
                       className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
                       aria-label="location"
                       onClick={(e) => this.handleInit(e)}
-                    ></em>
+                    />
                   </span>
 
                   {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
@@ -409,7 +403,7 @@ class Prescription extends React.Component {
                           <div onClick={() => this.handleItem(item)}>
                             {/* clinic vet */}
                             <p style={{ margin: '.5rem 0 0 0' }}>
-                              <FormattedMessage id="clinic.vet"></FormattedMessage>
+                              <FormattedMessage id="clinic.vet" />
                             </p>
 
                             {/* prescriberName  Name of the clinic*/}
@@ -461,8 +455,7 @@ class Prescription extends React.Component {
                   zoom={this.state.zoom}
                   flags={flags}
                   key={this.state.mapKey}
-                ></GoogleMap>
-                {/* <SimpleMap></SimpleMap> */}
+                />
               </div>
             </div>
           </div>
