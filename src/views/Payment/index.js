@@ -1549,12 +1549,14 @@ class Payment extends React.Component {
               : ele.recommendationInfos;
         }
         let {
+          recommendationName = '',
+          recommendationId = '',
           referenceObject = '',
           recommenderId = '',
           referenceData = '',
           recommenderName = ''
         } = recommendationInfos;
-        let referenceId = recommenderId || ele.recommendationId;
+        let referenceId = recommenderId || recommendationId;
         return {
           //shelter和breeder产品参数 start
           utmSource: ele.utmSource || '',
@@ -1573,9 +1575,9 @@ class Payment extends React.Component {
           referenceData,
           recommenderName,
           referenceId,
-          recommendationId: ele.recommendationId || '',
+          recommendationId: recommendationId || ele.recommendationId || '', // 优先去取recommendationInfos里面的recommendationId
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
-          recommendationName: ele.recommendationName || ''
+          recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
     } else if (this.isLogin) {
@@ -1588,12 +1590,14 @@ class Payment extends React.Component {
               : ele.recommendationInfos;
         }
         let {
+          recommendationName = '',
+          recommendationId = '',
           referenceObject = '',
           recommenderId = '',
           referenceData = '',
           recommenderName = ''
         } = recommendationInfos;
-        let referenceId = recommenderId || ele.recommendationId;
+        let referenceId = recommenderId || recommendationId;
         return {
           utmSource: ele.utmSource || '',
           utmMedium: ele.utmMedium || '',
@@ -1610,9 +1614,9 @@ class Payment extends React.Component {
           referenceData,
           recommenderName,
           referenceId,
-          recommendationId: ele.recommendationId || '',
+          recommendationId: recommendationId || ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
-          recommendationName: ele.recommendationName || ''
+          recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
     } else {
@@ -1625,6 +1629,8 @@ class Payment extends React.Component {
               : ele.recommendationInfos;
         }
         let {
+          recommendationName = '',
+          recommendationId = '',
           referenceObject = '',
           recommenderId = '',
           referenceData = '',
@@ -1645,9 +1651,9 @@ class Payment extends React.Component {
           referenceData,
           recommenderName,
           referenceId,
-          recommendationId: ele.recommendationId || '',
+          recommendationId: recommendationId || ele.recommendationId || '',
           // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
-          recommendationName: ele.recommendationName || ''
+          recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
     }
@@ -1665,6 +1671,8 @@ class Payment extends React.Component {
                 : g.recommendationInfos;
           }
           let {
+            recommendationName = '',
+            recommendationId = '',
             referenceObject = '',
             recommenderId = '',
             referenceData = '',
@@ -1688,9 +1696,9 @@ class Payment extends React.Component {
             referenceData,
             recommenderName,
             referenceId,
-            recommendationId: g.recommendationId || '',
+            recommendationId: recommendationId || g.recommendationId || '',
             // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
-            recommendationName: g.recommendationName || ''
+            recommendationName: recommendationName || g.recommendationName || ''
           };
         });
       // if(sessionItemRoyal.get('recommend_product')) {
@@ -1721,6 +1729,8 @@ class Payment extends React.Component {
                 : g.recommendationInfos;
           }
           let {
+            recommendationName = '',
+            recommendationId = '',
             referenceObject = '',
             recommenderId = '',
             referenceData = '',
@@ -1756,9 +1766,9 @@ class Payment extends React.Component {
             referenceData,
             recommenderName,
             referenceId,
-            recommendationId: g.recommendationId || '',
+            recommendationId: recommendationId || g.recommendationId || '',
             // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
-            recommendationName: g.recommendationName || ''
+            recommendationName: recommendationName || g.recommendationName || ''
           };
         });
       // }
