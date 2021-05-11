@@ -715,7 +715,7 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
-    GABuyNow();
+    GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
