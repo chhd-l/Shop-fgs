@@ -749,18 +749,18 @@ class AccountOrders extends React.Component {
                     <div className="row">
                       {(item.shippingItems || []).map((ele) => (
                         <div className="text-center col-2" key={ele.skuId}>
-                          <LazyLoad>
-                            <img
-                              src={ele.pic || IMG_DEFAULT}
-                              alt={ele.itemName}
-                              title={ele.itemName}
-                              style={{
-                                width: 'auto',
-                                margin: '0 auto',
-                                height: '60px'
-                              }}
-                            />
-                          </LazyLoad>
+                          {/*<LazyLoad>*/}
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                            style={{
+                              width: 'auto',
+                              margin: '0 auto',
+                              height: '60px'
+                            }}
+                          />
+                          {/*</LazyLoad>*/}
                           <p className="font-weight-normal ui-text-overflow-line1">
                             {ele.itemName} X {ele.itemNum}
                           </p>
