@@ -389,13 +389,13 @@ class Recommendation extends React.Component {
           recommendationInfos
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
-        if (!isRu && !isFr) {
-          this.props.clinicStore.setLinkClinicId(
-            res.context?.id || res.context.prescriberId
-          );
-          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        }
+        // if (!isRu || !isFr) {
+        //   this.props.clinicStore.setLinkClinicId(
+        //     res.context?.id || res.context.prescriberId
+        //   );
+        //   // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+        //   this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+        // }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
         // });
@@ -502,9 +502,12 @@ class Recommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
-            recommendationId: this.props.clinicStore.linkClinicId,
-            recommendationInfos: this.props.clinicStore
-              .linkClinicRecommendationInfos,
+            recommendationId:
+              this.props.clinicStore.recommendationInfos?.recommendationId ||
+              this.props.clinicStore.linkClinicId,
+            recommendationInfos:
+              this.props.clinicStore.recommendationInfos?.recommendationName ||
+              this.props.clinicStore.linkClinicId,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName: this.props.clinicStore.linkClinicName
           });
@@ -532,9 +535,13 @@ class Recommendation extends React.Component {
             periodTypeId: null,
             recommendationInfos: this.props.clinicStore
               .linkClinicRecommendationInfos,
-            recommendationId: this.props.clinicStore.linkClinicId,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
-            recommendationName: this.props.clinicStore.linkClinicName,
+            recommendationId:
+              this.props.clinicStore.recommendationInfos?.recommendationId ||
+              this.props.clinicStore.linkClinicId,
+            recommendationInfos:
+              this.props.clinicStore.recommendationInfos?.recommendationName ||
+              this.props.clinicStore.linkClinicId,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&
