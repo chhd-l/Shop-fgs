@@ -177,7 +177,6 @@ class ConfigStore {
     if (!res) {
       res = await getConfig();
       res = res.context;
-      console.log(' ----------- queryConfig: ', res);
     }
     this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
