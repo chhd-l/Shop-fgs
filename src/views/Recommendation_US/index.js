@@ -384,7 +384,6 @@ class Recommendation extends React.Component {
           referenceObject: res.context?.structureType || '',
           referenceData: res.context?.prescriptionJson || ''
         };
-        let recommendationInfosStr = JSON.stringify(recommendationInfos);
         this.props.clinicStore.setLinkClinicRecommendationInfos(
           recommendationInfos
         );
@@ -725,7 +724,7 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
-    GABuyNow();
+    GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();

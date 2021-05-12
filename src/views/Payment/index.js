@@ -282,8 +282,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   get billingAdd() {
     console.log(999, this.state.billingAddress);
@@ -2471,6 +2472,8 @@ class Payment extends React.Component {
     console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    this.props.paymentStore.saveDeliveryAddressInfo(this.state.deliveryAddress);
+    this.props.paymentStore.saveBillingAddressInfo(this.state.billingAddress);
     paymentStore.setStsToEdit({ key: 'confirmation' });
 
     this.setState(
@@ -3066,8 +3069,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
