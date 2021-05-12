@@ -171,7 +171,6 @@ class VetLandingPage extends React.Component {
                                   любое время
                                 </li>
                               </ul>
-                              Ветеринарные диеты Royal Canin
                               <br />
                               <br />
                               <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
