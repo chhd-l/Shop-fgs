@@ -97,9 +97,10 @@ export default function ModalB(props) {
                       Adres:
                       <span data-represents-field="#shippingAddressOne">
                         {deliveryAddressInfo?.address1},{' '}
-                        {localAddressForm['address2'] && form.address2 && (
-                          <span>{form.address2}</span>
-                        )}
+                        {localAddressForm['address2'] &&
+                          deliveryAddressInfo?.address2 && (
+                            <span>{deliveryAddressInfo?.address2}</span>
+                          )}
                       </span>
                     </p>
                     <p>
@@ -257,9 +258,10 @@ export default function ModalB(props) {
                       Adres:
                       <span data-represents-field="#shippingAddressOne">
                         {deliveryAddressInfo?.address1},{' '}
-                        {localAddressForm['address2'] && form.address2 && (
-                          <span>{form.address2}</span>
-                        )}
+                        {localAddressForm['address2'] &&
+                          deliveryAddressInfo?.address2 && (
+                            <span>{deliveryAddressInfo?.address2}</span>
+                          )}
                       </span>
                     </p>
                     <p>
@@ -291,9 +293,10 @@ export default function ModalB(props) {
                     </p>
                     <p>
                       Adres: <span>{billingAddressInfo?.address1},</span>{' '}
-                      {localAddressForm['address2'] && form.address2 && (
-                        <span>{form.address2}</span>
-                      )}
+                      {localAddressForm['address2'] &&
+                        billingAddressInfo?.address2 && (
+                          <span>{billingAddressInfo?.address2}</span>
+                        )}
                     </p>
                     <p>
                       Telefon:

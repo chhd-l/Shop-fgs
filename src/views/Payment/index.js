@@ -352,7 +352,7 @@ class Payment extends React.Component {
       console.warn(err);
     }
 
-    //this.getConsentList();
+    this.getConsentList();
 
     if (sessionItemRoyal.get('recommend_product')) {
       let recommend_data = JSON.parse(
@@ -566,7 +566,7 @@ class Payment extends React.Component {
     if (res) {
       this.isExistListFun(res); //现在游客会员 统一
     }
-    this.getTrConsentList();
+    //this.getTrConsentList();
   }
   //重新组装listData
   rebindListData(listData) {
