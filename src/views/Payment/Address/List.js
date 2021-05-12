@@ -82,8 +82,9 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -141,16 +142,20 @@ class AddressList extends React.Component {
       );
 
       // 有数据并且 type=billing，判断是否有billingAddress
-      if (addressList.length > 0 && this.props.type == 'billing') {
-        // isAddOrEdit() -> payment中用来判断是否添加或者编辑地址
+      if (this.props.type == 'billing') {
         let isbill = 0,
           isadde = true;
-        for (let i = 0; i < addressList.length; i++) {
-          if (addressList[i].type == 'BILLING') {
-            isbill++;
+        if (addressList.length > 0) {
+          for (let i = 0; i < addressList.length; i++) {
+            if (addressList[i].type == 'BILLING') {
+              isbill++;
+            }
           }
+          isbill > 0 ? (isadde = false) : (isadde = true);
+        } else {
+          isadde = true;
         }
-        isbill > 0 ? (isadde = false) : (isadde = true);
+        // props.isAddOrEdit() -> payment中用来判断是否添加或者编辑地址
         this.props.isAddOrEdit(isadde);
       }
 
@@ -683,8 +688,11 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const { deliveryAddress, selectListValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectListValidationOption,
+      validationAddress
+    } = this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1124,7 +1132,7 @@ class AddressList extends React.Component {
                                 className={`rc-btn rc-btn--one`}
                                 onClick={this.clickConfirmAddressPanel}
                               >
-                                <FormattedMessage id="yes" />
+                                <FormattedMessage id="yes2" />
                               </button>
                             </div>
                           )}

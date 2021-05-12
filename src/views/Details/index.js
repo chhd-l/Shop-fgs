@@ -753,6 +753,7 @@ class Details extends React.Component {
       .then((resList) => {
         const res = resList[0];
         const frequencyDictRes = resList[1];
+        // 获取club与autoship字典
         let autoshipDictRes = frequencyDictRes.filter(
           (el) => el.goodsInfoFlag === 1
         );
@@ -762,6 +763,7 @@ class Details extends React.Component {
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
+        // 获取默认frequencyId
         if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
@@ -915,6 +917,7 @@ class Details extends React.Component {
             specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
         }
         if (res && res.context && res.context.goodsSpecDetails) {
+          // 组装购物车的前端数据结构与规格的层级关系
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem, index) => {
@@ -984,9 +987,7 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
-              selected: i === 0,
-              petsId: checkoutStore.pr_petsInfo.petsId,
-              petsType: checkoutStore.pr_petsInfo.petsType
+              selected: i === 0
             });
             let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
@@ -994,9 +995,7 @@ class Details extends React.Component {
             }
             if (g.selected && g.subscriptionStatus) {
               form.buyWay =
-                form.buyWay && res.context?.goods.promotions?.includes('club')
-                  ? 2
-                  : form.buyWay;
+                form.buyWay && g.promotions?.includes('club') ? 2 : form.buyWay;
             }
             this.setState({ form });
 

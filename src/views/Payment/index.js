@@ -282,8 +282,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   get billingAdd() {
     console.log(999, this.state.billingAddress);
@@ -565,7 +566,7 @@ class Payment extends React.Component {
     if (res) {
       this.isExistListFun(res); //现在游客会员 统一
     }
-    this.getTrConsentList();
+    //this.getTrConsentList();
   }
   //重新组装listData
   rebindListData(listData) {
@@ -3068,8 +3069,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {

@@ -155,9 +155,13 @@ function LogisticsProgress(props) {
             >
               <span className={`logi-time text-right ${customDateCls}`}>
                 {/*{getFormatDate(item.date)}*/}
-                {format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')}
+                {item.timestamp
+                  ? format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')
+                  : ''}
                 <br />
-                {format(new Date(item.timestamp).getTime(), 'HH:mm:ss')}
+                {item.timestamp
+                  ? format(new Date(item.timestamp).getTime(), 'HH:mm:ss')
+                  : ''}
               </span>
               <div className="logi-text pl-4 pr-4 pt-3 pb-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -671,22 +675,23 @@ class AccountOrders extends React.Component {
                       i === activeTabIdx ? '' : 'hidden'
                     }`}
                   >
-                    {item.tradeLogisticsDetails &&
-                      item.tradeLogisticsDetails.length > 0 && (
-                        <LogisticsProgress
-                          list={item.tradeLogisticsDetails.sort((a, b) => {
-                            return (
-                              new Date(b.timestamp).getTime() -
-                              new Date(a.timestamp).getTime()
-                            );
-                          })}
-                          hasMoreLessOperation={true}
-                          moreLogistics={moreLogistics}
-                          handleToggleMoreLess={this.handleToggleMoreLess}
-                          customDateCls="text-nowrap"
-                        />
-                      )}
-
+                    <LogisticsProgress
+                      list={
+                        item.tradeLogisticsDetails &&
+                        item.tradeLogisticsDetails.length > 0
+                          ? item.tradeLogisticsDetails.sort((a, b) => {
+                              return (
+                                new Date(b.timestamp).getTime() -
+                                new Date(a.timestamp).getTime()
+                              );
+                            })
+                          : []
+                      }
+                      hasMoreLessOperation={true}
+                      moreLogistics={moreLogistics}
+                      handleToggleMoreLess={this.handleToggleMoreLess}
+                      customDateCls="text-nowrap"
+                    />
                     <div className="row">
                       {(item.shippingItems || []).map((ele) => (
                         <div className="text-center col-2" key={ele.skuId}>
@@ -756,61 +761,65 @@ class AccountOrders extends React.Component {
             ) : null}
 
             <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
-              {filteredLogisticsList.map((item, i) => (
-                <div
-                  className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
-                  onClick={this.handleClickLogisticsCard.bind(this, item)}
-                  key={i}
-                >
-                  <div className="col-10 medium color-444 d-flex align-items-center">
-                    <span>
-                      {/*{getFormatDate(*/}
-                      {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
-                      {/*)}*/}
-                      {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
-                      {item.deliverTime
-                        ? format(
-                            new Date(item.deliverTime).getTime(),
-                            'yyyy-MM-dd HH:mm:ss'
-                          )
-                        : ''}
-                    </span>
-                  </div>
-                  <div className="col-2">
-                    {/*<span*/}
-                    {/*  className="rc-icon rc-right rc-iconography rc-md-down"*/}
-                    {/*  style={{ transform: 'scale(.85)' }}*/}
-                    {/*/>*/}
-                    <span className="icon iconfont">&#xe6f9;</span>
-                  </div>
-                  {/*<div className="col-12 mt-2">*/}
-                  {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
-                  {/*{*/}
-                  {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
-                  {/*    .statusDescription*/}
-                  {/*}*/}
-                  {/*{item.tradeLogisticsDetailStatus || ''}*/}
-                  {/*</div>*/}
-                  <div className="col-12 row mt-2">
-                    {item.shippingItems.map((sItem) => (
-                      <div
-                        className="col-3"
-                        style={{ display: 'flex', alignItems: 'flex-end' }}
-                        key={sItem.skuId}
-                      >
-                        <LazyLoad>
-                          <img
-                            className="rc-bg-colour--brand4"
-                            src={sItem.pic}
-                            alt="shipping Items image"
-                            style={{ width: '70%' }}
-                          />
-                        </LazyLoad>
+              {filteredLogisticsList.map(
+                (item, i) =>
+                  item.tradeLogisticsDetails &&
+                  item.tradeLogisticsDetails.length > 0 && (
+                    <div
+                      className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+                      onClick={this.handleClickLogisticsCard.bind(this, item)}
+                      key={i}
+                    >
+                      <div className="col-10 medium color-444 d-flex align-items-center">
+                        <span>
+                          {/*{getFormatDate(*/}
+                          {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
+                          {/*)}*/}
+                          {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
+                          {item.deliverTime
+                            ? format(
+                                new Date(item.deliverTime).getTime(),
+                                'yyyy-MM-dd HH:mm:ss'
+                              )
+                            : ''}
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                      <div className="col-2">
+                        {/*<span*/}
+                        {/*  className="rc-icon rc-right rc-iconography rc-md-down"*/}
+                        {/*  style={{ transform: 'scale(.85)' }}*/}
+                        {/*/>*/}
+                        <span className="icon iconfont">&#xe6f9;</span>
+                      </div>
+                      {/*<div className="col-12 mt-2">*/}
+                      {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
+                      {/*{*/}
+                      {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
+                      {/*    .statusDescription*/}
+                      {/*}*/}
+                      {/*{item.tradeLogisticsDetailStatus || ''}*/}
+                      {/*</div>*/}
+                      <div className="col-12 row mt-2">
+                        {item.shippingItems.map((sItem) => (
+                          <div
+                            className="col-3"
+                            style={{ display: 'flex', alignItems: 'flex-end' }}
+                            key={sItem.skuId}
+                          >
+                            <LazyLoad>
+                              <img
+                                className="rc-bg-colour--brand4"
+                                src={sItem.pic}
+                                alt="shipping Items image"
+                                style={{ width: '70%' }}
+                              />
+                            </LazyLoad>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+              )}
             </div>
           </>
         )}

@@ -24,24 +24,30 @@ class TermsCommon extends Component {
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
     window.onload = () => {
-      document.getElementById('tr_consent_a').addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setTrConsentModal('fullScreenModalA', true);
-        //document.getElementById('tr_consent_a').removeEventListener('click',function(){})
-      });
-      document.getElementById('tr_consent_b').addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setTrConsentModal('fullScreenModalB', true);
-        //document.getElementById('tr_consent_b').removeEventListener('click',function(){})
-      });
+      document.getElementById('tr_consent_a') &&
+        document
+          .getElementById('tr_consent_a')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalA', true);
+            //document.getElementById('tr_consent_a').removeEventListener('click',function(){})
+          });
+      document.getElementById('tr_consent_b') &&
+        document
+          .getElementById('tr_consent_b')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalB', true);
+            //document.getElementById('tr_consent_b').removeEventListener('click',function(){})
+          });
     };
   }
   componentDidMount() {
-    if (process.env.REACT_APP_LANG == 'tr') {
-      this.addEventListenerFunTr();
-    }
+    // if (process.env.REACT_APP_LANG == 'tr') {
+    //   this.addEventListenerFunTr();
+    // }
 
     document
       .getElementById(`${this.props.id}`)

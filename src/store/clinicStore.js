@@ -59,7 +59,7 @@ class ClinicStore {
   }
   @action.bound
   setLinkClinicRecommendationInfos(data) {
-    this.recommendationInfos = data;
+    this.linkClinicRecommendationInfos = data;
     localItemRoyal.set(`rc-clinic-recommendationInfos`, data);
   }
 
@@ -82,7 +82,7 @@ class ClinicStore {
   }
   @action.bound
   removeLinkClinicRecommendationInfos() {
-    this.recommendationInfos = '';
+    this.linkClinicRecommendationInfos = '';
     localItemRoyal.remove(`rc-clinic-recommendationInfos`);
   }
 

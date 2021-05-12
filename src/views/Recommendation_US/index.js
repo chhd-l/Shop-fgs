@@ -384,7 +384,6 @@ class Recommendation extends React.Component {
           referenceObject: res.context?.structureType || '',
           referenceData: res.context?.prescriptionJson || ''
         };
-        let recommendationInfosStr = JSON.stringify(recommendationInfos);
         this.props.clinicStore.setLinkClinicRecommendationInfos(
           recommendationInfos
         );
@@ -1017,7 +1016,7 @@ class Recommendation extends React.Component {
                         checkPromotionCodeAndCopy ? 'show' : 'hide'
                       }`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
-                      onClick={this.viewShoppingCart}
+                      onClick={this.addCart}
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
