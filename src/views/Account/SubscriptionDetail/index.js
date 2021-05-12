@@ -2863,7 +2863,13 @@ class SubscriptionDetail extends React.Component {
       let res = await changeSubscriptionDetailPets(param);
       let newSubscribeId = res.context;
       if (newSubscribeId === subscribeId) {
-        await this.getDetail();
+        await this.getDetail(() => {
+          // 需要重置顶部的推荐商品框
+          let goodsInfo = [...this.state.subDetail.goodsInfo];
+          this.state.editRecommendationVisible &&
+            this.state.isNotInactive &&
+            this.showChangeProduct(goodsInfo, true);
+        });
       } else {
         this.props.history.push(
           `/account/subscription/order/detail/${newSubscribeId}`
