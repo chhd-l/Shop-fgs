@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import ModalA from './A';
 import ModalB from './B';
+import ModalC from './C';
+import ModalD from './D';
 
 const FullScreenModalContext = createContext();
 
@@ -46,7 +48,12 @@ export default class FullScreenModal extends React.Component {
     setTrConsentModal(modal, false);
   };
   Consent() {
-    const { fullScreenModalA, fullScreenModalB } = this.props.paymentStore;
+    const {
+      fullScreenModalA,
+      fullScreenModalB,
+      fullScreenModalC,
+      fullScreenModalD
+    } = this.props.paymentStore;
 
     let productList = toJS(this.state.productList);
     let propsObj = {
@@ -62,6 +69,14 @@ export default class FullScreenModal extends React.Component {
 
         <FullScreenModalContext.Provider value={propsObj}>
           <ModalB FullScreenModalContext={FullScreenModalContext} />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalC FullScreenModalContext={FullScreenModalContext} />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalD FullScreenModalContext={FullScreenModalContext} />
         </FullScreenModalContext.Provider>
       </>
     );

@@ -13,13 +13,20 @@ import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
+import Modal from '@/components/Modal';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'configStore', 'checkoutStore', 'clinicStore')
+@inject(
+  'loginStore',
+  'configStore',
+  'checkoutStore',
+  'clinicStore',
+  'paymentStore'
+)
 @observer
 class RegisterRequired extends Component {
   get isLogin() {
@@ -182,6 +189,7 @@ class RegisterRequired extends Component {
       //把非必填和必填的项目组装成一个数组list，用于渲染
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
+
       this.setState({
         list
       });
@@ -204,7 +212,48 @@ class RegisterRequired extends Component {
     } finally {
     }
   };
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    window.onload = () => {
+      document.getElementById('tr_consent_a') &&
+        document
+          .getElementById('tr_consent_a')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalA', true);
+          });
+      document.getElementById('tr_consent_b') &&
+        document
+          .getElementById('tr_consent_b')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalB', true);
+          });
+      document.getElementById('tr_consent_c') &&
+        document
+          .getElementById('tr_consent_c')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalC', true);
+          });
+      document.getElementById('tr_consent_d') &&
+        document
+          .getElementById('tr_consent_d')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalD', true);
+          });
+    };
+  }
   async componentDidMount() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
     // const state = this.props.location.state
     const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
     if (!fromLoginPage) {
@@ -397,6 +446,15 @@ class RegisterRequired extends Component {
             </div>
           </div>
         </div>
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+          // close={() => this.handelClose()}
+          // hanldeClickConfirm={() => this.hanldeConfirm()}
+        />
       </div>
     );
   }

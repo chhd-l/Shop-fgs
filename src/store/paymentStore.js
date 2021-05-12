@@ -83,6 +83,8 @@ class PaymentStore {
 
   @observable fullScreenModalA = false;
   @observable fullScreenModalB = false;
+  @observable fullScreenModalC = false;
+  @observable fullScreenModalD = false;
 
   @observable deliveryAddressInfo = {
     firstName: '',
