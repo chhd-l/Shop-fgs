@@ -282,13 +282,8 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
-  }
-  get billingAdd() {
-    console.log(999, this.state.billingAddress);
-    return this.state.billingAddress;
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -332,41 +327,28 @@ class Payment extends React.Component {
         }
       );
 
-      if (!sessionItemRoyal.get('recommend_product')) {
-        if (this.isLogin && !this.loginCartData.length && !tid) {
+      const recommendProductJson = sessionItemRoyal.get('recommend_product');
+      if (!recommendProductJson) {
+        if (!this.computedCartData.length && !tid) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
-        if (
-          !this.isLogin &&
-          (!this.cartData.length ||
-            !this.cartData.filter((ele) => ele.selected).length)
-        ) {
-          sessionItemRoyal.remove('rc-iframe-from-storepotal');
-          history.push('/cart');
-          return false;
-        }
+      } else {
+        let recommend_data = JSON.parse(recommendProductJson);
+        recommend_data = recommend_data.map((el) => {
+          el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
+          el.goodsInfo.buyCount = el.recommendationNumber;
+          return el.goodsInfo;
+        });
+        this.props.checkoutStore.updatePromotionFiled(recommend_data);
+        this.setState({ recommend_data });
       }
     } catch (err) {
       console.warn(err);
     }
 
     this.getConsentList();
-
-    if (sessionItemRoyal.get('recommend_product')) {
-      let recommend_data = JSON.parse(
-        sessionItemRoyal.get('recommend_product')
-      );
-      recommend_data = recommend_data.map((el) => {
-        el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
-        el.goodsInfo.buyCount = el.recommendationNumber;
-        return el.goodsInfo;
-      });
-      this.props.checkoutStore.updatePromotionFiled(recommend_data);
-      this.setState({ recommend_data });
-    }
-
     this.initPaymentWay();
     this.initPanelStatus();
   }
@@ -376,6 +358,9 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
+  }
+  get billingAdd() {
+    return this.state.billingAddress;
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -3069,9 +3054,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {

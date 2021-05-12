@@ -1086,11 +1086,7 @@ class List extends React.Component {
         (good) => good.goodsName == goodsName
       )?.[0]?.goodsNo;
       const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter(
-          (attr) =>
-            attr.goodsAttributeName &&
-            attr.goodsAttributeName.toLowerCase() == 'breeds'
-        )
+        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
@@ -1874,10 +1870,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -2059,14 +2056,11 @@ class List extends React.Component {
       history,
       configStore: { maxGoodsPrice }
     } = this.props;
-    const { pathname } = history.location;
     const {
-      category,
       results,
       productList,
       loading,
       titleData,
-      initingList,
       sortList,
       filterList,
       initingFilter,
@@ -2075,19 +2069,14 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
       keywords,
-      breadList,
       eEvents,
       GAListParam,
       isDogPage,
-      keywordsSearch,
       baseSearchStr,
       allPrefv,
       prefv1,
       animalType
     } = this.state;
-
-    const a = [9, 9, 9, 9, 9, 9, 9];
-    a.splice(3, 0, 3);
 
     const _loadingJXS = Array(6)
       .fill(null)
