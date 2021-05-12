@@ -836,7 +836,6 @@ class List extends React.Component {
 
     let tmpSearch = '';
     const prefnNum = (search.match(/prefn/gi) || []).length;
-
     for (let index = 0; index < Math.min(prefnNum, 1); index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(
@@ -855,19 +854,32 @@ class List extends React.Component {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
       if (fnEle == 'Lifestages') {
-        lifestagesPrefv.push(fvEles);
-      } else if (fnEle == 'Sterilized' && fvEles == 'Нет') {
-        sterilizedPrefv.push('стерилизованных');
-      } else if (fnEle == 'Technology') {
+        const lifestage = fvEles.includes('|')
+          ? 'корм для кошек разных возрастов'
+          : 'корм для ' + fvEles;
+        lifestagesPrefv.push(lifestage);
+      } else if (fnEle == 'Sterilized') {
+        const sterilize =
+          fvEles == 'Нет' ? 'стерилизованных' : 'нестерилизованных';
+        sterilizedPrefv.push(sterilize);
+      } else if (fnEle == 'Technology' && fvEles != 'Другой') {
         technologyPrefv.push(fvEles);
       } else if (fnEle == 'Breeds') {
-        breedsPrefv.push(fvEles);
+        const breed = fvEles.includes('|')
+          ? 'разных пород'
+          : 'породы ' + fvEles;
+        breedsPrefv.push(breed);
       }
 
       if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
 
-    if (!lifestagesPrefv.length) lifestagesPrefv.push('корм для кошек');
+    if (!lifestagesPrefv.length && prefnNum) {
+      const foodType = this.state.isDogPage
+        ? 'корм для собак'
+        : 'корм для кошек';
+      lifestagesPrefv.push(foodType);
+    }
     let allPrefv = [
       ...technologyPrefv,
       ...lifestagesPrefv,
@@ -1870,11 +1882,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -2077,7 +2088,7 @@ class List extends React.Component {
       prefv1,
       animalType
     } = this.state;
-
+    console.log(allPrefv, 'allPrefvallPrefv');
     const _loadingJXS = Array(6)
       .fill(null)
       .map((item, i) => (
@@ -2088,7 +2099,7 @@ class List extends React.Component {
         </ListItemForDefault>
       ));
 
-    const { title, metaDescription } = this.state.seoConfig;
+    const { title, metaDescription, metaKeywords } = this.state.seoConfig;
     const titleSeo =
       title && titleData && title.replace(/{H1}/, titleData.title);
     const metaDescriptionSeo =
@@ -2109,6 +2120,8 @@ class List extends React.Component {
       process.env.REACT_APP_COUNTRY === 'RU'
         ? ruFilterSeoDesc
         : trFilterSeoDesc;
+    const filterSeoWords =
+      process.env.REACT_APP_COUNTRY === 'RU' ? allPrefv : metaKeywords;
     return (
       <div>
         {this.state.event && (
@@ -2124,7 +2137,7 @@ class List extends React.Component {
             name="description"
             content={this.state.prefv1 ? filterSeoDesc : metaDescriptionSeo}
           />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <meta name="keywords" content={filterSeoWords} />
         </Helmet>
         <Header
           showMiniIcons={true}
