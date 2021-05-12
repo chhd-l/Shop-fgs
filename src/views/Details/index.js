@@ -633,14 +633,9 @@ class Details extends React.Component {
       return item;
     });
 
-    // !details.promotions ||
-    // !details.promotions.includes('club') || !details.promotions.includes('autoship')
-    // !skuPromotions
-    //   ? (form.buyWay = 0)
-    //   : skuPromotions == 'club'
-    //   ? (form.buyWay = 2)
-    //   : (form.buyWay = 1);
-    defaultPurchaseType === 1
+    defaultPurchaseType === 1 ||
+    sessionItemRoyal.get('pf-result') ||
+    localStorage.getItem('pfls')
       ? skuPromotions == 'club'
         ? (form.buyWay = 2)
         : (form.buyWay = 1)
@@ -704,118 +699,49 @@ class Details extends React.Component {
 
     let petsRes = {};
     let pf_params = {};
-    if (localStorage.getItem('pfls') && getClubFlag()) {
-      pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-      let rationRes = await getRation(
-        Object.assign(
-          {
-            spuNoList: [goodsNo]
-          },
-          pf_params
-        )
-      );
-      this.setState({
-        questionParams: JSON.stringify(pf_params),
-        isFromPR: true
-      });
-      if (rationRes.code === 'K-000000') {
+    try {
+      if (localStorage.getItem('pfls') && getClubFlag()) {
+        pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
         this.setState({
-          rationInfo: rationRes.context.rationResponseItems[0]
+          questionParams: JSON.stringify(pf_params),
+          isFromPR: true
         });
-      }
-    } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
-      pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-      let rationRes = await getRation(
-        Object.assign(
-          {
-            spuNoList: [goodsNo]
-          },
-          pf_params
-        )
-      );
-      this.setState({
-        questionParams: JSON.stringify(pf_params),
-        isFromPR: true
-      });
-      if (rationRes.code === 'K-000000') {
+        let rationRes = await getRation(
+          Object.assign(
+            {
+              spuNoList: [goodsNo]
+            },
+            pf_params
+          )
+        );
+        if (rationRes.code === 'K-000000') {
+          this.setState({
+            rationInfo: rationRes.context.rationResponseItems[0]
+          });
+        }
+      } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
+        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
         this.setState({
-          rationInfo: rationRes.context.rationResponseItems[0]
+          questionParams: JSON.stringify(pf_params),
+          isFromPR: true
         });
+        let rationRes = await getRation(
+          Object.assign(
+            {
+              spuNoList: [goodsNo]
+            },
+            pf_params
+          )
+        );
+        if (rationRes.code === 'K-000000') {
+          this.setState({
+            rationInfo: rationRes.context.rationResponseItems[0]
+          });
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
-
-    // 对比productFinder 之前信息
-    // let savePetFlag = false;
-    // let isMyProductFinder = true;
-    // let isFromPR = true;
-    // if (localStorage.getItem('pfls')) {
-    //   if (
-    //     localStorage.getItem('pfls') &&
-    //     localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
-    //   ) {
-    //     savePetFlag = true;
-    //   } else {
-    //     savePetFlag = false;
-    //   }
-    //   isMyProductFinder = false;
-    // } else if (sessionItemRoyal.get('pf-result')) {
-    //   if (
-    //     sessionItemRoyal.get('pf-result') &&
-    //     sessionItemRoyal.get('pf-result') !==
-    //       sessionItemRoyal.get('pf-result-before')
-    //   ) {
-    //     savePetFlag = true;
-    //   } else {
-    //     savePetFlag = false;
-    //   }
-    //   isMyProductFinder = true;
-    // } else {
-    //   isFromPR = false;
-    // }
-    // this.setState({ isFromPR });
-    // if (isFromPR) {
-    //   if (localStorage.getItem('pfls')) {
-    //     localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-    //   }
-    //   if (sessionItemRoyal.get('pf-result')) {
-    //     sessionItemRoyal.set(
-    //       'pf-result-before',
-    //       sessionItemRoyal.get('pf-result')
-    //     );
-    //   }
-    //   let pf_params = {};
-    //   if (!isMyProductFinder) {
-    //     pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-    //     pf_params.age = '' + pf_params.age;
-    //   } else {
-    //     pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-    //   }
-
-    //   if (this.isLogin && savePetFlag) {
-    //     try {
-    //       petsRes = await clubSubscriptionSavePets({
-    //         questionParams: pf_params
-    //       });
-    //       let petsInfo = petsRes.context;
-    //       this.props.checkoutStore.setPetInfo(petsRes.context);
-    //     } catch (err) {
-    //       console.log(err, 'error111');
-    //     }
-    //   }
-    //   let rationRes = await getRation(
-    //     Object.assign(
-    //       {
-    //         spuNoList: [goodsNo]
-    //       },
-    //       pf_params
-    //     )
-    //   );
-    //   if (rationRes.code === 'K-000000') {
-    //     this.setState({
-    //       rationInfo: rationRes.context.rationResponseItems[0]
-    //     });
-    //   }
-    // }
 
     Promise.all([
       requestName(param),
@@ -827,6 +753,7 @@ class Details extends React.Component {
       .then((resList) => {
         const res = resList[0];
         const frequencyDictRes = resList[1];
+        // 获取club与autoship字典
         let autoshipDictRes = frequencyDictRes.filter(
           (el) => el.goodsInfoFlag === 1
         );
@@ -836,6 +763,7 @@ class Details extends React.Component {
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
+        // 获取默认frequencyId
         if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
@@ -989,6 +917,7 @@ class Details extends React.Component {
             specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
         }
         if (res && res.context && res.context.goodsSpecDetails) {
+          // 组装购物车的前端数据结构与规格的层级关系
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem, index) => {
@@ -1058,9 +987,7 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
-              selected: i === 0,
-              petsId: checkoutStore.pr_petsInfo.petsId,
-              petsType: checkoutStore.pr_petsInfo.petsType
+              selected: i === 0
             });
             let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
@@ -1068,9 +995,7 @@ class Details extends React.Component {
             }
             if (g.selected && g.subscriptionStatus) {
               form.buyWay =
-                form.buyWay && res.context?.goods.promotions?.includes('club')
-                  ? 2
-                  : form.buyWay;
+                form.buyWay && g.promotions?.includes('club') ? 2 : form.buyWay;
             }
             this.setState({ form });
 

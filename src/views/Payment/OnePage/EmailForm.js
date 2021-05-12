@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { searchNextConfirmPanel } from '../modules/utils';
+import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 
 @inject('paymentStore', 'loginStore')
@@ -25,17 +25,32 @@ class EmailForm extends React.Component {
   // 会员不显示Email panel -> 置为complete状态
   componentDidMount() {
     const { paymentStore } = this.props;
+    const nextConfirmPanel = searchNextConfirmPanel({
+      list: toJS(paymentStore.panelStatus),
+      curKey: this.curKey
+    });
+    const isReadyPrev = isPrevReady({
+      list: toJS(paymentStore.panelStatus),
+      curKey: this.curKey
+    });
     if (this.isLogin) {
-      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+      paymentStore.setStsToCompleted({ key: this.curKey, isFirstLoad: true });
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
-      paymentStore.setStsToEdit({ key: 'email' });
+      isReadyPrev && paymentStore.setStsToEdit({ key: this.curKey });
     }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get curKey() {
+    return 'email';
+  }
   handleClickEdit = () => {
-    this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true });
+    this.props.paymentStore.setStsToEdit({
+      key: this.curKey,
+      hideOthers: true
+    });
     this.setState({
       form: Object.assign(this.state.form, {
         email: this.props.currentEmailVal
@@ -53,10 +68,10 @@ class EmailForm extends React.Component {
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
       list: toJS(paymentStore.panelStatus),
-      curKey: 'email'
+      curKey: this.curKey
     });
 
-    paymentStore.setStsToCompleted({ key: 'email' });
+    paymentStore.setStsToCompleted({ key: this.curKey });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
   }
   handleInputChange = (e) => {

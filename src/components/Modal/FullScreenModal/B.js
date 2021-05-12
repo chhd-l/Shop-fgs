@@ -1,17 +1,44 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { useState, useContext } from 'react';
+import { formatMoney } from '@/utils/utils';
+import { format, utcToZonedTime } from 'date-fns-tz';
+import { Observer, useLocalStore } from 'mobx-react';
+import stores from '@/store';
 
-@inject('paymentStore')
-@observer
-export default class FullScreenModalB extends React.Component {
-  close = () => {
-    const { setTrConsentModal } = this.props.paymentStore;
-    setTrConsentModal('fullScreenModalB', false);
-  };
-  render() {
-    const { fullScreenModalB } = this.props.paymentStore;
-    return (
-      <>
+export default function ModalB(props) {
+  const { FullScreenModalContext } = props;
+  const value = useContext(FullScreenModalContext);
+  const {
+    loginStore,
+    checkoutStore,
+    paymentStore,
+    configStore
+  } = useLocalStore(() => stores);
+  const { isLogin, userInfo } = loginStore;
+  const {
+    subscriptionDiscountPrice,
+    deliveryPrice,
+    tradePrice
+  } = checkoutStore;
+  const {
+    fullScreenModalB,
+    deliveryAddressInfo,
+    billingAddressInfo
+  } = paymentStore;
+  const { localAddressForm } = configStore;
+  const { productList, calTotalNum, close } = value;
+
+  function getCurrentDate() {
+    const date = new Date();
+    const timeZone = 'Europe/Istanbul';
+    const IsDate = utcToZonedTime(date, timeZone);
+    return format(IsDate, 'dd/MM/yyyy', { timeZone: timeZone });
+  }
+
+  const [currentDate] = useState(getCurrentDate());
+
+  return (
+    <Observer>
+      {() => (
         <div className={[fullScreenModalB ? '' : 'rc-hidden'].join(' ')}>
           <div
             className="rc-shade"
@@ -22,7 +49,7 @@ export default class FullScreenModalB extends React.Component {
               <header className="rc-modal__header">
                 <button
                   className="rc-btn rc-icon rc-btn--icon-label rc-modal__close rc-close--xs rc-iconography"
-                  onClick={this.close}
+                  onClick={() => close('fullScreenModalB')}
                 ></button>
               </header>
               <section className="rc-modal__content rc-scroll--y h-100 rc-padding-top--lg--desktop ">
@@ -60,26 +87,33 @@ export default class FullScreenModalB extends React.Component {
                       Ad Soyad / Unvan:
                       <span data-represents-field="#billingAddressTitle"></span>
                       <span data-represents-field="#shippingFirstName">
-                        kevin
+                        {deliveryAddressInfo?.firstName}
+                      </span>{' '}
+                      <span data-represents-field="#shippingLastName">
+                        {deliveryAddressInfo?.lastName}
                       </span>
-                      <span data-represents-field="#shippingLastName">qu</span>
                     </p>
                     <p>
                       Adres:
                       <span data-represents-field="#shippingAddressOne">
-                        ASASD, asdsad
+                        {deliveryAddressInfo?.address1},{' '}
+                        {localAddressForm['address2'] &&
+                          deliveryAddressInfo?.address2 && (
+                            <span>{deliveryAddressInfo?.address2}</span>
+                          )}
                       </span>
                     </p>
                     <p>
                       Telefon:
                       <span data-represents-field="#shippingPhoneNumber">
-                        0 (312) 231-18-61
+                        {deliveryAddressInfo?.phoneNumber ||
+                          deliveryAddressInfo?.consigneeNumber}
                       </span>
                     </p>
                     <p>
                       E-posta:
                       <span data-represents-field="#shippingEmail">
-                        qhx717@qq.com
+                        {isLogin ? userInfo.customerAccount : ''}
                       </span>
                     </p>
                     <br />
@@ -122,13 +156,27 @@ export default class FullScreenModalB extends React.Component {
                             </tr>
                           </thead>
                           <tbody className="rc-table__tbody">
-                            <tr className="rc-table__row">
-                              <td className="rc-table__td">243801500_TR</td>
-                              <td className="rc-table__td">Chihuahua Puppy</td>
-                              <td className="rc-table__td">140.00 TL</td>
-                              <td className="rc-table__td">1.00</td>
-                              <td className="rc-table__td">140.00 TL</td>
-                            </tr>
+                            {productList.map((el) => {
+                              return (
+                                <tr className="rc-table__row">
+                                  <td className="rc-table__td">
+                                    {el.goodsInfoNo}
+                                  </td>
+                                  <td className="rc-table__td">
+                                    {el.goodsName}
+                                  </td>
+                                  <td className="rc-table__td">
+                                    {formatMoney(el.salePrice)}
+                                  </td>
+                                  <td className="rc-table__td">
+                                    {el.buyCount + '.00'}
+                                  </td>
+                                  <td className="rc-table__td">
+                                    {formatMoney(el.salePrice * el.buyCount)}
+                                  </td>
+                                </tr>
+                              );
+                            })}
                           </tbody>
                           <tbody>
                             <tr className="rc-table__row">
@@ -136,28 +184,34 @@ export default class FullScreenModalB extends React.Component {
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">Toplam Miktar</td>
-                              <td className="rc-table__td">1.00</td>
+                              <td className="rc-table__td">{calTotalNum()}</td>
                             </tr>
                             <tr className="rc-table__row">
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
-                              <td className="rc-table__td">KDV Matrahi</td>
-                              <td className="rc-table__td">21.36 TL</td>
+                              <td className="rc-table__td">İndirim</td>
+                              <td className="rc-table__td">
+                                {subscriptionDiscountPrice > 0
+                                  ? '-' + subscriptionDiscountPrice + ' TL'
+                                  : '0 TL'}
+                              </td>
                             </tr>
                             <tr className="rc-table__row">
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">Kargo bedeli</td>
-                              <td className="rc-table__td">0.00 TL</td>
+                              <td className="rc-table__td">
+                                {deliveryPrice} TL
+                              </td>
                             </tr>
                             <tr className="rc-table__row">
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">Ödenecek Tutar</td>
-                              <td className="rc-table__td">140.00 TL</td>
+                              <td className="rc-table__td">{tradePrice} TL</td>
                             </tr>
                           </tbody>
                         </table>
@@ -194,26 +248,33 @@ export default class FullScreenModalB extends React.Component {
                       Ad Soyad / Unvan:
                       <span data-represents-field="#billingAddressTitle"></span>
                       <span data-represents-field="#shippingFirstName">
-                        kevin
+                        {deliveryAddressInfo?.firstName}
+                      </span>{' '}
+                      <span data-represents-field="#shippingLastName">
+                        {deliveryAddressInfo?.lastName}
                       </span>
-                      <span data-represents-field="#shippingLastName">qu</span>
                     </p>
                     <p>
                       Adres:
                       <span data-represents-field="#shippingAddressOne">
-                        ASASD, asdsad
+                        {deliveryAddressInfo?.address1},{' '}
+                        {localAddressForm['address2'] &&
+                          deliveryAddressInfo?.address2 && (
+                            <span>{deliveryAddressInfo?.address2}</span>
+                          )}
                       </span>
                     </p>
                     <p>
                       Telefon:
                       <span data-represents-field="#shippingPhoneNumber">
-                        0 (312) 231-18-61
+                        {deliveryAddressInfo?.phoneNumber ||
+                          deliveryAddressInfo?.consigneeNumber}
                       </span>
                     </p>
                     <p>
                       E-posta:
                       <span data-represents-field="#shippingEmail">
-                        qhx717@qq.com
+                        {isLogin ? userInfo.customerAccount : ''}
                       </span>
                     </p>
                     <br />
@@ -224,26 +285,30 @@ export default class FullScreenModalB extends React.Component {
                       Ad Soyad / Unvan:
                       <span data-represents-field="#billingAddressTitle"></span>
                       <span data-represents-field="#billingFirstName">
-                        kevin
+                        {billingAddressInfo?.firstName}
+                      </span>{' '}
+                      <span data-represents-field="#billingLastName">
+                        {billingAddressInfo?.lastName}
                       </span>
-                      <span data-represents-field="#billingLastName">qu</span>
                     </p>
                     <p>
-                      Adres:
-                      <span data-represents-field="#billingAddressOne">
-                        ASASD, asdsad
-                      </span>
+                      Adres: <span>{billingAddressInfo?.address1},</span>{' '}
+                      {localAddressForm['address2'] &&
+                        billingAddressInfo?.address2 && (
+                          <span>{billingAddressInfo?.address2}</span>
+                        )}
                     </p>
                     <p>
                       Telefon:
                       <span data-represents-field="#billingPhoneNumber">
-                        0 (312) 231-18-61
+                        {billingAddressInfo?.phoneNumber ||
+                          billingAddressInfo?.consigneeNumber}
                       </span>
                     </p>
                     <p>
                       E-posta:
                       <span data-represents-field="#billingEmail">
-                        qhx717@qq.com
+                        {isLogin ? userInfo.customerAccount : ''}
                       </span>
                     </p>
                     <p>
@@ -512,7 +577,7 @@ export default class FullScreenModalB extends React.Component {
                     </div>
                     <h3>10. YÜRÜRLÜK </h3>
                     <p>
-                      İşbu Sözleşme, taraflarca okunarak 07/05/2021 tarihinde
+                      İşbu Sözleşme, taraflarca okunarak {currentDate} tarihinde
                       Alıcı tarafından elektronik ortamda onaylanmak suretiyle
                       akdedilmiş ve yürürlüğe girmiştir.
                     </p>
@@ -522,7 +587,7 @@ export default class FullScreenModalB extends React.Component {
             </div>
           </aside>
         </div>
-      </>
-    );
-  }
+      )}
+    </Observer>
+  );
 }

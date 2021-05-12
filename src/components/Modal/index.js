@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import FullScreenModalA from './FullScreenModal/A';
-import FullScreenModalB from './FullScreenModal/B';
+import FullScreenModal from './FullScreenModal';
 
 export default class Modal extends React.Component {
   static defaultProps = {
@@ -26,8 +25,7 @@ export default class Modal extends React.Component {
   render() {
     const { visible, type } = this.props;
     if (type === 'fullscreen') {
-      return <>{/* <FullScreenModalA />
-          <FullScreenModalB /> */}</>;
+      return <>{/* {<FullScreenModal />} */}</>;
     }
     return (
       <React.Fragment>

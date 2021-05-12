@@ -23,7 +23,8 @@ class ClinicForm extends React.Component {
     containerStyle: {},
     arrowStyle: {},
     cancelBtnVisible: true,
-    confirmBtnVisible: true
+    confirmBtnVisible: true,
+    needPrescriber: false
   };
   constructor(props) {
     super(props);
@@ -41,8 +42,9 @@ class ClinicForm extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const nName = this.props.clinicStore.selectClinicName;
-    const nId = this.props.clinicStore.selectClinicId;
+    const { clinicStore, paymentStore } = this.props;
+    const nName = clinicStore.selectClinicName;
+    const nId = clinicStore.selectClinicId;
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {
@@ -54,8 +56,11 @@ class ClinicForm extends React.Component {
     this.setState({
       isEdit: !(nId && nName)
     });
-    if (this.props.configStore.prescriberSelectTyped === 0 || (nName && nId)) {
-      this.confirmToNextPanel();
+    // 设置下一个状态时，email还没有被初始化好
+    if (!this.checkoutWithClinic || (nName && nId)) {
+      this.updatePanelStatus({ setToCompleted: true });
+    } else {
+      this.updatePanelStatus({ setToEdit: true });
     }
 
     // 监听回车键
@@ -75,6 +80,12 @@ class ClinicForm extends React.Component {
         }
       }
     });
+  }
+  get checkoutWithClinic() {
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      this.props.needPrescriber
+    );
   }
   gotoPrescriptionPage = (e) => {
     e.preventDefault();
@@ -118,21 +129,26 @@ class ClinicForm extends React.Component {
     }
     this.props.clinicStore.setSelectClinicId(form.clinicId);
     this.props.clinicStore.setSelectClinicName(form.clinicName);
-    this.confirmToNextPanel();
+    this.updatePanelStatus({ setToCompleted: true });
     this.setState({
       isEdit: false
     });
   };
-  confirmToNextPanel() {
+  updatePanelStatus({ setToCompleted, setToEdit }) {
     const { paymentStore } = this.props;
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
       list: toJS(paymentStore.panelStatus),
       curKey: 'clinic'
     });
-
-    paymentStore.setStsToCompleted({ key: 'clinic' });
-    paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    if (setToCompleted) {
+      paymentStore.setStsToCompleted({ key: 'clinic' });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    }
+    if (setToEdit) {
+      paymentStore.setStsToEdit({ key: 'clinic' });
+      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+    }
   }
   render() {
     const { isEdit } = this.state;
@@ -258,9 +274,14 @@ class ClinicForm extends React.Component {
                                 className="rc-styled-link font-italic"
                               >
                                 <FormattedMessage id="clickHere3" />
-                                <span className="warning_blank">
-                                  Opens a new window
-                                </span>
+                                {Boolean(
+                                  process.env
+                                    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                ) && (
+                                  <span className="warning_blank">
+                                    Opens a new window
+                                  </span>
+                                )}
                               </Link>
                             )
                           }}
@@ -287,7 +308,15 @@ class ClinicForm extends React.Component {
       </div>
     );
 
-    return <>{prescriberSelectTyped === 0 ? defaultJSX : searchJSX}</>;
+    return (
+      <>
+        {this.checkoutWithClinic
+          ? prescriberSelectTyped === 0
+            ? defaultJSX
+            : searchJSX
+          : null}
+      </>
+    );
   }
 }
 

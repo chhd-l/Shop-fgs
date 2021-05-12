@@ -384,18 +384,17 @@ class Recommendation extends React.Component {
           referenceObject: res.context?.structureType || '',
           referenceData: res.context?.prescriptionJson || ''
         };
-        let recommendationInfosStr = JSON.stringify(recommendationInfos);
         this.props.clinicStore.setLinkClinicRecommendationInfos(
           recommendationInfos
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
-        if (!isRu && !isFr) {
-          this.props.clinicStore.setLinkClinicId(
-            res.context?.id || res.context.prescriberId
-          );
-          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        }
+        // if (!isRu || !isFr) {
+        //   this.props.clinicStore.setLinkClinicId(
+        //     res.context?.id || res.context.prescriberId
+        //   );
+        //   // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+        //   this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+        // }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
         // });
@@ -502,11 +501,15 @@ class Recommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
-            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationId:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
             recommendationInfos: this.props.clinicStore
               .linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
-            recommendationName: this.props.clinicStore.linkClinicName
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -532,9 +535,13 @@ class Recommendation extends React.Component {
             periodTypeId: null,
             recommendationInfos: this.props.clinicStore
               .linkClinicRecommendationInfos,
-            recommendationId: this.props.clinicStore.linkClinicId,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
-            recommendationName: this.props.clinicStore.linkClinicName,
+            recommendationId:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&
@@ -717,7 +724,7 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
-    GABuyNow();
+    GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();

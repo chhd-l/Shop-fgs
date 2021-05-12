@@ -252,7 +252,8 @@ class Login extends React.Component {
   };
 
   emailVerify = (email) => {
-    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    let reg =
+      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email);
   };
   passwordVerify = (password) => {
@@ -889,9 +890,13 @@ class Login extends React.Component {
                       >
                         {' '}
                         <FormattedMessage id="userAgreement" />
-                        <span className="warning_blank">
-                          Opens a new window
-                        </span>
+                        {Boolean(
+                          process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        ) && (
+                          <span className="warning_blank">
+                            Opens a new window
+                          </span>
+                        )}
                       </a>
                       <FormattedMessage id="andThe" />
                       <a
@@ -900,9 +905,13 @@ class Login extends React.Component {
                         rel="nofollow"
                       >
                         <FormattedMessage id="privacyPolicy" />{' '}
-                        <span className="warning_blank">
-                          Opens a new window
-                        </span>
+                        {Boolean(
+                          process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        ) && (
+                          <span className="warning_blank">
+                            Opens a new window
+                          </span>
+                        )}
                       </a>
                       <FormattedMessage id="giveConsentPersonalData" />
                     </label>

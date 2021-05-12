@@ -33,11 +33,10 @@ import {
   getZoneTime,
   getClubFlag
 } from '@/utils/utils';
-import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -49,13 +48,6 @@ import {
   findPetProductForClub,
   changeSubscriptionDetailPets
 } from '@/api/subscription';
-
-const selectedPet = {
-  border: '3px solid #ec001a'
-};
-const noSelect = {
-  border: '3px solid #d7d7d7'
-};
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -221,36 +213,49 @@ class PetForm extends React.Component {
           });
           if (currentPet) {
             this.edit(currentPet);
-            this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+            const {
+              customerPetsPropRelations = [],
+              activity,
+              birthOfPets,
+              isPurebred,
+              lifestyle,
+              needs,
+              petsBreed,
+              petsId,
+              petsImg,
+              petsName,
+              petsSex,
+              petsSizeValueName,
+              petsType,
+              sterilized,
+              weight
+            } = currentPet;
+            this.getSpecialNeeds(customerPetsPropRelations);
             let oldCurrentPet = {
-              activity: currentPet.activity,
-              birthOfPets: currentPet.birthOfPets,
-              isPurebred: currentPet.isPurebred,
-              lifestyle: currentPet.lifestyle,
-              needs: currentPet.needs,
-              petsBreed: currentPet.petsBreed,
-              petsId: currentPet.petsId,
-              petsImg: currentPet.petsImg,
-              petsName: currentPet.petsName,
-              petsSex: currentPet.petsSex,
-              petsBreed: currentPet.petsBreed,
+              activity,
+              birthOfPets,
+              isPurebred,
+              lifestyle,
+              needs,
+              petsBreed,
+              petsId,
+              petsImg,
+              petsName,
+              petsSex,
               petsSizeValueId: '',
               storeId: process.env.REACT_APP_STOREID,
-              petsSizeValueName: currentPet.petsSizeValueName,
-              petsType: currentPet.petsType,
-              sterilized: currentPet.sterilized,
-              weight: currentPet.weight
+              petsSizeValueName,
+              petsType,
+              sterilized,
+              weight
             };
             this.setState(
               {
-                currentPetId: currentPet.petsId,
-                currentPet: currentPet,
+                currentPetId: petsId,
+                currentPet,
                 oldCurrentPet, //存储当前eidt宠物，比对修改了哪些字段，如果是只改了名字，就不会弹出跳转subscriptionDetail
-                imgUrl:
-                  currentPet.petsImg && currentPet.petsImg.includes('http')
-                    ? currentPet.petsImg
-                    : '',
-                isCat: currentPet.petsType == 'cat' ? true : false
+                imgUrl: petsImg && petsImg.includes('http') ? petsImg : '',
+                isCat: petsType == 'cat' ? true : false
               },
               () => {
                 this.getTypeDict();
@@ -342,9 +347,20 @@ class PetForm extends React.Component {
     const {
       selectedSpecialNeeds,
       isPurebred,
-      subList,
-      currentPet,
-      oldCurrentPet
+      oldCurrentPet,
+      isCat,
+      sensitivity,
+      activity,
+      lifestyle,
+      birthdate,
+      currentPetId,
+      imgUrl,
+      breed,
+      breedcode,
+      nickname,
+      isMale,
+      weight,
+      isSterilized
     } = this.state;
     if (isPurebred) {
       this.setState({
@@ -364,9 +380,9 @@ class PetForm extends React.Component {
     }
 
     let validFiled = ['nickname', 'birthdate'];
-    if (this.state.isPurebred) {
+    if (isPurebred) {
       validFiled.push('breed');
-    } else if (!this.state.isCat) {
+    } else if (!isCat) {
       validFiled.push('weight');
     }
     for (let i = 0; i < validFiled.length; i++) {
@@ -378,7 +394,7 @@ class PetForm extends React.Component {
       }
     }
 
-    if (!this.state.sensitivity) {
+    if (!sensitivity) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
@@ -390,10 +406,7 @@ class PetForm extends React.Component {
       const RuTr =
         process.env.REACT_APP_COUNTRY == 'RU' ||
         process.env.REACT_APP_COUNTRY == 'TR';
-      if (
-        !this.state.activity ||
-        (!this.state.lifestyle && this.state.isCat && RuTr)
-      ) {
+      if (!activity || (!lifestyle && isCat && RuTr)) {
         this.showErrorMsg(
           this.props.intl.messages.pleasecompleteTheRequiredItem
         );
@@ -430,27 +443,24 @@ class PetForm extends React.Component {
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
+    const petsBreed = isPurebred ? breed : isCat ? 'mixed_breed' : breedcode;
     let pets = {
-      birthOfPets: this.state.birthdate,
-      petsId: this.state.currentPetId,
-      petsImg: this.state.imgUrl,
-      petsBreed: this.state.isPurebred
-        ? this.state.breed
-        : this.state.isCat
-        ? 'mixed_breed'
-        : this.state.breedcode,
-      petsName: this.state.nickname,
-      petsSex: this.state.isMale ? '0' : '1',
+      birthOfPets: birthdate,
+      petsId: currentPetId,
+      petsImg: imgUrl,
+      petsBreed,
+      petsName: nickname,
+      petsSex: isMale ? '0' : '1',
       petsSizeValueId: '',
-      petsSizeValueName: this.state.weight,
-      petsType: this.state.isCat ? 'cat' : 'dog',
-      sterilized: this.state.isSterilized ? '1' : '0',
+      petsSizeValueName: weight,
+      petsType: isCat ? 'cat' : 'dog',
+      sterilized: isSterilized ? '1' : '0',
       storeId: process.env.REACT_APP_STOREID,
-      isPurebred: this.state.isPurebred ? '1' : '0',
-      activity: this.state.activity,
-      lifestyle: this.state.lifestyle,
+      isPurebred: isPurebred ? '1' : '0',
+      activity,
+      lifestyle,
       weight: JSON.stringify(this.state.weightObj),
-      needs: this.state.sensitivity
+      needs: sensitivity
     };
     let isEditAlert = false;
     let param = {
@@ -1742,16 +1752,6 @@ class PetForm extends React.Component {
                 petsType={currentPet.petsType}
               />
             ) : null}
-
-            {/* {
-            ['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1?
-            <LinkedSubs
-              petsId={this.props.match.params.id}
-              loading={this.state.loading}
-              setState={this.setState.bind(this)}
-              errorMsg={this.state.errorMsg}
-            />: null
-            } */}
             <div>
               {this.state.recommendData.length && this.state.isChoosePetType ? (
                 <Carousel

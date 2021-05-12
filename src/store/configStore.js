@@ -33,7 +33,7 @@ class ConfigStore {
     'prescriberSettingInfo'
   )
     ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
-    : null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
+    : null; //prescriber Setting相关配置信息
 
   // 获取本地存储的需要显示的地址字段
   @computed get localAddressForm() {
@@ -167,7 +167,7 @@ class ConfigStore {
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
   }
 
-  //查询prescription页面是否需要显示用户选择绑定prescriber弹框
+  //查询prescriber Setting相关配置信息
   @action.bound
   async getPrescriberSettingInfo() {
     let res = await getPrescriberSettingInfo();

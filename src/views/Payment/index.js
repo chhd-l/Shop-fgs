@@ -223,7 +223,8 @@ class Payment extends React.Component {
       listData: [],
       requiredList: [],
       AuditData: [],
-      needPrescriber: false,
+      needPrescriber:
+        localItemRoyal.get('checkOutNeedShowPrescriber') === 'true', //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
       unLoginBackPets: [],
       guestEmail: '',
       mobileCartVisibleKey: 'less', // less/more
@@ -331,19 +332,6 @@ class Payment extends React.Component {
         }
       );
 
-      this.setState(
-        //调整checkout页面第一行显示prescriber信息条件：商品Need prescriber或者已经有了prescriber信息
-        {
-          needPrescriber:
-            localItemRoyal.get('checkOutNeedShowPrescriber') === 'true'
-          // needPrescriber: checkoutStore.autoAuditFlag
-          //   ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-          //       (el) => el.prescriberFlag
-          //     ).length > 0
-          //   : checkoutStore.AuditData.length > 0
-        }
-      );
-
       if (!sessionItemRoyal.get('recommend_product')) {
         if (this.isLogin && !this.loginCartData.length && !tid) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
@@ -407,12 +395,6 @@ class Payment extends React.Component {
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
-  get checkoutWithClinic() {
-    return (
-      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-      this.state.needPrescriber
-    );
-  }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
   }
@@ -445,19 +427,6 @@ class Payment extends React.Component {
         key: 'billingAddr',
         isFirstLoad: true
       });
-    }
-
-    const nextConfirmPanel = searchNextConfirmPanel({
-      list: toJS(paymentStore.panelStatus),
-      curKey: 'clinic'
-    });
-    // 不需要clinic或clinic已经填写时，需把下一个panel置为edit状态，否则把clinic置为edit状态
-    if (!this.checkoutWithClinic || clinicStore.clinicName) {
-      paymentStore.setStsToCompleted({ key: 'clinic' });
-      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    } else {
-      paymentStore.setStsToEdit({ key: 'clinic' });
-      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
     }
   }
   updateSelectedCardInfo = (data) => {
@@ -1868,15 +1837,6 @@ class Payment extends React.Component {
         ? { ...tmpDeliveryAddress }
         : { ...tmpBillingAddress };
 
-      // 未开启地图，需校验clinic
-      if (
-        this.checkoutWithClinic &&
-        configStore.prescriberSelectTyped !== 0 &&
-        (!clinicStore.clinicId || !clinicStore.clinicName)
-      ) {
-        throw new Error(this.props.intl.messages.selectNoneClincTip);
-      }
-
       this.setState({
         deliveryAddress: { ...param.deliveryAddress },
         billingAddress: { ...param.billingAddress },
@@ -2512,6 +2472,8 @@ class Payment extends React.Component {
     console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    this.props.paymentStore.saveDeliveryAddressInfo(this.state.deliveryAddress);
+    this.props.paymentStore.saveBillingAddressInfo(this.state.billingAddress);
     paymentStore.setStsToEdit({ key: 'confirmation' });
 
     this.setState(
@@ -3381,9 +3343,11 @@ class Payment extends React.Component {
                 ) : (
                   <>
                     <div className="shipping-form" id="J_checkout_panel_email">
-                      {this.checkoutWithClinic ? (
-                        <OnePageClinicForm history={history} />
-                      ) : null}
+                      <OnePageClinicForm
+                        key={this.state.needPrescriber}
+                        needPrescriber={this.state.needPrescriber}
+                        history={history}
+                      />
                       <OnePageEmailForm
                         history={history}
                         currentEmailVal={guestEmail}

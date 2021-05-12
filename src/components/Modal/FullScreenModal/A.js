@@ -1,72 +1,34 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { useState, useEffect, useContext } from 'react';
 import { formatMoney } from '@/utils/utils';
-import { toJS } from 'mobx';
+import { Observer, useLocalStore } from 'mobx-react';
+import stores from '@/store';
 
-@inject('paymentStore', 'checkoutStore', 'loginStore', 'configStore')
-@observer
-export default class FullScreenModalA extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      productList: []
-    };
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
-  get deliveryPrice() {
-    return this.props.checkoutStore.deliveryPrice;
-  }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
-  }
-  get discountPrice() {
-    return this.props.checkoutStore.discountPrice;
-  }
-  get subscriptionDiscountPrice() {
-    return this.props.checkoutStore.subscriptionDiscountPrice;
-  }
-  isSubscription(el) {
-    return el.goodsInfoFlag;
-  }
-  calTotalNum() {
-    if (this.state.productList.length) {
-      return toJS(this.state.productList).reduce((prev, curr) => {
-        return prev?.buyCount + curr?.buyCount;
-      });
-    }
-  }
-  componentDidMount() {
-    let productList = [];
-    if (this.isLogin) {
-      productList = this.props.checkoutStore.loginCartData;
-    } else {
-      productList = this.props.checkoutStore.cartData.filter(
-        (ele) => ele.selected
-      );
-    }
-    this.setState({ productList });
-  }
-  close = () => {
-    const { setTrConsentModal } = this.props.paymentStore;
-    setTrConsentModal('fullScreenModalA', false);
-  };
-  render() {
-    const {
-      fullScreenModalA,
-      deliveryAddressInfo,
-      billingAddressInfo
-    } = this.props.paymentStore;
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
+export default function ModalA(props) {
+  const { FullScreenModalContext } = props;
+  const value = useContext(FullScreenModalContext);
+  const {
+    loginStore,
+    checkoutStore,
+    paymentStore,
+    configStore
+  } = useLocalStore(() => stores);
+  const { isLogin, userInfo } = loginStore;
+  const {
+    subscriptionDiscountPrice,
+    deliveryPrice,
+    tradePrice
+  } = checkoutStore;
+  const {
+    fullScreenModalA,
+    deliveryAddressInfo,
+    billingAddressInfo
+  } = paymentStore;
+  const { localAddressForm } = configStore;
+  const { productList, calTotalNum, close } = value;
 
-    const { productList } = this.state;
-    return (
-      <>
+  return (
+    <Observer>
+      {() => (
         <div className={[fullScreenModalA ? '' : 'rc-hidden'].join(' ')}>
           <div
             className="rc-shade"
@@ -77,7 +39,7 @@ export default class FullScreenModalA extends React.Component {
               <header className="rc-modal__header">
                 <button
                   className="rc-btn rc-icon rc-btn--icon-label rc-modal__close rc-close--xs rc-iconography"
-                  onClick={this.close}
+                  onClick={() => close('fullScreenModalA')}
                 ></button>
               </header>
               <section className="rc-modal__content rc-scroll--y h-100 rc-padding-top--lg--desktop ">
@@ -147,10 +109,10 @@ export default class FullScreenModalA extends React.Component {
                                     {el.goodsName}
                                   </td>
                                   <td className="rc-table__td">
-                                    {formatMoney(el.buyCount * el.salePrice)}
+                                    {formatMoney(el.salePrice)}
                                   </td>
                                   <td className="rc-table__td">
-                                    {el.buyCount}
+                                    {el.buyCount + '.00'}
                                   </td>
                                   <td className="rc-table__td">
                                     {formatMoney(el.salePrice * el.buyCount)}
@@ -165,24 +127,24 @@ export default class FullScreenModalA extends React.Component {
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">Toplam Miktar</td>
-                              <td className="rc-table__td">
-                                {this.calTotalNum()}
-                              </td>
+                              <td className="rc-table__td">{calTotalNum()}</td>
                             </tr>
-                            <tr className="rc-table__row">
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td">KDV Matrahi</td>
-                              <td className="rc-table__td">-</td>
-                            </tr>
+                            {/* <tr className="rc-table__row">
+                        <td className="rc-table__td"></td>
+                        <td className="rc-table__td"></td>
+                        <td className="rc-table__td"></td>
+                        <td className="rc-table__td">KDV Matrahi</td>
+                        <td className="rc-table__td">-</td>
+                      </tr> */}
                             <tr className="rc-table__row">
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">İndirim</td>
                               <td className="rc-table__td">
-                                -{this.subscriptionDiscountPrice} TL
+                                {subscriptionDiscountPrice > 0
+                                  ? '-' + subscriptionDiscountPrice + ' TL'
+                                  : '0 TL'}
                               </td>
                             </tr>
                             <tr className="rc-table__row">
@@ -191,7 +153,7 @@ export default class FullScreenModalA extends React.Component {
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">Kargo bedeli</td>
                               <td className="rc-table__td">
-                                {this.deliveryPrice}
+                                {deliveryPrice} TL
                               </td>
                             </tr>
                             <tr className="rc-table__row">
@@ -199,9 +161,7 @@ export default class FullScreenModalA extends React.Component {
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td"></td>
                               <td className="rc-table__td">Ödenecek Tutar</td>
-                              <td className="rc-table__td">
-                                {this.tradePrice} TL
-                              </td>
+                              <td className="rc-table__td">{tradePrice} TL</td>
                             </tr>
                           </tbody>
                         </table>
@@ -224,9 +184,10 @@ export default class FullScreenModalA extends React.Component {
                     </p>
                     <p>
                       Adres: <span>{deliveryAddressInfo?.address1},</span>{' '}
-                      {localAddressForm['address2'] && form.address2 && (
-                        <span>{form.address2}</span>
-                      )}
+                      {localAddressForm['address2'] &&
+                        deliveryAddressInfo?.address2 && (
+                          <span>{deliveryAddressInfo?.address2}</span>
+                        )}
                     </p>
                     <p>
                       Telefon:{' '}
@@ -237,9 +198,7 @@ export default class FullScreenModalA extends React.Component {
                     </p>
                     <p>
                       E-posta:{' '}
-                      <span>
-                        {this.isLogin ? this.userInfo.customerAccount : ''}
-                      </span>
+                      <span>{isLogin ? userInfo.customerAccount : ''}</span>
                     </p>
                     <br />
                     <p>
@@ -252,9 +211,10 @@ export default class FullScreenModalA extends React.Component {
                     </p>
                     <p>
                       Adres: <span>{billingAddressInfo?.address1},</span>{' '}
-                      {localAddressForm['address2'] && form.address2 && (
-                        <span>{form.address2}</span>
-                      )}
+                      {localAddressForm['address2'] &&
+                        billingAddressInfo?.address2 && (
+                          <span>{billingAddressInfo?.address2}</span>
+                        )}
                     </p>
                     <p>
                       Telefon:{' '}
@@ -265,9 +225,7 @@ export default class FullScreenModalA extends React.Component {
                     </p>
                     <p>
                       E-posta:{' '}
-                      <span>
-                        {this.isLogin ? this.userInfo.customerAccount : ''}
-                      </span>{' '}
+                      <span>{isLogin ? userInfo.customerAccount : ''}</span>{' '}
                     </p>
                     <div className="content-asset">
                       <p>
@@ -556,7 +514,7 @@ export default class FullScreenModalA extends React.Component {
             </div>
           </aside>
         </div>
-      </>
-    );
-  }
+      )}
+    </Observer>
+  );
 }

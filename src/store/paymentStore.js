@@ -16,16 +16,14 @@ class PaymentStore {
   @observable md = ''; //3ds参数
 
   @observable selectedCardId = null;
-  @observable defaultCardDataFromAddr = null;
-  @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
     {
       key: 'clinic',
       order: 1,
       status: {
-        isPrepare: false,
-        isEdit: true,
+        isPrepare: true,
+        isEdit: false,
         isCompleted: false,
         hasCompleted: false // 是否曾completed过
       }
@@ -86,8 +84,22 @@ class PaymentStore {
   @observable fullScreenModalA = false;
   @observable fullScreenModalB = false;
 
-  @observable deliveryAddressInfo = {};
-  @observable billingAddressInfo = {};
+  @observable deliveryAddressInfo = {
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    consigneeNumber: ''
+  };
+  @observable billingAddressInfo = {
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    consigneeNumber: ''
+  };
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;

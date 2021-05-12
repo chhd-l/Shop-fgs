@@ -159,8 +159,11 @@ const LoginButton = (props) => {
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set(
         'okta-redirectUrl',
-        props.history && props.history.location.pathname
+        props.history && props.history.location.pathname + props.history.location.search
       );
+      
+      console.log(props.history && (props.history.location.pathname + props.history.location.search), 'aaaa')
+      // debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(
         props.callbackUrl || process.env.REACT_APP_HOMEPAGE
