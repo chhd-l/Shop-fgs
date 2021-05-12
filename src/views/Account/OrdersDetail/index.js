@@ -2,10 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
@@ -33,13 +31,11 @@ import {
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { format } from 'date-fns';
+import PageBaseInfo from '@/components/PageBaseInfo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const pageLink = window.location.href;
 
 function Progress({ progressList, currentProgerssIndex }) {
   return (
@@ -200,11 +196,6 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       orderNumber: '',
       totalTid: '',
       subNumber: '',
@@ -240,9 +231,6 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -1049,23 +1037,7 @@ class AccountOrders extends React.Component {
     const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <PageBaseInfo additionalEvents={event} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
           <BreadCrumbs />
