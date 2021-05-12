@@ -2638,8 +2638,6 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      const { paymentTypeVal } = this.state;
-      // console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2810,11 +2808,9 @@ class Payment extends React.Component {
                       type: 'adyenKlarnaPayLater'
                     })}
                   />
-                  {/*
-                      // 校验状态
-                      // 1 校验邮箱
-                      // 2 billing校验
-                  */}
+                  {/* 校验状态
+                  1 校验邮箱
+                  2 billing校验 */}
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
@@ -2930,7 +2926,6 @@ class Payment extends React.Component {
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
           )}
-          {/* oxxo */}
         </div>
       </div>
     );

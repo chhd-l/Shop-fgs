@@ -584,11 +584,6 @@ class AccountOrders extends React.Component {
       phoneNumber: invoice.phone,
       addressId: invoice.addressId
     };
-    localItemRoyal.set('loginDeliveryInfo', {
-      deliveryAddress: tmpDeliveryAddress,
-      billingAddress: tmpBillingAddress,
-      commentOnDelivery: details.buyerRemark
-    });
     this.props.checkoutStore.setLoginCartData(tradeItems);
     sessionItemRoyal.set('rc-tid', details.id);
 
