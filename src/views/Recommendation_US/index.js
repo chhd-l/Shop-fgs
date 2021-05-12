@@ -1016,7 +1016,7 @@ class Recommendation extends React.Component {
                         checkPromotionCodeAndCopy ? 'show' : 'hide'
                       }`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
-                      onClick={this.viewShoppingCart}
+                      onClick={this.addCart}
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
