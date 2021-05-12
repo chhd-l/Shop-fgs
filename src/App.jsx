@@ -536,7 +536,7 @@ const App = () => {
                         sublanding = US_SubscriptionLanding;
                         break;
                       case 'ru':
-                        sublanding = RU_SubscriptionLanding;
+                        sublanding = VetLandingPage;
                         break;
                       case 'tr':
                         sublanding = TR_SubscriptionLanding;
