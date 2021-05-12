@@ -2,10 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
@@ -33,13 +31,11 @@ import {
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { format } from 'date-fns';
+import PageBaseInfo from '@/components/PageBaseInfo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const pageLink = window.location.href;
 
 function Progress({ progressList, currentProgerssIndex }) {
   return (
@@ -155,9 +151,13 @@ function LogisticsProgress(props) {
             >
               <span className={`logi-time text-right ${customDateCls}`}>
                 {/*{getFormatDate(item.date)}*/}
-                {format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')}
+                {item.timestamp
+                  ? format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')
+                  : ''}
                 <br />
-                {format(new Date(item.timestamp).getTime(), 'HH:mm:ss')}
+                {item.timestamp
+                  ? format(new Date(item.timestamp).getTime(), 'HH:mm:ss')
+                  : ''}
               </span>
               <div className="logi-text pl-4 pr-4 pt-3 pb-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -196,11 +196,6 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       orderNumber: '',
       totalTid: '',
       subNumber: '',
@@ -236,9 +231,6 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -664,96 +656,95 @@ class AccountOrders extends React.Component {
                   </nav>
                 ) : null}
 
-                {logisticsList.map(
-                  (item, i) =>
-                    item.tradeLogisticsDetails &&
-                    item.tradeLogisticsDetails.length > 0 && (
-                      <div
-                        key={i}
-                        className={`ml-3 mr-3 ${
-                          i === activeTabIdx ? '' : 'hidden'
-                        }`}
-                      >
-                        <LogisticsProgress
-                          list={item.tradeLogisticsDetails.sort((a, b) => {
-                            return (
-                              new Date(b.timestamp).getTime() -
-                              new Date(a.timestamp).getTime()
-                            );
-                          })}
-                          hasMoreLessOperation={true}
-                          moreLogistics={moreLogistics}
-                          handleToggleMoreLess={this.handleToggleMoreLess}
-                          customDateCls="text-nowrap"
-                        />
-                        <div className="row">
-                          {(item.shippingItems || []).map((ele) => (
-                            <div className="text-center col-2" key={ele.skuId}>
-                              {/*<LazyLoad>*/}
-                              <img
-                                src={ele.pic || IMG_DEFAULT}
-                                alt={ele.itemName}
-                                title={ele.itemName}
-                                style={{
-                                  width: 'auto',
-                                  margin: '0 auto',
-                                  height: '60px'
-                                }}
-                              />
-                              {/*</LazyLoad>*/}
-                              <p className="font-weight-normal ui-text-overflow-line1">
-                                {ele.itemName} X {ele.itemNum}
-                              </p>
-                            </div>
-                          ))}
+                {logisticsList.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`ml-3 mr-3 ${
+                      i === activeTabIdx ? '' : 'hidden'
+                    }`}
+                  >
+                    <LogisticsProgress
+                      list={
+                        item.tradeLogisticsDetails &&
+                        item.tradeLogisticsDetails.length > 0
+                          ? item.tradeLogisticsDetails.sort((a, b) => {
+                              return (
+                                new Date(b.timestamp).getTime() -
+                                new Date(a.timestamp).getTime()
+                              );
+                            })
+                          : []
+                      }
+                      hasMoreLessOperation={true}
+                      moreLogistics={moreLogistics}
+                      handleToggleMoreLess={this.handleToggleMoreLess}
+                      customDateCls="text-nowrap"
+                    />
+                    <div className="row">
+                      {(item.shippingItems || []).map((ele) => (
+                        <div className="text-center col-2" key={ele.skuId}>
+                          {/*<LazyLoad>*/}
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                            style={{
+                              width: 'auto',
+                              margin: '0 auto',
+                              height: '60px'
+                            }}
+                          />
+                          {/*</LazyLoad>*/}
+                          <p className="font-weight-normal ui-text-overflow-line1">
+                            {ele.itemName} X {ele.itemNum}
+                          </p>
                         </div>
-                        <div className="row border-top m-0 pt-2 pb-2">
-                          <div className="col-12 col-md-3">
-                            <svg className="svg-icon mr-1" aria-hidden="true">
-                              <use xlinkHref="#iconDeliverydate" />
-                            </svg>
-                            <FormattedMessage id="deliveryDate" />:{' '}
-                            <span className="medium">
-                              {item.deliverTime
-                                ? getFormatDate(
-                                    (item.deliverTime || '').substr(0, 10)
-                                  )
-                                : ''}
-                            </span>
-                          </div>
-                          <div className="col-12 col-md-4">
-                            <svg className="svg-icon mr-1" aria-hidden="true">
-                              <use xlinkHref="#iconLogisticscompany" />
-                            </svg>
-                            <FormattedMessage id="logisticsCompany" />:{' '}
-                            <span className="medium">
-                              {item.logistics
-                                ? item.logistics.logisticCompanyName
-                                : ''}
-                            </span>
-                          </div>
-                          <div className="col-12 col-md-5">
-                            <svg className="svg-icon mr-1" aria-hidden="true">
-                              <use xlinkHref="#iconLogisticssinglenumber" />
-                            </svg>
-                            <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                            <span className="medium">
-                              {item.logistics ? item.logistics.logisticNo : ''}
-                            </span>
-                            <CopyToClipboard
-                              text={
-                                item.logistics ? item.logistics.logisticNo : ''
-                              }
-                            >
-                              <span className="iconfont ui-cursor-pointer ml-2">
-                                &#xe6c0;
-                              </span>
-                            </CopyToClipboard>
-                          </div>
-                        </div>
+                      ))}
+                    </div>
+                    <div className="row border-top m-0 pt-2 pb-2">
+                      <div className="col-12 col-md-3">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconDeliverydate" />
+                        </svg>
+                        <FormattedMessage id="deliveryDate" />:{' '}
+                        <span className="medium">
+                          {item.deliverTime
+                            ? getFormatDate(
+                                (item.deliverTime || '').substr(0, 10)
+                              )
+                            : ''}
+                        </span>
                       </div>
-                    )
-                )}
+                      <div className="col-12 col-md-4">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticscompany" />
+                        </svg>
+                        <FormattedMessage id="logisticsCompany" />:{' '}
+                        <span className="medium">
+                          {item.logistics
+                            ? item.logistics.logisticCompanyName
+                            : ''}
+                        </span>
+                      </div>
+                      <div className="col-12 col-md-5">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticssinglenumber" />
+                        </svg>
+                        <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                        <span className="medium">
+                          {item.logistics ? item.logistics.logisticNo : ''}
+                        </span>
+                        <CopyToClipboard
+                          text={item.logistics ? item.logistics.logisticNo : ''}
+                        >
+                          <span className="iconfont ui-cursor-pointer ml-2">
+                            &#xe6c0;
+                          </span>
+                        </CopyToClipboard>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : null}
 
@@ -1046,23 +1037,7 @@ class AccountOrders extends React.Component {
     const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <PageBaseInfo additionalEvents={event} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
           <BreadCrumbs />

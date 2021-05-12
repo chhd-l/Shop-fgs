@@ -63,9 +63,8 @@ class AdyenCreditCardList extends React.Component {
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
       saveLoading: false
     };
-    this.handleClickConfirmDeleteBtn = this.handleClickConfirmDeleteBtn.bind(
-      this
-    );
+    this.handleClickConfirmDeleteBtn =
+      this.handleClickConfirmDeleteBtn.bind(this);
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
@@ -102,13 +101,14 @@ class AdyenCreditCardList extends React.Component {
           (ele) => ele.id === this.state.selectedId
         );
         if (!!firstSaveCard) {
-          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode;
+          firstSaveCard.encryptedSecurityCode =
+            currentCardEncryptedSecurityCode;
         }
         this.props.updateSelectedCardInfo(firstSaveCard);
       }
       // 给刚保存的卡默认加上CVV end
 
-      const defaultItem = find(cardList, (ele) => ele.isDefaltAddress === 1);
+      const defaultItem = find(cardList, (ele) => ele.isDefault === 1);
       let tmpId =
         this.state.selectedId ||
         (defaultItem && defaultItem.id) ||
@@ -263,8 +263,7 @@ class AdyenCreditCardList extends React.Component {
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;

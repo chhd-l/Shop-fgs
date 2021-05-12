@@ -57,11 +57,16 @@ class Test extends React.Component {
   componentDidMount() {
     // 设置手机号输入限制
     let element = document.getElementById('testinput');
-    let maskOptions = { mask: '+{7} (000) 000-00-00' };
-    let pval = IMask(element, maskOptions);
+    // mask: '+{7} (000) 000-00-00'
+    let pval = IMask(element, {
+      mask: function (val) {
+        console.log('对输入的内容进行处理: ', val);
+        return val;
+      }
+    });
 
     document.addEventListener('keyup', (e) => {
-      console.log(e.keyCode);
+      // console.log(e.keyCode);
     });
   }
   validData = async ({ data }) => {
@@ -99,10 +104,10 @@ class Test extends React.Component {
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    console.log('111111--------- ', name, ' : ', value);
+    // console.log('111111--------- ', name, ' : ', value);
     form[name] = value;
     this.setState({ form }, () => {
-      console.log('222222--------- ', name, ' : ', value);
+      // console.log('222222--------- ', name, ' : ', value);
     });
   };
   // 文本框失去焦点
@@ -113,12 +118,12 @@ class Test extends React.Component {
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
     form[tname] = value;
     this.setState({ form }, () => {
-      console.log('333333--------- ', tname, ' : ', value);
+      // console.log('333333--------- ', tname, ' : ', value);
     });
   };
   // 按回车键
   handleKeyUpConfirm = (e) => {
-    console.log('----------------- keyCode: ', e.keyCode);
+    // console.log('----------------- keyCode: ', e.keyCode);
     if (e.keyCode === 13) {
     }
   };
@@ -128,12 +133,11 @@ class Test extends React.Component {
       <div style={{ padding: '30px' }}>
         <br />
         <br />
-        <h1>2021-05-11 14:52:52</h1>
+        <h1>2021-05-12 12:12:12</h1>
         <br />
         <br />
         <input
           className={`rc-input__control testInputShipping`}
-          value={form.phoneNumber}
           id="testinput"
           type="text"
           name="testinput"
