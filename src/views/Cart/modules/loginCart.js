@@ -1470,8 +1470,8 @@ class LoginCart extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          isShowValidCode: false,
-          promotionInputValue: ''
+          isShowValidCode: false
+          // promotionInputValue: '' //不去清空当前input框输入的值
         });
       }, 4000);
       // this.props.sendPromotionCode('');
