@@ -2,7 +2,6 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
@@ -15,6 +14,7 @@ import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
 import Loading from '@/components/Loading';
+import LazyLoad from 'react-lazyload';
 import ValidationAddressModal from '@/components/validationAddressModal';
 
 import VisitorAddress from './Address/VisitorAddress';
@@ -27,16 +27,14 @@ import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
 import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
-import {
-  searchNextConfirmPanel,
-  scrollPaymentPanelIntoView
-} from './modules/utils';
+import { searchNextConfirmPanel } from './modules/utils';
 import {
   formatMoney,
   generatePayUScript,
   getFormatDate,
   setSeoConfig,
-  validData
+  validData,
+  bindSubmitParam
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import {
@@ -44,8 +42,6 @@ import {
   getStoreOpenConsentList,
   userBindConsent
 } from '@/api/consent';
-import { batchAddPets } from '@/api/pet';
-import LazyLoad from 'react-lazyload';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -56,31 +52,28 @@ import {
   getWays,
   getPaymentMethod
 } from '@/api/payment';
+import { getOrderDetails } from '@/api/order';
+import { batchAddPets } from '@/api/pet';
 
-import PayUCreditCard from './PayUCreditCard';
-import AdyenCreditCard from './Adyen';
-import CyberCardList from './Cyber/list';
-import Cod from './Cod';
-import OxxoConfirm from './Oxxo';
-import AdyenCommonPay from './modules/AdyenCommonPay';
+import PayUCreditCard from './PaymentMethod/PayUCreditCard';
+import AdyenCreditCard from './PaymentMethod/Adyen';
+import CyberCardList from './PaymentMethod/Cyber/list';
+import Cod from './PaymentMethod/Cod';
+import OxxoConfirm from './PaymentMethod/Oxxo';
+import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
 
 import CyberPaymentForm from '@/components/CyberPaymentForm';
 
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
 
-import { getOrderDetails } from '@/api/order';
-import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
-import { ADDRESS_RULE } from './Cyber/constant/utils';
-import { de } from 'date-fns/locale';
+import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
-import { getProductPetConfig } from '@/api/payment';
-import { bindSubmitParam } from '@/utils/utils';
 import { registerCustomerList, guestList } from './tr_consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

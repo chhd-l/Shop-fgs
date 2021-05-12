@@ -26,5 +26,5 @@ export const ADDRESS_RULE = [
     key: 'expirationYear',
     require: true,
     errMsg: CURRENT_LANGFILE['contactUs.requiredField']
-  },
+  }
 ];

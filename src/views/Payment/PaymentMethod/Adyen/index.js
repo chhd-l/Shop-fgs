@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import CardList from './list';
-import { scrollPaymentPanelIntoView } from '../modules/utils';
+import { scrollPaymentPanelIntoView } from '../../modules/utils';
 
 @inject('paymentStore')
 @observer

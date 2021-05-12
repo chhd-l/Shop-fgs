@@ -7,7 +7,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS } from '@/utils/utils';
-import { scrollPaymentPanelIntoView } from '../modules/utils';
+import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import LazyLoad from 'react-lazyload';
 import { usPaymentInfo } from '@/api/payment';
 import './list.css';
