@@ -399,7 +399,7 @@ class Payment extends React.Component {
    * init panel prepare/edit/complete status
    */
   initPanelStatus() {
-    const { paymentStore, clinicStore } = this.props;
+    const { paymentStore } = this.props;
     const { tid } = this.state;
 
     // repay情况下，地址信息不可编辑，直接置为
@@ -412,6 +412,12 @@ class Payment extends React.Component {
         key: 'billingAddr',
         isFirstLoad: true
       });
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: 'deliveryAddr'
+      });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
   updateSelectedCardInfo = (data) => {
