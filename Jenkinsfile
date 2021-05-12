@@ -68,7 +68,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                 if ("${DOCKER_HUB_GROUP}" == '') {
                     dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 }
-
+                sh "export PATH="$PATH:/usr/local/bin"
                 // 提供 Docker 环境，使用 Docker 工具来进行 Docker 镜像构建与推送
                 docker.withRegistry("http://${REGISTRY_URL}", "${REGISTRY_CREADENTIAL}") {
                     def customImage = docker.build("${dockerImageName}")
