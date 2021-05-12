@@ -785,15 +785,14 @@ class SubscriptionDetail extends React.Component {
     await this.getDetail(() => {
       // 需要在异步的setstate之后执行
       let goodsInfo = [...this.state.subDetail.goodsInfo];
-      if (!this.state.isNotInactive) {
+      if (!this.state.isNotInactive || goodsInfo?.length > 1) {
         // 非激活状态就不展示
+        // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
         this.setState({ editRecommendationVisible: false });
       }
       // 邮件展示需要绑定宠物
       needBindPet && this.showAddNewPet();
-      // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
-      goodsInfo?.length == 1 &&
-        this.state.editRecommendationVisible &&
+      this.state.editRecommendationVisible &&
         this.state.isNotInactive &&
         this.showChangeProduct(goodsInfo, true);
     });
