@@ -12,7 +12,7 @@ import './index.css';
 
 const HowItWorks = (props) => {
   const RU = process.env.REACT_APP_COUNTRY == 'RU';
-  const TR = process.env.REACT_APP_COUNTRY == 'YR';
+  const TR = process.env.REACT_APP_COUNTRY == 'TR';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
