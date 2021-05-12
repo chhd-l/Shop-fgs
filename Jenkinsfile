@@ -67,7 +67,6 @@ podTemplate(label: label, cloud: 'kubernetes',
                 sh "cat Dockerfile"
                 sh "id"
                 sh "echo $PATH"
-                sh "docker ps"
                 if ("${DOCKER_HUB_GROUP}" == '') {
                     dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 }
