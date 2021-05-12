@@ -9,7 +9,8 @@ import {
   getDictionary,
   validData,
   datePickerConfig,
-  getFormatDate
+  getFormatDate,
+  getZoneTime
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
@@ -1063,7 +1064,7 @@ class Form extends React.Component {
                 locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
-                  caninForm.birthdate ? new Date(caninForm.birthdate) : ''
+                  caninForm.birthdate ? getZoneTime(caninForm.birthdate) : ''
                 }
                 onChange={(date) => this.onDateChange(date)}
               />
