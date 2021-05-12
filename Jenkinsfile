@@ -22,7 +22,7 @@ def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
 
 {
 
-    node{
+
         
         stage('Git Pull'){
               dir("$jenworkspace"){
@@ -99,5 +99,5 @@ def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
                 }
         }
         
-    }
+    
 }
