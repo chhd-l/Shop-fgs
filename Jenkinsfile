@@ -19,25 +19,10 @@ def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
 
 
 // cloud为我们前面提供的云名称，nodeSelector是K8S运行pod的节点选择
-podTemplate(label: label, cloud: 'kubernetes',
-    containers: [
-        containerTemplate(
-            name: 'jnlp',
-            image: 'k8sregistrysit.azurecr.io/repository:393',
-            ttyEnabled: true,
-            alwaysPullImage: true,
-            resourceRequestCpu: '300m',
-            resourceRequestMemory: '2000Mi'
-            )
-    ],
-    volumes: [
-        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock')
-            ],
-    imagePullSecrets: [ 'sit-docker' ]
-)
+
 {
 
-    node (label) {
+    node{
         
         stage('Git Pull'){
               dir("$jenworkspace"){
