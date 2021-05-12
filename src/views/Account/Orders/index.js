@@ -349,7 +349,8 @@ class AccountOrders extends React.Component {
           goodsInfoFlag: item.goodsInfoFlag,
           verifyStock: false,
           buyCount: 1,
-          goodsInfoId: item.skuId
+          goodsInfoId: item.skuId,
+          periodTypeId: item.periodTypeId
         };
       });
       await batchAdd({ goodsInfos: paramList });
