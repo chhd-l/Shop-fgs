@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { formatMoney } from '@/utils/utils';
 import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
+import { FullScreenModalContext } from './index';
 
-export default function ModalA(props) {
-  const { FullScreenModalContext } = props;
+export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
   const {
     loginStore,

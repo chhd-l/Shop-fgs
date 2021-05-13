@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
+import { FullScreenModalContext } from './index';
 
-export default function ModalC(props) {
-  const { FullScreenModalContext } = props;
+export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
   const { paymentStore } = useLocalStore(() => stores);
   const { fullScreenModalC } = paymentStore;

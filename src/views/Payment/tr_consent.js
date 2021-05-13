@@ -30,6 +30,23 @@ let D = {
   isRequired: true
 };
 
+let optEmail = {
+  id: 'optEmail',
+  consentTitle: `Royal Canin’in tanıtım ve kampanyalarından haberdar olmak istiyorum. Bu kapsamda Royal Canin’e tarafıma ticari elektronik ileti göndermesi için <span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+  border-bottom: 1px solid #ccc;color:#666" id="tr_consent_opt_email">Ticari Elektronik İleti Metni</span>’nde belirtilen izni veriyorum`,
+  isChecked: false,
+  isRequired: false
+};
+
+let pm = {
+  id: 'pm',
+  consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+  border-bottom: 1px solid #ccc;color:#666" id="tr_consent_tc">Genel Hükümler ve Koşullar’</span>ı okudum, onaylıyorum ve üyeliğim kapsamında kişisel verilerimin kişiselleştirilmiş pazarlama, profilleme/segmentasyon amacıyla işlenmesine ilişkin <span lass="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+  border-bottom: 1px solid #ccc;color:#666" id="tr_consent_pm">Kişiselleştirilmiş Pazarlama Açık Rıza Metni</span>’nde  belirtilen izni veriyorum.`,
+  isChecked: false,
+  isRequired: true
+};
+
 let registerCustomerList = [A, B];
 let guestList = [C, A, B, D];
 let commonList = [A, B];

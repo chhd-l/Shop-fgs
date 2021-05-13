@@ -5,8 +5,11 @@ import ModalA from './A';
 import ModalB from './B';
 import ModalC from './C';
 import ModalD from './D';
+import ModalTC from './TC';
+import ModalPM from './PersonalizedMarketing';
+import ModalOptEmail from './OptEmail';
 
-const FullScreenModalContext = createContext();
+export const FullScreenModalContext = createContext();
 
 @inject('paymentStore', 'checkoutStore', 'loginStore', 'configStore')
 @observer
@@ -52,7 +55,10 @@ export default class FullScreenModal extends React.Component {
       fullScreenModalA,
       fullScreenModalB,
       fullScreenModalC,
-      fullScreenModalD
+      fullScreenModalD,
+      fullScreenModalOptEmail,
+      fullScreenModalPM,
+      fullScreenModalTC
     } = this.props.paymentStore;
 
     let productList = toJS(this.state.productList);
@@ -64,19 +70,31 @@ export default class FullScreenModal extends React.Component {
     return (
       <>
         <FullScreenModalContext.Provider value={propsObj}>
-          <ModalA FullScreenModalContext={FullScreenModalContext} />
+          <ModalA />
         </FullScreenModalContext.Provider>
 
         <FullScreenModalContext.Provider value={propsObj}>
-          <ModalB FullScreenModalContext={FullScreenModalContext} />
+          <ModalB />
         </FullScreenModalContext.Provider>
 
         <FullScreenModalContext.Provider value={propsObj}>
-          <ModalC FullScreenModalContext={FullScreenModalContext} />
+          <ModalC />
         </FullScreenModalContext.Provider>
 
         <FullScreenModalContext.Provider value={propsObj}>
-          <ModalD FullScreenModalContext={FullScreenModalContext} />
+          <ModalD />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalTC />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalPM />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalOptEmail />
         </FullScreenModalContext.Provider>
       </>
     );

@@ -248,6 +248,31 @@ class RegisterRequired extends Component {
             e.stopPropagation();
             setTrConsentModal('fullScreenModalD', true);
           });
+      document.getElementById('tr_consent_tc') &&
+        document
+          .getElementById('tr_consent_tc')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalTC', true);
+          });
+      document.getElementById('tr_consent_pm') &&
+        document
+          .getElementById('tr_consent_pm')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalPM', true);
+          });
+
+      document.getElementById('tr_consent_opt_email') &&
+        document
+          .getElementById('tr_consent_opt_email')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalOptEmail', true);
+          });
     };
   }
   async componentDidMount() {

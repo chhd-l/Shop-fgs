@@ -3,9 +3,9 @@ import { formatMoney } from '@/utils/utils';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
+import { FullScreenModalContext } from './index';
 
-export default function ModalB(props) {
-  const { FullScreenModalContext } = props;
+export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
   const {
     loginStore,
