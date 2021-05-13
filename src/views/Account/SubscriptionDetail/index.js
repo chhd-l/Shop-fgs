@@ -3758,42 +3758,6 @@ class SubscriptionDetail extends React.Component {
                                           alt={el.goodsName}
                                         />
                                         {/* </LazyLoad> */}
-                                        {isClub &&
-                                          !!subDetail.petsId &&
-                                          isNotInactive && (
-                                            <div
-                                              style={{ position: 'relative' }}
-                                            >
-                                              <span
-                                                style={{
-                                                  width: '100%',
-                                                  paddingTop: '10px'
-                                                }}
-                                                className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                                  this.state.productListLoading
-                                                    ? 'ui-btn-loading'
-                                                    : ''
-                                                }`}
-                                                onClick={() =>
-                                                  this.showChangeProduct([el])
-                                                }
-                                              >
-                                                <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                              </span>
-                                              <div
-                                                style={{
-                                                  position: 'absolute',
-                                                  left: '100px',
-                                                  whiteSpace: 'nowrap',
-                                                  top: 0
-                                                }}
-                                              >
-                                                {this.DailyRation(
-                                                  el.petsRation
-                                                )}
-                                              </div>
-                                            </div>
-                                          )}
                                       </div>
                                       <div
                                         className="v-center"
@@ -3995,6 +3959,43 @@ class SubscriptionDetail extends React.Component {
                                         </div>
                                       </div>
                                     </div>
+                                    {isClub &&
+                                      !!subDetail.petsId &&
+                                      isNotInactive && (
+                                        <div
+                                          style={{
+                                            position: 'relative',
+                                            paddingLeft: '26px'
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              width: '100px',
+                                              paddingTop: '10px'
+                                            }}
+                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
+                                              this.state.productListLoading
+                                                ? 'ui-btn-loading'
+                                                : ''
+                                            }`}
+                                            onClick={() =>
+                                              this.showChangeProduct([el])
+                                            }
+                                          >
+                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
+                                          </span>
+                                          <div
+                                            style={{
+                                              position: 'absolute',
+                                              left: '126px',
+                                              whiteSpace: 'nowrap',
+                                              top: 0
+                                            }}
+                                          >
+                                            {this.DailyRation(el.petsRation)}
+                                          </div>
+                                        </div>
+                                      )}
                                   </div>
                                 </div>
                                 <div className="col-4 col-md-1" />
