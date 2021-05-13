@@ -67,7 +67,6 @@ class MemberCardList extends React.Component {
       saveLoading: false,
       listErr: '',
       currentVendor: '1',
-      deliveryAddress: {},
       prevEditCardNumber: '',
       isValid: false,
       selectedId: '',
@@ -82,19 +81,6 @@ class MemberCardList extends React.Component {
     this.preSelectedId = '';
   }
   async componentDidMount() {
-    if (localItemRoyal.get('loginDeliveryInfo')) {
-      let deliveryInfo = localItemRoyal.get('loginDeliveryInfo');
-      deliveryInfo.deliveryAddress.cardOwner =
-        deliveryInfo.deliveryAddress.firstName +
-        '' +
-        deliveryInfo.deliveryAddress.lastName;
-
-      this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
-        this.initCardInfo();
-      });
-    } else {
-      this.initCardInfo();
-    }
     this.getPaymentMethodList();
   }
   get creditCardListMerged() {
@@ -143,36 +129,6 @@ class MemberCardList extends React.Component {
       });
       this.handleSelectedIdChange();
     }
-  }
-  /**
-   * 默认同步地址里相关信息
-   */
-  initCardInfo() {
-    // 默认填充delivery相关信息
-    // const {
-    //   paymentStore: { defaultCardDataFromAddr: defaultVal }
-    // } = this.props;
-    // let tmpDefaultName = '';
-    // if (defaultVal) {
-    //   const { firstName, lastName } = defaultVal;
-    //   tmpDefaultName = [firstName, lastName].filter((n) => !!n).join(' ');
-    // }
-    // this.setState(
-    //   {
-    //     creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-    //       cardNumber: '',
-    //       cardMmyy: '',
-    //       cardCvv: '',
-    //       currentVendor: '',
-    //       cardOwner: tmpDefaultName || '',
-    //       email: (defaultVal && defaultVal.email) || '',
-    //       phoneNumber: (defaultVal && defaultVal.phoneNumber) || ''
-    //     })
-    //   },
-    //   () => {
-    //     this.validFormData();
-    //   }
-    // );
   }
   showErrorMsg = (message) => {
     this.setState(
@@ -500,10 +456,8 @@ class MemberCardList extends React.Component {
       this.handleSelectedIdChange();
       scrollPaymentPanelIntoView();
     });
-    this.initCardInfo();
   };
   handleClickCancel = () => {
-    this.initCardInfo();
     this.setState({ isEdit: false, selectedId: this.preSelectedId }, () => {
       this.handleSelectedIdChange();
       scrollPaymentPanelIntoView();

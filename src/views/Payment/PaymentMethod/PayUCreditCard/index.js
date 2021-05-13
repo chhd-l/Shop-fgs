@@ -1,16 +1,15 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
-import { CREDIT_CARD_IMG_ENUM, PAYMENT_METHOD_RULE } from '@/utils/constant';
+import { PAYMENT_METHOD_PAU_CHECKOUT_RULE } from '@/utils/constant';
 import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { queryIsSupportInstallMents } from '@/api/payment';
-import { scrollPaymentPanelIntoView } from '../modules/utils';
+import { scrollPaymentPanelIntoView } from '../../modules/utils';
 import MemberCardList from './MemberCardList';
 import CardItemCover from './CardItemCover';
 import InstallmentTable from './InstallmentTable';
-import PayUForm from '@/components/PayU/form';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -144,6 +143,7 @@ class PayOs extends React.Component {
       },
       payosdata: null,
       selectedCardInfo: null,
+      inited: false,
       isValid: false,
       saveLoading: false,
       isEdit: true,
@@ -154,12 +154,16 @@ class PayOs extends React.Component {
   }
   componentDidMount() {
     const { isLogin } = this.props;
+    const _this = this;
     if (isLogin) {
       loadJS({
         url: 'https://js.paymentsos.com/v2/0.0.1/token.min.js',
         callback: function () {
           window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
           window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+          _this.setState({
+            inited: true
+          });
         }
       });
     } else {
@@ -196,12 +200,18 @@ class PayOs extends React.Component {
           } catch (e) {}
         }
       });
+      this.setState({
+        inited: true
+      });
     }
-    this.initForm();
+    // this.initForm();
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
+  /**
+   * 默认同步地址里相关信息
+   */
   initForm() {
     const {
       paymentStore: { defaultCardDataFromAddr: defaultVal }
@@ -251,7 +261,10 @@ class PayOs extends React.Component {
   };
   async validFormData() {
     try {
-      await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
+      await validData(
+        PAYMENT_METHOD_PAU_CHECKOUT_RULE,
+        this.state.creditCardInfoForm
+      );
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
@@ -425,69 +438,59 @@ class PayOs extends React.Component {
                     </div>
                   ) : (
                     <>
-                      {/* <PayUForm
-                        needEmail={needEmail}
-                        needPhone={needPhone}
-                        onVisitorCardInfoChange={
-                          this.props.onVisitorCardInfoChange
-                        }
-                        updateFormValidStatus={this.props.updateFormValidStatus}
-                      /> */}
                       {/* edit form */}
-                      {true && (
-                        <div
-                          className={`credit-card-content ${
-                            isEdit ? '' : 'hidden'
-                          }`}
-                        >
-                          <div className="credit-card-form ">
-                            <div className="rc-margin-bottom--xs">
-                              <div className="content-asset">
-                                <p>
-                                  <FormattedMessage id="payment.acceptCards" />
-                                </p>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-12">
-                                  <div className="form-group">
-                                    <label
-                                      className="form-control-label"
-                                      htmlFor="cardNumber"
-                                    >
-                                      <FormattedMessage id="payment.cardNumber" />
-                                      <span className="red">*</span>
-                                      {CreditCardImg}
-                                      <form>
-                                        <div id="card-secure-fields" />
-                                        <button
-                                          id="submit"
-                                          name="submit"
-                                          className="creadit"
-                                          type="submit"
-                                          style={{
-                                            visibility: 'hidden',
-                                            position: 'absolute'
-                                          }}
-                                        >
-                                          Pay
-                                        </button>
-                                      </form>
-                                    </label>
-                                  </div>
+                      <div
+                        className={`credit-card-content ${
+                          isEdit ? '' : 'hidden'
+                        }`}
+                      >
+                        <div className="credit-card-form ">
+                          <div className="rc-margin-bottom--xs">
+                            <div className="content-asset">
+                              <p>
+                                <FormattedMessage id="payment.acceptCards" />
+                              </p>
+                            </div>
+                            <div className="row">
+                              <div className="col-sm-12">
+                                <div className="form-group">
+                                  <label
+                                    className="form-control-label"
+                                    htmlFor="cardNumber"
+                                  >
+                                    <FormattedMessage id="payment.cardNumber" />
+                                    <span className="red">*</span>
+                                    {CreditCardImg}
+                                    <form>
+                                      <div id="card-secure-fields" />
+                                      <button
+                                        id="submit"
+                                        name="submit"
+                                        className="creadit"
+                                        type="submit"
+                                        style={{
+                                          visibility: 'hidden',
+                                          position: 'absolute'
+                                        }}
+                                      >
+                                        Pay
+                                      </button>
+                                    </form>
+                                  </label>
                                 </div>
                               </div>
-
-                              <VisitorEditForm
-                                needEmail={needEmail}
-                                needPhone={needPhone}
-                                creditCardInfoForm={creditCardInfoForm}
-                                onChange={this.cardInfoInputChange}
-                                onInputBlur={this.inputBlur}
-                              />
                             </div>
+
+                            <VisitorEditForm
+                              needEmail={needEmail}
+                              needPhone={needPhone}
+                              creditCardInfoForm={creditCardInfoForm}
+                              onChange={this.cardInfoInputChange}
+                              onInputBlur={this.inputBlur}
+                            />
                           </div>
                         </div>
-                      )}
+                      </div>
                       {!isEdit && (
                         <>
                           <CardItemCover

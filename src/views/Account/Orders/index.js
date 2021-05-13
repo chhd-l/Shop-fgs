@@ -313,11 +313,6 @@ class AccountOrders extends React.Component {
         phoneNumber: detailResCt.invoice.phone,
         addressId: detailResCt.invoice.addressId
       };
-      localItemRoyal.set('loginDeliveryInfo', {
-        deliveryAddress: tmpDeliveryAddress,
-        billingAddress: tmpBillingAddress,
-        commentOnDelivery: detailResCt.buyerRemark
-      });
       this.props.checkoutStore.setLoginCartData(tradeItems);
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
@@ -354,7 +349,8 @@ class AccountOrders extends React.Component {
           goodsInfoFlag: item.goodsInfoFlag,
           verifyStock: false,
           buyCount: 1,
-          goodsInfoId: item.skuId
+          goodsInfoId: item.skuId,
+          periodTypeId: item.periodTypeId
         };
       });
       await batchAdd({ goodsInfos: paramList });
