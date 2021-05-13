@@ -302,7 +302,25 @@ export function SubscriptionBenefits() {
               </div>
               <div className="d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                  <FormattedMessage id="club.subscription.icon6" />
+                  <FormattedMessage
+                    id="club.subscription.icon6"
+                    values={{
+                      val: (
+                        <a
+                          onClick={() => {
+                            window.PetStoryWC.start();
+                          }}
+                          style={{
+                            textDecoration: 'underline',
+                            color: '#e3001b',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          PetStory
+                        </a>
+                      )
+                    }}
+                  />
                 </p>
               </div>
             </div>
