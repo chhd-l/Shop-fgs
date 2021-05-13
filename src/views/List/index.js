@@ -1813,8 +1813,12 @@ class List extends React.Component {
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-              const breed =
-                breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+              console.log(breedValue, 'breedValuebreedValuebreedValue===');
+              const breed = breedValue
+                ? breedValue.toLowerCase() === 'cat'
+                  ? 'Для кошек'
+                  : 'Для собак'
+                : ''; //俄罗斯定制，嗐！
               const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_COUNTRY === 'RU'
