@@ -434,18 +434,12 @@ function ListItemBody({ item, headingTag }) {
       </div>
       {/*商品评分和评论数目*/}
       <div
-        style={{
-          margin: '0 auto'
-        }}
-        className={`d-flex rc-card__price text-center RateFitScreen`}
+        className={`d-flex align-items-center justify-content-center rc-card__price RateFitScreen`}
       >
         <div>
           <Rate def={item.avgEvaluate} disabled={true} marginSize="smallRate" />
         </div>
-        <span
-          className="comments rc-margin-left--xs rc-text-colour--text"
-          style={{ marginTop: '3px' }}
-        >
+        <span className="comments rc-margin-left--xs rc-text-colour--text">
           ({item.goodsEvaluateNum})
         </span>
       </div>
@@ -463,8 +457,7 @@ function ListItemBody({ item, headingTag }) {
       <div className={`d-flex justify-content-center`}>
         <div className="rc-card__price text-left PriceFitScreen">
           <div
-            className={`rc-full-width PriceFitScreen flex`}
-            style={{ justifyContent: 'center' }}
+            className={`rc-full-width PriceFitScreen flex justify-content-center`}
           >
             <span
               style={{
@@ -1820,8 +1813,12 @@ class List extends React.Component {
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-              const breed =
-                breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+              console.log(breedValue, 'breedValuebreedValuebreedValue===');
+              const breed = breedValue
+                ? breedValue.toLowerCase() === 'cat'
+                  ? 'Для кошек'
+                  : 'Для собак'
+                : ''; //俄罗斯定制，嗐！
               const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_COUNTRY === 'RU'
@@ -1882,10 +1879,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',

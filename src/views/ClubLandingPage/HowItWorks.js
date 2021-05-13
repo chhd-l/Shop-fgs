@@ -231,15 +231,7 @@ const HowItWorks = (props) => {
                         <FormattedMessage
                           id="club.howitworks.img4.description"
                           values={{
-                            val: (
-                              <div
-                                onClick={() => {
-                                  window.PetStoryWC.start();
-                                }}
-                              >
-                                PetStory
-                              </div>
-                            )
+                            val: <div>PetStory</div>
                           }}
                         />
                       </p>

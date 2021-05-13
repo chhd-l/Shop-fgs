@@ -72,7 +72,7 @@ import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
-import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
+import { doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { registerCustomerList, guestList } from './tr_consent';
 
@@ -285,9 +285,7 @@ class Payment extends React.Component {
     if (this.isLogin) {
       this.queryList();
     }
-    if (!this.isLogin) {
-      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
-    }
+
     try {
       const { history } = this.props;
       const { tid } = this.state;
