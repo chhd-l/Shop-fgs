@@ -71,6 +71,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      noData: false,
       showCur: -1,
       isSPT: false,
       frequencyList: '',
@@ -401,6 +402,7 @@ class Recommendation extends React.Component {
       })
       .catch((err) => {
         console.log(err, 'err');
+        this.setState({ noData: true });
         // this.props.history.push('/home');
       });
 
@@ -422,11 +424,22 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
-      this.props.clinicStore.setLinkClinicId(
-        res.context?.id || res.context?.prescriberId
+      let recommendationInfos = {
+        recommenderName: res.context?.recommendationName || '',
+        recommenderId: res.context?.recommendationId || '',
+        recommendationName: res.context?.prescriberName || '',
+        recommendationId: res.context?.id || res.context?.prescriberId || '',
+        referenceObject: res.context?.structureType || '',
+        referenceData: res.context?.prescriptionJson || ''
+      };
+      this.props.clinicStore.setLinkClinicRecommendationInfos(
+        recommendationInfos
       );
+      // this.props.clinicStore.setLinkClinicId(
+      //   res.context?.id || res.context?.prescriberId
+      // );
       // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
-      this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
+      // this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
     });
@@ -724,6 +737,9 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
+    if (this.state.inStockProducts.length < 1) {
+      return;
+    }
     GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
@@ -1012,11 +1028,13 @@ class Recommendation extends React.Component {
                   </div> */}
                   <p>
                     <button
-                      className={`rc-btn rc-btn--one click-and-show-promotioncode ${
-                        checkPromotionCodeAndCopy ? 'show' : 'hide'
-                      }`}
+                      className={`rc-btn rc-btn--one click-and-show-promotioncode  ${
+                        this.state.inStockProducts.length
+                          ? ''
+                          : 'rc-btn-solid-disabled'
+                      } ${checkPromotionCodeAndCopy ? 'show' : 'hide'}`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
-                      onClick={this.viewShoppingCart}
+                      onClick={this.addCart}
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
@@ -1194,7 +1212,10 @@ class Recommendation extends React.Component {
               <FormattedMessage id="recommendation.noMoreRecommendation" />
             </div>
           ) : (
-            <div className="transparentSection">
+            <div
+              className="transparentSection"
+              style={{ display: `${this.state.noData ? 'none' : 'block'}` }}
+            >
               <section className="recommendProduct re-custom rc-max-width--md pl-0 pr-0">
                 <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                   {this.state.loading ? (

@@ -434,18 +434,12 @@ function ListItemBody({ item, headingTag }) {
       </div>
       {/*商品评分和评论数目*/}
       <div
-        style={{
-          margin: '0 auto'
-        }}
-        className={`d-flex rc-card__price text-center RateFitScreen`}
+        className={`d-flex align-items-center justify-content-center rc-card__price RateFitScreen`}
       >
         <div>
           <Rate def={item.avgEvaluate} disabled={true} marginSize="smallRate" />
         </div>
-        <span
-          className="comments rc-margin-left--xs rc-text-colour--text"
-          style={{ marginTop: '3px' }}
-        >
+        <span className="comments rc-margin-left--xs rc-text-colour--text">
           ({item.goodsEvaluateNum})
         </span>
       </div>
@@ -463,8 +457,7 @@ function ListItemBody({ item, headingTag }) {
       <div className={`d-flex justify-content-center`}>
         <div className="rc-card__price text-left PriceFitScreen">
           <div
-            className={`rc-full-width PriceFitScreen flex`}
-            style={{ justifyContent: 'center' }}
+            className={`rc-full-width PriceFitScreen flex justify-content-center`}
           >
             <span
               style={{
@@ -836,7 +829,6 @@ class List extends React.Component {
 
     let tmpSearch = '';
     const prefnNum = (search.match(/prefn/gi) || []).length;
-
     for (let index = 0; index < Math.min(prefnNum, 1); index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(
@@ -855,19 +847,32 @@ class List extends React.Component {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
       if (fnEle == 'Lifestages') {
-        lifestagesPrefv.push(fvEles);
-      } else if (fnEle == 'Sterilized' && fvEles == 'Нет') {
-        sterilizedPrefv.push('стерилизованных');
-      } else if (fnEle == 'Technology') {
+        const lifestage = fvEles.includes('|')
+          ? 'корм для кошек разных возрастов'
+          : 'корм для ' + fvEles;
+        lifestagesPrefv.push(lifestage);
+      } else if (fnEle == 'Sterilized') {
+        const sterilize =
+          fvEles == 'Нет' ? 'стерилизованных' : 'нестерилизованных';
+        sterilizedPrefv.push(sterilize);
+      } else if (fnEle == 'Technology' && fvEles != 'Другой') {
         technologyPrefv.push(fvEles);
       } else if (fnEle == 'Breeds') {
-        breedsPrefv.push(fvEles);
+        const breed = fvEles.includes('|')
+          ? 'разных пород'
+          : 'породы ' + fvEles;
+        breedsPrefv.push(breed);
       }
 
       if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
 
-    if (!lifestagesPrefv.length) lifestagesPrefv.push('корм для кошек');
+    if (!lifestagesPrefv.length && prefnNum) {
+      const foodType = this.state.isDogPage
+        ? 'корм для собак'
+        : 'корм для кошек';
+      lifestagesPrefv.push(foodType);
+    }
     let allPrefv = [
       ...technologyPrefv,
       ...lifestagesPrefv,
@@ -1086,11 +1091,7 @@ class List extends React.Component {
         (good) => good.goodsName == goodsName
       )?.[0]?.goodsNo;
       const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter(
-          (attr) =>
-            attr.goodsAttributeName &&
-            attr.goodsAttributeName.toLowerCase() == 'breeds'
-        )
+        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
@@ -1812,8 +1813,12 @@ class List extends React.Component {
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-              const breed =
-                breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+              console.log(breedValue, 'breedValuebreedValuebreedValue===');
+              const breed = breedValue
+                ? breedValue.toLowerCase() === 'cat'
+                  ? 'Для кошек'
+                  : 'Для собак'
+                : ''; //俄罗斯定制，嗐！
               const ruAttrs = [breed, ...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_COUNTRY === 'RU'
@@ -2059,14 +2064,11 @@ class List extends React.Component {
       history,
       configStore: { maxGoodsPrice }
     } = this.props;
-    const { pathname } = history.location;
     const {
-      category,
       results,
       productList,
       loading,
       titleData,
-      initingList,
       sortList,
       filterList,
       initingFilter,
@@ -2075,20 +2077,15 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
       keywords,
-      breadList,
       eEvents,
       GAListParam,
       isDogPage,
-      keywordsSearch,
       baseSearchStr,
       allPrefv,
       prefv1,
       animalType
     } = this.state;
-
-    const a = [9, 9, 9, 9, 9, 9, 9];
-    a.splice(3, 0, 3);
-
+    console.log(allPrefv, 'allPrefvallPrefv');
     const _loadingJXS = Array(6)
       .fill(null)
       .map((item, i) => (
@@ -2099,7 +2096,7 @@ class List extends React.Component {
         </ListItemForDefault>
       ));
 
-    const { title, metaDescription } = this.state.seoConfig;
+    const { title, metaDescription, metaKeywords } = this.state.seoConfig;
     const titleSeo =
       title && titleData && title.replace(/{H1}/, titleData.title);
     const metaDescriptionSeo =
@@ -2120,6 +2117,8 @@ class List extends React.Component {
       process.env.REACT_APP_COUNTRY === 'RU'
         ? ruFilterSeoDesc
         : trFilterSeoDesc;
+    const filterSeoWords =
+      process.env.REACT_APP_COUNTRY === 'RU' ? allPrefv : metaKeywords;
     return (
       <div>
         {this.state.event && (
@@ -2135,7 +2134,7 @@ class List extends React.Component {
             name="description"
             content={this.state.prefv1 ? filterSeoDesc : metaDescriptionSeo}
           />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <meta name="keywords" content={filterSeoWords} />
         </Helmet>
         <Header
           showMiniIcons={true}

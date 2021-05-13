@@ -43,7 +43,7 @@ import Dog from '@/assets/images/dog.png';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
-import Carousel from './components/Carousel';
+import ResponsiveCarousel from '@/components/Carousel';
 import {
   findPetProductForClub,
   changeSubscriptionDetailPets
@@ -775,6 +775,9 @@ class PetForm extends React.Component {
         if (result.otherProducts) {
           let recommendData = result.otherProducts;
           recommendData.unshift(result.mainProduct);
+          recommendData.forEach((el) => {
+            el.goodsSubtitle = el.goodsSubTitle;
+          });
           this.setState({
             recommendData: recommendData
           });
@@ -786,6 +789,9 @@ class PetForm extends React.Component {
         if (result.otherProducts) {
           let recommendData = result.otherProducts;
           recommendData.unshift(result.mainProduct);
+          recommendData.forEach((el) => {
+            el.goodsSubtitle = el.goodsSubTitle;
+          });
           this.setState({
             recommendData: recommendData
           });
@@ -1754,10 +1760,10 @@ class PetForm extends React.Component {
             ) : null}
             <div>
               {this.state.recommendData.length && this.state.isChoosePetType ? (
-                <Carousel
+                <ResponsiveCarousel
                   location={this.props.location}
                   history={this.props.history}
-                  recommendData={
+                  goodsList={
                     this.state.recommendData.length
                       ? this.state.recommendData
                       : []

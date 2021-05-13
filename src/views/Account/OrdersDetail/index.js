@@ -2,10 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
@@ -15,7 +13,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   formatMoney,
   getDictionary,
-  setSeoConfig,
   getFormatDate,
   matchNamefromDict,
   filterOrderId
@@ -33,13 +30,11 @@ import {
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import { format } from 'date-fns';
+import PageBaseInfo from '@/components/PageBaseInfo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const pageLink = window.location.href;
 
 function Progress({ progressList, currentProgerssIndex }) {
   return (
@@ -154,10 +149,13 @@ function LogisticsProgress(props) {
               key={i}
             >
               <span className={`logi-time text-right ${customDateCls}`}>
-                {/*{getFormatDate(item.date)}*/}
-                {format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')}
+                {item.timestamp
+                  ? format(new Date(item.timestamp).getTime(), 'yyyy-MM-dd')
+                  : ''}
                 <br />
-                {format(new Date(item.timestamp).getTime(), 'HH:mm:ss')}
+                {item.timestamp
+                  ? format(new Date(item.timestamp).getTime(), 'HH:mm:ss')
+                  : ''}
               </span>
               <div className="logi-text pl-4 pr-4 pt-3 pb-3">
                 <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -169,8 +167,6 @@ function LogisticsProgress(props) {
                 <span
                   className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}
                 >
-                  {/*{item.details}*/}
-                  {/*{item.statusDescription}*/}
                   {item.longDescription}
                 </span>
               </div>
@@ -196,11 +192,6 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       orderNumber: '',
       totalTid: '',
       subNumber: '',
@@ -236,9 +227,6 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -596,11 +584,6 @@ class AccountOrders extends React.Component {
       phoneNumber: invoice.phone,
       addressId: invoice.addressId
     };
-    localItemRoyal.set('loginDeliveryInfo', {
-      deliveryAddress: tmpDeliveryAddress,
-      billingAddress: tmpBillingAddress,
-      commentOnDelivery: details.buyerRemark
-    });
     this.props.checkoutStore.setLoginCartData(tradeItems);
     sessionItemRoyal.set('rc-tid', details.id);
 
@@ -633,7 +616,21 @@ class AccountOrders extends React.Component {
     this.setState({ showLogisticsDetail: false });
   };
   renderLogitiscsJSX = () => {
-    const { moreLogistics, logisticsList, activeTabIdx } = this.state;
+    const { moreLogistics, activeTabIdx } = this.state;
+    //没有详细物流信息的package不显示
+    const logisticsList = [];
+    this.state.logisticsList.map((item, index) => {
+      if (
+        !(
+          item.trackingUrl === null &&
+          item.tradeLogisticsDetails &&
+          item.tradeLogisticsDetails.length === 0
+        )
+      ) {
+        logisticsList.push(item);
+      }
+    });
+    console.log(logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
@@ -645,22 +642,26 @@ class AccountOrders extends React.Component {
               <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
                 {logisticsList.length > 1 ? (
                   <nav className="rc-bg-colour--brand4 p-3">
-                    {logisticsList.map((item, i) => (
-                      <span
-                        className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
-                          activeTabIdx === i
-                            ? 'active red rc-bg-colour--brand3'
-                            : ''
-                        }`}
-                        onClick={this.changeTab.bind(this, i)}
-                        key={i}
-                      >
-                        <FormattedMessage
-                          id="packageX"
-                          values={{ val: i + 1 }}
-                        />
-                      </span>
-                    ))}
+                    {logisticsList.map(
+                      (item, i) =>
+                        item.tradeLogisticsDetails &&
+                        item.tradeLogisticsDetails.length > 0 && (
+                          <span
+                            className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                              activeTabIdx === i
+                                ? 'active red rc-bg-colour--brand3'
+                                : ''
+                            }`}
+                            onClick={this.changeTab.bind(this, i)}
+                            key={i}
+                          >
+                            <FormattedMessage
+                              id="packageX"
+                              values={{ val: i + 1 }}
+                            />
+                          </span>
+                        )
+                    )}
                   </nav>
                 ) : null}
 
@@ -689,7 +690,6 @@ class AccountOrders extends React.Component {
                         <div className="row">
                           {(item.shippingItems || []).map((ele) => (
                             <div className="text-center col-2" key={ele.skuId}>
-                              {/*<LazyLoad>*/}
                               <img
                                 src={ele.pic || IMG_DEFAULT}
                                 alt={ele.itemName}
@@ -700,7 +700,6 @@ class AccountOrders extends React.Component {
                                   height: '60px'
                                 }}
                               />
-                              {/*</LazyLoad>*/}
                               <p className="font-weight-normal ui-text-overflow-line1">
                                 {ele.itemName} X {ele.itemNum}
                               </p>
@@ -769,10 +768,6 @@ class AccountOrders extends React.Component {
                     >
                       <div className="col-10 medium color-444 d-flex align-items-center">
                         <span>
-                          {/*{getFormatDate(*/}
-                          {/*  item.syncLogisticsInfo.originInfo.trackInfo[0].date*/}
-                          {/*)}*/}
-                          {/*{getFormatDate((item.deliverTime || '').substr(0, 10))}*/}
                           {item.deliverTime
                             ? format(
                                 new Date(item.deliverTime).getTime(),
@@ -782,20 +777,8 @@ class AccountOrders extends React.Component {
                         </span>
                       </div>
                       <div className="col-2">
-                        {/*<span*/}
-                        {/*  className="rc-icon rc-right rc-iconography rc-md-down"*/}
-                        {/*  style={{ transform: 'scale(.85)' }}*/}
-                        {/*/>*/}
                         <span className="icon iconfont">&#xe6f9;</span>
                       </div>
-                      {/*<div className="col-12 mt-2">*/}
-                      {/*{item.syncLogisticsInfo.originInfo.trackInfo[0].details}*/}
-                      {/*{*/}
-                      {/*  item.syncLogisticsInfo.originInfo.trackInfo[0]*/}
-                      {/*    .statusDescription*/}
-                      {/*}*/}
-                      {/*{item.tradeLogisticsDetailStatus || ''}*/}
-                      {/*</div>*/}
                       <div className="col-12 row mt-2">
                         {item.shippingItems.map((sItem) => (
                           <div
@@ -1046,23 +1029,7 @@ class AccountOrders extends React.Component {
     const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <PageBaseInfo additionalEvents={event} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
           <BreadCrumbs />

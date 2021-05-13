@@ -9,7 +9,8 @@ import {
   getDictionary,
   validData,
   datePickerConfig,
-  getFormatDate
+  getFormatDate,
+  getZoneTime
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
@@ -333,7 +334,7 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (process.env.REACT_APP_COUNTRY == 'FR') {
             // regExp = /[(+33)|0]\d{9}$/;
-            regExp = /[(+33)|0][\s\-][0-9][\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}[\s\-][0-9]{2}$/;
+            regExp = /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'US') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'MX') {
@@ -514,26 +515,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 7-1、根据address1查询地址信息
-  // 俄罗斯地址没有办法用不完整的地址匹配，因为模糊查询出来是一个地址列表
-  getAddressListByKeyWord = async (address1) => {
-    try {
-      let res = await getAddressBykeyWord({ keyword: address1 });
-      console.log('★ -------------- 7-1、根据address1查询地址信息 res: ', res);
-      if (res?.context && res?.context?.addressList.length > 0) {
-        let addls = res.context.addressList;
-        addls.forEach((item) => {
-          if (item.unrestrictedValue == address1) {
-            console.log('★ ----------- item: ', item);
-            this.getDuDataAddressIntegrity(item);
-          }
-        });
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
-  // 7-2、根据地址查询运费
+  // 7、根据地址查询运费
   getShippingCalculation = async (data) => {
     const { caninForm } = this.state;
     this.setState({
@@ -735,8 +717,9 @@ class Form extends React.Component {
     this.setState({
       address1Data: data
     });
-    const integrity = this.getDuDataAddressIntegrity(data);
-    if (integrity) {
+    // 判断选中的地址是否有错误信息
+    let errMsg = data.errMsg;
+    if (!errMsg) {
       // DuData相关参数
       caninForm.province = data.province;
       caninForm.area = data.area;
@@ -778,67 +761,19 @@ class Form extends React.Component {
           this.getShippingCalculation(data);
         }
       });
+    } else {
+      // errMsg = this.getIntlMsg('payment.wrongAddress');
+      // 显示错误信息
+      this.setState({
+        errMsgObj: {
+          ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
+        }
+      });
     }
   };
   // 提示消息 1-1
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
-  };
-  // 判断是否是完整地址 1-2
-  getDuDataAddressIntegrity = (data) => {
-    // 根据地址组装对应的提示信息
-    let errMsg = '',
-      errArr = [];
-
-    // DuData                   we
-    // -------------------------------
-    // address1                 street    √
-    // postalCode               postCode  √
-    // house                    house     √
-    // city                     city      √
-    // districtCode             privince
-    // settlement               settlement
-
-    let streets = this.getIntlMsg('payment.streets'),
-      postCode = this.getIntlMsg('payment.postCode'),
-      house = this.getIntlMsg('payment.house'),
-      city = this.getIntlMsg('payment.city'),
-      districtCode = this.getIntlMsg('payment.privince'),
-      settlement = this.getIntlMsg('payment.settlement');
-
-    console.log('根据地址组装对应的提示信息: ', data);
-
-    let dstreet = data?.street,
-      dpcode = data?.postCode,
-      dhouse = data?.house,
-      dcity = data?.city;
-
-    if (dstreet == null || dpcode == null || dhouse == null || dcity == null) {
-      this.props.getRussiaAddressValidFlag(false);
-
-      dstreet == null ? errArr.push(streets) : null;
-      dpcode == null ? errArr.push(postCode) : null;
-      dhouse == null ? errArr.push(house) : null;
-      dcity == null ? errArr.push(city) : null;
-      for (let i = 0; i < errArr.length; i++) {
-        if (errMsg == '') {
-          errMsg = errArr[i];
-        } else {
-          errMsg += ',' + errArr[i];
-        }
-      }
-      errMsg = this.getIntlMsg('payment.pleaseInput') + errMsg;
-      // errMsg = this.getIntlMsg('payment.wrongAddress');
-      // 显示错误信息
-      this.setState({
-        errMsgObj: {
-          ['address1']: errMsg
-        }
-      });
-      return false;
-    } else {
-      return true;
-    }
   };
   // 地址搜索框失去焦点 2
   handleSearchSelectionBlur = (e) => {
@@ -870,6 +805,32 @@ class Form extends React.Component {
     this.validvalidationData(tname, tvalue);
   };
 
+  // 处理查询到的DuData地址信息，拼装errMsg
+  setDuDataAddressErrMsg = (data) => {
+    // DuData                   we
+    // -------------------------------
+    // address1                 street    √
+    // postalCode               postCode  √
+    // house                    house     √
+    // city                     city      √
+    // districtCode             privince
+    // settlement               settlement
+    let errArr = [];
+    let streets = this.getIntlMsg('payment.streets'),
+      postCode = this.getIntlMsg('payment.postCode'),
+      house = this.getIntlMsg('payment.house'),
+      city = this.getIntlMsg('payment.city'),
+      districtCode = this.getIntlMsg('payment.privince'),
+      settlement = this.getIntlMsg('payment.settlement');
+
+    data.street == null ? errArr.push(streets) : null;
+    data.postCode == null ? errArr.push(postCode) : null;
+    data.house == null ? errArr.push(house) : null;
+    data.city == null ? errArr.push(city) : null;
+
+    data.errMsg = errArr.join(',');
+    return data;
+  };
   // 地址搜索框
   addressSearchSelectionJSX = (item) => {
     const { caninForm } = this.state;
@@ -877,16 +838,20 @@ class Form extends React.Component {
       <>
         <SearchSelection
           queryList={async ({ inputVal }) => {
-            let res = await getAddressBykeyWord({
-              keyword: inputVal
-            });
-            if (res?.context?.addressList.length == 0) {
-              this.props.getRussiaAddressValidFlag(false);
-            }
-            return (
+            let res = await getAddressBykeyWord({ keyword: inputVal });
+            let robj = (
               (res?.context && res?.context?.addressList) ||
               []
             ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
+            if (robj.length) {
+              // 给查询到的地址拼接 errMsg
+              robj.forEach((item) => {
+                item = this.setDuDataAddressErrMsg(item);
+              });
+            } else {
+              this.props.getRussiaAddressValidFlag(false);
+            }
+            return robj;
           }}
           selectedItemChange={(data) => this.handleAddressInputChange(data)}
           searchSelectionBlur={this.handleSearchSelectionBlur}
@@ -1063,7 +1028,7 @@ class Form extends React.Component {
                 locale={datePickerConfig.locale}
                 maxDate={new Date()}
                 selected={
-                  caninForm.birthdate ? new Date(caninForm.birthdate) : ''
+                  caninForm.birthdate ? getZoneTime(caninForm.birthdate) : ''
                 }
                 onChange={(date) => this.onDateChange(date)}
               />

@@ -1369,6 +1369,9 @@ class LoginCart extends React.Component {
     this.clearPromotionCode();
     // this.props.checkoutStore.removePromotionCode();
     await switchSize({
+      recommendationInfos: pitem.recommendationInfos,
+      recommendationId: pitem.recommendationId,
+      recommendationName: pitem.recommendationName,
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
       periodTypeId: pitem.periodTypeId,
@@ -1400,6 +1403,9 @@ class LoginCart extends React.Component {
     this.clearPromotionCode();
     // this.props.checkoutStore.removePromotionCode();
     await switchSize({
+      recommendationInfos: pitem.recommendationInfos,
+      recommendationId: pitem.recommendationId,
+      recommendationName: pitem.recommendationName,
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
       goodsInfoFlag: pitem.goodsInfoFlag,
@@ -1464,8 +1470,8 @@ class LoginCart extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          isShowValidCode: false,
-          promotionInputValue: ''
+          isShowValidCode: false
+          // promotionInputValue: '' //不去清空当前input框输入的值
         });
       }, 4000);
       // this.props.sendPromotionCode('');

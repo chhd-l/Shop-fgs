@@ -186,14 +186,14 @@ class CommunicationDataEditForm extends React.Component {
         communicationPhone: needPhone ? form.communicationPhone : null,
         communicationPrint: needMessengers ? form.communicationPrint : null
       });
-      await updateCustomerBaseInfo(
-        Object.assign({}, this.props.originData, {
-          communicationEmail: form.communicationEmail,
-          communicationPhone: form.communicationPhone,
-          communicationPrint: form.communicationPrint,
-          oktaToken
-        })
-      );
+      // await updateCustomerBaseInfo(
+      //   Object.assign({}, this.props.originData, {
+      //     communicationEmail: form.communicationEmail,
+      //     communicationPhone: form.communicationPhone,
+      //     communicationPrint: form.communicationPrint,
+      //     oktaToken
+      //   })
+      // );
 
       await this.init();
       this.props.updateData();

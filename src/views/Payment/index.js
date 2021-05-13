@@ -2,7 +2,6 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
@@ -15,6 +14,7 @@ import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Faq from './Faq';
 import Loading from '@/components/Loading';
+import LazyLoad from 'react-lazyload';
 import ValidationAddressModal from '@/components/validationAddressModal';
 
 import VisitorAddress from './Address/VisitorAddress';
@@ -27,16 +27,14 @@ import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
 import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
-import {
-  searchNextConfirmPanel,
-  scrollPaymentPanelIntoView
-} from './modules/utils';
+import { searchNextConfirmPanel } from './modules/utils';
 import {
   formatMoney,
   generatePayUScript,
   getFormatDate,
   setSeoConfig,
-  validData
+  validData,
+  bindSubmitParam
 } from '@/utils/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
 import {
@@ -44,8 +42,6 @@ import {
   getStoreOpenConsentList,
   userBindConsent
 } from '@/api/consent';
-import { batchAddPets } from '@/api/pet';
-import LazyLoad from 'react-lazyload';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -56,31 +52,29 @@ import {
   getWays,
   getPaymentMethod
 } from '@/api/payment';
+import { getOrderDetails } from '@/api/order';
+import { batchAddPets } from '@/api/pet';
 
-import PayUCreditCard from './PayUCreditCard';
-import AdyenCreditCard from './Adyen';
-import CyberCardList from './Cyber/list';
-import Cod from './Cod';
-import OxxoConfirm from './Oxxo';
-import AdyenCommonPay from './modules/AdyenCommonPay';
+import PayUCreditCard from './PaymentMethod/PayUCreditCard';
+import AdyenCreditCard from './PaymentMethod/Adyen';
+import CyberCardList from './PaymentMethod/Cyber/list';
+import Cod from './PaymentMethod/Cod';
+import OxxoConfirm from './PaymentMethod/Oxxo';
+import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
 
 import CyberPaymentForm from '@/components/CyberPaymentForm';
 
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
 
-import { getOrderDetails } from '@/api/order';
-import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
-import { ADDRESS_RULE } from './Cyber/constant/utils';
-import { de } from 'date-fns/locale';
-import { checkoutDataLayerPushEvent, doGetGAVal } from '@/utils/GA';
+import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
+import { doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
-import { bindSubmitParam } from '@/utils/utils';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -286,10 +280,6 @@ class Payment extends React.Component {
       this
     );
   }
-  get billingAdd() {
-    console.log(999, this.state.billingAddress);
-    return this.state.billingAddress;
-  }
   componentWillMount() {
     isHubGA && this.getPetVal();
   }
@@ -297,9 +287,7 @@ class Payment extends React.Component {
     if (this.isLogin) {
       this.queryList();
     }
-    if (!this.isLogin) {
-      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
-    }
+
     try {
       const { history } = this.props;
       const { tid } = this.state;
@@ -332,41 +320,28 @@ class Payment extends React.Component {
         }
       );
 
-      if (!sessionItemRoyal.get('recommend_product')) {
-        if (this.isLogin && !this.loginCartData.length && !tid) {
+      const recommendProductJson = sessionItemRoyal.get('recommend_product');
+      if (!recommendProductJson) {
+        if (!this.computedCartData.length && !tid) {
           sessionItemRoyal.remove('rc-iframe-from-storepotal');
           history.push('/cart');
           return false;
         }
-        if (
-          !this.isLogin &&
-          (!this.cartData.length ||
-            !this.cartData.filter((ele) => ele.selected).length)
-        ) {
-          sessionItemRoyal.remove('rc-iframe-from-storepotal');
-          history.push('/cart');
-          return false;
-        }
+      } else {
+        let recommend_data = JSON.parse(recommendProductJson);
+        recommend_data = recommend_data.map((el) => {
+          el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
+          el.goodsInfo.buyCount = el.recommendationNumber;
+          return el.goodsInfo;
+        });
+        this.props.checkoutStore.updatePromotionFiled(recommend_data);
+        this.setState({ recommend_data });
       }
     } catch (err) {
       console.warn(err);
     }
 
     this.getConsentList();
-
-    if (sessionItemRoyal.get('recommend_product')) {
-      let recommend_data = JSON.parse(
-        sessionItemRoyal.get('recommend_product')
-      );
-      recommend_data = recommend_data.map((el) => {
-        el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
-        el.goodsInfo.buyCount = el.recommendationNumber;
-        return el.goodsInfo;
-      });
-      this.props.checkoutStore.updatePromotionFiled(recommend_data);
-      this.setState({ recommend_data });
-    }
-
     this.initPaymentWay();
     this.initPanelStatus();
   }
@@ -376,6 +351,9 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
     sessionItemRoyal.remove('orderSource');
+  }
+  get billingAdd() {
+    return this.state.billingAddress;
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -414,7 +392,7 @@ class Payment extends React.Component {
    * init panel prepare/edit/complete status
    */
   initPanelStatus() {
-    const { paymentStore, clinicStore } = this.props;
+    const { paymentStore } = this.props;
     const { tid } = this.state;
 
     // repay情况下，地址信息不可编辑，直接置为
@@ -427,6 +405,12 @@ class Payment extends React.Component {
         key: 'billingAddr',
         isFirstLoad: true
       });
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: 'deliveryAddr'
+      });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
   updateSelectedCardInfo = (data) => {
@@ -2677,8 +2661,6 @@ class Payment extends React.Component {
     };
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
-      const { paymentTypeVal } = this.state;
-      // console.log('2248 : ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3">
           <button
@@ -2849,11 +2831,9 @@ class Payment extends React.Component {
                       type: 'adyenKlarnaPayLater'
                     })}
                   />
-                  {/*
-                      // 校验状态
-                      // 1 校验邮箱
-                      // 2 billing校验
-                  */}
+                  {/* 校验状态
+                  1 校验邮箱
+                  2 billing校验 */}
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
@@ -2969,7 +2949,6 @@ class Payment extends React.Component {
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
           )}
-          {/* oxxo */}
         </div>
       </div>
     );

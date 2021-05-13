@@ -67,7 +67,6 @@ import {
   changeSubscriptionGoods,
   findPetProductForClub
 } from '@/api/subscription';
-import { getDict } from '@/api/dict';
 import { getRemainings } from '@/api/dispenser';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
@@ -459,7 +458,7 @@ class SubscriptionDetail extends React.Component {
     }
     cb && cb(res);
   };
-  async queryProductDetails(id, cb, mainProductDetails) {
+  async queryProductDetails({ id, cb, mainProductDetails }) {
     // let res = goodsDetailTabJSON;
     if (mainProductDetails) {
       this.productDetailsInit(mainProductDetails, cb);
@@ -601,7 +600,7 @@ class SubscriptionDetail extends React.Component {
           )?.[0]?.name;
     return name || this.props.intl.messages['Mixed Breed'];
   };
-  PetsInfo = (petsInfo, petsId, history) => {
+  PetsInfo = (petsInfo, petsId) => {
     let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
     return (
       <React.Fragment>
@@ -784,19 +783,20 @@ class SubscriptionDetail extends React.Component {
     // }
 
     await this.getDetail(() => {
+      // 需要在异步的setstate之后执行
       let goodsInfo = [...this.state.subDetail.goodsInfo];
-      if (!this.state.isNotInactive) {
+      if (!this.state.isNotInactive || goodsInfo?.length > 1) {
         // 非激活状态就不展示
+        // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
         this.setState({ editRecommendationVisible: false });
       }
       // 邮件展示需要绑定宠物
       needBindPet && this.showAddNewPet();
-      // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
-      goodsInfo?.length == 1 &&
-        this.state.editRecommendationVisible &&
+      this.state.editRecommendationVisible &&
         this.state.isNotInactive &&
         this.showChangeProduct(goodsInfo, true);
     });
+
     // await this.doGetPromotionPrice();
     this.setState({
       subId: this.props.match.params.subscriptionNumber
@@ -820,7 +820,6 @@ class SubscriptionDetail extends React.Component {
     //plan同时存在goodsCategory为dog和cat的商品
     let isCatAndDog = petsType === 'CatAndDog';
     let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
-    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let errorMsg = '';
     if (isAutoshipAndClub) {
       errorMsg = this.props.intl.messages[
@@ -829,10 +828,10 @@ class SubscriptionDetail extends React.Component {
     }
     if (isCatAndDog) {
       errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr1'
+        'subscriptionDetail.cantBindPetsErr2'
       ];
     }
-    if (isCantLinkPet) {
+    if (errorMsg) {
       this.showErrMsgs(errorMsg, 'errMsgPage');
       return;
     }
@@ -844,7 +843,7 @@ class SubscriptionDetail extends React.Component {
       return false;
     }
     this.setState({ loadingPage: true });
-    await getPetList({
+    getPetList({
       petsType,
       customerId: this.userInfo.customerId,
       consumerAccount: this.userInfo.customerAccount
@@ -1367,22 +1366,15 @@ class SubscriptionDetail extends React.Component {
       let completedYear = {};
       let noStartYearOption = [];
       let completedYearOption = [];
-      let isCatArr =
-        subDetail.goodsInfo?.filter(
-          (el) => el.goodsCategory?.match(/cat/i)?.index > -1
-        ) || null;
-      let isDogArr =
-        subDetail.goodsInfo?.filter(
-          (el) => el.goodsCategory?.match(/dog/i)?.index > -1
-        ) || null;
       let petsType = '';
-      if (isCatArr?.length == subDetail.goodsInfo?.length) {
-        petsType = 'Cat';
-      } else if (isDogArr?.length == subDetail.goodsInfo?.length) {
-        petsType = 'Dog';
-      } else {
-        petsType = 'CatAndDog';
-      }
+      let isCat =
+        subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
+        'Cat';
+      let isDog =
+        subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/dog/i)) &&
+        'Dog';
+      petsType = isCat || isDog || 'CatAndDog';
+
       let completeOption = new Set(
         (subDetail.completedTradeList || []).map((el) => {
           return el.tradeState.createTime.split('-')[0];
@@ -1400,18 +1392,19 @@ class SubscriptionDetail extends React.Component {
         let rationsParams = { petsId, spuNoList };
         let rations = [];
         try {
+          // 不能删除trycatch 该接口有问题会影响后续流程
           let rationRes = await getRation(rationsParams);
           rations = rationRes?.context?.rationResponseItems;
+          subDetail.goodsInfo?.forEach((el) => {
+            rations?.forEach((ration) => {
+              if (el.spuNo == ration.mainItem) {
+                el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+              }
+            });
+          });
         } catch (err) {
           console.log(err, 'err1111');
         }
-        subDetail.goodsInfo?.forEach((el) => {
-          rations?.forEach((ration) => {
-            if (el.spuNo == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
-            }
-          });
-        });
       }
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
@@ -2289,7 +2282,7 @@ class SubscriptionDetail extends React.Component {
   };
   initMainProduct = () => {
     let mainProductDetails = this.state.mainProductDetails;
-    this.queryProductDetails(undefined, undefined, mainProductDetails);
+    this.queryProductDetails({ mainProductDetails });
   };
   changeSubscriptionGoods = () => {
     try {
@@ -2368,10 +2361,13 @@ class SubscriptionDetail extends React.Component {
     this.setState({ editRecommendationVisible: false });
   };
   showProdutctDetail = (id) => {
-    this.queryProductDetails(id, () => {
-      this.closeChangeProduct();
-      this.closeRecommendation();
-      this.setState({ produtctDetailVisible: true });
+    this.queryProductDetails({
+      id,
+      cb: () => {
+        this.closeChangeProduct();
+        this.closeRecommendation();
+        this.setState({ produtctDetailVisible: true });
+      }
     });
   };
   closeProdutctDetail = () => {
@@ -2462,9 +2458,12 @@ class SubscriptionDetail extends React.Component {
         // 查详情
         let id = this.state.productDetail.mainProduct?.spuCode;
         if (id) {
-          this.queryProductDetails(id, (res) => {
-            // 保存mainproduct推荐的商品详情
-            this.setState({ mainProductDetails: res });
+          this.queryProductDetails({
+            id,
+            cb: (res) => {
+              // 保存mainproduct推荐的商品详情
+              this.setState({ mainProductDetails: res });
+            }
           });
         } else {
           // 没有推荐商品的时候直接隐藏被动更换商品
@@ -2864,7 +2863,13 @@ class SubscriptionDetail extends React.Component {
       let res = await changeSubscriptionDetailPets(param);
       let newSubscribeId = res.context;
       if (newSubscribeId === subscribeId) {
-        await this.getDetail();
+        await this.getDetail(() => {
+          // 需要重置顶部的推荐商品框
+          let goodsInfo = [...this.state.subDetail.goodsInfo];
+          this.state.editRecommendationVisible &&
+            this.state.isNotInactive &&
+            this.showChangeProduct(goodsInfo, true);
+        });
       } else {
         this.props.history.push(
           `/account/subscription/order/detail/${newSubscribeId}`
@@ -2927,7 +2932,6 @@ class SubscriptionDetail extends React.Component {
     }
   }
   showEditRecommendation = () => {
-    // this.queryProductDetails()
     this.setState({ editRecommendationVisible: true });
   };
   statusText = () => {
@@ -2983,7 +2987,7 @@ class SubscriptionDetail extends React.Component {
         />
         <div className="d-flex align-items-center add-pet-btn-wrap">
           {petsId ? (
-            this.PetsInfo(petsInfo, petsId, this.props.history)
+            this.PetsInfo(petsInfo, petsId)
           ) : (
             <React.Fragment>
               <div
@@ -3026,22 +3030,14 @@ class SubscriptionDetail extends React.Component {
   };
 
   getBreedList = () => {
-    getDict({
-      type: 'catBreed',
-      delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID
-    }).then((res) => {
+    getDictionary({ type: 'catBreed' }).then((res) => {
       this.setState({
-        catBreedList: res.context.sysDictionaryVOS
+        catBreedList: res
       });
     });
-    getDict({
-      type: 'dogBreed',
-      delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID
-    }).then((res) => {
+    getDictionary({ type: 'dogBreed' }).then((res) => {
       this.setState({
-        dogBreedList: res.context.sysDictionaryVOS
+        dogBreedList: res
       });
     });
   };
@@ -3762,42 +3758,6 @@ class SubscriptionDetail extends React.Component {
                                           alt={el.goodsName}
                                         />
                                         {/* </LazyLoad> */}
-                                        {isClub &&
-                                          !!subDetail.petsId &&
-                                          isNotInactive && (
-                                            <div
-                                              style={{ position: 'relative' }}
-                                            >
-                                              <span
-                                                style={{
-                                                  width: '100%',
-                                                  paddingTop: '10px'
-                                                }}
-                                                className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                                  this.state.productListLoading
-                                                    ? 'ui-btn-loading'
-                                                    : ''
-                                                }`}
-                                                onClick={() =>
-                                                  this.showChangeProduct([el])
-                                                }
-                                              >
-                                                <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                              </span>
-                                              <div
-                                                style={{
-                                                  position: 'absolute',
-                                                  left: '100px',
-                                                  whiteSpace: 'nowrap',
-                                                  top: 0
-                                                }}
-                                              >
-                                                {this.DailyRation(
-                                                  el.petsRation
-                                                )}
-                                              </div>
-                                            </div>
-                                          )}
                                       </div>
                                       <div
                                         className="v-center"
@@ -3999,6 +3959,43 @@ class SubscriptionDetail extends React.Component {
                                         </div>
                                       </div>
                                     </div>
+                                    {isClub &&
+                                      !!subDetail.petsId &&
+                                      isNotInactive && (
+                                        <div
+                                          style={{
+                                            position: 'relative',
+                                            paddingLeft: '26px'
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              width: '100px',
+                                              paddingTop: '10px'
+                                            }}
+                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
+                                              this.state.productListLoading
+                                                ? 'ui-btn-loading'
+                                                : ''
+                                            }`}
+                                            onClick={() =>
+                                              this.showChangeProduct([el])
+                                            }
+                                          >
+                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
+                                          </span>
+                                          <div
+                                            style={{
+                                              position: 'absolute',
+                                              left: '126px',
+                                              whiteSpace: 'nowrap',
+                                              top: 0
+                                            }}
+                                          >
+                                            {this.DailyRation(el.petsRation)}
+                                          </div>
+                                        </div>
+                                      )}
                                   </div>
                                 </div>
                                 <div className="col-4 col-md-1" />

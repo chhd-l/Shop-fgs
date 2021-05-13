@@ -12,7 +12,7 @@ import './index.css';
 
 const HowItWorks = (props) => {
   const RU = process.env.REACT_APP_COUNTRY == 'RU';
-  const TR = process.env.REACT_APP_COUNTRY == 'YR';
+  const TR = process.env.REACT_APP_COUNTRY == 'TR';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
@@ -227,11 +227,13 @@ const HowItWorks = (props) => {
                       <p
                         className="rc-card__meta club_subscription_intro_center"
                         style={{ fontSize: '1rem' }}
-                        onClick={() => {
-                          window.PetStoryWC.start();
-                        }}
                       >
-                        <FormattedMessage id="club.howitworks.img4.description" />
+                        <FormattedMessage
+                          id="club.howitworks.img4.description"
+                          values={{
+                            val: <div>PetStory</div>
+                          }}
+                        />
                       </p>
                     </div>
                   </article>

@@ -57,11 +57,23 @@ class Test extends React.Component {
   componentDidMount() {
     // 设置手机号输入限制
     let element = document.getElementById('testinput');
-    let maskOptions = { mask: '+{7} (000) 000-00-00' };
-    let pval = IMask(element, maskOptions);
+    // mask: '+{7} (000) 000-00-00'
+    let pval = IMask(element, {
+      // mask: '(+33) 0 00 00 00 00',
+      mask: function (val) {
+        val = val.replace(/^[0]/, '+(33)');
+        // val = val.replace(/^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/, '+(33)');
+        // console.log('输入的全部内容: ', val);
+        return val;
+      },
+      prepare: function (str) {
+        console.log('当前输入的内容: ', str);
+        return str;
+      }
+    });
 
     document.addEventListener('keyup', (e) => {
-      console.log(e.keyCode);
+      // console.log(e.keyCode);
     });
   }
   validData = async ({ data }) => {
@@ -99,10 +111,10 @@ class Test extends React.Component {
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    console.log('111111--------- ', name, ' : ', value);
+    // console.log('111111--------- ', name, ' : ', value);
     form[name] = value;
     this.setState({ form }, () => {
-      console.log('222222--------- ', name, ' : ', value);
+      // console.log('222222--------- ', name, ' : ', value);
     });
   };
   // 文本框失去焦点
@@ -113,12 +125,12 @@ class Test extends React.Component {
     const value = target?.type === 'checkbox' ? target?.checked : target?.value;
     form[tname] = value;
     this.setState({ form }, () => {
-      console.log('333333--------- ', tname, ' : ', value);
+      // console.log('333333--------- ', tname, ' : ', value);
     });
   };
   // 按回车键
   handleKeyUpConfirm = (e) => {
-    console.log('----------------- keyCode: ', e.keyCode);
+    // console.log('----------------- keyCode: ', e.keyCode);
     if (e.keyCode === 13) {
     }
   };
@@ -128,12 +140,11 @@ class Test extends React.Component {
       <div style={{ padding: '30px' }}>
         <br />
         <br />
-        <h1>2021-05-11 14:52:52</h1>
+        <h1>2021-05-13 09:35:00</h1>
         <br />
         <br />
         <input
           className={`rc-input__control testInputShipping`}
-          value={form.phoneNumber}
           id="testinput"
           type="text"
           name="testinput"

@@ -56,7 +56,6 @@ class ClinicForm extends React.Component {
     this.setState({
       isEdit: !(nId && nName)
     });
-    // 设置下一个状态时，email还没有被初始化好
     if (!this.checkoutWithClinic || (nName && nId)) {
       this.updatePanelStatus({ setToCompleted: true });
     } else {
