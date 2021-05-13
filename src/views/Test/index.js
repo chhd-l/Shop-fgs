@@ -59,9 +59,16 @@ class Test extends React.Component {
     let element = document.getElementById('testinput');
     // mask: '+{7} (000) 000-00-00'
     let pval = IMask(element, {
+      // mask: '(+33) 0 00 00 00 00',
       mask: function (val) {
-        console.log('对输入的内容进行处理: ', val);
+        val = val.replace(/^[0]/, '+(33)');
+        // val = val.replace(/^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/, '+(33)');
+        // console.log('输入的全部内容: ', val);
         return val;
+      },
+      prepare: function (str) {
+        console.log('当前输入的内容: ', str);
+        return str;
       }
     });
 
@@ -133,7 +140,7 @@ class Test extends React.Component {
       <div style={{ padding: '30px' }}>
         <br />
         <br />
-        <h1>2021-05-12 12:12:12</h1>
+        <h1>2021-05-13 09:35:00</h1>
         <br />
         <br />
         <input

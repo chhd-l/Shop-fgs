@@ -81,7 +81,7 @@ export default class Responsive extends Component {
                       </div>
                     ) : null}
                   </div>
-                  {item.minSubscriptionPrice ? (
+                  {/* {item.minSubscriptionPrice ? (
                     <p className="subscriptionPrice">
                       <div>
                         {formatMoney(item.minSubscriptionPrice)}
@@ -109,7 +109,7 @@ export default class Responsive extends Component {
                         </span>
                       </div>
                     </p>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </Link>
             );
