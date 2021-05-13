@@ -4,6 +4,7 @@ import { toJS } from 'mobx';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { EMAIL_REGEXP } from '@/utils/constant';
+import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
 @inject('paymentStore', 'loginStore')
 @injectIntl
@@ -37,6 +38,7 @@ class EmailForm extends React.Component {
       paymentStore.setStsToCompleted({ key: this.curKey, isFirstLoad: true });
       isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
+      checkoutDataLayerPushEvent({ name: 'Email', options: 'Guest checkout' });
       isReadyPrev && paymentStore.setStsToEdit({ key: this.curKey });
     }
   }
