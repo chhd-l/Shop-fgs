@@ -31,7 +31,11 @@ export default class FullScreenModal extends React.Component {
     let sum = 0;
     let productList = toJS(this.state.productList);
     for (let i = 0; i < productList.length; i++) {
-      sum += productList[i].buyCount;
+      if (this.isLogin) {
+        sum += productList[i].buyCount;
+      } else {
+        sum += productList[i].quantity;
+      }
     }
     return sum + '.00';
   };
