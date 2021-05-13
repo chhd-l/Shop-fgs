@@ -7,8 +7,9 @@ import './index.less';
 import { settings } from './config';
 import LazyLoad from 'react-lazyload';
 import Rate from '@/components/Rate';
-
+import cloneDeep from 'lodash/cloneDeep';
 const isMobilePhone = getDeviceType() === 'H5';
+const isHub = process.env.REACT_APP_HUB == '1';
 
 function ListItemH5ForGlobalStyle(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -631,6 +632,17 @@ function ProductFinderAd({
   );
 }
 
+function RightPromotionJSX(props) {
+  const { item } = props;
+  return item.taggingVOList ? (
+    <div className="product-item-flag-image2 position-absolute">
+      <img
+        src={item.taggingVOList[0].taggingImgUrl}
+        alt="product list taggingForImage"
+      />
+    </div>
+  ) : null;
+}
 export default class Responsive extends Component {
   static defaultProps = {
     location: '',
@@ -642,6 +654,32 @@ export default class Responsive extends Component {
     this.state = {
       windowWidth: 0
     };
+  }
+  rebindAttr(ele) {
+    const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
+      .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+      .map((t) => t.goodsAttributeValueEn);
+    const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
+      .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+      .map((t) => t.goodsAttributeValue);
+    const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
+      .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'technology')
+      .map((t) => t.goodsAttributeValueEn);
+    const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
+    const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
+    const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+    const ruAttrs = [breed, ...technologyAttr];
+    const technologyOrBreedsAttr =
+      isHub && process.env.REACT_APP_COUNTRY === 'RU'
+        ? ruAttrs.join(',')
+        : attrs;
+    return <div>{technologyOrBreedsAttr}</div>;
+  }
+  rebindClub(ele) {
+    const taggingVOList = (ele.taggingVOList || []).filter(
+      (t) => t.displayStatus
+    );
+    return <div>{taggingVOList}</div>;
   }
   render() {
     const { goodsList } = this.props;
@@ -775,8 +813,16 @@ export default class Responsive extends Component {
                 }}
               >
                 <div key={index} className="goods">
+                  <RightPromotionJSX item={item} />
                   <img src={item.goodsImg}></img>
                   <div className="Name">{item.goodsName}</div>
+                  <div>
+                    {item.goodsAttributesValueRelVOAllList ? (
+                      <p className="rc-card__meta text-center rc-padding-top--xs">
+                        {this.rebindAttr(item)}
+                      </p>
+                    ) : null}
+                  </div>
                   <div className="marketPrice">
                     {item.fromPrice ? (
                       <div className="product-price">

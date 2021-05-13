@@ -1478,7 +1478,6 @@ class LoginCart extends React.Component {
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
-
     if (goodsInfoFlag) {
       isHubGA && GACartChangeSubscription('Autoship');
     } else {
