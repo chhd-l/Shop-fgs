@@ -616,15 +616,18 @@ class AccountOrders extends React.Component {
     this.setState({ showLogisticsDetail: false });
   };
   renderLogitiscsJSX = () => {
-    const { moreLogistics, logisticsList, activeTabIdx } = this.state;
+    const { moreLogistics, activeTabIdx } = this.state;
     //没有详细物流信息的package不显示
-    logisticsList.map((item, index) => {
+    const logisticsList = [];
+    this.state.logisticsList.map((item, index) => {
       if (
-        item.trackingUrl === null &&
-        item.tradeLogisticsDetails &&
-        item.tradeLogisticsDetails.length === 0
+        !(
+          item.trackingUrl === null &&
+          item.tradeLogisticsDetails &&
+          item.tradeLogisticsDetails.length === 0
+        )
       ) {
-        logisticsList.splice(index, 1);
+        logisticsList.push(item);
       }
     });
     console.log(logisticsList);

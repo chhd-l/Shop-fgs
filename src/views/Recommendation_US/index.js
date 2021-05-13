@@ -422,11 +422,22 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
-      this.props.clinicStore.setLinkClinicId(
-        res.context?.id || res.context?.prescriberId
+      let recommendationInfos = {
+        recommenderName: res.context?.recommendationName || '',
+        recommenderId: res.context?.recommendationId || '',
+        recommendationName: res.context?.prescriberName || '',
+        recommendationId: res.context?.id || res.context?.prescriberId || '',
+        referenceObject: res.context?.structureType || '',
+        referenceData: res.context?.prescriptionJson || ''
+      };
+      this.props.clinicStore.setLinkClinicRecommendationInfos(
+        recommendationInfos
       );
+      // this.props.clinicStore.setLinkClinicId(
+      //   res.context?.id || res.context?.prescriberId
+      // );
       // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
-      this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
+      // this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
     });

@@ -236,6 +236,11 @@ const HowItWorks = (props) => {
                                 onClick={() => {
                                   window.PetStoryWC.start();
                                 }}
+                                style={{
+                                  textDecoration: 'underline',
+                                  color: '#e3001b',
+                                  cursor: 'pointer'
+                                }}
                               >
                                 PetStory
                               </div>
