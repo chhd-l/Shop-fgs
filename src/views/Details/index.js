@@ -1,6 +1,6 @@
 import React from 'react';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import Skeleton from 'react-skeleton-loader';
+import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
@@ -1820,12 +1820,7 @@ class Details extends React.Component {
                     <div className="rc-layout-container rc-six-column">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         {loading ? (
-                          <Skeleton
-                            count="3"
-                            color="#f5f5f5"
-                            width="100%"
-                            height="20%"
-                          />
+                          <Skeleton />
                         ) : (
                           <div
                             className={`rc-full-width ${
@@ -1960,12 +1955,7 @@ class Details extends React.Component {
                           )}
                         </div>
                         {loading ? (
-                          <Skeleton
-                            count="3"
-                            color="#f5f5f5"
-                            width="100%"
-                            height="20%"
-                          />
+                          <Skeleton />
                         ) : vet ? (
                           <div>
                             <div
@@ -2611,12 +2601,7 @@ class Details extends React.Component {
                   {!isMobile ? (
                     loading ? (
                       <div className="good-contact-img mr-5">
-                        <Skeleton
-                          count="3"
-                          color="#f5f5f5"
-                          width="100%"
-                          height="8%"
-                        />
+                        <Skeleton height="8%" />
                       </div>
                     ) : details.goodsImg ? (
                       <div className="good-contact-img mr-5">
