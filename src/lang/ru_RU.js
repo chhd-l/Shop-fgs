@@ -336,7 +336,7 @@ const ru_RU = {
   //pdp
   'detail.question': 'У вас еще остались вопросы об этом продукте?',
   'detail.telephone': 'По телефону',
-  'details.addToCart': 'Вступить в КЛУБ',
+  'details.addToCart': 'Разовая покупка',
   'details.availability': 'Доступность',
   'details.beneficialFeatures': 'Полезные функции',
   'details.bySubscription': 'по подписке',
@@ -1107,7 +1107,7 @@ const ru_RU = {
     'Сохранить этот способ оплаты как предпочтительный',
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
-  subscribe: 'Подписка на корм',
+  subscribe: 'Вступить в КЛУБ',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
   saveExtra: 'Сэкономьте {val} по программе',
