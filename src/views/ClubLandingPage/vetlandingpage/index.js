@@ -18,6 +18,7 @@ import icon2 from '../../StaticPage/SubscriptionLanding/images/icon2.png';
 import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
 import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
 import HelpComponents from '../../../components/HelpComponents/HelpComponents';
+import vetimg from './images/VET@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -176,12 +177,12 @@ class VetLandingPage extends React.Component {
                               <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
                                 <Link to="/cats/vet-products">
                                   <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
-                                    Корм для Кошки
+                                    Корм для Кошек
                                   </button>
                                 </Link>
                                 <Link to="/dogs/vet-products">
                                   <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
-                                    Корм для Собаки
+                                    Корм для Собак
                                   </button>
                                 </Link>
                               </div>
@@ -192,7 +193,7 @@ class VetLandingPage extends React.Component {
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
-                                src="https://fgs-cdn.azureedge.net/stg/img/autoship_dog.png"
+                                src={vetimg}
                               />
                             </div>
                           </div>

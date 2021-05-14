@@ -11,7 +11,8 @@ export default function Table(props) {
   const {
     subscriptionDiscountPrice,
     deliveryPrice,
-    tradePrice
+    tradePrice,
+    promotionVOList
   } = checkoutStore;
   const { productList, calTotalNum } = value;
   return (
@@ -36,7 +37,11 @@ export default function Table(props) {
               return (
                 <tr className="rc-table__row">
                   <td className="rc-table__td">
-                    {isLogin ? el.goodsInfoNo : el.goodsNo}
+                    {isLogin
+                      ? el.goodsInfoNo
+                      : el.sizeList.filter((el) => el.selected)[0][
+                          'goodsInfoNo'
+                        ]}
                   </td>
                   <td className="rc-table__td">{el.goodsName}</td>
                   <td className="rc-table__td">
@@ -72,6 +77,19 @@ export default function Table(props) {
               <td className="rc-table__td">Toplam Miktar</td>
               <td className="rc-table__td">{calTotalNum()}</td>
             </tr>
+            {promotionVOList.map((el) => {
+              return (
+                <tr className="rc-table__row">
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td">{el.marketingName}</td>
+                  <td className="rc-table__td">
+                    -{formatMoney(el.discountPrice)}
+                  </td>
+                </tr>
+              );
+            })}
             <tr className="rc-table__row">
               <td className="rc-table__td"></td>
               <td className="rc-table__td"></td>
