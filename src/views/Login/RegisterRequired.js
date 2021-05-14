@@ -279,73 +279,53 @@ class RegisterRequired extends Component {
     } finally {
     }
   };
-  //监听土耳其consent
-  addEventListenerFunTr() {
-    const { setTrConsentModal } = this.props.paymentStore;
-    window.onload = () => {
-      document.getElementById('tr_consent_a') &&
-        document
-          .getElementById('tr_consent_a')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalA', true);
-          });
-      document.getElementById('tr_consent_b') &&
-        document
-          .getElementById('tr_consent_b')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalB', true);
-          });
-      document.getElementById('tr_consent_c') &&
-        document
-          .getElementById('tr_consent_c')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalC', true);
-          });
-      document.getElementById('tr_consent_d') &&
-        document
-          .getElementById('tr_consent_d')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalD', true);
-          });
-      document.getElementById('tr_consent_tc') &&
-        document
-          .getElementById('tr_consent_tc')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalTC', true);
-          });
-      document.getElementById('tr_consent_pm') &&
-        document
-          .getElementById('tr_consent_pm')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalPM', true);
-          });
-
-      document.getElementById('tr_consent_opt_email') &&
-        document
-          .getElementById('tr_consent_opt_email')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalOptEmail', true);
-          });
-    };
-  }
-  async componentDidMount() {
+  componentDidUpdate() {
     if (process.env.REACT_APP_LANG == 'tr') {
       this.addEventListenerFunTr();
     }
+  }
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    document.getElementById('tr_consent_c') &&
+      document.getElementById('tr_consent_c').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalC', true);
+      });
+    document.getElementById('tr_consent_d') &&
+      document.getElementById('tr_consent_d').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalD', true);
+      });
+    document.getElementById('tr_consent_tc') &&
+      document
+        .getElementById('tr_consent_tc')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalTC', true);
+        });
+    document.getElementById('tr_consent_pm') &&
+      document
+        .getElementById('tr_consent_pm')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalPM', true);
+        });
+
+    document.getElementById('tr_consent_opt_email') &&
+      document
+        .getElementById('tr_consent_opt_email')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalOptEmail', true);
+        });
+  }
+  async componentDidMount() {
     // const state = this.props.location.state
     const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
     if (!fromLoginPage) {
