@@ -225,7 +225,6 @@ class Filter extends React.Component {
         break;
       }
     }
-    console.info('isSelectedFilter', isSelectedFilter);
 
     // filterList.forEach(item=>{
     //   lists.forEach(cItem=>{
