@@ -30,6 +30,14 @@ let D = {
   isRequired: true
 };
 
+let D2 = {
+  id: 'tr_D',
+  consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+  border-bottom: 1px solid #ccc;" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`,
+  isChecked: false,
+  isRequired: true
+};
+
 let optEmail = {
   id: 'optEmail',
   consentTitle: `Royal Canin’in tanıtım ve kampanyalarından haberdar olmak istiyorum. Bu kapsamda Royal Canin’e tarafıma ticari elektronik ileti göndermesi için <span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;

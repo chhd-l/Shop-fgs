@@ -36,7 +36,11 @@ export default function Table(props) {
               return (
                 <tr className="rc-table__row">
                   <td className="rc-table__td">
-                    {isLogin ? el.goodsInfoNo : el.goodsNo}
+                    {isLogin
+                      ? el.goodsInfoNo
+                      : el.sizeList.filter((el) => el.selected)[0][
+                          'goodsInfoNo'
+                        ]}
                   </td>
                   <td className="rc-table__td">{el.goodsName}</td>
                   <td className="rc-table__td">

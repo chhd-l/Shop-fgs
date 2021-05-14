@@ -12,7 +12,8 @@ export default function Modal(props) {
   const {
     fullScreenModalA,
     deliveryAddressInfo,
-    billingAddressInfo
+    billingAddressInfo,
+    guestEmail
   } = paymentStore;
   const { localAddressForm } = configStore;
   const { close } = value;
@@ -95,7 +96,9 @@ export default function Modal(props) {
                     </p>
                     <p>
                       E-posta:{' '}
-                      <span>{isLogin ? userInfo.customerAccount : ''}</span>
+                      <span>
+                        {isLogin ? userInfo.customerAccount : guestEmail}
+                      </span>
                     </p>
                     <br />
                     <p>
@@ -122,7 +125,9 @@ export default function Modal(props) {
                     </p>
                     <p>
                       E-posta:{' '}
-                      <span>{isLogin ? userInfo.customerAccount : ''}</span>{' '}
+                      <span>
+                        {isLogin ? userInfo.customerAccount : guestEmail}
+                      </span>{' '}
                     </p>
                     <div className="content-asset">
                       <p>
