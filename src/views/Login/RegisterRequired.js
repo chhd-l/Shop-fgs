@@ -525,8 +525,6 @@ class RegisterRequired extends Component {
           footerVisible={false}
           modalTitle={<FormattedMessage id="addPet" />}
           confirmBtnText={<FormattedMessage id="continue" />}
-          // close={() => this.handelClose()}
-          // hanldeClickConfirm={() => this.hanldeConfirm()}
         />
       </div>
     );
