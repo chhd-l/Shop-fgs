@@ -637,7 +637,7 @@ function RightPromotionJSX(props) {
   return item.taggingVOList ? (
     <div className="product-item-flag-image2 position-absolute">
       <img
-        src={item.taggingVOList[0].taggingImgUrl}
+        src={item.taggingVOList[0]?.taggingImgUrl}
         alt="product list taggingForImage"
       />
     </div>
