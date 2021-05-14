@@ -3,8 +3,13 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import ModalA from './A';
 import ModalB from './B';
+import ModalC from './C';
+import ModalD from './D';
+import ModalTC from './TC';
+import ModalPM from './PersonalizedMarketing';
+import ModalOptEmail from './OptEmail';
 
-const FullScreenModalContext = createContext();
+export const FullScreenModalContext = createContext();
 
 @inject('paymentStore', 'checkoutStore', 'loginStore', 'configStore')
 @observer
@@ -26,7 +31,11 @@ export default class FullScreenModal extends React.Component {
     let sum = 0;
     let productList = toJS(this.state.productList);
     for (let i = 0; i < productList.length; i++) {
-      sum += productList[i].buyCount;
+      if (this.isLogin) {
+        sum += productList[i].buyCount;
+      } else {
+        sum += productList[i].quantity;
+      }
     }
     return sum + '.00';
   };
@@ -46,7 +55,15 @@ export default class FullScreenModal extends React.Component {
     setTrConsentModal(modal, false);
   };
   Consent() {
-    const { fullScreenModalA, fullScreenModalB } = this.props.paymentStore;
+    const {
+      fullScreenModalA,
+      fullScreenModalB,
+      fullScreenModalC,
+      fullScreenModalD,
+      fullScreenModalOptEmail,
+      fullScreenModalPM,
+      fullScreenModalTC
+    } = this.props.paymentStore;
 
     let productList = toJS(this.state.productList);
     let propsObj = {
@@ -57,11 +74,31 @@ export default class FullScreenModal extends React.Component {
     return (
       <>
         <FullScreenModalContext.Provider value={propsObj}>
-          <ModalA FullScreenModalContext={FullScreenModalContext} />
+          <ModalA />
         </FullScreenModalContext.Provider>
 
         <FullScreenModalContext.Provider value={propsObj}>
-          <ModalB FullScreenModalContext={FullScreenModalContext} />
+          <ModalB />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalC />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalD />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalTC />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalPM />
+        </FullScreenModalContext.Provider>
+
+        <FullScreenModalContext.Provider value={propsObj}>
+          <ModalOptEmail />
         </FullScreenModalContext.Provider>
       </>
     );

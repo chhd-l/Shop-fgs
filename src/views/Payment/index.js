@@ -74,7 +74,8 @@ import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
-import { registerCustomerList, guestList } from './tr_consent';
+import { getProductPetConfig } from '@/api/payment';
+import { registerCustomerList, guestList, commonList } from './tr_consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -592,23 +593,53 @@ class Payment extends React.Component {
       listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
     } else if (process.env.REACT_APP_COUNTRY == 'RU') {
       listData = [...requiredList]; //俄罗斯-会员-必填项
+    } else if (process.env.REACT_APP_COUNTRY == 'TR') {
+      let cConsent = result.context.requiredList
+        .filter((item) => {
+          return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';
+        })
+        .map((item2) => {
+          return {
+            id: item2.id,
+            consentTitle: item2.consentTitle,
+            isChecked: true,
+            isRequired: true,
+            detailList: item2.detailList,
+            noChecked: true
+          };
+        });
+      let dConsent = result.context.requiredList
+        .filter((item) => {
+          return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
+        })
+        .map((item2) => {
+          return {
+            id: item2.id,
+            consentTitle: item2.consentTitle,
+            isChecked: false,
+            isRequired: true,
+            detailList: item2.detailList
+          };
+        });
+
+      listData = [...cConsent, ...commonList, ...dConsent];
     } else {
       listData = [...requiredList, ...optionalList]; //必填项+选填项
     }
 
     this.rebindListData(listData);
   }
-  //土耳其consent
-  getTrConsentList() {
-    if (process.env.REACT_APP_COUNTRY === 'TR') {
-      let listData = [];
+  //土耳其consent 静态
+  // getTrConsentList() {
+  //   if (process.env.REACT_APP_COUNTRY === 'TR') {
+  //     let listData = [];
 
-      listData = this.isLogin ? [...registerCustomerList] : [...guestList];
-      //listData = [...registerCustomerList];
-      //listData = [...guestList];
-      this.rebindListData(listData);
-    }
-  }
+  //     //listData = this.isLogin ? [...registerCustomerList] : [...guestList];
+  //     //listData = [...registerCustomerList];
+  //     listData = [...guestList];
+  //     this.rebindListData(listData);
+  //   }
+  // }
   //获取支付方式
   initPaymentWay = async () => {
     try {
