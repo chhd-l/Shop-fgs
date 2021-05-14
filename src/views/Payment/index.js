@@ -1058,7 +1058,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log(parameters);
+      console.log('1028: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1380,6 +1380,8 @@ class Payment extends React.Component {
           billLastName: billingAddress.lastName,
           billPhoneNumber: billingAddress.phoneNumber,
           billPostCode: billingAddress.postCode,
+          billProvince: billingAddress.province, // 2021-05-14 10:00
+          billProvinceId: billingAddress.provinceId,
           rfc: deliveryAddress.rfc,
           billRfc: billingAddress.rfc,
           email: creditCardInfo.email || guestEmail,
@@ -1851,7 +1853,10 @@ class Payment extends React.Component {
       param.billingAddress = billingChecked
         ? { ...tmpDeliveryAddress }
         : { ...tmpBillingAddress };
-
+      console.log(
+        '★★★★★★ ---------- saveAddressAndCommentPromise param: ',
+        param
+      );
       this.setState({
         deliveryAddress: { ...param.deliveryAddress },
         billingAddress: { ...param.billingAddress },

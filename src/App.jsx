@@ -342,15 +342,6 @@ const App = () => {
                 />
                 <Route
                   exact
-                  path="/vetlandingpage"
-                  component={
-                    process.env.REACT_APP_LANG == 'ru'
-                      ? VetLandingPage
-                      : Exception
-                  }
-                />
-                <Route
-                  exact
                   sensitive
                   path="/faq"
                   render={(props) => (

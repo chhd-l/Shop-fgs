@@ -6,6 +6,7 @@ import howitworck3 from './ClubImage/howit3.png';
 import howitworck4 from './ClubImage/howit4.png';
 import how02 from './ClubImage/How02@2x.png';
 import how04 from './ClubImage/How04@2x.png';
+import hownew04 from './ClubImage/How-RU@2x.png';
 import workflowicon from './ClubImage/howitworkflow.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
@@ -196,7 +197,7 @@ const HowItWorks = (props) => {
                       <LazyLoad height={180}>
                         <img
                           className="w-90 lazyloaded"
-                          src={howitworck4}
+                          src={hownew04}
                           alt={props.intl.formatMessage({
                             id: 'club.howitworks.alt4'
                           })}
