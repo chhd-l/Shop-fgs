@@ -62,8 +62,9 @@ class CyberCardList extends React.Component {
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
       saveLoading: false
     };
-    this.handleClickConfirmDeleteBtn =
-      this.handleClickConfirmDeleteBtn.bind(this);
+    this.handleClickConfirmDeleteBtn = this.handleClickConfirmDeleteBtn.bind(
+      this
+    );
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
@@ -136,8 +137,7 @@ class CyberCardList extends React.Component {
           (ele) => ele.id === this.state.selectedId
         );
         if (!!firstSaveCard) {
-          firstSaveCard.encryptedSecurityCode =
-            currentCardEncryptedSecurityCode;
+          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode;
         }
         this.props.updateSelectedCardInfo(firstSaveCard);
       }

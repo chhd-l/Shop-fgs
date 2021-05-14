@@ -25,7 +25,7 @@ export default class Modal extends React.Component {
   render() {
     const { visible, type } = this.props;
     if (type === 'fullscreen') {
-      return <>{/* {<FullScreenModal />} */}</>;
+      return <>{<FullScreenModal />}</>;
     }
     return (
       <React.Fragment>
