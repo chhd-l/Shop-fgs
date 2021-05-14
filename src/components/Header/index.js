@@ -124,7 +124,7 @@ class Header extends React.Component {
       window.location.search || (location ? location.search : ''),
       'clinic'
     );
-    let linkClinicBusId = ''; //推荐者主键Id
+    let linkClinicBusId = ''; //推荐者业务Id
     let linkClinicName = '';
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
@@ -506,8 +506,8 @@ class Header extends React.Component {
   };
   hanldeClickSignUp = () => {
     if (
-      process.env.REACT_APP_LANG === 'fr' ||
-      process.env.REACT_APP_LANG === 'en'
+      process.env.REACT_APP_COUNTRY === 'FR' ||
+      process.env.REACT_APP_COUNTRY === 'US'
     ) {
       this.props.history.push('/register');
     } else {

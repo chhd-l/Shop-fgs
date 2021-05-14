@@ -8,10 +8,10 @@ import './index.css';
 class Progress extends React.Component {
   render() {
     const { props } = this;
-    const { isPrescriberMap } = this.props.configStore;
+    const { prescriberSelectType } = this.props.configStore;
     return (
       <div className="rc-padding--sm rc-padding-top--none">
-        {isPrescriberMap !== '1' ? (
+        {prescriberSelectType !== 1 ? (
           <div className="title">
             <h4>
               <FormattedMessage id="payment.checkout" />

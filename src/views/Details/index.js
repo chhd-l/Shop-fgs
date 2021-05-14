@@ -3,7 +3,6 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
-import { toJS } from 'mobx';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,10 +12,8 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
-import { clubSubscriptionSavePets } from '@/api/pet';
 import {
   formatMoney,
   setSeoConfig,
@@ -33,13 +30,10 @@ import {
   getClubFlag
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import cloneDeep from 'lodash/cloneDeep';
-import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-// import Carousel from './components/Carousel';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
@@ -49,21 +43,20 @@ import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
-import loop from '@/assets/images/loop.png';
-import vert from '@/assets/images/vert.png';
 
 import './index.css';
 import './index.less';
-import { Link } from 'react-router-dom';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
-import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
+const isHub = process.env.REACT_APP_HUB == '1';
 // const pageLink = window.location.href;
+
 function AdvantageTips({ secondIconvisible = true }) {
   return (
     <div className="rc-full-width advantage-tips">
@@ -203,8 +196,7 @@ function Advantage() {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text:
-        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -310,7 +302,6 @@ class Details extends React.Component {
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
-      relatedProduct: [],
       form: {
         buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
@@ -341,7 +332,8 @@ class Details extends React.Component {
       relatedGoodsLoading: false,
       rationInfo: {},
       isFromPR: false,
-      questionParams: undefined
+      questionParams: undefined,
+      defaultPurchaseType: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -355,6 +347,14 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     const { pathname, state } = this.props.location;
+    let timer = setInterval(() => {
+      if (document.querySelector('#mars-footer-panel')) {
+        document
+          .querySelector('#mars-footer-panel')
+          .setAttribute('style', 'padding-bottom: 61px !important');
+        clearInterval(timer);
+      }
+    }, 1000);
     this.getUrlParam();
     if (state) {
       if (!!state.GAListParam) {
@@ -373,9 +373,9 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
 
-    const Fr = process.env.REACT_APP_LANG === 'fr';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -409,14 +409,8 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -441,9 +435,10 @@ class Details extends React.Component {
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
       (ele) => ele.id && id && ele.id + '' === id + ''
     )[0];
+    let defaultPurchaseType = 0;
     if (targetDefaultPurchaseTypeItem) {
       let buyWay = 0;
-      let defaultPurchaseType = {
+      defaultPurchaseType = {
         None: -1,
         Subscription: 1,
         'One-off purchase': 0
@@ -460,7 +455,8 @@ class Details extends React.Component {
       this.setState({
         form: Object.assign(this.state.form, {
           buyWay
-        })
+        }),
+        defaultPurchaseType
       });
     }
   }
@@ -536,13 +532,8 @@ class Details extends React.Component {
     );
   }
   setGoogleProductStructuredDataMarkup() {
-    const {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo
-    } = this.state;
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
+      this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -575,7 +566,8 @@ class Details extends React.Component {
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       stock,
-      form
+      form,
+      defaultPurchaseType
     } = this.state;
     let selectedArr = [];
     let idArr = [];
@@ -590,7 +582,6 @@ class Details extends React.Component {
     idArr = selectedArr.map((el) => el.specDetailId);
     //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
     currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-    console.log(details, 'item---');
     details.sizeList.map((item, i) => {
       let specTextArr = [];
       for (let specItem of specList) {
@@ -604,12 +595,10 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ');
-      console.log(
-        item,
-        'item---',
-        unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')
-      );
-      if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
+      if (
+        unique(item.mockSpecDetailIds).sort().join(',') ===
+        idArr.sort().join(',')
+      ) {
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
@@ -623,13 +612,14 @@ class Details extends React.Component {
 
       return item;
     });
-    !details.promotions ||
-    !details.promotions.includes('club') ||
-    !skuPromotions
-      ? (form.buyWay = 0)
-      : skuPromotions == 'club'
-      ? (form.buyWay = 2)
-      : (form.buyWay = 1);
+
+    defaultPurchaseType === 1 ||
+    sessionItemRoyal.get('pf-result') ||
+    localStorage.getItem('pfls')
+      ? skuPromotions == 'club'
+        ? (form.buyWay = 2)
+        : (form.buyWay = 1)
+      : (form.buyWay = 0);
     this.setState(
       {
         details,
@@ -665,11 +655,34 @@ class Details extends React.Component {
     try {
       //this.setState({relatedGoodsLoading:true})
       const res = await getGoodsRelation(id);
+      let relatedGoodsList = res.context.goods;
+      relatedGoodsList = relatedGoodsList.map((ele) => {
+        const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
+          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+          .map((t) => t.goodsAttributeValueEn);
+        const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
+          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+          .map((t) => t.goodsAttributeValue);
+        const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
+          .filter(
+            (item) => item?.goodsAttributeName?.toLowerCase() == 'technology'
+          )
+          .map((t) => t.goodsAttributeValueEn);
+        const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
+        const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
+        const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+        const ruAttrs = [breed, ...technologyAttr];
+        const technologyOrBreedsAttr =
+          isHub && process.env.REACT_APP_COUNTRY === 'RU'
+            ? ruAttrs.join(',')
+            : attrs;
+        return Object.assign(ele, { technologyOrBreedsAttr });
+      });
       this.setState({
-        relatedGoodsList: res.context.goods
+        relatedGoodsList
       });
     } catch (err) {
-      console.log(err.message);
+      console.log(111111, err.message);
     } finally {
       //this.setState({relatedGoodsLoading:false})
     }
@@ -689,118 +702,49 @@ class Details extends React.Component {
 
     let petsRes = {};
     let pf_params = {};
-    if (localStorage.getItem('pfls') && getClubFlag()) {
-      pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-      let rationRes = await getRation(
-        Object.assign(
-          {
-            spuNoList: [goodsNo]
-          },
-          pf_params
-        )
-      );
-      this.setState({
-        questionParams: JSON.stringify(pf_params),
-        isFromPR: true
-      });
-      if (rationRes.code === 'K-000000') {
+    try {
+      if (localStorage.getItem('pfls') && getClubFlag()) {
+        pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
         this.setState({
-          rationInfo: rationRes.context.rationResponseItems[0]
+          questionParams: JSON.stringify(pf_params),
+          isFromPR: true
         });
-      }
-    } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
-      pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-      let rationRes = await getRation(
-        Object.assign(
-          {
-            spuNoList: [goodsNo]
-          },
-          pf_params
-        )
-      );
-      this.setState({
-        questionParams: JSON.stringify(pf_params),
-        isFromPR: true
-      });
-      if (rationRes.code === 'K-000000') {
+        let rationRes = await getRation(
+          Object.assign(
+            {
+              spuNoList: [goodsNo]
+            },
+            pf_params
+          )
+        );
+        if (rationRes.code === 'K-000000') {
+          this.setState({
+            rationInfo: rationRes.context.rationResponseItems[0]
+          });
+        }
+      } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
+        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
         this.setState({
-          rationInfo: rationRes.context.rationResponseItems[0]
+          questionParams: JSON.stringify(pf_params),
+          isFromPR: true
         });
+        let rationRes = await getRation(
+          Object.assign(
+            {
+              spuNoList: [goodsNo]
+            },
+            pf_params
+          )
+        );
+        if (rationRes.code === 'K-000000') {
+          this.setState({
+            rationInfo: rationRes.context.rationResponseItems[0]
+          });
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
-
-    // 对比productFinder 之前信息
-    // let savePetFlag = false;
-    // let isMyProductFinder = true;
-    // let isFromPR = true;
-    // if (localStorage.getItem('pfls')) {
-    //   if (
-    //     localStorage.getItem('pfls') &&
-    //     localStorage.getItem('pfls') !== localStorage.getItem('pfls-before')
-    //   ) {
-    //     savePetFlag = true;
-    //   } else {
-    //     savePetFlag = false;
-    //   }
-    //   isMyProductFinder = false;
-    // } else if (sessionItemRoyal.get('pf-result')) {
-    //   if (
-    //     sessionItemRoyal.get('pf-result') &&
-    //     sessionItemRoyal.get('pf-result') !==
-    //       sessionItemRoyal.get('pf-result-before')
-    //   ) {
-    //     savePetFlag = true;
-    //   } else {
-    //     savePetFlag = false;
-    //   }
-    //   isMyProductFinder = true;
-    // } else {
-    //   isFromPR = false;
-    // }
-    // this.setState({ isFromPR });
-    // if (isFromPR) {
-    //   if (localStorage.getItem('pfls')) {
-    //     localStorage.setItem('pfls-before', localStorage.getItem('pfls'));
-    //   }
-    //   if (sessionItemRoyal.get('pf-result')) {
-    //     sessionItemRoyal.set(
-    //       'pf-result-before',
-    //       sessionItemRoyal.get('pf-result')
-    //     );
-    //   }
-    //   let pf_params = {};
-    //   if (!isMyProductFinder) {
-    //     pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-    //     pf_params.age = '' + pf_params.age;
-    //   } else {
-    //     pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-    //   }
-
-    //   if (this.isLogin && savePetFlag) {
-    //     try {
-    //       petsRes = await clubSubscriptionSavePets({
-    //         questionParams: pf_params
-    //       });
-    //       let petsInfo = petsRes.context;
-    //       this.props.checkoutStore.setPetInfo(petsRes.context);
-    //     } catch (err) {
-    //       console.log(err, 'error111');
-    //     }
-    //   }
-    //   let rationRes = await getRation(
-    //     Object.assign(
-    //       {
-    //         spuNoList: [goodsNo]
-    //       },
-    //       pf_params
-    //     )
-    //   );
-    //   if (rationRes.code === 'K-000000') {
-    //     this.setState({
-    //       rationInfo: rationRes.context.rationResponseItems[0]
-    //     });
-    //   }
-    // }
 
     Promise.all([
       requestName(param),
@@ -812,6 +756,7 @@ class Details extends React.Component {
       .then((resList) => {
         const res = resList[0];
         const frequencyDictRes = resList[1];
+        // 获取club与autoship字典
         let autoshipDictRes = frequencyDictRes.filter(
           (el) => el.goodsInfoFlag === 1
         );
@@ -821,7 +766,7 @@ class Details extends React.Component {
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
         let defaultFrequencyId = 0;
-        console.log(goodsRes, toJS(configStore), 'goodsRes');
+        // 获取默认frequencyId
         if (goodsRes?.promotions === 'club') {
           defaultFrequencyId =
             goodsRes?.defaultFrequencyId ||
@@ -835,7 +780,6 @@ class Details extends React.Component {
             (autoshipDictRes[0] && autoshipDictRes[0].id) ||
             '';
         }
-        console.log(defaultFrequencyId, 'defaultFrequencyId');
         this.setState(
           {
             purchaseTypeDict: purchaseTypeDictRes,
@@ -854,7 +798,10 @@ class Details extends React.Component {
           });
         }
         if (goodsRes) {
-          const { goods, taggingList, images } = res.context;
+          const { goods, images } = res.context;
+          const taggingList = (res.context?.taggingList || []).filter(
+            (t) => t.displayStatus
+          );
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
@@ -870,19 +817,19 @@ class Details extends React.Component {
               minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 promotions: goods?.promotions?.toLowerCase(),
-                taggingForTextAtPDP: (taggingList || []).filter(
+                taggingForTextAtPDP: taggingList.filter(
                   (e) => e.taggingType === 'Text' && e.showPage?.includes('PDP')
                 )[0],
-                taggingForImageAtPDP: (taggingList || []).filter(
+                taggingForImageAtPDP: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' && e.showPage?.includes('PDP')
                 )[0],
-                taggingForTextAtCart: (taggingList || []).filter(
+                taggingForTextAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Text' &&
                     e.showPage?.includes('Shopping cart page')
                 )[0],
-                taggingForImageAtCart: (taggingList || []).filter(
+                taggingForImageAtCart: taggingList.filter(
                   (e) =>
                     e.taggingType === 'Image' &&
                     e.showPage?.includes('Shopping cart page')
@@ -973,6 +920,7 @@ class Details extends React.Component {
             specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
         }
         if (res && res.context && res.context.goodsSpecDetails) {
+          // 组装购物车的前端数据结构与规格的层级关系
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem, index) => {
@@ -1008,7 +956,7 @@ class Details extends React.Component {
               }
             } else {
               if (
-                process.env.REACT_APP_LANG === 'de' &&
+                process.env.REACT_APP_COUNTRY === 'DE' &&
                 sItem.chidren.length > 1 &&
                 !sItem.chidren[1].isEmpty
               ) {
@@ -1042,9 +990,7 @@ class Details extends React.Component {
           sizeList = goodsInfos.map((g, i) => {
             // g = Object.assign({}, g, { selected: false });
             g = Object.assign({}, g, {
-              selected: i === 0,
-              petsId: checkoutStore.pr_petsInfo.petsId,
-              petsType: checkoutStore.pr_petsInfo.petsType
+              selected: i === 0
             });
             let { form } = this.state;
             if (g.selected && !g.subscriptionStatus) {
@@ -1052,9 +998,7 @@ class Details extends React.Component {
             }
             if (g.selected && g.subscriptionStatus) {
               form.buyWay =
-                form.buyWay && res.context?.goods.promotions?.includes('club')
-                  ? 2
-                  : form.buyWay;
+                form.buyWay && g.promotions?.includes('club') ? 2 : form.buyWay;
             }
             this.setState({ form });
 
@@ -1097,8 +1041,8 @@ class Details extends React.Component {
               specList,
               barcode
             },
-            () => {
-              this.matchGoods();
+            async () => {
+              await this.matchGoods();
               //Product Detail Page view 埋点start
               this.hubGA
                 ? this.hubGAProductDetailPageView(
@@ -1181,7 +1125,6 @@ class Details extends React.Component {
 
   loadWidgetIdBtn() {
     const { goodsType } = this.state;
-    console.log(goodsType, 'goodsTypegoodsType');
 
     const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
@@ -1281,8 +1224,9 @@ class Details extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
+    const barcode = images.find(
+      (item) => item.packSize === goodSize
+    )?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -1368,13 +1312,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1543,6 +1482,30 @@ class Details extends React.Component {
     this.setState({ eEvents });
   }
 
+  getPdpScreenLoadCTAs() {
+    const {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
+    } = this.state;
+    let content = ['Single Purchase'];
+    if (
+      currentSubscriptionStatus &&
+      currentSubscriptionPrice &&
+      skuPromotions == 'autoship'
+    ) {
+      content.push('Subscription');
+    }
+    if (
+      currentSubscriptionStatus &&
+      currentSubscriptionPrice &&
+      skuPromotions == 'club'
+    ) {
+      content.push('Club');
+    }
+    return content;
+  }
+
   //hub商品详情页 埋点
   hubGAProductDetailPageView(goodsAttributesValueRelList, item, selectPrice) {
     const {
@@ -1590,7 +1553,8 @@ class Details extends React.Component {
         products: [product]
       });
       dataLayer.push({
-        event: 'pdpScreenLoad'
+        event: 'pdpScreenLoad',
+        pdpScreenLoadCTAs: this.getPdpScreenLoadCTAs()
       });
     }
     this.setState({
@@ -1699,7 +1663,6 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
-    console.log(rationInfo, 'rationInfo');
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
@@ -1712,9 +1675,9 @@ class Details extends React.Component {
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_LANG === 'de';
-    const Ru = process.env.REACT_APP_LANG === 'ru';
-    const Tr = process.env.REACT_APP_LANG === 'tr';
+    const De = process.env.REACT_APP_COUNTRY === 'DE';
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     const sptGoods = goodsType === 0 || goodsType === 1;
     const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h1'}
@@ -1749,12 +1712,6 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(
-      currentSubscriptionStatus,
-      currentSubscriptionPrice,
-      skuPromotions,
-      'aaaaa'
-    );
     return (
       <div id="Details">
         <button
@@ -2383,8 +2340,7 @@ class Details extends React.Component {
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
+                                            val: selectedSpecItem?.subscriptionPercentage
                                           }}
                                         />
                                       </div>
@@ -2430,7 +2386,7 @@ class Details extends React.Component {
                                       ) : null}
                                     </div>
                                   </div>
-                                  {process.env.REACT_APP_LANG == 'fr' ? (
+                                  {process.env.REACT_APP_COUNTRY == 'FR' ? (
                                     <div>
                                       Résiliation gratuite à tout moment{' '}
                                     </div>
@@ -2495,8 +2451,7 @@ class Details extends React.Component {
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
+                                          val: selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>
@@ -2712,16 +2667,8 @@ class Details extends React.Component {
               </>
             ) : null}
             {this.state.relatedGoodsList.length > 0 ? (
-              <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+              <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
             ) : null}
-            {/* <div id="goods-recommendation-box">
-              <Carousel
-                location={location}
-                history={history}
-                goodsId={goodsId}
-                key={goodsId}
-              />
-            </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
@@ -2736,7 +2683,7 @@ class Details extends React.Component {
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3" />
                     <span className="default-txt">
-                      {form.buyWay === 1 ? (
+                      {form.buyWay === 1 || form.buyWay === 2 ? (
                         <FormattedMessage id="subscribe" />
                       ) : (
                         <FormattedMessage id="details.addToCart" />

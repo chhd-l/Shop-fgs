@@ -498,7 +498,7 @@ const tr_TR = {
   modalCancelAllTitle:
     'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
   modalChangeDateContent:
-    'Вы уверены, что хотите изменить дату следующей доставки?',
+    'Bir sonraki teslimat tarihini değiştirmek istediğinizden emin misiniz?',
   modalChangeDateTitle: 'Gönderim tarihini değiştirin',
   modalOrderNowContent: 'Bu siparişi şimdi vermek istediğinizden emin misiniz?',
   modalOrderNowTitle: 'ŞİMDİ SİPARİŞ VER?',
@@ -537,8 +537,6 @@ const tr_TR = {
   'order.historyOfOrders': 'Emirlerin tarihi',
   'order.inputOrderNumberTip': 'Lütfen sipariş numarasını girin',
   'order.inputReturnNumberTip': 'Lütfen dönüş numarasını giriniz',
-  'order.lastXDays': 'Son {val} gün',
-  'order.lastXMonths': 'Son {val} ay',
   'order.noDataTip': 'Veri yok',
   'order.orderDate': 'Sipariş tarihi',
   'order.orderDetails': 'sipariş detayları',
@@ -833,7 +831,6 @@ const tr_TR = {
   searchPrescriber: 'Bir klinik ara',
   securityQuestion: 'Güvenlik Sorusu',
   selectDeliveryAddress: 'Lütfen bir teslimat adresi seçin',
-  selectNoneClincTip: 'Lütfen bir reçete seçin',
   selectPet: 'Bir evcil hayvan seçin',
   selectProduct: 'Lütfen ürünü seçin',
   setAsDefault: 'Varsayılan olarak belirle',
@@ -1183,7 +1180,8 @@ const tr_TR = {
   'welcome.contactUS': 'Bize Ulaşın',
   'cart.autoshipSavedtip': 'Bu emirlerde {discount} kurtarabilirsin.',
   'pet.deletePet': 'Evcil Hayvan Profilini Sil',
-  shipmentOn: 'Yeni gönderim',
+  prevShipmentOn: 'Yeni gönderim',
+  nextShipmentOn: 'Yeni gönderim',
   addedtoCart: 'Sepete Eklendi',
   goToCart: 'Sepete Git',
   'order.inTranistTip':

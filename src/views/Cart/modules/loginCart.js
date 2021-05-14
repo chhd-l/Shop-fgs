@@ -44,7 +44,7 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
 import { v4 as uuidv4 } from 'uuid';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -116,7 +116,17 @@ class LoginCart extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-
+    this.setState(
+      {
+        promotionInputValue: this.props.checkoutStore.promotionCode
+      },
+      () => {
+        setTimeout(() => {
+          document.getElementById('promotionApply') &&
+            document.getElementById('promotionApply').click();
+        });
+      }
+    );
     this.getGoodsIdArr();
 
     await getFrequencyDict().then((res) => {
@@ -151,7 +161,6 @@ class LoginCart extends React.Component {
     if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
       let timer = null;
       timer = setInterval(async () => {
-        console.log(1234, this.props.checkoutStore.loginCartData.length);
         if (this.props.checkoutStore.loginCartData.length) {
           clearInterval(timer);
           await this.updateCartCache();
@@ -306,7 +315,6 @@ class LoginCart extends React.Component {
   }
   setData({ initPage = false } = {}) {
     const { configStore } = this.props;
-    console.log(configStore.defaultSubscriptionFrequencyId, '🌏');
     //每次数据变化调用
     !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
     let productList = this.checkoutStore.loginCartData.map((el) => {
@@ -527,7 +535,6 @@ class LoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product) {
-    console.log(product);
     const list = [
       {
         name: product.goodsName,
@@ -554,7 +561,6 @@ class LoginCart extends React.Component {
         }
       }
     });
-    console.log(dataLayer);
   }
   async deleteProduct(item) {
     let { currentProductIdx, productList } = this.state;
@@ -726,7 +732,7 @@ class LoginCart extends React.Component {
                 style={{ flex: 1 }}
               >
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-block align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm  align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
@@ -930,8 +936,6 @@ class LoginCart extends React.Component {
     this.setState({ mobileCartVisibleKey: name });
   }
   updateConfirmTooltipVisible(item, status) {
-    console.log({ item });
-    console.log({ status });
     let { productList } = this.state;
     item.confirmTooltipVisible = status;
     this.setState({
@@ -1362,9 +1366,12 @@ class LoginCart extends React.Component {
           selectedSpecDetailId.sort().toString()
     )[0];
     // await this.handleRemovePromotionCode();
-    // this.clearPromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    this.clearPromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     await switchSize({
+      recommendationInfos: pitem.recommendationInfos,
+      recommendationId: pitem.recommendationId,
+      recommendationName: pitem.recommendationName,
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
       periodTypeId: pitem.periodTypeId,
@@ -1377,12 +1384,13 @@ class LoginCart extends React.Component {
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
-    this.setState({
-      discount: [],
-      isShowValidCode: false,
-      lastPromotionInputValue: '',
-      promotionInputValue: ''
-    });
+    this.handleClickPromotionApply();
+    // this.setState({
+    //   discount: [],
+    //   isShowValidCode: false,
+    //   lastPromotionInputValue: '',
+    //   promotionInputValue: ''
+    // });
   }
   async changeFrequencyType(pitem) {
     if (this.state.checkoutLoading) {
@@ -1392,9 +1400,12 @@ class LoginCart extends React.Component {
       checkoutLoading: true
     });
     // await this.handleRemovePromotionCode();
-    // this.clearPromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    this.clearPromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     await switchSize({
+      recommendationInfos: pitem.recommendationInfos,
+      recommendationId: pitem.recommendationId,
+      recommendationName: pitem.recommendationName,
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
       goodsInfoFlag: pitem.goodsInfoFlag,
@@ -1408,7 +1419,7 @@ class LoginCart extends React.Component {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
-    await checkoutStore.removePromotionCode();
+    // await checkoutStore.removePromotionCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
@@ -1423,7 +1434,6 @@ class LoginCart extends React.Component {
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
-    console.log(promotionInputValue, loginStore.isLogin, 'promotionCode');
     if (!promotionInputValue) return;
     let result = {};
     let lastPromotionInputValue = promotionInputValue;
@@ -1460,8 +1470,8 @@ class LoginCart extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          isShowValidCode: false,
-          promotionInputValue: ''
+          isShowValidCode: false
+          // promotionInputValue: '' //不去清空当前input框输入的值
         });
       }, 4000);
       // this.props.sendPromotionCode('');
@@ -1474,7 +1484,6 @@ class LoginCart extends React.Component {
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
-
     if (goodsInfoFlag) {
       isHubGA && GACartChangeSubscription('Autoship');
     } else {
@@ -1492,9 +1501,10 @@ class LoginCart extends React.Component {
   render() {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
-    const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
-    const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
-    console.log(this.btnStatus, 'this.btnStatus');
+    const dogsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+    const catsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1578,7 +1588,7 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          // fixToHeader: process.env.REACT_APP_COUNTRY !== 'FR'
                           fixToHeader: false
                         })}
                       </div>
@@ -1608,7 +1618,7 @@ class LoginCart extends React.Component {
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                               // style={{ margin: '0 10%' }}
                               style={
-                                process.env.REACT_APP_LANG === 'fr'
+                                process.env.REACT_APP_COUNTRY === 'FR'
                                   ? {}
                                   : { margin: '0 10%' }
                               }
@@ -1653,16 +1663,8 @@ class LoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

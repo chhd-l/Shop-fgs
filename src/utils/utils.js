@@ -49,10 +49,10 @@ export function formatMoney(
   }
   val += '';
   let length = val.length;
-  if (process.env.REACT_APP_LANG === 'tr') {
+  if (process.env.REACT_APP_COUNTRY === 'TR') {
     return val + ' TL';
   }
-  if (process.env.REACT_APP_LANG === 'ru') {
+  if (process.env.REACT_APP_COUNTRY === 'RU') {
     // console.log(val, 'val----');
     val = parseInt(Math.round(val));
     return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
@@ -118,6 +118,7 @@ export async function mergeUnloginCartData() {
         goodsInfoFlag: ele.goodsInfoFlag,
         periodTypeId: ele.periodTypeId,
         invalid: false,
+        recommendationInfos: ele.recommendationInfos,
         recommendationId: ele.recommendationId,
         recommendationName: ele.recommendationName,
         goodsCategory: ele.goodsCategory,
@@ -864,7 +865,7 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['tr', 'ru', 'de'].indexOf(process.env.REACT_APP_LANG) > -1;
+  return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
 }
 
 //美国订单号去掉RCFUS开头
@@ -929,7 +930,7 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import { el } from 'date-fns/locale';
 export function getClubLogo() {
-  if (process.env.REACT_APP_LANG === 'ru') {
+  if (process.env.REACT_APP_COUNTRY === 'RU') {
     return Club_Logo_ru;
   } else {
     return Club_Logo;
@@ -946,7 +947,10 @@ export function bindSubmitParam(list) {
   list
     .filter((item) => item.isRequired)
     .forEach((item) => {
-      obj.requiredList.push({ id: item.id, selectedFlag: true });
+      if (item.id == 'tr_A' || item.id == 'tr_B') {
+      } else {
+        obj.requiredList.push({ id: item.id, selectedFlag: true });
+      }
     });
 
   return obj;

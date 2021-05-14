@@ -50,7 +50,7 @@ function CardItem(props) {
           </div>
         </div>
         <p className="mb-0">{data.address1}</p>
-        {process.env.REACT_APP_LANG == 'en' ? null : (
+        {process.env.REACT_APP_COUNTRY == 'US' ? null : (
           <>
             <p className="mb-0">{props.countryName}</p>
           </>
@@ -244,7 +244,7 @@ class AddressList extends React.Component {
         email: tmp.email,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
-      if (process.env.REACT_APP_LANG == 'en') {
+      if (process.env.REACT_APP_COUNTRY == 'US') {
         tmpDeliveryAddress.province = tmp.province;
         tmpDeliveryAddress.provinceId = tmp.provinceId;
       }
@@ -766,42 +766,44 @@ class AddressList extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    <div
-                      className="d-flex align-items-center justify-content-between flex-wrap"
-                      style={{ lineHeight: '40px' }}
-                    >
+                    {process.env.REACT_APP_COUNTRY !== 'RU' ? (
                       <div
-                        className={`rc-input rc-input--inline ${
-                          this.props.type === 'delivery' ? '' : 'hidden'
-                        }`}
-                        onClick={() => {
-                          isBillSame = !isBillSame;
-                          console.log(isBillSame);
-                          this.setState({ isBillSame });
-                        }}
-                        style={{ maxWidth: '450px' }}
+                        className="d-flex align-items-center justify-content-between flex-wrap"
+                        style={{ lineHeight: '40px' }}
                       >
-                        {isBillSame ? (
-                          <input
-                            type="checkbox"
-                            className="rc-input__checkbox"
-                            value={true}
-                            key={1}
-                            checked
-                          />
-                        ) : (
-                          <input
-                            type="checkbox"
-                            className="rc-input__checkbox"
-                            key={2}
-                            value={false}
-                          />
-                        )}
-                        <label className="rc-input__label--inline text-break billingSame">
-                          <FormattedMessage id="biliingAddressSameAs" />
-                        </label>
+                        <div
+                          className={`rc-input rc-input--inline ${
+                            this.props.type === 'delivery' ? '' : 'hidden'
+                          }`}
+                          onClick={() => {
+                            isBillSame = !isBillSame;
+                            console.log(isBillSame);
+                            this.setState({ isBillSame });
+                          }}
+                          style={{ maxWidth: '450px' }}
+                        >
+                          {isBillSame ? (
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              value={true}
+                              key={1}
+                              checked
+                            />
+                          ) : (
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              key={2}
+                              value={false}
+                            />
+                          )}
+                          <label className="rc-input__label--inline text-break billingSame">
+                            <FormattedMessage id="biliingAddressSameAs" />
+                          </label>
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                     <div
                       className={classNames({
                         // hidden: !listVisible || editFormVisible

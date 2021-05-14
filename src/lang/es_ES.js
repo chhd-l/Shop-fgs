@@ -165,8 +165,8 @@ const es_ES = {
   'cart.miniCartTitle':
     '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
-  'minicart.totalProduct': '{val} artículo(s) en la canasta',
-  'cart.totalProduct_nounit': '{val} producto(s) en total en la canasta',
+  'minicart.totalProduct': '{val} artículo(s)',
+  'cart.totalProduct_nounit': '{val} en total en la canasta',
   'cart.yourShoppingCart': 'Tu carrito de la compra',
   cats: 'GATOS',
   cats2: 'Gatos',
@@ -546,8 +546,6 @@ const es_ES = {
   'order.inTranistTip':
     'Su pedido ha sido enviado y pronto recibirá el producto. {val}',
   'order.iVAIncluido': '(IVA incluido)',
-  'order.lastXDays': 'Últimos {val} días',
-  'order.lastXMonths': 'Últimos {val} meses',
   'order.noDataTip': 'Sin datos',
   'order.orderDate': 'Fecha de orden',
   'order.orderDetails': 'Detalles del pedido',
@@ -804,8 +802,6 @@ const es_ES = {
   registerContinuing:
     'Al continuar, acepta nuestra política de privacidad de MARS. recopilará y utilizará su nombre, apellido y dirección de correo electrónico para brindarle una experiencia personalizada. ',
   registerCreateYourAccout: 'Cree su cuenta Royal Canin',
-  registerDescription:
-    '<p> Sus datos personales se recopilan y procesan de acuerdo con la declaración de privacidad de Royal Canin, disponible <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> aquí </a> </p> ',
   registerEmail: 'Dirección de correo electrónico',
   registerEmailFormate:
     'La dirección de correo electrónico no coincide con el formato especificado.',
@@ -871,7 +867,6 @@ const es_ES = {
   securityQuestion: 'Pregunta de Seguridad',
   seeAllOurProducts: 'Ver todos nuestros productos',
   selectDeliveryAddress: 'Por favor seleccione una dirección de entrega',
-  selectNoneClincTip: 'Seleccione una receta',
   selectPet: 'Select a pet',
   selectProduct: 'Por favor seleccione producto',
   sendUsAnEmail: 'Envianos un email',
@@ -880,7 +875,8 @@ const es_ES = {
   setDefaltAddressSuccess: 'Establecer dirección predeterminada correcta',
   setDefaultAddress: 'Establecer como dirección predeterminada',
   setDefaultPaymentMethod: 'Establecer como método de pago predeterminado',
-  shipmentOn: 'Envío el',
+  prevShipmentOn: 'Envío el',
+  nextShipmentOn: 'Envío el',
   shipping: 'Envío',
   shippingAddress: 'Gestión de direcciones',
   signUp: 'Regístrate',

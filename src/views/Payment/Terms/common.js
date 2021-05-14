@@ -1,5 +1,6 @@
 // 条款组件
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import './index.css';
@@ -8,6 +9,7 @@ import './index.css';
 // import store from "storejs";
 import Consent from '@/components/Consent';
 
+@inject('paymentStore')
 class TermsCommon extends Component {
   static defaultProps = {
     updateValidStatus: () => {}
@@ -16,6 +18,49 @@ class TermsCommon extends Component {
     super(props);
     this.state = {
       list: []
+    };
+  }
+  componentDidUpdate() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+  }
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    window.onload = () => {
+      document.getElementById('tr_consent_a') &&
+        document
+          .getElementById('tr_consent_a')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalA', true);
+          });
+      document.getElementById('tr_consent_b') &&
+        document
+          .getElementById('tr_consent_b')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalB', true);
+          });
+      document.getElementById('tr_consent_c') &&
+        document
+          .getElementById('tr_consent_c')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalC', true);
+          });
+      document.getElementById('tr_consent_d') &&
+        document
+          .getElementById('tr_consent_d')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalD', true);
+          });
     };
   }
   componentDidMount() {
@@ -62,6 +107,25 @@ class TermsCommon extends Component {
   }
   //从子组件传回
   sendList = (list) => {
+    // if(process.env.REACT_APP_COUNTRY=='TR'){
+    //   list.forEach((item)=>{
+    //     if(item.id=='tr_A'){
+    //       if(item.isChecked){
+    //         item.consentTitle ='Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_a">Formu incele</span></span><br/><span style="color:#C03344">Bu alan gereklidir.'
+    //       }else{
+    //         item.consentTitle ='Mesafeli ön satış bilgilendirme formunu okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_a">Formu incele</span></span>'
+    //       }
+    //     }
+    //     if(item.id=='tr_B'){
+    //       if(item.isChecked){
+    //         item.consentTitle ='Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_b">Formu incele</span></span><br/><span style="color:#C03344">Bu alan gereklidir.'
+    //       }else{
+    //         item.consentTitle ='Mesafeli satış sözleşmesini okudum ve kabul ediyorum.<br /><span class="medium ui-cursor-pointer-pure" style="text-decoration: underline" id="tr_consent_b">Formu incele</span></span>'
+    //       }
+    //     }
+    //   })
+    // }
+
     this.setState({ list }, () => {
       this.valid();
     });
@@ -81,7 +145,7 @@ class TermsCommon extends Component {
           id={this.props.id}
         />
 
-        {process.env.REACT_APP_LANG === 'de' ? (
+        {process.env.REACT_APP_COUNTRY === 'DE' ? (
           <>
             <a style={{ color: '#7F6666', cursor: 'default' }}>
               Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich.
@@ -94,7 +158,9 @@ class TermsCommon extends Component {
                 className="rc-styled-link"
               >
                 Geschäftsbedingungen.
-                <span className="warning_blank">Opens a new window</span>
+                {Boolean(
+                  process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                ) && <span className="warning_blank">Opens a new window</span>}
               </Link>
             </a>
             <div style={{ paddingLeft: '0px', marginTop: '1.25rem' }}>
@@ -107,7 +173,11 @@ class TermsCommon extends Component {
                   className="rc-styled-link"
                 >
                   hier
-                  <span className="warning_blank">Opens a new window</span>
+                  {Boolean(
+                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                  ) && (
+                    <span className="warning_blank">Opens a new window</span>
+                  )}
                 </Link>
               </a>
             </div>

@@ -20,6 +20,7 @@ import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
+import vetru from './vetlandingpage/images/VET@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 import CommentCarousel from '../../components/CommentCarousel';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
@@ -657,7 +658,7 @@ class ClubLandingPage extends React.Component {
           <JoinToday />
           <br />
           <CommentCarousel />
-          {process.env.REACT_APP_LANG == 'ru' ? (
+          {process.env.REACT_APP_COUNTRY == 'RU' ? (
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none ">
                 <div className="rc-full-width">
@@ -677,7 +678,7 @@ class ClubLandingPage extends React.Component {
                               data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
                               alt="Yorkshire dog pic - Our Values"
                               title="Yorkshire dog pic - Our Values"
-                              src={veterinayImg}
+                              src={vetru}
                             />
                           </picture>
                         </div>
@@ -689,13 +690,13 @@ class ClubLandingPage extends React.Component {
                             <p>
                               <span>
                                 Диетическое питание, которое помогает
-                                поддерживать здоровье кошек с диагностированными
-                                заболеваниями.
+                                поддерживать здоровье питомцев с
+                                диагностированными заболеваниями
                               </span>
                             </p>
-                            <Link to="vetlandingpage">
+                            <Link to="subscription-landing">
                               <button className="rc-btn rc-btn--two">
-                                Посмотреть ассортимент
+                                Узнать подробнее
                               </button>
                             </Link>
                           </div>

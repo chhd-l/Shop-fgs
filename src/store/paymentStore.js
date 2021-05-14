@@ -16,16 +16,14 @@ class PaymentStore {
   @observable md = ''; //3ds参数
 
   @observable selectedCardId = null;
-  @observable defaultCardDataFromAddr = null;
-  @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
     {
       key: 'clinic',
       order: 1,
       status: {
-        isPrepare: false,
-        isEdit: true,
+        isPrepare: true,
+        isEdit: false,
         isCompleted: false,
         hasCompleted: false // 是否曾completed过
       }
@@ -35,7 +33,7 @@ class PaymentStore {
       order: 2,
       status: {
         isPrepare: true,
-        isEdit: true,
+        isEdit: false,
         isCompleted: false,
         hasCompleted: false
       }
@@ -82,6 +80,32 @@ class PaymentStore {
   @observable supportPaymentMethods = []; //当前支付方式所支持的卡类型
 
   @observable currentCardTypeInfo = null; //当前卡类型信息(cardLength:18，imgUrl,cvvLength: 3 ...)
+
+  @observable fullScreenModalA = false;
+  @observable fullScreenModalB = false;
+  @observable fullScreenModalC = false;
+  @observable fullScreenModalD = false;
+  @observable fullScreenModalOptEmail = false;
+  @observable fullScreenModalTC = false;
+  @observable fullScreenModalPM = false;
+  @observable guestEmail = '';
+
+  @observable deliveryAddressInfo = {
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    consigneeNumber: ''
+  };
+  @observable billingAddressInfo = {
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    consigneeNumber: ''
+  };
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -420,6 +444,26 @@ class PaymentStore {
   @action.bound
   setCurrentCardTypeInfo(data) {
     this.currentCardTypeInfo = data;
+  }
+
+  @action.bound
+  setTrConsentModal(type, data) {
+    this[type] = data;
+  }
+
+  @action.bound
+  saveDeliveryAddressInfo(form) {
+    this.deliveryAddressInfo = form;
+  }
+
+  @action.bound
+  saveBillingAddressInfo(form) {
+    this.billingAddressInfo = form;
+  }
+
+  @action.bound
+  setGuestEmail(param) {
+    this.guestEmail = param;
   }
 }
 export default PaymentStore;

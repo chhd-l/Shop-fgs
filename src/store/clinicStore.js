@@ -5,6 +5,8 @@ const localItemRoyal = window.__.localItemRoyal;
 class ClinicStore {
   //通过推荐链接进来的推荐者信息
   @observable linkClinicId = localItemRoyal.get(`rc-clinic-id-link`) || ''; //推荐者主键id
+  @observable linkClinicRecommendationInfos =
+    localItemRoyal.get(`rc-clinic-recommendationInfos`) || '';
   @observable linkClinicBusId =
     localItemRoyal.get(`rc-clinic-bus-id-link`) || ''; //推荐者业务id
   @observable linkClinicName = localItemRoyal.get(`rc-clinic-name-link`) || '';
@@ -29,6 +31,9 @@ class ClinicStore {
   @computed get clinicId() {
     return this.linkClinicId || this.selectClinicId || this.defaultClinicId;
   }
+  @computed get clinicRecommendationInfos() {
+    return this.linkClinicRecommendationInfos;
+  }
   @computed get clinicName() {
     return (
       this.linkClinicName || this.selectClinicName || this.defaultClinicName
@@ -52,6 +57,11 @@ class ClinicStore {
     this.linkClinicId = data;
     localItemRoyal.set(`rc-clinic-id-link`, data);
   }
+  @action.bound
+  setLinkClinicRecommendationInfos(data) {
+    this.linkClinicRecommendationInfos = data;
+    localItemRoyal.set(`rc-clinic-recommendationInfos`, data);
+  }
 
   @action.bound
   setLinkClinicBusId(data) {
@@ -69,6 +79,11 @@ class ClinicStore {
   removeLinkClinicId() {
     this.linkClinicId = '';
     localItemRoyal.remove(`rc-clinic-id-link`);
+  }
+  @action.bound
+  removeLinkClinicRecommendationInfos() {
+    this.linkClinicRecommendationInfos = '';
+    localItemRoyal.remove(`rc-clinic-recommendationInfos`);
   }
 
   @action.bound

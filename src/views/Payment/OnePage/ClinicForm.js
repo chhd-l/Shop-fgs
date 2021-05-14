@@ -23,7 +23,8 @@ class ClinicForm extends React.Component {
     containerStyle: {},
     arrowStyle: {},
     cancelBtnVisible: true,
-    confirmBtnVisible: true
+    confirmBtnVisible: true,
+    needPrescriber: false
   };
   constructor(props) {
     super(props);
@@ -33,15 +34,17 @@ class ClinicForm extends React.Component {
         clinicId: ''
       },
       toolTipVisible: false,
-      isEdit: false
+      isEdit: false,
+      tempPrescriberData: null // 临时存放查询到的 prescriber
     };
 
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const nName = this.props.clinicStore.selectClinicName;
-    const nId = this.props.clinicStore.selectClinicId;
+    const { clinicStore, paymentStore } = this.props;
+    const nName = clinicStore.selectClinicName;
+    const nId = clinicStore.selectClinicId;
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {
@@ -53,21 +56,35 @@ class ClinicForm extends React.Component {
     this.setState({
       isEdit: !(nId && nName)
     });
-    if (this.prescriberMap || (nName && nId)) {
-      this.confirmToNextPanel();
+    if (!this.checkoutWithClinic || (nName && nId)) {
+      this.updatePanelStatus({ setToCompleted: true });
+    } else {
+      this.updatePanelStatus({ setToEdit: true });
     }
 
     // 监听回车键
     document.addEventListener('keyup', (e) => {
       if (e.keyCode === 13) {
-        if (this.state.isEdit && this.state.form.clinicName) {
+        if (
+          this.state.isEdit &&
+          this.state.form.clinicName &&
+          !this.state.tempPrescriberData
+        ) {
           this.handleClickConfirm();
+        }
+
+        // 如果有查询出数据，按下回车键选中查询的数据
+        if (this.state.isEdit && this.state.tempPrescriberData) {
+          this.handleSelectedItemChange(this.state.tempPrescriberData);
         }
       }
     });
   }
-  get prescriberMap() {
-    return this.props.configStore.prescriberMap;
+  get checkoutWithClinic() {
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      this.props.needPrescriber
+    );
   }
   gotoPrescriptionPage = (e) => {
     e.preventDefault();
@@ -78,7 +95,10 @@ class ClinicForm extends React.Component {
     const { form } = this.state;
     form.clinicName = data.prescriberName;
     form.clinicId = data.id;
-    this.setState({ form: form });
+    this.setState({
+      form: form,
+      tempPrescriberData: null
+    });
   };
   handleMouseOver() {
     this.flag = 1;
@@ -102,28 +122,36 @@ class ClinicForm extends React.Component {
     this.setState({ isEdit: true });
   };
   handleClickConfirm = () => {
-    console.log(this.state.form.clinicName);
-    if (!this.state.form.clinicName) {
+    const { form } = this.state;
+    if (!form.clinicName) {
       return false;
     }
-    this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
-    this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
-    this.confirmToNextPanel();
-    this.setState({ isEdit: false });
+    this.props.clinicStore.setSelectClinicId(form.clinicId);
+    this.props.clinicStore.setSelectClinicName(form.clinicName);
+    this.updatePanelStatus({ setToCompleted: true });
+    this.setState({
+      isEdit: false
+    });
   };
-  confirmToNextPanel() {
+  updatePanelStatus({ setToCompleted, setToEdit }) {
     const { paymentStore } = this.props;
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
       list: toJS(paymentStore.panelStatus),
       curKey: 'clinic'
     });
-
-    paymentStore.setStsToCompleted({ key: 'clinic' });
-    paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    if (setToCompleted) {
+      paymentStore.setStsToCompleted({ key: 'clinic' });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    }
+    if (setToEdit) {
+      paymentStore.setStsToEdit({ key: 'clinic' });
+      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+    }
   }
   render() {
     const { isEdit } = this.state;
+    const { prescriberSelectTyped } = this.props.configStore;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
@@ -187,12 +215,20 @@ class ClinicForm extends React.Component {
                     // auditAuthority: this.props.checkoutStore.autoAuditFlag
                     // auditAuthority: true
                   });
-                  return (
+                  let resobj = (
                     (res.context && res.context.prescriberVo) ||
                     []
                   ).map((ele) =>
                     Object.assign(ele, { name: ele.prescriberName })
                   );
+                  let temp = null;
+                  if (resobj) {
+                    temp = resobj[0];
+                  }
+                  this.setState({
+                    tempPrescriberData: temp
+                  });
+                  return resobj;
                 }}
                 selectedItemChange={this.handleSelectedItemChange}
                 defaultValue={this.state.form.clinicName}
@@ -237,9 +273,14 @@ class ClinicForm extends React.Component {
                                 className="rc-styled-link font-italic"
                               >
                                 <FormattedMessage id="clickHere3" />
-                                <span className="warning_blank">
-                                  Opens a new window
-                                </span>
+                                {Boolean(
+                                  process.env
+                                    .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                ) && (
+                                  <span className="warning_blank">
+                                    Opens a new window
+                                  </span>
+                                )}
                               </Link>
                             )
                           }}
@@ -266,7 +307,15 @@ class ClinicForm extends React.Component {
       </div>
     );
 
-    return <>{this.prescriberMap ? defaultJSX : searchJSX}</>;
+    return (
+      <>
+        {this.checkoutWithClinic
+          ? prescriberSelectTyped === 0
+            ? defaultJSX
+            : searchJSX
+          : null}
+      </>
+    );
   }
 }
 

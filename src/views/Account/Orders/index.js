@@ -18,7 +18,8 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  getParaByName
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
@@ -86,13 +87,26 @@ class AccountOrders extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
+  async componentDidMount() {
     myAccountPushEvent('Orders');
     setSeoConfig({
       pageName: 'Account orders'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
+
+    let search = this.props.location.search;
+    let orderId = search && getParaByName(search, 'orderId');
+    if (orderId) {
+      let res = await getOrderList({ id: orderId });
+      let hasDetails = res.context?.content?.length;
+      if (hasDetails) {
+        let url = `/account/orders/detail/${orderId}`;
+        this.props.history.push(url);
+        return;
+      }
+    }
+
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -102,45 +116,12 @@ class AccountOrders extends React.Component {
     this.queryOrderList();
   }
   async FormateOderTimeFilter() {
-    let res = await getDictionary({ type: 'orderTimeFilter' });
-    let duringTimeOptions =
-      res &&
-      res.map((item) => {
-        let value, values;
-        if (Number(item.valueEn) === 7) {
-          value = item.valueEn;
-          values = 7;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else if (Number(item.valueEn) === 30) {
-          value = item.valueEn;
-          values = 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            )
-          };
-        } else {
-          value = item.valueEn;
-          values = item.valueEn / 30;
-          return {
-            value,
-            name: (
-              <FormattedMessage
-                id="order.lastXMonths"
-                values={{ val: values }}
-              />
-            )
-          };
-        }
-      });
+    const res = await getDictionary({ type: 'orderTimeFilter' });
     this.setState({
-      duringTimeOptions
+      duringTimeOptions: (res || []).map((item) => ({
+        value: item.valueEn,
+        name: item.name
+      }))
     });
   }
   handleDuringTimeChange = (data) => {
@@ -192,11 +173,8 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
             canPayNow:
-              ((!ele.isAuditOpen && tradeState.flowState === 'AUDIT') ||
-                (ele.isAuditOpen &&
-                  tradeState.flowState === 'INIT' &&
-                  tradeState.auditState === 'NON_CHECKED')) &&
-              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+              tradeState.flowState === 'INIT' &&
+              tradeState.auditState === 'NON_CHECKED' &&
               tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
                 new Date(res.defaultLocalDateTime).getTime() &&
@@ -221,12 +199,14 @@ class AccountOrders extends React.Component {
             canViewTrackInfo:
               tradeState.payState === 'PAID' &&
               tradeState.auditState === 'CHECKED' &&
-              tradeState.deliverStatus === 'SHIPPED' &&
-              tradeState.flowState === 'DELIVERED' &&
+              (tradeState.deliverStatus === 'SHIPPED' ||
+                tradeState.deliverStatus === 'PARTIALLY_SHIPPED') &&
+              (tradeState.flowState === 'DELIVERED' ||
+                tradeState.flowState === 'PARTIALLY_DELIVERED') &&
               ele.tradeDelivers &&
               ele.tradeDelivers.length,
             canDownInvoice:
-              !['en', 'es', 'ru'].includes(process.env.REACT_APP_LANG) &&
+              ['fr'].includes(process.env.REACT_APP_LANG) &&
               tradeState.deliverStatus === 'SHIPPED'
           });
         });
@@ -333,11 +313,6 @@ class AccountOrders extends React.Component {
         phoneNumber: detailResCt.invoice.phone,
         addressId: detailResCt.invoice.addressId
       };
-      localItemRoyal.set('loginDeliveryInfo', {
-        deliveryAddress: tmpDeliveryAddress,
-        billingAddress: tmpBillingAddress,
-        commentOnDelivery: detailResCt.buyerRemark
-      });
       this.props.checkoutStore.setLoginCartData(tradeItems);
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
@@ -374,7 +349,8 @@ class AccountOrders extends React.Component {
           goodsInfoFlag: item.goodsInfoFlag,
           verifyStock: false,
           buyCount: 1,
-          goodsInfoId: item.skuId
+          goodsInfoId: item.skuId,
+          periodTypeId: item.periodTypeId
         };
       });
       await batchAdd({ goodsInfos: paramList });
@@ -485,7 +461,8 @@ class AccountOrders extends React.Component {
             <FormattedMessage
               id="trackDelivery"
               style={{
-                display: process.env.REACT_APP_LANG == 'fr' ? 'none' : 'block'
+                display:
+                  process.env.REACT_APP_COUNTRY == 'FR' ? 'none' : 'block'
               }}
             >
               {(txt) => (
@@ -501,7 +478,13 @@ class AccountOrders extends React.Component {
                       alt={txt}
                     >
                       {txt}
-                      <span className="warning_blank">Opens a new window</span>
+                      {Boolean(
+                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      ) && (
+                        <span className="warning_blank">
+                          Opens a new window
+                        </span>
+                      )}
                     </a>
                   ) : (
                     <Link
@@ -511,7 +494,13 @@ class AccountOrders extends React.Component {
                       alt={txt}
                     >
                       {txt}
-                      <span className="warning_blank">Opens a new window</span>
+                      {Boolean(
+                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      ) && (
+                        <span className="warning_blank">
+                          Opens a new window
+                        </span>
+                      )}
                     </Link>
                   )}
                 </>

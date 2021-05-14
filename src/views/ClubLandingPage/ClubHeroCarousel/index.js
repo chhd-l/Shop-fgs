@@ -74,7 +74,7 @@ class ClubHeroCarousel extends React.Component {
   componentDidMount() {
     // getBanner().then((res) => {
     //   console.log(res.context,'🌙🌙🌙');
-    process.env.REACT_APP_LANG == 'ru'
+    process.env.REACT_APP_COUNTRY == 'RU'
       ? this.setState({
           banner: [
             {
@@ -127,30 +127,30 @@ class ClubHeroCarousel extends React.Component {
               alt: 'Специализированное питание Royal Canin'
             },
 
-            {
-              isShow: true,
-              bannerId: '2c918085751fa3ad01752099f30a0002',
-              storeId: 123457910,
-              bannerName: 'us_003',
-              webUrl: `${Sliderfive}`,
-              webImgName: 'us_003_a.jpg',
-              webSkipUrl: '',
-              webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile5}`,
-              mobiImgName: 'us_003_b.jpg',
-              mobiSkipUrl: '/help',
-              mobiUuid: 'rc-upload-1602569663057-15',
-              isMobiVideo: '0',
-              isVideo: '0',
-              delFlag: 0,
-              createTime: '2021-02-24 05:55:42.000',
-              updateTime: '2021-02-24 05:55:42.000',
-              bannerNo: 4,
-              sliderTitle: 'Сделайте свою жизнь проще ',
-              sliderContent:
-                'С автоматической доставкой Вы забудете о том, что корм может закончиться.',
-              alt: 'Доставка корма'
-            },
+            // {
+            //   isShow: true,
+            //   bannerId: '2c918085751fa3ad01752099f30a0002',
+            //   storeId: 123457910,
+            //   bannerName: 'us_003',
+            //   webUrl: `${Sliderfive}`,
+            //   webImgName: 'us_003_a.jpg',
+            //   webSkipUrl: '',
+            //   webUuid: 'rc-upload-1602569663057-13',
+            //   mobiUrl: `${Slidermobile5}`,
+            //   mobiImgName: 'us_003_b.jpg',
+            //   mobiSkipUrl: '/help',
+            //   mobiUuid: 'rc-upload-1602569663057-15',
+            //   isMobiVideo: '0',
+            //   isVideo: '0',
+            //   delFlag: 0,
+            //   createTime: '2021-02-24 05:55:42.000',
+            //   updateTime: '2021-02-24 05:55:42.000',
+            //   bannerNo: 4,
+            //   sliderTitle: 'Сделайте свою жизнь проще ',
+            //   sliderContent:
+            //     'С автоматической доставкой Вы забудете о том, что корм может закончиться.',
+            //   alt: 'Доставка корма'
+            // },
             {
               isShow: true,
               bannerId: '2c918085751fa3ad01752099f30a0002',
@@ -174,32 +174,32 @@ class ClubHeroCarousel extends React.Component {
               sliderContent:
                 'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
               alt: 'Подарки для питомцев'
-            },
-            {
-              isShow: true,
-              bannerId: '2c918085751fa3ad01752099f30a0002',
-              storeId: 123457910,
-              bannerName: 'us_003',
-              webUrl: `${Sliderthree}`,
-              webImgName: 'us_003_a.jpg',
-              webSkipUrl: '',
-              webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile3}`,
-              mobiImgName: 'us_003_b.jpg',
-              mobiSkipUrl: '/help',
-              mobiUuid: 'rc-upload-1602569663057-15',
-              isMobiVideo: '0',
-              isVideo: '0',
-              delFlag: 0,
-              createTime: '2021-02-24 05:55:42.000',
-              updateTime: '2021-02-24 05:55:42.000',
-              bannerNo: 3,
-              sliderTitle:
-                'Советы научных сотрудников и экспертов в области питания',
-              sliderContent:
-                'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
-              alt: 'Эксперт в области питания животных'
             }
+            // {
+            //   isShow: true,
+            //   bannerId: '2c918085751fa3ad01752099f30a0002',
+            //   storeId: 123457910,
+            //   bannerName: 'us_003',
+            //   webUrl: `${Sliderthree}`,
+            //   webImgName: 'us_003_a.jpg',
+            //   webSkipUrl: '',
+            //   webUuid: 'rc-upload-1602569663057-13',
+            //   mobiUrl: `${Slidermobile3}`,
+            //   mobiImgName: 'us_003_b.jpg',
+            //   mobiSkipUrl: '/help',
+            //   mobiUuid: 'rc-upload-1602569663057-15',
+            //   isMobiVideo: '0',
+            //   isVideo: '0',
+            //   delFlag: 0,
+            //   createTime: '2021-02-24 05:55:42.000',
+            //   updateTime: '2021-02-24 05:55:42.000',
+            //   bannerNo: 3,
+            //   sliderTitle:
+            //     'Советы научных сотрудников и экспертов в области питания',
+            //   sliderContent:
+            //     'Воспользуйтесь услугами персонального помощника Службы Заботы  ежедневно с 9 до 21',
+            //   alt: 'Эксперт в области питания животных'
+            // }
           ]
         })
       : this.setState({
@@ -251,7 +251,7 @@ class ClubHeroCarousel extends React.Component {
                 'Kaliteli besin içeriğine sahip 160 formül arasından evcil hayvanınızın özel ihtiyaçlarına en uygun beslenme çözümünü alın'
             },
             {
-              isShow: process.env.REACT_APP_LANG == 'ru' ? false : true,
+              isShow: process.env.REACT_APP_COUNTRY == 'RU' ? false : true,
               bannerId: '2c918085751fa3ad01752099f30a0002',
               storeId: 123457910,
               bannerName: 'us_003',
@@ -377,7 +377,7 @@ class ClubHeroCarousel extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 0,
-      autoplay: process.env.REACT_APP_LANG == 'de' ? true : false,
+      autoplay: process.env.REACT_APP_COUNTRY == 'DE' ? true : false,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
@@ -510,7 +510,7 @@ class ClubHeroCarousel extends React.Component {
                           <p>{el.sliderContent}</p>
                         </div>
                         <br />
-                        {process.env.REACT_APP_LANG == 'ru' ? (
+                        {process.env.REACT_APP_COUNTRY == 'RU' ? (
                           <button className="rc-btn rc-btn--one">
                             Узнать больше
                           </button>

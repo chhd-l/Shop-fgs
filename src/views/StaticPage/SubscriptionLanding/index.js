@@ -348,7 +348,7 @@ class SubscriptionLanding extends React.Component {
                 <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>
-            {process.env.REACT_APP_LANG == 'fr' ? (
+            {process.env.REACT_APP_COUNTRY == 'FR' ? (
               <Help />
             ) : (
               <div className="experience-region experience-main">

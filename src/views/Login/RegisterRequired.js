@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.css';
@@ -13,21 +11,35 @@ import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
+import Modal from '@/components/Modal';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'configStore', 'checkoutStore', 'clinicStore')
+function ErrMsg({ msg }) {
+  return (
+    <div className={`text-break mt-2 mb-2 ${msg ? '' : 'hidden'}`}>
+      <aside
+        className="rc-alert rc-alert--error rc-alert--with-close"
+        role="alert"
+      >
+        <span className="pl-0">{msg}</span>
+      </aside>
+    </div>
+  );
+}
+
+@inject(
+  'loginStore',
+  'configStore',
+  'checkoutStore',
+  'clinicStore',
+  'paymentStore'
+)
 @observer
 class RegisterRequired extends Component {
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +51,69 @@ class RegisterRequired extends Component {
       zoom: '',
       fontZoom: '',
       circleLoading: true,
-      styleObj: { display: 'none' }
+      styleObj: { display: 'none' },
+      errMsg: ''
     };
+  }
+  async componentDidMount() {
+    // const state = this.props.location.state
+    const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
+    if (!fromLoginPage) {
+      //从登录页进来就在LoginButton组件里执行init方法(因为没登录，必须登录过后得到octa token才能执行获取consent的接口)
+      this.init();
+    }
+    sessionItemRoyal.remove('fromLoginPage');
+    //定义变量获取屏幕视口宽度
+    var windowWidth = document.body.clientWidth;
+    if (windowWidth < 640) {
+      this.setState({
+        width: '300px',
+        zoom: '120%',
+        fontZoom: '100%'
+      });
+    }
+    if (windowWidth >= 640) {
+      this.setState({
+        width: '500px',
+        zoom: '150%',
+        fontZoom: '120%'
+      });
+    }
+    document.getElementById('wrap').addEventListener('click', (e) => {
+      if (e.target.localName === 'font') {
+        let keyWords = e.target.innerText;
+        let index = Number(
+          e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+            .parentNode.parentNode.id
+        );
+        let arr = this.state.list[index].detailList.filter((item) => {
+          return item.contentTitle === keyWords;
+        });
+
+        let tempArr = [...this.state.list];
+        tempArr[index].innerHtml = tempArr[index].innerHtml
+          ? ''
+          : arr[0]
+          ? arr[0].contentBody
+          : '';
+
+        this.setState({ list: tempArr });
+      }
+    });
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
+  }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   //属性变为true，time定时后变为false
   showAlert(attr, time) {
@@ -86,9 +159,8 @@ class RegisterRequired extends Component {
       if (isRequiredChecked) {
         //组装submit参数
         let submitParam = bindSubmitParam(this.state.list);
-        // debugger
         let customerId = this.userInfo && this.userInfo.customerId;
-        const result = await userBindConsent({
+        await userBindConsent({
           ...submitParam,
           ...{ oktaToken },
           customerId
@@ -136,7 +208,6 @@ class RegisterRequired extends Component {
         oktaToken: localItemRoyal.get('oktaToken')
       });
       //没有必选项，直接跳回
-      console.log(sessionItemRoyal.get('okta-redirectUrl'));
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
           ? sessionItemRoyal.get('okta-redirectUrl')
@@ -173,15 +244,19 @@ class RegisterRequired extends Component {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
-          isChecked: false,
+          isChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
           isRequired: true,
-          detailList: item.detailList
+          detailList: item.detailList,
+          noChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
         };
       });
 
       //把非必填和必填的项目组装成一个数组list，用于渲染
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
+
       this.setState({
         list
       });
@@ -195,15 +270,61 @@ class RegisterRequired extends Component {
         });
       }
     } catch (err) {
-      window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
       this.setState({
-        styleObj: { display: 'none' },
+        styleObj: { display: 'block' },
         isLoading: false,
-        circleLoading: false
+        circleLoading: false,
+        errMsg: err.message
       });
     } finally {
     }
   };
+  componentDidUpdate() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+  }
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    document.getElementById('tr_consent_c') &&
+      document.getElementById('tr_consent_c').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalC', true);
+      });
+    document.getElementById('tr_consent_d') &&
+      document.getElementById('tr_consent_d').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalD', true);
+      });
+    document.getElementById('tr_consent_tc') &&
+      document
+        .getElementById('tr_consent_tc')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalTC', true);
+        });
+    document.getElementById('tr_consent_pm') &&
+      document
+        .getElementById('tr_consent_pm')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalPM', true);
+        });
+
+    document.getElementById('tr_consent_opt_email') &&
+      document
+        .getElementById('tr_consent_opt_email')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalOptEmail', true);
+        });
+  }
   async componentDidMount() {
     // const state = this.props.location.state
     const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
@@ -259,19 +380,20 @@ class RegisterRequired extends Component {
     localItemRoyal.set('isRefresh', true);
   }
   render() {
+    const { errMsg } = this.state;
     const url = this.props.match.url;
 
     return (
       <div className="rc-padding-bottom--sm rc-padding-bottom--xl--mobile">
-        {/*全局loading */}
         <div>
           <div className="text-center rc-column rc-padding-bottom--none">
+            {/*全局loading */}
             {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
             {/* 加载token */}
-
             <div style={{ visibility: 'hidden' }}>
               <LoginButton history={this.props.history} init={this.init} />
             </div>
+
             <div style={this.state.styleObj}>
               <div
                 className="required-wrap"
@@ -315,7 +437,7 @@ class RegisterRequired extends Component {
                     />
                   </div>
                 </div>
-
+                <ErrMsg msg={errMsg} />
                 {/* Header title */}
                 <h2
                   className="rc-text-colour--brand1"
@@ -397,6 +519,13 @@ class RegisterRequired extends Component {
             </div>
           </div>
         </div>
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+        />
       </div>
     );
   }

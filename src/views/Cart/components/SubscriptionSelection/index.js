@@ -5,7 +5,6 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 
 const SubscriptionSelection = function (props) {
-  console.log(props, 'props');
   const {
     isGift,
     pitem,

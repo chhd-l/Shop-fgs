@@ -65,10 +65,11 @@ podTemplate(label: label, cloud: 'kubernetes',
                 // 设置 Docker 镜像名称
                 dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 sh "cat Dockerfile"
+                sh "id"
+                sh "echo $PATH"
                 if ("${DOCKER_HUB_GROUP}" == '') {
                     dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
                 }
-
                 // 提供 Docker 环境，使用 Docker 工具来进行 Docker 镜像构建与推送
                 docker.withRegistry("http://${REGISTRY_URL}", "${REGISTRY_CREADENTIAL}") {
                     def customImage = docker.build("${dockerImageName}")
@@ -103,12 +104,13 @@ podTemplate(label: label, cloud: 'kubernetes',
                                                   .replaceAll("#APP_IMAGE_NAME","${dockerImageName}")
                                                   .replaceAll("#APP_PORT","${APP_PORT}")
                                                   .replaceAll("#APP_UUID",(new Random().nextInt(100000)).toString())
+                                                  .replaceAll("#SECRET","${SECRET}")
                     // 生成新的 Kubernetes 部署文件，内容为 deployfile 变量中的文本，文件名称为 "deploy.yaml"
                     writeFile encoding: 'UTF-8', file: './deploy.yaml', text: "${deployfile}"
                     // 输出新创建的部署 yaml 文件内容
                     sh "cat deploy.yaml"
                     // 执行 Kuberctl 命令进行部署操作
-                    //sh "kubectl replace --force -n ${PROJECT_ENV} -f deploy.yaml"
+                    sh "kubectl replace --force -n ${PROJECT_ENV} -f deploy.yaml"
                     }
                 }
         }

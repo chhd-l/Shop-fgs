@@ -417,7 +417,7 @@ export default class Felin extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    // if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+    // if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'FR') {
     //   value = value.replace(/^[0]/, '+(33)');
     // }
     userInfo[name] = value;
@@ -462,11 +462,38 @@ export default class Felin extends React.Component {
       felinType,
       currentDate,
       userInfo,
-      qrCode1
+      qrCode1,
+      toDay
     } = this.state;
+    if (step === 1) {
+      scrollPaymentPanelIntoView('felinFooter', 0);
+      if (
+        currentDate < new Date('2021-04-20') ||
+        currentDate > new Date('2021-06-13')
+      ) {
+        this.setState({
+          errMsg: 'La date actuelle ne peut pas être sélectionnée'
+        });
+        setTimeout(() => {
+          this.setState({ errMsg: '' });
+        }, 5000);
+        return false;
+      }
+      if (
+        currentDate.getDay() === 1 ||
+        format(currentDate, 'yyyy-MM-dd') === '2021-05-01'
+      ) {
+        this.setState({
+          errMsg: 'La date actuelle ne peut pas être sélectionnée'
+        });
+        setTimeout(() => {
+          this.setState({ errMsg: '' });
+        }, 5000);
+        return false;
+      }
+    }
     this.setState({ step: step + 1 }, () => {
       if (step === 2) {
-        // console.log(step, 'step')
         this.setState({ nextBtnShow: false });
       }
       sessionItemRoyal.set(
@@ -592,13 +619,8 @@ export default class Felin extends React.Component {
   }
 
   updateButtonState() {
-    let {
-      step,
-      selectedTimeObj,
-      consentChecked1,
-      selectedDate,
-      felinType
-    } = this.state;
+    let { step, selectedTimeObj, consentChecked1, selectedDate, felinType } =
+      this.state;
     console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
@@ -644,7 +666,7 @@ export default class Felin extends React.Component {
       errMsg,
       consentList
     } = this.state;
-    console.log(consentList, 'consentList');
+    // console.log(consentList, 'consentList');
     const event = {
       page: {
         type: 'Felin',
@@ -1433,8 +1455,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked1: !this.state
-                                        .consentChecked1
+                                      consentChecked1:
+                                        !this.state.consentChecked1
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1458,9 +1480,14 @@ export default class Felin extends React.Component {
                                   target="_blank"
                                 >
                                   https://www.mars.com/privacy-policy-france
-                                  <span className="warning_blank">
-                                    Opens a new window
-                                  </span>
+                                  {Boolean(
+                                    process.env
+                                      .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                  ) && (
+                                    <span className="warning_blank">
+                                      Opens a new window
+                                    </span>
+                                  )}
                                 </a>
                               </label>
                             </div>
@@ -1477,8 +1504,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked2: !this.state
-                                        .consentChecked2
+                                      consentChecked2:
+                                        !this.state.consentChecked2
                                     },
                                     () => {
                                       this.updateButtonState();

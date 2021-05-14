@@ -353,7 +353,7 @@ const fr_FR = {
   every: 'Tout',
   example: 'Exemple',
   examplePhone:
-    'Exemple: 06 23 45 67 89 (tel. mobile pour un meilleur suivi de votre commande)',
+    'Exemple: 6 23 45 67 89 (tel. mobile pour un meilleur suivi de votre commande)',
   examplePostCode: '12345',
   expirationDateIsInvalid:
     "La date d'expiration de votre carte n'est pas valide",
@@ -639,8 +639,6 @@ const fr_FR = {
   'order.inTranistTip':
     'Votre commande a été expédiée et vous recevrez bientôt le produit. {val}',
   'order.iVAIncluido': 'TVA Inclus',
-  'order.lastXDays': 'Les {val} derniers jours',
-  'order.lastXMonths': 'Les {val} derniers mois',
   'order.noDataTip': 'Pas de données',
   'order.orderDate': 'Date de commande',
   'order.orderDetails': 'Détails de la commande',
@@ -950,8 +948,6 @@ const fr_FR = {
   registerContinuing:
     'En continuant, vous acceptez notre politique de confidentialité MARS. nous collectera et utilisera votre prénom, nom de famille et adresse e-mail pour vous offrir une expérience personnalisée.',
   registerCreateYourAccout: 'Créer votre compte Royal Canin',
-  registerDescription:
-    '<p>Vos données personnelles sont collectées et traitées conformément à la déclaration de confidentialité de Royal Canin, disponible <a class="rc-styled-link  rc-text-colour--hyperlink" target="_blank" href="https://www.mars.com/privacy-policy-france">ici<span class="warning_blank">Opens a new window</span></a></p>',
   registerEmail: 'Adresse e-mail',
   registerEmailFormate:
     "L'adresse e-mail ne correspond pas au format spécifié.",
@@ -961,7 +957,7 @@ const fr_FR = {
   registerFeckbook: 'Créer mon compte avec Facebook',
   registerFillIn: 'Merci de remplir ce champ.',
   registerFooter1:
-    'Vous devez avoir 16 ans ou plus pour soumettre un formulaire. Vous pouvez nous contacter en écrivant à Royal Canin France, Service consommateur - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES ou par courriel à',
+    'Vous devez avoir 16 ans ou plus pour soumettre un formulaire. Vous pouvez nous contacter en écrivant à Royal Canin France, Service consommateur - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES ou par courriel à serviceclients.france@royalcanin.com',
   registerGoogle: 'Créer mon compte avec Google',
   registerHaveAccount: 'Vous avez déjà un compte ?',
   registerLength: '8 caractères',
@@ -1026,7 +1022,6 @@ const fr_FR = {
   seeAllOurProducts: 'Voir tous nos produits',
   seeTheProduct: 'Voir le produit',
   selectDeliveryAddress: 'Veuillez sélectionner une adresse de livraison',
-  selectNoneClincTip: 'Veuillez remplir les champs obligatoires.',
   selectPet: 'Choisissez un animal',
   selectProduct: 'Veuillez sélectionner un produit',
   sendUsAnEmail: 'Envoyez-nous un e-mail',
@@ -1039,7 +1034,8 @@ const fr_FR = {
   setDefaltAddressSuccess: "Définir le succès de l'adresse Defalt",
   setDefaultAddress: 'Définir comme adresse par défaut',
   setDefaultPaymentMethod: 'Définir comme mode de paiement par défaut',
-  shipmentOn: 'Envoi le',
+  prevShipmentOn: 'Expédition le',
+  nextShipmentOn: 'Expédition le',
   shipmentTrackingFalse:
     'Veuillez cocher cette case si vous souhaitez continuer.',
   shipping: 'Livraison',

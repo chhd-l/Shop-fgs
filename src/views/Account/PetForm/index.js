@@ -33,34 +33,24 @@ import {
   getZoneTime,
   getClubFlag
 } from '@/utils/utils';
-import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
-import Carousel from './components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import {
   findPetProductForClub,
   changeSubscriptionDetailPets
 } from '@/api/subscription';
 
-const selectedPet = {
-  border: '3px solid #ec001a'
-};
-const noSelect = {
-  border: '3px solid #d7d7d7'
-};
-
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
-console.log(datePickerConfig, 'datePickerConfig');
 
 @inject('loginStore')
 @observer
@@ -223,36 +213,49 @@ class PetForm extends React.Component {
           });
           if (currentPet) {
             this.edit(currentPet);
-            this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+            const {
+              customerPetsPropRelations = [],
+              activity,
+              birthOfPets,
+              isPurebred,
+              lifestyle,
+              needs,
+              petsBreed,
+              petsId,
+              petsImg,
+              petsName,
+              petsSex,
+              petsSizeValueName,
+              petsType,
+              sterilized,
+              weight
+            } = currentPet;
+            this.getSpecialNeeds(customerPetsPropRelations);
             let oldCurrentPet = {
-              activity: currentPet.activity,
-              birthOfPets: currentPet.birthOfPets,
-              isPurebred: currentPet.isPurebred,
-              lifestyle: currentPet.lifestyle,
-              needs: currentPet.needs,
-              petsBreed: currentPet.petsBreed,
-              petsId: currentPet.petsId,
-              petsImg: currentPet.petsImg,
-              petsName: currentPet.petsName,
-              petsSex: currentPet.petsSex,
-              petsBreed: currentPet.petsBreed,
+              activity,
+              birthOfPets,
+              isPurebred,
+              lifestyle,
+              needs,
+              petsBreed,
+              petsId,
+              petsImg,
+              petsName,
+              petsSex,
               petsSizeValueId: '',
               storeId: process.env.REACT_APP_STOREID,
-              petsSizeValueName: currentPet.petsSizeValueName,
-              petsType: currentPet.petsType,
-              sterilized: currentPet.sterilized,
-              weight: currentPet.weight
+              petsSizeValueName,
+              petsType,
+              sterilized,
+              weight
             };
             this.setState(
               {
-                currentPetId: currentPet.petsId,
-                currentPet: currentPet,
+                currentPetId: petsId,
+                currentPet,
                 oldCurrentPet, //存储当前eidt宠物，比对修改了哪些字段，如果是只改了名字，就不会弹出跳转subscriptionDetail
-                imgUrl:
-                  currentPet.petsImg && currentPet.petsImg.includes('http')
-                    ? currentPet.petsImg
-                    : '',
-                isCat: currentPet.petsType == 'cat' ? true : false
+                imgUrl: petsImg && petsImg.includes('http') ? petsImg : '',
+                isCat: petsType == 'cat' ? true : false
               },
               () => {
                 this.getTypeDict();
@@ -344,9 +347,20 @@ class PetForm extends React.Component {
     const {
       selectedSpecialNeeds,
       isPurebred,
-      subList,
-      currentPet,
-      oldCurrentPet
+      oldCurrentPet,
+      isCat,
+      sensitivity,
+      activity,
+      lifestyle,
+      birthdate,
+      currentPetId,
+      imgUrl,
+      breed,
+      breedcode,
+      nickname,
+      isMale,
+      weight,
+      isSterilized
     } = this.state;
     if (isPurebred) {
       this.setState({
@@ -366,9 +380,9 @@ class PetForm extends React.Component {
     }
 
     let validFiled = ['nickname', 'birthdate'];
-    if (this.state.isPurebred) {
+    if (isPurebred) {
       validFiled.push('breed');
-    } else if (!this.state.isCat) {
+    } else if (!isCat) {
       validFiled.push('weight');
     }
     for (let i = 0; i < validFiled.length; i++) {
@@ -380,22 +394,19 @@ class PetForm extends React.Component {
       }
     }
 
-    if (!this.state.sensitivity) {
+    if (!sensitivity) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
     if (
-      process.env.REACT_APP_LANG !== 'en' &&
-      process.env.REACT_APP_LANG !== 'de' &&
-      process.env.REACT_APP_LANG !== 'fr'
+      process.env.REACT_APP_COUNTRY !== 'US' &&
+      process.env.REACT_APP_COUNTRY !== 'DE' &&
+      process.env.REACT_APP_COUNTRY !== 'FR'
     ) {
       const RuTr =
-        process.env.REACT_APP_LANG == 'ru' ||
-        process.env.REACT_APP_LANG == 'tr';
-      if (
-        !this.state.activity ||
-        (!this.state.lifestyle && this.state.isCat && RuTr)
-      ) {
+        process.env.REACT_APP_COUNTRY == 'RU' ||
+        process.env.REACT_APP_COUNTRY == 'TR';
+      if (!activity || (!lifestyle && isCat && RuTr)) {
         this.showErrorMsg(
           this.props.intl.messages.pleasecompleteTheRequiredItem
         );
@@ -432,27 +443,24 @@ class PetForm extends React.Component {
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
+    const petsBreed = isPurebred ? breed : isCat ? 'mixed_breed' : breedcode;
     let pets = {
-      birthOfPets: this.state.birthdate,
-      petsId: this.state.currentPetId,
-      petsImg: this.state.imgUrl,
-      petsBreed: this.state.isPurebred
-        ? this.state.breed
-        : this.state.isCat
-        ? 'mixed_breed'
-        : this.state.breedcode,
-      petsName: this.state.nickname,
-      petsSex: this.state.isMale ? '0' : '1',
+      birthOfPets: birthdate,
+      petsId: currentPetId,
+      petsImg: imgUrl,
+      petsBreed,
+      petsName: nickname,
+      petsSex: isMale ? '0' : '1',
       petsSizeValueId: '',
-      petsSizeValueName: this.state.weight,
-      petsType: this.state.isCat ? 'cat' : 'dog',
-      sterilized: this.state.isSterilized ? '1' : '0',
+      petsSizeValueName: weight,
+      petsType: isCat ? 'cat' : 'dog',
+      sterilized: isSterilized ? '1' : '0',
       storeId: process.env.REACT_APP_STOREID,
-      isPurebred: this.state.isPurebred ? '1' : '0',
-      activity: this.state.activity,
-      lifestyle: this.state.lifestyle,
+      isPurebred: isPurebred ? '1' : '0',
+      activity,
+      lifestyle,
       weight: JSON.stringify(this.state.weightObj),
-      needs: this.state.sensitivity
+      needs: sensitivity
     };
     let isEditAlert = false;
     let param = {
@@ -767,6 +775,9 @@ class PetForm extends React.Component {
         if (result.otherProducts) {
           let recommendData = result.otherProducts;
           recommendData.unshift(result.mainProduct);
+          recommendData.forEach((el) => {
+            el.goodsSubtitle = el.goodsSubTitle;
+          });
           this.setState({
             recommendData: recommendData
           });
@@ -778,6 +789,9 @@ class PetForm extends React.Component {
         if (result.otherProducts) {
           let recommendData = result.otherProducts;
           recommendData.unshift(result.mainProduct);
+          recommendData.forEach((el) => {
+            el.goodsSubtitle = el.goodsSubTitle;
+          });
           this.setState({
             recommendData: recommendData
           });
@@ -848,7 +862,7 @@ class PetForm extends React.Component {
   };
   onDateChange(date) {
     this.setState({
-      birthdate: format(date, 'yyyy-MM-dd'),
+      birthdate: date ? format(date, 'yyyy-MM-dd') : '',
       isDisabled: false
     });
   }
@@ -964,8 +978,9 @@ class PetForm extends React.Component {
       isCat
     } = this.state;
     const RuTr =
-      process.env.REACT_APP_LANG == 'ru' || process.env.REACT_APP_LANG == 'tr';
-    const Us = process.env.REACT_APP_LANG == 'en';
+      process.env.REACT_APP_COUNTRY == 'RU' ||
+      process.env.REACT_APP_COUNTRY == 'TR';
+    const Us = process.env.REACT_APP_COUNTRY == 'US';
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1511,9 +1526,9 @@ class PetForm extends React.Component {
                         </div>
                       </div>
                     )}
-                    {process.env.REACT_APP_LANG !== 'en' &&
-                    process.env.REACT_APP_LANG !== 'de' &&
-                    process.env.REACT_APP_LANG !== 'fr' ? (
+                    {process.env.REACT_APP_COUNTRY !== 'US' &&
+                    process.env.REACT_APP_COUNTRY !== 'DE' &&
+                    process.env.REACT_APP_COUNTRY !== 'FR' ? (
                       <>
                         {RuTr && this.state.isCat ? (
                           <div className="form-group col-lg-6 pull-left required">
@@ -1732,7 +1747,9 @@ class PetForm extends React.Component {
               </div>
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId && getClubFlag() ? (
+            {currentPet.petsId &&
+            getClubFlag() &&
+            process.env.REACT_APP_COUNTRY !== 'RU' ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
@@ -1741,22 +1758,12 @@ class PetForm extends React.Component {
                 petsType={currentPet.petsType}
               />
             ) : null}
-
-            {/* {
-            ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1?
-            <LinkedSubs
-              petsId={this.props.match.params.id}
-              loading={this.state.loading}
-              setState={this.setState.bind(this)}
-              errorMsg={this.state.errorMsg}
-            />: null
-            } */}
             <div>
               {this.state.recommendData.length && this.state.isChoosePetType ? (
-                <Carousel
+                <RelateProductCarousel
                   location={this.props.location}
                   history={this.props.history}
-                  recommendData={
+                  goodsList={
                     this.state.recommendData.length
                       ? this.state.recommendData
                       : []

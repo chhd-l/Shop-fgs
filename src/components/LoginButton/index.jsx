@@ -17,17 +17,15 @@ import { FormattedMessage } from 'react-intl';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';
-import { isLimitLogin } from './utils'
+import { isLimitLogin } from './utils';
 import { userBindConsent } from '@/api/consent';
-import Modal from '@/components/Modal'
+import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
-
-
 
 const LoginButton = (props) => {
   const { history } = props;
@@ -57,21 +55,27 @@ const LoginButton = (props) => {
       oktaAuth
         .getUser()
         .then((info) => {
-          if (loginStore.userInfo && loginStore.userInfo.email && info.email !== loginStore.userInfo.email) {
-            localItemRoyal.set('login-again', true)
+          if (
+            loginStore.userInfo &&
+            loginStore.userInfo.email &&
+            info.email !== loginStore.userInfo.email
+          ) {
+            localItemRoyal.set('login-again', true);
             const idToken = authState.idToken;
             const redirectUri =
               window.location.origin + process.env.REACT_APP_HOMEPAGE;
-            window.location.href = `${process.env.REACT_APP_ISSUER
-              }/v1/logout?id_token_hint=${idToken ? idToken.value : ''
-              }&post_logout_redirect_uri=${redirectUri}`;
+            window.location.href = `${
+              process.env.REACT_APP_ISSUER
+            }/v1/logout?id_token_hint=${
+              idToken ? idToken.value : ''
+            }&post_logout_redirect_uri=${redirectUri}`;
           } // Cross-store login
           setUserInfo(info);
           const oktaTokenString = authState.accessToken
             ? authState.accessToken.value
             : '';
           let oktaToken = 'Bearer ' + oktaTokenString;
-          localItemRoyal.set('oktaToken', oktaToken)
+          localItemRoyal.set('oktaToken', oktaToken);
           const consentString = localItemRoyal.get('rc-consent-list');
           if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
@@ -118,13 +122,14 @@ const LoginButton = (props) => {
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
 
-
                   loginStore.setUserInfo(customerInfoRes.context);
 
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-                  if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                  // 去除cart页面不合并购物车逻辑，因为现在登录后不会回到tmpUrl所指页面
+                  if (
+                    // tmpUrl !== '/cart' && 
+                  checkoutStore.cartData.length) {
                     await mergeUnloginCartData();
-                    console.log(loginStore, 'loginStore');
                     await checkoutStore.updateLoginCart();
                   }
 
@@ -147,17 +152,22 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    // if (process.env.REACT_APP_LANG == 'en' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    // if (process.env.REACT_APP_COUNTRY == 'US' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
     try {
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set(
         'okta-redirectUrl',
-        props.history && props.history.location.pathname
+        props.history && props.history.location.pathname + props.history.location.search
       );
+      
+      console.log(props.history && (props.history.location.pathname + props.history.location.search), 'aaaa')
+      // debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
-      oktaAuth.signInWithRedirect(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+      oktaAuth.signInWithRedirect(
+        props.callbackUrl || process.env.REACT_APP_HOMEPAGE
+      );
     } catch (err) {
       console.log(err);
     }
@@ -176,7 +186,6 @@ const LoginButton = (props) => {
       </button>
       <LimitLoginModal />
     </>
-
   );
 };
 export default LoginButton;

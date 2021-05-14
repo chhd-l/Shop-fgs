@@ -21,6 +21,7 @@ import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { Helmet } from 'react-helmet';
+import Modal from '@/components/Modal';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -137,7 +138,7 @@ class AccountProfile extends React.Component {
         communicationPrint: context.communicationPrint
       };
 
-      if (process.env.REACT_APP_LANG === 'en') {
+      if (process.env.REACT_APP_COUNTRY === 'US') {
         mydata.provinceNo = context.provinceNo;
         mydata.province = context.province;
         mydata.provinceId = context.provinceId;
@@ -360,6 +361,13 @@ class AccountProfile extends React.Component {
           </div>
           <Footer />
         </main>
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+        />
       </div>
     );
   }

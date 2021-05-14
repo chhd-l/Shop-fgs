@@ -8,6 +8,7 @@ import autoship from '@/assets/images/home/autoship@2x.png';
 import delivery from '@/assets/images/home/delivery@2x.png';
 import question from '@/assets/images/home/question@2x.png';
 
+import autoicon from './ClubImage/auto@2x.png';
 import phoneicon from './ClubImage/phoneicon@4x.png';
 import gifticon from './ClubImage/pictogifts@4x.png';
 import spetadviser from './ClubImage/pictospetadviser@4x.png';
@@ -256,7 +257,7 @@ export function SubscriptionBenefits() {
                     style={{ width: '100px', height: '100px' }}
                     alt="Бесплатная доставка корма на протяжении всего участия в программе "
                     title="ideal formula"
-                    src={shippingicon}
+                    src={autoicon}
                   />
                 </LazyLoad>
               </div>
@@ -274,9 +275,9 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="Возможность изменения частоты доставок"
+                    alt="Бесплатная доставка корма на протяжении всего участия в программе "
                     title="ideal formula"
-                    src={phoneicon}
+                    src={shippingicon}
                   />
                 </LazyLoad>
               </div>
@@ -302,7 +303,25 @@ export function SubscriptionBenefits() {
               </div>
               <div className="d-flex align-items-center value-proposition__text">
                 <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                  <FormattedMessage id="club.subscription.icon5" />
+                  <FormattedMessage
+                    id="club.subscription.icon6"
+                    values={{
+                      val: (
+                        <a
+                          onClick={() => {
+                            window.PetStoryWC.start();
+                          }}
+                          style={{
+                            textDecoration: 'underline',
+                            color: '#e3001b',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          PetStory
+                        </a>
+                      )
+                    }}
+                  />
                 </p>
               </div>
             </div>

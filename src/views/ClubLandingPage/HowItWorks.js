@@ -6,13 +6,14 @@ import howitworck3 from './ClubImage/howit3.png';
 import howitworck4 from './ClubImage/howit4.png';
 import how02 from './ClubImage/How02@2x.png';
 import how04 from './ClubImage/How04@2x.png';
+import hownew04 from './ClubImage/How-RU@2x.png';
 import workflowicon from './ClubImage/howitworkflow.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
-  const RU = process.env.REACT_APP_LANG == 'ru';
-  const TR = process.env.REACT_APP_LANG == 'tr';
+  const RU = process.env.REACT_APP_COUNTRY == 'RU';
+  const TR = process.env.REACT_APP_COUNTRY == 'TR';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
@@ -196,7 +197,7 @@ const HowItWorks = (props) => {
                       <LazyLoad height={180}>
                         <img
                           className="w-90 lazyloaded"
-                          src={howitworck4}
+                          src={hownew04}
                           alt={props.intl.formatMessage({
                             id: 'club.howitworks.alt4'
                           })}
@@ -228,7 +229,12 @@ const HowItWorks = (props) => {
                         className="rc-card__meta club_subscription_intro_center"
                         style={{ fontSize: '1rem' }}
                       >
-                        <FormattedMessage id="club.howitworks.img4.description" />
+                        <FormattedMessage
+                          id="club.howitworks.img4.description"
+                          values={{
+                            val: <div>PetStory</div>
+                          }}
+                        />
                       </p>
                     </div>
                   </article>

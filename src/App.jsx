@@ -126,7 +126,7 @@ import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
 import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
-import welcome from '@/views/Register/welcome.js'
+import welcome from '@/views/Register/welcome.js';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
@@ -135,16 +135,16 @@ import FelinRecommendation from '@/views/FelinRecommendation';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 
 import ClubLandingPage from './views/ClubLandingPage';
-import {redirectFun} from "@/redirect/utils"
+import { redirectFun } from '@/redirect/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
-Date.prototype.addHours= function(h){
-  this.setHours(this.getHours()+h);
+Date.prototype.addHours = function (h) {
+  this.setHours(this.getHours() + h);
   return this;
-}
+};
 
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
@@ -191,11 +191,6 @@ const LoginCallback = (props) => {
       } else {
         await oktaAuth.handleLoginRedirect();
       }
-      let homePage = '';
-      process.env.REACT_APP_HOMEPAGE === '/'
-        ? (homePage = '')
-        : (homePage = process.env.REACT_APP_HOMEPAGE);
-
       sessionItemRoyal.set('fromLoginPage', true);
       props && props.history.push('/required');
     }
@@ -208,7 +203,7 @@ const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
   return <div />;
-}
+};
 
 const App = () => {
   const history = useHistory();
@@ -338,21 +333,16 @@ const App = () => {
                 <Route
                   exact
                   path="/club-subscription"
-                  component={
-                    process.env.REACT_APP_LANG == 'ru' ||
-                      process.env.REACT_APP_LANG == 'tr'
-                      ? ClubLandingPage
-                      : Exception
-                  }
-                />
-                <Route
-                  exact
-                  path="/vetlandingpage"
-                  component={
-                    process.env.REACT_APP_LANG == 'ru'
-                      ? VetLandingPage
-                      : Exception
-                  }
+                  render={(props) => {
+                    let tmpComponent;
+                    switch (process.env.REACT_APP_LANG) {
+                      case 'ru':
+                      case 'tr':
+                        return <ClubLandingPage {...props} />;
+                      default:
+                        return <Exception {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   exact
@@ -380,9 +370,7 @@ const App = () => {
                   exact
                   path="/recommendationfr"
                   render={(props) => {
-                    return (
-                      <Recommendation_FR  {...props} />
-                    );
+                    return <Recommendation_FR {...props} />;
                   }}
                 />
                 {/* <Route
@@ -449,7 +437,7 @@ const App = () => {
                   render={(props) => (
                     <AccountPetForm key={props.match.params.id} {...props} />
                   )}
-                // component={AccountPetForm}
+                  // component={AccountPetForm}
                 />
                 <Route
                   path="/account/pets/petForm/"
@@ -536,7 +524,7 @@ const App = () => {
                         sublanding = US_SubscriptionLanding;
                         break;
                       case 'ru':
-                        sublanding = RU_SubscriptionLanding;
+                        sublanding = VetLandingPage;
                         break;
                       case 'tr':
                         sublanding = TR_SubscriptionLanding;
@@ -585,7 +573,7 @@ const App = () => {
                   path="/Values"
                   component={
                     { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                    process.env.REACT_APP_LANG
+                      process.env.REACT_APP_LANG
                     ] || Values
                   }
                 />
@@ -636,7 +624,10 @@ const App = () => {
                   component={smartFeederSubscription}
                 />
 
-                <Route path="/FelinRecommendation/:id" component={FelinRecommendation} />
+                <Route
+                  path="/FelinRecommendation/:id"
+                  component={FelinRecommendation}
+                />
                 <Route path="/latelier/felin" component={Felin} />
                 {/* 特殊处理匹配PLP/PDP页面 */}
                 <Route
@@ -730,9 +721,7 @@ const App = () => {
 
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-
-
-                       // PDP文件重定向end
+                      // PDP文件重定向end
 
                       if (redirectUrl) {
                         return <Redirect to={redirectUrl} />;
@@ -746,7 +735,6 @@ const App = () => {
                       const specailPlpUrlMapping = {
                         ...redirectFun()
                       };
-
 
                       let redirectUrl = '';
                       if (pathname.split('.html').length > 1) {

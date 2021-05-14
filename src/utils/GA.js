@@ -2,7 +2,7 @@ const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
-const isRu = process.env.REACT_APP_LANG === 'ru';
+const isRu = process.env.REACT_APP_COUNTRY === 'RU';
 
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
@@ -275,31 +275,41 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
   props.checkoutStore.saveGAProduct({ products: arr });
 };
 
-const calculateGAPrice = (productList, activeIndex) => {
-  let MaxMarketPrice = Math.max.apply(
-    null,
-    productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
-  );
-  let MinMarketPrice = Math.min.apply(
-    null,
-    productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
-  );
-  if (isRu) {
-    MaxMarketPrice = MinMarketPrice; // 俄罗斯只展示最低价格
-  }
+// const calculateGAPrice = (productList, activeIndex) => {
+//   let MaxMarketPrice = Math.max.apply(
+//     null,
+//     productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+//   );
+//   let MinMarketPrice = Math.min.apply(
+//     null,
+//     productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+//   );
+//   if (isRu) {
+//     MaxMarketPrice = MinMarketPrice; // 俄罗斯只展示最低价格
+//   }
 
-  let GAPrice = '';
-  if (MaxMarketPrice > 0) {
-    if (MaxMarketPrice === MinMarketPrice) {
-      GAPrice = Math.round(MaxMarketPrice * 0.8);
-    } else {
-      GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
+//   let GAPrice = '';
+//   if (MaxMarketPrice > 0) {
+//     if (MaxMarketPrice === MinMarketPrice) {
+//       GAPrice = Math.round(MaxMarketPrice * 0.8);
+//     } else {
+//       GAPrice = MinMarketPrice + '~' + MaxMarketPrice;
+//     }
+//   }
+
+//   return GAPrice;
+// };
+
+//cart cartChangeSubscription
+export const GACartChangeSubscription = (btnContent) => {
+  if (!isHubGA) return;
+  dataLayer.push({
+    event: 'cartChangeSubscription',
+    cartChangeSubscription: {
+      button: btnContent //Values : 'Single purchase', 'Autoship'
     }
-  }
-
-  return GAPrice;
+  });
 };
-
 //recommendation-product
 export const GARecommendationProduct = (
   productList,
@@ -348,7 +358,7 @@ export const GARecommendationProduct = (
     return res;
   });
   type === 1 &&
-    dataLayer.push({
+    dataLayer.unshift({
       products
     });
   type === 2 &&
@@ -357,18 +367,6 @@ export const GARecommendationProduct = (
       breederRecoTabClickProduct: products
     });
 };
-
-//cart cartChangeSubscription
-export const GACartChangeSubscription = (btnContent) => {
-  if (!isHubGA) return;
-  dataLayer.push({
-    event: 'cartChangeSubscription',
-    cartChangeSubscription: {
-      button: btnContent //Values : 'Single purchase', 'Autoship'
-    }
-  });
-};
-
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
   if (!isHubGA) return;
@@ -489,12 +487,18 @@ export const productFinderPushEvent = ({
 
 export const GABuyNow = () => {
   dataLayer.push({
-    'event ': ' breederRecoBuyNow'
+    'event ': 'breederRecoBuyNow'
   });
 };
 
 export const GABreederRecoPromoCodeCTA = () => {
   dataLayer.push({
-    'event ': ' breederRecoPromoCodeCTA'
+    'event ': 'breederRecoPromoCodeCTA'
+  });
+};
+
+export const GABreederRecoSeeInCart = () => {
+  dataLayer.push({
+    'event ': 'breederRecoSeeInCart'
   });
 };

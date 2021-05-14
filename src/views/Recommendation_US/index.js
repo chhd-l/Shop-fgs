@@ -38,13 +38,14 @@ import { Helmet } from 'react-helmet';
 import {
   GARecommendationProduct,
   GABuyNow,
-  GABreederRecoPromoCodeCTA
+  GABreederRecoPromoCodeCTA,
+  GABreederRecoSeeInCart
 } from '@/utils/GA';
 
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
-const isUs = process.env.REACT_APP_LANG === 'en';
-const isRu = process.env.REACT_APP_LANG === 'ru';
-const isFr = process.env.REACT_APP_LANG === 'fr';
+const isUs = process.env.REACT_APP_COUNTRY === 'US';
+const isRu = process.env.REACT_APP_COUNTRY === 'RU';
+const isFr = process.env.REACT_APP_COUNTRY === 'FR';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -70,6 +71,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      noData: false,
       showCur: -1,
       isSPT: false,
       frequencyList: '',
@@ -375,20 +377,32 @@ class Recommendation extends React.Component {
             this.checkoutStock();
           }
         );
+        let recommendationInfos = {
+          recommenderName: res.context?.recommendationName || '',
+          recommenderId: res.context?.recommendationId || '',
+          recommendationName: res.context?.prescriberName || '',
+          recommendationId: res.context?.prescriberId || '',
+          referenceObject: res.context?.structureType || '',
+          referenceData: res.context?.prescriptionJson || ''
+        };
+        this.props.clinicStore.setLinkClinicRecommendationInfos(
+          recommendationInfos
+        );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
-        if (!isRu) {
-          this.props.clinicStore.setLinkClinicId(
-            res.context?.id || res.context.prescriberId
-          );
-          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        }
+        // if (!isRu || !isFr) {
+        //   this.props.clinicStore.setLinkClinicId(
+        //     res.context?.id || res.context.prescriberId
+        //   );
+        //   // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+        //   this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+        // }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
         // });
       })
       .catch((err) => {
         console.log(err, 'err');
+        this.setState({ noData: true });
         // this.props.history.push('/home');
       });
 
@@ -410,9 +424,22 @@ class Recommendation extends React.Component {
       prescriberId,
       storeId: process.env.REACT_APP_STOREID
     }).then((res) => {
-      this.props.clinicStore.setLinkClinicId(res.context?.id);
+      let recommendationInfos = {
+        recommenderName: res.context?.recommendationName || '',
+        recommenderId: res.context?.recommendationId || '',
+        recommendationName: res.context?.prescriberName || '',
+        recommendationId: res.context?.id || res.context?.prescriberId || '',
+        referenceObject: res.context?.structureType || '',
+        referenceData: res.context?.prescriptionJson || ''
+      };
+      this.props.clinicStore.setLinkClinicRecommendationInfos(
+        recommendationInfos
+      );
+      // this.props.clinicStore.setLinkClinicId(
+      //   res.context?.id || res.context?.prescriberId
+      // );
       // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
-      this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
+      // this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
     });
@@ -473,6 +500,12 @@ class Recommendation extends React.Component {
     if (outOfStockProducts.length > 0) {
       this.setState({ modalShow: true, currentModalObj: modalList[0] });
     } else {
+      if (isFr && !this.state.isSPT) {
+        // 是fr breeder的特殊code，需要主动默认填充
+        await this.props.checkoutStore.setPromotionCode(
+          this.state.promotionCodeText
+        );
+      }
       this.setState({ buttonLoading: true });
       for (let i = 0; i < inStockProducts.length; i++) {
         try {
@@ -481,9 +514,15 @@ class Recommendation extends React.Component {
             goodsNum: inStockProducts[i].recommendationNumber,
             goodsCategory: '',
             goodsInfoFlag: 0,
-            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationId:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
-            recommendationName: this.props.clinicStore.linkClinicName
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -507,9 +546,15 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
-            recommendationId: this.props.clinicStore.linkClinicId,
+            recommendationInfos: this.props.clinicStore
+              .linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
-            recommendationName: this.props.clinicStore.linkClinicName,
+            recommendationId:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationId || this.props.clinicStore.linkClinicId,
+            recommendationName:
+              this.props.clinicStore.linkClinicRecommendationInfos
+                ?.recommendationName || this.props.clinicStore.linkClinicName,
             taggingForTextAtCart: (p.taggingList || []).filter(
               (e) =>
                 e.taggingType === 'Text' &&
@@ -524,6 +569,12 @@ class Recommendation extends React.Component {
         );
       })
     });
+    if (isFr && !this.state.isSPT) {
+      // 是fr breeder的特殊code，需要主动默认填充
+      await this.props.checkoutStore.setPromotionCode(
+        this.state.promotionCodeText
+      );
+    }
     this.setState({ buttonLoading: false });
     this.props.history.push(path);
   }
@@ -686,7 +737,10 @@ class Recommendation extends React.Component {
     }
   }
   addCart = () => {
-    GABuyNow();
+    if (this.state.inStockProducts.length < 1) {
+      return;
+    }
+    GABreederRecoSeeInCart();
     let { productList } = this.state;
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
@@ -753,10 +807,10 @@ class Recommendation extends React.Component {
     window.addEventListener('copy', copy);
     document.execCommand('copy');
     window.removeEventListener('copy', copy);
-    GABreederRecoPromoCodeCTA();
   };
   // 查看 promotion code
   checkPromotionCode = () => {
+    GABreederRecoPromoCodeCTA();
     this.copyPromotion();
     this.setState(
       {
@@ -774,6 +828,7 @@ class Recommendation extends React.Component {
   };
   // 查看购物车
   viewShoppingCart = () => {
+    GABreederRecoSeeInCart();
     this.props.history.push('/cart');
   };
   tabChange(productList, index) {
@@ -971,15 +1026,19 @@ class Recommendation extends React.Component {
                   {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
                   </div> */}
-                  {/* <p>
+                  <p>
                     <button
-                      className={`rc-btn rc-btn--one`}
+                      className={`rc-btn rc-btn--one click-and-show-promotioncode  ${
+                        this.state.inStockProducts.length
+                          ? ''
+                          : 'rc-btn-solid-disabled'
+                      } ${checkPromotionCodeAndCopy ? 'show' : 'hide'}`}
                       style={{ width: viewShoppingCartWidth + 'px' }}
-                      onClick={this.viewShoppingCart}
+                      onClick={this.addCart}
                     >
                       <FormattedMessage id="recommendation.viewShoppingCart" />
                     </button>
-                  </p> */}
+                  </p>
                 </>
               )}
             </div>
@@ -1153,7 +1212,10 @@ class Recommendation extends React.Component {
               <FormattedMessage id="recommendation.noMoreRecommendation" />
             </div>
           ) : (
-            <div className="transparentSection">
+            <div
+              className="transparentSection"
+              style={{ display: `${this.state.noData ? 'none' : 'block'}` }}
+            >
               <section className="recommendProduct re-custom rc-max-width--md pl-0 pr-0">
                 <div style={{ boxShadow: '0 8px .9375rem rgb(0 0 0 / 10%)' }}>
                   {this.state.loading ? (

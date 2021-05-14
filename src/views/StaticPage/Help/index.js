@@ -113,7 +113,8 @@ class Help extends React.Component {
                             <div className=" text-center">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                  {process.env.REACT_APP_LANG == 'de' ? null : (
+                                  {process.env.REACT_APP_COUNTRY ==
+                                  'DE' ? null : (
                                     <FormattedMessage id="help.tip1" />
                                   )}
                                 </p>
@@ -237,7 +238,10 @@ class Help extends React.Component {
                                                 className="rc-styled-link"
                                               >
                                                 {/* <FormattedMessage id="help.email" /> */}
-                                                {this.state.mailAddress}
+                                                {
+                                                  this.props.configStore
+                                                    .storeContactEmail
+                                                }
                                               </a>
                                             </span>
                                           </p>
@@ -285,7 +289,7 @@ class Help extends React.Component {
               </div>
             </div>
           </div>
-          {process.env.REACT_APP_LANG == 'fr' ? (
+          {process.env.REACT_APP_COUNTRY == 'FR' ? (
             <div>
               <FrTips />
               <FrFaq />

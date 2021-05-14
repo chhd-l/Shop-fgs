@@ -1,7 +1,5 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import Progress from '@/components/Progress';
@@ -12,15 +10,13 @@ import GoogleMap from '@/components/GoogleMap';
 import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
-import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { Helmet } from 'react-helmet';
 import Modal from './components/Modal';
 import initLocation from '../PrescriptionNavigate/location';
+import PageBaseInfo from '@/components/PageBaseInfo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
@@ -69,11 +65,6 @@ class Prescription extends React.Component {
     const lng = initLocation[lang].lng;
     super(props);
     this.state = {
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin'
-      },
       type: 'perscription',
       keywords: '',
       selectedSort: 1,
@@ -105,7 +96,6 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: lat,
         longitude: lng,
-        // auditAuthority: true,
         storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
@@ -118,9 +108,6 @@ class Prescription extends React.Component {
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
     //获取是否显示prescriber弹框
     const showPrescriberModal = this.props.configStore.isShowPrescriberModal;
     this.setState(
@@ -170,7 +157,6 @@ class Prescription extends React.Component {
     const { params } = this.state;
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
       this.handldKey(this.state.mapKey);
       params.latitude = position.coords.latitude.toString();
       params.longitude = position.coords.longitude.toString();
@@ -195,8 +181,6 @@ class Prescription extends React.Component {
   };
 
   async getPrescription(params) {
-    // params.auditAuthority = this.props.checkoutStore.autoAuditFlag;
-    // params.auditAuthority = true;
     this.setState({ loading: true });
     const res = await getPrescription(params);
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
@@ -209,11 +193,8 @@ class Prescription extends React.Component {
   async getAllPrescription() {
     let params = {
       storeId: process.env.REACT_APP_STOREID
-      // auditAuthority: this.props.checkoutStore.autoAuditFlag
-      // auditAuthority: true
     };
     const res = await getAllPrescription(params);
-    console.log(res);
     let clinicArr = res.context.prescriberVo;
     //过滤掉经纬度非数字值
     clinicArr = clinicArr.filter((item) => {
@@ -229,7 +210,6 @@ class Prescription extends React.Component {
         +item.longitude <= 180
       );
     });
-    console.log(clinicArr);
     this.setState({
       clinicArr
     });
@@ -272,7 +252,6 @@ class Prescription extends React.Component {
     });
   };
   handleItem = (item) => {
-    console.log(item);
     this.handldKey(this.state.mapKey);
     item.latitude = +item.latitude;
     item.longitude = +item.longitude;
@@ -359,23 +338,7 @@ class Prescription extends React.Component {
 
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
-        <Header
-          showMiniIcons={true}
-          showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
-        />
+        <PageBaseInfo additionalEvents={event} />
         <Modal
           visible={this.state.modalShow}
           close={this.closeModal}

@@ -77,7 +77,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                        {process.env.REACT_APP_LANG == 'en' ? null : (
+                        {process.env.REACT_APP_COUNTRY == 'US' ? null : (
                           <>
                             <div className="col-md-6">
                               <FormattedMessage id="payment.country" />
@@ -202,7 +202,7 @@ class InfosPreview extends React.Component {
                               </>
                             )}
 
-                          {process.env.REACT_APP_LANG == 'en' ? null : (
+                          {process.env.REACT_APP_COUNTRY == 'US' ? null : (
                             <>
                               <div className="col-md-6">
                                 <FormattedMessage id="payment.country" />

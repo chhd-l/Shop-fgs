@@ -40,7 +40,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -201,6 +201,17 @@ class UnLoginCart extends React.Component {
         })
       });
     });
+    this.setState(
+      {
+        promotionInputValue: this.props.checkoutStore.promotionCode
+      },
+      () => {
+        setTimeout(() => {
+          document.getElementById('promotionApply') &&
+            document.getElementById('promotionApply').click();
+        });
+      }
+    );
     if (isHubGA) {
       GAInitUnLogin({
         productList: this.props.checkoutStore.cartData,
@@ -733,7 +744,7 @@ class UnLoginCart extends React.Component {
                 style={{ flex: 1 }}
               >
                 <Link
-                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm d-block align-items-md-center flex-column flex-md-row"
+                  className="ui-cursor-pointer rc-margin-top--xs rc-padding-right--sm align-items-md-center flex-column flex-md-row"
                   to={`/${pitem.goodsName
                     .toLowerCase()
                     .split(' ')
@@ -1000,7 +1011,7 @@ class UnLoginCart extends React.Component {
       productList.splice(tmpIdx, 1);
     }
     // await this.handleRemovePromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     this.setState(
       {
         productList
@@ -1089,12 +1100,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1430,7 +1437,7 @@ class UnLoginCart extends React.Component {
   async changeFrequencyType(pitem) {
     this.setState({ errorMsg: '' });
     // await this.handleRemovePromotionCode();
-    this.props.checkoutStore.removePromotionCode();
+    // this.props.checkoutStore.removePromotionCode();
     this.setState(
       {
         productList: this.state.productList
@@ -1442,12 +1449,13 @@ class UnLoginCart extends React.Component {
   }
   // 切换规格/单次订阅购买时，清空promotion code
   clearPromotionCode() {
-    this.setState({
-      discount: [],
-      isShowValidCode: false,
-      lastPromotionInputValue: '',
-      promotionInputValue: ''
-    });
+    this.handleClickPromotionApply();
+    // this.setState({
+    //   discount: [],
+    //   isShowValidCode: false,
+    //   lastPromotionInputValue: '',
+    //   promotionInputValue: ''
+    // });
   }
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
@@ -1502,7 +1510,7 @@ class UnLoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
-    await checkoutStore.removePromotionCode();
+    // await checkoutStore.removePromotionCode();
     if (!loginStore.isLogin) {
       //游客
       result = await checkoutStore.updateUnloginCart();
@@ -1537,8 +1545,10 @@ class UnLoginCart extends React.Component {
     const { history, location } = this.props;
     const List = this.getProducts(this.state.productList);
 
-    const dogsPic = process.env.REACT_APP_LANG === 'fr' ? dogsImgFr : dogsImg;
-    const catsPic = process.env.REACT_APP_LANG === 'fr' ? catsImgFr : catsImg;
+    const dogsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+    const catsPic =
+      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1643,7 +1653,7 @@ class UnLoginCart extends React.Component {
                         <div
                           className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                           style={
-                            process.env.REACT_APP_LANG === 'fr'
+                            process.env.REACT_APP_COUNTRY === 'FR'
                               ? {}
                               : { margin: '0 10%' }
                           }
@@ -1686,16 +1696,8 @@ class UnLoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

@@ -55,13 +55,18 @@ class Consent extends Component {
         <div key={index} id={index} style={{ display: 'flex' }}>
           <input
             style={{ zoom: zoom }}
-            className="form-check-input ui-cursor-pointer-pure"
-            id={`id-checkbox-cat-${id}-${item.id}`}
+            className={[
+              'form-check-input',
+              'ui-cursor-pointer-pure',
+              item.noChecked ? 'rc-hidden' : ''
+            ].join(' ')}
+            id={`id-checkbox-${id}-${item.id}`}
             value=""
             type="checkbox"
             name="checkbox-2"
             disabled={disabled}
             onChange={() => {
+              if (item.id == 106) return; //此项不需要check事件
               //勾选checkbox
               this.props.list.map((x) => {
                 if (x.id === item.id) {
@@ -76,7 +81,7 @@ class Consent extends Component {
           />
           <label
             className="rc-text--left"
-            htmlFor={`id-checkbox-cat-${id}-${item.id}`}
+            htmlFor={`id-checkbox-${id}-${item.id}`}
             style={{ width: '100%' }}
           >
             <div className="d-flex flex-column" style={{ zoom: fontZoom }}>

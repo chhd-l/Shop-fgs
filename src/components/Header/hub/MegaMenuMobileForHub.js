@@ -320,19 +320,16 @@ class MegaMenuMobileForHub extends React.Component {
                             to="/account"
                           >
                             <span className="brefName mb-2">
-                              {userInfo &&
-                                userInfo.firstName &&
-                                userInfo.firstName.slice(0, 1)}
+                              {userInfo?.firstName?.slice(0, 1)}
                             </span>
-                            <span className="border-bottom flex-fill font-weight-light pb-3">
-                              {userInfo && userInfo.firstName}
+                            <span className="border-bottom flex-fill font-weight-light pb-2">
+                              {userInfo?.firstName}
                             </span>
                             <span className="iconfont medium">&#xe6f9;</span>
                           </Link>
                           <LogoutButton
-                            btnClass="rc-list__header bg-transparent border-bottom pt-3 pb-3 ml-3"
+                            containerClassName="rc-list__header bg-transparent border-bottom pt-3 pb-3 ml-3 ml-0 text-left"
                             btnStyle={{
-                              marginLeft: 0,
                               background: 'transparent'
                             }}
                           >

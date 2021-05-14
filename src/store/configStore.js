@@ -33,7 +33,7 @@ class ConfigStore {
     'prescriberSettingInfo'
   )
     ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
-    : null; //prescriber select type: 0:Prescriber Map / 1:Recommendation Code
+    : null; //prescriber Setting相关配置信息
 
   // 获取本地存储的需要显示的地址字段
   @computed get localAddressForm() {
@@ -120,14 +120,6 @@ class ConfigStore {
     return true;
   }
 
-  // //获取是否需要prescriber Map
-  @computed get prescriberMap() {
-    return (
-      this.prescriberSettingInfo &&
-      this.prescriberSettingInfo.prescriberSelectType === 0 //是否打开prescriber Map信息从prescriber setting 接口取
-    );
-  }
-
   // 返回prescription页面是否需要显示用户选择绑定prescriber弹框 0:不显示 1：显示
   @computed get isShowPrescriberModal() {
     return (
@@ -164,26 +156,18 @@ class ConfigStore {
       : '';
   }
 
-  //获取是否需要prescriber Map
-  @computed get isPrescriberMap() {
-    return this.prescriberSettingInfo
-      ? String(this.prescriberSettingInfo.prescriberSelectType)
-      : ''; //是否打开prescriber Map信息从prescriber setting 接口取
-  }
-
   @action.bound
   async queryConfig() {
     let res = this.info;
     if (!res) {
       res = await getConfig();
       res = res.context;
-      console.log(' ----------- queryConfig: ', res);
     }
     this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
   }
 
-  //查询prescription页面是否需要显示用户选择绑定prescriber弹框
+  //查询prescriber Setting相关配置信息
   @action.bound
   async getPrescriberSettingInfo() {
     let res = await getPrescriberSettingInfo();

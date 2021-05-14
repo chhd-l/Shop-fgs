@@ -713,8 +713,6 @@ const en_US = {
   'order.inputReturnNumberTip': 'Please input return number',
   'order.inTranistTip':
     'Your order has been shipped and you will receive the product soon. {val}',
-  'order.lastXDays': 'Last {val} days',
-  'order.lastXMonths': 'Last {val} months',
   'order.noDataTip': 'No data',
   'order.orderDate': 'Order Date',
   'order.orderDetails': 'Order Details',
@@ -1035,8 +1033,6 @@ const en_US = {
   registerContinuing:
     'By continuing you agree to our MARS privacy policy. We will collect and use your name and email address to provide you with a personalized experience.',
   registerCreateYourAccout: 'Create your Royal Canin account',
-  registerDescription:
-    '<p> Your personal data is collected and processed in accordance with the Royal Canin privacy statement, available <a class = "rc-styled-link rc-text-color - hyperlink" target = "_ blank" href = "https://www.mars.com/privacy-policy-france"> here </a> </p> ',
   registerEmail: 'Email address',
   registerEmailFormate:
     'The email address does not match the specified format.',
@@ -1104,7 +1100,6 @@ const en_US = {
   seeAllOurProducts: 'See all our products',
   seeTheProduct: 'See the product',
   selectDeliveryAddress: 'Please select a delivery address',
-  selectNoneClincTip: 'Please select a prescription',
   selectPet: 'Select a pet',
   selectProduct: 'Please select product',
   sendUsAnEmail: 'Send us an Email',
@@ -1113,7 +1108,8 @@ const en_US = {
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
-  shipmentOn: 'Shipment on',
+  prevShipmentOn: 'Shipment on',
+  nextShipmentOn: 'Shipment on',
   shipmentTrackingFalse: 'Please check this box if you wish to continue.',
   shipping: 'Shipping',
   shippingAddress: 'Address Management',
