@@ -11,7 +11,10 @@ import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
-
+import Modal from '@/components/Modal';
+// import { confirmAndCommit } from "@/api/payment";
+// import {  Link } from 'react-router-dom'
+// import store from "storejs";
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -28,7 +31,13 @@ function ErrMsg({ msg }) {
   );
 }
 
-@inject('loginStore', 'configStore', 'checkoutStore', 'clinicStore')
+@inject(
+  'loginStore',
+  'configStore',
+  'checkoutStore',
+  'clinicStore',
+  'paymentStore'
+)
 @observer
 class RegisterRequired extends Component {
   constructor(props) {
@@ -235,15 +244,19 @@ class RegisterRequired extends Component {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
-          isChecked: false,
+          isChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
           isRequired: true,
-          detailList: item.detailList
+          detailList: item.detailList,
+          noChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
         };
       });
 
       //把非必填和必填的项目组装成一个数组list，用于渲染
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
+
       this.setState({
         list
       });
@@ -266,6 +279,126 @@ class RegisterRequired extends Component {
     } finally {
     }
   };
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    window.onload = () => {
+      document.getElementById('tr_consent_a') &&
+        document
+          .getElementById('tr_consent_a')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalA', true);
+          });
+      document.getElementById('tr_consent_b') &&
+        document
+          .getElementById('tr_consent_b')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalB', true);
+          });
+      document.getElementById('tr_consent_c') &&
+        document
+          .getElementById('tr_consent_c')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalC', true);
+          });
+      document.getElementById('tr_consent_d') &&
+        document
+          .getElementById('tr_consent_d')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalD', true);
+          });
+      document.getElementById('tr_consent_tc') &&
+        document
+          .getElementById('tr_consent_tc')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalTC', true);
+          });
+      document.getElementById('tr_consent_pm') &&
+        document
+          .getElementById('tr_consent_pm')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalPM', true);
+          });
+
+      document.getElementById('tr_consent_opt_email') &&
+        document
+          .getElementById('tr_consent_opt_email')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalOptEmail', true);
+          });
+    };
+  }
+  async componentDidMount() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+    // const state = this.props.location.state
+    const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
+    if (!fromLoginPage) {
+      //从登录页进来就在LoginButton组件里执行init方法(因为没登录，必须登录过后得到octa token才能执行获取consent的接口)
+      this.init();
+    }
+    sessionItemRoyal.remove('fromLoginPage');
+    //定义变量获取屏幕视口宽度
+    var windowWidth = document.body.clientWidth;
+    if (windowWidth < 640) {
+      this.setState({
+        width: '300px',
+        zoom: '120%',
+        fontZoom: '100%'
+      });
+    }
+    if (windowWidth >= 640) {
+      this.setState({
+        width: '500px',
+        zoom: '150%',
+        fontZoom: '120%'
+      });
+    }
+    document.getElementById('wrap').addEventListener('click', (e) => {
+      if (e.target.localName === 'font') {
+        let keyWords = e.target.innerText;
+        let index = Number(
+          e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+            .parentNode.parentNode.id
+        );
+        let arr = this.state.list[index].detailList.filter((item) => {
+          return item.contentTitle === keyWords;
+        });
+
+        let tempArr = [...this.state.list];
+        tempArr[index].innerHtml = tempArr[index].innerHtml
+          ? ''
+          : arr[0]
+          ? arr[0].contentBody
+          : '';
+
+        this.setState({ list: tempArr });
+      }
+    });
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
+  }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+  }
   render() {
     const { errMsg } = this.state;
     const url = this.props.match.url;
@@ -406,6 +539,15 @@ class RegisterRequired extends Component {
             </div>
           </div>
         </div>
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+          // close={() => this.handelClose()}
+          // hanldeClickConfirm={() => this.hanldeConfirm()}
+        />
       </div>
     );
   }

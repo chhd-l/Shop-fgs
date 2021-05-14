@@ -16,7 +16,13 @@
 }
 .required-component .footer-checkbox-title p span {
   color: #e2001a;
-  font-weight: 700;
+  font-weight: 400;
+  cursor: pointer;
+  user-select: none;
+}
+.required-component .footer-checkbox-title span {
+  color: #e2001a;
+  font-weight: 400;
   cursor: pointer;
   user-select: none;
 }
