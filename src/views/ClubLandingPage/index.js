@@ -693,7 +693,7 @@ class ClubLandingPage extends React.Component {
                                 диагностированными заболеваниями
                               </span>
                             </p>
-                            <Link to="vetlandingpage">
+                            <Link to="subscription-landing">
                               <button className="rc-btn rc-btn--two">
                                 Узнать подробнее
                               </button>
