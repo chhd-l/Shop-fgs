@@ -244,9 +244,12 @@ class RegisterRequired extends Component {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
-          isChecked: false,
+          isChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
           isRequired: true,
-          detailList: item.detailList
+          detailList: item.detailList,
+          noChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
         };
       });
 
