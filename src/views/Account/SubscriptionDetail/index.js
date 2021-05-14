@@ -13,18 +13,11 @@ import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
-import clubIcon from '@/assets/images/club-icon.png';
 import { unique, getParaByName } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
-import Female from '@/assets/images/female.png';
-import Male from '@/assets/images/male.png';
-import Cat from '@/assets/images/cat.png';
-import Dog from '@/assets/images/dog.png';
+import SubDetailHeader from './components/SubDetailHeader';
 import { IMG_DEFAULT } from '@/utils/constant';
-import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
-import Banner_Dog from './../PetForm/images/banner_Dog.jpg';
 import Loading from '@/components/Loading';
-import play_png from './images/play.png';
 import { filterOrderId, getRation, getClubLogo } from '@/utils/utils';
 
 import {
@@ -39,10 +32,7 @@ import {
   getZoneTime
 } from '@/utils/utils';
 import { getDetailsBySpuNo } from '@/api/details';
-import { getPetList } from '@/api/pet';
-import foodPic2 from '../../SmartFeederSubscription/img/step2_food.png';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
-// import ModalFr from '@/components/Recommendation_FR';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
 import skipIcon from './images/skip.png';
@@ -86,6 +76,7 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      triggerShowAddNewPet: false,
       mainProductDetails: {}, //推荐主商品的详情数据
       dogBreedList: [],
       catBreedList: [],
@@ -112,7 +103,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
-      editRecommendationVisible: false, //isNeedChangeProduct
+      editRecommendationVisible: true, // 只有一个商品的情况下都需要添加被动更换商品
       recommendationVisibleLoading: true,
       produtctDetailVisible: false,
       promotionDiscount: 0,
@@ -600,100 +591,7 @@ class SubscriptionDetail extends React.Component {
           )?.[0]?.name;
     return name || this.props.intl.messages['Mixed Breed'];
   };
-  PetsInfo = (petsInfo, petsId) => {
-    let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
-    return (
-      <React.Fragment>
-        <img
-          style={{ marginLeft: '1rem', marginRight: '1rem' }}
-          className="pet-img text-center rc-margin-y--sm"
-          alt="pet img"
-          src={
-            (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
-              ? petsInfo.petsImg
-              : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
-          }
-        />
-        <div className="rc-md-down">{this.statusText()}</div>
-        <Link
-          className="rc-md-down rc-margin-y--sm"
-          to={{
-            pathname: `/account/pets/petForm/${petsId}`,
-            state: {
-              isFromSubscriptionDetail: true,
-              subscribeId: this.state.subDetail.subscribeId
-            }
-          }}
-        >
-          <div
-            className="rc-styled-link"
-            // onClick={this.showEditRecommendation}
-          >
-            <FormattedMessage id="subscriptionDetail.editPetProfile" />
-          </div>
-        </Link>
-        <div className="d-flex align-items-center">
-          <div className="rc-padding-right--md">
-            <h4 className="rc-md-up" style={{ color: '#e2001a', margin: 0 }}>
-              <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
-              {petsInfo?.petsName}
-            </h4>
-            <div>
-              <FormattedMessage id="age" />:
-              <strong> {getFormatDate(petsInfo?.birthOfPets || '')}</strong>
-            </div>
-          </div>
-          <div className="rc-padding-right--md">
-            <Link
-              className="rc-md-up"
-              to={{
-                pathname: `/account/pets/petForm/${petsId}`,
-                state: {
-                  isFromSubscriptionDetail: true,
-                  subscribeId: this.state.subDetail.subscribeId
-                }
-              }}
-            >
-              <div
-                className="rc-styled-link"
-                // onClick={this.showEditRecommendation}
-              >
-                <FormattedMessage id="subscriptionDetail.editPetProfile" />
-              </div>
-            </Link>
-            <div>
-              <FormattedMessage id="breed" />:
-              <strong>
-                {petBreed}
-                {/* {petsInfo?.petsBreed} */}
-              </strong>{' '}
-            </div>
-          </div>
-          <div className="rc-padding-right--md">
-            <div className="rc-md-up" style={{ color: '#fff' }}>
-              {' '}
-              &nbsp:;
-            </div>
-            <div>
-              <FormattedMessage id="sterilized" />:{' '}
-              <strong>
-                {' '}
-                {petsInfo?.sterilized ? (
-                  <FormattedMessage id="account.yes" />
-                ) : (
-                  <FormattedMessage id="account.no" />
-                )}
-              </strong>
-            </div>
-          </div>
-          <div className="rc-md-up">
-            <div style={{ color: '#fff' }}> &nbsp:;</div>
-            <span>{this.statusText()}</span>
-          </div>
-        </div>
-      </React.Fragment>
-    );
-  };
+
   DailyRation = (rations) => {
     return (
       rations && (
@@ -743,21 +641,6 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    let { search } = this.props.history.location;
-    search = search && decodeURIComponent(search);
-    let updateLifeStage =
-      getParaByName(search, 'updateLifeStage') ||
-      this.props.location.state?.updateLifeStage;
-    let needBindPet =
-      getParaByName(search, 'needBindPet') ||
-      this.props.location.state?.needBindPet;
-
-    // if (updateLifeStage) {
-    //   // 从邮件过来的，需要添加被动更换商品
-    //   this.setState({ editRecommendationVisible: true });
-    // }
-    // 只有一个商品的情况下都需要添加被动更换商品
-    this.setState({ editRecommendationVisible: true });
     this.getBreedList();
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
@@ -776,13 +659,18 @@ class SubscriptionDetail extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-
-    await this.getDetail(() => {
+    this.setState({
+      subId: this.props.match.params.subscriptionNumber
+    });
+    this.initPage();
+  }
+  initPage = () => {
+    let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
+    let needBindPet =
+      getParaByName(search, 'needBindPet') ||
+      this.props.location.state?.needBindPet;
+    this.getDetail(() => {
       // 需要在异步的setstate之后执行
       let goodsInfo = [...this.state.subDetail.goodsInfo];
       if (!this.state.isNotInactive || goodsInfo?.length > 1) {
@@ -791,17 +679,12 @@ class SubscriptionDetail extends React.Component {
         this.setState({ editRecommendationVisible: false });
       }
       // 邮件展示需要绑定宠物
-      needBindPet && this.showAddNewPet();
+      needBindPet && this.setState({ triggerShowAddNewPet: true });
       this.state.editRecommendationVisible &&
         this.state.isNotInactive &&
         this.showChangeProduct(goodsInfo, true);
     });
-
-    // await this.doGetPromotionPrice();
-    this.setState({
-      subId: this.props.match.params.subscriptionNumber
-    });
-  }
+  };
   get frequencyListOptions() {
     return this.state.frequencyList.map((ele) => {
       ele && delete ele.value;
@@ -815,63 +698,6 @@ class SubscriptionDetail extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  getPetList = async () => {
-    let { promotions, petsType } = this.state;
-    //plan同时存在goodsCategory为dog和cat的商品
-    let isCatAndDog = petsType === 'CatAndDog';
-    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
-    let errorMsg = '';
-    if (isAutoshipAndClub) {
-      errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr1'
-      ];
-    }
-    if (isCatAndDog) {
-      errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr2'
-      ];
-    }
-    if (errorMsg) {
-      this.showErrMsgs(errorMsg, 'errMsgPage');
-      return;
-    }
-    if (!this.userInfo.customerAccount) {
-      // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
-      this.setState({
-        loading: false
-      });
-      return false;
-    }
-    this.setState({ loadingPage: true });
-    getPetList({
-      petsType,
-      customerId: this.userInfo.customerId,
-      consumerAccount: this.userInfo.customerAccount
-    })
-      .then((res) => {
-        let petsList = res.context.context || [];
-        let petList =
-          petsList?.filter(
-            (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
-          ) || [];
-        this.setState({
-          loading: false,
-          petList,
-          addNewPetVisible: true //展示petList
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false
-        });
-        // this.showErrorMsg(
-        //   err.message || this.props.intl.messages.getDataFailed
-        // );
-      })
-      .finally(() => {
-        this.setState({ loadingPage: false });
-      });
-  };
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
@@ -949,14 +775,6 @@ class SubscriptionDetail extends React.Component {
   }
   getMinDate(nextDeliveryTime) {
     let time = new Date(nextDeliveryTime);
-    // if (
-    //   time.getTime() - 14 * 24 * 60 * 60 * 1000 >
-    //   this.state.minDate.getTime() + 24 * 60 * 60 * 1000
-    // ) {
-    //   return new Date(time.getTime() - 14 * 24 * 60 * 60 * 1000);
-    // } else {
-    //   return new Date(this.state.minDate.getTime() + 24 * 60 * 60 * 1000);
-    // }
     return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
   }
   getMaxDate(nextDeliveryTime) {
@@ -1145,45 +963,12 @@ class SubscriptionDetail extends React.Component {
                     </div>
                   ))}
                 </div>
-                {/* <div style={{ display: 'none' }} className="Quantity">
-                  <span className="amount">
-                    <FormattedMessage id="amount" />:
-                  </span>
-                  <div className="quantity d-flex justify-content-between align-items-center">
-                    <input
-                      type="hidden"
-                      id="invalid-quantity"
-                      value="Пожалуйста, введите правильный номер."
-                    />
-                    <div className="rc-quantity text-right d-flex justify-content-end">
-                      <span
-                        className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                        onClick={() => this.hanldeAmountChange('minus')}
-                      />
-                      <input
-                        className="rc-quantity__input"
-                        id="quantity"
-                        name="quantity"
-                        value={quantity}
-                        min={quantityMinLimit}
-                        max={stock}
-                        onChange={this.handleAmountInput}
-                        maxLength="5"
-                      />
-                      <span
-                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                        onClick={() => this.hanldeAmountChange('plus')}
-                      />
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
             <p className="frequency rc-margin-right--xs rc-margin-left--xs">
               <div style={{ marginBottom: '4px' }}>
                 <FormattedMessage id="subscription.frequency" />:
               </div>
-              {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
               <div
                 className={!isMobile && 'subscriptionDetail-choose-frequency'}
               >
@@ -1209,22 +994,6 @@ class SubscriptionDetail extends React.Component {
                   }}
                   key={form.frequencyId}
                 />
-                {/* <Selection
-                  optionList={this.frequencyListOptions}
-                  selectedItemChange={(el) => {
-                    if (el.periodTypeId !== data.id) {
-                      el.periodTypeId = data.id;
-                      // el.periodTypeValue = data.valueEn;
-                      this.setState({ isDataChange: true });
-                    }
-                  }}
-                  selectedItemData={{
-                    value: 5744
-                  }}
-                  customContainerStyle={{}}
-                  // selectedItemChange={(data) => handleSelectedItemChange(data)}
-                  customStyleType="select-one"
-                /> */}
               </div>
             </p>
           </div>
@@ -1264,97 +1033,6 @@ class SubscriptionDetail extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    );
-  };
-  addNewCatModal = () => {
-    let { errorMsgAddPet } = this.state;
-    return (
-      <div className="add-new-cat-modal">
-        <Modal
-          headerVisible={true}
-          footerVisible={false}
-          visible={this.state.addNewPetVisible}
-          modalTitle={<FormattedMessage id="subscriptionDetail.linkProfile" />}
-          close={this.closeAddNewPet}
-          // hanldeClickConfirm={() => this.hanldeClickSubmit()}
-          // modalText={this.getModalBox()}
-        >
-          {this.showErrorDom(errorMsgAddPet)}
-          {/* {this.state.addNewPetLoading ? (
-            <Loading positionAbsolute="true" />
-          ) : null} */}
-          <div className="rc-padding-x--md">
-            <div className="pets-list-wrap">
-              {this.state.petList.map((el) => (
-                <div
-                  onClick={(e) => {
-                    this.linkPets(el.petsId);
-                  }}
-                  className=" border-solid d-flex pets-list-item align-items-center"
-                >
-                  <div style={{ position: 'relative' }}>
-                    <img
-                      alt={el.petsName}
-                      src={
-                        (el.petsImg && el.petsImg.includes('https')
-                          ? el.petsImg
-                          : null) || (el.petsType === 'cat' ? Cat : Dog)
-                      }
-                      alt="pet img"
-                      className="pet-img"
-                    />
-                    <img
-                      style={{
-                        width: '1.25rem',
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0
-                      }}
-                      src={!el.petsSex ? Male : Female}
-                      alt="pet sex icon"
-                    />
-                  </div>
-                  <div style={{ paddingLeft: '1rem' }}>
-                    <div style={{ color: '#e2001a' }}>{el.petsName}</div>
-                    {/* <div>{el.birthOfPets}</div> */}
-                    <div>{this.getBreedName(el.petsType, el.petsBreed)}</div>
-                  </div>
-                </div>
-              ))}
-              <Link
-                to={{
-                  pathname: `/account/pets/petForm`,
-                  state: {
-                    petsType: this.state.petsType,
-                    subscribeId: this.state.subDetail.subscribeId
-                  }
-                }}
-              >
-                <div
-                  style={{ paddingLeft: '2rem' }}
-                  className="border-dot height100 align-items-center d-flex"
-                >
-                  <div>
-                    +{' '}
-                    <strong>
-                      {this.state.petsType == 'Cat' ? (
-                        <FormattedMessage id="subscriptionDetail.addNewCat" />
-                      ) : (
-                        <FormattedMessage id="subscriptionDetail.addNewDog" />
-                      )}
-                    </strong>
-                  </div>
-                  <img
-                    style={{ paddingLeft: '2rem' }}
-                    className="pet-icon"
-                    src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
-                  />
-                </div>
-              </Link>
-            </div>
-          </div>
-        </Modal>
-      </div>
     );
   };
   async getDetail(fn) {
@@ -2851,36 +2529,6 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loadingPage: false });
     }
   };
-  linkPets = async (petsId) => {
-    this.closeAddNewPet();
-    this.setState({ loadingPage: true });
-    let { subscribeId } = this.state.subDetail;
-    try {
-      let param = {
-        subscribeId,
-        petsId
-      };
-      let res = await changeSubscriptionDetailPets(param);
-      let newSubscribeId = res.context;
-      if (newSubscribeId === subscribeId) {
-        await this.getDetail(() => {
-          // 需要重置顶部的推荐商品框
-          let goodsInfo = [...this.state.subDetail.goodsInfo];
-          this.state.editRecommendationVisible &&
-            this.state.isNotInactive &&
-            this.showChangeProduct(goodsInfo, true);
-        });
-      } else {
-        this.props.history.push(
-          `/account/subscription/order/detail/${newSubscribeId}`
-        );
-      }
-    } catch (err) {
-      this.showErrMsgs(err.message, 'errorMsgAddPet');
-    } finally {
-      this.setState({ loadingPage: false });
-    }
-  };
   async handleSaveChange(subDetail) {
     if (!this.state.isDataChange) {
       return false;
@@ -2936,78 +2584,7 @@ class SubscriptionDetail extends React.Component {
   };
   statusText = () => {
     let { subDetail, isNotInactive } = this.state;
-    return subDetail.subscribeId ? (
-      subDetail.subscribeStatus === '0' ? (
-        <span
-          style={{
-            background: '#E0F3D4',
-            color: '#47B700',
-            fontSize: '.875rem',
-            padding: '0 5px',
-            marginLeft: '.625rem'
-          }}
-        >
-          <FormattedMessage id="active" />
-        </span>
-      ) : subDetail.subscribeStatus === '1' ? (
-        <span
-          style={{
-            background: '#FCEBD4',
-            color: '#ED8A00',
-            fontSize: '.875rem',
-            padding: '0 5px'
-            // marginLeft: '.625rem'
-          }}
-        >
-          <FormattedMessage id="paused" />
-        </span>
-      ) : (
-        <span
-          style={{
-            background: '#FCEBD4',
-            color: '#ED8A00',
-            fontSize: '.875rem',
-            padding: '0 5px'
-            // marginLeft: '.625rem'
-          }}
-        >
-          <FormattedMessage id="inactive" />
-        </span>
-      )
-    ) : null;
-  };
-  ClubTitle = () => {
-    let { petsId, petsInfo } = this.state.subDetail;
-    return (
-      <>
-        <img
-          src={getClubLogo()}
-          style={{ maxWidth: '100px' }}
-          alt="club Icon"
-        />
-        <div className="d-flex align-items-center add-pet-btn-wrap">
-          {petsId ? (
-            this.PetsInfo(petsInfo, petsId)
-          ) : (
-            <React.Fragment>
-              <div
-                className="pet-img add-pet-btn text-center"
-                onClick={this.showAddNewPet}
-              ></div>
-              <div>
-                <FormattedMessage id="subscriptionDetail.better" />
-                <div>
-                  <span className="rc-styled-link" onClick={this.showAddNewPet}>
-                    <FormattedMessage id="subscriptionDetail.link" />
-                  </span>
-                  <span className="mobile-block">{this.statusText()}</span>
-                </div>
-              </div>
-            </React.Fragment>
-          )}
-        </div>
-      </>
-    );
+    return;
   };
   handleAmountInput = (e) => {
     const { quantityMinLimit } = this.state;
@@ -3082,11 +2659,7 @@ class SubscriptionDetail extends React.Component {
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
-    let { promotions, petsType } = this.state;
-    //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
-    let isCatAndDog = petsType === 'CatAndDog';
-    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
-    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
+
     let minDeliveryTime = null;
     let maxDeliveryTime = null;
     if (subDetail?.noStartTradeList) {
@@ -3305,61 +2878,23 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
-                  <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
-                    {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
-                    {subDetail.petsId &&
-                      isClub &&
-                      this.state.editRecommendationVisible &&
-                      (this.state.recommendationVisibleLoading ? (
-                        <div className="mt-4 1111" style={{ width: '100%' }}>
-                          <Skeleton
-                            color="#f5f5f5"
-                            width="100%"
-                            height="30%"
-                            count={2}
-                          />
-                        </div>
-                      ) : (
-                        <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
-                          <p className="recommendatio-wrap-title">
-                            <FormattedMessage id="subscriptionDetail.newProduct" />
-                          </p>
-                          <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
-                            {this.recommendationModal()}
-                          </div>
-                        </div>
-                      ))}
-                    {/* 未激活的情况下不展示club相关信息 */}
-                    {(isClub && this.state.isActive) ||
-                    (isClub &&
-                      this.state.isNotInactive &&
-                      this.state.subDetail.petsId &&
-                      !isCantLinkPet) ? (
-                      this.ClubTitle()
-                    ) : (
-                      <>
-                        {subDetail.subscriptionType
-                          ?.toLowerCase()
-                          .includes('club') &&
-                          process.env.REACT_APP_COUNTRY == 'RU' && (
-                            <img
-                              src={getClubLogo()}
-                              style={{ maxWidth: '100px', marginRight: '10px' }}
-                              alt="club Icon"
-                            />
-                          )}
-                        <h4
-                          className="rc-delta font-weight-normal mb-2"
-                          style={{ color: '#666' }}
-                        >
-                          {subDetail.subscribeId ? (
-                            <span>{filterOrderId(subDetail.subscribeId)}</span>
-                          ) : null}
-                          {this.statusText()}
-                        </h4>
-                      </>
-                    )}
-                  </div>
+                  <SubDetailHeader
+                    isClub={isClub}
+                    setState={this.setState.bind(this)}
+                    editRecommendationVisible={
+                      this.state.editRecommendationVisible
+                    }
+                    recommendationVisibleLoading={
+                      this.state.recommendationVisibleLoading
+                    }
+                    isActive={this.state.isActive}
+                    isNotInactive={this.state.isNotInactive}
+                    subDetail={this.state.subDetail}
+                    getBreedName={this.getBreedName}
+                    initPage={this.initPage}
+                    history={this.props.history}
+                    triggerShowAddNewPet={this.state.triggerShowAddNewPet}
+                  />
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
                     {this.state.loading && (
@@ -5639,7 +5174,6 @@ class SubscriptionDetail extends React.Component {
             </div>
             <Footer />
           </main>
-          {this.addNewCatModal()}
           {this.changeProductModal()}
 
           <div className="choose-product-modal-wrap">
