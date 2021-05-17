@@ -20,7 +20,7 @@ import './list.less';
 /**
  * address list(delivery/billing) - member
  */
-@inject('checkoutStore', 'paymentStore')
+@inject('checkoutStore', 'configStore', 'paymentStore')
 // @injectIntl * 不能引入，引入后Payment中无法使用该组件 ref
 @observer
 class AddressList extends React.Component {
@@ -439,8 +439,6 @@ class AddressList extends React.Component {
         lastName: tmp.lastName,
         address1: tmp.address1,
         address2: tmp.address2,
-        areaId: tmp.areaId,
-        area: tmp.area,
         rfc: tmp.rfc,
         countryId: tmp.countryId,
         country: tmp.country,
@@ -844,6 +842,22 @@ class AddressList extends React.Component {
     );
   };
 
+  // 处理要显示的字段
+  setAddressFields = (data) => {
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore?.localAddressForm;
+    let farr = [data.address1, data.city];
+    if (process.env.REACT_APP_COUNTRY == 'US') {
+      farr.push(data.province);
+    } else {
+      let country = matchNamefromDict(this.state.countryList, data.countryId);
+      farr.unshift(country);
+      if (localAddressForm['region']) {
+        farr.push(data.area);
+      }
+    }
+    return farr.join(',');
+  };
   render() {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
@@ -862,6 +876,9 @@ class AddressList extends React.Component {
       listValidationModalVisible,
       selectListValidationOption
     } = this.state;
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore?.localAddressForm;
+
     const _list = addressList.map((item, i) => (
       <div
         className={`rounded address-item ${
@@ -906,18 +923,18 @@ class AddressList extends React.Component {
             ) : null}
             <br />
             <span>
-              {process.env.REACT_APP_COUNTRY == 'US'
-                ? [
-                    // matchNamefromDict(this.state.countryList, item.countryId),
-                    item.address1,
-                    item.city,
-                    item.province
-                  ].join(', ')
+              {this.setAddressFields(item)}
+              {/* {process.env.REACT_APP_COUNTRY == 'US' ? [
+                item.address1,
+                item.city,
+                item.province
+              ].join(', ')
                 : [
-                    matchNamefromDict(this.state.countryList, item.countryId),
-                    item.address1,
-                    item.city
-                  ].join(', ')}
+                  matchNamefromDict(this.state.countryList, item.countryId),
+                  item.address1,
+                  item.city,
+                  localAddressForm['region'] && item.area,
+                ].join(', ')} */}
             </span>
           </div>
           <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">

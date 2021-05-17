@@ -892,11 +892,11 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.goods.promotions &&
+          {/* {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 ? (
             <ClubGiftBanner intl={this.props.intl} />
-          ) : null}
+          ) : null} */}
           {isGift &&
             false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1419,7 +1419,7 @@ class LoginCart extends React.Component {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state;
     let result = {};
-    // await checkoutStore.removePromotionCode();
+    await checkoutStore.removePromotionCode();
     // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart({
@@ -1429,7 +1429,12 @@ class LoginCart extends React.Component {
     } else {
       result = await checkoutStore.updateUnloginCart();
     }
-    this.clearPromotionCode();
+    this.setState({
+      discount: [],
+      isShowValidCode: false,
+      lastPromotionInputValue: '',
+      promotionInputValue: ''
+    });
   };
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
