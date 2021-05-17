@@ -10,7 +10,10 @@ import iconsix from '../ClubLandingPage/ClubImage/iconsix.png';
 
 const SubsriptionBenefitsNew = () => {
   return (
-    <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
+    <div
+      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+      style={{ marginTop: '0' }}
+    >
       <div
         className="rc-bg-colour--brand3"
         id="benefits-box"
