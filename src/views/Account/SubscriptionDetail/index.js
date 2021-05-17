@@ -13,18 +13,11 @@ import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import smartFeeder from '@/assets/images/smart_feeder.png';
-import clubIcon from '@/assets/images/club-icon.png';
 import { unique, getParaByName } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
-import Female from '@/assets/images/female.png';
-import Male from '@/assets/images/male.png';
-import Cat from '@/assets/images/cat.png';
-import Dog from '@/assets/images/dog.png';
-import { IMG_DEFAULT } from '@/utils/constant';
-import Banner_Cat from './../PetForm/images/banner_Cat.jpg';
-import Banner_Dog from './../PetForm/images/banner_Dog.jpg';
+import SubDetailHeader from './components/SubDetailHeader';
+import SubGoodsInfos from './components/SubGoodsInfos';
 import Loading from '@/components/Loading';
-import play_png from './images/play.png';
 import { filterOrderId, getRation, getClubLogo } from '@/utils/utils';
 
 import {
@@ -39,12 +32,8 @@ import {
   getZoneTime
 } from '@/utils/utils';
 import { getDetailsBySpuNo } from '@/api/details';
-import { getPetList } from '@/api/pet';
-import foodPic2 from '../../SmartFeederSubscription/img/step2_food.png';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
-// import ModalFr from '@/components/Recommendation_FR';
 import DatePicker from 'react-datepicker';
-import cancelIcon from './images/cancel.png';
 import skipIcon from './images/skip.png';
 import dateIcon from './images/date.png';
 import deliveryIcon from './images/deliveryAddress.png';
@@ -79,13 +68,14 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-@inject('checkoutStore', 'loginStore', 'configStore')
+@inject('configStore')
 @injectIntl
 @observer
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      triggerShowAddNewPet: false,
       mainProductDetails: {}, //推荐主商品的详情数据
       dogBreedList: [],
       catBreedList: [],
@@ -112,7 +102,7 @@ class SubscriptionDetail extends React.Component {
       addNewPetLoading: false,
       addNewPetVisible: false,
       changeRecommendationVisible: false,
-      editRecommendationVisible: false, //isNeedChangeProduct
+      editRecommendationVisible: true, // 只有一个商品的情况下都需要添加被动更换商品
       recommendationVisibleLoading: true,
       produtctDetailVisible: false,
       promotionDiscount: 0,
@@ -168,7 +158,6 @@ class SubscriptionDetail extends React.Component {
         type: 'CREDIT',
         cardImg: visaImg
       },
-      isChangeQuatity: false,
       type: 'main',
       currentCardInfo: {
         id: 'PM202007100416145447',
@@ -198,7 +187,6 @@ class SubscriptionDetail extends React.Component {
       countryList: [],
       frequencyList: [],
       modalShow: false,
-      currentGoodsInfo: [],
       modalList: [
         {
           title: this.props.intl.messages.modalSkipTitle,
@@ -232,7 +220,6 @@ class SubscriptionDetail extends React.Component {
       successTipVisible: false,
       minDate: new Date(),
       maxDate: new Date(),
-      todaydate: new Date(),
       tabName: [],
       activeTabIdx: 0,
       noStartYearOption: [],
@@ -600,119 +587,7 @@ class SubscriptionDetail extends React.Component {
           )?.[0]?.name;
     return name || this.props.intl.messages['Mixed Breed'];
   };
-  PetsInfo = (petsInfo, petsId) => {
-    let petBreed = this.getBreedName(petsInfo.petsType, petsInfo.petsBreed);
-    return (
-      <React.Fragment>
-        <img
-          style={{ marginLeft: '1rem', marginRight: '1rem' }}
-          className="pet-img text-center rc-margin-y--sm"
-          alt="pet img"
-          src={
-            (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
-              ? petsInfo.petsImg
-              : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
-          }
-        />
-        <div className="rc-md-down">{this.statusText()}</div>
-        <Link
-          className="rc-md-down rc-margin-y--sm"
-          to={{
-            pathname: `/account/pets/petForm/${petsId}`,
-            state: {
-              isFromSubscriptionDetail: true,
-              subscribeId: this.state.subDetail.subscribeId
-            }
-          }}
-        >
-          <div
-            className="rc-styled-link"
-            // onClick={this.showEditRecommendation}
-          >
-            <FormattedMessage id="subscriptionDetail.editPetProfile" />
-          </div>
-        </Link>
-        <div className="d-flex align-items-center">
-          <div className="rc-padding-right--md">
-            <h4 className="rc-md-up" style={{ color: '#e2001a', margin: 0 }}>
-              <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
-              {petsInfo?.petsName}
-            </h4>
-            <div>
-              <FormattedMessage id="age" />:
-              <strong> {getFormatDate(petsInfo?.birthOfPets || '')}</strong>
-            </div>
-          </div>
-          <div className="rc-padding-right--md">
-            <Link
-              className="rc-md-up"
-              to={{
-                pathname: `/account/pets/petForm/${petsId}`,
-                state: {
-                  isFromSubscriptionDetail: true,
-                  subscribeId: this.state.subDetail.subscribeId
-                }
-              }}
-            >
-              <div
-                className="rc-styled-link"
-                // onClick={this.showEditRecommendation}
-              >
-                <FormattedMessage id="subscriptionDetail.editPetProfile" />
-              </div>
-            </Link>
-            <div>
-              <FormattedMessage id="breed" />:
-              <strong>
-                {petBreed}
-                {/* {petsInfo?.petsBreed} */}
-              </strong>{' '}
-            </div>
-          </div>
-          <div className="rc-padding-right--md">
-            <div className="rc-md-up" style={{ color: '#fff' }}>
-              {' '}
-              &nbsp:;
-            </div>
-            <div>
-              <FormattedMessage id="sterilized" />:{' '}
-              <strong>
-                {' '}
-                {petsInfo?.sterilized ? (
-                  <FormattedMessage id="account.yes" />
-                ) : (
-                  <FormattedMessage id="account.no" />
-                )}
-              </strong>
-            </div>
-          </div>
-          <div className="rc-md-up">
-            <div style={{ color: '#fff' }}> &nbsp:;</div>
-            <span>{this.statusText()}</span>
-          </div>
-        </div>
-      </React.Fragment>
-    );
-  };
-  DailyRation = (rations) => {
-    return (
-      rations && (
-        <span
-          style={{
-            background: '#F5F5F5',
-            padding: '6px',
-            // marginTop: '30px',
-            display: 'inline-block'
-          }}
-        >
-          <span style={{ fontSize: '12px' }}>
-            <FormattedMessage id="subscription.dailyRation" />
-          </span>
-          :<strong>{rations}</strong>
-        </span>
-      )
-    );
-  };
+
   bundleMatchGoods() {
     let {
       details,
@@ -743,21 +618,6 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    let { search } = this.props.history.location;
-    search = search && decodeURIComponent(search);
-    let updateLifeStage =
-      getParaByName(search, 'updateLifeStage') ||
-      this.props.location.state?.updateLifeStage;
-    let needBindPet =
-      getParaByName(search, 'needBindPet') ||
-      this.props.location.state?.needBindPet;
-
-    // if (updateLifeStage) {
-    //   // 从邮件过来的，需要添加被动更换商品
-    //   this.setState({ editRecommendationVisible: true });
-    // }
-    // 只有一个商品的情况下都需要添加被动更换商品
-    this.setState({ editRecommendationVisible: true });
     this.getBreedList();
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
@@ -776,13 +636,18 @@ class SubscriptionDetail extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-
-    await this.getDetail(() => {
+    this.setState({
+      subId: this.props.match.params.subscriptionNumber
+    });
+    this.initPage();
+  }
+  initPage = () => {
+    let { search } = this.props.history.location;
+    search = search && decodeURIComponent(search);
+    let needBindPet =
+      getParaByName(search, 'needBindPet') ||
+      this.props.location.state?.needBindPet;
+    this.getDetail(() => {
       // 需要在异步的setstate之后执行
       let goodsInfo = [...this.state.subDetail.goodsInfo];
       if (!this.state.isNotInactive || goodsInfo?.length > 1) {
@@ -791,17 +656,12 @@ class SubscriptionDetail extends React.Component {
         this.setState({ editRecommendationVisible: false });
       }
       // 邮件展示需要绑定宠物
-      needBindPet && this.showAddNewPet();
+      needBindPet && this.setState({ triggerShowAddNewPet: true });
       this.state.editRecommendationVisible &&
         this.state.isNotInactive &&
         this.showChangeProduct(goodsInfo, true);
     });
-
-    // await this.doGetPromotionPrice();
-    this.setState({
-      subId: this.props.match.params.subscriptionNumber
-    });
-  }
+  };
   get frequencyListOptions() {
     return this.state.frequencyList.map((ele) => {
       ele && delete ele.value;
@@ -811,67 +671,6 @@ class SubscriptionDetail extends React.Component {
       };
     });
   }
-
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
-  getPetList = async () => {
-    let { promotions, petsType } = this.state;
-    //plan同时存在goodsCategory为dog和cat的商品
-    let isCatAndDog = petsType === 'CatAndDog';
-    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
-    let errorMsg = '';
-    if (isAutoshipAndClub) {
-      errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr1'
-      ];
-    }
-    if (isCatAndDog) {
-      errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr2'
-      ];
-    }
-    if (errorMsg) {
-      this.showErrMsgs(errorMsg, 'errMsgPage');
-      return;
-    }
-    if (!this.userInfo.customerAccount) {
-      // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
-      this.setState({
-        loading: false
-      });
-      return false;
-    }
-    this.setState({ loadingPage: true });
-    getPetList({
-      petsType,
-      customerId: this.userInfo.customerId,
-      consumerAccount: this.userInfo.customerAccount
-    })
-      .then((res) => {
-        let petsList = res.context.context || [];
-        let petList =
-          petsList?.filter(
-            (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
-          ) || [];
-        this.setState({
-          loading: false,
-          petList,
-          addNewPetVisible: true //展示petList
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false
-        });
-        // this.showErrorMsg(
-        //   err.message || this.props.intl.messages.getDataFailed
-        // );
-      })
-      .finally(() => {
-        this.setState({ loadingPage: false });
-      });
-  };
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
@@ -925,18 +724,7 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
-  //订阅数量更改
-  async onQtyChange() {
-    try {
-      // await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
-      this.setState({ isDataChange: true });
-    } catch (err) {
-      this.showErrMsg(err.message);
-    }
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
+
   async doUpdateDetail(param) {
     try {
       this.setState({ loading: true });
@@ -947,18 +735,10 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  getMinDate(nextDeliveryTime) {
+  getMinDate = (nextDeliveryTime) => {
     let time = new Date(nextDeliveryTime);
-    // if (
-    //   time.getTime() - 14 * 24 * 60 * 60 * 1000 >
-    //   this.state.minDate.getTime() + 24 * 60 * 60 * 1000
-    // ) {
-    //   return new Date(time.getTime() - 14 * 24 * 60 * 60 * 1000);
-    // } else {
-    //   return new Date(this.state.minDate.getTime() + 24 * 60 * 60 * 1000);
-    // }
     return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
-  }
+  };
   getMaxDate(nextDeliveryTime) {
     return new Date(
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
@@ -1145,45 +925,12 @@ class SubscriptionDetail extends React.Component {
                     </div>
                   ))}
                 </div>
-                {/* <div style={{ display: 'none' }} className="Quantity">
-                  <span className="amount">
-                    <FormattedMessage id="amount" />:
-                  </span>
-                  <div className="quantity d-flex justify-content-between align-items-center">
-                    <input
-                      type="hidden"
-                      id="invalid-quantity"
-                      value="Пожалуйста, введите правильный номер."
-                    />
-                    <div className="rc-quantity text-right d-flex justify-content-end">
-                      <span
-                        className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                        onClick={() => this.hanldeAmountChange('minus')}
-                      />
-                      <input
-                        className="rc-quantity__input"
-                        id="quantity"
-                        name="quantity"
-                        value={quantity}
-                        min={quantityMinLimit}
-                        max={stock}
-                        onChange={this.handleAmountInput}
-                        maxLength="5"
-                      />
-                      <span
-                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                        onClick={() => this.hanldeAmountChange('plus')}
-                      />
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
             <p className="frequency rc-margin-right--xs rc-margin-left--xs">
               <div style={{ marginBottom: '4px' }}>
                 <FormattedMessage id="subscription.frequency" />:
               </div>
-              {/* <FormattedMessage id="smartFeederSubscription.selectYourFrequency" /> */}
               <div
                 className={!isMobile && 'subscriptionDetail-choose-frequency'}
               >
@@ -1209,22 +956,6 @@ class SubscriptionDetail extends React.Component {
                   }}
                   key={form.frequencyId}
                 />
-                {/* <Selection
-                  optionList={this.frequencyListOptions}
-                  selectedItemChange={(el) => {
-                    if (el.periodTypeId !== data.id) {
-                      el.periodTypeId = data.id;
-                      // el.periodTypeValue = data.valueEn;
-                      this.setState({ isDataChange: true });
-                    }
-                  }}
-                  selectedItemData={{
-                    value: 5744
-                  }}
-                  customContainerStyle={{}}
-                  // selectedItemChange={(data) => handleSelectedItemChange(data)}
-                  customStyleType="select-one"
-                /> */}
               </div>
             </p>
           </div>
@@ -1266,98 +997,7 @@ class SubscriptionDetail extends React.Component {
       </React.Fragment>
     );
   };
-  addNewCatModal = () => {
-    let { errorMsgAddPet } = this.state;
-    return (
-      <div className="add-new-cat-modal">
-        <Modal
-          headerVisible={true}
-          footerVisible={false}
-          visible={this.state.addNewPetVisible}
-          modalTitle={<FormattedMessage id="subscriptionDetail.linkProfile" />}
-          close={this.closeAddNewPet}
-          // hanldeClickConfirm={() => this.hanldeClickSubmit()}
-          // modalText={this.getModalBox()}
-        >
-          {this.showErrorDom(errorMsgAddPet)}
-          {/* {this.state.addNewPetLoading ? (
-            <Loading positionAbsolute="true" />
-          ) : null} */}
-          <div className="rc-padding-x--md">
-            <div className="pets-list-wrap">
-              {this.state.petList.map((el) => (
-                <div
-                  onClick={(e) => {
-                    this.linkPets(el.petsId);
-                  }}
-                  className=" border-solid d-flex pets-list-item align-items-center"
-                >
-                  <div style={{ position: 'relative' }}>
-                    <img
-                      alt={el.petsName}
-                      src={
-                        (el.petsImg && el.petsImg.includes('https')
-                          ? el.petsImg
-                          : null) || (el.petsType === 'cat' ? Cat : Dog)
-                      }
-                      alt="pet img"
-                      className="pet-img"
-                    />
-                    <img
-                      style={{
-                        width: '1.25rem',
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0
-                      }}
-                      src={!el.petsSex ? Male : Female}
-                      alt="pet sex icon"
-                    />
-                  </div>
-                  <div style={{ paddingLeft: '1rem' }}>
-                    <div style={{ color: '#e2001a' }}>{el.petsName}</div>
-                    {/* <div>{el.birthOfPets}</div> */}
-                    <div>{this.getBreedName(el.petsType, el.petsBreed)}</div>
-                  </div>
-                </div>
-              ))}
-              <Link
-                to={{
-                  pathname: `/account/pets/petForm`,
-                  state: {
-                    petsType: this.state.petsType,
-                    subscribeId: this.state.subDetail.subscribeId
-                  }
-                }}
-              >
-                <div
-                  style={{ paddingLeft: '2rem' }}
-                  className="border-dot height100 align-items-center d-flex"
-                >
-                  <div>
-                    +{' '}
-                    <strong>
-                      {this.state.petsType == 'Cat' ? (
-                        <FormattedMessage id="subscriptionDetail.addNewCat" />
-                      ) : (
-                        <FormattedMessage id="subscriptionDetail.addNewDog" />
-                      )}
-                    </strong>
-                  </div>
-                  <img
-                    style={{ paddingLeft: '2rem' }}
-                    className="pet-icon"
-                    src={this.state.petsType == 'Cat' ? Banner_Cat : Banner_Dog}
-                  />
-                </div>
-              </Link>
-            </div>
-          </div>
-        </Modal>
-      </div>
-    );
-  };
-  async getDetail(fn) {
+  getDetail = async (fn) => {
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
@@ -1427,15 +1067,6 @@ class SubscriptionDetail extends React.Component {
         value: noStartYearOption[0] && noStartYearOption[0]['value'],
         name: noStartYearOption[0] && noStartYearOption[0]['value']
       };
-
-      subDetail.goodsInfo = (subDetail.goodsInfo || []).map((el) => {
-        let filterData =
-          this.frequencyListOptions.filter(
-            (item) => item.id === el.periodTypeId
-          )[0] || this.frequencyListOptions[0];
-        // el.periodTypeValue = filterData.valueEn;
-        return el;
-      });
       let isGift =
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
@@ -1482,7 +1113,7 @@ class SubscriptionDetail extends React.Component {
     } finally {
       this.setState({ loading: false });
     }
-  }
+  };
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
       ? dict.filter((c) => c.id === cityId)[0].cityName
@@ -1682,7 +1313,6 @@ class SubscriptionDetail extends React.Component {
   };
   getGiftList = () => {
     let {
-      isChangeQuatity,
       discount,
       type,
       currentCardInfo,
@@ -1691,7 +1321,6 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
-      todaydate,
       noStartYearOption,
       completedYearOption,
       noStartYear,
@@ -1991,219 +1620,6 @@ class SubscriptionDetail extends React.Component {
       promotionInputValue
     });
   }
-  getButtonBoxGift = (subDetail) => {
-    return (
-      <div className="rc-layout-container rc-two-column subdeatial-button-mobile">
-        <div
-          className="rc-column subdeatial-button-mobile-save rc-md-down"
-          style={{ textAlign: 'right' }}
-        >
-          <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            } ${
-              this.state.isDataChange && this.state.productListLoading
-                ? 'ui-btn-loading'
-                : ''
-            } `}
-            style={{
-              marginTop: isMobile ? '.625rem' : '0',
-              marginRight: '1rem'
-            }}
-            onClick={() => this.handleSaveChange(subDetail)}
-          >
-            <FormattedMessage id="saveChange" />
-          </button>
-        </div>
-
-        <div className="rc-column d-flex">
-          <div className="subdeatial-button-mobile-pad pause-btn">
-            {subDetail.subscribeStatus === 0 ? (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.5rem',
-                  color: 'rgb(242,148,35)',
-                  position: 'relative',
-                  top: '4px'
-                }}
-              >
-                &#xe6c2;
-              </em>
-            ) : (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.25rem',
-                  color: 'rgb(242,148,35)',
-                  position: 'relative',
-                  top: '2px'
-                }}
-              >
-                &#xe62f;
-              </em>
-            )}
-            <span
-              style={{
-                position: 'relative',
-                top: '-0.3rem',
-                paddingRight: '0.5rem',
-                paddingLeft: '0.5rem'
-              }}
-              className={`rc-styled-link
-              ${this.state.isGift ? 'disabled' : ''}
-              `}
-            >
-              {subDetail.subscribeStatus === '0' ? (
-                <FormattedMessage id="subscription.pause" />
-              ) : (
-                <FormattedMessage id="subscription.restart" />
-              )}
-            </span>
-          </div>
-          <div>
-            <em
-              className="iconfont"
-              style={{
-                fontSize: '2rem',
-                color: '#E1001A',
-                paddingRight: '0.5rem',
-                paddingLeft: '0.5rem'
-              }}
-            >
-              &#xe619;
-            </em>
-            {/* <LazyLoad>
-              <img
-                style={{
-                  display: 'inline-block',
-                  width: '1.25rem',
-                  marginRight: '5px'
-                }}
-                src={cancelIcon}
-              />
-            </LazyLoad> */}
-            <a
-              style={{ position: 'relative', top: '-0.3rem' }}
-              className="rc-styled-link"
-              onClick={(e) => this.handleGiftSubCancel(e, subDetail)}
-            >
-              <FormattedMessage id="subscription.cancelAll" />
-            </a>
-          </div>
-        </div>
-        <div
-          className="rc-column subdeatial-button-mobile-save rc-md-up"
-          style={{ textAlign: 'right' }}
-        >
-          <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }  ${
-              this.state.isDataChange && this.state.productListLoading
-                ? 'ui-btn-loading'
-                : ''
-            }`}
-            style={{
-              marginTop: isMobile ? '.625rem' : '0',
-              marginRight: '1rem'
-            }}
-            onClick={() => this.handleSaveChange(subDetail)}
-          >
-            <FormattedMessage id="saveChange" />
-          </button>
-        </div>
-      </div>
-    );
-  };
-  getButtonBox = (subDetail) => {
-    let { isNotInactive } = this.state;
-    return (
-      <div
-        className="footerGroupButton"
-        style={{ display: isNotInactive ? 'block' : 'none' }}
-      >
-        <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          <div
-            className="pause-btn"
-            style={{ display: 'inline-block', marginBottom: '10px' }}
-          >
-            {subDetail.subscribeStatus === '0' ? (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.25rem',
-                  color: 'rgb(242,148,35)',
-                  position: 'relative',
-                  top: '2px'
-                }}
-              >
-                &#xe62f;
-              </em>
-            ) : (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.5rem',
-                  color: 'rgb(58,180,29)',
-                  position: 'relative',
-                  top: '4px'
-                }}
-              >
-                &#xe6c2;
-              </em>
-            )}
-            <a
-              style={{
-                paddingRight: '0.5rem',
-                paddingLeft: '4px'
-              }}
-              className={`rc-styled-link`}
-              onClick={() => this.pauseOrStart(subDetail)}
-            >
-              {subDetail.subscribeStatus === '0' ? (
-                <FormattedMessage id="subscription.pause" />
-              ) : (
-                <FormattedMessage id="subscription.restart" />
-              )}
-            </a>
-          </div>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <div style={{ display: 'inline-block', marginBottom: '10px' }}>
-            <LazyLoad>
-              <img
-                style={{
-                  display: 'inline-block',
-                  width: '1.25rem',
-                  marginRight: '5px'
-                }}
-                alt="cancle icon"
-                src={cancelIcon}
-              />
-            </LazyLoad>
-            <a
-              className="rc-styled-link"
-              href="#/"
-              onClick={(e) => {
-                this.handleCancel(e);
-              }}
-            >
-              <FormattedMessage id="subscription.cancelAll" />
-            </a>
-          </div>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
-            onClick={() => this.handleSaveChange(subDetail)}
-          >
-            <FormattedMessage id="saveChange" />
-          </button>
-        </p>
-      </div>
-    );
-  };
   handleGiftSubCancel = async (e, subDetail) => {
     e.preventDefault();
     let {
@@ -2851,42 +2267,11 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loadingPage: false });
     }
   };
-  linkPets = async (petsId) => {
-    this.closeAddNewPet();
-    this.setState({ loadingPage: true });
-    let { subscribeId } = this.state.subDetail;
-    try {
-      let param = {
-        subscribeId,
-        petsId
-      };
-      let res = await changeSubscriptionDetailPets(param);
-      let newSubscribeId = res.context;
-      if (newSubscribeId === subscribeId) {
-        await this.getDetail(() => {
-          // 需要重置顶部的推荐商品框
-          let goodsInfo = [...this.state.subDetail.goodsInfo];
-          this.state.editRecommendationVisible &&
-            this.state.isNotInactive &&
-            this.showChangeProduct(goodsInfo, true);
-        });
-      } else {
-        this.props.history.push(
-          `/account/subscription/order/detail/${newSubscribeId}`
-        );
-      }
-    } catch (err) {
-      this.showErrMsgs(err.message, 'errorMsgAddPet');
-    } finally {
-      this.setState({ loadingPage: false });
-    }
-  };
   async handleSaveChange(subDetail) {
     if (!this.state.isDataChange) {
       return false;
     }
     try {
-      // subDetail.goodsInfo = this.state.currentGoodsInfo;
       let param = {
         subscribeId: subDetail.subscribeId
       };
@@ -2922,7 +2307,6 @@ class SubscriptionDetail extends React.Component {
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
-        isChangeQuatity: false,
         isDataChange: false
       });
     } catch (err) {
@@ -2936,78 +2320,7 @@ class SubscriptionDetail extends React.Component {
   };
   statusText = () => {
     let { subDetail, isNotInactive } = this.state;
-    return subDetail.subscribeId ? (
-      subDetail.subscribeStatus === '0' ? (
-        <span
-          style={{
-            background: '#E0F3D4',
-            color: '#47B700',
-            fontSize: '.875rem',
-            padding: '0 5px',
-            marginLeft: '.625rem'
-          }}
-        >
-          <FormattedMessage id="active" />
-        </span>
-      ) : subDetail.subscribeStatus === '1' ? (
-        <span
-          style={{
-            background: '#FCEBD4',
-            color: '#ED8A00',
-            fontSize: '.875rem',
-            padding: '0 5px'
-            // marginLeft: '.625rem'
-          }}
-        >
-          <FormattedMessage id="paused" />
-        </span>
-      ) : (
-        <span
-          style={{
-            background: '#FCEBD4',
-            color: '#ED8A00',
-            fontSize: '.875rem',
-            padding: '0 5px'
-            // marginLeft: '.625rem'
-          }}
-        >
-          <FormattedMessage id="inactive" />
-        </span>
-      )
-    ) : null;
-  };
-  ClubTitle = () => {
-    let { petsId, petsInfo } = this.state.subDetail;
-    return (
-      <>
-        <img
-          src={getClubLogo()}
-          style={{ maxWidth: '100px' }}
-          alt="club Icon"
-        />
-        <div className="d-flex align-items-center add-pet-btn-wrap">
-          {petsId ? (
-            this.PetsInfo(petsInfo, petsId)
-          ) : (
-            <React.Fragment>
-              <div
-                className="pet-img add-pet-btn text-center"
-                onClick={this.showAddNewPet}
-              ></div>
-              <div>
-                <FormattedMessage id="subscriptionDetail.better" />
-                <div>
-                  <span className="rc-styled-link" onClick={this.showAddNewPet}>
-                    <FormattedMessage id="subscriptionDetail.link" />
-                  </span>
-                  <span className="mobile-block">{this.statusText()}</span>
-                </div>
-              </div>
-            </React.Fragment>
-          )}
-        </div>
-      </>
-    );
+    return;
   };
   handleAmountInput = (e) => {
     const { quantityMinLimit } = this.state;
@@ -3042,8 +2355,6 @@ class SubscriptionDetail extends React.Component {
     });
   };
   render() {
-    console.info('frequencyListOptions', this.frequencyListOptions);
-
     const event = {
       page: {
         type: 'Account',
@@ -3054,12 +2365,9 @@ class SubscriptionDetail extends React.Component {
         filters: ''
       }
     };
-    const data = this.state;
-    const { checkoutStore } = this.props;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore?.localAddressForm;
     let {
-      isChangeQuatity,
       discount,
       type,
       currentCardInfo,
@@ -3068,7 +2376,6 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
-      todaydate,
       noStartYearOption,
       completedYearOption,
       noStartYear,
@@ -3082,11 +2389,7 @@ class SubscriptionDetail extends React.Component {
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
-    let { promotions, petsType } = this.state;
-    //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
-    let isCatAndDog = petsType === 'CatAndDog';
-    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
-    let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
+
     let minDeliveryTime = null;
     let maxDeliveryTime = null;
     if (subDetail?.noStartTradeList) {
@@ -3305,61 +2608,23 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
-                  <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
-                    {/* <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs"> */}
-                    {subDetail.petsId &&
-                      isClub &&
-                      this.state.editRecommendationVisible &&
-                      (this.state.recommendationVisibleLoading ? (
-                        <div className="mt-4 1111" style={{ width: '100%' }}>
-                          <Skeleton
-                            color="#f5f5f5"
-                            width="100%"
-                            height="30%"
-                            count={2}
-                          />
-                        </div>
-                      ) : (
-                        <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
-                          <p className="recommendatio-wrap-title">
-                            <FormattedMessage id="subscriptionDetail.newProduct" />
-                          </p>
-                          <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
-                            {this.recommendationModal()}
-                          </div>
-                        </div>
-                      ))}
-                    {/* 未激活的情况下不展示club相关信息 */}
-                    {(isClub && this.state.isActive) ||
-                    (isClub &&
-                      this.state.isNotInactive &&
-                      this.state.subDetail.petsId &&
-                      !isCantLinkPet) ? (
-                      this.ClubTitle()
-                    ) : (
-                      <>
-                        {subDetail.subscriptionType
-                          ?.toLowerCase()
-                          .includes('club') &&
-                          process.env.REACT_APP_COUNTRY == 'RU' && (
-                            <img
-                              src={getClubLogo()}
-                              style={{ maxWidth: '100px', marginRight: '10px' }}
-                              alt="club Icon"
-                            />
-                          )}
-                        <h4
-                          className="rc-delta font-weight-normal mb-2"
-                          style={{ color: '#666' }}
-                        >
-                          {subDetail.subscribeId ? (
-                            <span>{filterOrderId(subDetail.subscribeId)}</span>
-                          ) : null}
-                          {this.statusText()}
-                        </h4>
-                      </>
-                    )}
-                  </div>
+                  <SubDetailHeader
+                    isClub={isClub}
+                    setState={this.setState.bind(this)}
+                    editRecommendationVisible={
+                      this.state.editRecommendationVisible
+                    }
+                    recommendationVisibleLoading={
+                      this.state.recommendationVisibleLoading
+                    }
+                    isActive={this.state.isActive}
+                    isNotInactive={this.state.isNotInactive}
+                    subDetail={this.state.subDetail}
+                    getBreedName={this.getBreedName}
+                    initPage={this.initPage}
+                    history={this.props.history}
+                    triggerShowAddNewPet={this.state.triggerShowAddNewPet}
+                  />
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
                     {this.state.loading && (
@@ -3373,768 +2638,23 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div
-                        className="mobileGoodsBox"
-                        style={{ display: isMobile ? 'block' : 'none' }}
-                      >
-                        {subDetail.goodsInfo &&
-                          subDetail.goodsInfo.map((el, index) => (
-                            <div
-                              className="goodsItem rc-card-content"
-                              style={{
-                                border: '1px solid #d7d7d7',
-                                padding: '.75rem'
-                              }}
-                            >
-                              <div style={{ display: 'flex' }}>
-                                <div className="for-mobile-colum">
-                                  {/* <LazyLoad> */}
-                                  <img
-                                    src={el.goodsPic || IMG_DEFAULT}
-                                    style={{ width: '100px' }}
-                                    alt={el.goodsName}
-                                  />
-                                  {/* </LazyLoad> */}
-                                  {isClub && !!subDetail.petsId && (
-                                    <span
-                                      className={`rc-styled-link ${
-                                        this.state.productListLoading
-                                          ? 'ui-btn-loading'
-                                          : ''
-                                      }`}
-                                      onClick={() =>
-                                        this.showChangeProduct([el])
-                                      }
-                                    >
-                                      <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                    </span>
-                                  )}
-                                </div>
-                                <div
-                                  className="v-center"
-                                  style={{ flex: '1', paddingLeft: '.625rem' }}
-                                >
-                                  <h3
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      overflowWrap: 'normal',
-                                      color: '#e2001a'
-                                    }}
-                                  >
-                                    {el.goodsName}
-                                  </h3>
-                                  <p
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      marginBottom: '8px'
-                                    }}
-                                  >
-                                    {el.specText}
-                                  </p>
-                                  ..........
-                                  {isClub &&
-                                    !!subDetail.petsId &&
-                                    this.DailyRation(el.petsRation)}
-                                </div>
-                              </div>
-                              <div style={{ marginTop: '.9375rem' }}>
-                                <div>
-                                  <span
-                                    className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                    style={{ marginLeft: '-8px' }}
-                                    onClick={() => {
-                                      if (el.subscribeNum > 1) {
-                                        el.subscribeNum = el.subscribeNum - 1;
-                                        // this.doGetPromotionPrice();
-                                        this.setState({
-                                          subDetail,
-                                          isDataChange: true
-                                        });
-                                      } else {
-                                        this.showErrMsg(
-                                          <FormattedMessage id="cart.errorInfo" />
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  <input
-                                    className="rc-quantity__input 111"
-                                    id="quantity"
-                                    name="quantity"
-                                    min="1"
-                                    max="899"
-                                    maxLength="5"
-                                    onChange={(e) => {
-                                      this.setState({
-                                        errorShow: false
-                                      });
-                                      const val = e.target.value;
-                                      let { currentGoodsInfo } = this.state;
-                                      if (val === '') {
-                                        el.subscribeNum = 1;
-                                        this.setState({
-                                          currentGoodsInfo
-                                        });
-                                      } else {
-                                        let tmp = parseInt(val);
-                                        if (isNaN(tmp)) {
-                                          tmp = 1;
-                                          this.showErrMsg(
-                                            <FormattedMessage id="cart.errorInfo" />
-                                          );
-                                        }
-                                        if (tmp < 1) {
-                                          tmp = 1;
-                                          this.showErrMsg(
-                                            <FormattedMessage id="cart.errorInfo" />
-                                          );
-                                        }
-                                        if (
-                                          tmp >
-                                          process.env.REACT_APP_LIMITED_NUM
-                                        ) {
-                                          tmp =
-                                            process.env.REACT_APP_LIMITED_NUM;
-                                          this.showErrMsg(
-                                            <FormattedMessage
-                                              id="cart.errorMaxInfo"
-                                              values={{
-                                                val:
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
-                                              }}
-                                            />
-                                          );
-                                        }
-                                        el.subscribeNum = tmp;
-                                        this.setState({
-                                          currentGoodsInfo
-                                        });
-                                        // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                      }
-                                      //数量变更后
-                                      subDetail.goodsInfo[index].subscribeNum =
-                                        el.subscribeNum;
-                                      this.onQtyChange();
-                                    }}
-                                    value={el.subscribeNum}
-                                  />
-                                  <span
-                                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                    onClick={() => {
-                                      if (
-                                        el.subscribeNum <
-                                        process.env.REACT_APP_LIMITED_NUM
-                                      ) {
-                                        el.subscribeNum = el.subscribeNum + 1;
-                                        this.doGetPromotionPrice();
-                                        this.setState({
-                                          subDetail,
-                                          isDataChange: true
-                                        });
-                                      } else {
-                                        this.showErrMsg(
-                                          <FormattedMessage
-                                            id="cart.errorMaxInfo"
-                                            values={{
-                                              val:
-                                                process.env
-                                                  .REACT_APP_LIMITED_NUM
-                                            }}
-                                          />
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '1.375rem',
-                                      lineHeight: '40px',
-                                      verticalAlign: 'middle'
-                                    }}
-                                  >
-                                    =
-                                  </span>
-                                  <span
-                                    className="price"
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '1.25rem',
-                                      fontWeight: '400',
-                                      verticalAlign: 'middle',
-                                      marginLeft: '8px',
-                                      height: '25px'
-                                    }}
-                                  >
-                                    {formatMoney(
-                                      el.subscribePrice * el.subscribeNum
-                                    )}
-                                  </span>
-                                  <span
-                                    className="price"
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '1.25rem',
-                                      fontWeight: '400',
-                                      textDecoration: 'line-through',
-                                      verticalAlign: 'middle',
-                                      marginLeft: '8px',
-                                      height: '.6875rem',
-                                      color: '#aaa',
-                                      fontSize: '.875rem'
-                                    }}
-                                  >
-                                    {formatMoney(
-                                      el.originalPrice * el.subscribeNum
-                                    )}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                              // className="col-4 col-md-5"
-                              // style={{ paddingLeft: '60px' }}
-                              >
-                                <div className="rc-card-content">
-                                  <strong
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <FormattedMessage id="subscription.frequency" />
-                                    :
-                                  </strong>
-                                  <div
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      fontSize: '1.25rem',
-                                      marginTop: '.625rem',
-                                      display: 'inline-block',
-                                      marginLeft: '.625rem'
-                                    }}
-                                  >
-                                    <Selection
-                                      optionList={this.frequencyListOptions.filter(
-                                        (frequencyItem) =>
-                                          frequencyItem.goodsInfoFlag ===
-                                          el.goodsInfoFlag
-                                      )}
-                                      selectedItemChange={(data) => {
-                                        if (el.periodTypeId !== data.id) {
-                                          el.periodTypeId = data.id;
-                                          // el.periodTypeValue = data.valueEn;
-                                          this.setState({ isDataChange: true });
-                                        }
-                                      }}
-                                      selectedItemData={{
-                                        value: el.periodTypeId
-                                      }}
-                                      key={index + '_' + el.periodTypeId}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="rc-card-content">
-                                  <strong
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    {/* Shipping Method: */}
-                                    <FormattedMessage id="autoShipStarted" />
-                                  </strong>
-                                  <div
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      marginTop: '.625rem',
-                                      display: 'inline-block',
-                                      marginLeft: '.625rem',
-                                      fontSize: '1.25rem'
-                                    }}
-                                  >
-                                    {getFormatDate(el.createTime.split(' ')[0])}
-                                  </div>
-                                </div>
-                                <div className="rc-card-content">
-                                  <strong
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <LazyLoad>
-                                      <img
-                                        src={dateIcon}
-                                        alt="delete icon"
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '1.25rem',
-                                          verticalAlign: 'middle',
-                                          marginRight: '8px'
-                                        }}
-                                      />
-                                    </LazyLoad>
-                                    <FormattedMessage id="nextShipment" />:
-                                  </strong>
-                                  <div
-                                    className="rc-card__meta order-Id"
-                                    style={{
-                                      marginTop: '.625rem',
-                                      display: 'inline-block',
-                                      marginLeft: '.625rem',
-                                      fontSize: '1.25rem'
-                                    }}
-                                  >
-                                    <DatePicker
-                                      className="receiveDate"
-                                      placeholder="Select Date"
-                                      dateFormat={datePickerConfig.format}
-                                      locale={datePickerConfig.locale}
-                                      // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                      minDate={
-                                        this.getMinDate(el.nextDeliveryTime) ||
-                                        this.state.minDate
-                                      }
-                                      selected={
-                                        !isActive
-                                          ? ''
-                                          : el.nextDeliveryTime
-                                          ? getZoneTime(el.nextDeliveryTime)
-                                          : new Date()
-                                      }
-                                      disabled={true}
-                                      onChange={(date) =>
-                                        this.onDateChange(date)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              {isGift && subDetail.subscribeStatus != 2
-                                ? this.getButtonBoxGift(subDetail)
-                                : null}
-                            </div>
-                          ))}
-                      </div>
-                      {this.showErrorDom(this.state.errMsgPage)}
-                      <div
-                        className="card-container"
-                        style={{
-                          marginTop: '0',
-                          display: isMobile ? 'none' : 'block',
-                          borderBottom: 'none'
-                        }}
-                      >
-                        {subDetail.goodsInfo &&
-                          subDetail.goodsInfo.map((el, index) => (
-                            <div
-                              className="rc-margin-x--none"
-                              style={{
-                                padding: '1rem 0',
-                                borderBottom: '1px solid #d7d7d7'
-                              }}
-                            >
-                              <div className=" row align-items-center">
-                                <div className="col-4 col-md-6">
-                                  <div
-                                    className="rc-layout-container rc-five-column"
-                                    style={{
-                                      height: '160px',
-                                      paddingRight: '60px',
-                                      paddingTop: '0'
-                                    }}
-                                  >
-                                    <div
-                                      className="rc-column flex-layout"
-                                      style={{ width: '80%', padding: 0 }}
-                                    >
-                                      <div className="img-container">
-                                        {/* <LazyLoad> */}
-                                        <img
-                                          src={el.goodsPic || IMG_DEFAULT}
-                                          alt={el.goodsName}
-                                        />
-                                        {/* </LazyLoad> */}
-                                      </div>
-                                      <div
-                                        className="v-center"
-                                        style={{
-                                          width: '300px'
-                                        }}
-                                      >
-                                        <h5
-                                          style={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            overflowWrap: 'normal',
-                                            color: '#e2001a'
-                                          }}
-                                        >
-                                          {el.goodsName}
-                                        </h5>
-                                        <p
-                                          style={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            marginBottom: '8px'
-                                          }}
-                                        >
-                                          {el.specText}
-                                        </p>
-                                        <div>
-                                          <div>
-                                            <span
-                                              className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                                isActive && !isGift
-                                                  ? ''
-                                                  : 'disabled'
-                                              }`}
-                                              style={{ marginLeft: '-8px' }}
-                                              onClick={() => {
-                                                if (el.subscribeNum > 1) {
-                                                  el.subscribeNum =
-                                                    el.subscribeNum - 1;
-                                                  // this.doGetPromotionPrice();
-                                                  this.setState({
-                                                    subDetail,
-                                                    isDataChange: true
-                                                  });
-                                                } else {
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorInfo" />
-                                                  );
-                                                }
-                                              }}
-                                            />
-                                            <input
-                                              className="rc-quantity__input"
-                                              id="quantity"
-                                              name="quantity"
-                                              min="1"
-                                              max="899"
-                                              maxLength="5"
-                                              onChange={(e) => {
-                                                this.setState({
-                                                  errorShow: false
-                                                });
-                                                const val = e.target.value;
-                                                let {
-                                                  currentGoodsInfo
-                                                } = this.state;
-                                                if (val === '') {
-                                                  el.subscribeNum = 1;
-                                                  this.setState({
-                                                    currentGoodsInfo
-                                                  });
-                                                } else {
-                                                  let tmp = parseInt(val);
-                                                  if (isNaN(tmp)) {
-                                                    tmp = 1;
-                                                    this.showErrMsg(
-                                                      <FormattedMessage id="cart.errorInfo" />
-                                                    );
-                                                  }
-                                                  if (tmp < 1) {
-                                                    tmp = 1;
-                                                    this.showErrMsg(
-                                                      <FormattedMessage id="cart.errorInfo" />
-                                                    );
-                                                  }
-                                                  if (
-                                                    tmp >
-                                                    process.env
-                                                      .REACT_APP_LIMITED_NUM
-                                                  ) {
-                                                    tmp =
-                                                      process.env
-                                                        .REACT_APP_LIMITED_NUM;
-                                                    this.showErrMsg(
-                                                      <FormattedMessage
-                                                        id="cart.errorMaxInfo"
-                                                        values={{
-                                                          val:
-                                                            process.env
-                                                              .REACT_APP_LIMITED_NUM
-                                                        }}
-                                                      />
-                                                    );
-                                                  }
-                                                  el.subscribeNum = tmp;
-                                                  this.setState({
-                                                    currentGoodsInfo
-                                                  });
-                                                  // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                                }
-                                                //数量变更后
-                                                subDetail.goodsInfo[
-                                                  index
-                                                ].subscribeNum =
-                                                  el.subscribeNum;
-                                                this.onQtyChange();
-                                              }}
-                                              value={el.subscribeNum}
-                                            />
-                                            <span
-                                              className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                                isActive && !isGift
-                                                  ? ''
-                                                  : 'disabled'
-                                              }`}
-                                              onClick={() => {
-                                                if (
-                                                  el.subscribeNum <
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
-                                                ) {
-                                                  el.subscribeNum =
-                                                    el.subscribeNum + 1;
-                                                  // this.doGetPromotionPrice();
-                                                  this.setState({
-                                                    subDetail,
-                                                    isDataChange: true
-                                                  });
-                                                } else {
-                                                  this.showErrMsg(
-                                                    <FormattedMessage
-                                                      id="cart.errorMaxInfo"
-                                                      values={{
-                                                        val:
-                                                          process.env
-                                                            .REACT_APP_LIMITED_NUM
-                                                      }}
-                                                    />
-                                                  );
-                                                }
-                                              }}
-                                            />
-                                            <span
-                                              style={{
-                                                display: 'inline-block',
-                                                fontSize: '1.375rem',
-                                                lineHeight: '40px',
-                                                verticalAlign: 'middle'
-                                              }}
-                                            >
-                                              =
-                                            </span>
-                                            <span
-                                              className="price"
-                                              style={{
-                                                display: 'inline-block',
-                                                fontSize: '1.25rem',
-                                                fontWeight: '400',
-                                                verticalAlign: 'middle',
-                                                marginLeft: '8px',
-                                                height: '25px'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                el.subscribePrice *
-                                                  el.subscribeNum
-                                              )}
-                                            </span>
-                                            <span
-                                              className="price"
-                                              style={{
-                                                display: 'inline-block',
-                                                fontSize: '1.25rem',
-                                                fontWeight: '400',
-                                                textDecoration: 'line-through',
-                                                verticalAlign: 'middle',
-                                                marginLeft: '8px',
-                                                height: '.6875rem',
-                                                color: '#aaa',
-                                                fontSize: '.875rem'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                el.originalPrice *
-                                                  el.subscribeNum
-                                              )}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    {isClub &&
-                                      !!subDetail.petsId &&
-                                      isNotInactive && (
-                                        <div
-                                          style={{
-                                            position: 'relative',
-                                            paddingLeft: '26px'
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              width: '100px',
-                                              paddingTop: '10px'
-                                            }}
-                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                              this.state.productListLoading
-                                                ? 'ui-btn-loading'
-                                                : ''
-                                            }`}
-                                            onClick={() =>
-                                              this.showChangeProduct([el])
-                                            }
-                                          >
-                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                          </span>
-                                          <div
-                                            style={{
-                                              position: 'absolute',
-                                              left: '126px',
-                                              whiteSpace: 'nowrap',
-                                              top: 0
-                                            }}
-                                          >
-                                            {this.DailyRation(el.petsRation)}
-                                          </div>
-                                        </div>
-                                      )}
-                                  </div>
-                                </div>
-                                <div className="col-4 col-md-1" />
-                                <div
-                                  className="col-4 col-md-5"
-                                  style={{ paddingLeft: '60px' }}
-                                >
-                                  <div className="rc-card-content">
-                                    <strong
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '50%'
-                                      }}
-                                    >
-                                      <FormattedMessage id="subscription.frequency" />
-                                      :
-                                    </strong>
-                                    <div
-                                      className="rc-card__meta order-Id text-left"
-                                      style={{
-                                        marginTop: '.625rem',
-                                        display: 'inline-block',
-                                        marginLeft: '.625rem',
-                                        fontSize: '1.25rem'
-                                      }}
-                                    >
-                                      <Selection
-                                        optionList={this.frequencyListOptions.filter(
-                                          (frequencyItem) =>
-                                            frequencyItem.goodsInfoFlag ===
-                                            el.goodsInfoFlag
-                                        )}
-                                        selectedItemChange={(data) => {
-                                          if (el.periodTypeId !== data.id) {
-                                            el.periodTypeId = data.id;
-                                            // el.periodTypeValue = data.valueEn;
-                                            this.setState({
-                                              isDataChange: true
-                                            });
-                                          }
-                                        }}
-                                        selectedItemData={{
-                                          value: el.periodTypeId
-                                        }}
-                                        key={index + '_' + el.periodTypeId}
-                                        disabled={!isActive || isGift}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="rc-card-content">
-                                    <strong
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '50%'
-                                      }}
-                                    >
-                                      {/* Shipping Method: */}
-                                      <FormattedMessage id="autoShipStarted" />
-                                    </strong>
-                                    <div
-                                      className="rc-card__meta order-Id text-left"
-                                      style={{
-                                        marginTop: '.625rem',
-                                        display: 'inline-block',
-                                        marginLeft: '.625rem',
-                                        fontSize: '1.25rem'
-                                      }}
-                                    >
-                                      {getFormatDate(
-                                        el.createTime.split(' ')[0]
-                                      )}
-                                      {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
-                                    </div>
-                                  </div>
-                                  <div className="rc-card-content">
-                                    <strong
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '50%'
-                                      }}
-                                    >
-                                      <LazyLoad>
-                                        <img
-                                          alt="delete icon"
-                                          src={dateIcon}
-                                          style={{
-                                            display: 'inline-block',
-                                            width: '1.25rem',
-                                            verticalAlign: 'middle',
-                                            marginRight: '8px'
-                                          }}
-                                        />
-                                      </LazyLoad>
-                                      <FormattedMessage id="nextShipment" />:
-                                    </strong>
-                                    <div
-                                      className="rc-card__meta order-Id"
-                                      style={{
-                                        marginTop: '.625rem',
-                                        display: 'inline-block',
-                                        marginLeft: '.625rem',
-                                        fontSize: '1.25rem'
-                                      }}
-                                    >
-                                      <DatePicker
-                                        className="receiveDate"
-                                        placeholder="Select Date"
-                                        dateFormat={datePickerConfig.format}
-                                        locale={datePickerConfig.locale}
-                                        // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                        minDate={
-                                          this.getMinDate(
-                                            el.nextDeliveryTime
-                                          ) || this.state.minDate
-                                        }
-                                        selected={
-                                          !isActive
-                                            ? ''
-                                            : el.nextDeliveryTime
-                                            ? getZoneTime(el.nextDeliveryTime)
-                                            : new Date()
-                                        }
-                                        disabled={true}
-                                        onChange={(date) =>
-                                          this.onDateChange(date)
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              {isGift && subDetail.subscribeStatus != 2
-                                ? this.getButtonBoxGift(subDetail)
-                                : null}
-                            </div>
-                          ))}
-                      </div>
-                      {!isGift && this.getButtonBox(subDetail)}
-
+                      <SubGoodsInfos
+                        isActive={isActive}
+                        isDataChange={this.state.isDataChange}
+                        isClub={isClub}
+                        isGift={this.state.isGift}
+                        onDateChange={this.onDateChange}
+                        productListLoading={this.state.productListLoading}
+                        showChangeProduct={this.showChangeProduct}
+                        errMsgPage={this.state.errMsgPage}
+                        isNotInactive={this.state.isNotInactive}
+                        minDate={this.state.minDate}
+                        setState={this.setState.bind(this)}
+                        frequencyListOptions={this.frequencyListOptions}
+                        getMinDate={this.getMinDate}
+                        showErrMsg={this.showErrMsg.bind(this)}
+                        subDetail={this.state.subDetail}
+                      />
                       <h4 className="h4">
                         <FormattedMessage id="myAutoshipOrder" />
                       </h4>
@@ -5639,7 +4159,6 @@ class SubscriptionDetail extends React.Component {
             </div>
             <Footer />
           </main>
-          {this.addNewCatModal()}
           {this.changeProductModal()}
 
           <div className="choose-product-modal-wrap">
