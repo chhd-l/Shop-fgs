@@ -338,13 +338,13 @@ export default class Felin extends React.Component {
           name: `${el}:00 - ${el}:20 ${el >= 12 ? 'PM' : 'AM'}`,
           value: `${el}:00-${el}:20`,
           disabled: false,
-          type: 0
+          type: 2
         });
         timeOption.push({
           name: `${el}:30 - ${el}:50 ${el >= 12 ? 'PM' : 'AM'}`,
           value: `${el}:30-${el}:50`,
           disabled: false,
-          type: 0
+          type: 2
         });
       }
     });
@@ -619,8 +619,13 @@ export default class Felin extends React.Component {
   }
 
   updateButtonState() {
-    let { step, selectedTimeObj, consentChecked1, selectedDate, felinType } =
-      this.state;
+    let {
+      step,
+      selectedTimeObj,
+      consentChecked1,
+      selectedDate,
+      felinType
+    } = this.state;
     console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
@@ -1455,8 +1460,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked1:
-                                        !this.state.consentChecked1
+                                      consentChecked1: !this.state
+                                        .consentChecked1
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1504,8 +1509,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked2:
-                                        !this.state.consentChecked2
+                                      consentChecked2: !this.state
+                                        .consentChecked2
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1603,8 +1608,7 @@ export default class Felin extends React.Component {
                           </span>
                           <p style={{ fontSize: '.75rem', marginTop: '1rem' }}>
                             (Dans notre Atelier Félin ou par telephone du Mardi
-                            au Dimanche de 10h à 19h, et uniquement par
-                            telephone de 19h à 20h. Fermé le lundi et le 1er
+                            au Dimanche de 10h à 20h.Fermé le lundi et le 1er
                             Mai.)
                           </p>
                         </p>
