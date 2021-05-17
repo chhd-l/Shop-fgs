@@ -1,5 +1,4 @@
 import React from 'react';
-import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
@@ -40,14 +39,12 @@ import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 import Help from './components/Help';
 import { Helmet } from 'react-helmet';
 
-import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
-import premiumHome from '@/assets/images/home/premium@2x.png';
-import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
-import shippmentHome from '@/assets/images/home/shippment@2x.png';
-
 import './index.css';
 import './index.less';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
+import AdvantageTips from './components/AdvantageTips';
+import Advantage from './components/Advantage';
+import Ration from './components/Ration/index.tsx';
 import { getGoodsRelation } from '@/api/details';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -57,180 +54,6 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = process.env.REACT_APP_HUB == '1';
 // const pageLink = window.location.href;
-
-function AdvantageTips({ secondIconvisible = true }) {
-  return (
-    <div className="rc-full-width advantage-tips">
-      <div className="experience-component experience-assets-centeredIconList">
-        <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
-          <div className="rc-sm-down">
-            <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={PaymentSecureHome}
-                    srcSet={PaymentSecureHome}
-                    className="mx-auto"
-                    alt="Secure payments"
-                    title="Secure payments"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point1" />
-                </p>
-              </div>
-              {secondIconvisible && (
-                <div className="col-6 centered-icon-list__icon">
-                  <LazyLoad height={200}>
-                    <img
-                      src={reimbursedHome}
-                      srcSet={reimbursedHome}
-                      className="mx-auto"
-                      alt="Quality assurance"
-                      title="Quality assurance"
-                    />
-                  </LazyLoad>
-                  <p className="rc-meta text-center markup-text">
-                    <FormattedMessage id="home.point2" />
-                  </p>
-                </div>
-              )}
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={premiumHome}
-                    srcSet={premiumHome}
-                    className="mx-auto"
-                    alt="Premium service"
-                    title="Premium service"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point3" />
-                </p>
-              </div>
-              <div className="col-6 centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={shippmentHome}
-                    srcSet={shippmentHome}
-                    className="mx-auto"
-                    alt="Fast shipping"
-                    title="Fast shipping"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point4" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="rc-sm-up">
-            <div className="d-flex justify-content-center bottom-content__icon-list text-center">
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={PaymentSecureHome}
-                    srcSet={PaymentSecureHome}
-                    className="mx-auto"
-                    alt="Secure payments"
-                    title="Secure payments"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point1" />
-                </p>
-              </div>
-              {secondIconvisible && (
-                <div className="centered-icon-list__icon">
-                  <LazyLoad height={200}>
-                    <img
-                      src={reimbursedHome}
-                      srcSet={reimbursedHome}
-                      className="mx-auto"
-                      alt="Quality assurance"
-                      title="Quality assurance"
-                    />
-                  </LazyLoad>
-                  <p className="rc-meta text-center markup-text">
-                    <FormattedMessage id="home.point2" />
-                  </p>
-                </div>
-              )}
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={premiumHome}
-                    srcSet={premiumHome}
-                    className="mx-auto"
-                    alt="Premium service"
-                    title="Premium service"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point3" />
-                </p>
-              </div>
-              <div className="centered-icon-list__icon">
-                <LazyLoad height={200}>
-                  <img
-                    src={shippmentHome}
-                    srcSet={shippmentHome}
-                    className="mx-auto"
-                    alt="Fast shipping"
-                    title="Fast shipping"
-                  />
-                </LazyLoad>
-                <p className="rc-meta text-center markup-text">
-                  <FormattedMessage id="home.point4" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Advantage() {
-  const defaultIconList = [
-    {
-      icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text:
-        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
-    },
-    {
-      icon: (
-        <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography" />
-      ),
-      text: 'Free shipping and 5% off every autoship order'
-    },
-    {
-      icon: <span className="rc-icon rc-food--sm rc-brand1 rc-iconography" />,
-      text: 'Personalized product recommendations'
-    }
-  ];
-  const iconList = { en: defaultIconList }[process.env.REACT_APP_LANG] || [];
-  return iconList.length > 0 ? (
-    <div className="rc-bg-colour--brand4">
-      <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">
-        <div className="rc-layout-container rc-four-column rc-text--center rc-content-h-middle">
-          {iconList.map((ele, i) => (
-            <div className="rc-column rc-padding-y--xs" key={i}>
-              <div className="reassurance-banner__item rc-text--left">
-                <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                  {ele.icon}
-                  {ele.text}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  ) : null;
-}
 
 function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
   return (
@@ -333,7 +156,6 @@ class Details extends React.Component {
       relatedGoodsList: [],
       relatedGoodsLoading: false,
       rationInfo: {},
-      isFromPR: false,
       questionParams: undefined,
       defaultPurchaseType: 0
     };
@@ -704,52 +526,6 @@ class Details extends React.Component {
       param = id;
     }
 
-    let petsRes = {};
-    let pf_params = {};
-    try {
-      if (localStorage.getItem('pfls') && getClubFlag()) {
-        pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-        this.setState({
-          questionParams: JSON.stringify(pf_params),
-          isFromPR: true
-        });
-        let rationRes = await getRation(
-          Object.assign(
-            {
-              spuNoList: [goodsNo]
-            },
-            pf_params
-          )
-        );
-        if (rationRes.code === 'K-000000') {
-          this.setState({
-            rationInfo: rationRes.context.rationResponseItems[0]
-          });
-        }
-      } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
-        pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-        this.setState({
-          questionParams: JSON.stringify(pf_params),
-          isFromPR: true
-        });
-        let rationRes = await getRation(
-          Object.assign(
-            {
-              spuNoList: [goodsNo]
-            },
-            pf_params
-          )
-        );
-        if (rationRes.code === 'K-000000') {
-          this.setState({
-            rationInfo: rationRes.context.rationResponseItems[0]
-          });
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-
     Promise.all([
       requestName(param),
       getFrequencyDict(),
@@ -1063,9 +839,7 @@ class Details extends React.Component {
           let goodsInfos = res.context.goodsInfos || [];
           sizeList = goodsInfos.map((g, i) => {
             g = Object.assign({}, g, {
-              selected: i === 0,
-              petsId: checkoutStore.pr_petsInfo.petsId,
-              petsType: checkoutStore.pr_petsInfo.petsType
+              selected: i === 0
             });
             if (g.selected && !g.subscriptionStatus) {
               let { form } = this.state;
@@ -1998,59 +1772,7 @@ class Details extends React.Component {
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (
-                              <div>
-                                {this.state.isFromPR ? (
-                                  <div className="productFinderBox d-flex align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap">
-                                    <div style={{ flex: '1' }}>
-                                      <FormattedMessage id="details.recommendedDaily" />
-                                      &nbsp;
-                                      <span className="strong">
-                                        <FormattedMessage
-                                          id="details.recommendedDaily.info"
-                                          values={{
-                                            val: rationInfo.weight
-                                              ? rationInfo.weight +
-                                                rationInfo.weightUnit
-                                              : '0g'
-                                          }}
-                                        />
-                                      </span>
-                                    </div>
-                                    <DistributeHubLinkOrATag
-                                      href="/product-finder/product-finder-result-page"
-                                      to="/product-finder-recommendation"
-                                      className="rc-styled-link backProductFinder mt-0 pb-0"
-                                    >
-                                      <FormattedMessage id="Go back to recommendation" />
-                                    </DistributeHubLinkOrATag>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`productFinderBox ${
-                                      isMobile ? '' : 'd-flex'
-                                    } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
-                                  >
-                                    <div style={{ flex: '1' }}>
-                                      <FormattedMessage id="details.findProductTip" />{' '}
-                                    </div>
-                                    {/* <Link
-                                      className="rc-styled-link mt-0 pb-0"
-                                      to="/product-finder"
-                                    >
-                                      <FormattedMessage id="details.findProductTips" />
-                                    </Link> */}
-                                    <DistributeHubLinkOrATag
-                                      href="/product-finder"
-                                      to="/product-finder"
-                                      className={`rc-styled-link backProductFinder mt-0 pb-0 ${
-                                        isMobile ? 'float-none' : ''
-                                      }`}
-                                    >
-                                      <FormattedMessage id="details.findProductTips" />
-                                    </DistributeHubLinkOrATag>
-                                  </div>
-                                )}
-                              </div>
+                              <Ration />
                             ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <div className="spec">

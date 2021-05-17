@@ -5,3 +5,7 @@ export enum SubScriptionStatusNumber {
   autoship,
   club
 }
+
+export declare interface ObjectConstructor {
+  assign(...objects: Object[]): Object;
+}

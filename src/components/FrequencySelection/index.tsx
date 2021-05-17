@@ -14,7 +14,7 @@ interface Props {
   currentFrequencyId: string
   handleConfirm: Function
 }
-console.log('hello ts')
+
 const FrequencyMatch = ({ frequencyType, currentFrequencyId, handleConfirm = () => {} }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
 
