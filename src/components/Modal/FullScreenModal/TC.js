@@ -30,7 +30,6 @@ export default function Modal(props) {
                   <div className="rc-padding--sm rc-margin-bottom--sm rc-agreements-container">
                     <p>Genel Hükümler ve Koşullar</p>
                     <p>Geçerlilik Kapsamı</p>
-                    <p>Geçerlilik Kapsamı</p>
                     <p>
                       İşbu Genel Hükümler ve Koşullar (“Koşullar”) Royal Canin
                       Turkey Evcil Hayvan Ürünleri Limited Şirketi (bundan sonra

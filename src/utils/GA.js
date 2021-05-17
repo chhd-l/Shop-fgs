@@ -158,7 +158,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
   if (!isHubGA) return;
   let breed = [];
   productList?.[0]?.goodsAttributesValueRelList
-    ?.filter((item) => item.goodsAttributeName == 'breeds')
+    ?.filter((item) => item.goodsAttributeName == 'Breeds')
     .forEach((item2) => {
       breed.push(item2.goodsAttributeValue);
     });
@@ -229,10 +229,26 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
       ? calculatedWeeks[item.periodTypeId]
       : '';
     let range = item.goods.goodsCateName?.split('/')[1] || '';
+    // let range = ''
+    // item?.goodsAttributesValueRelVOList
+    // ?.filter((item) => item.goodsAttributeName == 'Range')
+    // .forEach((item2) => {
+    //   if(item2.goodsAttributeValue){
+    //     range = item2.goodsAttributeValue.split("_")[0]
+    //   }
+    // });
     let technology = item.goods.goodsCateName?.split('/')[2] || '';
+    // let technology = ''
+    // item?.goodsAttributesValueRelVOList
+    // ?.filter((item) => item.goodsAttributeName == 'Technology')
+    // .forEach((item2) => {
+    //   if(item2.goodsAttributeValue){
+    //     technology = item2.goodsAttributeValue.split("_")[0]
+    //   }
+    // });
     let breed = [];
     item?.goodsAttributesValueRelVOList
-      ?.filter((item) => item.goodsAttributeName == 'breeds')
+      ?.filter((item) => item.goodsAttributeName == 'Breeds')
       .forEach((item2) => {
         breed.push(item2.goodsAttributeValue);
       });

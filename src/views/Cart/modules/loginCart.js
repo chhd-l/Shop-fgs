@@ -44,7 +44,7 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
 import { v4 as uuidv4 } from 'uuid';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -1663,16 +1663,8 @@ class LoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>
