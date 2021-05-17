@@ -842,7 +842,8 @@ class List extends React.Component {
     let lifestagesPrefv = [],
       sterilizedPrefv = [],
       technologyPrefv = [],
-      breedsPrefv = [];
+      breedsPrefv = [],
+      sizePrefvSeo = [];
     let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
@@ -850,22 +851,26 @@ class List extends React.Component {
       if (fnEle == 'Lifestages') {
         const lifestage = fvEles.includes('|')
           ? 'корм для кошек разных возрастов'
-          : 'корм для ' + fvEles;
+          : 'корм для ' + fvEles.toLowerCase();
         lifestagesPrefv.push(lifestage);
       } else if (fnEle == 'Sterilized') {
         const sterilize =
-          fvEles == 'Нет' ? 'стерилизованных' : 'нестерилизованных';
+          fvEles == 'Нет' ? 'нестерилизованных' : 'стерилизованных';
         sterilizedPrefv.push(sterilize);
       } else if (fnEle == 'Technology' && fvEles != 'Другой') {
-        technologyPrefv.push(fvEles);
+        technologyPrefv.push(fvEles.toLowerCase());
       } else if (fnEle == 'Breeds') {
         const breed = fvEles.includes('|')
           ? 'разных пород'
           : 'породы ' + fvEles;
         breedsPrefv.push(breed);
+      } else if (fnEle == 'Size') {
+        sizePrefv.push(fvEles);
+        const size = fvEles.includes('|')
+          ? 'разных размеров'
+          : fvEles.toLowerCase();
+        sizePrefvSeo.push(size);
       }
-
-      if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
 
     if (!lifestagesPrefv.length && prefnNum) {
@@ -877,6 +882,7 @@ class List extends React.Component {
     let allPrefv = [
       ...technologyPrefv,
       ...lifestagesPrefv,
+      ...sizePrefvSeo,
       ...breedsPrefv,
       ...sterilizedPrefv
     ]?.join(' '); //要排序，因此这样写的==
@@ -887,7 +893,7 @@ class List extends React.Component {
       prefv1,
       animalType,
       sizePrefv: sizePrefv.join(' '),
-      allPrefv: allPrefv?.toLowerCase()
+      allPrefv
     });
   }
 
@@ -1879,11 +1885,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
