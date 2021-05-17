@@ -42,7 +42,7 @@
   "resolved" "https://registry.npm.taobao.org/@babel/compat-data/download/@babel/compat-data-7.13.15.tgz?cache=0&sync_timestamp=1617897036763&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fcompat-data%2Fdownload%2F%40babel%2Fcompat-data-7.13.15.tgz"
   "version" "7.13.15"
 
-"@babel/core@^7.1.0", "@babel/core@^7.4.5", "@babel/core@^7.7.5", "@babel/core@7.9.0":
+"@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.1.0", "@babel/core@^7.4.5", "@babel/core@^7.7.5", "@babel/core@7.9.0":
   "integrity" "sha1-rJd7U4t34TL/cG87ik260JwDxW4="
   "resolved" "https://registry.npm.taobao.org/@babel/core/download/@babel/core-7.9.0.tgz"
   "version" "7.9.0"
@@ -354,12 +354,7 @@
   dependencies:
     "@babel/types" "^7.12.13"
 
-"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
-  "integrity" "sha1-L3WoMSadT2d95JmG3/WZJ1M883U="
-  "resolved" "https://registry.npm.taobao.org/@babel/helper-plugin-utils/download/@babel/helper-plugin-utils-7.10.4.tgz?cache=0&sync_timestamp=1593521089859&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fhelper-plugin-utils%2Fdownload%2F%40babel%2Fhelper-plugin-utils-7.10.4.tgz"
-  "version" "7.10.4"
-
-"@babel/helper-plugin-utils@^7.12.13", "@babel/helper-plugin-utils@^7.13.0":
+"@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.12.13", "@babel/helper-plugin-utils@^7.13.0", "@babel/helper-plugin-utils@^7.8.0", "@babel/helper-plugin-utils@^7.8.3":
   "integrity" "sha1-gGUmzhJa7QM3O8QWqCgyHjpqM68="
   "resolved" "https://registry.npm.taobao.org/@babel/helper-plugin-utils/download/@babel/helper-plugin-utils-7.13.0.tgz"
   "version" "7.13.0"
@@ -744,7 +739,14 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-class-properties@^7.12.13":
+"@babel/plugin-syntax-bigint@^7.8.3":
+  "integrity" "sha1-TJpvZp9dDN8bkKFnHpoUa+UwDOo="
+  "resolved" "https://registry.npm.taobao.org/@babel/plugin-syntax-bigint/download/@babel/plugin-syntax-bigint-7.8.3.tgz"
+  "version" "7.8.3"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.8.0"
+
+"@babel/plugin-syntax-class-properties@^7.12.13", "@babel/plugin-syntax-class-properties@^7.8.3":
   "integrity" "sha1-tcmHJ0xKOoK4lxR5aTGmtTVErhA="
   "resolved" "https://registry.npm.taobao.org/@babel/plugin-syntax-class-properties/download/@babel/plugin-syntax-class-properties-7.12.13.tgz"
   "version" "7.12.13"
@@ -779,6 +781,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
 
+"@babel/plugin-syntax-import-meta@^7.8.3":
+  "integrity" "sha1-7mATSMNw+jNNIge+FYd3SWUh/VE="
+  "resolved" "https://registry.npm.taobao.org/@babel/plugin-syntax-import-meta/download/@babel/plugin-syntax-import-meta-7.10.4.tgz?cache=0&sync_timestamp=1593523074996&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fplugin-syntax-import-meta%2Fdownload%2F%40babel%2Fplugin-syntax-import-meta-7.10.4.tgz"
+  "version" "7.10.4"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+
 "@babel/plugin-syntax-json-strings@^7.8.0", "@babel/plugin-syntax-json-strings@^7.8.3":
   "integrity" "sha1-AcohtmjNghjJ5kDLbdiMVBKyyWo="
   "resolved" "https://registry.npm.taobao.org/@babel/plugin-syntax-json-strings/download/@babel/plugin-syntax-json-strings-7.8.3.tgz"
@@ -793,7 +802,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
 
-"@babel/plugin-syntax-logical-assignment-operators@^7.10.4":
+"@babel/plugin-syntax-logical-assignment-operators@^7.10.4", "@babel/plugin-syntax-logical-assignment-operators@^7.8.3":
   "integrity" "sha1-ypHvRjA1MESLkGZSusLp/plB9pk="
   "resolved" "https://registry.npm.taobao.org/@babel/plugin-syntax-logical-assignment-operators/download/@babel/plugin-syntax-logical-assignment-operators-7.10.4.tgz?cache=0&sync_timestamp=1593521259188&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fplugin-syntax-logical-assignment-operators%2Fdownload%2F%40babel%2Fplugin-syntax-logical-assignment-operators-7.10.4.tgz"
   "version" "7.10.4"
@@ -1677,7 +1686,7 @@
   dependencies:
     "regenerator-runtime" "^0.13.4"
 
-"@babel/template@^7.10.4", "@babel/template@^7.4.0", "@babel/template@^7.8.6":
+"@babel/template@^7.10.4", "@babel/template@^7.3.3", "@babel/template@^7.4.0", "@babel/template@^7.8.6":
   "integrity" "sha1-MlGZbEIA68cdGo/EBfupQPNrong="
   "resolved" "https://registry.npm.taobao.org/@babel/template/download/@babel/template-7.10.4.tgz"
   "version" "7.10.4"
@@ -1724,7 +1733,7 @@
     "debug" "^4.1.0"
     "globals" "^11.1.0"
 
-"@babel/types@^7.0.0", "@babel/types@^7.10.4", "@babel/types@^7.10.5", "@babel/types@^7.3.0", "@babel/types@^7.4.0", "@babel/types@^7.4.4", "@babel/types@^7.7.0", "@babel/types@^7.9.0":
+"@babel/types@^7.0.0", "@babel/types@^7.10.4", "@babel/types@^7.10.5", "@babel/types@^7.3.0", "@babel/types@^7.3.3", "@babel/types@^7.4.0", "@babel/types@^7.4.4", "@babel/types@^7.7.0", "@babel/types@^7.9.0":
   "integrity" "sha1-2Irn4v3oa/v+hR1Nga+nCpl7XRU="
   "resolved" "https://registry.npm.taobao.org/@babel/types/download/@babel/types-7.10.5.tgz"
   "version" "7.10.5"
@@ -1911,6 +1920,17 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@istanbuljs/load-nyc-config@^1.0.0":
+  "integrity" "sha1-/T2x1Z7PfPEh6AZQu4ZxL5tV7O0="
+  "resolved" "https://registry.npm.taobao.org/@istanbuljs/load-nyc-config/download/@istanbuljs/load-nyc-config-1.1.0.tgz"
+  "version" "1.1.0"
+  dependencies:
+    "camelcase" "^5.3.1"
+    "find-up" "^4.1.0"
+    "get-package-type" "^0.1.0"
+    "js-yaml" "^3.13.1"
+    "resolve-from" "^5.0.0"
+
 "@istanbuljs/schema@^0.1.2":
   "integrity" "sha1-5F44TkuOwWvOL9kDr3hFD2v37Jg="
   "resolved" "https://registry.npm.taobao.org/@istanbuljs/schema/download/@istanbuljs/schema-0.1.3.tgz?cache=0&sync_timestamp=1613227112539&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40istanbuljs%2Fschema%2Fdownload%2F%40istanbuljs%2Fschema-0.1.3.tgz"
@@ -2055,6 +2075,27 @@
     "source-map" "^0.6.1"
     "write-file-atomic" "2.4.1"
 
+"@jest/transform@^26.6.2":
+  "integrity" "sha1-WsV8X6GtF7Kq6D5z5FgTiU3PLks="
+  "resolved" "https://registry.nlark.com/@jest/transform/download/@jest/transform-26.6.2.tgz?cache=0&sync_timestamp=1620111241407&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jest%2Ftransform%2Fdownload%2F%40jest%2Ftransform-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@babel/core" "^7.1.0"
+    "@jest/types" "^26.6.2"
+    "babel-plugin-istanbul" "^6.0.0"
+    "chalk" "^4.0.0"
+    "convert-source-map" "^1.4.0"
+    "fast-json-stable-stringify" "^2.0.0"
+    "graceful-fs" "^4.2.4"
+    "jest-haste-map" "^26.6.2"
+    "jest-regex-util" "^26.0.0"
+    "jest-util" "^26.6.2"
+    "micromatch" "^4.0.2"
+    "pirates" "^4.0.1"
+    "slash" "^3.0.0"
+    "source-map" "^0.6.1"
+    "write-file-atomic" "^3.0.0"
+
 "@jest/types@^24.3.0", "@jest/types@^24.9.0":
   "integrity" "sha1-Y8smy3UA0Gnlo4lEGnxqtekJ/Fk="
   "resolved" "https://registry.npm.taobao.org/@jest/types/download/@jest/types-24.9.0.tgz"
@@ -2073,6 +2114,17 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^15.0.0"
     "chalk" "^3.0.0"
+
+"@jest/types@^26.6.2":
+  "integrity" "sha1-vvWlMgMOHYii9abZM/hOlyJu1I4="
+  "resolved" "https://registry.npm.taobao.org/@jest/types/download/@jest/types-26.6.2.tgz?cache=0&sync_timestamp=1618267726447&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40jest%2Ftypes%2Fdownload%2F%40jest%2Ftypes-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@types/istanbul-lib-coverage" "^2.0.0"
+    "@types/istanbul-reports" "^3.0.0"
+    "@types/node" "*"
+    "@types/yargs" "^15.0.0"
+    "chalk" "^4.0.0"
 
 "@mapbox/point-geometry@^0.1.0":
   "integrity" "sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI="
@@ -2325,7 +2377,7 @@
   "resolved" "https://registry.npm.taobao.org/@testing-library/user-event/download/@testing-library/user-event-7.2.1.tgz"
   "version" "7.2.1"
 
-"@types/babel__core@^7.1.0":
+"@types/babel__core@^7.0.0", "@types/babel__core@^7.1.0", "@types/babel__core@^7.1.7":
   "integrity" "sha1-d+WdQ4UipvuJj6Q9w0VcbnLzlj0="
   "resolved" "https://registry.npm.taobao.org/@types/babel__core/download/@types/babel__core-7.1.9.tgz?cache=0&sync_timestamp=1592726835291&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fbabel__core%2Fdownload%2F%40types%2Fbabel__core-7.1.9.tgz"
   "version" "7.1.9"
@@ -2383,6 +2435,13 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/graceful-fs@^4.1.2":
+  "integrity" "sha1-If+6DZjaQ1DbZIkfkqnl2zzbThU="
+  "resolved" "https://registry.npm.taobao.org/@types/graceful-fs/download/@types/graceful-fs-4.1.5.tgz"
+  "version" "4.1.5"
+  dependencies:
+    "@types/node" "*"
+
 "@types/hoist-non-react-statics@^3.3.1":
   "integrity" "sha1-ESSq/lEYy1kZd66xzqrtEHDrA58="
   "resolved" "https://registry.npm.taobao.org/@types/hoist-non-react-statics/download/@types/hoist-non-react-statics-3.3.1.tgz"
@@ -2416,6 +2475,21 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
+"@types/istanbul-reports@^3.0.0":
+  "integrity" "sha1-UIsTqjRPpJdiNOdd3cw0klc32CE="
+  "resolved" "https://registry.npm.taobao.org/@types/istanbul-reports/download/@types/istanbul-reports-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "@types/istanbul-lib-report" "*"
+
+"@types/jest@^26.0.23":
+  "integrity" "sha1-obfqs8UDuARR0BnvtYjsY1Iu5Oc="
+  "resolved" "https://registry.nlark.com/@types/jest/download/@types/jest-26.0.23.tgz?cache=0&sync_timestamp=1619434969125&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fjest%2Fdownload%2F%40types%2Fjest-26.0.23.tgz"
+  "version" "26.0.23"
+  dependencies:
+    "jest-diff" "^26.0.0"
+    "pretty-format" "^26.0.0"
+
 "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4":
   "integrity" "sha1-3M5EMOZLRDuolF8CkPtWStW6xt0="
   "resolved" "https://registry.npm.taobao.org/@types/json-schema/download/@types/json-schema-7.0.5.tgz?cache=0&sync_timestamp=1591721100166&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjson-schema%2Fdownload%2F%40types%2Fjson-schema-7.0.5.tgz"
@@ -2431,10 +2505,10 @@
   "resolved" "https://registry.npm.taobao.org/@types/minimist/download/@types/minimist-1.2.1.tgz?cache=0&sync_timestamp=1613379305770&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fminimist%2Fdownload%2F%40types%2Fminimist-1.2.1.tgz"
   "version" "1.2.1"
 
-"@types/node@*":
-  "integrity" "sha1-etiwChIG1snpSBDknzEV8LzDBFY="
-  "resolved" "https://registry.npm.taobao.org/@types/node/download/@types/node-14.0.25.tgz?cache=0&sync_timestamp=1595561121089&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-14.0.25.tgz"
-  "version" "14.0.25"
+"@types/node@*", "@types/node@^15.0.3":
+  "integrity" "sha1-7gn8qsUTV2R0wyfaWBjUIbmNuIo="
+  "resolved" "https://registry.nlark.com/@types/node/download/@types/node-15.0.3.tgz?cache=0&sync_timestamp=1620848326998&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-15.0.3.tgz"
+  "version" "15.0.3"
 
 "@types/normalize-package-data@^2.4.0":
   "integrity" "sha1-5IbQ2XOW15vu3QpuM/RTT/a0lz4="
@@ -2456,12 +2530,19 @@
   "resolved" "https://registry.npm.taobao.org/@types/q/download/@types/q-1.5.4.tgz"
   "version" "1.5.4"
 
-"@types/react-dom@*":
-  "integrity" "sha1-/kweEd/GcVVzPfpqplEItJcctCM="
-  "resolved" "https://registry.npm.taobao.org/@types/react-dom/download/@types/react-dom-16.9.8.tgz"
-  "version" "16.9.8"
+"@types/react-dom@*", "@types/react-dom@^17.0.5":
+  "integrity" "sha1-30Tu1bjZ4LE7sM044OplcqEjEic="
+  "resolved" "https://registry.nlark.com/@types/react-dom/download/@types/react-dom-17.0.5.tgz?cache=0&sync_timestamp=1620891185701&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact-dom%2Fdownload%2F%40types%2Freact-dom-17.0.5.tgz"
+  "version" "17.0.5"
   dependencies:
     "@types/react" "*"
+
+"@types/react-intl@^3.0.0":
+  "integrity" "sha1-oszgAkts/kA74ozPZ/Sdcg+oEOw="
+  "resolved" "https://registry.npm.taobao.org/@types/react-intl/download/@types/react-intl-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "react-intl" "*"
 
 "@types/react-transition-group@^4.4.1":
   "integrity" "sha1-4aPLJ4339H8XtQgrGz2hcXC9RLE="
@@ -2470,13 +2551,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=16.9.11", "@types/react@>=16.9.35":
-  "integrity" "sha1-wofyP2GJZm7jvrwuuND4S8ts22s="
-  "resolved" "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.43.tgz?cache=0&sync_timestamp=1594635243109&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-16.9.43.tgz"
-  "version" "16.9.43"
+"@types/react@*", "@types/react@^16.14.6", "@types/react@>=16.9.11", "@types/react@>=16.9.35":
+  "integrity" "sha1-2TOiprwb/jIKXupIDo9FuoEm1u4="
+  "resolved" "https://registry.nlark.com/@types/react/download/@types/react-16.14.6.tgz"
+  "version" "16.14.6"
   dependencies:
     "@types/prop-types" "*"
-    "csstype" "^2.2.0"
+    "@types/scheduler" "*"
+    "csstype" "^3.0.2"
+
+"@types/scheduler@*":
+  "integrity" "sha1-GIRSBehv8AOFF6q3oYpiprn3EnU="
+  "resolved" "https://registry.npm.taobao.org/@types/scheduler/download/@types/scheduler-0.16.1.tgz"
+  "version" "0.16.1"
 
 "@types/stack-utils@^1.0.1":
   "integrity" "sha1-CoUdO9lkmPolwzq3J47TvWXwbD4="
@@ -2919,6 +3006,14 @@
     "micromatch" "^3.1.4"
     "normalize-path" "^2.1.1"
 
+"anymatch@^3.0.3":
+  "integrity" "sha1-wFV8CWrzLxBhmPT04qODU343hxY="
+  "resolved" "https://registry.npm.taobao.org/anymatch/download/anymatch-3.1.2.tgz"
+  "version" "3.1.2"
+  dependencies:
+    "normalize-path" "^3.0.0"
+    "picomatch" "^2.0.4"
+
 "anymatch@~3.1.1":
   "integrity" "sha1-xV7PAhheJGklk5kxDBc84xIzsUI="
   "resolved" "https://registry.npm.taobao.org/anymatch/download/anymatch-3.1.1.tgz"
@@ -3179,7 +3274,7 @@
 
 "babel-jest@^24.9.0":
   "integrity" "sha1-P8Mny4RnuJ0U17xw4xUQSng8zVQ="
-  "resolved" "https://registry.npm.taobao.org/babel-jest/download/babel-jest-24.9.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-jest%2Fdownload%2Fbabel-jest-24.9.0.tgz"
+  "resolved" "https://registry.nlark.com/babel-jest/download/babel-jest-24.9.0.tgz?cache=0&sync_timestamp=1620110989950&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbabel-jest%2Fdownload%2Fbabel-jest-24.9.0.tgz"
   "version" "24.9.0"
   dependencies:
     "@jest/transform" "^24.9.0"
@@ -3189,6 +3284,20 @@
     "babel-preset-jest" "^24.9.0"
     "chalk" "^2.4.2"
     "slash" "^2.0.0"
+
+"babel-jest@^26.6.3":
+  "integrity" "sha1-2H0lywA3V3oMifguV1XF0pPAEFY="
+  "resolved" "https://registry.nlark.com/babel-jest/download/babel-jest-26.6.3.tgz?cache=0&sync_timestamp=1620110989950&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbabel-jest%2Fdownload%2Fbabel-jest-26.6.3.tgz"
+  "version" "26.6.3"
+  dependencies:
+    "@jest/transform" "^26.6.2"
+    "@jest/types" "^26.6.2"
+    "@types/babel__core" "^7.1.7"
+    "babel-plugin-istanbul" "^6.0.0"
+    "babel-preset-jest" "^26.6.2"
+    "chalk" "^4.0.0"
+    "graceful-fs" "^4.2.4"
+    "slash" "^3.0.0"
 
 "babel-loader@8.1.0":
   "integrity" "sha1-xhHVESvVIJq+i5+oTD5NolJ18cM="
@@ -3218,11 +3327,32 @@
     "istanbul-lib-instrument" "^3.3.0"
     "test-exclude" "^5.2.3"
 
+"babel-plugin-istanbul@^6.0.0":
+  "integrity" "sha1-4VnM3Jr5XgtXDHW0Vzt8NNZx12U="
+  "resolved" "https://registry.npm.taobao.org/babel-plugin-istanbul/download/babel-plugin-istanbul-6.0.0.tgz"
+  "version" "6.0.0"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@istanbuljs/load-nyc-config" "^1.0.0"
+    "@istanbuljs/schema" "^0.1.2"
+    "istanbul-lib-instrument" "^4.0.0"
+    "test-exclude" "^6.0.0"
+
 "babel-plugin-jest-hoist@^24.9.0":
   "integrity" "sha1-T4NwketAfgFEfIhDy+xUbQAC11Y="
-  "resolved" "https://registry.npm.taobao.org/babel-plugin-jest-hoist/download/babel-plugin-jest-hoist-24.9.0.tgz"
+  "resolved" "https://registry.npm.taobao.org/babel-plugin-jest-hoist/download/babel-plugin-jest-hoist-24.9.0.tgz?cache=0&sync_timestamp=1613687400809&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-plugin-jest-hoist%2Fdownload%2Fbabel-plugin-jest-hoist-24.9.0.tgz"
   "version" "24.9.0"
   dependencies:
+    "@types/babel__traverse" "^7.0.6"
+
+"babel-plugin-jest-hoist@^26.6.2":
+  "integrity" "sha1-gYW9AwNI0lTG192XQ1Xmoosh5i0="
+  "resolved" "https://registry.npm.taobao.org/babel-plugin-jest-hoist/download/babel-plugin-jest-hoist-26.6.2.tgz?cache=0&sync_timestamp=1613687400809&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-plugin-jest-hoist%2Fdownload%2Fbabel-plugin-jest-hoist-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@babel/template" "^7.3.3"
+    "@babel/types" "^7.3.3"
+    "@types/babel__core" "^7.0.0"
     "@types/babel__traverse" "^7.0.6"
 
 "babel-plugin-macros@2.8.0":
@@ -3281,6 +3411,24 @@
   "resolved" "https://registry.npm.taobao.org/babel-plugin-transform-react-remove-prop-types/download/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz"
   "version" "0.4.24"
 
+"babel-preset-current-node-syntax@^1.0.0":
+  "integrity" "sha1-tDmSObibKgEfndvj5PQB/EDP9zs="
+  "resolved" "https://registry.npm.taobao.org/babel-preset-current-node-syntax/download/babel-preset-current-node-syntax-1.0.1.tgz?cache=0&sync_timestamp=1608036137284&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-preset-current-node-syntax%2Fdownload%2Fbabel-preset-current-node-syntax-1.0.1.tgz"
+  "version" "1.0.1"
+  dependencies:
+    "@babel/plugin-syntax-async-generators" "^7.8.4"
+    "@babel/plugin-syntax-bigint" "^7.8.3"
+    "@babel/plugin-syntax-class-properties" "^7.8.3"
+    "@babel/plugin-syntax-import-meta" "^7.8.3"
+    "@babel/plugin-syntax-json-strings" "^7.8.3"
+    "@babel/plugin-syntax-logical-assignment-operators" "^7.8.3"
+    "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.3"
+    "@babel/plugin-syntax-numeric-separator" "^7.8.3"
+    "@babel/plugin-syntax-object-rest-spread" "^7.8.3"
+    "@babel/plugin-syntax-optional-catch-binding" "^7.8.3"
+    "@babel/plugin-syntax-optional-chaining" "^7.8.3"
+    "@babel/plugin-syntax-top-level-await" "^7.8.3"
+
 "babel-preset-jest@^24.9.0":
   "integrity" "sha1-GStSHiIX+x0fZ89z9wwzZlCtPNw="
   "resolved" "https://registry.npm.taobao.org/babel-preset-jest/download/babel-preset-jest-24.9.0.tgz"
@@ -3288,6 +3436,14 @@
   dependencies:
     "@babel/plugin-syntax-object-rest-spread" "^7.0.0"
     "babel-plugin-jest-hoist" "^24.9.0"
+
+"babel-preset-jest@^26.6.2":
+  "integrity" "sha1-dHhysRcd8DIlJCZYaIHWLTF5j+4="
+  "resolved" "https://registry.npm.taobao.org/babel-preset-jest/download/babel-preset-jest-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "babel-plugin-jest-hoist" "^26.6.2"
+    "babel-preset-current-node-syntax" "^1.0.0"
 
 "babel-preset-react-app@^9.1.2":
   "integrity" "sha1-VHddl2WIqKbRqZIBpwK+/sr0gDA="
@@ -3392,13 +3548,6 @@
   "integrity" "sha1-MPpAyef+B9vIlWeM0ocCTeokHdk="
   "resolved" "https://registry.npm.taobao.org/binary-extensions/download/binary-extensions-2.1.0.tgz?cache=0&sync_timestamp=1593261249239&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbinary-extensions%2Fdownload%2Fbinary-extensions-2.1.0.tgz"
   "version" "2.1.0"
-
-"bindings@^1.5.0":
-  "integrity" "sha1-EDU8npRTNLwFEabZCzj7x8nFBN8="
-  "resolved" "https://registry.npm.taobao.org/bindings/download/bindings-1.5.0.tgz"
-  "version" "1.5.0"
-  dependencies:
-    "file-uri-to-path" "1.0.0"
 
 "bluebird@^3.5.1", "bluebird@^3.5.5":
   "integrity" "sha1-nyKcFb4nJFT/qXOs4NvueaGww28="
@@ -3921,9 +4070,9 @@
     "supports-color" "^7.1.0"
 
 "chalk@^4.0.0":
-  "integrity" "sha1-ThSHCmGNni7dl92DRf2dncMVZGo="
-  "resolved" "https://registry.npm.taobao.org/chalk/download/chalk-4.1.0.tgz?cache=0&sync_timestamp=1591687034553&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchalk%2Fdownload%2Fchalk-4.1.0.tgz"
-  "version" "4.1.0"
+  "integrity" "sha1-yAs/qyi/Y3HmhjMl7uZ+YYt35q0="
+  "resolved" "https://registry.nlark.com/chalk/download/chalk-4.1.1.tgz?cache=0&sync_timestamp=1618995297666&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fchalk%2Fdownload%2Fchalk-4.1.1.tgz"
+  "version" "4.1.1"
   dependencies:
     "ansi-styles" "^4.1.0"
     "supports-color" "^7.1.0"
@@ -4827,11 +4976,6 @@
   dependencies:
     "cssom" "0.3.x"
 
-"csstype@^2.2.0":
-  "integrity" "sha1-RS9NAkFJ7PJgqFKwJeNlYqJT/8U="
-  "resolved" "https://registry.npm.taobao.org/csstype/download/csstype-2.6.11.tgz?cache=0&sync_timestamp=1593600281122&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcsstype%2Fdownload%2Fcsstype-2.6.11.tgz"
-  "version" "2.6.11"
-
 "csstype@^3.0.2":
   "integrity" "sha1-0iZqeScp+yJ80hb7Vy9Dco4a00A="
   "resolved" "https://registry.nlark.com/csstype/download/csstype-3.0.8.tgz?cache=0&sync_timestamp=1618818427821&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcsstype%2Fdownload%2Fcsstype-3.0.8.tgz"
@@ -5110,6 +5254,11 @@
   "integrity" "sha1-VxXWJE4qpl9Iu6C8ly2wsLEelbU="
   "resolved" "https://registry.npm.taobao.org/diff-sequences/download/diff-sequences-24.9.0.tgz"
   "version" "24.9.0"
+
+"diff-sequences@^26.6.2":
+  "integrity" "sha1-SLqZFX3hkjQS7tQdtrbUqpynwLE="
+  "resolved" "https://registry.npm.taobao.org/diff-sequences/download/diff-sequences-26.6.2.tgz?cache=0&sync_timestamp=1607352548704&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdiff-sequences%2Fdownload%2Fdiff-sequences-26.6.2.tgz"
+  "version" "26.6.2"
 
 "diffie-hellman@^5.0.0":
   "integrity" "sha1-QOjumPVaIUlgcUaSHGPhrl89KHU="
@@ -6078,11 +6227,6 @@
     "loader-utils" "^1.2.3"
     "schema-utils" "^2.5.0"
 
-"file-uri-to-path@1.0.0":
-  "integrity" "sha1-VTp7hEb/b2hDWcRF8eN6BdrMM90="
-  "resolved" "https://registry.npm.taobao.org/file-uri-to-path/download/file-uri-to-path-1.0.0.tgz"
-  "version" "1.0.0"
-
 "filesize@^3.6.1":
   "integrity" "sha1-CQuz7gG2+AGoqL6Z0xcQs0Irsxc="
   "resolved" "https://registry.npm.taobao.org/filesize/download/filesize-3.6.1.tgz?cache=0&sync_timestamp=1582340790878&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffilesize%2Fdownload%2Ffilesize-3.6.1.tgz"
@@ -6380,13 +6524,10 @@
   "resolved" "https://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^1.2.7":
-  "integrity" "sha1-8yXLBFVZJCi88Rs4M3DvcOO/zDg="
-  "resolved" "https://registry.npm.taobao.org/fsevents/download/fsevents-1.2.13.tgz?cache=0&sync_timestamp=1588787369955&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffsevents%2Fdownload%2Ffsevents-1.2.13.tgz"
-  "version" "1.2.13"
-  dependencies:
-    "bindings" "^1.5.0"
-    "nan" "^2.12.1"
+"fsevents@^2.1.2":
+  "integrity" "sha1-ilJveLj99GI7cJ4Ll1xSwkwC/Ro="
+  "resolved" "https://registry.npm.taobao.org/fsevents/download/fsevents-2.3.2.tgz"
+  "version" "2.3.2"
 
 "fsevents@~2.1.2":
   "integrity" "sha1-+3OHA66NL5/pAMM4Nt3r7ouX8j4="
@@ -6427,6 +6568,11 @@
   "integrity" "sha1-tf3nfyLL4185C04ImSLFC85u9mQ="
   "resolved" "https://registry.npm.taobao.org/get-own-enumerable-property-symbols/download/get-own-enumerable-property-symbols-3.0.2.tgz"
   "version" "3.0.2"
+
+"get-package-type@^0.1.0":
+  "integrity" "sha1-jeLYA8/0TfO8bEVuZmizbDkm4Ro="
+  "resolved" "https://registry.npm.taobao.org/get-package-type/download/get-package-type-0.1.0.tgz?cache=0&sync_timestamp=1589989507025&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fget-package-type%2Fdownload%2Fget-package-type-0.1.0.tgz"
+  "version" "0.1.0"
 
 "get-stream@^4.0.0", "get-stream@^4.1.0":
   "integrity" "sha1-wbJVV189wh1Zv8ec09K0axw6VLU="
@@ -6610,7 +6756,7 @@
     "to-readable-stream" "^1.0.0"
     "url-parse-lax" "^3.0.0"
 
-"graceful-fs@^4.1.11", "graceful-fs@^4.1.15", "graceful-fs@^4.1.2", "graceful-fs@^4.1.6", "graceful-fs@^4.2.0", "graceful-fs@^4.2.2":
+"graceful-fs@^4.1.11", "graceful-fs@^4.1.15", "graceful-fs@^4.1.2", "graceful-fs@^4.1.6", "graceful-fs@^4.2.0", "graceful-fs@^4.2.2", "graceful-fs@^4.2.4":
   "integrity" "sha1-Ila94U02MpWMRl68ltxGfKB6Kfs="
   "resolved" "https://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.2.4.tgz?cache=0&sync_timestamp=1588086876757&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fgraceful-fs%2Fdownload%2Fgraceful-fs-4.2.4.tgz"
   "version" "4.2.4"
@@ -7656,6 +7802,16 @@
     "istanbul-lib-coverage" "^2.0.5"
     "semver" "^6.0.0"
 
+"istanbul-lib-instrument@^4.0.0":
+  "integrity" "sha1-hzxv/4l0UBGCIndGlqPyiQLXfB0="
+  "resolved" "https://registry.npm.taobao.org/istanbul-lib-instrument/download/istanbul-lib-instrument-4.0.3.tgz"
+  "version" "4.0.3"
+  dependencies:
+    "@babel/core" "^7.7.5"
+    "@istanbuljs/schema" "^0.1.2"
+    "istanbul-lib-coverage" "^3.0.0"
+    "semver" "^6.3.0"
+
 "istanbul-lib-instrument@^4.0.1":
   "integrity" "sha1-hzxv/4l0UBGCIndGlqPyiQLXfB0="
   "resolved" "https://registry.npm.taobao.org/istanbul-lib-instrument/download/istanbul-lib-instrument-4.0.3.tgz"
@@ -7780,6 +7936,16 @@
     "jest-get-type" "^24.9.0"
     "pretty-format" "^24.9.0"
 
+"jest-diff@^26.0.0":
+  "integrity" "sha1-GqdGi1LDpo19XF/c381eSb0WQ5Q="
+  "resolved" "https://registry.nlark.com/jest-diff/download/jest-diff-26.6.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-diff%2Fdownload%2Fjest-diff-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "chalk" "^4.0.0"
+    "diff-sequences" "^26.6.2"
+    "jest-get-type" "^26.3.0"
+    "pretty-format" "^26.6.2"
+
 "jest-docblock@^24.3.0":
   "integrity" "sha1-eXAgGAK6Vg4cQJLMJcvt9a9ajOI="
   "resolved" "https://registry.npm.taobao.org/jest-docblock/download/jest-docblock-24.9.0.tgz"
@@ -7838,6 +8004,11 @@
   "resolved" "https://registry.npm.taobao.org/jest-get-type/download/jest-get-type-24.9.0.tgz"
   "version" "24.9.0"
 
+"jest-get-type@^26.3.0":
+  "integrity" "sha1-6X3Dw/U8K0Bsp6+u1Ek7HQmRmeA="
+  "resolved" "https://registry.nlark.com/jest-get-type/download/jest-get-type-26.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-get-type%2Fdownload%2Fjest-get-type-26.3.0.tgz"
+  "version" "26.3.0"
+
 "jest-haste-map@^24.9.0":
   "integrity" "sha1-s4pdZCdJNOIfpBeump++t3zqrH0="
   "resolved" "https://registry.npm.taobao.org/jest-haste-map/download/jest-haste-map-24.9.0.tgz?cache=0&sync_timestamp=1592925586158&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjest-haste-map%2Fdownload%2Fjest-haste-map-24.9.0.tgz"
@@ -7856,6 +8027,27 @@
     "walker" "^1.0.7"
   optionalDependencies:
     "fsevents" "^1.2.7"
+
+"jest-haste-map@^26.6.2":
+  "integrity" "sha1-3X5g/n3A6fkRoj15xf9/tcLK/qo="
+  "resolved" "https://registry.nlark.com/jest-haste-map/download/jest-haste-map-26.6.2.tgz?cache=0&sync_timestamp=1620110989097&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-haste-map%2Fdownload%2Fjest-haste-map-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@jest/types" "^26.6.2"
+    "@types/graceful-fs" "^4.1.2"
+    "@types/node" "*"
+    "anymatch" "^3.0.3"
+    "fb-watchman" "^2.0.0"
+    "graceful-fs" "^4.2.4"
+    "jest-regex-util" "^26.0.0"
+    "jest-serializer" "^26.6.2"
+    "jest-util" "^26.6.2"
+    "jest-worker" "^26.6.2"
+    "micromatch" "^4.0.2"
+    "sane" "^4.0.3"
+    "walker" "^1.0.7"
+  optionalDependencies:
+    "fsevents" "^2.1.2"
 
 "jest-jasmine2@^24.9.0":
   "integrity" "sha1-H3sb0yQsF3TmKsq7NkbZavw75qA="
@@ -7927,6 +8119,11 @@
   "integrity" "sha1-wT+zOAveIr9ldUMsST6o/jeWVjY="
   "resolved" "https://registry.npm.taobao.org/jest-regex-util/download/jest-regex-util-24.9.0.tgz"
   "version" "24.9.0"
+
+"jest-regex-util@^26.0.0":
+  "integrity" "sha1-0l5xhLNuOf1GbDvEG+CXHoIf7ig="
+  "resolved" "https://registry.npm.taobao.org/jest-regex-util/download/jest-regex-util-26.0.0.tgz?cache=0&sync_timestamp=1607352797667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjest-regex-util%2Fdownload%2Fjest-regex-util-26.0.0.tgz"
+  "version" "26.0.0"
 
 "jest-resolve-dependencies@^24.9.0":
   "integrity" "sha1-rQVRmJWcTPuopPBmxnOj8HhlB6s="
@@ -8007,6 +8204,14 @@
   "resolved" "https://registry.npm.taobao.org/jest-serializer/download/jest-serializer-24.9.0.tgz?cache=0&sync_timestamp=1592925587144&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjest-serializer%2Fdownload%2Fjest-serializer-24.9.0.tgz"
   "version" "24.9.0"
 
+"jest-serializer@^26.6.2":
+  "integrity" "sha1-0Tmq/UaVfTpEjzps2r4pGboHQtE="
+  "resolved" "https://registry.nlark.com/jest-serializer/download/jest-serializer-26.6.2.tgz?cache=0&sync_timestamp=1620110988397&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-serializer%2Fdownload%2Fjest-serializer-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@types/node" "*"
+    "graceful-fs" "^4.2.4"
+
 "jest-snapshot@^24.9.0":
   "integrity" "sha1-7I6cpPLsDFyHro+SXPl0l7DpUbo="
   "resolved" "https://registry.npm.taobao.org/jest-snapshot/download/jest-snapshot-24.9.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjest-snapshot%2Fdownload%2Fjest-snapshot-24.9.0.tgz"
@@ -8043,6 +8248,18 @@
     "mkdirp" "^0.5.1"
     "slash" "^2.0.0"
     "source-map" "^0.6.0"
+
+"jest-util@^26.6.2":
+  "integrity" "sha1-kHU12+TVpstMR6ybkm9q8pV2y8E="
+  "resolved" "https://registry.nlark.com/jest-util/download/jest-util-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@jest/types" "^26.6.2"
+    "@types/node" "*"
+    "chalk" "^4.0.0"
+    "graceful-fs" "^4.2.4"
+    "is-ci" "^2.0.0"
+    "micromatch" "^4.0.2"
 
 "jest-validate@^24.9.0":
   "integrity" "sha1-B3XFU2DRc82FTkAYB1bU/1Le+Ks="
@@ -8095,6 +8312,15 @@
   "resolved" "https://registry.npm.taobao.org/jest-worker/download/jest-worker-25.5.0.tgz?cache=0&sync_timestamp=1592925582734&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjest-worker%2Fdownload%2Fjest-worker-25.5.0.tgz"
   "version" "25.5.0"
   dependencies:
+    "merge-stream" "^2.0.0"
+    "supports-color" "^7.0.0"
+
+"jest-worker@^26.6.2":
+  "integrity" "sha1-f3LLxNZDw2Xie5/XdfnQ6qnHqO0="
+  "resolved" "https://registry.nlark.com/jest-worker/download/jest-worker-26.6.2.tgz?cache=0&sync_timestamp=1620110101923&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-worker%2Fdownload%2Fjest-worker-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@types/node" "*"
     "merge-stream" "^2.0.0"
     "supports-color" "^7.0.0"
 
@@ -8919,12 +9145,12 @@
     "to-regex" "^3.0.2"
 
 "micromatch@^4.0.2":
-  "integrity" "sha1-T8sJmb+fvC/L3SEvbWKbmlbDklk="
-  "resolved" "https://registry.npm.taobao.org/micromatch/download/micromatch-4.0.2.tgz"
-  "version" "4.0.2"
+  "integrity" "sha1-iW1Rnf6dsl/OlM63pQCRm/iB6/k="
+  "resolved" "https://registry.npm.taobao.org/micromatch/download/micromatch-4.0.4.tgz?cache=0&sync_timestamp=1618054740956&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmicromatch%2Fdownload%2Fmicromatch-4.0.4.tgz"
+  "version" "4.0.4"
   dependencies:
     "braces" "^3.0.1"
-    "picomatch" "^2.0.5"
+    "picomatch" "^2.2.3"
 
 "miller-rabin@^4.0.0":
   "integrity" "sha1-8IA1HIZbDcViqEYpZtqlNUPHik0="
@@ -9164,11 +9390,6 @@
   "integrity" "sha1-FjDEKyJR/4HiooPelqVJfqkuXg0="
   "resolved" "https://registry.npm.taobao.org/mute-stream/download/mute-stream-0.0.8.tgz"
   "version" "0.0.8"
-
-"nan@^2.12.1":
-  "integrity" "sha1-174036MQW5FJTDFHCJMV7/iHSwE="
-  "resolved" "https://registry.npm.taobao.org/nan/download/nan-2.14.1.tgz?cache=0&sync_timestamp=1587497111086&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnan%2Fdownload%2Fnan-2.14.1.tgz"
-  "version" "2.14.1"
 
 "nanomatch@^1.2.9":
   "integrity" "sha1-uHqKpPwN6P5r6IiVs4mD/yZb0Rk="
@@ -9920,12 +10141,7 @@
   "resolved" "https://registry.npm.taobao.org/performance-now/download/performance-now-2.1.0.tgz"
   "version" "2.1.0"
 
-"picomatch@^2.0.4", "picomatch@^2.0.5", "picomatch@^2.2.1":
-  "integrity" "sha1-IfMz6ba46v8CRo9RRupAbTRfTa0="
-  "resolved" "https://registry.npm.taobao.org/picomatch/download/picomatch-2.2.2.tgz"
-  "version" "2.2.2"
-
-"picomatch@^2.2.3":
+"picomatch@^2.0.4", "picomatch@^2.0.5", "picomatch@^2.2.1", "picomatch@^2.2.3":
   "integrity" "sha1-RlVH81nMwgbTxI5Goby4m/fuYZ0="
   "resolved" "https://registry.npm.taobao.org/picomatch/download/picomatch-2.2.3.tgz?cache=0&sync_timestamp=1618049925917&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpicomatch%2Fdownload%2Fpicomatch-2.2.3.tgz"
   "version" "2.2.3"
@@ -10788,6 +11004,16 @@
     "ansi-styles" "^4.0.0"
     "react-is" "^16.12.0"
 
+"pretty-format@^26.0.0", "pretty-format@^26.6.2":
+  "integrity" "sha1-41wnBfFMt/4v6U+geDRbREEg/JM="
+  "resolved" "https://registry.nlark.com/pretty-format/download/pretty-format-26.6.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fpretty-format%2Fdownload%2Fpretty-format-26.6.2.tgz"
+  "version" "26.6.2"
+  dependencies:
+    "@jest/types" "^26.6.2"
+    "ansi-regex" "^5.0.0"
+    "ansi-styles" "^4.0.0"
+    "react-is" "^17.0.1"
+
 "pretty-time@^1.1.0":
   "integrity" "sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA=="
   "resolved" "https://registry.npmjs.org/pretty-time/-/pretty-time-1.1.0.tgz"
@@ -11181,7 +11407,7 @@
   dependencies:
     "prop-types" "^15.5.8"
 
-"react-intl@5.6.8":
+"react-intl@*", "react-intl@5.6.8":
   "integrity" "sha1-UQyM2YNx++9yNadHE4OCMZSIrfw="
   "resolved" "https://registry.npm.taobao.org/react-intl/download/react-intl-5.6.8.tgz"
   "version" "5.6.8"
@@ -11203,6 +11429,11 @@
   "integrity" "sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ="
   "resolved" "https://registry.npm.taobao.org/react-is/download/react-is-16.13.1.tgz"
   "version" "16.13.1"
+
+"react-is@^17.0.1":
+  "integrity" "sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA="
+  "resolved" "https://registry.nlark.com/react-is/download/react-is-17.0.2.tgz?cache=0&sync_timestamp=1620922537430&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-is%2Fdownload%2Freact-is-17.0.2.tgz"
+  "version" "17.0.2"
 
 "react-lazyload@^3.1.0":
   "integrity" "sha1-SXvQam29cBXjN24RN6Z9xH0t0CE="
@@ -11876,6 +12107,11 @@
   "integrity" "sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY="
   "resolved" "https://registry.npm.taobao.org/resolve-from/download/resolve-from-4.0.0.tgz"
   "version" "4.0.0"
+
+"resolve-from@^5.0.0":
+  "integrity" "sha1-w1IlhD3493bfIcV1V7wIfp39/Gk="
+  "resolved" "https://registry.npm.taobao.org/resolve-from/download/resolve-from-5.0.0.tgz"
+  "version" "5.0.0"
 
 "resolve-pathname@^3.0.0":
   "integrity" "sha1-mdAiJNPPJjaJvsuzk7xWAxMCXc0="
@@ -12955,14 +13191,7 @@
   dependencies:
     "has-flag" "^3.0.0"
 
-"supports-color@^7.0.0":
-  "integrity" "sha1-G33NyzK4E4gBs+R4umpRyqiWSNo="
-  "resolved" "https://registry.npm.taobao.org/supports-color/download/supports-color-7.2.0.tgz?cache=0&sync_timestamp=1618560998281&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsupports-color%2Fdownload%2Fsupports-color-7.2.0.tgz"
-  "version" "7.2.0"
-  dependencies:
-    "has-flag" "^4.0.0"
-
-"supports-color@^7.1.0":
+"supports-color@^7.0.0", "supports-color@^7.1.0":
   "integrity" "sha1-G33NyzK4E4gBs+R4umpRyqiWSNo="
   "resolved" "https://registry.npm.taobao.org/supports-color/download/supports-color-7.2.0.tgz?cache=0&sync_timestamp=1618560998281&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsupports-color%2Fdownload%2Fsupports-color-7.2.0.tgz"
   "version" "7.2.0"
@@ -13074,6 +13303,15 @@
     "minimatch" "^3.0.4"
     "read-pkg-up" "^4.0.0"
     "require-main-filename" "^2.0.0"
+
+"test-exclude@^6.0.0":
+  "integrity" "sha1-BKhphmHYBepvopO2y55jrARO8V4="
+  "resolved" "https://registry.npm.taobao.org/test-exclude/download/test-exclude-6.0.0.tgz"
+  "version" "6.0.0"
+  dependencies:
+    "@istanbuljs/schema" "^0.1.2"
+    "glob" "^7.1.4"
+    "minimatch" "^3.0.4"
 
 "text-encoding@^0.7.0":
   "integrity" "sha1-+JXoNuRZkGJAhmAXmOqY6PNu5kM="
@@ -13341,6 +13579,11 @@
   "integrity" "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
   "resolved" "https://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz"
   "version" "0.0.6"
+
+"typescript@^4.2.4":
+  "integrity" "sha1-hhC1l0feAo/aiYqK7w4QPxVtCWE="
+  "resolved" "https://registry.nlark.com/typescript/download/typescript-4.2.4.tgz"
+  "version" "4.2.4"
 
 "uncontrollable@^7.2.1":
   "integrity" "sha1-H6cLoMV6FNX3iQXVM89jkW3HVzg="
@@ -13671,13 +13914,6 @@
   "version" "4.0.3"
   dependencies:
     "loose-envify" "^1.0.0"
-
-"watchpack-chokidar2@^2.0.0":
-  "integrity" "sha1-mUihhmy71suCTeoTp+1pH2yN3/A="
-  "resolved" "https://registry.npm.taobao.org/watchpack-chokidar2/download/watchpack-chokidar2-2.0.0.tgz"
-  "version" "2.0.0"
-  dependencies:
-    "chokidar" "^2.1.8"
 
 "watchpack@^1.6.0":
   "integrity" "sha1-wC5NTUmRPD5+EiwzJTZa+dMx6ao="
