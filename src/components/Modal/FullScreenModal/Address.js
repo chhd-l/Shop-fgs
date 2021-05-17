@@ -18,7 +18,7 @@ export default function Address(props) {
           ',' +
           addressInfo.city +
           ',' +
-          addressInfo.region +
+          addressInfo.area +
           ',' +
           addressInfo?.address1}
       </span>
