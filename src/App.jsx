@@ -151,6 +151,7 @@ import fr from 'date-fns/locale/fr';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
+import ClubLandingPageNew from './views/ClubLandingPageNew';
 
 if (process.env.REACT_APP_LANG === 'fr') {
   registerLocale(process.env.REACT_APP_LANG, fr);
@@ -535,12 +536,18 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
+                <Route path="/clublandingpagenew"
+                       exact
+                       component={ClubLandingPageNew}
+                />
 
                 <Route
                   path="/general-conditions"
                   exact
                   component={generalConditions}
                 />
+
+
                 <Route
                   path="/general-conditions-tr"
                   exact
