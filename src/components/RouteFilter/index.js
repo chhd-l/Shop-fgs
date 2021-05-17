@@ -139,7 +139,7 @@ class RouteFilter extends Component {
     // }
     if (
       //游客+从url输入required ===>直接跳回首页
-      !localItemRoyal.get('rc-token') &&
+      !localItemRoyal.get('rc-token') && //可以注释掉
       pathname.indexOf('/required') !== -1 &&
       sessionItemRoyal.get('fromLoginPage') !== 'true'
     ) {
