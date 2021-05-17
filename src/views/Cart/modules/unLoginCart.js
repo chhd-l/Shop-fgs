@@ -40,7 +40,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -925,11 +925,11 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.promotions &&
+          {/* {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 ? (
             <ClubGiftBanner intl={this.props.intl} />
-          ) : null}
+          ) : null} */}
           {isGift &&
             false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1514,7 +1514,7 @@ class UnLoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
-    // await checkoutStore.removePromotionCode();
+    await checkoutStore.removePromotionCode();
     if (!loginStore.isLogin) {
       //游客
       result = await checkoutStore.updateUnloginCart();
@@ -1525,7 +1525,12 @@ class UnLoginCart extends React.Component {
         subscriptionFlag: buyWay === 'frequency'
       });
     }
-    this.clearPromotionCode();
+    this.setState({
+      discount: [],
+      isShowValidCode: false,
+      lastPromotionInputValue: '',
+      promotionInputValue: ''
+    });
   };
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
@@ -1700,16 +1705,8 @@ class UnLoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

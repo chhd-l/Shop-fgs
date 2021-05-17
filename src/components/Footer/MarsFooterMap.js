@@ -9,7 +9,7 @@ import { cookieSettingsBtn } from './cookieSettingsBtn';
 class MarsFooterMap extends React.Component {
   render() {
     const marsFooterMap = {
-      es: (
+      ES: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -76,7 +76,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      en: (
+      EN: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -196,7 +196,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      de: (
+      DE: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -279,7 +279,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      fr: (
+      FR: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -361,7 +361,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      ru: (
+      RU: (
         <div
           id="mars-footer-panel"
           className="mars-footer-mars mars-footer-icon-size-medium"
@@ -434,7 +434,7 @@ class MarsFooterMap extends React.Component {
           </div>{' '}
         </div>
       ),
-      tr: (
+      TR: (
         <div
           id="mars-footer-panel"
           className="mars-footer-mars mars-footer-icon-size-medium"
@@ -512,7 +512,7 @@ class MarsFooterMap extends React.Component {
       <div>
         {+process.env.REACT_APP_HUB
           ? null
-          : marsFooterMap[process.env.REACT_APP_LANG]}
+          : marsFooterMap[process.env.REACT_APP_COUNTRY]}
       </div>
     );
   }

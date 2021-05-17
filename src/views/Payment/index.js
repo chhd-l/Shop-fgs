@@ -615,7 +615,8 @@ class Payment extends React.Component {
         .map((item2) => {
           return {
             id: item2.id,
-            consentTitle: item2.consentTitle,
+            consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+            border-bottom: 1px solid #ccc;color:#666" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`, //特殊处理，这里需要替换成本地的文字
             isChecked: false,
             isRequired: true,
             detailList: item2.detailList
@@ -3140,6 +3141,7 @@ class Payment extends React.Component {
     });
   };
   updateGuestEmail = ({ email: guestEmail }) => {
+    this.props.paymentStore.setGuestEmail(guestEmail);
     const { deliveryAddress } = this.state;
     this.setState({ guestEmail }, () => {
       this.props.checkoutStore.updateUnloginCart({

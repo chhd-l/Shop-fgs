@@ -21,6 +21,7 @@ import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';
 import './index.less';
 import { Helmet } from 'react-helmet';
+import Modal from '@/components/Modal';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -362,6 +363,13 @@ class AccountProfile extends React.Component {
           </div>
           <Footer />
         </main>
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+        />
       </div>
     );
   }

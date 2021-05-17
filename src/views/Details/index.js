@@ -3,7 +3,6 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
-import { toJS } from 'mobx';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,10 +12,8 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
-import { clubSubscriptionSavePets } from '@/api/pet';
 import {
   formatMoney,
   setSeoConfig,
@@ -33,13 +30,10 @@ import {
   getClubFlag
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import cloneDeep from 'lodash/cloneDeep';
-import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-// import Carousel from './components/Carousel';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
@@ -49,21 +43,20 @@ import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
-import loop from '@/assets/images/loop.png';
-import vert from '@/assets/images/vert.png';
 
 import './index.css';
 import './index.less';
-import { Link } from 'react-router-dom';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
-import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
+const isHub = process.env.REACT_APP_HUB == '1';
 // const pageLink = window.location.href;
+
 function AdvantageTips({ secondIconvisible = true }) {
   return (
     <div className="rc-full-width advantage-tips">
@@ -310,7 +303,6 @@ class Details extends React.Component {
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
-      relatedProduct: [],
       form: {
         buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
@@ -675,11 +667,34 @@ class Details extends React.Component {
     try {
       //this.setState({relatedGoodsLoading:true})
       const res = await getGoodsRelation(id);
+      let relatedGoodsList = res.context.goods;
+      relatedGoodsList = relatedGoodsList.map((ele) => {
+        const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
+          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+          .map((t) => t.goodsAttributeValueEn);
+        const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
+          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
+          .map((t) => t.goodsAttributeValue);
+        const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
+          .filter(
+            (item) => item?.goodsAttributeName?.toLowerCase() == 'technology'
+          )
+          .map((t) => t.goodsAttributeValueEn);
+        const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
+        const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
+        const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
+        const ruAttrs = [breed, ...technologyAttr];
+        const technologyOrBreedsAttr =
+          isHub && process.env.REACT_APP_COUNTRY === 'RU'
+            ? ruAttrs.join(',')
+            : attrs;
+        return Object.assign(ele, { technologyOrBreedsAttr });
+      });
       this.setState({
-        relatedGoodsList: res.context.goods
+        relatedGoodsList
       });
     } catch (err) {
-      console.log(err.message);
+      console.log(111111, err.message);
     } finally {
       //this.setState({relatedGoodsLoading:false})
     }
@@ -1438,7 +1453,7 @@ class Details extends React.Component {
     dataLayer.push({
       event: 'pdpAddToCart',
       pdpAddToCartQuantity: this.state.quantity,
-      pdpAddToCartCtA: { 0: 'One-Shot', 2: 'Subscription' }[
+      pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[
         this.state.form.buyWay
       ]
     });
@@ -1713,6 +1728,7 @@ class Details extends React.Component {
         specieId
       }
     };
+    console.log(form.buyWay, 'bbbb');
     return (
       <div id="Details">
         <button
@@ -2568,11 +2584,11 @@ class Details extends React.Component {
                                 checkOutErrMsg={checkOutErrMsg}
                               />
                             </div>
-                            {form.buyWay === 2 ? (
+                            {/* {form.buyWay === 2 ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
-                            ) : null}
+                            ) : null} */}
                           </div>
                         )}
                       </div>
@@ -2670,16 +2686,8 @@ class Details extends React.Component {
               </>
             ) : null}
             {this.state.relatedGoodsList.length > 0 ? (
-              <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+              <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
             ) : null}
-            {/* <div id="goods-recommendation-box">
-              <Carousel
-                location={location}
-                history={history}
-                goodsId={goodsId}
-                key={goodsId}
-              />
-            </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}

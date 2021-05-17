@@ -20,6 +20,11 @@ class TermsCommon extends Component {
       list: []
     };
   }
+  componentDidUpdate() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+  }
   //监听土耳其consent
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
@@ -59,10 +64,6 @@ class TermsCommon extends Component {
     };
   }
   componentDidMount() {
-    if (process.env.REACT_APP_LANG == 'tr') {
-      this.addEventListenerFunTr();
-    }
-
     document
       .getElementById(`${this.props.id}`)
       .addEventListener('click', (e) => {
