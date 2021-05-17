@@ -31,42 +31,43 @@ function ListItemH5ForGlobalStyle(props) {
       <div className="fullHeight">
         <span className="ui-cursor-pointer-pure">
           <article className="rc-card--a  margin-top--5">
-            <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
+            <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start d-flex flex-wrap">
               <div className="height-product-tile-plpOnly margin-top-mobile-20">
                 <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
                   <FormattedMessage id="plp.retail.cat.product.finder.title" />
                 </h3>
               </div>
-              <div
-                className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
-                style={{ fontSize: 'large', zIndex: 2 }}
-              >
-                <FormattedMessage
-                  id="plp.retail.cat.product.finder.detail"
-                  values={{
-                    val: <br />
-                  }}
-                />
-              </div>
-              <DistributeHubLinkOrATag
-                href="/product-finder"
-                to="/product-finder"
-              >
-                <button
-                  className="rc-btn rc-btn--two margin-top-mobile-20"
-                  style={{ marginTop: '1.1875rem' }}
+              <div>
+                <div
+                  className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
+                  style={{ fontSize: 'large', zIndex: 2 }}
                 >
-                  <FormattedMessage id="plp.retail.cat.product.finder.button" />
-                </button>
-              </DistributeHubLinkOrATag>
-              <picture className="rc-card__image">
+                  <FormattedMessage
+                    id="plp.retail.cat.product.finder.detail"
+                    values={{
+                      val: <br />
+                    }}
+                  />
+                </div>
+                <DistributeHubLinkOrATag
+                  href="/product-finder"
+                  to="/product-finder"
+                >
+                  <button
+                    className="rc-btn rc-btn--two margin-top-mobile-20"
+                    style={{ marginTop: '1.1875rem' }}
+                  >
+                    <FormattedMessage id="plp.retail.cat.product.finder.button" />
+                  </button>
+                </DistributeHubLinkOrATag>
+              </div>
+              <picture className="rc-card__image" style={{ flex: 1 }}>
                 <div className="rc-padding-bottom--xs justify-content-center ">
                   <div
                     className="lazyload-wrapper"
                     style={{
                       width: '100%',
-                      height: '100%',
-                      transform: 'translate(31%,-65%)'
+                      height: '100%'
                     }}
                   >
                     <img
@@ -77,9 +78,8 @@ function ListItemH5ForGlobalStyle(props) {
                       }
                       className="ImgFitScreen pt-3"
                       style={{
-                        maxWidth: '50%',
                         maxHeight: '100%',
-                        width: isDogPage ? '175px' : '150px',
+                        width: '100%',
                         height: 'auto',
                         margin: 'auto'
                       }}
