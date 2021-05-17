@@ -5117,10 +5117,10 @@ export default {
         '/cat-range/feline-health-nutrition?prefn1=Technology&prefv1=Packs%20et%20autres',
       redirectUrl: '/cats/retail-products'
     },
-    {
-      shortUrl: '/cats',
-      redirectUrl: '/cats/retail-products'
-    },
+    // {
+    //   shortUrl: '/cats',
+    //   redirectUrl: '/cats/retail-products'
+    // },
     {
       shortUrl: '/cats/',
       redirectUrl: '/cats/retail-products'
