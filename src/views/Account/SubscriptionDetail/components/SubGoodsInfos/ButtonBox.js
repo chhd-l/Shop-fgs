@@ -4,7 +4,12 @@ import LazyLoad from 'react-lazyload';
 import cancelIcon from '../../images/cancel.png';
 
 import { getDeviceType } from '@/utils/utils';
-const ButtonBox = ({ subDetail, isNotInactive, isDataChange }) => {
+const ButtonBox = ({
+  subDetail,
+  isNotInactive,
+  isDataChange,
+  pauseOrStart
+}) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   return (
     <div
@@ -47,7 +52,7 @@ const ButtonBox = ({ subDetail, isNotInactive, isDataChange }) => {
               paddingLeft: '4px'
             }}
             className={`rc-styled-link`}
-            onClick={() => this.pauseOrStart(subDetail)}
+            onClick={() => pauseOrStart(subDetail)}
           >
             {subDetail.subscribeStatus === '0' ? (
               <FormattedMessage id="subscription.pause" />

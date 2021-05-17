@@ -2579,6 +2579,7 @@ class SubscriptionDetail extends React.Component {
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
                       <SubGoodsInfos
+                        pauseOrStart={this.pauseOrStart}
                         isActive={isActive}
                         isDataChange={this.state.isDataChange}
                         isClub={isClub}
