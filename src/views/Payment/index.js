@@ -535,6 +535,8 @@ class Payment extends React.Component {
         : '';
       let oktaToken = 'Bearer ' + oktaTokenString;
       params = { customerId, consentPage: 'check out', oktaToken: oktaToken };
+    } else {
+      params = { consentPage: 'check out' };
     }
     if (groups) {
       params.groups = groups;
@@ -608,6 +610,34 @@ class Payment extends React.Component {
             noChecked: true
           };
         });
+      let aConsent = result.context.requiredList
+        .filter((item) => {
+          return item.consentDesc == 'RC_DF_TR_FGS_A';
+        })
+        .map((item2) => {
+          return {
+            id: item2.id,
+            consentTitle: item2.consentTitle,
+            isChecked: false,
+            isRequired: true,
+            detailList: item2.detailList,
+            desc: item2.consentDesc
+          };
+        });
+      let bConsent = result.context.requiredList
+        .filter((item) => {
+          return item.consentDesc == 'RC_DF_TR_FGS_B';
+        })
+        .map((item2) => {
+          return {
+            id: item2.id,
+            consentTitle: item2.consentTitle,
+            isChecked: false,
+            isRequired: true,
+            detailList: item2.detailList,
+            desc: item2.consentDesc
+          };
+        });
       let dConsent = result.context.requiredList
         .filter((item) => {
           return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
@@ -623,7 +653,8 @@ class Payment extends React.Component {
           };
         });
 
-      listData = [...cConsent, ...commonList, ...dConsent];
+      listData = [...cConsent, ...aConsent, ...bConsent, ...dConsent];
+      //listData = [...cConsent,...commonList,...dConsent];
     } else {
       listData = [...requiredList, ...optionalList]; //必填项+选填项
     }
@@ -896,6 +927,23 @@ class Payment extends React.Component {
       const { isLogin } = this;
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
+      //在commonParameter加上一个consentIds-start
+      if (process.env.REACT_APP_COUNTRY == 'TR') {
+        let list = [...this.state.listData];
+        let consentIds = [];
+        list
+          .filter((item) => item.isRequired)
+          .forEach((item) => {
+            if (
+              item.desc == 'RC_DF_TR_FGS_A' ||
+              item.desc == 'RC_DF_TR_FGS_B'
+            ) {
+              consentIds.push(item.id);
+            }
+          });
+        commonParameter.consentIds = consentIds;
+      }
+      //在commonParameter加上一个consentIds-end
       let phone = obj.phone;
       let parameters;
       /* 组装支付需要的参数 */
