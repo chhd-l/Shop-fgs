@@ -2273,7 +2273,8 @@ class Details extends React.Component {
                                 checkOutErrMsg={checkOutErrMsg}
                               />
                             </div>
-                            {form.buyWay === 2 ? (
+                            {form.buyWay === 2 &&
+                            process.env.REACT_APP_LANG !== 'ru' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>

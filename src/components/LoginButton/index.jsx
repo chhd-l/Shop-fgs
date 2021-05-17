@@ -58,7 +58,8 @@ const LoginButton = (props) => {
           if (
             loginStore.userInfo &&
             loginStore.userInfo.email &&
-            info.email !== loginStore.userInfo.email
+            info.email !== loginStore.userInfo.email &&
+            localItemRoyal.get('okta-session-token')
           ) {
             localItemRoyal.set('login-again', true);
             const idToken = authState.idToken;

@@ -7,7 +7,7 @@ import './index.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import Sliderone from './ClubHeroCarouselImg/SliderOne.png';
+import Sliderone from './ClubHeroCarouselImg/SliderOne.jpg';
 import Slidertwo from './ClubHeroCarouselImg/SliderTwo.png';
 import Sliderthree from './ClubHeroCarouselImg/SliderThree.png';
 import Sliderfive from './ClubHeroCarouselImg/SliderFive.png';
@@ -462,7 +462,7 @@ class ClubHeroCarousel extends React.Component {
                               src={el.webUrl}
                               alt={el.alt}
                             />
-                            <div>{el.bannerNo}</div>
+                            {/*<div>{el.bannerNo}</div>*/}
                           </Link>
                         ) : (
                           <span
@@ -474,7 +474,7 @@ class ClubHeroCarousel extends React.Component {
                               src={el.webUrl}
                               alt={el.alt}
                             />
-                            <div>{el.bannerNo}</div>
+                            {/*<div>{el.bannerNo}</div>*/}
                           </span>
                         )}
 

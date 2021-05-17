@@ -2329,7 +2329,6 @@ class SubscriptionDetail extends React.Component {
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
-
     let minDeliveryTime = null;
     let maxDeliveryTime = null;
     if (subDetail?.noStartTradeList) {
@@ -2840,8 +2839,8 @@ class SubscriptionDetail extends React.Component {
                                   currentDeliveryAddress?.city + ', '}
 
                                 {/* 区域 */}
-                                {/* {localAddressForm['region'] &&
-                                  currentDeliveryAddress.area + ', '} */}
+                                {localAddressForm['region'] &&
+                                  currentDeliveryAddress.area + ', '}
 
                                 {/* 省份 / State */}
                                 {localAddressForm &&
