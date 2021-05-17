@@ -736,10 +736,10 @@ const ru_RU = {
   'plp.retail.cat.button': 'Откройте для себя ассортимент',
   'plp.retail.cat.detail':
     'Диетические продукты, помогающие поддерживать здоровье кошек с проблемами',
-  'plp.retail.cat.product.finder.button': 'Найти продукт',
-  'plp.retail.cat.product.finder.detail': 'Попробуйте наш поиск продукта',
-  'plp.retail.cat.product.finder.title':
-    'Нужна помощь в поиске подходящего продукта?',
+  'plp.retail.cat.product.finder.button': 'Подобрать',
+  'plp.retail.cat.product.finder.detail':
+    'Мы поможем Вам определить, какие продукты подходят Вашему питомцу',
+  'plp.retail.cat.product.finder.title': 'Нужна помощь в подборе рациона?',
   //PLP-Retail-Cat
   'plp.retail.cat.title': 'Вы ищете ветеринарные продукты?',
   'plp.vet.cat.button': 'Откройте для себя ассортимент',
