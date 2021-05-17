@@ -35,7 +35,6 @@ class MemberCardList extends React.Component {
     isSupportInstallMent: false,
     mustSaveForFutherPayments: false,
     defaultCardDataFromAddr: null,
-    isSupportInstallMent: [],
     getSelectedValue: () => {},
     updateFormValidStatus: () => {},
     onInstallMentParamChange: () => {}
@@ -70,6 +69,7 @@ class MemberCardList extends React.Component {
       prevEditCardNumber: '',
       isValid: false,
       selectedId: '',
+      installMentDefaultValue: '', // 分期详情默认值
       installMentTableData: [], // 分期详情table data
       installMentParam: null // 所选择的分期详情
     };
@@ -498,14 +498,12 @@ class MemberCardList extends React.Component {
       });
 
       s.hasQueryInstallMent = true;
+      const installMentTableData =
+        res?.context?.installments[0]?.installmentPrices || [];
 
       this.setState({
-        installMentTableData:
-          (res.context &&
-            res.context.installments &&
-            res.context.installments[0] &&
-            res.context.installments[0].installmentPrices) ||
-          [],
+        installMentTableData,
+        installMentDefaultValue: installMentTableData[1] ? 1 : 0,
         creditCardList,
         memberUnsavedCardList
       });
@@ -563,7 +561,8 @@ class MemberCardList extends React.Component {
       errorMsg,
       listLoading,
       selectedId,
-      installMentTableData
+      installMentTableData,
+      installMentDefaultValue
     } = this.state;
 
     // 卡列表显示控制
@@ -729,6 +728,7 @@ class MemberCardList extends React.Component {
                 {item.showInstallMentTable ? (
                   <div className="col-12 mb-2">
                     <InstallmentTable
+                      defaultValue={installMentDefaultValue}
                       list={installMentTableData}
                       onChange={this.installmentTableChanger}
                     />
