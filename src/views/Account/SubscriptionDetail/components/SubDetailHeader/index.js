@@ -95,8 +95,7 @@ const SubDetailHeader = ({
           </div>
         ))}
       {/* 未激活的情况下不展示club相关信息 */}
-      {(isClub && isActive) ||
-      (isClub && isNotInactive && subDetail.petsId && !isCantLinkPet) ? (
+      {isClub && isNotInactive && !!subDetail.petsId && !isCantLinkPet ? (
         <>
           <img
             src={getClubLogo()}
