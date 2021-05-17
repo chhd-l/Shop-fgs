@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import deliveryIcon from '../../images/deliveryAddress.png';
 import billingIcon from '../../images/billingAddress.png';
+import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import paymentIcon from '../../images/payment.png';
 import { getDictionary } from '@/utils/utils';
-const UserPaymentInfo = ({ subDetail, setState, currentDeliveryAddress }) => {
+const UserPaymentInfo = ({
+  currentCardInfo,
+  currentBillingAddress,
+  subDetail,
+  setState,
+  currentDeliveryAddress
+}) => {
   useEffect(() => {
     getDictionary({ type: 'country' }).then((res) => {
       setCountryList(res || []);

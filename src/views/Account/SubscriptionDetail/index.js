@@ -17,41 +17,31 @@ import { unique, getParaByName } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import SubDetailHeader from './components/SubDetailHeader';
 import SubGoodsInfos from './components/SubGoodsInfos';
+import UserPaymentInfo from './components/UserPaymentInfo';
 import NextDelivery from './components/DeliveryList/NextDelivery';
 import CompletedDelivery from './components/DeliveryList/CompletedDelivery';
-
 import Loading from '@/components/Loading';
-import { filterOrderId, getRation, getClubLogo } from '@/utils/utils';
+import { getRation, getClubLogo } from '@/utils/utils';
 
 import {
   getDictionary,
-  dynamicLoadCss,
   getDeviceType,
   getFrequencyDict,
   getFormatDate,
-  datePickerConfig,
   formatMoney,
-  setSeoConfig,
-  getZoneTime
+  setSeoConfig
 } from '@/utils/utils';
 import { getDetailsBySpuNo } from '@/api/details';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import DatePicker from 'react-datepicker';
 import skipIcon from './images/skip.png';
-import deliveryIcon from './images/deliveryAddress.png';
-import billingIcon from './images/billingAddress.png';
-import paymentIcon from './images/payment.png';
 import { Link } from 'react-router-dom';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import {
   updateDetail,
-  changeSubscriptionDetailPets,
-  getAddressDetail,
   getSubDetail,
   skipNextSub,
   cancelAllSub,
   orderNowSub,
-  getPromotionPrice,
   updateNextDeliveryTime,
   startSubscription,
   pauseSubscription,
@@ -59,7 +49,6 @@ import {
   findPetProductForClub
 } from '@/api/subscription';
 import { getRemainings } from '@/api/dispenser';
-import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
@@ -68,7 +57,6 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('configStore')
 @injectIntl
@@ -236,6 +224,127 @@ class SubscriptionDetail extends React.Component {
       barcode: ''
     };
   }
+  paymentSave = (el) => {
+    const { subDetail } = this.state;
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      paymentId: el.id,
+      goodsItems: subDetail.goodsInfo?.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId
+        };
+      })
+    };
+
+    this.setState({ loading: true });
+
+    updateDetail(param)
+      .then((res) => {
+        this.getDetail(
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
+        );
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+      });
+    this.setState({ type: 'main', currentCardInfo: el });
+  };
+  cancelEdit = () => {
+    this.setState({ type: 'main' });
+  };
+  addressSave = (el, isBillSame, fn) => {
+    console.log(el, isBillSame);
+    if (addressType === 'delivery') {
+      let param = {
+        subscribeId: subDetail.subscribeId,
+        deliveryAddressId: el.deliveryAddressId,
+        goodsItems: subDetail.goodsInfo.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId
+          };
+        })
+      };
+      if (isBillSame) {
+        param.billingAddressId = el.deliveryAddressId;
+      }
+      //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
+      let title = '';
+      //寄送地址
+      title = this.props.intl.messages['subscription.shippingAddress'];
+      //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
+      if (param.billingAddressId) {
+        title =
+          title + ',' + this.props.intl.messages['subscription.BillingAddress'];
+      }
+      //增加返回changeField字段
+      Object.assign(param, {
+        changeField: title
+      });
+      console.log(param);
+      this.setState({ loading: true });
+      updateDetail(param)
+        .then((res) => {
+          fn && fn();
+          this.getDetail(
+            this.showErrMsg.bind(
+              this,
+              this.props.intl.messages.saveSuccessfullly,
+              'success'
+            )
+          );
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+        });
+      this.setState({
+        type: 'main',
+        currentDeliveryAddress: el
+      });
+    } else {
+      let param = {
+        subscribeId: subDetail.subscribeId,
+        billingAddressId: el.deliveryAddressId,
+        goodsItems: subDetail.goodsInfo.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId
+          };
+        })
+      };
+      //增加返回changeField字段
+      Object.assign(param, {
+        changeField: this.props.intl.messages['subscription.BillingAddress']
+      });
+      console.log(param);
+      this.setState({ loading: true });
+      updateDetail(param)
+        .then((res) => {
+          this.getDetail(
+            this.showErrMsg.bind(
+              this,
+              this.props.intl.messages.saveSuccessfullly,
+              'success'
+            )
+          );
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+        });
+      this.setState({
+        type: 'main',
+        currentBillingAddress: el
+      });
+    }
+  };
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -616,11 +725,7 @@ class SubscriptionDetail extends React.Component {
 
   async componentDidMount() {
     this.getBreedList();
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
+
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -1069,18 +1174,6 @@ class SubscriptionDetail extends React.Component {
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
-      // let cityRes = await queryCityNameById({
-      //   id: [subDetail.consignee.cityId, subDetail.invoice.cityId]
-      // });
-      // cityRes = cityRes.context.systemCityVO || [];
-      // subDetail.consignee.cityName = this.matchCityName(
-      //   cityRes,
-      //   subDetail.consignee.cityId
-      // );
-      // subDetail.invoice.cityName = this.matchCityName(
-      //   cityRes,
-      //   subDetail.invoice.cityId
-      // );
       this.setState(
         {
           petsType,
@@ -2306,8 +2399,6 @@ class SubscriptionDetail extends React.Component {
         filters: ''
       }
     };
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
     let {
       type,
       currentCardInfo,
@@ -2329,13 +2420,6 @@ class SubscriptionDetail extends React.Component {
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
-    let minDeliveryTime = null;
-    let maxDeliveryTime = null;
-    if (subDetail?.noStartTradeList) {
-      let snsl = subDetail.noStartTradeList[0];
-      minDeliveryTime = snsl.minDeliveryTime;
-      maxDeliveryTime = snsl.maxDeliveryTime;
-    }
     return (
       <div className="subscriptionDetail">
         <div>
@@ -2401,37 +2485,8 @@ class SubscriptionDetail extends React.Component {
                       history={this.props.history}
                       paymentId={currentCardInfo.id}
                       type={type}
-                      save={(el) => {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          paymentId: el.id,
-                          goodsItems: subDetail.goodsInfo?.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-
-                        this.setState({ loading: true });
-
-                        updateDetail(param)
-                          .then((res) => {
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({ type: 'main', currentCardInfo: el });
-                      }}
-                      cancel={() => this.setState({ type: 'main' })}
+                      save={(el) => this.paymentSave(el)}
+                      cancel={this.cancelEdit}
                     />
                   )}
                 </div>
@@ -2445,102 +2500,8 @@ class SubscriptionDetail extends React.Component {
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={(el, isBillSame, fn) => {
-                      console.log(el, isBillSame);
-                      if (addressType === 'delivery') {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          deliveryAddressId: el.deliveryAddressId,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        if (isBillSame) {
-                          param.billingAddressId = el.deliveryAddressId;
-                        }
-                        //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
-                        let title = '';
-                        //寄送地址
-                        title = this.props.intl.messages[
-                          'subscription.shippingAddress'
-                        ];
-                        //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
-                        if (param.billingAddressId) {
-                          title =
-                            title +
-                            ',' +
-                            this.props.intl.messages[
-                              'subscription.BillingAddress'
-                            ];
-                        }
-                        //增加返回changeField字段
-                        Object.assign(param, {
-                          changeField: title
-                        });
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            fn && fn();
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({
-                          type: 'main',
-                          currentDeliveryAddress: el
-                        });
-                      } else {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          billingAddressId: el.deliveryAddressId,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        //增加返回changeField字段
-                        Object.assign(param, {
-                          changeField: this.props.intl.messages[
-                            'subscription.BillingAddress'
-                          ]
-                        });
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({
-                          type: 'main',
-                          currentBillingAddress: el
-                        });
-                      }
-                    }}
-                    cancel={() => this.setState({ type: 'main' })}
+                    save={() => this.addressSave(el, isBillSame, fn)}
+                    cancel={this.cancelEdit}
                   />
                 </div>
                 <div
@@ -2740,332 +2701,13 @@ class SubscriptionDetail extends React.Component {
                       <h4 className="h4">
                         <FormattedMessage id="transactionInfo" />
                       </h4>
-                      <div className="row text-left text-break editCard ml-0 mr-0">
-                        <div
-                          className="col-12 col-md-4 mb-2"
-                          style={{ padding: '5px', paddingLeft: '0' }}
-                        >
-                          <div
-                            className="h-100 border border-d7d7d7"
-                            style={{
-                              padding: '1.25rem'
-                            }}
-                          >
-                            <div className="align-items-center">
-                              {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
-                              <LazyLoad>
-                                <img
-                                  alt="delivery Icon"
-                                  src={deliveryIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '1.125rem',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="delivery2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'delivery'
-                                    });
-                                  }}
-                                >
-                                  <FormattedMessage id="edit" />{' '}
-                                  {/* <FormattedMessage id="address" /> */}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              {/* 姓名 */}
-                              <p className="mb-0 sd_mb_name">
-                                <span
-                                  className="medium"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
-                                  {currentDeliveryAddress?.consigneeName}
-                                </span>
-                              </p>
-                              {/* 电话 */}
-                              <p className="mb-0 sd_mb_tel">
-                                {currentDeliveryAddress?.consigneeNumber}
-                              </p>
-
-                              {/* 国家 */}
-                              {process.env.REACT_APP_COUNTRY == 'US' ||
-                              process.env.REACT_APP_COUNTRY == 'RU' ? null : (
-                                <p className="mb-0 sd_mb_country">
-                                  {this.state.countryList.length &&
-                                  this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentDeliveryAddress.countryId
-                                  ).length
-                                    ? this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.countryId
-                                      )[0].valueEn
-                                    : currentDeliveryAddress.countryId}
-                                  ,
-                                </p>
-                              )}
-                              {/* 地址 */}
-                              <p className="mb-0 sd_mb_address1">
-                                {currentDeliveryAddress?.address1}
-                              </p>
-                              {localAddressForm &&
-                                localAddressForm['address2'] &&
-                                currentDeliveryAddress?.address2 && (
-                                  <p className="mb-0 sd_mb_address2">
-                                    {currentDeliveryAddress?.address2}
-                                  </p>
-                                )}
-
-                              <p className="mb-0 sd_mb_cpp">
-                                {/* 城市 */}
-                                {localAddressForm &&
-                                  localAddressForm['city'] &&
-                                  currentDeliveryAddress?.city + ', '}
-
-                                {/* 区域 */}
-                                {localAddressForm['region'] &&
-                                  currentDeliveryAddress.area + ', '}
-
-                                {/* 省份 / State */}
-                                {localAddressForm &&
-                                  localAddressForm['state'] &&
-                                  currentDeliveryAddress?.province + ' '}
-
-                                {/* 邮编 */}
-                                {localAddressForm &&
-                                  localAddressForm['postCode'] &&
-                                  currentDeliveryAddress?.postCode}
-                              </p>
-
-                              {maxDeliveryTime &&
-                                minDeliveryTime &
-                                (
-                                  <>
-                                    {minDeliveryTime && (
-                                      <>
-                                        {minDeliveryTime == maxDeliveryTime ? (
-                                          <FormattedMessage
-                                            id="payment.deliveryDate2"
-                                            values={{
-                                              val: minDeliveryTime
-                                            }}
-                                          />
-                                        ) : (
-                                          <FormattedMessage
-                                            id="payment.deliveryDate"
-                                            values={{
-                                              min: minDeliveryTime,
-                                              max: maxDeliveryTime
-                                            }}
-                                          />
-                                        )}
-                                      </>
-                                    )}
-                                  </>
-                                )}
-                            </div>
-                          </div>
-                        </div>
-                        {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
-                        {process.env.REACT_APP_COUNTRY !== 'US' &&
-                        !Boolean(
-                          +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
-                        ) ? (
-                          <div
-                            className={`col-12 col-md-4 mb-2`}
-                            style={{ padding: '5px' }}
-                          >
-                            <div
-                              className="h-100 border border-d7d7d7"
-                              style={{
-                                padding: '1.25rem'
-                              }}
-                            >
-                              <div className="align-items-center">
-                                <LazyLoad>
-                                  <img
-                                    alt="billing Icon"
-                                    src={billingIcon}
-                                    style={{
-                                      width: '30px',
-                                      marginRight: '1.125rem',
-                                      display: 'inline-block'
-                                    }}
-                                  />
-                                </LazyLoad>
-                                <span>
-                                  <FormattedMessage id="billing2" />
-                                </span>
-                                {subDetail.subscribeStatus === '0' && (
-                                  <a
-                                    className="rc-styled-link red-text"
-                                    style={{ float: 'right', marginTop: '5px' }}
-                                    onClick={() => {
-                                      window.scrollTo(0, 0);
-                                      this.setState({
-                                        type: 'AddressComp',
-                                        addressType: 'billing'
-                                      });
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />{' '}
-                                  </a>
-                                )}
-                              </div>
-                              <div className="ml-1">
-                                <p className="mb-0">
-                                  <span
-                                    className="medium"
-                                    style={{
-                                      fontSize: '1.125rem',
-                                      color: '#333',
-                                      margin: '25px 0 .625rem'
-                                    }}
-                                  >
-                                    {currentBillingAddress.consigneeName}
-                                  </span>
-                                </p>
-                                <p className="mb-0">
-                                  {currentBillingAddress.consigneeNumber}
-                                </p>
-                                <p className="mb-0">
-                                  {process.env.REACT_APP_COUNTRY ==
-                                  'US' ? null : (
-                                    <>
-                                      {this.state.countryList.length &&
-                                      this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentBillingAddress.countryId
-                                      ).length
-                                        ? this.state.countryList.filter(
-                                            (el) =>
-                                              el.id ===
-                                              currentBillingAddress.countryId
-                                          )[0].valueEn
-                                        : currentBillingAddress.countryId}
-                                      ,
-                                    </>
-                                  )}
-                                  {/* 省份 / State */}
-                                  {currentBillingAddress?.province &&
-                                  currentBillingAddress?.province != null
-                                    ? currentBillingAddress.province + ', '
-                                    : null}
-                                  {currentBillingAddress.city}
-                                </p>
-                                <p className="mb-0">
-                                  {currentBillingAddress.address1}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ) : null}
-                        {currentCardInfo ? (
-                          <div
-                            className="col-12 col-md-4 mb-2"
-                            style={{ padding: '5px', paddingRight: '0' }}
-                          >
-                            <div
-                              className="h-100 border border-d7d7d7"
-                              style={{
-                                padding: '1.25rem'
-                              }}
-                            >
-                              <div className="align-items-center">
-                                <LazyLoad style={{ display: 'inline' }}>
-                                  <img
-                                    src="paymentIcon"
-                                    src={paymentIcon}
-                                    style={{
-                                      width: '30px',
-                                      marginRight: '1.125rem',
-                                      display: 'inline-block'
-                                    }}
-                                  />
-                                </LazyLoad>
-                                <span>
-                                  <FormattedMessage id="payment.payment" />
-                                </span>
-                                {subDetail.subscribeStatus === '0' && (
-                                  <a
-                                    className="rc-styled-link red-text"
-                                    style={{ float: 'right', marginTop: '5px' }}
-                                    onClick={() => {
-                                      window.scrollTo(0, 0);
-                                      this.setState({ type: 'PaymentComp' });
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />{' '}
-                                    {/* <FormattedMessage id="card" /> */}
-                                  </a>
-                                )}
-                              </div>
-                              <div className="ml-1">
-                                {currentCardInfo.lastFourDigits ? (
-                                  <>
-                                    <p className="mb-0">
-                                      <span
-                                        className="medium"
-                                        style={{
-                                          fontSize: '1.125rem',
-                                          fontWeight: '400',
-                                          color: '#333',
-                                          margin: '25px 0 .625rem',
-                                          verticalAlign: 'middle'
-                                        }}
-                                      >
-                                        **** **** ****
-                                        {currentCardInfo.lastFourDigits}
-                                      </span>
-                                    </p>
-
-                                    <LazyLoad
-                                      style={{
-                                        width: '20%',
-                                        marginRight: '.2rem'
-                                      }}
-                                    >
-                                      <img
-                                        alt="card background"
-                                        className="d-inline-block"
-                                        src={
-                                          CREDIT_CARD_IMG_ENUM[
-                                            currentCardInfo.paymentVendor.toUpperCase()
-                                          ] ||
-                                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                        }
-                                      />
-                                    </LazyLoad>
-                                  </>
-                                ) : null}
-
-                                <p className="mb-0">
-                                  {currentCardInfo.holderName}
-                                </p>
-                                {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
-                              </div>
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
+                      <UserPaymentInfo
+                        currentCardInfo={currentCardInfo}
+                        currentBillingAddress={currentBillingAddress}
+                        subDetail={subDetail}
+                        setState={this.setState.bind(this)}
+                        currentDeliveryAddress={currentDeliveryAddress}
+                      />
                     </div>
                   </div>
                 </div>
