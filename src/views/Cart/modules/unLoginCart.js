@@ -1100,8 +1100,12 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1510,7 +1514,7 @@ class UnLoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     // await checkoutStore.removeCouponCodeFitFlag();
-    // await checkoutStore.removePromotionCode();
+    await checkoutStore.removePromotionCode();
     if (!loginStore.isLogin) {
       //游客
       result = await checkoutStore.updateUnloginCart();
@@ -1521,7 +1525,12 @@ class UnLoginCart extends React.Component {
         subscriptionFlag: buyWay === 'frequency'
       });
     }
-    this.clearPromotionCode();
+    this.setState({
+      discount: [],
+      isShowValidCode: false,
+      lastPromotionInputValue: '',
+      promotionInputValue: ''
+    });
   };
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
