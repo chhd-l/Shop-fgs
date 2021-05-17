@@ -3332,7 +3332,6 @@ class SubscriptionDetail extends React.Component {
                       ))}
                     {/* 未激活的情况下不展示club相关信息 */}
                     {isClub &&
-                    this.state.isActive &&
                     this.state.isNotInactive &&
                     !!this.state.subDetail.petsId &&
                     !isCantLinkPet ? (
