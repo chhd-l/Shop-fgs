@@ -8,6 +8,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
+import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
@@ -1595,35 +1596,13 @@ class Details extends React.Component {
   }
   getFrequencyDictDom = () => {
     return (
-      <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
-        <span>
-          <FormattedMessage id="subscription.frequency" />:
-        </span>
-        <Selection
-          customContainerStyle={{
-            display: 'inline-block',
-            marginLeft: isMobile ? '50px' : '1.5rem',
-            height: isMobile ? '70px' : 'auto'
-          }}
-          customCls="text-left"
-          selectedItemChange={this.handleSelectedItemChange}
-          optionList={this.computedList.filter((el) => {
-            if (
-              this.state.details.promotions &&
-              this.state.details.promotions.includes('club')
-            ) {
-              return el.goodsInfoFlag === 2;
-            } else {
-              return el.goodsInfoFlag === 1;
-            }
-          })}
-          wider={true}
-          selectedItemData={{
-            value: this.state.form.frequencyId
-          }}
-          key={this.state.form.frequencyId}
-        />
-      </div>
+      <FrequencySelection
+        frequencyType={this.state.details.promotions}
+        currentFrequencyId={this.state.form.frequencyId}
+        handleConfirm={(data) => {
+          this.handleSelectedItemChange(data);
+        }}
+      />
     );
   };
 
