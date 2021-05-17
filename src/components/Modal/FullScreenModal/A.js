@@ -4,6 +4,7 @@ import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import { FullScreenModalContext } from './index';
 import Table from './Table';
+import Address from './Address';
 
 export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
@@ -80,20 +81,7 @@ export default function Modal(props) {
                       <span>{deliveryAddressInfo?.firstName}</span>{' '}
                       <span>{deliveryAddressInfo?.lastName}</span>
                     </p>
-                    <p>
-                      Adres:
-                      <span>
-                        {deliveryAddressInfo.country +
-                          ',' +
-                          deliveryAddressInfo.city}
-                      </span>
-                      {','}
-                      <span>{deliveryAddressInfo?.address1},</span>{' '}
-                      {localAddressForm['address2'] &&
-                        deliveryAddressInfo?.address2 && (
-                          <span>{deliveryAddressInfo?.address2}</span>
-                        )}{' '}
-                    </p>
+                    <Address deliveryAddressInfo={deliveryAddressInfo} />
                     <p>
                       Telefon:{' '}
                       <span>
@@ -116,20 +104,7 @@ export default function Modal(props) {
                       <span>{billingAddressInfo?.firstName}</span>{' '}
                       <span>{billingAddressInfo?.lastName}</span>
                     </p>
-                    <p>
-                      Adres:
-                      <span>
-                        {billingAddressInfo.country +
-                          ',' +
-                          billingAddressInfo.city}
-                      </span>
-                      {','}
-                      <span>{billingAddressInfo?.address1},</span>{' '}
-                      {localAddressForm['address2'] &&
-                        billingAddressInfo?.address2 && (
-                          <span>{billingAddressInfo?.address2}</span>
-                        )}
-                    </p>
+                    <Address billingAddressInfo={billingAddressInfo} />
                     <p>
                       Telefon:{' '}
                       <span>
