@@ -3082,10 +3082,11 @@ class SubscriptionDetail extends React.Component {
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
-    let { promotions, petsType } = this.state;
+    let { petsType } = this.state;
     //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
     let isCatAndDog = petsType === 'CatAndDog';
-    let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
+    let isAutoshipAndClub =
+      subDetail?.subscriptionType?.match(/autoship_club/i)?.index > -1;
     let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
     let minDeliveryTime = null;
     let maxDeliveryTime = null;
@@ -3330,11 +3331,11 @@ class SubscriptionDetail extends React.Component {
                         </div>
                       ))}
                     {/* 未激活的情况下不展示club相关信息 */}
-                    {(isClub && this.state.isActive) ||
-                    (isClub &&
-                      this.state.isNotInactive &&
-                      this.state.subDetail.petsId &&
-                      !isCantLinkPet) ? (
+                    {isClub &&
+                    this.state.isActive &&
+                    this.state.isNotInactive &&
+                    !!this.state.subDetail.petsId &&
+                    !isCantLinkPet ? (
                       this.ClubTitle()
                     ) : (
                       <>
