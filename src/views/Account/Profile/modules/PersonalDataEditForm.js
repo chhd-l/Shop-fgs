@@ -41,6 +41,8 @@ class PersonalDataEditForm extends React.Component {
         province: '',
         city: '',
         cityId: '',
+        area: '',
+        areaId: '',
         phoneNumber: '',
         rfc: '',
         address1: '',
@@ -63,6 +65,7 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
+    console.log('70 -> ', data);
     this.setState(
       {
         form: Object.assign({}, data),
@@ -249,6 +252,8 @@ class PersonalDataEditForm extends React.Component {
         postalCode: form.postCode,
         city: form.city,
         cityId: form.cityId,
+        area: form.area,
+        areaId: form.areaId,
         entrance: form.entrance,
         apartment: form.apartment,
         communicationEmail: form.communicationEmail,
@@ -289,7 +294,7 @@ class PersonalDataEditForm extends React.Component {
   validFormData = async () => {
     const { form } = this.state;
     try {
-      console.log('★★★★★★★★★ valiFormData: ', form);
+      // console.log('★★★★★★★★★ valiFormData: ', form);
       if (!form?.formRule || (form?.formRule).length <= 0) {
         return;
       }

@@ -24,7 +24,7 @@ import { showCardType } from '@/utils/constant/cyber';
 
 function CardItem(props) {
   const { data, listVisible } = props;
-  console.log(2222, listVisible);
+  // console.log(2222, listVisible);
   return (
     <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
       <div
