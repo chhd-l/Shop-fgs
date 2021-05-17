@@ -44,9 +44,8 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (process.env.REACT_APP_LANG == 'tr') {

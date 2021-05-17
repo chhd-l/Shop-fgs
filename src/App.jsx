@@ -333,12 +333,16 @@ const App = () => {
                 <Route
                   exact
                   path="/club-subscription"
-                  component={
-                    process.env.REACT_APP_LANG === 'ru' ||
-                    process.env.REACT_APP_LANG === 'tr'
-                      ? ClubLandingPage
-                      : Exception
-                  }
+                  render={(props) => {
+                    let tmpComponent;
+                    switch (process.env.REACT_APP_LANG) {
+                      case 'ru':
+                      case 'tr':
+                        return <ClubLandingPage {...props} />;
+                      default:
+                        return <Exception {...props} />;
+                    }
+                  }}
                 />
                 <Route
                   exact

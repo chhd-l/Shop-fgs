@@ -40,7 +40,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -1100,12 +1100,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1700,16 +1696,8 @@ class UnLoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>
