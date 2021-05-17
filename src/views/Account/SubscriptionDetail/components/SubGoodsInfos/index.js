@@ -18,6 +18,7 @@ import {
   getZoneTime
 } from '@/utils/utils';
 const SubGoodsInfos = ({
+  pauseOrStart,
   isDataChange,
   isNotInactive,
   isActive,
@@ -73,6 +74,9 @@ const SubGoodsInfos = ({
     }
   };
   const changeQuantity = () => {
+    if (subDetail.subscribeStatus !== '0') {
+      return;
+    }
     setState({
       errorShow: false
     });
@@ -657,6 +661,7 @@ const SubGoodsInfos = ({
       </div>
       {!isGift && (
         <ButtonBox
+          pauseOrStart={pauseOrStart}
           subDetail={subDetail}
           isDataChange={isDataChange}
           isNotInactive={isNotInactive}
