@@ -87,6 +87,12 @@ export default function Modal(props) {
                     </p>
                     <p>
                       Adres:
+                      <span>
+                        {deliveryAddressInfo.country +
+                          ',' +
+                          deliveryAddressInfo.city}
+                      </span>
+                      {','}
                       <span data-represents-field="#shippingAddressOne">
                         {deliveryAddressInfo?.address1},{' '}
                         {localAddressForm['address2'] &&
@@ -162,6 +168,12 @@ export default function Modal(props) {
                     <p>
                       Adres:
                       <span data-represents-field="#shippingAddressOne">
+                        <span>
+                          {deliveryAddressInfo.country +
+                            ',' +
+                            deliveryAddressInfo.city}
+                        </span>
+                        {','}
                         {deliveryAddressInfo?.address1},{' '}
                         {localAddressForm['address2'] &&
                           deliveryAddressInfo?.address2 && (
@@ -197,7 +209,14 @@ export default function Modal(props) {
                       </span>
                     </p>
                     <p>
-                      Adres: <span>{billingAddressInfo?.address1},</span>{' '}
+                      Adres:
+                      <span>
+                        {billingAddressInfo.country +
+                          ',' +
+                          billingAddressInfo.city}
+                      </span>
+                      {','}
+                      <span>{billingAddressInfo?.address1},</span>{' '}
                       {localAddressForm['address2'] &&
                         billingAddressInfo?.address2 && (
                           <span>{billingAddressInfo?.address2}</span>
