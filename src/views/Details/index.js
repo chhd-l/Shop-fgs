@@ -48,6 +48,8 @@ import './index.css';
 import './index.less';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
+import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
+import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1729,6 +1731,7 @@ class Details extends React.Component {
       }
     };
     console.log(form.buyWay, 'bbbb');
+    console.log('details', details);
     return (
       <div id="Details">
         <button
@@ -1928,6 +1931,11 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
+                              {!isMobile && (
+                                <BazaarVoiceRatingSummary
+                                  productId={details.goodsNo}
+                                />
+                              )}
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
@@ -2615,6 +2623,8 @@ class Details extends React.Component {
                 }
               />
             ) : null}
+
+            <BazaarVoiceReviews productId={details.goodsNo} />
 
             <div className="split-line rc-bg-colour--brand4"></div>
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (

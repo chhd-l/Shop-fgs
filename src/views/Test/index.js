@@ -46,7 +46,9 @@ class Test extends React.Component {
         testText: ''
       },
       isValid: false,
-      selectedOption: null
+      selectedOption: null,
+      aaa: '',
+      bbb: '11'
     };
   }
   handleChange = (selectedOption) => {
@@ -143,7 +145,7 @@ class Test extends React.Component {
         <h1>2021-05-13 09:35:00</h1>
         <br />
         <br />
-        <h2></h2>
+        <h2>{this.state.aaa && this.state.bbb}</h2>
         <br />
         <br />
         <input
