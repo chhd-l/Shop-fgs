@@ -16,7 +16,6 @@ export default class AddressPreview extends React.Component {
         countryList: res
       });
     });
-    // console.log('16    Preview: ', this.props.form);
   }
   render() {
     const { form, boldName, isLogin } = this.props;
@@ -94,15 +93,15 @@ export default class AddressPreview extends React.Component {
               )}
 
               {/* 区域 */}
-              {/* {localAddressForm['region'] && (
+              {localAddressForm['region'] && (
                 <span>
                   {form.area}
                   {', '}
                 </span>
-              )} */}
+              )}
 
               {/* 省份 */}
-              {localAddressForm['state'] && <span>{form.province}</span>}
+              {localAddressForm['state'] && <span>{form.province} </span>}
 
               {/* 邮编 */}
               {localAddressForm['postCode'] && <span>{form.postCode}</span>}

@@ -5416,8 +5416,8 @@ class SubscriptionDetail extends React.Component {
                                   currentDeliveryAddress?.city + ', '}
 
                                 {/* 区域 */}
-                                {/* {localAddressForm['region'] &&
-                                  currentDeliveryAddress.area + ', '} */}
+                                {localAddressForm['region'] &&
+                                  currentDeliveryAddress.area + ', '}
 
                                 {/* 省份 / State */}
                                 {localAddressForm &&
