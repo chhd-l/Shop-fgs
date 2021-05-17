@@ -16,7 +16,7 @@ import smartFeeder from '@/assets/images/smart_feeder.png';
 import { unique, getParaByName } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import SubDetailHeader from './components/SubDetailHeader';
-import { IMG_DEFAULT } from '@/utils/constant';
+import SubGoodsInfos from './components/SubGoodsInfos';
 import Loading from '@/components/Loading';
 import { filterOrderId, getRation, getClubLogo } from '@/utils/utils';
 
@@ -34,7 +34,6 @@ import {
 import { getDetailsBySpuNo } from '@/api/details';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import DatePicker from 'react-datepicker';
-import cancelIcon from './images/cancel.png';
 import skipIcon from './images/skip.png';
 import dateIcon from './images/date.png';
 import deliveryIcon from './images/deliveryAddress.png';
@@ -69,7 +68,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-@inject('checkoutStore', 'loginStore', 'configStore')
+@inject('configStore')
 @injectIntl
 @observer
 class SubscriptionDetail extends React.Component {
@@ -159,7 +158,6 @@ class SubscriptionDetail extends React.Component {
         type: 'CREDIT',
         cardImg: visaImg
       },
-      isChangeQuatity: false,
       type: 'main',
       currentCardInfo: {
         id: 'PM202007100416145447',
@@ -189,7 +187,6 @@ class SubscriptionDetail extends React.Component {
       countryList: [],
       frequencyList: [],
       modalShow: false,
-      currentGoodsInfo: [],
       modalList: [
         {
           title: this.props.intl.messages.modalSkipTitle,
@@ -223,7 +220,6 @@ class SubscriptionDetail extends React.Component {
       successTipVisible: false,
       minDate: new Date(),
       maxDate: new Date(),
-      todaydate: new Date(),
       tabName: [],
       activeTabIdx: 0,
       noStartYearOption: [],
@@ -592,25 +588,6 @@ class SubscriptionDetail extends React.Component {
     return name || this.props.intl.messages['Mixed Breed'];
   };
 
-  DailyRation = (rations) => {
-    return (
-      rations && (
-        <span
-          style={{
-            background: '#F5F5F5',
-            padding: '6px',
-            // marginTop: '30px',
-            display: 'inline-block'
-          }}
-        >
-          <span style={{ fontSize: '12px' }}>
-            <FormattedMessage id="subscription.dailyRation" />
-          </span>
-          :<strong>{rations}</strong>
-        </span>
-      )
-    );
-  };
   bundleMatchGoods() {
     let {
       details,
@@ -694,10 +671,6 @@ class SubscriptionDetail extends React.Component {
       };
     });
   }
-
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
@@ -751,18 +724,7 @@ class SubscriptionDetail extends React.Component {
       }
     );
   }
-  //订阅数量更改
-  async onQtyChange() {
-    try {
-      // await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
-      this.setState({ isDataChange: true });
-    } catch (err) {
-      this.showErrMsg(err.message);
-    }
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
+
   async doUpdateDetail(param) {
     try {
       this.setState({ loading: true });
@@ -773,10 +735,10 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  getMinDate(nextDeliveryTime) {
+  getMinDate = (nextDeliveryTime) => {
     let time = new Date(nextDeliveryTime);
     return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
-  }
+  };
   getMaxDate(nextDeliveryTime) {
     return new Date(
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
@@ -1035,7 +997,7 @@ class SubscriptionDetail extends React.Component {
       </React.Fragment>
     );
   };
-  async getDetail(fn) {
+  getDetail = async (fn) => {
     try {
       this.setState({ loading: true });
       let res = await getSubDetail(this.props.match.params.subscriptionNumber);
@@ -1105,15 +1067,6 @@ class SubscriptionDetail extends React.Component {
         value: noStartYearOption[0] && noStartYearOption[0]['value'],
         name: noStartYearOption[0] && noStartYearOption[0]['value']
       };
-
-      subDetail.goodsInfo = (subDetail.goodsInfo || []).map((el) => {
-        let filterData =
-          this.frequencyListOptions.filter(
-            (item) => item.id === el.periodTypeId
-          )[0] || this.frequencyListOptions[0];
-        // el.periodTypeValue = filterData.valueEn;
-        return el;
-      });
       let isGift =
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
@@ -1160,7 +1113,7 @@ class SubscriptionDetail extends React.Component {
     } finally {
       this.setState({ loading: false });
     }
-  }
+  };
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
       ? dict.filter((c) => c.id === cityId)[0].cityName
@@ -1360,7 +1313,6 @@ class SubscriptionDetail extends React.Component {
   };
   getGiftList = () => {
     let {
-      isChangeQuatity,
       discount,
       type,
       currentCardInfo,
@@ -1369,7 +1321,6 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
-      todaydate,
       noStartYearOption,
       completedYearOption,
       noStartYear,
@@ -1669,219 +1620,6 @@ class SubscriptionDetail extends React.Component {
       promotionInputValue
     });
   }
-  getButtonBoxGift = (subDetail) => {
-    return (
-      <div className="rc-layout-container rc-two-column subdeatial-button-mobile">
-        <div
-          className="rc-column subdeatial-button-mobile-save rc-md-down"
-          style={{ textAlign: 'right' }}
-        >
-          <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            } ${
-              this.state.isDataChange && this.state.productListLoading
-                ? 'ui-btn-loading'
-                : ''
-            } `}
-            style={{
-              marginTop: isMobile ? '.625rem' : '0',
-              marginRight: '1rem'
-            }}
-            onClick={() => this.handleSaveChange(subDetail)}
-          >
-            <FormattedMessage id="saveChange" />
-          </button>
-        </div>
-
-        <div className="rc-column d-flex">
-          <div className="subdeatial-button-mobile-pad pause-btn">
-            {subDetail.subscribeStatus === 0 ? (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.5rem',
-                  color: 'rgb(242,148,35)',
-                  position: 'relative',
-                  top: '4px'
-                }}
-              >
-                &#xe6c2;
-              </em>
-            ) : (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.25rem',
-                  color: 'rgb(242,148,35)',
-                  position: 'relative',
-                  top: '2px'
-                }}
-              >
-                &#xe62f;
-              </em>
-            )}
-            <span
-              style={{
-                position: 'relative',
-                top: '-0.3rem',
-                paddingRight: '0.5rem',
-                paddingLeft: '0.5rem'
-              }}
-              className={`rc-styled-link
-              ${this.state.isGift ? 'disabled' : ''}
-              `}
-            >
-              {subDetail.subscribeStatus === '0' ? (
-                <FormattedMessage id="subscription.pause" />
-              ) : (
-                <FormattedMessage id="subscription.restart" />
-              )}
-            </span>
-          </div>
-          <div>
-            <em
-              className="iconfont"
-              style={{
-                fontSize: '2rem',
-                color: '#E1001A',
-                paddingRight: '0.5rem',
-                paddingLeft: '0.5rem'
-              }}
-            >
-              &#xe619;
-            </em>
-            {/* <LazyLoad>
-              <img
-                style={{
-                  display: 'inline-block',
-                  width: '1.25rem',
-                  marginRight: '5px'
-                }}
-                src={cancelIcon}
-              />
-            </LazyLoad> */}
-            <a
-              style={{ position: 'relative', top: '-0.3rem' }}
-              className="rc-styled-link"
-              onClick={(e) => this.handleGiftSubCancel(e, subDetail)}
-            >
-              <FormattedMessage id="subscription.cancelAll" />
-            </a>
-          </div>
-        </div>
-        <div
-          className="rc-column subdeatial-button-mobile-save rc-md-up"
-          style={{ textAlign: 'right' }}
-        >
-          <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }  ${
-              this.state.isDataChange && this.state.productListLoading
-                ? 'ui-btn-loading'
-                : ''
-            }`}
-            style={{
-              marginTop: isMobile ? '.625rem' : '0',
-              marginRight: '1rem'
-            }}
-            onClick={() => this.handleSaveChange(subDetail)}
-          >
-            <FormattedMessage id="saveChange" />
-          </button>
-        </div>
-      </div>
-    );
-  };
-  getButtonBox = (subDetail) => {
-    let { isNotInactive } = this.state;
-    return (
-      <div
-        className="footerGroupButton"
-        style={{ display: isNotInactive ? 'block' : 'none' }}
-      >
-        <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
-          <div
-            className="pause-btn"
-            style={{ display: 'inline-block', marginBottom: '10px' }}
-          >
-            {subDetail.subscribeStatus === '0' ? (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.25rem',
-                  color: 'rgb(242,148,35)',
-                  position: 'relative',
-                  top: '2px'
-                }}
-              >
-                &#xe62f;
-              </em>
-            ) : (
-              <em
-                className="iconfont"
-                style={{
-                  fontSize: '1.5rem',
-                  color: 'rgb(58,180,29)',
-                  position: 'relative',
-                  top: '4px'
-                }}
-              >
-                &#xe6c2;
-              </em>
-            )}
-            <a
-              style={{
-                paddingRight: '0.5rem',
-                paddingLeft: '4px'
-              }}
-              className={`rc-styled-link`}
-              onClick={() => this.pauseOrStart(subDetail)}
-            >
-              {subDetail.subscribeStatus === '0' ? (
-                <FormattedMessage id="subscription.pause" />
-              ) : (
-                <FormattedMessage id="subscription.restart" />
-              )}
-            </a>
-          </div>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <div style={{ display: 'inline-block', marginBottom: '10px' }}>
-            <LazyLoad>
-              <img
-                style={{
-                  display: 'inline-block',
-                  width: '1.25rem',
-                  marginRight: '5px'
-                }}
-                alt="cancle icon"
-                src={cancelIcon}
-              />
-            </LazyLoad>
-            <a
-              className="rc-styled-link"
-              href="#/"
-              onClick={(e) => {
-                this.handleCancel(e);
-              }}
-            >
-              <FormattedMessage id="subscription.cancelAll" />
-            </a>
-          </div>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <button
-            className={`rc-btn rc-btn--one ${
-              this.state.isDataChange ? '' : 'rc-btn-solid-disabled'
-            }`}
-            onClick={() => this.handleSaveChange(subDetail)}
-          >
-            <FormattedMessage id="saveChange" />
-          </button>
-        </p>
-      </div>
-    );
-  };
   handleGiftSubCancel = async (e, subDetail) => {
     e.preventDefault();
     let {
@@ -2534,7 +2272,6 @@ class SubscriptionDetail extends React.Component {
       return false;
     }
     try {
-      // subDetail.goodsInfo = this.state.currentGoodsInfo;
       let param = {
         subscribeId: subDetail.subscribeId
       };
@@ -2570,7 +2307,6 @@ class SubscriptionDetail extends React.Component {
       await this.getDetail();
       this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success');
       this.setState({
-        isChangeQuatity: false,
         isDataChange: false
       });
     } catch (err) {
@@ -2619,8 +2355,6 @@ class SubscriptionDetail extends React.Component {
     });
   };
   render() {
-    console.info('frequencyListOptions', this.frequencyListOptions);
-
     const event = {
       page: {
         type: 'Account',
@@ -2631,12 +2365,9 @@ class SubscriptionDetail extends React.Component {
         filters: ''
       }
     };
-    const data = this.state;
-    const { checkoutStore } = this.props;
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore?.localAddressForm;
     let {
-      isChangeQuatity,
       discount,
       type,
       currentCardInfo,
@@ -2645,7 +2376,6 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
-      todaydate,
       noStartYearOption,
       completedYearOption,
       noStartYear,
@@ -2908,768 +2638,23 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div
-                        className="mobileGoodsBox"
-                        style={{ display: isMobile ? 'block' : 'none' }}
-                      >
-                        {subDetail.goodsInfo &&
-                          subDetail.goodsInfo.map((el, index) => (
-                            <div
-                              className="goodsItem rc-card-content"
-                              style={{
-                                border: '1px solid #d7d7d7',
-                                padding: '.75rem'
-                              }}
-                            >
-                              <div style={{ display: 'flex' }}>
-                                <div className="for-mobile-colum">
-                                  {/* <LazyLoad> */}
-                                  <img
-                                    src={el.goodsPic || IMG_DEFAULT}
-                                    style={{ width: '100px' }}
-                                    alt={el.goodsName}
-                                  />
-                                  {/* </LazyLoad> */}
-                                  {isClub && !!subDetail.petsId && (
-                                    <span
-                                      className={`rc-styled-link ${
-                                        this.state.productListLoading
-                                          ? 'ui-btn-loading'
-                                          : ''
-                                      }`}
-                                      onClick={() =>
-                                        this.showChangeProduct([el])
-                                      }
-                                    >
-                                      <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                    </span>
-                                  )}
-                                </div>
-                                <div
-                                  className="v-center"
-                                  style={{ flex: '1', paddingLeft: '.625rem' }}
-                                >
-                                  <h3
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      overflowWrap: 'normal',
-                                      color: '#e2001a'
-                                    }}
-                                  >
-                                    {el.goodsName}
-                                  </h3>
-                                  <p
-                                    style={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      marginBottom: '8px'
-                                    }}
-                                  >
-                                    {el.specText}
-                                  </p>
-                                  ..........
-                                  {isClub &&
-                                    !!subDetail.petsId &&
-                                    this.DailyRation(el.petsRation)}
-                                </div>
-                              </div>
-                              <div style={{ marginTop: '.9375rem' }}>
-                                <div>
-                                  <span
-                                    className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                    style={{ marginLeft: '-8px' }}
-                                    onClick={() => {
-                                      if (el.subscribeNum > 1) {
-                                        el.subscribeNum = el.subscribeNum - 1;
-                                        // this.doGetPromotionPrice();
-                                        this.setState({
-                                          subDetail,
-                                          isDataChange: true
-                                        });
-                                      } else {
-                                        this.showErrMsg(
-                                          <FormattedMessage id="cart.errorInfo" />
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  <input
-                                    className="rc-quantity__input 111"
-                                    id="quantity"
-                                    name="quantity"
-                                    min="1"
-                                    max="899"
-                                    maxLength="5"
-                                    onChange={(e) => {
-                                      this.setState({
-                                        errorShow: false
-                                      });
-                                      const val = e.target.value;
-                                      let { currentGoodsInfo } = this.state;
-                                      if (val === '') {
-                                        el.subscribeNum = 1;
-                                        this.setState({
-                                          currentGoodsInfo
-                                        });
-                                      } else {
-                                        let tmp = parseInt(val);
-                                        if (isNaN(tmp)) {
-                                          tmp = 1;
-                                          this.showErrMsg(
-                                            <FormattedMessage id="cart.errorInfo" />
-                                          );
-                                        }
-                                        if (tmp < 1) {
-                                          tmp = 1;
-                                          this.showErrMsg(
-                                            <FormattedMessage id="cart.errorInfo" />
-                                          );
-                                        }
-                                        if (
-                                          tmp >
-                                          process.env.REACT_APP_LIMITED_NUM
-                                        ) {
-                                          tmp =
-                                            process.env.REACT_APP_LIMITED_NUM;
-                                          this.showErrMsg(
-                                            <FormattedMessage
-                                              id="cart.errorMaxInfo"
-                                              values={{
-                                                val:
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
-                                              }}
-                                            />
-                                          );
-                                        }
-                                        el.subscribeNum = tmp;
-                                        this.setState({
-                                          currentGoodsInfo
-                                        });
-                                        // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                      }
-                                      //数量变更后
-                                      subDetail.goodsInfo[index].subscribeNum =
-                                        el.subscribeNum;
-                                      this.onQtyChange();
-                                    }}
-                                    value={el.subscribeNum}
-                                  />
-                                  <span
-                                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                    onClick={() => {
-                                      if (
-                                        el.subscribeNum <
-                                        process.env.REACT_APP_LIMITED_NUM
-                                      ) {
-                                        el.subscribeNum = el.subscribeNum + 1;
-                                        this.doGetPromotionPrice();
-                                        this.setState({
-                                          subDetail,
-                                          isDataChange: true
-                                        });
-                                      } else {
-                                        this.showErrMsg(
-                                          <FormattedMessage
-                                            id="cart.errorMaxInfo"
-                                            values={{
-                                              val:
-                                                process.env
-                                                  .REACT_APP_LIMITED_NUM
-                                            }}
-                                          />
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '1.375rem',
-                                      lineHeight: '40px',
-                                      verticalAlign: 'middle'
-                                    }}
-                                  >
-                                    =
-                                  </span>
-                                  <span
-                                    className="price"
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '1.25rem',
-                                      fontWeight: '400',
-                                      verticalAlign: 'middle',
-                                      marginLeft: '8px',
-                                      height: '25px'
-                                    }}
-                                  >
-                                    {formatMoney(
-                                      el.subscribePrice * el.subscribeNum
-                                    )}
-                                  </span>
-                                  <span
-                                    className="price"
-                                    style={{
-                                      display: 'inline-block',
-                                      fontSize: '1.25rem',
-                                      fontWeight: '400',
-                                      textDecoration: 'line-through',
-                                      verticalAlign: 'middle',
-                                      marginLeft: '8px',
-                                      height: '.6875rem',
-                                      color: '#aaa',
-                                      fontSize: '.875rem'
-                                    }}
-                                  >
-                                    {formatMoney(
-                                      el.originalPrice * el.subscribeNum
-                                    )}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                              // className="col-4 col-md-5"
-                              // style={{ paddingLeft: '60px' }}
-                              >
-                                <div className="rc-card-content">
-                                  <strong
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <FormattedMessage id="subscription.frequency" />
-                                    :
-                                  </strong>
-                                  <div
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      fontSize: '1.25rem',
-                                      marginTop: '.625rem',
-                                      display: 'inline-block',
-                                      marginLeft: '.625rem'
-                                    }}
-                                  >
-                                    <Selection
-                                      optionList={this.frequencyListOptions.filter(
-                                        (frequencyItem) =>
-                                          frequencyItem.goodsInfoFlag ===
-                                          el.goodsInfoFlag
-                                      )}
-                                      selectedItemChange={(data) => {
-                                        if (el.periodTypeId !== data.id) {
-                                          el.periodTypeId = data.id;
-                                          // el.periodTypeValue = data.valueEn;
-                                          this.setState({ isDataChange: true });
-                                        }
-                                      }}
-                                      selectedItemData={{
-                                        value: el.periodTypeId
-                                      }}
-                                      key={index + '_' + el.periodTypeId}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="rc-card-content">
-                                  <strong
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    {/* Shipping Method: */}
-                                    <FormattedMessage id="autoShipStarted" />
-                                  </strong>
-                                  <div
-                                    className="rc-card__meta order-Id text-left"
-                                    style={{
-                                      marginTop: '.625rem',
-                                      display: 'inline-block',
-                                      marginLeft: '.625rem',
-                                      fontSize: '1.25rem'
-                                    }}
-                                  >
-                                    {getFormatDate(el.createTime.split(' ')[0])}
-                                  </div>
-                                </div>
-                                <div className="rc-card-content">
-                                  <strong
-                                    style={{
-                                      display: 'inline-block',
-                                      width: '50%'
-                                    }}
-                                  >
-                                    <LazyLoad>
-                                      <img
-                                        src={dateIcon}
-                                        alt="delete icon"
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '1.25rem',
-                                          verticalAlign: 'middle',
-                                          marginRight: '8px'
-                                        }}
-                                      />
-                                    </LazyLoad>
-                                    <FormattedMessage id="nextShipment" />:
-                                  </strong>
-                                  <div
-                                    className="rc-card__meta order-Id"
-                                    style={{
-                                      marginTop: '.625rem',
-                                      display: 'inline-block',
-                                      marginLeft: '.625rem',
-                                      fontSize: '1.25rem'
-                                    }}
-                                  >
-                                    <DatePicker
-                                      className="receiveDate"
-                                      placeholder="Select Date"
-                                      dateFormat={datePickerConfig.format}
-                                      locale={datePickerConfig.locale}
-                                      // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                      minDate={
-                                        this.getMinDate(el.nextDeliveryTime) ||
-                                        this.state.minDate
-                                      }
-                                      selected={
-                                        !isActive
-                                          ? ''
-                                          : el.nextDeliveryTime
-                                          ? getZoneTime(el.nextDeliveryTime)
-                                          : new Date()
-                                      }
-                                      disabled={true}
-                                      onChange={(date) =>
-                                        this.onDateChange(date)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              {isGift && subDetail.subscribeStatus != 2
-                                ? this.getButtonBoxGift(subDetail)
-                                : null}
-                            </div>
-                          ))}
-                      </div>
-                      {this.showErrorDom(this.state.errMsgPage)}
-                      <div
-                        className="card-container"
-                        style={{
-                          marginTop: '0',
-                          display: isMobile ? 'none' : 'block',
-                          borderBottom: 'none'
-                        }}
-                      >
-                        {subDetail.goodsInfo &&
-                          subDetail.goodsInfo.map((el, index) => (
-                            <div
-                              className="rc-margin-x--none"
-                              style={{
-                                padding: '1rem 0',
-                                borderBottom: '1px solid #d7d7d7'
-                              }}
-                            >
-                              <div className=" row align-items-center">
-                                <div className="col-4 col-md-6">
-                                  <div
-                                    className="rc-layout-container rc-five-column"
-                                    style={{
-                                      height: '160px',
-                                      paddingRight: '60px',
-                                      paddingTop: '0'
-                                    }}
-                                  >
-                                    <div
-                                      className="rc-column flex-layout"
-                                      style={{ width: '80%', padding: 0 }}
-                                    >
-                                      <div className="img-container">
-                                        {/* <LazyLoad> */}
-                                        <img
-                                          src={el.goodsPic || IMG_DEFAULT}
-                                          alt={el.goodsName}
-                                        />
-                                        {/* </LazyLoad> */}
-                                      </div>
-                                      <div
-                                        className="v-center"
-                                        style={{
-                                          width: '300px'
-                                        }}
-                                      >
-                                        <h5
-                                          style={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            overflowWrap: 'normal',
-                                            color: '#e2001a'
-                                          }}
-                                        >
-                                          {el.goodsName}
-                                        </h5>
-                                        <p
-                                          style={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            marginBottom: '8px'
-                                          }}
-                                        >
-                                          {el.specText}
-                                        </p>
-                                        <div>
-                                          <div>
-                                            <span
-                                              className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                                isActive && !isGift
-                                                  ? ''
-                                                  : 'disabled'
-                                              }`}
-                                              style={{ marginLeft: '-8px' }}
-                                              onClick={() => {
-                                                if (el.subscribeNum > 1) {
-                                                  el.subscribeNum =
-                                                    el.subscribeNum - 1;
-                                                  // this.doGetPromotionPrice();
-                                                  this.setState({
-                                                    subDetail,
-                                                    isDataChange: true
-                                                  });
-                                                } else {
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorInfo" />
-                                                  );
-                                                }
-                                              }}
-                                            />
-                                            <input
-                                              className="rc-quantity__input"
-                                              id="quantity"
-                                              name="quantity"
-                                              min="1"
-                                              max="899"
-                                              maxLength="5"
-                                              onChange={(e) => {
-                                                this.setState({
-                                                  errorShow: false
-                                                });
-                                                const val = e.target.value;
-                                                let {
-                                                  currentGoodsInfo
-                                                } = this.state;
-                                                if (val === '') {
-                                                  el.subscribeNum = 1;
-                                                  this.setState({
-                                                    currentGoodsInfo
-                                                  });
-                                                } else {
-                                                  let tmp = parseInt(val);
-                                                  if (isNaN(tmp)) {
-                                                    tmp = 1;
-                                                    this.showErrMsg(
-                                                      <FormattedMessage id="cart.errorInfo" />
-                                                    );
-                                                  }
-                                                  if (tmp < 1) {
-                                                    tmp = 1;
-                                                    this.showErrMsg(
-                                                      <FormattedMessage id="cart.errorInfo" />
-                                                    );
-                                                  }
-                                                  if (
-                                                    tmp >
-                                                    process.env
-                                                      .REACT_APP_LIMITED_NUM
-                                                  ) {
-                                                    tmp =
-                                                      process.env
-                                                        .REACT_APP_LIMITED_NUM;
-                                                    this.showErrMsg(
-                                                      <FormattedMessage
-                                                        id="cart.errorMaxInfo"
-                                                        values={{
-                                                          val:
-                                                            process.env
-                                                              .REACT_APP_LIMITED_NUM
-                                                        }}
-                                                      />
-                                                    );
-                                                  }
-                                                  el.subscribeNum = tmp;
-                                                  this.setState({
-                                                    currentGoodsInfo
-                                                  });
-                                                  // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                                }
-                                                //数量变更后
-                                                subDetail.goodsInfo[
-                                                  index
-                                                ].subscribeNum =
-                                                  el.subscribeNum;
-                                                this.onQtyChange();
-                                              }}
-                                              value={el.subscribeNum}
-                                            />
-                                            <span
-                                              className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                                isActive && !isGift
-                                                  ? ''
-                                                  : 'disabled'
-                                              }`}
-                                              onClick={() => {
-                                                if (
-                                                  el.subscribeNum <
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
-                                                ) {
-                                                  el.subscribeNum =
-                                                    el.subscribeNum + 1;
-                                                  // this.doGetPromotionPrice();
-                                                  this.setState({
-                                                    subDetail,
-                                                    isDataChange: true
-                                                  });
-                                                } else {
-                                                  this.showErrMsg(
-                                                    <FormattedMessage
-                                                      id="cart.errorMaxInfo"
-                                                      values={{
-                                                        val:
-                                                          process.env
-                                                            .REACT_APP_LIMITED_NUM
-                                                      }}
-                                                    />
-                                                  );
-                                                }
-                                              }}
-                                            />
-                                            <span
-                                              style={{
-                                                display: 'inline-block',
-                                                fontSize: '1.375rem',
-                                                lineHeight: '40px',
-                                                verticalAlign: 'middle'
-                                              }}
-                                            >
-                                              =
-                                            </span>
-                                            <span
-                                              className="price"
-                                              style={{
-                                                display: 'inline-block',
-                                                fontSize: '1.25rem',
-                                                fontWeight: '400',
-                                                verticalAlign: 'middle',
-                                                marginLeft: '8px',
-                                                height: '25px'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                el.subscribePrice *
-                                                  el.subscribeNum
-                                              )}
-                                            </span>
-                                            <span
-                                              className="price"
-                                              style={{
-                                                display: 'inline-block',
-                                                fontSize: '1.25rem',
-                                                fontWeight: '400',
-                                                textDecoration: 'line-through',
-                                                verticalAlign: 'middle',
-                                                marginLeft: '8px',
-                                                height: '.6875rem',
-                                                color: '#aaa',
-                                                fontSize: '.875rem'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                el.originalPrice *
-                                                  el.subscribeNum
-                                              )}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    {isClub &&
-                                      !!subDetail.petsId &&
-                                      isNotInactive && (
-                                        <div
-                                          style={{
-                                            position: 'relative',
-                                            paddingLeft: '26px'
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              width: '100px',
-                                              paddingTop: '10px'
-                                            }}
-                                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                                              this.state.productListLoading
-                                                ? 'ui-btn-loading'
-                                                : ''
-                                            }`}
-                                            onClick={() =>
-                                              this.showChangeProduct([el])
-                                            }
-                                          >
-                                            <FormattedMessage id="subscriptionDetail.changeProduct" />
-                                          </span>
-                                          <div
-                                            style={{
-                                              position: 'absolute',
-                                              left: '126px',
-                                              whiteSpace: 'nowrap',
-                                              top: 0
-                                            }}
-                                          >
-                                            {this.DailyRation(el.petsRation)}
-                                          </div>
-                                        </div>
-                                      )}
-                                  </div>
-                                </div>
-                                <div className="col-4 col-md-1" />
-                                <div
-                                  className="col-4 col-md-5"
-                                  style={{ paddingLeft: '60px' }}
-                                >
-                                  <div className="rc-card-content">
-                                    <strong
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '50%'
-                                      }}
-                                    >
-                                      <FormattedMessage id="subscription.frequency" />
-                                      :
-                                    </strong>
-                                    <div
-                                      className="rc-card__meta order-Id text-left"
-                                      style={{
-                                        marginTop: '.625rem',
-                                        display: 'inline-block',
-                                        marginLeft: '.625rem',
-                                        fontSize: '1.25rem'
-                                      }}
-                                    >
-                                      <Selection
-                                        optionList={this.frequencyListOptions.filter(
-                                          (frequencyItem) =>
-                                            frequencyItem.goodsInfoFlag ===
-                                            el.goodsInfoFlag
-                                        )}
-                                        selectedItemChange={(data) => {
-                                          if (el.periodTypeId !== data.id) {
-                                            el.periodTypeId = data.id;
-                                            // el.periodTypeValue = data.valueEn;
-                                            this.setState({
-                                              isDataChange: true
-                                            });
-                                          }
-                                        }}
-                                        selectedItemData={{
-                                          value: el.periodTypeId
-                                        }}
-                                        key={index + '_' + el.periodTypeId}
-                                        disabled={!isActive || isGift}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="rc-card-content">
-                                    <strong
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '50%'
-                                      }}
-                                    >
-                                      {/* Shipping Method: */}
-                                      <FormattedMessage id="autoShipStarted" />
-                                    </strong>
-                                    <div
-                                      className="rc-card__meta order-Id text-left"
-                                      style={{
-                                        marginTop: '.625rem',
-                                        display: 'inline-block',
-                                        marginLeft: '.625rem',
-                                        fontSize: '1.25rem'
-                                      }}
-                                    >
-                                      {getFormatDate(
-                                        el.createTime.split(' ')[0]
-                                      )}
-                                      {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
-                                    </div>
-                                  </div>
-                                  <div className="rc-card-content">
-                                    <strong
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '50%'
-                                      }}
-                                    >
-                                      <LazyLoad>
-                                        <img
-                                          alt="delete icon"
-                                          src={dateIcon}
-                                          style={{
-                                            display: 'inline-block',
-                                            width: '1.25rem',
-                                            verticalAlign: 'middle',
-                                            marginRight: '8px'
-                                          }}
-                                        />
-                                      </LazyLoad>
-                                      <FormattedMessage id="nextShipment" />:
-                                    </strong>
-                                    <div
-                                      className="rc-card__meta order-Id"
-                                      style={{
-                                        marginTop: '.625rem',
-                                        display: 'inline-block',
-                                        marginLeft: '.625rem',
-                                        fontSize: '1.25rem'
-                                      }}
-                                    >
-                                      <DatePicker
-                                        className="receiveDate"
-                                        placeholder="Select Date"
-                                        dateFormat={datePickerConfig.format}
-                                        locale={datePickerConfig.locale}
-                                        // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                        minDate={
-                                          this.getMinDate(
-                                            el.nextDeliveryTime
-                                          ) || this.state.minDate
-                                        }
-                                        selected={
-                                          !isActive
-                                            ? ''
-                                            : el.nextDeliveryTime
-                                            ? getZoneTime(el.nextDeliveryTime)
-                                            : new Date()
-                                        }
-                                        disabled={true}
-                                        onChange={(date) =>
-                                          this.onDateChange(date)
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              {isGift && subDetail.subscribeStatus != 2
-                                ? this.getButtonBoxGift(subDetail)
-                                : null}
-                            </div>
-                          ))}
-                      </div>
-                      {!isGift && this.getButtonBox(subDetail)}
-
+                      <SubGoodsInfos
+                        isActive={isActive}
+                        isDataChange={this.state.isDataChange}
+                        isClub={isClub}
+                        isGift={this.state.isGift}
+                        onDateChange={this.onDateChange}
+                        productListLoading={this.state.productListLoading}
+                        showChangeProduct={this.showChangeProduct}
+                        errMsgPage={this.state.errMsgPage}
+                        isNotInactive={this.state.isNotInactive}
+                        minDate={this.state.minDate}
+                        setState={this.setState.bind(this)}
+                        frequencyListOptions={this.frequencyListOptions}
+                        getMinDate={this.getMinDate}
+                        showErrMsg={this.showErrMsg.bind(this)}
+                        subDetail={this.state.subDetail}
+                      />
                       <h4 className="h4">
                         <FormattedMessage id="myAutoshipOrder" />
                       </h4>
