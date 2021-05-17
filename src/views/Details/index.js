@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
+import HandledSpec from '@/components/HandledSpec/index.tsx';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
@@ -689,116 +690,8 @@ class Details extends React.Component {
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
-        let isSkuNoQuery = res.context.isSkuNoQuery;
-        let choosedSpecsArr = [];
-        if (isSkuNoQuery) {
-          // 通过sku查询
-          let specsItem = goodsInfos.filter(
-            (item) => item.goodsInfoNo == this.state.goodsNo
-          );
-          choosedSpecsArr =
-            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-        }
+
         if (res && res.context && res.context.goodsSpecDetails) {
-          // 组装购物车的前端数据结构与规格的层级关系
-          let specList = res.context.goodsSpecs;
-          let specDetailList = res.context.goodsSpecDetails;
-          specList.map((sItem, index) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              if (index === 0) {
-                let filterproducts = goodsInfos.filter((goodEl) =>
-                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                );
-                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(
-                  (item) => item.stock === 0
-                );
-                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-              }
-              return sdItem.specId === sItem.specId;
-            });
-            let defaultSelcetdSku = -1;
-            if (choosedSpecsArr.length) {
-              for (let i = 0; i < choosedSpecsArr.length; i++) {
-                let specDetailIndex = sItem.specDetailIds.indexOf(
-                  choosedSpecsArr[i]
-                );
-                if (specDetailIndex > -1) {
-                  defaultSelcetdSku = specDetailIndex;
-                }
-              }
-            }
-            if (defaultSelcetdSku > -1) {
-              // 默认选择该sku
-              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-                // 如果是sku进来的，需要默认当前sku被选择
-                sItem.chidren[defaultSelcetdSku].selected = true;
-              }
-            } else {
-              if (
-                process.env.REACT_APP_COUNTRY === 'DE' &&
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
-              } else if (
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
-              } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-                // 如果所有sku都没有库存 取第一个规格
-                if (
-                  sItem.chidren.filter((el) => el.selected).length === 0 &&
-                  sItem.chidren.length
-                ) {
-                  sItem.chidren[0].selected = true;
-                }
-              }
-            }
-
-            return sItem;
-          });
-          // this.setState({ specList });
-          sizeList = goodsInfos.map((g, i) => {
-            // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, {
-              selected: i === 0
-            });
-            let { form } = this.state;
-            if (g.selected && !g.subscriptionStatus) {
-              form.buyWay = 0;
-            }
-            if (g.selected && g.subscriptionStatus) {
-              form.buyWay =
-                form.buyWay && g.promotions?.includes('club') ? 2 : form.buyWay;
-            }
-            this.setState({ form });
-
-            return g;
-          });
-
-          const goodSize = specList.map((item) =>
-            item.chidren.find((good) => good.selected)
-          )?.[0]?.detailName;
-          const selectGoodSize = specList.map((item) =>
-            item.chidren.find((good) => good.selected)
-          )?.[0]?.detailName;
-          const selectPrice = goodsInfos.find(
-            (item) => item.packSize == selectGoodSize
-          )?.marketPrice;
-          const goodsInfoBarcode =
-            goodsInfos.find((item) => item.packSize === goodSize)
-              ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-          const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-
           let images = [];
           images = res.context.goodsInfos;
           this.setState(
@@ -817,37 +710,37 @@ class Details extends React.Component {
                     res.context.goodsAttributesValueRelList
                 }
               ),
-              images,
-              specList,
-              barcode
+              images
+              // specList,
+              // barcode
             },
             async () => {
-              await this.matchGoods();
+              // await this.matchGoods();
               //Product Detail Page view 埋点start
-              this.hubGA
-                ? this.hubGAProductDetailPageView(
-                    res.context.goodsAttributesValueRelList,
-                    this.state.details,
-                    selectPrice
-                  )
-                : this.GAProductDetailPageView(this.state.details);
+              // this.hubGA
+              //   ? this.hubGAProductDetailPageView(
+              //       res.context.goodsAttributesValueRelList,
+              //       this.state.details,
+              //       selectPrice
+              //     )
+              //   : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
             }
           );
         } else {
-          let sizeList = [];
-          let goodsInfos = res.context.goodsInfos || [];
-          sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, {
-              selected: i === 0
-            });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
+          // let sizeList = [];
+          // let goodsInfos = res.context.goodsInfos || [];
+          // sizeList = goodsInfos.map((g, i) => {
+          //   g = Object.assign({}, g, {
+          //     selected: i === 0
+          //   });
+          //   if (g.selected && !g.subscriptionStatus) {
+          //     let { form } = this.state;
+          //     form.buyWay = 0;
+          //     this.setState({ form });
+          //   }
+          //   return g;
+          // });
 
           let images = [];
           images = res.context.goodsInfos;
@@ -870,14 +763,14 @@ class Details extends React.Component {
               images
             },
             () => {
-              this.bundleMatchGoods();
+              // this.bundleMatchGoods();
               //Product Detail Page view 埋点start
-              this.hubGA
-                ? this.hubGAProductDetailPageView(
-                    res.context.goodsAttributesValueRelList,
-                    this.state.details
-                  )
-                : this.GAProductDetailPageView(this.state.details);
+              // this.hubGA
+              //   ? this.hubGAProductDetailPageView(
+              //       res.context.goodsAttributesValueRelList,
+              //       this.state.details
+              //     )
+              //   : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
             }
           );
@@ -1775,61 +1668,10 @@ class Details extends React.Component {
                               <Ration />
                             ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
-                              <div className="spec">
-                                {specList.map((sItem, i) => (
-                                  <div
-                                    id="choose-select"
-                                    className="spec-choose-select"
-                                    key={i}
-                                  >
-                                    <div className="rc-margin-bottom--xs">
-                                      <FormattedMessage id={sItem.specName} />:
-                                    </div>
-                                    <div data-attr="size">
-                                      <div
-                                        className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
-                                        id="id-single-select-size"
-                                      >
-                                        {sItem.chidren.map((sdItem, i) => (
-                                          <div
-                                            key={i}
-                                            className={`rc-swatch__item ${
-                                              sdItem.selected ? 'selected' : ''
-                                            } ${
-                                              sdItem.isEmpty ? 'outOfStock' : ''
-                                            }`}
-                                            onClick={() => {
-                                              if (sdItem.isEmpty) {
-                                                return false;
-                                              } else {
-                                                this.handleChooseSize(
-                                                  sItem.specId,
-                                                  sdItem.specDetailId,
-                                                  sdItem.selected
-                                                );
-                                              }
-                                            }}
-                                          >
-                                            <span
-                                              style={{
-                                                backgroundColor: sdItem.isEmpty
-                                                  ? '#ccc'
-                                                  : '#fff',
-                                                cursor: sdItem.isEmpty
-                                                  ? 'not-allowed'
-                                                  : 'pointer'
-                                              }}
-                                            >
-                                              {/* {parseFloat(sdItem.detailName)}{' '} */}
-                                              {sdItem.detailName}
-                                            </span>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
+                              <HandledSpec
+                                details={details}
+                                setState={this.setState.bind(this)}
+                              />
                               <div className="Quantity">
                                 <span className="amount">
                                   <FormattedMessage id="amount" />:
