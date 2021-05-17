@@ -730,6 +730,7 @@ const ru_RU = {
   petType: 'Тип питомца',
   phone: 'Телефон',
   pleasecompleteTheRequiredItem: 'Заполните требуемый пункт',
+  petWeightVerify: 'Калі ласка, увядзіце правільны вага',
   pleaseEnterTheCorrectEmail:
     'Пожалуйста, введите правильный адрес электронной почты',
   PleaseFillInstructions: 'Пожалуйста, заполните инструкции по возврату',
@@ -813,7 +814,7 @@ const ru_RU = {
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
   ratingGrade3: 'Рейтинг от самого высокого до самого низкого',
   receiver: 'Приемник',
-  recommandedForyou: 'Другие продукты',
+  recommandedForyou: 'Возможно, вас также заинтересует',
   registerAname: 'Число',
   registerCloud: 'Эталонная архитектура Commerce Cloud Storefront',
   registerCompleteForm:

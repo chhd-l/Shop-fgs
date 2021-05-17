@@ -659,6 +659,7 @@ const tr_TR = {
   petType: 'Evcil Hayvan Türü',
   phone: 'Cep telefonu',
   pleasecompleteTheRequiredItem: 'Lütfen gerekli öğeyi tamamlayın',
+  petWeightVerify: 'Lütfen doğru ağırlığı girin',
   pleaseEnterTheCorrectEmail: 'Lütfen doğru e-postayı girin',
   PleaseFillInstructions: 'Lütfen iade talimatlarını doldurun',
   'plp.retail.cat.button': 'Aralığı keşfedin',

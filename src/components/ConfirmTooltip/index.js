@@ -51,7 +51,7 @@ class ConfirmTooltip extends React.Component {
           tabIndex="1"
         >
           <div className={`confirm-tool-arrow`} style={this.props.arrowStyle} />
-          <div className="pt-1">{this.props.content}</div>
+          <div className="pt-1 content-text">{this.props.content}</div>
           <div className="d-flex justify-content-between">
             {this.props.cancelBtnVisible ? (
               <div
