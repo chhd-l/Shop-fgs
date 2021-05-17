@@ -17,7 +17,6 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
-    console.log('19    AddressPreview: ', this.props.details);
   }
   render() {
     const { details } = this.props;
@@ -104,7 +103,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {/* {localAddressForm['region'] && (
+                        {localAddressForm['region'] && (
                           <>
                             <div className="col-md-6">
                               <FormattedMessage id="payment.region" />
@@ -113,7 +112,7 @@ class InfosPreview extends React.Component {
                               &nbsp;{details.consignee.area}
                             </div>
                           </>
-                        )} */}
+                        )}
 
                         {localAddressForm['state'] && (
                           <>
@@ -228,7 +227,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {/* {localAddressForm['region'] && (
+                          {localAddressForm['region'] && (
                             <>
                               <div className="col-md-6">
                                 <FormattedMessage id="payment.region" />
@@ -237,7 +236,7 @@ class InfosPreview extends React.Component {
                                 &nbsp;{details.invoice.area}
                               </div>
                             </>
-                          )} */}
+                          )}
 
                           {localAddressForm['state'] && (
                             <>

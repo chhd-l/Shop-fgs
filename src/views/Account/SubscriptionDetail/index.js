@@ -3474,6 +3474,12 @@ class SubscriptionDetail extends React.Component {
                                     max="899"
                                     maxLength="5"
                                     onChange={(e) => {
+                                      if (
+                                        this.state.subDetail.subscribeStatus !==
+                                        '0'
+                                      ) {
+                                        return;
+                                      }
                                       this.setState({
                                         errorShow: false
                                       });
@@ -3838,6 +3844,12 @@ class SubscriptionDetail extends React.Component {
                                               max="899"
                                               maxLength="5"
                                               onChange={(e) => {
+                                                if (
+                                                  this.state.subDetail
+                                                    .subscribeStatus !== '0'
+                                                ) {
+                                                  return;
+                                                }
                                                 this.setState({
                                                   errorShow: false
                                                 });
@@ -5404,8 +5416,8 @@ class SubscriptionDetail extends React.Component {
                                   currentDeliveryAddress?.city + ', '}
 
                                 {/* 区域 */}
-                                {/* {localAddressForm['region'] &&
-                                  currentDeliveryAddress.area + ', '} */}
+                                {localAddressForm['region'] &&
+                                  currentDeliveryAddress.area + ', '}
 
                                 {/* 省份 / State */}
                                 {localAddressForm &&
