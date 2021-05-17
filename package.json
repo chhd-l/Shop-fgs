@@ -134,6 +134,7 @@
     "start:tr": "dotenv -e .env.development.local -e ./env/tr/.env.development -e ./env/tr/.env node scripts/start.js",
     "start:shopuat_tr": "dotenv -e .env.development.local -e ./env/tr/.env.shopuat -e ./env/tr/.env node scripts/start.js",
     "start:shopstg_tr": "dotenv -e .env.development.local -e ./env/tr/.env.shopstg -e ./env/tr/.env node scripts/start.js",
+    "start:shopsit_tr": "dotenv -e .env.development.local -e ./env/tr/.env.shopsit -e ./env/tr/.env node scripts/start.js",
     "start:stgwedding_tr": "dotenv -e .env.development.local -e ./env/tr/.env.stgwedding -e ./env/tr/.env node scripts/start.js",
     "start:uatwedding_tr": "dotenv -e .env.development.local -e ./env/tr/.env.uatwedding -e ./env/tr/.env node scripts/start.js",
     "start:prod_tr_hub": "dotenv -e .env.development.local -e ./env/tr/.env.production.hub -e ./env/tr/.env node scripts/start.js",

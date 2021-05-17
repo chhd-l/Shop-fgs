@@ -20,6 +20,11 @@ class TermsCommon extends Component {
       list: []
     };
   }
+  componentDidUpdate() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+  }
   //监听土耳其consent
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
@@ -31,7 +36,6 @@ class TermsCommon extends Component {
             e.preventDefault();
             e.stopPropagation();
             setTrConsentModal('fullScreenModalA', true);
-            //document.getElementById('tr_consent_a').removeEventListener('click',function(){})
           });
       document.getElementById('tr_consent_b') &&
         document
@@ -40,15 +44,26 @@ class TermsCommon extends Component {
             e.preventDefault();
             e.stopPropagation();
             setTrConsentModal('fullScreenModalB', true);
-            //document.getElementById('tr_consent_b').removeEventListener('click',function(){})
+          });
+      document.getElementById('tr_consent_c') &&
+        document
+          .getElementById('tr_consent_c')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalC', true);
+          });
+      document.getElementById('tr_consent_d') &&
+        document
+          .getElementById('tr_consent_d')
+          .addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTrConsentModal('fullScreenModalD', true);
           });
     };
   }
   componentDidMount() {
-    // if (process.env.REACT_APP_LANG == 'tr') {
-    //   this.addEventListenerFunTr();
-    // }
-
     document
       .getElementById(`${this.props.id}`)
       .addEventListener('click', (e) => {

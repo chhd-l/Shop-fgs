@@ -44,7 +44,7 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
 import { v4 as uuidv4 } from 'uuid';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -892,11 +892,11 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.goods.promotions &&
+          {/* {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 ? (
             <ClubGiftBanner intl={this.props.intl} />
-          ) : null}
+          ) : null} */}
           {isGift &&
             false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1484,7 +1484,6 @@ class LoginCart extends React.Component {
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
-
     if (goodsInfoFlag) {
       isHubGA && GACartChangeSubscription('Autoship');
     } else {
@@ -1664,16 +1663,8 @@ class LoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

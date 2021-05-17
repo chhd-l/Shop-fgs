@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import PLPCover from '@/components/PLPCover';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -841,7 +842,8 @@ class List extends React.Component {
     let lifestagesPrefv = [],
       sterilizedPrefv = [],
       technologyPrefv = [],
-      breedsPrefv = [];
+      breedsPrefv = [],
+      sizePrefvSeo = [];
     let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
@@ -849,22 +851,26 @@ class List extends React.Component {
       if (fnEle == 'Lifestages') {
         const lifestage = fvEles.includes('|')
           ? 'корм для кошек разных возрастов'
-          : 'корм для ' + fvEles;
+          : 'корм для ' + fvEles.toLowerCase();
         lifestagesPrefv.push(lifestage);
       } else if (fnEle == 'Sterilized') {
         const sterilize =
-          fvEles == 'Нет' ? 'стерилизованных' : 'нестерилизованных';
+          fvEles == 'Нет' ? 'нестерилизованных' : 'стерилизованных';
         sterilizedPrefv.push(sterilize);
       } else if (fnEle == 'Technology' && fvEles != 'Другой') {
-        technologyPrefv.push(fvEles);
+        technologyPrefv.push(fvEles.toLowerCase());
       } else if (fnEle == 'Breeds') {
         const breed = fvEles.includes('|')
           ? 'разных пород'
           : 'породы ' + fvEles;
         breedsPrefv.push(breed);
+      } else if (fnEle == 'Size') {
+        sizePrefv.push(fvEles);
+        const size = fvEles.includes('|')
+          ? 'разных размеров'
+          : fvEles.toLowerCase();
+        sizePrefvSeo.push(size);
       }
-
-      if (fnEle == 'Size') sizePrefv.push(fvEles);
     }
 
     if (!lifestagesPrefv.length && prefnNum) {
@@ -876,6 +882,7 @@ class List extends React.Component {
     let allPrefv = [
       ...technologyPrefv,
       ...lifestagesPrefv,
+      ...sizePrefvSeo,
       ...breedsPrefv,
       ...sterilizedPrefv
     ]?.join(' '); //要排序，因此这样写的==
@@ -886,7 +893,7 @@ class List extends React.Component {
       prefv1,
       animalType,
       sizePrefv: sizePrefv.join(' '),
-      allPrefv: allPrefv?.toLowerCase()
+      allPrefv
     });
   }
 
@@ -1813,7 +1820,6 @@ class List extends React.Component {
                 .map((t) => t.goodsAttributeValueEn);
               const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
               const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-              console.log(breedValue, 'breedValuebreedValuebreedValue===');
               const breed = breedValue
                 ? breedValue.toLowerCase() === 'cat'
                   ? 'Для кошек'
@@ -1879,11 +1885,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -2086,7 +2091,6 @@ class List extends React.Component {
       prefv1,
       animalType
     } = this.state;
-    console.log(allPrefv, 'allPrefvallPrefv');
     const _loadingJXS = Array(6)
       .fill(null)
       .map((item, i) => (
@@ -2352,7 +2356,7 @@ class List extends React.Component {
                   >
                     {!loading && (
                       <>
-                        <div className="row pl-1 rc-md-up align-items-center">
+                        <div className="row rc-md-up align-items-center pl-2 pr-2">
                           <div className="col-12 col-md-8 pt-3 pb-2">
                             <span className="rc-intro rc-margin--none">
                               <span className="medium text-capitalize">
@@ -2413,109 +2417,30 @@ class List extends React.Component {
                         <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
                           {loading
                             ? _loadingJXS
-                            : productList.map((item, i) =>
-                                process.env.REACT_APP_PLP_STYLE ===
-                                  'layout-global' && isMobilePhone ? (
-                                  <ListItemH5ForGlobalStyle
-                                    sourceParam={this.state.sourceParam}
-                                    isDogPage={isDogPage}
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text fr-label"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            style={{
-                                              width: 'inherit',
-                                              height: 'inherit'
-                                            }}
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                            alt="product list taggingForImage"
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
+                            : productList.map((item, i) => {
+                                return (
+                                  <div
+                                    className={`${
+                                      process.env.REACT_APP_PLP_STYLE ===
+                                      'layout-global'
+                                        ? 'col-12 pr-0 pl-md-2 pr-md-2'
+                                        : 'col-6 pl-2 pr-2'
+                                    } col-md-4 mb-3 pl-0 BoxFitMonileScreen`}
                                   >
-                                    <ListItemBodyH5ForGlobalStyle item={item} />
-                                  </ListItemH5ForGlobalStyle>
-                                ) : (
-                                  <ListItemForDefault
-                                    sourceParam={this.state.sourceParam}
-                                    key={item.id}
-                                    isDogPage={isDogPage}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                            alt="product list taggingForImage"
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
-                                  >
-                                    <ListItemBody
+                                    <PLPCover
                                       item={item}
+                                      key={item.id}
+                                      isDogPage={isDogPage}
+                                      sourceParam={this.state.sourceParam}
+                                      GAListParam={GAListParam}
+                                      breadListByDeco={breadListByDeco}
                                       headingTag={
                                         this.state.seoConfig.headingTag
                                       }
                                     />
-                                  </ListItemForDefault>
-                                )
-                              )}
+                                  </div>
+                                );
+                              })}
                         </article>
                         <div
                           className="grid-footer rc-full-width"

@@ -2,29 +2,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { formatMoney } from '@/utils/utils';
 import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
+import { FullScreenModalContext } from './index';
+import Table from './Table';
 
-export default function ModalA(props) {
-  const { FullScreenModalContext } = props;
+export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
-  const {
-    loginStore,
-    checkoutStore,
-    paymentStore,
-    configStore
-  } = useLocalStore(() => stores);
+  const { loginStore, paymentStore, configStore } = useLocalStore(() => stores);
   const { isLogin, userInfo } = loginStore;
-  const {
-    subscriptionDiscountPrice,
-    deliveryPrice,
-    tradePrice
-  } = checkoutStore;
   const {
     fullScreenModalA,
     deliveryAddressInfo,
-    billingAddressInfo
+    billingAddressInfo,
+    guestEmail
   } = paymentStore;
   const { localAddressForm } = configStore;
-  const { productList, calTotalNum, close } = value;
+  const { close } = value;
 
   return (
     <Observer>
@@ -72,101 +64,7 @@ export default function ModalA(props) {
                     </p>
                     <br />
 
-                    <div className="rc-table">
-                      <div className="rc-scroll--x">
-                        <table
-                          className="rc-table__table"
-                          data-js-table="checkout_billing_productTable"
-                          data-rc-feature-tables-setup="true"
-                        >
-                          <thead className="rc-table__thead">
-                            <tr className="rc-table__row">
-                              <th className="rc-table__th rc-espilon">
-                                Ürün Kodu
-                              </th>
-                              <th className="rc-table__th rc-espilon">
-                                Mal Hizmet
-                              </th>
-                              <th className="rc-table__th rc-espilon">
-                                Birim fiyat(TL)
-                              </th>
-                              <th className="rc-table__th rc-espilon">
-                                Miktar
-                              </th>
-                              <th className="rc-table__th rc-espilon">
-                                Toplam Fiyat (TL)
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="rc-table__tbody">
-                            {productList.map((el) => {
-                              return (
-                                <tr className="rc-table__row">
-                                  <td className="rc-table__td">
-                                    {el.goodsInfoNo}
-                                  </td>
-                                  <td className="rc-table__td">
-                                    {el.goodsName}
-                                  </td>
-                                  <td className="rc-table__td">
-                                    {formatMoney(el.salePrice)}
-                                  </td>
-                                  <td className="rc-table__td">
-                                    {el.buyCount + '.00'}
-                                  </td>
-                                  <td className="rc-table__td">
-                                    {formatMoney(el.salePrice * el.buyCount)}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                          <tbody>
-                            <tr className="rc-table__row">
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td">Toplam Miktar</td>
-                              <td className="rc-table__td">{calTotalNum()}</td>
-                            </tr>
-                            {/* <tr className="rc-table__row">
-                        <td className="rc-table__td"></td>
-                        <td className="rc-table__td"></td>
-                        <td className="rc-table__td"></td>
-                        <td className="rc-table__td">KDV Matrahi</td>
-                        <td className="rc-table__td">-</td>
-                      </tr> */}
-                            <tr className="rc-table__row">
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td">İndirim</td>
-                              <td className="rc-table__td">
-                                {subscriptionDiscountPrice > 0
-                                  ? '-' + subscriptionDiscountPrice + ' TL'
-                                  : '0 TL'}
-                              </td>
-                            </tr>
-                            <tr className="rc-table__row">
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td">Kargo bedeli</td>
-                              <td className="rc-table__td">
-                                {deliveryPrice} TL
-                              </td>
-                            </tr>
-                            <tr className="rc-table__row">
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td"></td>
-                              <td className="rc-table__td">Ödenecek Tutar</td>
-                              <td className="rc-table__td">{tradePrice} TL</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                    <Table />
                     <br />
                     <br />
                     <p>
@@ -183,11 +81,18 @@ export default function ModalA(props) {
                       <span>{deliveryAddressInfo?.lastName}</span>
                     </p>
                     <p>
-                      Adres: <span>{deliveryAddressInfo?.address1},</span>{' '}
+                      Adres:
+                      <span>
+                        {deliveryAddressInfo.country +
+                          ',' +
+                          deliveryAddressInfo.city}
+                      </span>
+                      {','}
+                      <span>{deliveryAddressInfo?.address1},</span>{' '}
                       {localAddressForm['address2'] &&
                         deliveryAddressInfo?.address2 && (
                           <span>{deliveryAddressInfo?.address2}</span>
-                        )}
+                        )}{' '}
                     </p>
                     <p>
                       Telefon:{' '}
@@ -198,7 +103,9 @@ export default function ModalA(props) {
                     </p>
                     <p>
                       E-posta:{' '}
-                      <span>{isLogin ? userInfo.customerAccount : ''}</span>
+                      <span>
+                        {isLogin ? userInfo.customerAccount : guestEmail}
+                      </span>
                     </p>
                     <br />
                     <p>
@@ -210,7 +117,14 @@ export default function ModalA(props) {
                       <span>{billingAddressInfo?.lastName}</span>
                     </p>
                     <p>
-                      Adres: <span>{billingAddressInfo?.address1},</span>{' '}
+                      Adres:
+                      <span>
+                        {billingAddressInfo.country +
+                          ',' +
+                          billingAddressInfo.city}
+                      </span>
+                      {','}
+                      <span>{billingAddressInfo?.address1},</span>{' '}
                       {localAddressForm['address2'] &&
                         billingAddressInfo?.address2 && (
                           <span>{billingAddressInfo?.address2}</span>
@@ -225,7 +139,9 @@ export default function ModalA(props) {
                     </p>
                     <p>
                       E-posta:{' '}
-                      <span>{isLogin ? userInfo.customerAccount : ''}</span>{' '}
+                      <span>
+                        {isLogin ? userInfo.customerAccount : guestEmail}
+                      </span>{' '}
                     </p>
                     <div className="content-asset">
                       <p>

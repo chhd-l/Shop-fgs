@@ -83,6 +83,12 @@ class PaymentStore {
 
   @observable fullScreenModalA = false;
   @observable fullScreenModalB = false;
+  @observable fullScreenModalC = false;
+  @observable fullScreenModalD = false;
+  @observable fullScreenModalOptEmail = false;
+  @observable fullScreenModalTC = false;
+  @observable fullScreenModalPM = false;
+  @observable guestEmail = '';
 
   @observable deliveryAddressInfo = {
     firstName: '',
@@ -453,6 +459,11 @@ class PaymentStore {
   @action.bound
   saveBillingAddressInfo(form) {
     this.billingAddressInfo = form;
+  }
+
+  @action.bound
+  setGuestEmail(param) {
+    this.guestEmail = param;
   }
 }
 export default PaymentStore;

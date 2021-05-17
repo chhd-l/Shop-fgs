@@ -43,7 +43,7 @@ import Dog from '@/assets/images/dog.png';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import {
   findPetProductForClub,
   changeSubscriptionDetailPets
@@ -1730,7 +1730,7 @@ class PetForm extends React.Component {
             ) : null}
             <div>
               {this.state.recommendData.length && this.state.isChoosePetType ? (
-                <ResponsiveCarousel
+                <RelateProductCarousel
                   location={this.props.location}
                   history={this.props.history}
                   goodsList={

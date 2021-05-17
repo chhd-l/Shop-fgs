@@ -40,7 +40,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
-import ResponsiveCarousel from '@/components/Carousel';
+import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
@@ -925,11 +925,11 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {pitem.promotions &&
+          {/* {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 ? (
             <ClubGiftBanner intl={this.props.intl} />
-          ) : null}
+          ) : null} */}
           {isGift &&
             false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
@@ -1700,16 +1700,8 @@ class UnLoginCart extends React.Component {
               </>
             )}
           </div>
-          {/* {goodsIdArr.length > 0 ? (
-            <Carousel
-              location={location}
-              history={history}
-              goodsId={goodsIdArr}
-              key="cart-recommendation"
-            />
-          ) : null} */}
           {this.state.relatedGoodsList.length > 0 ? (
-            <ResponsiveCarousel goodsList={this.state.relatedGoodsList} />
+            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

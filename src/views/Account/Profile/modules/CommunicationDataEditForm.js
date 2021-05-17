@@ -6,6 +6,7 @@ import Consent from '@/components/Consent';
 import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
+import { inject, observer } from 'mobx-react';
 
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
@@ -20,6 +21,8 @@ const SPECAIL_CONSENT_ENUM =
     ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
     tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
   }[process.env.REACT_APP_LANG] || [];
+@inject('paymentStore')
+@observer
 class CommunicationDataEditForm extends React.Component {
   static defaultProps = {
     originData: null,
@@ -41,8 +44,26 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
+  }
+  componentDidUpdate() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+  }
+  //监听土耳其consent
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    document.getElementById('tr_consent_opt_email') &&
+      document
+        .getElementById('tr_consent_opt_email')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalOptEmail', true);
+        });
   }
   componentDidMount() {
     this.setState({

@@ -74,7 +74,8 @@ import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
-import { registerCustomerList, guestList } from './tr_consent';
+import { getProductPetConfig } from '@/api/payment';
+import { registerCustomerList, guestList, commonList } from './tr_consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -275,8 +276,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -591,23 +593,54 @@ class Payment extends React.Component {
       listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
     } else if (process.env.REACT_APP_COUNTRY == 'RU') {
       listData = [...requiredList]; //俄罗斯-会员-必填项
+    } else if (process.env.REACT_APP_COUNTRY == 'TR') {
+      let cConsent = result.context.requiredList
+        .filter((item) => {
+          return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';
+        })
+        .map((item2) => {
+          return {
+            id: item2.id,
+            consentTitle: item2.consentTitle,
+            isChecked: true,
+            isRequired: true,
+            detailList: item2.detailList,
+            noChecked: true
+          };
+        });
+      let dConsent = result.context.requiredList
+        .filter((item) => {
+          return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
+        })
+        .map((item2) => {
+          return {
+            id: item2.id,
+            consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
+            border-bottom: 1px solid #ccc;color:#666" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`, //特殊处理，这里需要替换成本地的文字
+            isChecked: false,
+            isRequired: true,
+            detailList: item2.detailList
+          };
+        });
+
+      listData = [...cConsent, ...commonList, ...dConsent];
     } else {
       listData = [...requiredList, ...optionalList]; //必填项+选填项
     }
 
     this.rebindListData(listData);
   }
-  //土耳其consent
-  getTrConsentList() {
-    if (process.env.REACT_APP_COUNTRY === 'TR') {
-      let listData = [];
+  //土耳其consent 静态
+  // getTrConsentList() {
+  //   if (process.env.REACT_APP_COUNTRY === 'TR') {
+  //     let listData = [];
 
-      listData = this.isLogin ? [...registerCustomerList] : [...guestList];
-      //listData = [...registerCustomerList];
-      //listData = [...guestList];
-      this.rebindListData(listData);
-    }
-  }
+  //     //listData = this.isLogin ? [...registerCustomerList] : [...guestList];
+  //     //listData = [...registerCustomerList];
+  //     listData = [...guestList];
+  //     this.rebindListData(listData);
+  //   }
+  // }
   //获取支付方式
   initPaymentWay = async () => {
     try {
@@ -1025,7 +1058,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log(parameters);
+      console.log('1028: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1347,6 +1380,8 @@ class Payment extends React.Component {
           billLastName: billingAddress.lastName,
           billPhoneNumber: billingAddress.phoneNumber,
           billPostCode: billingAddress.postCode,
+          billProvince: billingAddress.province, // 2021-05-14 10:00
+          billProvinceId: billingAddress.provinceId,
           rfc: deliveryAddress.rfc,
           billRfc: billingAddress.rfc,
           email: creditCardInfo.email || guestEmail,
@@ -1818,7 +1853,10 @@ class Payment extends React.Component {
       param.billingAddress = billingChecked
         ? { ...tmpDeliveryAddress }
         : { ...tmpBillingAddress };
-
+      console.log(
+        '★★★★★★ ---------- saveAddressAndCommentPromise param: ',
+        param
+      );
       this.setState({
         deliveryAddress: { ...param.deliveryAddress },
         billingAddress: { ...param.billingAddress },
@@ -3046,8 +3084,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3102,6 +3141,7 @@ class Payment extends React.Component {
     });
   };
   updateGuestEmail = ({ email: guestEmail }) => {
+    this.props.paymentStore.setGuestEmail(guestEmail);
     const { deliveryAddress } = this.state;
     this.setState({ guestEmail }, () => {
       this.props.checkoutStore.updateUnloginCart({

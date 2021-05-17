@@ -15,6 +15,8 @@ import {
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { userBindConsent } from '@/api/consent';
+import Modal from '@/components/Modal';
+import { inject, observer } from 'mobx-react';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -22,6 +24,8 @@ const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
 
 @injectIntl
+@inject('paymentStore')
+@observer
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -137,9 +141,12 @@ class Register extends Component {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
-          isChecked: false,
+          isChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false,
           isRequired: true,
-          detailList: item.detailList
+          detailList: item.detailList,
+          noChecked:
+            item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY' ? true : false
         };
       });
 
@@ -364,7 +371,51 @@ class Register extends Component {
         });
       });
   };
+  componentDidUpdate() {
+    if (process.env.REACT_APP_LANG == 'tr') {
+      this.addEventListenerFunTr();
+    }
+  }
+  addEventListenerFunTr() {
+    const { setTrConsentModal } = this.props.paymentStore;
+    document.getElementById('tr_consent_c') &&
+      document.getElementById('tr_consent_c').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalC', true);
+      });
+    document.getElementById('tr_consent_d') &&
+      document.getElementById('tr_consent_d').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setTrConsentModal('fullScreenModalD', true);
+      });
+    document.getElementById('tr_consent_tc') &&
+      document
+        .getElementById('tr_consent_tc')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalTC', true);
+        });
+    document.getElementById('tr_consent_pm') &&
+      document
+        .getElementById('tr_consent_pm')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalPM', true);
+        });
 
+    document.getElementById('tr_consent_opt_email') &&
+      document
+        .getElementById('tr_consent_opt_email')
+        .addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal('fullScreenModalOptEmail', true);
+        });
+  }
   render() {
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
@@ -878,6 +929,13 @@ class Register extends Component {
             </div>
           </div>
         )}
+        <Modal
+          type="fullscreen"
+          visible={true}
+          footerVisible={false}
+          modalTitle={<FormattedMessage id="addPet" />}
+          confirmBtnText={<FormattedMessage id="continue" />}
+        />
       </div>
     );
   }
