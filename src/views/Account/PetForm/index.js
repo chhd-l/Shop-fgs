@@ -394,7 +394,7 @@ class PetForm extends React.Component {
       }
     }
 
-    if (!sensitivity) {
+    if (!sensitivity || (isPurebred && !this.state.breedName)) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
@@ -419,6 +419,10 @@ class PetForm extends React.Component {
           );
           return;
         }
+      }
+      if (this.state.weightObj && Number(this.state.weightObj.measure) <= 0) {
+        this.showErrorMsg(this.props.intl.messages.petWeightVerify);
+        return;
       }
     }
 
@@ -619,6 +623,19 @@ class PetForm extends React.Component {
     //   this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
     //   e.target.value
     // );
+  };
+
+  weightChange = (e) => {
+    let { weightObj } = this.state;
+    let valueArr = e.target.value.split('.');
+    if (Number(e.target.value) < 0) weightObj.measure = '';
+    if (valueArr.length > 1) {
+      valueArr[1] = valueArr[1].slice(0, 2);
+    }
+    weightObj.measure = valueArr.join('.');
+    this.setState({
+      weightObj
+    });
   };
 
   setSterilized(val) {
@@ -1586,18 +1603,7 @@ class PetForm extends React.Component {
                               aria-required="true"
                               style={{ padding: '.5rem 0', height: '44px' }}
                               value={this.state.weightObj.measure}
-                              onChange={(e) => {
-                                let { weightObj } = this.state;
-                                let valueArr = e.target.value.split('.');
-                                if (valueArr.length > 1) {
-                                  console.log(valueArr);
-                                  valueArr[1] = valueArr[1].slice(0, 2);
-                                }
-                                weightObj.measure = valueArr.join('.');
-                                this.setState({
-                                  weightObj
-                                });
-                              }}
+                              onChange={this.weightChange}
                               maxLength="50"
                               autoComplete="address-line"
                             />

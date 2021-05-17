@@ -730,6 +730,7 @@ const ru_RU = {
   petType: 'Тип питомца',
   phone: 'Телефон',
   pleasecompleteTheRequiredItem: 'Заполните требуемый пункт',
+  petWeightVerify: 'Калі ласка, увядзіце правільны вага',
   pleaseEnterTheCorrectEmail:
     'Пожалуйста, введите правильный адрес электронной почты',
   PleaseFillInstructions: 'Пожалуйста, заполните инструкции по возврату',
