@@ -24,12 +24,14 @@ import {
   getCityList
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
+import { inject } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import './index.less';
 
-const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const CURRENT_LANGFILE = locales;
+@inject('configStore')
 @injectIntl
 class Form extends React.Component {
   static defaultProps = {
@@ -117,14 +119,14 @@ class Form extends React.Component {
     caninForm.regionId = initData.areaId;
     initData.regionId = initData.areaId;
 
-    // console.log('112 -------------★ EditForm initData: ', initData);
-    // console.log('113-------------★ EditForm caninForm: ', caninForm);
+    console.log('112 -------------★ EditForm initData: ', initData);
+    console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
 
-    // 1、查询form表单配置开关
-    this.getSystemFormConfig();
+    // 获取 session 存储的 address form 数据并处理
+    this.setAddressFormData();
 
     // 如果有areaId
     if (initData?.areaId) {
@@ -159,7 +161,7 @@ class Form extends React.Component {
     maskOptions = { mask: phoneReg };
     let pval = IMask(element, maskOptions);
   };
-  // 1、查询form表单配置开关
+  // 1、查询form表单配置开关（* 未使用，暂时保留）
   getSystemFormConfig = async () => {
     const { caninForm } = this.state;
     try {
@@ -189,7 +191,7 @@ class Form extends React.Component {
       console.warn(err);
     }
   };
-  // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
+  // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据（* 未使用，暂时保留）
   getAddressSettingByApi = async (manually, automatically) => {
     const { formSettingSwitch, caninForm } = this.state;
     try {
@@ -213,7 +215,7 @@ class Form extends React.Component {
                 addressForm[item.fieldKey] = '';
               }
             });
-            localItemRoyal.set('rc-address-form', addressForm);
+            sessionItemRoyal.set('rc-address-form', addressForm);
 
             // 过滤掉不可用的
             if (this.props.isCyberBillingAddress) {
@@ -277,6 +279,69 @@ class Form extends React.Component {
         formLoading: false
       });
     }
+  };
+  // 获取 session 存储的 address form 数据并处理
+  setAddressFormData = () => {
+    const { caninForm } = this.state;
+    const localAddressForm = this.props.configStore?.localAddressForm;
+    // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
+    // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
+    if (localAddressForm?.settings) {
+      this.setState(
+        {
+          addressSettings: localAddressForm.settings
+        },
+        () => {
+          let narr = null;
+          narr = this.state.addressSettings.filter(
+            (item) => item.enableFlag == 1
+          );
+          // 过滤掉不可用的
+          if (this.props.isCyberBillingAddress) {
+            // 美国加卡不要电话号码
+            narr = narr.filter((item) => item.fieldKey != 'phoneNumber');
+          } else if (this.props.personalData) {
+            // persnalData不需要展示comment
+            narr = narr.filter((item) => item.fieldKey != 'comment');
+          }
+
+          // 格式化表单json
+          let ress = this.formListFormat(narr);
+          this.setState(
+            {
+              formList: ress
+            },
+            () => {
+              if (localAddressForm.formType.manually == 1) {
+                // 查询州列表（美国 state）
+                this.getUsStateList();
+                // 设置控制按钮可点的其中一个参数为 true
+                this.props.getRussiaAddressValidFlag(true);
+              }
+              this.setState(
+                {
+                  formLoading: false
+                },
+                () => {
+                  this.props.updateData(caninForm);
+                }
+              );
+              ress.forEach((item) => {
+                if (item.fieldKey == 'phoneNumber' && item.requiredFlag == 1) {
+                  // 设置手机号输入限制
+                  setTimeout(() => {
+                    this.setPhoneNumberReg();
+                  }, 1000);
+                }
+              });
+            }
+          );
+        }
+      );
+    }
+    this.setState({
+      formLoading: false
+    });
   };
   // 3、格式化表单json
   formListFormat(array) {
@@ -588,7 +653,7 @@ class Form extends React.Component {
         regionList: []
       });
       // 获取本地存储的需要显示的地址字段
-      const localAddressForm = localItemRoyal.get('rc-address-form') || null;
+      const localAddressForm = this.props.configStore?.localAddressForm;
       if (localAddressForm['region']) {
         this.getRegionDataByCityId(data.value);
       }

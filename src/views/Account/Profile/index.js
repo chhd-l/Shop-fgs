@@ -127,6 +127,8 @@ class AccountProfile extends React.Component {
         country: context.countryId,
         cityId: context.cityId,
         city: context.city,
+        areaId: context.areaId,
+        area: context.area,
         phoneNumber: context.contactPhone,
         rfc: context.reference,
         address1: context.address1,
