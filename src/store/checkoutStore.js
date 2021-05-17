@@ -436,7 +436,7 @@ class CheckoutStore {
   // 会员
   @action
   async updateLoginCart({
-    promotionCode = this.promotionCode,
+    promotionCode,
     subscriptionFlag = false,
     purchaseFlag,
     taxFeeData,
@@ -450,6 +450,8 @@ class CheckoutStore {
       if (!taxFeeData) {
         taxFeeData = nullTaxFeeData;
       }
+      let newPromotionCode =
+        promotionCode === undefined ? this.promotionCode : promotionCode;
 
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases();
@@ -469,7 +471,7 @@ class CheckoutStore {
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
         ),
-        promotionCode,
+        promotionCode: newPromotionCode,
         subscriptionFlag,
         purchaseFlag,
         country: taxFeeData.country,
@@ -484,7 +486,7 @@ class CheckoutStore {
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
-      this.setPromotionCode(promotionCode);
+      this.setPromotionCode(newPromotionCode);
       let goodsList = siteMiniPurchasesRes.goodsList;
 
       for (let good of goodsList) {
@@ -559,7 +561,7 @@ class CheckoutStore {
       };
 
       if (
-        !promotionCode ||
+        !newPromotionCode ||
         !sitePurchasesRes.promotionFlag ||
         sitePurchasesRes.couponCodeFlag
       ) {
