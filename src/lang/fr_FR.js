@@ -328,6 +328,7 @@ const fr_FR = {
   'details.unitPrice': 'Prix ​​unitaire',
   'details.youCanSave': 'Vous pouvez économiser',
   'details.buyFromRetailer': 'Acheter via un revendeur',
+  'details.buyFromRetailerTip': 'Les prix peuvent varier selon les revendeurs',
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   Dog: 'Chien',
   dogs: 'CHIENS',

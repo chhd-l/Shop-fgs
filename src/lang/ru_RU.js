@@ -813,7 +813,7 @@ const ru_RU = {
   ratingGrade2: 'От самого низкого до самого высокого рейтинга',
   ratingGrade3: 'Рейтинг от самого высокого до самого низкого',
   receiver: 'Приемник',
-  recommandedForyou: 'Другие продукты',
+  recommandedForyou: 'Возможно, вас также заинтересует',
   registerAname: 'Число',
   registerCloud: 'Эталонная архитектура Commerce Cloud Storefront',
   registerCompleteForm:
