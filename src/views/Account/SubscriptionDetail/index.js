@@ -3057,7 +3057,7 @@ class SubscriptionDetail extends React.Component {
     const data = this.state;
     const { checkoutStore } = this.props;
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
+    const localAddressForm = this.props.configStore.localAddressForm;
     let {
       isChangeQuatity,
       discount,

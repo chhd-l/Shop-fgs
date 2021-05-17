@@ -1,9 +1,12 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'paymentStore')
-export default class AddressPreview extends React.Component {
+@observer
+class AddressPreview extends React.Component {
   static defaultProps = { form: null, countryListDict: [], boldName: true };
   constructor(props) {
     super(props);
@@ -21,7 +24,7 @@ export default class AddressPreview extends React.Component {
     const { form, boldName, isLogin } = this.props;
 
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
+    const localAddressForm = this.props.configStore.localAddressForm;
 
     return form ? (
       <div className="children-nomargin">
@@ -113,3 +116,4 @@ export default class AddressPreview extends React.Component {
     ) : null;
   }
 }
+export default AddressPreview;
