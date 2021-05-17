@@ -401,15 +401,6 @@ class Details extends React.Component {
   get checkoutStore() {
     return this.props.checkoutStore;
   }
-  get computedList() {
-    return this.state.frequencyList.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.id,
-        ...ele
-      };
-    });
-  }
   get btnStatus() {
     const {
       details,
