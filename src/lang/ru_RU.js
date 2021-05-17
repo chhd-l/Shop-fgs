@@ -1095,7 +1095,7 @@ const ru_RU = {
   saveChange: 'Сохранить изменения',
   allOrders: 'Все заказы',
   single: 'Разовая покупка',
-  'order.orderPlacedOn': 'Дата доставки',
+  'order.orderPlacedOn': 'Дата отправки заказа',
   autoShipOrderDetails: 'Детали Вашей подписки',
   transactionInfomation: 'Информация о транзакции',
   manage: 'Управлять',
