@@ -49,6 +49,8 @@ import {
   changeSubscriptionDetailPets
 } from '@/api/subscription';
 
+import InputBox from './components/FormItem/InputBox';
+
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
@@ -1134,45 +1136,13 @@ class PetForm extends React.Component {
                   </div>
                   <div className="formBox">
                     <div className="form-group col-lg-6 pull-left required">
-                      <label
-                        className="form-control-label rc-full-width "
+                      <InputBox
                         htmlFor="name"
-                      >
-                        <FormattedMessage id="petName" />
-                      </label>
-                      <span
-                        className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                        input-setup="true"
-                      >
-                        <input
-                          type="text"
-                          className="rc-input__control"
-                          id="firstName"
-                          name="firstName"
-                          required=""
-                          aria-required="true"
-                          style={{ padding: '.5rem 0' }}
-                          value={this.state.nickname}
-                          onChange={this.inputNickname}
-                          maxLength="50"
-                          autoComplete="address-line"
-                        />
-                        <label
-                          className="rc-input__label"
-                          htmlFor="name"
-                        ></label>
-                      </span>
-                      <div
-                        className="invalid-feedback"
-                        style={{ display: 'none' }}
-                      >
-                        <FormattedMessage
-                          id="payment.errorInfo"
-                          values={{
-                            val: <FormattedMessage id="petName" />
-                          }}
-                        />
-                      </div>
+                        FormattedMsg="petName"
+                        name="firstName"
+                        value={this.state.nickname}
+                        handleChange={this.inputNickname}
+                      />
                     </div>
                     <div className="form-group col-lg-6 pull-left required">
                       <label
