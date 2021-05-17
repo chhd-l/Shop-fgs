@@ -1594,17 +1594,6 @@ class Details extends React.Component {
       observer.observe(nodeBtn, config);
     }
   }
-  getFrequencyDictDom = () => {
-    return (
-      <FrequencySelection
-        frequencyType={this.state.details.promotions}
-        currentFrequencyId={this.state.form.frequencyId}
-        handleConfirm={(data) => {
-          this.handleSelectedItemChange(data);
-        }}
-      />
-    );
-  };
 
   render() {
     const createMarkup = (text) => ({ __html: text });
@@ -2320,8 +2309,17 @@ class Details extends React.Component {
                                         <FormattedMessage id="freeShipping" />
                                       </div>
                                     </div>
-                                    {this.state.details.promotions &&
-                                      this.getFrequencyDictDom()}
+                                    {skuPromotions && (
+                                      <FrequencySelection
+                                        frequencyType={skuPromotions}
+                                        currentFrequencyId={
+                                          this.state.form.frequencyId
+                                        }
+                                        handleConfirm={(data) => {
+                                          this.handleSelectedItemChange(data);
+                                        }}
+                                      />
+                                    )}
                                     <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                       <div>
                                         <span className="text-line-through-price">
@@ -2440,8 +2438,17 @@ class Details extends React.Component {
                                       </span>
                                     </div>
                                   </div>
-                                  {this.state.details.promotions &&
-                                    this.getFrequencyDictDom()}
+                                  {skuPromotions && (
+                                    <FrequencySelection
+                                      frequencyType={skuPromotions}
+                                      currentFrequencyId={
+                                        this.state.form.frequencyId
+                                      }
+                                      handleConfirm={(data) => {
+                                        this.handleSelectedItemChange(data);
+                                      }}
+                                    />
+                                  )}
                                   <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
                                     <div>
                                       <span className="text-line-through-price">
