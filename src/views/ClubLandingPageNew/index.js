@@ -34,6 +34,7 @@ import LongBanner from './Components/LongBanner/index';
 import vetimg from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
 import goldenfood from './image/goldenfood.png';
 import { SubscriptionBenefits } from '../ClubLandingPage/SubscriptionBenefits';
+import SubsriptionBenefitsNew from './SubscriptionBenefitsNew';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -655,31 +656,9 @@ class ClubLandingPageNew extends React.Component {
             </div>
           </div>
 
-          <section>
-            <div
-              className="rc-bg-colour--brand3"
-              id="benefits-box"
-              style={{ padding: '1px 0' }}
-            >
-              <div className="rc-full-width">
-                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="club.subscription.titile" />
-                  </h4>
-                  <div className="value-proposition__container">
-                    <div className="row mx-0 justify-content-between">
-                      <SubscriptionBenefits />
-                    </div>
-                  </div>
-                </div>
-                <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <button className="rc-btn rc-btn--one">
-                    <FormattedMessage id="club.subscription.button" />
-                  </button>
-                </h4>
-              </div>
-            </div>
-          </section>
+          <div style={{ backgroundColor: '#123121' }}>
+            <SubsriptionBenefitsNew />
+          </div>
 
           <HealthNutrition />
           <Share />
