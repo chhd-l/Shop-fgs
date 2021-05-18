@@ -97,9 +97,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-26 07:05:24.000',
               updateTime: '2021-02-26 07:05:24.000',
               bannerNo: 1,
-              sliderTitle:
-                'Специализированное питание по подписке для поддержания здоровья',
-              sliderContent: '',
+              // sliderTitle:
+              //   'Специализированное питание по подписке для поддержания здоровья',
+              // sliderContent: '',
               alt: 'Клуб Royal Canin'
             },
             {
@@ -121,9 +121,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-26 07:05:24.000',
               updateTime: '2021-02-26 07:05:24.000',
               bannerNo: 2,
-              sliderTitle: 'Специализированное питание',
-              sliderContent:
-                'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
+              // sliderTitle: 'Специализированное питание',
+              // sliderContent:
+              //   'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
               alt: 'Специализированное питание Royal Canin'
             },
 
@@ -170,9 +170,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-24 05:55:42.000',
               updateTime: '2021-02-24 05:55:42.000',
               bannerNo: 5,
-              sliderTitle: 'Эксклюзивные подарки и сервисы',
-              sliderContent:
-                'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
+              // sliderTitle: 'Эксклюзивные подарки и сервисы',
+              // sliderContent:
+              //   'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
               alt: 'Подарки для питомцев'
             }
             // {
@@ -479,23 +479,27 @@ class ClubHeroCarousel extends React.Component {
                         )}
 
                         {el.mobiSkipUrl ? (
-                          <Link
-                            className="h-100"
-                            to={el.mobiSkipUrl}
-                            onClick={this.GABannerClick.bind(this, i)}
+                          <span
+                            className="h-100 rc-styled-link"
+                            onClick={this.scrollToHowItWorks}
                           >
                             <img
                               className="rc-md-down w-100 mh-100"
                               src={el.mobiUrl}
                               alt={el.alt}
                             />
-                          </Link>
+                          </span>
                         ) : (
-                          <img
-                            className="rc-md-down w-100 mh-100"
-                            src={el.mobiUrl}
-                            alt={el.alt}
-                          />
+                          <span
+                            className="h-100 rc-styled-link"
+                            onClick={this.scrollToHowItWorks}
+                          >
+                            <img
+                              className="rc-md-down w-100 mh-100"
+                              src={el.mobiUrl}
+                              alt={el.alt}
+                            />
+                          </span>
                         )}
                       </>
                     )}
@@ -510,11 +514,11 @@ class ClubHeroCarousel extends React.Component {
                           <p>{el.sliderContent}</p>
                         </div>
                         <br />
-                        {process.env.REACT_APP_COUNTRY == 'RU' ? (
-                          <button className="rc-btn rc-btn--one">
-                            Узнать больше
-                          </button>
-                        ) : (
+                        {process.env.REACT_APP_COUNTRY ==
+                        'RU' ? // <button className="rc-btn rc-btn--one">
+                        //   Узнать больше
+                        // </button>
+                        null : (
                           <button className="rc-btn rc-btn--one">Keşfet</button>
                         )}
                       </div>
