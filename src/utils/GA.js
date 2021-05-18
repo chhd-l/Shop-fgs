@@ -518,3 +518,13 @@ export const GABreederRecoSeeInCart = () => {
     'event ': 'breederRecoSeeInCart'
   });
 };
+
+export const GABigBreederAddToCar = (products) => {
+  let quantity = products.length,
+    buyWay = 0;
+  dataLayer.push({
+    event: 'pdpAddToCart',
+    pdpAddToCartQuantity: quantity,
+    pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[buyWay]
+  });
+};
