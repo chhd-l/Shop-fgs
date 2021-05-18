@@ -504,6 +504,7 @@ class ClubHeroCarousel extends React.Component {
                       </>
                     )}
                   </div>
+
                   <div className="experience-component experience-layouts-1to2columnRatio indexmobile">
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                       <div className="rc-max-width--md text-center rc-margin-y--md">
@@ -515,8 +516,7 @@ class ClubHeroCarousel extends React.Component {
                         </div>
                         <br />
                         {process.env.REACT_APP_COUNTRY ==
-                        'RU' ? // <button className="rc-btn rc-btn--one">
-                        //   Узнать больше
+                        'RU' ? //   Узнать больше // <button className="rc-btn rc-btn--one">
                         // </button>
                         null : (
                           <button className="rc-btn rc-btn--one">Keşfet</button>
