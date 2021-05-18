@@ -502,12 +502,16 @@ class PetForm extends React.Component {
     try {
       let res = await action(param);
       let isLinkedSub = this.state.subList.find((el) => el.petsId);
+      let isLinkedSubLength = this.state.subList.filter((el) => el.petsId)
+        ?.length;
       let petsIdLinkedSub = isLinkedSub?.petsId;
       let subscribeId =
         this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = this.props.location.state?.petsType;
+        let isFromSubscriptionDetail = this.props.location.state
+          ?.isFromSubscriptionDetail; //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
         let petsId = res.context?.result;
         if (subscribeId) {
           if (petsType) {
@@ -519,8 +523,10 @@ class PetForm extends React.Component {
             try {
               await changeSubscriptionDetailPets(params);
               // 有链接sub的，编辑宠物需要弹提示框
-              isEditAlert = true;
-              this.setState({ isEditAlert: true });
+              if (isFromSubscriptionDetail) {
+                isEditAlert = true;
+                this.setState({ isEditAlert: true });
+              }
             } catch (err) {
               this.showErrorMsg(err.message);
             }
@@ -528,7 +534,7 @@ class PetForm extends React.Component {
         }
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
-        if (petsIdLinkedSub && diffIndex > 0) {
+        if (petsIdLinkedSub && diffIndex > 0 && isLinkedSubLength == 1) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }
