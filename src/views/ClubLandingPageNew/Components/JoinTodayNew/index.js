@@ -36,7 +36,7 @@ const JoinTodayNew = () => {
                               maxWidth: '59%',
                               maxHeight: '59%',
                               marginTop: '120px',
-                              marginLeft: '20vh'
+                              marginLeft: '15vh'
                             }}
                             src={joinusnewlogo}
                           />
