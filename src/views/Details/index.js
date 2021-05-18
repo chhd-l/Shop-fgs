@@ -1067,6 +1067,10 @@ class Details extends React.Component {
                   )
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
+              //启用BazaarVoice时，在PDP页面add schema.org markup
+              if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+                addSchemaOrgMarkup(this.state.details);
+              }
             }
           );
         } else {
@@ -1682,9 +1686,6 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
-    if (!!+process.env.SHOW_BAZAARVOICE_RATINGS) {
-      addSchemaOrgMarkup(details);
-    }
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
@@ -1940,11 +1941,13 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
-                              {!isMobile && (
-                                <BazaarVoiceRatingSummary
-                                  productId={details.goodsNo}
-                                />
-                              )}
+                              {!isMobile &&
+                                !!+process.env
+                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+                                  <BazaarVoiceRatingSummary
+                                    productId={details.goodsNo}
+                                  />
+                                )}
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
@@ -2633,7 +2636,9 @@ class Details extends React.Component {
               />
             ) : null}
 
-            <BazaarVoiceReviews productId={details.goodsNo} />
+            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+              <BazaarVoiceReviews productId={details.goodsNo} />
+            )}
 
             <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
