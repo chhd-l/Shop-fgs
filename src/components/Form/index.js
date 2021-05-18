@@ -24,7 +24,7 @@ import {
   getCityList
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import './index.less';
@@ -33,6 +33,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const CURRENT_LANGFILE = locales;
 @inject('configStore')
 @injectIntl
+@observer
 class Form extends React.Component {
   static defaultProps = {
     type: 'billing',
@@ -215,7 +216,10 @@ class Form extends React.Component {
                 addressForm[item.fieldKey] = '';
               }
             });
-            sessionItemRoyal.set('rc-address-form', addressForm);
+            sessionItemRoyal.set(
+              'rc-address-form',
+              JSON.stringify(addressForm)
+            );
 
             // 过滤掉不可用的
             if (this.props.isCyberBillingAddress) {
@@ -283,7 +287,7 @@ class Form extends React.Component {
   // 获取 session 存储的 address form 数据并处理
   setAddressFormData = () => {
     const { caninForm } = this.state;
-    const localAddressForm = this.props.configStore?.localAddressForm;
+    const localAddressForm = this.props.configStore.localAddressForm;
     // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
     // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
     if (localAddressForm?.settings) {
@@ -399,16 +403,19 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (process.env.REACT_APP_COUNTRY == 'FR') {
             // regExp = /[(+33)|0]\d{9}$/;
-            regExp = /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'US') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'MX') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'RU') {
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'TR') {
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
           }
@@ -653,7 +660,7 @@ class Form extends React.Component {
         regionList: []
       });
       // 获取本地存储的需要显示的地址字段
-      const localAddressForm = this.props.configStore?.localAddressForm;
+      const localAddressForm = this.props.configStore.localAddressForm;
       if (localAddressForm['region']) {
         this.getRegionDataByCityId(data.value);
       }
@@ -904,10 +911,9 @@ class Form extends React.Component {
         <SearchSelection
           queryList={async ({ inputVal }) => {
             let res = await getAddressBykeyWord({ keyword: inputVal });
-            let robj = (
-              (res?.context && res?.context?.addressList) ||
-              []
-            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
+            let robj = ((res?.context && res?.context?.addressList) || []).map(
+              (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
+            );
             if (robj.length) {
               // 给查询到的地址拼接 errMsg
               robj.forEach((item) => {

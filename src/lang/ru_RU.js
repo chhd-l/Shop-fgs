@@ -730,6 +730,7 @@ const ru_RU = {
   petType: 'Тип питомца',
   phone: 'Телефон',
   pleasecompleteTheRequiredItem: 'Заполните требуемый пункт',
+  petWeightVerify: 'Калі ласка, увядзіце правільны вага',
   pleaseEnterTheCorrectEmail:
     'Пожалуйста, введите правильный адрес электронной почты',
   PleaseFillInstructions: 'Пожалуйста, заполните инструкции по возврату',
@@ -825,7 +826,7 @@ const ru_RU = {
   registerEmailFormate:
     'Адрес электронной почты не соответствует указанному формату.',
   registerErrorMessage:
-    'Во время регистрации произошла ошибка. Попробуйте снова или используйте другой Email адрес. ',
+    'Во время регистрации произошла ошибка. Попробуйте снова или используйте другой Email адрес. Обратиться в службу поддержки. ',
   registerFailed: 'Ошибка регистрации',
   registerFeckbook: 'Подключиться к Facebook',
   registerFillIn: 'Пожалуйста, заполните это поле',
@@ -1094,7 +1095,7 @@ const ru_RU = {
   saveChange: 'Сохранить изменения',
   allOrders: 'Все заказы',
   single: 'Разовая покупка',
-  'order.orderPlacedOn': 'Дата доставки',
+  'order.orderPlacedOn': 'Дата отправки заказа',
   autoShipOrderDetails: 'Детали Вашей подписки',
   transactionInfomation: 'Информация о транзакции',
   manage: 'Управлять',
@@ -1102,7 +1103,7 @@ const ru_RU = {
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
   'pet.petListTitle':
     'Обновляйте информацию в профиле своего питомца, чтобы мы смогли подобрать для него питание, учитывающее его уникальные потребности',
-  'payment.returnToCardList': 'Вярнуцца да спісу картак',
+  'payment.returnToCardList': 'Вернуться к сохраненной платежной информации',
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
     'Сохранить этот способ оплаты как предпочтительный',

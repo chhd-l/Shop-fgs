@@ -1,4 +1,5 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import {
   getDictionary,
@@ -7,7 +8,8 @@ import {
   getFormatDate
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
-
+@inject('configStore')
+@observer
 class InfosPreview extends React.Component {
   static defaultProps = {
     payRecord: null,
@@ -40,6 +42,8 @@ class InfosPreview extends React.Component {
   };
   render() {
     const { payRecord, details } = this.props;
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore.localAddressForm;
     return (
       <div style={{ padding: '0 .9375rem' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
@@ -60,10 +64,18 @@ class InfosPreview extends React.Component {
                 <span>{details.consignee.name}</span>
               </div>
               <div>
-                {details.consignee.detailAddress1}
+                {/* address1 */}
+                {localAddressForm['address1'] && (
+                  <>{details.consignee.detailAddress1}</>
+                )}
                 <br />
-                {details.consignee.detailAddress2}
-                {details.consignee.detailAddress2 ? <br /> : null}
+                {/* address2 */}
+                {localAddressForm['address2'] && (
+                  <>
+                    {details.consignee.detailAddress2}
+                    {details.consignee.detailAddress2 ? <br /> : null}
+                  </>
+                )}
               </div>
               <div>
                 {process.env.REACT_APP_COUNTRY == 'US' ? null : (
@@ -74,13 +86,28 @@ class InfosPreview extends React.Component {
                     )}{' '}
                   </>
                 )}
-                {details.consignee.city}
-                {', '}
-                {details.consignee?.province &&
-                details.consignee?.province != null
-                  ? details.consignee.province + ' '
-                  : null}
-                {details.consignee.postCode} {/* , {details.consignee.phone} */}
+                {/* 城市 */}
+                {localAddressForm['city'] && (
+                  <>
+                    {details.consignee.city}
+                    {', '}
+                  </>
+                )}
+                {/* 区域 */}
+                {localAddressForm['region'] && (
+                  <>
+                    {details.consignee.area}
+                    {', '}
+                  </>
+                )}
+                {/* 区域 */}
+                {localAddressForm['state'] && (
+                  <>{details.consignee.province} </>
+                )}
+                {/* 邮编 */}
+                {localAddressForm['postCode'] && (
+                  <>{details.consignee.postCode}</>
+                )}
               </div>
               {details.consignee.rfc}
               {details.consignee.rfc ? <br /> : null}
@@ -162,10 +189,18 @@ class InfosPreview extends React.Component {
                 <span>{details.invoice.contacts}</span>
               </div>
               <div>
-                {details.invoice.address1}
+                {/* address1 */}
+                {localAddressForm['address1'] && (
+                  <>{details.invoice.address1}</>
+                )}
                 <br />
-                {details.invoice.address2}
-                {details.invoice.address2 ? <br /> : null}
+                {/* address2 */}
+                {localAddressForm['address2'] && (
+                  <>
+                    {details.invoice.address2}
+                    {details.invoice.address2 ? <br /> : null}
+                  </>
+                )}
               </div>
               <div>
                 {process.env.REACT_APP_COUNTRY == 'US' ? null : (
@@ -176,12 +211,26 @@ class InfosPreview extends React.Component {
                     )}{' '}
                   </>
                 )}
-                {details.invoice.city}
-                {', '}
-                {details.invoice?.province && details.invoice?.province != null
-                  ? details.invoice.province + ' '
-                  : null}
-                {details.invoice.postCode} {/* , {details.invoice.phone} */}
+                {/* 城市 */}
+                {localAddressForm['city'] && (
+                  <>
+                    {details.invoice.city}
+                    {', '}
+                  </>
+                )}
+                {/* 区域 */}
+                {localAddressForm['region'] && (
+                  <>
+                    {details.invoice.area}
+                    {', '}
+                  </>
+                )}
+                {/* 区域 */}
+                {localAddressForm['state'] && <>{details.invoice.province} </>}
+                {/* 邮编 */}
+                {localAddressForm['postCode'] && (
+                  <>{details.invoice.postCode}</>
+                )}
               </div>
               {details.invoice.rfc}
               {details.invoice.rfc ? <br /> : null}
