@@ -620,7 +620,8 @@ class SubscriptionDetail extends React.Component {
           to={{
             pathname: `/account/pets/petForm/${petsId}`,
             state: {
-              isFromSubscriptionDetail: true,
+              isFromSubscriptionDetail:
+                this.state.subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
               subscribeId: this.state.subDetail.subscribeId
             }
           }}
@@ -3333,7 +3334,7 @@ class SubscriptionDetail extends React.Component {
                     {/* 未激活的情况下不展示club相关信息 */}
                     {isClub &&
                     this.state.isNotInactive &&
-                    !!this.state.subDetail.petsId &&
+                    // !!this.state.subDetail.petsId &&
                     !isCantLinkPet ? (
                       this.ClubTitle()
                     ) : (
