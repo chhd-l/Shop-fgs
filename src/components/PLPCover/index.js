@@ -343,7 +343,9 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
       {item.technologyOrBreedsAttr ? (
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
-      <InlineRatings productId={item.goodsNo} />
+      {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+        <InlineRatings productId={item.goodsNo} />
+      )}
       {item.fromPrice ? (
         <div className="product-price">
           <div className="card--product-contaner-price">
@@ -497,7 +499,9 @@ function ListItemBody({ item, headingTag }) {
               </p>
             ) : null}
           </div>
-          <InlineRatings productId={item.goodsNo} />
+          {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+            <InlineRatings productId={item.goodsNo} />
+          )}
           {item?.fromPrice ? (
             <div className="d-flex justify-content-center pt-3 pb-3">
               <div className="rc-card__price text-left PriceFitScreen">
