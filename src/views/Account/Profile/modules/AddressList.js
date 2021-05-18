@@ -1,5 +1,5 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Loading from '@/components/Loading';
 import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
@@ -13,12 +13,28 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 
 const isPad = getDeviceType() === 'Pad';
-const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const addressFormNull = {
+  firstName: '',
+  lastName: '',
+  address1: '',
+  address2: '',
+  city: '',
+  state: '',
+  country: '',
+  region: '',
+  postCode: '',
+  entrance: '',
+  apartment: '',
+  phoneNumber: '',
+  comment: ''
+};
 
 function CardItem(props) {
   const { data } = props;
   // 获取本地存储的需要显示的地址字段
-  const localAddressForm = localItemRoyal.get('rc-address-form') || null;
+  const localAddressForm =
+    sessionItemRoyal.get('rc-address-form') || addressFormNull;
 
   return (
     <div
@@ -62,7 +78,7 @@ function CardItem(props) {
         <p className="mb-0 mp_mb_cpp">
           {/* 城市 */}
           {localAddressForm['city'] && data.city + ', '}
-          {/* {localAddressForm['region'] && data.area + ', '} */}
+          {localAddressForm['region'] && data.area + ', '}
           {/* 省份 */}
           {localAddressForm['state'] && data.province + ' '}
           {/* 邮编 */}
@@ -74,6 +90,7 @@ function CardItem(props) {
 }
 @inject('checkoutStore', 'configStore')
 @injectIntl
+@observer
 class AddressList extends React.Component {
   static defaultProps = {
     hideBillingAddr: false

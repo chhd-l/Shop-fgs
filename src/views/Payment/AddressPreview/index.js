@@ -1,9 +1,10 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 @inject('checkoutStore', 'configStore')
+@observer
 class InfosPreview extends React.Component {
   constructor(props) {
     super(props);
@@ -17,12 +18,11 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
-    console.log('19    AddressPreview: ', this.props.details);
   }
   render() {
     const { details } = this.props;
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
+    const localAddressForm = this.props.configStore.localAddressForm;
 
     return (
       <div className="card mb-3 shipping-summary checkout--padding">
@@ -104,7 +104,7 @@ class InfosPreview extends React.Component {
                           </>
                         )}
 
-                        {/* {localAddressForm['region'] && (
+                        {localAddressForm['region'] && (
                           <>
                             <div className="col-md-6">
                               <FormattedMessage id="payment.region" />
@@ -113,7 +113,7 @@ class InfosPreview extends React.Component {
                               &nbsp;{details.consignee.area}
                             </div>
                           </>
-                        )} */}
+                        )}
 
                         {localAddressForm['state'] && (
                           <>
@@ -228,7 +228,7 @@ class InfosPreview extends React.Component {
                             </>
                           )}
 
-                          {/* {localAddressForm['region'] && (
+                          {localAddressForm['region'] && (
                             <>
                               <div className="col-md-6">
                                 <FormattedMessage id="payment.region" />
@@ -237,7 +237,7 @@ class InfosPreview extends React.Component {
                                 &nbsp;{details.invoice.area}
                               </div>
                             </>
-                          )} */}
+                          )}
 
                           {localAddressForm['state'] && (
                             <>

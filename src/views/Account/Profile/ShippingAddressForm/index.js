@@ -42,7 +42,7 @@ class ShippingAddressFrom extends React.Component {
         metaDescription: 'Royal canin'
       },
       russiaAddressValid: false,
-      loading: false,
+      loading: true,
       saveLoading: false,
       showModal: false,
       isAdd: true,

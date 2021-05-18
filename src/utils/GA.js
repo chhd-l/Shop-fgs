@@ -158,7 +158,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
   if (!isHubGA) return;
   let breed = [];
   productList?.[0]?.goodsAttributesValueRelList
-    ?.filter((item) => item.goodsAttributeName == 'Breeds')
+    ?.filter((item) => item.goodsAttributeName.toLowerCase() == 'breeds')
     .forEach((item2) => {
       breed.push(item2.goodsAttributeValue);
     });
@@ -248,7 +248,7 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
     // });
     let breed = [];
     item?.goodsAttributesValueRelVOList
-      ?.filter((item) => item.goodsAttributeName == 'Breeds')
+      ?.filter((item) => item.goodsAttributeName.toLowerCase() == 'breeds')
       .forEach((item2) => {
         breed.push(item2.goodsAttributeValue);
       });
@@ -400,7 +400,7 @@ export const doGetGAVal = (props) => {
   if (isLogin) {
     for (let item of loginCartData) {
       item?.goodsAttributesValueRelVOList
-        ?.filter((item) => item.goodsAttributeName == 'breeds')
+        ?.filter((item) => item.goodsAttributeName.toLowerCase() == 'breeds')
         .forEach((item2) => {
           breed.push(item2.goodsAttributeValue);
         });
@@ -414,7 +414,7 @@ export const doGetGAVal = (props) => {
     let arr = (cartData[0] && cartData[0].goodsAttributesValueRelList) || [];
 
     arr
-      .filter((item) => item.goodsAttributeName == 'breeds')
+      .filter((item) => item.goodsAttributeName.toLowerCase() == 'breeds')
       .forEach((item2) => {
         breed.push(item2.goodsAttributeValue);
       });

@@ -7,7 +7,6 @@ import {
 } from '@/api';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const localItemRoyal = window.__.localItemRoyal;
 const addressFormNull = {
   firstName: '',
   lastName: '',
@@ -35,10 +34,10 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
     : null; //prescriber Setting相关配置信息
 
-  // 获取本地存储的需要显示的地址字段
-  @computed get localAddressForm() {
-    return localItemRoyal.get('rc-address-form') || null;
-  }
+  // 需要显示的 address form 地址字段
+  @observable localAddressForm = sessionItemRoyal.get('rc-address-form')
+    ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
+    : addressFormNull;
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -48,6 +47,7 @@ class ConfigStore {
   @computed get customTaxSettingOpenFlag() {
     return this.info?.customTaxSettingOpenFlag;
   }
+
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
     return (
@@ -201,8 +201,8 @@ class ConfigStore {
   // 1、查询form表单配置开关
   @action.bound
   async getSystemFormConfig() {
-    let addressForm = localItemRoyal.get('rc-address-form') || null;
-    if (addressForm) {
+    let addressForm = this.localAddressForm;
+    if (addressForm?.settings) {
       return;
     }
     try {
@@ -218,31 +218,40 @@ class ConfigStore {
             automatically = item.context;
           }
         });
-        let fromSetSwitch =
-          manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
         // 根据接口类型查询表单数据
-        this.getAddressSettingByApi(fromSetSwitch);
+        this.getAddressSettingByApi(manually, automatically);
       } else {
         console.error('地址表单接口返回空，找后端配置。');
-        localItemRoyal.set('rc-address-form', addressFormNull);
+        sessionItemRoyal.set('rc-address-form', addressFormNull);
       }
     } catch (err) {
       console.log(err);
-      localItemRoyal.set('rc-address-form', addressFormNull);
+      sessionItemRoyal.set('rc-address-form', addressFormNull);
     }
   }
 
   // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据
   @action.bound
-  async getAddressSettingByApi(formSettingSwitch) {
+  async getAddressSettingByApi(manually, automatically) {
+    let addressForm = addressFormNull;
     try {
+      let formSettingSwitch =
+        manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
       const res = await getAddressSetting({
         addressApiType: formSettingSwitch
       });
       if (res?.context?.addressDisplaySettings) {
         let addressSettings = res.context.addressDisplaySettings;
-        // 把查询到的address配置存到本地
-        let addressForm = {};
+        // 拼接json
+        addressForm = {
+          settings: addressSettings,
+          formType: {
+            type: formSettingSwitch,
+            manually: 1,
+            automatically: 0
+          }
+        };
+        // 标记可用字段
         addressSettings.forEach((item) => {
           if (item.enableFlag == 1) {
             addressForm[item.fieldKey] = item.fieldKey;
@@ -250,14 +259,16 @@ class ConfigStore {
             addressForm[item.fieldKey] = '';
           }
         });
-        localItemRoyal.set('rc-address-form', addressForm);
+        // 把查询到的address配置存到 session
+        this.localAddressForm = addressForm;
+        sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
       } else {
-        console.error('地址表单接口返回空，找后端配置。');
-        localItemRoyal.set('rc-address-form', addressFormNull);
+        console.error('★ 地址表单接口返回空，找后端配置。');
+        sessionItemRoyal.set('rc-address-form', addressForm);
       }
     } catch (err) {
       console.log(err);
-      localItemRoyal.set('rc-address-form', addressFormNull);
+      sessionItemRoyal.set('rc-address-form', addressForm);
     }
   }
 }

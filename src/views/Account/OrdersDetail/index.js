@@ -1013,7 +1013,7 @@ class AccountOrders extends React.Component {
     };
 
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
+    const localAddressForm = this.props.configStore.localAddressForm;
 
     const {
       details,
@@ -1453,8 +1453,8 @@ class AccountOrders extends React.Component {
                                           details.consignee.city + ', '}
 
                                         {/* 区域 */}
-                                        {/* {localAddressForm['region'] &&
-                                          details.consignee.area + ', '} */}
+                                        {localAddressForm['region'] &&
+                                          details.consignee.area + ', '}
 
                                         {/* 省份 */}
                                         {localAddressForm['state'] &&
@@ -1558,8 +1558,8 @@ class AccountOrders extends React.Component {
                                             details.invoice.city + ', '}
 
                                           {/* 区域 */}
-                                          {/* {localAddressForm['region'] &&
-                                            details.invoice.area + ', '} */}
+                                          {localAddressForm['region'] &&
+                                            details.invoice.area + ', '}
 
                                           {/* 省份 */}
                                           {localAddressForm['state'] &&

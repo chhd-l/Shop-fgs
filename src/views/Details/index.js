@@ -48,6 +48,8 @@ import './index.css';
 import './index.less';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
+import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
+import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1729,6 +1731,7 @@ class Details extends React.Component {
       }
     };
     console.log(form.buyWay, 'bbbb');
+    console.log('details', details);
     return (
       <div id="Details">
         <button
@@ -1928,6 +1931,11 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
+                              {!isMobile && (
+                                <BazaarVoiceRatingSummary
+                                  productId={details.goodsNo}
+                                />
+                              )}
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
@@ -1988,7 +1996,7 @@ class Details extends React.Component {
                               dangerouslySetInnerHTML={{
                                 __html: this.state.descContent
                               }}
-                            ></div>
+                            />
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
                             {!loading &&
                             !bundle &&
@@ -2014,7 +2022,7 @@ class Details extends React.Component {
                                   {instockStatus ? (
                                     <>
                                       <label className={`availability instock`}>
-                                        <span className="title-select"></span>
+                                        <span className="title-select" />
                                       </label>
                                       <span
                                         className="availability-msg"
@@ -2032,7 +2040,7 @@ class Details extends React.Component {
                                       <label
                                         className={`availability outofstock`}
                                       >
-                                        <span className="title-select"></span>
+                                        <span className="title-select" />
                                       </label>
                                       <span
                                         className="availability-msg"
@@ -2175,7 +2183,7 @@ class Details extends React.Component {
                                       onClick={() =>
                                         this.hanldeAmountChange('minus')
                                       }
-                                    ></span>
+                                    />
                                     <input
                                       className="rc-quantity__input"
                                       id="quantity"
@@ -2191,7 +2199,7 @@ class Details extends React.Component {
                                       onClick={() =>
                                         this.hanldeAmountChange('plus')
                                       }
-                                    ></span>
+                                    />
                                   </div>
                                 </div>
                               </div>
@@ -2584,7 +2592,8 @@ class Details extends React.Component {
                                 checkOutErrMsg={checkOutErrMsg}
                               />
                             </div>
-                            {form.buyWay === 2 ? (
+                            {form.buyWay === 2 &&
+                            process.env.REACT_APP_LANG !== 'ru' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
@@ -2615,7 +2624,9 @@ class Details extends React.Component {
               />
             ) : null}
 
-            <div className="split-line rc-bg-colour--brand4"></div>
+            <BazaarVoiceReviews productId={details.goodsNo} />
+
+            <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
               <AdvantageTips />
             ) : null}
