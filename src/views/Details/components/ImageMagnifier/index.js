@@ -364,6 +364,7 @@ class ImageMagnifier extends Component {
       spuImages,
       imgAlt
     } = this.props;
+    console.log(spuImages, this.state.minImg, 'spuImages');
     if (process.env.REACT_APP_COUNTRY !== 'FR' && spuImages.length) {
       let idx = spuImages.findIndex((el) => el.imageType === 'master');
       let masterIndex = idx < 0 ? 0 : idx;
@@ -399,19 +400,33 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {spuImages.map((el, i) => (
-                <div key={i}>
+              {spuImages.length > 0 ? (
+                spuImages.map((el, i) => (
+                  <div key={i}>
+                    {/* <LazyLoad> */}
+                    <img
+                      className="J_detail_img"
+                      style={cssStyle.imgStyle}
+                      src={el.artworkUrl || this.state.minImg || noPic}
+                      // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
+                      alt={imgAlt}
+                    />
+                    {/* </LazyLoad> */}
+                  </div>
+                ))
+              ) : (
+                <div>
                   {/* <LazyLoad> */}
                   <img
                     className="J_detail_img"
                     style={cssStyle.imgStyle}
-                    src={el.artworkUrl || this.state.maxImg || noPic}
+                    src={this.state.minImg || noPic}
                     // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
                     alt={imgAlt}
                   />
                   {/* </LazyLoad> */}
                 </div>
-              ))}
+              )}
               {videoShow && video && (
                 <div
                   className="d-flex"
