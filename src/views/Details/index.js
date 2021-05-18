@@ -50,6 +50,7 @@ import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import { getGoodsRelation } from '@/api/details';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
+import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1681,6 +1682,9 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
+    if (!!+process.env.SHOW_BAZAARVOICE_RATINGS) {
+      addSchemaOrgMarkup(details);
+    }
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
@@ -1730,7 +1734,12 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(form.buyWay, 'bbbb');
+    console.log(
+      form.buyWay,
+      'bbbb',
+      images,
+      isCountriesContainer(['fr', 'ru', 'tr', 'en'])
+    );
     console.log('details', details);
     return (
       <div id="Details">

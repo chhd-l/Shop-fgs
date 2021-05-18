@@ -36,6 +36,7 @@ import goldenfood from './image/goldenfood.png';
 import { SubscriptionBenefits } from '../ClubLandingPage/SubscriptionBenefits';
 import SubsriptionBenefitsNew from './SubscriptionBenefitsNew';
 import HowItWorksNew from './Components/HowItWorksNew';
+import JoinTodayNew from './Components/JoinTodayNew';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -657,13 +658,19 @@ class ClubLandingPageNew extends React.Component {
             </div>
           </div>
 
-          <div style={{ height: '6vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
           <div style={{ backgroundColor: '#D0D0D0' }}>
             <SubsriptionBenefitsNew />
           </div>
-          <div style={{ height: '6vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
 
           <HowItWorksNew />
+
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ backgroundColor: '#D0D0D0' }}>
+            <JoinTodayNew />
+          </div>
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
 
           <HealthNutrition />
           <Share />
