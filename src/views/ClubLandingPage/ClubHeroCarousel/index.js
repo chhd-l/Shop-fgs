@@ -12,11 +12,14 @@ import Slidertwo from './ClubHeroCarouselImg/SliderTwo.png';
 import Sliderthree from './ClubHeroCarouselImg/SliderThree.png';
 import Sliderfive from './ClubHeroCarouselImg/SliderFive.png';
 import Sliderseven from './ClubHeroCarouselImg/SliderSeven.png';
-import Slidermobile1 from './ClubHeroCarouselImg/Slidermobile1.png';
+import Slidermobile1 from './ClubHeroCarouselImg/Slidermobile1.jpg';
 import Slidermobile2 from './ClubHeroCarouselImg/Slidermobile2.png';
 import Slidermobile3 from './ClubHeroCarouselImg/Slidermobile3.png';
 import Slidermobile5 from './ClubHeroCarouselImg/Slidermobile5.png';
 import Slidermobile7 from './ClubHeroCarouselImg/Slidermobile7.png';
+import TrSlidermobile1 from './ClubHeroCarouselImg/TrSlidermobile1.png';
+import TrSlidermobile2 from './ClubHeroCarouselImg/TrSlidermobile2.png';
+import TrSlidermobile5 from './ClubHeroCarouselImg/TrSlidermobile5.png';
 import trsliderone from './ClubHeroCarouselImg/trsliderone.png';
 import trslidertwo from './ClubHeroCarouselImg/trslidertwo.png';
 import trsliderthree from './ClubHeroCarouselImg/trsliderthree.png';
@@ -97,9 +100,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-26 07:05:24.000',
               updateTime: '2021-02-26 07:05:24.000',
               bannerNo: 1,
-              sliderTitle:
-                'Специализированное питание по подписке для поддержания здоровья',
-              sliderContent: '',
+              // sliderTitle:
+              //   'Специализированное питание по подписке для поддержания здоровья',
+              // sliderContent: '',
               alt: 'Клуб Royal Canin'
             },
             {
@@ -121,9 +124,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-26 07:05:24.000',
               updateTime: '2021-02-26 07:05:24.000',
               bannerNo: 2,
-              sliderTitle: 'Специализированное питание',
-              sliderContent:
-                'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
+              // sliderTitle: 'Специализированное питание',
+              // sliderContent:
+              //   'Мы подберем специализированное питание, поддерживающее здоровое развитие Вашего питомца с учетом его особенностей',
               alt: 'Специализированное питание Royal Canin'
             },
 
@@ -170,9 +173,9 @@ class ClubHeroCarousel extends React.Component {
               createTime: '2021-02-24 05:55:42.000',
               updateTime: '2021-02-24 05:55:42.000',
               bannerNo: 5,
-              sliderTitle: 'Эксклюзивные подарки и сервисы',
-              sliderContent:
-                'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
+              // sliderTitle: 'Эксклюзивные подарки и сервисы',
+              // sliderContent:
+              //   'Получайте подарки для поддержания здоровья и активности Вашего питомца, а также пользуйтесь онлайн-консультациями Petstory',
               alt: 'Подарки для питомцев'
             }
             // {
@@ -213,7 +216,7 @@ class ClubHeroCarousel extends React.Component {
               webImgName: 'WeChat Image_20210225172634.jpg',
               webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
-              mobiUrl: `${Slidermobile1}`,
+              mobiUrl: `${TrSlidermobile1}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
               mobiSkipUrl: '/subscription-landing',
               mobiUuid: 'rc-upload-1614234945878-11',
@@ -236,7 +239,7 @@ class ClubHeroCarousel extends React.Component {
               webImgName: 'WeChat Image_20210225172634.jpg',
               webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
-              mobiUrl: `${Slidermobile2}`,
+              mobiUrl: `${TrSlidermobile2}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
               mobiSkipUrl: '/subscription-landing',
               mobiUuid: 'rc-upload-1614234945878-11',
@@ -305,7 +308,7 @@ class ClubHeroCarousel extends React.Component {
               webImgName: 'us_003_a.jpg',
               webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile7}`,
+              mobiUrl: `${TrSlidermobile5}`,
               mobiImgName: 'us_003_b.jpg',
               mobiSkipUrl: '/help',
               mobiUuid: 'rc-upload-1602569663057-15',
@@ -479,27 +482,32 @@ class ClubHeroCarousel extends React.Component {
                         )}
 
                         {el.mobiSkipUrl ? (
-                          <Link
-                            className="h-100"
-                            to={el.mobiSkipUrl}
-                            onClick={this.GABannerClick.bind(this, i)}
+                          <span
+                            className="h-100 rc-styled-link"
+                            onClick={this.scrollToHowItWorks}
                           >
                             <img
                               className="rc-md-down w-100 mh-100"
                               src={el.mobiUrl}
                               alt={el.alt}
                             />
-                          </Link>
+                          </span>
                         ) : (
-                          <img
-                            className="rc-md-down w-100 mh-100"
-                            src={el.mobiUrl}
-                            alt={el.alt}
-                          />
+                          <span
+                            className="h-100 rc-styled-link"
+                            onClick={this.scrollToHowItWorks}
+                          >
+                            <img
+                              className="rc-md-down w-100 mh-100"
+                              src={el.mobiUrl}
+                              alt={el.alt}
+                            />
+                          </span>
                         )}
                       </>
                     )}
                   </div>
+
                   <div className="experience-component experience-layouts-1to2columnRatio indexmobile">
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                       <div className="rc-max-width--md text-center rc-margin-y--md">
@@ -510,11 +518,7 @@ class ClubHeroCarousel extends React.Component {
                           <p>{el.sliderContent}</p>
                         </div>
                         <br />
-                        {process.env.REACT_APP_COUNTRY == 'RU' ? (
-                          <button className="rc-btn rc-btn--one">
-                            Узнать больше
-                          </button>
-                        ) : (
+                        {process.env.REACT_APP_COUNTRY == 'RU' ? null : ( // </button> //   Узнать больше // <button className="rc-btn rc-btn--one">
                           <button className="rc-btn rc-btn--one">Keşfet</button>
                         )}
                       </div>

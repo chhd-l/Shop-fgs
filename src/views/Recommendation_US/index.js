@@ -39,7 +39,8 @@ import {
   GARecommendationProduct,
   GABuyNow,
   GABreederRecoPromoCodeCTA,
-  GABreederRecoSeeInCart
+  GABreederRecoSeeInCart,
+  GABigBreederAddToCar
 } from '@/utils/GA';
 
 const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
@@ -485,6 +486,7 @@ class Recommendation extends React.Component {
       inStockProducts,
       modalList
     } = this.state;
+    GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
 
@@ -533,6 +535,7 @@ class Recommendation extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
+    GABigBreederAddToCar(products);
     this.setState({ buttonLoading: true });
     await this.props.checkoutStore.hanldeUnloginAddToCart({
       valid: this.addCartBtnStatus,
@@ -1028,7 +1031,9 @@ class Recommendation extends React.Component {
                   </div> */}
                   <p>
                     <button
-                      className={`rc-btn rc-btn--one click-and-show-promotioncode  ${
+                      className={`rc-btn rc-btn--one click-and-show-promotioncode ${
+                        this.state.buttonLoading ? 'ui-btn-loading' : ''
+                      } ${this.state.buttonLoading ? 'ui-btn-loading' : ''} ${
                         this.state.inStockProducts.length
                           ? ''
                           : 'rc-btn-solid-disabled'

@@ -693,7 +693,6 @@ class SubscriptionDetail extends React.Component {
           )?.[0]?.name;
     return name || this.props.intl.messages['Mixed Breed'];
   };
-
   bundleMatchGoods() {
     let {
       details,

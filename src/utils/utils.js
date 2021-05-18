@@ -947,7 +947,7 @@ export function bindSubmitParam(list) {
   list
     .filter((item) => item.isRequired)
     .forEach((item) => {
-      if (item.id == 'tr_A' || item.id == 'tr_B') {
+      if (item.desc == 'RC_DF_TR_FGS_A' || item.desc == 'RC_DF_TR_FGS_B') {
       } else {
         obj.requiredList.push({ id: item.id, selectedFlag: true });
       }

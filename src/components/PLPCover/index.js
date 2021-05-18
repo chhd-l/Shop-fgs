@@ -6,6 +6,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { FormattedMessage } from 'react-intl';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import InlineRatings from '@/components/BazaarVoice/inlineRatings';
 
 const isMobilePhone = getDeviceType() === 'H5';
 const retailDog =
@@ -342,6 +343,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
       {item.technologyOrBreedsAttr ? (
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
+      <InlineRatings productId={item.goodsNo} />
       {item.fromPrice ? (
         <div className="product-price">
           <div className="card--product-contaner-price">
@@ -495,6 +497,7 @@ function ListItemBody({ item, headingTag }) {
               </p>
             ) : null}
           </div>
+          <InlineRatings productId={item.goodsNo} />
           {item?.fromPrice ? (
             <div className="d-flex justify-content-center pt-3 pb-3">
               <div className="rc-card__price text-left PriceFitScreen">
