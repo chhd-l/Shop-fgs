@@ -92,7 +92,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:{' '}
                       <span>
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <br />
@@ -115,7 +115,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:{' '}
                       <span>
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>{' '}
                     </p>
                     <div className="content-asset">
