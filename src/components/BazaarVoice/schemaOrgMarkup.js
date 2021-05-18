@@ -1,7 +1,7 @@
 import { loadJS } from '../../utils/utils';
 
 export function addSchemaOrgMarkup(details) {
-  // if (!!+process.env.SHOW_BAZAARVOICE_RATINGS) {
+  // if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
   loadJS({
     code: JSON.stringify({
       '@context': 'https://schema.org',

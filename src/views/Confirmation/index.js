@@ -112,7 +112,7 @@ class Confirmation extends React.Component {
               this.getIsAllOneShootGoods();
               orderConfirmationPushEvent(this.state.details);
             }
-            if (!!+process.env.SHOW_BAZAARVOICE_RATINGS) {
+            if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               this.getBvTransactionPixel();
             }
           }
@@ -339,7 +339,7 @@ class Confirmation extends React.Component {
         userId: details.consignee.id
       }
     };
-    transactionPixel(transactionInfo);
+    // transactionPixel(transactionInfo);
   }
 
   render() {

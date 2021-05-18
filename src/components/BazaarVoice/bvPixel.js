@@ -14,7 +14,7 @@ export function transactionPixel(
     optional_PII_parameter: ''
   }
 ) {
-  // if (!!+process.env.SHOW_BAZAARVOICE_RATINGS) {
+  // if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
   loadJS({
     code: `window.bvCallback = function (BV) {
     BV.pixel.trackTransaction({
