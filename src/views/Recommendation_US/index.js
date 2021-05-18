@@ -1033,7 +1033,7 @@ class Recommendation extends React.Component {
                     <button
                       className={`rc-btn rc-btn--one click-and-show-promotioncode ${
                         this.state.buttonLoading ? 'ui-btn-loading' : ''
-                      } ${
+                      } ${this.state.buttonLoading ? 'ui-btn-loading' : ''} ${
                         this.state.inStockProducts.length
                           ? ''
                           : 'rc-btn-solid-disabled'
