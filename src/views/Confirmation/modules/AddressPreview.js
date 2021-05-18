@@ -1,4 +1,5 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import {
   getDictionary,
@@ -7,7 +8,8 @@ import {
   getFormatDate
 } from '@/utils/utils';
 import { format } from 'date-fns-tz';
-
+@inject('configStore')
+@observer
 class InfosPreview extends React.Component {
   static defaultProps = {
     payRecord: null,

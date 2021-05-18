@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 export default class InstallmentTable extends React.Component {
   static defaultProps = {
+    defaultValue: '',
     onChange: () => {}
   };
   constructor(props) {
@@ -12,6 +13,12 @@ export default class InstallmentTable extends React.Component {
     };
   }
   componentDidMount() {
+    const defaultValue = this.props.defaultValue;
+    if (defaultValue) {
+      this.setState({
+        form: Object.assign(this.state.form, { value: defaultValue })
+      });
+    }
     this.updateParentData();
   }
   installmentHandler = (e) => {

@@ -341,7 +341,7 @@ class Register extends Component {
                   this.setState({
                     circleLoading: false,
                     hasError: true,
-                    errorMessage: res.message
+                    errorMessage: null
                   });
                 }
               })
@@ -349,7 +349,7 @@ class Register extends Component {
                 this.setState({
                   circleLoading: false,
                   hasError: true,
-                  errorMessage: err.message
+                  errorMessage: null
                 });
               });
           }
@@ -358,7 +358,7 @@ class Register extends Component {
           this.setState({
             circleLoading: false,
             hasError: true,
-            errorMessage: res.code === 'K-000001' ? null : res.message
+            errorMessage: null
           });
         }
       })
@@ -367,7 +367,7 @@ class Register extends Component {
         this.setState({
           circleLoading: false,
           hasError: true,
-          errorMessage: err.code === 'K-000001' ? null : err.message
+          errorMessage: null
         });
       });
   };

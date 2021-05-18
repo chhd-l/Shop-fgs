@@ -847,7 +847,7 @@ class AddressList extends React.Component {
   // 处理要显示的字段
   setAddressFields = (data) => {
     // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
+    const localAddressForm = this.props.configStore.localAddressForm;
     let farr = [data.address1, data.city];
     if (process.env.REACT_APP_COUNTRY == 'US') {
       farr.push(data.province);

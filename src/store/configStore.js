@@ -34,14 +34,10 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('prescriberSettingInfo'))
     : null; //prescriber Setting相关配置信息
 
-  @observable addressFormSettingInfo = sessionItemRoyal.get('rc-address-form')
+  // 需要显示的 address form 地址字段
+  @observable localAddressForm = sessionItemRoyal.get('rc-address-form')
     ? JSON.parse(sessionItemRoyal.get('rc-address-form'))
-    : addressFormNull; // 获取本地存储的需要显示的 address form 地址字段
-
-  // address form 地址字段
-  @computed get localAddressForm() {
-    return this.addressFormSettingInfo;
-  }
+    : addressFormNull;
 
   @computed get maxGoodsPrice() {
     return this.info ? this.info.maxGoodsPrice : 0;
@@ -51,6 +47,7 @@ class ConfigStore {
   @computed get customTaxSettingOpenFlag() {
     return this.info?.customTaxSettingOpenFlag;
   }
+
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
     return (
@@ -204,7 +201,7 @@ class ConfigStore {
   // 1、查询form表单配置开关
   @action.bound
   async getSystemFormConfig() {
-    let addressForm = this.addressFormSettingInfo;
+    let addressForm = this.localAddressForm;
     if (addressForm?.settings) {
       return;
     }
@@ -225,11 +222,14 @@ class ConfigStore {
         this.getAddressSettingByApi(manually, automatically);
       } else {
         console.error('地址表单接口返回空，找后端配置。');
-        sessionItemRoyal.set('rc-address-form', addressFormNull);
+        sessionItemRoyal.set(
+          'rc-address-form',
+          JSON.stringify(addressFormNull)
+        );
       }
     } catch (err) {
       console.log(err);
-      sessionItemRoyal.set('rc-address-form', addressFormNull);
+      sessionItemRoyal.set('rc-address-form', JSON.stringify(addressFormNull));
     }
   }
 
@@ -263,14 +263,15 @@ class ConfigStore {
           }
         });
         // 把查询到的address配置存到 session
+        this.localAddressForm = addressForm;
         sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
       } else {
         console.error('★ 地址表单接口返回空，找后端配置。');
-        sessionItemRoyal.set('rc-address-form', addressForm);
+        sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
       }
     } catch (err) {
       console.log(err);
-      sessionItemRoyal.set('rc-address-form', addressForm);
+      sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
     }
   }
 }
