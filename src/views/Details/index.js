@@ -1682,7 +1682,7 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
-    if (!!+process.env.SHOW_BAZAARVOICE_RATINGS) {
+    if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
       addSchemaOrgMarkup(details);
     }
     const { headingTag = 'h1' } = seoConfig;
@@ -1941,7 +1941,8 @@ class Details extends React.Component {
                                 }}
                               />
                               {!isMobile &&
-                                !!+process.env.SHOW_BAZAARVOICE_RATINGS && (
+                                !!+process.env
+                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
                                   <BazaarVoiceRatingSummary
                                     productId={details.goodsNo}
                                   />
@@ -2634,7 +2635,7 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {!!+process.env.SHOW_BAZAARVOICE_RATINGS && (
+            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
               <BazaarVoiceReviews productId={details.goodsNo} />
             )}
 

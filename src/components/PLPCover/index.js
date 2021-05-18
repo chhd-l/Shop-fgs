@@ -343,7 +343,7 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
       {item.technologyOrBreedsAttr ? (
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
-      {!!+process.env.SHOW_BAZAARVOICE_RATINGS && (
+      {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
       )}
       {item.fromPrice ? (
@@ -499,7 +499,7 @@ function ListItemBody({ item, headingTag }) {
               </p>
             ) : null}
           </div>
-          {!!+process.env.SHOW_BAZAARVOICE_RATINGS && (
+          {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
             <InlineRatings productId={item.goodsNo} />
           )}
           {item?.fromPrice ? (
