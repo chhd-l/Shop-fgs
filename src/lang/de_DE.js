@@ -1302,7 +1302,8 @@ const de_DE = {
   imageLargeError: 'Das hochgeladene Bild ist zu groß',
   'subscription.all': 'alle',
   'subscription.autoship': 'Autoship',
-  'subscription.club': 'Verein'
+  'subscription.club': 'Verein',
+  searchShow: 'Suchergebnisse'
 };
 
 export default de_DE;

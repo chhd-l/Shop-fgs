@@ -1092,6 +1092,7 @@ const es_ES = {
   imageLargeError: 'La imagen cargada es demasiado grande',
   'subscription.all': 'Todas',
   'subscription.autoship': 'Autoenvío',
-  'subscription.club': 'club'
+  'subscription.club': 'club',
+  searchShow: 'Resultados de la búsqueda'
 };
 export default es_ES;

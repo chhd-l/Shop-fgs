@@ -1320,7 +1320,8 @@ const ru_RU = {
     'Присоединяйтесь к клубной подписке и воспользуйтесь всеми преимуществами участника КЛУБА.',
   'subscription.clubNoSubscription.getStart': 'Начать',
   'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin',
-  'detail.subscriptionBuyTip': 'Подписка без участия'
+  'detail.subscriptionBuyTip': 'Подписка без участия',
+  searchShow: 'результаты поиска'
 };
 
 export default ru_RU;
