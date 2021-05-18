@@ -1067,6 +1067,10 @@ class Details extends React.Component {
                   )
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
+              //启用BazaarVoice时，在PDP页面add schema.org markup
+              if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+                addSchemaOrgMarkup(this.state.details);
+              }
             }
           );
         } else {
@@ -1682,9 +1686,6 @@ class Details extends React.Component {
       rationInfo,
       skuPromotions
     } = this.state;
-    if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-      addSchemaOrgMarkup(details);
-    }
     const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {

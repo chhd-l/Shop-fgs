@@ -339,7 +339,7 @@ class Confirmation extends React.Component {
         userId: details.consignee.id
       }
     };
-    transactionPixel(transactionInfo);
+    // transactionPixel(transactionInfo);
   }
 
   render() {
