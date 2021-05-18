@@ -1215,6 +1215,7 @@ const tr_TR = {
     'CLUB abonelik programına katılmak ve özel üyelik avantajlarından yararlanmak için aşağıyı tıklayın.',
   'subscription.clubNoSubscription.getStart': 'Abone olun',
   'cancelEmail.content':
-    'Royal Canin online mağazamızın pazarlama amacıyla gönderilen e-mail listesinden <{val}> aboneliğinizi başarıyla iptal ettiniz.'
+    'Royal Canin online mağazamızın pazarlama amacıyla gönderilen e-mail listesinden <{val}> aboneliğinizi başarıyla iptal ettiniz.',
+  searchShow: 'Arama Sonuçları'
 };
 export default tr_TR;
