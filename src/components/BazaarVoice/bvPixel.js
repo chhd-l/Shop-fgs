@@ -17,17 +17,20 @@ export function transactionPixel(
   // if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
   loadJS({
     code: `window.bvCallback = function (BV) {
-    BV.pixel.trackTransaction({
-    "currency" : ${transactionInfo.currency},
-    "orderId" : ${transactionInfo.orderId},
-    "total" : ${transactionInfo.total},
-    "items" :${transactionInfo.item},
-    "optional_order_parameter" : ${transactionInfo['optional_order_parameter']},
-    ...
-    "optional_PII_parameter" : ${transactionInfo['optional_PII_parameter']},
-    ...
-  });
+    BV.pixel.trackTransaction(${JSON.stringify(transactionInfo)});
 };`
+    //     code: `window.bvCallback = function (BV) {
+    //     BV.pixel.trackTransaction({
+    //     "currency":'${transactionInfo.currency}',
+    //     "orderId":'${transactionInfo.orderId}',
+    //     "total":'${transactionInfo.total}',
+    //     "items":'${transactionInfo.item}',
+    //     "optional_order_parameter":'${transactionInfo['optional_order_parameter']}',
+    //     ...
+    //     "optional_PII_parameter":'${transactionInfo['optional_PII_parameter']}',
+    //     ...
+    //   });
+    // };`
   });
   // }
 }
