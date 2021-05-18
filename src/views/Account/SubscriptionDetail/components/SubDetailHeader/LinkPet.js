@@ -141,6 +141,8 @@ const LinkPet = ({
               to={{
                 pathname: `/account/pets/petForm`,
                 state: {
+                  isFromSubscriptionDetail:
+                    this.state.subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
                   petsType: petsType,
                   subscribeId: subDetail.subscribeId
                 }
