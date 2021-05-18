@@ -1324,7 +1324,6 @@ class List extends React.Component {
             );
           }
         }
-
         this.setState(
           {
             sortList,
@@ -1825,7 +1824,9 @@ class List extends React.Component {
                   ? 'Для кошек'
                   : 'Для собак'
                 : ''; //俄罗斯定制，嗐！
-              const ruAttrs = [breed, ...technologyAttr];
+              const ruAttrs = breed
+                ? [breed, ...technologyAttr]
+                : [...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_COUNTRY === 'RU'
                   ? ruAttrs.join(',')
