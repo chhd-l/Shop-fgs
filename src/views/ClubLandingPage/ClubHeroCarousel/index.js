@@ -12,7 +12,7 @@ import Slidertwo from './ClubHeroCarouselImg/SliderTwo.png';
 import Sliderthree from './ClubHeroCarouselImg/SliderThree.png';
 import Sliderfive from './ClubHeroCarouselImg/SliderFive.png';
 import Sliderseven from './ClubHeroCarouselImg/SliderSeven.png';
-import Slidermobile1 from './ClubHeroCarouselImg/Slidermobile1.png';
+import Slidermobile1 from './ClubHeroCarouselImg/Slidermobile1.jpg';
 import Slidermobile2 from './ClubHeroCarouselImg/Slidermobile2.png';
 import Slidermobile3 from './ClubHeroCarouselImg/Slidermobile3.png';
 import Slidermobile5 from './ClubHeroCarouselImg/Slidermobile5.png';
