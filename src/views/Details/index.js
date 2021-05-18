@@ -1730,7 +1730,12 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(form.buyWay, 'bbbb');
+    console.log(
+      form.buyWay,
+      'bbbb',
+      images,
+      isCountriesContainer(['fr', 'ru', 'tr', 'en'])
+    );
     console.log('details', details);
     return (
       <div id="Details">
