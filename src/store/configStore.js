@@ -222,11 +222,14 @@ class ConfigStore {
         this.getAddressSettingByApi(manually, automatically);
       } else {
         console.error('地址表单接口返回空，找后端配置。');
-        sessionItemRoyal.set('rc-address-form', addressFormNull);
+        sessionItemRoyal.set(
+          'rc-address-form',
+          JSON.stringify(addressFormNull)
+        );
       }
     } catch (err) {
       console.log(err);
-      sessionItemRoyal.set('rc-address-form', addressFormNull);
+      sessionItemRoyal.set('rc-address-form', JSON.stringify(addressFormNull));
     }
   }
 
@@ -264,11 +267,11 @@ class ConfigStore {
         sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
       } else {
         console.error('★ 地址表单接口返回空，找后端配置。');
-        sessionItemRoyal.set('rc-address-form', addressForm);
+        sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
       }
     } catch (err) {
       console.log(err);
-      sessionItemRoyal.set('rc-address-form', addressForm);
+      sessionItemRoyal.set('rc-address-form', JSON.stringify(addressForm));
     }
   }
 }
