@@ -17,6 +17,9 @@ import Slidermobile2 from './ClubHeroCarouselImg/Slidermobile2.png';
 import Slidermobile3 from './ClubHeroCarouselImg/Slidermobile3.png';
 import Slidermobile5 from './ClubHeroCarouselImg/Slidermobile5.png';
 import Slidermobile7 from './ClubHeroCarouselImg/Slidermobile7.png';
+import TrSlidermobile1 from './ClubHeroCarouselImg/TrSlidermobile1.png';
+import TrSlidermobile2 from './ClubHeroCarouselImg/TrSlidermobile2.png';
+import TrSlidermobile5 from './ClubHeroCarouselImg/TrSlidermobile5.png';
 import trsliderone from './ClubHeroCarouselImg/trsliderone.png';
 import trslidertwo from './ClubHeroCarouselImg/trslidertwo.png';
 import trsliderthree from './ClubHeroCarouselImg/trsliderthree.png';
@@ -213,7 +216,7 @@ class ClubHeroCarousel extends React.Component {
               webImgName: 'WeChat Image_20210225172634.jpg',
               webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
-              mobiUrl: `${Slidermobile1}`,
+              mobiUrl: `${TrSlidermobile1}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
               mobiSkipUrl: '/subscription-landing',
               mobiUuid: 'rc-upload-1614234945878-11',
@@ -236,7 +239,7 @@ class ClubHeroCarousel extends React.Component {
               webImgName: 'WeChat Image_20210225172634.jpg',
               webSkipUrl: '',
               webUuid: 'rc-upload-1614234945878-9',
-              mobiUrl: `${Slidermobile2}`,
+              mobiUrl: `${TrSlidermobile2}`,
               mobiImgName: 'WeChat Image_20210225172628.jpg',
               mobiSkipUrl: '/subscription-landing',
               mobiUuid: 'rc-upload-1614234945878-11',
@@ -305,7 +308,7 @@ class ClubHeroCarousel extends React.Component {
               webImgName: 'us_003_a.jpg',
               webSkipUrl: '',
               webUuid: 'rc-upload-1602569663057-13',
-              mobiUrl: `${Slidermobile7}`,
+              mobiUrl: `${TrSlidermobile5}`,
               mobiImgName: 'us_003_b.jpg',
               mobiSkipUrl: '/help',
               mobiUuid: 'rc-upload-1602569663057-15',
@@ -515,9 +518,7 @@ class ClubHeroCarousel extends React.Component {
                           <p>{el.sliderContent}</p>
                         </div>
                         <br />
-                        {process.env.REACT_APP_COUNTRY ==
-                        'RU' ? //   Узнать больше // <button className="rc-btn rc-btn--one">
-                        // </button>
+                        {process.env.REACT_APP_COUNTRY == 'RU' ? // </button> //   Узнать больше // <button className="rc-btn rc-btn--one">
                         null : (
                           <button className="rc-btn rc-btn--one">Keşfet</button>
                         )}
