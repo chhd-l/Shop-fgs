@@ -31,6 +31,7 @@ import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const CURRENT_LANGFILE = locales;
+let tempolineCache = {};
 @inject('configStore')
 @injectIntl
 class Form extends React.Component {
@@ -582,7 +583,6 @@ class Form extends React.Component {
   };
   // 7、根据地址查询运费
   getShippingCalculation = async (data) => {
-    const { caninForm } = this.state;
     this.setState({
       dataLoading: true
     });
@@ -597,25 +597,7 @@ class Form extends React.Component {
       console.log('★ -------------- 2、计算运费 res: ', res);
       if (res?.context?.success && res?.context?.tariffs[0]) {
         let calculation = res?.context?.tariffs[0];
-        // 赋值查询到的地址信息
-        caninForm.calculationStatus = res?.context?.success;
-        caninForm.calculation = calculation;
-        caninForm.minDeliveryTime = calculation.minDeliveryTime;
-        caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
-        // 清空错误信息
-        this.setState(
-          {
-            caninForm,
-            errMsgObj: {
-              ['address1']: ''
-            }
-          },
-          () => {
-            this.props.getRussiaAddressValidFlag(true);
-            // 计算运费
-            this.props.calculateFreight(this.state.caninForm);
-          }
-        );
+        return calculation;
       } else {
         this.setState({
           errMsgObj: {
@@ -799,32 +781,45 @@ class Form extends React.Component {
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
 
-      this.setState({ caninForm }, () => {
-        // Москва 和 Московская 不请求查询运费接口，delivery fee=400, MinDeliveryTime:1,MaxDeliveryTime:2
+      this.setState({ caninForm }, async () => {
+        // 判断暂存地址 tempolineCache 中是否有要查询的地址
+        const key = data.unrestrictedValue;
+        let calculation = tempolineCache[key];
+        if (!calculation) {
+          calculation = await this.getShippingCalculation(data);
+          // 把地址暂存到 tempolineCache
+          tempolineCache[key] = calculation;
+        }
+
+        // Москва 和 Московская 不请求查询运费接口
+        // delivery fee= 400, MinDeliveryTime= 1, MaxDeliveryTime= 2
         if (data.province == 'Москва' || data.province == 'Московская') {
-          let calculation = {
+          calculation = {
             deliveryPrice: 400,
             price: 400,
             maxDeliveryTime: 2,
             minDeliveryTime: 1
           };
-          caninForm.calculation = calculation;
-          caninForm.minDeliveryTime = calculation.minDeliveryTime;
-          caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
-          this.setState(
-            {
-              caninForm
-            },
-            () => {
-              this.props.getRussiaAddressValidFlag(true);
-              // purchases接口计算运费
-              this.props.calculateFreight(this.state.caninForm);
-            }
-          );
-        } else {
-          // 根据地址查询运费
-          this.getShippingCalculation(data);
         }
+        // 赋值查询到的地址信息
+        caninForm.calculation = calculation;
+        caninForm.minDeliveryTime = calculation.minDeliveryTime;
+        caninForm.maxDeliveryTime = calculation.maxDeliveryTime;
+        // 重置地址相关信息并清空错误提示
+        this.setState(
+          {
+            caninForm,
+            errMsgObj: {
+              ['address1']: ''
+            }
+          },
+          () => {
+            // 控制按钮状态
+            this.props.getRussiaAddressValidFlag(true);
+            // purchases接口计算运费
+            this.props.calculateFreight(this.state.caninForm);
+          }
+        );
       });
     } else {
       // errMsg = this.getIntlMsg('payment.wrongAddress');

@@ -102,7 +102,7 @@ class AddressList extends React.Component {
     this.setState({
       listBtnLoading: false
     });
-    console.log(' -------------- List: ', this.props.ref);
+    // console.log(' -------------- List: ', this.props.ref);
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -200,7 +200,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       this.setState({
@@ -220,7 +220,7 @@ class AddressList extends React.Component {
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
     const { addressList } = this.state;
-    console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
+    // console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
     try {
       let address1 = obj.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
@@ -228,11 +228,13 @@ class AddressList extends React.Component {
         // 根据地址获取到的地址列表匹配当前选中的地址
         let addls = res.context.addressList;
         let dladdress = Object.assign({}, obj);
-        addls.forEach((item) => {
-          if (item.unrestrictedValue === address1) {
-            dladdress.DuData = item;
-          }
-        });
+        // addls.forEach((item) => {
+        //   if (item.unrestrictedValue == address1) {
+        //     dladdress.DuData = item;
+        //   }
+        // });
+        dladdress.DuData = addls[0];
+
         if (dladdress.DuData) {
           // Москва 和 Московская 不请求查询运费接口，delivery fee=400, MinDeliveryTime:1,MaxDeliveryTime:2
           if (
@@ -298,7 +300,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
-    console.log('214 ★★ -------------- 计算运费 obj: ', obj);
+    // console.log('214 ★★ -------------- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -487,7 +489,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       // if (data?.calculationStatus) {
@@ -502,7 +504,7 @@ class AddressList extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        console.log('--------- ★★★★★★ List 验证通过');
+        // console.log('--------- ★★★★★★ List 验证通过');
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
