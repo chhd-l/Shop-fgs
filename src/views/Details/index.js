@@ -1935,11 +1935,12 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
-                              {!isMobile && (
-                                <BazaarVoiceRatingSummary
-                                  productId={details.goodsNo}
-                                />
-                              )}
+                              {!isMobile &&
+                                !!+process.env.SHOW_BAZAARVOICE_RATINGS && (
+                                  <BazaarVoiceRatingSummary
+                                    productId={details.goodsNo}
+                                  />
+                                )}
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
@@ -2628,7 +2629,9 @@ class Details extends React.Component {
               />
             ) : null}
 
-            <BazaarVoiceReviews productId={details.goodsNo} />
+            {!!+process.env.SHOW_BAZAARVOICE_RATINGS && (
+              <BazaarVoiceReviews productId={details.goodsNo} />
+            )}
 
             <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (

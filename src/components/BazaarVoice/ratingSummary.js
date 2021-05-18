@@ -8,12 +8,10 @@ class Index extends React.Component {
 
   render() {
     return (
-      !!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
-        <div
-          data-bv-show="rating_summary"
-          data-bv-product-id={this.props.productId}
-        />
-      )
+      <div
+        data-bv-show="rating_summary"
+        data-bv-product-id={this.props.productId}
+      />
     );
   }
 }
