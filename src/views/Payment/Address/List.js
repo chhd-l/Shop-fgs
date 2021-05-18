@@ -489,12 +489,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
-      // 如果有返回运费数据，则计算运费折扣并显示
-      // if (data?.calculationStatus) {
-      //   this.props---.updateData(data);
-      // }
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
       }
@@ -504,7 +499,7 @@ class AddressList extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        // console.log('--------- ★★★★★★ List 验证通过');
+        console.log('--------- ★★★★★★ List 验证通过');
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
@@ -525,9 +520,17 @@ class AddressList extends React.Component {
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
     console.log(flag);
-    this.setState({
-      russiaAddressValid: flag
-    });
+    const { deliveryAddress } = this.state;
+    this.setState(
+      {
+        russiaAddressValid: flag
+      },
+      () => {
+        if (flag) {
+          this.updateDeliveryAddress(deliveryAddress);
+        }
+      }
+    );
   };
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
