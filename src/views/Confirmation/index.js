@@ -112,6 +112,7 @@ class Confirmation extends React.Component {
               this.getIsAllOneShootGoods();
               orderConfirmationPushEvent(this.state.details);
             }
+            //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
             if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               this.getBvTransactionPixel();
             }
@@ -312,14 +313,13 @@ class Confirmation extends React.Component {
   }
   //GA 埋点 end
 
-  //
   getBvTransactionPixel() {
     const { details } = this.state;
     console.log(details);
     const items = details.tradeItems.map((item) => {
       return {
-        price: item.price,
-        quantity: item.num,
+        price: String(item.price.toFixed(2)),
+        quantity: String(item.num.toFixed(2)),
         productId: item.spuNo,
         optional_item_parameter: {
           name: item.spuName
@@ -327,19 +327,23 @@ class Confirmation extends React.Component {
       };
     });
     const transactionInfo = {
-      currency: process.env.CURRENCY,
+      currency: process.env.REACT_APP_CURRENCY,
       orderId: details.id,
-      total: details.tradePrice.totalPrice,
+      total: String(details.tradePrice.totalPrice.toFixed(2)),
       items: items,
-      optional_order_parameter: '',
-      optional_PII_parameter: {
-        email: details.consignee.email,
-        locale: 'en_US',
-        nickname: details.consignee.name,
-        userId: details.consignee.id
-      }
+      // optional_order_parameter: '',
+      email: details.consignee.email,
+      locale: 'en_US',
+      nickname: details.consignee.name,
+      userId: details.consignee.id
+      // optional_PII_parameter: {
+      //   email: details.consignee.email,
+      //   locale: 'en_US',
+      //   nickname: details.consignee.name,
+      //   userId: details.consignee.id
+      // }
     };
-    // transactionPixel(transactionInfo);
+    transactionPixel(transactionInfo);
   }
 
   render() {
