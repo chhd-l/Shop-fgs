@@ -1,0 +1,29 @@
+@media (max-width: 639.98px) {
+  .flexColumn {
+    flex-direction: column;
+  }
+  .marginleftButton {
+    margin-left: 28vw;
+    margin-top: 8vh;
+  }
+  .widthsmall {
+    width: 80vw;
+    margin-left: 7vw;
+    height: 40vh;
+  }
+  .marginleftLogo {
+    margin-left: 3vw;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .clubmobilegetmore {
+    display: none;
+  }
+  .marginleftButton {
+    margin-left: 14vw;
+  }
+  .widthsmall {
+    height: 60vh;
+  }
+}
