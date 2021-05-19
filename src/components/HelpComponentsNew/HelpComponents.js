@@ -1,8 +1,7 @@
 import React from 'react';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
-import pictofaq from './img/pictofaq.png';
+import callImgNew from './img/phoneicon@4x.png';
+import emailImgNew from './img/emailicon@4x.png';
+import faqImgNew from './img/FAQicon@4x.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import './index.css';
@@ -93,7 +92,7 @@ const HelpComponentsNew = (props) => {
                                 <LazyLoad>
                                   <img
                                     className="align-self-center widthAuto"
-                                    src={callImg}
+                                    src={callImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt1'
                                     })}
@@ -182,7 +181,7 @@ const HelpComponentsNew = (props) => {
                                 <LazyLoad>
                                   <img
                                     className="align-self-center widthAuto"
-                                    src={emailImg}
+                                    src={emailImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt2'
                                     })}
@@ -297,7 +296,7 @@ const HelpComponentsNew = (props) => {
                                 <LazyLoad>
                                   <img
                                     className="align-self-center widthAuto"
-                                    src={pictofaq}
+                                    src={faqImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt3'
                                     })}
