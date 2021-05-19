@@ -69,7 +69,6 @@ class MemberCardList extends React.Component {
       prevEditCardNumber: '',
       isValid: false,
       selectedId: '',
-      installMentDefaultValue: '', // 分期详情默认值
       installMentTableData: [], // 分期详情table data
       installMentParam: null // 所选择的分期详情
     };
@@ -507,7 +506,6 @@ class MemberCardList extends React.Component {
     }
     this.setState({
       installMentTableData,
-      installMentDefaultValue: installMentTableData[1] ? 1 : 0,
       creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
         installmentChecked: false
       })
@@ -565,8 +563,7 @@ class MemberCardList extends React.Component {
       errorMsg,
       listLoading,
       selectedId,
-      installMentTableData,
-      installMentDefaultValue
+      installMentTableData
     } = this.state;
 
     // 卡列表显示控制
@@ -732,7 +729,7 @@ class MemberCardList extends React.Component {
                 {item.showInstallMentTable ? (
                   <div className="col-12 mb-2">
                     <InstallmentTable
-                      defaultValue={installMentDefaultValue}
+                      defaultValue={0}
                       list={installMentTableData}
                       onChange={this.installmentTableChanger}
                     />

@@ -900,8 +900,6 @@ class Details extends React.Component {
                   goodsRes.defaultPurchaseType ||
                   configStore.info?.storeVO?.defaultPurchaseType
               });
-
-              this.loadWidgetIdBtn();
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -1058,6 +1056,7 @@ class Details extends React.Component {
             },
             async () => {
               await this.matchGoods();
+              this.loadWidgetIdBtn(this.state.barcode);
               //Product Detail Page view 埋点start
               this.hubGA
                 ? this.hubGAProductDetailPageView(
@@ -1069,7 +1068,10 @@ class Details extends React.Component {
               //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-                addSchemaOrgMarkup(this.state.details);
+                addSchemaOrgMarkup(
+                  this.state.details,
+                  this.state.instockStatus
+                );
               }
             }
           );
@@ -1142,7 +1144,7 @@ class Details extends React.Component {
       });
   }
 
-  loadWidgetIdBtn() {
+  loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
 
     const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
@@ -1158,7 +1160,7 @@ class Details extends React.Component {
           displaylanguage:
             process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
           widgetid: id,
-          ean: '3182550784436',
+          ean: barcode,
           subid: '',
           trackingid: ''
         }
@@ -1943,7 +1945,8 @@ class Details extends React.Component {
                               />
                               {!isMobile &&
                                 !!+process.env
-                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+                                !!details.goodsNo && (
                                   <BazaarVoiceRatingSummary
                                     productId={details.goodsNo}
                                   />
@@ -2636,9 +2639,10 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
-              <BazaarVoiceReviews productId={details.goodsNo} />
-            )}
+            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+              !!details.goodsNo && (
+                <BazaarVoiceReviews productId={details.goodsNo} />
+              )}
 
             <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
