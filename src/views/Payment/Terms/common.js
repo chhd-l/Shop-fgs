@@ -8,6 +8,7 @@ import './index.css';
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 import Consent from '@/components/Consent';
+import { addEventListenerArr } from './addEventListener';
 
 @inject('paymentStore')
 class TermsCommon extends Component {
@@ -25,43 +26,17 @@ class TermsCommon extends Component {
       this.addEventListenerFunTr();
     }
   }
-  //监听土耳其consent
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
-    window.onload = () => {
-      document.getElementById('tr_consent_a') &&
-        document
-          .getElementById('tr_consent_a')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalA', true);
-          });
-      document.getElementById('tr_consent_b') &&
-        document
-          .getElementById('tr_consent_b')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalB', true);
-          });
-      document.getElementById('tr_consent_c') &&
-        document
-          .getElementById('tr_consent_c')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalC', true);
-          });
-      document.getElementById('tr_consent_d') &&
-        document
-          .getElementById('tr_consent_d')
-          .addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setTrConsentModal('fullScreenModalD', true);
-          });
-    };
+    for (let i = 0; i < addEventListenerArr.length; i++) {
+      document
+        .getElementById(addEventListenerArr[i].id)
+        ?.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setTrConsentModal(addEventListenerArr[i].modal, true);
+        });
+    }
   }
   componentDidMount() {
     document

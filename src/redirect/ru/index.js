@@ -59,6 +59,11 @@ export default {
         '/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1097'
     },
     {
+      shortUrl: '/Макси-Паппи:-в-возрасте-до-15-месяцев-1097_RU.html',
+      redirectUrl:
+        '/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8-%D0%BF%D0%B0%D0%BF%D0%BF%D0%B8:-%D0%B2-%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5-%D0%B4%D0%BE-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-1097'
+    },
+    {
       shortUrl:
         '/%D0%9C%D0%B0%D0%BA%D1%81%D0%B8-%D1%8D%D0%B4%D0%B0%D0%BB%D1%82%3A-%D1%81-15-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-%D0%B4%D0%BE-5-%D0%BB%D0%B5%D1%82-1094_RU.html',
       redirectUrl:
