@@ -519,8 +519,8 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
-    console.log(flag);
     const { deliveryAddress } = this.state;
+    console.log(flag);
     this.setState(
       {
         russiaAddressValid: flag
