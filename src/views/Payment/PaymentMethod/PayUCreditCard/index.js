@@ -147,7 +147,6 @@ class PayOs extends React.Component {
       isValid: false,
       saveLoading: false,
       isEdit: true,
-      installMentDefaultValue: '', // 分期详情默认值
       installMentTableData: [], // 分期详情table data
       installMentParam: null // 所选择的分期详情
     };
@@ -318,8 +317,7 @@ class PayOs extends React.Component {
               const installMentTableData =
                 res?.context?.installments[0]?.installmentPrices || [];
               this.setState({
-                installMentTableData,
-                installMentDefaultValue: installMentTableData[1] ? 1 : 0
+                installMentTableData
               });
               throw new Error();
             }
@@ -370,8 +368,7 @@ class PayOs extends React.Component {
       isValid,
       saveLoading,
       payosdata,
-      installMentTableData,
-      installMentDefaultValue
+      installMentTableData
     } = this.state;
     const CreditCardImg = supportPaymentMethods.length > 0 && (
       <span className="logo-payment-card-list logo-credit-card">
@@ -532,7 +529,7 @@ class PayOs extends React.Component {
                               {item.showInstallMentTable ? (
                                 <div className="col-12 mb-2">
                                   <InstallmentTable
-                                    defaultValue={installMentDefaultValue}
+                                    defaultValue={0}
                                     list={installMentTableData}
                                     onChange={this.installmentTableChanger}
                                   />

@@ -88,7 +88,7 @@ export default class InstallmentTable extends React.Component {
                         {i ? (
                           <FormattedMessage
                             id="installMent.xInstallMents"
-                            values={{ num: i }}
+                            values={{ num: i + 1 }}
                           />
                         ) : (
                           <FormattedMessage id="installMent.oneShot" />

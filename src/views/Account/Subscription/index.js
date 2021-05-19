@@ -38,6 +38,7 @@ import shippingicon from '../../../components/GoodsDetailTabs/image/pictoshippin
 import phoneicon from '../../../components/GoodsDetailTabs/image/phoneicon@4x.png';
 import landingBanner from '../../../components/GoodsDetailTabs/image/landing-banner.jpg';
 import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
+import auto from '../../../components/GoodsDetailTabs/image/auto@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -72,12 +73,12 @@ const clubNoSubscription = function () {
     },
     {
       text: <FormattedMessage id="clubListData.tip4" />,
-      img: shippingicon,
+      img: auto,
       alt: 'CLUB BENEFITS PET ADVISOR'
     },
     {
       text: <FormattedMessage id="clubListData.tip5" />,
-      img: phoneicon,
+      img: shippingicon,
       alt: 'CLUB BENEFITS PET ADVISOR'
     }
   ];
