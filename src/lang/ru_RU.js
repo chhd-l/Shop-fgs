@@ -336,7 +336,7 @@ const ru_RU = {
   //pdp
   'detail.question': 'У вас еще остались вопросы об этом продукте?',
   'detail.telephone': 'По телефону',
-  'details.addToCart': 'Разовая покупка',
+  'details.addToCart': 'Подписаться',
   'details.availability': 'Доступность',
   'details.beneficialFeatures': 'Полезные функции',
   'details.bySubscription': 'по подписке',
@@ -1112,7 +1112,7 @@ const ru_RU = {
   subscribe: 'Подписаться',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
-  saveExtra: 'Сэкономьте {val} по программе',
+  saveExtra: 'Сэкономьте {val} по подписке',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Приостановлена',
@@ -1243,7 +1243,7 @@ const ru_RU = {
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
   'clubListData.tip5': 'Возможность изменения частоты доставок',
-  'clubListData.tip6': 'Бесплатные онлайн консультации нутрициолога в PetStory',
+  'clubListData.tip6': 'Бесплатные онлайн-консультации нутрициолога в PetStory',
   'subscriptionDetail.deliveryDate': 'Дата доставки',
   'subscriptionDetail.product': 'Product',
   'subscription.restart': 'Обновить подписку',
@@ -1317,7 +1317,7 @@ const ru_RU = {
   'subscription.clubNoSubscription.tip1':
     'Сейчас Вы не являетесь подписчиком клубной программы.',
   'subscription.clubNoSubscription.tip2':
-    'Присоединяйтесь к клубной подписке и воспользуйтесь всеми преимуществами участника КЛУБА.',
+    'Присоединяйтесь к клубной программе и воспользуйтесь всеми преимуществами участника КЛУБА.',
   'subscription.clubNoSubscription.getStart': 'Начать',
   'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin',
   'detail.subscriptionBuyTip': 'Подписка без участия',
