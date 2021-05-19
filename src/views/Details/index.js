@@ -1068,7 +1068,10 @@ class Details extends React.Component {
               //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-                addSchemaOrgMarkup(this.state.details);
+                addSchemaOrgMarkup(
+                  this.state.details,
+                  this.state.instockStatus
+                );
               }
             }
           );
@@ -1942,7 +1945,8 @@ class Details extends React.Component {
                               />
                               {!isMobile &&
                                 !!+process.env
-                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+                                !!details.goodsNo && (
                                   <BazaarVoiceRatingSummary
                                     productId={details.goodsNo}
                                   />
@@ -2635,9 +2639,10 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
-              <BazaarVoiceReviews productId={details.goodsNo} />
-            )}
+            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+              !!details.goodsNo && (
+                <BazaarVoiceReviews productId={details.goodsNo} />
+              )}
 
             <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (

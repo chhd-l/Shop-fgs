@@ -123,6 +123,7 @@ class Pet extends React.Component {
       }
     };
     let { isMobile, petList, loading } = this.state;
+    console.log('petList', petList);
     return (
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
@@ -258,7 +259,9 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.petsBreed && el.petsType === 'dog'
+                                    {el.isPurebred === 0
+                                      ? this.props.intl.messages['Mixed Breed']
+                                      : el.petsBreed && el.petsType === 'dog'
                                       ? (this.state.dogBreedList.length &&
                                           this.state.dogBreedList.filter(
                                             (item) =>
@@ -326,7 +329,9 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.petsBreed && el.petsType === 'dog'
+                                    {el.isPurebred === 0
+                                      ? this.props.intl.messages['Mixed Breed']
+                                      : el.petsBreed && el.petsType === 'dog'
                                       ? (this.state.dogBreedList.length &&
                                           this.state.dogBreedList.filter(
                                             (item) =>

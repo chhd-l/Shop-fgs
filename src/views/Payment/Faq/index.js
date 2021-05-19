@@ -58,7 +58,10 @@ const benifitList =
         iconCls: 'rc-low-maintenance--xs rc-iconography',
         text: 'Qualité Premium'
       },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Livraison rapide' }
+      {
+        iconCls: 'rc-shop--xs rc-iconography--xs',
+        text: 'Livraison 3 jours ouvrés'
+      }
     ]
   }[process.env.REACT_APP_LANG] || [];
 const faqList =
