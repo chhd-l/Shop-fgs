@@ -16,7 +16,7 @@ const GetMoreAd = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <FormattedMessage id="club.subscription.titile" />
+                  Get more with CLUB Subscription
                 </h4>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -161,20 +161,18 @@ const GetMoreAd = () => {
                           </li>
                           <li className="rc-list__item">
                             <em className="bingoWhite rc-margin-right--xs"></em>
+                            <a style={{ marginLeft: '10px' }}>Free shipping</a>
+                          </li>
+                          <li className="rc-list__item">
+                            <em className="bingoWhite rc-margin-right--xs"></em>
                             <a style={{ marginLeft: '10px' }}>
-                              Free shipping from $50
+                              10% discount on every order
                             </a>
                           </li>
                           <li className="rc-list__item">
                             <em className="bingoWhite rc-margin-right--xs"></em>
                             <a style={{ marginLeft: '10px' }}>
-                              Tailored nutrition
-                            </a>
-                          </li>
-                          <li className="rc-list__item">
-                            <em className="bingoWhite rc-margin-right--xs"></em>
-                            <a style={{ marginLeft: '10px' }}>
-                              Free shipping from $50
+                              Automatic refills to your door
                             </a>
                           </li>
                         </ul>
@@ -186,19 +184,17 @@ const GetMoreAd = () => {
                           <li className="rc-list__item">
                             <em className="bingoWhite rc-margin-right--xs"></em>
                             <a style={{ marginLeft: '10px' }}>
-                              Tailored nutrition
+                              Free personalized newsletters
                             </a>
                           </li>
                           <li className="rc-list__item">
                             <em className="bingoWhite rc-margin-right--xs"></em>
-                            <a style={{ marginLeft: '10px' }}>
-                              Free shipping from $50
-                            </a>
+                            <a style={{ marginLeft: '10px' }}>Welcome pack</a>
                           </li>
                           <li className="rc-list__item">
                             <em className="bingoWhite rc-margin-right--xs"></em>
                             <a style={{ marginLeft: '10px' }}>
-                              Free shipping from $50
+                              Exclusive perks & services
                             </a>
                           </li>
                         </ul>
