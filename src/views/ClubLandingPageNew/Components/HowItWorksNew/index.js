@@ -15,7 +15,7 @@ const HowItWorksNew = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <FormattedMessage id="club.subscription.titile" />
+                  HOW IT WORKS
                 </h4>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-around' }}>

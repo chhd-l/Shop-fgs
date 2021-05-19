@@ -44,22 +44,20 @@ const JoinTodayNew = () => {
                       </div>
                     </div>
                     <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
-                      <div className="rc-gamma text-center">
+                      <div className="text-center">
                         <h2 style={{ fontWeight: '550' }}>
-                          <FormattedMessage id="club.joinsubscription.title" />
+                          Tell us about your pet
                         </h2>
                       </div>
                       <div className="rc-intro inherit-fontsize rc-text--center">
-                        <h5>
-                          <FormattedMessage id="club.joinsubscription.description" />
-                        </h5>
+                        <h5>to get a precise nutritional recommendation.</h5>
                       </div>
                       <div style={{ display: 'flex' }}>
                         <button
                           style={{ margin: '0 auto' }}
                           className="rc-btn rc-btn--one"
                         >
-                          <FormattedMessage id="club.joinsubscription.button" />
+                          Get Started
                         </button>
                       </div>
                     </div>

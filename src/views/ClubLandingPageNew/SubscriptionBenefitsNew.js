@@ -1,12 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
-import nutrition from '../ClubLandingPage/ClubImage/pictonutrition@4x.png';
-import gifticon from '../ClubLandingPage/ClubImage/pictogifts@4x.png';
-import spetadviser from '../ClubLandingPage/ClubImage/pictospetadviser@4x.png';
-import autoicon from '../ClubLandingPage/ClubImage/auto@2x.png';
-import shippingicon from '../ClubLandingPage/ClubImage/pictoshipping@4x.png';
-import iconsix from '../ClubLandingPage/ClubImage/iconsix.png';
+import shippingiconnew from './image/pictosshippingnew@4x.png';
+import phoneiconnew from './image/phonenew@4x.png';
+import gifticonnew from './image/pictosgiftsnew@4x.png';
+import discountnew from './image/discountnew@4x.png';
+import advisernew from './image/pictospetadvisernew@4x.png';
 
 const SubsriptionBenefitsNew = () => {
   return (
@@ -22,7 +21,7 @@ const SubsriptionBenefitsNew = () => {
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-              <FormattedMessage id="club.subscription.titile" />
+              A subscription that makes your life easier
             </h4>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
@@ -35,13 +34,13 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Питание с учетом потребностей Вашего котенка"
                           title="ideal formula"
-                          src={nutrition}
+                          src={shippingiconnew}
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id="club.subscription.icon1" />
+                        Automatic delivery with free shipping
                       </p>
                     </div>
                   </div>
@@ -55,13 +54,13 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
-                          src={gifticon}
+                          src={discountnew}
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id="club.subscription.icon2" />
+                        10% off on every order
                       </p>
                     </div>
                   </div>
@@ -75,13 +74,13 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Ваш персональный эксперт по уходу за питомцем на связи ежедневно с 9 до 21"
                           title="ideal formula"
-                          src={spetadviser}
+                          src={advisernew}
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id="club.subscription.icon3" />
+                        Access to a personal pet advisor
                       </p>
                     </div>
                   </div>
@@ -95,13 +94,13 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Бесплатная доставка корма на протяжении всего участия в программе "
                           title="ideal formula"
-                          src={autoicon}
+                          src={gifticonnew}
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id="club.subscription.icon4" />
+                        A welcome box & exclusive rewards
                       </p>
                     </div>
                   </div>
@@ -115,13 +114,13 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Бесплатная доставка корма на протяжении всего участия в программе "
                           title="ideal formula"
-                          src={shippingicon}
+                          src={phoneiconnew}
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id="club.subscription.icon5" />
+                        Tailored support & educational content
                       </p>
                     </div>
                   </div>
@@ -130,9 +129,7 @@ const SubsriptionBenefitsNew = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <button className="rc-btn rc-btn--one">
-              <FormattedMessage id="club.subscription.button" />
-            </button>
+            <button className="rc-btn rc-btn--one">Get Started</button>
           </h4>
         </div>
       </div>

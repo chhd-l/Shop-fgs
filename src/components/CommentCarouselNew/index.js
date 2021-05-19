@@ -1,9 +1,9 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import CommentOne from './img/CommentOne.png';
-import CommentFour from './img/CommentFour.png';
 import CommentTrOne from './img/FeedbackImage1.png';
-import CommentTrFour from './img/FeedbackImage4.jpeg';
+import CommentOne from './img/CommentThree.png';
+import CommentTwo from './img/CommentOne.png';
+import CommentThree from './img/CommentTwo.png';
+import CommentFour from './img/CommentFour.png';
 
 const CommentCarouselNew = () => {
   const Ru = process.env.REACT_APP_LANG === 'ru';
@@ -15,9 +15,7 @@ const CommentCarouselNew = () => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                <h3 className="rc-beta">
-                  <FormattedMessage id="club.loyal.customers" />
-                </h3>
+                <h3 className="rc-beta">Our Loyal Customers</h3>
               </div>
               <div
                 className="rc-carousel rc-carousel--cards rc-match-heights"
@@ -31,7 +29,7 @@ const CommentCarouselNew = () => {
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
                       <img
-                        src={CommentTrOne}
+                        src={CommentOne}
                         alt="alt text"
                         style={{ borderRadius: '50%', width: '50%' }}
                       />
@@ -40,7 +38,7 @@ const CommentCarouselNew = () => {
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
                       <img
-                        src={CommentTrOne}
+                        src={CommentTwo}
                         alt="alt text"
                         style={{ borderRadius: '50%', width: '50%' }}
                       />
@@ -49,7 +47,7 @@ const CommentCarouselNew = () => {
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
                       <img
-                        src={CommentTrOne}
+                        src={CommentThree}
                         alt="alt text"
                         style={{ borderRadius: '50%', width: '50%' }}
                       />
@@ -58,7 +56,7 @@ const CommentCarouselNew = () => {
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
                       <img
-                        src={CommentTrOne}
+                        src={CommentFour}
                         alt="alt text"
                         style={{ borderRadius: '50%', width: '50%' }}
                       />
