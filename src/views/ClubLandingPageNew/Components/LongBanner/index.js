@@ -1,33 +1,22 @@
 import React from 'react';
-import backgroundImg from '../../image/Bitmap@4x.png';
-import { FormattedMessage } from 'react-intl';
-import { Advantage } from '../../advantage';
-import HowItWorks from '../../../ClubLandingPage/HowItWorks';
-import { SubscriptionBenefits } from '../../../ClubLandingPage/SubscriptionBenefits';
 import SubscriptionBenefitsBanner from './SubscriprionBenefitsBanner';
-
-const sectionStyle = {
-  height: '709px',
-  //height 664
-  backgroundImage: `url(${backgroundImg})`,
-  backgroundSize: 'cover',
-  overflow: 'hidden',
-  display: 'flex',
-  flexDirection: 'column'
-};
+import './index.css';
 
 const LongBanner = () => {
   return (
     <>
-      <div style={sectionStyle}>
+      <div className="clubdesktop clubmobile">
         <div className="row rc-margin-x--none">
-          <div className="rc-full-width" style={{ height: '300px' }}>
+          <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
-              <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+              <div
+                className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                style={{ marginBottom: '0px' }}
+              >
                 <div
                   className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
                   style={{
-                    marginLeft: '130px',
+                    marginLeft: '13vw',
                     marginTop: '30px',
                     marginBottom: '0px'
                   }}

@@ -900,8 +900,6 @@ class Details extends React.Component {
                   goodsRes.defaultPurchaseType ||
                   configStore.info?.storeVO?.defaultPurchaseType
               });
-
-              this.loadWidgetIdBtn();
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -1058,6 +1056,7 @@ class Details extends React.Component {
             },
             async () => {
               await this.matchGoods();
+              this.loadWidgetIdBtn(this.state.barcode);
               //Product Detail Page view 埋点start
               this.hubGA
                 ? this.hubGAProductDetailPageView(
@@ -1145,7 +1144,7 @@ class Details extends React.Component {
       });
   }
 
-  loadWidgetIdBtn() {
+  loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
 
     const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
@@ -1161,7 +1160,7 @@ class Details extends React.Component {
           displaylanguage:
             process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
           widgetid: id,
-          ean: '3182550784436',
+          ean: barcode,
           subid: '',
           trackingid: ''
         }
