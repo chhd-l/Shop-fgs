@@ -433,7 +433,7 @@ const tr_TR = {
   'home.point3': 'Üstün kalite',
   'home.point4': 'Hızlı teslimat',
   'home.point5': "1968'DEN BERİ SAĞLIK EN BÜYÜK ÖNCELİĞİMİZ",
-  'home.point6': 'SİZİNLE BİRLİKTE',
+  'home.point6': 'HER ZAMAN SİZİNLE',
   'home.productsCategory': 'Ürün kategorilerimize göz atın',
   'home.promotionTip':
     'İlk satın almada% 10 indirim + her otomatik sevkiyat siparişinde% 5',
