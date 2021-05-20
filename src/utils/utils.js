@@ -529,7 +529,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
 }
 
 export async function getFrequencyDict(frequencyType) {
-  const lang = process.env.REACT_APP_LANG;
+  const lang = process.env.REACT_APP_COUNTRY;
 
   let autoShipFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day' }),
@@ -539,7 +539,7 @@ export async function getFrequencyDict(frequencyType) {
   autoShipFrequency = flatten(autoShipFrequency).map((el) => {
     el.goodsInfoFlag = 1;
     // 设置法国周一、周二不可选
-    if (lang == 'fr') {
+    if (lang == 'FR') {
       el.id == 5744 || el.id == 3558
         ? (el.disabled = true)
         : (el.disabled = false);
@@ -690,25 +690,25 @@ export function getFormatDate(date, callback, lang) {
 window.getFormatDate = getFormatDate;
 
 function getDatePickerConfig() {
-  const lang = process.env.REACT_APP_LANG;
+  const lang = process.env.REACT_APP_COUNTRY;
 
   switch (lang) {
-    case 'de':
+    case 'DE':
       registerLocale('de', de);
       break;
-    case 'es':
+    case 'MX':
       registerLocale('es', es);
       break;
-    case 'fr':
+    case 'FR':
       registerLocale('fr', fr);
       break;
-    case 'en':
+    case 'US':
       registerLocale('en', en);
       break;
-    case 'ru':
+    case 'RU':
       registerLocale('ru', ru);
       break;
-    case 'tr':
+    case 'TR':
       registerLocale('tr', tr);
       break;
     default:
@@ -916,7 +916,7 @@ export const sleep = (time) => {
   });
 };
 export function getZoneTime(date) {
-  if (process.env.REACT_APP_LANG === 'en') {
+  if (process.env.REACT_APP_COUNTRY === 'US') {
     return new Date(date).addHours(12);
   }
   return new Date(date);

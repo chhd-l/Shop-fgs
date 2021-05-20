@@ -2298,7 +2298,7 @@ class Details extends React.Component {
                               />
                             </div>
                             {form.buyWay === 2 &&
-                            process.env.REACT_APP_LANG !== 'ru' ? (
+                            process.env.REACT_APP_COUNTRY !== 'RU' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>

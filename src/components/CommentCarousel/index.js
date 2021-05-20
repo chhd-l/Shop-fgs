@@ -12,8 +12,8 @@ import CommentTrThree from './img/FeedbackImage3.jpeg';
 import CommentTrFour from './img/FeedbackImage4.jpeg';
 
 const CommentCarousel = () => {
-  const Ru = process.env.REACT_APP_LANG === 'ru';
-  const TR = process.env.REACT_APP_LANG == 'tr';
+  const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+  const TR = process.env.REACT_APP_COUNTRY == 'TR';
   return (
     // <div className="experience-component experience-layouts-1column">
     //     //   <div className="row rc-margin-x--none">
