@@ -429,7 +429,7 @@ const tr_TR = {
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
   'home.point1': 'Güvenli ödeme',
-  'home.point2': 'Memnun kalmazsanız iade edin',
+  'home.point2': 'Memnun kalmazsanız iade',
   'home.point3': 'Üstün kalite',
   'home.point4': 'Hızlı teslimat',
   'home.point5': "1968'DEN BERİ SAĞLIK EN BÜYÜK ÖNCELİĞİMİZ",
