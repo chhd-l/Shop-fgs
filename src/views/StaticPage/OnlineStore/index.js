@@ -77,7 +77,7 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      en: [
+      US: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
           img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
@@ -89,7 +89,7 @@ function AdvantageTips() {
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_LANG] || defaultIconList;
+    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">

@@ -6,7 +6,7 @@ export const LinkJSX = () => {
 
   return (
     {
-      fr: (
+      FR: (
         <Link
           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
           style={{ minWidth: '110px' }}
@@ -15,7 +15,7 @@ export const LinkJSX = () => {
           En savoir plus
         </Link>
       ),
-      en: (
+      US: (
         <Link
           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
           style={{ minWidth: '110px' }}
@@ -24,7 +24,7 @@ export const LinkJSX = () => {
           Join the Club
         </Link>
       ),
-      ru: (
+      RU: (
         <Link
           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
           style={{ minWidth: '110px' }}
@@ -33,6 +33,6 @@ export const LinkJSX = () => {
           Учить больше
         </Link>
       )
-    }[process.env.REACT_APP_LANG] || defaultJSX
+    }[process.env.REACT_APP_COUNTRY] || defaultJSX
   );
 };

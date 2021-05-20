@@ -9,12 +9,12 @@ import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
-import es from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import fr from 'date-fns/locale/fr';
-import tr from 'date-fns/locale/tr';
-import en from 'date-fns/locale/en-US';
-import ru from 'date-fns/locale/ru';
+import MX from 'date-fns/locale/es';
+import DE from 'date-fns/locale/de';
+import FR from 'date-fns/locale/fr';
+import TR from 'date-fns/locale/tr';
+import US from 'date-fns/locale/en-US';
+import RU from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
@@ -649,7 +649,7 @@ export async function fetchHeaderNavigations() {
 }
 
 export function getFormatDate(date, callback, lang) {
-  if (isMatchedLang(['fr'])) {
+  if (isMatchedLang(['FR'])) {
     const cache = createIntlCache();
     const intl = createIntl(
       {
@@ -663,19 +663,19 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(getZoneTime(date));
     }
-  } else if (isMatchedLang(['en'])) {
+  } else if (isMatchedLang(['US'])) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['tr'])) {
+  } else if (isMatchedLang(['TR'])) {
     return format(getZoneTime(date), 'dd-MM-yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['ru'])) {
+  } else if (isMatchedLang(['RU'])) {
     return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['de'])) {
+  } else if (isMatchedLang(['DE'])) {
     return format(getZoneTime(date), 'dd.MM.yyyy', {
       locale: datePickerConfig.locale_module
     });
@@ -694,39 +694,39 @@ function getDatePickerConfig() {
 
   switch (lang) {
     case 'DE':
-      registerLocale('de', de);
+      registerLocale('de', DE);
       break;
     case 'MX':
-      registerLocale('es', es);
+      registerLocale('es', MX);
       break;
     case 'FR':
-      registerLocale('fr', fr);
+      registerLocale('fr', FR);
       break;
     case 'US':
-      registerLocale('en', en);
+      registerLocale('en', US);
       break;
     case 'RU':
-      registerLocale('ru', ru);
+      registerLocale('ru', RU);
       break;
     case 'TR':
-      registerLocale('tr', tr);
+      registerLocale('tr', TR);
       break;
     default:
       break;
   }
 
   const datePickerCfg = {
-    es: { format: 'yyyy-MM-dd', locale: 'es', locale_module: es },
-    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
-    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
-    en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
-    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
-    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
+    MX: { format: 'yyyy-MM-dd', locale: 'es', locale_module: MX },
+    DE: { format: 'dd.MM.yyyy', locale: 'de', locale_module: DE },
+    FR: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: FR },
+    US: { format: 'MM/dd/yyyy', locale: 'en', locale_module: US },
+    RU: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: RU },
+    TR: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: TR },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
   const curDatePickerCfg =
-    datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
+    datePickerCfg[process.env.REACT_APP_COUNTRY] || datePickerCfg.default;
   return curDatePickerCfg;
 }
 let datePickerConfig = getDatePickerConfig();
@@ -820,7 +820,7 @@ export function filterObjectValueDeep(obj) {
 }
 
 export function isCountriesContainer(countries) {
-  return countries.indexOf(process.env.REACT_APP_LANG) > -1;
+  return countries.indexOf(process.env.REACT_APP_COUNTRY) > -1;
 }
 
 /**
@@ -865,15 +865,15 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
+  return ['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1;
 }
 
 //美国订单号去掉RCFUS开头
 export const filterOrderId = (orderId) => {
   return (
     {
-      en: orderId.replace(/RCFUS/, '')
-    }[process.env.REACT_APP_LANG] || orderId
+      US: orderId.replace(/RCFUS/, '')
+    }[process.env.REACT_APP_COUNTRY] || orderId
   );
 };
 
@@ -923,7 +923,7 @@ export function getZoneTime(date) {
 }
 function isMatchedLang(langArr, lang) {
   return langArr?.find(
-    (crLang) => process.env.REACT_APP_LANG === crLang || lang === crLang
+    (crLang) => process.env.REACT_APP_COUNTRY === crLang || lang === crLang
   );
 }
 import Club_Logo from '@/assets/images/Logo_club.png';

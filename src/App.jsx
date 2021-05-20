@@ -374,24 +374,7 @@ const App = () => {
                     return <Recommendation_FR {...props} />;
                   }}
                 />
-                {/* <Route
-                  exact
-                  path="/recommendation"
-                  render={(props) => {
-                    let sublanding = '';
-                    switch (process.env.REACT_APP_LANG) {
-                      // case 'fr':
-                      //   sublanding = <Recommendation_FR {...props} />;
-                      //   break;
-                        // case 'es':
-                        //   sublanding = <Recommendation {...props} />;
-                        //   break;
-                      default:
-                        sublanding = <Recommendation_US {...props} />;
-                    }
-                    return sublanding;
-                  }}
-                /> */}
+                
                 <Route
                   exact
                   path="/breeder/recommendation"
@@ -579,8 +562,8 @@ const App = () => {
                   exact
                   path="/Values"
                   component={
-                    { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                      process.env.REACT_APP_LANG
+                    { FR: FR_Values, US: US_Values, RU: RU_Values }[
+                      process.env.REACT_APP_COUNTRY
                     ] || Values
                   }
                 />
@@ -693,8 +676,8 @@ const App = () => {
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
-                      const splitName = { fr: '_FR.html', en: '_US.html' }[
-                        process.env.REACT_APP_LANG
+                      const splitName = { FR: '_FR.html', US: '_US.html' }[
+                        process.env.REACT_APP_COUNTRY
                       ];
                       const productNameMappping = {
                         '/ageing-12+-en-gelÃ©e-4153':

@@ -1475,7 +1475,7 @@ class Details extends React.Component {
       form.buyWay,
       'bbbb',
       images,
-      isCountriesContainer(['fr', 'ru', 'tr', 'en'])
+      isCountriesContainer(['FR', 'RU', 'TR', 'US'])
     );
     console.log('details', details);
     return (
@@ -1611,10 +1611,10 @@ class Details extends React.Component {
                                     </div>
                                   ) : null}
                                   {isCountriesContainer([
-                                    'fr',
-                                    'ru',
-                                    'tr',
-                                    'en'
+                                    'FR',
+                                    'RU',
+                                    'TR',
+                                    'US'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}

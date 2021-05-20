@@ -585,7 +585,7 @@ function ProductFinderAd({
 }) {
   return (
     {
-      fr: (
+      FR: (
         <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
@@ -680,7 +680,7 @@ function ProductFinderAd({
           ) : null}
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 

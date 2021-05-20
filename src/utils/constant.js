@@ -22,11 +22,11 @@ export const CREDIT_CARD_IMG_ENUM = {
 };
 
 export const ADYEN_CREDIT_CARD_BRANDS = {
-  fr: ['mc', 'visa', 'cartebancaire'],
-  ru: ['mc', 'visa', 'amex', 'discover'],
-  en: ['mc', 'visa', 'amex', 'discover'],
-  de: ['mc', 'visa']
-}[process.env.REACT_APP_LANG] || ['mc', 'visa', 'amex'];
+  FR: ['mc', 'visa', 'cartebancaire'],
+  RU: ['mc', 'visa', 'amex', 'discover'],
+  US: ['mc', 'visa', 'amex', 'discover'],
+  DE: ['mc', 'visa']
+}[process.env.REACT_APP_COUNTRY] || ['mc', 'visa', 'amex'];
 
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 
@@ -34,8 +34,9 @@ export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 export const usTelephoneCheck = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
 
 const TELEPHONE_REGEXP =
-  { fr: /[+(33)|0]\d{9}$/, en: usTelephoneCheck }[process.env.REACT_APP_LANG] ||
-  '';
+  { FR: /[+(33)|0]\d{9}$/, US: usTelephoneCheck }[
+    process.env.REACT_APP_COUNTRY
+  ] || '';
 
 export const ADDRESS_RULE = [
   {

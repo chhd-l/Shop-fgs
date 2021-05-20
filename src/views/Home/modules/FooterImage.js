@@ -65,7 +65,7 @@ class FooterImage extends React.Component {
     );
 
     const footerImage = {
-      es: (
+      MX: (
         <div className="row rc-margin-x--none d-flex">
           <div
             className="col-6 col-lg-4 order-1 order-lg-0"
@@ -122,8 +122,8 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      en: defaultVal,
-      de: (
+      US: defaultVal,
+      DE: (
         <div className="rc-layout-container rc-three-column">
           <div className="rc-column">
             <LazyLoad height={200}>
@@ -187,7 +187,7 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      fr: (
+      FR: (
         <div className="row rc-margin-x--none d-flex">
           <div
             className="col-6 col-lg-4 order-1 order-lg-0"
@@ -245,7 +245,9 @@ class FooterImage extends React.Component {
         </div>
       )
     };
-    return <div>{footerImage[process.env.REACT_APP_LANG] || defaultVal}</div>;
+    return (
+      <div>{footerImage[process.env.REACT_APP_COUNTRY] || defaultVal}</div>
+    );
   }
 }
 export default FooterImage;

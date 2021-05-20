@@ -1,25 +1,25 @@
 export default {
-  de: {
+  DE: {
     lat: 52.3,
     lng: 13.25
   },
-  en: {
+  US: {
     lat: 39.91,
     lng: -77.02
   },
-  fr: {
+  FR: {
     lat: 48.5,
     lng: 2.2
   },
-  es: {
+  MX: {
     lat: 19.2,
     lng: -99.1
   },
-  ru: {
+  RU: {
     lat: 55.45,
     lng: 37.35
   },
-  tr: {
+  TR: {
     lat: 39.57,
     lng: 32.54
   }
