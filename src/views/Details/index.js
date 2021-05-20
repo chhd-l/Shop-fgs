@@ -48,6 +48,7 @@ import Ration from './components/Ration/index.tsx';
 import { getGoodsRelation } from '@/api/details';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
+import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -834,6 +835,13 @@ class Details extends React.Component {
                   )
                 : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
+              //启用BazaarVoice时，在PDP页面add schema.org markup
+              if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+                addSchemaOrgMarkup(
+                  this.state.details,
+                  this.state.instockStatus
+                );
+              }
             }
           );
         } else {
@@ -1463,7 +1471,12 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(form.buyWay, 'bbbb');
+    console.log(
+      form.buyWay,
+      'bbbb',
+      images,
+      isCountriesContainer(['fr', 'ru', 'tr', 'en'])
+    );
     console.log('details', details);
     return (
       <div id="Details">
@@ -1659,11 +1672,14 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
-                              {!isMobile && (
-                                <BazaarVoiceRatingSummary
-                                  productId={details.goodsNo}
-                                />
-                              )}
+                              {!isMobile &&
+                                !!+process.env
+                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+                                !!details.goodsNo && (
+                                  <BazaarVoiceRatingSummary
+                                    productId={details.goodsNo}
+                                  />
+                                )}
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
@@ -2313,7 +2329,10 @@ class Details extends React.Component {
               />
             ) : null}
 
-            <BazaarVoiceReviews productId={details.goodsNo} />
+            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+              !!details.goodsNo && (
+                <BazaarVoiceReviews productId={details.goodsNo} />
+              )}
 
             <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (

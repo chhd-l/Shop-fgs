@@ -39,6 +39,7 @@ class VisitorAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      visitorData: null,
       form: this.props.initData,
       unConfirmedForm: '', //未确认时 但验证成功时的表单数据
       validationAddress: {
@@ -68,7 +69,7 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
     });
-    console.log('★ ----------------- VisitorAddress');
+    // console.log('★ ----------------- VisitorAddress');
   }
   //props发生变化时触发
   componentWillReceiveProps(props) {
@@ -85,7 +86,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
-    console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
+    // console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
@@ -96,6 +97,7 @@ class VisitorAddress extends React.Component {
       }
       await validData(data.formRule, data); // 数据验证
       this.setState({ isValid: true, unConfirmedForm: data }, () => {
+        console.log('--------- ★★★★★★ VisitorAddress 验证通过');
         this.props.updateFormValidStatus(this.state.isValid);
       });
       this.props.updateData(data);
@@ -108,7 +110,14 @@ class VisitorAddress extends React.Component {
   };
   // 接收form表单输入
   updateDeliveryAddress = (data) => {
-    this.validData({ data });
+    this.setState(
+      {
+        visitorData: data
+      },
+      () => {
+        this.validData({ data });
+      }
+    );
   };
   // 计算运费
   calculateFreight = (data) => {
@@ -147,9 +156,17 @@ class VisitorAddress extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
-    this.setState({
-      russiaAddressValid: flag
-    });
+    const { visitorData } = this.state;
+    this.setState(
+      {
+        russiaAddressValid: flag
+      },
+      () => {
+        if (flag) {
+          this.updateDeliveryAddress(visitorData);
+        }
+      }
+    );
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({

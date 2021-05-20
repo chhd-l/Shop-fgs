@@ -97,7 +97,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#shippingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <br />
@@ -162,7 +162,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#shippingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <br />
@@ -190,7 +190,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#billingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <p>

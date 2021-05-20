@@ -34,6 +34,7 @@ class SearchSelection extends React.Component {
     super(props);
     this.state = {
       optionList: [],
+      optionPanelVisible: false,
       form: {
         value: this.props.defaultValue,
         pageNum: 0

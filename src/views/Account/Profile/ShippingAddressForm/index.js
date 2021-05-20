@@ -357,10 +357,17 @@ class ShippingAddressFrom extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
-    // console.log('ShippingAddressForm: ',flag);
-    this.setState({
-      russiaAddressValid: flag
-    });
+    console.log('ShippingAddressForm: ', flag);
+    this.setState(
+      {
+        russiaAddressValid: flag
+      },
+      () => {
+        if (flag) {
+          this.validFormData();
+        }
+      }
+    );
   };
   render() {
     const { hideBillingAddr } = this.props;

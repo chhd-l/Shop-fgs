@@ -36,6 +36,10 @@ import goldenfood from './image/goldenfood.png';
 import { SubscriptionBenefits } from '../ClubLandingPage/SubscriptionBenefits';
 import SubsriptionBenefitsNew from './SubscriptionBenefitsNew';
 import HowItWorksNew from './Components/HowItWorksNew';
+import JoinTodayNew from './Components/JoinTodayNew';
+import CommentCarouselNew from '../../components/CommentCarouselNew';
+import GetMoreAd from './Components/GetMoreAd';
+import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -657,33 +661,28 @@ class ClubLandingPageNew extends React.Component {
             </div>
           </div>
 
-          <div style={{ height: '6vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
           <div style={{ backgroundColor: '#D0D0D0' }}>
             <SubsriptionBenefitsNew />
           </div>
-          <div style={{ height: '6vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
 
           <HowItWorksNew />
 
-          <HealthNutrition />
-          <Share />
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ backgroundColor: '#D0D0D0' }}>
+            <JoinTodayNew />
+          </div>
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
+
+          <CommentCarouselNew />
+
+          <GetMoreAd />
+
           <Divider />
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <AdvantageTips />
-            </div>
-          </div>
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-threeColumnContentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <FooterImage />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          <HelpComponentsNew />
+
           <Footer />
         </main>
       </div>
