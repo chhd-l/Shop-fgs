@@ -1436,6 +1436,10 @@ export default {
       redirectUrl: '/urinary-so-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4032'
     },
     {
+      shortUrl: '/ru/Urinary-S%2FO-(в-соусе)-4032_RU.html',
+      redirectUrl: '/urinary-so-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4032'
+    },
+    {
       shortUrl:
         '/ru/Urinary-S%2FO-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4021_RU.html',
       redirectUrl: '/urinary-so-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4021'
