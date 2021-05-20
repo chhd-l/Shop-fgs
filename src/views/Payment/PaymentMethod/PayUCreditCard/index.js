@@ -313,13 +313,11 @@ class PayOs extends React.Component {
                 payAmount: this.tradePrice,
                 storeId: process.env.REACT_APP_STOREID
               });
+
+              const installMentTableData =
+                res?.context?.installments[0]?.installmentPrices || [];
               this.setState({
-                installMentTableData:
-                  (res.context &&
-                    res.context.installments &&
-                    res.context.installments[0] &&
-                    res.context.installments[0].installmentPrices) ||
-                  []
+                installMentTableData
               });
               throw new Error();
             }
@@ -531,6 +529,7 @@ class PayOs extends React.Component {
                               {item.showInstallMentTable ? (
                                 <div className="col-12 mb-2">
                                   <InstallmentTable
+                                    defaultValue={0}
                                     list={installMentTableData}
                                     onChange={this.installmentTableChanger}
                                   />

@@ -34,6 +34,12 @@ import LongBanner from './Components/LongBanner/index';
 import vetimg from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
 import goldenfood from './image/goldenfood.png';
 import { SubscriptionBenefits } from '../ClubLandingPage/SubscriptionBenefits';
+import SubsriptionBenefitsNew from './SubscriptionBenefitsNew';
+import HowItWorksNew from './Components/HowItWorksNew';
+import JoinTodayNew from './Components/JoinTodayNew';
+import CommentCarouselNew from '../../components/CommentCarouselNew';
+import GetMoreAd from './Components/GetMoreAd';
+import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -55,7 +61,7 @@ function Divider() {
 function HealthNutrition() {
   return (
     {
-      en: (
+      US: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
@@ -242,14 +248,14 @@ function HealthNutrition() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
 function Share() {
   return (
     {
-      en: (
+      US: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -365,7 +371,7 @@ function Share() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -378,7 +384,7 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      en: [
+      US: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
           img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
@@ -390,7 +396,7 @@ function AdvantageTips() {
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_LANG] || defaultIconList;
+    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
@@ -655,51 +661,28 @@ class ClubLandingPageNew extends React.Component {
             </div>
           </div>
 
-          <section>
-            <div
-              className="rc-bg-colour--brand3"
-              id="benefits-box"
-              style={{ padding: '1px 0' }}
-            >
-              <div className="rc-full-width">
-                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="club.subscription.titile" />
-                  </h4>
-                  <div className="value-proposition__container">
-                    <div className="row mx-0 justify-content-between">
-                      <SubscriptionBenefits />
-                    </div>
-                  </div>
-                </div>
-                <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <button className="rc-btn rc-btn--one">
-                    <FormattedMessage id="club.subscription.button" />
-                  </button>
-                </h4>
-              </div>
-            </div>
-          </section>
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ backgroundColor: '#D0D0D0' }}>
+            <SubsriptionBenefitsNew />
+          </div>
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
 
-          <HealthNutrition />
-          <Share />
+          <HowItWorksNew />
+
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
+          <div style={{ backgroundColor: '#D0D0D0' }}>
+            <JoinTodayNew />
+          </div>
+          <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
+
+          <CommentCarouselNew />
+
+          <GetMoreAd />
+
           <Divider />
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <AdvantageTips />
-            </div>
-          </div>
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-threeColumnContentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <FooterImage />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          <HelpComponentsNew />
+
           <Footer />
         </main>
       </div>

@@ -19,6 +19,7 @@ import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
+import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -110,6 +111,10 @@ class Confirmation extends React.Component {
             if (isHubGA) {
               this.getIsAllOneShootGoods();
               orderConfirmationPushEvent(this.state.details);
+            }
+            //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
+            if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+              this.getBvTransactionPixel();
             }
           }
         );
@@ -307,6 +312,39 @@ class Confirmation extends React.Component {
     }
   }
   //GA 埋点 end
+
+  getBvTransactionPixel() {
+    const { details } = this.state;
+    console.log(details);
+    const items = details.tradeItems.map((item) => {
+      return {
+        price: String(item.price.toFixed(2)),
+        quantity: String(item.num.toFixed(2)),
+        productId: item.spuNo,
+        optional_item_parameter: {
+          name: item.spuName
+        }
+      };
+    });
+    const transactionInfo = {
+      currency: process.env.REACT_APP_CURRENCY,
+      orderId: details.id,
+      total: String(details.tradePrice.totalPrice.toFixed(2)),
+      items: items,
+      // optional_order_parameter: '',
+      email: details.consignee.email,
+      locale: 'en_US',
+      nickname: details.consignee.name,
+      userId: details.consignee.id
+      // optional_PII_parameter: {
+      //   email: details.consignee.email,
+      //   locale: 'en_US',
+      //   nickname: details.consignee.name,
+      //   userId: details.consignee.id
+      // }
+    };
+    transactionPixel(transactionInfo);
+  }
 
   render() {
     const { loading, details, subOrderNumberList } = this.state;

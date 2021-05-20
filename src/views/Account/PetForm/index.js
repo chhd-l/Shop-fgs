@@ -396,7 +396,7 @@ class PetForm extends React.Component {
       }
     }
 
-    if (!sensitivity) {
+    if (!sensitivity || (isPurebred && !this.state.breedName)) {
       this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
@@ -421,6 +421,10 @@ class PetForm extends React.Component {
           );
           return;
         }
+      }
+      if (this.state.weightObj && Number(this.state.weightObj.measure) <= 0) {
+        this.showErrorMsg(this.props.intl.messages.petWeightVerify);
+        return;
       }
     }
 
@@ -500,12 +504,16 @@ class PetForm extends React.Component {
     try {
       let res = await action(param);
       let isLinkedSub = this.state.subList.find((el) => el.petsId);
+      let isLinkedSubLength = this.state.subList.filter((el) => el.petsId)
+        ?.length;
       let petsIdLinkedSub = isLinkedSub?.petsId;
       let subscribeId =
         this.props.location.state?.subscribeId || isLinkedSub?.subscribeId;
       if (!pets.petsId) {
         myAccountActionPushEvent('Add pet');
         let petsType = this.props.location.state?.petsType;
+        let isFromSubscriptionDetail = this.props.location.state
+          ?.isFromSubscriptionDetail; //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
         let petsId = res.context?.result;
         if (subscribeId) {
           if (petsType) {
@@ -517,8 +525,10 @@ class PetForm extends React.Component {
             try {
               await changeSubscriptionDetailPets(params);
               // 有链接sub的，编辑宠物需要弹提示框
-              isEditAlert = true;
-              this.setState({ isEditAlert: true });
+              if (isFromSubscriptionDetail) {
+                isEditAlert = true;
+                this.setState({ isEditAlert: true });
+              }
             } catch (err) {
               this.showErrorMsg(err.message);
             }
@@ -526,7 +536,7 @@ class PetForm extends React.Component {
         }
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
-        if (petsIdLinkedSub && diffIndex > 0) {
+        if (petsIdLinkedSub && diffIndex > 0 && isLinkedSubLength == 1) {
           isEditAlert = true;
           this.setState({ isEditAlert: true });
         }
@@ -621,6 +631,19 @@ class PetForm extends React.Component {
     //   this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
     //   e.target.value
     // );
+  };
+
+  weightChange = (e) => {
+    let { weightObj } = this.state;
+    let valueArr = e.target.value.split('.');
+    if (Number(e.target.value) < 0) weightObj.measure = '';
+    if (valueArr.length > 1) {
+      valueArr[1] = valueArr[1].slice(0, 2);
+    }
+    weightObj.measure = valueArr.join('.');
+    this.setState({
+      weightObj
+    });
   };
 
   setSterilized(val) {
@@ -1556,18 +1579,7 @@ class PetForm extends React.Component {
                               aria-required="true"
                               style={{ padding: '.5rem 0', height: '44px' }}
                               value={this.state.weightObj.measure}
-                              onChange={(e) => {
-                                let { weightObj } = this.state;
-                                let valueArr = e.target.value.split('.');
-                                if (valueArr.length > 1) {
-                                  console.log(valueArr);
-                                  valueArr[1] = valueArr[1].slice(0, 2);
-                                }
-                                weightObj.measure = valueArr.join('.');
-                                this.setState({
-                                  weightObj
-                                });
-                              }}
+                              onChange={this.weightChange}
                               maxLength="50"
                               autoComplete="address-line"
                             />

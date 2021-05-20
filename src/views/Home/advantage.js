@@ -36,7 +36,7 @@ export function Advantage() {
 
   const list =
     {
-      en: [
+      US: [
         {
           imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
           imgAlt: 'ideal formula',
@@ -59,7 +59,7 @@ export function Advantage() {
           text: 'Free Automatic Shipping'
         }
       ],
-      fr: [
+      FR: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -88,7 +88,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ],
-      de: [
+      DE: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -117,7 +117,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip4" />
         }
       ],
-      ru: [
+      RU: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -146,7 +146,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ],
-      tr: [
+      TR: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -175,7 +175,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ]
-    }[process.env.REACT_APP_LANG] || defaultList;
+    }[process.env.REACT_APP_COUNTRY] || defaultList;
 
   return list.map((item, i) => (
     <div

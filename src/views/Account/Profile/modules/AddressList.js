@@ -1,5 +1,5 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Loading from '@/components/Loading';
 import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
@@ -90,6 +90,7 @@ function CardItem(props) {
 }
 @inject('checkoutStore', 'configStore')
 @injectIntl
+@observer
 class AddressList extends React.Component {
   static defaultProps = {
     hideBillingAddr: false

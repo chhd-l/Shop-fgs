@@ -18,7 +18,7 @@ function Divider() {
 export function Ads() {
   return (
     {
-      fr: (
+      FR: (
         <>
           <Divider />
           <div className="experience-component experience-layouts-1column">
@@ -56,14 +56,14 @@ export function Ads() {
           <Divider />
         </>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
 export function TopAds() {
   return (
     {
-      en: (
+      US: (
         <>
           <Divider />
           <div className="experience-component experience-layouts-1column">
@@ -105,6 +105,6 @@ export function TopAds() {
           </div>
         </>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }

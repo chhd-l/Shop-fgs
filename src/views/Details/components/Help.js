@@ -10,7 +10,7 @@ class Help extends React.Component {
     const { configStore } = this.props;
     return (
       {
-        en: (
+        US: (
           <div className="rc-bg-colour--brand4">
             <div className="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
               <div className="content-asset">
@@ -38,7 +38,7 @@ class Help extends React.Component {
             </div>
           </div>
         )
-      }[process.env.REACT_APP_LANG] || null
+      }[process.env.REACT_APP_COUNTRY] || null
     );
   }
 }

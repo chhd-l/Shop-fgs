@@ -9,12 +9,12 @@ import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
-import es from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import fr from 'date-fns/locale/fr';
-import tr from 'date-fns/locale/tr';
-import en from 'date-fns/locale/en-US';
-import ru from 'date-fns/locale/ru';
+import MX from 'date-fns/locale/es';
+import DE from 'date-fns/locale/de';
+import FR from 'date-fns/locale/fr';
+import TR from 'date-fns/locale/tr';
+import US from 'date-fns/locale/en-US';
+import RU from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
@@ -529,7 +529,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
 }
 
 export async function getFrequencyDict(frequencyType) {
-  const lang = process.env.REACT_APP_LANG;
+  const lang = process.env.REACT_APP_COUNTRY;
 
   let autoShipFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day' }),
@@ -539,7 +539,7 @@ export async function getFrequencyDict(frequencyType) {
   autoShipFrequency = flatten(autoShipFrequency).map((el) => {
     el.goodsInfoFlag = 1;
     // 设置法国周一、周二不可选
-    if (lang == 'fr') {
+    if (lang == 'FR') {
       el.id == 5744 || el.id == 3558
         ? (el.disabled = true)
         : (el.disabled = false);
@@ -649,7 +649,7 @@ export async function fetchHeaderNavigations() {
 }
 
 export function getFormatDate(date, callback, lang) {
-  if (isMatchedLang(['fr'])) {
+  if (isMatchedLang(['FR'])) {
     const cache = createIntlCache();
     const intl = createIntl(
       {
@@ -663,19 +663,19 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(getZoneTime(date));
     }
-  } else if (isMatchedLang(['en'])) {
+  } else if (isMatchedLang(['US'])) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['tr'])) {
+  } else if (isMatchedLang(['TR'])) {
     return format(getZoneTime(date), 'dd-MM-yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['ru'])) {
+  } else if (isMatchedLang(['RU'])) {
     return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['de'])) {
+  } else if (isMatchedLang(['DE'])) {
     return format(getZoneTime(date), 'dd.MM.yyyy', {
       locale: datePickerConfig.locale_module
     });
@@ -690,43 +690,43 @@ export function getFormatDate(date, callback, lang) {
 window.getFormatDate = getFormatDate;
 
 function getDatePickerConfig() {
-  const lang = process.env.REACT_APP_LANG;
+  const lang = process.env.REACT_APP_COUNTRY;
 
   switch (lang) {
-    case 'de':
-      registerLocale('de', de);
+    case 'DE':
+      registerLocale('de', DE);
       break;
-    case 'es':
-      registerLocale('es', es);
+    case 'MX':
+      registerLocale('es', MX);
       break;
-    case 'fr':
-      registerLocale('fr', fr);
+    case 'FR':
+      registerLocale('fr', FR);
       break;
-    case 'en':
-      registerLocale('en', en);
+    case 'US':
+      registerLocale('en', US);
       break;
-    case 'ru':
-      registerLocale('ru', ru);
+    case 'RU':
+      registerLocale('ru', RU);
       break;
-    case 'tr':
-      registerLocale('tr', tr);
+    case 'TR':
+      registerLocale('tr', TR);
       break;
     default:
       break;
   }
 
   const datePickerCfg = {
-    es: { format: 'yyyy-MM-dd', locale: 'es', locale_module: es },
-    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
-    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
-    en: { format: 'MM/dd/yyyy', locale: 'en', locale_module: en },
-    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
-    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
+    MX: { format: 'yyyy-MM-dd', locale: 'es', locale_module: MX },
+    DE: { format: 'dd.MM.yyyy', locale: 'de', locale_module: DE },
+    FR: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: FR },
+    US: { format: 'MM/dd/yyyy', locale: 'en', locale_module: US },
+    RU: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: RU },
+    TR: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: TR },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
   const curDatePickerCfg =
-    datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
+    datePickerCfg[process.env.REACT_APP_COUNTRY] || datePickerCfg.default;
   return curDatePickerCfg;
 }
 let datePickerConfig = getDatePickerConfig();
@@ -820,7 +820,7 @@ export function filterObjectValueDeep(obj) {
 }
 
 export function isCountriesContainer(countries) {
-  return countries.indexOf(process.env.REACT_APP_LANG) > -1;
+  return countries.indexOf(process.env.REACT_APP_COUNTRY) > -1;
 }
 
 /**
@@ -865,15 +865,15 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
+  return ['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1;
 }
 
 //美国订单号去掉RCFUS开头
 export const filterOrderId = (orderId) => {
   return (
     {
-      en: orderId.replace(/RCFUS/, '')
-    }[process.env.REACT_APP_LANG] || orderId
+      US: orderId.replace(/RCFUS/, '')
+    }[process.env.REACT_APP_COUNTRY] || orderId
   );
 };
 
@@ -916,14 +916,14 @@ export const sleep = (time) => {
   });
 };
 export function getZoneTime(date) {
-  if (process.env.REACT_APP_LANG === 'en') {
+  if (process.env.REACT_APP_COUNTRY === 'US') {
     return new Date(date).addHours(12);
   }
   return new Date(date);
 }
 function isMatchedLang(langArr, lang) {
   return langArr?.find(
-    (crLang) => process.env.REACT_APP_LANG === crLang || lang === crLang
+    (crLang) => process.env.REACT_APP_COUNTRY === crLang || lang === crLang
   );
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
@@ -947,7 +947,7 @@ export function bindSubmitParam(list) {
   list
     .filter((item) => item.isRequired)
     .forEach((item) => {
-      if (item.id == 'tr_A' || item.id == 'tr_B') {
+      if (item.desc == 'RC_DF_TR_FGS_A' || item.desc == 'RC_DF_TR_FGS_B') {
       } else {
         obj.requiredList.push({ id: item.id, selectedFlag: true });
       }

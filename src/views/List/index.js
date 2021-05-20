@@ -585,7 +585,7 @@ function ProductFinderAd({
 }) {
   return (
     {
-      fr: (
+      FR: (
         <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
@@ -680,7 +680,7 @@ function ProductFinderAd({
           ) : null}
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -1324,7 +1324,6 @@ class List extends React.Component {
             );
           }
         }
-
         this.setState(
           {
             sortList,
@@ -1825,7 +1824,9 @@ class List extends React.Component {
                   ? 'Для кошек'
                   : 'Для собак'
                 : ''; //俄罗斯定制，嗐！
-              const ruAttrs = [breed, ...technologyAttr];
+              const ruAttrs = breed
+                ? [breed, ...technologyAttr]
+                : [...technologyAttr];
               const technologyOrBreedsAttr =
                 isHub && process.env.REACT_APP_COUNTRY === 'RU'
                   ? ruAttrs.join(',')

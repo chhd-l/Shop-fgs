@@ -5,6 +5,7 @@ import { Observer, useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import { FullScreenModalContext } from './index';
 import Table from './Table';
+import Address from './Address';
 
 export default function Modal(props) {
   const value = useContext(FullScreenModalContext);
@@ -85,22 +86,7 @@ export default function Modal(props) {
                         {deliveryAddressInfo?.lastName}
                       </span>
                     </p>
-                    <p>
-                      Adres:
-                      <span>
-                        {deliveryAddressInfo.country +
-                          ',' +
-                          deliveryAddressInfo.city}
-                      </span>
-                      {','}
-                      <span data-represents-field="#shippingAddressOne">
-                        {deliveryAddressInfo?.address1},{' '}
-                        {localAddressForm['address2'] &&
-                          deliveryAddressInfo?.address2 && (
-                            <span>{deliveryAddressInfo?.address2}</span>
-                          )}
-                      </span>
-                    </p>
+                    <Address deliveryAddressInfo={deliveryAddressInfo} />
                     <p>
                       Telefon:
                       <span data-represents-field="#shippingPhoneNumber">
@@ -111,7 +97,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#shippingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <br />
@@ -165,22 +151,7 @@ export default function Modal(props) {
                         {deliveryAddressInfo?.lastName}
                       </span>
                     </p>
-                    <p>
-                      Adres:
-                      <span data-represents-field="#shippingAddressOne">
-                        <span>
-                          {deliveryAddressInfo.country +
-                            ',' +
-                            deliveryAddressInfo.city}
-                        </span>
-                        {','}
-                        {deliveryAddressInfo?.address1},{' '}
-                        {localAddressForm['address2'] &&
-                          deliveryAddressInfo?.address2 && (
-                            <span>{deliveryAddressInfo?.address2}</span>
-                          )}
-                      </span>
-                    </p>
+                    <Address deliveryAddressInfo={deliveryAddressInfo} />
                     <p>
                       Telefon:
                       <span data-represents-field="#shippingPhoneNumber">
@@ -191,7 +162,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#shippingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <br />
@@ -208,20 +179,7 @@ export default function Modal(props) {
                         {billingAddressInfo?.lastName}
                       </span>
                     </p>
-                    <p>
-                      Adres:
-                      <span>
-                        {billingAddressInfo.country +
-                          ',' +
-                          billingAddressInfo.city}
-                      </span>
-                      {','}
-                      <span>{billingAddressInfo?.address1},</span>{' '}
-                      {localAddressForm['address2'] &&
-                        billingAddressInfo?.address2 && (
-                          <span>{billingAddressInfo?.address2}</span>
-                        )}
-                    </p>
+                    <Address billingAddressInfo={billingAddressInfo} />
                     <p>
                       Telefon:
                       <span data-represents-field="#billingPhoneNumber">
@@ -232,7 +190,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#billingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <p>

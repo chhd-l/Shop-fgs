@@ -82,7 +82,7 @@ export function SubscriptionBenefits() {
 
   return (
     {
-      en: (
+      US: (
         <>
           <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -186,7 +186,7 @@ export function SubscriptionBenefits() {
           </div>
         </>
       ),
-      ru: (
+      RU: (
         <>
           <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center ">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -328,7 +328,7 @@ export function SubscriptionBenefits() {
           </div>
         </>
       ),
-      tr: (
+      TR: (
         <>
           <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -433,7 +433,7 @@ export function SubscriptionBenefits() {
         </>
       ),
 
-      fr: (
+      FR: (
         <>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -526,7 +526,7 @@ export function SubscriptionBenefits() {
           </div>
         </>
       ),
-      de: (
+      DE: (
         <>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -619,6 +619,6 @@ export function SubscriptionBenefits() {
           </div>
         </>
       )
-    }[process.env.REACT_APP_LANG] || defaultJSX
+    }[process.env.REACT_APP_COUNTRY] || defaultJSX
   );
 }

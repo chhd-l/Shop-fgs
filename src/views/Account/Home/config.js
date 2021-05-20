@@ -82,8 +82,8 @@ const itemList = (function () {
   const defaultItemList = [information, pets, orders, subscription, faqs];
   return (
     {
-      // ru: [information, pets, orders, subscription] //ru 没有faqs
-    }[process.env.REACT_APP_LANG] || defaultItemList
+      // RU: [information, pets, orders, subscription] //ru 没有faqs
+    }[process.env.REACT_APP_COUNTRY] || defaultItemList
   );
 })();
 

@@ -17,49 +17,40 @@ import { unique, getParaByName } from '@/utils/utils';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import SubDetailHeader from './components/SubDetailHeader';
 import SubGoodsInfos from './components/SubGoodsInfos';
+import UserPaymentInfo from './components/UserPaymentInfo';
+import GoodsDetails from './components/ChangeProduct/GoodsDetails';
+import ChooseSKU from './components/ChangeProduct/ChooseSKU';
+import RecommendationList from './components/ChangeProduct/RecommendationList';
+
 import NextDelivery from './components/DeliveryList/NextDelivery';
 import CompletedDelivery from './components/DeliveryList/CompletedDelivery';
-
 import Loading from '@/components/Loading';
-import { filterOrderId, getRation, getClubLogo } from '@/utils/utils';
+import { getRation, getClubLogo } from '@/utils/utils';
 
 import {
   getDictionary,
-  dynamicLoadCss,
   getDeviceType,
   getFrequencyDict,
   getFormatDate,
-  datePickerConfig,
   formatMoney,
-  setSeoConfig,
-  getZoneTime
+  setSeoConfig
 } from '@/utils/utils';
 import { getDetailsBySpuNo } from '@/api/details';
-import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import DatePicker from 'react-datepicker';
 import skipIcon from './images/skip.png';
-import deliveryIcon from './images/deliveryAddress.png';
-import billingIcon from './images/billingAddress.png';
-import paymentIcon from './images/payment.png';
 import { Link } from 'react-router-dom';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import {
   updateDetail,
-  changeSubscriptionDetailPets,
-  getAddressDetail,
   getSubDetail,
   skipNextSub,
   cancelAllSub,
   orderNowSub,
-  getPromotionPrice,
   updateNextDeliveryTime,
   startSubscription,
   pauseSubscription,
-  changeSubscriptionGoods,
   findPetProductForClub
 } from '@/api/subscription';
 import { getRemainings } from '@/api/dispenser';
-import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
@@ -68,7 +59,6 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 @inject('configStore')
 @injectIntl
@@ -78,24 +68,20 @@ class SubscriptionDetail extends React.Component {
     super(props);
     this.state = {
       triggerShowAddNewPet: false,
-      mainProductDetails: {}, //推荐主商品的详情数据
+      mainProductDetails: null, //推荐主商品的详情数据
       dogBreedList: [],
       catBreedList: [],
-      petsType: '',
+      petType: '',
       errMsgPage: '',
       errorMsgAddPet: '',
       errMsgDetail: '',
-      errorMsgSureChange: '',
       productDetail: {},
-      changeNowLoading: false,
       productListLoading: false,
       currentGoodsItems: [],
       goodsDetails: {}, //for GoodsDetailTabs
       stock: 0,
       currentSubscriptionPrice: null,
-      quantityMinLimit: 1,
       foodFllType: '',
-      quantity: 1,
       loadingPage: false,
       // addGoodsItemquantity: 1,
       //订阅购物车参数
@@ -236,12 +222,133 @@ class SubscriptionDetail extends React.Component {
       barcode: ''
     };
   }
+  paymentSave = (el) => {
+    const { subDetail } = this.state;
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      paymentId: el.id,
+      goodsItems: subDetail.goodsInfo?.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId
+        };
+      })
+    };
+
+    this.setState({ loading: true });
+
+    updateDetail(param)
+      .then((res) => {
+        this.getDetail(
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
+        );
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+      });
+    this.setState({ type: 'main', currentCardInfo: el });
+  };
+  cancelEdit = () => {
+    this.setState({ type: 'main' });
+  };
+  addressSave = (el, isBillSame, fn) => {
+    console.log(el, isBillSame);
+    if (addressType === 'delivery') {
+      let param = {
+        subscribeId: subDetail.subscribeId,
+        deliveryAddressId: el.deliveryAddressId,
+        goodsItems: subDetail.goodsInfo.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId
+          };
+        })
+      };
+      if (isBillSame) {
+        param.billingAddressId = el.deliveryAddressId;
+      }
+      //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
+      let title = '';
+      //寄送地址
+      title = this.props.intl.messages['subscription.shippingAddress'];
+      //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
+      if (param.billingAddressId) {
+        title =
+          title + ',' + this.props.intl.messages['subscription.BillingAddress'];
+      }
+      //增加返回changeField字段
+      Object.assign(param, {
+        changeField: title
+      });
+      console.log(param);
+      this.setState({ loading: true });
+      updateDetail(param)
+        .then((res) => {
+          fn && fn();
+          this.getDetail(
+            this.showErrMsg.bind(
+              this,
+              this.props.intl.messages.saveSuccessfullly,
+              'success'
+            )
+          );
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+        });
+      this.setState({
+        type: 'main',
+        currentDeliveryAddress: el
+      });
+    } else {
+      let param = {
+        subscribeId: subDetail.subscribeId,
+        billingAddressId: el.deliveryAddressId,
+        goodsItems: subDetail.goodsInfo.map((el) => {
+          return {
+            skuId: el.skuId,
+            subscribeNum: el.subscribeNum,
+            subscribeGoodsId: el.subscribeGoodsId
+          };
+        })
+      };
+      //增加返回changeField字段
+      Object.assign(param, {
+        changeField: this.props.intl.messages['subscription.BillingAddress']
+      });
+      console.log(param);
+      this.setState({ loading: true });
+      updateDetail(param)
+        .then((res) => {
+          this.getDetail(
+            this.showErrMsg.bind(
+              this,
+              this.props.intl.messages.saveSuccessfullly,
+              'success'
+            )
+          );
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+        });
+      this.setState({
+        type: 'main',
+        currentBillingAddress: el
+      });
+    }
+  };
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   productDetailsInit = (res, cb) => {
     let { configStore } = this.props;
-    const goodsRes = res && res.context && res.context.goods;
+    let goodsRes = (res && res.context && res.context.goods) || { context: {} };
     let frequencyDictRes = this.frequencyListOptions.filter((el) => {
       if (goodsRes.promotions && goodsRes.promotions.includes('club')) {
         return el.goodsInfoFlag === 2;
@@ -279,9 +386,8 @@ class SubscriptionDetail extends React.Component {
     let sizeList = [];
     let goodsInfos = res.context.goodsInfos || [];
     if (res && res.context && res.context.goodsSpecDetails) {
-      let specList = res.context.goodsSpecs;
+      let specList = res.context.goodsSpecs || [];
       let foodFllType = `${foodType} ${petType} Food`;
-
       let specDetailList = res.context.goodsSpecDetails;
       specList.map((sItem, index) => {
         sItem.chidren = specDetailList.filter((sdItem, i) => {
@@ -472,42 +578,6 @@ class SubscriptionDetail extends React.Component {
         });
       });
   }
-
-  handleChooseSize(sId, sdId, isSelected) {
-    if (isSelected) {
-      return;
-    }
-    let { specList, images } = this.state;
-    specList
-      .filter((item) => item.specId === sId)[0]
-      .chidren.map((item) => {
-        if (item.specDetailId === sdId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
-    const goodSize = specList.map((item) =>
-      item.chidren.find((good) => good.specDetailId === sdId)
-    )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
-    this.setState(
-      {
-        specList,
-        barcode
-      },
-      () => {
-        this.matchGoods();
-      }
-    );
-  }
-  updateInstockStatus() {
-    this.setState({
-      instockStatus: this.state.quantity <= this.state.stock
-    });
-  }
   matchGoods() {
     let {
       specList,
@@ -556,20 +626,14 @@ class SubscriptionDetail extends React.Component {
 
       return item;
     });
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentLinePrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock
-      },
-      () => {
-        this.updateInstockStatus();
-        // setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
+    this.setState({
+      details,
+      currentUnitPrice,
+      currentLinePrice,
+      currentSubscriptionPrice,
+      currentSubscriptionStatus,
+      stock
+    });
   }
   getBreedName = (petsType, petsBreed) => {
     let name =
@@ -584,7 +648,6 @@ class SubscriptionDetail extends React.Component {
           )?.[0]?.name;
     return name || this.props.intl.messages['Mixed Breed'];
   };
-
   bundleMatchGoods() {
     let {
       details,
@@ -599,28 +662,18 @@ class SubscriptionDetail extends React.Component {
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
     stock = details.goodsInfos[0].stock;
     details.sizeList[0].selected = true;
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock
-      },
-      () => {
-        this.updateInstockStatus();
-        // setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
+    this.setState({
+      details,
+      currentUnitPrice,
+      currentSubscriptionPrice,
+      currentSubscriptionStatus,
+      stock
+    });
   }
 
   async componentDidMount() {
     this.getBreedList();
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
+
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -695,33 +748,6 @@ class SubscriptionDetail extends React.Component {
       });
   }
 
-  hanldeAmountChange(type) {
-    this.setState({ checkOutErrMsg: '' });
-    if (!type) return;
-    const { quantity } = this.state;
-    let res;
-    if (type === 'minus') {
-      if (quantity <= 1) {
-        res = 1;
-      } else {
-        res = quantity - 1;
-      }
-    } else {
-      res = (quantity || 0) + 1;
-      if (quantity >= process.env.REACT_APP_LIMITED_NUM) {
-        res = process.env.REACT_APP_LIMITED_NUM;
-      }
-    }
-    this.setState(
-      {
-        quantity: res
-      },
-      () => {
-        this.updateInstockStatus();
-      }
-    );
-  }
-
   async doUpdateDetail(param) {
     try {
       this.setState({ loading: true });
@@ -756,244 +782,12 @@ class SubscriptionDetail extends React.Component {
   showAddNewPet = () => {
     this.getPetList();
   };
-  recommendationModal = () => {
-    const {
-      details,
-      specList,
-      quantity,
-      quantityMinLimit,
-      stock,
-      form,
-      currentSubscriptionPrice,
-      errorMsgSureChange
-    } = this.state;
-    let selected = false;
-    if (
-      specList?.length == 0 &&
-      details?.subscriptionStatus &&
-      details?.promotions == 'club'
-    ) {
-      // 兼容bundle商品
-      selected = true;
-    }
-    specList.forEach((el) => {
-      if (!selected) {
-        selected = el?.chidren.find((item) => item.selected)?.goodsId;
-      }
-    });
-    console.info(selected, 'dskjdhsjdhsjhk');
-    return (
-      <React.Fragment>
-        {this.showErrorDom(errorMsgSureChange)}
-        <div className="d-flex for-pc-bettwen">
-          <div className="d-flex for-mobile-colum for-mobile-100">
-            <div className="d-flex rc-margin-right--xs">
-              <img
-                src={details.goodsImg}
-                style={{ height: '4rem' }}
-                alt={details.goodsName}
-              />
-              <div className="rc-margin-left--xs" style={{ maxWidth: '200px' }}>
-                <div>{details.goodsName}</div>
-                {/* <div>{details.goodsSubtitle}</div> */}
-              </div>
-            </div>
-            <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-margin-left--xs">
-              <div className="text-left ml-1 font_size12 pad_b_5">
-                <FormattedMessage id="amount" />:
-              </div>
-              <div className="d-flex rc-align-children--space-between">
-                <div className="Quantity">
-                  <div className="quantity d-flex justify-content-between align-items-center">
-                    <input
-                      type="hidden"
-                      id="invalid-quantity"
-                      value="Пожалуйста, введите правильный номер."
-                    />
-                    <div className="rc-quantity text-right d-flex justify-content-end">
-                      <span
-                        className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                        onClick={() => this.hanldeAmountChange('minus')}
-                      />
-                      <input
-                        className="rc-quantity__input"
-                        id="quantity"
-                        name="quantity"
-                        value={quantity}
-                        min={quantityMinLimit}
-                        max={stock}
-                        onChange={this.handleAmountInput}
-                        maxLength="5"
-                      />
-                      <span
-                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                        onClick={() => this.hanldeAmountChange('plus')}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* <div className="rc-quantity d-flex">
-                  <span
-                    className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
-                    style={{ transform: 'scale(0.8)' }}
-                    // onClick={() => this.subQuantity(pitem)}
-                  ></span>
-                  <input
-                    className="rc-quantity__input"
-                    value="1"
-                    min="1"
-                    max="10"
-                    disabled
-                    // onChange={(e) =>
-                    //   this.handleAmountChange(e.target.value, pitem)
-                    // }
-                  />
-                  <span
-                    className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
-                    style={{ transform: 'scale(0.8)' }}
-                    // onClick={() => this.addQuantity(pitem)}
-                  ></span>
-                </div> */}
-                <strong className="rc-md-down">
-                  ={formatMoney(currentSubscriptionPrice * quantity)}
-                </strong>
-              </div>
-            </div>
-            <div
-              className="cart-and-ipay rc-margin-right--xs rc-margin-left--xs"
-              style={{ float: 'left' }}
-            >
-              <div className="specAndQuantity rc-margin-bottom--xs ">
-                <div className="spec">
-                  {specList.map((sItem, i) => (
-                    <div id="choose-select" key={i} style={{ width: '300px' }}>
-                      <div
-                        className="rc-margin-bottom--xs"
-                        style={{ textAlign: 'left' }}
-                      >
-                        {sItem.specName}:
-                      </div>
-                      <div data-attr="size">
-                        <div
-                          className="rc-swatch __select-size"
-                          id="id-single-select-size"
-                        >
-                          {sItem.chidren.map((sdItem, i) => (
-                            <div
-                              key={i}
-                              className={`rc-swatch__item ${
-                                sdItem.selected ? 'selected' : ''
-                              } ${
-                                sdItem.isEmpty || !sdItem.isClub
-                                  ? 'outOfStock'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                if (sdItem.isEmpty || !sdItem.isClub) {
-                                  return false;
-                                } else {
-                                  this.handleChooseSize(
-                                    sItem.specId,
-                                    sdItem.specDetailId,
-                                    sdItem.selected
-                                  );
-                                }
-                              }}
-                            >
-                              <span
-                                style={{
-                                  backgroundColor:
-                                    sdItem.isEmpty || !sdItem.isClub
-                                      ? '#ccc'
-                                      : '#fff',
-                                  cursor: sdItem.isEmpty
-                                    ? 'not-allowed'
-                                    : 'pointer'
-                                }}
-                              >
-                                {/* {parseFloat(sdItem.detailName)}{' '} */}
-                                {sdItem.detailName}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <p className="frequency rc-margin-right--xs rc-margin-left--xs">
-              <div style={{ marginBottom: '4px' }}>
-                <FormattedMessage id="subscription.frequency" />:
-              </div>
-              <div
-                className={!isMobile && 'subscriptionDetail-choose-frequency'}
-              >
-                <Selection
-                  customContainerStyle={{
-                    display: 'inline-block',
-                    marginLeft: isMobile ? '50px' : '0px',
-                    height: isMobile ? '70px' : 'auto'
-                  }}
-                  selectedItemChange={this.handleSelectedItemChange}
-                  optionList={this.frequencyListOptions.filter((el) => {
-                    if (
-                      this.state.details.promotions &&
-                      this.state.details.promotions.includes('club')
-                    ) {
-                      return el.goodsInfoFlag === 2;
-                    } else {
-                      return el.goodsInfoFlag === 1;
-                    }
-                  })}
-                  selectedItemData={{
-                    value: form.frequencyId
-                  }}
-                  key={form.frequencyId}
-                />
-              </div>
-            </p>
-          </div>
-          <strong className="rc-md-up" style={{ marginTop: '20px' }}>
-            ={formatMoney(currentSubscriptionPrice * quantity)}
-          </strong>
-        </div>
-        <div className="d-flex  for-mobile-colum for-pc-bettwen rc-button-link-group">
-          <span
-            className={`text-plain rc-styled-link ${
-              this.state.productListLoading ? 'ui-btn-loading' : ''
-            }`}
-            onClick={() => {
-              this.showChangeProduct([...this.state.subDetail.goodsInfo]);
-            }}
-          >
-            <FormattedMessage id="subscription.seeOtherRecommendation" />
-          </span>
-          <div className="for-mobile-colum d-flex">
-            <button
-              onClick={() => this.showProdutctDetail(0)}
-              className="rc-btn rc-btn--two rc-btn--sm"
-            >
-              <FormattedMessage id="subscription.productDetails" />
-            </button>
-            {this.state.isNotInactive && (
-              <button
-                onClick={() => this.changePets(selected)}
-                className={`rc-btn rc-btn--one rc-btn--sm ${
-                  selected ? '' : 'rc-btn-solid-disabled'
-                }
-                ${this.state.changeNowLoading ? 'ui-btn-loading' : ''}`}
-              >
-                <FormattedMessage id="subscription.changeNow" />
-              </button>
-            )}
-          </div>
-        </div>
-      </React.Fragment>
-    );
+  savedChangeSubscriptionGoods = () => {
+    this.getDetail();
+    this.closeRecommendation();
+    this.closeEditRecommendation();
   };
+
   getDetail = async (fn) => {
     try {
       this.setState({ loading: true });
@@ -1069,21 +863,9 @@ class SubscriptionDetail extends React.Component {
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
-      // let cityRes = await queryCityNameById({
-      //   id: [subDetail.consignee.cityId, subDetail.invoice.cityId]
-      // });
-      // cityRes = cityRes.context.systemCityVO || [];
-      // subDetail.consignee.cityName = this.matchCityName(
-      //   cityRes,
-      //   subDetail.consignee.cityId
-      // );
-      // subDetail.invoice.cityName = this.matchCityName(
-      //   cityRes,
-      //   subDetail.invoice.cityId
-      // );
       this.setState(
         {
-          petsType,
+          petType: petsType,
           isGift: isGift,
           subDetail: subDetail,
           currentCardInfo: subDetail.payPaymentInfo,
@@ -1641,79 +1423,7 @@ class SubscriptionDetail extends React.Component {
     let mainProductDetails = this.state.mainProductDetails;
     this.queryProductDetails({ mainProductDetails });
   };
-  changeSubscriptionGoods = () => {
-    try {
-      const { quantity, form, details } = this.state;
-      const { sizeList } = details;
-      let currentSelectedSize = sizeList[0];
-      if (details?.goodsSpecDetails) {
-        currentSelectedSize = find(sizeList, (s) => s.selected);
-      }
-      let buyWay = parseInt(form.buyWay);
-      let goodsInfoFlag =
-        buyWay && details.promotions?.includes('club') ? 2 : buyWay;
-      let subscribeId = this.state.subDetail.subscribeId;
 
-      let addGoodsItems = {
-        skuId: currentSelectedSize.goodsInfoId,
-        subscribeNum: quantity,
-        goodsInfoFlag: 2,
-        periodTypeId: form.frequencyId
-        // productFinderFlag: currentSelectedSize.productFinderFlag
-      };
-      // let currentGoodsItem = this.state.currentGoodsItems[0] || {};
-      let deleteGoodsItems = this.state.currentGoodsItems.map((el) => {
-        return {
-          // subscribeNum: currentGoodsItem.subscribeNum,
-          // periodTypeId: currentGoodsItem.periodTypeId,
-          // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
-          subscribeId,
-          skuId: el.goodsInfoVO?.goodsInfoId
-        };
-      });
-      let isTheSamePro = deleteGoodsItems.find(
-        (el) => el?.skuId == currentSelectedSize?.goodsInfoId
-      );
-      if (isTheSamePro?.skuId) {
-        //替换的skuid一致，不能正常提交
-        this.showErrMsgs(
-          this.props.intl.messages['subscription.thesameProd'],
-          'errorMsgSureChange'
-        );
-        this.setState({ changeNowLoading: false });
-        return;
-      }
-      if (buyWay) {
-        addGoodsItems.periodTypeId = form.frequencyId;
-      }
-      let params = {
-        subscribeId,
-        addGoodsItems: [addGoodsItems],
-        deleteGoodsItems
-      };
-      changeSubscriptionGoods(params)
-        .then((res) => {
-          this.setState({ changeNowLoading: false });
-          this.getDetail();
-          this.closeRecommendation();
-          this.closeEditRecommendation();
-        })
-        .catch((err) => {
-          this.setState({ changeNowLoading: false });
-          this.showErrMsgs(err && err.message, 'errorMsgSureChange');
-        });
-    } catch (err) {
-      this.showErrMsgs(err && err.message, 'errorMsgSureChange');
-      this.setState({ changeNowLoading: false });
-    }
-  };
-  changePets = (selected) => {
-    if (!selected) {
-      return;
-    }
-    this.setState({ changeNowLoading: true });
-    this.changeSubscriptionGoods();
-  };
   closeEditRecommendation = () => {
     this.setState({ editRecommendationVisible: false });
   };
@@ -1819,7 +1529,9 @@ class SubscriptionDetail extends React.Component {
             id,
             cb: (res) => {
               // 保存mainproduct推荐的商品详情
-              this.setState({ mainProductDetails: res });
+              if (res) {
+                this.setState({ mainProductDetails: res });
+              }
             }
           });
         } else {
@@ -1841,284 +1553,7 @@ class SubscriptionDetail extends React.Component {
       </div>
     ) : null;
   };
-  getDetailModalInner = () => {
-    const createMarkup = (text) => ({ __html: text });
-    const { details, foodFllType } = this.state;
-    console.info('details', details);
-    // console.info('detailsdetailsdetails', props.details);
-    return (
-      <div className="margin12 product_detail rc-padding-x--md">
-        <div>
-          <img
-            className="m-auto"
-            style={{ maxWidth: '100px' }}
-            src={getClubLogo()}
-            alt="club icon"
-          />
-          <div className="rc-layout-container rc-five-column">
-            <div className="rc-column  rc-header__center d-flex">
-              {/* <LazyLoad> */}
-              <img
-                src={details.goodsImg}
-                style={{ maxHeight: '12rem' }}
-                alt={details.goodsName}
-              />
-              {/* </LazyLoad> */}
-            </div>
-            <div className="rc-column rc-double-width">
-              <div className="title rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen rc-margin-top--md">
-                {details.goodsName}
-              </div>
-              {/* <div className="sub_title">{details.goodsSubtitle}</div> */}
-              <div>
-                <div className="block">
-                  <p
-                    className="content rc-scroll--x"
-                    style={{ marginBottom: '4rem' }}
-                  >
-                    {details.goodsSubtitle}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {this.state.goodsDetails?.goods?.goodsId && (
-          <GoodsDetailTabs detailRes={this.state.goodsDetails} />
-        )}
-      </div>
-    );
-  };
-  productDailyRation = (rations) =>
-    rations && (
-      <div
-        style={{
-          textAlign: 'center',
-          background: '#f9f9f9',
-          color: '#000',
-          maxWidth: '400px',
-          margin: '0 auto'
-        }}
-        className="text-center rc-padding--xs"
-      >
-        <div style={{ fontSize: '12px' }} className="rc-padding-bottom--xs">
-          <FormattedMessage id="subscription.dailyRation" />
-        </div>
-        <div style={{ fontSize: '1rem' }}>{rations}</div>
-      </div>
-    );
-  ProductRecommendations = () => {
-    const { productDetail, errMsgDetail } = this.state;
-    return (
-      <>
-        {this.showErrorDom(errMsgDetail)}
-        {!!productDetail.mainProduct && (
-          <>
-            <div className="p-f-result-box">
-              <img
-                className="m-auto"
-                style={{ maxWidth: '200px' }}
-                src={getClubLogo()}
-                alt="club icon"
-              />
-              <h4 className="red text-center mb-3 mt-3">
-                <FormattedMessage id="subscription.productRecommendation" />
-              </h4>
-              <p className=" text-center">
-                <FormattedMessage id="subscription.productRecommendationTip" />
-              </p>
-            </div>
-            <div className="p-f-result-box">
-              <div className="border rounded row pt-3 pb-3">
-                <div className="col-12 col-md-6">
-                  {/* LazyLoad在弹窗有点问题，显示不出来图片 */}
-                  {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
-                  <img
-                    src={
-                      productDetail.mainProduct?.goodsImg ||
-                      productDetail.mainProduct?.goodsInfos.sort(
-                        (a, b) => a.marketPrice - b.marketPrice
-                      )[0].goodsInfoImg
-                    }
-                    className="p-img"
-                    alt={productDetail.mainProduct?.goodsName}
-                  />
-                  {/* </LazyLoad> */}
-                </div>
-                <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
-                  <header className="rc-text--center">
-                    <h3
-                      className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
-                      title={productDetail.mainProduct?.goodsName}
-                    >
-                      {productDetail.mainProduct?.goodsName}
-                    </h3>
-                  </header>
-                  <div
-                    className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
-                    title={productDetail.mainProduct?.subTitle}
-                  >
-                    {productDetail.mainProduct?.subTitle}
-                  </div>
-                  {this.productDailyRation(
-                    productDetail.mainProduct?.petsRation
-                  )}
-                  <div className="text-center mt-2 card--product-contaner-price">
-                    {productDetail.mainProduct?.toPrice ? (
-                      <FormattedMessage
-                        id="pirceRange"
-                        values={{
-                          fromPrice: (
-                            <span className="contaner-price__value">
-                              {formatMoney(
-                                productDetail.mainProduct?.fromPrice
-                              )}
-                            </span>
-                          ),
-                          toPrice: (
-                            <span className="contaner-price__value">
-                              {formatMoney(productDetail.mainProduct?.toPrice)}
-                            </span>
-                          )
-                        }}
-                      />
-                    ) : (
-                      <span className="contaner-price__value">
-                        {formatMoney(productDetail.mainProduct?.fromPrice)}
-                      </span>
-                    )}
-                  </div>
-                  <div
-                    className="d-flex justify-content-center mt-3 testtest"
-                    // onClick={() => {
-                    //   this.GAProductClick(productDetail.mainProduct, 0);
-                    // }}
-                  >
-                    <span
-                      onClick={() => {
-                        this.showProdutctDetail(
-                          productDetail.mainProduct?.spuCode
-                        );
-                      }}
-                      className={`rc-btn rc-btn--one rc-btn--sm ${
-                        this.state.productListLoading ? 'ui-btn-loading' : ''
-                      } `}
-                    >
-                      <FormattedMessage id="seeTheProduct" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-        {!!productDetail.otherProducts && (
-          <>
-            <p className="text-center rc-margin-top--xs">
-              <FormattedMessage id="productFinder.otherProductsToConsider" />
-            </p>
-            <div className="rc-scroll--x pb-4 rc-padding-x--xl">
-              <div className="d-flex">
-                {productDetail?.otherProducts?.map((ele, i) => (
-                  <div
-                    className={`border rounded pt-3 pb-3 pl-2 pr-2 pl-md-0 pr-md-0 ${
-                      i ? 'ml-2' : ''
-                    }`}
-                    key={ele.id}
-                    style={{ flex: 1 }}
-                  >
-                    <div className="mb-3 p-f-product-img">
-                      {/* <LazyLoad style={{ height: '100%', width: '100%' }}> */}
-                      <img
-                        src={
-                          ele.goodsImg ||
-                          ele.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg
-                        }
-                        style={{ maxHeight: '12rem', margin: '0 auto' }}
-                        className="p-img"
-                        alt={ele.goodsName}
-                      />
-                      {/* </LazyLoad> */}
-                    </div>
-                    <div className="d-flex flex-column justify-content-center">
-                      <header className="rc-text--center">
-                        <h3
-                          className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen p-f-product-title"
-                          title={ele.goodsName}
-                        >
-                          {ele.goodsName}
-                        </h3>
-                      </header>
-                      <div
-                        className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
-                        title={ele.subTitle}
-                      >
-                        {ele.subTitle}
-                      </div>
-                      {this.productDailyRation(ele?.petsRation)}
-                      <div className="text-center mt-2 card--product-contaner-price">
-                        {ele?.toPrice ? (
-                          <FormattedMessage
-                            id="pirceRange"
-                            values={{
-                              fromPrice: (
-                                <span className="contaner-price__value">
-                                  {formatMoney(ele?.fromPrice)}
-                                </span>
-                              ),
-                              toPrice: (
-                                <span className="contaner-price__value">
-                                  {formatMoney(ele?.toPrice)}
-                                </span>
-                              )
-                            }}
-                          />
-                        ) : (
-                          <span className="contaner-price__value">
-                            {formatMoney(ele?.fromPrice)}
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        className="d-flex justify-content-center mt-3"
-                        // onClick={()=>{
-                        //   this.GAProductClick(ele, i+1)
-                        // }}
-                      >
-                        {/* <Link
-                        to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
-                        className="rc-btn rc-btn--one rc-btn--sm"
-                      > */}
-                        <span
-                          onClick={() => {
-                            this.showProdutctDetail(ele.spuCode);
-                          }}
-                          className={`rc-btn rc-btn--one rc-btn--sm ${
-                            this.state.productListLoading
-                              ? 'ui-btn-loading'
-                              : ''
-                          }`}
-                        >
-                          <FormattedMessage id="seeTheProduct" />
-                        </span>
-                        {/* </Link> */}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-        <p className="details-infos d-flex">
-          <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-          <FormattedMessage id="recommendProductTip" />
-        </p>
-      </>
-    );
-  };
+
   changeProductModal = () => {
     const { productDetail, currentGoodsItems, subDetail } = this.state;
     const currentGoodsItem = currentGoodsItems[0] || {};
@@ -2139,7 +1574,12 @@ class SubscriptionDetail extends React.Component {
           }}
         >
           {productDetail?.mainProduct ? (
-            this.ProductRecommendations()
+            <RecommendationList
+              showProdutctDetail={this.showProdutctDetail}
+              productDetail={this.state.productDetail}
+              errMsgDetail={this.state.errMsgDetail}
+              productListLoading={this.state.productListLoading}
+            />
           ) : (
             <div className="text-center  rc-padding-left--lg--desktop rc-padding-right--lg--desktop">
               <img
@@ -2263,25 +1703,6 @@ class SubscriptionDetail extends React.Component {
     let { subDetail, isNotInactive } = this.state;
     return;
   };
-  handleAmountInput = (e) => {
-    const { quantityMinLimit } = this.state;
-    const val = e.target.value;
-    if (val === '') {
-      this.setState({ quantity: val });
-    } else {
-      let tmp = parseInt(val);
-      if (isNaN(tmp)) {
-        tmp = 1;
-      }
-      if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit;
-      }
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
-      }
-      this.setState({ quantity: tmp }, () => this.updateInstockStatus());
-    }
-  };
 
   getBreedList = () => {
     getDictionary({ type: 'catBreed' }).then((res) => {
@@ -2306,8 +1727,6 @@ class SubscriptionDetail extends React.Component {
         filters: ''
       }
     };
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
     let {
       type,
       currentCardInfo,
@@ -2329,13 +1748,6 @@ class SubscriptionDetail extends React.Component {
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
-    let minDeliveryTime = null;
-    let maxDeliveryTime = null;
-    if (subDetail?.noStartTradeList) {
-      let snsl = subDetail.noStartTradeList[0];
-      minDeliveryTime = snsl.minDeliveryTime;
-      maxDeliveryTime = snsl.maxDeliveryTime;
-    }
     return (
       <div className="subscriptionDetail">
         <div>
@@ -2401,37 +1813,8 @@ class SubscriptionDetail extends React.Component {
                       history={this.props.history}
                       paymentId={currentCardInfo.id}
                       type={type}
-                      save={(el) => {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          paymentId: el.id,
-                          goodsItems: subDetail.goodsInfo?.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-
-                        this.setState({ loading: true });
-
-                        updateDetail(param)
-                          .then((res) => {
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({ type: 'main', currentCardInfo: el });
-                      }}
-                      cancel={() => this.setState({ type: 'main' })}
+                      save={(el) => this.paymentSave(el)}
+                      cancel={this.cancelEdit}
                     />
                   )}
                 </div>
@@ -2445,102 +1828,8 @@ class SubscriptionDetail extends React.Component {
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={(el, isBillSame, fn) => {
-                      console.log(el, isBillSame);
-                      if (addressType === 'delivery') {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          deliveryAddressId: el.deliveryAddressId,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        if (isBillSame) {
-                          param.billingAddressId = el.deliveryAddressId;
-                        }
-                        //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
-                        let title = '';
-                        //寄送地址
-                        title = this.props.intl.messages[
-                          'subscription.shippingAddress'
-                        ];
-                        //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
-                        if (param.billingAddressId) {
-                          title =
-                            title +
-                            ',' +
-                            this.props.intl.messages[
-                              'subscription.BillingAddress'
-                            ];
-                        }
-                        //增加返回changeField字段
-                        Object.assign(param, {
-                          changeField: title
-                        });
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            fn && fn();
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({
-                          type: 'main',
-                          currentDeliveryAddress: el
-                        });
-                      } else {
-                        let param = {
-                          subscribeId: subDetail.subscribeId,
-                          billingAddressId: el.deliveryAddressId,
-                          goodsItems: subDetail.goodsInfo.map((el) => {
-                            return {
-                              skuId: el.skuId,
-                              subscribeNum: el.subscribeNum,
-                              subscribeGoodsId: el.subscribeGoodsId
-                            };
-                          })
-                        };
-                        //增加返回changeField字段
-                        Object.assign(param, {
-                          changeField: this.props.intl.messages[
-                            'subscription.BillingAddress'
-                          ]
-                        });
-                        console.log(param);
-                        this.setState({ loading: true });
-                        updateDetail(param)
-                          .then((res) => {
-                            this.getDetail(
-                              this.showErrMsg.bind(
-                                this,
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              )
-                            );
-                          })
-                          .catch((err) => {
-                            this.setState({ loading: false });
-                          });
-                        this.setState({
-                          type: 'main',
-                          currentBillingAddress: el
-                        });
-                      }
-                    }}
-                    cancel={() => this.setState({ type: 'main' })}
+                    save={() => this.addressSave(el, isBillSame, fn)}
+                    cancel={this.cancelEdit}
                   />
                 </div>
                 <div
@@ -2548,6 +1837,26 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
                   <SubDetailHeader
+                    savedChangeSubscriptionGoods={
+                      this.savedChangeSubscriptionGoods
+                    }
+                    matchGoods={this.matchGoods}
+                    showChangeProduct={this.showChangeProduct}
+                    details={this.state.details}
+                    showProdutctDetail={this.showProdutctDetail}
+                    specList={this.state.specList}
+                    stock={this.state.stock}
+                    isNotInactive={this.state.isNotInactive}
+                    form={this.state.form}
+                    images={this.state.images}
+                    productListLoading={this.state.productListLoading}
+                    currentGoodsItems={this.state.currentGoodsItems}
+                    currentSubscriptionPrice={
+                      this.state.currentSubscriptionPrice
+                    }
+                    petType={this.state.petType}
+                    frequencyListOptions={this.frequencyListOptions}
+                    handleSelectedItemChange={this.handleSelectedItemChange}
                     isClub={isClub}
                     setState={this.setState.bind(this)}
                     editRecommendationVisible={
@@ -2740,332 +2049,13 @@ class SubscriptionDetail extends React.Component {
                       <h4 className="h4">
                         <FormattedMessage id="transactionInfo" />
                       </h4>
-                      <div className="row text-left text-break editCard ml-0 mr-0">
-                        <div
-                          className="col-12 col-md-4 mb-2"
-                          style={{ padding: '5px', paddingLeft: '0' }}
-                        >
-                          <div
-                            className="h-100 border border-d7d7d7"
-                            style={{
-                              padding: '1.25rem'
-                            }}
-                          >
-                            <div className="align-items-center">
-                              {/* <em className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
-                              <LazyLoad>
-                                <img
-                                  alt="delivery Icon"
-                                  src={deliveryIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '1.125rem',
-                                    display: 'inline-block'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <span>
-                                <FormattedMessage id="delivery2" />
-                              </span>
-                              {subDetail.subscribeStatus === '0' && (
-                                <a
-                                  className="rc-styled-link red-text"
-                                  style={{ float: 'right', marginTop: '5px' }}
-                                  onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    this.setState({
-                                      type: 'AddressComp',
-                                      addressType: 'delivery'
-                                    });
-                                  }}
-                                >
-                                  <FormattedMessage id="edit" />{' '}
-                                  {/* <FormattedMessage id="address" /> */}
-                                </a>
-                              )}
-                            </div>
-                            <div className="ml-1">
-                              {/* 姓名 */}
-                              <p className="mb-0 sd_mb_name">
-                                <span
-                                  className="medium"
-                                  style={{
-                                    fontSize: '1.125rem',
-                                    color: '#333',
-                                    margin: '25px 0 .625rem'
-                                  }}
-                                >
-                                  {currentDeliveryAddress?.consigneeName}
-                                </span>
-                              </p>
-                              {/* 电话 */}
-                              <p className="mb-0 sd_mb_tel">
-                                {currentDeliveryAddress?.consigneeNumber}
-                              </p>
-
-                              {/* 国家 */}
-                              {process.env.REACT_APP_COUNTRY == 'US' ||
-                              process.env.REACT_APP_COUNTRY == 'RU' ? null : (
-                                <p className="mb-0 sd_mb_country">
-                                  {this.state.countryList.length &&
-                                  this.state.countryList.filter(
-                                    (el) =>
-                                      el.id === currentDeliveryAddress.countryId
-                                  ).length
-                                    ? this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.countryId
-                                      )[0].valueEn
-                                    : currentDeliveryAddress.countryId}
-                                  ,
-                                </p>
-                              )}
-                              {/* 地址 */}
-                              <p className="mb-0 sd_mb_address1">
-                                {currentDeliveryAddress?.address1}
-                              </p>
-                              {localAddressForm &&
-                                localAddressForm['address2'] &&
-                                currentDeliveryAddress?.address2 && (
-                                  <p className="mb-0 sd_mb_address2">
-                                    {currentDeliveryAddress?.address2}
-                                  </p>
-                                )}
-
-                              <p className="mb-0 sd_mb_cpp">
-                                {/* 城市 */}
-                                {localAddressForm &&
-                                  localAddressForm['city'] &&
-                                  currentDeliveryAddress?.city + ', '}
-
-                                {/* 区域 */}
-                                {localAddressForm['region'] &&
-                                  currentDeliveryAddress.area + ', '}
-
-                                {/* 省份 / State */}
-                                {localAddressForm &&
-                                  localAddressForm['state'] &&
-                                  currentDeliveryAddress?.province + ' '}
-
-                                {/* 邮编 */}
-                                {localAddressForm &&
-                                  localAddressForm['postCode'] &&
-                                  currentDeliveryAddress?.postCode}
-                              </p>
-
-                              {maxDeliveryTime &&
-                                minDeliveryTime &
-                                (
-                                  <>
-                                    {minDeliveryTime && (
-                                      <>
-                                        {minDeliveryTime == maxDeliveryTime ? (
-                                          <FormattedMessage
-                                            id="payment.deliveryDate2"
-                                            values={{
-                                              val: minDeliveryTime
-                                            }}
-                                          />
-                                        ) : (
-                                          <FormattedMessage
-                                            id="payment.deliveryDate"
-                                            values={{
-                                              min: minDeliveryTime,
-                                              max: maxDeliveryTime
-                                            }}
-                                          />
-                                        )}
-                                      </>
-                                    )}
-                                  </>
-                                )}
-                            </div>
-                          </div>
-                        </div>
-                        {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
-                        {process.env.REACT_APP_COUNTRY !== 'US' &&
-                        !Boolean(
-                          +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
-                        ) ? (
-                          <div
-                            className={`col-12 col-md-4 mb-2`}
-                            style={{ padding: '5px' }}
-                          >
-                            <div
-                              className="h-100 border border-d7d7d7"
-                              style={{
-                                padding: '1.25rem'
-                              }}
-                            >
-                              <div className="align-items-center">
-                                <LazyLoad>
-                                  <img
-                                    alt="billing Icon"
-                                    src={billingIcon}
-                                    style={{
-                                      width: '30px',
-                                      marginRight: '1.125rem',
-                                      display: 'inline-block'
-                                    }}
-                                  />
-                                </LazyLoad>
-                                <span>
-                                  <FormattedMessage id="billing2" />
-                                </span>
-                                {subDetail.subscribeStatus === '0' && (
-                                  <a
-                                    className="rc-styled-link red-text"
-                                    style={{ float: 'right', marginTop: '5px' }}
-                                    onClick={() => {
-                                      window.scrollTo(0, 0);
-                                      this.setState({
-                                        type: 'AddressComp',
-                                        addressType: 'billing'
-                                      });
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />{' '}
-                                  </a>
-                                )}
-                              </div>
-                              <div className="ml-1">
-                                <p className="mb-0">
-                                  <span
-                                    className="medium"
-                                    style={{
-                                      fontSize: '1.125rem',
-                                      color: '#333',
-                                      margin: '25px 0 .625rem'
-                                    }}
-                                  >
-                                    {currentBillingAddress.consigneeName}
-                                  </span>
-                                </p>
-                                <p className="mb-0">
-                                  {currentBillingAddress.consigneeNumber}
-                                </p>
-                                <p className="mb-0">
-                                  {process.env.REACT_APP_COUNTRY ==
-                                  'US' ? null : (
-                                    <>
-                                      {this.state.countryList.length &&
-                                      this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentBillingAddress.countryId
-                                      ).length
-                                        ? this.state.countryList.filter(
-                                            (el) =>
-                                              el.id ===
-                                              currentBillingAddress.countryId
-                                          )[0].valueEn
-                                        : currentBillingAddress.countryId}
-                                      ,
-                                    </>
-                                  )}
-                                  {/* 省份 / State */}
-                                  {currentBillingAddress?.province &&
-                                  currentBillingAddress?.province != null
-                                    ? currentBillingAddress.province + ', '
-                                    : null}
-                                  {currentBillingAddress.city}
-                                </p>
-                                <p className="mb-0">
-                                  {currentBillingAddress.address1}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ) : null}
-                        {currentCardInfo ? (
-                          <div
-                            className="col-12 col-md-4 mb-2"
-                            style={{ padding: '5px', paddingRight: '0' }}
-                          >
-                            <div
-                              className="h-100 border border-d7d7d7"
-                              style={{
-                                padding: '1.25rem'
-                              }}
-                            >
-                              <div className="align-items-center">
-                                <LazyLoad style={{ display: 'inline' }}>
-                                  <img
-                                    src="paymentIcon"
-                                    src={paymentIcon}
-                                    style={{
-                                      width: '30px',
-                                      marginRight: '1.125rem',
-                                      display: 'inline-block'
-                                    }}
-                                  />
-                                </LazyLoad>
-                                <span>
-                                  <FormattedMessage id="payment.payment" />
-                                </span>
-                                {subDetail.subscribeStatus === '0' && (
-                                  <a
-                                    className="rc-styled-link red-text"
-                                    style={{ float: 'right', marginTop: '5px' }}
-                                    onClick={() => {
-                                      window.scrollTo(0, 0);
-                                      this.setState({ type: 'PaymentComp' });
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />{' '}
-                                    {/* <FormattedMessage id="card" /> */}
-                                  </a>
-                                )}
-                              </div>
-                              <div className="ml-1">
-                                {currentCardInfo.lastFourDigits ? (
-                                  <>
-                                    <p className="mb-0">
-                                      <span
-                                        className="medium"
-                                        style={{
-                                          fontSize: '1.125rem',
-                                          fontWeight: '400',
-                                          color: '#333',
-                                          margin: '25px 0 .625rem',
-                                          verticalAlign: 'middle'
-                                        }}
-                                      >
-                                        **** **** ****
-                                        {currentCardInfo.lastFourDigits}
-                                      </span>
-                                    </p>
-
-                                    <LazyLoad
-                                      style={{
-                                        width: '20%',
-                                        marginRight: '.2rem'
-                                      }}
-                                    >
-                                      <img
-                                        alt="card background"
-                                        className="d-inline-block"
-                                        src={
-                                          CREDIT_CARD_IMG_ENUM[
-                                            currentCardInfo.paymentVendor.toUpperCase()
-                                          ] ||
-                                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                        }
-                                      />
-                                    </LazyLoad>
-                                  </>
-                                ) : null}
-
-                                <p className="mb-0">
-                                  {currentCardInfo.holderName}
-                                </p>
-                                {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
-                              </div>
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
+                      <UserPaymentInfo
+                        currentCardInfo={currentCardInfo}
+                        currentBillingAddress={currentBillingAddress}
+                        subDetail={subDetail}
+                        setState={this.setState.bind(this)}
+                        currentDeliveryAddress={currentDeliveryAddress}
+                      />
                     </div>
                   </div>
                 </div>
@@ -3124,7 +2114,27 @@ class SubscriptionDetail extends React.Component {
                 className="rc-outline-light rc-padding-y--sm"
               >
                 {/* <div className="rc-outline-light rc-padding-y--sm rc-padding-x--sm rc-margin-x--sm"> */}
-                {this.recommendationModal()}
+                <ChooseSKU
+                  savedChangeSubscriptionGoods={
+                    this.savedChangeSubscriptionGoods
+                  }
+                  showChangeProduct={this.showChangeProduct}
+                  showProdutctDetail={this.showProdutctDetail}
+                  matchGoods={this.matchGoods}
+                  setState={this.setState.bind(this)}
+                  frequencyListOptions={this.frequencyListOptions}
+                  handleSelectedItemChange={this.state.handleSelectedItemChange}
+                  details={this.state.details}
+                  specList={this.state.specList}
+                  stock={this.state.stock}
+                  isNotInactive={this.state.isNotInactive}
+                  form={this.state.form}
+                  images={this.state.images}
+                  productListLoading={this.state.productListLoading}
+                  currentGoodsItems={this.state.currentGoodsItems}
+                  subDetail={this.state.subDetail}
+                  currentSubscriptionPrice={this.state.currentSubscriptionPrice}
+                />
               </div>
             </Modal>
           </div>
@@ -3147,7 +2157,11 @@ class SubscriptionDetail extends React.Component {
                 this.closeProdutctDetail();
               }}
             >
-              {this.getDetailModalInner()}
+              <GoodsDetails
+                details={this.state.details}
+                foodFllType={this.state.foodFllType}
+                goodsDetails={this.state.goodsDetails}
+              />
             </Modal>
           </div>
         </div>

@@ -47,6 +47,9 @@ import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
 import { getGoodsRelation } from '@/api/details';
+import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
+import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
+import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -725,6 +728,13 @@ class Details extends React.Component {
               //     )
               //   : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
+              //启用BazaarVoice时，在PDP页面add schema.org markup
+              if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+                addSchemaOrgMarkup(
+                  this.state.details,
+                  this.state.instockStatus
+                );
+              }
             }
           );
         } else {
@@ -1354,7 +1364,13 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(form.buyWay, 'bbbb');
+    console.log(
+      form.buyWay,
+      'bbbb',
+      images,
+      isCountriesContainer(['FR', 'RU', 'TR', 'US'])
+    );
+    console.log('details', details);
     return (
       <div id="Details">
         <button
@@ -1488,10 +1504,10 @@ class Details extends React.Component {
                                     </div>
                                   ) : null}
                                   {isCountriesContainer([
-                                    'fr',
-                                    'ru',
-                                    'tr',
-                                    'en'
+                                    'FR',
+                                    'RU',
+                                    'TR',
+                                    'US'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1549,6 +1565,14 @@ class Details extends React.Component {
                                   __html: goodHeading
                                 }}
                               />
+                              {!isMobile &&
+                                !!+process.env
+                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+                                !!details.goodsNo && (
+                                  <BazaarVoiceRatingSummary
+                                    productId={details.goodsNo}
+                                  />
+                                )}
                               {Ru && selectedSpecItem ? (
                                 <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
                               ) : null}
@@ -1604,7 +1628,7 @@ class Details extends React.Component {
                               dangerouslySetInnerHTML={{
                                 __html: this.state.descContent
                               }}
-                            ></div>
+                            />
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
                             {!loading &&
                             !bundle &&
@@ -1630,7 +1654,7 @@ class Details extends React.Component {
                                   {instockStatus ? (
                                     <>
                                       <label className={`availability instock`}>
-                                        <span className="title-select"></span>
+                                        <span className="title-select" />
                                       </label>
                                       <span
                                         className="availability-msg"
@@ -1648,7 +1672,7 @@ class Details extends React.Component {
                                       <label
                                         className={`availability outofstock`}
                                       >
-                                        <span className="title-select"></span>
+                                        <span className="title-select" />
                                       </label>
                                       <span
                                         className="availability-msg"
@@ -1688,7 +1712,7 @@ class Details extends React.Component {
                                       onClick={() =>
                                         this.hanldeAmountChange('minus')
                                       }
-                                    ></span>
+                                    />
                                     <input
                                       className="rc-quantity__input"
                                       id="quantity"
@@ -1704,7 +1728,7 @@ class Details extends React.Component {
                                       onClick={() =>
                                         this.hanldeAmountChange('plus')
                                       }
-                                    ></span>
+                                    />
                                   </div>
                                 </div>
                               </div>
@@ -2116,7 +2140,7 @@ class Details extends React.Component {
                               />
                             </div>
                             {form.buyWay === 2 &&
-                            process.env.REACT_APP_LANG !== 'ru' ? (
+                            process.env.REACT_APP_COUNTRY !== 'RU' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
@@ -2147,7 +2171,12 @@ class Details extends React.Component {
               />
             ) : null}
 
-            <div className="split-line rc-bg-colour--brand4"></div>
+            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+              !!details.goodsNo && (
+                <BazaarVoiceReviews productId={details.goodsNo} />
+              )}
+
+            <div className="split-line rc-bg-colour--brand4" />
             {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
               <AdvantageTips />
             ) : null}

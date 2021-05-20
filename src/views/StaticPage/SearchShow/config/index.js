@@ -33,7 +33,7 @@ const fgsFrag = (
 
 export const getEmailWay = () => {
   const param =
-    process.env.REACT_APP_LANG +
+    process.env.REACT_APP_COUNTRY +
     '_' +
     (process.env.REACT_APP_HUB ? 'hub' : 'fgs');
 
@@ -41,10 +41,10 @@ export const getEmailWay = () => {
 
   const emailWay =
     {
-      fr_hub: hubFrag,
-      ru_hub: hubFrag,
-      tr_hub: hubFrag,
-      en_fgs: fgsFrag //现在我们的contactUs只支持美国。没做多语言
+      FR_hub: hubFrag,
+      RU_hub: hubFrag,
+      TR_hub: hubFrag,
+      US_fgs: fgsFrag //现在我们的contactUs只支持美国。没做多语言
     }[param] || defaultWay;
 
   return emailWay;

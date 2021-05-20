@@ -3,7 +3,7 @@ import Cover from './Cover';
 
 const benifitList =
   {
-    en: [
+    US: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: '100% secure payment'
@@ -18,7 +18,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Free shipping' }
     ],
-    ru: [
+    RU: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: '100% безопасный платеж'
@@ -33,7 +33,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
     ],
-    tr: [
+    TR: [
       { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
       {
         iconCls: 'rc-loading--xs rc-iconography--xs',
@@ -45,7 +45,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Hızlı teslimat' }
     ],
-    fr: [
+    FR: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: 'Achat 100% sécurisé'
@@ -58,12 +58,15 @@ const benifitList =
         iconCls: 'rc-low-maintenance--xs rc-iconography',
         text: 'Qualité Premium'
       },
-      { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Livraison rapide' }
+      {
+        iconCls: 'rc-shop--xs rc-iconography--xs',
+        text: 'Livraison 3 jours ouvrés'
+      }
     ]
-  }[process.env.REACT_APP_LANG] || [];
+  }[process.env.REACT_APP_COUNTRY] || [];
 const faqList =
   {
-    en: [
+    US: [
       {
         title: 'How can I reach customer service?',
         context: `<h1 class="rc-zeta"></h1>
@@ -99,7 +102,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    ru: [
+    RU: [
       {
         title: 'Служба поддержки',
         context: `<h1 class="rc-zeta"></h1>
@@ -126,7 +129,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    tr: [
+    TR: [
       {
         title: 'MÜŞTERİ HİZMETLERİ',
         context: `<h1 class="rc-zeta"></h1>
@@ -156,7 +159,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    fr: [
+    FR: [
       {
         title: 'Comment puis-je joindre le service client ?',
         context: `<h1 class="rc-zeta"></h1>
@@ -184,7 +187,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ]
-  }[process.env.REACT_APP_LANG] || [];
+  }[process.env.REACT_APP_COUNTRY] || [];
 
 export default class Faq extends React.Component {
   render() {

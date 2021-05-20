@@ -12,12 +12,14 @@ import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { getPetList } from '@/api/pet';
+import { changeSubscriptionDetailPets } from '@/api/subscription';
 const LinkPet = ({
   triggerShowAddNewPet,
   setState,
   getBreedName,
   subDetail,
   initPage,
+  petType,
   history
 }) => {
   const { loginStore } = useLocalStore(() => stores);
@@ -41,7 +43,7 @@ const LinkPet = ({
     }
     setState({ loadingPage: true });
     getPetList({
-      petsType,
+      petsType: petType,
       customerId: userInfo.customerId,
       consumerAccount: userInfo.customerAccount
     })
@@ -49,7 +51,7 @@ const LinkPet = ({
         let petsList = res.context.context || [];
         let petList =
           petsList?.filter(
-            (el) => el.petsType?.match(eval('/' + petsType + '/i'))?.index > -1
+            (el) => el.petsType?.match(eval('/' + petType + '/i'))?.index > -1
           ) || [];
         setPetList(petList);
         setAddNewPetVisible(true);
@@ -140,7 +142,8 @@ const LinkPet = ({
               to={{
                 pathname: `/account/pets/petForm`,
                 state: {
-                  petsType: petsType,
+                  isFromSubscriptionDetail: subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                  petsType: petType,
                   subscribeId: subDetail.subscribeId
                 }
               }}
@@ -152,7 +155,7 @@ const LinkPet = ({
                 <div>
                   +{' '}
                   <strong>
-                    {petsType == 'Cat' ? (
+                    {petType == 'Cat' ? (
                       <FormattedMessage id="subscriptionDetail.addNewCat" />
                     ) : (
                       <FormattedMessage id="subscriptionDetail.addNewDog" />
@@ -162,7 +165,7 @@ const LinkPet = ({
                 <img
                   style={{ paddingLeft: '2rem' }}
                   className="pet-icon"
-                  src={petsType == 'Cat' ? Banner_Cat : Banner_Dog}
+                  src={petType == 'Cat' ? Banner_Cat : Banner_Dog}
                 />
               </div>
             </Link>

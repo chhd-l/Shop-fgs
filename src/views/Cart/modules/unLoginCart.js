@@ -925,11 +925,12 @@ class UnLoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {/* {pitem.promotions &&
+          {pitem.promotions &&
           pitem.promotions.includes('club') &&
-          pitem.goodsInfoFlag === 2 ? (
+          pitem.goodsInfoFlag === 2 &&
+          process.env.REACT_APP_COUNTRY !== 'RU' ? (
             <ClubGiftBanner intl={this.props.intl} />
-          ) : null} */}
+          ) : null}
           {isGift &&
             false &&
             pitem.subscriptionPlanGiftList.map((gift) => (

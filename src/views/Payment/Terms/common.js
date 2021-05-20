@@ -21,7 +21,7 @@ class TermsCommon extends Component {
     };
   }
   componentDidUpdate() {
-    if (process.env.REACT_APP_LANG == 'tr') {
+    if (process.env.REACT_APP_COUNTRY == 'TR') {
       this.addEventListenerFunTr();
     }
   }

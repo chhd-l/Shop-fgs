@@ -123,6 +123,7 @@ class Pet extends React.Component {
       }
     };
     let { isMobile, petList, loading } = this.state;
+    console.log('petList', petList);
     return (
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
@@ -258,25 +259,21 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.isPurebred ? (
-                                      el.petsBreed && el.petsType === 'dog' ? (
-                                        (this.state.dogBreedList.length &&
+                                    {el.isPurebred === 0
+                                      ? this.props.intl.messages['Mixed Breed']
+                                      : el.petsBreed && el.petsType === 'dog'
+                                      ? (this.state.dogBreedList.length &&
                                           this.state.dogBreedList.filter(
                                             (item) =>
                                               item.valueEn == el.petsBreed
                                           )?.[0]?.name) ||
                                         el.petsBreed
-                                      ) : (
-                                        (this.state.catBreedList.length &&
+                                      : (this.state.catBreedList.length &&
                                           this.state.catBreedList.filter(
                                             (item) =>
                                               item.valueEn == el.petsBreed
                                           )?.[0]?.name) ||
-                                        el.petsBreed
-                                      )
-                                    ) : (
-                                      <FormattedMessage id="Mixed Breed" />
-                                    )}
+                                        el.petsBreed}
                                   </span>
                                 </div>
                               </div>
@@ -332,25 +329,21 @@ class Pet extends React.Component {
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    {el.isPurebred ? (
-                                      el.petsBreed && el.petsType === 'dog' ? (
-                                        (this.state.dogBreedList.length &&
+                                    {el.isPurebred === 0
+                                      ? this.props.intl.messages['Mixed Breed']
+                                      : el.petsBreed && el.petsType === 'dog'
+                                      ? (this.state.dogBreedList.length &&
                                           this.state.dogBreedList.filter(
                                             (item) =>
                                               item.valueEn == el.petsBreed
                                           )?.[0]?.name) ||
                                         el.petsBreed
-                                      ) : (
-                                        (this.state.catBreedList.length &&
+                                      : (this.state.catBreedList.length &&
                                           this.state.catBreedList.filter(
                                             (item) =>
                                               item.valueEn == el.petsBreed
                                           )?.[0]?.name) ||
-                                        el.petsBreed
-                                      )
-                                    ) : (
-                                      <FormattedMessage id="Mixed Breed" />
-                                    )}
+                                        el.petsBreed}
                                   </span>
                                 </div>
                               </div>

@@ -336,7 +336,7 @@ const ru_RU = {
   //pdp
   'detail.question': 'У вас еще остались вопросы об этом продукте?',
   'detail.telephone': 'По телефону',
-  'details.addToCart': 'Разовая покупка',
+  'details.addToCart': 'Подписаться',
   'details.availability': 'Доступность',
   'details.beneficialFeatures': 'Полезные функции',
   'details.bySubscription': 'по подписке',
@@ -730,6 +730,7 @@ const ru_RU = {
   petType: 'Тип питомца',
   phone: 'Телефон',
   pleasecompleteTheRequiredItem: 'Заполните требуемый пункт',
+  petWeightVerify: 'Калі ласка, увядзіце правільны вага',
   pleaseEnterTheCorrectEmail:
     'Пожалуйста, введите правильный адрес электронной почты',
   PleaseFillInstructions: 'Пожалуйста, заполните инструкции по возврату',
@@ -825,7 +826,7 @@ const ru_RU = {
   registerEmailFormate:
     'Адрес электронной почты не соответствует указанному формату.',
   registerErrorMessage:
-    'Во время регистрации произошла ошибка. Попробуйте снова или используйте другой Email адрес. ',
+    'Во время регистрации произошла ошибка. Попробуйте снова или используйте другой Email адрес. Обратиться в службу поддержки. ',
   registerFailed: 'Ошибка регистрации',
   registerFeckbook: 'Подключиться к Facebook',
   registerFillIn: 'Пожалуйста, заполните это поле',
@@ -1094,7 +1095,7 @@ const ru_RU = {
   saveChange: 'Сохранить изменения',
   allOrders: 'Все заказы',
   single: 'Разовая покупка',
-  'order.orderPlacedOn': 'Дата доставки',
+  'order.orderPlacedOn': 'Дата отправки заказа',
   autoShipOrderDetails: 'Детали Вашей подписки',
   transactionInfomation: 'Информация о транзакции',
   manage: 'Управлять',
@@ -1102,16 +1103,16 @@ const ru_RU = {
   //'cyber.form.theBox':'при подписке на корм данное поле является обязательным для заполнения',
   'pet.petListTitle':
     'Обновляйте информацию в профиле своего питомца, чтобы мы смогли подобрать для него питание, учитывающее его уникальные потребности',
-  'payment.returnToCardList': 'Вярнуцца да спісу картак',
+  'payment.returnToCardList': 'Вернуться к сохраненной платежной информации',
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
     'Сохранить этот способ оплаты как предпочтительный',
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
-  subscribe: 'Вступить в КЛУБ',
+  subscribe: 'Подписаться',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
-  saveExtra: 'Сэкономьте {val} по программе',
+  saveExtra: 'Сэкономьте {val} по подписке',
   'payment.codConfirmTip': 'Оплата при получении',
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Приостановлена',
@@ -1242,7 +1243,7 @@ const ru_RU = {
   'clubListData.tip4':
     'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
   'clubListData.tip5': 'Возможность изменения частоты доставок',
-  'clubListData.tip6': 'Бесплатные онлайн консультации нутрициолога в PetStory',
+  'clubListData.tip6': 'Бесплатные онлайн-консультации нутрициолога в PetStory',
   'subscriptionDetail.deliveryDate': 'Дата доставки',
   'subscriptionDetail.product': 'Product',
   'subscription.restart': 'Обновить подписку',
@@ -1316,10 +1317,11 @@ const ru_RU = {
   'subscription.clubNoSubscription.tip1':
     'Сейчас Вы не являетесь подписчиком клубной программы.',
   'subscription.clubNoSubscription.tip2':
-    'Присоединяйтесь к клубной подписке и воспользуйтесь всеми преимуществами участника КЛУБА.',
+    'Присоединяйтесь к клубной программе и воспользуйтесь всеми преимуществами участника КЛУБА.',
   'subscription.clubNoSubscription.getStart': 'Начать',
   'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin',
-  'detail.subscriptionBuyTip': 'Подписка без участия'
+  'detail.subscriptionBuyTip': 'Подписка без участия',
+  searchShow: 'результаты поиска'
 };
 
 export default ru_RU;

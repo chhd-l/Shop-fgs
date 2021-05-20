@@ -35,6 +35,9 @@
       href="<%= process.env.REACT_APP_RC_ASSETS_PREFIX %>royal/royal-canin.min.css"
     />
 
+    <!--BazaarVoice ratings&reviews---add BV Loader-->
+    <script async src="https://apps.bazaarvoice.com/deployments/royal-canin/main_site/production/en_US/bv.js"></script>
+
     <!-- Cookies Consent Notice, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
     <script
       src="<%= process.env.REACT_APP_ONTRUST_SRC %>"
@@ -47,7 +50,7 @@
     <!-- End Cookies Consent Notice -->
 
     <script type="text/javascript">
-      if ('<%= process.env.REACT_APP_LANG %>' == 'fr') {
+      if ('<%= process.env.REACT_APP_COUNTRY %>' == 'FR') {
         function OptanonWrapper() {
           setTimeout(function () {
             Optanon.Close();
@@ -84,7 +87,7 @@
     <!-- seo is not searched -->
     <script>
       if (
-        '<%= process.env.REACT_APP_LANG %>' == 'en' ||
+        '<%= process.env.REACT_APP_COUNTRY %>' == 'US' ||
         '<%= process.env.NODE_ENV %>' !== 'production'
       ) {
         var metaTag = document.createElement('meta');

@@ -23,7 +23,7 @@ import CardItemCover from '../CardItemCover';
 
 import './index.css';
 
-const localItemRoyal = window.__.localItemRoyal;
+let installMentTableDataCache = {};
 
 @inject('loginStore', 'paymentStore', 'checkoutStore')
 @observer
@@ -35,7 +35,6 @@ class MemberCardList extends React.Component {
     isSupportInstallMent: false,
     mustSaveForFutherPayments: false,
     defaultCardDataFromAddr: null,
-    isSupportInstallMent: [],
     getSelectedValue: () => {},
     updateFormValidStatus: () => {},
     onInstallMentParamChange: () => {}
@@ -482,12 +481,10 @@ class MemberCardList extends React.Component {
 
     // 查询被选中的卡，是否支持分期
     // 该卡如果已经查询过，就不再查询了，直到下一次切换时再重新查询
+    let installMentTableData = installMentTableDataCache[selectedId] || [];
     if (s && !s.hasQueryInstallMent && isSupportInstallMent) {
       this.setState({
-        installMentTableData: [],
-        creditCardInfoForm: Object.assign(creditCardInfoForm, {
-          installmentChecked: false
-        })
+        installMentTableData: []
       });
       const res = await queryIsSupportInstallMents({
         platformName: 'PAYU',
@@ -498,18 +495,21 @@ class MemberCardList extends React.Component {
       });
 
       s.hasQueryInstallMent = true;
+      installMentTableData =
+        res?.context?.installments[0]?.installmentPrices || [];
+      installMentTableDataCache[selectedId] = installMentTableData;
 
       this.setState({
-        installMentTableData:
-          (res.context &&
-            res.context.installments &&
-            res.context.installments[0] &&
-            res.context.installments[0].installmentPrices) ||
-          [],
         creditCardList,
         memberUnsavedCardList
       });
     }
+    this.setState({
+      installMentTableData,
+      creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+        installmentChecked: false
+      })
+    });
   };
   handleClickCardItem(el) {
     const { selectedId, creditCardList, memberUnsavedCardList } = this.state;
@@ -729,6 +729,7 @@ class MemberCardList extends React.Component {
                 {item.showInstallMentTable ? (
                   <div className="col-12 mb-2">
                     <InstallmentTable
+                      defaultValue={0}
                       list={installMentTableData}
                       onChange={this.installmentTableChanger}
                     />

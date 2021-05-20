@@ -153,16 +153,16 @@ import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
 import ClubLandingPageNew from './views/ClubLandingPageNew';
 
-if (process.env.REACT_APP_LANG === 'fr') {
+if (process.env.REACT_APP_COUNTRY === 'FR') {
   registerLocale(process.env.REACT_APP_LANG, fr);
   setDefaultLocale('fr');
-} else if (process.env.REACT_APP_LANG === 'de') {
+} else if (process.env.REACT_APP_COUNTRY === 'DE') {
   registerLocale(process.env.REACT_APP_LANG, de);
   setDefaultLocale('de');
-} else if (process.env.REACT_APP_LANG === 'es') {
+} else if (process.env.REACT_APP_COUNTRY === 'MX') {
   registerLocale(process.env.REACT_APP_LANG, es);
   setDefaultLocale('es');
-} else if (process.env.REACT_APP_LANG === 'us') {
+} else if (process.env.REACT_APP_COUNTRY === 'US') {
 }
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
@@ -306,11 +306,11 @@ const App = () => {
                   path="/general-terms-conditions"
                   render={(props) => {
                     let fragment = '';
-                    switch (process.env.REACT_APP_LANG) {
-                      case 'fr':
+                    switch (process.env.REACT_APP_COUNTRY) {
+                      case 'FR':
                         fragment = <TermsConditions {...props} />;
                         break;
-                      case 'tr':
+                      case 'TR':
                         fragment = <TermsConditionsTr {...props} />;
                         break;
                     }
@@ -326,7 +326,7 @@ const App = () => {
                   exact
                   path="/termsandconditions"
                   component={
-                    process.env.REACT_APP_LANG == 'fr'
+                    process.env.REACT_APP_COUNTRY == 'FR'
                       ? TermsConditions
                       : TermsConditionsUs
                   }
@@ -336,9 +336,9 @@ const App = () => {
                   path="/club-subscription"
                   render={(props) => {
                     let tmpComponent;
-                    switch (process.env.REACT_APP_LANG) {
-                      case 'ru':
-                      case 'tr':
+                    switch (process.env.REACT_APP_COUNTRY) {
+                      case 'RU':
+                      case 'TR':
                         return <ClubLandingPage {...props} />;
                       default:
                         return <Exception {...props} />;
@@ -374,24 +374,7 @@ const App = () => {
                     return <Recommendation_FR {...props} />;
                   }}
                 />
-                {/* <Route
-                  exact
-                  path="/recommendation"
-                  render={(props) => {
-                    let sublanding = '';
-                    switch (process.env.REACT_APP_LANG) {
-                      // case 'fr':
-                      //   sublanding = <Recommendation_FR {...props} />;
-                      //   break;
-                        // case 'es':
-                        //   sublanding = <Recommendation {...props} />;
-                        //   break;
-                      default:
-                        sublanding = <Recommendation_US {...props} />;
-                    }
-                    return sublanding;
-                  }}
-                /> */}
+                
                 <Route
                   exact
                   path="/breeder/recommendation"
@@ -517,17 +500,17 @@ const App = () => {
                   path="/subscription-landing"
                   component={(() => {
                     let sublanding = '';
-                    switch (process.env.REACT_APP_LANG) {
-                      case 'de':
+                    switch (process.env.REACT_APP_COUNTRY) {
+                      case 'DE':
                         sublanding = DE_SubscriptionLanding;
                         break;
-                      case 'en':
+                      case 'US':
                         sublanding = US_SubscriptionLanding;
                         break;
-                      case 'ru':
+                      case 'RU':
                         sublanding = VetLandingPage;
                         break;
-                      case 'tr':
+                      case 'TR':
                         sublanding = TR_SubscriptionLanding;
                         break;
                       default:
@@ -557,7 +540,7 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    process.env.REACT_APP_LANG == 'de' ? AboutUsDe : AboutUs
+                    process.env.REACT_APP_COUNTRY == 'DE' ? AboutUsDe : AboutUs
                   }
                 />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
@@ -579,8 +562,8 @@ const App = () => {
                   exact
                   path="/Values"
                   component={
-                    { fr: FR_Values, en: US_Values, ru: RU_Values }[
-                      process.env.REACT_APP_LANG
+                    { FR: FR_Values, US: US_Values, RU: RU_Values }[
+                      process.env.REACT_APP_COUNTRY
                     ] || Values
                   }
                 />
@@ -590,7 +573,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    process.env.REACT_APP_LANG == 'en'
+                    process.env.REACT_APP_COUNTRY == 'US'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -600,7 +583,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    process.env.REACT_APP_LANG == 'en'
+                    process.env.REACT_APP_COUNTRY == 'US'
                       ? US_QualitySafety
                       : QualitySafety
                   }
@@ -693,8 +676,8 @@ const App = () => {
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
-                      const splitName = { fr: '_FR.html', en: '_US.html' }[
-                        process.env.REACT_APP_LANG
+                      const splitName = { FR: '_FR.html', US: '_US.html' }[
+                        process.env.REACT_APP_COUNTRY
                       ];
                       const productNameMappping = {
                         '/ageing-12+-en-gelÃ©e-4153':

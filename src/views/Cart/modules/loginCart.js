@@ -892,11 +892,12 @@ class LoginCart extends React.Component {
               ) : null}
             </div>
           </div>
-          {/* {pitem.goods.promotions &&
+          {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
-          pitem.goodsInfoFlag === 2 ? (
+          pitem.goodsInfoFlag === 2 &&
+          process.env.REACT_APP_COUNTRY !== 'RU' ? (
             <ClubGiftBanner intl={this.props.intl} />
-          ) : null} */}
+          ) : null}
           {isGift &&
             false &&
             pitem.subscriptionPlanGiftList.map((gift) => (
