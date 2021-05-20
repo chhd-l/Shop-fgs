@@ -449,7 +449,7 @@ const ru_RU = {
   'header.toLearnMore': 'Узнать больше',
   //header.User  unLogin
   'header.User.alreadyRegistered': 'У вас есть учетная запись?',
-  'header.User.breederPortal': 'Заводчик',
+  'header.User.breederPortal': 'для заводчиков',
   'header.User.faq': 'Часто задаваемые вопросы',
   'header.User.home': 'Личный кабинет',
   //header.User  login
@@ -463,7 +463,7 @@ const ru_RU = {
   'header.User.pets': 'Питомцы',
   'header.User.registerNow': 'Зарегистрироваться',
   'header.User.royalCaninPartner': 'Если вы заводчик или ветеринарный врач',
-  'header.User.vetPortal': 'Ветеринарный врач',
+  'header.User.vetPortal': 'для ветеринарных врачей',
   healthAndWellbeing: 'Здоровье и питание',
   help: 'Помогите',
   'help.byEmail': 'По электронной почте',
