@@ -360,7 +360,7 @@ const tr_TR = {
   'forgetPassword.createNewPassword': 'Yeni şifre oluştur',
   'forgetPassword.forgetPasswordTip':
     'Şifreyi değiştirme talimatlarını içeren bir mektup alacaksınız.',
-  freeShipping: 'Ücretsiz kargo',
+  freeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
@@ -895,7 +895,7 @@ const tr_TR = {
     'Abonelik hizmetimiz ile, evcil hayvanınız için en uygun mama dilediğiniz zaman kapınıza gelsin, hayatınız kolaylaşsın!',
   'subscriptionLanding.description1':
     'Siparişler belirleyeceğiniz sıklıkta teslim edilir',
-  'subscriptionLanding.description2': 'Ücretsiz kargo',
+  'subscriptionLanding.description2': '125 TL Üzeri Ücretsiz kargo.',
   'subscriptionLanding.description3':
     'Dilediğiniz zaman değişiklik yapma & iptal etme hakkı',
   'subscriptionLanding.description4': 'Ücretsiz beslenme danışma hattı',

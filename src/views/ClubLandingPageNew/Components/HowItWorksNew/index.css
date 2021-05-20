@@ -1,0 +1,14 @@
+@media (max-width: 639.98px) {
+  .flexwrapHow {
+    flex-wrap: wrap;
+  }
+  .desktopnone {
+    display: none;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .mobilenone {
+    display: none;
+  }
+}

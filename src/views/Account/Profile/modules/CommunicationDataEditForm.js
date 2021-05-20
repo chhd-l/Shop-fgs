@@ -7,6 +7,7 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
+import { addEventListenerArr } from './addEventListener';
 
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
@@ -56,14 +57,15 @@ class CommunicationDataEditForm extends React.Component {
   //监听土耳其consent
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
-    document.getElementById('tr_consent_opt_email') &&
+    for (let i = 0; i < addEventListenerArr.length; i++) {
       document
-        .getElementById('tr_consent_opt_email')
-        .addEventListener('click', (e) => {
+        .getElementById(addEventListenerArr[i].id)
+        ?.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          setTrConsentModal('fullScreenModalOptEmail', true);
+          setTrConsentModal(addEventListenerArr[i].modal, true);
         });
+    }
   }
   componentDidMount() {
     this.setState({

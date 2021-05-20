@@ -39,8 +39,8 @@ class Consent extends Component {
     const checkboxPadding = this.props.checkboxPadding || '1.25rem';
     const url = this.props.url;
     //组件传参end
-    const createMarkup = (text, isRequired) => {
-      if (isRequired && text) {
+    const createMarkup = (text, isRequired, isNoChecked) => {
+      if (isRequired && text && !isNoChecked) {
         var textArray = text.split('</p>');
         if (textArray.length > 0) {
           textArray[0] =
@@ -95,7 +95,8 @@ class Consent extends Component {
                     }
                     dangerouslySetInnerHTML={createMarkup(
                       item.consentTitle,
-                      item.isRequired
+                      item.isRequired,
+                      item.noChecked
                     )}
                   />
                 </div>

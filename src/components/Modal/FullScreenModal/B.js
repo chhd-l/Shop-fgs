@@ -18,6 +18,7 @@ export default function Modal(props) {
     guestEmail
   } = paymentStore;
   const { localAddressForm } = configStore;
+
   const { close } = value;
 
   function getCurrentDate() {
@@ -190,7 +191,7 @@ export default function Modal(props) {
                     <p>
                       E-posta:
                       <span data-represents-field="#billingEmail">
-                        {isLogin ? userInfo.customerAccount : guestEmail}
+                        {isLogin ? userInfo?.customerAccount : guestEmail}
                       </span>
                     </p>
                     <p>
