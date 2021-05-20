@@ -11,10 +11,11 @@ import Selection from '@/components/Selection/index.js';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
-  details: any
+  details: any,
+  updatedSku: Function
 }
 
-const HandledSpec = ({ details }: Props) => {
+const HandledSpec = ({ details, updatedSku }: Props) => {
   
   const {goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo} = details
   const [sizeList, setSizeList] = useState([]);
@@ -35,89 +36,100 @@ const HandledSpec = ({ details }: Props) => {
         ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
     const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
   }
-
-  // const matchGoods = () => {
-  //   let {
-  //     specList,
-  //     details,
-  //     currentUnitPrice,
-  //     currentLinePrice,
-  //     currentSubscriptionPrice,
-  //     currentSubscriptionStatus,
-  //     stock,
-  //     form,
-  //     defaultPurchaseType
-  //   } = this.state;
+  const matchGoods = () => {
+    // let {
+    //   specList,
+    //   details,
+    //   currentUnitPrice,
+    //   currentLinePrice,
+    //   currentSubscriptionPrice,
+    //   currentSubscriptionStatus,
+    //   stock,
+    //   form,
+    //   defaultPurchaseType
+    // } = this.state;
+    let handledValues = {
+      currentUnitPrice: 0,
+      currentLinePrice: 0,
+      currentSubscriptionPrice: 0,
+      currentSubscriptionStatus: 0,
+      defaultPurchaseType: 0,
+      stock: 0,
+      skuPromotions: 0
+    }
   
-  //   let selectedArr:any[] = [];
-  //   let idArr:any[] = [];
-  //   let skuPromotions = '';
-  //   goodsSpecs.map((el:any) => {
-  //     if (el.chidren.filter((item:any) => item.selected).length) {
-  //       selectedArr.push(el.chidren.filter((item:any) => item.selected)[0]);
-  //     }
-  //     return el;
-  //   });
-  //   selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-  //   idArr = selectedArr.map((el) => el.specDetailId);
-  //   //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
-  //   // currentUnitPrice = goodsInfos?.[0]?.marketPrice;
-  //   sizeList.map((item, i) => {
-  //     let specTextArr = [];
-  //     for (let specItem of goodsSpecs) {
-  //       for (let specDetailItem of specItem.chidren) {
-  //         if (
-  //           item.mockSpecIds.includes(specDetailItem.specId) &&
-  //           item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-  //         ) {
-  //           specTextArr.push(specDetailItem.detailName);
-  //         }
-  //       }
-  //     }
-  //     item.specText = specTextArr.join(' ');
-  //     if (
-  //       unique(item.mockSpecDetailIds).sort().join(',') ===
-  //       idArr.sort().join(',')
-  //     ) {
-  //       item.selected = true;
-  //       currentUnitPrice = item.salePrice;
-  //       currentLinePrice = item.linePrice;
-  //       currentSubscriptionPrice = item.subscriptionPrice;
-  //       currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
-  //       stock = item.stock;
-  //       skuPromotions = item.promotions;
-  //     } else {
-  //       item.selected = false;
-  //     }
+    let selectedArr:any[] = [];
+    let idArr:any[] = [];
+    goodsSpecs.map((el:any) => {
+      if (el.chidren.filter((item:any) => item.selected).length) {
+        selectedArr.push(el.chidren.filter((item:any) => item.selected)[0]);
+      }
+      return el;
+    });
+    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
+    idArr = selectedArr.map((el) => el.specDetailId);
+    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
+    // currentUnitPrice = goodsInfos?.[0]?.marketPrice;
+    sizeList.map((item, i) => {
+      let specTextArr = [];
+      for (let specItem of goodsSpecs) {
+        for (let specDetailItem of specItem.chidren) {
+          if (
+            item.mockSpecIds.includes(specDetailItem.specId) &&
+            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+          ) {
+            specTextArr.push(specDetailItem.detailName);
+          }
+        }
+      }
+      item.specText = specTextArr.join(' ');
+      if (
+        unique(item.mockSpecDetailIds).sort().join(',') ===
+        idArr.sort().join(',')
+      ) {
+        item.selected = true;
+        handledValues.currentUnitPrice = item.salePrice;
+        handledValues.currentLinePrice = item.linePrice;
+        handledValues.currentSubscriptionPrice = item.subscriptionPrice;
+        handledValues.currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
+        handledValues.stock = item.stock;
+        handledValues.skuPromotions = item.promotions;
+      } else {
+        item.selected = false;
+      }
 
-  //     return item;
-  //   });
+      return item;
+    });
 
-  //   defaultPurchaseType === 1 ||
-  //   sessionItemRoyal.get('pf-result') ||
-  //   localStorage.getItem('pfls')
-  //     ? skuPromotions == 'club'
-  //       ? (form.buyWay = 2)
-  //       : (form.buyWay = 1)
-  //     : (form.buyWay = 0);
-  //   this.setState(
-  //     {
-  //       details,
-  //       currentUnitPrice,
-  //       currentLinePrice,
-  //       currentSubscriptionPrice,
-  //       currentSubscriptionStatus,
-  //       stock,
-  //       skuPromotions,
-  //       form
-  //     },
-  //     () => {
-  //       this.updateInstockStatus();
-  //       setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-  //     }
-  //   );
-  // }
+    // defaultPurchaseType === 1 ||
+    // sessionItemRoyal.get('pf-result') ||
+    // localStorage.getItem('pfls')
+    //   ? skuPromotions == 'club'
+    //     ? (form.buyWay = 2)
+    //     : (form.buyWay = 1)
+    //   : (form.buyWay = 0);
+    updatedSku(handledValues)
+  }
+  const bundleMatchGoods = () => {
+    let handledValues = {
+      currentUnitPrice: 0,
+      currentLinePrice: 0,
+      currentSubscriptionPrice: 0,
+      currentSubscriptionStatus: 0,
+      defaultPurchaseType: 0,
+      stock: 0,
+      skuPromotions: 0
+    }
+    handledValues.currentUnitPrice = sizeList[0].salePrice;
+    handledValues.currentSubscriptionPrice = sizeList[0].subscriptionPrice;
+    handledValues.currentSubscriptionStatus = sizeList[0].subscriptionStatus;
+    handledValues.skuPromotions = sizeList[0].promotions;
+    handledValues.stock = sizeList[0].stock;
+    sizeList[0].selected = true;
 
+    updatedSku(handledValues)
+  }
+  
   useEffect(() => {
     console.log(details, 'details1111')
         let choosedSpecsArr: any[] = [];
@@ -197,9 +209,11 @@ const HandledSpec = ({ details }: Props) => {
           });
 
         }else {
-          
+          goodsInfos[0].selected = true
         }
+        
         setSizeList(goodsInfos)
+        
         
           // sizeList = goodsInfos.map((g: any, i:number) => {
           //   // g = Object.assign({}, g, { selected: false });
@@ -221,6 +235,15 @@ const HandledSpec = ({ details }: Props) => {
 
           
   }, []);
+  useEffect(() => {
+    if(sizeList.length) {
+      if(goodsSpecDetails) {
+        matchGoods()
+      }else {
+        bundleMatchGoods()
+      }
+    }
+  }, [sizeList])
   return (
     <div className="spec">
       {goodsSpecs?.map((sItem: any, i: number) => (

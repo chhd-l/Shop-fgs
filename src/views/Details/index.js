@@ -327,34 +327,34 @@ class Details extends React.Component {
     });
   }
   bundleMatchGoods() {
-    let {
-      details,
-      currentUnitPrice,
-      currentSubscriptionPrice,
-      currentSubscriptionStatus,
-      stock,
-      skuPromotions
-    } = this.state;
-    currentUnitPrice = details.goodsInfos[0].salePrice;
-    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
-    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
-    skuPromotions = details.goodsInfos[0].promotions;
-    stock = details.goodsInfos[0].stock;
-    details.sizeList[0].selected = true;
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock,
-        skuPromotions
-      },
-      () => {
-        this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
+    // let {
+    //   details,
+    //   currentUnitPrice,
+    //   currentSubscriptionPrice,
+    //   currentSubscriptionStatus,
+    //   stock,
+    //   skuPromotions
+    // } = this.state;
+    // currentUnitPrice = details.goodsInfos[0].salePrice;
+    // currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
+    // currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
+    // skuPromotions = details.goodsInfos[0].promotions;
+    // stock = details.goodsInfos[0].stock;
+    // details.sizeList[0].selected = true;
+    // this.setState(
+    //   {
+    //     details,
+    //     currentUnitPrice,
+    //     currentSubscriptionPrice,
+    //     currentSubscriptionStatus,
+    //     stock,
+    //     skuPromotions
+    //   },
+    //   () => {
+    //     this.updateInstockStatus();
+    //     setTimeout(() => this.setGoogleProductStructuredDataMarkup());
+    //   }
+    // );
   }
   setGoogleProductStructuredDataMarkup() {
     const {
@@ -387,85 +387,12 @@ class Details extends React.Component {
       type: 'application/ld+json'
     });
   }
-  matchGoods() {
-    let {
-      specList,
-      details,
-      currentUnitPrice,
-      currentLinePrice,
-      currentSubscriptionPrice,
-      currentSubscriptionStatus,
-      stock,
-      form,
-      defaultPurchaseType
-    } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let skuPromotions = '';
-    specList.map((el) => {
-      if (el.chidren.filter((item) => item.selected).length) {
-        selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-      }
-      return el;
+  matchGoods(data) {
+    console.log(data, this.state.form, 'data');
+    this.setState(Object.assign({}, data), () => {
+      this.updateInstockStatus();
+      setTimeout(() => this.setGoogleProductStructuredDataMarkup());
     });
-    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    idArr = selectedArr.map((el) => el.specDetailId);
-    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
-    currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-    details.sizeList.map((item, i) => {
-      let specTextArr = [];
-      for (let specItem of specList) {
-        for (let specDetailItem of specItem.chidren) {
-          if (
-            item.mockSpecIds.includes(specDetailItem.specId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            specTextArr.push(specDetailItem.detailName);
-          }
-        }
-      }
-      item.specText = specTextArr.join(' ');
-      if (
-        unique(item.mockSpecDetailIds).sort().join(',') ===
-        idArr.sort().join(',')
-      ) {
-        item.selected = true;
-        currentUnitPrice = item.salePrice;
-        currentLinePrice = item.linePrice;
-        currentSubscriptionPrice = item.subscriptionPrice;
-        currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
-        stock = item.stock;
-        skuPromotions = item.promotions;
-      } else {
-        item.selected = false;
-      }
-
-      return item;
-    });
-
-    defaultPurchaseType === 1 ||
-    sessionItemRoyal.get('pf-result') ||
-    localStorage.getItem('pfls')
-      ? skuPromotions == 'club'
-        ? (form.buyWay = 2)
-        : (form.buyWay = 1)
-      : (form.buyWay = 0);
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentLinePrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock,
-        skuPromotions,
-        form
-      },
-      () => {
-        this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
   }
   toScroll = (anchorName) => {
     let anchorElement = document.getElementById(anchorName);
@@ -737,20 +664,6 @@ class Details extends React.Component {
             }
           );
         } else {
-          // let sizeList = [];
-          // let goodsInfos = res.context.goodsInfos || [];
-          // sizeList = goodsInfos.map((g, i) => {
-          //   g = Object.assign({}, g, {
-          //     selected: i === 0
-          //   });
-          //   if (g.selected && !g.subscriptionStatus) {
-          //     let { form } = this.state;
-          //     form.buyWay = 0;
-          //     this.setState({ form });
-          //   }
-          //   return g;
-          // });
-
           let images = [];
           images = res.context.goodsInfos;
           this.setState(
@@ -1694,6 +1607,7 @@ class Details extends React.Component {
                               <HandledSpec
                                 details={details}
                                 setState={this.setState.bind(this)}
+                                updatedSku={this.matchGoods.bind(this)}
                               />
                               <div className="Quantity">
                                 <span className="amount">
