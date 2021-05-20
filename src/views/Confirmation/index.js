@@ -335,13 +335,13 @@ class Confirmation extends React.Component {
       email: details.consignee.email,
       locale: 'en_US',
       nickname: details.consignee.name,
-      userId: details.consignee.id
-      // optional_PII_parameter: {
-      //   email: details.consignee.email,
-      //   locale: 'en_US',
-      //   nickname: details.consignee.name,
-      //   userId: details.consignee.id
-      // }
+      userId: details.consignee.id,
+      optional_PII_parameter: {
+        email: details.consignee.email,
+        locale: 'en_US',
+        nickname: details.consignee.name,
+        userId: details.consignee.id
+      }
     };
     transactionPixel(transactionInfo);
   }
