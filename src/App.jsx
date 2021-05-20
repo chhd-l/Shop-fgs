@@ -153,16 +153,16 @@ import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
 import ClubLandingPageNew from './views/ClubLandingPageNew';
 
-if (process.env.REACT_APP_LANG === 'fr') {
+if (process.env.REACT_APP_COUNTRY === 'FR') {
   registerLocale(process.env.REACT_APP_LANG, fr);
   setDefaultLocale('fr');
-} else if (process.env.REACT_APP_LANG === 'de') {
+} else if (process.env.REACT_APP_COUNTRY === 'DE') {
   registerLocale(process.env.REACT_APP_LANG, de);
   setDefaultLocale('de');
-} else if (process.env.REACT_APP_LANG === 'es') {
+} else if (process.env.REACT_APP_COUNTRY === 'MX') {
   registerLocale(process.env.REACT_APP_LANG, es);
   setDefaultLocale('es');
-} else if (process.env.REACT_APP_LANG === 'us') {
+} else if (process.env.REACT_APP_COUNTRY === 'US') {
 }
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
@@ -306,11 +306,11 @@ const App = () => {
                   path="/general-terms-conditions"
                   render={(props) => {
                     let fragment = '';
-                    switch (process.env.REACT_APP_LANG) {
-                      case 'fr':
+                    switch (process.env.REACT_APP_COUNTRY) {
+                      case 'FR':
                         fragment = <TermsConditions {...props} />;
                         break;
-                      case 'tr':
+                      case 'TR':
                         fragment = <TermsConditionsTr {...props} />;
                         break;
                     }
@@ -326,7 +326,7 @@ const App = () => {
                   exact
                   path="/termsandconditions"
                   component={
-                    process.env.REACT_APP_LANG == 'fr'
+                    process.env.REACT_APP_COUNTRY == 'FR'
                       ? TermsConditions
                       : TermsConditionsUs
                   }
@@ -336,9 +336,9 @@ const App = () => {
                   path="/club-subscription"
                   render={(props) => {
                     let tmpComponent;
-                    switch (process.env.REACT_APP_LANG) {
-                      case 'ru':
-                      case 'tr':
+                    switch (process.env.REACT_APP_COUNTRY) {
+                      case 'RU':
+                      case 'TR':
                         return <ClubLandingPage {...props} />;
                       default:
                         return <Exception {...props} />;
@@ -517,17 +517,17 @@ const App = () => {
                   path="/subscription-landing"
                   component={(() => {
                     let sublanding = '';
-                    switch (process.env.REACT_APP_LANG) {
-                      case 'de':
+                    switch (process.env.REACT_APP_COUNTRY) {
+                      case 'DE':
                         sublanding = DE_SubscriptionLanding;
                         break;
-                      case 'en':
+                      case 'US':
                         sublanding = US_SubscriptionLanding;
                         break;
-                      case 'ru':
+                      case 'RU':
                         sublanding = VetLandingPage;
                         break;
-                      case 'tr':
+                      case 'TR':
                         sublanding = TR_SubscriptionLanding;
                         break;
                       default:
@@ -557,7 +557,7 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    process.env.REACT_APP_LANG == 'de' ? AboutUsDe : AboutUs
+                    process.env.REACT_APP_COUNTRY == 'DE' ? AboutUsDe : AboutUs
                   }
                 />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
@@ -590,7 +590,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    process.env.REACT_APP_LANG == 'en'
+                    process.env.REACT_APP_COUNTRY == 'US'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -600,7 +600,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    process.env.REACT_APP_LANG == 'en'
+                    process.env.REACT_APP_COUNTRY == 'US'
                       ? US_QualitySafety
                       : QualitySafety
                   }

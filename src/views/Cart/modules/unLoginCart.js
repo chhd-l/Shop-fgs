@@ -928,7 +928,7 @@ class UnLoginCart extends React.Component {
           {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
-          process.env.REACT_APP_LANG !== 'ru' ? (
+          process.env.REACT_APP_COUNTRY !== 'RU' ? (
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
