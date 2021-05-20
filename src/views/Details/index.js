@@ -2376,7 +2376,15 @@ class Details extends React.Component {
                                         </label>
                                       </div>
                                       <br />
-                                      <div className="discountBox">
+                                      <div
+                                        className="discountBox"
+                                        style={{
+                                          background:
+                                            process.env.REACT_APP_LANG === 'ru'
+                                              ? '#3ab41d'
+                                              : '#ec001a'
+                                        }}
+                                      >
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
