@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
+import ChooseSKU from '../ChangeProduct/ChooseSKU';
 import LinkPet from './LinkPet';
 import { filterOrderId, getClubLogo } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
@@ -51,10 +52,25 @@ const SubDetailHeader = ({
   subDetail,
   initPage,
   history,
+  savedChangeSubscriptionGoods,
+  frequencyListOptions,
   isClub,
+  details,
+  handleSelectedItemChange,
+  specList,
+  stock,
+  form,
+  images,
+  productListLoading,
+  intl,
+  currentGoodsItems,
+  currentSubscriptionPrice,
   editRecommendationVisible,
   recommendationVisibleLoading,
   isActive,
+  showChangeProduct,
+  petType,
+  showProdutctDetail,
   isNotInactive,
   setState
 }) => {
@@ -72,6 +88,7 @@ const SubDetailHeader = ({
   return (
     <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
       <LinkPet
+        petType={petType}
         getBreedName={getBreedName}
         setState={setState}
         initPage={initPage}
@@ -91,11 +108,30 @@ const SubDetailHeader = ({
             <p className="recommendatio-wrap-title">
               <FormattedMessage id="subscriptionDetail.newProduct" />
             </p>
-            <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content"></div>
+            <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
+              <ChooseSKU
+                showChangeProduct={showChangeProduct}
+                savedChangeSubscriptionGoods={savedChangeSubscriptionGoods}
+                showProdutctDetail={showProdutctDetail}
+                setState={setState}
+                frequencyListOptions={frequencyListOptions}
+                handleSelectedItemChange={handleSelectedItemChange}
+                details={details}
+                specList={specList}
+                stock={stock}
+                isNotInactive={isNotInactive}
+                form={form}
+                images={images}
+                productListLoading={productListLoading}
+                currentGoodsItems={currentGoodsItems}
+                subDetail={subDetail}
+                currentSubscriptionPrice={currentSubscriptionPrice}
+              />
+            </div>
           </div>
         ))}
       {/* 未激活的情况下不展示club相关信息 */}
-      {isClub && isNotInactive && !!subDetail.petsId && !isCantLinkPet ? (
+      {isClub && isNotInactive && !isCantLinkPet ? (
         <>
           <img
             src={getClubLogo()}
@@ -124,7 +160,7 @@ const SubDetailHeader = ({
                     pathname: `/account/pets/petForm/${subDetail.petsId}`,
                     state: {
                       isFromSubscriptionDetail:
-                        this.state.subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                        subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
                       isFromSubscriptionDetail: true,
                       subscribeId: subDetail.subscribeId
                     }
@@ -158,7 +194,7 @@ const SubDetailHeader = ({
                         pathname: `/account/pets/petForm/${subDetail.petsId}`,
                         state: {
                           isFromSubscriptionDetail:
-                            this.state.subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                            subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
                           isFromSubscriptionDetail: true,
                           subscribeId: subDetail.subscribeId
                         }
