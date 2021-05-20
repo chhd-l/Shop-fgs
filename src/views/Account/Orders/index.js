@@ -458,13 +458,7 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            <FormattedMessage
-              id="trackDelivery"
-              style={{
-                display:
-                  process.env.REACT_APP_COUNTRY == 'FR' ? 'none' : 'block'
-              }}
-            >
+            <FormattedMessage id="trackDelivery">
               {(txt) => (
                 <>
                   {order.tradeDelivers[0] &&

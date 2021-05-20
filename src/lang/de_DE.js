@@ -158,7 +158,7 @@ const de_DE = {
   'cart.dogDiet': 'Nahrungen für Hunde',
   'cart.errorInfo': 'Die Zahl darf nicht kleiner als 1 sein',
   'cart.errorInfo2':
-    'Sie können Ihre Bestellung nicht aufgeben, nicht vorrätiges Produk',
+    'Ein Produkt in Ihrem Warenkorb ist leider aktuell nicht vorrätig. Bitte entfernen Sie dieses um mit der Bestellung fortzufahren.',
   'cart.errorInfo3':
     '* Ihr Bestellbetrag hat noch nicht den Mindestbetrag für kostenlosen Versand erreicht ({val})',
   'cart.errorInfo4':
