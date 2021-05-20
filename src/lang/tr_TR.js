@@ -432,7 +432,7 @@ const tr_TR = {
   'home.point2': 'Memnun kalmazsanız iade edin',
   'home.point3': 'Üstün kalite',
   'home.point4': 'Hızlı teslimat',
-  'home.point5': "1968'DEN BERİ KÖPEK VE KEDİLERİN SAĞLIĞINA BAKIM",
+  'home.point5': "1968'DEN BERİ SAĞLIK EN BÜYÜK ÖNCELİĞİMİZ",
   'home.point6': 'SİZİNLE BİRLİKTE',
   'home.productsCategory': 'Ürün kategorilerimize göz atın',
   'home.promotionTip':
