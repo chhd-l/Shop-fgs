@@ -20,13 +20,17 @@ const HelpComponentsNew = (props) => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="club.subscription.titile" />
+                    We're here to help
                   </h4>
                 </div>
                 <p>
                   <span>
-                    <FormattedMessage id="club.wheretohelp.subtitile" />
+                    Our team is available to answer your questions and ensure
+                    you have the best possible experience.
                   </span>
+                </p>
+                <p>
+                  <span>You can reach us through the following options:</span>
                 </p>
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
@@ -37,15 +41,14 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <b style={{ color: '#00BCA3' }}>
-                                    <FormattedMessage id="club.wheretohelp.card.callus.title" />
-                                  </b>
+                                  <b style={{ color: '#E2001A' }}>Call us</b>
                                   <p>
                                     {/*  {*/}
                                     {/*  this.props.configStore*/}
                                     {/*    .contactTimePeriod*/}
                                     {/*}*/}
-                                    <FormattedMessage id="club.wheretohelp.card.callus.description" />
+                                    Our Pet Experts are happy to help you
+                                    everyday from 9 am to 6 pm
                                   </p>
                                   <div className="rc-margin-top--xs">
                                     <p
@@ -62,9 +65,9 @@ const HelpComponentsNew = (props) => {
                                       {/*      .storeContactPhoneNumber*/}
                                       {/*  }*/}
                                       {/*</a>*/}
-                                      <a style={{ color: '#00BCA3' }}>
+                                      <a style={{ color: '#E2001A' }}>
                                         {/* <FormattedMessage id="help.tel" /> */}
-                                        <FormattedMessage id="club.wheretohelp.card.callus.number" />
+                                        O874 657 890
                                       </a>
                                     </p>
                                   </div>
@@ -83,7 +86,7 @@ const HelpComponentsNew = (props) => {
                                       style={{ color: '#00BCA3' }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
-                                      <FormattedMessage id="club.wheretohelp.card.callus.number" />
+                                      mobile 123 030
                                     </p>
                                   </div>
                                 </div>
@@ -108,15 +111,14 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b style={{ color: '#46aacf' }}>
-                                    <FormattedMessage id="club.wheretohelp.card.email.title" />
-                                  </b>
+                                  <b style={{ color: '#E2001A' }}>Email us</b>
                                   <p>
                                     {/*  {*/}
                                     {/*  this.props.configStore*/}
                                     {/*    .contactTimePeriod*/}
                                     {/*}*/}
-                                    <FormattedMessage id="club.wheretohelp.card.email.description" />
+                                    We'll do our best to get back to you as fast
+                                    as possible and within 12 hours
                                   </p>
                                   {TR || RU ? (
                                     <DistributeHubLinkOrATag
@@ -126,7 +128,7 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        <FormattedMessage id="club.wheretohelp.card.email.send" />
+                                        Send us an Email
                                       </p>
                                     </DistributeHubLinkOrATag>
                                   ) : (
@@ -197,63 +199,11 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  {RU ? (
-                                    <p>
-                                      <FormattedMessage
-                                        id="club.wheretohelp.card.faq"
-                                        values={{
-                                          val: (
-                                            <DistributeHubLinkOrATag
-                                              href={'/about-us/faqs'}
-                                              ariaLabel="Links to faq"
-                                            >
-                                              <a
-                                                style={{
-                                                  textDecoration: 'underline'
-                                                }}
-                                              >
-                                                часто задаваемые вопросы
-                                              </a>
-                                            </DistributeHubLinkOrATag>
-                                          )
-                                        }}
-                                      />
-                                    </p>
-                                  ) : TR ? (
-                                    <p>
-                                      <FormattedMessage
-                                        id="club.wheretohelp.card.faq"
-                                        values={{
-                                          val: (
-                                            <DistributeHubLinkOrATag
-                                              href={'/about-us/faqs'}
-                                              ariaLabel="Links to faq"
-                                            >
-                                              <a
-                                                style={{
-                                                  textDecoration: 'underline'
-                                                }}
-                                              >
-                                                Sıkça Sorulan Sorular
-                                              </a>
-                                            </DistributeHubLinkOrATag>
-                                          )
-                                        }}
-                                      />
-                                    </p>
-                                  ) : (
-                                    <Link to="/faq">
-                                      <p
-                                        style={{ textDecoration: 'underline' }}
-                                      >
-                                        {/*  {*/}
-                                        {/*  this.props.configStore*/}
-                                        {/*    .contactTimePeriod*/}
-                                        {/*}*/}
-                                        <FormattedMessage id="club.wheretohelp.card.faq" />
-                                      </p>
-                                    </Link>
-                                  )}
+                                  <p>
+                                    You can check our FAQ section to see if your
+                                    question has already been answered
+                                  </p>
+
                                   <div className="rc-margin-top--xs">
                                     <p
                                       style={{ color: '#00BCA3' }}

@@ -72,6 +72,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showCoiedTips: false,
       noData: false,
       showCur: -1,
       isSPT: false,
@@ -169,6 +170,9 @@ class Recommendation extends React.Component {
   }
 
   async componentDidMount() {
+    document.onclick = () => {
+      this.setState({ showCoiedTips: false });
+    };
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -812,16 +816,22 @@ class Recommendation extends React.Component {
     window.removeEventListener('copy', copy);
   };
   // 查看 promotion code
-  checkPromotionCode = () => {
-    GABreederRecoPromoCodeCTA();
+  checkPromotionCode = (e) => {
     this.copyPromotion();
+    let { showCoiedTips } = this.state;
+    this.setState({ showCoiedTips: !showCoiedTips });
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+    if (this.state.checkPromotionCodeAndCopy) {
+      return;
+    }
+    GABreederRecoPromoCodeCTA();
     this.setState(
       {
         checkPromotionCodeAndCopy: true
       },
       () => {
         let el = document.getElementById('btnCopyPromotionCode');
-        el.click();
         let elWidth = el.clientWidth;
         this.setState({
           viewShoppingCartWidth: elWidth
@@ -983,48 +993,58 @@ class Recommendation extends React.Component {
 
               {/* promotion code */}
               {/* 查看promotion code按钮 */}
-              {isFr && promotionCodeText && !checkPromotionCodeAndCopy && (
+              {/* {isFr && promotionCodeText && (
                 <>
                   <button
+                    // data-tooltip-placement="top"
+                    // data-tooltip="top-tooltip"
                     className={`rc-btn rc-btn--one click-and-show-promotioncode ${
                       !checkPromotionCodeAndCopy ? 'show' : 'hide'
                     }`}
-                    // title=""
-                    // data-tooltip-placement="top"
-                    // data-tooltip="top-tooltip"
                     onClick={this.checkPromotionCode}
                   >
                     <FormattedMessage id="recommendation.copyPromotionCodeText" />
                   </button>
-                  {/* <div id="top-tooltip" className="rc-tooltip">
-                    <div className="rc-padding-x--xs rc-padding-y--xs">
-                      copié !
-                    </div>
-                  </div> */}
+                 
                 </>
-              )}
+              )} */}
               {/* 点击查看promotion code按钮后显示 */}
               {isFr && promotionCodeText && (
                 <>
-                  <p>
+                  <p className="copied-box">
                     <button
                       id="btnCopyPromotionCode"
-                      title=""
-                      data-tooltip-placement="top"
-                      data-tooltip="top-tooltip"
-                      className={`rc-btn rc-btn--two ${
-                        checkPromotionCodeAndCopy ? 'show' : 'hide'
+                      // title=""
+                      // data-tooltip-placement="top"
+                      // data-tooltip="top-tooltip"
+                      className={`rc-btn   ${
+                        checkPromotionCodeAndCopy
+                          ? 'rc-btn--two'
+                          : ' rc-btn--one click-and-show-promotioncode'
                       }`}
-                      onClick={this.copyPromotion}
+                      onClick={(e) => {
+                        this.checkPromotionCode(e);
+                      }}
                     >
-                      {' '}
-                      {promotionCodeText}
+                      {checkPromotionCodeAndCopy ? (
+                        promotionCodeText
+                      ) : (
+                        <FormattedMessage id="recommendation.copyPromotionCodeText" />
+                      )}
                     </button>
-                    <div id="top-tooltip" className="rc-tooltip">
+                    <div
+                      className={`copied-tips rc-padding-x--xs rc-padding-y--xs ${
+                        this.state.showCoiedTips ? '' : 'hide'
+                      }`}
+                    >
+                      copié !
+                    </div>
+
+                    {/* <div id="top-tooltip" className="rc-tooltip">
                       <div className="rc-padding-x--xs rc-padding-y--xs">
                         copié !
                       </div>
-                    </div>
+                    </div> */}
                   </p>
                   {/* <div className="rc-margin-top--xs">
                     <FormattedMessage id="recommendation.copyTips" />
