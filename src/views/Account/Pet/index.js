@@ -13,7 +13,7 @@ import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
 import { getDict } from '@/api/dict';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, getDictionary } from '@/utils/utils';
 import Female from '@/assets/images/female.png';
 import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
@@ -52,28 +52,17 @@ class Pet extends React.Component {
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    this.getPetList();
+    this.getBreedList();
   }
 
-  getBreedList() {
-    getDict({
-      type: 'catBreed',
-      delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID
-    }).then((res) => {
-      this.setState({
-        catBreedList: res.context.sysDictionaryVOS
-      });
+  async getBreedList() {
+    const catBreedList = await getDictionary({ type: 'catBreed' });
+    const dogBreedList = await getDictionary({ type: 'dogBreed' });
+    this.setState({
+      catBreedList,
+      dogBreedList
     });
-    getDict({
-      type: 'dogBreed',
-      delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID
-    }).then((res) => {
-      this.setState({
-        dogBreedList: res.context.sysDictionaryVOS
-      });
-    });
+    this.getPetList();
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -95,15 +84,10 @@ class Pet extends React.Component {
     })
       .then((res) => {
         let petList = res.context.context;
-        this.setState(
-          {
-            loading: false,
-            petList: petList
-          },
-          () => {
-            this.getBreedList();
-          }
-        );
+        this.setState({
+          loading: false,
+          petList: petList
+        });
       })
       .catch((err) => {
         this.setState({
@@ -111,6 +95,29 @@ class Pet extends React.Component {
         });
       });
   };
+
+  petBreed(el) {
+    if (el.isPurebred === 0) {
+      return this.props.intl.messages['Mixed Breed'];
+    } else if (el.petsBreed && el.petsType === 'dog') {
+      return (
+        (this.state.dogBreedList.length &&
+          this.state.dogBreedList.filter(
+            (item) => item.valueEn == el.petsBreed
+          )?.[0]?.name) ||
+        el.petsBreed
+      );
+    } else {
+      return (
+        (this.state.catBreedList.length &&
+          this.state.catBreedList.filter(
+            (item) => item.valueEn == el.petsBreed
+          )?.[0]?.name) ||
+        el.petsBreed
+      );
+    }
+  }
+
   render() {
     const event = {
       page: {
@@ -258,23 +265,7 @@ class Pet extends React.Component {
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
-                                  <span>
-                                    {el.isPurebred === 0
-                                      ? this.props.intl.messages['Mixed Breed']
-                                      : el.petsBreed && el.petsType === 'dog'
-                                      ? (this.state.dogBreedList.length &&
-                                          this.state.dogBreedList.filter(
-                                            (item) =>
-                                              item.valueEn == el.petsBreed
-                                          )?.[0]?.name) ||
-                                        el.petsBreed
-                                      : (this.state.catBreedList.length &&
-                                          this.state.catBreedList.filter(
-                                            (item) =>
-                                              item.valueEn == el.petsBreed
-                                          )?.[0]?.name) ||
-                                        el.petsBreed}
-                                  </span>
+                                  <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>
                               <div className="operation">
@@ -328,23 +319,7 @@ class Pet extends React.Component {
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
-                                  <span>
-                                    {el.isPurebred === 0
-                                      ? this.props.intl.messages['Mixed Breed']
-                                      : el.petsBreed && el.petsType === 'dog'
-                                      ? (this.state.dogBreedList.length &&
-                                          this.state.dogBreedList.filter(
-                                            (item) =>
-                                              item.valueEn == el.petsBreed
-                                          )?.[0]?.name) ||
-                                        el.petsBreed
-                                      : (this.state.catBreedList.length &&
-                                          this.state.catBreedList.filter(
-                                            (item) =>
-                                              item.valueEn == el.petsBreed
-                                          )?.[0]?.name) ||
-                                        el.petsBreed}
-                                  </span>
+                                  <span>{this.petBreed(el)}</span>
                                 </div>
                               </div>
                               <div className="operation">
