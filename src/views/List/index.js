@@ -2197,7 +2197,7 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <h1 className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <strong>"{keywords}"</strong>
+                    <strong>"{keywords}"</strong>&nbsp;
                     {results > 0 && (
                       <>
                         (
@@ -2230,7 +2230,7 @@ class List extends React.Component {
                       style={{ padding: '0 1em', fontSize: '1em' }}
                     >
                       <span className="font-weight-normal">
-                        {lastBreadListName}{' '}
+                        {lastBreadListName}&nbsp;
                       </span>
                       {results > 0 && (
                         <>
@@ -2361,7 +2361,7 @@ class List extends React.Component {
                           <div className="col-12 col-md-8 pt-3 pb-2">
                             <span className="rc-intro rc-margin--none">
                               <span className="medium text-capitalize">
-                                {lastBreadListName}
+                                {lastBreadListName}&nbsp;
                               </span>
                               (
                               <FormattedMessage
