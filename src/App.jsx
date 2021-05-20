@@ -691,6 +691,7 @@ const App = () => {
                       return <RefugeSource key={Math.random()} {...props} />;
 
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
+                    console.log(999,PDP_Regex.test(pathname))
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
                       const splitName = { fr: '_FR.html', en: '_US.html' }[
@@ -744,13 +745,13 @@ const App = () => {
                       };
 
                       let redirectUrl = '';
-                      if (pathname.split('.html').length > 1) {
-                        redirectUrl = pathname.split('.html')[0];
-                      } else if (specailPlpUrlMapping[pathname + search]) {
-                        redirectUrl = specailPlpUrlMapping[pathname + search];
-                      }
+                      // if (pathname.split('.html').length > 1) {
+                      //   redirectUrl = pathname.split('.html')[0];
+                      // } else if (specailPlpUrlMapping[pathname + search]) {
+                      //   redirectUrl = specailPlpUrlMapping[pathname + search];
+                      // }
+                      redirectUrl = specailPlpUrlMapping[pathname + search];
                       // 除去PDP页面文件重定向end
-
                       if (redirectUrl) {
                         return <Redirect to={redirectUrl} />;
                       } else {
