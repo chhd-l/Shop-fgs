@@ -17,9 +17,32 @@
   .rc-layout-container {
     margin:0;
   }
-  
+
   .card-border-style {
     border: 1px solid #d7d7d7;
+  }
+
+  @media (max-width: 639.98px) {
+    .clubdetailsdesktop {
+      height: 1509px;
+      overflow: hidden;
+      background-size: cover;
+    }
+    .pdpflexcolumn{
+      flex-direction: column;
+    }
+  }
+
+  @media (min-width: 639.98px) {
+    .clubdetailsmobile {
+      background-image: url("./image/goodsdetailtabbackground.png");
+      height: 700px;
+      background-size: cover;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
   }
 }
 
@@ -33,3 +56,5 @@
 #GoodsDetailTabs img {
   display: inline-block;
 }
+
+
