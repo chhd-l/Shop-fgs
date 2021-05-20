@@ -423,7 +423,7 @@ function AdvantageTips() {
             <div className="d-flex justify-content-center bottom-content__icon-list text-center">
               {iconList.map((ele, i) => (
                 <div
-                  style={{ width: 'auto' }}
+                  style={{ width: '6rem' }}
                   className="centered-icon-list__icon"
                   key={i}
                 >

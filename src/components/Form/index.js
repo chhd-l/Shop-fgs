@@ -656,6 +656,10 @@ class Form extends React.Component {
       caninForm.country = data.name;
     } else if (key == 'city') {
       caninForm.city = data.name;
+      caninForm.areaId = '';
+      caninForm.area = '';
+      caninForm.regionId = '';
+      caninForm.region = '';
       this.setState({
         regionList: []
       });
