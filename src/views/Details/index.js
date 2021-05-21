@@ -199,7 +199,8 @@ function Advantage() {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text:
+        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -412,8 +413,14 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -535,8 +542,13 @@ class Details extends React.Component {
     );
   }
   setGoogleProductStructuredDataMarkup() {
-    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
-      this.state;
+    const {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo
+    } = this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -1056,10 +1068,13 @@ class Details extends React.Component {
               //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-                addSchemaOrgMarkup(
-                  this.state.details,
-                  this.state.instockStatus
-                );
+                //设置延时获取BazaarVoice dom节点
+                setTimeout(() => {
+                  addSchemaOrgMarkup(
+                    this.state.details,
+                    this.state.instockStatus
+                  );
+                }, 3000);
               }
             }
           );
@@ -1233,9 +1248,8 @@ class Details extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find(
-      (item) => item.packSize === goodSize
-    )?.goodsInfoBarcode;
+    const barcode = images.find((item) => item.packSize === goodSize)
+      ?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -1321,8 +1335,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -2325,37 +2344,48 @@ class Details extends React.Component {
                                               &#xe675;
                                             </span>
                                             <FormattedMessage id="autoship" />
-                                            <span
-                                              className="info-tooltip delivery-method-tooltip"
-                                              onMouseEnter={() => {
-                                                this.setState({
-                                                  toolTipVisible: true
-                                                });
-                                              }}
-                                              onMouseLeave={() => {
-                                                this.setState({
-                                                  toolTipVisible: false
-                                                });
+                                            <div
+                                              style={{
+                                                position: 'relative',
+                                                display: 'inline-block'
                                               }}
                                             >
-                                              i
-                                            </span>
-                                            <ConfirmTooltip
-                                              arrowStyle={{ left: '79%' }}
-                                              display={
-                                                this.state.toolTipVisible
-                                              }
-                                              cancelBtnVisible={false}
-                                              confirmBtnVisible={false}
-                                              updateChildDisplay={(status) =>
-                                                this.setState({
-                                                  toolTipVisible: status
-                                                })
-                                              }
-                                              content={
-                                                <FormattedMessage id="subscription.promotionTip2" />
-                                              }
-                                            />
+                                              <span
+                                                className="info-tooltip delivery-method-tooltip"
+                                                onMouseEnter={() => {
+                                                  this.setState({
+                                                    toolTipVisible: true
+                                                  });
+                                                }}
+                                                onMouseLeave={() => {
+                                                  this.setState({
+                                                    toolTipVisible: false
+                                                  });
+                                                }}
+                                              >
+                                                i
+                                              </span>
+                                              <ConfirmTooltip
+                                                arrowStyle={{ left: '50%' }}
+                                                containerStyle={{
+                                                  transform:
+                                                    'translate(-49%, 110%)'
+                                                }}
+                                                display={
+                                                  this.state.toolTipVisible
+                                                }
+                                                cancelBtnVisible={false}
+                                                confirmBtnVisible={false}
+                                                updateChildDisplay={(status) =>
+                                                  this.setState({
+                                                    toolTipVisible: status
+                                                  })
+                                                }
+                                                content={
+                                                  <FormattedMessage id="subscription.promotionTip2" />
+                                                }
+                                              />
+                                            </div>
                                           </span>
                                         </label>
                                       </div>
@@ -2372,7 +2402,8 @@ class Details extends React.Component {
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
-                                            val: selectedSpecItem?.subscriptionPercentage
+                                            val:
+                                              selectedSpecItem?.subscriptionPercentage
                                           }}
                                         />
                                       </div>
@@ -2483,7 +2514,8 @@ class Details extends React.Component {
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
-                                          val: selectedSpecItem?.subscriptionPercentage
+                                          val:
+                                            selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>

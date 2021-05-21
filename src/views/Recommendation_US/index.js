@@ -72,7 +72,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCoiedTips: false,
+      // showCoiedTips: false,
       noData: false,
       showCur: -1,
       isSPT: false,
@@ -170,9 +170,9 @@ class Recommendation extends React.Component {
   }
 
   async componentDidMount() {
-    document.onclick = () => {
-      this.setState({ showCoiedTips: false });
-    };
+    // document.onclick = () => {
+    //   this.setState({ showCoiedTips: false });
+    // };
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -818,10 +818,10 @@ class Recommendation extends React.Component {
   // 查看 promotion code
   checkPromotionCode = (e) => {
     this.copyPromotion();
-    let { showCoiedTips } = this.state;
-    this.setState({ showCoiedTips: !showCoiedTips });
-    e.nativeEvent.stopImmediatePropagation();
-    e.stopPropagation();
+    // let { showCoiedTips } = this.state;
+    // this.setState({ showCoiedTips: !showCoiedTips });
+    // e.nativeEvent.stopImmediatePropagation();
+    // e.stopPropagation();
     if (this.state.checkPromotionCodeAndCopy) {
       return;
     }
@@ -1032,13 +1032,13 @@ class Recommendation extends React.Component {
                         <FormattedMessage id="recommendation.copyPromotionCodeText" />
                       )}
                     </button>
-                    <div
+                    {/* <div
                       className={`copied-tips rc-padding-x--xs rc-padding-y--xs ${
                         this.state.showCoiedTips ? '' : 'hide'
                       }`}
                     >
                       copié !
-                    </div>
+                    </div> */}
 
                     {/* <div id="top-tooltip" className="rc-tooltip">
                       <div className="rc-padding-x--xs rc-padding-y--xs">
@@ -1428,7 +1428,7 @@ class Recommendation extends React.Component {
                                   onClick={this.addCart}
                                 >
                                   {isFr && !isSPT ? (
-                                    'Appliquer mon code et voir mon panier'
+                                    'Voir mon panier'
                                   ) : (
                                     <FormattedMessage id="recommendation.viewInCart" />
                                   )}
