@@ -71,7 +71,7 @@ export default {
     },
     {
       shortUrl:
-        '/british-shorthair-%28x12%29-203201020_INNERBOX_12_UNIT_TR.html',
+        '/tr/british-shorthair-%28x12%29-203201020_INNERBOX_12_UNIT_TR.html',
       redirectUrl: '/british-shorthair-2032'
     },
     {
@@ -248,13 +248,17 @@ export default {
     },
     {
       shortUrl:
-        '/digest-sensitive-gravy-%28x12%29-407601020_INNERBOX_12_UNIT_TR.html',
+        '/tr/digest-sensitive-gravy-%28x12%29-407601020_INNERBOX_12_UNIT_TR.html',
       redirectUrl: '/digest-sensitive-gravy-4076'
     },
     {
       shortUrl:
-        '/digest-sensitive-gravy-(x12)-407601020_INNERBOX_12_UNIT_TR.html',
+        '/tr/digest-sensitive-gravy-(x12)-407601020_INNERBOX_12_UNIT_TR.html',
       redirectUrl: '/digest-sensitive-gravy-4076'
+    },
+    {
+      shortUrl: '/tr/Cookiepolicy.html',
+      redirectUrl: '/cookiepolicy'
     },
     {
       shortUrl: '/tr/digest-sensitive-gravy-4076_TR.html',
@@ -1758,6 +1762,11 @@ export default {
     {
       shortUrl: '/tr/dogs/products/vet-products/urinary-so-ya',
       redirectUrl: '/urinary-so-4021'
+    },
+    {
+      shortUrl:
+        '/tr/yorkshire-terrier-%28x12%29-204001020_INNERBOX_12_UNIT_TR.html',
+      redirectUrl: '/yorkshire-terrier-2040'
     }
   ]
 };
