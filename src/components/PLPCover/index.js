@@ -71,20 +71,30 @@ function ListItemH5ForGlobalStyle(props) {
                       height: '100%'
                     }}
                   >
-                    <img
-                      src={
-                        isDogPage
-                          ? retailDog
-                          : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
-                      }
-                      className=" pt-3 ImgForMobile"
-                      style={{
-                        maxHeight: '100%',
-                        height: 'auto',
-                        margin: 'auto'
-                      }}
-                      alt="Retail Products"
-                    />
+                    {isDogPage ? (
+                      <img
+                        src={retailDog}
+                        className=" pt-3 "
+                        style={{
+                          maxHeight: '100%',
+                          width: '70%',
+                          height: 'auto',
+                          margin: 'auto'
+                        }}
+                        alt="Retail Products"
+                      />
+                    ) : (
+                      <img
+                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
+                        className=" pt-3 ImgForMobile"
+                        style={{
+                          maxHeight: '100%',
+                          height: 'auto',
+                          margin: 'auto'
+                        }}
+                        alt="Retail Products"
+                      />
+                    )}
                   </div>
                 </div>
               </picture>
