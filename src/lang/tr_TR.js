@@ -775,8 +775,7 @@ const tr_TR = {
   registerFailed: 'Kayıt başarısız',
   registerFeckbook: 'Facebook ile Bağlan',
   registerFillIn: 'Lütfen bu alanı doldurun',
-  registerFooter1:
-    'Bir form göndermek için 16 yaşında veya daha büyük olmalısınız. Bizimle Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES adresine yazarak veya e-posta yoluyla ',
+  registerFooter1: '',
   registerGoogle: 'Google ile Bağlan',
   registerHaveAccount: 'Bir hesabınız var mı?',
   registerLength: '8 karakter',
