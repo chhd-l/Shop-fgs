@@ -108,7 +108,7 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
     //     ? (form.buyWay = 2)
     //     : (form.buyWay = 1)
     //   : (form.buyWay = 0);
-    updatedSku(handledValues)
+    updatedSku(handledValues, sizeList)
   }
   const bundleMatchGoods = () => {
     let handledValues = {
@@ -127,7 +127,26 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
     handledValues.stock = sizeList[0].stock;
     sizeList[0].selected = true;
 
-    updatedSku(handledValues)
+    updatedSku(handledValues, sizeList)
+  }
+
+  const handleChooseSize = (sId: any, sdId: any) => {
+    goodsSpecs
+      .filter((item: any) => item.specId === sId)[0]
+      .chidren.map((item: any) => {
+        if (item.specDetailId === sdId) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+        return item;
+      });
+    const goodSize = goodsSpecs.map((item: any) =>
+      item.chidren.find((good: any) => good.specDetailId === sdId)
+    )?.[0]?.detailName;
+    const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
+      ?.goodsInfoBarcode;
+    matchGoods()
   }
   
   useEffect(() => {
@@ -204,36 +223,13 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
                 }
               }
             }
-
             return sItem;
           });
 
         }else {
           goodsInfos[0].selected = true
         }
-        
         setSizeList(goodsInfos)
-        
-        
-          // sizeList = goodsInfos.map((g: any, i:number) => {
-          //   // g = Object.assign({}, g, { selected: false });
-          //   g = Object.assign({}, g, {
-          //     selected: i === 0
-          //   });
-          //   let { form } = this.state;
-          //   if (g.selected && !g.subscriptionStatus) {
-          //     form.buyWay = 0;
-          //   }
-          //   if (g.selected && g.subscriptionStatus) {
-          //     form.buyWay =
-          //       form.buyWay && g.promotions?.includes('club') ? 2 : form.buyWay;
-          //   }
-          //   this.setState({ form });
-
-          //   return g;
-          // });
-
-          
   }, []);
   useEffect(() => {
     if(sizeList.length) {
@@ -269,13 +265,12 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
                     sdItem.isEmpty ? 'outOfStock' : ''
                   }`}
                   onClick={() => {
-                    if (sdItem.isEmpty) {
+                    if (sdItem.isEmpty || sdItem.selected) {
                       return false;
                     } else {
-                      this.handleChooseSize(
+                      handleChooseSize(
                         sItem.specId,
-                        sdItem.specDetailId,
-                        sdItem.selected
+                        sdItem.specDetailId
                       );
                     }
                   }}

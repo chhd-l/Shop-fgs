@@ -34,7 +34,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-import RelateProductCarousel from '@/components/RelateProductCarousel';
+import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
@@ -46,10 +46,10 @@ import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
-import { getGoodsRelation } from '@/api/details';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import { setGoogleProductStructuredDataMarkup } from './GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -122,7 +122,6 @@ class Details extends React.Component {
       checkOutErrMsg: '',
       addToCartLoading: false,
       tradePrice: '',
-      specList: [],
       tabsValue: [],
       isAdd: 0,
       productRate: 0,
@@ -159,13 +158,11 @@ class Details extends React.Component {
       relatedGoods: [],
       relatedGoodsList: [],
       relatedGoodsLoading: false,
-      rationInfo: {},
       questionParams: undefined,
       defaultPurchaseType: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
-    this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
@@ -326,72 +323,27 @@ class Details extends React.Component {
       requestJson
     });
   }
-  bundleMatchGoods() {
-    // let {
-    //   details,
-    //   currentUnitPrice,
-    //   currentSubscriptionPrice,
-    //   currentSubscriptionStatus,
-    //   stock,
-    //   skuPromotions
-    // } = this.state;
-    // currentUnitPrice = details.goodsInfos[0].salePrice;
-    // currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
-    // currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
-    // skuPromotions = details.goodsInfos[0].promotions;
-    // stock = details.goodsInfos[0].stock;
-    // details.sizeList[0].selected = true;
-    // this.setState(
-    //   {
-    //     details,
-    //     currentUnitPrice,
-    //     currentSubscriptionPrice,
-    //     currentSubscriptionStatus,
-    //     stock,
-    //     skuPromotions
-    //   },
-    //   () => {
-    //     this.updateInstockStatus();
-    //     setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-    //   }
-    // );
-  }
-  setGoogleProductStructuredDataMarkup() {
-    const {
+
+  matchGoods(data, sizeList) {
+    let {
       instockStatus,
       details,
       spuImages,
       goodsDetailTab,
       goodsNo
     } = this.state;
-    loadJS({
-      code: JSON.stringify({
-        '@context': 'http://schema.org/',
-        '@type': 'Product',
-        name: details.goodsName,
-        description: goodsDetailTab[0] && goodsDetailTab[0].content,
-        mpn: goodsNo,
-        sku: goodsNo,
-        image: spuImages.map((s) => s.artworkUrl),
-        offers: {
-          url: {},
-          '@type': 'AggregateOffer',
-          priceCurrency: process.env.REACT_APP_CURRENCY,
-          availability: instockStatus
-            ? 'http://schema.org/InStock'
-            : 'https://schema.org/OutOfStock',
-          lowPrice: details.fromPrice,
-          highPrice: details.toPrice || details.fromPrice
-        }
-      }),
-      type: 'application/ld+json'
-    });
-  }
-  matchGoods(data) {
-    console.log(data, this.state.form, 'data');
-    this.setState(Object.assign({}, data), () => {
+    details.sizeList = sizeList;
+    this.setState(Object.assign({ details }, data), () => {
       this.updateInstockStatus();
-      setTimeout(() => this.setGoogleProductStructuredDataMarkup());
+      setTimeout(() =>
+        setGoogleProductStructuredDataMarkup({
+          instockStatus,
+          details,
+          spuImages,
+          goodsDetailTab,
+          goodsNo
+        })
+      );
     });
   }
   toScroll = (anchorName) => {
@@ -408,42 +360,7 @@ class Details extends React.Component {
       this.toScroll('j-details-for-club');
     });
   };
-  async getRelatedGoodsList(id) {
-    try {
-      //this.setState({relatedGoodsLoading:true})
-      const res = await getGoodsRelation(id);
-      let relatedGoodsList = res.context.goods;
-      relatedGoodsList = relatedGoodsList.map((ele) => {
-        const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
-          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-          .map((t) => t.goodsAttributeValueEn);
-        const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
-          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-          .map((t) => t.goodsAttributeValue);
-        const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
-          .filter(
-            (item) => item?.goodsAttributeName?.toLowerCase() == 'technology'
-          )
-          .map((t) => t.goodsAttributeValueEn);
-        const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-        const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-        const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
-        const ruAttrs = [breed, ...technologyAttr];
-        const technologyOrBreedsAttr =
-          isHub && process.env.REACT_APP_COUNTRY === 'RU'
-            ? ruAttrs.join(',')
-            : attrs;
-        return Object.assign(ele, { technologyOrBreedsAttr });
-      });
-      this.setState({
-        relatedGoodsList
-      });
-    } catch (err) {
-      console.log(111111, err.message);
-    } finally {
-      //this.setState({relatedGoodsLoading:false})
-    }
-  }
+
   async queryDetails() {
     const { configStore, checkoutStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -517,7 +434,7 @@ class Details extends React.Component {
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
           //获取推荐产品start
-          this.getRelatedGoodsList(goodsRes.goodsId);
+          // this.getRelatedGoodsList(goodsRes.goodsId);
           //获取推荐产品end
           this.setState(
             {
@@ -639,7 +556,6 @@ class Details extends React.Component {
                 }
               ),
               images
-              // specList,
               // barcode
             },
             async () => {
@@ -799,36 +715,6 @@ class Details extends React.Component {
       // this.props.updateSelectedData(this.state.form);
     });
   };
-  handleChooseSize(sId, sdId, isSelected) {
-    if (isSelected) {
-      return;
-    }
-    let { specList, images } = this.state;
-    specList
-      .filter((item) => item.specId === sId)[0]
-      .chidren.map((item) => {
-        if (item.specDetailId === sdId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
-    const goodSize = specList.map((item) =>
-      item.chidren.find((good) => good.specDetailId === sdId)
-    )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
-    this.setState(
-      {
-        specList,
-        barcode
-      },
-      () => {
-        this.matchGoods();
-      }
-    );
-  }
   async hanldeAddToCart() {
     try {
       if (!this.btnStatus) return false;
@@ -926,6 +812,7 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         cartItem = { ...cartItem, ...this.state.requestJson };
       }
+      console.log(cartItem, 'cartItem');
       await checkoutStore.hanldeUnloginAddToCart({
         valid: this.btnStatus,
         cartItemList: [cartItem],
@@ -1206,7 +1093,6 @@ class Details extends React.Component {
       currentSubscriptionStatus,
       errMsg,
       addToCartLoading,
-      specList,
       form,
       productRate,
       instockStatus,
@@ -1224,7 +1110,6 @@ class Details extends React.Component {
       seoConfig,
       exclusiveFlag,
       loading,
-      rationInfo,
       skuPromotions
     } = this.state;
     const { headingTag = 'h1' } = seoConfig;
@@ -1276,12 +1161,6 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(
-      form.buyWay,
-      'bbbb',
-      images,
-      isCountriesContainer(['FR', 'RU', 'TR', 'US'])
-    );
     console.log('details', details);
     return (
       <div id="Details">
@@ -2075,7 +1954,6 @@ class Details extends React.Component {
               </div>
             </div>
             <Advantage />
-
             {/* 描述、好处、组成、指南板块*/}
             {details.goodsDescriptionDetailList &&
             details.goodsType !== undefined ? (
@@ -2162,9 +2040,7 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
-            {this.state.relatedGoodsList.length > 0 ? (
-              <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
-            ) : null}
+            <RelateProductCarousel id={goodsId} />
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
