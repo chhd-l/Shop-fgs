@@ -15,7 +15,6 @@ class Index extends React.Component {
         className={`${isMobilePhone ? '' : 'd-flex justify-content-center'}`}
         data-bv-show="inline_rating"
         data-bv-product-id={this.props.productId}
-        data-bv-redirect-url={this.props.productRedirectUrl || ''}
       />
     );
   }

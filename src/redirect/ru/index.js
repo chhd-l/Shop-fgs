@@ -341,7 +341,7 @@ export default {
     },
     {
       shortUrl: '/ru/Diabetic-4086_RU.html',
-      redirectUrl: '/diabetic-3906'
+      redirectUrl: '/diabetic-4086'
     },
     {
       shortUrl: '/ru/Digestive-Care-2555_RU.html',
@@ -350,12 +350,14 @@ export default {
     {
       shortUrl:
         '/ru/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076_RU.html',
-      redirectUrl: '/digestive-Care-2555'
+      redirectUrl:
+        '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076'
     },
     {
       shortUrl:
         '/ru/Digest-Sensitive-(в-соусе)-(x24)-40760008R0_INNERBOX_24_UNIT_RU.html',
-      redirectUrl: '/digestive-Care-2555'
+      redirectUrl:
+        '/digest-sensitive-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4076'
     },
     {
       shortUrl: '/ru/dogs/',
@@ -369,7 +371,7 @@ export default {
     {
       shortUrl:
         '/ru/Early-Renal-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1252_RU.html',
-      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1252'
     },
     {
       shortUrl: '/ru/Early-Renal-(в-соусе)-1243_RU.html',
@@ -377,11 +379,11 @@ export default {
     },
     {
       shortUrl: '/ru/Early-Renal-(в-соусе)-1252_RU.html',
-      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1243'
+      redirectUrl: '/early-renal-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1252'
     },
     {
       shortUrl: '/ru/Early-Renal-1242_RU.html',
-      redirectUrl: '/early-renal-1248'
+      redirectUrl: '/early-renal-1242'
     },
     {
       shortUrl: '/ru/Early-Renal-1248_RU.html',
@@ -493,7 +495,7 @@ export default {
     },
     {
       shortUrl: '/ru/general-terms-conditions.html',
-      redirectUrl: '/general-terms-conditions'
+      redirectUrl: '/about-us/terms-and-conditions'
     },
     {
       shortUrl: '/ru/German-Shepherd--2518_RU.html',
@@ -1474,7 +1476,7 @@ export default {
     },
     {
       shortUrl: '/ru/vet.html',
-      redirectUrl: '/vet'
+      redirectUrl: '/dogs/vet-products'
     },
     {
       shortUrl: '/ru/West-Highland-White-Terrier--3981_RU.html',
