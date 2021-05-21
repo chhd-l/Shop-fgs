@@ -354,6 +354,11 @@ export default {
         '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076'
     },
     {
+      shortUrl: '/ru/Digest-Sensitive-(в-соусе)-4076_RU.html',
+      redirectUrl:
+        '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076'
+    },
+    {
       shortUrl:
         '/ru/Digest-Sensitive-(в-соусе)-(x24)-40760008R0_INNERBOX_24_UNIT_RU.html',
       redirectUrl:
@@ -495,7 +500,7 @@ export default {
     },
     {
       shortUrl: '/ru/general-terms-conditions.html',
-      redirectUrl: '/about-us/terms-and-conditions'
+      redirectUrl: '/general-terms-conditions'
     },
     {
       shortUrl: '/ru/German-Shepherd--2518_RU.html',
@@ -1338,7 +1343,15 @@ export default {
       redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
     },
     {
+      shortUrl: '/ru/Skin-%26-Coat-(в-соусе)-4092_RU.html',
+      redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
+    },
+    {
       shortUrl: '/ru/Skin-%26-Coat-1323_RU.html',
+      redirectUrl: '/skin-&-coat-1323'
+    },
+    {
+      shortUrl: '/skin-&-coat-1323',
       redirectUrl: '/skin-&-coat-1323'
     },
     {
