@@ -672,6 +672,11 @@ export default function Modal(props) {
                       korumak için her türlü önlemi almakla yükümlüdür.
                     </p>
                     <p>Kişisel Verilerin Korunması</p>
+                    <p>
+                      Site’yi kullanımınız kapsamında kişisel verilerinizin
+                      korunması hakkında aydınlatma bildirimine buradan
+                      ulaşabilirsiniz.
+                    </p>
                     <p>Site Kullanımının Sona Erdirilmesi</p>
                     <p>
                       Royal Canin, yürürlükteki mevzuat hükümlerine veya işbu

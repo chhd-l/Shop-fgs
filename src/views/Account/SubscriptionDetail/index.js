@@ -3344,14 +3344,14 @@ class SubscriptionDetail extends React.Component {
                       <>
                         {subDetail.subscriptionType
                           ?.toLowerCase()
-                          .includes('club') &&
-                          process.env.REACT_APP_COUNTRY == 'RU' && (
-                            <img
-                              src={getClubLogo()}
-                              style={{ maxWidth: '100px', marginRight: '10px' }}
-                              alt="club Icon"
-                            />
-                          )}
+                          .includes('club') && (
+                          // process.env.REACT_APP_COUNTRY == 'RU' &&
+                          <img
+                            src={getClubLogo()}
+                            style={{ maxWidth: '100px', marginRight: '10px' }}
+                            alt="club Icon"
+                          />
+                        )}
                         <h4
                           className="rc-delta font-weight-normal mb-2"
                           style={{ color: '#666' }}
