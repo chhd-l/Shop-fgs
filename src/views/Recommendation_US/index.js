@@ -1428,7 +1428,7 @@ class Recommendation extends React.Component {
                                   onClick={this.addCart}
                                 >
                                   {isFr && !isSPT ? (
-                                    'Appliquer mon code et voir mon panier'
+                                    'Voir mon panier'
                                   ) : (
                                     <FormattedMessage id="recommendation.viewInCart" />
                                   )}
