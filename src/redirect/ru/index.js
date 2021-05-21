@@ -350,7 +350,8 @@ export default {
     {
       shortUrl:
         '/ru/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076_RU.html',
-      redirectUrl: '/digestive-Care-2555'
+      redirectUrl:
+        '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076'
     },
     {
       shortUrl:
