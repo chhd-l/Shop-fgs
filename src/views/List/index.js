@@ -1407,7 +1407,7 @@ class List extends React.Component {
 
     // isVetProducts 暂时又要手动过滤掉'breeds'
     const vetFilterList = filterList.filter(
-      (item) => item.attributeName !== 'breeds'
+      (item) => item?.attributeName?.toLowerCase() !== 'breeds'
     );
     // 非isVetProducts 过滤掉'Size'
     // const sptFilterList = filterList.filter(

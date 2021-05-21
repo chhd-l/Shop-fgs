@@ -49,7 +49,9 @@ const JoinTodayNew = () => {
                         </h2>
                       </div>
                       <div className="rc-intro inherit-fontsize rc-text--center">
-                        <h5>to get a precise nutritional recommendation.</h5>
+                        <h5 className="textMarginLeft">
+                          to get a precise nutritional recommendation.
+                        </h5>
                       </div>
                       <div style={{ display: 'flex' }}>
                         <button
@@ -68,7 +70,7 @@ const JoinTodayNew = () => {
                             style={{
                               maxHeight: '90%',
                               maxWidth: '90%',
-                              marginLeft: '60px'
+                              marginLeft: '5vw'
                             }}
                           />
                         </LazyLoad>
