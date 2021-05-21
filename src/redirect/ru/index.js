@@ -288,7 +288,7 @@ export default {
       redirectUrl: '/chihuahua-puppy-2438'
     },
     {
-      shortUrl: '/ru/club',
+      shortUrl: '/s/RU/ru/club',
       redirectUrl: '/club'
     },
     {
@@ -540,12 +540,12 @@ export default {
     {
       shortUrl:
         '/ru/Hairball-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4158_RU.html',
-      redirectUrl: '/hairball-care-2534'
+      redirectUrl: '/Hairball-Care-(в-соусе)-4158'
     },
     {
       shortUrl:
         '/ru/Hairball-Care-(в-соусе)-(x12)-41580008A0_INNERBOX_12_UNIT_RU.html',
-      redirectUrl: '/hairball-care-2534'
+      redirectUrl: '/Hairball-Care-(в-соусе)-4158'
     },
     {
       shortUrl: '/ru/Hairball-Care-2534_RU.html',
