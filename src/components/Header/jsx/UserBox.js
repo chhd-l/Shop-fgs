@@ -36,7 +36,8 @@ export const UnLoginUserBox = ({ history, className }) => {
         </a>
       ) : null}
 
-      {process.env.REACT_APP_HUB_VET_PORTAL &&
+      {0 &&
+      process.env.REACT_APP_HUB_VET_PORTAL &&
       process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
         <div className="border-top pt-2">
           <div className="brandName">
@@ -60,8 +61,11 @@ export const UnLoginUserBox = ({ history, className }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const { personInformationRouter, petsRouter, subscriptionsRouter } =
-    self.props;
+  const {
+    personInformationRouter,
+    petsRouter,
+    subscriptionsRouter
+  } = self.props;
   const menuList = [
     {
       link: '/account',
@@ -194,7 +198,8 @@ export const LoginUserBox = ({ self, className }) => {
           </span>
         </a>
       ) : null}
-      {process.env.REACT_APP_HUB_VET_PORTAL &&
+      {0 &&
+      process.env.REACT_APP_HUB_VET_PORTAL &&
       process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
         <div className="border-top pt-2">
           <div className="brandName">

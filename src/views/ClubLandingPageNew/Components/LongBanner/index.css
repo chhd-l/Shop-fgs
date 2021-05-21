@@ -1,0 +1,25 @@
+@media (max-width: 639.98px) {
+  .clubdesktop {
+    height: 1509px;
+    background-image: url('./image/CLUBmobbackground@4x.png');
+    overflow: hidden;
+    background-size: cover;
+  }
+  .flexwrap {
+    flex-wrap: wrap;
+  }
+  .margintopmobile {
+    margin-top: 200px;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .clubmobile {
+    height: 769px;
+    background-image: url('./image/Bitmap@4x.png');
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+}

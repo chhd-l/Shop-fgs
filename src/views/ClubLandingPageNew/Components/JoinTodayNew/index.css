@@ -1,0 +1,25 @@
+@media (max-width: 639.98px) {
+  .flexwrapJoin {
+    flex-wrap: wrap;
+  }
+  .orderJoin1 {
+    order: 1;
+  }
+  .orderJoin2 {
+    order: 2;
+  }
+  .logomargin {
+    margin-top: 3vh;
+    margin-left: 18vw;
+  }
+  .textMarginLeft {
+    margin-left: 20vw;
+  }
+}
+
+@media (min-width: 639.98px) {
+  .logomargin {
+    margin-top: 16vh;
+    margin-left: 6vw;
+  }
+}

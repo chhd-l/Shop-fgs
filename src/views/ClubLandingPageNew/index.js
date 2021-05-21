@@ -20,7 +20,6 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import backgroundImg from './image/Bitmap@4x.png';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -590,6 +589,7 @@ class ClubLandingPageNew extends React.Component {
               10% OFF & FREE DELIVERY
             </div>
           </div>
+
           <LongBanner />
 
           <div className="experience-component experience-layouts-1column">

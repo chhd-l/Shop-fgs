@@ -4,7 +4,12 @@ import howitworknew1 from './image/howitworksnew1.png';
 import howitworknew2 from './image/howitworksnew2.png';
 import howitworknew3 from './image/howitworksnew3.png';
 import howitworknew4 from './image/howitworksnew4.png';
+import howitworknewmobile1 from './image/howitworksmobile1.png';
+import howitworknewmobile2 from './image/howitworksmobile2.png';
+import howitworknewmobile3 from './image/howitworksmobile3.png';
+import howitworknewmobile4 from './image/howitworksmobile4.png';
 import LazyLoad from 'react-lazyload';
+import './index.css';
 
 const HowItWorksNew = () => {
   return (
@@ -15,28 +20,74 @@ const HowItWorksNew = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <FormattedMessage id="club.subscription.titile" />
+                  HOW IT WORKS
                 </h4>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              {/*这里手机移动适配写得不好,有空再改*/}
+              <div className="desktopnone">
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                  className="flexwrapHow "
+                >
+                  <div>
+                    <LazyLoad height={180}>
+                      <img
+                        className="w-90 lazyloaded desktopnone"
+                        src={howitworknew1}
+                      />
+                    </LazyLoad>
+                  </div>
+                  <div>
+                    <LazyLoad height={180}>
+                      <img className="w-90 lazyloaded" src={howitworknew2} />
+                    </LazyLoad>
+                  </div>
+                  <div>
+                    <LazyLoad height={180}>
+                      <img className="w-90 lazyloaded" src={howitworknew3} />
+                    </LazyLoad>
+                  </div>
+                  <div>
+                    <LazyLoad height={180}>
+                      <img className="w-90 lazyloaded" src={howitworknew4} />
+                    </LazyLoad>
+                  </div>
+                </div>
+              </div>
+              <div className="mobilenone">
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                ></div>
                 <div>
                   <LazyLoad height={180}>
-                    <img className="w-90 lazyloaded" src={howitworknew1} />
+                    <img
+                      className="w-90 lazyloaded"
+                      src={howitworknewmobile1}
+                    />
                   </LazyLoad>
                 </div>
                 <div>
                   <LazyLoad height={180}>
-                    <img className="w-90 lazyloaded" src={howitworknew2} />
+                    <img
+                      className="w-90 lazyloaded"
+                      src={howitworknewmobile2}
+                    />
                   </LazyLoad>
                 </div>
                 <div>
                   <LazyLoad height={180}>
-                    <img className="w-90 lazyloaded" src={howitworknew3} />
+                    <img
+                      className="w-90 lazyloaded"
+                      src={howitworknewmobile3}
+                    />
                   </LazyLoad>
                 </div>
                 <div>
                   <LazyLoad height={180}>
-                    <img className="w-90 lazyloaded" src={howitworknew4} />
+                    <img
+                      className="w-90 lazyloaded"
+                      src={howitworknewmobile4}
+                    />
                   </LazyLoad>
                 </div>
               </div>

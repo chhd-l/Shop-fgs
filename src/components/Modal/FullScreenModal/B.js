@@ -18,6 +18,7 @@ export default function Modal(props) {
     guestEmail
   } = paymentStore;
   const { localAddressForm } = configStore;
+
   const { close } = value;
 
   function getCurrentDate() {

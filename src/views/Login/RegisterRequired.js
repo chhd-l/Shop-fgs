@@ -12,6 +12,7 @@ import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
 import Modal from '@/components/Modal';
+import { addEventListenerArr } from './addEventListener';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -287,43 +288,15 @@ class RegisterRequired extends Component {
   //监听土耳其consent
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
-    document.getElementById('tr_consent_c') &&
-      document.getElementById('tr_consent_c').addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setTrConsentModal('fullScreenModalC', true);
-      });
-    document.getElementById('tr_consent_d') &&
-      document.getElementById('tr_consent_d').addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setTrConsentModal('fullScreenModalD', true);
-      });
-    document.getElementById('tr_consent_tc') &&
+    for (let i = 0; i < addEventListenerArr.length; i++) {
       document
-        .getElementById('tr_consent_tc')
-        .addEventListener('click', (e) => {
+        .getElementById(addEventListenerArr[i].id)
+        ?.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          setTrConsentModal('fullScreenModalTC', true);
+          setTrConsentModal(addEventListenerArr[i].modal, true);
         });
-    document.getElementById('tr_consent_pm') &&
-      document
-        .getElementById('tr_consent_pm')
-        .addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setTrConsentModal('fullScreenModalPM', true);
-        });
-
-    document.getElementById('tr_consent_opt_email') &&
-      document
-        .getElementById('tr_consent_opt_email')
-        .addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setTrConsentModal('fullScreenModalOptEmail', true);
-        });
+    }
   }
   async componentDidMount() {
     // const state = this.props.location.state

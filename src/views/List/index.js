@@ -1405,15 +1405,15 @@ class List extends React.Component {
       );
     let filterList = tmpList.concat(customFilter);
 
-    // isVetProducts 过滤掉'breeds' 'Sterilized' 改成storeportal配置
-    // const vetFilterList = filterList.filter(
-    //   (item) =>
-    //     item.attributeName !== 'breeds' && item.attributeName !== 'Sterilized'
-    // );
+    // isVetProducts 暂时又要手动过滤掉'breeds'
+    const vetFilterList = filterList.filter(
+      (item) => item.attributeName !== 'breeds'
+    );
     // 非isVetProducts 过滤掉'Size'
     // const sptFilterList = filterList.filter(
     //   (item) => item.attributeName !== 'Size'
     // );
+    const allFilterList = this.state.isVetProducts ? vetFilterList : filterList;
     // 根据默认参数设置filter状态
     const { defaultFilterSearchForm } = this.state;
     this.initFilterSelectedSts({
@@ -1617,7 +1617,7 @@ class List extends React.Component {
       });
       return pEle;
     });
-    this.setState({ filterList, initingFilter: false });
+    this.setState({ filterList: allFilterList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -2197,7 +2197,7 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <h1 className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <strong>"{keywords}"</strong>
+                    <strong>"{keywords}"</strong>&nbsp;
                     {results > 0 && (
                       <>
                         (
@@ -2230,7 +2230,7 @@ class List extends React.Component {
                       style={{ padding: '0 1em', fontSize: '1em' }}
                     >
                       <span className="font-weight-normal">
-                        {lastBreadListName}{' '}
+                        {lastBreadListName}&nbsp;
                       </span>
                       {results > 0 && (
                         <>
@@ -2361,7 +2361,7 @@ class List extends React.Component {
                           <div className="col-12 col-md-8 pt-3 pb-2">
                             <span className="rc-intro rc-margin--none">
                               <span className="medium text-capitalize">
-                                {lastBreadListName}
+                                {lastBreadListName}&nbsp;
                               </span>
                               (
                               <FormattedMessage

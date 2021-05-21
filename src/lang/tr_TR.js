@@ -360,7 +360,7 @@ const tr_TR = {
   'forgetPassword.createNewPassword': 'Yeni şifre oluştur',
   'forgetPassword.forgetPasswordTip':
     'Şifreyi değiştirme talimatlarını içeren bir mektup alacaksınız.',
-  freeShipping: 'Ücretsiz kargo',
+  freeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
@@ -429,7 +429,7 @@ const tr_TR = {
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
   'home.point1': 'Güvenli ödeme',
-  'home.point2': 'Memnun kalmazsanız iade edin',
+  'home.point2': 'Memnun kalmazsanız iade',
   'home.point3': 'Üstün kalite',
   'home.point4': 'Hızlı teslimat',
   'home.point5': "1968'DEN BERİ SAĞLIK EN BÜYÜK ÖNCELİĞİMİZ",
@@ -775,8 +775,7 @@ const tr_TR = {
   registerFailed: 'Kayıt başarısız',
   registerFeckbook: 'Facebook ile Bağlan',
   registerFillIn: 'Lütfen bu alanı doldurun',
-  registerFooter1:
-    'Bir form göndermek için 16 yaşında veya daha büyük olmalısınız. Bizimle Royal Canin France, Consumer Service - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES adresine yazarak veya e-posta yoluyla ',
+  registerFooter1: '',
   registerGoogle: 'Google ile Bağlan',
   registerHaveAccount: 'Bir hesabınız var mı?',
   registerLength: '8 karakter',
@@ -895,7 +894,7 @@ const tr_TR = {
     'Abonelik hizmetimiz ile, evcil hayvanınız için en uygun mama dilediğiniz zaman kapınıza gelsin, hayatınız kolaylaşsın!',
   'subscriptionLanding.description1':
     'Siparişler belirleyeceğiniz sıklıkta teslim edilir',
-  'subscriptionLanding.description2': 'Ücretsiz kargo',
+  'subscriptionLanding.description2': '125 TL Üzeri Ücretsiz kargo.',
   'subscriptionLanding.description3':
     'Dilediğiniz zaman değişiklik yapma & iptal etme hakkı',
   'subscriptionLanding.description4': 'Ücretsiz beslenme danışma hattı',
