@@ -1068,10 +1068,13 @@ class Details extends React.Component {
               //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-                addSchemaOrgMarkup(
-                  this.state.details,
-                  this.state.instockStatus
-                );
+                //设置延时获取BazaarVoice dom节点
+                setTimeout(() => {
+                  addSchemaOrgMarkup(
+                    this.state.details,
+                    this.state.instockStatus
+                  );
+                }, 3000);
               }
             }
           );
