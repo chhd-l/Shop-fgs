@@ -542,17 +542,24 @@ class Home extends React.Component {
     const Ru = process.env.REACT_APP_COUNTRY === 'RU'; //ru-home页不要seo
     return (
       <div>
-        {!Ru ? (
-          <Helmet>
-            <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-          </Helmet>
-        ) : null}
+        <Helmet>
+          {!Ru ? (
+            <>
+              <link rel="canonical" href={pageLink} />
+              <title>{this.state.seoConfig.title}</title>
+              <meta
+                name="description"
+                content={this.state.seoConfig.metaDescription}
+              />
+              <meta
+                name="keywords"
+                content={this.state.seoConfig.metaKeywords}
+              />
+            </>
+          ) : (
+            <meta name="robots" content="noindex" />
+          )}
+        </Helmet>
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}

@@ -77,10 +77,9 @@ function ListItemH5ForGlobalStyle(props) {
                           ? retailDog
                           : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
-                      className="ImgFitScreen pt-3"
+                      className=" pt-3 ImgForMobile"
                       style={{
                         maxHeight: '100%',
-                        width: '100%',
                         height: 'auto',
                         margin: 'auto'
                       }}
