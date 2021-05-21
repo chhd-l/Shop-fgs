@@ -19,12 +19,45 @@ import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Component
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
 import auto from './image/auto@2x.png';
+import clubiconnew1 from './image/clubiconnew1.png';
+import clubiconnew2 from './image/clubiconnew2.png';
+import clubiconnew3 from './image/clubiconnew3.png';
+import clubiconnew4 from './image/clubiconnew4.png';
+import clubiconnew5 from './image/clubiconnew5.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
+
+let clubListDataNew = [
+  {
+    text: 'Automatic delivery with free shipping',
+    img: clubiconnew1,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: '10% off on every order',
+    img: clubiconnew2,
+    alt: 'CLUB BENEFITS DISCOUNT'
+  },
+  {
+    text: 'Access to a personal pet advisor',
+    img: clubiconnew3,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'A welcome box & exclusive rewards',
+    img: clubiconnew4,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'Tailored support & educational content',
+    img: clubiconnew5,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  }
+];
 
 let clubListData = [
   {
@@ -101,8 +134,9 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo =
-      location.pathname.split('-')[location.pathname.split('-').length - 1];
+    let goodsNo = location.pathname.split('-')[
+      location.pathname.split('-').length - 1
+    ];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
@@ -289,7 +323,7 @@ const GoodsDetailTabs = function (props) {
   }, []);
 
   //club new subscribtion每次提交的时候记得把true改为false
-  const Show = false;
+  const Show = true;
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -467,7 +501,7 @@ const GoodsDetailTabs = function (props) {
                             <p>
                               <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
                                 <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                                  {clubListData.map((item, i) => (
+                                  {clubListDataNew.map((item, i) => (
                                     <div
                                       className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
                                       key={i}
@@ -667,7 +701,7 @@ const GoodsDetailTabs = function (props) {
                       >
                         <div style={{ width: '50vw' }}>
                           <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                            {clubListData.map((item) => (
+                            {clubListDataNew.map((item) => (
                               <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
                                 <img
                                   src={item.img}
