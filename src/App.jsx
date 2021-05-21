@@ -730,7 +730,7 @@ const App = () => {
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
                       console.log(redirectUrl)
-                      debugger
+                      // debugger
 
                       // PDP文件重定向end
 
