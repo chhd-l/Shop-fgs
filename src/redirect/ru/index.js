@@ -2741,10 +2741,18 @@ export default {
     {
       shortUrl: '/ru/Ageing-12%2B-%28в-желе%29-4153_RU.html',
       redirectUrl: '/Ageing-12%2B-%28в-желе%29-4153'
-    }
+    },
     // {
     //   shortUrl: '/ru/Ageing-12%2B-(в-желе)-4153_RU.html',
     //   redirectUrl: '/Ageing-12%2B-(в-желе)-4153'
     // }
+    {
+      shortUrl: '/ru/Breed Health Nutrition/',
+      redirectUrl: '/dogs/products/breed-health-nutrition'
+    },
+    {
+      shortUrl: '/ru/Breed%20Health%20Nutrition/',
+      redirectUrl: '/dogs/products/breed-health-nutrition'
+    }
   ]
 };
