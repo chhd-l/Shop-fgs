@@ -99,7 +99,7 @@ export default function Modal(props) {
                       promosyon kodu
                     </p>
                     <p>
-                      <strong>e:</strong>
+                      <strong>e. Abonelik Bilgileri: </strong>
                       Abonelik numarası, abonelik oluşturulan ürün(ler),
                       teslimat sıklığı, abonelik oluşturma{' '}
                       <strong>Abonelik Bilgileri:</strong> [ve sona erme]
