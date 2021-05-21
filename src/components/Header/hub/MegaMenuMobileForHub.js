@@ -50,16 +50,18 @@ class MegaMenuMobileForHub extends React.Component {
     this.state = {
       showMegaMenu: false,
       menuData: this.props.menuData,
-      portalAndShareData: []
+      shareData: [],
+      portalData: []
     };
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.handleClickToggleChilds = this.handleClickToggleChilds.bind(this);
   }
   componentDidMount() {
-    let portalAndShareData = [];
+    let shareData = [];
+    let portalData = [];
     if (process.env.REACT_APP_HUB_MONROYALCANIN) {
-      portalAndShareData.push({
+      shareData.push({
         link: process.env.REACT_APP_HUB_MONROYALCANIN,
         text: (
           <>
@@ -70,7 +72,7 @@ class MegaMenuMobileForHub extends React.Component {
       });
     }
     if (process.env.REACT_APP_HUB_BREEDER_PORTAL) {
-      portalAndShareData.push({
+      portalData.push({
         link: process.env.REACT_APP_HUB_BREEDER_PORTAL,
         text: (
           <>
@@ -81,7 +83,7 @@ class MegaMenuMobileForHub extends React.Component {
       });
     }
     if (process.env.REACT_APP_HUB_VET_PORTAL) {
-      portalAndShareData.push({
+      portalData.push({
         link: process.env.REACT_APP_HUB_VET_PORTAL,
         text: (
           <>
@@ -92,7 +94,8 @@ class MegaMenuMobileForHub extends React.Component {
       });
     }
     this.setState({
-      portalAndShareData
+      shareData,
+      portalData
     });
   }
   toggleMenu() {
@@ -276,7 +279,7 @@ class MegaMenuMobileForHub extends React.Component {
   };
   render() {
     const { history, isLogin, userInfo } = this.props;
-    const { showMegaMenu, menuData, portalAndShareData } = this.state;
+    const { showMegaMenu, menuData, shareData, portalData } = this.state;
     return (
       <>
         <button
@@ -313,6 +316,18 @@ class MegaMenuMobileForHub extends React.Component {
                       </li>
                     ))}
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
+                      {portalData.length > 0 &&
+                        portalData.map((data, i) => (
+                          <a
+                            href={data.link}
+                            className={`rc-list__header bg-transparent border-0 ${
+                              i !== shareData.length - 1 ? 'pb-0' : ''
+                            }`}
+                            key={i}
+                          >
+                            {data.text}
+                          </a>
+                        ))}
                       {isLogin ? (
                         <>
                           <Link
@@ -338,18 +353,20 @@ class MegaMenuMobileForHub extends React.Component {
                         </>
                       ) : (
                         <LoginButton
-                          btnClass="rc-list__header bg-transparent border-0 pb-0"
+                          btnClass={`rc-list__header bg-transparent border-0 ${
+                            shareData.length ? 'pb-0' : ''
+                          }`}
                           history={history}
                         >
                           <span className="iconfont">&#xe69c;</span>{' '}
                           <FormattedMessage id="signInAndRegisterNow" />
                         </LoginButton>
                       )}
-                      {portalAndShareData.map((data, i) => (
+                      {shareData.map((data, i) => (
                         <a
                           href={data.link}
                           className={`rc-list__header bg-transparent border-0 ${
-                            i !== portalAndShareData.length - 1 ? 'pb-0' : ''
+                            i !== shareData.length - 1 ? 'pb-0' : ''
                           }`}
                           key={i}
                         >
