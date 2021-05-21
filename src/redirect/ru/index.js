@@ -166,6 +166,10 @@ export default {
       redirectUrl: '/ageing-12+-2561'
     },
     {
+      shortUrl: '/ru/Ageing-12+-2561_RU.html',
+      redirectUrl: '/ageing-12+-2561'
+    },
+    {
       shortUrl: '/ru/Anallergenic-1950_RU.html',
       redirectUrl: '/anallergenic-1950'
     },
