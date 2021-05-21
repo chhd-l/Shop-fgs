@@ -323,7 +323,7 @@ const GoodsDetailTabs = function (props) {
   }, []);
 
   //club new subscribtion每次提交的时候记得把true改为false
-  const Show = true;
+  const Show = false;
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
