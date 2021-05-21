@@ -552,7 +552,11 @@ class Home extends React.Component {
             />
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
-        ) : null}
+        ) : (
+          <Helmet>
+            <meta name="robots" content="noindex" />
+          </Helmet>
+        )}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
