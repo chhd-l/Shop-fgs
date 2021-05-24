@@ -46,7 +46,9 @@ const HandledRelateProductCarousel = ({ id }: Props) => {
 
   useEffect(() => {
     if (id) {
+      //获取推荐产品start
       getRelatedGoodsList(id);
+      //获取推荐产品end
     }
   }, [id]);
   return relatedGoodsList.length > 0 ? (

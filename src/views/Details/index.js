@@ -5,29 +5,29 @@ import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Selection from '@/components/Selection';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
+import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import SingleBuyMethod from './components/SingleBuyMethod/index.tsx';
+import AutoshipBuyMethod from './components/AutoshipBuyMethod/index.tsx';
+import ClubBuyMethod from './components/ClubBuyMethod/index.tsx';
+import SeoConfig from './components/SeoConfig/index.tsx';
+import ButtonGroup from './components/ButtonGroup/index.tsx';
+import ErrMsgForCheckoutPanel from './components/ErrMsgForCheckoutPanel/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
 import {
-  formatMoney,
-  setSeoConfig,
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
   getParaByName,
   loadJS,
   getDictionary,
-  unique,
   filterObjectValue,
   isCountriesContainer,
-  getRation,
   getClubFlag
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -38,7 +38,6 @@ import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
-import { Helmet } from 'react-helmet';
 
 import './index.css';
 import './index.less';
@@ -57,20 +56,10 @@ const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = process.env.REACT_APP_HUB == '1';
+const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+const Tr = process.env.REACT_APP_COUNTRY === 'TR';
 // const pageLink = window.location.href;
-
-function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
-  return (
-    <div className={`text-break mt-2 mb-2 ${checkOutErrMsg ? '' : 'hidden'}`}>
-      <aside
-        className="rc-alert rc-alert--error rc-alert--with-close"
-        role="alert"
-      >
-        <span className="pl-0">{checkOutErrMsg}</span>
-      </aside>
-    </div>
-  );
-}
 
 @inject(
   'checkoutStore',
@@ -121,15 +110,11 @@ class Details extends React.Component {
       errMsg: '',
       checkOutErrMsg: '',
       addToCartLoading: false,
-      tradePrice: '',
-      tabsValue: [],
-      isAdd: 0,
       productRate: 0,
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
-      toolTipVisible: false,
       form: {
         buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
@@ -137,15 +122,8 @@ class Details extends React.Component {
         frequencyId: -1
       },
       frequencyList: [],
-      reviewShow: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin',
-        headingTag: 'h1'
-      },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
       pageLink: '',
@@ -155,17 +133,14 @@ class Details extends React.Component {
       contactUs: '',
       contactPhoneNumber: '',
       ccidBtnDisplay: false,
-      relatedGoods: [],
-      relatedGoodsList: [],
-      relatedGoodsLoading: false,
       questionParams: undefined,
-      defaultPurchaseType: 0
+      defaultPurchaseType: 0,
+      headingTag: 'h1'
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -197,10 +172,6 @@ class Details extends React.Component {
       },
       () => this.queryDetails()
     );
-
-    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -250,6 +221,15 @@ class Details extends React.Component {
       addedFlag &&
       form.buyWay !== -1
     );
+  }
+
+  get retailerBtnStatus() {
+    const { loading, goodsType, exclusiveFlag = false } = this.state;
+    const sptGoods = goodsType === 0 || goodsType === 1;
+    const trSpt = Tr && sptGoods;
+    let bundle = goodsType && goodsType === 2;
+
+    return !loading && !bundle && isHub && !Ru && !exclusiveFlag && !trSpt;
   }
 
   setDefaultPurchaseType({ id }) {
@@ -417,7 +397,7 @@ class Details extends React.Component {
             })
           },
           () => {
-            this.hubGA && this.getComputedWeeks(this.state.frequencyList);
+            isHub && this.getComputedWeeks(this.state.frequencyList);
           }
         );
         if (res && res.context && goodsRes) {
@@ -433,9 +413,6 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-          //获取推荐产品start
-          // this.getRelatedGoodsList(goodsRes.goodsId);
-          //获取推荐产品end
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -522,14 +499,6 @@ class Details extends React.Component {
               })
             });
           }
-
-          setSeoConfig({
-            goodsId: goodsRes.goodsId,
-            categoryId: '',
-            pageName: 'Product Detail Page'
-          }).then((res) => {
-            this.setState({ seoConfig: res });
-          });
         } else {
           throw new Error();
         }
@@ -559,10 +528,9 @@ class Details extends React.Component {
               // barcode
             },
             async () => {
-              // await this.matchGoods();
               // this.loadWidgetIdBtn(this.state.barcode);
               //Product Detail Page view 埋点start
-              // this.hubGA
+              // isHub
               //   ? this.hubGAProductDetailPageView(
               //       res.context.goodsAttributesValueRelList,
               //       this.state.details,
@@ -603,7 +571,7 @@ class Details extends React.Component {
             () => {
               // this.bundleMatchGoods();
               //Product Detail Page view 埋点start
-              // this.hubGA
+              // isHub
               //   ? this.hubGAProductDetailPageView(
               //       res.context.goodsAttributesValueRelList,
               //       this.state.details
@@ -737,7 +705,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details, questionParams } = this.state;
 
-      this.hubGA
+      isHub
         ? this.hubGAAToCar(quantity, details)
         : this.GAAddToCar(quantity, details);
 
@@ -797,7 +765,7 @@ class Details extends React.Component {
         details,
         questionParams
       } = this.state;
-      this.hubGA && this.hubGAAToCar(quantity, details);
+      isHub && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
@@ -929,7 +897,7 @@ class Details extends React.Component {
 
   //零售商购物 埋点
   handleBuyFromRetailer = () => {
-    this.hubGA &&
+    isHub &&
       dataLayer.push({
         event: 'pdpBuyFromRetailer'
       });
@@ -1047,36 +1015,6 @@ class Details extends React.Component {
     });
   }
 
-  ccidBtnRef(el) {
-    const self = this;
-    const nodeBtn = document.querySelector('.other-buy-btn');
-    if (el && nodeBtn) {
-      const config = { attributes: true, childList: true, subtree: true };
-      // 当观察到变动时执行的回调函数
-      const callback = function (mutationsList, observer) {
-        let eanDoms = document.querySelectorAll('.eanIcon');
-        eanDoms[0].parentElement.addEventListener(
-          'click',
-          function () {
-            eanDoms[0].nextElementSibling.click();
-          },
-          false
-        );
-
-        for (let mutation of mutationsList) {
-          if (mutation.type === 'childList') {
-            self.setState({
-              ccidBtnDisplay: true
-            });
-            observer.disconnect();
-          }
-        }
-      };
-      const observer = new MutationObserver(callback);
-      observer.observe(nodeBtn, config);
-    }
-  }
-
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match, configStore } = this.props;
@@ -1110,9 +1048,9 @@ class Details extends React.Component {
       seoConfig,
       exclusiveFlag,
       loading,
-      skuPromotions
+      skuPromotions,
+      headingTag = 'h1'
     } = this.state;
-    const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
         i.artworkUrl = i.goodsInfoImg;
@@ -1124,18 +1062,12 @@ class Details extends React.Component {
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_COUNTRY === 'DE';
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
-    const sptGoods = goodsType === 0 || goodsType === 1;
-    const trSpt = Tr && sptGoods;
+
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
-    let bundle = goodsType && goodsType === 2;
-    const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =
       location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
     let theme = '';
@@ -1178,12 +1110,15 @@ class Details extends React.Component {
             ecommerceEvents={eEvents}
           />
         ) : null}
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
-        </Helmet>
+        <SeoConfig
+          errMsg={errMsg}
+          pageLink={pageLink}
+          goodsId={goodsId}
+          pageLink={pageLink}
+          setHeadingTag={(headingTag) => {
+            this.setState({ headingTag });
+          }}
+        />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -1200,9 +1135,6 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <h1 style={{ display: 'none' }}>
-                    {seoConfig.metaDescription}
-                  </h1>
                   <em className="rc-icon rc-incompatible--sm rc-iconography" />
                   {errMsg}
                 </div>
@@ -1421,62 +1353,19 @@ class Details extends React.Component {
                               }}
                             />
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
-                            {!loading &&
-                            !bundle &&
-                            isHub &&
-                            PC &&
-                            !Ru &&
-                            !exclusiveFlag &&
-                            !trSpt ? (
+                            {PC && this.retailerBtnStatus ? (
                               <BuyFromRetailerBtn
-                                ccidBtnDisplay={ccidBtnDisplay}
+                                // ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
                                 goodsType={goodsType}
                                 onClick={this.handleBuyFromRetailer}
-                                ref={(el) => this.ccidBtnRef(el)}
                               />
                             ) : null}
                           </div>
                         ) : (
                           <div>
                             <div className="align-left flex rc-margin-bottom--xs">
-                              <div className="stock__wrapper">
-                                <div className="stock">
-                                  {instockStatus ? (
-                                    <>
-                                      <label className={`availability instock`}>
-                                        <span className="title-select" />
-                                      </label>
-                                      <span
-                                        className="availability-msg"
-                                        data-ready-to-order="true"
-                                      >
-                                        <div>
-                                          <FormattedMessage id="details.inStock" />
-                                        </div>
-                                      </span>
-                                      {/* &nbsp;&nbsp;
-                                      <FormattedMessage id="details.shippedTime" /> */}
-                                    </>
-                                  ) : (
-                                    <>
-                                      <label
-                                        className={`availability outofstock`}
-                                      >
-                                        <span className="title-select" />
-                                      </label>
-                                      <span
-                                        className="availability-msg"
-                                        data-ready-to-order="true"
-                                      >
-                                        <div className={`out-stock`}>
-                                          <FormattedMessage id="details.outStock" />
-                                        </div>
-                                      </span>
-                                    </>
-                                  )}
-                                </div>
-                              </div>
+                              <InstockStatusComp status={instockStatus} />
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (
@@ -1526,419 +1415,66 @@ class Details extends React.Component {
                               </div>
                             </div>
                             <div>
-                              <div
-                                className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 1 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                  form.buyWay === 0
-                                    ? 'border-red'
-                                    : 'border-d7d7d7'
-                                }`}
-                                onClick={this.ChangeFormat.bind(this, 0)}
-                              >
-                                <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                    <FormattedMessage id="email">
-                                      {(txt) => (
-                                        <input
-                                          className="rc-input__radio"
-                                          id="type_once"
-                                          type="radio"
-                                          alt={txt}
-                                          name="buyWay"
-                                          value="0"
-                                          key="0"
-                                          // onChange={(event) =>
-                                          //   this.handleInputChange(event)
-                                          // }
-                                          checked={form.buyWay === 0}
-                                        />
-                                      )}
-                                    </FormattedMessage>
-                                    <label
-                                      className="rc-input__label--inline"
-                                      htmlFor="type_once"
-                                    >
-                                      <span
-                                        style={{
-                                          fontWeight: '400',
-                                          color: '#333'
-                                        }}
-                                      >
-                                        <FormattedMessage id="singlePurchase" />
-                                      </span>
-                                    </label>
-                                    <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
-                                  <FormattedMessage id="deliveryOneTimeOnly" />
-                                </div>
-                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
-                                  <div>
-                                    {formatMoney(currentUnitPrice)}
-                                    <span className="red unit-star">
-                                      <FormattedMessage
-                                        id="starUnit"
-                                        defaultMessage=" "
-                                      />
-                                    </span>
-                                  </div>
-                                  {De && selectedSpecItem ? (
-                                    <div
-                                      style={{
-                                        fontSize: '.875rem',
-                                        color: '#999'
-                                      }}
-                                    >
-                                      {formatMoney(
-                                        (
-                                          currentUnitPrice /
-                                          parseFloat(
-                                            selectedSpecItem.goodsInfoWeight
-                                          )
-                                        ).toFixed(2)
-                                      )}
-                                      /{selectedSpecItem.goodsInfoUnit}{' '}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
+                              <SingleBuyMethod
+                                form={form}
+                                skuPromotions={skuPromotions}
+                                selectedSpecItem={selectedSpecItem}
+                                currentUnitPrice={currentUnitPrice}
+                                currentSubscriptionPrice={
+                                  currentSubscriptionPrice
+                                }
+                                changeMethod={this.ChangeFormat.bind(this, 0)}
+                                changeFreqency={(data) => {
+                                  this.handleSelectedItemChange(data);
+                                }}
+                              />
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
                               skuPromotions == 'autoship' ? (
-                                <div>
-                                  <div
-                                    className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                      form.buyWay === 1
-                                        ? 'border-red'
-                                        : 'border-d7d7d7'
-                                    }`}
-                                    onClick={this.ChangeFormat.bind(this, 1)}
-                                  >
-                                    <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                      <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                        <FormattedMessage id="email">
-                                          {(txt) => (
-                                            <input
-                                              className="rc-input__radio"
-                                              id="type_frequency"
-                                              type="radio"
-                                              alt={txt}
-                                              name="buyWay"
-                                              value="1"
-                                              key="1"
-                                              checked={form.buyWay === 1}
-                                            />
-                                          )}
-                                        </FormattedMessage>
-                                        <label
-                                          className="rc-input__label--inline"
-                                          htmlFor="type_frequency"
-                                        >
-                                          <span
-                                            style={{
-                                              fontWeight: '400',
-                                              color: '#333'
-                                            }}
-                                          >
-                                            <span className="iconfont mr-2">
-                                              &#xe675;
-                                            </span>
-                                            <FormattedMessage id="autoship" />
-                                            <span
-                                              className="info-tooltip delivery-method-tooltip"
-                                              onMouseEnter={() => {
-                                                this.setState({
-                                                  toolTipVisible: true
-                                                });
-                                              }}
-                                              onMouseLeave={() => {
-                                                this.setState({
-                                                  toolTipVisible: false
-                                                });
-                                              }}
-                                            >
-                                              i
-                                            </span>
-                                            <ConfirmTooltip
-                                              arrowStyle={{ left: '79%' }}
-                                              display={
-                                                this.state.toolTipVisible
-                                              }
-                                              cancelBtnVisible={false}
-                                              confirmBtnVisible={false}
-                                              updateChildDisplay={(status) =>
-                                                this.setState({
-                                                  toolTipVisible: status
-                                                })
-                                              }
-                                              content={
-                                                <FormattedMessage id="subscription.promotionTip2" />
-                                              }
-                                            />
-                                          </span>
-                                        </label>
-                                      </div>
-                                      <br />
-                                      <div
-                                        className="discountBox"
-                                        style={{
-                                          background:
-                                            process.env.REACT_APP_LANG === 'ru'
-                                              ? '#3ab41d'
-                                              : '#ec001a'
-                                        }}
-                                      >
-                                        <FormattedMessage
-                                          id="saveExtra"
-                                          values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
-                                          }}
-                                        />
-                                      </div>
-                                      <br />
-                                      <div className="freeshippingBox">
-                                        <FormattedMessage id="freeShipping" />
-                                      </div>
-                                    </div>
-                                    {skuPromotions && (
-                                      <FrequencySelection
-                                        frequencyType={skuPromotions}
-                                        currentFrequencyId={
-                                          this.state.form.frequencyId
-                                        }
-                                        handleConfirm={(data) => {
-                                          this.handleSelectedItemChange(data);
-                                        }}
-                                      />
-                                    )}
-                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
-                                      <div>
-                                        <span className="text-line-through-price">
-                                          {formatMoney(currentUnitPrice)}
-                                        </span>
-                                        {formatMoney(
-                                          currentSubscriptionPrice || 0
-                                        )}
-                                        <span className="red unit-star">
-                                          <FormattedMessage
-                                            id="starUnit"
-                                            defaultMessage=" "
-                                          />
-                                        </span>
-                                      </div>
-                                      {De && selectedSpecItem ? (
-                                        <div
-                                          style={{
-                                            fontSize: '.875rem',
-                                            color: '#999'
-                                          }}
-                                        >
-                                          {formatMoney(
-                                            (
-                                              currentSubscriptionPrice /
-                                              parseFloat(
-                                                selectedSpecItem.goodsInfoWeight
-                                              )
-                                            ).toFixed(2)
-                                          )}
-                                          /{selectedSpecItem.goodsInfoUnit}{' '}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                  {process.env.REACT_APP_COUNTRY == 'FR' ? (
-                                    <div>
-                                      Résiliation gratuite à tout moment{' '}
-                                    </div>
-                                  ) : null}
-                                </div>
+                                <AutoshipBuyMethod
+                                  form={form}
+                                  skuPromotions={skuPromotions}
+                                  selectedSpecItem={selectedSpecItem}
+                                  currentUnitPrice={currentUnitPrice}
+                                  currentSubscriptionPrice={
+                                    currentSubscriptionPrice
+                                  }
+                                  changeMethod={this.ChangeFormat.bind(this, 1)}
+                                  changeFreqency={(data) => {
+                                    this.handleSelectedItemChange(data);
+                                  }}
+                                />
                               ) : null}
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
                               skuPromotions == 'club' ? (
-                                <div
-                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                    form.buyWay === 2
-                                      ? 'border-red'
-                                      : 'border-d7d7d7'
-                                  }`}
-                                  onClick={this.ChangeFormat.bind(this, 2)}
-                                >
-                                  <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                    <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                      <FormattedMessage id="email">
-                                        {(txt) => (
-                                          <input
-                                            className="rc-input__radio"
-                                            id="type_frequency"
-                                            type="radio"
-                                            alt={txt}
-                                            name="buyWay"
-                                            value="2"
-                                            key="2"
-                                            checked={form.buyWay === 2}
-                                          />
-                                        )}
-                                      </FormattedMessage>
-                                      <label
-                                        className="rc-input__label--inline"
-                                        htmlFor="type_frequency"
-                                      >
-                                        <span
-                                          style={{
-                                            fontWeight: '400',
-                                            color: '#333'
-                                          }}
-                                        >
-                                          <span
-                                            className="iconfont mr-2"
-                                            style={{
-                                              fontWeight: '600',
-                                              color: '#ec001a'
-                                            }}
-                                          >
-                                            &#xe602;
-                                          </span>
-                                          <FormattedMessage id="Club subscription" />
-                                        </span>
-                                      </label>
-                                    </div>
-                                    <br />
-                                    <div
-                                      className="discountBox"
-                                      style={{ background: '#3ab41d' }}
-                                    >
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
-                                    <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
-                                    <div className="learnMore">
-                                      <span
-                                        className="rc-styled-link"
-                                        onClick={this.toClubTab}
-                                      >
-                                        <FormattedMessage id="details.learnMore" />
-                                      </span>
-                                    </div>
-                                  </div>
-                                  {skuPromotions && (
-                                    <FrequencySelection
-                                      frequencyType={skuPromotions}
-                                      currentFrequencyId={
-                                        this.state.form.frequencyId
-                                      }
-                                      handleConfirm={(data) => {
-                                        this.handleSelectedItemChange(data);
-                                      }}
-                                    />
-                                  )}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
-                                    <div>
-                                      <span className="text-line-through-price">
-                                        {formatMoney(currentUnitPrice)}
-                                      </span>
-                                      {formatMoney(
-                                        currentSubscriptionPrice || 0
-                                      )}
-                                      <span className="red unit-star">
-                                        <FormattedMessage
-                                          id="starUnit"
-                                          defaultMessage=" "
-                                        />
-                                      </span>
-                                    </div>
-                                    {De && selectedSpecItem ? (
-                                      <div
-                                        style={{
-                                          fontSize: '.875rem',
-                                          color: '#999'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          (
-                                            currentSubscriptionPrice /
-                                            parseFloat(
-                                              selectedSpecItem.goodsInfoWeight
-                                            )
-                                          ).toFixed(2)
-                                        )}
-                                        /{selectedSpecItem.goodsInfoUnit}{' '}
-                                      </div>
-                                    ) : null}
-                                  </div>
-                                </div>
+                                <ClubBuyMethod
+                                  form={form}
+                                  skuPromotions={skuPromotions}
+                                  selectedSpecItem={selectedSpecItem}
+                                  currentUnitPrice={currentUnitPrice}
+                                  currentSubscriptionPrice={
+                                    currentSubscriptionPrice
+                                  }
+                                  changeMethod={this.ChangeFormat.bind(this, 2)}
+                                  changeFreqency={(data) => {
+                                    this.handleSelectedItemChange(data);
+                                  }}
+                                  toClubTab={this.toClubTab}
+                                />
                               ) : null}
                             </div>
-                            <div className="rc-md-up">
-                              <div
-                                className="mb-2 mr-2 text-right"
-                                style={{ fontSize: '.875rem' }}
-                              >
-                                <FormattedMessage
-                                  id="pricesIncludeVAT"
-                                  values={{
-                                    val: <span className="red">*</span>
-                                  }}
-                                  defaultMessage=" "
-                                />
-                              </div>
-                              <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
-                                <button
-                                  style={{ padding: '2px 30px' }}
-                                  className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
-                                  }`}
-                                  onClick={this.hanldeAddToCart}
-                                >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                                  <span className="default-txt">
-                                    <FormattedMessage
-                                      id={`${
-                                        form.buyWay === 1 || form.buyWay === 2
-                                          ? 'subscribe'
-                                          : 'details.addToCart'
-                                      }`}
-                                    />
-                                  </span>
-                                </button>
-                                {!loading &&
-                                !bundle &&
-                                isHub &&
-                                !Ru &&
-                                !exclusiveFlag &&
-                                !trSpt ? (
-                                  <>
-                                    &nbsp;&nbsp;
-                                    <FormattedMessage id="or" />
-                                    &nbsp;&nbsp;
-                                    <BuyFromRetailerBtn
-                                      ccidBtnDisplay={ccidBtnDisplay}
-                                      barcode={barcode}
-                                      goodsType={goodsType}
-                                      onClick={this.handleBuyFromRetailer}
-                                      ref={(el) => this.ccidBtnRef(el)}
-                                    />
-                                  </>
-                                ) : null}
-                              </div>
-                              <ErrMsgForCheckoutPanel
-                                checkOutErrMsg={checkOutErrMsg}
-                              />
-                            </div>
+                            <ButtonGroup
+                              addToCartLoading={addToCartLoading}
+                              btnStatus={btnStatus}
+                              form={form}
+                              isShowRetailerBtn={this.retailerBtnStatus}
+                              checkOutErrMsg={checkOutErrMsg}
+                              barcode={barcode}
+                              vet={vet}
+                              addToCart={this.hanldeAddToCart}
+                              buyFromRetailer={this.handleBuyFromRetailer}
+                            />
                             {form.buyWay === 2 &&
                             process.env.REACT_APP_COUNTRY !== 'RU' ? (
                               <p className="text-right medium mr-4">
@@ -2041,44 +1577,6 @@ class Details extends React.Component {
               </>
             ) : null}
             <RelateProductCarousel id={goodsId} />
-            <div
-              className="sticky-addtocart"
-              style={{ transform: 'translateY(-80px)' }}
-            >
-              <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                {!vet ? (
-                  <button
-                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    onClick={this.hanldeAddToCart}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                    <span className="default-txt">
-                      {form.buyWay === 1 || form.buyWay === 2 ? (
-                        <FormattedMessage id="subscribe" />
-                      ) : (
-                        <FormattedMessage id="details.addToCart" />
-                      )}
-                    </span>
-                  </button>
-                ) : null}
-                {!this.state.loading &&
-                !bundle &&
-                isHub &&
-                !Ru &&
-                !exclusiveFlag &&
-                !trSpt ? (
-                  <BuyFromRetailerBtn
-                    ccidBtnDisplay={ccidBtnDisplay}
-                    barcode={barcode}
-                    goodsType={goodsType}
-                    onClick={this.handleBuyFromRetailer}
-                    ref={(el) => this.ccidBtnRef(el)}
-                  />
-                ) : null}
-              </div>
-            </div>
 
             <AddCartSuccessMobile target="modal-mobile-cart-confirm" />
 

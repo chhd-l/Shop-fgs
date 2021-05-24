@@ -6,7 +6,8 @@ class BuyFromRetailerBtn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      toolTipVisible: false
+      toolTipVisible: false,
+      ccidBtnDisplay: false
     };
   }
 
@@ -32,11 +33,41 @@ class BuyFromRetailerBtn extends React.Component {
       tipIcon
     });
   }
+  ccidBtnRef(el) {
+    const self = this;
+    const nodeBtn = document.querySelector('.other-buy-btn');
+    if (el && nodeBtn) {
+      const config = { attributes: true, childList: true, subtree: true };
+      // 当观察到变动时执行的回调函数
+      const callback = function (mutationsList, observer) {
+        let eanDoms = document.querySelectorAll('.eanIcon');
+        eanDoms[0].parentElement.addEventListener(
+          'click',
+          function () {
+            eanDoms[0].nextElementSibling.click();
+          },
+          false
+        );
+
+        for (let mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            self.setState({
+              ccidBtnDisplay: true
+            });
+            observer.disconnect();
+          }
+        }
+      };
+      const observer = new MutationObserver(callback);
+      observer.observe(nodeBtn, config);
+    }
+  }
   render() {
-    const { ccidBtnDisplay, onClick, barcode, goodsType } = this.props;
+    const { onClick, barcode, goodsType } = this.props;
+    const { ccidBtnDisplay } = this.state;
     const Fr = process.env.REACT_APP_COUNTRY === 'FR';
     return (
-      <div>
+      <div ref={(el) => this.ccidBtnRef(el)}>
         {Fr ? (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
