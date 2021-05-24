@@ -890,7 +890,15 @@ export default {
       redirectUrl: '/maxi-adult-5+-3008'
     },
     {
+      shortUrl: '/ru/Maxi-Adult-5+-3008_RU.html',
+      redirectUrl: '/maxi-adult-5+-3008'
+    },
+    {
       shortUrl: '/ru/Maxi-Ageing-8%2B-2454_RU.html',
+      redirectUrl: '/maxi-ageing-8+-2454'
+    },
+    {
+      shortUrl: '/ru/Maxi-Ageing-8+-2454_RU.html',
       redirectUrl: '/maxi-ageing-8+-2454'
     },
     {
