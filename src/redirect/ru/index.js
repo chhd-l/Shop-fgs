@@ -147,6 +147,11 @@ export default {
         '/%D1%82%D0%B0%D0%BA%D1%81%D0%B0:-%D0%BE%D1%82-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-2042'
     },
     {
+      shortUrl: '/ru/Такса%3A-от-10-месяцев-2042_RU.html',
+      redirectUrl:
+        '/%D1%82%D0%B0%D0%BA%D1%81%D0%B0:-%D0%BE%D1%82-10-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-2042'
+    },
+    {
       shortUrl:
         '/ru/%D0%A9%D0%B5%D0%BD%D0%BA%D0%B8%20%280-1%20%D0%B3%D0%BE%D0%B4%D0%B0%29/',
       redirectUrl: '/dogs/retail-products'
@@ -890,7 +895,15 @@ export default {
       redirectUrl: '/maxi-adult-5+-3008'
     },
     {
+      shortUrl: '/ru/Maxi-Adult-5+-3008_RU.html',
+      redirectUrl: '/maxi-adult-5+-3008'
+    },
+    {
       shortUrl: '/ru/Maxi-Ageing-8%2B-2454_RU.html',
+      redirectUrl: '/maxi-ageing-8+-2454'
+    },
+    {
+      shortUrl: '/ru/Maxi-Ageing-8+-2454_RU.html',
       redirectUrl: '/maxi-ageing-8+-2454'
     },
     {
@@ -1375,8 +1388,8 @@ export default {
       redirectUrl: '/skin-&-coat-1323'
     },
     {
-      shortUrl: '/skin-&-coat-1323',
-      redirectUrl: '/skin-&-coat-1323'
+      shortUrl: '/ru/skin-&-coat-1323',
+      redirectUrl: '/ru/skin-&-coat-1323'
     },
     {
       shortUrl: '/ru/Skin-Care-Small-Dogs-4006_RU.html',

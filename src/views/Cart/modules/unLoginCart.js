@@ -1645,7 +1645,7 @@ class UnLoginCart extends React.Component {
               <>
                 <div className="rc-text-center">
                   <h1
-                    className="rc-beta mb-1 mt-3  text-center"
+                    className="rc-beta mb-1 mt-3"
                     style={{ fontSize: '18px' }}
                   >
                     <FormattedMessage id="cart.yourShoppingCart" />
