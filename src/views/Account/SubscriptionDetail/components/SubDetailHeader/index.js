@@ -7,7 +7,7 @@ import { filterOrderId, getClubLogo } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 export const SubDetailHeaderContext = createContext();
-
+import { getDictionary } from '@/utils/utils';
 const StatusText = ({ subDetail }) => {
   return subDetail.subscribeId ? (
     subDetail.subscribeStatus === '0' ? (
@@ -49,7 +49,6 @@ const StatusText = ({ subDetail }) => {
 };
 const SubDetailHeader = ({
   triggerShowAddNewPet,
-  getBreedName,
   subDetail,
   initPage,
   history,
@@ -70,6 +69,28 @@ const SubDetailHeader = ({
   let isAutoshipAndClub =
     subDetail.subscriptionType?.match(/autoship_club/i)?.index > -1;
   let isCantLinkPet = isAutoshipAndClub || isCatAndDog;
+  const [catBreedList, setCatBreedList] = useState([]);
+  const [dogBreedList, setDogBreedList] = useState([]);
+  useEffect(() => {
+    getBreedList();
+  }, []);
+  const getBreedList = () => {
+    getDictionary({ type: 'catBreed' }).then((res) => {
+      setCatBreedList(res);
+    });
+    getDictionary({ type: 'dogBreed' }).then((res) => {
+      setDogBreedList(res);
+    });
+  };
+  const getBreedName = (petsType, petsBreed) => {
+    let name =
+      petsType?.toLowerCase() === 'dog'
+        ? dogBreedList.length &&
+          dogBreedList.filter((item) => item.valueEn == petsBreed)?.[0]?.name
+        : catBreedList.length &&
+          catBreedList.filter((item) => item.valueEn == petsBreed)?.[0]?.name;
+    return name || intl.messages['Mixed Breed'];
+  };
   let petBreed = getBreedName(petsInfo?.petsType, petsInfo?.petsBreed);
   const showAddNewPet = () => {
     setState({ triggerShowAddNewPet: true });

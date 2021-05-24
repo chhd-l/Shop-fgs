@@ -321,22 +321,7 @@ class SubscriptionDetail extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
 
-  getBreedName = (petsType, petsBreed) => {
-    let name =
-      petsType?.toLowerCase() === 'dog'
-        ? this.state.dogBreedList.length &&
-          this.state.dogBreedList.filter(
-            (item) => item.valueEn == petsBreed
-          )?.[0]?.name
-        : this.state.catBreedList.length &&
-          this.state.catBreedList.filter(
-            (item) => item.valueEn == petsBreed
-          )?.[0]?.name;
-    return name || this.props.intl.messages['Mixed Breed'];
-  };
-
   async componentDidMount() {
-    this.getBreedList();
     setSeoConfig({
       goodsId: '',
       categoryId: '',
@@ -663,18 +648,6 @@ class SubscriptionDetail extends React.Component {
     }
   }
 
-  getBreedList = () => {
-    getDictionary({ type: 'catBreed' }).then((res) => {
-      this.setState({
-        catBreedList: res
-      });
-    });
-    getDictionary({ type: 'dogBreed' }).then((res) => {
-      this.setState({
-        dogBreedList: res
-      });
-    });
-  };
   render() {
     const event = {
       page: {
@@ -808,7 +781,6 @@ class SubscriptionDetail extends React.Component {
                     isActive={this.state.isActive}
                     isNotInactive={this.state.isNotInactive}
                     subDetail={this.state.subDetail}
-                    getBreedName={this.getBreedName}
                     initPage={this.initPage}
                     history={this.props.history}
                     triggerShowAddNewPet={this.state.triggerShowAddNewPet}

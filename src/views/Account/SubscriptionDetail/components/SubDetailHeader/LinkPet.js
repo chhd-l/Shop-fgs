@@ -101,7 +101,7 @@ const LinkPet = ({
         close={closeAddNewPet}
       >
         <ShowErrorDom errorMsg={errorMsg} />
-        <div className="rc-padding-x--md">
+        <div className="rc-padding-x--md" style={{ maxHeight: '80vh' }}>
           <div className="pets-list-wrap">
             {petList.map((el) => (
               <div
