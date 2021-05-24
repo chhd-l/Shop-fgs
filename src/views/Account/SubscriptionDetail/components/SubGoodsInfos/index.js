@@ -10,6 +10,7 @@ import ShowErrorDom from '../ShowErrorDom';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '../../images/date.png';
 export const SubGoodsInfosContext = createContext();
+import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 
 import {
   getDeviceType,
@@ -34,7 +35,6 @@ const SubGoodsInfos = ({
   errMsgPage,
   minDate,
   setState,
-  frequencyListOptions,
   getMinDate,
   isClub
 }) => {
@@ -295,23 +295,19 @@ const SubGoodsInfos = ({
                         marginLeft: '.625rem'
                       }}
                     >
-                      <Selection
-                        optionList={frequencyListOptions.filter(
-                          (frequencyItem) =>
-                            frequencyItem.goodsInfoFlag === el.goodsInfoFlag
-                        )}
-                        selectedItemChange={(data) => {
-                          if (el.periodTypeId !== data.id) {
-                            el.periodTypeId = data.id;
-                            // el.periodTypeValue = data.valueEn;
-                            setState({ isDataChange: true });
-                          }
-                        }}
-                        selectedItemData={{
-                          value: el.periodTypeId
-                        }}
-                        key={index + '_' + el.periodTypeId}
-                      />
+                      {el.promotions && (
+                        <FrequencySelection
+                          frequencyType={el.promotions}
+                          currentFrequencyId={el.periodTypeId}
+                          handleConfirm={(data) => {
+                            if (el.periodTypeId !== data.id) {
+                              el.periodTypeId = data.id;
+                              // el.periodTypeValue = data.valueEn;
+                              setState({ isDataChange: true });
+                            }
+                          }}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rc-card-content">
@@ -607,26 +603,20 @@ const SubGoodsInfos = ({
                           fontSize: '1.25rem'
                         }}
                       >
-                        <Selection
-                          optionList={frequencyListOptions.filter(
-                            (frequencyItem) =>
-                              frequencyItem.goodsInfoFlag === el.goodsInfoFlag
-                          )}
-                          selectedItemChange={(data) => {
-                            if (el.periodTypeId !== data.id) {
-                              el.periodTypeId = data.id;
-                              // el.periodTypeValue = data.valueEn;
-                              setState({
-                                isDataChange: true
-                              });
-                            }
-                          }}
-                          selectedItemData={{
-                            value: el.periodTypeId
-                          }}
-                          key={index + '_' + el.periodTypeId}
-                          disabled={!isActive || isGift}
-                        />
+                        {el.promotions && (
+                          <FrequencySelection
+                            frequencyType={el.promotions}
+                            currentFrequencyId={el.periodTypeId}
+                            handleConfirm={(data) => {
+                              if (el.periodTypeId !== data.id) {
+                                el.periodTypeId = data.id;
+                                // el.periodTypeValue = data.valueEn;
+                                setState({ isDataChange: true });
+                              }
+                            }}
+                            disabled={!isActive || isGift}
+                          />
+                        )}
                       </div>
                     </div>
                     <div className="rc-card-content">

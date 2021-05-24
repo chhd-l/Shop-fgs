@@ -12,10 +12,11 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 interface Props {
   frequencyType: SubscriptionType
   currentFrequencyId: string
-  handleConfirm: Function
+  handleConfirm: Function,
+  disabled: Boolean
 }
 
-const FrequencyMatch = ({ frequencyType, currentFrequencyId, handleConfirm = () => {} }: Props) => {
+const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=true, handleConfirm = () => {} }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId, handleConfirm = () 
         <FormattedMessage id="subscription.frequency" />:
       </span>
       <Selection
+        disabled={disabled}
         customContainerStyle={{
           display: 'inline-block',
           marginLeft: isMobile ? '50px' : '1.5rem',

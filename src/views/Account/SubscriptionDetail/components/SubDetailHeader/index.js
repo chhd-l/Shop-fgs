@@ -54,7 +54,6 @@ const SubDetailHeader = ({
   initPage,
   history,
   getDetail,
-  frequencyListOptions,
   isClub,
   productListLoading,
   intl,
@@ -78,7 +77,6 @@ const SubDetailHeader = ({
   const propsObj = {
     isClub,
     subDetail,
-    frequencyListOptions,
     setState,
     triggerShowChangeProduct,
     isNotInactive,

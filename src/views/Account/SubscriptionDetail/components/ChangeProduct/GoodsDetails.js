@@ -8,7 +8,6 @@ import { SubDetailHeaderContext } from '../SubDetailHeader';
 const GoodsDetails = () => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  // const {frequencyListOptions} = SubDetailHeaderValue
   const {
     setErrMsg,
     specList,

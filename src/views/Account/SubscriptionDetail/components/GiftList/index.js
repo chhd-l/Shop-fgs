@@ -11,7 +11,7 @@ const GiftList = ({
   isGift,
   changeTab
 }) => {
-  handleSkipNext = (e, el) => {
+  const handleSkipNext = (e, el) => {
     e.preventDefault();
     setState({
       modalType: 'skipNext',
@@ -216,9 +216,7 @@ const GiftList = ({
                                           : ''
                                       }`}
                                       href="#/"
-                                      onClick={(e) =>
-                                        this.handleSkipNext(e, el)
-                                      }
+                                      onClick={(e) => handleSkipNext(e, el)}
                                     >
                                       <FormattedMessage id="skip" />
                                     </a>

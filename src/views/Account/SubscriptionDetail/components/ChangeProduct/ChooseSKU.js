@@ -18,11 +18,9 @@ const ChooseSKU = ({ intl }) => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const {
     productListLoading,
-    frequencyListOptions,
     setState,
     isNotInactive,
     getDetail,
-    subDetailsubDetail,
     subDetail,
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
@@ -304,28 +302,13 @@ const ChooseSKU = ({ intl }) => {
               <FormattedMessage id="subscription.frequency" />:
             </div>
             <div className={!isMobile && 'subscriptionDetail-choose-frequency'}>
-              <Selection
-                customContainerStyle={{
-                  display: 'inline-block',
-                  marginLeft: isMobile ? '50px' : '0px',
-                  height: isMobile ? '70px' : 'auto'
-                }}
-                selectedItemChange={handleSelectedItemChange}
-                optionList={frequencyListOptions.filter((el) => {
-                  if (
-                    details.promotions &&
-                    details.promotions.includes('club')
-                  ) {
-                    return el.goodsInfoFlag === 2;
-                  } else {
-                    return el.goodsInfoFlag === 1;
-                  }
-                })}
-                selectedItemData={{
-                  value: form.frequencyId
-                }}
-                key={form.frequencyId}
-              />
+              {details.promotions && (
+                <FrequencySelection
+                  frequencyType={details.promotions}
+                  currentFrequencyId={form.frequencyId}
+                  handleConfirm={handleSelectedItemChange}
+                />
+              )}
             </div>
           </p>
         </div>

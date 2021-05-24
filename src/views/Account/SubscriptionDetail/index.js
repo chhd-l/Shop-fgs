@@ -21,8 +21,8 @@ import RemainingsList from './components/RemainingsList';
 import NextDelivery from './components/DeliveryList/NextDelivery';
 import CompletedDelivery from './components/DeliveryList/CompletedDelivery';
 import Loading from '@/components/Loading';
-import { getRation, getClubLogo } from '@/utils/utils';
-
+import { getRation, getFrequencyDictgetClubLogo } from '@/utils/utils';
+import GiftList from './components/GiftList';
 import {
   getDictionary,
   getDeviceType,
@@ -147,7 +147,6 @@ class SubscriptionDetail extends React.Component {
       },
       addressType: '',
       countryList: [],
-      frequencyList: [],
       modalShow: false,
       modalList: [
         {
@@ -338,12 +337,6 @@ class SubscriptionDetail extends React.Component {
 
   async componentDidMount() {
     this.getBreedList();
-
-    await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res
-      });
-    });
     setSeoConfig({
       goodsId: '',
       categoryId: '',
@@ -382,15 +375,6 @@ class SubscriptionDetail extends React.Component {
         });
     });
   };
-  get frequencyListOptions() {
-    return this.state.frequencyList.map((ele) => {
-      ele && delete ele.value;
-      return {
-        value: ele.id,
-        ...ele
-      };
-    });
-  }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
@@ -819,7 +803,6 @@ class SubscriptionDetail extends React.Component {
                     isNotInactive={this.state.isNotInactive}
                     productListLoading={this.state.productListLoading}
                     petType={this.state.petType}
-                    frequencyListOptions={this.frequencyListOptions}
                     isClub={isClub}
                     setState={this.setState.bind(this)}
                     isActive={this.state.isActive}
@@ -859,7 +842,6 @@ class SubscriptionDetail extends React.Component {
                         isNotInactive={this.state.isNotInactive}
                         minDate={this.state.minDate}
                         setState={this.setState.bind(this)}
-                        frequencyListOptions={this.frequencyListOptions}
                         getMinDate={this.getMinDate}
                         showErrMsg={this.showErrMsg.bind(this)}
                         subDetail={this.state.subDetail}

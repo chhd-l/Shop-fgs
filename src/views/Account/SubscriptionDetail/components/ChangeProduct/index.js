@@ -11,11 +11,11 @@ import Modal from '@/components/Modal';
 import ChooseSKU from './ChooseSKU';
 export const ChangeProductContext = createContext();
 import { SubDetailHeaderContext } from '../SubDetailHeader';
+import { getFrequencyDict } from '@/utils/utils';
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const {
-    frequencyListOptions,
     setState,
     getDetail,
     subDetail,
@@ -25,7 +25,7 @@ const ChangeProduct = () => {
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
-
+  const [frequencyList, setFrequencyList] = useState([]);
   const showModal = (num) => {
     let newArr = [false, false, false];
     //如果不传数字，默认全部关闭
@@ -57,12 +57,24 @@ const ChangeProduct = () => {
   });
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
+  useEffect(async () => {
+    await getFrequencyDict().then((res) => {
+      let frequencyListOptions = res.map((ele) => {
+        ele && delete ele.value;
+        return {
+          value: ele.id,
+          ...ele
+        };
+      });
+      setFrequencyList(frequencyListOptions);
+    });
+  }, []);
   const productDetailsInit = (res, cb) => {
     try {
       let goodsRes = (res && res.context && res.context.goods) || {
         context: {}
       };
-      let frequencyDictRes = frequencyListOptions.filter((el) => {
+      let frequencyDictRes = frequencyList.filter((el) => {
         if (goodsRes.promotions && goodsRes.promotions.includes('club')) {
           return el.goodsInfoFlag === 2;
         } else {
