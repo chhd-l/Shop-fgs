@@ -101,11 +101,17 @@ export default function Modal(props) {
                     <p>
                       İşbu Mesafeli Satış Sözleşmesi (“Sözleşme”), 6502 Sayılı
                       Tüketicinin Korunması Hakkında Kanun ve Mesafeli
-                      Sözleşmeler Yönetmeliği uyarınca Alıcı’nın adresli
-                      internet sitesi (“İnternet Sitesi”) üzerinden elektronik
-                      ortamda siparişini verdiği ürünlerin satış ve teslimine
-                      ilişkin olarak Satıcı ve Alıcı’nın hak ve yükümlülüklerini
-                      düzenler.{' '}
+                      Sözleşmeler Yönetmeliği uyarınca Alıcı’nın{' '}
+                      <a
+                        href="https://www.royalcanin.com/tr"
+                        style={{ color: '#0563C1' }}
+                      >
+                        https://www.royalcanin.com/tr
+                      </a>{' '}
+                      adresli internet sitesi (“İnternet Sitesi”) üzerinden
+                      elektronik ortamda siparişini verdiği ürünlerin satış ve
+                      teslimine ilişkin olarak Satıcı ve Alıcı’nın hak ve
+                      yükümlülüklerini düzenler.{' '}
                     </p>
                     <h3>3. SÖZLEŞME KONUSU ÜRÜNLER VE ÖDEME ŞEKLİ </h3>
 
