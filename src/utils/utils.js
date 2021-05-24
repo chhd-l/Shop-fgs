@@ -879,7 +879,9 @@ export const filterOrderId = ({ orderNo, orderNoForOMS }) => {
     {
       // 1. 美国订单号去掉RCFUS开头
       // 2. 美国先展示OMS order number，否则展示order number
-      en: orderNoForOMS || orderNo.replace(/RCFUS/, '')
+      en:
+        //  orderNoForOMS ||
+        orderNo.replace(/RCFUS/, '')
     }[process.env.REACT_APP_LANG] || orderNo
   );
 };
