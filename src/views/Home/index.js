@@ -539,18 +539,24 @@ class Home extends React.Component {
     if (localItemRoyal.get('login-again')) {
       return null;
     }
-
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
+        {!Ru ? (
+          <Helmet>
+            <link rel="canonical" href={pageLink} />
+            <title>{this.state.seoConfig.title}</title>
+            <meta
+              name="description"
+              content={this.state.seoConfig.metaDescription}
+            />
+            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          </Helmet>
+        ) : (
+          <Helmet>
+            <meta name="robots" content="noindex" />
+          </Helmet>
+        )}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}
