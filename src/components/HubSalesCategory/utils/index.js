@@ -5,13 +5,13 @@ const salesCategoryFilterRule = (item, type) => {
   };
   const rule =
     {
-      tr: () => {
+      TR: () => {
         return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
       },
-      fr: () => {
+      FR: () => {
         return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
       }
-    }[process.env.REACT_APP_LANG] || defaultRule;
+    }[process.env.REACT_APP_COUNTRY] || defaultRule;
   return rule();
 };
 

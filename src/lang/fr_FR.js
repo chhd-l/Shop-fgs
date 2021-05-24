@@ -941,7 +941,8 @@ const fr_FR = {
   'recommendation.viewDetail': 'Voir les détails',
   'recommendation.viewInCart': 'Acheter maintenant',
   'recommendation.viewShoppingCart': 'Voir mon panier',
-  'recommendation.copyPromotionCodeText': 'Voir mon code promo et le copier',
+  'recommendation.copyPromotionCodeText':
+    'Appliquer mon code et voir mon panier',
   registerAname: 'Un nombre',
   registerCloud: 'Architecture de référence Commerce Cloud Storefront',
   registerCompleteForm:

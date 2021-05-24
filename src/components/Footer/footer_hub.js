@@ -16,8 +16,8 @@ class FooterHub extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cur_menubar: menubar[process.env.REACT_APP_LANG] || [],
-      cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null,
+      cur_menubar: menubar[process.env.REACT_APP_COUNTRY] || [],
+      cur_contactInfo: contactInfo[process.env.REACT_APP_COUNTRY] || null,
       footerInfo: {}
     };
   }
@@ -257,7 +257,7 @@ class FooterHub extends React.Component {
             className="cookieSettingBox"
             style={{ visibility: 'hidden', background: '#fff' }}
           >
-            {cookieSettingsBtn[process.env.REACT_APP_LANG]}
+            {cookieSettingsBtn[process.env.REACT_APP_COUNTRY]}
           </div>
           {/* <!-- OneTrust Cookies Settings button end --> */}
         </footer>

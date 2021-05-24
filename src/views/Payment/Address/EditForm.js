@@ -494,7 +494,7 @@ class EditForm extends React.Component {
     );
     return (
       {
-        de: (
+        DE: (
           <>
             <div className="row">
               <div className="col-12 col-md-6">{this.firstNameJSX()}</div>
@@ -516,7 +516,7 @@ class EditForm extends React.Component {
             </div>
           </>
         )
-      }[process.env.REACT_APP_LANG] || defaultJSX
+      }[process.env.REACT_APP_COUNTRY] || defaultJSX
     );
   };
   render() {

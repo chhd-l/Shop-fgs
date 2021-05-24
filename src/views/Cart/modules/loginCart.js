@@ -1476,8 +1476,8 @@ class LoginCart extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          isShowValidCode: false
-          // promotionInputValue: '' //不去清空当前input框输入的值
+          isShowValidCode: false,
+          promotionInputValue: ''
         });
       }, 4000);
       // this.props.sendPromotionCode('');
@@ -1604,10 +1604,13 @@ class LoginCart extends React.Component {
                 {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
-                      <h1 className="rc-beta mb-1 mt-3">
+                      <h1
+                        className="rc-beta mb-1 mt-3"
+                        style={{ fontSize: '18px' }}
+                      >
                         <FormattedMessage id="cart.yourShoppingCart" />
                       </h1>
-                      <div className="rc-gamma title-empty mb-0">
+                      <div className="rc-gamma title-empty mb-0 text-center">
                         <FormattedMessage id="header.basketEmpty" />
                       </div>
                     </div>
@@ -1616,9 +1619,9 @@ class LoginCart extends React.Component {
                         <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                           <div>
                             <div className="rc-alpha inherit-fontsize">
-                              <p className="text-center">
+                              <h2 className="text-center">
                                 <FormattedMessage id="cart.fullPrice" />
-                              </p>
+                              </h2>
                             </div>
                             <div
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"

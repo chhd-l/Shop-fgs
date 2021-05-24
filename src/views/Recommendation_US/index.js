@@ -72,7 +72,7 @@ class Recommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCoiedTips: false,
+      // showCoiedTips: false,
       noData: false,
       showCur: -1,
       isSPT: false,
@@ -170,9 +170,9 @@ class Recommendation extends React.Component {
   }
 
   async componentDidMount() {
-    document.onclick = () => {
-      this.setState({ showCoiedTips: false });
-    };
+    // document.onclick = () => {
+    //   this.setState({ showCoiedTips: false });
+    // };
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -818,10 +818,10 @@ class Recommendation extends React.Component {
   // 查看 promotion code
   checkPromotionCode = (e) => {
     this.copyPromotion();
-    let { showCoiedTips } = this.state;
-    this.setState({ showCoiedTips: !showCoiedTips });
-    e.nativeEvent.stopImmediatePropagation();
-    e.stopPropagation();
+    // let { showCoiedTips } = this.state;
+    // this.setState({ showCoiedTips: !showCoiedTips });
+    // e.nativeEvent.stopImmediatePropagation();
+    // e.stopPropagation();
     if (this.state.checkPromotionCodeAndCopy) {
       return;
     }
@@ -1032,13 +1032,13 @@ class Recommendation extends React.Component {
                         <FormattedMessage id="recommendation.copyPromotionCodeText" />
                       )}
                     </button>
-                    <div
+                    {/* <div
                       className={`copied-tips rc-padding-x--xs rc-padding-y--xs ${
                         this.state.showCoiedTips ? '' : 'hide'
                       }`}
                     >
                       copié !
-                    </div>
+                    </div> */}
 
                     {/* <div id="top-tooltip" className="rc-tooltip">
                       <div className="rc-padding-x--xs rc-padding-y--xs">
@@ -1076,21 +1076,21 @@ class Recommendation extends React.Component {
   render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
-      ru: (
+      RU: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
           addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
-      en: (
+      US: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
           addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
-      fr: (
+      FR: (
         <Fr
           configStore={this.props.configStore}
           addCart={this.addCart}
@@ -1164,14 +1164,14 @@ class Recommendation extends React.Component {
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
-      fr: isSPT
+      FR: isSPT
         ? tabDesText
         : nutritionalReco ||
           "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
-      en:
+      US:
         productList[activeIndex]?.productMessage ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
-      ru: this.state.locationPath
+      RU: this.state.locationPath
     };
     return (
       <div className="Recommendation_FR Recommendation_US">
@@ -1496,7 +1496,11 @@ class Recommendation extends React.Component {
                               />
                               <div className="product-recommendation__message rc-padding--sm rc-bg-colour--brand4 rc-margin-top--lg rc-padding-top--md rc-padding--lg--mobile rc-margin-bottom--xs recommendation_feeding_box">
                                 <div className="">
-                                  {grayBoxInnerText[process.env.REACT_APP_LANG]}
+                                  {
+                                    grayBoxInnerText[
+                                      process.env.REACT_APP_COUNTRY
+                                    ]
+                                  }
                                 </div>
                                 {/* <h6>Cute Puppy Breeding</h6>
                             <div>994 Drummond Street, Newmark, New Jersey</div> */}
@@ -1555,8 +1559,8 @@ class Recommendation extends React.Component {
             </div>
           )}
           <Test />
-          {/* {this.otherShow()[process.env.REACT_APP_LANG]} */}
-          {otherShow[process.env.REACT_APP_LANG]}
+          {/* {this.otherShow()[process.env.REACT_APP_COUNTRY]} */}
+          {otherShow[process.env.REACT_APP_COUNTRY]}
           <Footer />
         </main>
       </div>

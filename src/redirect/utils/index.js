@@ -15,19 +15,17 @@ if (process.env.REACT_APP_COUNTRY == 'FR' && process.env.REACT_APP_HUB != 1) {
 const redirectFun = () => {
   let RedirectUrlObj = {};
   let RedirectUrlJSON = {
-    fr: New_RedirectUrlJSON_fr,
-    ru: RedirectUrlJSON_ru,
-    tr: RedirectUrlJSON_tr
+    FR: New_RedirectUrlJSON_fr,
+    RU: RedirectUrlJSON_ru,
+    TR: RedirectUrlJSON_tr
   };
-  if (RedirectUrlJSON[process.env.REACT_APP_LANG]) {
-    RedirectUrlJSON[process.env.REACT_APP_LANG].RECORDS.filter(
+  if (RedirectUrlJSON[process.env.REACT_APP_COUNTRY]) {
+    RedirectUrlJSON[process.env.REACT_APP_COUNTRY].RECORDS.filter(
       (item) => item.shortUrl !== item.redirectUrl
     )
       .map((item) => ({
         //[item.shortUrl]: item.redirectUrl
-        [item.shortUrl
-          .replace('%28', '(')
-          .replace('%29', ')')]: item.redirectUrl //%28,%29会在浏览器自动转义成括号，所以这里提前替换成
+        [decodeURI(item.shortUrl)]: item.redirectUrl //%28,%29会在浏览器自动转义成括号，所以这里提前替换成
       }))
       .forEach((item) => {
         RedirectUrlObj = { ...RedirectUrlObj, ...item }; //把数组对象合并成一个对象[{a:1},{b:1}] => {a:1,b:1}

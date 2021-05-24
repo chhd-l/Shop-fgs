@@ -18,8 +18,8 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cur_menubar: menubar[process.env.REACT_APP_LANG] || [],
-      cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null,
+      cur_menubar: menubar[process.env.REACT_APP_COUNTRY] || [],
+      cur_contactInfo: contactInfo[process.env.REACT_APP_COUNTRY] || null,
       a: 1
     };
   }
@@ -235,7 +235,7 @@ class Footer extends React.Component {
           <MarsFooterMap />
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        {cookieSettingsBtn[process.env.REACT_APP_LANG]}
+        {cookieSettingsBtn[process.env.REACT_APP_COUNTRY]}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     );

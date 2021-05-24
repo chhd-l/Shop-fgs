@@ -42,36 +42,7 @@ class FAQ extends React.Component {
     });
   };
 
-  componentDidMount() {
-    // getFaq({
-    //   language: process.env.REACT_APP_LANG,
-    //   storeId: process.env.REACT_APP_STOREID
-    // })
-    //   .then((res) => {
-    //     this.setState(
-    //       {
-    //         dataFAQ: res.context,
-    //         loading: false
-    //       },
-    //       () => {
-    //         const widget = document.querySelector(
-    //           `#${this.props.match.params.catogery}`
-    //         );
-    //         if (widget) {
-    //           setTimeout(() => {
-    //             window.scrollTo({ top: widget.offsetTop - 90 });
-    //           });
-    //         }
-    //       }
-    //     );
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.setState({
-    //       loading: false
-    //     });
-    //   });
-  }
+  componentDidMount() {}
   getElementToPageTop(el) {
     if (el.parentElement) {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;

@@ -76,6 +76,7 @@ import { doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
+import ConsentData from '@/utils/consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -163,6 +164,9 @@ class Payment extends React.Component {
         phoneNumber: '',
         entrance: '',
         apartment: '',
+        street: '',
+        house: '',
+        housing: '',
         comment: '',
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
@@ -341,7 +345,8 @@ class Payment extends React.Component {
       console.warn(err);
     }
 
-    this.getConsentList();
+    let consentData = await ConsentData(this.props);
+    this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
   }
@@ -512,48 +517,6 @@ class Payment extends React.Component {
       requiredList
     });
   };
-  //总的调用consense接口
-  async getConsentList() {
-    //1.会员调用consense接口
-    //2.游客调用consense接口
-    const { isLogin } = this;
-    const customerId = this.userInfo?.customerId;
-    let params = {};
-    // add subscriptionPlan consent
-    let subscriptionPlanIds = this.props.checkoutStore.loginCartData?.filter(
-      (item) => item.subscriptionPlanId?.length > 0
-    );
-    let groups = subscriptionPlanIds.map((item) => {
-      return {
-        consentGroup: 'subscription-plan',
-        itemId: item.subscriptionPlanId
-      };
-    });
-    if (isLogin) {
-      const oktaTokenString = this.props.authState.accessToken
-        ? this.props.authState.accessToken.value
-        : '';
-      let oktaToken = 'Bearer ' + oktaTokenString;
-      params = { customerId, consentPage: 'check out', oktaToken: oktaToken };
-    } else {
-      params = { consentPage: 'check out' };
-    }
-    if (groups) {
-      params.groups = groups;
-    }
-    let res = '';
-    try {
-      res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-        params
-      );
-    } catch (err) {
-      console.log(err.message);
-    }
-    if (res) {
-      this.isExistListFun(res); //现在游客会员 统一
-    }
-    //this.getTrConsentList();
-  }
   //重新组装listData
   rebindListData(listData) {
     this.setState(
@@ -565,113 +528,7 @@ class Payment extends React.Component {
       }
     );
   }
-  //游客+会员必填项和选填项全部显示，只result结果不同
-  isExistListFun(result) {
-    const optionalList = result.context.optionalList.map((item) => {
-      return {
-        id: item.id,
-        consentTitle: item.consentTitle,
-        isChecked: false,
-        isRequired: false,
-        detailList: item.detailList
-      };
-    });
-    let requiredList = result.context.requiredList.map((item) => {
-      return {
-        id: item.id,
-        consentTitle: item.consentTitle,
-        isChecked: false,
-        isRequired: true,
-        detailList: item.detailList
-      };
-    });
 
-    let listData = [];
-    if (
-      !this.isLogin &&
-      (process.env.REACT_APP_COUNTRY == 'US' ||
-        process.env.REACT_APP_COUNTRY == 'RU')
-    ) {
-      listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
-    } else if (process.env.REACT_APP_COUNTRY == 'RU') {
-      listData = [...requiredList]; //俄罗斯-会员-必填项
-    } else if (process.env.REACT_APP_COUNTRY == 'TR') {
-      let cConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: item2.consentTitle,
-            isChecked: true,
-            isRequired: true,
-            detailList: item2.detailList,
-            noChecked: true
-          };
-        });
-      let aConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_FGS_A';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: item2.consentTitle,
-            isChecked: false,
-            isRequired: true,
-            detailList: item2.detailList,
-            desc: item2.consentDesc
-          };
-        });
-      let bConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_FGS_B';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: item2.consentTitle,
-            isChecked: false,
-            isRequired: true,
-            detailList: item2.detailList,
-            desc: item2.consentDesc
-          };
-        });
-      let dConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
-            border-bottom: 1px solid #ccc;color:#666" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`, //特殊处理，这里需要替换成本地的文字
-            isChecked: false,
-            isRequired: true,
-            detailList: item2.detailList
-          };
-        });
-
-      listData = [...cConsent, ...aConsent, ...bConsent, ...dConsent];
-      //listData = [...cConsent,...commonList,...dConsent];
-    } else {
-      listData = [...requiredList, ...optionalList]; //必填项+选填项
-    }
-
-    this.rebindListData(listData);
-  }
-  //土耳其consent 静态
-  // getTrConsentList() {
-  //   if (process.env.REACT_APP_COUNTRY === 'TR') {
-  //     let listData = [];
-
-  //     //listData = this.isLogin ? [...registerCustomerList] : [...guestList];
-  //     //listData = [...registerCustomerList];
-  //     listData = [...guestList];
-  //     this.rebindListData(listData);
-  //   }
-  // }
   //获取支付方式
   initPaymentWay = async () => {
     try {
@@ -1515,20 +1372,12 @@ class Payment extends React.Component {
      * 封装下单参数的时候需要把新加的字段加上，
      * 否则支付时会刷新preview显示的参数
      */
-    let param = {
-      firstName: deliveryAddress?.firstName,
-      lastName: deliveryAddress?.lastName,
+    let param = Object.assign({}, deliveryAddress, {
       zipcode: deliveryAddress?.postCode,
-      city: deliveryAddress?.city,
-      cityId: deliveryAddress?.cityId,
-      provinceId: deliveryAddress?.provinceId,
-      provinceNo: deliveryAddress?.provinceNo,
-      province: deliveryAddress?.province,
       phone: creditCardInfo?.phoneNumber,
       email: creditCardInfo?.email || deliveryAddress?.email,
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
-      comment: deliveryAddress?.comment,
       //推荐者信息下放到商品行
       // recommendationId: clinicStore.linkClinicId,
       // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
@@ -1549,7 +1398,35 @@ class Payment extends React.Component {
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail
-    };
+    });
+    console.log('★★★★★★ 1548 封装下单参数: ', param);
+    // let param = {
+    //   zipcode: deliveryAddress?.postCode,
+    //   phone: creditCardInfo?.phoneNumber,
+    //   email: creditCardInfo?.email || deliveryAddress?.email,
+    //   line1: deliveryAddress?.address1,
+    //   line2: deliveryAddress?.address2,
+    //   //推荐者信息下放到商品行
+    //   // recommendationId: clinicStore.linkClinicId,
+    //   // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
+    //   // recommendationName: clinicStore.linkClinicName,
+    //   //审核者信息放订单行
+    //   clinicsId: clinicStore.selectClinicId,
+    //   clinicsName: clinicStore.selectClinicName,
+    //   storeId: process.env.REACT_APP_STOREID,
+    //   tradeItems: [], // once order products
+    //   subTradeItems: [], // subscription order products
+    //   tradeMarketingList: [],
+    //   payAccountName: creditCardInfo?.cardOwner,
+    //   payPhoneNumber: creditCardInfo?.phoneNumber,
+    //   petsId: '',
+    //   deliveryAddressId: deliveryAddress?.addressId,
+    //   billAddressId: billingAddress?.addressId,
+    //   maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
+    //   minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
+    //   promotionCode,
+    //   guestEmail
+    // };
 
     if (payosdata) {
       param = Object.assign(param, {
@@ -1852,26 +1729,30 @@ class Payment extends React.Component {
       let tmpDeliveryAddress = { ...deliveryAddress };
       let tmpBillingAddress = { ...billingAddress };
       if (this.isLogin) {
-        tmpDeliveryAddress = {
-          firstName: deliveryAddress.firstName,
-          lastName: deliveryAddress.lastName,
-          address1: deliveryAddress.address1,
-          address2: deliveryAddress.address2,
-          rfc: deliveryAddress.rfc,
-          countryId: deliveryAddress.countryId,
-          country: deliveryAddress.country,
-          city: deliveryAddress.city,
-          cityId: deliveryAddress.cityId,
-          provinceId: deliveryAddress.provinceId,
-          provinceNo: deliveryAddress.provinceNo,
-          province: deliveryAddress.province,
-          postCode: deliveryAddress.postCode,
-          comment: deliveryAddress?.comment,
+        tmpDeliveryAddress = Object.assign({}, tmpDeliveryAddress, {
           phoneNumber: deliveryAddress.consigneeNumber,
-          email: deliveryAddress.email,
           addressId:
             deliveryAddress.addressId || deliveryAddress.deliveryAddressId
-        };
+        });
+        // tmpDeliveryAddress = {
+        //   firstName: deliveryAddress.firstName,
+        //   lastName: deliveryAddress.lastName,
+        //   address1: deliveryAddress.address1,
+        //   address2: deliveryAddress.address2,
+        //   rfc: deliveryAddress.rfc,
+        //   countryId: deliveryAddress.countryId,
+        //   country: deliveryAddress.country,
+        //   city: deliveryAddress.city,
+        //   cityId: deliveryAddress.cityId,
+        //   provinceId: deliveryAddress.provinceId,
+        //   provinceNo: deliveryAddress.provinceNo,
+        //   province: deliveryAddress.province,
+        //   postCode: deliveryAddress.postCode,
+        //   comment: deliveryAddress?.comment,
+        //   email: deliveryAddress.email,
+        //   phoneNumber: deliveryAddress.consigneeNumber,
+        //   addressId: deliveryAddress.addressId || deliveryAddress.deliveryAddressId
+        // };
         if (!billingChecked) {
           tmpBillingAddress = {
             firstName: billingAddress.firstName,
@@ -3225,7 +3106,8 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
-    console.log('clickPay: ', this.state.billingAddress);
+    console.log('★★★★★★ clickPay: ', this.state.billingAddress);
+    console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });

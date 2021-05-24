@@ -7,20 +7,21 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
+import { addEventListenerArr } from './addEventListener';
 
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
   {
-    en: [
+    US: [
       'RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_PRODUCTS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_NL_OPT_MAIL',
       'RC_DF_HQ_MARS_PRIVACY_POLICY'
     ],
-    fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
-    ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
-  }[process.env.REACT_APP_LANG] || [];
+    FR: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
+    RU: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
+    TR: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+  }[process.env.REACT_APP_COUNTRY] || [];
 @inject('paymentStore')
 @observer
 class CommunicationDataEditForm extends React.Component {
@@ -56,14 +57,15 @@ class CommunicationDataEditForm extends React.Component {
   //监听土耳其consent
   addEventListenerFunTr() {
     const { setTrConsentModal } = this.props.paymentStore;
-    document.getElementById('tr_consent_opt_email') &&
+    for (let i = 0; i < addEventListenerArr.length; i++) {
       document
-        .getElementById('tr_consent_opt_email')
-        .addEventListener('click', (e) => {
+        .getElementById(addEventListenerArr[i].id)
+        ?.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          setTrConsentModal('fullScreenModalOptEmail', true);
+          setTrConsentModal(addEventListenerArr[i].modal, true);
         });
+    }
   }
   componentDidMount() {
     this.setState({

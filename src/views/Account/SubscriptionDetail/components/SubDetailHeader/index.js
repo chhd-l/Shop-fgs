@@ -240,7 +240,11 @@ const SubDetailHeader = ({
             style={{ color: '#666' }}
           >
             {subDetail.subscribeId ? (
-              <span>{filterOrderId(subDetail.subscribeId)}</span>
+              <span>
+                {filterOrderId({
+                  orderNo: subDetail.subscribeId
+                })}
+              </span>
             ) : null}
             <StatusText subDetail={subDetail} />
           </h4>

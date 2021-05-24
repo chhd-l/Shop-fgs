@@ -49,7 +49,7 @@ function Divider() {
 function HealthNutrition() {
   return (
     {
-      en: (
+      US: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
@@ -236,14 +236,14 @@ function HealthNutrition() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
 function Share() {
   return (
     {
-      en: (
+      US: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -359,7 +359,7 @@ function Share() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -372,7 +372,7 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      en: [
+      US: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
           img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
@@ -384,7 +384,7 @@ function AdvantageTips() {
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_LANG] || defaultIconList;
+    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
@@ -423,7 +423,7 @@ function AdvantageTips() {
             <div className="d-flex justify-content-center bottom-content__icon-list text-center">
               {iconList.map((ele, i) => (
                 <div
-                  style={{ width: 'auto' }}
+                  style={{ width: '6rem' }}
                   className="centered-icon-list__icon"
                   key={i}
                 >
@@ -539,18 +539,24 @@ class Home extends React.Component {
     if (localItemRoyal.get('login-again')) {
       return null;
     }
-
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
     return (
       <div>
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-        </Helmet>
+        {!Ru ? (
+          <Helmet>
+            <link rel="canonical" href={pageLink} />
+            <title>{this.state.seoConfig.title}</title>
+            <meta
+              name="description"
+              content={this.state.seoConfig.metaDescription}
+            />
+            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          </Helmet>
+        ) : (
+          <Helmet>
+            <meta name="robots" content="noindex" />
+          </Helmet>
+        )}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}

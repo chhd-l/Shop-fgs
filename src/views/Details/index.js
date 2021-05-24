@@ -5,39 +5,39 @@ import LazyLoad from 'react-lazyload';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Selection from '@/components/Selection';
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
+import HandledSpec from '@/components/HandledSpec/index.tsx';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
+import InstockStatusComp from '@/components/InstockStatusComp/index.tsx';
+import SingleBuyMethod from './components/SingleBuyMethod/index.tsx';
+import AutoshipBuyMethod from './components/AutoshipBuyMethod/index.tsx';
+import ClubBuyMethod from './components/ClubBuyMethod/index.tsx';
+import SeoConfig from './components/SeoConfig/index.tsx';
+import ButtonGroup from './components/ButtonGroup/index.tsx';
+import ErrMsgForCheckoutPanel from './components/ErrMsgForCheckoutPanel/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
 import {
-  formatMoney,
-  setSeoConfig,
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
   getParaByName,
   loadJS,
   getDictionary,
-  unique,
   filterObjectValue,
   isCountriesContainer,
-  getRation,
   getClubFlag
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
-import RelateProductCarousel from '@/components/RelateProductCarousel';
+import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 
 import Help from './components/Help';
-import { Helmet } from 'react-helmet';
 
 import './index.css';
 import './index.less';
@@ -45,10 +45,10 @@ import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
-import { getGoodsRelation } from '@/api/details';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import { setGoogleProductStructuredDataMarkup } from './GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -56,20 +56,10 @@ const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = process.env.REACT_APP_HUB == '1';
+const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+const Tr = process.env.REACT_APP_COUNTRY === 'TR';
 // const pageLink = window.location.href;
-
-function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
-  return (
-    <div className={`text-break mt-2 mb-2 ${checkOutErrMsg ? '' : 'hidden'}`}>
-      <aside
-        className="rc-alert rc-alert--error rc-alert--with-close"
-        role="alert"
-      >
-        <span className="pl-0">{checkOutErrMsg}</span>
-      </aside>
-    </div>
-  );
-}
 
 @inject(
   'checkoutStore',
@@ -120,16 +110,11 @@ class Details extends React.Component {
       errMsg: '',
       checkOutErrMsg: '',
       addToCartLoading: false,
-      tradePrice: '',
-      specList: [],
-      tabsValue: [],
-      isAdd: 0,
       productRate: 0,
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
-      toolTipVisible: false,
       form: {
         buyWay: 1, //-1-None 0-One-off purchase 1-Subscription 2-Club
         frequencyVal: '',
@@ -137,15 +122,8 @@ class Details extends React.Component {
         frequencyId: -1
       },
       frequencyList: [],
-      reviewShow: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
-      seoConfig: {
-        title: 'Royal canin',
-        metaKeywords: 'Royal canin',
-        metaDescription: 'Royal canin',
-        headingTag: 'h1'
-      },
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
       pageLink: '',
@@ -155,19 +133,14 @@ class Details extends React.Component {
       contactUs: '',
       contactPhoneNumber: '',
       ccidBtnDisplay: false,
-      relatedGoods: [],
-      relatedGoodsList: [],
-      relatedGoodsLoading: false,
-      rationInfo: {},
       questionParams: undefined,
-      defaultPurchaseType: 0
+      defaultPurchaseType: 0,
+      headingTag: 'h1'
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
-    this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -199,10 +172,6 @@ class Details extends React.Component {
       },
       () => this.queryDetails()
     );
-
-    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -252,6 +221,15 @@ class Details extends React.Component {
       addedFlag &&
       form.buyWay !== -1
     );
+  }
+
+  get retailerBtnStatus() {
+    const { loading, goodsType, exclusiveFlag = false } = this.state;
+    const sptGoods = goodsType === 0 || goodsType === 1;
+    const trSpt = Tr && sptGoods;
+    let bundle = goodsType && goodsType === 2;
+
+    return !loading && !bundle && isHub && !Ru && !exclusiveFlag && !trSpt;
   }
 
   setDefaultPurchaseType({ id }) {
@@ -325,146 +303,28 @@ class Details extends React.Component {
       requestJson
     });
   }
-  bundleMatchGoods() {
+
+  matchGoods(data, sizeList) {
     let {
-      details,
-      currentUnitPrice,
-      currentSubscriptionPrice,
-      currentSubscriptionStatus,
-      stock,
-      skuPromotions
-    } = this.state;
-    currentUnitPrice = details.goodsInfos[0].salePrice;
-    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
-    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
-    skuPromotions = details.goodsInfos[0].promotions;
-    stock = details.goodsInfos[0].stock;
-    details.sizeList[0].selected = true;
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock,
-        skuPromotions
-      },
-      () => {
-        this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
-  }
-  setGoogleProductStructuredDataMarkup() {
-    const {
       instockStatus,
       details,
       spuImages,
       goodsDetailTab,
       goodsNo
     } = this.state;
-    loadJS({
-      code: JSON.stringify({
-        '@context': 'http://schema.org/',
-        '@type': 'Product',
-        name: details.goodsName,
-        description: goodsDetailTab[0] && goodsDetailTab[0].content,
-        mpn: goodsNo,
-        sku: goodsNo,
-        image: spuImages.map((s) => s.artworkUrl),
-        offers: {
-          url: {},
-          '@type': 'AggregateOffer',
-          priceCurrency: process.env.REACT_APP_CURRENCY,
-          availability: instockStatus
-            ? 'http://schema.org/InStock'
-            : 'https://schema.org/OutOfStock',
-          lowPrice: details.fromPrice,
-          highPrice: details.toPrice || details.fromPrice
-        }
-      }),
-      type: 'application/ld+json'
+    details.sizeList = sizeList;
+    this.setState(Object.assign({ details }, data), () => {
+      this.updateInstockStatus();
+      setTimeout(() =>
+        setGoogleProductStructuredDataMarkup({
+          instockStatus,
+          details,
+          spuImages,
+          goodsDetailTab,
+          goodsNo
+        })
+      );
     });
-  }
-  matchGoods() {
-    let {
-      specList,
-      details,
-      currentUnitPrice,
-      currentLinePrice,
-      currentSubscriptionPrice,
-      currentSubscriptionStatus,
-      stock,
-      form,
-      defaultPurchaseType
-    } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let skuPromotions = '';
-    specList.map((el) => {
-      if (el.chidren.filter((item) => item.selected).length) {
-        selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-      }
-      return el;
-    });
-    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    idArr = selectedArr.map((el) => el.specDetailId);
-    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
-    currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-    details.sizeList.map((item, i) => {
-      let specTextArr = [];
-      for (let specItem of specList) {
-        for (let specDetailItem of specItem.chidren) {
-          if (
-            item.mockSpecIds.includes(specDetailItem.specId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            specTextArr.push(specDetailItem.detailName);
-          }
-        }
-      }
-      item.specText = specTextArr.join(' ');
-      if (
-        unique(item.mockSpecDetailIds).sort().join(',') ===
-        idArr.sort().join(',')
-      ) {
-        item.selected = true;
-        currentUnitPrice = item.salePrice;
-        currentLinePrice = item.linePrice;
-        currentSubscriptionPrice = item.subscriptionPrice;
-        currentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
-        stock = item.stock;
-        skuPromotions = item.promotions;
-      } else {
-        item.selected = false;
-      }
-
-      return item;
-    });
-
-    defaultPurchaseType === 1 ||
-    sessionItemRoyal.get('pf-result') ||
-    localStorage.getItem('pfls')
-      ? skuPromotions == 'club'
-        ? (form.buyWay = 2)
-        : (form.buyWay = 1)
-      : (form.buyWay = 0);
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentLinePrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock,
-        skuPromotions,
-        form
-      },
-      () => {
-        this.updateInstockStatus();
-        setTimeout(() => this.setGoogleProductStructuredDataMarkup());
-      }
-    );
   }
   toScroll = (anchorName) => {
     let anchorElement = document.getElementById(anchorName);
@@ -480,42 +340,7 @@ class Details extends React.Component {
       this.toScroll('j-details-for-club');
     });
   };
-  async getRelatedGoodsList(id) {
-    try {
-      //this.setState({relatedGoodsLoading:true})
-      const res = await getGoodsRelation(id);
-      let relatedGoodsList = res.context.goods;
-      relatedGoodsList = relatedGoodsList.map((ele) => {
-        const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
-          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-          .map((t) => t.goodsAttributeValueEn);
-        const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
-          .filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
-          .map((t) => t.goodsAttributeValue);
-        const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
-          .filter(
-            (item) => item?.goodsAttributeName?.toLowerCase() == 'technology'
-          )
-          .map((t) => t.goodsAttributeValueEn);
-        const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-        const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-        const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
-        const ruAttrs = [breed, ...technologyAttr];
-        const technologyOrBreedsAttr =
-          isHub && process.env.REACT_APP_COUNTRY === 'RU'
-            ? ruAttrs.join(',')
-            : attrs;
-        return Object.assign(ele, { technologyOrBreedsAttr });
-      });
-      this.setState({
-        relatedGoodsList
-      });
-    } catch (err) {
-      console.log(111111, err.message);
-    } finally {
-      //this.setState({relatedGoodsLoading:false})
-    }
-  }
+
   async queryDetails() {
     const { configStore, checkoutStore } = this.props;
     const { id, goodsNo } = this.state;
@@ -572,7 +397,7 @@ class Details extends React.Component {
             })
           },
           () => {
-            this.hubGA && this.getComputedWeeks(this.state.frequencyList);
+            isHub && this.getComputedWeeks(this.state.frequencyList);
           }
         );
         if (res && res.context && goodsRes) {
@@ -588,9 +413,6 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
-          //获取推荐产品start
-          this.getRelatedGoodsList(goodsRes.goodsId);
-          //获取推荐产品end
           this.setState(
             {
               productRate: goodsRes.avgEvaluate,
@@ -668,8 +490,6 @@ class Details extends React.Component {
                   goodsRes.defaultPurchaseType ||
                   configStore.info?.storeVO?.defaultPurchaseType
               });
-
-              this.loadWidgetIdBtn();
             }
           );
           if (goodsRes.defaultFrequencyId) {
@@ -679,129 +499,13 @@ class Details extends React.Component {
               })
             });
           }
-
-          setSeoConfig({
-            goodsId: goodsRes.goodsId,
-            categoryId: '',
-            pageName: 'Product Detail Page'
-          }).then((res) => {
-            this.setState({ seoConfig: res });
-          });
         } else {
           throw new Error();
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
-        let isSkuNoQuery = res.context.isSkuNoQuery;
-        let choosedSpecsArr = [];
-        if (isSkuNoQuery) {
-          // 通过sku查询
-          let specsItem = goodsInfos.filter(
-            (item) => item.goodsInfoNo == this.state.goodsNo
-          );
-          choosedSpecsArr =
-            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-        }
+
         if (res && res.context && res.context.goodsSpecDetails) {
-          // 组装购物车的前端数据结构与规格的层级关系
-          let specList = res.context.goodsSpecs;
-          let specDetailList = res.context.goodsSpecDetails;
-          specList.map((sItem, index) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              if (index === 0) {
-                let filterproducts = goodsInfos.filter((goodEl) =>
-                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                );
-                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(
-                  (item) => item.stock === 0
-                );
-                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-              }
-              return sdItem.specId === sItem.specId;
-            });
-            let defaultSelcetdSku = -1;
-            if (choosedSpecsArr.length) {
-              for (let i = 0; i < choosedSpecsArr.length; i++) {
-                let specDetailIndex = sItem.specDetailIds.indexOf(
-                  choosedSpecsArr[i]
-                );
-                if (specDetailIndex > -1) {
-                  defaultSelcetdSku = specDetailIndex;
-                }
-              }
-            }
-            if (defaultSelcetdSku > -1) {
-              // 默认选择该sku
-              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-                // 如果是sku进来的，需要默认当前sku被选择
-                sItem.chidren[defaultSelcetdSku].selected = true;
-              }
-            } else {
-              if (
-                process.env.REACT_APP_COUNTRY === 'DE' &&
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
-              } else if (
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
-              } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-                // 如果所有sku都没有库存 取第一个规格
-                if (
-                  sItem.chidren.filter((el) => el.selected).length === 0 &&
-                  sItem.chidren.length
-                ) {
-                  sItem.chidren[0].selected = true;
-                }
-              }
-            }
-
-            return sItem;
-          });
-          // this.setState({ specList });
-          sizeList = goodsInfos.map((g, i) => {
-            // g = Object.assign({}, g, { selected: false });
-            g = Object.assign({}, g, {
-              selected: i === 0
-            });
-            let { form } = this.state;
-            if (g.selected && !g.subscriptionStatus) {
-              form.buyWay = 0;
-            }
-            if (g.selected && g.subscriptionStatus) {
-              form.buyWay =
-                form.buyWay && g.promotions?.includes('club') ? 2 : form.buyWay;
-            }
-            this.setState({ form });
-
-            return g;
-          });
-
-          const goodSize = specList.map((item) =>
-            item.chidren.find((good) => good.selected)
-          )?.[0]?.detailName;
-          const selectGoodSize = specList.map((item) =>
-            item.chidren.find((good) => good.selected)
-          )?.[0]?.detailName;
-          const selectPrice = goodsInfos.find(
-            (item) => item.packSize == selectGoodSize
-          )?.marketPrice;
-          const goodsInfoBarcode =
-            goodsInfos.find((item) => item.packSize === goodSize)
-              ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-          const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-
           let images = [];
           images = res.context.goodsInfos;
           this.setState(
@@ -820,45 +524,33 @@ class Details extends React.Component {
                     res.context.goodsAttributesValueRelList
                 }
               ),
-              images,
-              specList,
-              barcode
+              images
+              // barcode
             },
             async () => {
-              await this.matchGoods();
+              // this.loadWidgetIdBtn(this.state.barcode);
               //Product Detail Page view 埋点start
-              this.hubGA
-                ? this.hubGAProductDetailPageView(
-                    res.context.goodsAttributesValueRelList,
-                    this.state.details,
-                    selectPrice
-                  )
-                : this.GAProductDetailPageView(this.state.details);
+              // isHub
+              //   ? this.hubGAProductDetailPageView(
+              //       res.context.goodsAttributesValueRelList,
+              //       this.state.details,
+              //       selectPrice
+              //     )
+              //   : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-                addSchemaOrgMarkup(
-                  this.state.details,
-                  this.state.instockStatus
-                );
+                //设置延时获取BazaarVoice dom节点
+                setTimeout(() => {
+                  addSchemaOrgMarkup(
+                    this.state.details,
+                    this.state.instockStatus
+                  );
+                }, 3000);
               }
             }
           );
         } else {
-          let sizeList = [];
-          let goodsInfos = res.context.goodsInfos || [];
-          sizeList = goodsInfos.map((g, i) => {
-            g = Object.assign({}, g, {
-              selected: i === 0
-            });
-            if (g.selected && !g.subscriptionStatus) {
-              let { form } = this.state;
-              form.buyWay = 0;
-              this.setState({ form });
-            }
-            return g;
-          });
-
           let images = [];
           images = res.context.goodsInfos;
           this.setState(
@@ -880,14 +572,14 @@ class Details extends React.Component {
               images
             },
             () => {
-              this.bundleMatchGoods();
+              // this.bundleMatchGoods();
               //Product Detail Page view 埋点start
-              this.hubGA
-                ? this.hubGAProductDetailPageView(
-                    res.context.goodsAttributesValueRelList,
-                    this.state.details
-                  )
-                : this.GAProductDetailPageView(this.state.details);
+              // isHub
+              //   ? this.hubGAProductDetailPageView(
+              //       res.context.goodsAttributesValueRelList,
+              //       this.state.details
+              //     )
+              //   : this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
             }
           );
@@ -911,7 +603,7 @@ class Details extends React.Component {
       });
   }
 
-  loadWidgetIdBtn() {
+  loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
 
     const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
@@ -927,7 +619,7 @@ class Details extends React.Component {
           displaylanguage:
             process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
           widgetid: id,
-          ean: '3182550784436',
+          ean: barcode,
           subid: '',
           trackingid: ''
         }
@@ -994,36 +686,6 @@ class Details extends React.Component {
       // this.props.updateSelectedData(this.state.form);
     });
   };
-  handleChooseSize(sId, sdId, isSelected) {
-    if (isSelected) {
-      return;
-    }
-    let { specList, images } = this.state;
-    specList
-      .filter((item) => item.specId === sId)[0]
-      .chidren.map((item) => {
-        if (item.specDetailId === sdId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
-    const goodSize = specList.map((item) =>
-      item.chidren.find((good) => good.specDetailId === sdId)
-    )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
-    this.setState(
-      {
-        specList,
-        barcode
-      },
-      () => {
-        this.matchGoods();
-      }
-    );
-  }
   async hanldeAddToCart() {
     try {
       if (!this.btnStatus) return false;
@@ -1046,7 +708,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details, questionParams } = this.state;
 
-      this.hubGA
+      isHub
         ? this.hubGAAToCar(quantity, details)
         : this.GAAddToCar(quantity, details);
 
@@ -1106,7 +768,7 @@ class Details extends React.Component {
         details,
         questionParams
       } = this.state;
-      this.hubGA && this.hubGAAToCar(quantity, details);
+      isHub && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
@@ -1121,6 +783,7 @@ class Details extends React.Component {
       if (Object.keys(this.state.requestJson).length > 0) {
         cartItem = { ...cartItem, ...this.state.requestJson };
       }
+      console.log(cartItem, 'cartItem');
       await checkoutStore.hanldeUnloginAddToCart({
         valid: this.btnStatus,
         cartItemList: [cartItem],
@@ -1237,7 +900,7 @@ class Details extends React.Component {
 
   //零售商购物 埋点
   handleBuyFromRetailer = () => {
-    this.hubGA &&
+    isHub &&
       dataLayer.push({
         event: 'pdpBuyFromRetailer'
       });
@@ -1355,36 +1018,6 @@ class Details extends React.Component {
     });
   }
 
-  ccidBtnRef(el) {
-    const self = this;
-    const nodeBtn = document.querySelector('.other-buy-btn');
-    if (el && nodeBtn) {
-      const config = { attributes: true, childList: true, subtree: true };
-      // 当观察到变动时执行的回调函数
-      const callback = function (mutationsList, observer) {
-        let eanDoms = document.querySelectorAll('.eanIcon');
-        eanDoms[0].parentElement.addEventListener(
-          'click',
-          function () {
-            eanDoms[0].nextElementSibling.click();
-          },
-          false
-        );
-
-        for (let mutation of mutationsList) {
-          if (mutation.type === 'childList') {
-            self.setState({
-              ccidBtnDisplay: true
-            });
-            observer.disconnect();
-          }
-        }
-      };
-      const observer = new MutationObserver(callback);
-      observer.observe(nodeBtn, config);
-    }
-  }
-
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match, configStore } = this.props;
@@ -1401,7 +1034,6 @@ class Details extends React.Component {
       currentSubscriptionStatus,
       errMsg,
       addToCartLoading,
-      specList,
       form,
       productRate,
       instockStatus,
@@ -1419,10 +1051,9 @@ class Details extends React.Component {
       seoConfig,
       exclusiveFlag,
       loading,
-      rationInfo,
-      skuPromotions
+      skuPromotions,
+      headingTag = 'h1'
     } = this.state;
-    const { headingTag = 'h1' } = seoConfig;
     const filterImages =
       images?.filter((i) => {
         i.artworkUrl = i.goodsInfoImg;
@@ -1434,18 +1065,12 @@ class Details extends React.Component {
       process.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_COUNTRY === 'DE';
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
-    const sptGoods = goodsType === 0 || goodsType === 1;
-    const trSpt = Tr && sptGoods;
+
     const goodHeading = `<${headingTag || 'h1'}
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
-    let bundle = goodsType && goodsType === 2;
-    const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =
       location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
     let theme = '';
@@ -1471,12 +1096,6 @@ class Details extends React.Component {
         specieId
       }
     };
-    console.log(
-      form.buyWay,
-      'bbbb',
-      images,
-      isCountriesContainer(['fr', 'ru', 'tr', 'en'])
-    );
     console.log('details', details);
     return (
       <div id="Details">
@@ -1494,12 +1113,15 @@ class Details extends React.Component {
             ecommerceEvents={eEvents}
           />
         ) : null}
-        <Helmet>
-          <link rel="canonical" href={pageLink} />
-          <title>{seoConfig.title}</title>
-          <meta name="description" content={seoConfig.metaDescription} />
-          <meta name="keywords" content={seoConfig.metaKeywords} />
-        </Helmet>
+        <SeoConfig
+          errMsg={errMsg}
+          pageLink={pageLink}
+          goodsId={goodsId}
+          pageLink={pageLink}
+          setHeadingTag={(headingTag) => {
+            this.setState({ headingTag });
+          }}
+        />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -1516,9 +1138,6 @@ class Details extends React.Component {
                 style={{ margin: '50px 0' }}
               >
                 <div className="ui-font-nothing text-center">
-                  <h1 style={{ display: 'none' }}>
-                    {seoConfig.metaDescription}
-                  </h1>
                   <em className="rc-icon rc-incompatible--sm rc-iconography" />
                   {errMsg}
                 </div>
@@ -1611,10 +1230,10 @@ class Details extends React.Component {
                                     </div>
                                   ) : null}
                                   {isCountriesContainer([
-                                    'fr',
-                                    'ru',
-                                    'tr',
-                                    'en'
+                                    'FR',
+                                    'RU',
+                                    'TR',
+                                    'US'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1737,123 +1356,30 @@ class Details extends React.Component {
                               }}
                             />
                             {/*这种情况时，eancode 在法国固定，其他国家待定  */}
-                            {!loading &&
-                            !bundle &&
-                            isHub &&
-                            PC &&
-                            !Ru &&
-                            !exclusiveFlag &&
-                            !trSpt ? (
+                            {PC && this.retailerBtnStatus ? (
                               <BuyFromRetailerBtn
-                                ccidBtnDisplay={ccidBtnDisplay}
+                                // ccidBtnDisplay={ccidBtnDisplay}
                                 barcode={barcode}
                                 goodsType={goodsType}
                                 onClick={this.handleBuyFromRetailer}
-                                ref={(el) => this.ccidBtnRef(el)}
                               />
                             ) : null}
                           </div>
                         ) : (
                           <div>
                             <div className="align-left flex rc-margin-bottom--xs">
-                              <div className="stock__wrapper">
-                                <div className="stock">
-                                  {instockStatus ? (
-                                    <>
-                                      <label className={`availability instock`}>
-                                        <span className="title-select" />
-                                      </label>
-                                      <span
-                                        className="availability-msg"
-                                        data-ready-to-order="true"
-                                      >
-                                        <div>
-                                          <FormattedMessage id="details.inStock" />
-                                        </div>
-                                      </span>
-                                      {/* &nbsp;&nbsp;
-                                      <FormattedMessage id="details.shippedTime" /> */}
-                                    </>
-                                  ) : (
-                                    <>
-                                      <label
-                                        className={`availability outofstock`}
-                                      >
-                                        <span className="title-select" />
-                                      </label>
-                                      <span
-                                        className="availability-msg"
-                                        data-ready-to-order="true"
-                                      >
-                                        <div className={`out-stock`}>
-                                          <FormattedMessage id="details.outStock" />
-                                        </div>
-                                      </span>
-                                    </>
-                                  )}
-                                </div>
-                              </div>
+                              <InstockStatusComp status={instockStatus} />
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (
                               <Ration />
                             ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
-                              <div className="spec">
-                                {specList.map((sItem, i) => (
-                                  <div
-                                    id="choose-select"
-                                    className="spec-choose-select"
-                                    key={i}
-                                  >
-                                    <div className="rc-margin-bottom--xs">
-                                      <FormattedMessage id={sItem.specName} />:
-                                    </div>
-                                    <div data-attr="size">
-                                      <div
-                                        className="rc-swatch __select-size d-flex justify-content-end justify-content-md-start flex-wrap"
-                                        id="id-single-select-size"
-                                      >
-                                        {sItem.chidren.map((sdItem, i) => (
-                                          <div
-                                            key={i}
-                                            className={`rc-swatch__item ${
-                                              sdItem.selected ? 'selected' : ''
-                                            } ${
-                                              sdItem.isEmpty ? 'outOfStock' : ''
-                                            }`}
-                                            onClick={() => {
-                                              if (sdItem.isEmpty) {
-                                                return false;
-                                              } else {
-                                                this.handleChooseSize(
-                                                  sItem.specId,
-                                                  sdItem.specDetailId,
-                                                  sdItem.selected
-                                                );
-                                              }
-                                            }}
-                                          >
-                                            <span
-                                              style={{
-                                                backgroundColor: sdItem.isEmpty
-                                                  ? '#ccc'
-                                                  : '#fff',
-                                                cursor: sdItem.isEmpty
-                                                  ? 'not-allowed'
-                                                  : 'pointer'
-                                              }}
-                                            >
-                                              {/* {parseFloat(sdItem.detailName)}{' '} */}
-                                              {sdItem.detailName}
-                                            </span>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
+                              <HandledSpec
+                                details={details}
+                                setState={this.setState.bind(this)}
+                                updatedSku={this.matchGoods.bind(this)}
+                              />
                               <div className="Quantity">
                                 <span className="amount">
                                   <FormattedMessage id="amount" />:
@@ -1892,411 +1418,66 @@ class Details extends React.Component {
                               </div>
                             </div>
                             <div>
-                              <div
-                                className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 1 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                  form.buyWay === 0
-                                    ? 'border-red'
-                                    : 'border-d7d7d7'
-                                }`}
-                                onClick={this.ChangeFormat.bind(this, 0)}
-                              >
-                                <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                    <FormattedMessage id="email">
-                                      {(txt) => (
-                                        <input
-                                          className="rc-input__radio"
-                                          id="type_once"
-                                          type="radio"
-                                          alt={txt}
-                                          name="buyWay"
-                                          value="0"
-                                          key="0"
-                                          // onChange={(event) =>
-                                          //   this.handleInputChange(event)
-                                          // }
-                                          checked={form.buyWay === 0}
-                                        />
-                                      )}
-                                    </FormattedMessage>
-                                    <label
-                                      className="rc-input__label--inline"
-                                      htmlFor="type_once"
-                                    >
-                                      <span
-                                        style={{
-                                          fontWeight: '400',
-                                          color: '#333'
-                                        }}
-                                      >
-                                        <FormattedMessage id="singlePurchase" />
-                                      </span>
-                                    </label>
-                                    <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
-                                  <FormattedMessage id="deliveryOneTimeOnly" />
-                                </div>
-                                <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
-                                  <div>
-                                    {formatMoney(currentUnitPrice)}
-                                    <span className="red unit-star">
-                                      <FormattedMessage
-                                        id="starUnit"
-                                        defaultMessage=" "
-                                      />
-                                    </span>
-                                  </div>
-                                  {De && selectedSpecItem ? (
-                                    <div
-                                      style={{
-                                        fontSize: '.875rem',
-                                        color: '#999'
-                                      }}
-                                    >
-                                      {formatMoney(
-                                        (
-                                          currentUnitPrice /
-                                          parseFloat(
-                                            selectedSpecItem.goodsInfoWeight
-                                          )
-                                        ).toFixed(2)
-                                      )}
-                                      /{selectedSpecItem.goodsInfoUnit}{' '}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
+                              <SingleBuyMethod
+                                form={form}
+                                skuPromotions={skuPromotions}
+                                selectedSpecItem={selectedSpecItem}
+                                currentUnitPrice={currentUnitPrice}
+                                currentSubscriptionPrice={
+                                  currentSubscriptionPrice
+                                }
+                                changeMethod={this.ChangeFormat.bind(this, 0)}
+                                changeFreqency={(data) => {
+                                  this.handleSelectedItemChange(data);
+                                }}
+                              />
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
                               skuPromotions == 'autoship' ? (
-                                <div>
-                                  <div
-                                    className={`buyMethod rc-margin-bottom--xs d-flex row align-items-md-center justify-content-between 2 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                      form.buyWay === 1
-                                        ? 'border-red'
-                                        : 'border-d7d7d7'
-                                    }`}
-                                    onClick={this.ChangeFormat.bind(this, 1)}
-                                  >
-                                    <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                      <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                        <FormattedMessage id="email">
-                                          {(txt) => (
-                                            <input
-                                              className="rc-input__radio"
-                                              id="type_frequency"
-                                              type="radio"
-                                              alt={txt}
-                                              name="buyWay"
-                                              value="1"
-                                              key="1"
-                                              checked={form.buyWay === 1}
-                                            />
-                                          )}
-                                        </FormattedMessage>
-                                        <label
-                                          className="rc-input__label--inline"
-                                          htmlFor="type_frequency"
-                                        >
-                                          <span
-                                            style={{
-                                              fontWeight: '400',
-                                              color: '#333'
-                                            }}
-                                          >
-                                            <span className="iconfont mr-2">
-                                              &#xe675;
-                                            </span>
-                                            <FormattedMessage id="autoship" />
-                                            <span
-                                              className="info-tooltip delivery-method-tooltip"
-                                              onMouseEnter={() => {
-                                                this.setState({
-                                                  toolTipVisible: true
-                                                });
-                                              }}
-                                              onMouseLeave={() => {
-                                                this.setState({
-                                                  toolTipVisible: false
-                                                });
-                                              }}
-                                            >
-                                              i
-                                            </span>
-                                            <ConfirmTooltip
-                                              arrowStyle={{ left: '79%' }}
-                                              display={
-                                                this.state.toolTipVisible
-                                              }
-                                              cancelBtnVisible={false}
-                                              confirmBtnVisible={false}
-                                              updateChildDisplay={(status) =>
-                                                this.setState({
-                                                  toolTipVisible: status
-                                                })
-                                              }
-                                              content={
-                                                <FormattedMessage id="subscription.promotionTip2" />
-                                              }
-                                            />
-                                          </span>
-                                        </label>
-                                      </div>
-                                      <br />
-                                      <div className="discountBox">
-                                        <FormattedMessage
-                                          id="saveExtra"
-                                          values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
-                                          }}
-                                        />
-                                      </div>
-                                      <br />
-                                      <div className="freeshippingBox">
-                                        <FormattedMessage id="freeShipping" />
-                                      </div>
-                                    </div>
-                                    {skuPromotions && (
-                                      <FrequencySelection
-                                        frequencyType={skuPromotions}
-                                        currentFrequencyId={
-                                          this.state.form.frequencyId
-                                        }
-                                        handleConfirm={(data) => {
-                                          this.handleSelectedItemChange(data);
-                                        }}
-                                      />
-                                    )}
-                                    <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
-                                      <div>
-                                        <span className="text-line-through-price">
-                                          {formatMoney(currentUnitPrice)}
-                                        </span>
-                                        {formatMoney(
-                                          currentSubscriptionPrice || 0
-                                        )}
-                                        <span className="red unit-star">
-                                          <FormattedMessage
-                                            id="starUnit"
-                                            defaultMessage=" "
-                                          />
-                                        </span>
-                                      </div>
-                                      {De && selectedSpecItem ? (
-                                        <div
-                                          style={{
-                                            fontSize: '.875rem',
-                                            color: '#999'
-                                          }}
-                                        >
-                                          {formatMoney(
-                                            (
-                                              currentSubscriptionPrice /
-                                              parseFloat(
-                                                selectedSpecItem.goodsInfoWeight
-                                              )
-                                            ).toFixed(2)
-                                          )}
-                                          /{selectedSpecItem.goodsInfoUnit}{' '}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                  {process.env.REACT_APP_COUNTRY == 'FR' ? (
-                                    <div>
-                                      Résiliation gratuite à tout moment{' '}
-                                    </div>
-                                  ) : null}
-                                </div>
+                                <AutoshipBuyMethod
+                                  form={form}
+                                  skuPromotions={skuPromotions}
+                                  selectedSpecItem={selectedSpecItem}
+                                  currentUnitPrice={currentUnitPrice}
+                                  currentSubscriptionPrice={
+                                    currentSubscriptionPrice
+                                  }
+                                  changeMethod={this.ChangeFormat.bind(this, 1)}
+                                  changeFreqency={(data) => {
+                                    this.handleSelectedItemChange(data);
+                                  }}
+                                />
                               ) : null}
                               {currentSubscriptionStatus &&
                               currentSubscriptionPrice &&
                               skuPromotions == 'club' ? (
-                                <div
-                                  className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
-                                    form.buyWay === 2
-                                      ? 'border-red'
-                                      : 'border-d7d7d7'
-                                  }`}
-                                  onClick={this.ChangeFormat.bind(this, 2)}
-                                >
-                                  <div className="radioBox order-1 order-md-1 col-8 col-md-5">
-                                    <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
-                                      <FormattedMessage id="email">
-                                        {(txt) => (
-                                          <input
-                                            className="rc-input__radio"
-                                            id="type_frequency"
-                                            type="radio"
-                                            alt={txt}
-                                            name="buyWay"
-                                            value="2"
-                                            key="2"
-                                            checked={form.buyWay === 2}
-                                          />
-                                        )}
-                                      </FormattedMessage>
-                                      <label
-                                        className="rc-input__label--inline"
-                                        htmlFor="type_frequency"
-                                      >
-                                        <span
-                                          style={{
-                                            fontWeight: '400',
-                                            color: '#333'
-                                          }}
-                                        >
-                                          <span
-                                            className="iconfont mr-2"
-                                            style={{
-                                              fontWeight: '600',
-                                              color: '#ec001a'
-                                            }}
-                                          >
-                                            &#xe602;
-                                          </span>
-                                          <FormattedMessage id="Club subscription" />
-                                        </span>
-                                      </label>
-                                    </div>
-                                    <br />
-                                    <div
-                                      className="discountBox"
-                                      style={{ background: '#3ab41d' }}
-                                    >
-                                      <FormattedMessage
-                                        id="saveExtra"
-                                        values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
-                                        }}
-                                      />
-                                    </div>
-                                    <br />
-                                    <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
-                                    <div className="learnMore">
-                                      <span
-                                        className="rc-styled-link"
-                                        onClick={this.toClubTab}
-                                      >
-                                        <FormattedMessage id="details.learnMore" />
-                                      </span>
-                                    </div>
-                                  </div>
-                                  {skuPromotions && (
-                                    <FrequencySelection
-                                      frequencyType={skuPromotions}
-                                      currentFrequencyId={
-                                        this.state.form.frequencyId
-                                      }
-                                      handleConfirm={(data) => {
-                                        this.handleSelectedItemChange(data);
-                                      }}
-                                    />
-                                  )}
-                                  <div className="price font-weight-normal text-right position-relative order-2 order-md-3 col-4 col-md-3 text-nowrap">
-                                    <div>
-                                      <span className="text-line-through-price">
-                                        {formatMoney(currentUnitPrice)}
-                                      </span>
-                                      {formatMoney(
-                                        currentSubscriptionPrice || 0
-                                      )}
-                                      <span className="red unit-star">
-                                        <FormattedMessage
-                                          id="starUnit"
-                                          defaultMessage=" "
-                                        />
-                                      </span>
-                                    </div>
-                                    {De && selectedSpecItem ? (
-                                      <div
-                                        style={{
-                                          fontSize: '.875rem',
-                                          color: '#999'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          (
-                                            currentSubscriptionPrice /
-                                            parseFloat(
-                                              selectedSpecItem.goodsInfoWeight
-                                            )
-                                          ).toFixed(2)
-                                        )}
-                                        /{selectedSpecItem.goodsInfoUnit}{' '}
-                                      </div>
-                                    ) : null}
-                                  </div>
-                                </div>
+                                <ClubBuyMethod
+                                  form={form}
+                                  skuPromotions={skuPromotions}
+                                  selectedSpecItem={selectedSpecItem}
+                                  currentUnitPrice={currentUnitPrice}
+                                  currentSubscriptionPrice={
+                                    currentSubscriptionPrice
+                                  }
+                                  changeMethod={this.ChangeFormat.bind(this, 2)}
+                                  changeFreqency={(data) => {
+                                    this.handleSelectedItemChange(data);
+                                  }}
+                                  toClubTab={this.toClubTab}
+                                />
                               ) : null}
                             </div>
-                            <div className="rc-md-up">
-                              <div
-                                className="mb-2 mr-2 text-right"
-                                style={{ fontSize: '.875rem' }}
-                              >
-                                <FormattedMessage
-                                  id="pricesIncludeVAT"
-                                  values={{
-                                    val: <span className="red">*</span>
-                                  }}
-                                  defaultMessage=" "
-                                />
-                              </div>
-                              <div className="buy-btn-box rc-max-width--xl fullHeight text-right mt-4">
-                                <button
-                                  style={{ padding: '2px 30px' }}
-                                  className={`add-to-cart-btn rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
-                                  }`}
-                                  onClick={this.hanldeAddToCart}
-                                >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                                  <span className="default-txt">
-                                    <FormattedMessage
-                                      id={`${
-                                        form.buyWay === 1 || form.buyWay === 2
-                                          ? 'subscribe'
-                                          : 'details.addToCart'
-                                      }`}
-                                    />
-                                  </span>
-                                </button>
-                                {!loading &&
-                                !bundle &&
-                                isHub &&
-                                !Ru &&
-                                !exclusiveFlag &&
-                                !trSpt ? (
-                                  <>
-                                    &nbsp;&nbsp;
-                                    <FormattedMessage id="or" />
-                                    &nbsp;&nbsp;
-                                    <BuyFromRetailerBtn
-                                      ccidBtnDisplay={ccidBtnDisplay}
-                                      barcode={barcode}
-                                      goodsType={goodsType}
-                                      onClick={this.handleBuyFromRetailer}
-                                      ref={(el) => this.ccidBtnRef(el)}
-                                    />
-                                  </>
-                                ) : null}
-                              </div>
-                              <ErrMsgForCheckoutPanel
-                                checkOutErrMsg={checkOutErrMsg}
-                              />
-                            </div>
+                            <ButtonGroup
+                              addToCartLoading={addToCartLoading}
+                              btnStatus={btnStatus}
+                              form={form}
+                              isShowRetailerBtn={this.retailerBtnStatus}
+                              checkOutErrMsg={checkOutErrMsg}
+                              barcode={barcode}
+                              vet={vet}
+                              addToCart={this.hanldeAddToCart}
+                              buyFromRetailer={this.handleBuyFromRetailer}
+                            />
                             {form.buyWay === 2 &&
                             process.env.REACT_APP_COUNTRY !== 'RU' ? (
                               <p className="text-right medium mr-4">
@@ -2312,7 +1493,6 @@ class Details extends React.Component {
               </div>
             </div>
             <Advantage />
-
             {/* 描述、好处、组成、指南板块*/}
             {details.goodsDescriptionDetailList &&
             details.goodsType !== undefined ? (
@@ -2399,47 +1579,7 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
-            {this.state.relatedGoodsList.length > 0 ? (
-              <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
-            ) : null}
-            <div
-              className="sticky-addtocart"
-              style={{ transform: 'translateY(-80px)' }}
-            >
-              <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                {!vet ? (
-                  <button
-                    className={`rc-btn add-to-cart-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    onClick={this.hanldeAddToCart}
-                  >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                    <span className="default-txt">
-                      {form.buyWay === 1 || form.buyWay === 2 ? (
-                        <FormattedMessage id="subscribe" />
-                      ) : (
-                        <FormattedMessage id="details.addToCart" />
-                      )}
-                    </span>
-                  </button>
-                ) : null}
-                {!this.state.loading &&
-                !bundle &&
-                isHub &&
-                !Ru &&
-                !exclusiveFlag &&
-                !trSpt ? (
-                  <BuyFromRetailerBtn
-                    ccidBtnDisplay={ccidBtnDisplay}
-                    barcode={barcode}
-                    goodsType={goodsType}
-                    onClick={this.handleBuyFromRetailer}
-                    ref={(el) => this.ccidBtnRef(el)}
-                  />
-                ) : null}
-              </div>
-            </div>
+            <RelateProductCarousel id={goodsId} />
 
             <AddCartSuccessMobile target="modal-mobile-cart-confirm" />
 

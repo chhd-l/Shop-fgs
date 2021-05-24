@@ -206,7 +206,7 @@ class AccountOrders extends React.Component {
               ele.tradeDelivers &&
               ele.tradeDelivers.length,
             canDownInvoice:
-              ['fr'].includes(process.env.REACT_APP_LANG) &&
+              ['FR'].includes(process.env.REACT_APP_COUNTRY) &&
               tradeState.deliverStatus === 'SHIPPED'
           });
         });
@@ -458,13 +458,7 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            <FormattedMessage
-              id="trackDelivery"
-              style={{
-                display:
-                  process.env.REACT_APP_COUNTRY == 'FR' ? 'none' : 'block'
-              }}
-            >
+            <FormattedMessage id="trackDelivery">
               {(txt) => (
                 <>
                   {order.tradeDelivers[0] &&
@@ -719,7 +713,11 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {filterOrderId(order.id)}
+                                            {filterOrderId({
+                                              orderNo: order.id,
+                                              orderNoForOMS:
+                                                order.tradeOms?.orderNo
+                                            })}
                                           </span>
                                         </p>
                                       </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 export const cookieSettingsBtn = {
-  es: <span className="optanon-show-settings">Cookie Settings</span>,
-  de: (
+  MX: <span className="optanon-show-settings">Cookie Settings</span>,
+  DE: (
     <button id="ot-sdk-btn" className="ot-sdk-show-settings">
       Cookie Settings
     </button>
   ),
-  fr: (
+  FR: (
     <button id="ot-sdk-btn" className="ot-sdk-show-settings">
       Cookie Settings
     </button>

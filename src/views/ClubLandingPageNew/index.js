@@ -20,7 +20,6 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import backgroundImg from './image/Bitmap@4x.png';
 
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
@@ -61,7 +60,7 @@ function Divider() {
 function HealthNutrition() {
   return (
     {
-      en: (
+      US: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
@@ -248,14 +247,14 @@ function HealthNutrition() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
 function Share() {
   return (
     {
-      en: (
+      US: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -371,7 +370,7 @@ function Share() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -384,7 +383,7 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      en: [
+      US: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
           img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
@@ -396,7 +395,7 @@ function AdvantageTips() {
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_LANG] || defaultIconList;
+    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
@@ -590,6 +589,7 @@ class ClubLandingPageNew extends React.Component {
               10% OFF & FREE DELIVERY
             </div>
           </div>
+
           <LongBanner />
 
           <div className="experience-component experience-layouts-1column">

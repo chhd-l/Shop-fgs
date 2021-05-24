@@ -1506,8 +1506,8 @@ class UnLoginCart extends React.Component {
       // this.props.sendPromotionCode('');
     }
     this.setState({
-      isClickApply: false
-      // promotionInputValue: ''
+      isClickApply: false,
+      promotionInputValue: ''
     });
   };
   handleRemovePromotionCode = async () => {
@@ -1644,10 +1644,13 @@ class UnLoginCart extends React.Component {
             ) : (
               <>
                 <div className="rc-text-center">
-                  <h1 className="rc-beta mb-1 mt-3">
+                  <h1
+                    className="rc-beta mb-1 mt-3"
+                    style={{ fontSize: '18px' }}
+                  >
                     <FormattedMessage id="cart.yourShoppingCart" />
                   </h1>
-                  <div className="rc-gamma title-empty mb-0">
+                  <div className="rc-gamma title-empty mb-0 text-center">
                     <FormattedMessage id="header.basketEmpty" />
                   </div>
                 </div>
@@ -1656,9 +1659,9 @@ class UnLoginCart extends React.Component {
                     <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                       <div>
                         <div className="rc-alpha inherit-fontsize">
-                          <p className="text-center">
+                          <h2 className="text-center">
                             <FormattedMessage id="cart.fullPrice" />
-                          </p>
+                          </h2>
                         </div>
                         <div
                           className="d-flex justify-content-between flex-wrap ui-pet-item text-center"

@@ -1,11 +1,8 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
-import Landingpagecat from '../../../ClubLandingPage/ClubImage/Landingpagecat.png';
-import LogoClub from '../../../ClubLandingPage/ClubImage/LogoClub.png';
-import { FormattedMessage } from 'react-intl';
 import joinusnewlogo from './image/joinusnewlogo.png';
 import joinusnewright from './image/joinusnewright.png';
-import howitworknew1 from '../HowItWorksNew/image/howitworksnew1.png';
+import './index.css';
 
 const JoinTodayNew = () => {
   return (
@@ -24,34 +21,36 @@ const JoinTodayNew = () => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                 <div className="content-asset">
                   <div
-                    className="row rc-max-width--lg rc-match-heights rc-padding-y--sm jointoday"
-                    style={{ margin: '0', padding: '0' }}
+                    className="row rc-max-width--lg rc-match-heights rc-padding-y--sm flexwrapJoin"
+                    style={{
+                      margin: '0',
+                      padding: '0',
+                      display: 'flex',
+                      flexWrap: 'wrap'
+                    }}
                   >
-                    <div className="col-12 col-md-4 order-1 order-md-0  indexdesktop ">
+                    <div className="col-12 col-md-4 order-1 order-md-0  orderJoin1">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad>
                           <img
-                            className="w-auto lazyloaded"
+                            className="w-auto lazyloaded logomargin"
                             style={{
-                              maxWidth: '59%',
-                              maxHeight: '59%',
-                              marginTop: '120px',
-                              marginLeft: '15vh'
+                              maxWidth: '50%'
                             }}
                             src={joinusnewlogo}
                           />
                         </LazyLoad>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
-                      <div className="rc-gamma text-center">
+                    <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1 orderJoin2">
+                      <div className="text-center">
                         <h2 style={{ fontWeight: '550' }}>
-                          <FormattedMessage id="club.joinsubscription.title" />
+                          Tell us about your pet
                         </h2>
                       </div>
                       <div className="rc-intro inherit-fontsize rc-text--center">
-                        <h5>
-                          <FormattedMessage id="club.joinsubscription.description" />
+                        <h5 className="textMarginLeft">
+                          to get a precise nutritional recommendation.
                         </h5>
                       </div>
                       <div style={{ display: 'flex' }}>
@@ -59,11 +58,11 @@ const JoinTodayNew = () => {
                           style={{ margin: '0 auto' }}
                           className="rc-btn rc-btn--one"
                         >
-                          <FormattedMessage id="club.joinsubscription.button" />
+                          Get Started
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 order-2 order-md-2 indexdesktop ">
+                    <div className="col-12 col-md-4 order-2 order-md-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
                           <img
@@ -71,7 +70,7 @@ const JoinTodayNew = () => {
                             style={{
                               maxHeight: '90%',
                               maxWidth: '90%',
-                              marginLeft: '60px'
+                              marginLeft: '5vw'
                             }}
                           />
                         </LazyLoad>
