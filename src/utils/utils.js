@@ -868,12 +868,21 @@ export function getClubFlag() {
   return ['tr', 'ru'].indexOf(process.env.REACT_APP_LANG) > -1;
 }
 
-//美国订单号去掉RCFUS开头
-export const filterOrderId = (orderId) => {
+// 美国订单号去掉RCFUS开头
+/**
+ * 统一处理显示订单号
+ * @param {Object} orderNo  orderNoForOMS
+ * @returns {String} orderNo
+ */
+export const filterOrderId = ({ orderNo, orderNoForOMS }) => {
   return (
     {
-      en: orderId.replace(/RCFUS/, '')
-    }[process.env.REACT_APP_LANG] || orderId
+      // 1. 美国订单号去掉RCFUS开头
+      // 2. 美国先展示OMS order number，否则展示order number
+      en:
+        //  orderNoForOMS ||
+        orderNo.replace(/RCFUS/, '')
+    }[process.env.REACT_APP_LANG] || orderNo
   );
 };
 
