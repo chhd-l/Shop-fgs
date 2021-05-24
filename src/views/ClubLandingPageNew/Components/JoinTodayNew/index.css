@@ -12,11 +12,14 @@
     margin-top: 3vh;
     margin-left: 18vw;
   }
+  .textMarginLeft {
+    margin-left: 20vw;
+  }
 }
 
 @media (min-width: 639.98px) {
   .logomargin {
-    margin-top: 23vh;
+    margin-top: 16vh;
     margin-left: 6vw;
   }
 }

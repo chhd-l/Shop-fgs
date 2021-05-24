@@ -14,6 +14,51 @@ import landingBanner from './image/landing-banner.jpg';
 import iconsix from './image/iconsix.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
+import goodsdetalsbackground from './image/goodsdetailtabbackground.png';
+import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
+import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
+import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
+import auto from './image/auto@2x.png';
+import clubiconnew1 from './image/clubiconnew1.png';
+import clubiconnew2 from './image/clubiconnew2.png';
+import clubiconnew3 from './image/clubiconnew3.png';
+import clubiconnew4 from './image/clubiconnew4.png';
+import clubiconnew5 from './image/clubiconnew5.png';
+
+const pdpmobilebackgrounddog = {
+  backgroundImage: `url(${pdpbackgroundmobiledog})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
+let clubListDataNew = [
+  {
+    text: 'Automatic delivery with free shipping',
+    img: clubiconnew1,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: '10% off on every order',
+    img: clubiconnew2,
+    alt: 'CLUB BENEFITS DISCOUNT'
+  },
+  {
+    text: 'Access to a personal pet advisor',
+    img: clubiconnew3,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'A welcome box & exclusive rewards',
+    img: clubiconnew4,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  },
+  {
+    text: 'Tailored support & educational content',
+    img: clubiconnew5,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  }
+];
+
 let clubListData = [
   {
     text: <FormattedMessage id="clubListData.tip1" />,
@@ -32,12 +77,12 @@ let clubListData = [
   },
   {
     text: <FormattedMessage id="clubListData.tip4" />,
-    img: shippingicon,
+    img: auto,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
     text: <FormattedMessage id="clubListData.tip5" />,
-    img: phoneicon,
+    img: shippingicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
@@ -277,6 +322,9 @@ const GoodsDetailTabs = function (props) {
     handleTabData();
   }, []);
 
+  //club new subscribtion每次提交的时候记得把true改为false
+  const Show = false;
+
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
   return isMobile ? (
@@ -322,79 +370,175 @@ const GoodsDetailTabs = function (props) {
         </React.Fragment>
       ))}
       {isClub ? (
-        <dl
-          className="goodsdetailtabs-item-mobile"
-          style={{ position: 'relative' }}
-        >
-          <div
-            id="j-details-for-club"
-            style={{ position: 'absolute', top: -headerHeight }}
-          ></div>
-          <div
-            className={`rc-list__accordion-item test-color
+        <>
+          <dl
+            className="goodsdetailtabs-item-mobile"
+            style={{ position: 'relative' }}
+          >
+            <div
+              id="j-details-for-club"
+              style={{ position: 'absolute', top: -headerHeight }}
+            ></div>
+            <div
+              className={`rc-list__accordion-item test-color
         ${
           activeTabIdxLists.includes(goodsDetailTabsData.length)
             ? 'showItem'
             : 'hiddenItem'
         }`}
-          >
-            <div
-              className="rc-list__header d-flex justify-content-between text-uppercase"
-              onClick={changeTab.bind(null, {
-                idx: goodsDetailTabsData.length,
-                type: 'toggle',
-                ele: { descriptionName: 'club' }
-              })}
             >
               <div
-                dangerouslySetInnerHTML={{
-                  __html: intl.messages['club']
-                }}
-              />
-              <span
-                className={`rc-vertical-align icon-change ${
-                  activeTabIdxLists.includes(goodsDetailTabsData.length)
-                    ? 'rc-icon rc-up rc-brand1'
-                    : 'rc-icon rc-down rc-iconography'
-                }`}
-                style={{ right: '1rem', height: '28px' }}
-              />
-            </div>
-            <div className={`rc-list__content`} style={{ overflow: 'hidden' }}>
-              <p>
-                <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
-                  <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                    {clubListData.map((item, i) => (
-                      <div
-                        className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
-                        key={i}
-                      >
-                        <div style={{ width: '80px' }}>
-                          <LazyLoad>
-                            <img
-                              src={item.img}
-                              alt={item.alt}
-                              className="m-auto rc-margin--none--desktop"
-                            />
-                          </LazyLoad>
+                className="rc-list__header d-flex justify-content-between text-uppercase"
+                onClick={changeTab.bind(null, {
+                  idx: goodsDetailTabsData.length,
+                  type: 'toggle',
+                  ele: { descriptionName: 'club' }
+                })}
+              >
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: intl.messages['club']
+                  }}
+                />
+                <span
+                  className={`rc-vertical-align icon-change ${
+                    activeTabIdxLists.includes(goodsDetailTabsData.length)
+                      ? 'rc-icon rc-up rc-brand1'
+                      : 'rc-icon rc-down rc-iconography'
+                  }`}
+                  style={{ right: '1rem', height: '28px' }}
+                />
+              </div>
+              <div
+                className={`rc-list__content`}
+                style={{ overflow: 'hidden' }}
+              >
+                <p>
+                  {Show ? null : (
+                    <>
+                      <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
+                        <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                          {clubListData.map((item, i) => (
+                            <div
+                              className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
+                              key={i}
+                            >
+                              <div style={{ width: '80px' }}>
+                                <LazyLoad>
+                                  <img
+                                    src={item.img}
+                                    alt={item.alt}
+                                    className="m-auto rc-margin--none--desktop"
+                                  />
+                                </LazyLoad>
+                              </div>
+                              <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center value-proposition__text">
+                                <p style={{ textAlign: 'left' }}>{item.text}</p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center value-proposition__text">
-                          <p style={{ textAlign: 'left' }}>{item.text}</p>
+                        <div className="col-12 col-md-6">
+                          <div className="rc-video-wrapper">
+                            <img src={landingBanner} />
+                          </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="rc-video-wrapper">
-                      <img src={landingBanner} />
-                    </div>
-                  </div>
-                </div>
-                <HowItWorks />
-              </p>
+                      <HowItWorks />
+                    </>
+                  )}
+
+                  {Show ? (
+                    <>
+                      <div
+                        className="clubdetailsmobile"
+                        style={pdpmobilebackgrounddog}
+                      >
+                        <div className="row rc-margin-x--none">
+                          <div className="rc-full-width">
+                            <div className="experience-component experience-assets-contentBlock">
+                              <div
+                                className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                                style={{ marginBottom: '0px' }}
+                              >
+                                <div className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                                  <p
+                                    style={{
+                                      fontSize: '1em',
+                                      textAlign: 'center',
+                                      fontWeight: 'bold'
+                                    }}
+                                  >
+                                    GIVE YOUR PET A<br />
+                                    COMPLETE HEALTH SOLUTION,
+                                    <br />
+                                    BY SUBSCRIPTION
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: '0.7em',
+                                      textAlign: 'center'
+                                    }}
+                                  >
+                                    Free from engagement
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            flexDirection: 'column'
+                          }}
+                        >
+                          <div
+                            className={`rc-list__content`}
+                            style={{ overflow: 'hidden' }}
+                          >
+                            <p>
+                              <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
+                                <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                                  {clubListDataNew.map((item, i) => (
+                                    <div
+                                      className="d-flex align-items-center col-12 col-md-12 rc-padding-left--none"
+                                      key={i}
+                                    >
+                                      <div style={{ width: '80px' }}>
+                                        <LazyLoad>
+                                          <img
+                                            src={item.img}
+                                            alt={item.alt}
+                                            className="m-auto rc-margin--none--desktop"
+                                          />
+                                        </LazyLoad>
+                                      </div>
+                                      <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center value-proposition__text">
+                                        <p style={{ textAlign: 'left' }}>
+                                          {item.text}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </p>
+                          </div>
+                          <div>
+                            <SubscriptionBenefitsBanner />
+                          </div>
+                        </div>
+                      </div>
+                      <HowItWorksNew />
+                    </>
+                  ) : null}
+                </p>
+              </div>
             </div>
-          </div>
-        </dl>
+          </dl>
+        </>
       ) : null}
     </div>
   ) : (
@@ -486,38 +630,104 @@ const GoodsDetailTabs = function (props) {
                     : 'false'
                 }
               >
-                <div className="block">
-                  <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
-                    <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
-                      {clubListData.map((item) => (
-                        <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
-                          <img
-                            src={item.img}
-                            alt={item.alt}
-                            className="m-auto rc-margin--none--desktop"
-                          />
-                          <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
-                            <p className="mb-0" style={{ textAlign: 'left' }}>
-                              {item.text}
-                            </p>
+                {Show ? null : (
+                  <div className="block">
+                    <div className="row rc-margin-x--none flex-column-reverse flex-md-row">
+                      <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                        {clubListData.map((item) => (
+                          <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
+                            <img
+                              src={item.img}
+                              alt={item.alt}
+                              className="m-auto rc-margin--none--desktop"
+                            />
+                            <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                              <p className="mb-0" style={{ textAlign: 'left' }}>
+                                {item.text}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="rc-video-wrapper">
-                        <img src={landingBanner} />
-                        {/* <iframe
+                        ))}
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="rc-video-wrapper">
+                          <img src={landingBanner} />
+                          {/* <iframe
                           src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.com"
                           allowfullscreen=""
                           frameborder="0"
                           title="making a better world for pets"
                         /> */}
+                        </div>
                       </div>
                     </div>
+                    <HowItWorks />
                   </div>
-                  <HowItWorks />
-                </div>
+                )}
+                {Show ? (
+                  <div>
+                    <div className="clubdetailsmobile">
+                      <div className="row rc-margin-x--none">
+                        <div className="rc-full-width">
+                          <div className="experience-component experience-assets-contentBlock">
+                            <div
+                              className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                              style={{ marginBottom: '0px' }}
+                            >
+                              <div className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                                <p
+                                  style={{
+                                    fontSize: '1.1em'
+                                  }}
+                                >
+                                  GIVE YOUR PET A<br />
+                                  COMPLETE HEALTH SOLUTION,
+                                  <br />
+                                  BY SUBSCRIPTION
+                                </p>
+                                <p style={{ fontSize: '0.7em' }}>
+                                  Free from engagement
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between'
+                        }}
+                      >
+                        <div style={{ width: '50vw' }}>
+                          <div className="col-12 col-md-6 row rc-padding-x--none rc-margin-x--none rc-padding-top--lg--mobile">
+                            {clubListDataNew.map((item) => (
+                              <div className="d-md-flex align-items-center col-12 col-md-12 rc-padding-left--none">
+                                <img
+                                  src={item.img}
+                                  alt={item.alt}
+                                  className="m-auto rc-margin--none--desktop"
+                                />
+                                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                                  <p
+                                    className="mb-0"
+                                    style={{ textAlign: 'left', width: '22vw' }}
+                                  >
+                                    {item.text}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div style={{ width: '100vw', marginTop: '-5vh' }}>
+                          <SubscriptionBenefitsBanner />
+                        </div>
+                      </div>
+                    </div>
+                    <HowItWorksNew />
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

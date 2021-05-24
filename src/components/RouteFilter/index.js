@@ -45,24 +45,46 @@ class RouteFilter extends Component {
     return true;
   }
 
-  //总的调用consense接口
+  //会员调用consense接口
   getConsentList() {
     if (this.isLogin) {
-      this.doFindUserConsentList();
+      let customerId = this.userInfo && this.userInfo.customerId;
+      if (!customerId) {
+        return;
+      }
+      findUserConsentList({
+        customerId: customerId,
+        oktaToken: localItemRoyal.get('oktaToken')
+      }).then((result) => {
+        this.isExistRequiredListFun(result);
+      });
     }
   }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    let customerId = this.userInfo && this.userInfo.customerId;
-    if (!customerId) {
-      return;
+  //判断是否执行consent跳转
+  isGotoRequireConsentLandingPage() {
+    const oktaTokenString =
+      this.props.authState && this.props.authState.accessToken
+        ? this.props.authState.accessToken.value
+        : '';
+    if (oktaTokenString) {
+      let oktaToken = 'Bearer ' + oktaTokenString;
+      localItemRoyal.set('oktaToken', oktaToken);
+      let pathname = this.props.location.pathname;
+      // 非/implicit/callback+非required页 调用consense接口
+      if (
+        localItemRoyal.get('rc-token') &&
+        !localItemRoyal.get('rc-register') &&
+        //pathname === '/' &&
+        pathname !== '/implicit/callback' &&
+        pathname !== '/required'
+        //pathname !== '/account/information'
+      ) {
+        this.getConsentList();
+      }
     }
-    findUserConsentList({
-      customerId: customerId,
-      oktaToken: localItemRoyal.get('oktaToken')
-    }).then((result) => {
-      this.isExistRequiredListFun(result);
-    });
+  }
+  componentDidUpdate() {
+    this.isGotoRequireConsentLandingPage();
   }
   componentDidMount() {
     const { history, location, checkoutStore } = this.props;
@@ -139,7 +161,7 @@ class RouteFilter extends Component {
     // }
     if (
       //游客+从url输入required ===>直接跳回首页
-      !localItemRoyal.get('rc-token') && //可以注释掉
+      !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/required') !== -1 &&
       sessionItemRoyal.get('fromLoginPage') !== 'true'
     ) {
@@ -195,26 +217,6 @@ class RouteFilter extends Component {
   }
 
   render() {
-    const oktaTokenString =
-      this.props.authState && this.props.authState.accessToken
-        ? this.props.authState.accessToken.value
-        : '';
-    if (oktaTokenString) {
-      let oktaToken = 'Bearer ' + oktaTokenString;
-      localItemRoyal.set('oktaToken', oktaToken);
-      let pathname = this.props.location.pathname;
-      // 非/implicit/callback+非required页 调用consense接口
-      if (
-        localItemRoyal.get('rc-token') &&
-        !localItemRoyal.get('rc-register') &&
-        //pathname === '/' &&
-        pathname !== '/implicit/callback' &&
-        pathname !== '/required'
-        //pathname !== '/account/information'
-      ) {
-        this.getConsentList();
-      }
-    }
     return <React.Fragment />;
   }
 }

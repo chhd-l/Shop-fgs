@@ -70,7 +70,11 @@ const AutoshipBuyMethod = ({
                   i
                 </span>
                 <ConfirmTooltip
-                  arrowStyle={{ left: '79%' }}
+                  arrowStyle={{ left: '50%' }}
+                  containerStyle={{
+                    transform:
+                      'translate(-49%, 110%)'
+                  }}
                   display={toolTipVisible}
                   cancelBtnVisible={false}
                   confirmBtnVisible={false}

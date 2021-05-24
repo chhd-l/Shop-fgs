@@ -57,8 +57,6 @@ export default function Modal(props) {
                     <br />
                     <h4>1.1.Satıcı: </h4>
                     <br />
-                    <p>SATICI’YA AİT BİLGİLER </p>
-                    <br />
                     <p>
                       Ünvan ROYAL CANIN TURKEY EVCİL HAYVAN ÜRÜNLERİ TİCARET
                       LTD.ŞTİ.
@@ -69,14 +67,11 @@ export default function Modal(props) {
                     </p>
                     <p>Telefon 0 212 370 06 70</p>
                     <p>Faks 0 212 370 06 71</p>
-                    <p>E-posta: contact@shop.royalcanin.com.tr</p>
+                    <p>E-posta: iletisim@royalcanin.com</p>
                     <p>Mersis No: 0735085841000012</p>
                     <p>Ticaret Sicil No: 983173</p>
                     <br />
                     <h4>1.2. Alici:</h4>
-                    <p>
-                      <strong>Teslimat Bilgileri: </strong>
-                    </p>
                     <p>
                       Ad Soyad / Unvan:
                       <span data-represents-field="#billingAddressTitle"></span>
@@ -106,11 +101,17 @@ export default function Modal(props) {
                     <p>
                       İşbu Mesafeli Satış Sözleşmesi (“Sözleşme”), 6502 Sayılı
                       Tüketicinin Korunması Hakkında Kanun ve Mesafeli
-                      Sözleşmeler Yönetmeliği uyarınca Alıcı’nın adresli
-                      internet sitesi (“İnternet Sitesi”) üzerinden elektronik
-                      ortamda siparişini verdiği ürünlerin satış ve teslimine
-                      ilişkin olarak Satıcı ve Alıcı’nın hak ve yükümlülüklerini
-                      düzenler.{' '}
+                      Sözleşmeler Yönetmeliği uyarınca Alıcı’nın{' '}
+                      <a
+                        href="https://www.royalcanin.com/tr"
+                        style={{ color: '#0563C1' }}
+                      >
+                        https://www.royalcanin.com/tr
+                      </a>{' '}
+                      adresli internet sitesi (“İnternet Sitesi”) üzerinden
+                      elektronik ortamda siparişini verdiği ürünlerin satış ve
+                      teslimine ilişkin olarak Satıcı ve Alıcı’nın hak ve
+                      yükümlülüklerini düzenler.{' '}
                     </p>
                     <h3>3. SÖZLEŞME KONUSU ÜRÜNLER VE ÖDEME ŞEKLİ </h3>
 
@@ -362,90 +363,144 @@ export default function Modal(props) {
                         durumu öğrendiği tarihten itibaren 3 (üç) gün içinde
                         Alıcı’ya bildirmekle yükümlüdür.
                       </p>
-                      <h3>8. ABONELİK</h3>
+                      <h3>8. ROYAL CANIN CLUB</h3>
                       <p>
-                        <strong>8.1</strong> Alıcı belirli ürünleri belirli
-                        aralıklarla satın almak amacıyla abonelik programına
-                        katıldığı takdirde söz konusu satışlara aşağıdaki
-                        hükümler uygulanacaktır:
+                        ROYAL CANIN® Club, bu programın içinde yer alan belirli
+                        ürün ve hizmetleri sitede tanımlandığı şekilde satın
+                        almak isteyen Online Mağazamıza kayıtlı kullanıcılar
+                        için otomatik olarak belirli aralıklarla ürün satın
+                        alınmasına ilişkin bir abonelik programıdır. Alıcı, bu
+                        programa katıldığı takdirde söz konusu satışlarda
+                        aşağıdaki hükümler uygulanacaktır:
                       </p>
                       <p>
-                        a. Alıcı, herhangi bir zamanda hiçbir değişiklik veya
-                        iptal ücreti olmadan aboneliğini değiştirebilir veya
-                        iptal edebilir.
+                        a. Ürünlerin otomatik olarak gönderilme sıklığı, Alıcı
+                        tarafından belirlenir.
                       </p>
                       <p>
-                        b. Alıcı, herhangi bir teslimatı bir sonraki sipariş
+                        b. Program dahilindeki mama seçenekleri, tavsiye
+                        niteliğindedir. Evcil hayvanın özel ihtiyaç ve
+                        hassasiyetlerinin her zaman için göz önünde
+                        bulundurulması ve en uygun sağlıklı beslenme çözümünü
+                        öğrenmek için Veteriner Hekime danışılması önerilir.
+                      </p>
+                      <p>
+                        c. Club programında önerilen ürünler tekli siparişe de
+                        açık olup Alıcı’nın bu ürünleri satın alabilmesi için
+                        Club programına dahil olmasına gerek bulunmamaktadır.
+                      </p>
+                      <p>
+                        d. Club programı dahilinde haftaiçi her gün 09.00-18.00
+                        saatleri arasında hizmet veren Beslenme Danışmanları
+                        vardır. Bu danışmanlar, yalnızca veteriner hekim
+                        muayenesi ve kontrolü gerektirmeyen evcil hayvan bakımı,
+                        beslenmesi ve davranışları hakkında Club üyelerine
+                        tavsiyelerde bulunur.
+                      </p>
+                      <p>
+                        e. Alıcıya, Club programına dahil olduğunda ilk
+                        teslimatında içinde battaniye, mama kabı, broşür içeren
+                        hoşgeldin paketi sunulur. İlk siparişi takip eden her üç
+                        siparişinde bir mama kabı, saklama kabı, bakım kiti gibi
+                        Satıcı’nın takdirine göre belirlenecek hediyeler
+                        sunulmaktadır. Söz konusu hediyeler burada sayılanlarla
+                        sınırlı olmadığı gibi hediyelerin içeriğinde ve
+                        sıralamasında değişiklik uygulanabilir.
+                      </p>
+                      <p>
+                        f. Siparişlerin herhangi bir nedenle iadesi durumda ürün
+                        ve hediyeler eksiksiz bir şekilde birlikte paket olarak
+                        iade edilmelidir.
+                      </p>
+                      <p>
+                        g. Alıcı, herhangi bir zamanda hiçbir değişiklik veya
+                        iptal ücreti olmadan Club aboneliğini değiştirebilir
+                        veya iptal edebilir. Alıcı’nın Club aboneliği
+                        kapsamındaki ürünü değiştirmesi durumunda artık yeni
+                        belirlenen ürünün fiyatı üzerinden ücretlendirme
+                        yapılacaktır.
+                      </p>
+                      <p>
+                        h. Alıcı, herhangi bir teslimatı bir sonraki sipariş
                         tarihinden en az bir gün önce atlamayı tercih edebilir.
                         Bu durumda söz konusu sipariş gönderilmeyecek ve
-                        faturalanmayacaktır.
+                        faturalanmayacaktır. Bu durumda ilgili teslimat
+                        kapsamında bir hediye gönderilecekse, bu hediye bir
+                        sonraki teslimat ile gönderilecektir. Ancak bu durumda
+                        beslenme danışmanı tavsiyelerinden faydalanmaya devam
+                        edebileceksiniz.
                       </p>
                       <p>
-                        c. Abonelik, otomatik yenileme ile bir yıllık süre için
-                        geçerli olacaktır. Alıcı’ya, bir yıllık sürenin
-                        dolmasından 15 gün önce ve 3 gün önce bir yıllık sürenin
-                        dolduğunu ve aboneliğin bir yıllık süre için
-                        yenileneceğini hatırlatmak üzere e-posta
-                        gönderilecektir. Alıcı, aboneliğini bir yıllık süre
-                        içinde herhangi bir zamanda da iptal edebilir.
+                        i. Alıcı, siparişin gönderilme tarihini, ilgili sipariş
+                        oluşmadan önce değiştirebilir. Herhangi bir siparişe
+                        ilişkin tarih değiştirildiğinde, sonraki siparişlerin
+                        tarihleri otomatik olarak değiştirilmez.
                       </p>
                       <p>
-                        d. Abonelik programı kapsamında satın alınan ürünlerin
+                        j. Alıcı, Club programı kapsamındaki siparişlerin
+                        teslimat veya fatura adresini, ilgili siparişi vermeden
+                        önce değiştirebilir.
+                      </p>
+                      <p>
+                        k. Club programı kapsamında satın alınan ürünlerin
                         teslimatı ücretsiz yapılacaktır.
                       </p>
                       <p>
-                        e. Abonelik programı kapsamındaki ürünlerden herhangi
+                        l. Club programı kapsamındaki ürünlerden herhangi
                         birinin ücretinde artış olduğu takdirde Alıcı’ya bu
                         değişikliği bildirmek ve söz konusu satın almaya devam
                         etmek isteyip istemediğinin onayını almak üzere e-posta
                         gönderilecektir. Alıcı’nın bu bildirimi almasından
                         itibaren yedi (7) gün içinde fiyat artışını kabul
                         etmemesi durumunda Satıcı söz konusu siparişi işleyeme
-                        koyamayacak ve gönderemeyecektir.
+                        koyamayacak ve gönderemeyecektir. Alıcı’nın yedi (7) gün
+                        içinde fiyat artışını kabul etmediğine dair bir
+                        bildirimde bulunmaması halinde takip eden siparişleri,
+                        yeni fiyat üzerinden ücretlendirilecektir.
                       </p>
                       <p>
-                        f. Gelecek siparişe uygulanabilecek herhangi bir
-                        promosyon olduğu takdirde bu promosyon otomatik olarak
-                        uygulanacaktır.
-                      </p>
-                      <p>
-                        g. Alıcı, abonelik programı kapsamında satın aldığı
-                        ürünler için yalnızca kredi kartı ile ödeme yapabilir.
-                        Alıcı’nın kredi kartı bilgileri abonelik programına
+                        m. Alıcı, Club programı kapsamında satın aldığı ürünler
+                        için yalnızca kredi kartı ve/veya banka kartı ile ödeme
+                        yapabilir. Alıcı’nın kart bilgileri abonelik programına
                         kayıt için gerekli olacaktır ve bu bilgiler Satıcı’nın
-                        ödeme hizmeti sağlayıcısı PayU tarafından
-                        kaydedilecektir. Alıcı kredi kartı bilgilerini her zaman
-                        hesabından değiştirebilir ve takip eden siparişlerde
-                        yeni kredi kartı kullanılır.
+                        ödeme hizmeti sağlayıcısı tarafından kaydedilecektir.
+                        Alıcı bu bilgilerini her zaman hesabından değiştirebilir
+                        ve takip eden siparişlerde yeni kartı kullanılır.
                       </p>
                       <p>
-                        h. Alıcı’nın kredi kartının geçerliliği sona erdiğinde
-                        Alıcı kredi kartı bilgilerini güncellemesi için otomatik
-                        bir e-posta alacaktır. Alıcı’nın kredi kartının
-                        geçerlilik süresi sona ermesine rağmen kredi kartı
-                        bilgilerini güncellememesi durumunda Satıcı, abonelik
-                        konusu siparişi işleme koyamayacak ve gönderemeyecektir.
+                        n. Alıcı’nın ödeme için kaydetmiş olduğu kartının
+                        geçerliliği sona erdiğinde Alıcı, kart bilgilerini
+                        güncellemesi için otomatik bir e-posta alacaktır.
+                        Alıcı’nın kartının geçerlilik süresi sona ermesine
+                        rağmen kart bilgilerini güncellememesi durumunda Satıcı,
+                        abonelik konusu siparişi işleme koyamayacak ve
+                        gönderemeyecektir.
                       </p>
                       <p>
-                        i. Alıcı’nın kredi kartına ilişkin ödeme onayı her bir
-                        sipariş için kontrol edilecektir ve ödeme, Alıcı’nın
-                        siparişi gönderildiğinde tahsil edilecektir. Ödemeye
-                        ilişkin herhangi bir problem olduğu takdirde ödeme
-                        bilgilerini güncellemesi için Alıcı ile iletişime
-                        geçilecektir. Satıcı, ödeme bilgilerini güncellemesi
-                        için Alıcı’ya ulaşamadığı takdirde Satıcı, abonelik
-                        konusu siparişi işleme koyamayacak ve gönderemeyecektir.
+                        o. Alıcı’nın kartına ilişkin ödeme onayı her bir sipariş
+                        için kontrol edilecektir ve ödeme, Alıcı’nın siparişi
+                        oluştuğunda tahsil edilecektir. Ödemeye ilişkin herhangi
+                        bir problem olduğu takdirde ödeme bilgilerini
+                        güncellemesi için Alıcı ile iletişime geçilecektir.
+                        Satıcı, ödeme bilgilerini güncellemesi için Alıcı’ya
+                        ulaşamadığı takdirde Satıcı, abonelik konusu siparişi
+                        işleme koyamayacak ve gönderemeyecektir.
                       </p>
                       <p>
-                        j. Alıcı’nın aboneliği kapsamındaki bir ürünün geçici
-                        bir ürün için stok dışı olması durumunda bu husus
-                        Alıcı’ya bildirilecek ve söz konusu ürün stoka girene
-                        kadar siparişleri işleme koyulamayacaktır. Alıcı’nın
-                        aboneliği kapsamındaki bir ürünün süresiz olarak stok
-                        dışı olması durumunda bu husus Alıcı’ya bildirilecek ve
-                        Alıcı’nın söz konusu ürün hakkındaki aboneliği otomatik
-                        olarak iptal edilecektir.
+                        p. Alıcı’nın aboneliği kapsamındaki bir ürünün geçici
+                        olarak stok dışı olması durumunda bu husus Alıcı’ya
+                        bildirilecek ve söz konusu ürün stoka girene kadar
+                        siparişleri işleme koyulamayacaktır. Alıcı’nın aboneliği
+                        kapsamındaki bir ürünün süresiz olarak stok dışı olması
+                        durumunda bu husus Alıcı’ya bildirilecek ve Alıcı’nın
+                        söz konusu ürün hakkındaki aboneliği otomatik olarak
+                        iptal edilecektir. Alıcı’nın böyle bir durumda
+                        Satıcı’dan herhangi bir talep hakkı bulunmamaktadır.
+                        Hediyeler ise ürün kapsamında sayılmaz, stok durumuna
+                        veya Satıcı’nın takdirine göre hediyeler üründen ayrı
+                        şekilde veya daha sonraki bir zamanda gönderilebilir.
                       </p>
+
                       <h3>9. UYUŞMAZLIKLARIN ÇÖZÜMÜ</h3>
                       <p>
                         <strong>9.1</strong> İşbu Sözleşme’nin uygulanmasında,

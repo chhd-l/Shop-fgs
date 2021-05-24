@@ -80,28 +80,12 @@ export default class Search extends React.Component {
         const esGoodsPage =
           res[0] && res[0].context && res[0].context.esGoodsPage;
         if (esGoodsPage && esGoodsPage.content.length) {
-          goodsContent = (esGoodsPage.content || []).map((ele) => {
-            let ret = Object.assign({}, ele);
-            const tmpItem = find(
-              res[0].context.goodsList || [],
-              (g) => g.goodsId === ele.id
-            );
-            if (tmpItem) {
-              ret = Object.assign(ret, {
-                goodsCateName: tmpItem.goodsCateName,
-                goodsSubtitle: tmpItem.goodsSubtitle,
-                goodsImg: tmpItem.goodsImg,
-                goodsNo: tmpItem.goodsNo
-              });
-            }
-            return ret;
-          });
+          goodsContent = esGoodsPage.content || [];
           if (dataLayer[0] && dataLayer[0].search) {
             dataLayer[0].search.query = keywords;
             dataLayer[0].search.results = esGoodsPage.totalElements;
             dataLayer[0].search.type = 'with results';
           }
-          const sessionItemRoyal = window.__.sessionItemRoyal;
           sessionItemRoyal.set('search-results', esGoodsPage.totalElements);
 
           this.setState({

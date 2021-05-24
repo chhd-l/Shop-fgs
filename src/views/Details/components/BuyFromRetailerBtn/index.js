@@ -15,7 +15,7 @@ class BuyFromRetailerBtn extends React.Component {
     const tipIcon = (
       <span
         className="info-tooltip delivery-method-tooltip"
-        onMouseEnter={() => {
+        onMouseEnter={(e) => {
           this.setState({
             toolTipVisible: true
           });
@@ -62,6 +62,25 @@ class BuyFromRetailerBtn extends React.Component {
       observer.observe(nodeBtn, config);
     }
   }
+  confirmTooltip = () => {
+    return (
+      <ConfirmTooltip
+        arrowDirection="bottom"
+        containerStyle={{
+          transform: 'translate(-95%, -50%)'
+        }}
+        display={this.state.toolTipVisible}
+        cancelBtnVisible={false}
+        confirmBtnVisible={false}
+        updateChildDisplay={(status) =>
+          this.setState({
+            toolTipVisible: status
+          })
+        }
+        content={<FormattedMessage id="details.buyFromRetailerTip" />}
+      />
+    );
+  };
   render() {
     const { onClick, barcode, goodsType } = this.props;
     const { ccidBtnDisplay } = this.state;
@@ -95,7 +114,10 @@ class BuyFromRetailerBtn extends React.Component {
                 </span>
               ) : null}
             </div>
-            {this.state.tipIcon}
+            <div style={{ position: 'relative' }}>
+              {this.state.tipIcon}
+              {this.confirmTooltip()}
+            </div>
           </div>
         ) : (
           <a
@@ -106,18 +128,6 @@ class BuyFromRetailerBtn extends React.Component {
             <FormattedMessage id="details.buyFromRetailer" />
           </a>
         )}
-        <ConfirmTooltip
-          arrowDirection="bottom"
-          display={this.state.toolTipVisible}
-          cancelBtnVisible={false}
-          confirmBtnVisible={false}
-          updateChildDisplay={(status) =>
-            this.setState({
-              toolTipVisible: status
-            })
-          }
-          content={<FormattedMessage id="details.buyFromRetailerTip" />}
-        />
       </div>
     );
   }
