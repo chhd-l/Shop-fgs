@@ -555,6 +555,8 @@ class Home extends React.Component {
         ) : (
           <Helmet>
             <meta name="robots" content="noindex" />
+            <meta name="googlebot" content="noindex" />
+            <meta name="googlebot-news" content="nosnippet" />
           </Helmet>
         )}
         <GoogleTagManager
