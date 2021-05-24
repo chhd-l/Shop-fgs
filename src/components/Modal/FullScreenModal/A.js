@@ -64,7 +64,9 @@ export default function Modal(props) {
                       geçebilirsiniz
                     </p>
                     <br />
-
+                    <p>
+                      <strong>ÜRÜNLERE İLİŞKİN BİLGİLER</strong>
+                    </p>
                     <Table />
                     <br />
                     <br />

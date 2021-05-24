@@ -32,7 +32,7 @@ const AutoshipItem = ({ subItem, frequencyList, history }) => {
                 paddingLeft: '1.25rem'
               }}
             >
-              {filterOrderId(subItem.subscribeId)}
+              {filterOrderId({ orderNo: subItem.subscribeId })}
             </p>
           </div>
           <div className="col-4 col-md-2" />
