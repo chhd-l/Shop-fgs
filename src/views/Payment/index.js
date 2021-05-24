@@ -76,6 +76,7 @@ import { doGetGAVal } from '@/utils/GA';
 import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
+import ConsentData from '@/utils/consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -344,7 +345,8 @@ class Payment extends React.Component {
       console.warn(err);
     }
 
-    this.getConsentList();
+    let consentData = await ConsentData(this.props);
+    this.rebindListData(consentData);
     this.initPaymentWay();
     this.initPanelStatus();
   }
@@ -515,48 +517,6 @@ class Payment extends React.Component {
       requiredList
     });
   };
-  //总的调用consense接口
-  async getConsentList() {
-    //1.会员调用consense接口
-    //2.游客调用consense接口
-    const { isLogin } = this;
-    const customerId = this.userInfo?.customerId;
-    let params = {};
-    // add subscriptionPlan consent
-    let subscriptionPlanIds = this.props.checkoutStore.loginCartData?.filter(
-      (item) => item.subscriptionPlanId?.length > 0
-    );
-    let groups = subscriptionPlanIds.map((item) => {
-      return {
-        consentGroup: 'subscription-plan',
-        itemId: item.subscriptionPlanId
-      };
-    });
-    if (isLogin) {
-      const oktaTokenString = this.props.authState.accessToken
-        ? this.props.authState.accessToken.value
-        : '';
-      let oktaToken = 'Bearer ' + oktaTokenString;
-      params = { customerId, consentPage: 'check out', oktaToken: oktaToken };
-    } else {
-      params = { consentPage: 'check out' };
-    }
-    if (groups) {
-      params.groups = groups;
-    }
-    let res = '';
-    try {
-      res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-        params
-      );
-    } catch (err) {
-      console.log(err.message);
-    }
-    if (res) {
-      this.isExistListFun(res); //现在游客会员 统一
-    }
-    //this.getTrConsentList();
-  }
   //重新组装listData
   rebindListData(listData) {
     this.setState(
@@ -568,113 +528,7 @@ class Payment extends React.Component {
       }
     );
   }
-  //游客+会员必填项和选填项全部显示，只result结果不同
-  isExistListFun(result) {
-    const optionalList = result.context.optionalList.map((item) => {
-      return {
-        id: item.id,
-        consentTitle: item.consentTitle,
-        isChecked: false,
-        isRequired: false,
-        detailList: item.detailList
-      };
-    });
-    let requiredList = result.context.requiredList.map((item) => {
-      return {
-        id: item.id,
-        consentTitle: item.consentTitle,
-        isChecked: false,
-        isRequired: true,
-        detailList: item.detailList
-      };
-    });
 
-    let listData = [];
-    if (
-      !this.isLogin &&
-      (process.env.REACT_APP_COUNTRY == 'US' ||
-        process.env.REACT_APP_COUNTRY == 'RU')
-    ) {
-      listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
-    } else if (process.env.REACT_APP_COUNTRY == 'RU') {
-      listData = [...requiredList]; //俄罗斯-会员-必填项
-    } else if (process.env.REACT_APP_COUNTRY == 'TR') {
-      let cConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: item2.consentTitle,
-            isChecked: true,
-            isRequired: true,
-            detailList: item2.detailList,
-            noChecked: true
-          };
-        });
-      let aConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_FGS_A';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: item2.consentTitle,
-            isChecked: false,
-            isRequired: true,
-            detailList: item2.detailList,
-            desc: item2.consentDesc
-          };
-        });
-      let bConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_FGS_B';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: item2.consentTitle,
-            isChecked: false,
-            isRequired: true,
-            detailList: item2.detailList,
-            desc: item2.consentDesc
-          };
-        });
-      let dConsent = result.context.requiredList
-        .filter((item) => {
-          return item.consentDesc == 'RC_DF_TR_TRANSFER_DATA';
-        })
-        .map((item2) => {
-          return {
-            id: item2.id,
-            consentTitle: `<span class="medium ui-cursor-pointer-pure" style="padding-bottom: 2px;
-            border-bottom: 1px solid #ccc;color:#666" id="tr_consent_d">Yurtdışına Veri Aktarımı Açık Rıza Metni</span>ni okudum. Kişisel verilerimin Türkiye dışına transfer edilmesini onaylıyorum`, //特殊处理，这里需要替换成本地的文字
-            isChecked: false,
-            isRequired: true,
-            detailList: item2.detailList
-          };
-        });
-
-      listData = [...cConsent, ...aConsent, ...bConsent, ...dConsent];
-      //listData = [...cConsent,...commonList,...dConsent];
-    } else {
-      listData = [...requiredList, ...optionalList]; //必填项+选填项
-    }
-
-    this.rebindListData(listData);
-  }
-  //土耳其consent 静态
-  // getTrConsentList() {
-  //   if (process.env.REACT_APP_COUNTRY === 'TR') {
-  //     let listData = [];
-
-  //     //listData = this.isLogin ? [...registerCustomerList] : [...guestList];
-  //     //listData = [...registerCustomerList];
-  //     listData = [...guestList];
-  //     this.rebindListData(listData);
-  //   }
-  // }
   //获取支付方式
   initPaymentWay = async () => {
     try {
