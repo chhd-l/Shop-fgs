@@ -57,6 +57,9 @@ class AddressList extends React.Component {
         comment: '',
         entrance: '',
         apartment: '',
+        street: '',
+        house: '',
+        housing: '',
         isDefalt: false,
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
@@ -431,6 +434,9 @@ class AddressList extends React.Component {
       comment: '',
       entrance: '',
       apartment: '',
+      street: '',
+      house: '',
+      housing: '',
       isDefalt: false
     };
 
@@ -453,9 +459,12 @@ class AddressList extends React.Component {
         province: tmp.province,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
-        comment: tmp.comment,
-        entrance: tmp.entrance,
-        apartment: tmp.apartment,
+        comment: tmp.comment || '',
+        entrance: tmp.entrance || '',
+        apartment: tmp.apartment || '',
+        street: tmp.street || '',
+        house: tmp.house || '',
+        housing: tmp.housing || '',
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
@@ -589,11 +598,11 @@ class AddressList extends React.Component {
         region: deliveryAddress.province, // DuData相关参数
         area: deliveryAddress.area,
         settlement: deliveryAddress.settlement,
-        street: deliveryAddress.street,
-        house: deliveryAddress.house,
-        housing: deliveryAddress.housing,
-        entrance: deliveryAddress.entrance,
-        apartment: deliveryAddress.apartment,
+        street: deliveryAddress.street || '',
+        house: deliveryAddress.house || '',
+        housing: deliveryAddress.housing || '',
+        entrance: deliveryAddress.entrance || '',
+        apartment: deliveryAddress.apartment || '',
 
         type: this.props.type.toUpperCase()
       };

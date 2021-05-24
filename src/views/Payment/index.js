@@ -164,6 +164,9 @@ class Payment extends React.Component {
         phoneNumber: '',
         entrance: '',
         apartment: '',
+        street: '',
+        house: '',
+        housing: '',
         comment: '',
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
@@ -1369,20 +1372,12 @@ class Payment extends React.Component {
      * 封装下单参数的时候需要把新加的字段加上，
      * 否则支付时会刷新preview显示的参数
      */
-    let param = {
-      firstName: deliveryAddress?.firstName,
-      lastName: deliveryAddress?.lastName,
+    let param = Object.assign({}, deliveryAddress, {
       zipcode: deliveryAddress?.postCode,
-      city: deliveryAddress?.city,
-      cityId: deliveryAddress?.cityId,
-      provinceId: deliveryAddress?.provinceId,
-      provinceNo: deliveryAddress?.provinceNo,
-      province: deliveryAddress?.province,
       phone: creditCardInfo?.phoneNumber,
       email: creditCardInfo?.email || deliveryAddress?.email,
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
-      comment: deliveryAddress?.comment,
       //推荐者信息下放到商品行
       // recommendationId: clinicStore.linkClinicId,
       // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
@@ -1403,7 +1398,35 @@ class Payment extends React.Component {
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail
-    };
+    });
+    console.log('★★★★★★ 1548 封装下单参数: ', param);
+    // let param = {
+    //   zipcode: deliveryAddress?.postCode,
+    //   phone: creditCardInfo?.phoneNumber,
+    //   email: creditCardInfo?.email || deliveryAddress?.email,
+    //   line1: deliveryAddress?.address1,
+    //   line2: deliveryAddress?.address2,
+    //   //推荐者信息下放到商品行
+    //   // recommendationId: clinicStore.linkClinicId,
+    //   // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
+    //   // recommendationName: clinicStore.linkClinicName,
+    //   //审核者信息放订单行
+    //   clinicsId: clinicStore.selectClinicId,
+    //   clinicsName: clinicStore.selectClinicName,
+    //   storeId: process.env.REACT_APP_STOREID,
+    //   tradeItems: [], // once order products
+    //   subTradeItems: [], // subscription order products
+    //   tradeMarketingList: [],
+    //   payAccountName: creditCardInfo?.cardOwner,
+    //   payPhoneNumber: creditCardInfo?.phoneNumber,
+    //   petsId: '',
+    //   deliveryAddressId: deliveryAddress?.addressId,
+    //   billAddressId: billingAddress?.addressId,
+    //   maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
+    //   minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
+    //   promotionCode,
+    //   guestEmail
+    // };
 
     if (payosdata) {
       param = Object.assign(param, {
@@ -1706,26 +1729,30 @@ class Payment extends React.Component {
       let tmpDeliveryAddress = { ...deliveryAddress };
       let tmpBillingAddress = { ...billingAddress };
       if (this.isLogin) {
-        tmpDeliveryAddress = {
-          firstName: deliveryAddress.firstName,
-          lastName: deliveryAddress.lastName,
-          address1: deliveryAddress.address1,
-          address2: deliveryAddress.address2,
-          rfc: deliveryAddress.rfc,
-          countryId: deliveryAddress.countryId,
-          country: deliveryAddress.country,
-          city: deliveryAddress.city,
-          cityId: deliveryAddress.cityId,
-          provinceId: deliveryAddress.provinceId,
-          provinceNo: deliveryAddress.provinceNo,
-          province: deliveryAddress.province,
-          postCode: deliveryAddress.postCode,
-          comment: deliveryAddress?.comment,
+        tmpDeliveryAddress = Object.assign({}, tmpDeliveryAddress, {
           phoneNumber: deliveryAddress.consigneeNumber,
-          email: deliveryAddress.email,
           addressId:
             deliveryAddress.addressId || deliveryAddress.deliveryAddressId
-        };
+        });
+        // tmpDeliveryAddress = {
+        //   firstName: deliveryAddress.firstName,
+        //   lastName: deliveryAddress.lastName,
+        //   address1: deliveryAddress.address1,
+        //   address2: deliveryAddress.address2,
+        //   rfc: deliveryAddress.rfc,
+        //   countryId: deliveryAddress.countryId,
+        //   country: deliveryAddress.country,
+        //   city: deliveryAddress.city,
+        //   cityId: deliveryAddress.cityId,
+        //   provinceId: deliveryAddress.provinceId,
+        //   provinceNo: deliveryAddress.provinceNo,
+        //   province: deliveryAddress.province,
+        //   postCode: deliveryAddress.postCode,
+        //   comment: deliveryAddress?.comment,
+        //   email: deliveryAddress.email,
+        //   phoneNumber: deliveryAddress.consigneeNumber,
+        //   addressId: deliveryAddress.addressId || deliveryAddress.deliveryAddressId
+        // };
         if (!billingChecked) {
           tmpBillingAddress = {
             firstName: billingAddress.firstName,
@@ -3079,7 +3106,8 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
-    console.log('clickPay: ', this.state.billingAddress);
+    console.log('★★★★★★ clickPay: ', this.state.billingAddress);
+    console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });

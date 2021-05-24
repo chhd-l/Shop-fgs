@@ -1776,12 +1776,12 @@ export default {
     {
       shortUrl:
         '/tr/intense-beauty-jelly-%28x12%29-415101020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/intense-beauty-gravy-4071'
+      redirectUrl: '/intense-beauty-jelly-4151'
     },
     {
       shortUrl:
         '/tr/intense-beauty-jelly-(x12)-415101020_INNERBOX_12_UNIT_TR.html',
-      redirectUrl: '/intense-beauty-gravy-4071'
+      redirectUrl: '/intense-beauty-jelly-4151'
     },
     {
       shortUrl:
