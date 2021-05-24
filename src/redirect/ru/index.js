@@ -1383,8 +1383,8 @@ export default {
       redirectUrl: '/skin-&-coat-1323'
     },
     {
-      shortUrl: '/skin-&-coat-1323',
-      redirectUrl: '/skin-&-coat-1323'
+      shortUrl: '/ru/skin-&-coat-1323',
+      redirectUrl: '/ru/skin-&-coat-1323'
     },
     {
       shortUrl: '/ru/Skin-Care-Small-Dogs-4006_RU.html',
