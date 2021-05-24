@@ -87,8 +87,9 @@
     <!-- seo is not searched -->
     <script>
       if (
-        '<%= process.env.REACT_APP_LANG %>' == 'en' ||
-        '<%= process.env.NODE_ENV %>' !== 'production'
+        '<%= process.env.REACT_APP_COUNTRY %>' == 'US' ||
+        '<%= process.env.NODE_ENV %>' !== 'production' ||
+        ( '<%= process.env.REACT_APP_COUNTRY %>' == 'RU' && window.location.pathname == "/home")
       ) {
         var metaTag = document.createElement('meta');
         metaTag.name = 'robots';

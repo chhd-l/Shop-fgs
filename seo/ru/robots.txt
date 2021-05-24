@@ -8,4 +8,5 @@ Disallow: *prefn3=*
 Disallow: *prefn4=*
 Disallow: *Search-Show*
 Disallow: /checkout*
+Disallow: /home*
 Sitemap: https://www.shop.royal-canin.ru/sitemap_index.xml
