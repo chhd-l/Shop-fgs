@@ -69,7 +69,7 @@ export default function Modal(props) {
                     </p>
                     <p>Telefon 0 212 370 06 70</p>
                     <p>Faks 0 212 370 06 71</p>
-                    <p>E-posta: contact@shop.royalcanin.com.tr</p>
+                    <p>E-posta: iletisim@royalcanin.com</p>
                     <p>Mersis No: 0735085841000012</p>
                     <p>Ticaret Sicil No: 983173</p>
                     <br />
