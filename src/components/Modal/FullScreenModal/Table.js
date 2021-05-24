@@ -94,7 +94,7 @@ export default function Table(props) {
               <td className="rc-table__td"></td>
               <td className="rc-table__td"></td>
               <td className="rc-table__td"></td>
-              <td className="rc-table__td">İndirim</td>
+              <td className="rc-table__td">KDV Matrahi</td>
               <td className="rc-table__td">
                 {subscriptionDiscountPrice > 0
                   ? '-' + subscriptionDiscountPrice + ' TL'
@@ -112,7 +112,9 @@ export default function Table(props) {
               <td className="rc-table__td"></td>
               <td className="rc-table__td"></td>
               <td className="rc-table__td"></td>
-              <td className="rc-table__td">Ödenecek Tutar</td>
+              <td className="rc-table__td">
+                Ödenecek Tutar (KDV ve kargo ücreti dahil)
+              </td>
               <td className="rc-table__td">{tradePrice} TL</td>
             </tr>
           </tbody>
