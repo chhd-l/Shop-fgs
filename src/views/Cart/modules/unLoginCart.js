@@ -287,7 +287,7 @@ class UnLoginCart extends React.Component {
             frequencyName: filterData.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
-              configStore.info.storeVO.defaultSubscriptionClubFrequencyId ||
+              configStore.info?.storeVO.defaultSubscriptionClubFrequencyId ||
               filterData.id,
             frequencyType: filterData.type
           };
@@ -297,7 +297,7 @@ class UnLoginCart extends React.Component {
             frequencyName: filterData.name,
             frequencyId:
               el.goods?.defaultFrequencyId ||
-              configStore.info.storeVO.defaultSubscriptionFrequencyId ||
+              configStore.info?.storeVO.defaultSubscriptionFrequencyId ||
               filterData.id,
             frequencyType: filterData.type
           };
@@ -1101,12 +1101,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
