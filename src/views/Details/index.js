@@ -836,10 +836,13 @@ class Details extends React.Component {
               //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
-                addSchemaOrgMarkup(
-                  this.state.details,
-                  this.state.instockStatus
-                );
+                //设置延时获取BazaarVoice dom节点
+                setTimeout(() => {
+                  addSchemaOrgMarkup(
+                    this.state.details,
+                    this.state.instockStatus
+                  );
+                }, 3000);
               }
             }
           );
@@ -2012,37 +2015,48 @@ class Details extends React.Component {
                                               &#xe675;
                                             </span>
                                             <FormattedMessage id="autoship" />
-                                            <span
-                                              className="info-tooltip delivery-method-tooltip"
-                                              onMouseEnter={() => {
-                                                this.setState({
-                                                  toolTipVisible: true
-                                                });
-                                              }}
-                                              onMouseLeave={() => {
-                                                this.setState({
-                                                  toolTipVisible: false
-                                                });
+                                            <div
+                                              style={{
+                                                position: 'relative',
+                                                display: 'inline-block'
                                               }}
                                             >
-                                              i
-                                            </span>
-                                            <ConfirmTooltip
-                                              arrowStyle={{ left: '79%' }}
-                                              display={
-                                                this.state.toolTipVisible
-                                              }
-                                              cancelBtnVisible={false}
-                                              confirmBtnVisible={false}
-                                              updateChildDisplay={(status) =>
-                                                this.setState({
-                                                  toolTipVisible: status
-                                                })
-                                              }
-                                              content={
-                                                <FormattedMessage id="subscription.promotionTip2" />
-                                              }
-                                            />
+                                              <span
+                                                className="info-tooltip delivery-method-tooltip"
+                                                onMouseEnter={() => {
+                                                  this.setState({
+                                                    toolTipVisible: true
+                                                  });
+                                                }}
+                                                onMouseLeave={() => {
+                                                  this.setState({
+                                                    toolTipVisible: false
+                                                  });
+                                                }}
+                                              >
+                                                i
+                                              </span>
+                                              <ConfirmTooltip
+                                                arrowStyle={{ left: '50%' }}
+                                                containerStyle={{
+                                                  transform:
+                                                    'translate(-49%, 110%)'
+                                                }}
+                                                display={
+                                                  this.state.toolTipVisible
+                                                }
+                                                cancelBtnVisible={false}
+                                                confirmBtnVisible={false}
+                                                updateChildDisplay={(status) =>
+                                                  this.setState({
+                                                    toolTipVisible: status
+                                                  })
+                                                }
+                                                content={
+                                                  <FormattedMessage id="subscription.promotionTip2" />
+                                                }
+                                              />
+                                            </div>
                                           </span>
                                         </label>
                                       </div>

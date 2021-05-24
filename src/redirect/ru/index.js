@@ -166,6 +166,10 @@ export default {
       redirectUrl: '/ageing-12+-2561'
     },
     {
+      shortUrl: '/ru/Ageing-12+-2561_RU.html',
+      redirectUrl: '/ageing-12+-2561'
+    },
+    {
       shortUrl: '/ru/Anallergenic-1950_RU.html',
       redirectUrl: '/anallergenic-1950'
     },
@@ -288,7 +292,7 @@ export default {
       redirectUrl: '/chihuahua-puppy-2438'
     },
     {
-      shortUrl: '/ru/club',
+      shortUrl: '/s/RU/ru/club',
       redirectUrl: '/club'
     },
     {
@@ -350,6 +354,11 @@ export default {
     {
       shortUrl:
         '/ru/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076_RU.html',
+      redirectUrl:
+        '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076'
+    },
+    {
+      shortUrl: '/ru/Digest-Sensitive-(в-соусе)-4076_RU.html',
       redirectUrl:
         '/Digest-Sensitive-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4076'
     },
@@ -495,7 +504,7 @@ export default {
     },
     {
       shortUrl: '/ru/general-terms-conditions.html',
-      redirectUrl: '/about-us/terms-and-conditions'
+      redirectUrl: '/general-terms-conditions'
     },
     {
       shortUrl: '/ru/German-Shepherd--2518_RU.html',
@@ -540,12 +549,12 @@ export default {
     {
       shortUrl:
         '/ru/Hairball-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4158_RU.html',
-      redirectUrl: '/hairball-care-2534'
+      redirectUrl: '/Hairball-Care-(в-соусе)-4158'
     },
     {
       shortUrl:
         '/ru/Hairball-Care-(в-соусе)-(x12)-41580008A0_INNERBOX_12_UNIT_RU.html',
-      redirectUrl: '/hairball-care-2534'
+      redirectUrl: '/Hairball-Care-(в-соусе)-4158'
     },
     {
       shortUrl: '/ru/Hairball-Care-2534_RU.html',
@@ -913,6 +922,10 @@ export default {
       redirectUrl: '/maxi-starter-mother-&-babydog-2994'
     },
     {
+      shortUrl: '/ru/Maxi-Starter-mother-&-babydog-2994_RU.html',
+      redirectUrl: '/maxi-starter-mother-&-babydog-2994'
+    },
+    {
       shortUrl: '/ru/Medium (11-25 кг)/',
       redirectUrl: '/dogs/retail-products'
     },
@@ -926,6 +939,10 @@ export default {
     },
     {
       shortUrl: '/ru/Medium-Adult-7%2B-3005_RU.html',
+      redirectUrl: '/medium-adult-7+-3005'
+    },
+    {
+      shortUrl: '/ru/Medium-Adult-7+-3005_RU.html',
       redirectUrl: '/medium-adult-7+-3005'
     },
     {
@@ -949,6 +966,10 @@ export default {
       redirectUrl: '/medium-starter-mother-&-babydog-2993'
     },
     {
+      shortUrl: '/ru/Medium-Starter-Mother-&-babydog-2993_RU.html',
+      redirectUrl: '/medium-starter-mother-&-babydog-2993'
+    },
+    {
       shortUrl: '/ru/Mini (1-10 кг)/',
       redirectUrl: '/dogs/retail-products'
     },
@@ -962,6 +983,10 @@ export default {
     },
     {
       shortUrl: '/ru/Mini-Adult-8%2B-3002_RU.html',
+      redirectUrl: '/mini-adult-8+-3002'
+    },
+    {
+      shortUrl: '/ru/Mini-Adult-8+-3002_RU.html',
       redirectUrl: '/mini-adult-8+-3002'
     },
     {
@@ -1006,6 +1031,10 @@ export default {
     },
     {
       shortUrl: '/ru/Mini-Starter-Mother-%26-Babydog-2990_RU.html',
+      redirectUrl: '/mini-starter-mother-&-babydog-2990'
+    },
+    {
+      shortUrl: '/ru/Mini-Starter-Mother-&-Babydog-2990_RU.html',
       redirectUrl: '/mini-starter-mother-&-babydog-2990'
     },
     {
@@ -1338,7 +1367,15 @@ export default {
       redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
     },
     {
+      shortUrl: '/ru/Skin-%26-Coat-(в-соусе)-4092_RU.html',
+      redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
+    },
+    {
       shortUrl: '/ru/Skin-%26-Coat-1323_RU.html',
+      redirectUrl: '/skin-&-coat-1323'
+    },
+    {
+      shortUrl: '/skin-&-coat-1323',
       redirectUrl: '/skin-&-coat-1323'
     },
     {
@@ -2708,10 +2745,18 @@ export default {
     {
       shortUrl: '/ru/Ageing-12%2B-%28в-желе%29-4153_RU.html',
       redirectUrl: '/Ageing-12%2B-%28в-желе%29-4153'
-    }
+    },
     // {
     //   shortUrl: '/ru/Ageing-12%2B-(в-желе)-4153_RU.html',
     //   redirectUrl: '/Ageing-12%2B-(в-желе)-4153'
     // }
+    {
+      shortUrl: '/ru/Breed Health Nutrition/',
+      redirectUrl: '/dogs/products/breed-health-nutrition'
+    },
+    {
+      shortUrl: '/ru/Breed%20Health%20Nutrition/',
+      redirectUrl: '/dogs/products/breed-health-nutrition'
+    }
   ]
 };
