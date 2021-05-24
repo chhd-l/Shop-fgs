@@ -1,35 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import ShowErrorDom from '../ShowErrorDom';
 import Selection from '@/components/Selection';
 import { changeSubscriptionGoods } from '@/api/subscription';
 import { formatMoney, getDeviceType } from '@/utils/utils';
-const ChooseSKU = ({
-  details,
-  specList,
-  stock,
-  matchGoods,
-  isNotInactive,
-  setState,
-  form,
-  showChangeProduct,
-  savedChangeSubscriptionGoods,
-  handleSelectedItemChange,
-  frequencyListOptions,
-  images,
-  productListLoading,
-  intl,
-  currentGoodsItems,
-  showProdutctDetail,
-  subDetail,
-  currentSubscriptionPrice
-}) => {
+import find from 'lodash/find';
+import { ChangeProductContext } from './index';
+import { SubDetailHeaderContext } from '../SubDetailHeader';
+const ChooseSKU = ({ intl }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   const quantityMinLimit = 1;
   const [changeNowLoading, setChangeNowLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [errorMsgSureChange, setErrorMsgSureChange] = useState('');
   let selected = false;
+  const ChangeProductValue = useContext(ChangeProductContext);
+  const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
+  const {
+    productListLoading,
+    frequencyListOptions,
+    setState,
+    isNotInactive,
+    getDetail,
+    subDetailsubDetail,
+    subDetail,
+    triggerShowChangeProduct
+  } = SubDetailHeaderValue;
+  const {
+    details,
+    matchGoods,
+    stock,
+    specList,
+    showProdutctDetail,
+    setForm,
+    currentSubscriptionPrice,
+    images,
+    form,
+    currentGoodsItems
+  } = ChangeProductValue;
   if (
     specList?.length == 0 &&
     details?.subscriptionStatus &&
@@ -49,6 +57,13 @@ const ChooseSKU = ({
     }
     setChangeNowLoading(true);
     doChangeSubscriptionGoods();
+  };
+  const handleSelectedItemChange = (data) => {
+    let newForm = {};
+    newForm.frequencyVal = data.value;
+    newForm.frequencyName = data.name;
+    newForm.frequencyId = data.id;
+    setForm(newForm);
   };
   const hanldeAmountChange = (type) => {
     if (!type) return;
@@ -106,9 +121,6 @@ const ChooseSKU = ({
       };
       let deleteGoodsItems = currentGoodsItems.map((el) => {
         return {
-          // subscribeNum: currentGoodsItem.subscribeNum,
-          // periodTypeId: currentGoodsItem.periodTypeId,
-          // goodsInfoFlag: currentGoodsItem.goodsInfoFlag,
           subscribeId,
           skuId: el.goodsInfoVO?.goodsInfoId
         };
@@ -133,7 +145,8 @@ const ChooseSKU = ({
       changeSubscriptionGoods(params)
         .then((res) => {
           setChangeNowLoading(false);
-          savedChangeSubscriptionGoods();
+          getDetail();
+          //关闭2弹窗 todo
         })
         .catch((err) => {
           setChangeNowLoading(false);
@@ -163,17 +176,8 @@ const ChooseSKU = ({
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
-    setState(
-      {
-        specList,
-        barcode
-      },
-      () => {
-        matchGoods();
-      }
-    );
+    setSpecList(specList);
+    matchGoods(); // todo
   };
 
   return (
@@ -335,7 +339,18 @@ const ChooseSKU = ({
             productListLoading ? 'ui-btn-loading' : ''
           }`}
           onClick={() => {
-            showChangeProduct([...subDetail.goodsInfo]);
+            setState({
+              triggerShowChangeProduct: Object.assign(
+                {},
+                triggerShowChangeProduct,
+                {
+                  show: true,
+                  firstShow: !triggerShowChangeProduct.firstShow,
+                  goodsInfo: [...subDetail.goodsInfo],
+                  isShowModal: true
+                }
+              )
+            });
           }}
         >
           <FormattedMessage id="subscription.seeOtherRecommendation" />

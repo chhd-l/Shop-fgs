@@ -1,8 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getClubLogo } from '@/utils/utils';
 import GoodsDetailTabs from '@/components/GoodsDetailTabs';
+// import stores from '@/store';
+// import { useLocalStore } from 'mobx-react';
+import { ChangeProductContext } from './index';
+import { SubDetailHeaderContext } from '../SubDetailHeader';
+const GoodsDetails = () => {
+  const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
+  const ChangeProductValue = useContext(ChangeProductContext);
+  // const {frequencyListOptions} = SubDetailHeaderValue
+  const {
+    setErrMsg,
+    specList,
+    setSpecList,
+    details,
+    setDetails,
+    currentSubscriptionPrice,
+    setCurrentSubscriptionPrice,
+    form,
+    setForm,
+    stock,
+    goodsDetails,
+    setStock,
+    setImages
+  } = ChangeProductValue;
+  // const { configStore } = useLocalStore(() => stores);
 
-const GoodsDetails = ({ details, foodFllType, goodsDetails }) => {
   return (
     <div className="margin12 product_detail rc-padding-x--md">
       <div>

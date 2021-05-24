@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
-import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
-import ChooseSKU from '../ChangeProduct/ChooseSKU';
+import ChangeProduct from '../ChangeProduct';
 import LinkPet from './LinkPet';
 import { filterOrderId, getClubLogo } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
+export const SubDetailHeaderContext = createContext();
+
 const StatusText = ({ subDetail }) => {
   return subDetail.subscribeId ? (
     subDetail.subscribeStatus === '0' ? (
@@ -52,25 +53,14 @@ const SubDetailHeader = ({
   subDetail,
   initPage,
   history,
-  savedChangeSubscriptionGoods,
+  getDetail,
   frequencyListOptions,
   isClub,
-  details,
-  handleSelectedItemChange,
-  specList,
-  stock,
-  form,
-  images,
   productListLoading,
   intl,
-  currentGoodsItems,
-  currentSubscriptionPrice,
-  editRecommendationVisible,
-  recommendationVisibleLoading,
   isActive,
-  showChangeProduct,
+  triggerShowChangeProduct,
   petType,
-  showProdutctDetail,
   isNotInactive,
   setState
 }) => {
@@ -85,6 +75,16 @@ const SubDetailHeader = ({
   const showAddNewPet = () => {
     setState({ triggerShowAddNewPet: true });
   };
+  const propsObj = {
+    isClub,
+    subDetail,
+    frequencyListOptions,
+    setState,
+    triggerShowChangeProduct,
+    isNotInactive,
+    getDetail,
+    productListLoading
+  };
   return (
     <div className="d-flex align-items-center align-items-center flex-wrap rc-margin-bottom--xs center-for-h5">
       <LinkPet
@@ -96,40 +96,10 @@ const SubDetailHeader = ({
         history={history}
         triggerShowAddNewPet={triggerShowAddNewPet}
       />
-      {subDetail.petsId &&
-        isClub &&
-        editRecommendationVisible &&
-        (recommendationVisibleLoading ? (
-          <div className="mt-4 1111" style={{ width: '100%' }}>
-            <Skeleton color="#f5f5f5" width="100%" height="30%" count={2} />
-          </div>
-        ) : (
-          <div className="recommendatio-wrap  rc-margin-bottom--sm rc-padding--sm">
-            <p className="recommendatio-wrap-title">
-              <FormattedMessage id="subscriptionDetail.newProduct" />
-            </p>
-            <div className="rc-outline-light rc-padding--sm recommendatio-wrap-content">
-              <ChooseSKU
-                showChangeProduct={showChangeProduct}
-                savedChangeSubscriptionGoods={savedChangeSubscriptionGoods}
-                showProdutctDetail={showProdutctDetail}
-                setState={setState}
-                frequencyListOptions={frequencyListOptions}
-                handleSelectedItemChange={handleSelectedItemChange}
-                details={details}
-                specList={specList}
-                stock={stock}
-                isNotInactive={isNotInactive}
-                form={form}
-                images={images}
-                productListLoading={productListLoading}
-                currentGoodsItems={currentGoodsItems}
-                subDetail={subDetail}
-                currentSubscriptionPrice={currentSubscriptionPrice}
-              />
-            </div>
-          </div>
-        ))}
+      <SubDetailHeaderContext.Provider value={propsObj}>
+        <ChangeProduct />
+      </SubDetailHeaderContext.Provider>
+
       {/* 未激活的情况下不展示club相关信息 */}
       {isClub && isNotInactive && !isCantLinkPet ? (
         <>
@@ -257,14 +227,14 @@ const SubDetailHeader = ({
         </>
       ) : (
         <>
-          {subDetail.subscriptionType?.toLowerCase().includes('club') &&
-            process.env.REACT_APP_COUNTRY == 'RU' && (
-              <img
-                src={getClubLogo()}
-                style={{ maxWidth: '100px', marginRight: '10px' }}
-                alt="club Icon"
-              />
-            )}
+          {subDetail.subscriptionType?.toLowerCase().includes('club') && (
+            // process.env.REACT_APP_COUNTRY == 'RU' &&
+            <img
+              src={getClubLogo()}
+              style={{ maxWidth: '100px', marginRight: '10px' }}
+              alt="club Icon"
+            />
+          )}
           <h4
             className="rc-delta font-weight-normal mb-2"
             style={{ color: '#666' }}
