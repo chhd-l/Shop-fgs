@@ -539,7 +539,7 @@ class Home extends React.Component {
     if (localItemRoyal.get('login-again')) {
       return null;
     }
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU'; //ru-home页不要seo
+    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
     return (
       <div>
         {!Ru ? (
@@ -552,7 +552,11 @@ class Home extends React.Component {
             />
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
-        ) : null}
+        ) : (
+          <Helmet>
+            <meta name="robots" content="noindex" />
+          </Helmet>
+        )}
         <GoogleTagManager
           additionalEvents={event}
           searchEvent={this.state.searchEvent}

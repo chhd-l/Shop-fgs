@@ -713,7 +713,11 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.orderNumber" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
-                                            {filterOrderId(order.id)}
+                                            {filterOrderId({
+                                              orderNo: order.id,
+                                              orderNoForOMS:
+                                                order.tradeOms?.orderNo
+                                            })}
                                           </span>
                                         </p>
                                       </div>

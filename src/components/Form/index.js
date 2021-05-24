@@ -782,6 +782,8 @@ class Form extends React.Component {
       caninForm.street = data.street;
       caninForm.house = data.house;
       caninForm.housing = data.block;
+      caninForm.entrance = data.entrance;
+      caninForm.apartment = data.flat;
 
       // 赋值查询到的地址信息
       caninForm.DuData = data;

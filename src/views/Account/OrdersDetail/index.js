@@ -195,6 +195,7 @@ class AccountOrders extends React.Component {
       orderNumber: '',
       totalTid: '',
       subNumber: '',
+      orderNumberForOMS: '',
       details: null,
       payRecord: null,
       loading: true,
@@ -388,6 +389,7 @@ class AccountOrders extends React.Component {
           cancelProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
+          orderNumberForOMS: resContext?.tradeOms?.orderNo,
           canPayNow:
             tradeState.flowState === 'INIT' &&
             tradeState.auditState === 'NON_CHECKED' &&
@@ -1101,7 +1103,11 @@ class AccountOrders extends React.Component {
                                   <FormattedMessage id="order.orderNumber" />
                                   <br />
                                   <span className="medium">
-                                    {filterOrderId(orderNumber)}
+                                    {filterOrderId({
+                                      orderNo: this.state.orderNumber,
+                                      orderNoForOMS: this.state
+                                        .orderNumberForOMS
+                                    })}
                                   </span>
                                 </div>
                                 {/* 订单状态 */}
@@ -1122,7 +1128,11 @@ class AccountOrders extends React.Component {
                                       to={`/account/subscription/order/detail/${this.state.subNumber}`}
                                       className="rc-styled-link medium mb-0"
                                     >
-                                      {filterOrderId(this.state.subNumber)}
+                                      {filterOrderId({
+                                        orderNo: this.state.subNumber,
+                                        orderNoForOMS: this.state
+                                          .orderNumberForOMS
+                                      })}
                                     </Link>
                                   </div>
                                 ) : null}

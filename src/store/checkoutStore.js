@@ -199,10 +199,10 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
-    this.setPromotionCode(promotionCode);
-    console.log(purchasesRes, 'purchasesRes');
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
+    let newPromotionCode = purchasesRes.promotionDesc || '';
+    this.setPromotionCode(newPromotionCode);
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
@@ -331,7 +331,8 @@ class CheckoutStore {
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
-      this.setPromotionCode(promotionCode);
+      let newPromotionCode = purchasesRes.promotionDesc || '';
+      this.setPromotionCode(newPromotionCode);
       this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
       let params = {
         totalPrice: purchasesRes.totalPrice,
@@ -450,7 +451,7 @@ class CheckoutStore {
       if (!taxFeeData) {
         taxFeeData = nullTaxFeeData;
       }
-      let newPromotionCode =
+      let promotionCodeNew =
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
       // 获取购物车列表
@@ -471,7 +472,7 @@ class CheckoutStore {
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
         ),
-        promotionCode: newPromotionCode,
+        promotionCode: promotionCodeNew,
         subscriptionFlag,
         purchaseFlag,
         country: taxFeeData.country,
@@ -486,6 +487,7 @@ class CheckoutStore {
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
+      let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
       let goodsList = siteMiniPurchasesRes.goodsList;
 
@@ -561,7 +563,7 @@ class CheckoutStore {
       };
 
       if (
-        !newPromotionCode ||
+        !promotionCodeNew ||
         !sitePurchasesRes.promotionFlag ||
         sitePurchasesRes.couponCodeFlag
       ) {
