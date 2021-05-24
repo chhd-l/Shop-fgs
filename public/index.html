@@ -35,8 +35,21 @@
       href="<%= process.env.REACT_APP_RC_ASSETS_PREFIX %>royal/royal-canin.min.css"
     />
 
-    <!--BazaarVoice ratings&reviews---add BV Loader-->
-    <script async src="https://apps.bazaarvoice.com/deployments/royal-canin/main_site/<%= process.env.REACT_APP_BAZAARVOICE_ENV %>/en_US/bv.js"></script>
+    <!--限制启用了BazaarVoice ratings&reviews才能add BV Loader-->
+    <script type="text/javascript">
+      if ('<%= process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS %>' == '1') {
+        var bazaarVoiceEnv = '<%= process.env.REACT_APP_BAZAARVOICE_ENV %>';
+        var e = document.createElement('script');
+        e.setAttribute('type', 'text/javascript');
+        e.setAttribute(
+          'src',
+          'https://apps.bazaarvoice.com/deployments/royal-canin/main_site/' +
+            bazaarVoiceEnv +
+            '/en_US/bv.js'
+        );
+        document.getElementsByTagName('head')[0].appendChild(e);
+      }
+    </script>
 
     <!-- Cookies Consent Notice, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
     <script
@@ -87,7 +100,7 @@
     <!-- seo is not searched -->
     <script>
       if (
-        '<%= process.env.REACT_APP_LANG %>' == 'en' ||
+        '<%= process.env.REACT_APP_COUNTRY %>' == 'US' ||
         '<%= process.env.NODE_ENV %>' !== 'production'
       ) {
         var metaTag = document.createElement('meta');
