@@ -155,7 +155,7 @@ export default class Selection extends React.Component {
             className="choices__inner"
             style={{ ...this.props.customInnerStyle }}
           >
-            <div className="choices__list choices__list--single">
+            <div className="choices__list choices__list--single d-flex justify-content-center align-items-center">
               <div
                 className="choices__item choices__item--selectable"
                 aria-selected="true"

@@ -687,7 +687,7 @@ pre code {
 .col-xxl-12,
 .col-xxl-auto {
   position: relative;
-  width: 100%;
+  /* width: 100%; */
   padding-right: 0.9375rem;
   padding-left: 0.9375rem;
 }
