@@ -61,6 +61,7 @@ const isHub = process.env.REACT_APP_HUB == '1';
 const Fr = process.env.REACT_APP_COUNTRY === 'FR';
 const Ru = process.env.REACT_APP_COUNTRY === 'RU';
 const Tr = process.env.REACT_APP_COUNTRY === 'TR';
+const De = process.env.REACT_APP_COUNTRY === 'DE';
 // const pageLink = window.location.href;
 
 function AdvantageTips({ secondIconvisible = true }) {
@@ -1692,13 +1693,8 @@ class Details extends React.Component {
       }) || [];
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    const vet =
-      process.env.REACT_APP_HUB === '1' &&
-      !details.saleableFlag &&
-      details.displayFlag; //vet产品并且是hub的情况下
-    const De = process.env.REACT_APP_COUNTRY === 'DE';
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
+    const vet = isHub && !details.saleableFlag && details.displayFlag; //vet产品并且是hub的情况下
+
     const sptGoods = goodsType === 0 || goodsType === 1;
     const trSpt = Tr && sptGoods;
     const goodHeading = `<${headingTag || 'h1'}
@@ -1707,7 +1703,6 @@ class Details extends React.Component {
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
     let bundle = goodsType && goodsType === 2;
-    const isHub = process.env.REACT_APP_HUB == '1';
     const fromPathName =
       location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
     let theme = '';
@@ -2654,9 +2649,7 @@ class Details extends React.Component {
               )}
 
             <div className="split-line rc-bg-colour--brand4" />
-            {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
-              <AdvantageTips />
-            ) : null}
+            {isHub && goodsType !== 3 ? <AdvantageTips /> : null}
             {/* 电话邮箱联系板块 */}
             {isHub ? (
               <>
