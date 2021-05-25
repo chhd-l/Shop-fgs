@@ -14,6 +14,7 @@ const ButtonBox = () => {
     isNotInactive,
     handleSaveChange,
     isDataChange,
+    getDetail,
     modalList,
     setState
   } = SubGoodsInfosValue;

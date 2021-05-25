@@ -17,7 +17,6 @@ const ChangeProduct = () => {
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const {
     setState,
-    getDetail,
     subDetail,
     isClub,
     triggerShowChangeProduct

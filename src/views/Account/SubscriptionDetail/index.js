@@ -21,18 +21,9 @@ import RemainingsList from './components/RemainingsList';
 import NextDelivery from './components/DeliveryList/NextDelivery';
 import CompletedDelivery from './components/DeliveryList/CompletedDelivery';
 import Loading from '@/components/Loading';
-import { getRation, getFrequencyDictgetClubLogo } from '@/utils/utils';
+import { getRation } from '@/utils/utils';
 import GiftList from './components/GiftList';
-import {
-  getDictionary,
-  getDeviceType,
-  getFrequencyDict,
-  getFormatDate,
-  formatMoney,
-  setSeoConfig
-} from '@/utils/utils';
-import DatePicker from 'react-datepicker';
-import skipIcon from './images/skip.png';
+import { getDeviceType, setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import {
   updateDetail,
@@ -45,7 +36,6 @@ import {
 import Modal from '@/components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 const localItemRoyal = window.__.localItemRoyal;
@@ -59,21 +49,10 @@ class SubscriptionDetail extends React.Component {
     super(props);
     this.state = {
       triggerShowAddNewPet: false,
-      dogBreedList: [],
-      catBreedList: [],
       petType: '',
       errMsgPage: '',
-      errorMsgAddPet: '',
       productListLoading: false,
       loadingPage: false,
-      // addGoodsItemquantity: 1,
-      //订阅购物车参数
-      subTotal: 0,
-      subShipping: 0,
-      addNewPetLoading: false,
-      addNewPetVisible: false,
-      changeRecommendationVisible: false,
-      petList: [],
       triggerShowChangeProduct: {
         goodsInfo: [],
         firstShow: false,
@@ -88,7 +67,6 @@ class SubscriptionDetail extends React.Component {
       isGift: false,
       remainingsList: [],
       remainingsVisible: false,
-      subTradeTotal: 0,
       //订阅购物车参数
       promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
@@ -97,23 +75,6 @@ class SubscriptionDetail extends React.Component {
       subId: 0,
       selectedTime: 'Every 4 weeks',
       nextOrderTime: '2020-18-06',
-      productName: 'Glycobalance Feline',
-      productPrice: '$46.54',
-      totalMoney: 10,
-      shipping: 'FREE',
-      totalRealPay: 0,
-      shippingAddress: {
-        name: 'George Guo',
-        address: 'TESTST',
-        code: '2929292',
-        addressType: 'SNSN,CO 27272'
-      },
-      billingAddress: {
-        name: 'George Guo',
-        address: 'TESTST',
-        code: '2929292',
-        addressType: 'SNSN,CO 27272'
-      },
       payment: {
         name: 'George Guo',
         card: '00000008',
@@ -146,7 +107,6 @@ class SubscriptionDetail extends React.Component {
         countryId: 6
       },
       addressType: '',
-      countryList: [],
       modalShow: false,
       modalList: [
         {
@@ -180,7 +140,6 @@ class SubscriptionDetail extends React.Component {
       errorMsg: '',
       successTipVisible: false,
       minDate: new Date(),
-      maxDate: new Date(),
       tabName: [],
       activeTabIdx: 0,
       noStartYearOption: [],
@@ -317,6 +276,13 @@ class SubscriptionDetail extends React.Component {
       });
     }
   };
+  changeYearOption = (el) => {
+    if (this.state.activeTabIdx === 0) {
+      this.setState({ noStartYear: el });
+    } else {
+      this.setState({ completedYear: el });
+    }
+  };
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -398,7 +364,6 @@ class SubscriptionDetail extends React.Component {
     }
   }
   getMinDate = (nextDeliveryTime) => {
-    let time = new Date(nextDeliveryTime);
     return new Date(this.state.minDate.getTime() + 1 * 24 * 60 * 60 * 1000);
   };
   getMaxDate(nextDeliveryTime) {
@@ -406,14 +371,6 @@ class SubscriptionDetail extends React.Component {
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
     );
   }
-
-  closeAddNewPet = () => {
-    this.setState({ addNewPetVisible: false });
-  };
-  showAddNewPet = () => {
-    this.getPetList();
-  };
-
   getDetail = async (fn) => {
     try {
       this.setState({ loading: true });
@@ -672,7 +629,6 @@ class SubscriptionDetail extends React.Component {
       noStartYear,
       completedYear,
       isActive,
-      isNotInactive,
       isGift,
       remainingsVisible
     } = this.state;
@@ -779,7 +735,6 @@ class SubscriptionDetail extends React.Component {
                     isClub={isClub}
                     setState={this.setState.bind(this)}
                     isActive={this.state.isActive}
-                    isNotInactive={this.state.isNotInactive}
                     subDetail={this.state.subDetail}
                     initPage={this.initPage}
                     history={this.props.history}
@@ -812,7 +767,6 @@ class SubscriptionDetail extends React.Component {
                         productListLoading={this.state.productListLoading}
                         errMsgPage={this.state.errMsgPage}
                         isNotInactive={this.state.isNotInactive}
-                        minDate={this.state.minDate}
                         setState={this.setState.bind(this)}
                         getMinDate={this.getMinDate}
                         showErrMsg={this.showErrMsg.bind(this)}
@@ -878,13 +832,9 @@ class SubscriptionDetail extends React.Component {
                                   <Selection
                                     optionList={noStartYearOption}
                                     selectedItemData={noStartYear}
-                                    selectedItemChange={(el) => {
-                                      if (this.state.activeTabIdx === 0) {
-                                        this.setState({ noStartYear: el });
-                                      } else {
-                                        this.setState({ completedYear: el });
-                                      }
-                                    }}
+                                    selectedItemChange={(el) =>
+                                      changeYearOption(el)
+                                    }
                                     type="freqency"
                                     key={
                                       (noStartYear && noStartYear.value) || ''
@@ -894,13 +844,9 @@ class SubscriptionDetail extends React.Component {
                                   <Selection
                                     optionList={completedYearOption}
                                     selectedItemData={completedYear}
-                                    selectedItemChange={(el) => {
-                                      if (this.state.activeTabIdx === 0) {
-                                        this.setState({ noStartYear: el });
-                                      } else {
-                                        this.setState({ completedYear: el });
-                                      }
-                                    }}
+                                    selectedItemChange={(el) =>
+                                      changeYearOption(el)
+                                    }
                                     type="freqency"
                                     key={
                                       (completedYear && completedYear.value) ||
@@ -931,7 +877,6 @@ class SubscriptionDetail extends React.Component {
                                       }
                                       modalList={this.state.modalList}
                                       setState={this.setState.bind(this)}
-                                      minDate={this.state.minDate}
                                       getMinDate={this.getMinDate}
                                       isNotInactive={this.state.isNotInactive}
                                       el={el}

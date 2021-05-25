@@ -33,7 +33,6 @@ const SubGoodsInfos = ({
   isGift,
   productListLoading,
   errMsgPage,
-  minDate,
   setState,
   getMinDate,
   isClub
@@ -367,7 +366,7 @@ const SubGoodsInfos = ({
                         placeholder="Select Date"
                         dateFormat={datePickerConfig.format}
                         locale={datePickerConfig.locale}
-                        minDate={getMinDate(el.nextDeliveryTime) || minDate}
+                        minDate={getMinDate(el.nextDeliveryTime)}
                         selected={
                           !isActive
                             ? ''
@@ -676,7 +675,7 @@ const SubGoodsInfos = ({
                           placeholder="Select Date"
                           dateFormat={datePickerConfig.format}
                           locale={datePickerConfig.locale}
-                          minDate={getMinDate(el.nextDeliveryTime) || minDate}
+                          minDate={getMinDate(el.nextDeliveryTime)}
                           selected={
                             !isActive
                               ? ''

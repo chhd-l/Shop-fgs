@@ -19,7 +19,6 @@ const NextDelivery = ({
   isActive,
   isNotInactive,
   getMinDate,
-  minDate,
   setState,
   modalList,
   intl,
@@ -107,9 +106,7 @@ const NextDelivery = ({
                     placeholder="Select Date"
                     dateFormat={datePickerConfig.format}
                     locale={datePickerConfig.locale}
-                    minDate={
-                      getMinDate(el.tradeItems[0].nextDeliveryTime) || minDate
-                    }
+                    minDate={getMinDate(el.tradeItems[0].nextDeliveryTime)}
                     selected={
                       el.tradeItems
                         ? getZoneTime(el.tradeItems[0].nextDeliveryTime)
