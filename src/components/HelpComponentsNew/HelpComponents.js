@@ -20,17 +20,16 @@ const HelpComponentsNew = (props) => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    We're here to help
+                    <FormattedMessage id="ClubLP.Help.title"/>
                   </h4>
                 </div>
                 <p>
                   <span>
-                    Our team is available to answer your questions and ensure
-                    you have the best possible experience.
+                    <FormattedMessage id="ClubLP.Help.subtitle1"/>
                   </span>
                 </p>
                 <p>
-                  <span>You can reach us through the following options:</span>
+                  <FormattedMessage id="ClubLP.Help.subtitle2"/>
                 </p>
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
@@ -41,52 +40,26 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <b style={{ color: '#E2001A' }}>Call us</b>
+                                  <b style={{ color: '#E2001A' }}><FormattedMessage id="ClubLP.call.title"/></b>
                                   <p>
-                                    {/*  {*/}
-                                    {/*  this.props.configStore*/}
-                                    {/*    .contactTimePeriod*/}
-                                    {/*}*/}
-                                    Our Pet Experts are happy to help you
-                                    everyday from 9 am to 6 pm
+                                    <FormattedMessage id="ClubLP.Help.call.content"/>
                                   </p>
                                   <div className="rc-margin-top--xs">
                                     <p
                                       style={{ color: '#00BCA3' }}
                                       className="rc-numeric rc-md-up"
                                     >
-                                      {/*<a*/}
-                                      {/*  href={this.state.tel}*/}
-                                      {/*  style={{ color: '#00BCA3' }}*/}
-                                      {/*>*/}
-                                      {/*  /!* <FormattedMessage id="help.tel" /> *!/*/}
-                                      {/*  {*/}
-                                      {/*    this.props.configStore*/}
-                                      {/*      .storeContactPhoneNumber*/}
-                                      {/*  }*/}
-                                      {/*</a>*/}
                                       <a style={{ color: '#E2001A' }}>
-                                        {/* <FormattedMessage id="help.tel" /> */}
-                                        O874 657 890
+                                        <FormattedMessage id="ClubLP.Help.call.number"/>
                                       </a>
                                     </p>
                                   </div>
                                   <div className="rc-margin-top--xs">
-                                    {/*<p*/}
-                                    {/*  style={{ color: '#00BCA3' }}*/}
-                                    {/*  className="rc-alpha rc-border--none rc-md-down"*/}
-                                    {/*  onClick={this.mobileDial}*/}
-                                    {/*>*/}
-                                    {/*  {*/}
-                                    {/*    this.props.configStore*/}
-                                    {/*      .storeContactPhoneNumber*/}
-                                    {/*  }*/}
-                                    {/*</p>*/}
                                     <p
                                       style={{ color: '#00BCA3' }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
-                                      mobile 123 030
+                                      <FormattedMessage id="ClubLP.Help.call.mobile.number"/>
                                     </p>
                                   </div>
                                 </div>
@@ -111,14 +84,9 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b style={{ color: '#E2001A' }}>Email us</b>
+                                  <b style={{ color: '#E2001A' }}><FormattedMessage id="ClubLP.Help.email.title"/></b>
                                   <p>
-                                    {/*  {*/}
-                                    {/*  this.props.configStore*/}
-                                    {/*    .contactTimePeriod*/}
-                                    {/*}*/}
-                                    We'll do our best to get back to you as fast
-                                    as possible and within 12 hours
+                                    <FormattedMessage id="ClubLP.Help.email.content"/>
                                   </p>
                                   {TR || RU ? (
                                     <DistributeHubLinkOrATag
@@ -128,7 +96,7 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        Send us an Email
+                                        <FormattedMessage id="ClubLP.Help.email.address"/>
                                       </p>
                                     </DistributeHubLinkOrATag>
                                   ) : (
@@ -140,43 +108,6 @@ const HelpComponentsNew = (props) => {
                                       </p>
                                     </Link>
                                   )}
-
-                                  <div className="rc-margin-top--xs">
-                                    <p
-                                      style={{ color: '#00BCA3' }}
-                                      className="rc-numeric rc-md-up"
-                                    >
-                                      {/*<a*/}
-                                      {/*  href={this.state.tel}*/}
-                                      {/*  style={{ color: '#00BCA3' }}*/}
-                                      {/*>*/}
-                                      {/*  /!* <FormattedMessage id="help.tel" /> *!/*/}
-                                      {/*  {*/}
-                                      {/*    this.props.configStore*/}
-                                      {/*      .storeContactPhoneNumber*/}
-                                      {/*  }*/}
-                                      {/*</a>*/}
-                                      <a style={{ color: '#00BCA3' }}>
-                                        {/* <FormattedMessage id="help.tel" /> */}
-                                      </a>
-                                    </p>
-                                  </div>
-                                  <div className="rc-margin-top--xs">
-                                    {/*<p*/}
-                                    {/*  style={{ color: '#00BCA3' }}*/}
-                                    {/*  className="rc-alpha rc-border--none rc-md-down"*/}
-                                    {/*  onClick={this.mobileDial}*/}
-                                    {/*>*/}
-                                    {/*  {*/}
-                                    {/*    this.props.configStore*/}
-                                    {/*      .storeContactPhoneNumber*/}
-                                    {/*  }*/}
-                                    {/*</p>*/}
-                                    <p
-                                      style={{ color: '#00BCA3' }}
-                                      className="rc-alpha rc-border--none rc-md-down"
-                                    ></p>
-                                  </div>
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
@@ -200,8 +131,7 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    You can check our FAQ section to see if your
-                                    question has already been answered
+                                    <FormattedMessage id="ClubLP.Help.faq.content"/>
                                   </p>
 
                                   <div className="rc-margin-top--xs">
@@ -209,32 +139,12 @@ const HelpComponentsNew = (props) => {
                                       style={{ color: '#00BCA3' }}
                                       className="rc-numeric rc-md-up"
                                     >
-                                      {/*<a*/}
-                                      {/*  href={this.state.tel}*/}
-                                      {/*  style={{ color: '#00BCA3' }}*/}
-                                      {/*>*/}
-                                      {/*  /!* <FormattedMessage id="help.tel" /> *!/*/}
-                                      {/*  {*/}
-                                      {/*    this.props.configStore*/}
-                                      {/*      .storeContactPhoneNumber*/}
-                                      {/*  }*/}
-                                      {/*</a>*/}
                                       <a style={{ color: '#00BCA3' }}>
                                         {/* <FormattedMessage id="help.tel" /> */}
                                       </a>
                                     </p>
                                   </div>
                                   <div className="rc-margin-top--xs">
-                                    {/*<p*/}
-                                    {/*  style={{ color: '#00BCA3' }}*/}
-                                    {/*  className="rc-alpha rc-border--none rc-md-down"*/}
-                                    {/*  onClick={this.mobileDial}*/}
-                                    {/*>*/}
-                                    {/*  {*/}
-                                    {/*    this.props.configStore*/}
-                                    {/*      .storeContactPhoneNumber*/}
-                                    {/*  }*/}
-                                    {/*</p>*/}
                                     <p
                                       style={{ color: '#00BCA3' }}
                                       className="rc-alpha rc-border--none rc-md-down"

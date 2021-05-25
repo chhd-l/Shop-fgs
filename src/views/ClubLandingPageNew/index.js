@@ -220,7 +220,7 @@ class ClubLandingPageNew extends React.Component {
                           <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
                             <Link to="/cats/vet-products">
                               <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
-                                Find your tailored food now
+                                  <FormattedMessage id="ClubLP.Advantage.button"/>
                               </button>
                             </Link>
                           </div>

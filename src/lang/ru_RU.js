@@ -1330,6 +1330,7 @@ const ru_RU = {
   'ClubLP.LongBanner.content':'starting from 19.90€ /refill',
   'ClubLP.LongBanner.button':'Try it now',
   'ClubLP.LongBanner.content2':'Free from engagement',
+  'ClubLP.LongBanner.SubscriptionTitle':'SUBSCRIPTION BENEFITS FOR CATS & DOGS',
   'ClubLP.LongBanner.SubscriptionTitle1':'Tailored nutrition for optimal health',
   'ClubLP.LongBanner.SubscriptionContent1':"High quality ingredients chosen for your pet's specific needs with scientifically proven health benefits",
   'ClubLP.LongBanner.SubscriptionTitle2':'A diet that adapts with your pet',
@@ -1367,6 +1368,19 @@ const ru_RU = {
   'ClubLP.GetMoreAd.Club.tip6':'Welcome pack',
   'ClubLP.GetMoreAd.Club.tip7':'Exclusive perks & services',
   'ClubLP.GetMoreAd.button':'Get started',
+  'ClubLP.Help.title':"We're here to help",
+  'ClubLP.Help.subtitle1':'Our team is available to answer your questions and ensure you have the best possible experience.',
+  'ClubLP.Help.subtitle2':'You can reach us through the following options:',
+  'ClubLP.Help.call.title':'Call us',
+  'ClubLP.Help.call.content':'Our Pet Experts are happy to help you everyday from 9 am to 6 pm',
+  'ClubLP.Help.call.number':'O874 657 890',
+  'ClubLP.Help.call.mobile.number':'O874 657 890',
+  'ClubLP.Help.email.title':'Email us',
+  'ClubLP.Help.email.content':"We'll do our best to get back to you as fast as possible and within 12 hours",
+  'ClubLP.Help.email.address':'Send us an Email',
+  'ClubLP.Help.faq.content':'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
+
+
 };
 
 export default ru_RU;

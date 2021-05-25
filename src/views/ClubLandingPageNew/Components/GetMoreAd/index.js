@@ -193,7 +193,7 @@ const GetMoreAd = () => {
                     <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
                       <Link to="/">
                         <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs marginleftButton">
-                          Get started
+                          <FormattedMessage id="ClubLP.GetMoreAd.button"/>
                         </button>
                       </Link>
                     </div>
