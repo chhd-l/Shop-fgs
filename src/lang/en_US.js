@@ -239,8 +239,6 @@ const en_US = {
   cardNumberIsInvalid: 'your card number is invalid',
   'cart.catDiet': 'Shop Cat formulas',
   'cart.deletInfo': 'Delete product?',
-  'cart.deletInfo2':
-    'Are you sure you want to remove this item from your cart?',
   'cart.delivery': 'Shipping',
   'cart.dogDiet': 'Shop Dog formulas',
   'cart.errorInfo': "The number can't be less than 1",
@@ -1128,6 +1126,7 @@ const en_US = {
   sterilized: 'Spayed/neutered?',
   submit: 'Submit',
   subscribe: 'Subscribe',
+  clubSubscribe: 'Subscribe',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Subscription',
   'subscription.BillingAddress': 'Billing address',
@@ -1245,6 +1244,7 @@ const en_US = {
   year: 'Year',
   yes: 'Yes',
   yes2: 'Confirm',
+  NextToPlaceAnOrder: 'Confirm',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   securePaymentProcessing: 'Secure payment processing',
@@ -1269,7 +1269,7 @@ const en_US = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'Find the right product and calculate your pet ration using our',
+    'Find the right product and calculate your pet ration using our {btn}',
   'details.findProductTips': ' Product finder',
   'details.learnMore': 'Learn more',
   'subscriptionDetail.cantBindPetsErr1':

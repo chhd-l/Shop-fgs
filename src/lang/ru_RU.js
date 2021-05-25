@@ -201,7 +201,6 @@ const ru_RU = {
   cardNumberIsInvalid: 'номер вашей карты недействителен',
   'cart.catDiet': 'Для кошек',
   'cart.deletInfo': 'Удалить товар?',
-  'cart.deletInfo2': 'Вы уверены, что хотите удалить этот товар из корзины?',
   'cart.delivery': 'Доставка',
   'cart.dogDiet': 'Для собак',
   'cart.errorInfo': 'Число не может быть меньше 1',
@@ -1005,6 +1004,7 @@ const ru_RU = {
   writeYourReview: 'Напишите свой отзыв',
   yes: 'Подтвердить',
   yes2: 'Подтвердить',
+  NextToPlaceAnOrder: 'Подтвердить',
   yourEmailNotVerified: 'Ваш адрес электронной почты не был подтвержден!',
   yourPasswordNotVerified: 'Ваш пароль не подтвержден',
 
@@ -1110,6 +1110,7 @@ const ru_RU = {
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
   subscribe: 'Добавить в корзину',
+  clubSubscribe: 'Добавить в корзину',
   cod: 'Оплата при получении',
   'payment.codTip': 'Я хочу оплатить наличными или картой при получении',
   saveExtra: 'Сэкономьте {val}',
@@ -1198,7 +1199,7 @@ const ru_RU = {
   'details.recommendedDaily.info': '{val}/день',
   'details.backRecommendedDaily': 'Вернуться к рекомендациям',
   'details.findProductTip':
-    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца',
+    'Подберите подходящий рацион и рассчитайте норму кормления для своего питомца {btn}',
   'details.findProductTips': 'Начните сейчас',
   'details.learnMore': 'Узнать больше',
   'Club subscription': 'Программа ROYAL CANIN Клуб',

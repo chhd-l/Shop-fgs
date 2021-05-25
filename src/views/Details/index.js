@@ -58,6 +58,9 @@ const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = process.env.REACT_APP_HUB == '1';
+const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+const Tr = process.env.REACT_APP_COUNTRY === 'TR';
 // const pageLink = window.location.href;
 
 function AdvantageTips({ secondIconvisible = true }) {
@@ -199,8 +202,7 @@ function Advantage() {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text:
-        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -377,9 +379,6 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
 
-    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-    const Tr = process.env.REACT_APP_COUNTRY === 'TR';
     let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
     let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
     if (Fr) {
@@ -413,14 +412,8 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -439,7 +432,16 @@ class Details extends React.Component {
       form.buyWay !== -1
     );
   }
-
+  get addToCartBtnText() {
+    return (
+      <FormattedMessage
+        id={`${
+          { 1: 'subscribe', 2: 'clubSubscribe' }[this.state.form.buyWay] ||
+          'details.addToCart'
+        }`}
+      />
+    );
+  }
   setDefaultPurchaseType({ id }) {
     const { promotions, details } = this.state;
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
@@ -542,13 +544,8 @@ class Details extends React.Component {
     );
   }
   setGoogleProductStructuredDataMarkup() {
-    const {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo
-    } = this.state;
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
+      this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -1248,8 +1245,9 @@ class Details extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
+    const barcode = images.find(
+      (item) => item.packSize === goodSize
+    )?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -1335,13 +1333,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -2108,23 +2101,25 @@ class Details extends React.Component {
                                     } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
                                   >
                                     <div style={{ flex: '1' }}>
-                                      <FormattedMessage id="details.findProductTip" />{' '}
+                                      <FormattedMessage
+                                        id="details.findProductTip"
+                                        values={{
+                                          btn: (
+                                            <DistributeHubLinkOrATag
+                                              href="/product-finder"
+                                              to="/product-finder"
+                                              className={`rc-styled-link ${
+                                                Tr || isMobile
+                                                  ? ''
+                                                  : 'backProductFinder'
+                                              } mt-0 pb-0`}
+                                            >
+                                              <FormattedMessage id="details.findProductTips" />
+                                            </DistributeHubLinkOrATag>
+                                          )
+                                        }}
+                                      />
                                     </div>
-                                    {/* <Link
-                                      className="rc-styled-link mt-0 pb-0"
-                                      to="/product-finder"
-                                    >
-                                      <FormattedMessage id="details.findProductTips" />
-                                    </Link> */}
-                                    <DistributeHubLinkOrATag
-                                      href="/product-finder"
-                                      to="/product-finder"
-                                      className={`rc-styled-link backProductFinder mt-0 pb-0 ${
-                                        isMobile ? 'float-none' : ''
-                                      }`}
-                                    >
-                                      <FormattedMessage id="details.findProductTips" />
-                                    </DistributeHubLinkOrATag>
                                   </div>
                                 )}
                               </div>
@@ -2402,8 +2397,7 @@ class Details extends React.Component {
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
+                                            val: selectedSpecItem?.subscriptionPercentage
                                           }}
                                         />
                                       </div>
@@ -2514,8 +2508,7 @@ class Details extends React.Component {
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
+                                          val: selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>
@@ -2596,13 +2589,7 @@ class Details extends React.Component {
                                 >
                                   <span className="fa rc-icon rc-cart--xs rc-brand3" />
                                   <span className="default-txt">
-                                    <FormattedMessage
-                                      id={`${
-                                        form.buyWay === 1 || form.buyWay === 2
-                                          ? 'subscribe'
-                                          : 'details.addToCart'
-                                      }`}
-                                    />
+                                    {this.addToCartBtnText}
                                   </span>
                                 </button>
                                 {!loading &&
@@ -2752,13 +2739,7 @@ class Details extends React.Component {
                     onClick={this.hanldeAddToCart}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                    <span className="default-txt">
-                      {form.buyWay === 1 || form.buyWay === 2 ? (
-                        <FormattedMessage id="subscribe" />
-                      ) : (
-                        <FormattedMessage id="details.addToCart" />
-                      )}
-                    </span>
+                    <span className="default-txt">{this.addToCartBtnText}</span>
                   </button>
                 ) : null}
                 {!this.state.loading &&

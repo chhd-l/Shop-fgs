@@ -377,7 +377,7 @@ export function SubscriptionBenefits() {
                   <img
                     className="value-proposition__img lazyloaded"
                     style={{ width: '100px', height: '100px' }}
-                    alt="Evcil hayvan danışmanı ve kişiselleştirilmiş bültenler"
+                    alt="Beslenme danışmanı ve kişiselleştirilmiş bültenler"
                     title="ideal formula"
                     src={spetadviser}
                   />
