@@ -187,10 +187,6 @@ const ChangeProduct = () => {
         const goodSize = specList.map((item) =>
           item.chidren.find((good) => good.selected)
         )?.[0]?.detailName;
-        const goodsInfoBarcode =
-          goodsInfos.find((item) => item.packSize === goodSize)
-            ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-
         let newImages = [];
         newImages = res.context.goodsInfos;
         setSpecList(specList);
