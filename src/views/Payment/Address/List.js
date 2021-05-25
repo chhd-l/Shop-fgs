@@ -209,7 +209,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       this.setState({

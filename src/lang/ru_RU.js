@@ -1321,7 +1321,45 @@ const ru_RU = {
   'subscription.clubNoSubscription.getStart': 'Начать',
   'cancelEmail.content': '<{val}> успешно отписан от рассылки Royal Canin',
   'detail.subscriptionBuyTip': 'Подписка без участия',
-  searchShow: 'результаты поиска'
+  searchShow: 'результаты поиска',
+
+  //NewLandingpageClub
+  'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
+  'ClubLP.LongBanner.title':
+    'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
+  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+  'ClubLP.LongBanner.button': 'Try it now',
+  'ClubLP.LongBanner.content2': 'Free from engagement',
+  'ClubLP.LongBanner.SubscriptionTitle1':
+    'Tailored nutrition for optimal health',
+  'ClubLP.LongBanner.SubscriptionContent1':
+    "High quality ingredients chosen for your pet's specific needs with scientifically proven health benefits",
+  'ClubLP.LongBanner.SubscriptionTitle2': 'A diet that adapts with your pet',
+  'ClubLP.LongBanner.SubscriptionContent2':
+    'A feeding plan designed to adapt to long term health',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'The right portion every time',
+  'ClubLP.LongBanner.SubscriptionContent3':
+    'Daily rationing instructions so your pet always gets the right amount of food',
+  'ClubLP.Advantage.title': 'Health is not one size fits all',
+  'ClubLP.Advantage.content1':
+    'Nutrition tailored to the unique health needs of cats and dogs',
+  'ClubLP.Advantage.content2':
+    'Complete and balanced nutrients in each pet’s diet',
+  'ClubLP.Advantage.content3':
+    'Highly digestible ingredients sourced and combined to meet each tailored nutritional profile',
+  'ClubLP.Advantage.content4':
+    'High quality nutrients selected from more sustainable sources with a lower carbon footprint',
+  'ClubLP.Advantage.button': 'Find your tailored food now',
+  'ClubLP.SubscriptionBenefitsNew.title':
+    'A subscription that makes your life easier',
+  'ClubLP.SubscriptionBenefitsNew.icon1':
+    'Automatic delivery with free shipping',
+  'ClubLP.SubscriptionBenefitsNew.icon2': '10% off on every order',
+  'ClubLP.SubscriptionBenefitsNew.icon3': 'Access to a personal pet advisor',
+  'ClubLP.SubscriptionBenefitsNew.icon4': 'A welcome box & exclusive rewards',
+  'ClubLP.SubscriptionBenefitsNew.icon5':
+    'Tailored support & educational content',
+  'ClubLP.SubscriptionBenefitsNew.button': 'Get Started'
 };
 
 export default ru_RU;

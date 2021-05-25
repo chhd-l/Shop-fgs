@@ -1340,5 +1340,7 @@ const en_US = {
   'subscription.autoship': 'autoship',
   'subscription.club': 'club',
   'detail.subscriptionBuyTip': 'Subscription without participation'
+
+  //NewLandingpage
 };
 export default en_US;
