@@ -4,6 +4,7 @@ import logoad from './image/logoad.png';
 import { Link } from 'react-router-dom';
 import logoclubad from './image/CLUBLOGOSUBSCIPTION@4x.png';
 import './index.css';
+import { FormattedMessage } from 'react-intl';
 
 const GetMoreAd = () => {
   return (
@@ -15,7 +16,7 @@ const GetMoreAd = () => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    Get more with CLUB Subscription
+                    <FormattedMessage id="ClubLP.GetMoreAd.title" />
                   </h4>
                 </div>
                 <div
@@ -57,17 +58,11 @@ const GetMoreAd = () => {
                             transform: 'translateY(-10px)'
                           }}
                         >
-                          <p
-                            style={{
-                              fontSize: '28px',
-                              marginBottom: '0',
-                              fontWeight: 'bolder'
-                            }}
-                          >
-                            SINGLE{' '}
-                          </p>
                           <p style={{ fontSize: '28px', fontWeight: 'bolder' }}>
-                            Purchase
+                            <FormattedMessage
+                              id="ClubLP.GetMoreAd.subtitle1"
+                              values={{ val: <br /> }}
+                            />
                           </p>
                         </div>
                       </div>
@@ -80,13 +75,13 @@ const GetMoreAd = () => {
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Tailored nutrition
+                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Free shipping from $50
+                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip2" />
                               </a>
                             </li>
                           </ul>
@@ -131,21 +126,14 @@ const GetMoreAd = () => {
                           <p
                             style={{
                               fontSize: '28px',
-                              marginBottom: '0',
                               fontWeight: 'bolder',
                               color: '#E2001A'
                             }}
                           >
-                            Club{' '}
-                          </p>
-                          <p
-                            style={{
-                              fontSize: '28px',
-                              fontWeight: 'bolder',
-                              color: '#E2001A'
-                            }}
-                          >
-                            Subscription
+                            <FormattedMessage
+                              id="ClubLP.GetMoreAd.subtitle2"
+                              values={{ val: <br /> }}
+                            />
                           </p>
                         </div>
                       </div>
@@ -158,25 +146,25 @@ const GetMoreAd = () => {
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Tailored nutrition
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Free shipping
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                10% discount on every order
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Automatic refills to your door
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
                               </a>
                             </li>
                           </ul>
@@ -188,17 +176,19 @@ const GetMoreAd = () => {
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Free personalized newsletters
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>Welcome pack</a>
+                              <a style={{ marginLeft: '10px' }}>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
+                              </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                Exclusive perks & services
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
                               </a>
                             </li>
                           </ul>
