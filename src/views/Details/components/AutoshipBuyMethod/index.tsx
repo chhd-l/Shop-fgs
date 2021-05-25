@@ -12,7 +12,7 @@ interface Props {
   currentUnitPrice: any
   currentSubscriptionPrice: any
   changeMethod: Function
-  changeFreqency: Function
+  changeFreqency: Function,
 }
 
 const AutoshipBuyMethod = ({
@@ -22,7 +22,7 @@ const AutoshipBuyMethod = ({
   currentUnitPrice,
   currentSubscriptionPrice,
   changeMethod,
-  changeFreqency
+  changeFreqency,
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false)
   return (

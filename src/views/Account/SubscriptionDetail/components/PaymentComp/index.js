@@ -835,7 +835,7 @@ class PaymentComp extends React.Component {
             </>
           )
         ) : null}
-        {!this.state.isEdit && (
+        {!this.state.isEdit ? (
           <div className="text-right" style={{ marginTop: '.625rem' }}>
             <a
               className="rc-styled-link editPersonalInfoBtn"
@@ -868,7 +868,7 @@ class PaymentComp extends React.Component {
               <FormattedMessage id="save" />
             </button>
           </div>
-        )}
+        ) : null}
 
         {this.state.isEdit || !creditCardList.length ? (
           <PaymentEditForm
