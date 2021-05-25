@@ -30,7 +30,7 @@ const ru_RU = {
   'account.catOrDog': 'У тебя есть кошка или собака?',
   'account.dateTip': 'Пожалуйста, выберите прошедшую дату.',
   'account.deleteMyaccountDesc':
-    'как только ваш аккаунт будет удален, вы не сможете использовать этот аккаунт для доступа к сервису Royal Canin.',
+    'В этом случае Вы не сможете пользоваться сервисами ROYAL CANIN®. Доступ к Клубной программе и подписке на ветеринарные диеты будет закрыт, а история покупок будет удалена.',
   'account.deleteMyaccountTitle': 'Удалить аккаунт',
   'account.dog': 'Собака',
   'account.Email': 'Е-mail адрес',
@@ -1325,62 +1325,77 @@ const ru_RU = {
   searchShow: 'результаты поиска',
 
   //NewLandingpageClub
-  'ClubLP.discount.content':'10% OFF & FREE DELIVERY',
-  'ClubLP.LongBanner.title':'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
-  'ClubLP.LongBanner.content':'starting from 19.90€ /refill',
-  'ClubLP.LongBanner.button':'Try it now',
-  'ClubLP.LongBanner.content2':'Free from engagement',
-  'ClubLP.LongBanner.SubscriptionTitle':'SUBSCRIPTION BENEFITS FOR CATS & DOGS',
-  'ClubLP.LongBanner.SubscriptionTitle1':'Tailored nutrition for optimal health',
-  'ClubLP.LongBanner.SubscriptionContent1':"High quality ingredients chosen for your pet's specific needs with scientifically proven health benefits",
-  'ClubLP.LongBanner.SubscriptionTitle2':'A diet that adapts with your pet',
-  'ClubLP.LongBanner.SubscriptionContent2':'A feeding plan designed to adapt to long term health',
-  'ClubLP.LongBanner.SubscriptionTitle3':'The right portion every time',
-  'ClubLP.LongBanner.SubscriptionContent3':'Daily rationing instructions so your pet always gets the right amount of food',
-  'ClubLP.Advantage.title':'Health is not one size fits all',
-  'ClubLP.Advantage.content1':'Nutrition tailored to the unique health needs of cats and dogs',
-  'ClubLP.Advantage.content2':'Complete and balanced nutrients in each pet’s diet',
-  'ClubLP.Advantage.content3':'Highly digestible ingredients sourced and combined to meet each tailored nutritional profile',
-  'ClubLP.Advantage.content4':'High quality nutrients selected from more sustainable sources with a lower carbon footprint',
-  'ClubLP.Advantage.button':'Find your tailored food now',
-  'ClubLP.SubscriptionBenefitsNew.title':'A subscription that makes your life easier',
-  'ClubLP.SubscriptionBenefitsNew.icon1':'Automatic delivery with free shipping',
-  'ClubLP.SubscriptionBenefitsNew.icon2':'10% off on every order',
-  'ClubLP.SubscriptionBenefitsNew.icon3':'Access to a personal pet advisor',
-  'ClubLP.SubscriptionBenefitsNew.icon4':'A welcome box & exclusive rewards',
-  'ClubLP.SubscriptionBenefitsNew.icon5':'Tailored support & educational content',
-  'ClubLP.SubscriptionBenefitsNew.button':'Get Started',
-  'ClubLP.NewHowItWorks.title':'HOW IT WORKS',
-  'ClubLP.NewJoinUs.title':'Tell us about your pet',
-  'ClubLP.NewJoinUs.content':'to get a precise nutritional recommendation.',
-  'ClubLP.NewJoinUs.button':'Get Started',
-  'ClubLP.OurCustomers.title':'Our Loyal Customers',
-  'ClubLP.GetMoreAd.title':'Get more with CLUB Subscription',
-  'ClubLP.GetMoreAd.subtitle1':'SINGLE {val} Purchase',
-  'ClubLP.GetMoreAd.subtitle2':'Club {val} Subscription',
-  'ClubLP.GetMoreAd.Single.tip1':'Tailored nutrition',
-  'ClubLP.GetMoreAd.Single.tip2':'Free shipping from $50',
-  'ClubLP.GetMoreAd.Club.tip1':'Tailored nutrition',
-  'ClubLP.GetMoreAd.Club.tip2':'Free shipping',
-  'ClubLP.GetMoreAd.Club.tip3':'10% discount on every order',
-  'ClubLP.GetMoreAd.Club.tip4':'Automatic refills to your door',
-  'ClubLP.GetMoreAd.Club.tip5':'Free personalized newsletters',
-  'ClubLP.GetMoreAd.Club.tip6':'Welcome pack',
-  'ClubLP.GetMoreAd.Club.tip7':'Exclusive perks & services',
-  'ClubLP.GetMoreAd.button':'Get started',
-  'ClubLP.Help.title':"We're here to help",
-  'ClubLP.Help.subtitle1':'Our team is available to answer your questions and ensure you have the best possible experience.',
-  'ClubLP.Help.subtitle2':'You can reach us through the following options:',
-  'ClubLP.Help.call.title':'Call us',
-  'ClubLP.Help.call.content':'Our Pet Experts are happy to help you everyday from 9 am to 6 pm',
-  'ClubLP.Help.call.number':'O874 657 890',
-  'ClubLP.Help.call.mobile.number':'O874 657 890',
-  'ClubLP.Help.email.title':'Email us',
-  'ClubLP.Help.email.content':"We'll do our best to get back to you as fast as possible and within 12 hours",
-  'ClubLP.Help.email.address':'Send us an Email',
-  'ClubLP.Help.faq.content':'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
-
-
+  'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
+  'ClubLP.LongBanner.title':
+    'GIVE YOUR PET A {val1} COMPLETE HEALTH SOLUTION, {val2} BY SUBSCRIPTION',
+  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+  'ClubLP.LongBanner.button': 'Try it now',
+  'ClubLP.LongBanner.content2': 'Free from engagement',
+  'ClubLP.LongBanner.SubscriptionTitle':
+    'SUBSCRIPTION BENEFITS FOR CATS & DOGS',
+  'ClubLP.LongBanner.SubscriptionTitle1':
+    'Tailored nutrition for optimal health',
+  'ClubLP.LongBanner.SubscriptionContent1':
+    "High quality ingredients chosen for your pet's specific needs with scientifically proven health benefits",
+  'ClubLP.LongBanner.SubscriptionTitle2': 'A diet that adapts with your pet',
+  'ClubLP.LongBanner.SubscriptionContent2':
+    'A feeding plan designed to adapt to long term health',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'The right portion every time',
+  'ClubLP.LongBanner.SubscriptionContent3':
+    'Daily rationing instructions so your pet always gets the right amount of food',
+  'ClubLP.Advantage.title': 'Health is not one size fits all',
+  'ClubLP.Advantage.content1':
+    'Nutrition tailored to the unique health needs of cats and dogs',
+  'ClubLP.Advantage.content2':
+    'Complete and balanced nutrients in each pet’s diet',
+  'ClubLP.Advantage.content3':
+    'Highly digestible ingredients sourced and combined to meet each tailored nutritional profile',
+  'ClubLP.Advantage.content4':
+    'High quality nutrients selected from more sustainable sources with a lower carbon footprint',
+  'ClubLP.Advantage.button': 'Find your tailored food now',
+  'ClubLP.SubscriptionBenefitsNew.title':
+    'A subscription that makes your life easier',
+  'ClubLP.SubscriptionBenefitsNew.icon1':
+    'Automatic delivery with free shipping',
+  'ClubLP.SubscriptionBenefitsNew.icon2': '10% off on every order',
+  'ClubLP.SubscriptionBenefitsNew.icon3': 'Access to a personal pet advisor',
+  'ClubLP.SubscriptionBenefitsNew.icon4': 'A welcome box & exclusive rewards',
+  'ClubLP.SubscriptionBenefitsNew.icon5':
+    'Tailored support & educational content',
+  'ClubLP.SubscriptionBenefitsNew.button': 'Get Started',
+  'ClubLP.NewHowItWorks.title': 'HOW IT WORKS',
+  'ClubLP.NewJoinUs.title': 'Tell us about your pet',
+  'ClubLP.NewJoinUs.content': 'to get a precise nutritional recommendation.',
+  'ClubLP.NewJoinUs.button': 'Get Started',
+  'ClubLP.OurCustomers.title': 'Our Loyal Customers',
+  'ClubLP.GetMoreAd.title': 'Get more with CLUB Subscription',
+  'ClubLP.GetMoreAd.subtitle1': 'SINGLE {val} Purchase',
+  'ClubLP.GetMoreAd.subtitle2': 'Club {val} Subscription',
+  'ClubLP.GetMoreAd.Single.tip1': 'Tailored nutrition',
+  'ClubLP.GetMoreAd.Single.tip2': 'Free shipping from $50',
+  'ClubLP.GetMoreAd.Club.tip1': 'Tailored nutrition',
+  'ClubLP.GetMoreAd.Club.tip2': 'Free shipping',
+  'ClubLP.GetMoreAd.Club.tip3': '10% discount on every order',
+  'ClubLP.GetMoreAd.Club.tip4': 'Automatic refills to your door',
+  'ClubLP.GetMoreAd.Club.tip5': 'Free personalized newsletters',
+  'ClubLP.GetMoreAd.Club.tip6': 'Welcome pack',
+  'ClubLP.GetMoreAd.Club.tip7': 'Exclusive perks & services',
+  'ClubLP.GetMoreAd.button': 'Get started',
+  'ClubLP.Help.title': "We're here to help",
+  'ClubLP.Help.subtitle1':
+    'Our team is available to answer your questions and ensure you have the best possible experience.',
+  'ClubLP.Help.subtitle2': 'You can reach us through the following options:',
+  'ClubLP.Help.call.title': 'Call us',
+  'ClubLP.Help.call.content':
+    'Our Pet Experts are happy to help you everyday from 9 am to 6 pm',
+  'ClubLP.Help.call.number': 'O874 657 890',
+  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.email.title': 'Email us',
+  'ClubLP.Help.email.content':
+    "We'll do our best to get back to you as fast as possible and within 12 hours",
+  'ClubLP.Help.email.address': 'Send us an Email',
+  'ClubLP.Help.faq.content':
+    'Send us an EmailYou can check our FAQ section to see if your question has already been answered'
 };
 
 export default ru_RU;
