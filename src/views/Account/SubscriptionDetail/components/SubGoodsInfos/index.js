@@ -1,30 +1,17 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
-import DatePicker from 'react-datepicker';
 import { IMG_DEFAULT } from '@/utils/constant';
-import Selection from '@/components/Selection';
 import ButtonBoxGift from './ButtonBoxGift';
 import ButtonBox from './ButtonBox';
+import ChangeSelection from './ChangeSelection';
 import DailyRation from '../DailyRation';
 import ShowErrorDom from '../ShowErrorDom';
-import LazyLoad from 'react-lazyload';
-import dateIcon from '../../images/date.png';
 export const SubGoodsInfosContext = createContext();
-import FrequencySelection from '@/components/FrequencySelection/index.tsx';
-
-import {
-  getDeviceType,
-  getFormatDate,
-  datePickerConfig,
-  formatMoney,
-  getZoneTime
-} from '@/utils/utils';
+import { getDeviceType, formatMoney } from '@/utils/utils';
 const SubGoodsInfos = ({
   triggerShowChangeProduct,
   getDetail,
   isDataChange,
-  isNotInactive,
-  isActive,
   handleSaveChange,
   modalList,
   showErrMsg,
@@ -35,8 +22,11 @@ const SubGoodsInfos = ({
   errMsgPage,
   setState,
   getMinDate,
-  isClub
+  isShowClub
 }) => {
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isActive = subDetail.subscribeStatus === '0';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   //订阅数量更改
   const onQtyChange = async () => {
@@ -115,10 +105,12 @@ const SubGoodsInfos = ({
   const propsObj = {
     subDetail,
     isGift,
-    isNotInactive,
+    isActive,
+    getMinDate,
     modalList,
     setState,
     handleSaveChange,
+    onDateChange,
     isDataChange,
     productListLoading,
     getDetail,
@@ -150,7 +142,7 @@ const SubGoodsInfos = ({
                       alt={el.goodsName}
                     />
                     {/* </LazyLoad> */}
-                    {isClub && !!subDetail.petsId && (
+                    {isShowClub && !!subDetail.petsId && (
                       <span
                         className={`rc-styled-link ${
                           productListLoading ? 'ui-btn-loading' : ''
@@ -199,7 +191,7 @@ const SubGoodsInfos = ({
                       {el.specText}
                     </p>
                     ..........
-                    {isClub && !!subDetail.petsId && (
+                    {isShowClub && !!subDetail.petsId && (
                       <DailyRation rations={el.petsRation} />
                     )}
                   </div>
@@ -276,115 +268,10 @@ const SubGoodsInfos = ({
                 // className="col-4 col-md-5"
                 // style={{ paddingLeft: '60px' }}
                 >
-                  <div className="rc-card-content">
-                    <strong
-                      style={{
-                        display: 'inline-block',
-                        width: '50%'
-                      }}
-                    >
-                      <FormattedMessage id="subscription.frequency" />:
-                    </strong>
-                    <div
-                      className="rc-card__meta order-Id text-left"
-                      style={{
-                        fontSize: '1.25rem',
-                        marginTop: '.625rem',
-                        display: 'inline-block',
-                        marginLeft: '.625rem'
-                      }}
-                    >
-                      {el.promotions && (
-                        <FrequencySelection
-                          frequencyType={el.promotions}
-                          currentFrequencyId={el.periodTypeId}
-                          handleConfirm={(data) => {
-                            if (el.periodTypeId !== data.id) {
-                              el.periodTypeId = data.id;
-                              // el.periodTypeValue = data.valueEn;
-                              setState({ isDataChange: true });
-                            }
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <div className="rc-card-content">
-                    <strong
-                      style={{
-                        display: 'inline-block',
-                        width: '50%'
-                      }}
-                    >
-                      {/* Shipping Method: */}
-                      <FormattedMessage id="autoShipStarted" />
-                    </strong>
-                    <div
-                      className="rc-card__meta order-Id text-left"
-                      style={{
-                        marginTop: '.625rem',
-                        display: 'inline-block',
-                        marginLeft: '.625rem',
-                        fontSize: '1.25rem'
-                      }}
-                    >
-                      {getFormatDate(el.createTime.split(' ')[0])}
-                    </div>
-                  </div>
-                  <div className="rc-card-content">
-                    <strong
-                      style={{
-                        display: 'inline-block',
-                        width: '50%'
-                      }}
-                    >
-                      <LazyLoad>
-                        <img
-                          src={dateIcon}
-                          alt="delete icon"
-                          style={{
-                            display: 'inline-block',
-                            width: '1.25rem',
-                            verticalAlign: 'middle',
-                            marginRight: '8px'
-                          }}
-                        />
-                      </LazyLoad>
-                      <FormattedMessage id="nextShipment" />:
-                    </strong>
-                    <div
-                      className="rc-card__meta order-Id"
-                      style={{
-                        marginTop: '.625rem',
-                        display: 'inline-block',
-                        marginLeft: '.625rem',
-                        fontSize: '1.25rem'
-                      }}
-                    >
-                      <DatePicker
-                        className="receiveDate"
-                        placeholder="Select Date"
-                        dateFormat={datePickerConfig.format}
-                        locale={datePickerConfig.locale}
-                        minDate={getMinDate(el.nextDeliveryTime)}
-                        selected={
-                          !isActive
-                            ? ''
-                            : el.nextDeliveryTime
-                            ? getZoneTime(el.nextDeliveryTime)
-                            : new Date()
-                        }
-                        disabled={true}
-                        onChange={(date) => onDateChange(date)}
-                      />
-                    </div>
-                  </div>
+                  <ChangeSelection el={el} />
                 </div>
                 {isGift && subDetail.subscribeStatus != 2 ? (
-                  <ButtonBoxGift
-                    subDetail={subDetail}
-                    isDataChange={isDataChange}
-                  />
+                  <ButtonBoxGift />
                 ) : null}
               </div>
             ))}
@@ -532,7 +419,7 @@ const SubGoodsInfos = ({
                           </div>
                         </div>
                       </div>
-                      {isClub && !!subDetail.petsId && isNotInactive && (
+                      {isShowClub && !!subDetail.petsId && isNotInactive && (
                         <div
                           style={{
                             position: 'relative',
@@ -584,128 +471,16 @@ const SubGoodsInfos = ({
                     className="col-4 col-md-5"
                     style={{ paddingLeft: '60px' }}
                   >
-                    <div className="rc-card-content">
-                      <strong
-                        style={{
-                          display: 'inline-block',
-                          width: '50%'
-                        }}
-                      >
-                        <FormattedMessage id="subscription.frequency" />:
-                      </strong>
-                      <div
-                        className="rc-card__meta order-Id text-left"
-                        style={{
-                          marginTop: '.625rem',
-                          display: 'inline-block',
-                          marginLeft: '.625rem',
-                          fontSize: '1.25rem'
-                        }}
-                      >
-                        {el.promotions && (
-                          <FrequencySelection
-                            frequencyType={el.promotions}
-                            currentFrequencyId={el.periodTypeId}
-                            handleConfirm={(data) => {
-                              if (el.periodTypeId !== data.id) {
-                                el.periodTypeId = data.id;
-                                // el.periodTypeValue = data.valueEn;
-                                setState({ isDataChange: true });
-                              }
-                            }}
-                            disabled={!isActive || isGift}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    <div className="rc-card-content">
-                      <strong
-                        style={{
-                          display: 'inline-block',
-                          width: '50%'
-                        }}
-                      >
-                        {/* Shipping Method: */}
-                        <FormattedMessage id="autoShipStarted" />
-                      </strong>
-                      <div
-                        className="rc-card__meta order-Id text-left"
-                        style={{
-                          marginTop: '.625rem',
-                          display: 'inline-block',
-                          marginLeft: '.625rem',
-                          fontSize: '1.25rem'
-                        }}
-                      >
-                        {getFormatDate(el.createTime.split(' ')[0])}
-                      </div>
-                    </div>
-                    <div className="rc-card-content">
-                      <strong
-                        style={{
-                          display: 'inline-block',
-                          width: '50%'
-                        }}
-                      >
-                        <LazyLoad>
-                          <img
-                            alt="delete icon"
-                            src={dateIcon}
-                            style={{
-                              display: 'inline-block',
-                              width: '1.25rem',
-                              verticalAlign: 'middle',
-                              marginRight: '8px'
-                            }}
-                          />
-                        </LazyLoad>
-                        <FormattedMessage id="nextShipment" />:
-                      </strong>
-                      <div
-                        className="rc-card__meta order-Id"
-                        style={{
-                          marginTop: '.625rem',
-                          display: 'inline-block',
-                          marginLeft: '.625rem',
-                          fontSize: '1.25rem'
-                        }}
-                      >
-                        <DatePicker
-                          className="receiveDate"
-                          placeholder="Select Date"
-                          dateFormat={datePickerConfig.format}
-                          locale={datePickerConfig.locale}
-                          minDate={getMinDate(el.nextDeliveryTime)}
-                          selected={
-                            !isActive
-                              ? ''
-                              : el.nextDeliveryTime
-                              ? getZoneTime(el.nextDeliveryTime)
-                              : new Date()
-                          }
-                          disabled={true}
-                          onChange={(date) => onDateChange(date)}
-                        />
-                      </div>
-                    </div>
+                    <ChangeSelection el={el} />
                   </div>
                 </div>
                 {isGift && subDetail.subscribeStatus != 2 ? (
-                  <ButtonBoxGift
-                    subDetail={subDetail}
-                    isDataChange={isDataChange}
-                  />
+                  <ButtonBoxGift />
                 ) : null}
               </div>
             ))}
         </div>
-        {!isGift && (
-          <ButtonBox
-            subDetail={subDetail}
-            isDataChange={isDataChange}
-            isNotInactive={isNotInactive}
-          />
-        )}
+        {!isGift && <ButtonBox />}
       </div>
     </SubGoodsInfosContext.Provider>
   );

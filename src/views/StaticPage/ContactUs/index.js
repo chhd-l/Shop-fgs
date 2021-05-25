@@ -469,12 +469,11 @@ class ContactUs extends Component {
         <div className="FAQ-header">
           <div className="confirmation-message">
             <img src={successImg} alt="success image" />
-            <h2>Thank You For Contacting Us!</h2>
+            <h2>THANKS FOR YOUR INQUIRY!</h2>
             <p className="order-thank-you-email-msg">
-              A copy of your message has also been sent to {this.state.mail}.
-            </p>
-            <p className="order-thank-you-email-msg">
-              One of our pet experts will be in touch with you soon.
+              One of our pet experts will contact you at {this.state.mail}{' '}
+              within 1-3 business days. If you need immediate assistance, please
+              call us at 1-844-673-3772. 
             </p>
           </div>
         </div>

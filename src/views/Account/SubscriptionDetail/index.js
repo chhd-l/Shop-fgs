@@ -3,7 +3,6 @@ import './index.less';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
-import find from 'lodash/find';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -11,15 +10,12 @@ import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
-import Selection from '@/components/Selection';
-import smartFeeder from '@/assets/images/smart_feeder.png';
-import { unique, getParaByName } from '@/utils/utils';
+import { getParaByName } from '@/utils/utils';
 import SubDetailHeader from './components/SubDetailHeader';
 import SubGoodsInfos from './components/SubGoodsInfos';
 import UserPaymentInfo from './components/UserPaymentInfo';
 import RemainingsList from './components/RemainingsList';
-import NextDelivery from './components/DeliveryList/NextDelivery';
-import CompletedDelivery from './components/DeliveryList/CompletedDelivery';
+import DeliveryList from './components/DeliveryList';
 import Loading from '@/components/Loading';
 import { getRation } from '@/utils/utils';
 import GiftList from './components/GiftList';
@@ -68,7 +64,6 @@ class SubscriptionDetail extends React.Component {
       remainingsList: [],
       remainingsVisible: false,
       //订阅购物车参数
-      promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       subDetail: {},
       loading: false,
@@ -276,13 +271,7 @@ class SubscriptionDetail extends React.Component {
       });
     }
   };
-  changeYearOption = (el) => {
-    if (this.state.activeTabIdx === 0) {
-      this.setState({ noStartYear: el });
-    } else {
-      this.setState({ completedYear: el });
-    }
-  };
+
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -326,9 +315,9 @@ class SubscriptionDetail extends React.Component {
         });
     });
   };
-  changeTab(e, i) {
+  changeTab = (e, i) => {
     this.setState({ activeTabIdx: i });
-  }
+  };
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
     subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
@@ -622,18 +611,32 @@ class SubscriptionDetail extends React.Component {
       currentDeliveryAddress,
       currentBillingAddress,
       addressType,
+      loading,
       subDetail,
+      triggerShowAddNewPet,
+      errMsgPage,
       currentModalObj,
+      productListLoading,
+      petType,
       noStartYearOption,
       completedYearOption,
-      noStartYear,
+      isDataChange,
+      tabName,
+      activeTabIdx,
       completedYear,
-      isActive,
       isGift,
-      remainingsVisible
+      remainingsList,
+      noStartYear,
+      modalList,
+      modalShow,
+      loadingPage,
+      remainingsVisible,
+      submitLoading,
+      triggerShowChangeProduct,
+      seoConfig
     } = this.state;
     console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
-    let isClub =
+    let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
@@ -642,12 +645,9 @@ class SubscriptionDetail extends React.Component {
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
             <link rel="canonical" href={pageLink} />
-            <title>{this.state.seoConfig.title}</title>
-            <meta
-              name="description"
-              content={this.state.seoConfig.metaDescription}
-            />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+            <title>{seoConfig.title}</title>
+            <meta name="description" content={seoConfig.metaDescription} />
+            <meta name="keywords" content={seoConfig.metaKeywords} />
           </Helmet>
           <Header
             showMiniIcons={true}
@@ -660,8 +660,8 @@ class SubscriptionDetail extends React.Component {
             <BreadCrumbs />
             <Modal
               key="1"
-              visible={this.state.modalShow}
-              confirmLoading={this.state.submitLoading}
+              visible={modalShow}
+              confirmLoading={submitLoading}
               modalTitle={currentModalObj.title}
               confirmBtnText={<FormattedMessage id="yes" />}
               cancelBtnVisible={<FormattedMessage id="cancel" />}
@@ -674,9 +674,7 @@ class SubscriptionDetail extends React.Component {
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
-                {this.state.loadingPage ? (
-                  <Loading positionFixed="true" />
-                ) : null}
+                {loadingPage ? <Loading positionFixed="true" /> : null}
                 {/* <SideMenu type="Subscription" /> */}
                 {isMobile ? (
                   <div className="col-12 rc-md-down">
@@ -725,24 +723,20 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
                   <SubDetailHeader
-                    triggerShowChangeProduct={
-                      this.state.triggerShowChangeProduct
-                    }
+                    triggerShowChangeProduct={triggerShowChangeProduct}
                     getDetail={this.getDetail}
-                    isNotInactive={this.state.isNotInactive}
-                    productListLoading={this.state.productListLoading}
-                    petType={this.state.petType}
-                    isClub={isClub}
+                    productListLoading={productListLoading}
+                    petType={petType}
+                    isShowClub={isShowClub}
                     setState={this.setState.bind(this)}
-                    isActive={this.state.isActive}
-                    subDetail={this.state.subDetail}
+                    subDetail={subDetail}
                     initPage={this.initPage}
                     history={this.props.history}
-                    triggerShowAddNewPet={this.state.triggerShowAddNewPet}
+                    triggerShowAddNewPet={triggerShowAddNewPet}
                   />
                   {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
-                    {this.state.loading && (
+                    {loading && (
                       <div className="mt-4">
                         <Skeleton
                           color="#f5f5f5"
@@ -752,167 +746,51 @@ class SubscriptionDetail extends React.Component {
                         />
                       </div>
                     )}
-                    <div className={`${this.state.loading ? 'hidden' : ''} `}>
+                    <div className={`${loading ? 'hidden' : ''} `}>
                       <SubGoodsInfos
                         getDetail={this.getDetail}
-                        modalList={this.state.modalList}
-                        triggerShowChangeProduct={
-                          this.state.triggerShowChangeProduct
-                        }
-                        isActive={isActive}
-                        isDataChange={this.state.isDataChange}
-                        isClub={isClub}
-                        isGift={this.state.isGift}
+                        modalList={modalList}
+                        triggerShowChangeProduct={triggerShowChangeProduct}
+                        isDataChange={isDataChange}
+                        isShowClub={isShowClub}
+                        isGift={isGift}
                         onDateChange={this.onDateChange}
-                        productListLoading={this.state.productListLoading}
-                        errMsgPage={this.state.errMsgPage}
-                        isNotInactive={this.state.isNotInactive}
+                        productListLoading={productListLoading}
+                        errMsgPage={errMsgPage}
                         setState={this.setState.bind(this)}
                         getMinDate={this.getMinDate}
                         showErrMsg={this.showErrMsg.bind(this)}
-                        subDetail={this.state.subDetail}
+                        subDetail={subDetail}
                       />
                       <h4 className="h4">
                         <FormattedMessage id="myAutoshipOrder" />
                       </h4>
                       <div className="rc-max-width--xl">
-                        <div
-                          style={{ display: `${isGift ? 'none' : 'initial'}` }}
-                          className="rc-match-heights rc-content-h-middle rc-reverse-layout"
-                        >
-                          <div>
-                            <div
-                              className="rc-border-bottom rc-border-colour--interface"
-                              style={{ width: '70%', display: 'inline-block' }}
-                            >
-                              <nav className="rc-fade--x">
-                                <ul
-                                  className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
-                                  role="tablist"
-                                >
-                                  {this.state.tabName.map((ele, index) => (
-                                    <li key={index}>
-                                      <button
-                                        className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                        data-toggle={`tab__panel-${index}`}
-                                        aria-selected={
-                                          this.state.activeTabIdx === index
-                                            ? 'true'
-                                            : 'false'
-                                        }
-                                        role="tab"
-                                        onClick={(e) =>
-                                          this.changeTab(e, index)
-                                        }
-                                      >
-                                        {ele}
-                                      </button>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </nav>
-                            </div>
-                            <div
-                              style={{
-                                width: '30%',
-                                display: 'inline-block',
-                                textAlign: 'right',
-                                verticalAlign: 'middle'
-                              }}
-                            >
-                              <span
-                                style={{
-                                  display: 'inline-block',
-                                  width: isMobile ? 'auto' : '230px',
-                                  borderBottom: '1px solid #aaa',
-                                  textAlign: 'left'
-                                }}
-                              >
-                                {this.state.activeTabIdx === 0 ? (
-                                  <Selection
-                                    optionList={noStartYearOption}
-                                    selectedItemData={noStartYear}
-                                    selectedItemChange={(el) =>
-                                      changeYearOption(el)
-                                    }
-                                    type="freqency"
-                                    key={
-                                      (noStartYear && noStartYear.value) || ''
-                                    }
-                                  />
-                                ) : (
-                                  <Selection
-                                    optionList={completedYearOption}
-                                    selectedItemData={completedYear}
-                                    selectedItemChange={(el) =>
-                                      changeYearOption(el)
-                                    }
-                                    type="freqency"
-                                    key={
-                                      (completedYear && completedYear.value) ||
-                                      ''
-                                    }
-                                  />
-                                )}
-                              </span>
-                            </div>
-                            <div
-                              className="rc-tabs tabs-detail"
-                              style={{ marginTop: '40px' }}
-                            >
-                              {this.state.activeTabIdx === 0 &&
-                                subDetail.noStartTradeList &&
-                                subDetail.noStartTradeList
-                                  .filter(
-                                    (el) =>
-                                      noStartYear &&
-                                      el.tradeItems[0].nextDeliveryTime.split(
-                                        '-'
-                                      )[0] === noStartYear.value
-                                  )
-                                  .map((el) => (
-                                    <NextDelivery
-                                      promotionInputValue={
-                                        this.state.promotionInputValue
-                                      }
-                                      modalList={this.state.modalList}
-                                      setState={this.setState.bind(this)}
-                                      getMinDate={this.getMinDate}
-                                      isNotInactive={this.state.isNotInactive}
-                                      el={el}
-                                      isActive={this.state.isActive}
-                                    />
-                                  ))}
-                              {this.state.activeTabIdx === 1 &&
-                                subDetail.completedTradeList &&
-                                subDetail.completedTradeList
-                                  .filter(
-                                    (el) =>
-                                      completedYear &&
-                                      el.tradeState.createTime.split('-')[0] ===
-                                        completedYear.value
-                                  )
-                                  .map((el, i) => (
-                                    <CompletedDelivery
-                                      el={el}
-                                      isActive={this.state.isActive}
-                                      i={i}
-                                    />
-                                  ))}
-                            </div>
-                          </div>
-                        </div>
-
+                        <DeliveryList
+                          modalList={modalList}
+                          getMinDate={this.getMinDate}
+                          completedYearOption={completedYearOption}
+                          setState={this.setState.bind(this)}
+                          changeTab={this.changeTab}
+                          noStartYear={noStartYear}
+                          tabName={tabName}
+                          noStartYearOption={noStartYearOption}
+                          subDetail={subDetail}
+                          completedYearOption={completedYearOption}
+                          isGift={isGift}
+                          completedYear={completedYear}
+                          completedYear={completedYear}
+                          activeTabIdx={activeTabIdx}
+                        />
                         <GiftList
-                          modalList={this.state.modalList}
+                          modalList={modalList}
                           setState={this.setState.bind(this)}
                           activeTabIdx={this.activeTabIdx}
                           tabName={this.tabName}
                           changeTab={this.changeTab}
-                          subDetail={this.state.subDetail}
-                          noStartYear={this.state.noStartYear}
-                          isNotInactive={this.state.isNotInactive}
-                          isGift={this.state.isGift}
+                          subDetail={subDetail}
+                          noStartYear={noStartYear}
+                          isGift={isGift}
                         />
                       </div>
 
@@ -941,7 +819,7 @@ class SubscriptionDetail extends React.Component {
                 close={this.closeRemainings}
                 hanldeClickConfirm={() => this.hanldeClickSubmit()}
               >
-                <RemainingsList remainingsList={this.state.remainingsList} />
+                <RemainingsList remainingsList={remainingsList} />
               </Modal>
             </div>
             <div
@@ -950,7 +828,7 @@ class SubscriptionDetail extends React.Component {
                 display: remainingsVisible ? 'block' : 'none'
               }}
             >
-              <RemainingsList remainingsList={this.state.remainingsList} />
+              <RemainingsList remainingsList={remainingsList} />
               <a className="rc-styled-link" onClick={this.closeRemainings}>
                 cancel
               </a>

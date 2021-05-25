@@ -50,10 +50,10 @@ import {
 } from '@/api/subscription';
 
 import InputBox from './components/FormItem/InputBox';
+import RadioBox from './components/FormItem/RadioBox';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {
@@ -119,7 +119,21 @@ class PetForm extends React.Component {
       breedName: '',
       breedcode: '',
       isDeleteModalShow: false,
-      deleteWarningMessage: ''
+      deleteWarningMessage: '',
+      genderGroup: [
+        {
+          value: '1',
+          name: 'gender',
+          label: 'petFemale',
+          checked: true
+        },
+        {
+          value: '0',
+          name: 'gender',
+          label: 'petMale',
+          checked: false
+        }
+      ]
     };
 
     this.setSterilized = this.setSterilized.bind(this);
@@ -582,7 +596,7 @@ class PetForm extends React.Component {
     }
     this.setState({
       nickname: e.target.value,
-      isDisabled: isDisabled
+      isDisabled
     });
   };
 
@@ -891,17 +905,37 @@ class PetForm extends React.Component {
       isDisabled: false
     });
   }
-  genderChange(e) {
+  genderChange = (e) => {
     if (e.currentTarget.value === '0') {
-      this.setState({
-        isMale: true
+      const genderData = this.state.genderGroup.map((item) => {
+        let checked = item.value === '0';
+        return {
+          ...item,
+          checked
+        };
       });
+      this.setState({
+        genderGroup: genderData
+      });
+      // this.setState({
+      //   isMale: true
+      // });
     } else if (e.currentTarget.value === '1') {
-      this.setState({
-        isMale: false
+      const genderData = this.state.genderGroup.map((item) => {
+        let checked = item.value === '1';
+        return {
+          ...item,
+          checked
+        };
       });
+      this.setState({
+        genderGroup: genderData
+      });
+      // this.setState({
+      //   isMale: false
+      // });
     }
-  }
+  };
   petTypeChange(isCat) {
     this.setState(
       {
@@ -1006,6 +1040,7 @@ class PetForm extends React.Component {
       process.env.REACT_APP_COUNTRY == 'RU' ||
       process.env.REACT_APP_COUNTRY == 'TR';
     const Us = process.env.REACT_APP_COUNTRY == 'US';
+    const { genderGroup } = this.state;
     return (
       <div className="petForm">
         <GoogleTagManager additionalEvents={event} />
@@ -1168,7 +1203,13 @@ class PetForm extends React.Component {
                       />
                     </div>
                     <div className="form-group col-lg-6 pull-left required">
-                      <label
+                      <RadioBox
+                        htmlFor="gender"
+                        FormattedMsg="gender"
+                        radioGroup={genderGroup}
+                        radioChange={this.genderChange}
+                      />
+                      {/* <label
                         className="form-control-label rc-full-width"
                         htmlFor="gender"
                       >
@@ -1209,8 +1250,8 @@ class PetForm extends React.Component {
                             <FormattedMessage id="petMale" />
                           </label>
                         </div>
-                      </div>
-                      <div
+                      </div> */}
+                      {/* <div
                         className="invalid-feedback"
                         style={{ display: 'none' }}
                       >
@@ -1220,7 +1261,7 @@ class PetForm extends React.Component {
                             val: <FormattedMessage id="gender" />
                           }}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="form-group col-lg-6 pull-left required">
                       <label

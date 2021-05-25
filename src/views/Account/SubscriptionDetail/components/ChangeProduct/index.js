@@ -18,7 +18,7 @@ const ChangeProduct = () => {
   const {
     setState,
     subDetail,
-    isClub,
+    isShowClub,
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
@@ -56,17 +56,19 @@ const ChangeProduct = () => {
   });
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
-  useEffect(async () => {
-    await getFrequencyDict().then((res) => {
-      let frequencyListOptions = res.map((ele) => {
-        ele && delete ele.value;
-        return {
-          value: ele.id,
-          ...ele
-        };
+  useEffect(() => {
+    (async () => {
+      await getFrequencyDict().then((res) => {
+        let frequencyListOptions = res.map((ele) => {
+          ele && delete ele.value;
+          return {
+            value: ele.id,
+            ...ele
+          };
+        });
+        setFrequencyList(frequencyListOptions);
       });
-      setFrequencyList(frequencyListOptions);
-    });
+    })();
   }, []);
   const productDetailsInit = (res, cb) => {
     try {
@@ -185,10 +187,6 @@ const ChangeProduct = () => {
         const goodSize = specList.map((item) =>
           item.chidren.find((good) => good.selected)
         )?.[0]?.detailName;
-        const goodsInfoBarcode =
-          goodsInfos.find((item) => item.packSize === goodSize)
-            ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-
         let newImages = [];
         newImages = res.context.goodsInfos;
         setSpecList(specList);
@@ -423,7 +421,7 @@ const ChangeProduct = () => {
           </Modal>
         </div>
         {subDetail.petsId &&
-          isClub &&
+          isShowClub &&
           triggerShowChangeProduct.showBox &&
           (recommendationVisibleLoading ? (
             <div className="mt-4 1111" style={{ width: '100%' }}>

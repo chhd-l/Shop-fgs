@@ -27,9 +27,7 @@ const LinkPet = ({
   const [petList, setPetList] = useState([]);
   const [addNewPetVisible, setAddNewPetVisible] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  let petsInfo = subDetail?.petsInfo;
   let timer = null;
-  let petsType = petsInfo?.petsType;
   useEffect(() => {
     triggerShowAddNewPet && showAddNewPet();
   }, [triggerShowAddNewPet]);

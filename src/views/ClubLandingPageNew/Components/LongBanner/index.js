@@ -1,6 +1,40 @@
 import React from 'react';
 import SubscriptionBenefitsBanner from './SubscriprionBenefitsBanner';
 import './index.css';
+import { FormattedMessage } from 'react-intl';
+import benefitsone from './image/benefitsone.png';
+import benefitstwo from './image/benefitstwo.png';
+import benefitsthree from './image/benefitsthree.png';
+
+const SubscriptionItems = [
+  {
+    SubscriptionImg: benefitsone,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+    ),
+    SubscriptionContent: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" />
+    )
+  },
+  {
+    SubscriptionImg: benefitstwo,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+    ),
+    SubscriptionContent: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" />
+    )
+  },
+  {
+    SubscriptionImg: benefitsthree,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+    ),
+    SubscriptionContent: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" />
+    )
+  }
+];
 
 const LongBanner = () => {
   return (
@@ -28,13 +62,13 @@ const LongBanner = () => {
                       fontWeight: 'bold'
                     }}
                   >
-                    GIVE YOUR PET A<br />
-                    COMPLETE HEALTH SOLUTION,
-                    <br />
-                    BY SUBSCRIPTION
+                    <FormattedMessage
+                      id="ClubLP.LongBanner.title"
+                      values={{ val1: <br />, val2: <br /> }}
+                    ></FormattedMessage>
                   </p>
                   <p style={{ fontSize: '0.7em', color: '#ffffff' }}>
-                    starting from 19.90€ /refill
+                    <FormattedMessage id="ClubLP.LongBanner.content" />
                   </p>
                   <button
                     style={{
@@ -44,7 +78,7 @@ const LongBanner = () => {
                     }}
                     className="rc-btn rc-btn--one"
                   >
-                    Try it now
+                    <FormattedMessage id="ClubLP.LongBanner.button" />
                   </button>
                   <p
                     style={{
@@ -53,14 +87,14 @@ const LongBanner = () => {
                       marginBottom: '0px'
                     }}
                   >
-                    Free from engagement
+                    <FormattedMessage id="ClubLP.LongBanner.content2" />
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <SubscriptionBenefitsBanner />
+        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} />
       </div>
     </>
   );
