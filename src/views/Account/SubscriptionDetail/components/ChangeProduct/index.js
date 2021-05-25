@@ -18,7 +18,7 @@ const ChangeProduct = () => {
   const {
     setState,
     subDetail,
-    isClub,
+    isShowClub,
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
@@ -421,7 +421,7 @@ const ChangeProduct = () => {
           </Modal>
         </div>
         {subDetail.petsId &&
-          isClub &&
+          isShowClub &&
           triggerShowChangeProduct.showBox &&
           (recommendationVisibleLoading ? (
             <div className="mt-4 1111" style={{ width: '100%' }}>

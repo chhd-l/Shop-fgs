@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import ShowErrorDom from '../ShowErrorDom';
-import Selection from '@/components/Selection';
 import { changeSubscriptionGoods } from '@/api/subscription';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import find from 'lodash/find';
@@ -19,7 +19,6 @@ const ChooseSKU = ({ intl }) => {
   const {
     productListLoading,
     setState,
-    isNotInactive,
     getDetail,
     subDetail,
     triggerShowChangeProduct
@@ -36,6 +35,8 @@ const ChooseSKU = ({ intl }) => {
     form,
     currentGoodsItems
   } = ChangeProductValue;
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   if (
     specList?.length == 0 &&
     details?.subscriptionStatus &&
@@ -297,19 +298,19 @@ const ChooseSKU = ({ intl }) => {
               </div>
             </div>
           </div>
-          <p className="frequency rc-margin-right--xs rc-margin-left--xs">
-            <div style={{ marginBottom: '4px' }}>
-              <FormattedMessage id="subscription.frequency" />:
-            </div>
-            <div className={!isMobile && 'subscriptionDetail-choose-frequency'}>
-              {details.promotions && (
-                <FrequencySelection
-                  frequencyType={details.promotions}
-                  currentFrequencyId={form.frequencyId}
-                  handleConfirm={handleSelectedItemChange}
-                />
-              )}
-            </div>
+          <p
+            className={`frequency rc-margin-right--xs rc-margin-left--xs ${
+              isMobile ? 'subscriptionDetail-choose-frequency' : ''
+            }`}
+          >
+            {details.promotions && (
+              <FrequencySelection
+                className="col-md-8"
+                frequencyType={details.promotions}
+                currentFrequencyId={form.frequencyId}
+                handleConfirm={handleSelectedItemChange}
+              />
+            )}
           </p>
         </div>
         <strong className="rc-md-up" style={{ marginTop: '20px' }}>
