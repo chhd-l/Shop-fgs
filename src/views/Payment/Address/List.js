@@ -169,8 +169,9 @@ class AddressList extends React.Component {
 
       this.props.updateData(tmpObj);
 
+      // state对象暂时用不到
       addressList.forEach((v, i) => {
-        delete v.curState;
+        delete v.state;
       });
       // console.log('169 ★★★ addressList: ', addressList);
 
