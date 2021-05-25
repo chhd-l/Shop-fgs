@@ -157,8 +157,6 @@ const fr_FR = {
   // 'cart.catDiet': 'Aliments pour chats',
   'cart.catDiet': 'Trouver le bon produit pour votre chat',
   'cart.deletInfo': 'Supprimer le produit?',
-  'cart.deletInfo2':
-    'Voulez-vous vraiment supprimer cet article de votre panier?',
   'cart.delivery': 'Frais de livraison',
   // 'cart.dogDiet': 'Aliments pour chiens', // before text
   'cart.dogDiet': 'Trouver le bon produit pour votre chien',
@@ -1150,6 +1148,7 @@ const fr_FR = {
   sterilized: 'Stérilisé',
   submit: 'Soumettre',
   subscribe: 'S‘abonner',
+  clubSubscribe: 'S‘abonner',
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
   subscription: 'Abonnements',
   'subscription.ad.list1':
@@ -1488,6 +1487,7 @@ const fr_FR = {
   year: 'Année',
   yes: 'Confirmer',
   yes2: 'Confirmer',
+  NextToPlaceAnOrder: 'Confirmer',
   'Your Pet is a…': 'Votre animal de compagnie est un...',
   yourEmailNotVerified: "Votre email n'a pas été vérifié!",
   yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
@@ -1514,7 +1514,7 @@ const fr_FR = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'Find the right product and calculate your pet ration using our',
+    'Find the right product and calculate your pet ration using our {btn}',
   'details.findProductTips': ' Product finder',
   'details.learnMore': 'Apprendre encore plus',
   'subscriptionDetail.cantBindPetsErr1':
