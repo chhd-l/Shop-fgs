@@ -6,7 +6,9 @@ import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import './index.css';
 
-const SubscriptionBenefitsBanner = () => {
+
+
+const SubscriptionBenefitsBanner = (SubscriptionItem) => {
   return (
     <div className="row rc-margin-x--none">
       <div className="rc-full-width">
@@ -18,81 +20,36 @@ const SubscriptionBenefitsBanner = () => {
                   className="rc-beta"
                   style={{ fontWeight: 'bold', fontSize: '23px' }}
                 >
-                  SUBSCRIPTION BENEFITS FOR CATS & DOGS
+                  <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle"/>
                 </div>
               </div>
               <div
                 style={{ display: 'flex', justifyContent: 'space-around' }}
                 className="flexwrap"
               >
-                <div className="text-center">
+                {SubscriptionItem.SubscriptionItem.map(items=>(<div className="text-center">
                   <article>
                     <LazyLoad>
                       <img
                         className="w-90 lazyloaded"
-                        src={benefitsone}
+                        src={items.SubscriptionImg}
                         style={{ height: '150px' }}
                       />
                     </LazyLoad>
                     <h5 style={{ fontSize: '24px' }}>
-                      Tailored nutrition for optimal health
+                      {items.SubscriptionTitle}
                     </h5>
                     <div className="rc-card__body">
                       <p
                         className="rc-card__meta club_subscription_intro_center"
                         style={{ fontSize: '1rem' }}
                       >
-                        High quality ingredients chosen for your pet's specific
-                        needs with scientifically proven health benefits
+                        {items.SubscriptionContent}
                       </p>
                     </div>
                   </article>
-                </div>
-                <div className="text-center">
-                  <article>
-                    <LazyLoad>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={benefitstwo}
-                        style={{ height: '150px' }}
-                      />
-                    </LazyLoad>
-                    <h5 style={{ fontSize: '24px' }}>
-                      A diet that adapts with your pet
-                    </h5>
-                    <div className="rc-card__body">
-                      <p
-                        className="rc-card__meta club_subscription_intro_center"
-                        style={{ fontSize: '1rem' }}
-                      >
-                        A feeding plan designed to adapt to long term health
-                      </p>
-                    </div>
-                  </article>
-                </div>
-                <div className="text-center">
-                  <article>
-                    <LazyLoad>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={benefitsthree}
-                        style={{ height: '150px' }}
-                      />
-                    </LazyLoad>
-                    <h5 style={{ fontSize: '24px' }}>
-                      The right portion every time
-                    </h5>
-                    <div className="rc-card__body">
-                      <p
-                        className="rc-card__meta club_subscription_intro_center"
-                        style={{ fontSize: '1rem' }}
-                      >
-                        Daily rationing instructions so your pet always gets the
-                        right amount of food
-                      </p>
-                    </div>
-                  </article>
-                </div>
+                </div>))}
+
               </div>
             </div>
           </div>

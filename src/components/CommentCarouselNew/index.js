@@ -4,6 +4,7 @@ import CommentOne from './img/CommentThree.png';
 import CommentTwo from './img/CommentOne.png';
 import CommentThree from './img/CommentTwo.png';
 import CommentFour from './img/CommentFour.png';
+import { FormattedMessage } from 'react-intl';
 
 const CommentCarouselNew = () => {
   const Ru = process.env.REACT_APP_LANG === 'ru';
@@ -15,7 +16,7 @@ const CommentCarouselNew = () => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                <h3 className="rc-beta">Our Loyal Customers</h3>
+                <h3 className="rc-beta"><FormattedMessage id="ClubLP.OurCustomers.title"/></h3>
               </div>
               <div
                 className="rc-carousel rc-carousel--cards rc-match-heights"

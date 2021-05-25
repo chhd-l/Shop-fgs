@@ -152,8 +152,6 @@ const de_DE = {
   cardNumberIsInvalid: 'Ihre Kartennummer ist ungültig',
   'cart.catDiet': 'Nahrungen für Katzen',
   'cart.deletInfo': 'Produkt löschen?',
-  'cart.deletInfo2':
-    'Möchten Sie diesen Artikel wirklich aus Ihrem Warenkorb entfernen?',
   'cart.delivery': 'Lieferkosten',
   'cart.dogDiet': 'Nahrungen für Hunde',
   'cart.errorInfo': 'Die Zahl darf nicht kleiner als 1 sein',
@@ -1066,6 +1064,7 @@ const de_DE = {
   sterilized: 'Ist Ihr Tier kastriert oder sterilisiert?',
   submit: 'Einreichen',
   subscribe: 'In den Warenkorb legen',
+  clubSubscribe: 'In den Warenkorb legen',
   subscribeDiscount: 'Abonnement Rabatt sparen',
   subscription: 'Regelmäßige Lieferung',
   'subscription.ad.list1':
@@ -1212,6 +1211,7 @@ const de_DE = {
   year: 'Jahr',
   yes: 'Weiter',
   yes2: 'Weiter',
+  NextToPlaceAnOrder: 'Weiter',
   'Your Pet is a…': 'Mein Tier ist ein(e)…',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
@@ -1236,7 +1236,7 @@ const de_DE = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'Find the right product and calculate your pet ration using our',
+    'Find the right product and calculate your pet ration using our {btn}',
   'details.findProductTips': ' Product finder',
   'details.learnMore': 'Mehr erfahren',
   'subscriptionDetail.cantBindPetsErr1':

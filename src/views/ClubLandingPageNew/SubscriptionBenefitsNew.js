@@ -21,7 +21,7 @@ const SubsriptionBenefitsNew = () => {
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-              A subscription that makes your life easier
+              <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title"/>
             </h4>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
@@ -40,7 +40,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        Automatic delivery with free shipping
+                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon1"}/>
                       </p>
                     </div>
                   </div>
@@ -60,7 +60,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        10% off on every order
+                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon2"}/>
                       </p>
                     </div>
                   </div>
@@ -80,7 +80,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        Access to a personal pet advisor
+                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon3"}/>
                       </p>
                     </div>
                   </div>
@@ -100,7 +100,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        A welcome box & exclusive rewards
+                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon4"}/>
                       </p>
                     </div>
                   </div>
@@ -120,7 +120,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        Tailored support & educational content
+                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon5"}/>
                       </p>
                     </div>
                   </div>
@@ -129,7 +129,7 @@ const SubsriptionBenefitsNew = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <button className="rc-btn rc-btn--one">Get Started</button>
+            <button className="rc-btn rc-btn--one"><FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.button"}/></button>
           </h4>
         </div>
       </div>
