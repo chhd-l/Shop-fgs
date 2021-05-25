@@ -496,7 +496,7 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/Gastrointestinal-Puppy-%28%D0%BC%D1%83%D1%81%D1%81%29-1229_RU.html',
+        '/ru/Gastrointestinal-Puppy-%28%D0%BC%D1%83%D1%81%D1%81%29-1229_RU.html',
       redirectUrl: '/gastrointestinal-puppy-(%D0%BC%D1%83%D1%81%D1%81)-1229'
     },
     {
@@ -823,7 +823,7 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/Maine-Coon-Adult-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-2031_RU.html',
+        '/ru/Maine-Coon-Adult-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-2031_RU.html',
       redirectUrl:
         '/maine-coon-adult-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-2031'
     },
@@ -1303,7 +1303,7 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/Senior-Consult-Stage-1-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4090_RU.html',
+        '/ru/Senior-Consult-Stage-1-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4090_RU.html',
       redirectUrl:
         '/senior-consult-stage-1-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4090'
     },
@@ -1471,7 +1471,7 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/Urinary-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4157_RU.html',
+        '/ru/Urinary-Care-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4157_RU.html',
       redirectUrl: '/urinary-care-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4157'
     },
     {
@@ -1506,13 +1506,13 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/Urinary-S%2FO-Feline-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-1254_RU.html',
+        '/ru/Urinary-S%2FO-Feline-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-1254_RU.html',
       redirectUrl:
         '/urinary-so-feline-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1254'
     },
     {
       shortUrl:
-        '/ru/ru/Urinary-S%2FO-Moderate-Calorie-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4080_RU.html',
+        '/ru/Urinary-S%2FO-Moderate-Calorie-%28%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-4080_RU.html',
       redirectUrl:
         '/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
     },
@@ -1717,7 +1717,7 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/dogs/products/retail-products/starter-mousse-mother-babydog-wet',
+        '/ru/dogs/products/retail-products/starter-mousse-mother-babydog-wet',
       redirectUrl:
         '/%D1%81%D1%82%D0%B0%D1%80%D1%82%D0%B5%D1%80:-%D0%B4%D0%BB%D1%8F-%D1%81%D1%83%D0%BA-%D0%B8-%D1%89%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2-%D0%B4%D0%BE-2-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2-4077'
     },
@@ -1779,13 +1779,13 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/cats/products/retail-products/indoor-sterilized-7-years-jelly',
+        '/ru/cats/products/retail-products/indoor-sterilized-7-years-jelly',
       redirectUrl:
         '/indoor-sterilised-7+-years-(%D0%B2-%D0%B6%D0%B5%D0%BB%D0%B5)-1313'
     },
     {
       shortUrl:
-        '/ru/ru/cats/products/retail-products/indoor-sterilized-7-years-gravy',
+        '/ru/cats/products/retail-products/indoor-sterilized-7-years-gravy',
       redirectUrl:
         '/indoor-sterilised-7+-years-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-1305'
     },
@@ -1853,7 +1853,7 @@ export default {
     },
     {
       shortUrl:
-        '/ru/ru/cats/products/retail-products/mother-babycat-ultra-soft-mousse-wet',
+        '/ru/cats/products/retail-products/mother-babycat-ultra-soft-mousse-wet',
       redirectUrl: '/mother-&-babycat-(%D0%BC%D1%83%D1%81%D1%81)-4098'
     },
     {
