@@ -56,17 +56,19 @@ const ChangeProduct = () => {
   });
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
-  useEffect(async () => {
-    await getFrequencyDict().then((res) => {
-      let frequencyListOptions = res.map((ele) => {
-        ele && delete ele.value;
-        return {
-          value: ele.id,
-          ...ele
-        };
+  useEffect(() => {
+    (async () => {
+      await getFrequencyDict().then((res) => {
+        let frequencyListOptions = res.map((ele) => {
+          ele && delete ele.value;
+          return {
+            value: ele.id,
+            ...ele
+          };
+        });
+        setFrequencyList(frequencyListOptions);
       });
-      setFrequencyList(frequencyListOptions);
-    });
+    })();
   }, []);
   const productDetailsInit = (res, cb) => {
     try {
