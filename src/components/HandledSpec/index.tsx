@@ -230,7 +230,7 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
           goodsInfos[0].selected = true
         }
         setSizeList(goodsInfos)
-  }, []);
+  }, [details.goodsNo]);
   useEffect(() => {
     if(sizeList.length) {
       if(goodsSpecDetails) {

@@ -3,6 +3,7 @@ import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import ShowErrorDom from '../ShowErrorDom';
 import { changeSubscriptionGoods } from '@/api/subscription';
+import HandledSpec from '@/components/HandledSpec/index.tsx';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import find from 'lodash/find';
 import { ChangeProductContext } from './index';
@@ -25,16 +26,22 @@ const ChooseSKU = ({ intl }) => {
   } = SubDetailHeaderValue;
   const {
     details,
-    matchGoods,
-    stock,
+    setDetails,
     specList,
     showProdutctDetail,
     setForm,
-    currentSubscriptionPrice,
-    images,
     form,
     currentGoodsItems
   } = ChangeProductValue;
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
+    null
+  );
+  const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
+    {}
+  );
+  const [skuPromotions, setSkuPromotions] = useState(0);
+  const [stock, setStock] = useState(0);
+
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   if (
@@ -50,6 +57,19 @@ const ChooseSKU = ({ intl }) => {
       selected = el?.chidren.find((item) => item.selected)?.goodsId;
     }
   });
+  const matchGoods = (data, sizeList) => {
+    let newDetails = Object.assign({}, details, {
+      sizeList
+    });
+    console.info('data', data);
+    console.info('sizeList', sizeList);
+    debugger;
+    setSkuPromotions(data.skuPromotions);
+    setStock(data.stock);
+    setCurrentSubscriptionPrice(data.currentSubscriptionPrice);
+    setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
+    setDetails(newDetails);
+  };
   const changePets = (selected) => {
     if (!selected) {
       return;
@@ -158,27 +178,6 @@ const ChooseSKU = ({ intl }) => {
     }
   };
 
-  const handleChooseSize = (sId, sdId, isSelected) => {
-    if (isSelected) {
-      return;
-    }
-    specList
-      .filter((item) => item.specId === sId)[0]
-      .chidren.map((item) => {
-        if (item.specDetailId === sdId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
-    const goodSize = specList.map((item) =>
-      item.chidren.find((good) => good.specDetailId === sdId)
-    )?.[0]?.detailName;
-    setSpecList(specList);
-    matchGoods(); // todo
-  };
-
   return (
     <React.Fragment>
       <ShowErrorDom errorMsg={errorMsgSureChange} />
@@ -239,7 +238,14 @@ const ChooseSKU = ({ intl }) => {
             style={{ float: 'left' }}
           >
             <div className="specAndQuantity rc-margin-bottom--xs ">
-              <div className="spec">
+              {details.goodsInfos && (
+                <HandledSpec
+                  details={details}
+                  setState={setState}
+                  updatedSku={matchGoods}
+                />
+              )}
+              {/* <div className="spec">
                 {specList.map((sItem, i) => (
                   <div id="choose-select" key={i} style={{ width: '300px' }}>
                     <div
@@ -286,7 +292,7 @@ const ChooseSKU = ({ intl }) => {
                                   : 'pointer'
                               }}
                             >
-                              {/* {parseFloat(sdItem.detailName)}{' '} */}
+                              {/* {parseFloat(sdItem.detailName)}{' '}//
                               {sdItem.detailName}
                             </span>
                           </div>
@@ -296,6 +302,7 @@ const ChooseSKU = ({ intl }) => {
                   </div>
                 ))}
               </div>
+             */}
             </div>
           </div>
           <p
@@ -350,7 +357,9 @@ const ChooseSKU = ({ intl }) => {
             <button
               onClick={() => changePets(selected)}
               className={`rc-btn rc-btn--one rc-btn--sm ${
-                selected ? '' : 'rc-btn-solid-disabled'
+                selected && quantity < stock && skuPromotions == 'club'
+                  ? ''
+                  : 'rc-btn-solid-disabled'
               }
                 ${changeNowLoading ? 'ui-btn-loading' : ''}`}
             >
