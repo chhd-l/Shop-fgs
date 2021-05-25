@@ -2749,7 +2749,7 @@ class Payment extends React.Component {
             disabled={disabled}
             onClick={this.clickConfirmPaymentPanel}
           >
-            <FormattedMessage id="yes2" />
+            <FormattedMessage id="NextToPlaceAnOrder" />
           </button>
         </div>
       );
