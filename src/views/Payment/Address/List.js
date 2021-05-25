@@ -243,10 +243,10 @@ class AddressList extends React.Component {
       house = addressErrMsg['house'],
       city = addressErrMsg['city'];
 
-    data.street == null ? errArr.push(streets) : null;
-    data.postCode == null ? errArr.push(postCode) : null;
-    data.house == null ? errArr.push(house) : null;
-    data.city == null ? errArr.push(city) : null;
+    data.street == '' || null ? errArr.push(streets) : '';
+    data.postCode == '' || null ? errArr.push(postCode) : '';
+    data.house == '' || null ? errArr.push(house) : '';
+    data.city == '' || null ? errArr.push(city) : '';
 
     return errArr.join(',');
   };
