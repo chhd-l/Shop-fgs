@@ -146,8 +146,6 @@ const es_ES = {
   cardNumberIsInvalid: 'su número de tarjeta no es válido',
   'cart.catDiet': 'Dietas veterinarias para gatos',
   'cart.deletInfo': 'Eliminar producto?',
-  'cart.deletInfo2':
-    '¿Está seguro de que desea eliminar este artículo de su carrito??',
   'cart.delivery': 'Envío',
   'cart.dogDiet': 'Dietas veterinarias para perros',
   'cart.errorInfo': 'El número no puede ser inferior a 1',
@@ -890,6 +888,7 @@ const es_ES = {
   sterilized: 'Esterilizado',
   submit: 'enviar',
   subscribe: 'Suscribir',
+  clubSubscribe: 'Suscribir',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Suscripción',
   'subscription.BillingAddress': 'Dirección de facturación',
@@ -1003,6 +1002,7 @@ const es_ES = {
   year: 'Año',
   yes: 'sí',
   yes2: 'sí',
+  NextToPlaceAnOrder: 'sí',
   yourEmailNotVerified: '¡Tu email no se ha verificado!',
   yourPasswordNotVerified: 'Tu contraseña no ha sido verificada',
   'payment.returnToCardList': 'Regresar a la lista de tarjetas',
@@ -1032,7 +1032,7 @@ const es_ES = {
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
   'details.findProductTip':
-    'Find the right product and calculate your pet ration using our',
+    'Find the right product and calculate your pet ration using our {btn}',
   'details.findProductTips': ' Product finder',
   'details.learnMore': 'Learn more',
   'help.title': '¿Necesitas ayuda?',

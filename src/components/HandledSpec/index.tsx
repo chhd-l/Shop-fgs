@@ -8,6 +8,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
 import Selection from '@/components/Selection/index.js';
+import { PropTypes } from 'mobx-react';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
@@ -248,7 +249,7 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
           goodsInfos[0].selected = true
         }
         setSizeList(goodsInfos)
-  }, []);
+  }, [details.goodsNo]);
   useEffect(() => {
     if(sizeList.length) {
       if(goodsSpecDetails) {

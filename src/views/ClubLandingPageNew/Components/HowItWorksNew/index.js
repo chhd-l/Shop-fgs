@@ -8,8 +8,42 @@ import howitworknewmobile1 from './image/howitworksmobile1.png';
 import howitworknewmobile2 from './image/howitworksmobile2.png';
 import howitworknewmobile3 from './image/howitworksmobile3.png';
 import howitworknewmobile4 from './image/howitworksmobile4.png';
+//RuImage
+
 import LazyLoad from 'react-lazyload';
 import './index.css';
+
+//写的不好好aaaaaaaa
+
+const EnhowitworksnewList = [
+  {
+    HowitworksStep: howitworknew1
+  },
+  {
+    HowitworksStep: howitworknew2
+  },
+  {
+    HowitworksStep: howitworknew3
+  },
+  {
+    HowitworksStep: howitworknew4
+  }
+];
+
+const EnhowitworksnewListmobile = [
+  {
+    HowitworksStep: howitworknewmobile1
+  },
+  {
+    HowitworksStep: howitworknewmobile2
+  },
+  {
+    HowitworksStep: howitworknewmobile3
+  },
+  {
+    HowitworksStep: howitworknewmobile4
+  }
+];
 
 const HowItWorksNew = () => {
   return (
@@ -20,7 +54,7 @@ const HowItWorksNew = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  HOW IT WORKS
+                  <FormattedMessage id="ClubLP.NewHowItWorks.title" />
                 </h4>
               </div>
               {/*这里手机移动适配写得不好,有空再改*/}
@@ -29,67 +63,29 @@ const HowItWorksNew = () => {
                   style={{ display: 'flex', justifyContent: 'space-around' }}
                   className="flexwrapHow "
                 >
-                  <div>
-                    <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded desktopnone"
-                        src={howitworknew1}
-                      />
-                    </LazyLoad>
-                  </div>
-                  <div>
-                    <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworknew2} />
-                    </LazyLoad>
-                  </div>
-                  <div>
-                    <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworknew3} />
-                    </LazyLoad>
-                  </div>
-                  <div>
-                    <LazyLoad height={180}>
-                      <img className="w-90 lazyloaded" src={howitworknew4} />
-                    </LazyLoad>
-                  </div>
+                  {EnhowitworksnewList.map((step) => (
+                    <div>
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded desktopnone"
+                          src={step.HowitworksStep}
+                        />
+                      </LazyLoad>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="mobilenone">
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-around' }}
-                ></div>
-                <div>
-                  <LazyLoad height={180}>
-                    <img
-                      className="w-90 lazyloaded"
-                      src={howitworknewmobile1}
-                    />
-                  </LazyLoad>
-                </div>
-                <div>
-                  <LazyLoad height={180}>
-                    <img
-                      className="w-90 lazyloaded"
-                      src={howitworknewmobile2}
-                    />
-                  </LazyLoad>
-                </div>
-                <div>
-                  <LazyLoad height={180}>
-                    <img
-                      className="w-90 lazyloaded"
-                      src={howitworknewmobile3}
-                    />
-                  </LazyLoad>
-                </div>
-                <div>
-                  <LazyLoad height={180}>
-                    <img
-                      className="w-90 lazyloaded"
-                      src={howitworknewmobile4}
-                    />
-                  </LazyLoad>
-                </div>
+                {EnhowitworksnewListmobile.map((step) => (
+                  <div>
+                    <LazyLoad height={180}>
+                      <img
+                        className="w-90 lazyloaded"
+                        src={step.HowitworksStep}
+                      />
+                    </LazyLoad>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

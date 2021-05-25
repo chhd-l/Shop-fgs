@@ -18,7 +18,7 @@ const ChangeProduct = () => {
   const {
     setState,
     subDetail,
-    isClub,
+    isShowClub,
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
@@ -35,7 +35,6 @@ const ChangeProduct = () => {
   };
   const [goodsDetails, setGoodsDetails] = useState({});
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
-  const [specList, setSpecList] = useState([]);
   const [details, setDetails] = useState({});
   const [
     recommendationVisibleLoading,
@@ -55,7 +54,6 @@ const ChangeProduct = () => {
     frequencyId: -1
   });
   const [stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
   useEffect(() => {
     (async () => {
       await getFrequencyDict().then((res) => {
@@ -94,7 +92,19 @@ const ChangeProduct = () => {
           ''
       });
       setForm(newForm);
+      let newDetails = Object.assign({}, details, res.context.goods, {
+        promotions: res.context.goods?.promotions?.toLowerCase(),
+        goodsInfos: res.context.goodsInfos,
+        sizeList: [],
+        goodsSpecDetails: res.context.goodsSpecDetails,
+        goodsSpecs: res.context.goodsSpecs,
+        goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
+      });
+      setDetails(newDetails);
+      setGoodsDetails(res.context);
+      cb && cb(res);
 
+      return;
       let petType = 'Cat';
       let foodType = 'Dry';
       if (res && res.context?.goodsAttributesValueRelList) {
@@ -115,6 +125,7 @@ const ChangeProduct = () => {
         let specList = res.context.goodsSpecs || [];
         let foodFllType = `${foodType} ${petType} Food`;
         let specDetailList = res.context.goodsSpecDetails;
+
         specList.map((sItem, index) => {
           sItem.chidren = specDetailList.filter((sdItem, i) => {
             if (index === 0) {
@@ -200,9 +211,8 @@ const ChangeProduct = () => {
         });
         setDetails(newDetails);
         setGoodsDetails(res.context);
-        setImages(newImages);
         //  todo
-        matchGoods();
+        // matchGoods();
       } else {
         let sizeList = [];
         let foodFllType = `${foodType} ${petType} Food`;
@@ -218,9 +228,6 @@ const ChangeProduct = () => {
           }
           return g;
         });
-
-        let newImages = [];
-        newImages = res.context.goodsInfos;
         let newDetails = Object.assign({}, details, res.context.goods, {
           promotions: res.context.goods?.promotions?.toLowerCase(),
           sizeList,
@@ -230,15 +237,13 @@ const ChangeProduct = () => {
           goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
         });
         setDetails(newDetails);
-        setImages(newImages);
         // 设置完了之后才能重新bundle  todo
-        bundleMatchGoods({ details: newDetails });
+        // bundleMatchGoods({ details: newDetails });
         // 没有规格的情况
         // this.setState({
         //   errMsg: <FormattedMessage id="details.errMsg" />
         // });
       }
-      cb && cb(res);
     } catch (err) {
       console.info('.....', err);
     }
@@ -358,10 +363,8 @@ const ChangeProduct = () => {
     queryProductDetails,
     setStock,
     showModalArr,
-    images,
     currentGoodsItems,
     setCurrentGoodsItems,
-    setImages,
     showModal,
     errMsg,
     setErrMsg
@@ -421,7 +424,7 @@ const ChangeProduct = () => {
           </Modal>
         </div>
         {subDetail.petsId &&
-          isClub &&
+          isShowClub &&
           triggerShowChangeProduct.showBox &&
           (recommendationVisibleLoading ? (
             <div className="mt-4 1111" style={{ width: '100%' }}>

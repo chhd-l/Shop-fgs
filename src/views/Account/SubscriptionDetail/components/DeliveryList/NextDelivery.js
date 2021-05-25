@@ -16,24 +16,49 @@ import {
 
 const NextDelivery = ({
   el,
-  isActive,
-  isNotInactive,
+  subDetail,
   getMinDate,
   setState,
   modalList,
-  intl,
-  promotionInputValue
+  intl
 }) => {
+  const isActive = subDetail.subscribeStatus === '0';
   const { configStore } = useLocalStore(() => stores);
+  const [promotionInputValue, setPromotionInputValue] = ''; //输入的促销码
   const [promotionDiscount, setPromotionDiscount] = useState(0);
   const [promotionDesc, setPromotionDesc] = useState('');
   const [isShowValidCode, setIsShowValidCode] = useState(false); //是否显示无效promotionCode
   const [isClickApply, setIsClickApply] = useState(false); //是否点击apply按钮
   const [discount, setDiscount] = useState([]); //促销码的折扣信息汇总
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const handlerChange = (e) => {
-    let promotionInputValue = e.target.value;
+    setPromotionInputValue(e.target.value);
+  };
+  const dateChange = (date) => {
     setState({
-      promotionInputValue
+      modalType: 'changeDate',
+      modalShow: true,
+      currentModalObj: modalList.filter((el) => el.type === 'changeDate')[0],
+      currentChangeDate: date,
+      currentChangeItem: el.tradeItems.map((el) => {
+        return {
+          skuId: el.skuId
+        };
+      })
+    });
+  };
+  const skipNext = (el) => {
+    e.preventDefault();
+    setState({
+      modalType: 'skipNext',
+      modalShow: true,
+      currentModalObj: modalList.filter((el) => el.type === 'skipNext')[0],
+      skipNextGoods: el.tradeItems.map((el) => {
+        return {
+          skuId: el.skuId
+        };
+      })
     });
   };
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -112,21 +137,7 @@ const NextDelivery = ({
                         ? getZoneTime(el.tradeItems[0].nextDeliveryTime)
                         : new Date()
                     }
-                    onChange={(date) => {
-                      setState({
-                        modalType: 'changeDate',
-                        modalShow: true,
-                        currentModalObj: modalList.filter(
-                          (el) => el.type === 'changeDate'
-                        )[0],
-                        currentChangeDate: date,
-                        currentChangeItem: el.tradeItems.map((el) => {
-                          return {
-                            skuId: el.skuId
-                          };
-                        })
-                      });
-                    }}
+                    onChange={(date) => dateChange(date)}
                   />
                 </span>
               </>
@@ -155,21 +166,7 @@ const NextDelivery = ({
                   className="rc-styled-link ui-text-overflow-line1"
                   style={{ width: '60px' }}
                   href="#/"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setState({
-                      modalType: 'skipNext',
-                      modalShow: true,
-                      currentModalObj: modalList.filter(
-                        (el) => el.type === 'skipNext'
-                      )[0],
-                      skipNextGoods: el.tradeItems.map((el) => {
-                        return {
-                          skuId: el.skuId
-                        };
-                      })
-                    });
-                  }}
+                  onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
                 </a>
