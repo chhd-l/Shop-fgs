@@ -2,7 +2,6 @@ import React from 'react';
 import Skeleton from '@/components/NormalSkeleton';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
-import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HandledSpec from '@/components/HandledSpec/index.tsx';
@@ -14,10 +13,11 @@ import ClubBuyMethod from './components/ClubBuyMethod/index.tsx';
 import SeoConfig from './components/SeoConfig/index.tsx';
 import ButtonGroup from './components/ButtonGroup/index.tsx';
 import ErrMsgForCheckoutPanel from './components/ErrMsgForCheckoutPanel/index.tsx';
+import PhoneAndEmail from './components/PhoneAndEmail/index.tsx';
+import DetailHeader from './components/DetailHeader/index.tsx';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
-import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
 import {
   getDeviceType,
@@ -45,8 +45,8 @@ import GoodsDetailTabs from '@/components/GoodsDetailTabs';
 import AdvantageTips from './components/AdvantageTips';
 import Advantage from './components/Advantage';
 import Ration from './components/Ration/index.tsx';
+import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
-import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 import { setGoogleProductStructuredDataMarkup } from './GA';
 
@@ -77,7 +77,6 @@ class Details extends React.Component {
       tmpGoodsDescriptionDetailList: [], //获取tab处理后的相关数据
       event: {},
       eEvents: {},
-      GAListParam: '',
       initing: true,
       details: {
         id: '',
@@ -130,8 +129,6 @@ class Details extends React.Component {
       purchaseTypeDict: [],
       barcode: '',
       descContent: '',
-      contactUs: '',
-      contactPhoneNumber: '',
       ccidBtnDisplay: false,
       questionParams: undefined,
       defaultPurchaseType: 0,
@@ -156,11 +153,6 @@ class Details extends React.Component {
       }
     }, 1000);
     this.getUrlParam();
-    if (state) {
-      if (!!state.GAListParam) {
-        this.setState({ GAListParam: state.GAListParam });
-      }
-    }
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
@@ -172,21 +164,6 @@ class Details extends React.Component {
       },
       () => this.queryDetails()
     );
-    let contactUs = `mailto:${this.props.configStore.storeContactEmail}`;
-    let contactPhoneNumber = `tel:${this.props.configStore.storeContactPhoneNumber}`;
-    if (Fr) {
-      contactUs = 'https://www.royalcanin.com/fr/contact-us';
-    } else if (Tr) {
-      contactUs = 'mailto:opsroyalcanin@tr.webhelp.com'; //邮箱以后不要再代码里面修改了 可以直接在storePortal配置的哦
-      contactPhoneNumber = 'https://www.royalcanin.com/tr/contact-us';
-    } else if (Ru) {
-      contactUs = 'mailto:contact.ru@royalcanin.com';
-    }
-
-    this.setState({
-      contactUs,
-      contactPhoneNumber
-    });
   }
 
   get isLogin() {
@@ -233,10 +210,11 @@ class Details extends React.Component {
   }
 
   setDefaultPurchaseType({ id }) {
-    const { promotions, details } = this.state;
+    const { promotions, details, frequencyList } = this.state;
     const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
       (ele) => ele.id && id && ele.id + '' === id + ''
     )[0];
+    const { configStore, checkoutStore } = this.props;
     let defaultPurchaseType = 0;
     if (targetDefaultPurchaseTypeItem) {
       let buyWay = 0;
@@ -254,35 +232,36 @@ class Details extends React.Component {
       } else {
         buyWay = defaultPurchaseType;
       }
+
+      let autoshipDictRes = frequencyList.filter(
+        (el) => el.goodsInfoFlag === 1
+      );
+      let clubDictRes = frequencyList.filter((el) => el.goodsInfoFlag === 2);
+
+      let defaultFrequencyId = 0;
+      // 获取默认frequencyId
+      if (details?.promotions === 'club') {
+        defaultFrequencyId =
+          details?.defaultFrequencyId ||
+          configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
+          (clubDictRes[0] && clubDictRes[0].id) ||
+          '';
+      } else {
+        defaultFrequencyId =
+          details?.defaultFrequencyId ||
+          configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
+          (autoshipDictRes[0] && autoshipDictRes[0].id) ||
+          '';
+      }
+
       this.setState({
         form: Object.assign(this.state.form, {
-          buyWay
+          buyWay,
+          frequencyId: defaultFrequencyId
         }),
         defaultPurchaseType
       });
     }
-  }
-
-  //天-0周  周-value*1 月-value*4
-  getComputedWeeks(frequencyList) {
-    let calculatedWeeks = {};
-
-    frequencyList.forEach((item) => {
-      switch (item.type) {
-        case 'Frequency_day':
-          calculatedWeeks[item.id] = 0;
-          break;
-        case 'Frequency_week':
-          calculatedWeeks[item.id] = item.valueEn * 1;
-          break;
-        case 'Frequency_month':
-          calculatedWeeks[item.id] = item.valueEn * 4;
-          break;
-      }
-    });
-    this.setState({
-      calculatedWeeks
-    });
   }
 
   getUrlParam() {
@@ -364,42 +343,9 @@ class Details extends React.Component {
       .then((resList) => {
         const res = resList[0];
         const frequencyDictRes = resList[1];
-        // 获取club与autoship字典
-        let autoshipDictRes = frequencyDictRes.filter(
-          (el) => el.goodsInfoFlag === 1
-        );
-        let clubDictRes = frequencyDictRes.filter(
-          (el) => el.goodsInfoFlag === 2
-        );
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
-        let defaultFrequencyId = 0;
-        // 获取默认frequencyId
-        if (goodsRes?.promotions === 'club') {
-          defaultFrequencyId =
-            goodsRes?.defaultFrequencyId ||
-            configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId ||
-            (clubDictRes[0] && clubDictRes[0].id) ||
-            '';
-        } else {
-          defaultFrequencyId =
-            goodsRes?.defaultFrequencyId ||
-            configStore?.info?.storeVO?.defaultSubscriptionFrequencyId ||
-            (autoshipDictRes[0] && autoshipDictRes[0].id) ||
-            '';
-        }
-        this.setState(
-          {
-            purchaseTypeDict: purchaseTypeDictRes,
-            frequencyList: frequencyDictRes,
-            form: Object.assign(this.state.form, {
-              frequencyId: defaultFrequencyId
-            })
-          },
-          () => {
-            isHub && this.getComputedWeeks(this.state.frequencyList);
-          }
-        );
+        // 获取club与autoship字典
         if (res && res.context && goodsRes) {
           this.setState({
             productRate: res.context.avgEvaluate
@@ -415,11 +361,12 @@ class Details extends React.Component {
           pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
           this.setState(
             {
+              purchaseTypeDict: purchaseTypeDictRes,
+              frequencyList: frequencyDictRes,
               productRate: goodsRes.avgEvaluate,
               replyNum: goodsRes.goodsEvaluateNum,
               goodsId: goodsRes.goodsId,
               minMarketPrice: goodsRes.minMarketPrice,
-              minSubscriptionPrice: goodsRes.minSubscriptionPrice,
               details: Object.assign(this.state.details, {
                 promotions: goods?.promotions?.toLowerCase(),
                 taggingForTextAtPDP: taggingList.filter(
@@ -451,40 +398,7 @@ class Details extends React.Component {
               exclusiveFlag: goods.exclusiveFlag
             },
             () => {
-              // 面包屑展示规则
-              // 1 正向流程，使用history
-              // 2 逆向流程，进行分类匹配【从sales catogery(home page)中，至少匹配一个进行展示】
-              const { state } = this.props.location;
-              const { breadCrumbs } = this.state;
-              const cateNameInfos = res.context.storeCates || [];
-
-              if (state && state.historyBreads) {
-                this.setState({
-                  breadCrumbs: [...state.historyBreads, ...breadCrumbs]
-                });
-              } else if (cateNameInfos.length) {
-                queryStoreCateList().then((tmpRes) => {
-                  for (let index = 0; index < cateNameInfos.length; index++) {
-                    const info = cateNameInfos[index];
-                    const matchedItem = (tmpRes || []).filter(
-                      (f) => f.storeCateId === info.storeCateId
-                    )[0];
-                    if (matchedItem) {
-                      this.setState({
-                        breadCrumbs: [
-                          {
-                            name: matchedItem.cateName,
-                            link: matchedItem.cateRouter
-                          },
-                          ...breadCrumbs
-                        ]
-                      });
-                      break;
-                    }
-                  }
-                });
-              }
-
+              this.handleBreadCrumbsData();
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||
@@ -492,13 +406,6 @@ class Details extends React.Component {
               });
             }
           );
-          if (goodsRes.defaultFrequencyId) {
-            this.setState({
-              form: Object.assign(this.state.form, {
-                frequencyId: goodsRes.defaultFrequencyId
-              })
-            });
-          }
         } else {
           throw new Error();
         }
@@ -525,10 +432,9 @@ class Details extends React.Component {
                 }
               ),
               images
-              // barcode
             },
             async () => {
-              // this.loadWidgetIdBtn(this.state.barcode);
+              this.loadWidgetIdBtn(this.state.barcode);
               //Product Detail Page view 埋点start
               // isHub
               //   ? this.hubGAProductDetailPageView(
@@ -572,7 +478,6 @@ class Details extends React.Component {
               images
             },
             () => {
-              // this.bundleMatchGoods();
               //Product Detail Page view 埋点start
               // isHub
               //   ? this.hubGAProductDetailPageView(
@@ -583,10 +488,6 @@ class Details extends React.Component {
               //Product Detail Page view 埋点end
             }
           );
-          // 没有规格的情况
-          // this.setState({
-          //   errMsg: <FormattedMessage id="details.errMsg" />
-          // });
         }
       })
       .catch((e) => {
@@ -602,7 +503,41 @@ class Details extends React.Component {
         });
       });
   }
+  handleBreadCrumbsData() {
+    // 面包屑展示规则
+    // 1 正向流程，使用history
+    // 2 逆向流程，进行分类匹配【从sales catogery(home page)中，至少匹配一个进行展示】
+    const { state } = this.props.location;
+    const { breadCrumbs, details } = this.state;
+    const cateNameInfos = details.storeCates || [];
 
+    if (state && state.historyBreads) {
+      this.setState({
+        breadCrumbs: [...state.historyBreads, ...breadCrumbs]
+      });
+    } else if (cateNameInfos.length) {
+      queryStoreCateList().then((tmpRes) => {
+        for (let index = 0; index < cateNameInfos.length; index++) {
+          const info = cateNameInfos[index];
+          const matchedItem = (tmpRes || []).filter(
+            (f) => f.storeCateId === info.storeCateId
+          )[0];
+          if (matchedItem) {
+            this.setState({
+              breadCrumbs: [
+                {
+                  name: matchedItem.cateName,
+                  link: matchedItem.cateRouter
+                },
+                ...breadCrumbs
+              ]
+            });
+            break;
+          }
+        }
+      });
+    }
+  }
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
 
@@ -906,37 +841,6 @@ class Details extends React.Component {
       });
   };
 
-  //商品详情页 埋点
-  GAProductDetailPageView(item) {
-    const eEvents = {
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
-      ecommerce: {
-        currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-        detail: {
-          actionField: {
-            list: this.state.GAListParam //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-          },
-          products: [
-            {
-              id: item.goodsNo, //?goodsId客户反馈不对，id这里为空
-              name: item.goodsName,
-              price: item.minMarketPrice,
-              brand: item.brandName || 'ROYAL CANIN',
-              club: 'no',
-              category: item.goodsCateName,
-              variant:
-                item.goodsSpecDetails &&
-                item.goodsSpecDetails[0] &&
-                parseInt(item.goodsSpecDetails[0].detailName),
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
-            }
-          ]
-        }
-      }
-    };
-    this.setState({ eEvents });
-  }
-
   getPdpScreenLoadCTAs() {
     const {
       currentSubscriptionStatus,
@@ -1019,7 +923,6 @@ class Details extends React.Component {
   }
 
   render() {
-    const createMarkup = (text) => ({ __html: text });
     const { history, location, match, configStore } = this.props;
     const {
       goodsId,
@@ -1052,7 +955,8 @@ class Details extends React.Component {
       exclusiveFlag,
       loading,
       skuPromotions,
-      headingTag = 'h1'
+      headingTag = 'h1',
+      replyNum
     } = this.state;
     const filterImages =
       images?.filter((i) => {
@@ -1071,32 +975,6 @@ class Details extends React.Component {
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
-    const fromPathName =
-      location.state?.historyBreads?.[0]?.link?.pathname || location.pathname;
-    let theme = '';
-    let specieId = '';
-    if (fromPathName?.indexOf('dog') > -1) {
-      theme = 'Dog';
-      specieId = 2;
-    }
-    if (fromPathName?.indexOf('cat') > -1) {
-      theme = 'Cat';
-      specieId = 1;
-    }
-    const event = {
-      page: {
-        type: 'product',
-        theme,
-        path: location.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      },
-      pet: {
-        specieId
-      }
-    };
-    console.log('details', details);
     return (
       <div id="Details">
         <button
@@ -1107,12 +985,7 @@ class Details extends React.Component {
         >
           Open standard modal
         </button>
-        {Object.keys(event).length ? (
-          <GoogleTagManager
-            additionalEvents={event}
-            ecommerceEvents={eEvents}
-          />
-        ) : null}
+        <GA_Comp details={details} />
         <SeoConfig
           errMsg={errMsg}
           pageLink={pageLink}
@@ -1153,53 +1026,13 @@ class Details extends React.Component {
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
                     {isMobile && (
-                      <div className="detailHeader mt-3">
-                        <ErrMsgForCheckoutPanel
-                          checkOutErrMsg={checkOutErrMsg}
-                        />
-                        <div
-                          dangerouslySetInnerHTML={{ __html: goodHeading }}
-                        />
-                        <div className="desAndStars">
-                          <div className="des">
-                            <h2
-                              className="text-break mb-1 mt-2"
-                              style={{ fontSize: '1.17rem' }}
-                            >
-                              {details.goodsSubtitle}
-                            </h2>
-                          </div>
-                          {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
-                            <div className="stars">
-                              <div className="rc-card__price flex-inline">
-                                <div
-                                  className="display-inline"
-                                  style={{ verticalAlign: 'middle' }}
-                                >
-                                  <Rate
-                                    def={productRate}
-                                    disabled={true}
-                                    marginSize="sRate"
-                                  />
-                                </div>
-                                <span
-                                  className="comments rc-margin-left--xs rc-text-colour--text"
-                                  onClick={this.handleAClick.bind(this)}
-                                >
-                                  ({this.state.replyNum})
-                                  {/* <FormattedMessage id="reviews" /> */}
-                                </span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        <div
-                          className="description"
-                          dangerouslySetInnerHTML={createMarkup(
-                            details.goodsDescription
-                          )}
-                        />
-                      </div>
+                      <DetailHeader
+                        checkOutErrMsg={checkOutErrMsg}
+                        goodHeading={goodHeading}
+                        details={details}
+                        productRate={productRate}
+                        replyNum={replyNum}
+                      />
                     )}
                     <div className="rc-layout-container rc-six-column">
                       <div className="rc-column rc-double-width carousel-column imageBox">
@@ -1285,65 +1118,13 @@ class Details extends React.Component {
                       <div className="rc-column product-column">
                         <div className="wrap-short-des">
                           {!isMobile && (
-                            <div className="detailHeader">
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: goodHeading
-                                }}
-                              />
-                              {!isMobile &&
-                                !!+process.env
-                                  .REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
-                                !!details.goodsNo && (
-                                  <BazaarVoiceRatingSummary
-                                    productId={details.goodsNo}
-                                  />
-                                )}
-                              {Ru && selectedSpecItem ? (
-                                <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
-                              ) : null}
-                              <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                <div className="des">
-                                  <h2
-                                    className="text-break mb-1 mt-2"
-                                    style={{ fontSize: '1.17rem' }}
-                                  >
-                                    {details.goodsSubtitle}
-                                  </h2>
-                                </div>
-                                {!!+process.env
-                                  .REACT_APP_PDP_RATING_VISIBLE && (
-                                  <div className="stars text-nowrap">
-                                    <div className="rc-card__price flex-inline">
-                                      <div
-                                        className="display-inline"
-                                        style={{ verticalAlign: 'middle' }}
-                                      >
-                                        <Rate
-                                          def={productRate}
-                                          key={productRate}
-                                          disabled={true}
-                                          marginSize="sRate"
-                                        />
-                                      </div>
-                                      <a
-                                        className="comments rc-margin-left--xs rc-text-colour--text"
-                                        onClick={this.handleAClick.bind(this)}
-                                      >
-                                        ({this.state.replyNum})
-                                        {/* <FormattedMessage id="reviews" /> */}
-                                      </a>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                              <div
-                                className="description"
-                                dangerouslySetInnerHTML={createMarkup(
-                                  details.goodsDescription
-                                )}
-                              />
-                            </div>
+                            <DetailHeader
+                              checkOutErrMsg={checkOutErrMsg}
+                              goodHeading={goodHeading}
+                              details={details}
+                              productRate={productRate}
+                              replyNum={replyNum}
+                            />
                           )}
                         </div>
                         {loading ? (
@@ -1520,99 +1301,14 @@ class Details extends React.Component {
             ) : null}
             {/* 电话邮箱联系板块 */}
             {isHub ? (
-              <>
-                <div className="split-line rc-bg-colour--brand4" />
-                <div className="good-contact d-flex justify-content-center">
-                  {!isMobile ? (
-                    loading ? (
-                      <div className="good-contact-img mr-5">
-                        <Skeleton height="8%" />
-                      </div>
-                    ) : details.goodsImg ? (
-                      <div className="good-contact-img mr-5">
-                        <img
-                          className="w-100"
-                          src={details.goodsImg}
-                          alt="goods details image"
-                        />
-                      </div>
-                    ) : null
-                  ) : null}
-                  <div className="good-contact-dec">
-                    <div
-                      style={{ fontSize: '1.25rem' }}
-                      className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
-                    >
-                      <FormattedMessage id="detail.question" />
-                    </div>
-                    <p>
-                      <FormattedMessage id="detail.answer" />
-                    </p>
-                    <div className="good-contact-link d-flex">
-                      <a
-                        href={this.state.contactPhoneNumber}
-                        className="good-contact-tel d-flex"
-                      >
-                        <div>
-                          <p>
-                            <FormattedMessage id="detail.telephone" />
-                          </p>
-                          {!Tr && (
-                            <>
-                              {' '}
-                              <span>{configStore.storeContactPhoneNumber}</span>
-                              <p>{configStore.contactTimePeriod}</p>
-                            </>
-                          )}
-                        </div>
-                        <span className="rc-icon rc-contact rc-iconography rc-brand1" />
-                      </a>
-                      <a
-                        className="good-contact-email d-flex"
-                        href={this.state.contactUs}
-                      >
-                        <FormattedMessage id="detail.email" />
-                        <span className="rc-icon rc-email rc-iconography rc-brand1" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </>
+              <PhoneAndEmail loading={loading} details={details} />
             ) : null}
             <RelateProductCarousel id={goodsId} />
 
             <AddCartSuccessMobile target="modal-mobile-cart-confirm" />
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
-            {/* {isHub ? (
-              <>
-                <div className="more-link rc-content--fixed-header ">
-                  <LazyLoad height={200}>
-                    <img src={loop} srcSet={loop} alt="loop icon" />
-                  </LazyLoad>
-                  <LazyLoad height={200}>
-                    <img
-                      src={vert}
-                      srcSet={vert}
-                      className="vert"
-                      alt="vert icon"
-                    />
-                  </LazyLoad>
-                  <p>
-                    <FormattedMessage id="detail.packagingDesc" />
-                  </p>
-                  <div>
-                    <a
-                      href="https://www.consignesdetri.fr/"
-                      className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
-                      style={{ minWidth: '110px' }}
-                    >
-                      <FormattedMessage id="learnMore" />
-                    </a>
-                  </div>
-                </div>
-              </>
-            ) : null} */}
+            {/* <More/> */}
             <Help />
             <Footer />
           </main>

@@ -73,7 +73,7 @@ const AutoshipBuyMethod = ({
                   arrowStyle={{ left: '50%' }}
                   containerStyle={{
                     transform:
-                      'translate(-49%, 110%)'
+                      'translate(-33%, 110%)'
                   }}
                   display={toolTipVisible}
                   cancelBtnVisible={false}
