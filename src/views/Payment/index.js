@@ -268,7 +268,8 @@ class Payment extends React.Component {
         cityFias: '',
         settlementFias: '',
         postalCode: ''
-      } // 俄罗斯计算运费DuData对象，purchases接口用
+      }, // 俄罗斯计算运费DuData对象，purchases接口用
+      wrongAddressMsg: {} // 地址错误信息对象
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -498,6 +499,18 @@ class Payment extends React.Component {
     this.setState({ pet: obj });
   }
   queryList = async () => {
+    this.setState({
+      wrongAddressMsg: {
+        title: this.props.intl.messages['payment.pleaseInput'],
+        address: this.props.intl.messages['payment.wrongAddress'],
+        streets: this.props.intl.messages['payment.streets'],
+        postCode: this.props.intl.messages['payment.postCode'],
+        house: this.props.intl.messages['payment.house'],
+        city: this.props.intl.messages['payment.city'],
+        districtCode: this.props.intl.messages['payment.privince'],
+        settlement: this.props.intl.messages['payment.settlement']
+      }
+    });
     try {
       let res = await getPaymentMethod();
       let cardList = res.context;
@@ -2132,7 +2145,7 @@ class Payment extends React.Component {
               id="1"
               type="delivery"
               isDeliveryOrBilling="delivery"
-              wrongAddressMsg={this.props.intl.messages['payment.wrongAddress']}
+              wrongAddressMsg={this.state.wrongAddressMsg}
               isValidationModal={this.state.isShowValidationModal}
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
