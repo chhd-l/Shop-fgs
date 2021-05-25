@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
-import ShowErrorDom from '../ShowErrorDom';
+import ShowErrorDom from '../../ShowErrorDom';
 import { getClubLogo, formatMoney } from '@/utils/utils';
+import { ChangeProductContext } from '../index';
+import { SubDetailHeaderContext } from '../../SubDetailHeader';
 const ProductDailyRation = ({ rations }) =>
-  rations && (
+  rations ? (
     <div
       style={{
         textAlign: 'center',
@@ -19,16 +21,16 @@ const ProductDailyRation = ({ rations }) =>
       </div>
       <div style={{ fontSize: '1rem' }}>{rations}</div>
     </div>
-  );
-const RecommendationList = ({
-  showProdutctDetail,
-  productDetail,
-  errMsgDetail,
-  productListLoading
-}) => {
+  ) : null;
+const RecommendationList = ({ productDetail }) => {
+  const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
+  const ChangeProductValue = useContext(ChangeProductContext);
+  const { productListLoading } = SubDetailHeaderValue;
+  const { showProdutctDetail, errMsg } = ChangeProductValue;
+  console.info('productDetailproductDetailproductDetail', productDetail);
   return (
     <>
-      <ShowErrorDom errorMsg={errMsgDetail} />
+      <ShowErrorDom errorMsg={errMsg} />
       {!!productDetail.mainProduct && (
         <>
           <div className="p-f-result-box">
@@ -189,16 +191,7 @@ const RecommendationList = ({
                         </span>
                       )}
                     </div>
-                    <div
-                      className="d-flex justify-content-center mt-3"
-                      // onClick={()=>{
-                      //   this.GAProductClick(ele, i+1)
-                      // }}
-                    >
-                      {/* <Link
-                        to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
-                        className="rc-btn rc-btn--one rc-btn--sm"
-                      > */}
+                    <div className="d-flex justify-content-center mt-3">
                       <span
                         onClick={() => {
                           showProdutctDetail(ele.spuCode);
@@ -209,7 +202,6 @@ const RecommendationList = ({
                       >
                         <FormattedMessage id="seeTheProduct" />
                       </span>
-                      {/* </Link> */}
                     </div>
                   </div>
                 </div>

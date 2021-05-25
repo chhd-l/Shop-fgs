@@ -1,7 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import { SubGoodsInfosContext } from './index';
+import { getRemainings } from '@/api/dispenser';
+import { myAccountActionPushEvent } from '@/utils/GA';
 
-const ButtonBoxGift = ({ subDetail, isDataChange }) => {
+const ButtonBoxGift = () => {
+  const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
+  const {
+    handleSaveChange,
+    showErrMsg,
+    setState,
+    subDetail,
+    isDataChange,
+    isGift
+  } = SubGoodsInfosValue;
+  const handleGiftSubCancel = async (e, subDetail) => {
+    e.preventDefault();
+    let {
+      subscriptionPlanId: planId
+    } = subDetail.noStartTradeList[0]?.tradeItems[0];
+    let params = {
+      planId,
+      storeId: process.env.REACT_APP_STOREID
+    };
+    try {
+      let res = await getRemainings(params);
+      myAccountActionPushEvent('Cancel Subscription');
+      let remainingsList = res.context;
+      setState({
+        remainingsList,
+        modalType: 'cancelAll',
+        remainingsVisible: true
+      });
+    } catch (err) {
+      showErrMsg(err.message);
+    } finally {
+      setState({ loading: false });
+    }
+  };
   return (
     <div className="rc-layout-container rc-two-column subdeatial-button-mobile">
       <div
@@ -11,16 +47,12 @@ const ButtonBoxGift = ({ subDetail, isDataChange }) => {
         <button
           className={`rc-btn rc-btn--one ${
             isDataChange ? '' : 'rc-btn-solid-disabled'
-          } ${
-            isDataChange && this.state.productListLoading
-              ? 'ui-btn-loading'
-              : ''
-          } `}
+          } ${isDataChange && productListLoading ? 'ui-btn-loading' : ''} `}
           style={{
             marginTop: isMobile ? '.625rem' : '0',
             marginRight: '1rem'
           }}
-          onClick={() => this.handleSaveChange(subDetail)}
+          onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
         </button>
@@ -61,7 +93,7 @@ const ButtonBoxGift = ({ subDetail, isDataChange }) => {
               paddingLeft: '0.5rem'
             }}
             className={`rc-styled-link
-                ${this.state.isGift ? 'disabled' : ''}
+                ${isGift ? 'disabled' : ''}
                 `}
           >
             {subDetail.subscribeStatus === '0' ? (
@@ -86,7 +118,7 @@ const ButtonBoxGift = ({ subDetail, isDataChange }) => {
           <a
             style={{ position: 'relative', top: '-0.3rem' }}
             className="rc-styled-link"
-            onClick={(e) => this.handleGiftSubCancel(e, subDetail)}
+            onClick={(e) => handleGiftSubCancel(e, subDetail)}
           >
             <FormattedMessage id="subscription.cancelAll" />
           </a>
@@ -99,16 +131,12 @@ const ButtonBoxGift = ({ subDetail, isDataChange }) => {
         <button
           className={`rc-btn rc-btn--one ${
             isDataChange ? '' : 'rc-btn-solid-disabled'
-          }  ${
-            isDataChange && this.state.productListLoading
-              ? 'ui-btn-loading'
-              : ''
-          }`}
+          }  ${isDataChange && productListLoading ? 'ui-btn-loading' : ''}`}
           style={{
             marginTop: isMobile ? '.625rem' : '0',
             marginRight: '1rem'
           }}
-          onClick={() => this.handleSaveChange(subDetail)}
+          onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
         </button>

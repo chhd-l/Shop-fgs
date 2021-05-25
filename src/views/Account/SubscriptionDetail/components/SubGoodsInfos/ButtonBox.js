@@ -1,16 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import cancelIcon from '../../images/cancel.png';
-
+import { SubGoodsInfosContext } from './index';
+import { myAccountActionPushEvent } from '@/utils/GA';
 import { getDeviceType } from '@/utils/utils';
-const ButtonBox = ({
-  subDetail,
-  isNotInactive,
-  isDataChange,
-  pauseOrStart
-}) => {
+import { startSubscription, pauseSubscription } from '@/api/subscription';
+const ButtonBox = () => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
+  const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
+  const {
+    subDetail,
+    isNotInactive,
+    handleSaveChange,
+    isDataChange,
+    getDetail,
+    modalList,
+    setState
+  } = SubGoodsInfosValue;
+  const pauseOrStart = async (subDetail) => {
+    let subscribeStatus = '0';
+    let subscribeStatusText = 'Restart Subscription';
+    let action = startSubscription;
+    let param = {
+      subscribeId: subDetail.subscribeId
+    };
+    //subscribeStatus 暂停传1 重启0
+    if (subDetail.subscribeStatus === '0') {
+      subscribeStatus = '1';
+      subscribeStatusText = 'Pause Subscription';
+      action = pauseSubscription;
+    }
+    param.subscribeStatus = subscribeStatus;
+    setState({ loadingPage: true });
+    try {
+      let res = await action(param);
+      subscribeStatusText && myAccountActionPushEvent(subscribeStatusText);
+      await getDetail();
+    } catch (err) {
+      showErrMsg(err.message);
+    } finally {
+      setState({ loadingPage: false });
+    }
+  };
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setState({
+      modalType: 'cancelAll',
+      modalShow: true,
+      currentModalObj: modalList.filter((el) => el.type === 'cancelAll')[0]
+    });
+  };
   return (
     <div
       className="footerGroupButton"
@@ -78,7 +118,7 @@ const ButtonBox = ({
             className="rc-styled-link"
             href="#/"
             onClick={(e) => {
-              this.handleCancel(e);
+              handleCancel(e);
             }}
           >
             <FormattedMessage id="subscription.cancelAll" />
@@ -89,7 +129,7 @@ const ButtonBox = ({
           className={`rc-btn rc-btn--one ${
             isDataChange ? '' : 'rc-btn-solid-disabled'
           }`}
-          onClick={() => this.handleSaveChange(subDetail)}
+          onClick={() => handleSaveChange(subDetail)}
         >
           <FormattedMessage id="saveChange" />
         </button>
