@@ -11,13 +11,14 @@ const ButtonBox = () => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {
     subDetail,
-    isNotInactive,
     handleSaveChange,
     isDataChange,
     getDetail,
     modalList,
     setState
   } = SubGoodsInfosValue;
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const pauseOrStart = async (subDetail) => {
     let subscribeStatus = '0';
     let subscribeStatusText = 'Restart Subscription';

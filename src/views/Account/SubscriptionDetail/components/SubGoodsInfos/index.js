@@ -12,8 +12,6 @@ const SubGoodsInfos = ({
   triggerShowChangeProduct,
   getDetail,
   isDataChange,
-  isNotInactive,
-  isActive,
   handleSaveChange,
   modalList,
   showErrMsg,
@@ -24,8 +22,11 @@ const SubGoodsInfos = ({
   errMsgPage,
   setState,
   getMinDate,
-  isClub
+  isShowClub
 }) => {
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isActive = subDetail.subscribeStatus === '0';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   //订阅数量更改
   const onQtyChange = async () => {
@@ -104,13 +105,12 @@ const SubGoodsInfos = ({
   const propsObj = {
     subDetail,
     isGift,
-    isNotInactive,
+    isActive,
     getMinDate,
     modalList,
     setState,
     handleSaveChange,
     onDateChange,
-    isActive,
     isDataChange,
     productListLoading,
     getDetail,
@@ -142,7 +142,7 @@ const SubGoodsInfos = ({
                       alt={el.goodsName}
                     />
                     {/* </LazyLoad> */}
-                    {isClub && !!subDetail.petsId && (
+                    {isShowClub && !!subDetail.petsId && (
                       <span
                         className={`rc-styled-link ${
                           productListLoading ? 'ui-btn-loading' : ''
@@ -191,7 +191,7 @@ const SubGoodsInfos = ({
                       {el.specText}
                     </p>
                     ..........
-                    {isClub && !!subDetail.petsId && (
+                    {isShowClub && !!subDetail.petsId && (
                       <DailyRation rations={el.petsRation} />
                     )}
                   </div>
@@ -271,10 +271,7 @@ const SubGoodsInfos = ({
                   <ChangeSelection el={el} />
                 </div>
                 {isGift && subDetail.subscribeStatus != 2 ? (
-                  <ButtonBoxGift
-                    subDetail={subDetail}
-                    isDataChange={isDataChange}
-                  />
+                  <ButtonBoxGift />
                 ) : null}
               </div>
             ))}
@@ -422,7 +419,7 @@ const SubGoodsInfos = ({
                           </div>
                         </div>
                       </div>
-                      {isClub && !!subDetail.petsId && isNotInactive && (
+                      {isShowClub && !!subDetail.petsId && isNotInactive && (
                         <div
                           style={{
                             position: 'relative',
@@ -478,21 +475,12 @@ const SubGoodsInfos = ({
                   </div>
                 </div>
                 {isGift && subDetail.subscribeStatus != 2 ? (
-                  <ButtonBoxGift
-                    subDetail={subDetail}
-                    isDataChange={isDataChange}
-                  />
+                  <ButtonBoxGift />
                 ) : null}
               </div>
             ))}
         </div>
-        {!isGift && (
-          <ButtonBox
-            subDetail={subDetail}
-            isDataChange={isDataChange}
-            isNotInactive={isNotInactive}
-          />
-        )}
+        {!isGift && <ButtonBox />}
       </div>
     </SubGoodsInfosContext.Provider>
   );

@@ -7,10 +7,12 @@ const GiftList = ({
   tabName,
   subDetail,
   noStartYear,
-  isNotInactive,
   isGift,
   changeTab
 }) => {
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const isActive = subDetail.subscribeStatus === '0';
   const handleSkipNext = (e, el) => {
     e.preventDefault();
     setState({

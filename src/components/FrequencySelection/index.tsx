@@ -13,10 +13,11 @@ interface Props {
   frequencyType: SubscriptionType
   currentFrequencyId: string
   handleConfirm: Function,
-  disabled: Boolean
+  disabled: Boolean,
+  className: string
 }
 
-const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=true, handleConfirm = () => {} }: Props) => {
+const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,className='', handleConfirm = () => {} }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=true, handl
     });
   }, []);
   return (
-    <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center">
+    <div className={`freqency order-3 order-md-2 col-12 col-md-4 text-center ${className}`}>
       <span>
         <FormattedMessage id="subscription.frequency" />:
       </span>
