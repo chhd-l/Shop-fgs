@@ -3,6 +3,7 @@ import LazyLoad from 'react-lazyload';
 import joinusnewlogo from './image/joinusnewlogo.png';
 import joinusnewright from './image/joinusnewright.png';
 import './index.css';
+import { FormattedMessage } from 'react-intl';
 
 const JoinTodayNew = () => {
   return (
@@ -45,12 +46,12 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1 orderJoin2">
                       <div className="text-center">
                         <h2 style={{ fontWeight: '550' }}>
-                          Tell us about your pet
+                          <FormattedMessage id="ClubLP.NewJoinUs.title"/>
                         </h2>
                       </div>
                       <div className="rc-intro inherit-fontsize rc-text--center">
                         <h5 className="textMarginLeft">
-                          to get a precise nutritional recommendation.
+                          <FormattedMessage id="ClubLP.NewJoinUs.content"/>
                         </h5>
                       </div>
                       <div style={{ display: 'flex' }}>
@@ -58,7 +59,7 @@ const JoinTodayNew = () => {
                           style={{ margin: '0 auto' }}
                           className="rc-btn rc-btn--one"
                         >
-                          Get Started
+                          <FormattedMessage id="ClubLP.NewJoinUs.button"/>
                         </button>
                       </div>
                     </div>
