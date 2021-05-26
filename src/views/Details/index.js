@@ -51,7 +51,8 @@ import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
 import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
-  hubGAAToCar
+  hubGAAToCar,
+  HubGaPdpBuyFromRetailer
 } from './GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -308,22 +309,33 @@ class Details extends React.Component {
         })
       );
     });
-
-    // cc.js加载
-    this.loadWidgetIdBtn(data.barcode);
-    //hubGa初始化页面埋点
-    hubGAProductDetailPageView(details, data, this.props.clinicStore);
   }
 
-  // updatedPriceOrCode = (selectPrice, barcode) => {
-  //   const {details} = this.state;
-  //   const {clinicStore} = this.props;
-  //   this.loadWidgetIdBtn(barcode);
-  //   hubGAProductDetailPageView(details, selectPrice,clinicStore)
-  //   this.setState({
-  //     barcode
-  //   })
-  // }
+  updatedPriceOrCode = (barcode, selectPrice) => {
+    const { clinicStore } = this.props;
+    const {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      details
+    } = this.state;
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore,
+      selectPrice
+    };
+
+    // cc.js加载
+    this.loadWidgetIdBtn(barcode);
+
+    //hubGa初始化页面埋点
+    hubGAProductDetailPageView(details, pdpScreenLoadData);
+    this.setState({
+      barcode
+    });
+  };
 
   toScroll = (anchorName) => {
     let anchorElement = document.getElementById(anchorName);
@@ -813,23 +825,8 @@ class Details extends React.Component {
     });
   }
 
-  //hub加入购物车，埋点
-  // hubGAAToCar(num, item) {
-  //   dataLayer.push({
-  //     event: 'pdpAddToCart',
-  //     pdpAddToCartQuantity: this.state.quantity,
-  //     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[
-  //       this.state.form.buyWay
-  //     ]
-  //   });
-  // }
-
-  //零售商购物 埋点
   handleBuyFromRetailer = () => {
-    isHub &&
-      dataLayer.push({
-        event: 'pdpBuyFromRetailer'
-      });
+    HubGaPdpBuyFromRetailer();
   };
 
   getPdpScreenLoadCTAs() {
@@ -855,63 +852,6 @@ class Details extends React.Component {
     }
     return content;
   }
-
-  //hub商品详情页 埋点
-  // hubGAProductDetailPageView(goodsAttributesValueRelList, item, selectPrice) {
-  //   const {
-  //     cateId,
-  //     minMarketPrice,
-  //     goodsCateName,
-  //     goodsName,
-  //     goodsInfos,
-  //     goodsNo
-  //   } = item;
-  //   const cateName = goodsCateName?.split('/') || '';
-  //   const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-  //   const size =
-  //     item?.sizeList.length &&
-  //     item?.sizeList
-  //       .filter((item) => item.selected)
-  //       .map((selectItem) => selectItem.specText)
-  //       .toString();
-  //   const breed = goodsAttributesValueRelList
-  //     .filter(
-  //       (attr) =>
-  //         attr.goodsAttributeName &&
-  //         attr.goodsAttributeName.toLowerCase() == 'breeds'
-  //     )
-  //     .map((item) => item.goodsAttributeValue);
-  //   const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
-  //   const recommendationID = this.props.clinicStore?.linkClinicId || '';
-
-  //   const GAProductsInfo = {
-  //     price: selectPrice || minMarketPrice,
-  //     specie,
-  //     range: cateName?.[1] || '',
-  //     name: goodsName,
-  //     mainItemCode: goodsNo,
-  //     SKU,
-  //     recommendationID,
-  //     technology: cateName?.[2] || '',
-  //     brand: 'Royal Canin',
-  //     size,
-  //     breed
-  //   };
-  //   const product = filterObjectValue(GAProductsInfo);
-  //   if (window.dataLayer) {
-  //     dataLayer.push({
-  //       products: [product]
-  //     });
-  //     dataLayer.push({
-  //       event: 'pdpScreenLoad',
-  //       pdpScreenLoadCTAs: this.getPdpScreenLoadCTAs()
-  //     });
-  //   }
-  //   this.setState({
-  //     breed,
-  //     specie
-  //   });
-  // }
 
   render() {
     const { history, location, match, configStore } = this.props;
@@ -1151,7 +1091,7 @@ class Details extends React.Component {
                                 details={details}
                                 setState={this.setState.bind(this)}
                                 updatedSku={this.matchGoods.bind(this)}
-                                // updatedPriceOrCode= {this.updatedPriceOrCode}
+                                updatedPriceOrCode={this.updatedPriceOrCode}
                               />
                               <div className="Quantity">
                                 <span className="amount">
