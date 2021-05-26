@@ -1633,7 +1633,7 @@ class Details extends React.Component {
   getFrequencyDictDom = () => {
     return (
       <div className="freqency order-3 order-md-2 col-12 col-md-4 text-center mt-2 d-flex">
-        <span className="col-5 col-md-6">
+        <span className="col-5 col-md-6 d-flex justify-content-center align-items-center">
           <FormattedMessage id="subscription.frequency" />:
         </span>
         <Selection

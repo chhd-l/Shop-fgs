@@ -29,6 +29,7 @@ import JoinTodayNew from './Components/JoinTodayNew';
 import CommentCarouselNew from '../../components/CommentCarouselNew';
 import GetMoreAd from './Components/GetMoreAd';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
+import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -259,6 +260,59 @@ class ClubLandingPageNew extends React.Component {
           <CommentCarouselNew />
 
           <GetMoreAd />
+
+          <Divider />
+
+          {process.env.REACT_APP_COUNTRY == 'RU' ? (
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none ">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                      <a
+                        id="undefined"
+                        name="undefined"
+                        className="page-section-anchor"
+                        aria-hidden="true"
+                      ></a>
+                      <div className="row align-items-md-center">
+                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <img
+                              className="w-100 lazyloaded"
+                              data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
+                              alt="Yorkshire dog pic - Our Values"
+                              title="Yorkshire dog pic - Our Values"
+                              src={vetru}
+                            />
+                          </picture>
+                        </div>
+                        <div className=" col-12 col-lg-6">
+                          <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                            <h2 className="rc-beta markup-text">
+                              Ищете ветеринарную диету?
+                            </h2>
+                            <p>
+                              <span>
+                                Диетическое питание, которое помогает
+                                поддерживать здоровье питомцев с
+                                диагностированными заболеваниями
+                              </span>
+                            </p>
+                            <Link to="subscription-landing">
+                              <button className="rc-btn rc-btn--two">
+                                Узнать подробнее
+                              </button>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
 
           <Divider />
 
