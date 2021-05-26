@@ -77,6 +77,7 @@ import { cyberFormTitle } from '@/utils/constant/cyber';
 import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
+import CyberPayment from './PaymentMethod/Cyber';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -2828,6 +2829,9 @@ class Payment extends React.Component {
                   })}
                 </>
               )}
+
+              {/* todo 重构后的CYBER */}
+              {/* <CyberPayment/> */}
 
               {/* CYBER */}
               {paymentTypeVal === 'cyber' && !this.state.isShowCardList && (

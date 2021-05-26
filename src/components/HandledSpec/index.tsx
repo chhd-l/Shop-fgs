@@ -22,20 +22,20 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
   const {goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo} = details
   const [sizeList, setSizeList] = useState([]);
 
-  // const getPriceOrCode = () => {
-  //   const selectGoodSize = goodsSpecs.map((item: any) =>
-  //     item.chidren.find((good: any) => good.selected)
-  //   )?.[0]?.detailName;
-  //   console.log(goodsSpecs, selectGoodSize, 'goodsSpecs')
-  //   const selectPrice = goodsInfos.find(
-  //     (item: any) => item.packSize == selectGoodSize
-  //   )?.marketPrice;
-  //   const goodsInfoBarcode =
-  //     goodsInfos.find((item: any) => item.packSize === selectGoodSize)
-  //       ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-  //   const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-  //   updatedPriceOrCode(selectPrice, barcode)
-  // }
+  const getPriceOrCode = () => {
+    const selectGoodSize = goodsSpecs.map((item: any) =>
+      item.chidren.find((good: any) => good.selected)
+    )?.[0]?.detailName;
+    const selectPrice = goodsInfos.find(
+      (item: any) => item.packSize == selectGoodSize
+    )?.marketPrice;
+    const goodsInfoBarcode =
+      goodsInfos.find((item: any) => item.packSize === selectGoodSize)
+        ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+    updatedPriceOrCode(barcode,selectPrice)
+  }
+
   const matchGoods = () => {
     // let {
     //   specList,
@@ -56,8 +56,6 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
       defaultPurchaseType: 0,
       stock: 0,
       skuPromotions: 0,
-      selectPrice:0,
-      barcode:''
     }
   
     let selectedArr:any[] = [];
@@ -110,19 +108,6 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
     //     ? (form.buyWay = 2)
     //     : (form.buyWay = 1)
     //   : (form.buyWay = 0);
-
-    const selectGoodSize = goodsSpecs.map((item: any) =>
-      item.chidren.find((good: any) => good.selected)
-    )?.[0]?.detailName;
-    const selectPrice = goodsInfos.find(
-      (item: any) => item.packSize == selectGoodSize
-    )?.marketPrice;
-    const goodsInfoBarcode =
-      goodsInfos.find((item: any) => item.packSize === selectGoodSize)
-        ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-    handledValues.selectPrice =selectPrice;
-    handledValues.barcode=barcode;
     updatedSku(handledValues, sizeList)
   }
   const bundleMatchGoods = () => {
@@ -146,9 +131,6 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
   }
 
   const handleChooseSize = (sId: any, sdId: any) => {
-    let handledValues = {
-      barcode:''
-    }
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -164,8 +146,7 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
     )?.[0]?.detailName;
     const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
       ?.goodsInfoBarcode;
-      handledValues.barcode=barcode;
-    updatedSku(handledValues)
+      updatedPriceOrCode(barcode)
     matchGoods()
   }
 
@@ -251,14 +232,16 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
         setSizeList(goodsInfos)
   }, [details.goodsNo]);
   useEffect(() => {
-    if(sizeList.length) {
-      if(goodsSpecDetails) {
-        matchGoods()
-        // getPriceOrCode()
-      }else {
-        bundleMatchGoods()
+    (async () => {
+      if (sizeList.length) {
+        if (goodsSpecDetails) {
+          await matchGoods()
+          getPriceOrCode()
+        } else {
+          bundleMatchGoods()
+        }
       }
-    }
+    })()
   }, [sizeList])
   return (
     <div className="spec">

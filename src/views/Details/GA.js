@@ -57,7 +57,7 @@ const setGoogleProductStructuredDataMarkup = ({
 };
 
 // 初次加载页面需要填充的产品ga数据
-const hubGAProductDetailPageView = (item, data, clinicStore) => {
+const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
   const {
     cateId,
     minMarketPrice,
@@ -67,6 +67,7 @@ const hubGAProductDetailPageView = (item, data, clinicStore) => {
     goodsNo,
     goodsAttributesValueRelList
   } = item;
+  const { clinicStore, selectPrice } = pdpScreenLoadData;
   const cateName = goodsCateName?.split('/') || '';
   const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
   const size =
@@ -88,7 +89,7 @@ const hubGAProductDetailPageView = (item, data, clinicStore) => {
   const recommendationID = clinicStore?.linkClinicId || '';
 
   const GAProductsInfo = {
-    price: data.selectPrice || minMarketPrice,
+    price: selectPrice || minMarketPrice,
     specie,
     range: cateName?.[1] || '',
     name: goodsName,
@@ -107,13 +108,9 @@ const hubGAProductDetailPageView = (item, data, clinicStore) => {
     });
     dataLayer.push({
       event: 'pdpScreenLoad',
-      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(data)
+      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
     });
   }
-  // this.setState({
-  //   breed,
-  //   specie
-  // });
 };
 
 //hub加入购物车，埋点
@@ -127,8 +124,16 @@ const hubGAAToCar = (quantity, form) => {
   });
 };
 
+//零售商购物 埋点
+const HubGaPdpBuyFromRetailer = () => {
+  dataLayer.push({
+    event: 'pdpBuyFromRetailer'
+  });
+};
+
 export {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
-  hubGAAToCar
+  hubGAAToCar,
+  HubGaPdpBuyFromRetailer
 };
