@@ -81,7 +81,8 @@ class AddressList extends React.Component {
       listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
-      selectListValidationOption: 'suggestedAddress'
+      selectListValidationOption: 'suggestedAddress',
+      addressErrMsg: null
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -179,7 +180,8 @@ class AddressList extends React.Component {
         {
           addressList,
           addOrEdit: !addressList.length,
-          selectedId: tmpId
+          selectedId: tmpId,
+          addressErrMsg: this.props.wrongAddressMsg
         },
         () => {
           // this.updateSelectedData();
@@ -206,17 +208,23 @@ class AddressList extends React.Component {
   };
   // 处理选择的地址数据
   updateSelectedData(str) {
-    const { selectedId, addressList } = this.state;
+    const { selectedId, addressList, addressErrMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
-      this.setState({
-        validationLoading: true
-      });
-      // 根据address1查询地址信息，再根据查到的信息计算运费
-      this.getAddressListByKeyWord(tmpObj);
+      // 判断地址完整性
+      let errmsg = this.getDuDataAddressErrMsg(tmpObj);
+      if (errmsg) {
+        this.showErrMsg(addressErrMsg['title'] + errmsg);
+      } else {
+        this.setState({
+          validationLoading: true
+        });
+        // 根据address1查询地址信息，再根据查到的信息计算运费
+        this.getAddressListByKeyWord(tmpObj);
+      }
     } else {
       this.props.updateData(tmpObj);
       if (this.props.type == 'delivery') {
@@ -226,6 +234,22 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
     }
   }
+  // 处理地址信息，拼装errMsg
+  getDuDataAddressErrMsg = (data) => {
+    const { addressErrMsg } = this.state;
+    let errArr = [];
+    let streets = addressErrMsg['streets'],
+      postCode = addressErrMsg['postCode'],
+      house = addressErrMsg['house'],
+      city = addressErrMsg['city'];
+
+    data.street == '' || null ? errArr.push(streets) : '';
+    data.postCode == '' || null ? errArr.push(postCode) : '';
+    data.house == '' || null ? errArr.push(house) : '';
+    data.city == '' || null ? errArr.push(city) : '';
+
+    return errArr.join(',');
+  };
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
     const { addressList } = this.state;
@@ -289,13 +313,13 @@ class AddressList extends React.Component {
           this.setState({
             validationLoading: false
           });
-          this.showErrMsg(this.props.wrongAddressMsg);
+          this.showErrMsg(this.state.addressErrMsg['address']);
         }
       } else {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.props.wrongAddressMsg);
+        this.showErrMsg(this.state.addressErrMsg['address']);
       }
     } catch (err) {
       console.warn(err);
@@ -348,7 +372,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.props.wrongAddressMsg);
+        this.showErrMsg(this.state.addressErrMsg['address']);
       }
     } catch (err) {
       console.warn(err);
