@@ -53,15 +53,15 @@ const SubDetailHeader = ({
   initPage,
   history,
   getDetail,
-  isClub,
+  isShowClub,
   productListLoading,
   intl,
-  isActive,
   triggerShowChangeProduct,
   petType,
-  isNotInactive,
   setState
 }) => {
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   console.info('subDetail', subDetail);
   let petsInfo = subDetail.petsInfo;
   //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
@@ -96,11 +96,10 @@ const SubDetailHeader = ({
     setState({ triggerShowAddNewPet: true });
   };
   const propsObj = {
-    isClub,
+    isShowClub,
     subDetail,
     setState,
     triggerShowChangeProduct,
-    isNotInactive,
     getDetail,
     productListLoading
   };
@@ -120,7 +119,7 @@ const SubDetailHeader = ({
       </SubDetailHeaderContext.Provider>
 
       {/* 未激活的情况下不展示club相关信息 */}
-      {isClub && isNotInactive && !isCantLinkPet ? (
+      {isShowClub && isNotInactive && !isCantLinkPet ? (
         <>
           <img
             src={getClubLogo()}

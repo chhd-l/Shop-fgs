@@ -48,7 +48,12 @@ import Ration from './components/Ration/index.tsx';
 import GA_Comp from './components/GA_Comp/index.tsx';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
-import { setGoogleProductStructuredDataMarkup } from './GA';
+import {
+  setGoogleProductStructuredDataMarkup,
+  hubGAProductDetailPageView,
+  hubGAAToCar,
+  HubGaPdpBuyFromRetailer
+} from './GA';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -305,6 +310,33 @@ class Details extends React.Component {
       );
     });
   }
+
+  updatedPriceOrCode = (barcode, selectPrice) => {
+    const { clinicStore } = this.props;
+    const {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      details
+    } = this.state;
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore,
+      selectPrice
+    };
+
+    // cc.js加载
+    this.loadWidgetIdBtn(barcode);
+
+    //hubGa初始化页面埋点
+    hubGAProductDetailPageView(details, pdpScreenLoadData);
+    this.setState({
+      barcode
+    });
+  };
+
   toScroll = (anchorName) => {
     let anchorElement = document.getElementById(anchorName);
     // 如果对应id的锚点存在，就跳转到锚点
@@ -434,16 +466,6 @@ class Details extends React.Component {
               images
             },
             async () => {
-              this.loadWidgetIdBtn(this.state.barcode);
-              //Product Detail Page view 埋点start
-              // isHub
-              //   ? this.hubGAProductDetailPageView(
-              //       res.context.goodsAttributesValueRelList,
-              //       this.state.details,
-              //       selectPrice
-              //     )
-              //   : this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
                 //设置延时获取BazaarVoice dom节点
@@ -459,35 +481,18 @@ class Details extends React.Component {
         } else {
           let images = [];
           images = res.context.goodsInfos;
-          this.setState(
-            {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  promotions: res.context.goods?.promotions?.toLowerCase(),
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs,
-                  goodsAttributesValueRelList:
-                    res.context.goodsAttributesValueRelList
-                }
-              ),
-              images
-            },
-            () => {
-              //Product Detail Page view 埋点start
-              // isHub
-              //   ? this.hubGAProductDetailPageView(
-              //       res.context.goodsAttributesValueRelList,
-              //       this.state.details
-              //     )
-              //   : this.GAProductDetailPageView(this.state.details);
-              //Product Detail Page view 埋点end
-            }
-          );
+          this.setState({
+            details: Object.assign({}, this.state.details, res.context.goods, {
+              promotions: res.context.goods?.promotions?.toLowerCase(),
+              sizeList,
+              goodsInfos: res.context.goodsInfos,
+              goodsSpecDetails: res.context.goodsSpecDetails,
+              goodsSpecs: res.context.goodsSpecs,
+              goodsAttributesValueRelList:
+                res.context.goodsAttributesValueRelList
+            }),
+            images
+          });
         }
       })
       .catch((e) => {
@@ -643,9 +648,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details, questionParams } = this.state;
 
-      isHub
-        ? this.hubGAAToCar(quantity, details)
-        : this.GAAddToCar(quantity, details);
+      hubGAAToCar(quantity, form);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -703,7 +706,7 @@ class Details extends React.Component {
         details,
         questionParams
       } = this.state;
-      isHub && this.hubGAAToCar(quantity, details);
+      hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
         goodsInfoFlag: parseInt(form.buyWay),
@@ -822,23 +825,8 @@ class Details extends React.Component {
     });
   }
 
-  //hub加入购物车，埋点
-  hubGAAToCar(num, item) {
-    dataLayer.push({
-      event: 'pdpAddToCart',
-      pdpAddToCartQuantity: this.state.quantity,
-      pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[
-        this.state.form.buyWay
-      ]
-    });
-  }
-
-  //零售商购物 埋点
   handleBuyFromRetailer = () => {
-    isHub &&
-      dataLayer.push({
-        event: 'pdpBuyFromRetailer'
-      });
+    HubGaPdpBuyFromRetailer();
   };
 
   getPdpScreenLoadCTAs() {
@@ -863,63 +851,6 @@ class Details extends React.Component {
       content.push('Club');
     }
     return content;
-  }
-
-  //hub商品详情页 埋点
-  hubGAProductDetailPageView(goodsAttributesValueRelList, item, selectPrice) {
-    const {
-      cateId,
-      minMarketPrice,
-      goodsCateName,
-      goodsName,
-      goodsInfos,
-      goodsNo
-    } = item;
-    const cateName = goodsCateName?.split('/') || '';
-    const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-    const size =
-      item?.sizeList.length &&
-      item?.sizeList
-        .filter((item) => item.selected)
-        .map((selectItem) => selectItem.specText)
-        .toString();
-    const breed = goodsAttributesValueRelList
-      .filter(
-        (attr) =>
-          attr.goodsAttributeName &&
-          attr.goodsAttributeName.toLowerCase() == 'breeds'
-      )
-      .map((item) => item.goodsAttributeValue);
-    const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
-    const recommendationID = this.props.clinicStore?.linkClinicId || '';
-
-    const GAProductsInfo = {
-      price: selectPrice || minMarketPrice,
-      specie,
-      range: cateName?.[1] || '',
-      name: goodsName,
-      mainItemCode: goodsNo,
-      SKU,
-      recommendationID,
-      technology: cateName?.[2] || '',
-      brand: 'Royal Canin',
-      size,
-      breed
-    };
-    const product = filterObjectValue(GAProductsInfo);
-    if (window.dataLayer) {
-      dataLayer.push({
-        products: [product]
-      });
-      dataLayer.push({
-        event: 'pdpScreenLoad',
-        pdpScreenLoadCTAs: this.getPdpScreenLoadCTAs()
-      });
-    }
-    this.setState({
-      breed,
-      specie
-    });
   }
 
   render() {
@@ -1160,6 +1091,7 @@ class Details extends React.Component {
                                 details={details}
                                 setState={this.setState.bind(this)}
                                 updatedSku={this.matchGoods.bind(this)}
+                                updatedPriceOrCode={this.updatedPriceOrCode}
                               />
                               <div className="Quantity">
                                 <span className="amount">

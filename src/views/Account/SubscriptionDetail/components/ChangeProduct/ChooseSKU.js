@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import React, { useState, useContext } from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import ShowErrorDom from '../ShowErrorDom';
-import Selection from '@/components/Selection';
 import { changeSubscriptionGoods } from '@/api/subscription';
+import HandledSpec from '@/components/HandledSpec/index.tsx';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import find from 'lodash/find';
 import { ChangeProductContext } from './index';
@@ -19,36 +20,44 @@ const ChooseSKU = ({ intl }) => {
   const {
     productListLoading,
     setState,
-    isNotInactive,
     getDetail,
     subDetail,
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
   const {
     details,
-    matchGoods,
-    stock,
-    specList,
+    setDetails,
+    showModal,
     showProdutctDetail,
     setForm,
-    currentSubscriptionPrice,
-    images,
     form,
     currentGoodsItems
   } = ChangeProductValue;
-  if (
-    specList?.length == 0 &&
-    details?.subscriptionStatus &&
-    details?.promotions == 'club'
-  ) {
-    // 兼容bundle商品
-    selected = true;
-  }
-  specList.forEach((el) => {
-    if (!selected) {
-      selected = el?.chidren.find((item) => item.selected)?.goodsId;
-    }
-  });
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
+    null
+  );
+  const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
+    {}
+  );
+  const [skuPromotions, setSkuPromotions] = useState(0);
+  const [stock, setStock] = useState(0);
+
+  const isNotInactive =
+    subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
+  const matchGoods = (data, sizeList) => {
+    let newDetails = Object.assign({}, details, {
+      sizeList
+    });
+    console.info('data', data);
+    console.info('sizeList', sizeList);
+    setSkuPromotions(data.skuPromotions);
+    setStock(data.stock);
+    setCurrentSubscriptionPrice(
+      data.currentSubscriptionPrice || data.selectPrice
+    );
+    setCurrentSubscriptionStatus(data.currentSubscriptionStatus);
+    setDetails(newDetails);
+  };
   const changePets = (selected) => {
     if (!selected) {
       return;
@@ -144,6 +153,7 @@ const ChooseSKU = ({ intl }) => {
         .then((res) => {
           setChangeNowLoading(false);
           getDetail();
+          showModal();
           //关闭2弹窗 todo
         })
         .catch((err) => {
@@ -156,28 +166,7 @@ const ChooseSKU = ({ intl }) => {
       setChangeNowLoading(false);
     }
   };
-
-  const handleChooseSize = (sId, sdId, isSelected) => {
-    if (isSelected) {
-      return;
-    }
-    specList
-      .filter((item) => item.specId === sId)[0]
-      .chidren.map((item) => {
-        if (item.specDetailId === sdId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-        return item;
-      });
-    const goodSize = specList.map((item) =>
-      item.chidren.find((good) => good.specDetailId === sdId)
-    )?.[0]?.detailName;
-    setSpecList(specList);
-    matchGoods(); // todo
-  };
-
+  let seleced = quantity < stock && skuPromotions == 'club';
   return (
     <React.Fragment>
       <ShowErrorDom errorMsg={errorMsgSureChange} />
@@ -238,78 +227,28 @@ const ChooseSKU = ({ intl }) => {
             style={{ float: 'left' }}
           >
             <div className="specAndQuantity rc-margin-bottom--xs ">
-              <div className="spec">
-                {specList.map((sItem, i) => (
-                  <div id="choose-select" key={i} style={{ width: '300px' }}>
-                    <div
-                      className="rc-margin-bottom--xs"
-                      style={{ textAlign: 'left' }}
-                    >
-                      {sItem.specName}:
-                    </div>
-                    <div data-attr="size">
-                      <div
-                        className="rc-swatch __select-size"
-                        id="id-single-select-size"
-                      >
-                        {sItem.chidren.map((sdItem, i) => (
-                          <div
-                            key={i}
-                            className={`rc-swatch__item ${
-                              sdItem.selected ? 'selected' : ''
-                            } ${
-                              sdItem.isEmpty || !sdItem.isClub
-                                ? 'outOfStock'
-                                : ''
-                            }`}
-                            onClick={() => {
-                              if (sdItem.isEmpty || !sdItem.isClub) {
-                                return false;
-                              } else {
-                                handleChooseSize(
-                                  sItem.specId,
-                                  sdItem.specDetailId,
-                                  sdItem.selected
-                                );
-                              }
-                            }}
-                          >
-                            <span
-                              style={{
-                                backgroundColor:
-                                  sdItem.isEmpty || !sdItem.isClub
-                                    ? '#ccc'
-                                    : '#fff',
-                                cursor: sdItem.isEmpty
-                                  ? 'not-allowed'
-                                  : 'pointer'
-                              }}
-                            >
-                              {/* {parseFloat(sdItem.detailName)}{' '} */}
-                              {sdItem.detailName}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <p className="frequency rc-margin-right--xs rc-margin-left--xs">
-            <div style={{ marginBottom: '4px' }}>
-              <FormattedMessage id="subscription.frequency" />:
-            </div>
-            <div className={!isMobile && 'subscriptionDetail-choose-frequency'}>
-              {details.promotions && (
-                <FrequencySelection
-                  frequencyType={details.promotions}
-                  currentFrequencyId={form.frequencyId}
-                  handleConfirm={handleSelectedItemChange}
+              {details.goodsInfos && (
+                <HandledSpec
+                  details={details}
+                  setState={setState}
+                  updatedSku={matchGoods}
                 />
               )}
             </div>
+          </div>
+          <p
+            className={`frequency rc-margin-right--xs rc-margin-left--xs ${
+              isMobile ? 'subscriptionDetail-choose-frequency' : ''
+            }`}
+          >
+            {details.promotions && (
+              <FrequencySelection
+                className="col-md-8"
+                frequencyType={details.promotions}
+                currentFrequencyId={form.frequencyId}
+                handleConfirm={handleSelectedItemChange}
+              />
+            )}
           </p>
         </div>
         <strong className="rc-md-up" style={{ marginTop: '20px' }}>
@@ -347,9 +286,9 @@ const ChooseSKU = ({ intl }) => {
           </button>
           {isNotInactive && (
             <button
-              onClick={() => changePets(selected)}
+              onClick={() => changePets(seleced)}
               className={`rc-btn rc-btn--one rc-btn--sm ${
-                selected ? '' : 'rc-btn-solid-disabled'
+                seleced ? '' : 'rc-btn-solid-disabled'
               }
                 ${changeNowLoading ? 'ui-btn-loading' : ''}`}
             >
