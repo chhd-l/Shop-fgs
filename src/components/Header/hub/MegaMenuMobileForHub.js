@@ -105,10 +105,10 @@ class MegaMenuMobileForHub extends React.Component {
     this.props.handleClickNavItem(item);
   }
   handleClickToggleChilds(item) {
-    document.querySelector('#headnav-mobile').scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    // document.querySelector('#headnav-mobile').scrollTo({
+    //   top: 0,
+    //   behavior: 'smooth'
+    // });
     let { menuData } = this.state;
     item.expand = !item.expand;
     this.setState({ menuData });
@@ -180,17 +180,19 @@ class MegaMenuMobileForHub extends React.Component {
                 >
                   <div className="custom-accordion__item">
                     <dt>
-                      <button
-                        className="custom-accordion__button rc-list__header bg-transparent d-flex justify-content-between"
+                      <div
+                        className="custom-accordion__button rc-list__header bg-transparent d-flex justify-content-between border-0"
                         role="menuitem"
                         aria-selected="false"
                         data-tab-init="true"
                         onClick={this.handleClickToggleChilds.bind(this, item)}
                       >
-                        <span>{item.Link.Text}</span>
+                        <span className="rc-text-colour--text">
+                          {item.Link.Text}
+                        </span>
                         <span
-                          className={`iconfont inlineblock ${
-                            item.expand ? 'red' : ''
+                          className={`iconfont inlineblock font-weight-bolder ${
+                            item.expand ? 'red' : 'rc-text-colour--text'
                           }`}
                           style={{
                             transform: item.expand
@@ -200,7 +202,7 @@ class MegaMenuMobileForHub extends React.Component {
                         >
                           &#xe60f;
                         </span>
-                      </button>
+                      </div>
                     </dt>
                     {filterItemChildList.length > 0 && (
                       <dd
@@ -234,7 +236,9 @@ class MegaMenuMobileForHub extends React.Component {
                                         src={cItem.Image.Url}
                                         className="img-catogery"
                                       />
-                                      <span>{cItem.ImageDescription}</span>
+                                      <span className="rc-text-colour--text">
+                                        {cItem.ImageDescription}
+                                      </span>
                                     </span>
                                     {this.renderSecondChildItem(cItem, item)}
                                   </>
@@ -243,6 +247,7 @@ class MegaMenuMobileForHub extends React.Component {
                                   <NavItem
                                     item={cItem}
                                     className="rc-list__link submenu-padding-mobile bg-white border-0"
+                                    style={{ fontWeight: 500 }}
                                     onClick={this.handleClickNavItem.bind(
                                       this,
                                       cItem
@@ -271,7 +276,7 @@ class MegaMenuMobileForHub extends React.Component {
             item={item}
             className="rc-list__header bg-transparent border-0"
           >
-            {item.Link.Text}
+            <span className="rc-text-colour--text">{item.Link.Text}</span>
           </NavItem>
         )}
       </>
@@ -304,7 +309,7 @@ class MegaMenuMobileForHub extends React.Component {
               <div className="rc-layout-container rc-three-column">
                 <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
                   <ul
-                    className="rc-list rc-list--blank rc-list--align"
+                    className="rc-list rc-list--blank rc-list--align border-top border-d7d7d7"
                     role="menubar"
                   >
                     {menuData.map((item, i) => (
@@ -325,7 +330,9 @@ class MegaMenuMobileForHub extends React.Component {
                             }`}
                             key={i}
                           >
-                            {data.text}
+                            <span className="rc-text-colour--text">
+                              {data.text}
+                            </span>
                           </a>
                         ))}
                       {isLogin ? (
@@ -334,21 +341,25 @@ class MegaMenuMobileForHub extends React.Component {
                             className="rc-list__header bg-transparent border-0 pt-3 pb-0 d-flex"
                             to="/account"
                           >
-                            <span className="brefName mb-2">
+                            <span className="brefName mb-2 rc-text-colour--text">
                               {userInfo?.firstName?.slice(0, 1)}
                             </span>
-                            <span className="border-bottom flex-fill font-weight-light pb-2">
+                            <span className="border-bottom flex-fill font-weight-light pb-2 rc-text-colour--text">
                               {userInfo?.firstName}
                             </span>
-                            <span className="iconfont medium">&#xe6f9;</span>
+                            <span className="iconfont medium rc-text-colour--text">
+                              &#xe6f9;
+                            </span>
                           </Link>
                           <LogoutButton
-                            containerClassName="rc-list__header bg-transparent border-bottom pt-3 pb-3 ml-3 ml-0 text-left"
+                            containerClassName="rc-list__header border-0 bg-transparent border-bottom pt-3 pb-3 ml-3 ml-0 text-left"
                             btnStyle={{
                               background: 'transparent'
                             }}
                           >
-                            <FormattedMessage id="header.User.logOut" />
+                            <span className="rc-text-colour--text">
+                              <FormattedMessage id="header.User.logOut" />
+                            </span>
                           </LogoutButton>
                         </>
                       ) : (
@@ -358,8 +369,12 @@ class MegaMenuMobileForHub extends React.Component {
                           }`}
                           history={history}
                         >
-                          <span className="iconfont">&#xe69c;</span>{' '}
-                          <FormattedMessage id="signInAndRegisterNow" />
+                          <span className="iconfont rc-text-colour--text">
+                            &#xe69c;
+                          </span>{' '}
+                          <span className="rc-text-colour--text">
+                            <FormattedMessage id="signInAndRegisterNow" />
+                          </span>
                         </LoginButton>
                       )}
                       {shareData.map((data, i) => (
@@ -370,14 +385,20 @@ class MegaMenuMobileForHub extends React.Component {
                           }`}
                           key={i}
                         >
-                          {data.text}
+                          <span className="rc-text-colour--text">
+                            {data.text}
+                          </span>
                         </a>
                       ))}
                     </li>
                     <li className="rc-list__item rc-list__item--group w-100 border-bottom border-d7d7d7">
                       <Language className="rc-list__header bg-transparent border-0">
-                        <span className="iconfont">&#xe60c;</span>{' '}
-                        <FormattedMessage id="language" />
+                        <span className="iconfont rc-text-colour--text">
+                          &#xe60c;
+                        </span>{' '}
+                        <span className="rc-text-colour--text">
+                          <FormattedMessage id="language" />
+                        </span>
                       </Language>
                     </li>
                   </ul>

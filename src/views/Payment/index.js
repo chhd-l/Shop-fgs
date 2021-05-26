@@ -226,6 +226,7 @@ class Payment extends React.Component {
       guestEmail: '',
       mobileCartVisibleKey: 'less', // less/more
       validSts: { billingAddr: true },
+      validForBilling: false,
       saveBillingLoading: false,
       payWayErr: '',
       pet: {},
@@ -470,7 +471,7 @@ class Payment extends React.Component {
       });
     }
   };
-  //input输入事件
+  // input输入事件
   handleCyberInputChange = (e) => {
     const target = e.target;
     const { cyberPaymentForm } = this.state;
@@ -480,6 +481,7 @@ class Payment extends React.Component {
     if (name === 'cardNumber') {
       value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
     }
+    // console.log('cyber pay form input输入事件: ',value);
     cyberPaymentForm[name] = value;
     this.setState({ cyberPaymentForm });
     this.inputBlur(e);
@@ -1946,10 +1948,10 @@ class Payment extends React.Component {
       param.billingAddress = billingChecked
         ? { ...tmpDeliveryAddress }
         : { ...tmpBillingAddress };
-      console.log(
-        '★★★★★★ ---------- saveAddressAndCommentPromise param: ',
-        param
-      );
+      // console.log(
+      //   '★★★★★★ ---------- saveAddressAndCommentPromise param: ',
+      //   param
+      // );
       this.setState({
         deliveryAddress: { ...param.deliveryAddress },
         billingAddress: { ...param.billingAddress },
@@ -2004,6 +2006,7 @@ class Payment extends React.Component {
         key: curPanelKey
       });
     }
+    // console.log('是否勾选自定义billingAddress: ',val);
     this.setState({
       billingChecked: val
     });
@@ -2013,6 +2016,12 @@ class Payment extends React.Component {
     if (val) {
       billadd = this.state.deliveryAddress;
     } else {
+      if (!this.state.billingAddressAddOrEdit) {
+        this.setState({
+          validForBilling: true
+        });
+      }
+
       billadd = {
         firstName: '',
         lastName: '',
@@ -2106,7 +2115,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
@@ -2327,7 +2336,7 @@ class Payment extends React.Component {
   };
   // 获取 billingAddress 是编辑或者添加地址
   getListAddOrEdit = (flag) => {
-    console.log(' 2258 ----------- getListAddOrEdit: ', flag);
+    // console.log(' 2258 ----------- getListAddOrEdit: ', flag);
     this.setState({
       billingAddressAddOrEdit: flag
     });
@@ -2337,7 +2346,7 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    console.log(' 2126 ----------- click Confirm Payment Panel');
+    // console.log(' 2126 ----------- click Confirm Payment Panel');
     // 勾选，billingAddress = deliveryAddress
     this.setState(
       {
@@ -2482,7 +2491,7 @@ class Payment extends React.Component {
           this.loginBillingAddrRef &&
           this.loginBillingAddrRef.current
         ) {
-          console.log('------------- 会员保存地址，并弹出地址校验');
+          // console.log('------------- 会员保存地址，并弹出地址校验');
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
@@ -2521,7 +2530,7 @@ class Payment extends React.Component {
         }
       }
 
-      console.log('★ ----------------- 游客和会员绑卡后执行');
+      // console.log('★ ----------------- 游客和会员绑卡后执行');
       this.setPaymentToCompleted();
     } catch (e) {
       this.showErrorMsg(e.message);
@@ -2538,15 +2547,15 @@ class Payment extends React.Component {
       isShowValidationModal,
       billingAddressAddOrEdit
     } = this.state;
-    console.log('★ ----------------- click ReInput Cvv Confirm');
-    console.log(
-      '★ ----------------- isShowValidationModal: ',
-      isShowValidationModal
-    );
-    console.log(
-      '★ ----------------- billingAddressAddOrEdit: ',
-      billingAddressAddOrEdit
-    );
+    // console.log('★ ----------------- click ReInput Cvv Confirm');
+    // console.log(
+    //   '★ ----------------- isShowValidationModal: ',
+    //   isShowValidationModal
+    // );
+    // console.log(
+    //   '★ ----------------- billingAddressAddOrEdit: ',
+    //   billingAddressAddOrEdit
+    // );
     // 点击按钮后进入下一步
     if (
       !billingChecked &&
@@ -2554,20 +2563,20 @@ class Payment extends React.Component {
       isShowValidationModal &&
       billingAddressAddOrEdit
     ) {
-      console.log('★ --- payment 地址验证 ');
+      // console.log('★ --- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
-      console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
+      // console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
   };
   // 点击按钮后进入下一步
   setPaymentToCompleted = () => {
-    console.log('★ --- setPaymentToCompleted 跳过验证，下一步 ');
+    // console.log('★ --- setPaymentToCompleted 跳过验证，下一步 ');
     this.cvvConfirmNextPanel();
   };
   // 已绑卡 下一步
@@ -2582,7 +2591,7 @@ class Payment extends React.Component {
     ) {
       this.unLoginBillingAddrRef.current.resetVisitorAddressState();
     }
-    console.log('★ --- payment 收起面板，显示preview ');
+    // console.log('★ --- payment 收起面板，显示preview ');
     paymentStore.setStsToCompleted({ key: 'billingAddr' });
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     this.props.paymentStore.saveDeliveryAddressInfo(this.state.deliveryAddress);
@@ -2657,7 +2666,7 @@ class Payment extends React.Component {
         billingAddress: JSON.parse(JSON.stringify(oldForm))
       });
     }
-    console.log('------ 确认选择地址');
+    // console.log('------ 确认选择地址');
     // 调用保存 billingAddress 方法
     if (
       !billingChecked &&
@@ -2665,7 +2674,7 @@ class Payment extends React.Component {
       this.loginBillingAddrRef &&
       this.loginBillingAddrRef.current
     ) {
-      console.log('------ 调用保存 billingAddress 方法');
+      // console.log('------ 调用保存 billingAddress 方法');
       await this.loginBillingAddrRef.current.handleSavePromise();
     }
     // 隐藏地址校验弹框
@@ -2697,8 +2706,10 @@ class Payment extends React.Component {
     }
   };
   updateValidStatus({ key }, status) {
+    const { billingChecked, billingAddressAddOrEdit } = this.state;
     this.setState({
-      validSts: Object.assign(this.state.validSts, { [key]: status })
+      validSts: Object.assign(this.state.validSts, { [key]: status }),
+      validForBilling: status && !billingChecked && billingAddressAddOrEdit
     });
   }
 
@@ -2755,7 +2766,7 @@ class Payment extends React.Component {
           isValidForCyberPayment = true;
         }
       }
-      // console.log('2256 !isValidForCyberPayment: ', !isValidForCyberPayment);
+      // console.log('2256 isValidForCyberPayment: ', isValidForCyberPayment);
       return !isValidForCyberPayment;
     };
 
@@ -3018,6 +3029,7 @@ class Payment extends React.Component {
                     backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
                     showErrorMsg={this.showErrorMsg}
                   />
+
                   {payConfirmBtn({
                     disabled: validForCyberPayment() || validForBilling,
                     loading: saveBillingLoading
@@ -3038,10 +3050,26 @@ class Payment extends React.Component {
                     })}
                     showErrorMsg={this.showErrorMsg}
                   />
-                  {reInputCVVBtn({
-                    disabled: !this.state.isShowCyberBindCardBtn,
-                    loading: saveBillingLoading
-                  })}
+
+                  {this.state.billingChecked ? (
+                    <>
+                      {reInputCVVBtn({
+                        disabled: !this.state.isShowCyberBindCardBtn,
+                        loading: saveBillingLoading
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      {reInputCVVBtn({
+                        disabled:
+                          this.state.isShowCyberBindCardBtn &&
+                          this.state.validForBilling
+                            ? false
+                            : true,
+                        loading: saveBillingLoading
+                      })}
+                    </>
+                  )}
                 </>
               )}
 
@@ -3270,8 +3298,8 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
-    console.log('★★★★★★ clickPay: ', this.state.billingAddress);
-    console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
+    // console.log('★★★★★★ clickPay: ', this.state.billingAddress);
+    // console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });

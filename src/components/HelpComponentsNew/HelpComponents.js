@@ -20,16 +20,16 @@ const HelpComponentsNew = (props) => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="ClubLP.Help.title"/>
+                    <FormattedMessage id="ClubLP.Help.title" />
                   </h4>
                 </div>
                 <p>
                   <span>
-                    <FormattedMessage id="ClubLP.Help.subtitle1"/>
+                    <FormattedMessage id="ClubLP.Help.subtitle1" />
                   </span>
                 </p>
                 <p>
-                  <FormattedMessage id="ClubLP.Help.subtitle2"/>
+                  <FormattedMessage id="ClubLP.Help.subtitle2" />
                 </p>
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
@@ -40,9 +40,11 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <b style={{ color: '#E2001A' }}><FormattedMessage id="ClubLP.call.title"/></b>
+                                  <b style={{ color: '#E2001A' }}>
+                                    <FormattedMessage id="ClubLP.Help.call.title" />
+                                  </b>
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.call.content"/>
+                                    <FormattedMessage id="ClubLP.Help.call.content" />
                                   </p>
                                   <div className="rc-margin-top--xs">
                                     <p
@@ -50,7 +52,7 @@ const HelpComponentsNew = (props) => {
                                       className="rc-numeric rc-md-up"
                                     >
                                       <a style={{ color: '#E2001A' }}>
-                                        <FormattedMessage id="ClubLP.Help.call.number"/>
+                                        <FormattedMessage id="ClubLP.Help.call.number" />
                                       </a>
                                     </p>
                                   </div>
@@ -59,7 +61,7 @@ const HelpComponentsNew = (props) => {
                                       style={{ color: '#00BCA3' }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
-                                      <FormattedMessage id="ClubLP.Help.call.mobile.number"/>
+                                      <FormattedMessage id="ClubLP.Help.call.mobile.number" />
                                     </p>
                                   </div>
                                 </div>
@@ -84,9 +86,11 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b style={{ color: '#E2001A' }}><FormattedMessage id="ClubLP.Help.email.title"/></b>
+                                  <b style={{ color: '#E2001A' }}>
+                                    <FormattedMessage id="ClubLP.Help.email.title" />
+                                  </b>
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.email.content"/>
+                                    <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
                                   {TR || RU ? (
                                     <DistributeHubLinkOrATag
@@ -96,7 +100,7 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        <FormattedMessage id="ClubLP.Help.email.address"/>
+                                        <FormattedMessage id="ClubLP.Help.email.address" />
                                       </p>
                                     </DistributeHubLinkOrATag>
                                   ) : (
@@ -131,7 +135,7 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.faq.content"/>
+                                    <FormattedMessage id="ClubLP.Help.faq.content" />
                                   </p>
 
                                   <div className="rc-margin-top--xs">

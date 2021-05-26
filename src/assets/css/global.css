@@ -17699,7 +17699,8 @@ html.rc-nav-open button.rc-menu--xs:after {
 }
 
 .submenu-padding-mobile {
-  padding-left: 2.5rem !important;
+  padding: 12px 16px !important;
+  margin-left: 1rem;
 }
 
 .rc-nav .nav-bottom-banner-mobile {
