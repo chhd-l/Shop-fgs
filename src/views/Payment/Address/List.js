@@ -201,6 +201,32 @@ class AddressList extends React.Component {
    * 会员确认地址列表信息，并展示封面
    */
   clickConfirmAddressPanel = async () => {
+    const { selectedId, addressList, addressErrMsg } = this.state;
+    const tmpObj =
+      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // 判断地址完整性
+    const laddf = this.props.configStore.localAddressForm;
+    let dfarr = laddf.settings;
+    dfarr = dfarr.filter(
+      (item) => item.enableFlag == 1 && item.requiredFlag == 1
+    );
+    let errMsgArr = [];
+    dfarr.forEach((v, i) => {
+      // state 对应数据库字段 province
+      v.fieldKey == 'state' ? (v.fieldKey = 'province') : v.fieldKey;
+      // region 对应数据库字段 area
+      v.fieldKey == 'region' ? (v.fieldKey = 'area') : v.fieldKey;
+      let fky = addressErrMsg[v.fieldKey];
+      tmpObj[v.fieldKey] ? '' : errMsgArr.push(fky);
+    });
+    errMsgArr = errMsgArr.join(', ');
+    // 如果地址字段有缺失，提示错误信息
+    if (errMsgArr.length) {
+      this.showErrMsg(addressErrMsg['title'] + errMsgArr);
+      return;
+    }
+
     this.updateSelectedData('confirm');
     if (process.env.REACT_APP_COUNTRY != 'RU') {
       this.confirmToNextPanel();
@@ -211,7 +237,6 @@ class AddressList extends React.Component {
     const { selectedId, addressList, addressErrMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       // 判断地址完整性
