@@ -280,8 +280,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -1558,6 +1559,10 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     });
+    let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
+    if (tokenObj.accessToken) {
+      param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
+    }
     console.log('★★★★★★ 1548 封装下单参数: ', param);
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
@@ -3172,8 +3177,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
