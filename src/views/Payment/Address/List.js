@@ -211,7 +211,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList, addressErrMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       // 判断地址完整性
@@ -526,7 +526,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       // if (data?.calculationStatus) {
@@ -561,7 +561,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getRussiaAddressValidFlag = (flag) => {
-    console.log(flag);
+    // console.log(flag);
     this.setState({
       russiaAddressValid: flag
     });
