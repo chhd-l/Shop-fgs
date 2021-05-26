@@ -309,6 +309,7 @@ class AccountProfile extends React.Component {
                       updateEditOperationPanelName={
                         this.updateEditOperationPanelName
                       }
+                      // 此入口总是要email phone
                       needEmail={true}
                       needPhone={true}
                     />
