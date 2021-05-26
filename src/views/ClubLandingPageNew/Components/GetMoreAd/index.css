@@ -9,10 +9,16 @@
   .widthsmall {
     width: 80vw;
     margin-left: 7vw;
-    height: 40vh;
+    height: 50vh;
   }
   .marginleftLogo {
     margin-left: 3vw;
+  }
+  .fontwidth{
+    width: 40vw;
+  }
+  .buttonmargintop{
+    transform: translateY(7vh);
   }
 }
 

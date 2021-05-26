@@ -37,11 +37,12 @@ const LongBanner = () => {
                 style={{ marginBottom: '0px' }}
               >
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight"
                   style={{
                     marginLeft: '13vw',
                     marginTop: '30px',
-                    marginBottom: '0px'
+                    marginBottom: '0px',
+
                   }}
                 >
                   <p
@@ -69,7 +70,6 @@ const LongBanner = () => {
                   <p
                     style={{
                       color: '#ffffff',
-                      marginLeft: '40px',
                       marginBottom: '0px'
                     }}
                   >

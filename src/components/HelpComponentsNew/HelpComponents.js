@@ -40,7 +40,7 @@ const HelpComponentsNew = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <b style={{ color: '#E2001A' }}><FormattedMessage id="ClubLP.call.title"/></b>
+                                  <b style={{ color: '#E2001A' }}><FormattedMessage id="ClubLP.Help.call.title"/></b>
                                   <p>
                                     <FormattedMessage id="ClubLP.Help.call.content"/>
                                   </p>
