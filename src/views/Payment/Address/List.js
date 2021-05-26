@@ -213,12 +213,13 @@ class AddressList extends React.Component {
     );
     let errMsgArr = [];
     dfarr.forEach((v, i) => {
+      let akey = v.fieldKey;
       // state 对应数据库字段 province
-      v.fieldKey == 'state' ? (v.fieldKey = 'province') : v.fieldKey;
+      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
       // region 对应数据库字段 area
-      v.fieldKey == 'region' ? (v.fieldKey = 'area') : v.fieldKey;
-      let fky = addressErrMsg[v.fieldKey];
-      tmpObj[v.fieldKey] ? '' : errMsgArr.push(fky);
+      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      let fky = addressErrMsg[akey];
+      tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
