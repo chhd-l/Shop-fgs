@@ -40,20 +40,12 @@ const ChangeProduct = () => {
     recommendationVisibleLoading,
     setRecommendationVisibleLoading
   ] = useState(true);
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
-  const [currentUnitPrice, setCurrentUnitPrice] = useState({});
-  const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
-    {}
-  );
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
     frequencyName: '',
     frequencyId: -1
   });
-  const [stock, setStock] = useState(0);
   useEffect(() => {
     (async () => {
       await getFrequencyDict().then((res) => {
@@ -103,210 +95,11 @@ const ChangeProduct = () => {
       setDetails(newDetails);
       setGoodsDetails(res.context);
       cb && cb(res);
-
-      return;
-      let petType = 'Cat';
-      let foodType = 'Dry';
-      if (res && res.context?.goodsAttributesValueRelList) {
-        res.context.goodsAttributesValueRelList.forEach((item, idx) => {
-          if (item.goodsAttributeName == 'Lifestages') {
-            petType =
-              item.goodsAttributeValue.split('_') &&
-              item.goodsAttributeValue.split('_')[1];
-          }
-          if (item.goodsAttributeName == 'Technology') {
-            foodType = item.goodsAttributeValue;
-          }
-        });
-      }
-      let sizeList = [];
-      let goodsInfos = res.context.goodsInfos || [];
-      if (res && res.context && res.context.goodsSpecDetails) {
-        let specList = res.context.goodsSpecs || [];
-        let foodFllType = `${foodType} ${petType} Food`;
-        let specDetailList = res.context.goodsSpecDetails;
-
-        specList.map((sItem, index) => {
-          sItem.chidren = specDetailList.filter((sdItem, i) => {
-            if (index === 0) {
-              let filterproducts = goodsInfos.filter((goodEl) =>
-                goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-              );
-              sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-              sdItem.isEmpty = filterproducts.every((item) => item.stock === 0);
-              sdItem.isClub = filterproducts.every(
-                (item) =>
-                  // item.promotions=='club'&&
-                  item.subscriptionStatus === 1 && item.subscriptionPrice > 0
-              );
-              console.info('sdItem.isEmpty', sdItem.isEmpty);
-
-              // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-            }
-            return sdItem.specId === sItem.specId;
-          });
-          let defaultSelcetdSku = -1;
-          if (defaultSelcetdSku > -1) {
-            // 默认选择该sku
-            if (
-              !sItem.chidren[defaultSelcetdSku].isEmpty &&
-              sItem.chidren[defaultSelcetdSku]?.isClub
-            ) {
-              // 如果是sku进来的，需要默认当前sku被选择
-              sItem.chidren[defaultSelcetdSku].selected = true;
-            }
-          } else {
-            if (
-              process.env.REACT_APP_COUNTRY === 'DE' &&
-              sItem.chidren.length > 1 &&
-              !sItem.chidren[1].isEmpty &&
-              sItem.chidren[1].isClub
-            ) {
-              sItem.chidren[1].selected = true;
-            } else if (
-              sItem.chidren.length > 1 &&
-              !sItem.chidren[1].isEmpty &&
-              sItem.chidren[1].isClub
-            ) {
-              sItem.chidren[1].selected = true;
-            } else {
-              for (let i = 0; i < sItem.chidren.length; i++) {
-                if (sItem.chidren[i].isEmpty || !sItem.chidren[i].isClub) {
-                } else {
-                  sItem.chidren[i].selected = true;
-                  break;
-                }
-              }
-            }
-          }
-
-          return sItem;
-        });
-        sizeList = goodsInfos.map((g, i) => {
-          // g = Object.assign({}, g, { selected: false });
-          g = Object.assign({}, g, {
-            selected: i === 0
-          });
-          if (g.selected && !g.subscriptionStatus) {
-            let newForm = form;
-            newForm.buyWay = 0;
-            setForm(newForm);
-          }
-          return g;
-        });
-
-        const goodSize = specList.map((item) =>
-          item.chidren.find((good) => good.selected)
-        )?.[0]?.detailName;
-        let newImages = [];
-        newImages = res.context.goodsInfos;
-        setSpecList(specList);
-        let newDetails = Object.assign({}, details, res.context.goods, {
-          promotions: res.context.goods?.promotions?.toLowerCase(),
-          sizeList,
-          goodsInfos: res.context.goodsInfos,
-          goodsSpecDetails: res.context.goodsSpecDetails,
-          goodsSpecs: res.context.goodsSpecs,
-          goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
-        });
-        setDetails(newDetails);
-        setGoodsDetails(res.context);
-        //  todo
-        // matchGoods();
-      } else {
-        let sizeList = [];
-        let foodFllType = `${foodType} ${petType} Food`;
-        let goodsInfos = res.context.goodsInfos || [];
-        sizeList = goodsInfos.map((g, i) => {
-          g = Object.assign({}, g, {
-            selected: i === 0
-          });
-          if (g.selected && !g.subscriptionStatus) {
-            let newForm = form;
-            newForm.buyWay = 0;
-            setForm(newForm);
-          }
-          return g;
-        });
-        let newDetails = Object.assign({}, details, res.context.goods, {
-          promotions: res.context.goods?.promotions?.toLowerCase(),
-          sizeList,
-          goodsInfos: res.context.goodsInfos,
-          goodsSpecDetails: res.context.goodsSpecDetails,
-          goodsSpecs: res.context.goodsSpecs,
-          goodsAttributesValueRelList: res.context.goodsAttributesValueRelList
-        });
-        setDetails(newDetails);
-        // 设置完了之后才能重新bundle  todo
-        // bundleMatchGoods({ details: newDetails });
-        // 没有规格的情况
-        // this.setState({
-        //   errMsg: <FormattedMessage id="details.errMsg" />
-        // });
-      }
     } catch (err) {
       console.info('.....', err);
     }
   };
 
-  const matchGoods = () => {
-    let newCurrentSubscriptionPrice = currentSubscriptionPrice;
-    let newCurrentSubscriptionStatus = currentSubscriptionStatus;
-    let selectedArr = [];
-    let idArr = [];
-    specList.map((el) => {
-      if (el.chidren.filter((item) => item.selected).length) {
-        selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-      }
-      return el;
-    });
-    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    idArr = selectedArr.map((el) => el.specDetailId);
-    //marketprice需要取sku的（goodsinfo是sku），不然有时候spu（goods里面）会没值
-    let currentUnitPrice = details?.goodsInfos?.[0]?.marketPrice;
-    details.sizeList?.map((item, i) => {
-      let specTextArr = [];
-      for (let specItem of specList) {
-        for (let specDetailItem of specItem.chidren) {
-          if (
-            item.mockSpecIds.includes(specDetailItem.specId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            specTextArr.push(specDetailItem.detailName);
-          }
-        }
-      }
-      item.specText = specTextArr.join(' ');
-      if (unique(item.mockSpecDetailIds).sort().join(',') === idArr.join(',')) {
-        item.selected = true;
-        currentUnitPrice = item.salePrice;
-        newCurrentSubscriptionPrice = item.subscriptionPrice;
-        newCurrentSubscriptionStatus = item.subscriptionStatus; //subscriptionStatus 是否订阅商品
-        stock = item.stock;
-      } else {
-        item.selected = false;
-      }
-
-      return item;
-    });
-    // setDetails(details)
-    setStock(stock);
-    setCurrentUnitPrice(currentUnitPrice);
-    setCurrentSubscriptionPrice(newCurrentSubscriptionPrice);
-    setCurrentSubscriptionStatus(newCurrentSubscriptionStatus);
-  };
-  const bundleMatchGoods = ({ details }) => {
-    let currentUnitPrice = details.goodsInfos[0].salePrice;
-    let currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
-    let currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
-    stock = details.goodsInfos[0].stock;
-    details.sizeList[0].selected = true;
-    setDetails(details);
-    setStock(stock);
-    setCurrentUnitPrice(currentUnitPrice);
-    setCurrentSubscriptionPrice(currentSubscriptionPrice);
-    setCurrentSubscriptionStatus(currentSubscriptionStatus);
-  };
   const queryProductDetails = async ({ id, cb, mainProductDetails }) => {
     if (mainProductDetails) {
       productDetailsInit(mainProductDetails, cb);
@@ -346,22 +139,15 @@ const ChangeProduct = () => {
     });
   };
   const propsObj = {
-    specList,
-    setSpecList,
-    matchGoods,
     goodsDetails,
     details,
     showProdutctDetail,
     setDetails,
-    currentSubscriptionPrice,
-    setCurrentSubscriptionPrice,
     form,
     initMainProduct,
     setForm,
-    stock,
     setMainProductDetails,
     queryProductDetails,
-    setStock,
     showModalArr,
     currentGoodsItems,
     setCurrentGoodsItems,

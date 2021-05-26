@@ -13,30 +13,29 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
   details: any,
-  updatedSku: Function
+  updatedSku: Function,
+  updatedPriceOrCode: Function
 }
 
-const HandledSpec = ({ details, updatedSku }: Props) => {
+const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
   
   const {goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo} = details
   const [sizeList, setSizeList] = useState([]);
-  console.log(details, goodsSpecs, 'details1111')
 
-  const getBarcode = () => {
-    let selectGoodSize: string = ''
-    goodsSpecs.map((item: any) => {
-      if(item.chidren.find((good: any) => good.selected)) {
-        selectGoodSize = item?.detailName
-      }
-    })
-    const selectPrice = goodsInfos.find(
-      (item: any) => item.packSize == selectGoodSize
-    )?.marketPrice;
-    const goodsInfoBarcode =
-      goodsInfos.find((item: any) => item.packSize === selectGoodSize)
-        ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-  }
+  // const getPriceOrCode = () => {
+  //   const selectGoodSize = goodsSpecs.map((item: any) =>
+  //     item.chidren.find((good: any) => good.selected)
+  //   )?.[0]?.detailName;
+  //   console.log(goodsSpecs, selectGoodSize, 'goodsSpecs')
+  //   const selectPrice = goodsInfos.find(
+  //     (item: any) => item.packSize == selectGoodSize
+  //   )?.marketPrice;
+  //   const goodsInfoBarcode =
+  //     goodsInfos.find((item: any) => item.packSize === selectGoodSize)
+  //       ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+  //   const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+  //   updatedPriceOrCode(selectPrice, barcode)
+  // }
   const matchGoods = () => {
     // let {
     //   specList,
@@ -56,7 +55,9 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
       currentSubscriptionStatus: 0,
       defaultPurchaseType: 0,
       stock: 0,
-      skuPromotions: 0
+      skuPromotions: 0,
+      selectPrice:0,
+      barcode:''
     }
   
     let selectedArr:any[] = [];
@@ -109,6 +110,19 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
     //     ? (form.buyWay = 2)
     //     : (form.buyWay = 1)
     //   : (form.buyWay = 0);
+
+    const selectGoodSize = goodsSpecs.map((item: any) =>
+      item.chidren.find((good: any) => good.selected)
+    )?.[0]?.detailName;
+    const selectPrice = goodsInfos.find(
+      (item: any) => item.packSize == selectGoodSize
+    )?.marketPrice;
+    const goodsInfoBarcode =
+      goodsInfos.find((item: any) => item.packSize === selectGoodSize)
+        ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
+    const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+    handledValues.selectPrice =selectPrice;
+    handledValues.barcode=barcode;
     updatedSku(handledValues, sizeList)
   }
   const bundleMatchGoods = () => {
@@ -132,6 +146,9 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
   }
 
   const handleChooseSize = (sId: any, sdId: any) => {
+    let handledValues = {
+      barcode:''
+    }
     goodsSpecs
       .filter((item: any) => item.specId === sId)[0]
       .chidren.map((item: any) => {
@@ -147,11 +164,12 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
     )?.[0]?.detailName;
     const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
       ?.goodsInfoBarcode;
+      handledValues.barcode=barcode;
+    updatedSku(handledValues)
     matchGoods()
   }
-  
+
   useEffect(() => {
-    console.log(details, 'details1111')
         let choosedSpecsArr: any[] = [];
         let sizeList = [];
         if (isSkuNoQuery) {
@@ -236,6 +254,7 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
     if(sizeList.length) {
       if(goodsSpecDetails) {
         matchGoods()
+        // getPriceOrCode()
       }else {
         bundleMatchGoods()
       }
