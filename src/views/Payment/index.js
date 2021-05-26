@@ -1572,7 +1572,11 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     });
-    // console.log('★★★★★★ 1548 封装下单参数: ', param);
+    let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
+    if (tokenObj.accessToken) {
+      param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
+    }
+    console.log('★★★★★★ 1548 封装下单参数: ', param);
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
     //   phone: creditCardInfo?.phoneNumber,

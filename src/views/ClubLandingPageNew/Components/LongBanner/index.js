@@ -6,24 +6,35 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 
-const SubscriptionItems=[
+const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
-    SubscriptionTitle:<FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />,
-    SubscriptionContent:<FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" />,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+    ),
+    SubscriptionContent: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" />
+    )
   },
   {
     SubscriptionImg: benefitstwo,
-    SubscriptionTitle:<FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />,
-    SubscriptionContent:<FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" />,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+    ),
+    SubscriptionContent: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" />
+    )
   },
   {
     SubscriptionImg: benefitsthree,
-    SubscriptionTitle:<FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />,
-    SubscriptionContent:<FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" />,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+    ),
+    SubscriptionContent: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" />
+    )
   }
 ];
-
 
 const LongBanner = () => {
   return (
@@ -41,8 +52,7 @@ const LongBanner = () => {
                   style={{
                     marginLeft: '13vw',
                     marginTop: '30px',
-                    marginBottom: '0px',
-
+                    marginBottom: '0px'
                   }}
                 >
                   <p
@@ -52,10 +62,13 @@ const LongBanner = () => {
                       fontWeight: 'bold'
                     }}
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.title" values={{val1:<br />,val2:<br/>}}></FormattedMessage>
+                    <FormattedMessage
+                      id="ClubLP.LongBanner.title"
+                      values={{ val1: <br />, val2: <br /> }}
+                    ></FormattedMessage>
                   </p>
                   <p style={{ fontSize: '0.7em', color: '#ffffff' }}>
-                    <FormattedMessage id="ClubLP.LongBanner.content"/>
+                    <FormattedMessage id="ClubLP.LongBanner.content" />
                   </p>
                   <button
                     style={{
@@ -65,7 +78,7 @@ const LongBanner = () => {
                     }}
                     className="rc-btn rc-btn--one"
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.button"/>
+                    <FormattedMessage id="ClubLP.LongBanner.button" />
                   </button>
                   <p
                     style={{
@@ -73,14 +86,14 @@ const LongBanner = () => {
                       marginBottom: '0px'
                     }}
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.content2"/>
+                    <FormattedMessage id="ClubLP.LongBanner.content2" />
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems}/>
+        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} />
       </div>
     </>
   );

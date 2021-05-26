@@ -8,83 +8,80 @@ import howitworknewmobile1 from './image/howitworksmobile1.png';
 import howitworknewmobile2 from './image/howitworksmobile2.png';
 import howitworknewmobile3 from './image/howitworksmobile3.png';
 import howitworknewmobile4 from './image/howitworksmobile4.png';
-import ruhowitworknew1 from './image/ruhowitworksnew1.png'
-import ruhowitworknew2 from './image/ruhowitworksnew2.png'
-import ruhowitworknew3 from './image/ruhowitworksnew3.png'
-import ruhowitworknew4 from './image/ruhowitworksnew4.png'
-import ruhowitworknewmobile1 from './image/ruhowitworksmobile1.png'
-import ruhowitworknewmobile2 from './image/ruhowitworksmobile1.png'
-import ruhowitworknewmobile3 from './image/ruhowitworksmobile1.png'
-import ruhowitworknewmobile4 from './image/ruhowitworksmobile1.png'
+import ruhowitworknew1 from './image/ruhowitworksnew1.png';
+import ruhowitworknew2 from './image/ruhowitworksnew2.png';
+import ruhowitworknew3 from './image/ruhowitworksnew3.png';
+import ruhowitworknew4 from './image/ruhowitworksnew4.png';
+import ruhowitworknewmobile1 from './image/ruhowitworksmobile1.png';
+import ruhowitworknewmobile2 from './image/ruhowitworksmobile1.png';
+import ruhowitworknewmobile3 from './image/ruhowitworksmobile1.png';
+import ruhowitworknewmobile4 from './image/ruhowitworksmobile1.png';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 
 //写的不好好aaaaaaaa
 
 //Ru Image
-const RuhowitworksnewList=[
+const RuhowitworksnewList = [
   {
-    HowitworksStep:ruhowitworknew1,
+    HowitworksStep: ruhowitworknew1
   },
   {
-    HowitworksStep:ruhowitworknew2,
+    HowitworksStep: ruhowitworknew2
   },
   {
-    HowitworksStep:ruhowitworknew3,
+    HowitworksStep: ruhowitworknew3
   },
   {
-    HowitworksStep:ruhowitworknew4,
-  },
-]
+    HowitworksStep: ruhowitworknew4
+  }
+];
 
-const RuhowitworksnewListmobile=[
+const RuhowitworksnewListmobile = [
   {
-    HowitworksStep:ruhowitworknewmobile1,
+    HowitworksStep: ruhowitworknewmobile1
   },
   {
-    HowitworksStep:ruhowitworknewmobile2,
+    HowitworksStep: ruhowitworknewmobile2
   },
   {
-    HowitworksStep:ruhowitworknewmobile3,
+    HowitworksStep: ruhowitworknewmobile3
   },
   {
-    HowitworksStep:ruhowitworknewmobile4,
-  },
-]
-
-
+    HowitworksStep: ruhowitworknewmobile4
+  }
+];
 
 // En Image
-const EnhowitworksnewList=[
+const EnhowitworksnewList = [
   {
-    HowitworksStep:howitworknew1,
+    HowitworksStep: howitworknew1
   },
   {
-    HowitworksStep:howitworknew2,
+    HowitworksStep: howitworknew2
   },
   {
-    HowitworksStep:howitworknew3,
+    HowitworksStep: howitworknew3
   },
   {
-    HowitworksStep:howitworknew4,
-  },
-]
+    HowitworksStep: howitworknew4
+  }
+];
 
-const EnhowitworksnewListmobile=[
+const EnhowitworksnewListmobile = [
   {
-    HowitworksStep:howitworknewmobile1,
+    HowitworksStep: howitworknewmobile1
   },
   {
-    HowitworksStep:howitworknewmobile2,
+    HowitworksStep: howitworknewmobile2
   },
   {
-    HowitworksStep:howitworknewmobile3,
+    HowitworksStep: howitworknewmobile3
   },
   {
-    HowitworksStep:howitworknewmobile4,
-  },
-]
-
+    HowitworksStep: howitworknewmobile4
+  }
+];
 
 const RU = process.env.REACT_APP_COUNTRY == 'RU';
 const TR = process.env.REACT_APP_COUNTRY == 'TR';
@@ -99,7 +96,7 @@ const HowItWorksNew = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <FormattedMessage id="ClubLP.NewHowItWorks.title"/>
+                  <FormattedMessage id="ClubLP.NewHowItWorks.title" />
                 </h4>
               </div>
               {/*这里手机移动适配写得不好,有空再改*/}
@@ -108,49 +105,59 @@ const HowItWorksNew = () => {
                   style={{ display: 'flex', justifyContent: 'space-around' }}
                   className="flexwrapHow "
                 >
-
-                  {
-                    RU?RuhowitworksnewList.map(step=>(
+                  {RU
+                    ? RuhowitworksnewList.map((step) => (
+                        <div>
+                          <LazyLoad height={180}>
+                            <img
+                              className="w-90 lazyloaded desktopnone"
+                              src={step.HowitworksStep}
+                            />
+                          </LazyLoad>
+                        </div>
+                      ))
+                    : TR
+                    ? null
+                    : FR
+                    ? null
+                    : EnhowitworksnewList.map((step) => (
+                        <div>
+                          <LazyLoad height={180}>
+                            <img
+                              className="w-90 lazyloaded desktopnone"
+                              src={step.HowitworksStep}
+                            />
+                          </LazyLoad>
+                        </div>
+                      ))}
+                </div>
+              </div>
+              <div className="mobilenone">
+                {RU
+                  ? RuhowitworksnewListmobile.map((step) => (
                       <div>
                         <LazyLoad height={180}>
                           <img
-                            className="w-90 lazyloaded desktopnone"
+                            className="w-90 lazyloaded"
                             src={step.HowitworksStep}
                           />
                         </LazyLoad>
                       </div>
-                    )):TR?null:FR?null:
-                    EnhowitworksnewList.map(step=>(
-                    <div>
-                    <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded desktopnone"
-                        src={step.HowitworksStep}
-                      />
-                    </LazyLoad>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mobilenone">
-                {
-                  RU?RuhowitworksnewListmobile.map(step=>(<div>
-                    <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded"
-                        src={step.HowitworksStep}
-                      />
-                    </LazyLoad>
-                  </div>)):TR?null:FR?null:
-                  EnhowitworksnewListmobile.map(step=>(<div>
-                  <LazyLoad height={180}>
-                    <img
-                      className="w-90 lazyloaded"
-                      src={step.HowitworksStep}
-                    />
-                  </LazyLoad>
-                </div>))}
-
+                    ))
+                  : TR
+                  ? null
+                  : FR
+                  ? null
+                  : EnhowitworksnewListmobile.map((step) => (
+                      <div>
+                        <LazyLoad height={180}>
+                          <img
+                            className="w-90 lazyloaded"
+                            src={step.HowitworksStep}
+                          />
+                        </LazyLoad>
+                      </div>
+                    ))}
               </div>
             </div>
           </div>

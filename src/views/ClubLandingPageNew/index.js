@@ -48,7 +48,6 @@ function Divider() {
   );
 }
 
-
 class ClubLandingPageNew extends React.Component {
   constructor(props) {
     super(props);
@@ -183,7 +182,9 @@ class ClubLandingPageNew extends React.Component {
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
                     <div className="rc-alpha inherit-fontsize">
-                      <h1><FormattedMessage id="ClubLP.Advantage.title"/></h1>
+                      <h1>
+                        <FormattedMessage id="ClubLP.Advantage.title" />
+                      </h1>
                     </div>
                   </div>
                 </div>
@@ -201,19 +202,19 @@ class ClubLandingPageNew extends React.Component {
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content1"/>
+                              <FormattedMessage id="ClubLP.Advantage.content1" />
                             </li>
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content2"/>
+                              <FormattedMessage id="ClubLP.Advantage.content2" />
                             </li>
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content3"/>
+                              <FormattedMessage id="ClubLP.Advantage.content3" />
                             </li>
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content4"/>
+                              <FormattedMessage id="ClubLP.Advantage.content4" />
                             </li>
                           </ul>
                           <br />
@@ -221,7 +222,7 @@ class ClubLandingPageNew extends React.Component {
                           <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
                             <Link to="/cats/vet-products">
                               <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
-                                  <FormattedMessage id="ClubLP.Advantage.button"/>
+                                <FormattedMessage id="ClubLP.Advantage.button" />
                               </button>
                             </Link>
                           </div>
