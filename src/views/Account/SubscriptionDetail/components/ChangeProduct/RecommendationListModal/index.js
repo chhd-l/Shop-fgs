@@ -50,10 +50,7 @@ const RecommendationListModal = ({ intl }) => {
         if (theSameProduct?.spuNo) {
           // 如果主商品有同样的spu，需要直接不展示所有推荐商品
           setProductDetail({});
-          cb && cb({}); //?????
-          //   this.setState({ productDetail: {} }, () => {
-          //     cb && cb();
-          //   });
+          cb && cb({});
           return;
         }
         let currentSpus = currentGoodsItems?.map((el) => el.spuNo);
@@ -87,17 +84,6 @@ const RecommendationListModal = ({ intl }) => {
       };
       setProductDetail(newProductDetail);
       cb && cb({ newProductDetail });
-      //   this.setState(
-      //     {
-      //       productDetail: {
-      //         otherProducts,
-      //         mainProduct
-      //       }
-      //     },
-      //     () => {
-      //       cb && cb();
-      //     }
-      //   );
     } catch (err) {
       console.info('....', err);
       showErrMsgs(err && err.message, 'errMsgPage');
