@@ -238,6 +238,7 @@ const HandledSpec = ({ details, updatedSku }: Props) => {
         matchGoods()
       }else {
         bundleMatchGoods()
+        
       }
     }
   }, [sizeList])
