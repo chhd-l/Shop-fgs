@@ -477,7 +477,18 @@ class Payment extends React.Component {
         house: this.props.intl.messages['payment.house'],
         city: this.props.intl.messages['payment.city'],
         districtCode: this.props.intl.messages['payment.privince'],
-        settlement: this.props.intl.messages['payment.settlement']
+        settlement: this.props.intl.messages['payment.settlement'],
+        address1: this.props.intl.messages['payment.address1'],
+        address2: this.props.intl.messages['payment.address2'],
+        apartment: this.props.intl.messages['payment.apartment'],
+        comment: this.props.intl.messages['payment.comment'],
+        country: this.props.intl.messages['payment.country'],
+        entrance: this.props.intl.messages['payment.entrance'],
+        firstName: this.props.intl.messages['payment.firstName'],
+        lastName: this.props.intl.messages['payment.lastName'],
+        phoneNumber: this.props.intl.messages['payment.phoneNumber'],
+        area: this.props.intl.messages['payment.region'],
+        province: this.props.intl.messages['payment.state']
       }
     });
     try {
