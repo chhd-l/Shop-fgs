@@ -1573,7 +1573,7 @@ class Payment extends React.Component {
       guestEmail
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
-    if (tokenObj.accessToken) {
+    if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
     console.log('★★★★★★ 1548 封装下单参数: ', param);
