@@ -509,7 +509,7 @@ class Payment extends React.Component {
         postCode: this.props.intl.messages['payment.postCode'],
         house: this.props.intl.messages['payment.house'],
         city: this.props.intl.messages['payment.city'],
-        districtCode: this.props.intl.messages['payment.privince'],
+        districtCode: this.props.intl.messages['payment.province'],
         settlement: this.props.intl.messages['payment.settlement'],
         address1: this.props.intl.messages['payment.address1'],
         address2: this.props.intl.messages['payment.address2'],
@@ -1573,7 +1573,7 @@ class Payment extends React.Component {
       guestEmail
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
-    if (tokenObj.accessToken) {
+    if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
     console.log('★★★★★★ 1548 封装下单参数: ', param);
