@@ -813,7 +813,7 @@ const en_US = {
   'payment.pleaseInput': 'Please input: ',
   'payment.streets': 'streets',
   'payment.house': 'house',
-  'payment.privince': 'privince',
+  'payment.province': 'province',
   'payment.settlement': 'settlement',
   'payment.wrongAddress':
     'Please enter your address in the delivery area of the online store. You can see the "partial help" of the delivery terms on the page',
@@ -1413,7 +1413,5 @@ const en_US = {
   'ClubLP.Help.email.address': 'Send us an Email',
   'ClubLP.Help.faq.content':
     'Send us an EmailYou can check our FAQ section to see if your question has already been answered'
-
-  //NewLandingpage
 };
 export default en_US;

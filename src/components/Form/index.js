@@ -883,7 +883,7 @@ class Form extends React.Component {
     // postalCode               postCode  √
     // house                    house     √
     // city                     city      √
-    // districtCode             privince
+    // districtCode             province
     // settlement               settlement
     let errArr = [];
     let streets = this.getIntlMsg('payment.streets'),

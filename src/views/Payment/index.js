@@ -476,7 +476,7 @@ class Payment extends React.Component {
         postCode: this.props.intl.messages['payment.postCode'],
         house: this.props.intl.messages['payment.house'],
         city: this.props.intl.messages['payment.city'],
-        districtCode: this.props.intl.messages['payment.privince'],
+        districtCode: this.props.intl.messages['payment.province'],
         settlement: this.props.intl.messages['payment.settlement'],
         address1: this.props.intl.messages['payment.address1'],
         address2: this.props.intl.messages['payment.address2'],
