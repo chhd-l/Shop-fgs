@@ -85,10 +85,10 @@ export default class InstallmentTable extends React.Component {
                         </div>
                       </td>
                       <td className="rc-table__td">
-                        {i ? (
+                        {item.installmentNumber > 1 ? (
                           <FormattedMessage
                             id="installMent.xInstallMents"
-                            values={{ num: i + 1 }}
+                            values={{ num: item.installmentNumber }}
                           />
                         ) : (
                           <FormattedMessage id="installMent.oneShot" />

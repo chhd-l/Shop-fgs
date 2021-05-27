@@ -30,7 +30,7 @@ const ru_RU = {
   'account.catOrDog': 'У тебя есть кошка или собака?',
   'account.dateTip': 'Пожалуйста, выберите прошедшую дату.',
   'account.deleteMyaccountDesc':
-    'как только ваш аккаунт будет удален, вы не сможете использовать этот аккаунт для доступа к сервису Royal Canin.',
+    'В этом случае Вы не сможете пользоваться сервисами ROYAL CANIN®. Доступ к Клубной программе и подписке на ветеринарные диеты будет закрыт, а история покупок будет удалена.',
   'account.deleteMyaccountTitle': 'Удалить аккаунт',
   'account.dog': 'Собака',
   'account.Email': 'Е-mail адрес',
@@ -693,8 +693,8 @@ const ru_RU = {
   'payment.pleaseInput': 'Пожалуйста, укажите: ',
   'payment.streets': 'Улица',
   'payment.house': 'Дом',
-  'payment.privince': 'privince',
-  'payment.settlement': 'settlement',
+  'payment.province': 'провинция',
+  'payment.settlement': 'решение',
   'payment.wrongAddress':
     'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" в разделе "Помощь"',
   'payment.postCode2': 'Почтовый Код',

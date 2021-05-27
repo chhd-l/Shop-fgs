@@ -394,13 +394,13 @@ class Recommendation extends React.Component {
           recommendationInfos
         );
         // getPrescriptionById({ id: res.context.prescriberId }).then((res2) => {
-        // if (!isRu || !isFr) {
-        //   this.props.clinicStore.setLinkClinicId(
-        //     res.context?.id || res.context.prescriberId
-        //   );
-        //   // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
-        //   this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        // }
+        if (!isRu || !isFr) {
+          this.props.clinicStore.setLinkClinicId(
+            res.context?.id || res.context.prescriberId
+          );
+          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+        }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
         // });
@@ -440,11 +440,11 @@ class Recommendation extends React.Component {
       this.props.clinicStore.setLinkClinicRecommendationInfos(
         recommendationInfos
       );
-      // this.props.clinicStore.setLinkClinicId(
-      //   res.context?.id || res.context?.prescriberId
-      // );
+      this.props.clinicStore.setLinkClinicId(
+        res.context?.id || res.context?.prescriberId
+      );
       // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
-      // this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
+      this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
     });

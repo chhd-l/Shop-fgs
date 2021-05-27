@@ -17,6 +17,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
 /**
  * address list(delivery/billing) - member
  */
@@ -82,7 +83,7 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      addressErrMsg: null
+      wrongAddressMsg: null
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -104,9 +105,9 @@ class AddressList extends React.Component {
     });
     this.queryAddressList({ init: true });
     this.setState({
-      listBtnLoading: false
+      listBtnLoading: false,
+      wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
     });
-    // console.log(' -------------- List: ', this.props.ref);
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -180,8 +181,7 @@ class AddressList extends React.Component {
         {
           addressList,
           addOrEdit: !addressList.length,
-          selectedId: tmpId,
-          addressErrMsg: this.props.wrongAddressMsg
+          selectedId: tmpId
         },
         () => {
           // this.updateSelectedData();
@@ -201,7 +201,7 @@ class AddressList extends React.Component {
    * 会员确认地址列表信息，并展示封面
    */
   clickConfirmAddressPanel = async () => {
-    const { selectedId, addressList, addressErrMsg } = this.state;
+    const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
@@ -212,19 +212,26 @@ class AddressList extends React.Component {
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
     );
     let errMsgArr = [];
+    console.log(
+      '215',
+      ' -------------- List wrongAddressMsg: ',
+      wrongAddressMsg
+    );
     dfarr.forEach((v, i) => {
       let akey = v.fieldKey;
       // state 对应数据库字段 province
       v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
-      let fky = addressErrMsg[akey];
+      console.log('215', ' -------------- List fieldKey: ', v.fieldKey);
+      console.log('215', ' -------------- List akey: ', akey);
+      let fky = wrongAddressMsg[akey];
       tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
     if (errMsgArr.length) {
-      this.showErrMsg(addressErrMsg['title'] + errMsgArr);
+      this.showErrMsg(wrongAddressMsg['title'] + errMsgArr);
       return;
     }
 
@@ -235,16 +242,15 @@ class AddressList extends React.Component {
   };
   // 处理选择的地址数据
   updateSelectedData(str) {
-    const { selectedId, addressList, addressErrMsg } = this.state;
+    const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       // 判断地址完整性
       let errmsg = this.getDuDataAddressErrMsg(tmpObj);
       if (errmsg) {
-        this.showErrMsg(addressErrMsg['title'] + errmsg);
+        this.showErrMsg(wrongAddressMsg['title'] + errmsg);
       } else {
         this.setState({
           validationLoading: true
@@ -263,17 +269,21 @@ class AddressList extends React.Component {
   }
   // 处理地址信息，拼装errMsg
   getDuDataAddressErrMsg = (data) => {
-    const { addressErrMsg } = this.state;
+    const { wrongAddressMsg } = this.state;
     let errArr = [];
-    let streets = addressErrMsg['streets'],
-      postCode = addressErrMsg['postCode'],
-      house = addressErrMsg['house'],
-      city = addressErrMsg['city'];
+    let streets = wrongAddressMsg['streets'],
+      postCode = wrongAddressMsg['postCode'],
+      house = wrongAddressMsg['house'],
+      city = wrongAddressMsg['city'],
+      province = wrongAddressMsg['province'],
+      settlement = wrongAddressMsg['settlement'];
 
     data.street == '' || null ? errArr.push(streets) : '';
     data.postCode == '' || null ? errArr.push(postCode) : '';
     data.house == '' || null ? errArr.push(house) : '';
     data.city == '' || null ? errArr.push(city) : '';
+    data.province == '' || null ? errArr.push(province) : '';
+    data.settlement == '' || null ? errArr.push(settlement) : '';
 
     return errArr.join(',');
   };
@@ -342,13 +352,13 @@ class AddressList extends React.Component {
           this.setState({
             validationLoading: false
           });
-          this.showErrMsg(this.state.addressErrMsg['address']);
+          this.showErrMsg(this.state.wrongAddressMsg['wrongAddress']);
         }
       } else {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.state.addressErrMsg['address']);
+        this.showErrMsg(this.state.wrongAddressMsg['wrongAddress']);
       }
     } catch (err) {
       console.warn(err);
@@ -401,7 +411,7 @@ class AddressList extends React.Component {
         this.setState({
           validationLoading: false
         });
-        this.showErrMsg(this.state.addressErrMsg['address']);
+        this.showErrMsg(this.state.wrongAddressMsg['wrongAddress']);
       }
     } catch (err) {
       console.warn(err);
@@ -555,6 +565,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
+    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;

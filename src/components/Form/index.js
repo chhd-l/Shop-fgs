@@ -883,20 +883,22 @@ class Form extends React.Component {
     // postalCode               postCode  √
     // house                    house     √
     // city                     city      √
-    // districtCode             privince
+    // districtCode             province
     // settlement               settlement
     let errArr = [];
     let streets = this.getIntlMsg('payment.streets'),
       postCode = this.getIntlMsg('payment.postCode'),
       house = this.getIntlMsg('payment.house'),
       city = this.getIntlMsg('payment.city'),
-      districtCode = this.getIntlMsg('payment.privince'),
+      province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
 
     data.street == null ? errArr.push(streets) : null;
     data.postCode == null ? errArr.push(postCode) : null;
     data.house == null ? errArr.push(house) : null;
     data.city == null ? errArr.push(city) : null;
+    data.province == null ? errArr.push(province) : null;
+    data.settlement == null ? errArr.push(settlement) : null;
 
     data.errMsg = errArr.join(',');
     return data;

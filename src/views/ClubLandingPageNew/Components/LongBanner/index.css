@@ -11,6 +11,9 @@
   .margintopmobile {
     margin-top: 200px;
   }
+  .fontheight {
+    height: 25vh;
+  }
 }
 
 @media (min-width: 639.98px) {

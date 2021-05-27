@@ -139,8 +139,14 @@ const GetMoreAd = () => {
                       </div>
                     </div>
 
-                    <div style={{ height: '30vh', display: 'flex' }}>
-                      <div className="rc-column">
+                    <div
+                      style={{
+                        height: '30vh',
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <div className="rc-column" style={{ padding: '0' }}>
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
@@ -170,7 +176,7 @@ const GetMoreAd = () => {
                           </ul>
                         </div>
                       </div>
-                      <div className="rc-column">
+                      <div className="rc-column" style={{ padding: '0' }}>
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
@@ -196,10 +202,10 @@ const GetMoreAd = () => {
                       </div>
                     </div>
                     <br />
-                    <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
+                    <div className=" rc-btn-group m-0 rc-column rc-padding-x--none buttonmargintop">
                       <Link to="/">
                         <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs marginleftButton">
-                          Get started
+                          <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
                       </Link>
                     </div>

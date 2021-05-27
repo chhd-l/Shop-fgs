@@ -1075,7 +1075,7 @@ class PetForm extends React.Component {
                       }}
                     />
                   </div>
-                  <div className="formBox">
+                  <div className="formBox row">
                     <div className="form-group col-lg-6 pull-left required">
                       <InputBox
                         htmlFor="name"

@@ -15,7 +15,8 @@ import {
 } from '@/api/payment';
 import {
   CREDIT_CARD_IMG_ENUM,
-  PAYMENT_METHOD_PAU_ACCOUNT_RULE
+  PAYMENT_METHOD_PAU_ACCOUNT_RULE,
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
 import PaymentEditForm from '@/components/PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -493,7 +494,11 @@ class PaymentList extends React.Component {
                 {/* edit form panel  */}
                 {editFormVisible && (
                   <PaymentEditForm
-                    payuFormRule={PAYMENT_METHOD_PAU_ACCOUNT_RULE}
+                    payuFormRule={
+                      this.props.needEmail && this.props.needPhone
+                        ? PAYMENT_METHOD_PAU_ACCOUNT_RULE
+                        : PAYMENT_METHOD_PAU_CHECKOUT_RULE
+                    }
                     defaultCardTypeVal={this.state.defaultCardTypeVal}
                     backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
