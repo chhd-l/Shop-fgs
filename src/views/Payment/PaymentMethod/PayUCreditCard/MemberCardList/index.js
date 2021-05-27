@@ -369,7 +369,10 @@ class MemberCardList extends React.Component {
         const tmpSelectedId = addRes.context.id;
         let { creditCardList } = this.state;
         creditCardList.map((el) => {
-          el.cardCvv = creditCardInfoForm.cardCvv;
+          if (el.id === tmpSelectedId) {
+            el.cardCvv = creditCardInfoForm.cardCvv;
+          }
+          return el;
         });
         this.setState({
           creditCardList,
