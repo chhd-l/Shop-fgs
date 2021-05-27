@@ -358,7 +358,7 @@ const tr_TR = {
   'forgetPassword.createNewPassword': 'Yeni şifre oluştur',
   'forgetPassword.forgetPasswordTip':
     'Şifreyi değiştirme talimatlarını içeren bir mektup alacaksınız.',
-  freeShipping: '125 TL Üzeri Ücretsiz kargo.',
+  freeShipping: 'Ücretsiz kargo.',
   from: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
@@ -892,7 +892,7 @@ const tr_TR = {
     'Abonelik hizmetimiz ile, evcil hayvanınız için en uygun mama dilediğiniz zaman kapınıza gelsin, hayatınız kolaylaşsın!',
   'subscriptionLanding.description1':
     'Siparişler belirleyeceğiniz sıklıkta teslim edilir',
-  'subscriptionLanding.description2': '125 TL Üzeri Ücretsiz kargo.',
+  'subscriptionLanding.description2': 'Ücretsiz kargo.',
   'subscriptionLanding.description3':
     'Dilediğiniz zaman değişiklik yapma & iptal etme hakkı',
   'subscriptionLanding.description4': 'Ücretsiz beslenme danışma hattı',
@@ -1230,8 +1230,9 @@ const tr_TR = {
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Evcil hayvanınıza uygun beslenme çözümü',
   'ClubLP.LongBanner.SubscriptionContent1':
-    "Evcil hayvanınızın ihtiyaçlarına göre seçilmiş sağlığa yararları bilimsel olarak kanıtlanmış yüksek kaliteli içerikler ",
-  'ClubLP.LongBanner.SubscriptionTitle2': 'Evcil hayvanınızın ihtiyaçlarına uygun beslenme',
+    'Evcil hayvanınızın ihtiyaçlarına göre seçilmiş sağlığa yararları bilimsel olarak kanıtlanmış yüksek kaliteli içerikler ',
+  'ClubLP.LongBanner.SubscriptionTitle2':
+    'Evcil hayvanınızın ihtiyaçlarına uygun beslenme',
   'ClubLP.LongBanner.SubscriptionContent2':
     'Evcil hayvanınızın uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Her zaman doğru porsiyon miktarı',
@@ -1247,10 +1248,8 @@ const tr_TR = {
   'ClubLP.Advantage.content4':
     'Daha düşük karbon ayak izine sahip, daha sürdürülebilir kaynaklardan yüksek kaliteli besin ögeleri',
   'ClubLP.Advantage.button': 'Onun için en doğru beslenmeyi bulun!',
-  'ClubLP.SubscriptionBenefitsNew.title':
-    'HAYATINIZI KOLAYLAŞTIRIYORUZ!',
-  'ClubLP.SubscriptionBenefitsNew.icon1':
-    'Otomatik Gönderim & Ücretsiz Kargo',
+  'ClubLP.SubscriptionBenefitsNew.title': 'HAYATINIZI KOLAYLAŞTIRIYORUZ!',
+  'ClubLP.SubscriptionBenefitsNew.icon1': 'Otomatik Gönderim & Ücretsiz Kargo',
   'ClubLP.SubscriptionBenefitsNew.icon2': 'Her siparişinizde %5 indirim',
   'ClubLP.SubscriptionBenefitsNew.icon3': 'Beslenme danışmanı hizmeti',
   'ClubLP.SubscriptionBenefitsNew.icon4': 'Hoş geldin paketi & özel hediyeler',
@@ -1258,7 +1257,8 @@ const tr_TR = {
     'Evcil hayvanlarınızın ihtiyaçlarına uygun profesyonel beslenme önerileri',
   'ClubLP.SubscriptionBenefitsNew.button': 'Başlayın',
   'ClubLP.NewHowItWorks.title': 'ABONELİK HİZMETİ NASIL ÇALIŞIR?',
-  'ClubLP.NewJoinUs.title': 'EVCİL HAYVANINIZLA TANIŞALIM! / EVCİL HAYVANINIZI ANLATIN!',
+  'ClubLP.NewJoinUs.title':
+    'EVCİL HAYVANINIZLA TANIŞALIM! / EVCİL HAYVANINIZI ANLATIN!',
   'ClubLP.NewJoinUs.content': 'Onun için en uygun mamayı bulalım. ',
   'ClubLP.NewJoinUs.button': 'Başlayın',
   'ClubLP.OurCustomers.title': 'Müşteri görüşleri',
@@ -1275,10 +1275,11 @@ const tr_TR = {
   'ClubLP.GetMoreAd.Club.tip6': 'Hoş geldin paketi ',
   'ClubLP.GetMoreAd.Club.tip7': 'Özel fırsatlar&hizmetler',
   'ClubLP.GetMoreAd.button': 'Başlayın',
-  'ClubLP.Help.title': "Yardıma mı ihtiyacınız var?",
+  'ClubLP.Help.title': 'Yardıma mı ihtiyacınız var?',
   'ClubLP.Help.subtitle1':
     'Ekibimiz sorularınızı cevaplamak ve kusursuz bir alışveriş deneyimi yaşamanıza yardımcı olmak için burada.',
-  'ClubLP.Help.subtitle2': ' Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz: ',
+  'ClubLP.Help.subtitle2':
+    ' Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz: ',
   'ClubLP.Help.call.title': 'Bizi arayın!',
   'ClubLP.Help.call.content':
     "Beslenme danışmanlarımız hafta içi her gün 09.00'dan 18.00'a kadar burada!",
@@ -1286,7 +1287,7 @@ const tr_TR = {
   'ClubLP.Help.call.mobile.number': 'O874 657 890',
   'ClubLP.Help.email.title': 'Bize e-posta gönderin!',
   'ClubLP.Help.email.content':
-    "Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!",
+    'Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!',
   'ClubLP.Help.email.address': 'Bize e-posta gönderin!',
   'ClubLP.Help.faq.content':
     'Sorunuz önceden cevaplanmış olabilir! Sıkça Sorulan Sorular sayfamıza göz atmayı unutmayın!'
