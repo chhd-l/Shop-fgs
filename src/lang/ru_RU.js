@@ -693,8 +693,8 @@ const ru_RU = {
   'payment.pleaseInput': 'Пожалуйста, укажите: ',
   'payment.streets': 'Улица',
   'payment.house': 'Дом',
-  'payment.privince': 'privince',
-  'payment.settlement': 'settlement',
+  'payment.province': 'провинция',
+  'payment.settlement': 'решение',
   'payment.wrongAddress':
     'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" в разделе "Помощь"',
   'payment.postCode2': 'Почтовый Код',
@@ -1325,64 +1325,87 @@ const ru_RU = {
   searchShow: 'результаты поиска',
 
   //NewLandingpageClub
-  'ClubLP.discount.content':'Скидка 10% и бесплатная доставка при подписке на сумму от 2500 руб.',
-  'ClubLP.LongBanner.title':'Специализированное питание по {val1} подписке для, {val2} поддержания здоровья',
-  'ClubLP.LongBanner.content':'От NN руб. за заказ',
-  'ClubLP.LongBanner.button':'Попробовать сейчас',
-  'ClubLP.LongBanner.content2':'Управление подпиской в Личном кабинете',
-  'ClubLP.LongBanner.SubscriptionTitle':'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
-  'ClubLP.LongBanner.SubscriptionTitle1':'Специализированное питание с учетом особенностей Вашего питомца',
-  'ClubLP.LongBanner.SubscriptionContent1':"Научно обоснованное питание с учетом особенностей Вашего питомца",
-  'ClubLP.LongBanner.SubscriptionTitle2':'Рацион, адаптированный для Вашего питомца',
-  'ClubLP.LongBanner.SubscriptionContent2':'Программа питания для поддержания здоровья',
-  'ClubLP.LongBanner.SubscriptionTitle3':'Оптимальный размер порции',
-  'ClubLP.LongBanner.SubscriptionContent3':'Рекомендации по нормам кормления для выбора оптимальной порции',
-  'ClubLP.Advantage.title':'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',
-  'ClubLP.Advantage.content1':'Питание, специально разработанное для удовлетворения уникальных потребностей кошек и собак',
-  'ClubLP.Advantage.content2':'Сбалансированное питание для каждого питомца',
-  'ClubLP.Advantage.content3':'Оптимальное сочетание высокоусвояемых ингредиентов для потребностей каждого питомца',
-  'ClubLP.Advantage.content4':'Высококачественные питательные вещества с высокой степенью усвояемости',
-  'ClubLP.Advantage.button':'Подобрать рацион',
-  'ClubLP.SubscriptionBenefitsNew.title':'Подписка ROYAL CANIN® КЛУБ сделает Вашу жизнь проще',
-  'ClubLP.SubscriptionBenefitsNew.icon1':'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
-  'ClubLP.SubscriptionBenefitsNew.icon2':'Скидка 10% на каждый заказ по подписке',
-  'ClubLP.SubscriptionBenefitsNew.icon3':'Помощник Службы Заботы с 9.00 до 21.00',
-  'ClubLP.SubscriptionBenefitsNew.icon4':'Приветственный подарок, вознаграждения и сервисы',
-  'ClubLP.SubscriptionBenefitsNew.icon5':'Бесплатный обучающий контент',
-  'ClubLP.SubscriptionBenefitsNew.icon6':'Бесплатные онлайн-консультации нутрициолога в Petstory',
-  'ClubLP.SubscriptionBenefitsNew.button':'Вступить в КЛУБ',
-  'ClubLP.NewHowItWorks.title':'Как это работает?',
-  'ClubLP.NewJoinUs.title':'Расскажите нам о своем питомце',
-  'ClubLP.NewJoinUs.content':'чтобы получить персональные рекомендации по питанию.',
-  'ClubLP.NewJoinUs.button':'Начать',
-  'ClubLP.OurCustomers.title':'Наши клиенты',
-  'ClubLP.GetMoreAd.title':'Больше преимуществ с подпиской ROYAL CANIN® КЛУБ',
-  'ClubLP.GetMoreAd.subtitle1':'Разовая {val} покупка',
-  'ClubLP.GetMoreAd.subtitle2':'Клубная {val} подписка',
-  'ClubLP.GetMoreAd.Single.tip1':'Специализированное питание',
-  'ClubLP.GetMoreAd.Single.tip2':'Бесплатная доставка при подписке на сумму от 2500 руб.',
-  'ClubLP.GetMoreAd.Club.tip1':'Специализированное питание',
-  'ClubLP.GetMoreAd.Club.tip2':'Бесплатная доставка при подписке на сумму от 2500 руб.',
-  'ClubLP.GetMoreAd.Club.tip3':'Скидка 10% на каждый заказ по подписке',
-  'ClubLP.GetMoreAd.Club.tip4':'Автоматическая доставка до Вашей двери',
-  'ClubLP.GetMoreAd.Club.tip5':'Бесплатный обучающий контент специально для Вас',
-  'ClubLP.GetMoreAd.Club.tip6':'Приветственный подарок',
-  'ClubLP.GetMoreAd.Club.tip7':'Эксклюзивные подарки и сервисы',
-  'ClubLP.GetMoreAd.button':'Начать',
-  'ClubLP.Help.title':"Есть вопросы?",
-  'ClubLP.Help.subtitle1':'Нужна помощь? Наша команда готова ответить на Ваши вопросы и помочь с выбором и покупкой.',
-  'ClubLP.Help.subtitle2':'Вы можете связаться с нами, используя один из следующих способов:',
-  'ClubLP.Help.call.title':'Позвоните нам',
-  'ClubLP.Help.call.content':'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
-  'ClubLP.Help.call.number':'O874 657 890',
-  'ClubLP.Help.call.mobile.number':'O874 657 890',
-  'ClubLP.Help.email.title':'Напишите нам e-mail',
-  'ClubLP.Help.email.content':"Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов",
-  'ClubLP.Help.email.address':'Send us an Email',
-  'ClubLP.Help.faq.content':'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
-
-
-
+  'ClubLP.discount.content':
+    'Скидка 10% и бесплатная доставка при подписке на сумму от 2500 руб.',
+  'ClubLP.LongBanner.title':
+    'Специализированное питание по {val1} подписке для, {val2} поддержания здоровья',
+  'ClubLP.LongBanner.content': 'От NN руб. за заказ',
+  'ClubLP.LongBanner.button': 'Попробовать сейчас',
+  'ClubLP.LongBanner.content2': 'Управление подпиской в Личном кабинете',
+  'ClubLP.LongBanner.SubscriptionTitle':
+    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
+  'ClubLP.LongBanner.SubscriptionTitle1':
+    'Специализированное питание с учетом особенностей Вашего питомца',
+  'ClubLP.LongBanner.SubscriptionContent1':
+    'Научно обоснованное питание с учетом особенностей Вашего питомца',
+  'ClubLP.LongBanner.SubscriptionTitle2':
+    'Рацион, адаптированный для Вашего питомца',
+  'ClubLP.LongBanner.SubscriptionContent2':
+    'Программа питания для поддержания здоровья',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
+  'ClubLP.LongBanner.SubscriptionContent3':
+    'Рекомендации по нормам кормления для выбора оптимальной порции',
+  'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',
+  'ClubLP.Advantage.content1':
+    'Питание, специально разработанное для удовлетворения уникальных потребностей кошек и собак',
+  'ClubLP.Advantage.content2': 'Сбалансированное питание для каждого питомца',
+  'ClubLP.Advantage.content3':
+    'Оптимальное сочетание высокоусвояемых ингредиентов для потребностей каждого питомца',
+  'ClubLP.Advantage.content4':
+    'Высококачественные питательные вещества с высокой степенью усвояемости',
+  'ClubLP.Advantage.button': 'Подобрать рацион',
+  'ClubLP.SubscriptionBenefitsNew.title':
+    'Подписка ROYAL CANIN® КЛУБ сделает Вашу жизнь проще',
+  'ClubLP.SubscriptionBenefitsNew.icon1':
+    'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
+  'ClubLP.SubscriptionBenefitsNew.icon2':
+    'Скидка 10% на каждый заказ по подписке',
+  'ClubLP.SubscriptionBenefitsNew.icon3':
+    'Помощник Службы Заботы с 9.00 до 21.00',
+  'ClubLP.SubscriptionBenefitsNew.icon4':
+    'Приветственный подарок, вознаграждения и сервисы',
+  'ClubLP.SubscriptionBenefitsNew.icon5': 'Бесплатный обучающий контент',
+  'ClubLP.SubscriptionBenefitsNew.icon6':
+    'Бесплатные онлайн-консультации нутрициолога в Petstory',
+  'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
+  'ClubLP.NewHowItWorks.title': 'Как это работает?',
+  'ClubLP.NewJoinUs.title': 'Расскажите нам о своем питомце',
+  'ClubLP.NewJoinUs.content':
+    'чтобы получить персональные рекомендации по питанию.',
+  'ClubLP.NewJoinUs.button': 'Начать',
+  'ClubLP.OurCustomers.title': 'Наши клиенты',
+  'ClubLP.GetMoreAd.title': 'Больше преимуществ с подпиской ROYAL CANIN® КЛУБ',
+  'ClubLP.GetMoreAd.subtitle1': 'Разовая {val} покупка',
+  'ClubLP.GetMoreAd.subtitle2': 'Клубная {val} подписка',
+  'ClubLP.GetMoreAd.Single.tip1': 'Специализированное питание',
+  'ClubLP.GetMoreAd.Single.tip2':
+    'Бесплатная доставка при подписке на сумму от 2500 руб.',
+  'ClubLP.GetMoreAd.Club.tip1': 'Специализированное питание',
+  'ClubLP.GetMoreAd.Club.tip2':
+    'Бесплатная доставка при подписке на сумму от 2500 руб.',
+  'ClubLP.GetMoreAd.Club.tip3': 'Скидка 10% на каждый заказ по подписке',
+  'ClubLP.GetMoreAd.Club.tip4': 'Автоматическая доставка до Вашей двери',
+  'ClubLP.GetMoreAd.Club.tip5':
+    'Бесплатный обучающий контент специально для Вас',
+  'ClubLP.GetMoreAd.Club.tip6': 'Приветственный подарок',
+  'ClubLP.GetMoreAd.Club.tip7': 'Эксклюзивные подарки и сервисы',
+  'ClubLP.GetMoreAd.button': 'Начать',
+  'ClubLP.Help.title': 'Есть вопросы?',
+  'ClubLP.Help.subtitle1':
+    'Нужна помощь? Наша команда готова ответить на Ваши вопросы и помочь с выбором и покупкой.',
+  'ClubLP.Help.subtitle2':
+    'Вы можете связаться с нами, используя один из следующих способов:',
+  'ClubLP.Help.call.title': 'Позвоните нам',
+  'ClubLP.Help.call.content':
+    'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
+  'ClubLP.Help.call.number': 'O874 657 890',
+  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.email.title': 'Напишите нам e-mail',
+  'ClubLP.Help.email.content':
+    'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
+  'ClubLP.Help.email.address': 'Send us an Email',
+  'ClubLP.Help.faq.content':
+    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ'
 };
 
 export default ru_RU;

@@ -201,6 +201,34 @@ class AddressList extends React.Component {
    * 会员确认地址列表信息，并展示封面
    */
   clickConfirmAddressPanel = async () => {
+    const { selectedId, addressList, addressErrMsg } = this.state;
+    const tmpObj =
+      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // 判断地址完整性
+    const laddf = this.props.configStore.localAddressForm;
+    let dfarr = laddf.settings;
+    dfarr = dfarr.filter(
+      (item) => item.enableFlag == 1 && item.requiredFlag == 1
+    );
+    let errMsgArr = [];
+    dfarr.forEach((v, i) => {
+      let akey = v.fieldKey;
+      // state 对应数据库字段 province
+      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+      // region 对应数据库字段 area
+      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      console.log('fieldKey: ', '');
+      let fky = addressErrMsg[akey];
+      tmpObj[akey] ? '' : errMsgArr.push(fky);
+    });
+    errMsgArr = errMsgArr.join(', ');
+    // 如果地址字段有缺失，提示错误信息
+    if (errMsgArr.length) {
+      this.showErrMsg(addressErrMsg['title'] + errMsgArr);
+      return;
+    }
+
     this.updateSelectedData('confirm');
     if (process.env.REACT_APP_COUNTRY != 'RU') {
       this.confirmToNextPanel();
@@ -211,7 +239,6 @@ class AddressList extends React.Component {
     const { selectedId, addressList, addressErrMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       // 判断地址完整性
@@ -241,12 +268,16 @@ class AddressList extends React.Component {
     let streets = addressErrMsg['streets'],
       postCode = addressErrMsg['postCode'],
       house = addressErrMsg['house'],
-      city = addressErrMsg['city'];
+      city = addressErrMsg['city'],
+      province = addressErrMsg['province'],
+      settlement = addressErrMsg['settlement'];
 
     data.street == '' || null ? errArr.push(streets) : '';
     data.postCode == '' || null ? errArr.push(postCode) : '';
     data.house == '' || null ? errArr.push(house) : '';
     data.city == '' || null ? errArr.push(city) : '';
+    data.province == '' || null ? errArr.push(province) : '';
+    data.settlement == '' || null ? errArr.push(settlement) : '';
 
     return errArr.join(',');
   };

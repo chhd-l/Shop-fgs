@@ -21,7 +21,7 @@ const SubsriptionBenefitsNew = () => {
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-              <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title"/>
+              <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />
             </h4>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
@@ -40,7 +40,9 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon1"}/>
+                        <FormattedMessage
+                          id={'ClubLP.SubscriptionBenefitsNew.icon1'}
+                        />
                       </p>
                     </div>
                   </div>
@@ -60,7 +62,9 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon2"}/>
+                        <FormattedMessage
+                          id={'ClubLP.SubscriptionBenefitsNew.icon2'}
+                        />
                       </p>
                     </div>
                   </div>
@@ -80,7 +84,9 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon3"}/>
+                        <FormattedMessage
+                          id={'ClubLP.SubscriptionBenefitsNew.icon3'}
+                        />
                       </p>
                     </div>
                   </div>
@@ -100,7 +106,9 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon4"}/>
+                        <FormattedMessage
+                          id={'ClubLP.SubscriptionBenefitsNew.icon4'}
+                        />
                       </p>
                     </div>
                   </div>
@@ -120,36 +128,46 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
                       <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon5"}/>
+                        <FormattedMessage
+                          id={'ClubLP.SubscriptionBenefitsNew.icon5'}
+                        />
                       </p>
                     </div>
                   </div>
                 </div>
-                {process.env.REACT_APP_COUNTRY == 'RU'?<div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <LazyLoad height={200}>
-                        <img
-                          className="value-proposition__img lazyloaded"
-                          style={{ width: '100px', height: '100px' }}
-                          alt="Бесплатная доставка корма на протяжении всего участия в программе "
-                          title="ideal formula"
-                          src={phoneiconnew}
-                        />
-                      </LazyLoad>
-                    </div>
-                    <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
-                        <FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.icon6"}/>
-                      </p>
+                {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                  <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                    <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <LazyLoad height={200}>
+                          <img
+                            className="value-proposition__img lazyloaded"
+                            style={{ width: '100px', height: '100px' }}
+                            alt="Бесплатная доставка корма на протяжении всего участия в программе "
+                            title="ideal formula"
+                            src={phoneiconnew}
+                          />
+                        </LazyLoad>
+                      </div>
+                      <div className="d-flex align-items-center value-proposition__text">
+                        <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                          <FormattedMessage
+                            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+                          />
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>:null}
+                ) : null}
               </div>
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <button className="rc-btn rc-btn--one"><FormattedMessage id={"ClubLP.SubscriptionBenefitsNew.button"}/></button>
+            <button className="rc-btn rc-btn--one">
+              <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.button'} />
+            </button>
           </h4>
         </div>
       </div>

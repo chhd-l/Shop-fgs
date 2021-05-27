@@ -16,7 +16,7 @@ const GetMoreAd = () => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    <FormattedMessage id="ClubLP.GetMoreAd.title"/>
+                    <FormattedMessage id="ClubLP.GetMoreAd.title" />
                   </h4>
                 </div>
                 <div
@@ -58,9 +58,11 @@ const GetMoreAd = () => {
                             transform: 'translateY(-10px)'
                           }}
                         >
-
                           <p style={{ fontSize: '28px', fontWeight: 'bolder' }}>
-                            <FormattedMessage id="ClubLP.GetMoreAd.subtitle1" values={{val:<br/>}} />
+                            <FormattedMessage
+                              id="ClubLP.GetMoreAd.subtitle1"
+                              values={{ val: <br /> }}
+                            />
                           </p>
                         </div>
                       </div>
@@ -73,13 +75,13 @@ const GetMoreAd = () => {
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip2"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip2" />
                               </a>
                             </li>
                           </ul>
@@ -121,7 +123,6 @@ const GetMoreAd = () => {
                             transform: 'translateY(-10px)'
                           }}
                         >
-
                           <p
                             style={{
                               fontSize: '28px',
@@ -129,60 +130,71 @@ const GetMoreAd = () => {
                               color: '#E2001A'
                             }}
                           >
-                           <FormattedMessage id="ClubLP.GetMoreAd.subtitle2" values={{val:<br/>}}/>
+                            <FormattedMessage
+                              id="ClubLP.GetMoreAd.subtitle2"
+                              values={{ val: <br /> }}
+                            />
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div style={{ height: '30vh', display: 'flex',justifyContent:'space-between' }}>
-                      <div className="rc-column" style={{padding:'0'}}>
+                    <div
+                      style={{
+                        height: '30vh',
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <div className="rc-column" style={{ padding: '0' }}>
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
                               </a>
                             </li>
                           </ul>
                         </div>
-                      </div  >
-                      <div className="rc-column" style={{padding:'0'}}>
+                      </div>
+                      <div className="rc-column" style={{ padding: '0' }}>
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
                               </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}><FormattedMessage id="ClubLP.GetMoreAd.Club.tip6"/></a>
+                              <a style={{ marginLeft: '10px' }}>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
+                              </a>
                             </li>
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7"/>
+                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
                               </a>
                             </li>
                           </ul>
@@ -193,7 +205,7 @@ const GetMoreAd = () => {
                     <div className=" rc-btn-group m-0 rc-column rc-padding-x--none buttonmargintop">
                       <Link to="/">
                         <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs marginleftButton">
-                          <FormattedMessage id="ClubLP.GetMoreAd.button"/>
+                          <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
                       </Link>
                     </div>

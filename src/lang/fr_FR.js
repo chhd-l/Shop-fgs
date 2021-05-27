@@ -498,7 +498,7 @@ const fr_FR = {
   'home.point6': 'ENSEMBLE, AVEC VOUS',
   'home.productsCategory': "Découvrez nos gammes d'aliments",
   'home.promotionTip':
-    '10% de réduction sur les Abonnements | Livraison 72h offerte',
+    '10% de réduction sur les Abonnements | Livraison en 3 jours ouvrés offerte',
   'home.specialAnimalNutrition': 'Nutrition animale spéciale',
   'home.specialInfo1': 'La splendeur de chaque race est',
   'home.specialInfo2': 'dans son unicité.',

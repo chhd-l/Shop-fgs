@@ -509,8 +509,19 @@ class Payment extends React.Component {
         postCode: this.props.intl.messages['payment.postCode'],
         house: this.props.intl.messages['payment.house'],
         city: this.props.intl.messages['payment.city'],
-        districtCode: this.props.intl.messages['payment.privince'],
-        settlement: this.props.intl.messages['payment.settlement']
+        districtCode: this.props.intl.messages['payment.province'],
+        settlement: this.props.intl.messages['payment.settlement'],
+        address1: this.props.intl.messages['payment.address1'],
+        address2: this.props.intl.messages['payment.address2'],
+        apartment: this.props.intl.messages['payment.apartment'],
+        comment: this.props.intl.messages['payment.comment'],
+        country: this.props.intl.messages['payment.country'],
+        entrance: this.props.intl.messages['payment.entrance'],
+        firstName: this.props.intl.messages['payment.firstName'],
+        lastName: this.props.intl.messages['payment.lastName'],
+        phoneNumber: this.props.intl.messages['payment.phoneNumber'],
+        area: this.props.intl.messages['payment.region'],
+        province: this.props.intl.messages['payment.state']
       }
     });
     try {
@@ -1561,7 +1572,11 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     });
-    // console.log('★★★★★★ 1548 封装下单参数: ', param);
+    let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
+    if (tokenObj.accessToken) {
+      param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
+    }
+    console.log('★★★★★★ 1548 封装下单参数: ', param);
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
     //   phone: creditCardInfo?.phoneNumber,

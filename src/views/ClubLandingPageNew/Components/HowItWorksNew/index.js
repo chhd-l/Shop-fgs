@@ -30,30 +30,30 @@ import './index.css';
 //写的不好好aaaaaaaa
 
 //Ru Image
-const RuhowitworksnewList=[
+const RuhowitworksnewList = [
   {
-    HowitworksStep:ruhowitworknew1,
+    HowitworksStep: ruhowitworknew1
   },
   {
-    HowitworksStep:ruhowitworknew2,
+    HowitworksStep: ruhowitworknew2
   },
   {
-    HowitworksStep:ruhowitworknew3,
+    HowitworksStep: ruhowitworknew3
   },
   {
-    HowitworksStep:ruhowitworknew4,
-  },
-]
+    HowitworksStep: ruhowitworknew4
+  }
+];
 
-const RuhowitworksnewListmobile=[
+const RuhowitworksnewListmobile = [
   {
-    HowitworksStep:ruhowitworknewmobile1,
+    HowitworksStep: ruhowitworknewmobile1
   },
   {
-    HowitworksStep:ruhowitworknewmobile2,
+    HowitworksStep: ruhowitworknewmobile2
   },
   {
-    HowitworksStep:ruhowitworknewmobile3,
+    HowitworksStep: ruhowitworknewmobile3
   },
   {
     HowitworksStep:ruhowitworknewmobile4,
@@ -92,36 +92,35 @@ const FrhowitworksnewListmobile=[
 ]
 
 // En Image
-const EnhowitworksnewList=[
+const EnhowitworksnewList = [
   {
-    HowitworksStep:howitworknew1,
+    HowitworksStep: howitworknew1
   },
   {
-    HowitworksStep:howitworknew2,
+    HowitworksStep: howitworknew2
   },
   {
-    HowitworksStep:howitworknew3,
+    HowitworksStep: howitworknew3
   },
   {
-    HowitworksStep:howitworknew4,
-  },
-]
+    HowitworksStep: howitworknew4
+  }
+];
 
-const EnhowitworksnewListmobile=[
+const EnhowitworksnewListmobile = [
   {
-    HowitworksStep:howitworknewmobile1,
+    HowitworksStep: howitworknewmobile1
   },
   {
-    HowitworksStep:howitworknewmobile2,
+    HowitworksStep: howitworknewmobile2
   },
   {
-    HowitworksStep:howitworknewmobile3,
+    HowitworksStep: howitworknewmobile3
   },
   {
-    HowitworksStep:howitworknewmobile4,
-  },
-]
-
+    HowitworksStep: howitworknewmobile4
+  }
+];
 
 const RU = process.env.REACT_APP_COUNTRY == 'RU';
 const TR = process.env.REACT_APP_COUNTRY == 'TR';
@@ -136,7 +135,7 @@ const HowItWorksNew = () => {
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
                 <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                  <FormattedMessage id="ClubLP.NewHowItWorks.title"/>
+                  <FormattedMessage id="ClubLP.NewHowItWorks.title" />
                 </h4>
               </div>
               {/*这里手机移动适配写得不好,有空再改*/}
@@ -145,18 +144,8 @@ const HowItWorksNew = () => {
                   style={{ display: 'flex', justifyContent: 'space-around' }}
                   className="flexwrapHow "
                 >
-
-                  {
-                    RU?RuhowitworksnewList.map(step=>(
-                      <div>
-                        <LazyLoad height={180}>
-                          <img
-                            className="w-90 lazyloaded desktopnone"
-                            src={step.HowitworksStep}
-                          />
-                        </LazyLoad>
-                      </div>
-                    )):TR?null:FR?FrhowitworksnewList.map(step=>(
+                  {RU
+                    ? RuhowitworksnewList.map((step) => (
                         <div>
                           <LazyLoad height={180}>
                             <img
@@ -165,17 +154,30 @@ const HowItWorksNew = () => {
                             />
                           </LazyLoad>
                         </div>
-                      )):
-                    EnhowitworksnewList.map(step=>(
-                    <div>
-                    <LazyLoad height={180}>
-                      <img
-                        className="w-90 lazyloaded desktopnone"
-                        src={step.HowitworksStep}
-                      />
-                    </LazyLoad>
-                    </div>
-                  ))}
+                      ))
+                    : TR
+                    ? null
+                    : FR
+                    ? FrhowitworksnewList.map((step) => (
+                          <div>
+                            <LazyLoad height={180}>
+                              <img
+                                className="w-90 lazyloaded desktopnone"
+                                src={step.HowitworksStep}
+                              />
+                            </LazyLoad>
+                          </div>
+                        ))
+                    : EnhowitworksnewList.map((step) => (
+                        <div>
+                          <LazyLoad height={180}>
+                            <img
+                              className="w-90 lazyloaded desktopnone"
+                              src={step.HowitworksStep}
+                            />
+                          </LazyLoad>
+                        </div>
+                      ))}
                 </div>
               </div>
               <div className="mobilenone">
@@ -203,7 +205,6 @@ const HowItWorksNew = () => {
                     />
                   </LazyLoad>
                 </div>))}
-
               </div>
             </div>
           </div>
