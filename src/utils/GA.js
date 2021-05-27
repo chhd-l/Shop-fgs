@@ -25,52 +25,71 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
   );
 };
 
+const getDeSpecies = (item) => {
+  const { goodsAttributesValueRelList } = item;
+  return (goodsAttributesValueRelList || [])
+    .filter(
+      (attr) =>
+        attr.goodsAttributeName &&
+        attr.goodsAttributeName.toLowerCase() == 'spezies'
+    )
+    .map((item) => item.goodsAttributeValue);
+};
+
 //species属性
-const getSpecies = (cateId) => {
-  return (
-    {
-      1158: 'Cat', //Russia Cat SPT food
-      1159: 'Cat', //Russia Cat VET Food
-      1160: 'Dog', //Russia Dog SPT food
-      1161: 'Dog', //Russia Dog VET food
-      1165: 'Cat', //Turkey Cat SPT food
-      1166: 'Cat', //Turkey Cat VET Food
-      1167: 'Dog', //Turkey Dog SPT food
-      1168: 'Dog', //Turkey Dog VET food
-      1133: 'Dog', //France Dog SPT food
-      1134: 'Cat', //France Cat SPT food
-      1153: 'Dog', //France Dog VET food
-      1154: 'Cat', //France Cat VET Food
-      1172: 'Cat', //US Cat SPT food
-      1173: 'Cat', //US Cat VET food
-      1174: 'Dog', //US Dog SPT food
-      1175: 'Dog' //US Dog VET food
-    }[cateId] || 'Cat'
-  );
+const getSpecies = (item) => {
+  if (process.env.REACT_APP_COUNTRY == 'DE') {
+    return getDeSpecies(item)[0] == 'Hund' ? 'dog' : 'cat';
+  } else {
+    return (
+      {
+        1158: 'Cat', //Russia Cat SPT food
+        1159: 'Cat', //Russia Cat VET Food
+        1160: 'Dog', //Russia Dog SPT food
+        1161: 'Dog', //Russia Dog VET food
+        1165: 'Cat', //Turkey Cat SPT food
+        1166: 'Cat', //Turkey Cat VET Food
+        1167: 'Dog', //Turkey Dog SPT food
+        1168: 'Dog', //Turkey Dog VET food
+        1133: 'Dog', //France Dog SPT food
+        1134: 'Cat', //France Cat SPT food
+        1153: 'Dog', //France Dog VET food
+        1154: 'Cat', //France Cat VET Food
+        1172: 'Cat', //US Cat SPT food
+        1173: 'Cat', //US Cat VET food
+        1174: 'Dog', //US Dog SPT food
+        1175: 'Dog' //US Dog VET food
+      }[item.cateId] || 'Cat'
+    );
+  }
 };
 
 //SpeciesId属性
-const getSpeciesId = (cateId) => {
-  return (
-    {
-      1158: '1', //Russia Cat SPT food
-      1159: '1', //Russia Cat VET Food
-      1160: '2', //Russia Dog SPT food
-      1161: '2', //Russia Dog VET food
-      1165: '1', //Turkey Cat SPT food
-      1166: '1', //Turkey Cat VET Food
-      1167: '2', //Turkey Dog SPT food
-      1168: '2', //Turkey Dog VET food
-      1133: '2', //France Dog SPT food
-      1134: '1', //France Cat SPT food
-      1153: '2', //France Dog VET food
-      1154: '1', //France Cat VET Food
-      1172: '1', //US Cat SPT food
-      1173: '1', //US Cat VET food
-      1174: '2', //US Dog SPT food
-      1175: '2' //US Dog VET food
-    }[cateId] || ''
-  );
+const getSpeciesId = (item) => {
+  if (process.env.REACT_APP_COUNTRY == 'DE') {
+    return getDeSpecies(item)[0] == 'Hund' ? '2' : '1';
+  } else {
+    return (
+      {
+        1158: '1', //Russia Cat SPT food
+        1159: '1', //Russia Cat VET Food
+        1160: '2', //Russia Dog SPT food
+        1161: '2', //Russia Dog VET food
+        1165: '1', //Turkey Cat SPT food
+        1166: '1', //Turkey Cat VET Food
+        1167: '2', //Turkey Dog SPT food
+        1168: '2', //Turkey Dog VET food
+        1133: '2', //France Dog SPT food
+        1134: '1', //France Cat SPT food
+        1153: '2', //France Dog VET food
+        1154: '1', //France Cat VET Food
+        1172: '1', //US Cat SPT food
+        1173: '1', //US Cat VET food
+        1174: '2', //US Dog SPT food
+        1175: '2' //US Dog VET food
+      }[item.cateId] || ''
+    );
+  }
 };
 
 // //删除对象中空属性
@@ -182,7 +201,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
     let obj = deleteObjEmptyAttr({
       price: price, //Product Price, including discount if promo code activated for this product
-      specie: getSpecies(item.cateId), //'Cat' or 'Dog',
+      specie: getSpecies(item), //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goodsNo, //Main item code
@@ -255,7 +274,7 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
 
     let obj = deleteObjEmptyAttr({
       price: item.goodsInfoFlag > 0 ? item.subscriptionPrice : item.salePrice, //Product Price, including discount if promo code activated for this product
-      specie: getSpecies(item.cateId), //'Cat' or 'Dog',
+      specie: getSpecies(item), //'Cat' or 'Dog',
       range: range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
       name: item.goodsName, //WeShare product name, always in English
       mainItemCode: item.goods.goodsNo, //Main item code
@@ -404,11 +423,11 @@ export const doGetGAVal = (props) => {
         .forEach((item2) => {
           breed.push(item2.goodsAttributeValue);
         });
-      id.push(getSpeciesId(item.cateId));
+      id.push(getSpeciesId(item));
     }
   } else {
     cartData.forEach((item) => {
-      id.push(getSpeciesId(item.cateId));
+      id.push(getSpeciesId(item));
     });
 
     let arr = (cartData[0] && cartData[0].goodsAttributesValueRelList) || [];
