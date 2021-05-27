@@ -8,14 +8,33 @@ import howitworknewmobile1 from './image/howitworksmobile1.png';
 import howitworknewmobile2 from './image/howitworksmobile2.png';
 import howitworknewmobile3 from './image/howitworksmobile3.png';
 import howitworknewmobile4 from './image/howitworksmobile4.png';
-import ruhowitworknew1 from './image/ruhowitworksnew1.png';
-import ruhowitworknew2 from './image/ruhowitworksnew2.png';
-import ruhowitworknew3 from './image/ruhowitworksnew3.png';
-import ruhowitworknew4 from './image/ruhowitworksnew4.png';
-import ruhowitworknewmobile1 from './image/ruhowitworksmobile1.png';
-import ruhowitworknewmobile2 from './image/ruhowitworksmobile1.png';
-import ruhowitworknewmobile3 from './image/ruhowitworksmobile1.png';
-import ruhowitworknewmobile4 from './image/ruhowitworksmobile1.png';
+import ruhowitworknew1 from './image/ruhowitworksnew1.png'
+import ruhowitworknew2 from './image/ruhowitworksnew2.png'
+import ruhowitworknew3 from './image/ruhowitworksnew3.png'
+import ruhowitworknew4 from './image/ruhowitworksnew4.png'
+import ruhowitworknewmobile1 from './image/ruhowitworksmobile1.png'
+import ruhowitworknewmobile2 from './image/ruhowitworksmobile2.png'
+import ruhowitworknewmobile3 from './image/ruhowitworksmobile3.png'
+import ruhowitworknewmobile4 from './image/ruhowitworksmobile4.png'
+import frhowitworknew1 from './image/frhowitworknew1.png'
+import frhowitworknew2 from './image/frhowitworknew2.png'
+import frhowitworknew3 from './image/frhowitworknew3.png'
+import frhowitworknew4 from './image/frhowitworknew4.png'
+import frhowitworknewmobile1 from './image/frhowitworknewmobile1.png'
+import frhowitworknewmobile2 from './image/frhowitworknewmobile2.png'
+import frhowitworknewmobile3 from './image/frhowitworknewmobile3.png'
+import frhowitworknewmobile4 from './image/frhowitworknewmobile4.png'
+import trhowitworknew1 from './image/trhowitworksnew1.png'
+import trhowitworknew2 from './image/trhowitworksnew2.png'
+import trhowitworknew3 from './image/trhowitworksnew3.png'
+import trhowitworknew4 from './image/trhowitworksnew4.png'
+import trhowitworknewmobile1 from './image/trhowitworksmobile1.png'
+import trhowitworknewmobile2 from './image/trhowitworksmobile2.png'
+import trhowitworknewmobile3 from './image/trhowitworksmobile3.png'
+import trhowitworknewmobile4 from './image/trhowitworksmobile4.png'
+
+
+
 import LazyLoad from 'react-lazyload';
 import './index.css';
 
@@ -48,9 +67,40 @@ const RuhowitworksnewListmobile = [
     HowitworksStep: ruhowitworknewmobile3
   },
   {
-    HowitworksStep: ruhowitworknewmobile4
-  }
-];
+    HowitworksStep:ruhowitworknewmobile4,
+  },
+]
+
+//Fr Image
+const FrhowitworksnewList=[
+  {
+    HowitworksStep:frhowitworknew1,
+  },
+  {
+    HowitworksStep:frhowitworknew2,
+  },
+  {
+    HowitworksStep:frhowitworknew3,
+  },
+  {
+    HowitworksStep:frhowitworknew4,
+  },
+]
+
+const FrhowitworksnewListmobile=[
+  {
+    HowitworksStep:frhowitworknewmobile1,
+  },
+  {
+    HowitworksStep:frhowitworknewmobile2,
+  },
+  {
+    HowitworksStep:frhowitworknewmobile3,
+  },
+  {
+    HowitworksStep:frhowitworknewmobile4,
+  },
+]
 
 // En Image
 const EnhowitworksnewList = [
@@ -82,6 +132,39 @@ const EnhowitworksnewListmobile = [
     HowitworksStep: howitworknewmobile4
   }
 ];
+
+//Tr Image
+const TrhowitworksnewList = [
+  {
+    HowitworksStep: trhowitworknew1
+  },
+  {
+    HowitworksStep: trhowitworknew2
+  },
+  {
+    HowitworksStep: trhowitworknew3
+  },
+  {
+    HowitworksStep: trhowitworknew4
+  }
+];
+
+const TrhowitworksnewListmobile = [
+  {
+    HowitworksStep: trhowitworknewmobile1
+  },
+  {
+    HowitworksStep: trhowitworknewmobile2
+  },
+  {
+    HowitworksStep: trhowitworknewmobile3
+  },
+  {
+    HowitworksStep:trhowitworknewmobile4,
+  },
+]
+
+
 
 const RU = process.env.REACT_APP_COUNTRY == 'RU';
 const TR = process.env.REACT_APP_COUNTRY == 'TR';
@@ -117,9 +200,27 @@ const HowItWorksNew = () => {
                         </div>
                       ))
                     : TR
-                    ? null
+                    ? TrhowitworksnewList.map((step) => (
+                        <div>
+                          <LazyLoad height={180}>
+                            <img
+                              className="w-90 lazyloaded desktopnone"
+                              src={step.HowitworksStep}
+                            />
+                          </LazyLoad>
+                        </div>
+                      ))
                     : FR
-                    ? null
+                    ? FrhowitworksnewList.map((step) => (
+                          <div>
+                            <LazyLoad height={180}>
+                              <img
+                                className="w-90 lazyloaded desktopnone"
+                                src={step.HowitworksStep}
+                              />
+                            </LazyLoad>
+                          </div>
+                        ))
                     : EnhowitworksnewList.map((step) => (
                         <div>
                           <LazyLoad height={180}>
@@ -133,31 +234,37 @@ const HowItWorksNew = () => {
                 </div>
               </div>
               <div className="mobilenone">
-                {RU
-                  ? RuhowitworksnewListmobile.map((step) => (
-                      <div>
-                        <LazyLoad height={180}>
-                          <img
-                            className="w-90 lazyloaded"
-                            src={step.HowitworksStep}
-                          />
-                        </LazyLoad>
-                      </div>
-                    ))
-                  : TR
-                  ? null
-                  : FR
-                  ? null
-                  : EnhowitworksnewListmobile.map((step) => (
-                      <div>
-                        <LazyLoad height={180}>
-                          <img
-                            className="w-90 lazyloaded"
-                            src={step.HowitworksStep}
-                          />
-                        </LazyLoad>
-                      </div>
-                    ))}
+                {
+                  RU?RuhowitworksnewListmobile.map(step=>(<div>
+                    <LazyLoad height={180}>
+                      <img
+                        className="w-90 lazyloaded"
+                        src={step.HowitworksStep}
+                      />
+                    </LazyLoad>
+                  </div>)):TR?TrhowitworksnewListmobile.map(step=>(<div>
+                    <LazyLoad height={180}>
+                      <img
+                        className="w-90 lazyloaded"
+                        src={step.HowitworksStep}
+                      />
+                    </LazyLoad>
+                  </div>)):FR?FrhowitworksnewListmobile.map(step=>(<div>
+                      <LazyLoad height={180}>
+                        <img
+                          className="w-90 lazyloaded"
+                          src={step.HowitworksStep}
+                        />
+                      </LazyLoad>
+                    </div>)):
+                  EnhowitworksnewListmobile.map(step=>(<div>
+                  <LazyLoad height={180}>
+                    <img
+                      className="w-90 lazyloaded"
+                      src={step.HowitworksStep}
+                    />
+                  </LazyLoad>
+                </div>))}
               </div>
             </div>
           </div>

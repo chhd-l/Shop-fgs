@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
@@ -13,6 +13,7 @@ import { withRouter } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'loginStore')
+@injectIntl
 @observer
 class Footer extends React.Component {
   constructor(props) {
@@ -29,6 +30,32 @@ class Footer extends React.Component {
     this.props.configStore.getPrescriberSettingInfo(); //查询prescriber setting信息
 
     this.props.configStore.getSystemFormConfig(); // 查询address form表单配置开关
+
+    // 地址错误提示信息
+    sessionItemRoyal.set(
+      'rc-wrongAddressMsg',
+      JSON.stringify({
+        title: this.props.intl.messages['payment.pleaseInput'],
+        wrongAddress: this.props.intl.messages['payment.wrongAddress'],
+        streets: this.props.intl.messages['payment.streets'],
+        postCode: this.props.intl.messages['payment.postCode'],
+        house: this.props.intl.messages['payment.house'],
+        city: this.props.intl.messages['payment.city'],
+        districtCode: this.props.intl.messages['payment.province'],
+        settlement: this.props.intl.messages['payment.settlement'],
+        address1: this.props.intl.messages['payment.address1'],
+        address2: this.props.intl.messages['payment.address2'],
+        apartment: this.props.intl.messages['payment.apartment'],
+        comment: this.props.intl.messages['payment.comment'],
+        country: this.props.intl.messages['payment.country'],
+        entrance: this.props.intl.messages['payment.entrance'],
+        firstName: this.props.intl.messages['payment.firstName'],
+        lastName: this.props.intl.messages['payment.lastName'],
+        phoneNumber: this.props.intl.messages['payment.phoneNumber'],
+        area: this.props.intl.messages['payment.region'],
+        province: this.props.intl.messages['payment.state']
+      })
+    );
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
