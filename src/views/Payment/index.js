@@ -283,6 +283,7 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
+    this.cyberRef = React.createRef();
     this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
       this
     );
@@ -399,6 +400,9 @@ class Payment extends React.Component {
   /**
    * init panel prepare/edit/complete status
    */
+  sendCyberPaymentForm = (cyberPaymentForm) => {
+    this.setState({ cyberPaymentForm });
+  };
   initPanelStatus() {
     const { paymentStore } = this.props;
     const { tid } = this.state;
@@ -439,21 +443,6 @@ class Payment extends React.Component {
       });
     }
   };
-  showCyberList = () => {
-    this.setState({
-      isShowCardList: true
-    });
-  };
-  showCyberForm = () => {
-    this.setState({
-      isShowCardList: false
-    });
-  };
-  setCardListToEmpty = () => {
-    this.setState({
-      cardListLength: 0
-    });
-  };
   inputBlur = async (e) => {
     const { cyberErrMsgObj } = this.state;
     const target = e.target;
@@ -473,31 +462,6 @@ class Payment extends React.Component {
         })
       });
     }
-  };
-  // input输入事件
-  handleCyberInputChange = (e) => {
-    const target = e.target;
-    const { cyberPaymentForm } = this.state;
-    const name = target.name;
-    let value = '';
-    value = target.value;
-    if (name === 'cardNumber') {
-      value = value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-    }
-    // console.log('cyber pay form input输入事件: ',value);
-    cyberPaymentForm[name] = value;
-    this.setState({ cyberPaymentForm });
-    this.inputBlur(e);
-  };
-  //select事件
-  handleCyberSelectedItemChange = (name, item) => {
-    let cyberErrMsgObj = this.state.cyberErrMsgObj;
-    const { cyberPaymentForm } = this.state;
-    cyberPaymentForm[name] = item.value;
-
-    let obj = Object.assign({}, cyberErrMsgObj, { [name]: '' }); //选择了值，就清空没填提示
-
-    this.setState({ cyberPaymentForm, cyberErrMsgObj: obj });
   };
   getPetVal() {
     let obj = doGetGAVal(this.props);
@@ -2033,32 +1997,6 @@ class Payment extends React.Component {
       </>
     );
   };
-
-  changeCyberPaymentFormIsSaveCard = (isSaveCard) => {
-    isSaveCard = !isSaveCard;
-    let cyberPaymentForm = this.state.cyberPaymentForm;
-    cyberPaymentForm = Object.assign({}, cyberPaymentForm, { isSaveCard });
-    this.setState({
-      cyberPaymentForm
-    });
-  };
-
-  CyberSaveCardCheckboxJSX = () => {
-    const {
-      cyberPaymentForm: { isSaveCard }
-    } = this.state;
-
-    const moduleJsx =
-      this.state.paymentTypeVal == 'cyber' && this.isLogin ? (
-        <CyberSaveCardCheckbox
-          isChecked={isSaveCard}
-          changeCyberPaymentFormIsSaveCard={
-            this.changeCyberPaymentFormIsSaveCard
-          }
-        />
-      ) : null;
-    return moduleJsx;
-  };
   clickAConsent = () => {
     alert('a');
   };
@@ -2160,25 +2098,6 @@ class Payment extends React.Component {
     );
   };
 
-  renderBackToSavedPaymentsJSX = () => {
-    return (
-      <div
-        className={[
-          'backToSavedPayments',
-          'text-right',
-          this.isLogin && this.state.cardListLength > 0 ? '' : 'rc-hidden'
-        ].join(' ')}
-      >
-        <a
-          class="rc-styled-link"
-          href="javascript:;"
-          onClick={this.showCyberList}
-        >
-          Back to Saved Payments
-        </a>
-      </div>
-    );
-  };
   updateValidationStaus = (flag) => {
     this.setState({
       isShowValidationModal: flag
@@ -2255,8 +2174,8 @@ class Payment extends React.Component {
       cyberPaymentParam.phone = newBillingAddress.phoneNumber;
       cyberPaymentParam.email = isLogin
         ? tid
-          ? orderDetails?.invoice?.email
-          : billingAddress.email
+          ? orderDetails?.invoice?.email || ''
+          : billingAddress.email || ''
         : this.state.guestEmail;
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: currentCardTypeInfo.cardType,
@@ -2306,7 +2225,7 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberCardRef.current.usGuestPaymentInfoEvent(
+        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
           params
         );
         return new Promise((resolve) => {
@@ -2320,7 +2239,9 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberCardRef.current.usPaymentInfoEvent(params);
+        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+          params
+        );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2831,100 +2752,22 @@ class Payment extends React.Component {
               )}
 
               {/* todo 重构后的CYBER */}
-              {/* <CyberPayment/> */}
-
-              {/* CYBER */}
-              {paymentTypeVal === 'cyber' && !this.state.isShowCardList && (
-                <>
-                  {/* 1.cyber卡类型 */}
-                  {supportPaymentMethods.length > 1 &&
-                    supportPaymentMethods.map((item, i) => (
-                      <div className={`rc-input rc-input--inline`} key={i}>
-                        <input
-                          className="rc-input__radio"
-                          id={`payment-info-${item.id}`}
-                          value={item.cardType}
-                          type="radio"
-                          name="payment-info"
-                          onChange={this.handleCardTypeChange}
-                          checked={cardTypeVal === item.cardType}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor={`payment-info-${item.id}`}
-                        >
-                          <img
-                            src={item.imgUrl}
-                            title={item.cardType}
-                            style={{ width: '40px' }}
-                            alt="card type image"
-                          />
-                        </label>
-                      </div>
-                    ))}
-                  {/* 2.cyber form */}
-                  <CyberPaymentForm
-                    cardTypeVal={this.state.cardTypeVal}
-                    cyberFormTitle={cyberFormTitle}
-                    ref={this.cyberCardRef}
-                    form={this.state.cyberPaymentForm}
-                    errMsgObj={this.state.cyberErrMsgObj}
-                    handleInputChange={this.handleCyberInputChange}
-                    handleSelectedItemChange={
-                      this.handleCyberSelectedItemChange
-                    }
-                    inputBlur={this.inputBlur}
-                    CyberSaveCardCheckboxJSX={this.CyberSaveCardCheckboxJSX()}
-                    billingJSX={this.renderBillingJSX({
-                      type: paymentTypeVal
-                    })}
-                    securityCodeTipsJSX={this.renderSecurityCodeTipsJSX()}
-                    backToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX()}
-                    showErrorMsg={this.showErrorMsg}
-                  />
-
-                  {payConfirmBtn({
-                    disabled: validForCyberPayment() || validForBilling,
-                    loading: saveBillingLoading
-                  })}
-                </>
-              )}
-
-              {/* 2.CYBER卡列表 */}
-              {paymentTypeVal === 'cyber' && this.state.isShowCardList && (
-                <>
-                  <CyberCardList
-                    ref={this.cyberCardListRef}
-                    updateSelectedCardInfo={this.updateSelectedCardInfo}
-                    showCyberForm={this.showCyberForm}
-                    setCardListToEmpty={this.setCardListToEmpty}
-                    billingJSX={this.renderBillingJSX({
-                      type: paymentTypeVal
-                    })}
-                    showErrorMsg={this.showErrorMsg}
-                  />
-
-                  {this.state.billingChecked ? (
-                    <>
-                      {reInputCVVBtn({
-                        disabled: !this.state.isShowCyberBindCardBtn,
-                        loading: saveBillingLoading
-                      })}
-                    </>
-                  ) : (
-                    <>
-                      {reInputCVVBtn({
-                        disabled:
-                          this.state.isShowCyberBindCardBtn &&
-                          this.state.validForBilling
-                            ? false
-                            : true,
-                        loading: saveBillingLoading
-                      })}
-                    </>
-                  )}
-                </>
-              )}
+              <CyberPayment
+                renderBillingJSX={this.renderBillingJSX}
+                renderSecurityCodeTipsJSX={this.renderSecurityCodeTipsJSX}
+                renderBackToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX}
+                payConfirmBtn={payConfirmBtn}
+                saveBillingLoading={this.state.saveBillingLoading}
+                validForBilling={
+                  !this.state.billingChecked && !this.state.validSts.billingAddr
+                }
+                isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
+                updateSelectedCardInfo={this.updateSelectedCardInfo}
+                reInputCVVBtn={reInputCVVBtn}
+                isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
+                sendCyberPaymentForm={this.sendCyberPaymentForm}
+                ref={this.cyberRef}
+              />
 
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
