@@ -1,9 +1,25 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export default (props) => {
-  const { htmlFor, FormattedMsg = '', radioGroup, radioChange } = props;
-
+export default ({
+  htmlFor,
+  FormattedMsg = '',
+  radioGroup,
+  radioChange,
+  setState
+}) => {
+  const handleChange = (e) => {
+    // setState()
+    console.info('../././ds.d.sd/s.ds', radioGroup);
+    let newGroup = [...radioGroup];
+    newGroup.forEach((item) => {
+      let checked = item.value === e.currentTarget.value;
+      item.checked = checked;
+    });
+    let checkedRadio = newGroup.find((el) => el.checked);
+    setState({ radioGroup: newGroup });
+    radioChange(checkedRadio.value);
+  };
   return (
     <div className="form-radio-box">
       <label className="form-control-label rc-full-width" htmlFor={htmlFor}>
@@ -17,13 +33,13 @@ export default (props) => {
                 <input
                   className="rc-input__radio"
                   value={item.value}
-                  id={item.label}
+                  id={item.id}
                   checked={item.checked}
                   type="radio"
                   name={item.name}
-                  onChange={radioChange}
+                  onChange={handleChange}
                 />
-                <label className="rc-input__label--inline" htmlFor={item.label}>
+                <label className="rc-input__label--inline" htmlFor={item.id}>
                   <FormattedMessage id={item.label} />
                 </label>
               </div>

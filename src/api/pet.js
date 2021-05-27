@@ -49,8 +49,7 @@ export function batchAddPets(parameter) {
 export function petsById(parameter) {
   return axios({
     url: `${api.petsById}${parameter.petsId}`,
-    method: 'post',
-    data: parameter
+    method: 'get'
   });
 }
 export function delPets(parameter) {
