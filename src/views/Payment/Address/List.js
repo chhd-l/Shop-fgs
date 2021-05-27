@@ -212,19 +212,12 @@ class AddressList extends React.Component {
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
     );
     let errMsgArr = [];
-    console.log(
-      '215',
-      ' -------------- List wrongAddressMsg: ',
-      wrongAddressMsg
-    );
     dfarr.forEach((v, i) => {
       let akey = v.fieldKey;
       // state 对应数据库字段 province
       v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
-      console.log('215', ' -------------- List fieldKey: ', v.fieldKey);
-      console.log('215', ' -------------- List akey: ', akey);
       let fky = wrongAddressMsg[akey];
       tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
