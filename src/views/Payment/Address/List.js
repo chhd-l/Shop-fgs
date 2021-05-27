@@ -218,6 +218,7 @@ class AddressList extends React.Component {
       v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      console.log('fieldKey: ', '');
       let fky = addressErrMsg[akey];
       tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
@@ -238,7 +239,6 @@ class AddressList extends React.Component {
     const { selectedId, addressList, addressErrMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 俄罗斯DuData
     if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
       // 判断地址完整性
@@ -268,12 +268,16 @@ class AddressList extends React.Component {
     let streets = addressErrMsg['streets'],
       postCode = addressErrMsg['postCode'],
       house = addressErrMsg['house'],
-      city = addressErrMsg['city'];
+      city = addressErrMsg['city'],
+      province = addressErrMsg['province'],
+      settlement = addressErrMsg['settlement'];
 
     data.street == '' || null ? errArr.push(streets) : '';
     data.postCode == '' || null ? errArr.push(postCode) : '';
     data.house == '' || null ? errArr.push(house) : '';
     data.city == '' || null ? errArr.push(city) : '';
+    data.province == '' || null ? errArr.push(province) : '';
+    data.settlement == '' || null ? errArr.push(settlement) : '';
 
     return errArr.join(',');
   };
@@ -555,6 +559,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
+    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;

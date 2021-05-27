@@ -135,6 +135,32 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
+                {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                  <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                    <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <LazyLoad height={200}>
+                          <img
+                            className="value-proposition__img lazyloaded"
+                            style={{ width: '100px', height: '100px' }}
+                            alt="Бесплатная доставка корма на протяжении всего участия в программе "
+                            title="ideal formula"
+                            src={phoneiconnew}
+                          />
+                        </LazyLoad>
+                      </div>
+                      <div className="d-flex align-items-center value-proposition__text">
+                        <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                          <FormattedMessage
+                            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+                          />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

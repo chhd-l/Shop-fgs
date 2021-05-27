@@ -18,7 +18,7 @@ const SubscriptionBenefitsBanner = (SubscriptionItem) => {
                   className="rc-beta"
                   style={{ fontWeight: 'bold', fontSize: '23px' }}
                 >
-                  SUBSCRIPTION BENEFITS FOR CATS & DOGS
+                  <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
                 </div>
               </div>
               <div

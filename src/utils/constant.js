@@ -32,9 +32,11 @@ export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 
 // 美国电话正则
 export const usTelephoneCheck = /^(((1(\s)|)|)[0-9]{3}(\s|-|)[0-9]{3}(\s|-|)[0-9]{4})$/;
+// 俄罗斯电话正则
+export const ruTelephoneCheck = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 
 const TELEPHONE_REGEXP =
-  { FR: /[+(33)|0]\d{9}$/, US: usTelephoneCheck }[
+  { FR: /[+(33)|0]\d{9}$/, US: usTelephoneCheck, RU: ruTelephoneCheck }[
     process.env.REACT_APP_COUNTRY
   ] || '';
 

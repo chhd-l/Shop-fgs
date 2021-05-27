@@ -8,7 +8,7 @@ export default function PromotionPanel({
   className
 }) {
   return (
-    <div className={`p-4 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
+    <div className={`p-3 pt-sm-0 pb-sm-0 dropdown-nav__ad__card ${className}`}>
       <div className="border d-flex align-items-center p-4 ">
         <div className="container-text">
           <p className="title-text red">{cItem.Title}</p>

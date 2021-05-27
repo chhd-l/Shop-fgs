@@ -18,7 +18,8 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import AdyenEditForm from '@/components/Adyen/form';
 import {
   CREDIT_CARD_IMG_ENUM,
-  PAYMENT_METHOD_PAU_ACCOUNT_RULE
+  PAYMENT_METHOD_PAU_ACCOUNT_RULE,
+  PAYMENT_METHOD_PAU_CHECKOUT_RULE
 } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
@@ -872,7 +873,11 @@ class PaymentComp extends React.Component {
 
         {this.state.isEdit || !creditCardList.length ? (
           <PaymentEditForm
-            payuFormRule={PAYMENT_METHOD_PAU_ACCOUNT_RULE}
+            payuFormRule={
+              this.props.needEmail && this.props.needPhone
+                ? PAYMENT_METHOD_PAU_ACCOUNT_RULE
+                : PAYMENT_METHOD_PAU_CHECKOUT_RULE
+            }
             defaultCardTypeVal={this.state.defaultCardTypeVal}
             backPage={this.state.fromPage}
             hideMyself={this.handleHideEditForm}
