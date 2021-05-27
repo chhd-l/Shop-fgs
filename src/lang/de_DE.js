@@ -692,7 +692,7 @@ const de_DE = {
   'payment.pleaseInput': 'Bitte geben: ',
   'payment.streets': 'Straße',
   'payment.house': 'Haus',
-  'payment.privince': 'privat',
+  'payment.province': 'privat',
   'payment.settlement': 'Abrechnung',
   'payment.wrongAddress':
     'Bitte geben Sie Ihre Adresse im Lieferbereich des Online-Shops ein.Die "Teilhilfe" der Lieferbedingungen finden Sie auf der Seite',

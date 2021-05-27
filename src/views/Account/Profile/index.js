@@ -135,16 +135,15 @@ class AccountProfile extends React.Component {
         address1: context.address1,
         address2: context.address2,
         postCode: context.postalCode,
+        entrance: context?.entrance,
+        apartment: context?.apartment,
         communicationEmail: context.communicationEmail,
         communicationPhone: context.communicationPhone,
-        communicationPrint: context.communicationPrint
+        communicationPrint: context.communicationPrint,
+        provinceNo: context?.provinceNo,
+        province: context?.province,
+        provinceId: context?.provinceId
       };
-
-      if (process.env.REACT_APP_COUNTRY === 'US') {
-        mydata.provinceNo = context.provinceNo;
-        mydata.province = context.province;
-        mydata.provinceId = context.provinceId;
-      }
 
       this.setState({
         originData: context,
