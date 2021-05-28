@@ -935,6 +935,7 @@ const tr_TR = {
   unLoginSubscriptionTips:
     'Otomatik teslimat üye girişi yapıldıktan sonra mümkündür.',
   userAgreement: 'Kullanıcı Sözleşmesi',
+  validPromotionCode: 'İndirim kuponu arabanıza eklenemiyor',
   viewAll: 'Ürünlere göz at',
   viewAllResults: 'Tüm sonuçları görüntüle',
   viewResults: 'Sonuçları Görüntüle',
