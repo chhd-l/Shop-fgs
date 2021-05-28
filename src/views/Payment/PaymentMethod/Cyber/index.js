@@ -293,7 +293,12 @@ class CyberPayment extends React.Component {
               showErrorMsg={this.props.showErrorMsg}
             />
             {this.props.reInputCVVBtn({
-              disabled: !this.props.isShowCyberBindCardBtn,
+              disabled: this.props.billingChecked
+                ? !this.props.isShowCyberBindCardBtn
+                : this.props.isShowCyberBindCardBtn &&
+                  this.props.validForBilling22
+                ? false
+                : true,
               loading: this.props.saveBillingLoading
             })}
           </>

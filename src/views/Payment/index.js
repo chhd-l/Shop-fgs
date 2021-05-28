@@ -1993,9 +1993,6 @@ class Payment extends React.Component {
       </>
     );
   };
-  clickAConsent = () => {
-    alert('a');
-  };
 
   renderBillingJSX = ({ type }) => {
     const {
@@ -2550,7 +2547,6 @@ class Payment extends React.Component {
 
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
-    // console.log(' 2215 validForBilling: ', validForBilling);
     const validForCyberPayment = () => {
       let isValidForCyberPayment = false;
       let errMsgObj = {};
@@ -2801,6 +2797,8 @@ class Payment extends React.Component {
                 validForBilling={
                   !this.state.billingChecked && !this.state.validSts.billingAddr
                 }
+                billingChecked={this.state.billingChecked}
+                validForBilling22={this.state.validForBilling}
                 isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
                 updateSelectedCardInfo={this.updateSelectedCardInfo}
                 reInputCVVBtn={reInputCVVBtn}
