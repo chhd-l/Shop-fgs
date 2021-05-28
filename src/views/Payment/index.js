@@ -2411,8 +2411,8 @@ class Payment extends React.Component {
       cyberPaymentParam.phone = newBillingAddress.phoneNumber;
       cyberPaymentParam.email = isLogin
         ? tid
-          ? orderDetails?.invoice?.email
-          : billingAddress.email
+          ? orderDetails?.invoice?.email || ''
+          : billingAddress.email || ''
         : this.state.guestEmail;
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: currentCardTypeInfo.cardType,
