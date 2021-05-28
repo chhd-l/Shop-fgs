@@ -990,7 +990,12 @@ class AddressList extends React.Component {
           </div>
           <div
             className="col-10 col-md-8 pl-1 pr-1"
-            style={{ wordBreak: 'keep-all' }}
+            style={{
+              wordBreak: 'keep-all',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis'
+            }}
           >
             <span>{[item.consigneeName, item.consigneeNumber].join(', ')}</span>
             {item.isDefaltAddress === 1 ? (
