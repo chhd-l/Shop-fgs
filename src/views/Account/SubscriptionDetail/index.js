@@ -1006,7 +1006,6 @@ class SubscriptionDetail extends React.Component {
         selected = el?.chidren.find((item) => item.selected)?.goodsId;
       }
     });
-    console.info(selected, 'dskjdhsjdhsjhk');
     return (
       <React.Fragment>
         {this.showErrorDom(errorMsgSureChange)}
@@ -2491,7 +2490,7 @@ class SubscriptionDetail extends React.Component {
   getDetailModalInner = () => {
     const createMarkup = (text) => ({ __html: text });
     const { details, foodFllType } = this.state;
-    console.info('details', details);
+    // console.info('details', details);
     // console.info('detailsdetailsdetails', props.details);
     return (
       <div className="margin12 product_detail rc-padding-x--md">
@@ -3046,8 +3045,7 @@ class SubscriptionDetail extends React.Component {
     });
   };
   render() {
-    console.info('frequencyListOptions', this.frequencyListOptions);
-
+    // console.info('frequencyListOptions', this.frequencyListOptions);
     const event = {
       page: {
         type: 'Account',
@@ -3082,7 +3080,7 @@ class SubscriptionDetail extends React.Component {
       isGift,
       remainingsVisible
     } = this.state;
-    console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
+    // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
