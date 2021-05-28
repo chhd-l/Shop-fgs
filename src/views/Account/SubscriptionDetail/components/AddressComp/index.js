@@ -1,7 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import {
   getAddressList,
@@ -21,7 +21,7 @@ import './index.less';
 const localItemRoyal = window.__.localItemRoyal;
 
 function CardItem(props) {
-  const { data } = props;
+  const { data, localAddressForm } = props;
   return (
     <div
       className={`rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100 address-item ${
@@ -44,27 +44,41 @@ function CardItem(props) {
         )}
       </div>
       <div>
+        {/* 姓名 */}
         <div className="ccard-phone-title word-break">
           <div className="address-name">
             <span>{data.firstName + ' ' + data.lastName}</span>
           </div>
         </div>
-        <p className="mb-0">{data.address1}</p>
+        {/* 地址 */}
+        {localAddressForm?.address1 && data?.address1 && (
+          <p className="mb-0 ac_mb_address1">{data?.address1}</p>
+        )}
+
         {process.env.REACT_APP_COUNTRY == 'US' ? null : (
           <>
             <p className="mb-0">{props.countryName}</p>
           </>
         )}
-        <p className="mb-0">{data.city}</p>
-        {data.province && data.province != null ? (
-          <p className="mb-0">{data.province}</p>
-        ) : null}
-        {/* <p className="mb-0">{data.consigneeNumber}</p> */}
+        <p className="mb-0 ac_mb_cpp">
+          {/* 城市 */}
+          {localAddressForm?.city && data?.city + ', '}
+
+          {/* 区域 */}
+          {localAddressForm?.region && data.area + ', '}
+
+          {/* 省份 / State */}
+          {localAddressForm?.state && data?.province + ' '}
+
+          {/* 邮编 */}
+          {localAddressForm?.postCode && data?.postCode}
+        </p>
       </div>
     </div>
   );
 }
-@inject('checkoutStore')
+@inject('checkoutStore', 'configStore')
+@observer
 /**
  * address list(delivery/billing) - member
  */
@@ -320,10 +334,10 @@ class AddressList extends React.Component {
   }
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    console.log(
-      '310 ★★ -- SubscriptionDetail 计算税额、运费、运费折扣: ',
-      data
-    );
+    // console.log(
+    //   '310 ★★ -- SubscriptionDetail 计算税额、运费、运费折扣: ',
+    //   data
+    // );
     const { ruShippingDTO } = this.state;
     let param = {};
 
@@ -361,7 +375,7 @@ class AddressList extends React.Component {
       tradeItems = tradeItems[0].tradeItems;
       let gids = [];
       tradeItems.forEach((item) => {
-        console.log(item.skuId);
+        // console.log(item.skuId);
         gids.push(item.skuId);
       });
       param.goodsInfoIds = gids;
@@ -590,7 +604,7 @@ class AddressList extends React.Component {
     }
   }
   async deleteAddress(item) {
-    console.log(item, 'item');
+    // console.log(item, 'item');
     let { addressList } = this.state;
     item.confirmTooltipVisible = false;
     if (item.canDelFlag === false) {
@@ -724,6 +738,9 @@ class AddressList extends React.Component {
       validationModalVisible,
       selectValidationOption
     } = this.state;
+
+    // 获取本地存储的需要显示的地址字段
+    const localAddressForm = this.props.configStore.localAddressForm;
     return (
       <div className={`${this.props.visible ? '' : 'hidden'} addressComp`}>
         <div
@@ -806,7 +823,7 @@ class AddressList extends React.Component {
                           }`}
                           onClick={() => {
                             isBillSame = !isBillSame;
-                            console.log(isBillSame);
+                            // console.log(isBillSame);
                             this.setState({ isBillSame });
                           }}
                           style={{ maxWidth: '450px' }}
@@ -846,6 +863,7 @@ class AddressList extends React.Component {
                           >
                             <CardItem
                               data={item}
+                              localAddressForm={localAddressForm}
                               operateBtnJSX={
                                 <>
                                   {item.isDefaltAddress === 1 ? (
