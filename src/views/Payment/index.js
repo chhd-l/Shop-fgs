@@ -900,6 +900,7 @@ class Payment extends React.Component {
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
         // 获取token，避免传给接口明文cvv
+        console.log(selectedCardInfo, 'selectedCardInfo');
         this.startLoading();
         let cvvResult = await new Promise((resolve) => {
           window.POS.tokenize(

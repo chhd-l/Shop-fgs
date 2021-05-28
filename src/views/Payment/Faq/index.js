@@ -139,7 +139,7 @@ const faqList =
       {
         title: 'ÜCRETSİZ KARGO',
         context: `<h1 class="rc-zeta"></h1>
-    <p></p><p>125TL ve üzeri siparişleriniz kargo ücretsizdir. Ürünleriniz sipariş verdikten sonra 3 - 5 gün içerisinde size ulaşır.</p>
+    <p></p><p>Ücretsiz kargo. Ürünleriniz sipariş verdikten sonra 3 - 5 gün içerisinde size ulaşır.</p>
     <ul>
     <li>Koronavirüs sebebiyle, teslimat tarihlerinde gecikme yaşanabilir. Anlayışınız için teşekkür ederiz.</li>
     </ul><p></p>`,
