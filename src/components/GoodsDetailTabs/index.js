@@ -24,12 +24,36 @@ import clubiconnew2 from './image/clubiconnew2.png';
 import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
 import clubiconnew5 from './image/clubiconnew5.png';
+import benefitsone from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsone.png';
+import benefitstwo from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitstwo.png';
+import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
+
+const SubscriptionItems = [
+  {
+    SubscriptionImg: benefitsone,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+    ),
+  },
+  {
+    SubscriptionImg: benefitstwo,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+    ),
+  },
+  {
+    SubscriptionImg: benefitsthree,
+    SubscriptionTitle: (
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+    ),
+  }
+];
 
 let clubListDataNew = [
   {
@@ -527,7 +551,7 @@ const GoodsDetailTabs = function (props) {
                             </p>
                           </div>
                           <div>
-                            <SubscriptionBenefitsBanner />
+                            <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems}/>
                           </div>
                         </div>
                       </div>
@@ -721,7 +745,7 @@ const GoodsDetailTabs = function (props) {
                           </div>
                         </div>
                         <div style={{ width: '100vw', marginTop: '-5vh' }}>
-                          <SubscriptionBenefitsBanner />
+                          <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems}/>
                         </div>
                       </div>
                     </div>

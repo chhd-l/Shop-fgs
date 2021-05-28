@@ -34,6 +34,7 @@ class Payu3dsResult extends Component {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
+      this.props.history.push('/checkout');
     } finally {
       await sleep(2000); //防止还没跳转
       this.setState({
