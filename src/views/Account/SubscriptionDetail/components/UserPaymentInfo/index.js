@@ -97,10 +97,14 @@ const UserPaymentInfo = ({
                 {currentDeliveryAddress?.consigneeName}
               </span>
             </p>
+
             {/* 电话 */}
-            <p className="mb-0 sd_mb_tel">
-              {currentDeliveryAddress?.consigneeNumber}
-            </p>
+            {localAddressForm?.phoneNumber &&
+              currentDeliveryAddress?.consigneeNumber && (
+                <p className="mb-0 sd_mb_tel">
+                  {currentDeliveryAddress?.consigneeNumber}
+                </p>
+              )}
 
             {/* 国家 */}
             {process.env.REACT_APP_COUNTRY == 'US' ||
@@ -117,10 +121,13 @@ const UserPaymentInfo = ({
                 ,
               </p>
             )}
+
             {/* 地址 */}
-            <p className="mb-0 sd_mb_address1">
-              {currentDeliveryAddress?.address1}
-            </p>
+            {localAddressForm?.address1 && currentDeliveryAddress?.address1 && (
+              <p className="mb-0 sd_mb_address1">
+                {currentDeliveryAddress?.address1}
+              </p>
+            )}
             {localAddressForm?.address2 && currentDeliveryAddress?.address2 && (
               <p className="mb-0 sd_mb_address2">
                 {currentDeliveryAddress?.address2}
@@ -142,32 +149,30 @@ const UserPaymentInfo = ({
               {localAddressForm?.postCode && currentDeliveryAddress?.postCode}
             </p>
 
-            {maxDeliveryTime &&
-              minDeliveryTime &
-              (
-                <>
-                  {minDeliveryTime && (
-                    <>
-                      {minDeliveryTime == maxDeliveryTime ? (
-                        <FormattedMessage
-                          id="payment.deliveryDate2"
-                          values={{
-                            val: minDeliveryTime
-                          }}
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id="payment.deliveryDate"
-                          values={{
-                            min: minDeliveryTime,
-                            max: maxDeliveryTime
-                          }}
-                        />
-                      )}
-                    </>
-                  )}
-                </>
-              )}
+            {maxDeliveryTime && minDeliveryTime && (
+              <>
+                {minDeliveryTime && (
+                  <>
+                    {minDeliveryTime == maxDeliveryTime ? (
+                      <FormattedMessage
+                        id="payment.deliveryDate2"
+                        values={{
+                          val: minDeliveryTime
+                        }}
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id="payment.deliveryDate"
+                        values={{
+                          min: minDeliveryTime,
+                          max: maxDeliveryTime
+                        }}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -207,7 +212,8 @@ const UserPaymentInfo = ({
               )}
             </div>
             <div className="ml-1">
-              <p className="mb-0">
+              {/* 姓名 */}
+              <p className="mb-0 sd_mb_name">
                 <span
                   className="medium"
                   style={{
@@ -219,29 +225,58 @@ const UserPaymentInfo = ({
                   {currentBillingAddress.consigneeName}
                 </span>
               </p>
-              <p className="mb-0">{currentBillingAddress.consigneeNumber}</p>
-              <p className="mb-0">
-                {process.env.REACT_APP_COUNTRY == 'US' ? null : (
-                  <>
-                    {countryList.length &&
-                    countryList.filter(
-                      (el) => el.id === currentBillingAddress.countryId
-                    ).length
-                      ? countryList.filter(
-                          (el) => el.id === currentBillingAddress.countryId
-                        )[0].valueEn
-                      : currentBillingAddress.countryId}
-                    ,
-                  </>
+
+              {/* 电话 */}
+              {localAddressForm?.phoneNumber &&
+                currentDeliveryAddress?.address2 && (
+                  <p className="mb-0 sd_mb_tel">
+                    {currentBillingAddress.consigneeNumber}
+                  </p>
                 )}
+
+              {/* 国家 */}
+              {process.env.REACT_APP_COUNTRY == 'US' ||
+              process.env.REACT_APP_COUNTRY == 'RU' ? null : (
+                <p className="mb-0 sd_mb_country">
+                  {countryList.length &&
+                  countryList.filter(
+                    (el) => el.id === currentBillingAddress.countryId
+                  ).length
+                    ? countryList.filter(
+                        (el) => el.id === currentBillingAddress.countryId
+                      )[0].valueEn
+                    : currentBillingAddress.countryId}
+                  ,
+                </p>
+              )}
+
+              {/* 地址 */}
+              {localAddressForm?.address1 &&
+                currentBillingAddress?.address1 && (
+                  <p className="mb-0 sd_mb_address1">
+                    {currentBillingAddress?.address1}
+                  </p>
+                )}
+              {localAddressForm?.address2 &&
+                currentBillingAddress?.address2 && (
+                  <p className="mb-0 sd_mb_address2">
+                    {currentBillingAddress?.address2}
+                  </p>
+                )}
+              <p className="mb-0 sd_mb_cpp">
+                {/* 城市 */}
+                {localAddressForm?.city && currentBillingAddress?.city + ', '}
+
+                {/* 区域 */}
+                {localAddressForm?.region && currentBillingAddress.area + ', '}
+
                 {/* 省份 / State */}
-                {currentBillingAddress?.province &&
-                currentBillingAddress?.province != null
-                  ? currentBillingAddress.province + ', '
-                  : null}
-                {currentBillingAddress.city}
+                {localAddressForm?.state &&
+                  currentBillingAddress?.province + ' '}
+
+                {/* 邮编 */}
+                {localAddressForm?.postCode && currentBillingAddress?.postCode}
               </p>
-              <p className="mb-0">{currentBillingAddress.address1}</p>
             </div>
           </div>
         </div>
