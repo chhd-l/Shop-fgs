@@ -719,6 +719,7 @@ class Payment extends React.Component {
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
         // 获取token，避免传给接口明文cvv
+        console.log(selectedCardInfo, 'selectedCardInfo');
         this.startLoading();
         let cvvResult = await new Promise((resolve) => {
           window.POS.tokenize(
@@ -1371,7 +1372,11 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     });
-    // console.log('★★★★★★ 1548 封装下单参数: ', param);
+    let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
+    if (tokenObj && tokenObj.accessToken) {
+      param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
+    }
+    console.log('★★★★★★ 1548 封装下单参数: ', param);
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
     //   phone: creditCardInfo?.phoneNumber,
