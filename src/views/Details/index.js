@@ -1040,8 +1040,12 @@ class Details extends React.Component {
           const goodsInfoBarcode =
             goodsInfos.find((item) => item.packSize === goodSize)
               ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
-          const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-
+          let barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+          const goodsType = res.context.goods?.goodsType;
+          if (goodsType === 3 && process.env.REACT_APP_COUNTRY === 'FR') {
+            //fr vet产品的code固定一个值
+            barcode = '3182550751148';
+          }
           let images = [];
           images = res.context.goodsInfos;
           this.setState(
