@@ -250,8 +250,8 @@ class ConfigStore {
           settings: addressSettings,
           formType: {
             type: formSettingSwitch,
-            manually: 1,
-            automatically: 0
+            manually: manually,
+            automatically: automatically
           }
         };
         // 标记可用字段
