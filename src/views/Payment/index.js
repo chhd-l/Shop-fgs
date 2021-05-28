@@ -190,6 +190,10 @@ class Payment extends React.Component {
         postCode: '',
         phoneNumber: ''
       },
+      wrongBillingAddress: sessionItemRoyal.get('rc-wrongAddressMsg')
+        ? JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+        : [],
+      billingAddressErrorMsg: '',
       creditCardInfo: {
         // cardNumber: "",
         // cardDate: "",
@@ -1990,6 +1994,7 @@ class Payment extends React.Component {
 
   renderBillingJSX = ({ type }) => {
     const {
+      billingAddressErrorMsg,
       billingChecked,
       billingAddress,
       deliveryAddress,
@@ -2018,6 +2023,20 @@ class Payment extends React.Component {
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
           type={type}
         />
+
+        {/* BillingAddress 地址不完整提示 */}
+        <div
+          className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
+            billingAddressErrorMsg ? '' : 'hidden'
+          }`}
+        >
+          <aside
+            className="rc-alert rc-alert--error rc-alert--with-close"
+            role="alert"
+          >
+            {billingAddressErrorMsg}
+          </aside>
+        </div>
 
         {/* 勾选， deliveryAddress = billingAddress */}
         {billingChecked ? (
@@ -2296,24 +2315,53 @@ class Payment extends React.Component {
       this.setState({ saveBillingLoading: false });
     }
   };
-
+  showBillingAddressErrorMsg = (msg) => {
+    this.setState({
+      billingAddressErrorMsg: msg
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        billingAddressErrorMsg: ''
+      });
+    }, 4000);
+  };
   // 点击confirm cvv
   clickReInputCvvConfirm = () => {
     const {
+      wrongBillingAddress,
       billingChecked,
       tid,
       isShowValidationModal,
-      billingAddressAddOrEdit
+      billingAddressAddOrEdit,
+      billingAddress
     } = this.state;
-    // console.log('★ ----------------- click ReInput Cvv Confirm');
-    // console.log(
-    //   '★ ----------------- isShowValidationModal: ',
-    //   isShowValidationModal
-    // );
-    // console.log(
-    //   '★ ----------------- billingAddressAddOrEdit: ',
-    //   billingAddressAddOrEdit
-    // );
+
+    // 判断 BillingAddress 完整性
+    const laddf = this.props.configStore.localAddressForm;
+    let dfarr = laddf.settings;
+    dfarr = dfarr.filter(
+      (item) => item.enableFlag == 1 && item.requiredFlag == 1
+    );
+    let errMsgArr = [];
+    dfarr.forEach((v, i) => {
+      let akey = v.fieldKey;
+      // state 对应数据库字段 province
+      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+      // region 对应数据库字段 area
+      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      // phoneNumber 对应数据库字段 consigneeNumber
+      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      let fky = wrongBillingAddress[akey];
+      billingAddress[akey] ? '' : errMsgArr.push(fky);
+    });
+    errMsgArr = errMsgArr.join(', ');
+    // 如果地址字段有缺失，提示错误信息
+    if (errMsgArr.length) {
+      this.showBillingAddressErrorMsg(wrongBillingAddress['title'] + errMsgArr);
+      return;
+    }
+
     // 点击按钮后进入下一步
     if (
       !billingChecked &&

@@ -179,8 +179,8 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
-    console.log(1111, !sessionItemRoyal.get('rc-iframe-from-storepotal'));
-    console.log(2222, this.props.operateBtnVisible);
+    // console.log(1111, !sessionItemRoyal.get('rc-iframe-from-storepotal'));
+    // console.log(2222, this.props.operateBtnVisible);
 
     this.refs.applyButtton.click();
     let productList;
