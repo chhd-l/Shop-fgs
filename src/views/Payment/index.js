@@ -2798,7 +2798,7 @@ class Payment extends React.Component {
                   !this.state.billingChecked && !this.state.validSts.billingAddr
                 }
                 billingChecked={this.state.billingChecked}
-                validForBilling22={this.state.validForBilling}
+                validBillingAddress={this.state.validForBilling}
                 isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
                 updateSelectedCardInfo={this.updateSelectedCardInfo}
                 reInputCVVBtn={reInputCVVBtn}

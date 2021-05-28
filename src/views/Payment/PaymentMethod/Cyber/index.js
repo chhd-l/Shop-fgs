@@ -296,7 +296,7 @@ class CyberPayment extends React.Component {
               disabled: this.props.billingChecked
                 ? !this.props.isShowCyberBindCardBtn
                 : this.props.isShowCyberBindCardBtn &&
-                  this.props.validForBilling22
+                  this.props.validBillingAddress
                 ? false
                 : true,
               loading: this.props.saveBillingLoading
