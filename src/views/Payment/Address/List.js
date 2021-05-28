@@ -984,7 +984,12 @@ class AddressList extends React.Component {
           </div>
           <div
             className="col-10 col-md-8 pl-1 pr-1"
-            style={{ wordBreak: 'keep-all' }}
+            style={{
+              wordBreak: 'keep-all'
+              // overflow: 'hidden',
+              // whiteSpace: 'nowrap',
+              // textOverflow: 'ellipsis'
+            }}
           >
             <span>{[item.consigneeName, item.consigneeNumber].join(', ')}</span>
             {item.isDefaltAddress === 1 ? (
@@ -993,7 +998,7 @@ class AddressList extends React.Component {
               </span>
             ) : null}
             <br />
-            <span>
+            <p>
               {this.setAddressFields(item)}
               {/* {process.env.REACT_APP_COUNTRY == 'US' ? [
                 item.address1,
@@ -1006,7 +1011,7 @@ class AddressList extends React.Component {
                   item.city,
                   localAddressForm['region'] && item.area,
                 ].join(', ')} */}
-            </span>
+            </p>
           </div>
           <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">
             <span
