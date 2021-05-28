@@ -8,6 +8,9 @@
   }
 }
 .p-petform {
+  .rc-input__label.border-for-weight::before,.rc-input__label.border-for-weight::after{
+    height: 0.5px!important;
+  }
   .section-form-group {
     background-color: #f0f0f0;
     margin-top: 1rem;
@@ -190,6 +193,9 @@
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #d7d7d7;
+    &.no-border{
+      border: none
+    }
   }
   .petPropChecked:after {
     background-position: 18.18% 100%;

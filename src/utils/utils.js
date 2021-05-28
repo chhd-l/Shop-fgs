@@ -173,7 +173,12 @@ export async function getDictionary({ type, name = '' }) {
   }
   return ret;
 }
-
+export function getElementToPageTop(el) {
+  if (el.parentElement) {
+    return getElementToPageTop(el.parentElement) + el.offsetTop;
+  }
+  return el.offsetTop;
+}
 export function getDeviceType() {
   let t = '';
   if (navigator.userAgent.match(/(pad|iPad)/i)) {

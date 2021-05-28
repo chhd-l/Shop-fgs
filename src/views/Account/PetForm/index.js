@@ -28,11 +28,12 @@ import {
   getDeviceType,
   datePickerConfig,
   setSeoConfig,
+  getElementToPageTop,
   getZoneTime,
   getClubFlag
 } from '@/utils/utils';
 import { getDict } from '@/api/dict';
-import DatePicker, { registerLocale } from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns-tz';
 import Selection from '@/components/Selection';
@@ -46,10 +47,8 @@ import {
   findPetProductForClub,
   changeSubscriptionDetailPets
 } from '@/api/subscription';
-
 import InputBox from './components/FormItem/InputBox';
 import RadioBox from './components/FormItem/RadioBox';
-
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 @inject('loginStore')
@@ -61,9 +60,7 @@ class PetForm extends React.Component {
       subList: [],
       isEditAlert: false,
       loading: true,
-      precent: 12.5,
       sterilized: '0',
-      step: 1,
       currentStep: 'step1',
       showList: false,
       petsSex: '1',
@@ -80,7 +77,6 @@ class PetForm extends React.Component {
       currentPetId: '',
       isCat: null,
       nickname: '',
-      isUnknown: false,
       breed: '',
       weight: '',
       birthdate: '',
@@ -96,10 +92,7 @@ class PetForm extends React.Component {
       currentPet: {},
       isEdit: false,
       errorMsg: '',
-      successMsg: '',
       breedListLoading: false,
-      showBreedListNoneTip: false,
-      specialNeedsDisable: false,
       imgUrl: '',
       isMobile: false,
       sensitivityList: [],
@@ -165,7 +158,6 @@ class PetForm extends React.Component {
         }
       ]
     };
-
     this.delPets = this.delPets.bind(this);
   }
 
@@ -233,9 +225,6 @@ class PetForm extends React.Component {
     let params = {
       petsId: id
     };
-    this.setState({
-      loading: true
-    });
     try {
       const res = await petsById(params);
       let currentPet = res.context.context;
@@ -289,7 +278,6 @@ class PetForm extends React.Component {
         }
       );
       this.edit(currentPet);
-
       this.getSpecialNeeds(currentPet.customerPetsPropRelations);
     } catch (err) {
       this.setState({
@@ -366,7 +354,7 @@ class PetForm extends React.Component {
       this.setState({
         weight: ''
       });
-    } else if (!isPurebred) {
+    } else if (isPurebred == 0) {
       this.setState({
         breed: ''
       });
@@ -461,7 +449,7 @@ class PetForm extends React.Component {
       petsType: isCat ? 'cat' : 'dog',
       sterilized,
       storeId: process.env.REACT_APP_STOREID,
-      isPurebred: isPurebred,
+      isPurebred,
       activity,
       lifestyle,
       weight: JSON.stringify(this.state.weightObj),
@@ -488,9 +476,6 @@ class PetForm extends React.Component {
 
       // 如果编辑的，需判断是否只有name更变了
       let hasChangedProps = this.equalProps(pets, oldCurrentPet);
-      // console.log(hasChangedProps, 'hasChangedProps');
-      // return
-
       for (let key in hasChangedProps) {
         if (key !== 'petsName') {
           ++diffIndex;
@@ -573,12 +558,7 @@ class PetForm extends React.Component {
   }
 
   inputNickname = (e) => {
-    let isDisabled = true;
-    if (e.target.value !== '') {
-      isDisabled = false;
-    } else {
-      isDisabled = true;
-    }
+    let isDisabled = e.target.value === '';
     this.setState({
       nickname: e.target.value,
       isDisabled
@@ -602,22 +582,25 @@ class PetForm extends React.Component {
       breedListLoading: true,
       breedList: []
     });
-    try {
-      let breedList = await getDictionary({
-        type: this.state.isCat === 'cat' ? 'catBreed' : 'dogBreed',
-        name: e.target.value
+    getDict({
+      type: this.state.isCat ? 'catBreed' : 'dogBreed',
+      name: e.target.value,
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    })
+      .then((res) => {
+        this.setState({
+          breedList: res.context.sysDictionaryVOS,
+          breedListLoading: false,
+          showBreedListNoneTip: !res.context.sysDictionaryVOS.length
+        });
+      })
+      .catch((err) => {
+        this.showErrorMsg(
+          err.message.toString() || this.props.intl.messages.getDataFailed
+        );
+        this.setState({ breedListLoading: false, showBreedListNoneTip: true });
       });
-      this.setState({
-        breedList,
-        breedListLoading: false,
-        showBreedListNoneTip: !breedList.length
-      });
-    } catch (err) {
-      this.showErrorMsg(
-        err.message.toString() || this.props.intl.messages.getDataFailed
-      );
-      this.setState({ breedListLoading: false, showBreedListNoneTip: true });
-    }
   };
 
   weightChange = (e) => {
@@ -660,7 +643,7 @@ class PetForm extends React.Component {
       this.showErrorMsg(
         err.message.toString() || this.props.intl.messages.getDataFailed
       );
-      this.setState({ breedListLoading: false, showBreedListNoneTip: true });
+      this.setState({ breedListLoading: false });
     }
     let filteredBreed = breedList.filter(
       (el) => el.valueEn === currentPet.petsBreed
@@ -750,6 +733,7 @@ class PetForm extends React.Component {
           recommendData.unshift(result.mainProduct);
           recommendData.forEach((el) => {
             el.goodsSubtitle = el.goodsSubTitle;
+            el.mainItemCode = el.spuCode;
           });
           this.setState({
             recommendData: recommendData
@@ -773,23 +757,6 @@ class PetForm extends React.Component {
     }
     this.setState(param);
   };
-  getDict = (type, name) => {
-    this.setState({ loading: true });
-    getDict({ type, name, delFlag: 0, storeId: process.env.REACT_APP_STOREID })
-      .then((res) => {
-        this.setState({
-          breedList: res.context.sysDictionaryVOS,
-          loading: false
-        });
-      })
-      .catch((err) => {
-        this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.getDataFailed
-        );
-        this.setState({ loading: false });
-      });
-  };
-
   showErrorMsg = (message) => {
     this.setState({
       errorMsg: message
@@ -808,18 +775,11 @@ class PetForm extends React.Component {
     const widget = document.querySelector('.rc-layout-container');
     if (widget) {
       window.scrollTo({
-        top: this.getElementToPageTop(widget),
+        top: getElementToPageTop(widget),
         behavior: 'smooth'
       });
     }
   }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
-  }
-
   getSpecialNeeds = (array) => {
     if (array && array.length > 0) {
       let needs = [];
@@ -838,9 +798,7 @@ class PetForm extends React.Component {
     });
   }
   pruebredChange = (isPurebred) => {
-    this.setState({ isPurebred }, () => {
-      console.info('this.state.isPurebred', this.state.isPurebred);
-    });
+    this.setState({ isPurebred });
   };
   genderChange = (petsSex) => {
     this.setState({ petsSex });
@@ -881,14 +839,12 @@ class PetForm extends React.Component {
 
   specialNeedsOptionsChange(data) {
     this.setState({ sensitivity: data.value });
-    console.log(data);
     let selectedSpecialNeeds = data.value === 'none' ? ['none'] : [data.value];
     this.setState({
       selectedSpecialNeeds
     });
   }
   sizeOptionsChange(data) {
-    console.log(data);
     this.setState({
       weight: data.value,
       selectedSizeObj: { value: data.value },
@@ -905,9 +861,8 @@ class PetForm extends React.Component {
       activity: data.value
     });
   }
-  handelImgChange(data) {
-    console.log(data);
-    this.setState({ imgUrl: data });
+  handelImgChange(imgUrl) {
+    this.setState({ imgUrl });
   }
   render() {
     const event = {
@@ -928,6 +883,7 @@ class PetForm extends React.Component {
       isChoosePetType,
       isCat
     } = this.state;
+    const { enterCatBreed, enterDogBreed } = this.props.intl.messages;
     const RuTr =
       process.env.REACT_APP_COUNTRY == 'RU' ||
       process.env.REACT_APP_COUNTRY == 'TR';
@@ -1195,42 +1151,22 @@ class PetForm extends React.Component {
                             type="text"
                             id="dog-breed"
                             autocomplete="off"
-                            placeholder={this.props.intl.messages.enterDogBreed}
+                            placeholder={
+                              this.state.isCat ? enterCatBreed : enterDogBreed
+                            }
                             className="form-control input-pet breed"
                             value={this.state.breedName}
                             onChange={this.inputBreed}
                             style={{
-                              display: this.state.isCat ? 'none' : null,
                               height: '48px'
                             }}
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
                             }
                           />
-
-                          <input
-                            type="text"
-                            id="cat-breed"
-                            autocomplete="off"
-                            placeholder={this.props.intl.messages.enterCatBreed}
-                            className="form-control input-pet breed"
-                            value={this.state.breedName}
-                            onChange={this.inputBreed}
-                            style={{
-                              display: !this.state.isCat ? 'none' : null,
-                              height: '48px'
-                            }}
-                            disabled={
-                              this.state.isInputDisabled ? 'disabled' : null
-                            }
-                            onBlur={() => {
-                              this.setState({ showBreedListNoneTip: false });
-                            }}
-                          />
-
                           <div
                             className={`select-breed ${
-                              this.state.showBreedList ? '' : 'hidden'
+                              this.state.showBreedList ? '' : 'hide no-border'
                             }`}
                           >
                             {this.state.breedListLoading ? (
@@ -1323,14 +1259,14 @@ class PetForm extends React.Component {
                               name="weight"
                               required=""
                               aria-required="true"
-                              style={{ padding: '.5rem 0', height: '44px' }}
+                              style={{ padding: '.5rem 0', height: '49px' }}
                               value={this.state.weightObj.measure}
                               onChange={this.weightChange}
                               maxLength="50"
                               autoComplete="address-line"
                             />
                             <label
-                              className="rc-input__label"
+                              className="rc-input__label border-for-weight"
                               htmlFor="weight"
                             ></label>
                           </span>
@@ -1466,11 +1402,7 @@ class PetForm extends React.Component {
           >
             <div className="text-center">
               <p>
-                <div>
-                  {this.state.deleteWarningMessage}
-                  {/* <FormattedMessage id="petSaveTips1" /> */}
-                </div>
-                {/* <FormattedMessage id="petSaveTips2" /> */}
+                <div>{this.state.deleteWarningMessage}</div>
               </p>
               <p>
                 <button
