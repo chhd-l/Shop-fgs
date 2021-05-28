@@ -204,7 +204,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -218,6 +218,8 @@ class AddressList extends React.Component {
       v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      // phoneNumber 对应数据库字段 consigneeNumber
+      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
       let fky = wrongAddressMsg[akey];
       tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
