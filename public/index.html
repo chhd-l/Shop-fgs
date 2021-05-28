@@ -64,7 +64,7 @@
     <!-- End Cookies Consent Notice -->
 
     <script type="text/javascript">
-      if ('<%= process.env.REACT_APP_LANG %>' == 'fr') {
+      if ('<%= process.env.REACT_APP_LANG %>' == 'fr' || '<%= process.env.REACT_APP_LANG %>' == 'de') {
         function OptanonWrapper() {
           setTimeout(function () {
             Optanon.Close();
