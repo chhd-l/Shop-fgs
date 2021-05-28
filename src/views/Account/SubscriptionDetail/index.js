@@ -5540,13 +5540,13 @@ class SubscriptionDetail extends React.Component {
                                 {process.env.REACT_APP_COUNTRY == 'US' ||
                                 process.env.REACT_APP_COUNTRY == 'RU' ? null : (
                                   <p className="mb-0 sd_mb_country">
-                                    {countryList.length &&
-                                    countryList.filter(
+                                    {this.state.countryList.length &&
+                                    this.state.countryList.filter(
                                       (el) =>
                                         el.id ===
                                         currentBillingAddress.countryId
                                     ).length
-                                      ? countryList.filter(
+                                      ? this.state.countryList.filter(
                                           (el) =>
                                             el.id ===
                                             currentBillingAddress.countryId
