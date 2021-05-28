@@ -394,17 +394,39 @@ class AddressList extends React.Component {
     }
     return el.offsetTop;
   }
+  // 返回上一级
   handleClickCancel() {
-    if (this.state.addOrEdit) {
+    const { addOrEdit, addressList } = this.state;
+    if (addOrEdit) {
       this.setState({
-        addOrEdit: false,
         saveErrorMsg: ''
       });
-      this.scrollToTitle();
+      if (addressList.length) {
+        this.handToTitleOrCancel('toTitle');
+      } else {
+        this.handToTitleOrCancel('cancel');
+      }
     } else {
-      this.props.cancel();
+      if (addressList.length) {
+        this.handToTitleOrCancel('cancel');
+      } else {
+        this.handToTitleOrCancel('toTitle');
+      }
     }
   }
+  handToTitleOrCancel = (str) => {
+    const { addressList } = this.state;
+    if (addressList.length) {
+      this.setState({
+        addOrEdit: false
+      });
+    } else {
+      this.setState({
+        addOrEdit: true
+      });
+    }
+    str == 'cancel' ? this.props.cancel() : this.scrollToTitle();
+  };
 
   // 保存数据
   handleSave() {
