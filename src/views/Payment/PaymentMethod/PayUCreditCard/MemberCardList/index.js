@@ -368,8 +368,12 @@ class MemberCardList extends React.Component {
         await this.getPaymentMethodList();
         const tmpSelectedId = addRes.context.id;
         let { creditCardList } = this.state;
-        let tmpItem = creditCardList.filter((c) => c.id === tmpSelectedId);
-        tmpItem.cardCvv = creditCardInfoForm.cardCvv;
+        creditCardList.map((el) => {
+          if (el.id === tmpSelectedId) {
+            el.cardCvv = creditCardInfoForm.cardCvv;
+          }
+          return el;
+        });
         this.setState({
           creditCardList,
           selectedId: tmpSelectedId,

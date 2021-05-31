@@ -313,6 +313,7 @@ class PetForm extends React.Component {
           recommendData.unshift(result.mainProduct);
           recommendData.forEach((el) => {
             el.goodsSubtitle = el.goodsSubTitle;
+            el.mainItemCode = el.spuCode;
           });
           this.setState({
             recommendData: recommendData
