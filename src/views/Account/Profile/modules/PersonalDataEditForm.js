@@ -54,7 +54,7 @@ class PersonalDataEditForm extends React.Component {
       provinceList: [], // 省份列表
       isValid: false,
       errMsgObj: {},
-      russiaAddressValid: false,
+      formAddressValid: false,
       validationLoading: false, // 地址校验loading
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress'
@@ -65,7 +65,6 @@ class PersonalDataEditForm extends React.Component {
   }
   componentDidMount() {
     const { data, editFormVisible } = this.props;
-    console.log('70 -> ', data);
     this.setState(
       {
         form: Object.assign({}, data),
@@ -337,10 +336,10 @@ class PersonalDataEditForm extends React.Component {
     );
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
     // console.log('PersonalDataEditForm: ',flag);
     this.setState({
-      russiaAddressValid: flag
+      formAddressValid: flag
     });
   };
 
@@ -349,7 +348,7 @@ class PersonalDataEditForm extends React.Component {
       editFormVisible,
       form,
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       errorMsg,
       successTipVisible,
       errMsgObj,
@@ -500,7 +499,7 @@ class PersonalDataEditForm extends React.Component {
                   isLogin={true}
                   personalData={true}
                   updateData={this.handleEditFormChange}
-                  getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+                  getFormAddressValidFlag={this.getFormAddressValidFlag}
                 />
               )}
 
@@ -526,7 +525,7 @@ class PersonalDataEditForm extends React.Component {
                   })}
                   name="personalInformation"
                   type="submit"
-                  disabled={isValid && russiaAddressValid ? false : true}
+                  disabled={isValid && formAddressValid ? false : true}
                   onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />

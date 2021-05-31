@@ -78,7 +78,7 @@ class AddressList extends React.Component {
       saveErrorMsg: '',
       selectedId: '',
       isValid: false,
-      russiaAddressValid: false,
+      formAddressValid: false,
       listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
@@ -592,10 +592,10 @@ class AddressList extends React.Component {
     this.props.calculateFreight(data);
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
-    console.log('俄罗斯地址校验flag，控制按钮是否可用: ', flag);
+  getFormAddressValidFlag = (flag) => {
+    console.log('address1地址校验flag : ', flag);
     this.setState({
-      russiaAddressValid: flag
+      formAddressValid: flag
     });
   };
   scrollToTitle() {
@@ -934,7 +934,7 @@ class AddressList extends React.Component {
     const { showOperateBtn } = this.props;
     const {
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       deliveryAddress,
       addOrEdit,
       loading,
@@ -1091,7 +1091,7 @@ class AddressList extends React.Component {
             ref={this.editFormRef}
             isLogin={true}
             initData={deliveryAddress}
-            getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+            getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}
           />
@@ -1122,7 +1122,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -1145,7 +1145,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
                   </button>

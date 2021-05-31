@@ -58,7 +58,7 @@ class AdyenCreditCardList extends React.Component {
       cardList: [],
       selectedId: '',
       formVisible: false,
-      russiaAddressValid: false,
+      formAddressValid: false,
       visitorAdyenFormData: null,
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
       saveLoading: false
@@ -551,10 +551,10 @@ class AdyenCreditCardList extends React.Component {
     scrollPaymentPanelIntoView();
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
     console.log(flag);
     this.setState({
-      russiaAddressValid: flag
+      formAddressValid: flag
     });
   };
   renderEditForm = () => {
@@ -580,7 +580,7 @@ class AdyenCreditCardList extends React.Component {
         updateClickPayBtnValidStatus={this.props.updateFormValidStatus}
         showErrorMsg={showErrorMsg}
         supportPaymentMethods={this.props.supportPaymentMethods}
-        getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+        getFormAddressValidFlag={this.getFormAddressValidFlag}
       />
     );
   };
