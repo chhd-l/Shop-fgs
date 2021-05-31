@@ -9,32 +9,37 @@
           "id": "AV202101261132238856",
           "attributeId": "A20210126071322816",
           "attributeDetailName": "Wet",
-          "attributeDetailNameEn": "влажный"
+          "attributeDetailNameEn": "Влажный",
+          "attributeDetailNameSeoEn": "влажный"
         },
         {
           "id": "AV202101261132251386",
           "attributeId": "A20210126071322816",
           "attributeDetailName": "Dry",
-          "attributeDetailNameEn": "сухой"
+          "attributeDetailNameEn": "Сухой",
+          "attributeDetailNameSeoEn": "сухой"
         }
       ]
     },
     {
       "id": "A202101269071242331",
-      "attributeName": "Lifestage",
+      "attributeName": "Lifestages",
       "attributeNameEn": "ВОЗРАСТ",
+      "multiSelection": "корм для собак разных возрастов",
       "attributesValuesVOList": [
         {
           "id": "AV202101261221384476",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Baby_Cat",
-          "attributeDetailNameEn": "корм для котят до 4-х месяцев"
+          "attributeDetailNameEn": "Котенок-(до-4-х-месяцев)",
+          "attributeDetailNameSeoEn": "корм для котят до 4-х месяцев"
         },
         {
           "id": "AV202101261206296046",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Kitten_Cat",
-          "attributeDetailNameEn": "корм для котят"
+          "attributeDetailNameEn": "Котенок",
+          "attributeDetailNameSeoEn": "корм для котят"
         },
         {
           "id": "AV202101261132237556",
@@ -115,7 +120,8 @@
           "id": "AV202101261132239266",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Persian_Cat",
-          "attributeDetailNameEn": "породы Персидская"
+          "attributeDetailNameEn": "Персидская",
+          "attributeDetailNameSeoEn": "породы Персидская"
         },
         {
           "id": "AV202101261221444866",
