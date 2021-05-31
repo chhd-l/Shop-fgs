@@ -63,11 +63,7 @@ class BuyFromRetailerBtn extends React.Component {
                 !ccidBtnDisplay && 'rc-btn-solid-disabled'
               }`}
               data-ccid="wtb-target"
-              data-ean={
-                process.env.REACT_APP_COUNTRY === 'FR'
-                  ? '3182550751148'
-                  : barcode
-              }
+              data-ean={barcode}
               onClick={onClick}
             >
               <span className="rc-icon rc-location--xs rc-iconography rc-brand1 eanIcon" />

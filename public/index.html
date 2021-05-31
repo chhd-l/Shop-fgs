@@ -64,7 +64,7 @@
     <!-- End Cookies Consent Notice -->
 
     <script type="text/javascript">
-      if ('<%= process.env.REACT_APP_LANG %>' == 'fr') {
+      if ('<%= process.env.REACT_APP_LANG %>' == 'fr' || '<%= process.env.REACT_APP_LANG %>' == 'de') {
         function OptanonWrapper() {
           setTimeout(function () {
             Optanon.Close();
@@ -194,7 +194,10 @@
     fbq('track', 'PageView');
   </script>
   <script type="text/javascript">
-    !(function (t) {
+    if (
+      '<%= process.env.REACT_APP_COUNTRY %>' == 'RU'
+    ) {
+      !(function (t) {
       (window.PetStoryWC = window.PetStoryWC || {}),
         (window.PetStoryWC.id = t.id || 'ps-widget-' + new Date().getTime());
       var e = document.createElement('script');
@@ -208,6 +211,7 @@
         ),
         document.body.append(e);
     })({ key: 'd8ba1b22-18c0-4b5b-82f0-3768899fea64' });
+    }
   </script>
   <noscript>
     <img
