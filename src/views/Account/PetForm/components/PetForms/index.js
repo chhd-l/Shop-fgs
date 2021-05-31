@@ -1,0 +1,880 @@
+import React, { useEffect, useState } from 'react';
+import { useLocalStore } from 'mobx-react';
+import { myAccountActionPushEvent } from '@/utils/GA';
+import stores from '@/store';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import Skeleton from 'react-skeleton-loader';
+import Selection from '@/components/Selection';
+import Cat from '@/assets/images/cat.png';
+import Dog from '@/assets/images/dog.png';
+import DatePicker from 'react-datepicker';
+import InputBox from '../FormItem/InputBox';
+import RadioBox from '../FormItem/RadioBox';
+import UploadImg from '../ImgUpload';
+import Modal from '@/components/Modal';
+import { getDict } from '@/api/dict';
+import { format } from 'date-fns-tz';
+import { changeSubscriptionDetailPets } from '@/api/subscription';
+import { addPet, delPets, editPets } from '@/api/pet';
+import {
+  getZoneTime,
+  datePickerConfig,
+  getDeviceType,
+  getDictionary
+} from '@/utils/utils';
+const PetForms = ({
+  subList,
+  oldCurrentPet,
+  currentPetParam,
+  selectedSizeObj,
+  paramsId,
+  sizeOptions,
+  isCat,
+  selectedSpecialNeeds,
+  loading,
+  history,
+  errorMsg,
+  setState,
+  intl,
+  location,
+  showErrorMsg
+}) => {
+  const Us = process.env.REACT_APP_COUNTRY == 'US';
+  const RuTr =
+    process.env.REACT_APP_COUNTRY == 'RU' ||
+    process.env.REACT_APP_COUNTRY == 'TR';
+  const notUsDeFr =
+    process.env.REACT_APP_COUNTRY !== 'US' &&
+    process.env.REACT_APP_COUNTRY !== 'DE' &&
+    process.env.REACT_APP_COUNTRY !== 'FR';
+  const isMobile = getDeviceType() !== 'PC';
+  const { enterCatBreed, enterDogBreed } = intl.messages;
+  const isInputDisabled =
+    currentPetParam?.petsBreed === 'unknown Breed' ? true : false;
+  const { loginStore } = useLocalStore(() => stores);
+  const { userInfo } = loginStore;
+  const [genderGroup, setGenderGroup] = useState([
+    {
+      value: '1',
+      name: 'gender',
+      label: 'petFemale',
+      id: 'female',
+      checked: true
+    },
+    {
+      value: '0',
+      name: 'gender',
+      id: 'male',
+      label: 'petMale',
+      checked: false
+    }
+  ]);
+
+  const [purebredGroup, setPurebredGroup] = useState([
+    {
+      value: '1',
+      name: 'Is Purebred',
+      label: 'account.yes',
+      id: 'purebred',
+      checked: true
+    },
+    {
+      value: '0',
+      name: 'Is Purebred',
+      id: 'noPurebred',
+      label: 'account.no',
+      checked: false
+    }
+  ]);
+
+  const [sterilizedGroup, setSterilizedGroup] = useState([
+    {
+      value: '1',
+      name: 'sterilized',
+      id: 'sterilized',
+      label: 'account.yes',
+      checked: true
+    },
+    {
+      value: '0',
+      name: 'sterilized',
+      label: 'account.no',
+      id: 'noSterilized',
+      checked: false
+    }
+  ]);
+
+  const [deleteWarningMessage, setDeleteWarningMessage] = useState('');
+  const [showBreedList, setShowBreedList] = useState(false);
+  const [breedListLoading, setBreedListLoading] = useState(false);
+  const [petForm, setPetForm] = useState({
+    nickname: '',
+    petsSex: '1',
+    birthdate: '',
+    isPurebred: '1',
+    breedName: '',
+    sensitivity: '',
+    weight: '',
+    weightObj: {
+      measure: '',
+      measureUnit: 'kg',
+      type: 2
+    },
+    activity: '',
+    lifestyle: '',
+    sterilized: '0',
+    breed: '',
+    imgUrl: '',
+    breedcode: ''
+  });
+  const [specialNeeds, setSpecialNeeds] = useState([]);
+  const [sensitivityList, setSensitivityList] = useState([]);
+  const [breedList, setBreedList] = useState([]);
+  const [isDeleteModalShow, setIsDeleteModalShow] = useState(false);
+  const [lifestyleOptions, setLifestyleOptions] = useState([]);
+  const [activityOptions, setActivityOptions] = useState([]);
+  const [specialNeedsOptions, setSpecialNeedsOptions] = useState([]);
+  useEffect(() => {
+    (async () => {
+      let lifestyleOptions = await getDictionary({ type: 'Lifestyle' });
+      let activityOptions = await getDictionary({ type: 'Activity' });
+      let specialNeedsOptions = await getDictionary({ type: 'specialNeeds' }); //为了暂时解决fr的字典问题，后期字典应该还会调整，每个国家这里的字典都有区别
+      lifestyleOptions.map((el) => {
+        el.value = el.valueEn;
+      });
+      activityOptions.map((el) => {
+        el.value = el.valueEn;
+      });
+      specialNeedsOptions.map((el) => {
+        el.value = el.valueEn;
+      });
+      setLifestyleOptions(lifestyleOptions);
+      setActivityOptions(activityOptions);
+      setSpecialNeedsOptions(specialNeedsOptions);
+    })();
+  }, []);
+  useEffect(() => {
+    // 编辑的时候需要重置所有值
+    let petFormData = Object.assign(petForm, currentPetParam);
+    setPetForm(petFormData);
+  }, [currentPetParam.petsId]);
+  useEffect(() => {
+    getTypeDict();
+  }, [isCat]);
+  const getTypeDict = async () => {
+    let specialNeeds = [],
+      sensitivityList = [];
+    let type = isCat ? 'cat' : 'dog';
+    sensitivityList = await getDictionary({ type: `sensitivity_${type}` });
+    sensitivityList.map((el) => {
+      el.value = el.valueEn;
+    });
+    specialNeeds = await getDictionary({ type: `specialneeds_${type}` });
+    specialNeeds.map((el) => {
+      el.value = el.valueEn;
+    });
+    setSpecialNeeds(specialNeeds);
+    setSensitivityList(sensitivityList);
+  };
+  const handelImgChange = (imgUrl) => {
+    setNewPetForm('imgUrl', imgUrl);
+  };
+  const inputBreed = async (e) => {
+    let showBreedList = false;
+    if (e.target.value !== '') {
+      showBreedList = true;
+    }
+    setNewPetForm('breedName', e.target.value);
+    setShowBreedList(showBreedList);
+    setBreedListLoading(true);
+    setBreedList([]);
+    getDict({
+      type: isCat ? 'catBreed' : 'dogBreed',
+      name: e.target.value,
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
+    })
+      .then((res) => {
+        setBreedListLoading(false);
+        setBreedList(res.context.sysDictionaryVOS);
+      })
+      .catch((err) => {
+        showErrorMsg(err.message.toString() || intl.messages.getDataFailed);
+        setBreedListLoading(false);
+      });
+  };
+  const gotoNext = (stateText = 'isFromPets', diffIndex) => {
+    let isLinkedSub = subList.find((el) => el.petsId);
+    let petsIdLinkedSub = isLinkedSub?.petsId;
+    let subscribeId = location.state?.subscribeId || isLinkedSub?.subscribeId;
+    let url = '/account/pets/';
+
+    if (subscribeId || petsIdLinkedSub) {
+      if (diffIndex) {
+        url = {
+          pathname: `/account/subscription/order/detail/${subscribeId}`,
+          state: { [stateText]: true }
+        };
+      }
+    }
+    history.push(url);
+  };
+  const setNewPetForm = (keyname, value) => {
+    let newpetForm = Object.assign({}, petForm, {
+      [keyname]: value
+    });
+    setPetForm(newpetForm);
+  };
+  const inputNickname = (e) => {
+    setNewPetForm('nickname', e.target.value);
+  };
+  const weightChange = (e) => {
+    let measure = '';
+    let valueArr = e.target.value.split('.');
+    if (valueArr.length > 1) {
+      valueArr[1] = valueArr[1].slice(0, 2);
+    }
+    measure = valueArr.join('.');
+    let newWeightObj = Object.assign({}, petForm.weightObj, {
+      measure
+    });
+    let newPetForm = Object.assign({}, petForm, {
+      weightObj: newWeightObj
+    });
+    setPetForm(newPetForm);
+  };
+  const pruebredChange = (isPurebred) => {
+    setNewPetForm('isPurebred', isPurebred);
+  };
+  const genderChange = (petsSex) => {
+    setNewPetForm('petsSex', petsSex);
+  };
+  const sterilizedChange = (sterilized) => {
+    setNewPetForm('sterilized', sterilized);
+  };
+  const onDateChange = (date) => {
+    setNewPetForm('birthdate', date ? format(date, 'yyyy-MM-dd') : '');
+  };
+  const selectedBreed = (item) => {
+    let newPetFrom = Object.assign({}, petForm, {
+      breedName: item.name,
+      breed: item.valueEn
+    });
+    setPetForm(newPetFrom);
+    setShowBreedList(false);
+  };
+  const specialNeedsOptionsChange = (data) => {
+    setNewPetForm('sensitivity', data.value);
+    let selectedSpecialNeeds = data.value === 'none' ? ['none'] : [data.value];
+    setState({
+      selectedSpecialNeeds
+    });
+  };
+  const sizeOptionsChange = (data) => {
+    setNewPetForm('weight', data.value);
+    setNewPetForm('breedcode', data.description);
+    setState({
+      selectedSizeObj: { value: data.value }
+    });
+  };
+  const lifestyleChange = (data) => {
+    setNewPetForm('lifestyle', data.value);
+  };
+  const activityChange = (data) => {
+    setNewPetForm('activity', data.value);
+  };
+  const handleDelPets = async (deleteFlag) => {
+    let params = {
+      petsIds: [paramsId],
+      deleteFlag: deleteFlag
+    };
+    setState({
+      loading: true
+    });
+    try {
+      await delPets(params);
+      myAccountActionPushEvent('Remove pet');
+      history.push('/account/pets/');
+    } catch (err) {
+      if (err.code === 'P-010003') {
+        setIsDeleteModalShow(true);
+        setDeleteWarningMessage(err.message);
+      } else {
+        showErrorMsg(err.message);
+      }
+    } finally {
+      setState({
+        loading: false
+      });
+    }
+  };
+
+  const equalProps = (a, b) => {
+    var newObj = {};
+    for (var key in a) {
+      if (Array.isArray(a[key])) {
+        a[key]?.map((el, i) => {
+          equalProps(el, b[key] && b[key][i]);
+        });
+      } else if (typeof a[key] === 'object' && a[key] !== null) {
+        var obj = equalProps(a[key], b[key]);
+        newObj[key] = obj;
+      } else if (a[key] != b[key]) {
+        newObj[key] = a[key];
+      }
+    }
+    return newObj;
+  };
+  const savePet = async () => {
+    if (petForm.isPurebred == 1) {
+      setNewPetForm('weight', '');
+    } else if (petForm.isPurebred == 0) {
+      setNewPetForm('breed', '');
+    }
+    let consumerAccount = userInfo?.customerAccount;
+    if (!consumerAccount) {
+      showErrorMsg(intl.messages.getConsumerAccountFailed);
+      return;
+    }
+
+    let validFiled = ['nickname', 'birthdate'];
+    if (petForm.isPurebred == 1) {
+      validFiled.push('breed');
+    } else if (!isCat) {
+      validFiled.push('weight');
+    }
+    for (let i = 0; i < validFiled.length; i++) {
+      if (!petForm[validFiled[i]]) {
+        showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
+        return;
+      }
+    }
+
+    if (
+      !petForm.sensitivity ||
+      (petForm.isPurebred == 1 && !petForm.breedName)
+    ) {
+      showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
+      return;
+    }
+    if (notUsDeFr) {
+      if (!petForm.activity || (!petForm.lifestyle && isCat && RuTr)) {
+        showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
+        return;
+      }
+      for (let k in petForm.weightObj) {
+        if (!petForm.weightObj[k]) {
+          showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
+          return;
+        }
+      }
+      if (petForm.weightObj && Number(petForm.weightObj.measure) <= 0) {
+        showErrorMsg(intl.messages.petWeightVerify);
+        return;
+      }
+    }
+
+    setState({
+      loading: true
+    });
+
+    let customerPetsPropRelations = [];
+    let propId = 100;
+    for (let i = 0; i < selectedSpecialNeeds.length; i++) {
+      let prop = {
+        delFlag: 0,
+        detailId: 0,
+        indexFlag: 0,
+        petsId: paramsId,
+        propId: propId,
+        propName: selectedSpecialNeeds[i],
+        relationId: '',
+        sort: 0,
+        propType: 'needsName'
+      };
+      customerPetsPropRelations.push(prop);
+      propId += 1;
+    }
+    const petsBreed =
+      petForm.isPurebred == 1
+        ? petForm.breed
+        : isCat
+        ? 'mixed_breed'
+        : petForm.breedcode;
+    let pets = {
+      birthOfPets: petForm.birthdate,
+      petsId: paramsId,
+      petsImg: petForm.imgUrl,
+      petsBreed,
+      petsName: petForm.nickname,
+      petsSex: petForm.petsSex,
+      petsSizeValueId: '',
+      petsSizeValueName: petForm.weight,
+      petsType: isCat ? 'cat' : 'dog',
+      sterilized: petForm.sterilized,
+      storeId: process.env.REACT_APP_STOREID,
+      isPurebred: petForm.isPurebred,
+      activity: petForm.activity,
+      lifestyle: petForm.lifestyle,
+      weight: JSON.stringify(petForm.weightObj),
+      needs: petForm.sensitivity
+    };
+    let isEditAlert = false;
+    let param = {
+      customerPets: pets,
+      storeId: process.env.REACT_APP_STOREID,
+      userId: consumerAccount
+    };
+    let action = addPet;
+    let diffIndex = 0;
+    if (pets.petsId) {
+      action = editPets;
+      console.info(pets, oldCurrentPet);
+      if (!oldCurrentPet.petsSizeValueName) {
+        oldCurrentPet.petsSizeValueName = '';
+      }
+      if (!oldCurrentPet.petsImg) {
+        oldCurrentPet.petsImg = '';
+      }
+
+      // 如果编辑的，需判断是否只有name更变了
+      let hasChangedProps = equalProps(pets, oldCurrentPet);
+      for (let key in hasChangedProps) {
+        if (key !== 'petsName') {
+          ++diffIndex;
+        }
+      }
+    } else {
+      // 新增的情况下都会改变
+      diffIndex = 1;
+    }
+    try {
+      let res = await action(param);
+      let isLinkedSub = subList.find((el) => el.petsId);
+      let isLinkedSubLength = subList.filter((el) => el.petsId)?.length;
+      let petsIdLinkedSub = isLinkedSub?.petsId;
+      let subscribeId = location.state?.subscribeId || isLinkedSub?.subscribeId;
+      if (!pets.petsId) {
+        myAccountActionPushEvent('Add pet');
+        let petsType = location.state?.petsType;
+        let isFromSubscriptionDetail = location.state?.isFromSubscriptionDetail; //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+        let petsId = res.context?.result;
+        if (subscribeId) {
+          if (petsType) {
+            // 从subdetail过来新增宠物的需要单独linksub
+            let params = {
+              subscribeId,
+              petsId
+            };
+            try {
+              await changeSubscriptionDetailPets(params);
+              // 有链接sub的，编辑宠物需要弹提示框
+              if (isFromSubscriptionDetail) {
+                isEditAlert = true;
+                setState({ isEditAlert: true });
+              }
+            } catch (err) {
+              showErrorMsg(err.message);
+            }
+          }
+        }
+      } else {
+        // 有链接sub的，编辑宠物需要弹提示框
+        if (petsIdLinkedSub && diffIndex > 0 && isLinkedSubLength == 1) {
+          isEditAlert = true;
+          setState({ isEditAlert: true });
+        }
+      }
+      if (!isEditAlert) {
+        gotoNext(null, diffIndex);
+      }
+    } catch (err) {
+      showErrorMsg(err.message || intl.messages.saveFailed);
+      setState({
+        loading: false
+      });
+    }
+  };
+  let isChoosePetType = isCat !== null;
+  let sensitivityLists = specialNeedsOptions;
+  let sensitivityLable = 'Special Need';
+  if (RuTr) {
+    sensitivityLists = sensitivityList;
+    sensitivityLable = 'Sensitivity';
+  }
+  if (Us) {
+    sensitivityLists = specialNeeds;
+  }
+  return (
+    <div
+      className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+      style={{ display: isChoosePetType ? 'block' : 'none' }}
+    >
+      {/* 错误提示 */}
+      <div
+        className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
+          errorMsg ? '' : 'hidden'
+        }`}
+      >
+        <aside
+          className="rc-alert rc-alert--error rc-alert--with-close"
+          role="alert"
+        >
+          {errorMsg}
+        </aside>
+      </div>
+      <div style={{ display: isMobile ? 'block' : 'flex' }}>
+        <div className="photoBox">
+          {/* <LazyLoad> */}
+          <img
+            style={{
+              width: '120px',
+              marginTop: '40px',
+              borderRadius: '50%'
+            }}
+            src={petForm.imgUrl || (isCat ? Cat : Dog)}
+            alt="photo box"
+          />
+          <UploadImg
+            tipVisible={false}
+            handleChange={(data) => handelImgChange(data)}
+            geterrMessage={showErrorMsg}
+            showLoading={() => {
+              setState({ loading: true });
+            }}
+            hiddenLoading={() => {
+              setState({ loading: false });
+            }}
+          />
+        </div>
+        <div className="formBox row">
+          <div className="form-group col-lg-6 pull-left required">
+            <InputBox
+              htmlFor="name"
+              FormattedMsg="petName"
+              name="firstName"
+              value={petForm.nickname}
+              handleChange={inputNickname}
+            />
+          </div>
+          <div className="form-group col-lg-6 pull-left required">
+            <RadioBox
+              htmlFor="gender"
+              setState={setState}
+              FormattedMsg="gender"
+              radioGroup={genderGroup}
+              radioChange={genderChange}
+            />
+          </div>
+          <div className="form-group col-lg-6 pull-left required">
+            <label
+              className="form-control-label rc-full-width"
+              htmlFor="birthday"
+            >
+              <FormattedMessage id="birthday" />
+            </label>
+            <span
+              className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+              input-setup="true"
+            >
+              <DatePicker
+                className="receiveDate"
+                placeholder="Select Date"
+                dateFormat={datePickerConfig.format}
+                locale={datePickerConfig.locale}
+                maxDate={new Date()}
+                selected={
+                  petForm.birthdate ? getZoneTime(petForm.birthdate) : ''
+                }
+                onChange={(date) => onDateChange(date)}
+              />
+              <div className="invalid-birthdate invalid-feedback">
+                <FormattedMessage id="account.dateTip" />
+              </div>
+            </span>
+          </div>
+          <div className="form-group col-lg-6 pull-left required">
+            <RadioBox
+              htmlFor="Is Purebred"
+              setState={setState}
+              FormattedMsg={`${isCat ? 'isPurebredCat' : 'isPurebredDog'}`}
+              radioGroup={purebredGroup}
+              radioChange={pruebredChange}
+            />
+          </div>
+          <div className="form-group col-lg-6 pull-left required">
+            <label
+              className="form-control-label rc-full-width"
+              htmlFor={sensitivityLable}
+            >
+              <FormattedMessage id={sensitivityLable} />
+            </label>
+            <Selection
+              optionList={sensitivityLists}
+              selectedItemChange={(el) => specialNeedsOptionsChange(el)}
+              selectedItemData={{
+                value: petForm.sensitivity
+              }}
+              key={petForm.sensitivity}
+            />
+          </div>
+          {!(petForm.isPurebred == 1) ? (
+            !isCat ? (
+              <div className="form-group col-lg-6 pull-left required">
+                <label
+                  className="form-control-label rc-full-width"
+                  htmlFor="Size"
+                >
+                  <FormattedMessage id="Size" />
+                </label>
+                <Selection
+                  optionList={sizeOptions}
+                  selectedItemChange={(el) => sizeOptionsChange(el)}
+                  selectedItemData={{
+                    value: selectedSizeObj.value
+                  }}
+                  key={selectedSizeObj.value}
+                />
+              </div>
+            ) : isMobile ? null : (
+              <div
+                className="form-group col-lg-6 pull-left"
+                style={{ height: '85px' }}
+              ></div>
+            )
+          ) : (
+            <div className="form-group col-lg-6 pull-left required">
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="breed"
+              >
+                <FormattedMessage id="breed" />
+              </label>
+              <span
+                className="rc-input rc-input--label rc-input--full-width"
+                input-setup="true"
+                style={{ marginBottom: '.625rem' }}
+              >
+                <input
+                  type="text"
+                  id="dog-breed"
+                  autocomplete="off"
+                  placeholder={isCat ? enterCatBreed : enterDogBreed}
+                  className="form-control input-pet breed"
+                  value={petForm.breedName}
+                  onChange={inputBreed}
+                  style={{
+                    height: '48px'
+                  }}
+                  disabled={isInputDisabled ? 'disabled' : null}
+                />
+                <div
+                  className={`select-breed ${
+                    showBreedList ? '' : 'hidden no-border'
+                  }`}
+                >
+                  {breedListLoading ? (
+                    <div className="m-1">
+                      <Skeleton color="#f5f5f5" width="95%" count={2} />
+                    </div>
+                  ) : null}
+                  {breedList.map((item, i) => (
+                    <option
+                      value={item.value}
+                      key={item.id}
+                      className={`pl-2 pr-1 ui-cursor-pointer ${
+                        i !== breedList.length - 1 ? 'border-bottom' : ''
+                      }`}
+                      onClick={() => selectedBreed(item)}
+                      style={{ whiteSpace: 'initial' }}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
+                </div>
+                <label className="rc-input__label" htmlFor="breed"></label>
+              </span>
+            </div>
+          )}
+          {notUsDeFr ? (
+            <>
+              {RuTr && isCat ? (
+                <div className="form-group col-lg-6 pull-left required">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="Lifestyle"
+                  >
+                    <FormattedMessage id="Lifestyle" />
+                  </label>
+                  <Selection
+                    optionList={lifestyleOptions}
+                    selectedItemChange={(el) => lifestyleChange(el)}
+                    selectedItemData={{
+                      value: petForm.lifestyle
+                    }}
+                    key={petForm.lifestyle}
+                  />
+                </div>
+              ) : null}
+              <div className="form-group col-lg-6 pull-left required">
+                <label
+                  className="form-control-label rc-full-width"
+                  htmlFor="Activity"
+                >
+                  <FormattedMessage id="Activity" />
+                </label>
+                <Selection
+                  optionList={activityOptions}
+                  selectedItemChange={(el) => activityChange(el)}
+                  selectedItemData={{
+                    value: petForm.activity
+                  }}
+                  key={petForm.activity}
+                />
+              </div>
+              <div className="form-group col-lg-6 pull-left required">
+                <label
+                  className="form-control-label rc-full-width"
+                  htmlFor="Weight"
+                >
+                  <FormattedMessage id="Weight" />
+                </label>
+                <span
+                  className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                  input-setup="true"
+                  style={{ display: 'inline-block' }}
+                >
+                  <input
+                    type="number"
+                    className="rc-input__control"
+                    name="weight"
+                    required=""
+                    aria-required="true"
+                    style={{ padding: '.5rem 0', height: '49px' }}
+                    value={petForm.weightObj.measure}
+                    onChange={weightChange}
+                    maxLength="50"
+                    autoComplete="address-line"
+                  />
+                  <label
+                    className="rc-input__label border-for-weight"
+                    htmlFor="weight"
+                  ></label>
+                </span>
+                <Selection
+                  customContainerStyle={{
+                    display: 'inline-block',
+                    height: '48px',
+                    marginLeft: '4px'
+                  }}
+                  optionList={[
+                    {
+                      value: 'kg',
+                      name: intl.messages['kg']
+                    }
+                    // { value: 'g', name: 'g' }
+                  ]}
+                  selectedItemChange={(el) => {
+                    setNewPetForm('weightObj.measureUnit', el.value);
+                    // petForm.weightObj.measureUnit = el.value;
+                  }}
+                  selectedItemData={{
+                    value: petForm.weightObj.measureUnit
+                  }}
+                  key={petForm.activity}
+                  customCls="weight-unit-select"
+                />
+              </div>
+            </>
+          ) : null}
+
+          <div className="form-group col-lg-6 pull-left required">
+            <RadioBox
+              htmlFor="sterilized"
+              setState={setState}
+              FormattedMsg="sterilized"
+              radioGroup={sterilizedGroup}
+              radioChange={sterilizedChange}
+            />
+          </div>
+          <div
+            className="form-group col-lg-6 pull-left placehoder"
+            style={{ height: '86px' }}
+          ></div>
+          <div className="form-group col-lg-12 pull-left required">
+            {isMobile ? (
+              <p style={{ textAlign: 'center' }}>
+                <button
+                  className="rc-btn rc-btn--one"
+                  onClick={() => savePet()}
+                >
+                  <FormattedMessage id="saveChange" />
+                </button>
+                <br />
+                {paramsId && (
+                  <span
+                    className="rc-styled-link"
+                    onClick={() => {
+                      handleDelPets(false);
+                    }}
+                  >
+                    <FormattedMessage id="pet.deletePet" />
+                  </span>
+                )}
+              </p>
+            ) : (
+              <p style={{ textAlign: 'right' }}>
+                {paramsId && (
+                  <span
+                    className="rc-styled-link"
+                    onClick={() => {
+                      handleDelPets(false);
+                    }}
+                  >
+                    <FormattedMessage id="pet.deletePet" />
+                  </span>
+                )}
+                <button
+                  className="rc-btn rc-btn--one"
+                  style={{ marginLeft: '35px' }}
+                  onClick={() => savePet()}
+                >
+                  <FormattedMessage id="saveChange" />
+                </button>
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+      <Modal
+        headerVisible={true}
+        footerVisible={false}
+        visible={isDeleteModalShow}
+        modalTitle={''}
+        close={() => {
+          setIsDeleteModalShow(false);
+        }}
+      >
+        <div className="text-center">
+          <p>
+            <div>{deleteWarningMessage}</div>
+          </p>
+          <p>
+            <button
+              onClick={() => {
+                handleDelPets(true);
+              }}
+              className={`rc-btn rc-btn--one rc-btn--sm text-plain ${
+                loading ? 'ui-btn-loading' : ''
+              }`}
+            >
+              <FormattedMessage id="pet.deletePet" />
+            </button>
+          </p>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
+export default injectIntl(PetForms);

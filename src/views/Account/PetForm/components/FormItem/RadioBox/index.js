@@ -9,15 +9,12 @@ export default ({
   setState
 }) => {
   const handleChange = (e) => {
-    // setState()
-    console.info('../././ds.d.sd/s.ds', radioGroup);
-    let newGroup = [...radioGroup];
-    newGroup.forEach((item) => {
+    radioGroup.forEach((item) => {
       let checked = item.value === e.currentTarget.value;
       item.checked = checked;
     });
-    let checkedRadio = newGroup.find((el) => el.checked);
-    setState({ radioGroup: newGroup });
+    let checkedRadio = radioGroup.find((el) => el.checked);
+    // setState({ radioGroup: newGroup });
     radioChange(checkedRadio.value);
   };
   return (

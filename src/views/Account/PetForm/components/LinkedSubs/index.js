@@ -7,11 +7,7 @@ import {
   getClubLogo
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import {
-  getSubList,
-  getSubListForPet,
-  changeSubscriptionGoods
-} from '@/api/subscription';
+import { getSubListForPet } from '@/api/subscription';
 import { changeSubscriptionGoodsByPets } from '@/api/pet';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
