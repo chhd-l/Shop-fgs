@@ -1,0 +1,24 @@
+{
+  "attributesList": [
+    {
+      "id": "A20210126071322816",
+      "attributeName": "Technology",
+      "attributeNameEn": "Тип корма",
+      "attributesValuesVOList": [
+        {
+          "id": "AV202101261132238856",
+          "attributeId": "A20210126071322816",
+          "attributeDetailName": "Wet",
+          "attributeDetailNameEn": "влажный"
+        },
+        {
+          "id": "AV202101261132251386",
+          "attributeId": "A20210126071322816",
+          "attributeDetailName": "Dry",
+          "attributeDetailNameEn": "сухой"
+        }
+      ]
+    },
+    {}
+  ]
+}

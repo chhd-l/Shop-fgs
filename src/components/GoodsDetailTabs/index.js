@@ -18,6 +18,7 @@ import goodsdetalsbackground from './image/goodsdetailtabbackground.png';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
+import pdpbackgrounddog from './image/goodsdetailtabbackground.png'
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
@@ -33,6 +34,17 @@ const pdpmobilebackgrounddog = {
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
+
+
+const pdpbackgrounddogs={
+  backgroundImage: `url(${pdpbackgrounddog})`,
+  height:'700px',
+  backgroundSize: 'cover',
+  overflow: 'hidden',
+  display:'flex',
+  flexDirection:'column',
+}
+
 
 const SubscriptionItems = [
   {
@@ -57,30 +69,50 @@ const SubscriptionItems = [
 
 let clubListDataNew = [
   {
-    text: 'Automatic delivery with free shipping',
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon1'}
+    />,
     img: clubiconnew1,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: '10% off on every order',
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon2'}
+    />,
     img: clubiconnew2,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
-    text: 'Access to a personal pet advisor',
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon3'}
+    />,
     img: clubiconnew3,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: 'A welcome box & exclusive rewards',
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon4'}
+    />,
     img: clubiconnew4,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: 'Tailored support & educational content',
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon5'}
+    />,
     img: clubiconnew5,
     alt: 'CLUB BENEFITS PET ADVISOR'
-  }
+  },
+  process.env.REACT_APP_COUNTRY === 'RU'?
+  {
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+    />,
+    img: iconsix,
+    alt: 'CLUB BENEFITS PET ADVISOR'
+  }:{
+
+    },
 ];
 
 let clubListData = [
@@ -692,7 +724,7 @@ const GoodsDetailTabs = function (props) {
                 )}
                 {Show ? (
                   <div>
-                    <div className="clubdetailsmobile">
+                    <div style={pdpbackgrounddogs}>
                       <div className="row rc-margin-x--none">
                         <div className="rc-full-width">
                           <div className="experience-component experience-assets-contentBlock">
@@ -706,13 +738,13 @@ const GoodsDetailTabs = function (props) {
                                     fontSize: '1.1em'
                                   }}
                                 >
-                                  GIVE YOUR PET A<br />
-                                  COMPLETE HEALTH SOLUTION,
-                                  <br />
-                                  BY SUBSCRIPTION
+                                  <FormattedMessage
+                                    id="ClubLP.LongBanner.title"
+                                    values={{ val1: <br />, val2: <br /> }}
+                                  ></FormattedMessage>
                                 </p>
                                 <p style={{ fontSize: '0.7em' }}>
-                                  Free from engagement
+                                  <FormattedMessage id="ClubLP.LongBanner.content2" />
                                 </p>
                               </div>
                             </div>
