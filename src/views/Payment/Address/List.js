@@ -273,12 +273,12 @@ class AddressList extends React.Component {
       province = wrongAddressMsg['province'],
       settlement = wrongAddressMsg['settlement'];
 
-    data.street ? errArr.push(streets) : '';
-    data.postCode ? errArr.push(postCode) : '';
-    data.house ? errArr.push(house) : '';
-    data.city ? errArr.push(city) : '';
-    data.province ? errArr.push(province) : '';
-    data.settlement ? errArr.push(settlement) : '';
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
 
     return errArr.join(',');
   };
