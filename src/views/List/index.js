@@ -22,7 +22,7 @@ import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
-import ruFilterSeo from './ruFilterSeo.json';
+import ruFilterMap from './ruFilterMap.json';
 import {
   fetchHeaderNavigations,
   fetchFilterList,
@@ -845,51 +845,50 @@ class List extends React.Component {
       breedsPrefv = [],
       sizePrefvSeo = [];
     let sizePrefv = []; //用于ga filter 传参size
-    let rr = [];
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
-      ruFilterSeo.attributesList.map((item) => {
+      ruFilterMap.attributesList.map((item) => {
         if (item.attributeName == fnEle) {
-          console.log(item, 'tiemteimti');
           if (fvEles.includes('|')) {
-            fnEle == 'Lifestages' && lifestagesPrefv.push(item.multiSelection);
+            if (fnEle == 'Lifestages') {
+              this.state.isDogPage
+                ? lifestagesPrefv.push(item.dogMultiSelection)
+                : lifestagesPrefv.push(item.catMultiSelection);
+            }
             fnEle == 'Breeds' && breedsPrefv.push(item.multiSelection);
-            fnEle == 'Size' && sizePrefvSeo.push(item.multiSelection);
+            if (fnEle == 'Size') {
+              //XSmall + Mini  and  Maxi + Giant 特殊处理传值
+              if (
+                fvEles.includes('Миниатюрные-(до-4-кг)') &&
+                fvEles.includes('Мелкие-(5-10-кг)')
+              ) {
+                sizePrefvSeo.push('мелких размеров');
+              } else if (
+                fvEles.includes('Крупные-(26-44--кг)') &&
+                fvEles.includes('Очень-крупные--(более-45-кг)')
+              ) {
+                sizePrefvSeo.push('крупных размеров');
+              } else {
+                sizePrefvSeo.push(item.multiSelection);
+              }
+            }
           } else {
             const attrNameEn = item.attributesValuesVOList.find(
               (item) => item.attributeDetailNameEn == fvEles
             )?.attributeDetailNameSeoEn;
             fnEle == 'Lifestages' && lifestagesPrefv.push(attrNameEn);
+            fnEle == 'Sterilized' && sterilizedPrefv.push(attrNameEn);
+            fnEle == 'Technology' && technologyPrefv.push(attrNameEn);
             fnEle == 'Breeds' && breedsPrefv.push(attrNameEn);
             fnEle == 'Size' && sizePrefvSeo.push(attrNameEn);
           }
         }
       });
 
-      // if (fnEle == 'Lifestages') {
-      //   const lifestage = fvEles.includes('|')
-      //     ? 'корм для кошек разных возрастов'
-      //     : 'корм для ' + fvEles.toLowerCase();
-      //   lifestagesPrefv.push(lifestage);
-      // } else if (fnEle == 'Sterilized') {
-      //   const sterilize =
-      //     fvEles == 'Нет' ? 'нестерилизованных' : 'стерилизованных';
-      //   sterilizedPrefv.push(sterilize);
-      // } else if (fnEle == 'Technology' && fvEles != 'Другой') {
-      //   technologyPrefv.push(fvEles.toLowerCase());
-      // } else if (fnEle == 'Breeds') {
-      //   const breed = fvEles.includes('|')
-      //     ? 'разных пород'
-      //     : 'породы ' + fvEles;
-      //   breedsPrefv.push(breed);
-      // } else if (fnEle == 'Size') {
-      //   sizePrefv.push(fvEles);
-      //   const size = fvEles.includes('|')
-      //     ? 'разных размеров'
-      //     : fvEles.toLowerCase();
-      //   sizePrefvSeo.push(size);   不要忘记了
-      // }
+      if (fnEle == 'Size') {
+        sizePrefv.push(fvEles);
+      }
     }
 
     let ttPrefv = [
