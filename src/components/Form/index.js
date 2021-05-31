@@ -924,12 +924,12 @@ class Form extends React.Component {
       province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
 
-    data.street ? errArr.push(streets) : null;
-    data.postCode ? errArr.push(postCode) : null;
-    data.house ? errArr.push(house) : null;
-    data.city ? errArr.push(city) : null;
-    data.province ? errArr.push(province) : null;
-    data.settlement ? errArr.push(settlement) : null;
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
 
     data.errMsg = errArr.join(',');
     return data;
