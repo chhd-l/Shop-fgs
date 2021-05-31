@@ -1270,6 +1270,16 @@ class Details extends React.Component {
         barcode
       },
       () => {
+        // 重置barcode,外部js加载完成初始化之后，生成的dom无法跟随数据变化
+        let cc = document.getElementsByClassName(
+          'cc-InlineButton-module-button_3QLGy'
+        );
+        if (cc.length) {
+          let i;
+          for (i = 0; i < cc.length; i++) {
+            cc[i].setAttribute('data-ean', barcode);
+          }
+        }
         this.matchGoods();
       }
     );
