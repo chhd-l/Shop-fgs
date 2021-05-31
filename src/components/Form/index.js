@@ -1,4 +1,15 @@
-//billaddress灵活配置组件
+/*********
+ *
+ * File Name: Address Form
+ * Create Time: ‎2021-‎4-‎20
+ * Author: kzeng@deloitte.com.cn
+ * Version: V1.0
+ *
+ * Description:
+ * 1、本组件在需要编辑 deliveryAddress 和 billingAddress 及其他编辑地址的地方调用。
+ * 2、父组件确认地址按钮由（isValid、formAddressValid）两个变量控制。
+ *
+ *********/
 import React from 'react';
 import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
@@ -44,7 +55,7 @@ class Form extends React.Component {
     isLogin: false,
     updateData: () => {},
     calculateFreight: () => {},
-    getRussiaAddressValidFlag: () => {}
+    getFormAddressValidFlag: () => {}
   };
   constructor(props) {
     super(props);
@@ -121,8 +132,8 @@ class Form extends React.Component {
     caninForm.regionId = initData.areaId;
     initData.regionId = initData.areaId;
 
-    console.log('112 -------------★ EditForm initData: ', initData);
-    console.log('113-------------★ EditForm caninForm: ', caninForm);
+    // console.log('112 -------------★ EditForm initData: ', initData);
+    // console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -249,7 +260,7 @@ class Form extends React.Component {
                   // 查询州列表（美国 state）
                   this.getUsStateList();
                   // 设置控制按钮可点的其中一个参数为 true
-                  this.props.getRussiaAddressValidFlag(true);
+                  // this.props.getFormAddressValidFlag(true);
                 }
                 this.setState(
                   {
@@ -321,7 +332,7 @@ class Form extends React.Component {
                 // 查询州列表（美国 state）
                 this.getUsStateList();
                 // 设置控制按钮可点的其中一个参数为 true
-                this.props.getRussiaAddressValidFlag(true);
+                // this.props.getFormAddressValidFlag(true);
               }
               this.setState(
                 {
@@ -352,6 +363,7 @@ class Form extends React.Component {
   formListFormat(array) {
     const { caninForm } = this.state;
     let rule = [];
+    let cfdata = Object.assign({}, caninForm);
 
     // 绑卡页面添加 email
     let emailObj = {
@@ -436,8 +448,8 @@ class Form extends React.Component {
       item.errMsg = errMsg;
 
       // 组装rule
-      let ruleItem = {};
-      ruleItem = {
+      let ruleItem = {
+        regExp: regExp,
         errMsg: errMsg,
         key: item.fieldKey,
         require: item.requiredFlag == 1 ? true : false
@@ -453,9 +465,9 @@ class Form extends React.Component {
       }
     });
 
-    caninForm.formRule = rule;
+    cfdata.formRule = rule;
     this.setState({
-      caninForm
+      caninForm: Object.assign(caninForm, cfdata)
     });
     return array;
   }
@@ -608,11 +620,11 @@ class Form extends React.Component {
             ['address1']: this.getIntlMsg('payment.wrongAddress')
           }
         });
-        this.props.getRussiaAddressValidFlag(false);
+        this.props.getFormAddressValidFlag(false);
       }
     } catch (err) {
       console.warn(err);
-      this.props.getRussiaAddressValidFlag(false);
+      this.props.getFormAddressValidFlag(false);
     } finally {
       this.setState({
         dataLoading: false
@@ -743,12 +755,26 @@ class Form extends React.Component {
           [tname]: ''
         })
       });
+      if (process.env.REACT_APP_COUNTRY != 'RU') {
+        // 俄罗斯需要先校验 DuData 再校验所有表单数据
+        this.validFormAllData(); // 验证表单所有数据
+      }
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: err.message
         })
       });
+    }
+  };
+  // 验证表单所有数据
+  validFormAllData = async () => {
+    const { caninForm } = this.state;
+    try {
+      await validData(caninForm.formRule, caninForm); // 验证整个表单
+      this.props.getFormAddressValidFlag(true);
+    } catch {
+      this.props.getFormAddressValidFlag(false);
     }
   };
   // 城市搜索框失去焦点
@@ -825,7 +851,7 @@ class Form extends React.Component {
           },
           () => {
             // 控制按钮状态
-            this.props.getRussiaAddressValidFlag(true);
+            this.props.getFormAddressValidFlag(true);
             // purchases接口计算运费
             this.props.calculateFreight(this.state.caninForm);
           }
@@ -851,7 +877,7 @@ class Form extends React.Component {
     const target = e.target;
     const value = target.value;
     if (value == '') {
-      this.props.getRussiaAddressValidFlag(false);
+      this.props.getFormAddressValidFlag(false);
       caninForm.address1 = '';
       this.setState(
         {
@@ -870,7 +896,7 @@ class Form extends React.Component {
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
-    this.props.getRussiaAddressValidFlag(false);
+    this.props.getFormAddressValidFlag(false);
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
@@ -893,12 +919,12 @@ class Form extends React.Component {
       province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
 
-    data.street == null ? errArr.push(streets) : null;
-    data.postCode == null ? errArr.push(postCode) : null;
-    data.house == null ? errArr.push(house) : null;
-    data.city == null ? errArr.push(city) : null;
-    data.province == null ? errArr.push(province) : null;
-    data.settlement == null ? errArr.push(settlement) : null;
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
 
     data.errMsg = errArr.join(',');
     return data;
@@ -921,7 +947,7 @@ class Form extends React.Component {
                 item = this.setDuDataAddressErrMsg(item);
               });
             } else {
-              this.props.getRussiaAddressValidFlag(false);
+              this.props.getFormAddressValidFlag(false);
             }
             return robj;
           }}

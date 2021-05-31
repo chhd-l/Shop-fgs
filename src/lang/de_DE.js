@@ -183,7 +183,7 @@ const de_DE = {
   changePassword: 'Ändere das Passwort',
   changepic: 'Bild hochladen',
   checkboxIsRequiredForSubscription:
-    'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
+    'Bei regelmäßigen Lieferungen ist ein ankreuzen dieses Kontrollkästchens erforderlich.',
   checkout: 'zur Kasse',
   'minicart.checkout': 'zur Kasse',
   'payment.checkout': 'Kasse',

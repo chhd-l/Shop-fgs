@@ -348,9 +348,7 @@ class PaymentEditForm extends React.Component {
     }
     paymentForm[name] = value;
 
-    this.setState({ paymentForm }, () => {
-      console.log(paymentForm, '--------handleInputChange');
-    });
+    this.setState({ paymentForm });
     this.inputBlur(e);
   };
   inputBlur = async (e) => {

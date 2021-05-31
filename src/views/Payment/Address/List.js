@@ -78,7 +78,7 @@ class AddressList extends React.Component {
       saveErrorMsg: '',
       selectedId: '',
       isValid: false,
-      russiaAddressValid: false,
+      formAddressValid: false,
       listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
@@ -273,12 +273,12 @@ class AddressList extends React.Component {
       province = wrongAddressMsg['province'],
       settlement = wrongAddressMsg['settlement'];
 
-    data.street == '' || null ? errArr.push(streets) : '';
-    data.postCode == '' || null ? errArr.push(postCode) : '';
-    data.house == '' || null ? errArr.push(house) : '';
-    data.city == '' || null ? errArr.push(city) : '';
-    data.province == '' || null ? errArr.push(province) : '';
-    data.settlement == '' || null ? errArr.push(settlement) : '';
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
 
     return errArr.join(',');
   };
@@ -590,12 +590,12 @@ class AddressList extends React.Component {
     this.props.calculateFreight(data);
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
+    console.log('address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
-    console.log(flag);
     this.setState(
       {
-        russiaAddressValid: flag
+        formAddressValid: flag
       },
       () => {
         if (flag) {
@@ -604,6 +604,7 @@ class AddressList extends React.Component {
       }
     );
   };
+
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
     const headerWidget = document.querySelector('.rc-header__scrolled')
@@ -940,7 +941,7 @@ class AddressList extends React.Component {
     const { showOperateBtn } = this.props;
     const {
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       deliveryAddress,
       addOrEdit,
       loading,
@@ -1097,7 +1098,7 @@ class AddressList extends React.Component {
             ref={this.editFormRef}
             isLogin={true}
             initData={deliveryAddress}
-            getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+            getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}
           />
@@ -1128,7 +1129,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -1151,7 +1152,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
                   </button>
