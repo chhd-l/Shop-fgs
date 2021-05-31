@@ -41,7 +41,7 @@ class ShippingAddressFrom extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      russiaAddressValid: false,
+      formAddressValid: false,
       loading: true,
       saveLoading: false,
       showModal: false,
@@ -356,11 +356,11 @@ class ShippingAddressFrom extends React.Component {
     );
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
     console.log('ShippingAddressForm: ', flag);
     this.setState(
       {
-        russiaAddressValid: flag
+        formAddressValid: flag
       },
       () => {
         if (flag) {
@@ -374,7 +374,7 @@ class ShippingAddressFrom extends React.Component {
     const {
       addressForm,
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       curType,
       successMsg,
       errorMsg,
@@ -465,7 +465,7 @@ class ShippingAddressFrom extends React.Component {
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
-                    getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+                    getFormAddressValidFlag={this.getFormAddressValidFlag}
                   />
 
                   {addressForm.addressType === 'DELIVERY' ? (
@@ -513,7 +513,7 @@ class ShippingAddressFrom extends React.Component {
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
                     <FormattedMessage id="save" />
