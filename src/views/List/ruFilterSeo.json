@@ -134,6 +134,10 @@
           "attributeId": "A20210126071518901",
           "attributeDetailName": "XSmall (1-4 kg)",
           "attributeDetailNameEn": "до 4 кг"
+        },
+        {
+          "attributeDetailName": "Multi Selection",
+          "attributeDetailNameEn": "разных размеров"
         }
       ]
     },
