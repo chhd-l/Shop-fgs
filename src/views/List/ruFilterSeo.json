@@ -19,6 +19,132 @@
         }
       ]
     },
-    {}
+    {
+      "id": "A202101269071242331",
+      "attributeName": "Lifestage",
+      "attributeNameEn": "ВОЗРАСТ",
+      "attributesValuesVOList": [
+        {
+          "id": "AV202101261221384476",
+          "attributeId": "A202101269071242331",
+          "attributeDetailName": "Baby_Cat",
+          "attributeDetailNameEn": "корм для котенок-(до-4-х-месяцев)"
+        },
+        {
+          "id": "AV202101261206296046",
+          "attributeId": "A202101269071242331",
+          "attributeDetailName": "Kitten_Cat",
+          "attributeDetailNameEn": "корм для котенок"
+        },
+        {
+          "id": "AV202101261132237556",
+          "attributeId": "A202101269071242331",
+          "attributeDetailName": "Adult_Cat",
+          "attributeDetailNameEn": "корм для взрослая"
+        },
+        {
+          "id": "AV202101261132238126",
+          "attributeId": "A202101269071242331",
+          "attributeDetailName": "Mature_Cat",
+          "attributeDetailNameEn": "корм для стареющая"
+        },
+        {
+          "id": "AV202101261132238466",
+          "attributeId": "A202101269071242331",
+          "attributeDetailName": "Senior_Cat",
+          "attributeDetailNameEn": "корм для пожилая"
+        },
+        {
+          "attributeDetailName": "Multi Selection",
+          "attributeDetailNameEn": "корм для кошек разных возрастов"
+        }
+      ]
+    },
+    {
+      "id": "A20210126071341624",
+      "attributeName": "Breeds",
+      "attributeNameEn": "ПОРОДА",
+      "attributesValuesVOList": [
+        {
+          "id": "AV202101261132240536",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Cat_Cat",
+          "attributeDetailNameEn": "породы метис-или-беспородная"
+        },
+        {
+          "id": "AV202101261132239266",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Persian_Cat",
+          "attributeDetailNameEn": "породы персидская"
+        },
+        {
+          "id": "AV202101261221444866",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Maine Coon_Cat",
+          "attributeDetailNameEn": "породы мэйн-кун"
+        },
+        {
+          "id": "AV202101261222387696",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "British Shorthair_Cat",
+          "attributeDetailNameEn": "породы британская-короткошерстная"
+        },
+        {
+          "id": "AV202101261223522956",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Siamese_Cat",
+          "attributeDetailNameEn": "породы сиамская"
+        },
+        {
+          "id": "AV202101261223157496",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Norwegian Forest_Cat",
+          "attributeDetailNameEn": "породы норвежская-лесная"
+        },
+        {
+          "id": "AV202101261132289786",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Bengal_Cat",
+          "attributeDetailNameEn": "породы бенгальская"
+        },
+        {
+          "id": "AV202101261221496406",
+          "attributeId": "A20210126071341624",
+          "attributeName": null,
+          "attributeDetailName": "Siberian_Cat",
+          "attributeDetailNameEn": "породы сибирская"
+        },
+        {
+          "id": "AV202101261132297596",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "Sphynx_Cat",
+          "attributeDetailNameEn": "породы канадский-сфинкс"
+        },
+        {
+          "attributeDetailName": "Multi Selection",
+          "attributeDetailNameEn": "разных пород"
+        }
+      ]
+    },
+    {
+      "id": "A20210126075253707",
+      "attributeName": "Sterilized",
+      "attributeNameEn": "СТЕРИЛИЗАЦИЯ",
+      "attributesValuesVOList": [
+        {
+          "id": "AV202101261132252236",
+          "attributeId": "A20210126075253707",
+          "attributeName": null,
+          "attributeDetailName": "true",
+          "attributeDetailNameEn": "нестерилизованных"
+        },
+        {
+          "id": "AV202101261132240096",
+          "attributeId": "A20210126075253707",
+          "attributeDetailName": "false",
+          "attributeDetailNameEn": "стерилизованных"
+        }
+      ]
+    }
   ]
 }
