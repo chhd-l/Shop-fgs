@@ -101,6 +101,43 @@
       ]
     },
     {
+      "id": "A20210126071518901",
+      "attributeName": "Size",
+      "attributeNameEn": "РАЗМЕРНАЯ ГРУППА ПИТОМЦА",
+      "attributesValuesVOList": [
+        {
+          "id": "AV202101261206286316",
+          "attributeId": "A20210126071518901",
+          "attributeDetailName": "Giant (over 45 kg)",
+          "attributeDetailNameEn": "свыше 45 кг"
+        },
+        {
+          "id": "AV40862680081072128",
+          "attributeId": "A20210126071518901",
+          "attributeDetailName": "Maxi (26-44 kg)",
+          "attributeDetailNameEn": "от 25 до 45 кг"
+        },
+        {
+          "id": "AV40862680160763904",
+          "attributeId": "A20210126071518901",
+          "attributeDetailName": "Medium (11-25 kg)",
+          "attributeDetailNameEn": "средних размеров"
+        },
+        {
+          "id": "AV202101261206286956",
+          "attributeId": "A20210126071518901",
+          "attributeDetailName": "Mini (5-10 kg)",
+          "attributeDetailNameEn": "от 4 до 10 кг"
+        },
+        {
+          "id": "AV40862680001380352",
+          "attributeId": "A20210126071518901",
+          "attributeDetailName": "XSmall (1-4 kg)",
+          "attributeDetailNameEn": "до 4 кг"
+        }
+      ]
+    },
+    {
       "id": "A20210126071341624",
       "attributeName": "Breeds",
       "attributeNameEn": "ПОРОДА",
@@ -236,16 +273,16 @@
           "attributeDetailNameEn": "породы Бигль"
         },
         {
-          "id": "AV202101261132333426",
-          "attributeId": "A20210126071503738",
-          "attributeDetailName": "Breed Health Nutrition_Dog",
-          "attributeDetailNameEn": "Здоровье породы Питание"
+          "id": "AV202101261222229226",
+          "attributeId": "A20210126071341624",
+          "attributeDetailName": "American Cocker Spaniel_Dog",
+          "attributeDetailNameEn": "породы Американский кокер спаниель"
         },
         {
           "id": "AV202101261222229566",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "English Cocker Spaniel_Dog",
-          "attributeDetailNameEn": "породы Американский кокер спаниель"
+          "attributeDetailNameEn": "породы Английский кокер спаниель"
         },
         {
           "id": "AV202101261222414736",
@@ -304,13 +341,13 @@
           "id": "AV202101261132252236",
           "attributeId": "A20210126075253707",
           "attributeDetailName": "true",
-          "attributeDetailNameEn": "нестерилизованных"
+          "attributeDetailNameEn": "стерилизованных"
         },
         {
           "id": "AV202101261132240096",
           "attributeId": "A20210126075253707",
           "attributeDetailName": "false",
-          "attributeDetailNameEn": "стерилизованных"
+          "attributeDetailNameEn": "нестерилизованных"
         }
       ]
     }
