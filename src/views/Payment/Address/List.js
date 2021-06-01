@@ -293,11 +293,13 @@ class AddressList extends React.Component {
         // 根据地址获取到的地址列表匹配当前选中的地址
         let addls = res.context.addressList;
         let dladdress = Object.assign({}, obj);
-        addls.forEach((item) => {
-          if (item.unrestrictedValue === address1) {
-            dladdress.DuData = item;
-          }
-        });
+        // addls.forEach((item) => {
+        //   if (item.unrestrictedValue === address1) {
+        //     dladdress.DuData = item;
+        //   }
+        // });
+        dladdress.DuData = addls[0];
+
         if (dladdress.DuData) {
           // Москва 和 Московская 不请求查询运费接口，delivery fee=400, MinDeliveryTime:1,MaxDeliveryTime:2
           if (
