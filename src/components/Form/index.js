@@ -145,6 +145,9 @@ class Form extends React.Component {
     if (initData?.areaId) {
       this.getRegionDataByCityId(initData.cityId);
     }
+
+    // 重置参数
+    this.props.getFormAddressValidFlag(false);
   }
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
