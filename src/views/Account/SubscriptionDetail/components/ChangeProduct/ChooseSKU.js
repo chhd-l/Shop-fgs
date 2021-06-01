@@ -241,10 +241,10 @@ const ChooseSKU = ({ intl }) => {
               isMobile ? 'subscriptionDetail-choose-frequency' : ''
             }`}
           >
-            {details.promotions && (
+            {skuPromotions && (
               <FrequencySelection
                 className="col-md-8"
-                frequencyType={details.promotions}
+                frequencyType={skuPromotions}
                 currentFrequencyId={form.frequencyId}
                 handleConfirm={handleSelectedItemChange}
               />

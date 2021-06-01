@@ -3,6 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
+import FrequencyMatch from '@/components/FrequencyMatch';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
@@ -24,8 +25,7 @@ class LoginCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkoutLoading: false,
-      frequencyList: []
+      checkoutLoading: false
     };
     this.handleCheckout = this.handleCheckout.bind(this);
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
@@ -37,15 +37,6 @@ class LoginCart extends React.Component {
       ) === -1
     ) {
       // await this.checkoutStore.removePromotionCode();
-    }
-    try {
-      await getFrequencyDict().then((res) => {
-        this.setState({
-          frequencyList: res
-        });
-      });
-    } catch (err) {
-      console.log(999, err.message);
     }
     const pathname = this.props.history.location.pathname;
     //alert(pathname);
@@ -146,8 +137,6 @@ class LoginCart extends React.Component {
 
   render() {
     const { totalNum, cartData, loading } = this;
-    const { frequencyList } = this.state;
-    // console.log(cartData, 'cartData', frequencyList);
     const { headerCartStore } = this.props;
     return (
       <span
@@ -380,14 +369,9 @@ class LoginCart extends React.Component {
                                           <p className="line-item-attributes">
                                             <FormattedMessage id="minicart.frequency" />
                                             :{' '}
-                                            {(frequencyList || []).filter(
-                                              (el) =>
-                                                el.id === item.periodTypeId
-                                            )[0] &&
-                                              (frequencyList || []).filter(
-                                                (el) =>
-                                                  el.id === item.periodTypeId
-                                              )[0].name}
+                                            <FrequencyMatch
+                                              currentId={item.periodTypeId}
+                                            />
                                           </p>
                                         </div>
                                       </div>

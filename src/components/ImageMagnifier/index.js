@@ -161,7 +161,7 @@ class ImageMagnifier extends Component {
       selectedSizeInfo = [sizeList[0]];
     }
 
-    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
+    if (selectedSizeInfo.length && selectedSizeInfo[0]?.goodsInfoImg) {
       let hoverIndex = 0;
       images.map((el, i) => {
         if (

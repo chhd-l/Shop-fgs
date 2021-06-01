@@ -9,94 +9,101 @@
           "id": "AV202101261132238856",
           "attributeId": "A20210126071322816",
           "attributeDetailName": "Wet",
-          "attributeDetailNameEn": "влажный"
+          "attributeDetailNameEn": "Влажный",
+          "attributeDetailNameSeoEn": "влажный"
         },
         {
           "id": "AV202101261132251386",
           "attributeId": "A20210126071322816",
           "attributeDetailName": "Dry",
-          "attributeDetailNameEn": "сухой"
+          "attributeDetailNameEn": "Сухой",
+          "attributeDetailNameSeoEn": "сухой"
         }
       ]
     },
     {
       "id": "A202101269071242331",
-      "attributeName": "Lifestage",
+      "attributeName": "Lifestages",
       "attributeNameEn": "ВОЗРАСТ",
+      "catMultiSelection": "корм для кошек разных возрастов",
+      "dogMultiSelection": "корм для собак разных возрастов",
       "attributesValuesVOList": [
         {
           "id": "AV202101261221384476",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Baby_Cat",
-          "attributeDetailNameEn": "корм для котят до 4-х месяцев"
+          "attributeDetailNameEn": "Котенок-(до-4-х-месяцев)",
+          "attributeDetailNameSeoEn": "корм для котят до 4-х месяцев"
         },
         {
           "id": "AV202101261206296046",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Kitten_Cat",
-          "attributeDetailNameEn": "корм для котят"
+          "attributeDetailNameEn": "Котенок",
+          "attributeDetailNameSeoEn": "корм для котят"
         },
         {
           "id": "AV202101261132237556",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Adult_Cat",
-          "attributeDetailNameEn": "корм для взрослых кошек"
+          "attributeDetailNameEn": "Взрослая",
+          "attributeDetailNameSeoEn": "корм для взрослых кошек"
         },
         {
           "id": "AV202101261132238126",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Mature_Cat",
-          "attributeDetailNameEn": "корм для стареющих кошек"
+          "attributeDetailNameEn": "Стареющая",
+          "attributeDetailNameSeoEn": "корм для стареющих кошек"
         },
         {
           "id": "AV202101261132238466",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Senior_Cat",
-          "attributeDetailNameEn": "корм для пожилых кошек"
-        },
-        {
-          "attributeDetailName": "Multi Selection",
-          "attributeDetailNameEn": "корм для кошек разных возрастов"
+          "attributeDetailNameEn": "Пожилая",
+          "attributeDetailNameSeoEn": "корм для пожилых кошек"
         },
         {
           "id": "AV202101261132340206",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Baby_Dog",
-          "attributeDetailNameEn": "корм для щенков до 2-х месяцев"
+          "attributeDetailNameEn": "Щенок-(до-2-х-месяцев)",
+          "attributeDetailNamSeoEn": "корм для щенков до 2-х месяцев"
         },
         {
           "id": "AV202101261142499076",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Puppy_Dog",
-          "attributeDetailNameEn": "корм для щенков"
+          "attributeDetailNameEn": "Щенок",
+          "attributeDetailNameSeoEn": "корм для щенков"
         },
         {
           "id": "AV202101261132259886",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Adult_Dog",
-          "attributeDetailNameEn": "корм для взрослых собак"
+          "attributeDetailNameEn": "Взрослая",
+          "attributeDetailNameSeoEn": "корм для взрослых собак"
         },
         {
           "id": "AV202101261132332466",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Mature_Dog",
-          "attributeDetailNameEn": "корм для стареющих собак"
+          "attributeDetailNameEn": "Стареющая",
+          "attributeDetailNameSeoEn": "корм для стареющих собак"
         },
         {
           "id": "AV202101261223137656",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Senior_Dog",
-          "attributeDetailNameEn": "корм для пожилых собак"
+          "attributeDetailNameEn": "Пожилая",
+          "attributeDetailNameSeoEn": "корм для пожилых собак"
         },
         {
           "id": "AV202101261221352146",
           "attributeId": "A202101269071242331",
           "attributeDetailName": "Junior_Dog",
-          "attributeDetailNameEn": "корм для юниоров"
-        },
-        {
-          "attributeDetailName": "Multi Selection",
-          "attributeDetailNameEn": "корм для собак разных возрастов"
+          "attributeDetailNameEn": "Юниор",
+          "attributeDetailNameSeoEn": "корм для юниоров"
         }
       ]
     },
@@ -104,40 +111,42 @@
       "id": "A20210126071518901",
       "attributeName": "Size",
       "attributeNameEn": "РАЗМЕРНАЯ ГРУППА ПИТОМЦА",
+      "multiSelection": "разных размеров",
       "attributesValuesVOList": [
         {
           "id": "AV202101261206286316",
           "attributeId": "A20210126071518901",
           "attributeDetailName": "Giant (over 45 kg)",
-          "attributeDetailNameEn": "свыше 45 кг"
+          "attributeDetailNameEn": "Очень-крупные--(более-45-кг)",
+          "attributeDetailNameSeoEn": "свыше 45 кг"
         },
         {
           "id": "AV40862680081072128",
           "attributeId": "A20210126071518901",
           "attributeDetailName": "Maxi (26-44 kg)",
-          "attributeDetailNameEn": "от 25 до 45 кг"
+          "attributeDetailNameEn": "Крупные-(26-44--кг)",
+          "attributeDetailNameSeoEn": "от 25 до 45 кг"
         },
         {
           "id": "AV40862680160763904",
           "attributeId": "A20210126071518901",
           "attributeDetailName": "Medium (11-25 kg)",
-          "attributeDetailNameEn": "средних размеров"
+          "attributeDetailNameEn": "Средние-(11-25--кг)",
+          "attributeDetailNameSeoEn": "средних размеров"
         },
         {
           "id": "AV202101261206286956",
           "attributeId": "A20210126071518901",
           "attributeDetailName": "Mini (5-10 kg)",
-          "attributeDetailNameEn": "от 4 до 10 кг"
+          "attributeDetailNameEn": "Мелкие-(5-10-кг)",
+          "attributeDetailNameSeoEn": "от 4 до 10 кг"
         },
         {
           "id": "AV40862680001380352",
           "attributeId": "A20210126071518901",
           "attributeDetailName": "XSmall (1-4 kg)",
-          "attributeDetailNameEn": "до 4 кг"
-        },
-        {
-          "attributeDetailName": "Multi Selection",
-          "attributeDetailNameEn": "разных размеров"
+          "attributeDetailNameEn": "Миниатюрные-(до-4-кг)",
+          "attributeDetailNameSeoEn": "до 4 кг"
         }
       ]
     },
@@ -145,194 +154,217 @@
       "id": "A20210126071341624",
       "attributeName": "Breeds",
       "attributeNameEn": "ПОРОДА",
+      "multiSelection": "разных пород",
       "attributesValuesVOList": [
         {
           "id": "AV202101261132240536",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Cat_Cat",
-          "attributeDetailNameEn": "смешанной породы"
+          "attributeDetailNameEn": "Метис-или-беспородная",
+          "attributeDetailNameSeoEn": "смешанной породы"
         },
         {
           "id": "AV202101261132239266",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Persian_Cat",
-          "attributeDetailNameEn": "породы Персидская"
+          "attributeDetailNameEn": "Персидская",
+          "attributeDetailNameSeoEn": "породы Персидская"
         },
         {
           "id": "AV202101261221444866",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Maine Coon_Cat",
-          "attributeDetailNameEn": "породы Мэйн-кун"
+          "attributeDetailNameEn": "Мэйн-кун",
+          "attributeDetailNameSeoEn": "породы Мэйн-кун"
         },
         {
           "id": "AV202101261222387696",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "British Shorthair_Cat",
-          "attributeDetailNameEn": "породы Британская короткошерстная"
+          "attributeDetailNameEn": "Британская короткошерстная",
+          "attributeDetailNameSeoEn": "породы Британская короткошерстная"
         },
         {
           "id": "AV202101261223522956",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Siamese_Cat",
-          "attributeDetailNameEn": "породы Сиамская"
+          "attributeDetailNameEn": "Сиамская",
+          "attributeDetailNameSeoEn": "породы Сиамская"
         },
         {
           "id": "AV202101261223157496",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Norwegian Forest_Cat",
-          "attributeDetailNameEn": "породы Норвежская лесная"
+          "attributeDetailNameEn": "Норвежская лесная",
+          "attributeDetailNameSeoEn": "породы Норвежская лесная"
         },
         {
           "id": "AV202101261132289786",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Bengal_Cat",
-          "attributeDetailNameEn": "породы Бенгальская"
+          "attributeDetailNameEn": "Бенгальская",
+          "attributeDetailNameSeoEn": "породы Бенгальская"
         },
         {
           "id": "AV202101261221496406",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Siberian_Cat",
-          "attributeDetailNameEn": "породы Сибирская"
+          "attributeDetailNameEn": "Сибирская",
+          "attributeDetailNameSeoEn": "породы Сибирская"
         },
         {
           "id": "AV202101261132297596",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Sphynx_Cat",
-          "attributeDetailNameEn": "породы Канадский сфинкс"
-        },
-        {
-          "attributeDetailName": "Multi Selection",
-          "attributeDetailNameEn": "разных пород"
+          "attributeDetailNameEn": "Канадский сфинкс",
+          "attributeDetailNameSeoEn": "породы Канадский сфинкс"
         },
         {
           "id": "AV202101261132261816",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Dog_Dog",
-          "attributeDetailNameEn": "смешанной породы"
+          "attributeDetailNameEn": "Метис или беспородная",
+          "attributeDetailNameSeoEn": "смешанной породы"
         },
         {
           "id": "AV202101261142489386",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Chihuahua_Dog",
-          "attributeDetailNameEn": "породы Чихуахуа"
+          "attributeDetailNameEn": "Чихуахуа",
+          "attributeDetailNameSeoEn": "породы Чихуахуа"
         },
         {
           "id": "AV202101261222081866",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Dachshund_Dog",
-          "attributeDetailNameEn": "породы Такса"
+          "attributeDetailNameEn": "Такса стандартная",
+          "attributeDetailNameSeoEn": "породы Такса"
         },
         {
           "id": "AV202101261155397556",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Shih Tzu_Dog",
-          "attributeDetailNameEn": "породы Ши тцу"
+          "attributeDetailNameEn": "Ши-тцу",
+          "attributeDetailNameSeoEn": "породы Ши тцу"
         },
         {
           "id": "AV202101261142499616",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Jack Russell Terrier_Dog",
-          "attributeDetailNameEn": "породы Джек рассел терьер"
+          "attributeDetailNameEn": "Джек рассел терьер",
+          "attributeDetailNameSeoEn": "породы Джек рассел терьер"
         },
         {
           "id": "AV202101261222189196",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "West Highland White Terrier_Dog",
-          "attributeDetailNameEn": "породы Вест хайленд уайт терьер"
+          "attributeDetailNameEn": "Вест хайленд уайт терьер",
+          "attributeDetailNameSeoEn": "породы Вест хайленд уайт терьер"
         },
         {
           "id": "AV202101261222110646",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "French Bulldog_Dog",
-          "attributeDetailNameEn": "породы Французский бульдог"
+          "attributeDetailNameEn": "Французский бульдог",
+          "attributeDetailNameSeoEn": "породы Французский бульдог"
         },
         {
           "id": "AV202101261222347156",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Pug_Dog",
-          "attributeDetailNameEn": "породы Мопс"
+          "attributeDetailNameEn": "Мопс",
+          "attributeDetailNameSeoEn": "породы Мопс"
         },
         {
           "id": "AV202101261132333046",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Golden Retriever_Dog",
-          "attributeDetailNameEn": "породы Золотистый ретривер"
+          "attributeDetailNameEn": "Золотистый ретривер",
+          "attributeDetailNameSeoEn": "породы Золотистый ретривер"
         },
         {
           "id": "AV202101261222058606",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Boxer_Dog",
-          "attributeDetailNameEn": "породы Боксер"
+          "attributeDetailNameEn": "Боксер",
+          "attributeDetailNameSeoEn": "породы Боксер"
         },
         {
           "id": "AV202101261142480806",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "bulldog_Dog",
-          "attributeDetailNameEn": "породы Бульдог"
+          "attributeDetailNameEn": "Бульдог",
+          "attributeDetailNameSeoEn": "породы Бульдог"
         },
         {
           "id": "AV202101261222282606",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Beagle_Dog",
-          "attributeDetailNameEn": "породы Бигль"
+          "attributeDetailNameEn": "Бигль",
+          "attributeDetailNameSeoEn": "породы Бигль"
         },
         {
           "id": "AV202101261222229226",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "American Cocker Spaniel_Dog",
-          "attributeDetailNameEn": "породы Американский кокер спаниель"
+          "attributeDetailNameEn": "Американский кокер спаниель",
+          "attributeDetailNameSeoEn": "породы Американский кокер спаниель"
         },
         {
           "id": "AV202101261222229566",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "English Cocker Spaniel_Dog",
-          "attributeDetailNameEn": "породы Английский кокер спаниель"
+          "attributeDetailNameEn": "Английский кокер спаниель",
+          "attributeDetailNameSeoEn": "породы Английский кокер спаниель"
         },
         {
           "id": "AV202101261222414736",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Dalmatian_Dog",
-          "attributeDetailNameEn": "породы Далматин"
+          "attributeDetailNameEn": "Далматин",
+          "attributeDetailNameSeoEn": "породы Далматин"
         },
         {
           "id": "AV202101261223275116",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Rottweiler_Dog",
-          "attributeDetailNameEn": "породы Ротвейлер"
+          "attributeDetailNameEn": "Ротвейлер",
+          "attributeDetailNameSeoEn": "породы Ротвейлер"
         },
         {
           "id": "AV202101261222337306",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Labrador Retriever_Dog",
-          "attributeDetailNameEn": "породы Лабрадор ретривер"
+          "attributeDetailNameEn": "Лабрадор ретривер",
+          "attributeDetailNameSeoEn": "породы Лабрадор ретривер"
         },
         {
           "id": "AV202101261223246016",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "German Shepherd_Dog",
-          "attributeDetailNameEn": "породы Немецкая овчарка"
+          "attributeDetailNameEn": "Немецкая овчарка",
+          "attributeDetailNameSeoEn": "породы Немецкая овчарка"
         },
         {
           "id": "AV202101261222483476",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Pomeranian_Dog",
-          "attributeDetailNameEn": "породы Померанский шпиц"
+          "attributeDetailNameEn": "Померанский шпиц",
+          "attributeDetailNameSeoEn": "породы Померанский шпиц"
         },
         {
           "id": "AV202101261222049396",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Miniature Schnauzer_Dog",
-          "attributeDetailNameEn": "породы Миниатюрный шнауцер"
+          "attributeDetailNameEn": "Миниатюрный Шнауцер",
+          "attributeDetailNameSeoEn": "породы Миниатюрный шнауцер"
         },
         {
           "id": "AV202101261222066536",
           "attributeId": "A20210126071341624",
           "attributeDetailName": "Yorkshire Terrier_Dog",
-          "attributeDetailNameEn": "породы Йоркширский терьер"
-        },
-        {
-          "attributeDetailName": "Multi Selection",
-          "attributeDetailNameEn": "разных пород"
+          "attributeDetailNameEn": "Йоркширский терьер",
+          "attributeDetailNameSeoEn": "породы Йоркширский терьер"
         }
       ]
     },
@@ -345,13 +377,15 @@
           "id": "AV202101261132252236",
           "attributeId": "A20210126075253707",
           "attributeDetailName": "true",
-          "attributeDetailNameEn": "стерилизованных"
+          "attributeDetailNameEn": "Да",
+          "attributeDetailNameSeoEn": "стерилизованных"
         },
         {
           "id": "AV202101261132240096",
           "attributeId": "A20210126075253707",
           "attributeDetailName": "false",
-          "attributeDetailNameEn": "нестерилизованных"
+          "attributeDetailNameEn": "Нет",
+          "attributeDetailNameSeoEn": "нестерилизованных"
         }
       ]
     }

@@ -3,17 +3,12 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
-import {
-  formatMoney,
-  getFrequencyDict,
-  matchNamefromDict,
-  getClubLogo
-} from '@/utils/utils';
+import { formatMoney, getFrequencyDict, getClubLogo } from '@/utils/utils';
 import { GAInitUnLogin, GAInitLogin } from '@/utils/GA';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import './index.css';
-
+import FrequencyMatch from '@/components/FrequencyMatch';
 const guid = uuidv4();
 let isGACheckoutLock = false;
 const isHubGA = process.env.REACT_APP_HUB_GA;
@@ -384,10 +379,7 @@ class PayProductInfo extends React.Component {
                     {el.goodsInfoFlag ? (
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {matchNamefromDict(
-                          this.state.frequencyList,
-                          el.periodTypeId
-                        )}
+                        <FrequencyMatch currentId={el.periodTypeId} />
                       </p>
                     ) : null}
                   </div>

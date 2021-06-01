@@ -763,22 +763,6 @@ class Details extends React.Component {
       });
     }
   }
-  handleAClick() {
-    if (this.state.replyNum > 0) {
-      let el = document.getElementById('review-container');
-      let length = this.getElementToPageTop(el);
-      window.scrollTo({
-        top: length - 80,
-        behavior: 'smooth'
-      });
-    }
-  }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
-  }
   formatUnit(baseSpecLabel) {
     let res = baseSpecLabel.slice(String(parseFloat(baseSpecLabel)).length);
     if (isNaN(parseFloat(res))) {
