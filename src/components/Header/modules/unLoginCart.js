@@ -9,6 +9,7 @@ import {
   getFrequencyDict,
   getDeviceType
 } from '@/utils/utils';
+import FrequencyMatch from '@/components/FrequencyMatch';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 //import PetModal from '@/components/PetModal';
@@ -27,8 +28,7 @@ class UnloginCart extends React.Component {
     this.state = {
       checkoutLoading: false,
       petModalVisible: false,
-      isAdd: 0,
-      frequencyList: []
+      isAdd: 0
     };
     this.hubGA = process.env.REACT_APP_HUB_GA == '1';
   }
@@ -40,11 +40,6 @@ class UnloginCart extends React.Component {
     ) {
       // await this.props.checkoutStore.removePromotionCode();
     }
-    getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res
-      });
-    });
     this.props.checkoutStore.updateUnloginCart();
   }
   get selectedCartData() {
@@ -151,7 +146,6 @@ class UnloginCart extends React.Component {
 
   render() {
     const { headerCartStore } = this.props;
-    let { frequencyList } = this.state;
     return (
       <span
         className="minicart inlineblock"
@@ -407,20 +401,9 @@ class UnloginCart extends React.Component {
                                         <p className="line-item-attributes">
                                           <FormattedMessage id="minicart.frequency" />
                                           :{' '}
-                                          {(frequencyList || []).filter(
-                                            (el) => {
-                                              return (
-                                                el.id === item.periodTypeId
-                                              );
-                                            }
-                                          )[0] &&
-                                            (frequencyList || []).filter(
-                                              (el) => {
-                                                return (
-                                                  el.id === item.periodTypeId
-                                                );
-                                              }
-                                            )[0].name}
+                                          <FrequencyMatch
+                                            currentId={item.periodTypeId}
+                                          />
                                         </p>
                                       </div>
                                     </div>

@@ -17,7 +17,9 @@
     box-shadow: 0 2px 0.625rem rgba(0, 0, 0, 0.2);
   }
 }
-
+.buyMethodBox .text-left {
+  text-align: left !important;
+}
 @media (min-width: 640px) {
   .checkout-continue {
     position: static;
