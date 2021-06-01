@@ -47,8 +47,8 @@ export default class Cod extends React.Component {
               htmlFor={`id-payu-cod`}
             >
               <FormattedMessage id="payment.codTip" />
+              <span className="rc-text-colour--brand1">*</span>
             </label>
-            <span className="rc-text-colour--brand1">*</span>
           </div>
         </div>
       </div>
