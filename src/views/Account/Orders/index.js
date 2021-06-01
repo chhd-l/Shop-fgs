@@ -207,7 +207,8 @@ class AccountOrders extends React.Component {
               ele.tradeDelivers.length,
             canDownInvoice:
               ['fr'].includes(process.env.REACT_APP_LANG) &&
-              tradeState.deliverStatus === 'SHIPPED'
+              (tradeState.deliverStatus === 'SHIPPED' ||
+                tradeState.deliverStatus === 'DELIVERED')
           });
         });
         if (this.state.initing) {
