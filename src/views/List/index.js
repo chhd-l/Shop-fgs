@@ -1571,7 +1571,7 @@ class List extends React.Component {
 
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
-      Array.from(pEle.attributesValueList, (cEle) => {
+      Array.from(pEle.attributesValueList || [], (cEle) => {
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
         const targetPIdx = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
