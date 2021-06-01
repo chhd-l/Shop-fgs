@@ -1116,6 +1116,7 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <SingleBuyMethod
+                                configStore={this.props.configStore}
                                 form={form}
                                 skuPromotions={skuPromotions}
                                 selectedSpecItem={selectedSpecItem}
@@ -1133,6 +1134,7 @@ class Details extends React.Component {
                               skuPromotions == 'autoship' ? (
                                 <AutoshipBuyMethod
                                   form={form}
+                                  configStore={this.props.configStore}
                                   skuPromotions={skuPromotions}
                                   selectedSpecItem={selectedSpecItem}
                                   currentUnitPrice={currentUnitPrice}
@@ -1149,6 +1151,7 @@ class Details extends React.Component {
                               currentSubscriptionPrice &&
                               skuPromotions == 'club' ? (
                                 <ClubBuyMethod
+                                  configStore={this.props.configStore}
                                   form={form}
                                   skuPromotions={skuPromotions}
                                   selectedSpecItem={selectedSpecItem}
