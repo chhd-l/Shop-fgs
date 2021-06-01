@@ -162,7 +162,6 @@ class Subscription extends React.Component {
       totalPage: 1,
       initing: true,
       errMsg: '',
-      frequencyList: [],
       subStatus: [
         { value: '', name: <FormattedMessage id="all" /> },
         {
@@ -230,17 +229,6 @@ class Subscription extends React.Component {
           value: el.valueEn
         };
       })
-    });
-    await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res.map((el) => {
-          return {
-            id: el.id,
-            name: el.name,
-            value: el.name
-          };
-        })
-      });
     });
     this.getSubList();
   }
@@ -336,7 +324,6 @@ class Subscription extends React.Component {
 
   getPageBox = (isGift) => {
     let {
-      frequencyList,
       isMobile,
       subList,
       loading,
@@ -390,7 +377,6 @@ class Subscription extends React.Component {
                   if (subItem.subscriptionType === 'Club') {
                     subItemComp = (
                       <ClubItem
-                        frequencyList={frequencyList}
                         history={this.props.history}
                         subItem={subItem}
                         idx={i}
@@ -400,7 +386,6 @@ class Subscription extends React.Component {
                     subItemComp = (
                       <AutoshipItem
                         subItem={subItem}
-                        frequencyList={frequencyList}
                         history={this.props.history}
                       />
                     );
@@ -408,7 +393,6 @@ class Subscription extends React.Component {
                     subItemComp = (
                       <AutoshipItem
                         subItem={subItem}
-                        frequencyList={frequencyList}
                         history={this.props.history}
                       />
                     );
@@ -488,7 +472,7 @@ class Subscription extends React.Component {
         filters: ''
       }
     };
-    const { frequencyList, isMobile } = this.state;
+    const { isMobile } = this.state;
     return (
       <div className="subscription">
         <GoogleTagManager additionalEvents={event} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType,getElementToPageTop } from '@/utils/utils';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx'
 import Rate from '@/components/Rate';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
@@ -16,6 +16,16 @@ interface Props {
   selectedSpecItem: any
 }
 const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyNum, selectedSpecItem}: Props) => {
+  const handleAClick = () => {
+    if (replyNum > 0) {
+      let el = document.getElementById('review-container');
+      let length = getElementToPageTop(el);
+      window.scrollTo({
+        top: length - 80,
+        behavior: 'smooth'
+      });
+    }
+  }
   return isMobile ? (
     <div className="detailHeader mt-3">
       <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
@@ -37,7 +47,7 @@ const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyN
               </div>
               <span
                 className="comments rc-margin-left--xs rc-text-colour--text"
-                onClick={this.handleAClick.bind(this)}
+                onClick={handleAClick.bind(this)}
               >
                 ({replyNum}){/* <FormattedMessage id="reviews" /> */}
               </span>
@@ -87,7 +97,7 @@ const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyN
               </div>
               <a
                 className="comments rc-margin-left--xs rc-text-colour--text"
-                onClick={this.handleAClick.bind(this)}
+                onClick={handleAClick.bind(this)}
               >
                 ({replyNum}){/* <FormattedMessage id="reviews" /> */}
               </a>

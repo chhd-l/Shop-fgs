@@ -8,7 +8,7 @@ const FrequencyMatch = (props) => {
   const [frequencyList, setFrequencyList] = useState([]);
   useEffect(() => {
     if (props.currentId) {
-      getFrequencyDict().then((res) => {
+      getFrequencyDict(props.currentId).then((res) => {
         setFrequencyList(res);
         props.setState && props.setState({ frequencyList: res });
       });
