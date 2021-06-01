@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
-const De = process.env.REACT_APP_COUNTRY === 'DE';
 
 interface Props {
+  configStore: any;
   form: any;
   skuPromotions: any;
   selectedSpecItem: any;
@@ -18,6 +18,7 @@ interface Props {
 const SingleBuyMethod = ({
   form,
   skuPromotions,
+  configStore,
   selectedSpecItem,
   currentUnitPrice,
   currentSubscriptionPrice,
@@ -77,7 +78,7 @@ const SingleBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {De && selectedSpecItem ? (
+        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem ? (
           <div
             style={{
               fontSize: '.875rem',
