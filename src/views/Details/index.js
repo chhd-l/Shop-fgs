@@ -2289,7 +2289,13 @@ class Details extends React.Component {
                                     </label>
                                     <br />
                                     <div className="freeshippingBox">
-                                      <FormattedMessage id="freeShipping" />
+                                      <FormattedMessage
+                                        id={
+                                          process.env.REACT_APP_COUNTRY == 'TR'
+                                            ? 'oneoffFreeShipping'
+                                            : 'freeShipping'
+                                        }
+                                      />
                                     </div>
                                   </div>
                                 </div>
