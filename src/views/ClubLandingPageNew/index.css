@@ -81,19 +81,51 @@
   }
   .ordertwo{
     order: 2;
+    margin-bottom: 2vh;
   }
   .orderthree{
     order: 3;
   }
   .decenter{
     justify-content: center;
-    margin-bottom: 3vh;
+    margin-bottom: 2vh;
+  }
+  .detextcenter{
+    text-align: center;
+  }
+  .demarginleft{
+    margin-left: 5vw;
+  }
+  .deimagetranslate{
+    transform: rotate(90deg);
+  }
+  .demobile30{
+    width: 30vw;
+    margin-top: 0;
+  }
+  .mobileunshow{
+    display: none;
   }
 }
 
 @media (min-width: 639.98px) {
   .desktop30vw{
     width:30vw;
+  }
+  .button20vw{
+    width: 20vw;
+  }
+  .marginleftpc{
+    margin-left: 5vh;
+  }
+  .marginToppc{
+    margin-top: 2vh;
+  }
+  .pcunshow{
+    display: none;
+  }
+  .desktop35vw{
+    width: 35vw;
   }
 }
 

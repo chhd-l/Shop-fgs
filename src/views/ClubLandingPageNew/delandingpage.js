@@ -37,6 +37,8 @@ import online4 from './deimage/onlinepic4.png'
 import callImgNew from '../../components/HelpComponentsNew/img/phoneicon@4x.png';
 import emailImgNew from '../../components/HelpComponentsNew/img/emailicon@4x.png';
 import faqImgNew from '../../components/HelpComponentsNew/img/FAQicon@4x.png';
+import Logo from '../../components/Logo';
+import DeMyList from './demylist';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -329,31 +331,31 @@ class ClubLandingPageDe extends React.Component {
                       </p>
                     </div>
 
-                    <div style={{display:'flex',justifyContent:"center"}} >
+                    <div style={{display:'flex',justifyContent:"center"}} className="deflexcolumn">
                       <div>
                         <p style={{fontWeight:'bolder'}}>
                           Bitte geben Sie Ihren individuellen Empfehlungscode ein:
                         </p>
-                        <div>
-                          <span className="rc-input rc-input--inline rc-input--label">
+                        <div style={{display:'flex'}} className="deflexcolumn">
+                          <span className="rc-input rc-input--inline rc-input--label demarginleft">
                             <input type="text"  className="form-control" name="email"  />
                           </span>
                           <button className="rc-btn rc-btn--one" style={{marginTop:'3vh'}}>Code speichern</button>
                         </div>
                       </div>
-                      <div style={{marginLeft:'2vw',marginRight:'3vw',display:'flex',alignItems:'center'}}>
+                      <div style={{marginLeft:'2vw',marginRight:'3vw',display:'flex',alignItems:'center'}} className="decenter deimagetranslate">
                         <LazyLoad>
                           <img src={line} style={{height:'10vh'}}/>
                         </LazyLoad>
                       </div>
-                      <div style={{display:'flex',flexDirection:'column'}}>
+                      <div style={{display:'flex',flexDirection:'column'}} className="detextcenter">
                         <p style={{fontWeight:'bolder'}} >
                           Sie haben noch keinen Empfehlungscode?
                         </p>
                         <p >
                           Fragen Sie bei unseren teilnehmenden Tierärzt*innen.
                         </p>
-                        <button className="rc-btn rc-btn--two" style={{width:'20vw'}}>Tierarztpraxen anzeigen</button>
+                        <button className="rc-btn rc-btn--two button20vw" >Tierarztpraxen anzeigen</button>
                       </div>
                     </div>
                   </div>
@@ -409,11 +411,11 @@ class ClubLandingPageDe extends React.Component {
                             </div>
                             <div
                               style={{
-                                marginLeft: '5vh',
                                 transform: 'translateY(-10px)'
                               }}
+                              className="marginleftpc demobile30"
                             >
-                              <p style={{ fontSize: '28px', fontWeight: 'bolder',marginTop:'2vh' }}>
+                              <p style={{ fontSize: '28px', fontWeight: 'bolder' }}  className="marginToppc">
                                 Einzelbestellung
                               </p>
                             </div>
@@ -567,9 +569,10 @@ class ClubLandingPageDe extends React.Component {
                         Die Vorteile des ROYAL CANIN® Online-Shops auf einen Blick:
                       </h4>
                     </div>
+                    <div className="mobileunshow">
                     <div style={{display:'flex',justifyContent:"center"}} >
                       <div style={{width:'30vw'}}>
-                        <p >
+                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
                           Auswahl aus dem gesamten VET Diäten Sortiment von ROYAL CANIN®
                         </p>
                         <p >
@@ -587,7 +590,7 @@ class ClubLandingPageDe extends React.Component {
                         </LazyLoad>
                       </div>
                       <div style={{width:'30vw'}}>
-                        <p >
+                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
                           Direkter Kontakt zu unserem Service-Team
                         </p>
                         <p >
@@ -597,7 +600,7 @@ class ClubLandingPageDe extends React.Component {
                     </div>
                     <div style={{display:'flex',justifyContent:"center"}} >
                       <div style={{width:'30vw'}}>
-                        <p >
+                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
                           Regelmäßige Lieferung
                         </p>
                         <p >
@@ -615,13 +618,18 @@ class ClubLandingPageDe extends React.Component {
                         </LazyLoad>
                       </div>
                       <div style={{width:'30vw'}}>
-                        <p >
+                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
                           Schneller und kostenloser Versand
                         </p>
                         <p >
                           Bestellungen im ROYAL CANIN® Shop sind frei von Versandkosten oder Mindestbestellmengen. Dazu liefern wir Ihre bestellte Nahrung bei Lagerbestand innerhalb von 1-3 Werktagen!
                         </p>
                       </div>
+                    </div>
+                    </div>
+
+                    <div className="pcunshow">
+                      <DeMyList/>
                     </div>
                   </div>
                 </div>
@@ -665,8 +673,8 @@ class ClubLandingPageDe extends React.Component {
                                 Unser erfahrenes Service-Team steht Ihnen gerne mit Rat und Tat zur Seite. Rufen Sie uns einfach an oder schreiben Sie uns eine E-Mail.
                               </span>
                             </p>
-                           <div className="flex">
-                             <article className="rc-full-width rc-column rc-margin-top--md--mobile" style={{width:'35vw'}}>
+                           <div className="flex deflexcolumn" >
+                             <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw" >
                                <div className="rc-border-all rc-border-colour--interface fullHeight">
                                  <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                    <div className="rc-column rc-double-width rc-padding-top--md--mobile">
@@ -695,7 +703,7 @@ class ClubLandingPageDe extends React.Component {
                                  </div>
                                </div>
                              </article>
-                             <article className="rc-full-width rc-column rc-margin-top--md--mobile"style={{width:'35vw'}}>
+                             <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw">
                                <div className="rc-border-all rc-border-colour--interface fullHeight">
                                  <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                    <div className="rc-column rc-double-width rc-padding-top--md--mobile">
