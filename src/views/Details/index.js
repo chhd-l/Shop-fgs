@@ -1583,7 +1583,7 @@ class Details extends React.Component {
           attr.goodsAttributeName.toLowerCase() == 'breeds'
       )
       .map((item) => item.goodsAttributeValue);
-    const spezies = (goodsAttributesValueRelVOAllList || [])
+    const spezies = (goodsAttributesValueRelList || [])
       .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
       .map((item) => item.goodsAttributeValue);
     const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
