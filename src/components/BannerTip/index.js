@@ -1,6 +1,7 @@
 import React from 'react';
 import { bannerTips } from './bannerTips';
 
+
 class BannerTip extends React.Component {
   constructor(props) {
     super(props);

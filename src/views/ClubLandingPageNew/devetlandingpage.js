@@ -29,6 +29,8 @@ import StoreCode from './Components/DeStoreCode/storecode';
 import SalesCategory from '../Home/modules/SalesCategory';
 import goldenfood from './image/goldenfood.png';
 import line from './deimage/Line@4x.png';
+import HubSalesCategory from '../../components/HubSalesCategory';
+import { salesCategoryFilterRule } from '../../components/HubSalesCategory/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -224,6 +226,10 @@ class ClubLandingPageDeVet extends React.Component {
           </div>
 
           <Divider />
+
+          <HubSalesCategory rule={salesCategoryFilterRule}/>
+
+          <Divider/>
 
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
