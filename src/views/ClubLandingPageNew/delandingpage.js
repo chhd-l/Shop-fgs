@@ -13,6 +13,7 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
+import declublogo from './deimage/declublogo.png'
 
 import line from './deimage/Line@4x.png'
 import dephone from './deimage/dePhoneicon.png'
@@ -227,74 +228,74 @@ class ClubLandingPageDe extends React.Component {
                         Wie funktioniert die Bestellung?
                       </h4>
                     </div>
-                    <div style={{display:'flex',justifyContent:"center"}} >
-                      <div>
+                    <div style={{display:'flex',justifyContent:"center"}} className="deflexcolumn">
+                      <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit1} style={{width:'30vw'}}/>
+                          <img src={dehowit1} className="desktop30vw"/>
                         </LazyLoad>
                       </div>
-                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}}>
+                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}} className="orderone decenter">
                         <LazyLoad>
-                            <img src={number1} style={{height:'50px'}}/>
+                            <img src={number1} style={{height:'50px'}} />
                         </LazyLoad>
                       </div>
-                      <div style={{width:'30vw'}}>
-                      <p >
-                        Besuchen Sie Ihre Tierarztpraxis und erhalten Sie eine Nahrungsempfehlung zur Behandlung eines besonderen Bedürfnisses Ihrer Katze oder Ihres Hundes. Diese händigt Ihnen einen individuellen Empfehlungscode aus. Hier finden Sie teilnehmende Tierarztpraxen.
-                      </p>
+                      <div className="desktop30vw orderthree">
+                        <p >
+                          Besuchen Sie Ihre Tierarztpraxis und erhalten Sie eine Nahrungsempfehlung zur Behandlung eines besonderen Bedürfnisses Ihrer Katze oder Ihres Hundes. Diese händigt Ihnen einen individuellen Empfehlungscode aus. Hier finden Sie teilnehmende Tierarztpraxen.
+                        </p>
                       </div>
                     </div>
 
-                    <div style={{display:'flex',justifyContent:"center"}} >
-                      <div style={{width:'30vw',display:'flex',alignItems:'center'}}>
+                    <div style={{display:'flex',justifyContent:"center"}} className="deflexcolumn">
+                      <div style={{display:'flex',alignItems:'center'}} className="desktop30vw orderthree">
                         <p >
                           Geben Sie Ihren individuellen Empfehlungscode unten auf dieser Seite ein.
                         </p>
                       </div>
-                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}}>
+                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}} className="orderone decenter">
                         <LazyLoad>
                           <img src={number2} style={{height:'50px'}}/>
                         </LazyLoad>
                       </div>
-                      <div>
+                      <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit2} style={{width:'30vw'}}/>
+                          <img src={dehowit2} className="desktop30vw"/>
                         </LazyLoad>
                       </div>
                     </div>
 
-                    <div style={{display:'flex',justifyContent:"center"}} >
-                      <div>
+                    <div style={{display:'flex',justifyContent:"center"}} className="deflexcolumn">
+                      <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit3} style={{width:'30vw'}}/>
+                          <img src={dehowit3} className="desktop30vw"/>
                         </LazyLoad>
                       </div>
-                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}}>
+                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}} className="orderone decenter">
                         <LazyLoad>
                           <img src={number3} style={{height:'50px'}}/>
                         </LazyLoad>
                       </div>
-                      <div style={{width:'30vw',display:'flex',alignItems:'center'}}>
+                      <div style={{display:'flex',alignItems:'center'}} className="desktop30vw orderthree">
                         <p >
                           Suchen Sie die empfohlene Nahrung Ihrer Tierarztpraxis im Shop heraus und legen Sie diese in Ihren Warenkorb.
                         </p>
                       </div>
                     </div>
 
-                    <div style={{display:'flex',justifyContent:"center"}} >
-                      <div style={{width:'30vw',display:'flex',alignItems:'center'}}>
+                    <div style={{display:'flex',justifyContent:"center"}} className="deflexcolumn">
+                      <div style={{display:'flex',alignItems:'center'}} className="desktop30vw orderthree">
                         <p>
                           Wählen Sie Ihre gewünschte Zahlungsmethode aus und schließen Sie Ihre ROYAL CANIN® Bestellung ab. Sie erhalten Ihre bestellte Nahrung innerhalb von 1-3 Werktagen nach Hause versandt.
                         </p>
                       </div>
-                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}}>
+                      <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}} className="orderone decenter">
                         <LazyLoad>
                           <img src={number4} style={{height:'50px'}}/>
                         </LazyLoad>
                       </div>
-                      <div>
+                      <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit4} style={{width:'30vw'}}/>
+                          <img src={dehowit4} className="desktop30vw"/>
                         </LazyLoad>
                       </div>
                     </div>
@@ -463,8 +464,8 @@ class ClubLandingPageDe extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="w-60 lazyloaded"
-                                  src={logoclubad}
-                                  style={{ width: '100px' }}
+                                  src={declublogo}
+                                  style={{ width: '70px' }}
                                 />
                               </LazyLoad>
                             </div>
@@ -732,6 +733,30 @@ class ClubLandingPageDe extends React.Component {
               </div>
             </div>
 
+            <Divider/>
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-contentBlock">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                    <div>
+                      <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                        Stets informiert mit dem ROYAL CANIN® Newsletter!
+                      </h4>
+                    </div>
+                    <div className="text-center">
+                      <button className="rc-btn rc-btn--two" >Anmelden</button>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <br/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <Footer />
         </main>
       </div>

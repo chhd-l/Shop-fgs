@@ -70,7 +70,33 @@
   .ui-pop .btn-cheat {
     height: 1.2rem;
   }
+  .deflexcolumn{
+    flex-direction: column;
+  }
+  .dewidth{
+    width: 100vw;
+  }
+  .orderone{
+    order: 1;
+  }
+  .ordertwo{
+    order: 2;
+  }
+  .orderthree{
+    order: 3;
+  }
+  .decenter{
+    justify-content: center;
+    margin-bottom: 3vh;
+  }
 }
+
+@media (min-width: 639.98px) {
+  .desktop30vw{
+    width:30vw;
+  }
+}
+
 .DeCenter {
   margin: 0 auto;
 }
