@@ -78,7 +78,7 @@ const SingleBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem ? (
+        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem?.goodsInfoWeight&&selectedSpecItem?.goodsInfoUnit ? (
           <div
             style={{
               fontSize: '.875rem',
