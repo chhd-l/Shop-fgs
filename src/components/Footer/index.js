@@ -52,6 +52,7 @@ class Footer extends React.Component {
         firstName: this.props.intl.messages['payment.firstName'],
         lastName: this.props.intl.messages['payment.lastName'],
         phoneNumber: this.props.intl.messages['payment.phoneNumber'],
+        consigneeNumber: this.props.intl.messages['payment.phoneNumber'],
         area: this.props.intl.messages['payment.region'],
         province: this.props.intl.messages['payment.state']
       })

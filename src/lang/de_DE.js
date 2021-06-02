@@ -571,7 +571,7 @@ const de_DE = {
   NoPromotionDesc: 'Abo-Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
   noStart: 'Ausstehend',
-  notate: 'Alle Preise inkl. MwSt. und zzgl.{val}',
+  notate: 'Alle Preise inkl. MwSt. und zzgl. {val}',
   notSterilized: 'Nein',
   of: 'von',
   oldPassword: 'Altes Passwort *',

@@ -1119,12 +1119,17 @@ class List extends React.Component {
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
+      const spezies = (goodsAttributesValueRelVOAllList || [])
+        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
+        .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie,
+        specie: process.env.REACT_APP_COUNTRY == 'DE' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1179,11 +1184,15 @@ class List extends React.Component {
             attr.goodsAttributeName.toLowerCase() == 'breeds'
         )
         .map((item) => item.goodsAttributeValue);
+      const spezies = (goodsAttributesValueRelVOAllList || [])
+        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
+        .map((item) => item.goodsAttributeValue);
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie,
+        specie: process.env.REACT_APP_COUNTRY == 'DE' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1868,10 +1877,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',

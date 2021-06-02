@@ -1384,11 +1384,15 @@ export default {
       redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
     },
     {
+      shortUrl: '/ru/Skin-&-Coat-(в-соусе)-4092_RU.html',
+      redirectUrl: '/skin-&-coat-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4092'
+    },
+    {
       shortUrl: '/ru/Skin-%26-Coat-1323_RU.html',
       redirectUrl: '/skin-&-coat-1323'
     },
     {
-      shortUrl: '/ru/skin-&-coat-1323',
+      shortUrl: '/ru/Skin-&-coat-1323',
       redirectUrl: '/ru/skin-&-coat-1323'
     },
     {
@@ -1458,8 +1462,20 @@ export default {
       redirectUrl: '/sterilised-7+-2560'
     },
     {
+      shortUrl: '/ru/Sterilised-7+-2560_RU.html',
+      redirectUrl: '/sterilised-7+-2560'
+    },
+    {
       shortUrl: '/ru/Sterilised-Ageing-12%2B-2565_RU.html',
       redirectUrl: '/sterilised-ageing-12+-2565'
+    },
+    {
+      shortUrl: '/ru/Sterilised-Ageing-12+-2565_RU.html',
+      redirectUrl: '/sterilised-ageing-12+-2565'
+    },
+    {
+      shortUrl: '/ru/Tailorednutrition.html',
+      redirectUrl: '/tailored-nutrition'
     },
     {
       shortUrl: '/ru/subscription-landing.html',
@@ -1492,8 +1508,16 @@ export default {
       redirectUrl: '/urinary-so-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4032'
     },
     {
+      shortUrl: '/ru/Urinary-S/O-(в-соусе)-4032_RU.html',
+      redirectUrl: '/urinary-so-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4032'
+    },
+    {
       shortUrl:
         '/ru/Urinary-S%2FO-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-4021_RU.html',
+      redirectUrl: '/urinary-so-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4021'
+    },
+    {
+      shortUrl: '/ru/Urinary-S/O-(паштет)-4021_RU.html',
       redirectUrl: '/urinary-so-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-4021'
     },
     {
@@ -1501,12 +1525,25 @@ export default {
       redirectUrl: '/urinary-so-3901'
     },
     {
+      shortUrl: '/ru/Urinary-S/O-3901_RU.html',
+      redirectUrl: '/urinary-so-3901'
+    },
+    {
       shortUrl: '/ru/Urinary-S%2FO-3913_RU.html',
+      redirectUrl: '/urinary-so-3913'
+    },
+    {
+      shortUrl: '/ru/Urinary-S/O-3913_RU.html',
       redirectUrl: '/urinary-so-3913'
     },
     {
       shortUrl:
         '/ru/Urinary-S%2FO-Feline-%28%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82%29-1254_RU.html',
+      redirectUrl:
+        '/urinary-so-feline-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1254'
+    },
+    {
+      shortUrl: '/ru/Urinary-S/O-Feline-(паштет)-1254_RU.html',
       redirectUrl:
         '/urinary-so-feline-(%D0%BF%D0%B0%D1%88%D1%82%D0%B5%D1%82)-1254'
     },
@@ -1517,11 +1554,25 @@ export default {
         '/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
     },
     {
+      shortUrl:
+        '/ru/shop/ru/Urinary-S/O-Moderate-Calorie-(в-соусе)-4080_RU.html',
+      redirectUrl:
+        '/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
+    },
+    {
       shortUrl: '/ru/Urinary-S%2FO-Moderate-Calorie-3954_RU.html',
       redirectUrl: '/urinary-so-moderate-calorie-3954'
     },
     {
+      shortUrl: '/ru/Urinary-S/O-Moderate-Calorie-3954_RU.html',
+      redirectUrl: '/urinary-so-moderate-calorie-3954'
+    },
+    {
       shortUrl: '/ru/Urinary-S%2FO-Small-Dog-3801_RU.html',
+      redirectUrl: '/urinary-so-small-dog-3801'
+    },
+    {
+      shortUrl: '/ru/Urinary-S/O-Small-Dog-3801_RU.html',
       redirectUrl: '/urinary-so-small-dog-3801'
     },
     {
@@ -1558,6 +1609,10 @@ export default {
     },
     {
       shortUrl: '/ru/Yorkshire-Terrier-8%2B-1260_RU.html',
+      redirectUrl: '/yorkshire-terrier-8+-1260'
+    },
+    {
+      shortUrl: '/ru/Yorkshire-Terrier-8+-1260_RU.html',
       redirectUrl: '/yorkshire-terrier-8+-1260'
     },
     {
