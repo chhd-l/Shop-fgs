@@ -40,6 +40,8 @@ import faqImgNew from '../../components/HelpComponentsNew/img/FAQicon@4x.png';
 import Logo from '../../components/Logo';
 import DeMyList from './demylist';
 import StoreCode from './Components/DeStoreCode/storecode';
+import SalesCategory from '../Home/modules/SalesCategory';
+import goldenfood from './image/goldenfood.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -58,7 +60,7 @@ function Divider() {
   );
 }
 
-class ClubLandingPageDe extends React.Component {
+class ClubLandingPageDeVet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -190,28 +192,40 @@ class ClubLandingPageDe extends React.Component {
                   <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
                       <div className="rc-column">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/3Tfl1pmFej8" title="YouTube video player"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen></iframe>
+                        <div className="lazyload-wrapper">
+                          <img
+                            alt="With the Subscription, they will always have what they need"
+                            className="w-100 lazyloaded"
+                            src={goldenfood}
+                          />
+                        </div>
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
+                          <p>
+                            What makes the RC Vet Portfolio special​
+                          </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <div className="rc-alpha inherit-fontsize">
-                              Die VET Diäten von ROYAL CANIN®
-                            </div>
                             <li className="rc-list__item">
-                              Seit 1968 erforscht ROYAL CANIN® die besonderen Ernährungsbedürfnisse von Katzen und Hunden bis ins kleinste Detail. Denn schon kleinste Nährstoffunterschiede in der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten. Das gilt natürlich um so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben.
+                              <em className="petCrew rc-margin-right--xs"></em>
+                              Djaöfonöoihaer
                             </li>
                             <li className="rc-list__item">
-                              Damit wir sichergehen können, dass Ihrem Nahrungskauf eine tierärztliche Empfehlung vorausgeht, benötigen Sie einen individuellen Empfehlungscode Ihrer Tierarztpraxis um eine Bestellung in unserem Shop aufzugeben.
+                              <em className="petCrew rc-margin-right--xs"></em>
+                              Aeornöoiaöoebaröoobaöobe​
+                            </li>
+                            <li className="rc-list__item">
+                              <em className="petCrew rc-margin-right--xs"></em>
+                              Oaberoö.aneonioaebnr
+                            </li>
+                            <li className="rc-list__item">
+                              <em className="petCrew rc-margin-right--xs"></em>
+                              aöneörionanöobearboobe
                             </li>
                           </ul>
                           <br />
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -239,7 +253,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div style={{marginLeft:'5vw',marginRight:'5vw',display:'flex',alignItems:'center'}} className="orderone decenter">
                         <LazyLoad>
-                            <img src={number1} style={{height:'50px'}} />
+                          <img src={number1} style={{height:'50px'}} />
                         </LazyLoad>
                       </div>
                       <div className="desktop30vw orderthree">
@@ -505,214 +519,10 @@ class ClubLandingPageDe extends React.Component {
             </div>
           </div>
 
+
           <Divider/>
+          <SalesCategory/>
 
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                    <div>
-                      <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                        Die Vorteile des ROYAL CANIN® Online-Shops auf einen Blick:
-                      </h4>
-                    </div>
-                    <div className="mobileunshow">
-                    <div style={{display:'flex',justifyContent:"center"}} >
-                      <div style={{width:'30vw'}}>
-                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
-                          Auswahl aus dem gesamten VET Diäten Sortiment von ROYAL CANIN®
-                        </p>
-                        <p >
-                          ROYAL CANIN® bietet ein umfangreiches Programm an Diät-Nahrungen an, die speziell auf die tierärztlich festgestellten besonderen Bedürfnisse von Katzen und Hunden abgestimmt sind. Finden Sie in unserem Shop die ganze Auswahl aus unserem Sortiment für Tierarztpraxen.
-                        </p>
-                      </div>
-                      <div style={{marginLeft:'3vw',marginRight:'3vw',display:'flex',alignItems:'center'}}>
-                        <LazyLoad>
-                          <img src={online1} style={{height:'100px'}}/>
-                        </LazyLoad>
-                      </div>
-                      <div style={{marginLeft:'3vw',marginRight:'3vw',display:'flex',alignItems:'center'}}>
-                        <LazyLoad>
-                          <img src={online2} style={{height:'100px'}}/>
-                        </LazyLoad>
-                      </div>
-                      <div style={{width:'30vw'}}>
-                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
-                          Direkter Kontakt zu unserem Service-Team
-                        </p>
-                        <p >
-                          Unser erfahrenes Service-Team steht Ihnen bei Fragen rund um den Bestellprozess oder unsere Nahrungen gerne persönlich mit Rat und Tat zur Seite.
-                        </p>
-                      </div>
-                    </div>
-                    <div style={{display:'flex',justifyContent:"center"}} >
-                      <div style={{width:'30vw'}}>
-                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
-                          Regelmäßige Lieferung
-                        </p>
-                        <p >
-                          Profitieren Sie von unserem flexiblen Angebot der regelmäßigen Lieferung und sparen Sie 10% auf alle Ihre Bestellungen!
-                        </p>
-                      </div>
-                      <div style={{marginLeft:'3vw',marginRight:'3vw',display:'flex',alignItems:'center'}}>
-                        <LazyLoad>
-                          <img src={online3} style={{height:'100px'}}/>
-                        </LazyLoad>
-                      </div>
-                      <div style={{marginLeft:'3vw',marginRight:'3vw',display:'flex',alignItems:'center'}}>
-                        <LazyLoad>
-                          <img src={online4} style={{height:'100px'}}/>
-                        </LazyLoad>
-                      </div>
-                      <div style={{width:'30vw'}}>
-                        <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
-                          Schneller und kostenloser Versand
-                        </p>
-                        <p >
-                          Bestellungen im ROYAL CANIN® Shop sind frei von Versandkosten oder Mindestbestellmengen. Dazu liefern wir Ihre bestellte Nahrung bei Lagerbestand innerhalb von 1-3 Werktagen!
-                        </p>
-                      </div>
-                    </div>
-                    </div>
-
-                    <div className="pcunshow">
-                      <DeMyList/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <Divider />
-
-
-
-            <div className="experience-component experience-layouts-1column">
-              <div className="row rc-margin-x--none ">
-                <div className="rc-full-width">
-                  <div className="experience-component experience-assets-contentBlock">
-                    <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                      <a
-                        id="undefined"
-                        name="undefined"
-                        className="page-section-anchor"
-                        aria-hidden="true"
-                      ></a>
-                      <div className="row align-items-md-center">
-                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                          <picture data-rc-feature-objectfillpolyfill-setup="true">
-                            <img
-                              className="w-100 lazyloaded"
-                              alt="Yorkshire dog pic - Our Values"
-                              title="Yorkshire dog pic - Our Values"
-                              src={vetdeimage}
-                            />
-                          </picture>
-                        </div>
-                        <div className=" col-12 col-lg-6">
-                          <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                            <h2 className="rc-beta markup-text">
-                              Haben Sie Fragen zu den VET Diäten von ROYAL CANIN®?
-                            </h2>
-                            <p>
-                              <span>
-                                Unser erfahrenes Service-Team steht Ihnen gerne mit Rat und Tat zur Seite. Rufen Sie uns einfach an oder schreiben Sie uns eine E-Mail.
-                              </span>
-                            </p>
-                           <div className="flex deflexcolumn" >
-                             <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw" >
-                               <div className="rc-border-all rc-border-colour--interface fullHeight">
-                                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                     <div className="w-100">
-                                       <p style={{ fontWeight:'bolder'}}>
-                                         per Telefon
-                                       </p>
-                                       <p style={{ color: '#E2001A',fontWeight:'bolder' }}>
-                                         0221 937060 650
-                                       </p>
-                                       <p style={{fontSize:'12px'}}>
-                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
-                                       </p>
-                                     </div>
-                                   </div>
-                                   <div className="rc-column rc-content-v-middle">
-                                     <LazyLoad>
-                                       <img
-                                         className="align-self-center widthAuto"
-                                         src={dephone}
-                                         title="By telephone"
-                                         style={{width:"7vw"}}
-                                       />
-                                     </LazyLoad>
-                                   </div>
-                                 </div>
-                               </div>
-                             </article>
-                             <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw">
-                               <div className="rc-border-all rc-border-colour--interface fullHeight">
-                                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                     <div className="w-100 ">
-                                       <p style={{ fontWeight:'bolder'}}>
-                                         per E-Mail
-                                       </p>
-                                       <p>
-                                         service.de@royalcanin.com
-                                       </p>
-
-                                     </div>
-                                   </div>
-                                   <div className="rc-column rc-content-v-middle">
-                                     <LazyLoad>
-                                       <img
-                                         className="align-self-center widthAuto"
-                                         src={demail}
-                                         title="By telephone"
-                                         style={{width:"7vw"}}
-                                       />
-                                     </LazyLoad>
-                                   </div>
-                                 </div>
-                               </div>
-                             </article>
-                           </div>
-
-                         </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Divider/>
-          <div className="experience-component experience-layouts-1column">
-            <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                    <div>
-                      <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                        Stets informiert mit dem ROYAL CANIN® Newsletter!
-                      </h4>
-                    </div>
-                    <div className="text-center">
-                      <button className="rc-btn rc-btn--two" >Anmelden</button>
-                      <br/>
-                      <br/>
-                      <br/>
-                      <br/>
-                      <br/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <Footer />
         </main>
       </div>
@@ -720,4 +530,4 @@ class ClubLandingPageDe extends React.Component {
   }
 }
 
-export default withOktaAuth(ClubLandingPageDe);
+export default withOktaAuth(ClubLandingPageDeVet);

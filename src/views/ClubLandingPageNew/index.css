@@ -157,3 +157,13 @@
   background-size: 24px auto;
   background-position: center center;
 }
+
+.petCrew {
+  display: inline-block !important;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  background: url('./image/petCrew.png') no-repeat;
+  background-size: 24px auto;
+  background-position: center center;
+}
