@@ -1275,6 +1275,7 @@ const de_DE = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
+  pirceRange: 'Von {fromPrice} bis {toPrice}',
   'mobile.cart.orderSummary': 'Bestellübersicht',
   'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
   'welcome.confirmEmail':
