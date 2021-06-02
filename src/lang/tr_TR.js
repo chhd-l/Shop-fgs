@@ -359,6 +359,7 @@ const tr_TR = {
   'forgetPassword.forgetPasswordTip':
     'Şifreyi değiştirme talimatlarını içeren bir mektup alacaksınız.',
   freeShipping: 'Ücretsiz kargo.',
+  oneoffFreeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
