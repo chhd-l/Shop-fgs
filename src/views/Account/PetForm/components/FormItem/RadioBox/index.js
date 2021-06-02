@@ -10,7 +10,7 @@ export default ({
 }) => {
   const handleChange = (e) => {
     radioGroup.forEach((item) => {
-      let checked = item.value === e.currentTarget.value;
+      let checked = item.value == e.currentTarget.value;
       item.checked = checked;
     });
     let checkedRadio = radioGroup.find((el) => el.checked);

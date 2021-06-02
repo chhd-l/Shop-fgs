@@ -22,6 +22,54 @@ import {
   getDeviceType,
   getDictionary
 } from '@/utils/utils';
+const purebredOpitons = [
+  {
+    value: 1,
+    name: 'Is Purebred',
+    label: 'account.yes',
+    id: 'purebred',
+    checked: true
+  },
+  {
+    value: 0,
+    name: 'Is Purebred',
+    id: 'noPurebred',
+    label: 'account.no',
+    checked: false
+  }
+];
+const genderOptions = [
+  {
+    value: 1,
+    name: 'gender',
+    label: 'petFemale',
+    id: 'female',
+    checked: true
+  },
+  {
+    value: 0,
+    name: 'gender',
+    id: 'male',
+    label: 'petMale',
+    checked: false
+  }
+];
+const sterilizedOptions = [
+  {
+    value: 1,
+    name: 'sterilized',
+    id: 'sterilized',
+    label: 'account.yes',
+    checked: true
+  },
+  {
+    value: 0,
+    name: 'sterilized',
+    label: 'account.no',
+    id: 'noSterilized',
+    checked: false
+  }
+];
 const PetForms = ({
   subList,
   oldCurrentPet,
@@ -53,65 +101,18 @@ const PetForms = ({
     currentPetParam?.petsBreed === 'unknown Breed' ? true : false;
   const { loginStore } = useLocalStore(() => stores);
   const { userInfo } = loginStore;
-  const [genderGroup, setGenderGroup] = useState([
-    {
-      value: '1',
-      name: 'gender',
-      label: 'petFemale',
-      id: 'female',
-      checked: true
-    },
-    {
-      value: '0',
-      name: 'gender',
-      id: 'male',
-      label: 'petMale',
-      checked: false
-    }
-  ]);
-
-  const [purebredGroup, setPurebredGroup] = useState([
-    {
-      value: '1',
-      name: 'Is Purebred',
-      label: 'account.yes',
-      id: 'purebred',
-      checked: true
-    },
-    {
-      value: '0',
-      name: 'Is Purebred',
-      id: 'noPurebred',
-      label: 'account.no',
-      checked: false
-    }
-  ]);
-
-  const [sterilizedGroup, setSterilizedGroup] = useState([
-    {
-      value: '1',
-      name: 'sterilized',
-      id: 'sterilized',
-      label: 'account.yes',
-      checked: true
-    },
-    {
-      value: '0',
-      name: 'sterilized',
-      label: 'account.no',
-      id: 'noSterilized',
-      checked: false
-    }
-  ]);
+  const [genderGroup, setGenderGroup] = useState(genderOptions);
+  const [purebredGroup, setPurebredGroup] = useState(purebredOpitons);
+  const [sterilizedGroup, setSterilizedGroup] = useState(sterilizedOptions);
 
   const [deleteWarningMessage, setDeleteWarningMessage] = useState('');
   const [showBreedList, setShowBreedList] = useState(false);
   const [breedListLoading, setBreedListLoading] = useState(false);
   const [petForm, setPetForm] = useState({
     nickname: '',
-    petsSex: '1',
+    petsSex: 1,
     birthdate: '',
-    isPurebred: '1',
+    isPurebred: 1,
     breedName: '',
     sensitivity: '',
     weight: '',
@@ -122,7 +123,7 @@ const PetForms = ({
     },
     activity: '',
     lifestyle: '',
-    sterilized: '0',
+    sterilized: 0,
     breed: '',
     imgUrl: '',
     breedcode: ''
@@ -153,10 +154,26 @@ const PetForms = ({
       setSpecialNeedsOptions(specialNeedsOptions);
     })();
   }, []);
+
   useEffect(() => {
     // 编辑的时候需要重置所有值
     let petFormData = Object.assign(petForm, currentPetParam);
     setPetForm(petFormData);
+    purebredOpitons.map((item) => {
+      let checked = item.value == currentPetParam.isPurebred;
+      item.checked = checked;
+    });
+    setPurebredGroup(purebredOpitons);
+    genderOptions.map((item) => {
+      let checked = item.value == currentPetParam.petsSex;
+      item.checked = checked;
+    });
+    setGenderGroup(genderOptions);
+    sterilizedOptions.map((item) => {
+      let checked = item.value == currentPetParam.sterilized;
+      item.checked = checked;
+    });
+    setSterilizedGroup(sterilizedOptions);
   }, [currentPetParam.petsId]);
   useEffect(() => {
     getTypeDict();
@@ -618,6 +635,14 @@ const PetForms = ({
               key={petForm.sensitivity}
             />
           </div>
+          {console.info(
+            '!(petForm.isPurebred == 1)',
+            !(petForm.isPurebred == 1)
+          )}
+          {console.info(
+            '!(petForm.......................)',
+            petForm.isPurebred
+          )}
           {!(petForm.isPurebred == 1) ? (
             !isCat ? (
               <div className="form-group col-lg-6 pull-left required">
