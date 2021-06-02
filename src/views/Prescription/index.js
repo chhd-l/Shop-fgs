@@ -14,6 +14,7 @@ import LazyLoad from 'react-lazyload';
 import Modal from './components/Modal';
 import initLocation from '../PrescriptionNavigate/location';
 import PageBaseInfo from '@/components/PageBaseInfo';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -360,6 +361,25 @@ class Prescription extends React.Component {
 
             <div className="map-saerch">
               <div className="clinic-search-list">
+                {process.env.REACT_APP_COUNTRY === 'RU' && (
+                  <div className="vet-clinic-tip">
+                    <FormattedMessage
+                      id="clinic.vetClinicsTip1"
+                      values={{
+                        val: (
+                          <DistributeHubLinkOrATag
+                            href={'/contact-us'}
+                            ariaLabel="Links to contact us"
+                          >
+                            <span className="vet-clinic-tip-link">
+                              <FormattedMessage id="clinic.vetClinicsTip2" />
+                            </span>
+                          </DistributeHubLinkOrATag>
+                        )
+                      }}
+                    />
+                  </div>
+                )}
                 <div>
                   <FormattedMessage id="clinic.selectVetClinics" />
                 </div>
