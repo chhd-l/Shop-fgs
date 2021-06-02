@@ -361,7 +361,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
   );
 }
 
-const PriceItemShow = ({ item }) => {
+const PriceItemShow = ({ item, configStore }) => {
   const priceDisplayMethod = configStore?.info?.storeVO?.priceDisplayMethod;
   // const priceDisplayMethod = 1;
   const PriceItemShowForH5 = (
