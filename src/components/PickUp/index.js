@@ -21,6 +21,8 @@ import {
   datePickerConfig,
   getFormatDate,
   getZoneTime,
+  dynamicLoadCss,
+  loadJS,
   getDeviceType
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
@@ -58,12 +60,42 @@ class PickUp extends React.Component {
     };
   }
   componentDidMount() {}
+  setMyMap = () => {
+    dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
+    loadJS({
+      url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
+      callback: function () {
+        window.kaktusMap.openWidget({
+          city_from: 'Москва',
+          city_to: 'Санкт-Петербург',
+          dimensions: {
+            height: 10,
+            width: 10,
+            depth: 10
+          },
+          weight: 600
+        });
 
+        document.addEventListener('DOMContentLoaded', () => {
+          //Инициализация виджета. Должна вызываться после полной отрисовки страницы.
+          kaktusMap({
+            domain: 'shop000000', //здесь нужно указать домен в системе kak2c
+            host: '//app.kak2c.ru'
+          });
+        });
+
+        //Пример подписки на события виджета
+        document.addEventListener('kaktusEvent', function (event) {
+          console.log(event.detail);
+        });
+      }
+    });
+  };
   render() {
     const { dataLoading, formLoading } = this.state;
     return (
       <>
-        {formLoading ? (
+        {/* {formLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
           <div
@@ -72,7 +104,8 @@ class PickUp extends React.Component {
           ></div>
         )}
 
-        {dataLoading ? <Loading /> : null}
+        {dataLoading ? <Loading /> : null} */}
+        {/* <button class="rc-btn rc-btn--one" onClick={() => this.setMyMap()}>地图</button> */}
       </>
     );
   }
