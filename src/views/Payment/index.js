@@ -284,8 +284,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -2580,7 +2581,24 @@ class Payment extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongBillingAddress[akey];
+      // 判断city和cityId 是否均为空
+      if (
+        v.fieldKey == 'city' &&
+        !billingAddress.city &&
+        !billingAddress.cityId
+      ) {
+        akey = '';
+      }
+      // 判断country和countryId 是否均为空
+      if (
+        v.fieldKey == 'country' &&
+        !billingAddress.country &&
+        !billingAddress.countryId
+      ) {
+        akey = '';
+      }
       billingAddress[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
@@ -3239,8 +3257,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
