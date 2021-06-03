@@ -10,7 +10,7 @@ const salesCategoryFilterRule = (item, type) => {
       },
       FR: () => {
         return item.cateType === type && item.cateRouter.indexOf('vet') == -1;
-      }
+      },
     }[process.env.REACT_APP_COUNTRY] || defaultRule;
   return rule();
 };

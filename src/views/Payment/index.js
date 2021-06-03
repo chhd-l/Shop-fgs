@@ -708,13 +708,13 @@ class Payment extends React.Component {
     parameters,
     payPspItemEnum,
     country,
-    installments
+    ...otherParams
   }) {
     const { selectedCardInfo } = this.state;
     parameters = Object.assign({}, commonParameter, {
       payPspItemEnum,
       country,
-      installments
+      ...otherParams
     });
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
@@ -2788,24 +2788,33 @@ class Payment extends React.Component {
               )}
 
               {/* todo 重构后的CYBER */}
-              <CyberPayment
-                renderBillingJSX={this.renderBillingJSX}
-                renderSecurityCodeTipsJSX={this.renderSecurityCodeTipsJSX}
-                renderBackToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX}
-                payConfirmBtn={payConfirmBtn}
-                saveBillingLoading={this.state.saveBillingLoading}
-                validForBilling={
-                  !this.state.billingChecked && !this.state.validSts.billingAddr
-                }
-                billingChecked={this.state.billingChecked}
-                validBillingAddress={this.state.validForBilling}
-                isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
-                updateSelectedCardInfo={this.updateSelectedCardInfo}
-                reInputCVVBtn={reInputCVVBtn}
-                isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
-                sendCyberPaymentForm={this.sendCyberPaymentForm}
-                ref={this.cyberRef}
-              />
+              {paymentTypeVal === 'cyber' && (
+                <>
+                  <CyberPayment
+                    renderBillingJSX={this.renderBillingJSX}
+                    renderSecurityCodeTipsJSX={this.renderSecurityCodeTipsJSX}
+                    renderBackToSavedPaymentsJSX={
+                      this.renderBackToSavedPaymentsJSX
+                    }
+                    payConfirmBtn={payConfirmBtn}
+                    saveBillingLoading={this.state.saveBillingLoading}
+                    validForBilling={
+                      !this.state.billingChecked &&
+                      !this.state.validSts.billingAddr
+                    }
+                    billingChecked={this.state.billingChecked}
+                    validBillingAddress={this.state.validForBilling}
+                    isCurrentBuyWaySubscription={
+                      this.isCurrentBuyWaySubscription
+                    }
+                    updateSelectedCardInfo={this.updateSelectedCardInfo}
+                    reInputCVVBtn={reInputCVVBtn}
+                    isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
+                    sendCyberPaymentForm={this.sendCyberPaymentForm}
+                    ref={this.cyberRef}
+                  />
+                </>
+              )}
 
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
