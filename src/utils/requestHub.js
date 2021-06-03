@@ -9,8 +9,6 @@ if (env === 'development') {
   base_url = process.env.REACT_APP_HUB_APIURL;
 }
 
-console.log('base_urlbase_urlbase_url', base_url);
-
 // 创建 axios 实例
 const service = axios.create({
   baseURL: base_url,
