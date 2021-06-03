@@ -172,11 +172,8 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const {
-      addressForm,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { addressForm, selectValidationOption, validationAddress } =
+      this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     if (selectValidationOption == 'suggestedAddress') {
       addressForm.address1 = validationAddress.address1;
@@ -227,8 +224,8 @@ class ShippingAddressFrom extends React.Component {
         areaId: data.areaId,
         firstName: data.firstName,
         lastName: data.lastName,
-        countryId: +data.countryId,
-        country: +data.country,
+        countryId: data.countryId,
+        country: data.country,
         city: data.city,
         cityId: data.cityId,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -254,12 +251,10 @@ class ShippingAddressFrom extends React.Component {
 
         type: curType.toUpperCase()
       };
-      // if (params?.province && params?.province != null) {
       params.province = data.province;
       params.provinceId = data.provinceId;
       params.isValidated = data.validationResult;
-      // }
-      console.log('----------------------> handleSave params: ', params);
+      // console.log('----------------------> handleSave params: ', params);
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
       myAccountActionPushEvent('Add Address'); // GA

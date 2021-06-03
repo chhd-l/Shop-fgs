@@ -421,16 +421,19 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (process.env.REACT_APP_COUNTRY == 'FR') {
             // regExp = /[(+33)|0]\d{9}$/;
-            regExp = /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'US') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'MX') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'RU') {
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'TR') {
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
           }
@@ -482,7 +485,7 @@ class Form extends React.Component {
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
-        let cfm = caninForm;
+        let cfm = Object.assign({}, caninForm);
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
         this.setState({
@@ -942,10 +945,9 @@ class Form extends React.Component {
         <SearchSelection
           queryList={async ({ inputVal }) => {
             let res = await getAddressBykeyWord({ keyword: inputVal });
-            let robj = (
-              (res?.context && res?.context?.addressList) ||
-              []
-            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
+            let robj = ((res?.context && res?.context?.addressList) || []).map(
+              (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
+            );
             if (robj.length) {
               // 给查询到的地址拼接 errMsg
               robj.forEach((item) => {
