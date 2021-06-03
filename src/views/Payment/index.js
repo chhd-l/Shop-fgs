@@ -2584,22 +2584,14 @@ class Payment extends React.Component {
 
       let fky = wrongBillingAddress[akey];
       // 判断city和cityId 是否均为空
-      if (
-        v.fieldKey == 'city' &&
-        !billingAddress.city &&
-        !billingAddress.cityId
-      ) {
-        akey = '';
+      if (v.fieldKey == 'city') {
+        billingAddress.city || billingAddress.cityId ? (akey = '') : akey;
       }
       // 判断country和countryId 是否均为空
-      if (
-        v.fieldKey == 'country' &&
-        !billingAddress.country &&
-        !billingAddress.countryId
-      ) {
-        akey = '';
+      if (v.fieldKey == 'country') {
+        billingAddress.country || billingAddress.countryId ? (akey = '') : akey;
       }
-      billingAddress[akey] ? '' : errMsgArr.push(fky);
+      if (akey) billingAddress[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息

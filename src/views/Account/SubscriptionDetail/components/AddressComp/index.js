@@ -248,14 +248,14 @@ class AddressList extends React.Component {
 
       let fky = wrongAddressMsg[akey];
       // 判断city和cityId 是否均为空
-      if (v.fieldKey == 'city' && !data.city && !data.cityId) {
-        akey = '';
+      if (v.fieldKey == 'city') {
+        data.city || data.cityId ? (akey = '') : akey;
       }
       // 判断country和countryId 是否均为空
-      if (v.fieldKey == 'country' && !data.country && !data.countryId) {
-        akey = '';
+      if (v.fieldKey == 'country') {
+        data.country || data.countryId ? (akey = '') : akey;
       }
-      data[akey] ? '' : errMsgArr.push(fky);
+      if (akey) data[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
