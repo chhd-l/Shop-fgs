@@ -123,7 +123,7 @@ class RouteFilter extends Component {
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/account') !== -1
     ) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl-hub',
         process.env.REACT_APP_ACCESS_PATH[
           process.env.REACT_APP_ACCESS_PATH.length - 1

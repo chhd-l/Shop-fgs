@@ -80,7 +80,7 @@ class UnloginCart extends React.Component {
     this.GAAccessToGuestCheck(type);
     try {
       const { configStore, checkoutStore, history, clinicStore } = this.props;
-      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      localItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateUnloginCart({
         isThrowErr: true,
