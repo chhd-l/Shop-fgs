@@ -7,6 +7,9 @@ import LazyLoad from 'react-lazyload';
 import line from '../../deimage/Line@4x.png';
 import successImg from '../../image/bingo-blue.png';
 import './index.less';
+import { getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() === 'H5';
 
 @inject('clinicStore')
 @injectIntl
