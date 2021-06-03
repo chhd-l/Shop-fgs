@@ -21,7 +21,8 @@ import {
   validData,
   datePickerConfig,
   getFormatDate,
-  getZoneTime
+  getZoneTime,
+  getDeviceType
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
@@ -40,6 +41,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import './index.less';
 
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const CURRENT_LANGFILE = locales;
 let tempolineCache = {};
@@ -145,6 +147,9 @@ class Form extends React.Component {
     if (initData?.areaId) {
       this.getRegionDataByCityId(initData.cityId);
     }
+
+    // 重置参数
+    this.props.getFormAddressValidFlag(false);
   }
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
@@ -1143,7 +1148,10 @@ class Form extends React.Component {
         {formLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div className="row rc_form_box">
+          <div
+            className="row rc_form_box"
+            style={{ display: isMobile ? 'block' : 'flex' }}
+          >
             {formList &&
               formList.map((item, index) => (
                 <>

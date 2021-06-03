@@ -571,7 +571,7 @@ const de_DE = {
   NoPromotionDesc: 'Abo-Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
   noStart: 'Ausstehend',
-  notate: 'Alle Preise inkl. MwSt. und zzgl.{val}',
+  notate: 'Alle Preise inkl. MwSt. und zzgl. {val}',
   notSterilized: 'Nein',
   of: 'von',
   oldPassword: 'Altes Passwort *',
@@ -1275,6 +1275,7 @@ const de_DE = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
+  pirceRange: 'Von {fromPrice} bis {toPrice}',
   'mobile.cart.orderSummary': 'Bestellübersicht',
   'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
   'welcome.confirmEmail':

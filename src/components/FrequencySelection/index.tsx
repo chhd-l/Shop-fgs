@@ -19,9 +19,18 @@ interface Props {
 
 const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,className='', handleConfirm = () => {} }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
+  const [handledCurrent, setHandledCurrent] = useState(false)
+  // useEffect(() => {
+  //   getFrequencyList()
+  // }, []);
 
-  useEffect(() => {
-    getFrequencyDict().then((res: any) => {
+  useEffect(()=>{
+    if(!handledCurrent){
+      getFrequencyList()
+    }
+  },[currentFrequencyId])
+  const getFrequencyList =  ()=>{
+    getFrequencyDict(currentFrequencyId).then((res: any) => {
       let frequencyList = res
         .filter(
           (el: any) =>
@@ -36,7 +45,7 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
         });
       setFrequencyList(frequencyList);
     });
-  }, []);
+  }
   return (
     <div className={`freqency order-3 order-md-2 col-12 col-md-4 text-center ${className}`}>
       <span>
@@ -50,7 +59,10 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
           height: isMobile ? '70px' : 'auto'
         }}
         customCls="text-left"
-        selectedItemChange={(data: any) => handleConfirm(data)}
+        selectedItemChange={(data: any) => {
+          setHandledCurrent(true)
+          handleConfirm(data)
+        }}
         optionList={frequencyList}
         wider={true}
         selectedItemData={{

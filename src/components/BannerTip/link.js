@@ -15,6 +15,15 @@ export const LinkJSX = () => {
           En savoir plus
         </Link>
       ),
+      DE: (
+        <Link
+          className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+          style={{ minWidth: '110px' }}
+          to={'/subscription-landing'}
+        >
+          En savoir plus
+        </Link>
+      ),
       US: (
         <Link
           className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"

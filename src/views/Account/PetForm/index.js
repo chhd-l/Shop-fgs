@@ -37,11 +37,15 @@ class PetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPetParam: {},
+      currentPetParam: {
+        isPurebred: 1,
+        petsSex: 1,
+        sterilized: 1
+      },
       subList: [],
       isEditAlert: false,
       loading: true,
-      sterilized: '0',
+      sterilized: 0,
       showList: false,
       seoConfig: {
         title: 'Royal canin',
@@ -61,55 +65,7 @@ class PetForm extends React.Component {
       isEdit: false,
       errorMsg: '',
       isMobile: false,
-      recommendData: [],
-      sterilizedGroup: [
-        {
-          value: '1',
-          name: 'sterilized',
-          id: 'sterilized',
-          label: 'account.yes',
-          checked: true
-        },
-        {
-          value: '0',
-          name: 'sterilized',
-          label: 'account.no',
-          id: 'noSterilized',
-          checked: false
-        }
-      ],
-      purebredGroup: [
-        {
-          value: '1',
-          name: 'Is Purebred',
-          label: 'account.yes',
-          id: 'purebred',
-          checked: true
-        },
-        {
-          value: '0',
-          name: 'Is Purebred',
-          id: 'noPurebred',
-          label: 'account.no',
-          checked: false
-        }
-      ],
-      genderGroup: [
-        {
-          value: '1',
-          name: 'gender',
-          label: 'petFemale',
-          id: 'female',
-          checked: true
-        },
-        {
-          value: '0',
-          name: 'gender',
-          id: 'male',
-          label: 'petMale',
-          checked: false
-        }
-      ]
+      recommendData: []
     };
   }
   componentWillUnmount() {

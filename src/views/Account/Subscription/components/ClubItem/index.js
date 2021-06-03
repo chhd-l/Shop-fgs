@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import {
   getFormatDate,
-  getFrequencyDict,
   filterOrderId,
   getDeviceType,
   getClubLogo
 } from '@/utils/utils';
+import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 const localItemRoyal = window.__.localItemRoyal;
-const ClubItem = ({ subItem, frequencyList, history }) => {
+const ClubItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';
   console.log(subItem, 'subItem------');
   return (
@@ -83,11 +83,7 @@ const ClubItem = ({ subItem, frequencyList, history }) => {
                 </p>
                 <p>
                   <FormattedMessage id="subscription.frequency" />:{' '}
-                  {frequencyList.filter((el) => el.id === item.periodTypeId)[0]
-                    ? frequencyList.filter(
-                        (el) => el.id === item.periodTypeId
-                      )[0].value
-                    : ''}
+                  <FrequencyMatch currentId={item.periodTypeId} />
                 </p>
               </span>
             </div>

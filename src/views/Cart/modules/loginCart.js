@@ -318,6 +318,7 @@ class LoginCart extends React.Component {
     //每次数据变化调用
     !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
     let productList = this.checkoutStore.loginCartData.map((el) => {
+      // 德国的购物车有问题，先前选择的1周的，直接显示默认值，因为统一返回了那三个frequency
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];

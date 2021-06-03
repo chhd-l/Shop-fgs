@@ -1412,6 +1412,9 @@ const en_US = {
     "We'll do our best to get back to you as fast as possible and within 12 hours",
   'ClubLP.Help.email.address': 'Send us an Email',
   'ClubLP.Help.faq.content':
-    'Send us an EmailYou can check our FAQ section to see if your question has already been answered'
+    'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
+  'clinic.vetClinicsTip1':
+    'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
+  'clinic.vetClinicsTip2': 'Contact us'
 };
 export default en_US;

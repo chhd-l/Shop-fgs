@@ -13,12 +13,12 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
+import FrequencyMatch from '@/components/FrequencyMatch';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 const LinkedSubs = (props) => {
   let [subList, setSubList] = useState([]);
-  let [frequencyList, setFrequencyList] = useState([]);
   let [btnLoading, setBtnLoading] = useState(false);
   let [isShowAll, setIsShowAll] = useState(false);
   const { loading, errorMsg } = props;
@@ -54,17 +54,6 @@ const LinkedSubs = (props) => {
   };
 
   useEffect(() => {
-    getFrequencyDict().then((res) => {
-      setFrequencyList(
-        res.map((el) => {
-          return {
-            id: el.id,
-            name: el.name,
-            value: el.name
-          };
-        })
-      );
-    });
     querySubList();
   }, []);
   return (
@@ -138,13 +127,7 @@ const LinkedSubs = (props) => {
                         </p>
                         <p>
                           <FormattedMessage id="subscription.frequency" />:{' '}
-                          {frequencyList.filter(
-                            (el) => el.id === subItem.periodTypeId
-                          )[0]
-                            ? frequencyList.filter(
-                                (el) => el.id === subItem.periodTypeId
-                              )[0].value
-                            : ''}
+                          <FrequencyMatch currentId={subItem.periodTypeId} />
                         </p>
                       </span>
                     </div>
