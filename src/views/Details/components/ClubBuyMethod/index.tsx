@@ -118,13 +118,13 @@ const AutoshipBuyMethod = ({
               color: '#999'
             }}
           >
-            {formatMoney(
+            ({formatMoney(
               (
                 currentSubscriptionPrice /
                 parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit}{' '}
+            /{selectedSpecItem.goodsInfoUnit}{' '})
           </div>
         ) : null}
       </div>

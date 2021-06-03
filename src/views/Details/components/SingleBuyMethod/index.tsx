@@ -85,12 +85,12 @@ const SingleBuyMethod = ({
               color: '#999'
             }}
           >
-            {formatMoney(
+            ({formatMoney(
               (
                 currentUnitPrice / parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit}{' '}
+            /{selectedSpecItem.goodsInfoUnit}{' '})
           </div>
         ) : null}
       </div>
