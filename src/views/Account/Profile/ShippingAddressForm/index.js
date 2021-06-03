@@ -41,7 +41,7 @@ class ShippingAddressFrom extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      russiaAddressValid: false,
+      formAddressValid: false,
       loading: true,
       saveLoading: false,
       showModal: false,
@@ -172,11 +172,8 @@ class ShippingAddressFrom extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const {
-      addressForm,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { addressForm, selectValidationOption, validationAddress } =
+      this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
     if (selectValidationOption == 'suggestedAddress') {
       addressForm.address1 = validationAddress.address1;
@@ -227,8 +224,8 @@ class ShippingAddressFrom extends React.Component {
         areaId: data.areaId,
         firstName: data.firstName,
         lastName: data.lastName,
-        countryId: +data.countryId,
-        country: +data.country,
+        countryId: data.countryId,
+        country: data.country,
         city: data.city,
         cityId: data.cityId,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -254,12 +251,10 @@ class ShippingAddressFrom extends React.Component {
 
         type: curType.toUpperCase()
       };
-      // if (params?.province && params?.province != null) {
       params.province = data.province;
       params.provinceId = data.provinceId;
       params.isValidated = data.validationResult;
-      // }
-      console.log('----------------------> handleSave params: ', params);
+      // console.log('----------------------> handleSave params: ', params);
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
       myAccountActionPushEvent('Add Address'); // GA
@@ -356,11 +351,11 @@ class ShippingAddressFrom extends React.Component {
     );
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
     console.log('ShippingAddressForm: ', flag);
     this.setState(
       {
-        russiaAddressValid: flag
+        formAddressValid: flag
       },
       () => {
         if (flag) {
@@ -374,7 +369,7 @@ class ShippingAddressFrom extends React.Component {
     const {
       addressForm,
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       curType,
       successMsg,
       errorMsg,
@@ -465,7 +460,7 @@ class ShippingAddressFrom extends React.Component {
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
-                    getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+                    getFormAddressValidFlag={this.getFormAddressValidFlag}
                   />
 
                   {addressForm.addressType === 'DELIVERY' ? (
@@ -513,7 +508,7 @@ class ShippingAddressFrom extends React.Component {
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                     onClick={this.handleSave}
                   >
                     <FormattedMessage id="save" />

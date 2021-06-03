@@ -15,17 +15,20 @@ const ChangeSelection = ({ el }) => {
     getMinDate,
     isGift
   } = SubGoodsInfosValue;
+  switch (el.goodsInfoFlag) {
+    case 0:
+      el.promotions = 'one-off';
+      break;
+    case 1:
+      el.promotions = 'autoship';
+      break;
+    case 2:
+      el.promotions = 'club';
+      break;
+  }
   return (
     <>
       <div className="rc-card-content">
-        <strong
-          style={{
-            display: 'inline-block',
-            width: '50%'
-          }}
-        >
-          <FormattedMessage id="subscription.frequency" />:
-        </strong>
         <div
           className="rc-card__meta order-Id text-left"
           style={{
@@ -46,6 +49,7 @@ const ChangeSelection = ({ el }) => {
                   setState({ isDataChange: true });
                 }
               }}
+              className="col-md-12"
               disabled={!isActive || isGift}
             />
           )}

@@ -12,7 +12,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 import foodDispenserPic from '../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
 import './index.css';
-
+import FrequencyMatch from '@/components/FrequencyMatch';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('checkoutStore', 'configStore')
@@ -29,7 +29,6 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      frequencyList: [],
       pathname: ''
     };
     this.handleClickProName = this.handleClickProName.bind(this);
@@ -38,11 +37,6 @@ class PayProductInfo extends React.Component {
     const { pathname } = this.props.location;
     this.setState({
       pathname
-    });
-    getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res
-      });
     });
   }
   get taxFeePrice() {
@@ -123,10 +117,7 @@ class PayProductInfo extends React.Component {
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {matchNamefromDict(
-                          this.state.frequencyList,
-                          item.periodTypeId
-                        )}{' '}
+                        <FrequencyMatch currentId={item.periodTypeId} />
                         <span
                           className="iconfont font-weight-bold green"
                           style={{ fontSize: '.8em' }}
@@ -233,10 +224,7 @@ class PayProductInfo extends React.Component {
                         {/* {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {matchNamefromDict(
-                          this.state.frequencyList,
-                          item.periodTypeId
-                        )}{' '}
+                        <FrequencyMatch currentId={item.periodTypeId}/>
                         <span
                           className="iconfont font-weight-bold green"
                           style={{ fontSize: '.8em' }}

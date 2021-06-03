@@ -1,4 +1,15 @@
-//billaddress灵活配置组件
+/*********
+ *
+ * File Name: Address Form
+ * Create Time: ‎2021-‎4-‎20
+ * Author: kzeng@deloitte.com.cn
+ * Version: V1.0
+ *
+ * Description:
+ * 1、本组件在需要编辑 deliveryAddress 和 billingAddress 及其他编辑地址的地方调用。
+ * 2、父组件确认地址按钮由（isValid、formAddressValid）两个变量控制。
+ *
+ *********/
 import React from 'react';
 import locales from '@/lang';
 import Skeleton from 'react-skeleton-loader';
@@ -10,7 +21,8 @@ import {
   validData,
   datePickerConfig,
   getFormatDate,
-  getZoneTime
+  getZoneTime,
+  getDeviceType
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
@@ -29,6 +41,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import IMask from 'imask';
 import './index.less';
 
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const CURRENT_LANGFILE = locales;
 let tempolineCache = {};
@@ -44,7 +57,7 @@ class Form extends React.Component {
     isLogin: false,
     updateData: () => {},
     calculateFreight: () => {},
-    getRussiaAddressValidFlag: () => {}
+    getFormAddressValidFlag: () => {}
   };
   constructor(props) {
     super(props);
@@ -121,8 +134,8 @@ class Form extends React.Component {
     caninForm.regionId = initData.areaId;
     initData.regionId = initData.areaId;
 
-    console.log('112 -------------★ EditForm initData: ', initData);
-    console.log('113-------------★ EditForm caninForm: ', caninForm);
+    // console.log('112 -------------★ EditForm initData: ', initData);
+    // console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
       this.props.updateData(this.state.caninForm);
     });
@@ -134,6 +147,9 @@ class Form extends React.Component {
     if (initData?.areaId) {
       this.getRegionDataByCityId(initData.cityId);
     }
+
+    // 重置参数
+    this.props.getFormAddressValidFlag(false);
   }
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
@@ -249,7 +265,7 @@ class Form extends React.Component {
                   // 查询州列表（美国 state）
                   this.getUsStateList();
                   // 设置控制按钮可点的其中一个参数为 true
-                  this.props.getRussiaAddressValidFlag(true);
+                  // this.props.getFormAddressValidFlag(true);
                 }
                 this.setState(
                   {
@@ -321,7 +337,7 @@ class Form extends React.Component {
                 // 查询州列表（美国 state）
                 this.getUsStateList();
                 // 设置控制按钮可点的其中一个参数为 true
-                this.props.getRussiaAddressValidFlag(true);
+                // this.props.getFormAddressValidFlag(true);
               }
               this.setState(
                 {
@@ -352,6 +368,7 @@ class Form extends React.Component {
   formListFormat(array) {
     const { caninForm } = this.state;
     let rule = [];
+    let cfdata = Object.assign({}, caninForm);
 
     // 绑卡页面添加 email
     let emailObj = {
@@ -404,16 +421,19 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (process.env.REACT_APP_COUNTRY == 'FR') {
             // regExp = /[(+33)|0]\d{9}$/;
-            regExp = /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp =
+              /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'US') {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'MX') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'RU') {
-            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp =
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'TR') {
-            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp =
+              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             regExp = /\S/;
           }
@@ -436,8 +456,8 @@ class Form extends React.Component {
       item.errMsg = errMsg;
 
       // 组装rule
-      let ruleItem = {};
-      ruleItem = {
+      let ruleItem = {
+        regExp: regExp,
         errMsg: errMsg,
         key: item.fieldKey,
         require: item.requiredFlag == 1 ? true : false
@@ -453,9 +473,9 @@ class Form extends React.Component {
       }
     });
 
-    caninForm.formRule = rule;
+    cfdata.formRule = rule;
     this.setState({
-      caninForm
+      caninForm: Object.assign(caninForm, cfdata)
     });
     return array;
   }
@@ -465,7 +485,7 @@ class Form extends React.Component {
     try {
       const res = await getDictionary({ type: 'country' });
       if (res) {
-        let cfm = caninForm;
+        let cfm = Object.assign({}, caninForm);
         cfm.country = res[0].value;
         cfm.countryId = res[0].id;
         this.setState({
@@ -608,11 +628,11 @@ class Form extends React.Component {
             ['address1']: this.getIntlMsg('payment.wrongAddress')
           }
         });
-        this.props.getRussiaAddressValidFlag(false);
+        this.props.getFormAddressValidFlag(false);
       }
     } catch (err) {
       console.warn(err);
-      this.props.getRussiaAddressValidFlag(false);
+      this.props.getFormAddressValidFlag(false);
     } finally {
       this.setState({
         dataLoading: false
@@ -743,12 +763,26 @@ class Form extends React.Component {
           [tname]: ''
         })
       });
+      if (process.env.REACT_APP_COUNTRY != 'RU') {
+        // 俄罗斯需要先校验 DuData 再校验所有表单数据
+        this.validFormAllData(); // 验证表单所有数据
+      }
     } catch (err) {
       this.setState({
         errMsgObj: Object.assign({}, errMsgObj, {
           [tname]: err.message
         })
       });
+    }
+  };
+  // 验证表单所有数据
+  validFormAllData = async () => {
+    const { caninForm } = this.state;
+    try {
+      await validData(caninForm.formRule, caninForm); // 验证整个表单
+      this.props.getFormAddressValidFlag(true);
+    } catch {
+      this.props.getFormAddressValidFlag(false);
     }
   };
   // 城市搜索框失去焦点
@@ -825,7 +859,7 @@ class Form extends React.Component {
           },
           () => {
             // 控制按钮状态
-            this.props.getRussiaAddressValidFlag(true);
+            this.props.getFormAddressValidFlag(true);
             // purchases接口计算运费
             this.props.calculateFreight(this.state.caninForm);
           }
@@ -851,7 +885,7 @@ class Form extends React.Component {
     const target = e.target;
     const value = target.value;
     if (value == '') {
-      this.props.getRussiaAddressValidFlag(false);
+      this.props.getFormAddressValidFlag(false);
       caninForm.address1 = '';
       this.setState(
         {
@@ -870,7 +904,7 @@ class Form extends React.Component {
     const target = e?.target;
     const tname = target?.name;
     const tvalue = target?.value;
-    this.props.getRussiaAddressValidFlag(false);
+    this.props.getFormAddressValidFlag(false);
     // 验证数据
     this.validvalidationData(tname, tvalue);
   };
@@ -893,12 +927,12 @@ class Form extends React.Component {
       province = this.getIntlMsg('payment.state'),
       settlement = this.getIntlMsg('payment.settlement');
 
-    data.street == null ? errArr.push(streets) : null;
-    data.postCode == null ? errArr.push(postCode) : null;
-    data.house == null ? errArr.push(house) : null;
-    data.city == null ? errArr.push(city) : null;
-    data.province == null ? errArr.push(province) : null;
-    data.settlement == null ? errArr.push(settlement) : null;
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
 
     data.errMsg = errArr.join(',');
     return data;
@@ -911,17 +945,16 @@ class Form extends React.Component {
         <SearchSelection
           queryList={async ({ inputVal }) => {
             let res = await getAddressBykeyWord({ keyword: inputVal });
-            let robj = (
-              (res?.context && res?.context?.addressList) ||
-              []
-            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
+            let robj = ((res?.context && res?.context?.addressList) || []).map(
+              (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
+            );
             if (robj.length) {
               // 给查询到的地址拼接 errMsg
               robj.forEach((item) => {
                 item = this.setDuDataAddressErrMsg(item);
               });
             } else {
-              this.props.getRussiaAddressValidFlag(false);
+              this.props.getFormAddressValidFlag(false);
             }
             return robj;
           }}
@@ -1117,7 +1150,10 @@ class Form extends React.Component {
         {formLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div className="row rc_form_box">
+          <div
+            className="row rc_form_box"
+            style={{ display: isMobile ? 'block' : 'flex' }}
+          >
             {formList &&
               formList.map((item, index) => (
                 <>

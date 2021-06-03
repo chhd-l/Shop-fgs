@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import Selection from '@/components/Selection';
+import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 
 const ClubSelection = function (props) {
   useEffect(() => {}, []);
@@ -107,20 +107,14 @@ const ClubSelection = function (props) {
           </div>
         </div>
       </div>
-      <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
-        <span>
-          <FormattedMessage id="subscription.frequency" />:
-        </span>
-        <Selection
-          customCls="flex-grow-1"
-          selectedItemChange={(data) => props.changeFrequency(pitem, data)}
-          optionList={props.computedList}
-          selectedItemData={{
-            value: pitem.form.frequencyId
-          }}
-          wider={true}
-        />
-      </div>
+      <FrequencySelection
+        frequencyType={pitem.promotions}
+        currentFrequencyId={pitem.form.frequencyId}
+        handleConfirm={(data) => {
+          props.changeFrequency(pitem, data);
+        }}
+        className="d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2 text-left col-12 col-md-12 "
+      />
     </div>
   );
 };

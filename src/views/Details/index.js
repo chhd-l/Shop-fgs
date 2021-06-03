@@ -763,22 +763,6 @@ class Details extends React.Component {
       });
     }
   }
-  handleAClick() {
-    if (this.state.replyNum > 0) {
-      let el = document.getElementById('review-container');
-      let length = this.getElementToPageTop(el);
-      window.scrollTo({
-        top: length - 80,
-        behavior: 'smooth'
-      });
-    }
-  }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
-  }
   formatUnit(baseSpecLabel) {
     let res = baseSpecLabel.slice(String(parseFloat(baseSpecLabel)).length);
     if (isNaN(parseFloat(res))) {
@@ -1132,6 +1116,7 @@ class Details extends React.Component {
                             </div>
                             <div>
                               <SingleBuyMethod
+                                configStore={this.props.configStore}
                                 form={form}
                                 skuPromotions={skuPromotions}
                                 selectedSpecItem={selectedSpecItem}
@@ -1149,6 +1134,7 @@ class Details extends React.Component {
                               skuPromotions == 'autoship' ? (
                                 <AutoshipBuyMethod
                                   form={form}
+                                  configStore={this.props.configStore}
                                   skuPromotions={skuPromotions}
                                   selectedSpecItem={selectedSpecItem}
                                   currentUnitPrice={currentUnitPrice}
@@ -1165,6 +1151,7 @@ class Details extends React.Component {
                               currentSubscriptionPrice &&
                               skuPromotions == 'club' ? (
                                 <ClubBuyMethod
+                                  configStore={this.props.configStore}
                                   form={form}
                                   skuPromotions={skuPromotions}
                                   selectedSpecItem={selectedSpecItem}

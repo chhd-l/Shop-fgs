@@ -18,6 +18,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import classNames from 'classnames';
 import './index.less';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function CardItem(props) {
@@ -109,7 +110,9 @@ class AddressList extends React.Component {
         phoneNumber: '',
         isDefalt: false
       },
-      russiaAddressValid: false,
+      wrongAddressMsg: null,
+      btnSubSaveFlag: false,
+      formAddressValid: false,
       errMsg: '',
       loading: true,
       isValid: false,
@@ -161,6 +164,9 @@ class AddressList extends React.Component {
         validationModalVisible: false
       });
     });
+    this.setState({
+      wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+    });
   }
   async queryAddressList() {
     const { selectedId } = this.state;
@@ -190,6 +196,7 @@ class AddressList extends React.Component {
           (ele) => (ele.selected = ele.isDefaltAddress === 1)
         );
         tmpId = defaultAddressItem.deliveryAddressId;
+        this.getSubAddressErrMsg(alist);
       } else if (addressList.length) {
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
@@ -207,16 +214,84 @@ class AddressList extends React.Component {
       this.setState({ loading: false });
     }
   }
+  // 选择地址
   selectAddress(idx) {
     let { addressList } = this.state;
     Array.from(addressList, (a) => (a.selected = false));
-    addressList[idx].selected = true;
-    this.setState({
-      addressList: addressList,
-      selectedId: addressList[idx].deliveryAddressId
-    });
+    let alist = addressList[idx];
+    alist.selected = true;
+    let subAddressErrMsg = this.getSubAddressErrMsg(alist);
+    if (!subAddressErrMsg) {
+      this.setState({
+        addressList: addressList,
+        selectedId: alist.deliveryAddressId
+      });
+    }
   }
+  // 判断地址完整性
+  getSubAddressErrMsg = (data) => {
+    let { wrongAddressMsg } = this.state;
+    const laddf = this.props.configStore.localAddressForm;
+    let dfarr = laddf.settings;
+    dfarr = dfarr.filter(
+      (item) => item.enableFlag == 1 && item.requiredFlag == 1
+    );
+    let errMsgArr = [];
+    dfarr.forEach((v, i) => {
+      let akey = v.fieldKey;
+      // state 对应数据库字段 province
+      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+      // region 对应数据库字段 area
+      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+      // phoneNumber 对应数据库字段 consigneeNumber
+      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
 
+      let fky = wrongAddressMsg[akey];
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        data.city || data.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        data.country || data.countryId ? (akey = '') : akey;
+      }
+      if (akey) data[akey] ? '' : errMsgArr.push(fky);
+    });
+    errMsgArr = errMsgArr.join(', ');
+    // 如果地址字段有缺失，提示错误信息
+    if (errMsgArr.length) {
+      this.showErrorMsg(wrongAddressMsg['title'] + errMsgArr);
+      this.setState({
+        btnSubSaveFlag: true
+      });
+      return true;
+    } else {
+      clearTimeout(this.timer);
+      this.setState({
+        saveErrorMsg: '',
+        btnSubSaveFlag: false
+      });
+    }
+    return false;
+  };
+  // 处理DuData地址信息，拼装errMsg
+  getDuDataAddressErrMsg = (data) => {
+    const { wrongAddressMsg } = this.state;
+    let errArr = [];
+    let streets = wrongAddressMsg['streets'],
+      postCode = wrongAddressMsg['postCode'],
+      house = wrongAddressMsg['house'],
+      city = wrongAddressMsg['city'],
+      province = wrongAddressMsg['province'],
+      settlement = wrongAddressMsg['settlement'];
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
+    return errArr.join(',');
+  };
   // 新增或者编辑地址 edit or add
   addOrEditAddress(idx = -1) {
     const { deliveryAddress, addressList } = this.state;
@@ -477,11 +552,8 @@ class AddressList extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const {
-      deliveryAddress,
-      selectValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectValidationOption, validationAddress } =
+      this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
@@ -711,11 +783,11 @@ class AddressList extends React.Component {
     this.updateConfirmTooltipVisible(data, true);
   }
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
     // console.log('AddressComp: ',flag);
     this.setState(
       {
-        russiaAddressValid: flag
+        formAddressValid: flag
       },
       () => {
         if (flag) {
@@ -730,13 +802,14 @@ class AddressList extends React.Component {
       addOrEdit,
       loading,
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       addressList,
       isBillSame,
       countryList,
       validationLoading,
       validationModalVisible,
-      selectValidationOption
+      selectValidationOption,
+      btnSubSaveFlag
     } = this.state;
 
     // 获取本地存储的需要显示的地址字段
@@ -946,6 +1019,7 @@ class AddressList extends React.Component {
                   &nbsp;&nbsp;
                   <button
                     className="rc-btn rc-btn--sm rc-btn--one"
+                    disabled={btnSubSaveFlag}
                     onClick={() => {
                       this.props.save(
                         addressList.filter((el) => el.selected)[0],
@@ -971,7 +1045,7 @@ class AddressList extends React.Component {
                     isLogin={true}
                     updateData={(data) => this.updateDeliveryAddress(data)}
                     calculateFreight={(data) => this.calculateFreight(data)}
-                    getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+                    getFormAddressValidFlag={this.getFormAddressValidFlag}
                   />
                 )}
 
@@ -1032,7 +1106,7 @@ class AddressList extends React.Component {
                             name="contactPreference"
                             type="submit"
                             disabled={
-                              isValid && russiaAddressValid ? false : true
+                              isValid && formAddressValid ? false : true
                             }
                             onClick={() => this.handleSave()}
                           >
@@ -1054,7 +1128,7 @@ class AddressList extends React.Component {
                             name="contactPreference"
                             type="submit"
                             disabled={
-                              isValid && russiaAddressValid ? false : true
+                              isValid && formAddressValid ? false : true
                             }
                             onClick={() => this.handleSave()}
                           >

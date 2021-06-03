@@ -533,7 +533,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   return '/prescription';
 }
 
-export async function getFrequencyDict(frequencyType) {
+export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   const lang = process.env.REACT_APP_COUNTRY;
 
   let autoShipFrequency = await Promise.all([
@@ -551,7 +551,16 @@ export async function getFrequencyDict(frequencyType) {
     }
     return el;
   });
-
+  if (lang == 'DE') {
+    autoShipFrequency = autoShipFrequency.filter((el) => {
+      // 德国只展示1-3个月的frequency
+      return (
+        (el.type == 'Frequency_month' &&
+          (el.valueEn === '1' || el.valueEn === '2' || el.valueEn === '3')) ||
+        el.id === currentFrequencyId
+      );
+    });
+  }
   let clubFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day_club' }),
     getDictionary({ type: 'Frequency_week_club' }),
@@ -560,21 +569,24 @@ export async function getFrequencyDict(frequencyType) {
   clubFrequency = flatten(clubFrequency).map((el) => {
     el.goodsInfoFlag = 2;
     // 设置法国周一、周二不可选
-    if (lang == 'fr') {
+    if (lang == 'FR') {
       el.id == 5744 || el.id == 3558
         ? (el['disabled'] = true)
         : (el['disabled'] = false);
     }
     return el;
   });
-
+  let frequencyList = autoShipFrequency;
   if (!frequencyType) {
-    return Promise.resolve(autoShipFrequency.concat(clubFrequency));
+    frequencyList = autoShipFrequency.concat(clubFrequency);
   } else if (frequencyType === 'club') {
-    return Promise.resolve(clubFrequency);
-  } else {
-    return Promise.resolve(autoShipFrequency);
+    frequencyList = clubFrequency;
   }
+  if (lang == 'DE') {
+    // 德国不存在club，并且只展示1-3个月的frequency
+    frequencyList = autoShipFrequency;
+  }
+  return Promise.resolve(frequencyList);
 }
 
 /**
@@ -778,7 +790,6 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    console.log('apiapiapi', api);
     const res = await api();
     ret = res;
     sessionItemRoyal.set(sessionKey, JSON.stringify(ret));

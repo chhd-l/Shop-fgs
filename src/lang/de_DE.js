@@ -183,7 +183,7 @@ const de_DE = {
   changePassword: 'Ändere das Passwort',
   changepic: 'Bild hochladen',
   checkboxIsRequiredForSubscription:
-    'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
+    'Bei regelmäßigen Lieferungen ist ein ankreuzen dieses Kontrollkästchens erforderlich.',
   checkout: 'zur Kasse',
   'minicart.checkout': 'zur Kasse',
   'payment.checkout': 'Kasse',
@@ -571,7 +571,7 @@ const de_DE = {
   NoPromotionDesc: 'Abo-Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
   noStart: 'Ausstehend',
-  notate: 'Alle Preise inkl. MwSt. und zzgl.{val}',
+  notate: 'Alle Preise inkl. MwSt. und zzgl. {val}',
   notSterilized: 'Nein',
   of: 'von',
   oldPassword: 'Altes Passwort *',
@@ -1276,6 +1276,7 @@ const de_DE = {
   'clubListData.tip5': 'Full control and free from engagement',
   'subscriptionDetail.deliveryDate': 'Delivery date',
   'subscriptionDetail.product': 'Product',
+  pirceRange: 'Von {fromPrice} bis {toPrice}',
   'mobile.cart.orderSummary': 'Bestellübersicht',
   'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
   'welcome.confirmEmail':
@@ -1304,7 +1305,25 @@ const de_DE = {
   'subscription.all': 'alle',
   'subscription.autoship': 'Autoship',
   'subscription.club': 'Verein',
-  searchShow: 'Suchergebnisse'
+  searchShow: 'Suchergebnisse',
+  'deLandingPage.prescriberCode.title': 'Empfehlungscode Ihrer Tierarztpraxis',
+  'deLandingPage.prescriberCode.tip1':
+    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sieeinen individuellen',
+  'deLandingPage.prescriberCode.tip2':
+    '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
+  'deLandingPage.prescriberCode.tip3':
+    'eine fachgerechte Empfehlung vorausgeht.',
+  'deLandingPage.prescriberCode.tip4':
+    'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
+  dePrescriberCodeTxt: 'z B.XYZ1234',
+  'deLandingPage.prescriberCode.errorMsg':
+    'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
+  'deLandingPage.prescriberCode.searchBtn': 'Code speichern',
+  'deLandingPage.prescriberCode.tip5': 'Sie haben noch keinen Empfehlungscode?',
+  'deLandingPage.prescriberCode.tip6':
+    ' Fragen Sie bei unseren teilnehmenden Tierärzt*innen.',
+  'deLandingPage.prescriberCode.navigateBtn': 'Tierarztpraxen anzeigen',
+  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!'
 };
 
 export default de_DE;

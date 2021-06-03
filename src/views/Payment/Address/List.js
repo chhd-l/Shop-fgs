@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { queryCityNameById, getAddressBykeyWord } from '@/api';
+import { queryCityNameById, getCityList, getAddressBykeyWord } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
@@ -67,6 +67,7 @@ class AddressList extends React.Component {
         DuData: null, // 俄罗斯DuData
         email: ''
       },
+      cityList: [],
       errMsg: '',
       loading: true,
       saveLoading: false,
@@ -78,7 +79,7 @@ class AddressList extends React.Component {
       saveErrorMsg: '',
       selectedId: '',
       isValid: false,
-      russiaAddressValid: false,
+      formAddressValid: false,
       listBtnLoading: false,
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
@@ -87,9 +88,8 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -103,7 +103,12 @@ class AddressList extends React.Component {
         deliveryAddress: Object.assign(this.state.deliveryAddress, cfm)
       });
     });
+
+    // 查询 city list
+    // this.getAllCityList();
+
     this.queryAddressList({ init: true });
+
     this.setState({
       listBtnLoading: false,
       wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
@@ -121,6 +126,28 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  // 查询 city list
+  getAllCityList = async () => {
+    try {
+      const res = await getCityList();
+      if (res?.context?.systemCityVO) {
+        let starr = [];
+        let obj = res.context.systemCityVO;
+        obj.forEach((item) => {
+          let res = {
+            cityId: item.id,
+            city: item.cityName
+          };
+          starr.push(res);
+        });
+        this.setState({
+          cityList: Object.assign(obj, starr)
+        });
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
     try {
@@ -220,8 +247,17 @@ class AddressList extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongAddressMsg[akey];
-      tmpObj[akey] ? '' : errMsgArr.push(fky);
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        tmpObj.city || tmpObj.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        tmpObj.country || tmpObj.countryId ? (akey = '') : akey;
+      }
+      if (akey) tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -273,12 +309,12 @@ class AddressList extends React.Component {
       province = wrongAddressMsg['province'],
       settlement = wrongAddressMsg['settlement'];
 
-    data.street == '' || null ? errArr.push(streets) : '';
-    data.postCode == '' || null ? errArr.push(postCode) : '';
-    data.house == '' || null ? errArr.push(house) : '';
-    data.city == '' || null ? errArr.push(city) : '';
-    data.province == '' || null ? errArr.push(province) : '';
-    data.settlement == '' || null ? errArr.push(settlement) : '';
+    data.street ? '' : errArr.push(streets);
+    data.postCode ? '' : errArr.push(postCode);
+    data.house ? '' : errArr.push(house);
+    data.city ? '' : errArr.push(city);
+    data.province ? '' : errArr.push(province);
+    data.settlement ? '' : errArr.push(settlement);
 
     return errArr.join(',');
   };
@@ -590,12 +626,12 @@ class AddressList extends React.Component {
     this.props.calculateFreight(data);
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
-  getRussiaAddressValidFlag = (flag) => {
+  getFormAddressValidFlag = (flag) => {
+    console.log('address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
-    console.log(flag);
     this.setState(
       {
-        russiaAddressValid: flag
+        formAddressValid: flag
       },
       () => {
         if (flag) {
@@ -604,6 +640,7 @@ class AddressList extends React.Component {
       }
     );
   };
+
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
     const headerWidget = document.querySelector('.rc-header__scrolled')
@@ -763,11 +800,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -940,7 +974,7 @@ class AddressList extends React.Component {
     const { showOperateBtn } = this.props;
     const {
       isValid,
-      russiaAddressValid,
+      formAddressValid,
       deliveryAddress,
       addOrEdit,
       loading,
@@ -1097,7 +1131,7 @@ class AddressList extends React.Component {
             ref={this.editFormRef}
             isLogin={true}
             initData={deliveryAddress}
-            getRussiaAddressValidFlag={this.getRussiaAddressValidFlag}
+            getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}
           />
@@ -1128,7 +1162,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
                   </button>
@@ -1151,7 +1185,7 @@ class AddressList extends React.Component {
                     name="contactPreference"
                     type="submit"
                     onClick={this.handleSave}
-                    disabled={isValid && russiaAddressValid ? false : true}
+                    disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
                   </button>

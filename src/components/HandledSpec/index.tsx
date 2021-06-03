@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  getFrequencyDict,
   matchNamefromDict,
   getDeviceType,
   unique
@@ -17,7 +16,7 @@ interface Props {
   updatedPriceOrCode: Function
 }
 
-const HandledSpec = ({ details, updatedSku, updatedPriceOrCode }: Props) => {
+const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) => {
   
   const {goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo} = details
   const [sizeList, setSizeList] = useState([]);

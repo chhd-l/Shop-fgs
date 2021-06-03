@@ -7,6 +7,7 @@ const De = process.env.REACT_APP_COUNTRY === 'DE';
 
 interface Props {
   form: any;
+  configStore:any;
   skuPromotions: any;
   selectedSpecItem: any;
   currentUnitPrice: any;
@@ -18,6 +19,7 @@ interface Props {
 
 const AutoshipBuyMethod = ({
   form,
+  configStore,
   skuPromotions,
   selectedSpecItem,
   currentUnitPrice,
@@ -109,20 +111,20 @@ const AutoshipBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {De && selectedSpecItem ? (
+        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem?.goodsInfoWeight&&selectedSpecItem?.goodsInfoUnit ? (
           <div
             style={{
               fontSize: '.875rem',
               color: '#999'
             }}
           >
-            {formatMoney(
+            ({formatMoney(
               (
                 currentSubscriptionPrice /
                 parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit}{' '}
+            /{selectedSpecItem.goodsInfoUnit}{' '})
           </div>
         ) : null}
       </div>

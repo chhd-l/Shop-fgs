@@ -81,7 +81,7 @@ export const bannerTips = () => {
               <Container>
                 <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
                 <span className="align-middle">
-                  <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text">
+                  <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
                   <Link

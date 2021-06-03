@@ -22,6 +22,7 @@ import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
+import ruFilterMap from './ruFilterMap.json';
 import {
   fetchHeaderNavigations,
   fetchFilterList,
@@ -837,7 +838,6 @@ class List extends React.Component {
       ).split('|');
       tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
     }
-
     // ru filter seo 定制化 ==
     let lifestagesPrefv = [],
       sterilizedPrefv = [],
@@ -848,30 +848,57 @@ class List extends React.Component {
     for (let index = 0; index < prefnNum; index++) {
       const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
       const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
-      if (fnEle == 'Lifestages') {
-        const lifestage = fvEles.includes('|')
-          ? 'корм для кошек разных возрастов'
-          : 'корм для ' + fvEles.toLowerCase();
-        lifestagesPrefv.push(lifestage);
-      } else if (fnEle == 'Sterilized') {
-        const sterilize =
-          fvEles == 'Нет' ? 'нестерилизованных' : 'стерилизованных';
-        sterilizedPrefv.push(sterilize);
-      } else if (fnEle == 'Technology' && fvEles != 'Другой') {
-        technologyPrefv.push(fvEles.toLowerCase());
-      } else if (fnEle == 'Breeds') {
-        const breed = fvEles.includes('|')
-          ? 'разных пород'
-          : 'породы ' + fvEles;
-        breedsPrefv.push(breed);
-      } else if (fnEle == 'Size') {
+      ruFilterMap.attributesList.map((item) => {
+        if (item.attributeName == fnEle) {
+          if (fvEles.includes('|')) {
+            if (fnEle == 'Lifestages') {
+              this.state.isDogPage
+                ? lifestagesPrefv.push(item.dogMultiSelection)
+                : lifestagesPrefv.push(item.catMultiSelection);
+            }
+            fnEle == 'Breeds' && breedsPrefv.push(item.multiSelection);
+            if (fnEle == 'Size') {
+              //XSmall + Mini  and  Maxi + Giant 特殊处理传值
+              if (
+                fvEles.includes('Миниатюрные-(до-4-кг)') &&
+                fvEles.includes('Мелкие-(5-10-кг)')
+              ) {
+                sizePrefvSeo.push('мелких размеров');
+              } else if (
+                fvEles.includes('Крупные-(26-44--кг)') &&
+                fvEles.includes('Очень-крупные--(более-45-кг)')
+              ) {
+                sizePrefvSeo.push('крупных размеров');
+              } else {
+                sizePrefvSeo.push(item.multiSelection);
+              }
+            }
+          } else {
+            const attrNameEn = item.attributesValuesVOList.find(
+              (item) => item.attributeDetailNameEn == fvEles
+            )?.attributeDetailNameSeoEn;
+            fnEle == 'Lifestages' && lifestagesPrefv.push(attrNameEn);
+            fnEle == 'Sterilized' && sterilizedPrefv.push(attrNameEn);
+            fnEle == 'Technology' && technologyPrefv.push(attrNameEn);
+            fnEle == 'Breeds' && breedsPrefv.push(attrNameEn);
+            fnEle == 'Size' && sizePrefvSeo.push(attrNameEn);
+          }
+        }
+      });
+
+      if (fnEle == 'Size') {
         sizePrefv.push(fvEles);
-        const size = fvEles.includes('|')
-          ? 'разных размеров'
-          : fvEles.toLowerCase();
-        sizePrefvSeo.push(size);
       }
     }
+
+    let ttPrefv = [
+      ...technologyPrefv,
+      ...lifestagesPrefv,
+      ...sizePrefvSeo,
+      ...breedsPrefv,
+      ...sterilizedPrefv
+    ];
+    console.log(ttPrefv, 'ttjio[ereo');
 
     if (!lifestagesPrefv.length && prefnNum) {
       const foodType = this.state.isDogPage
@@ -1092,12 +1119,17 @@ class List extends React.Component {
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
+      const spezies = (goodsAttributesValueRelVOAllList || [])
+        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
+        .map((item) => item.goodsAttributeValue);
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie,
+        specie: process.env.REACT_APP_COUNTRY == 'DE' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1152,11 +1184,15 @@ class List extends React.Component {
             attr.goodsAttributeName.toLowerCase() == 'breeds'
         )
         .map((item) => item.goodsAttributeValue);
+      const spezies = (goodsAttributesValueRelVOAllList || [])
+        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
+        .map((item) => item.goodsAttributeValue);
       const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie,
+        specie: process.env.REACT_APP_COUNTRY == 'DE' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1544,7 +1580,7 @@ class List extends React.Component {
 
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
-      Array.from(pEle.attributesValueList, (cEle) => {
+      Array.from(pEle.attributesValueList || [], (cEle) => {
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
         const targetPIdx = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
@@ -1841,10 +1877,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',

@@ -287,9 +287,8 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -708,13 +707,13 @@ class Payment extends React.Component {
     parameters,
     payPspItemEnum,
     country,
-    installments
+    ...otherParams
   }) {
     const { selectedCardInfo } = this.state;
     parameters = Object.assign({}, commonParameter, {
       payPspItemEnum,
       country,
-      installments
+      ...otherParams
     });
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
@@ -2233,9 +2232,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2247,9 +2247,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2354,8 +2355,17 @@ class Payment extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongBillingAddress[akey];
-      billingAddress[akey] ? '' : errMsgArr.push(fky);
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        billingAddress.city || billingAddress.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        billingAddress.country || billingAddress.countryId ? (akey = '') : akey;
+      }
+      if (akey) billingAddress[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -2788,24 +2798,33 @@ class Payment extends React.Component {
               )}
 
               {/* todo 重构后的CYBER */}
-              <CyberPayment
-                renderBillingJSX={this.renderBillingJSX}
-                renderSecurityCodeTipsJSX={this.renderSecurityCodeTipsJSX}
-                renderBackToSavedPaymentsJSX={this.renderBackToSavedPaymentsJSX}
-                payConfirmBtn={payConfirmBtn}
-                saveBillingLoading={this.state.saveBillingLoading}
-                validForBilling={
-                  !this.state.billingChecked && !this.state.validSts.billingAddr
-                }
-                billingChecked={this.state.billingChecked}
-                validBillingAddress={this.state.validForBilling}
-                isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
-                updateSelectedCardInfo={this.updateSelectedCardInfo}
-                reInputCVVBtn={reInputCVVBtn}
-                isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
-                sendCyberPaymentForm={this.sendCyberPaymentForm}
-                ref={this.cyberRef}
-              />
+              {paymentTypeVal === 'cyber' && (
+                <>
+                  <CyberPayment
+                    renderBillingJSX={this.renderBillingJSX}
+                    renderSecurityCodeTipsJSX={this.renderSecurityCodeTipsJSX}
+                    renderBackToSavedPaymentsJSX={
+                      this.renderBackToSavedPaymentsJSX
+                    }
+                    payConfirmBtn={payConfirmBtn}
+                    saveBillingLoading={this.state.saveBillingLoading}
+                    validForBilling={
+                      !this.state.billingChecked &&
+                      !this.state.validSts.billingAddr
+                    }
+                    billingChecked={this.state.billingChecked}
+                    validBillingAddress={this.state.validForBilling}
+                    isCurrentBuyWaySubscription={
+                      this.isCurrentBuyWaySubscription
+                    }
+                    updateSelectedCardInfo={this.updateSelectedCardInfo}
+                    reInputCVVBtn={reInputCVVBtn}
+                    isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
+                    sendCyberPaymentForm={this.sendCyberPaymentForm}
+                    ref={this.cyberRef}
+                  />
+                </>
+              )}
 
               {/* ***********************支付选项卡的内容end******************************* */}
             </>
@@ -2939,9 +2958,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
