@@ -13,17 +13,17 @@ export function transactionPixel(details) {
   });
   const transactionInfo = {
     currency: process.env.REACT_APP_CURRENCY,
-    orderId: details.id || '',
-    total: String(details.tradePrice.totalPrice.toFixed(2)) || '',
-    items: items || { price: '', quantity: '', productId: '' },
+    orderId: details.id,
+    total: String(details.tradePrice.totalPrice.toFixed(2)),
+    items: items,
     optional_order_parameter: {
       shippingDate: details.orderTimeOut.split(' ')[0]
     },
     optional_PII_parameter: {
-      email: details.consignee.email || '',
+      email: details.consignee.email,
       locale: 'en_US',
-      nickname: details.consignee.name || '',
-      userId: details.consignee.id || ''
+      nickname: details.consignee.name,
+      userId: details.consignee.id
     }
   };
   loadJS({
