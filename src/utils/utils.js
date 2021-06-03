@@ -773,7 +773,6 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    console.log('apiapiapi', api);
     const res = await api();
     ret = res;
     sessionItemRoyal.set(sessionKey, JSON.stringify(ret));
