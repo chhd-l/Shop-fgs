@@ -874,9 +874,9 @@ const de_DE = {
   registerAname: 'Eine Nummer',
   registerCloud: 'Commerce Cloud Storefront-Referenzarchitektur',
   registerCompleteForm:
-    'Um Ihr Konto zu erstellen, füllen Sie bitte das folgende Formular aus.',
+    'Um ein Kundenkonto anzulegen, bitte die Felder unten ausfüllen.',
   registerContinuing:
-    'Indem Sie fortfahren, stimmen Sie unserer MARS-Datenschutzrichtlinie zu. sammelt und verwendet Ihren Vor- und Nachnamen sowie Ihre E-Mail-Adresse, um Ihnen eine personalisierte Erfahrung zu bieten. ',
+    'Bei der Anmeldung über Facebook oder Google erfolgt keine Anwendung unserer Datenschutzerklärung. Einzelheiten zu den dort geltenden Datenschutzbestimmungen entnehmen Sie bitte den entsprechenden Datenschutzerklärungen der einzelnen Anbieter. ',
   registerCreateYourAccout: 'Erstellen Sie Ihr Royal Canin-Konto',
   registerEmail: 'E-Mail-Adresse',
   registerEmailFormate:
@@ -889,9 +889,9 @@ const de_DE = {
   registerFooter1:
     'Sie müssen mindestens 16 Jahre alt sein, um ein Formular einzureichen. Sie können uns kontaktieren, indem Sie an Royal Canin France, Verbraucherservice - BP4 - 650 Avenue de la Petite Camargue - 30470 AIMARGUES oder per E-Mail an',
   registerGoogle: 'Mit Google verbinden',
-  registerHaveAccount: 'Haben Sie bereits ein Konto?',
+  registerHaveAccount: 'Sie haben bereits ein Kundenkonto?',
   registerLength: '8 Zeichen',
-  registerLoginIn: 'Kasse',
+  registerLoginIn: 'Anmelden',
   registerLowercase: 'Ein Kleinbuchstabe',
   registerMandatory: 'Pflichtfeld',
   registerName: 'Name',
@@ -903,6 +903,7 @@ const de_DE = {
   registerTogglePassword: 'Passwortsichtbarkeit umschalten',
   registerUppercase: 'Ein Großbuchstabe',
   registerWelcome: 'Willkommen bei',
+  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     'Denken Sie daran, dass die Bestellung vor {val} zwei Tage später vor {val} pm oder nach {val} pm drei Tage später vor {val} pm abläuft.',
   rememberMe: 'Behalte mich in Erinnerung',

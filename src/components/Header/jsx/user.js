@@ -119,7 +119,8 @@ const UserJSX = (props) => {
                           process.env.REACT_APP_COUNTRY === 'TR' ||
                           process.env.REACT_APP_COUNTRY === 'RU' ||
                           process.env.REACT_APP_COUNTRY === 'FR' ||
-                          process.env.REACT_APP_COUNTRY === 'US'
+                          process.env.REACT_APP_COUNTRY === 'US' ||
+                          process.env.REACT_APP_COUNTRY === 'DE'
                         ) {
                           history.push('/register');
                         } else {
