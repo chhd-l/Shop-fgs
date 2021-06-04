@@ -162,9 +162,7 @@ class PrescriberCode extends React.Component {
                       </div>
                     </div>
                     <div className="line decenter deimagetranslate">
-                      <LazyLoad>
-                        <img src={line} style={{ height: '10vh' }} />
-                      </LazyLoad>
+                      <img src={line} style={{ height: '10vh' }} />
                     </div>
                     <div className="detextcenter de-prescriber-code-column">
                       <p className="de-prescriber-code-weight">
@@ -187,9 +185,10 @@ class PrescriberCode extends React.Component {
                 ) : (
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                     <div className="rc-self-h-middle rc-content-v-middle rc-padding-x--md">
-                      <LazyLoad style={{ width: '2rem', height: '2rem' }}>
-                        <img src={successImg} />
-                      </LazyLoad>
+                      <img
+                        src={successImg}
+                        style={{ width: '2rem', height: '2rem' }}
+                      />
                     </div>
                     <div className="de-prescriber-code-weight">
                       <FormattedMessage id="deLandingPage.prescriberCode.successTip" />

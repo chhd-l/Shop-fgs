@@ -116,6 +116,7 @@ class Details extends React.Component {
       checkOutErrMsg: '',
       addToCartLoading: false,
       productRate: 0,
+      backgroundSpaces:'🐕',
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
@@ -379,11 +380,17 @@ class Details extends React.Component {
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
+        const backgroundSpace=res.context.goods.cateId;
         // 获取club与autoship字典
         if (res && res.context && goodsRes) {
           this.setState({
             productRate: res.context.avgEvaluate
           });
+        }
+        if(backgroundSpace){
+          this.setState({
+            backgroundSpaces: res.context.goods.cateId
+          })
         }
         if (goodsRes) {
           const { goods, images } = res.context;
@@ -629,9 +636,11 @@ class Details extends React.Component {
     });
   };
   showPrescriberCodeBeforeAddCart = () => {
-    const { clinicStore } = this.props;
-    if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
-      this.setState({ showPrescriberCodeModal: true });
+    if (process.env.REACT_APP_GA_COUNTRY === 'DE') {
+      const { clinicStore } = this.props;
+      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+        this.setState({ showPrescriberCodeModal: true });
+      }
     }
   };
   closePrescriberCodeModal = async () => {
@@ -874,6 +883,7 @@ class Details extends React.Component {
       form,
       productRate,
       instockStatus,
+      backgroundSpaces,
       goodsDetailTab,
       activeTabIdxList,
       checkOutErrMsg,
@@ -953,7 +963,7 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {process.env.REACT_APP_GA_COUNTRY && (
+            {process.env.REACT_APP_GA_COUNTRY === 'DE' && (
               <PrescriberCodeModal
                 visible={this.state.showPrescriberCodeModal}
                 close={this.closePrescriberCodeModal}
@@ -1231,6 +1241,7 @@ class Details extends React.Component {
                 isClub={
                   details.promotions && details.promotions.includes('club')
                 }
+                goodsDetailSpace={backgroundSpaces}
               />
             ) : null}
 
