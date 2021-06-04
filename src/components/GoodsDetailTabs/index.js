@@ -14,11 +14,11 @@ import landingBanner from './image/landing-banner.jpg';
 import iconsix from './image/iconsix.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
-import goodsdetalsbackground from './image/goodsdetailtabbackground.png';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
 import pdpbackgrounddog from './image/goodsdetailtabbackground.png'
+import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png'
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
@@ -38,6 +38,15 @@ const pdpmobilebackgrounddog = {
 
 const pdpbackgrounddogs={
   backgroundImage: `url(${pdpbackgrounddog})`,
+  height:'700px',
+  backgroundSize: 'cover',
+  overflow: 'hidden',
+  display:'flex',
+  flexDirection:'column',
+}
+
+const pdpbackgroundcats={
+  backgroundImage: `url(${pdpbackgroundcat})`,
   height:'700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -161,8 +170,10 @@ const GoodsDetailTabs = function (props) {
     saleableFlag,
     displayFlag,
     detailRes,
-    isClub
+    isClub,
+    goodsDetailSpace
   } = props;
+  console.log(goodsDetailSpace,"🐕")
   if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
   }
@@ -379,7 +390,44 @@ const GoodsDetailTabs = function (props) {
   }, []);
 
   //club new subscribtion每次提交的时候记得把true改为false
-  const Show = false;
+  const Show = true;
+
+  //判断猫狗
+  const [spaceShow,setSpaceShow]=useState('1');
+
+  const getSpeciesId = (item) => {
+    if (process.env.REACT_APP_COUNTRY == 'DE') {
+      return getDeSpecies(item)[0] == 'Hund' ? '2' : '1';
+    } else {
+      return (
+        {
+          1158: '1', //Russia Cat SPT food
+          1159: '1', //Russia Cat VET Food
+          1160: '2', //Russia Dog SPT food
+          1161: '2', //Russia Dog VET food
+          1165: '1', //Turkey Cat SPT food
+          1166: '1', //Turkey Cat VET Food
+          1167: '2', //Turkey Dog SPT food
+          1168: '2', //Turkey Dog VET food
+          1133: '2', //France Dog SPT food
+          1134: '1', //France Cat SPT food
+          1153: '2', //France Dog VET food
+          1154: '1', //France Cat VET Food
+          1172: '1', //US Cat SPT food
+          1173: '1', //US Cat VET food
+          1174: '2', //US Dog SPT food
+          1175: '2' //US Dog VET food
+        }[item] || ''
+      );
+    }
+  };
+
+  useEffect(()=>{
+    setSpaceShow(getSpeciesId(goodsDetailSpace))
+    console.log(spaceShow,"🤭🤭")
+  },[])
+
+  console.log(getSpeciesId(goodsDetailSpace),"🤭")
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -724,7 +772,7 @@ const GoodsDetailTabs = function (props) {
                 )}
                 {Show ? (
                   <div>
-                    <div style={pdpbackgrounddogs}>
+                    <div style={spaceShow == "1"?pdpbackgroundcats:pdpbackgrounddogs}>
                       <div className="row rc-margin-x--none">
                         <div className="rc-full-width">
                           <div className="experience-component experience-assets-contentBlock">
