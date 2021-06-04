@@ -234,7 +234,6 @@ class Payment extends React.Component {
       saveBillingLoading: false,
       payWayErr: '',
       pet: {},
-      installMentParam: null, // 分期参数
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -284,9 +283,8 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -984,7 +982,9 @@ class Payment extends React.Component {
         },
         payUCreditCardTU: async () => {
           let installments;
-          const { installMentParam } = this.state;
+          const {
+            checkoutStore: { installMentParam }
+          } = this.props;
           if (installMentParam) {
             installments = installMentParam.installmentNumber;
           }
@@ -2736,7 +2736,7 @@ class Payment extends React.Component {
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
     }
-    this.setState({ installMentParam: null });
+    this.props.checkoutStore.setInstallMentParam(null);
     paymentStore.setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
@@ -2758,7 +2758,7 @@ class Payment extends React.Component {
   }
 
   onInstallMentParamChange = (data) => {
-    this.setState({ installMentParam: data });
+    this.props.checkoutStore.setInstallMentParam(data);
   };
 
   /**
@@ -3249,9 +3249,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3380,7 +3379,6 @@ class Payment extends React.Component {
       isAdd,
       mobileCartVisibleKey,
       guestEmail,
-      installMentParam,
       deliveryAddress,
       paymentValidationLoading,
       validationModalVisible,
@@ -3706,6 +3704,7 @@ class Payment extends React.Component {
                     navigateToProDetails={true}
                     location={location}
                     history={history}
+                    isRepay={true}
                   />
                 ) : (
                   <PayProductInfo
@@ -3723,22 +3722,8 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
-                    installMentParam={installMentParam}
                   />
                 )}
-                {/* 分期手续费 */}
-                {installMentParam ? (
-                  <div className="pl-3 pr-3 pt-1 pb-0 red">
-                    <div className="row">
-                      <div className="col-7">
-                        <FormattedMessage id="installMent.additionalFee" />
-                      </div>
-                      <div className="col-5 text-right">
-                        {formatMoney(installMentParam.additionalFee)}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
 
                 <Faq />
               </div>

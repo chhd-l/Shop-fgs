@@ -739,8 +739,12 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="order.total" />
                                           <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">
+                                            {/* 存在分期时，总价显示另一个字段 */}
                                             {formatMoney(
-                                              order.tradePrice.totalPrice
+                                              order.tradePrice.installmentPrice
+                                                ? order.tradePrice
+                                                    .totalAddInstallmentPrice
+                                                : order.tradePrice.totalPrice
                                             )}
                                           </span>
                                         </p>
