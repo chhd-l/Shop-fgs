@@ -17,6 +17,7 @@ import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
+import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png'
 import pdpbackgrounddog from './image/goodsdetailtabbackground.png'
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png'
 import auto from './image/auto@2x.png';
@@ -35,6 +36,11 @@ const pdpmobilebackgrounddog = {
   backgroundSize: 'cover'
 };
 
+const pdpbackgroundmobilecats = {
+  backgroundImage: `url(${pdpbackgroundmobilecat})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover',
+}
 
 const pdpbackgrounddogs={
   backgroundImage: `url(${pdpbackgrounddog})`,
@@ -424,10 +430,8 @@ const GoodsDetailTabs = function (props) {
 
   useEffect(()=>{
     setSpaceShow(getSpeciesId(goodsDetailSpace))
-    console.log(spaceShow,"🤭🤭")
   },[])
 
-  console.log(getSpeciesId(goodsDetailSpace),"🤭")
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -556,7 +560,7 @@ const GoodsDetailTabs = function (props) {
                     <>
                       <div
                         className="clubdetailsmobile"
-                        style={pdpmobilebackgrounddog}
+                        style={spaceShow=="1"?pdpbackgroundmobilecats:pdpmobilebackgrounddog}
                       >
                         <div className="row rc-margin-x--none">
                           <div className="rc-full-width">
@@ -573,10 +577,9 @@ const GoodsDetailTabs = function (props) {
                                       fontWeight: 'bold'
                                     }}
                                   >
-                                    GIVE YOUR PET A<br />
-                                    COMPLETE HEALTH SOLUTION,
-                                    <br />
-                                    BY SUBSCRIPTION
+                                    <FormattedMessage id="ClubLP.LongBanner.title"
+                                      values={{val1:<br/>,val2:<br/>}}
+                                    />
                                   </p>
                                   <p
                                     style={{
@@ -584,7 +587,7 @@ const GoodsDetailTabs = function (props) {
                                       textAlign: 'center'
                                     }}
                                   >
-                                    Free from engagement
+                                    <FormattedMessage id="ClubLP.LongBanner.content2" />
                                   </p>
                                 </div>
                               </div>
