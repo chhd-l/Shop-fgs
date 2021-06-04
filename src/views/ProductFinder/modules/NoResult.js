@@ -96,10 +96,7 @@ function PetJSX(props) {
                   ) : (
                     <LoginButton
                       beforeLoginCallback={async () => {
-                        sessionItemRoyal.set(
-                          'okta-redirectUrl',
-                          '/account/pets'
-                        );
+                        localItemRoyal.set('okta-redirectUrl', '/account/pets');
                       }}
                       btnClass="col-12 col-md-6 rc-btn rc-btn--one mb-3"
                       history={props.history}

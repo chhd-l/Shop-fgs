@@ -21,6 +21,7 @@ import { isLimitLogin } from './utils';
 import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
+import loginRedirection from '@/lib/login-redirection';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -90,7 +91,7 @@ const LoginButton = (props) => {
               customerId
             })
               .then((res) => {
-                history.push('/');
+                 setIsGetUserInfoDown(true);
               })
               .catch((e) => {
                 console.log(e);
@@ -124,8 +125,6 @@ const LoginButton = (props) => {
                     customerInfoRes.context.defaultClinics;
 
                   loginStore.setUserInfo(customerInfoRes.context);
-
-                  const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   // 去除cart页面不合并购物车逻辑，因为现在登录后不会回到tmpUrl所指页面
                   if (
                     // tmpUrl !== '/cart' && 
@@ -158,7 +157,7 @@ const LoginButton = (props) => {
     // }
     try {
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         props.history && props.history.location.pathname + props.history.location.search
       );

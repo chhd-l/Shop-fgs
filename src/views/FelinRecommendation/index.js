@@ -422,7 +422,7 @@ class FelinRecommendation extends React.Component {
     let needLogin = false; // one off商品
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+      localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
     let {
