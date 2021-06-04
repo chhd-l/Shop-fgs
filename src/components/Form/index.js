@@ -8,6 +8,7 @@
  * Description:
  * 1、本组件在需要编辑 deliveryAddress 和 billingAddress 及其他编辑地址的地方调用。
  * 2、父组件确认地址按钮由（isValid、formAddressValid）两个变量控制。
+ * 3、imask.js 插件，设置文本框输入内容格式。https://imask.js.org/
  *
  *********/
 import React from 'react';
@@ -136,7 +137,7 @@ class Form extends React.Component {
     // console.log('112 -------------★ EditForm initData: ', initData);
     // console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
-      this.props.updateData(this.state.caninForm);
+      this.updateDataToProps(this.state.caninForm);
     });
 
     // 获取 session 存储的 address form 数据并处理
@@ -153,154 +154,37 @@ class Form extends React.Component {
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
     let element = document.getElementById('phoneNumberShipping');
-    let maskOptions = {};
+    let maskOptions = [];
     let phoneReg = '';
     switch (process.env.REACT_APP_COUNTRY) {
       case 'FR':
-        phoneReg = '(+33) 0 00 00 00 00';
+        phoneReg = [
+          { mask: '(+33) 0 00 00 00 00' },
+          { mask: '(+33) \\00 00 00 00 00' }
+        ];
         break;
       case 'US':
-        phoneReg = '000-000-0000';
+        phoneReg = [{ mask: '000-000-0000' }];
         break;
       case 'RU':
-        phoneReg = '+{7} (000) 000-00-00';
+        phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
       case 'MX':
-        phoneReg = '+(52) 000 000 00';
+        phoneReg = [{ mask: '+(52) 000 000 00' }];
         break;
       case 'TR':
-        phoneReg = '{0} (000) 000-00-00';
+        phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       default:
-        phoneReg = '00000000000';
+        phoneReg = [{ mask: '00000000000' }];
         break;
     }
-    maskOptions = { mask: phoneReg };
+    maskOptions = {
+      mask: phoneReg
+    };
     let pval = IMask(element, maskOptions);
   };
-  // 1、查询form表单配置开关（* 未使用，暂时保留）
-  getSystemFormConfig = async () => {
-    const { caninForm } = this.state;
-    try {
-      const res = await getSystemConfig({ configType: 'address_input_type' });
-      if (res?.context?.configVOList) {
-        let manually = '',
-          automatically = '';
-        let robj = res.context.configVOList;
-        robj.forEach((item) => {
-          if (item.configKey == 'address_input_type_manually') {
-            manually = item.context;
-          } else if (item.configKey == 'address_input_type_automatically') {
-            automatically = item.context;
-          }
-        });
-        let fromSetSwitch =
-          manually == 1 && automatically == 0 ? 'MANUALLY' : 'AUTOMATICALLY';
-        this.setState({
-          formSettingSwitch: fromSetSwitch
-        });
-        // 根据接口类型查询表单数据
-        this.getAddressSettingByApi(manually, automatically);
-      } else {
-        console.warn('地址表单接口返回空，找后端配置。');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
-  // 2、根据接口类型（自己接口: MANUALLY，自动填充: AUTOMATICALLY）查询表单数据（* 未使用，暂时保留）
-  getAddressSettingByApi = async (manually, automatically) => {
-    const { formSettingSwitch, caninForm } = this.state;
-    try {
-      const res = await getAddressSetting({
-        addressApiType: formSettingSwitch
-      });
-      if (res?.context?.addressDisplaySettings) {
-        this.setState(
-          {
-            addressSettings: res.context.addressDisplaySettings
-          },
-          () => {
-            let narr = null;
-
-            // 把查询到的address配置存到本地
-            let addressForm = {};
-            this.state.addressSettings.forEach((item) => {
-              if (item.enableFlag == 1) {
-                addressForm[item.fieldKey] = item.fieldKey;
-              } else {
-                addressForm[item.fieldKey] = '';
-              }
-            });
-            sessionItemRoyal.set(
-              'rc-address-form',
-              JSON.stringify(addressForm)
-            );
-
-            // 过滤掉不可用的
-            if (this.props.isCyberBillingAddress) {
-              // 美国加卡不要电话号码
-              narr = this.state.addressSettings.filter(
-                (item) => item.enableFlag == 1 && item.fieldKey != 'phoneNumber'
-              );
-            } else if (this.props.personalData) {
-              // persnalData不需要展示comment
-              narr = this.state.addressSettings.filter(
-                (item) => item.enableFlag == 1 && item.fieldKey != 'comment'
-              );
-            } else {
-              narr = this.state.addressSettings.filter(
-                (item) => item.enableFlag == 1
-              );
-            }
-
-            let ress = this.formListFormat(narr);
-            this.setState(
-              {
-                formList: ress
-              },
-              () => {
-                if (manually == 1) {
-                  // 查询州列表（美国 state）
-                  this.getUsStateList();
-                  // 设置控制按钮可点的其中一个参数为 true
-                  // this.props.getFormAddressValidFlag(true);
-                }
-                this.setState(
-                  {
-                    formLoading: false
-                  },
-                  () => {
-                    this.props.updateData(caninForm);
-                  }
-                );
-                ress.forEach((item) => {
-                  if (
-                    item.fieldKey == 'phoneNumber' &&
-                    item.requiredFlag == 1
-                  ) {
-                    // 设置手机号输入限制
-                    setTimeout(() => {
-                      this.setPhoneNumberReg();
-                    }, 1000);
-                  }
-                });
-              }
-            );
-          }
-        );
-      } else {
-        this.setState({
-          formLoading: false
-        });
-      }
-    } catch (err) {
-      this.setState({
-        formLoading: false
-      });
-    }
-  };
-  // 获取 session 存储的 address form 数据并处理
+  // 1、获取 session 存储的 address form 数据并处理
   setAddressFormData = () => {
     const { caninForm } = this.state;
     const localAddressForm = this.props.configStore.localAddressForm;
@@ -343,7 +227,7 @@ class Form extends React.Component {
                   formLoading: false
                 },
                 () => {
-                  this.props.updateData(caninForm);
+                  this.updateDataToProps(caninForm);
                 }
               );
               ress.forEach((item) => {
@@ -363,7 +247,7 @@ class Form extends React.Component {
       formLoading: false
     });
   };
-  // 3、格式化表单json
+  // 2、格式化表单json
   formListFormat(array) {
     const { caninForm } = this.state;
     let rule = [];
@@ -419,18 +303,22 @@ class Form extends React.Component {
           break;
         case 'phoneNumber':
           if (process.env.REACT_APP_COUNTRY == 'FR') {
-            // regExp = /[(+33)|0]\d{9}$/;
-            regExp = /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            // 法国
+            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'US') {
+            // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'MX') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'RU') {
+            // 俄罗斯
             regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (process.env.REACT_APP_COUNTRY == 'TR') {
+            // 土耳其
             regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
+            // 其他国家
             regExp = /\S/;
           }
           errMsg = CURRENT_LANGFILE['enterCorrectPhoneNumber'];
@@ -475,7 +363,7 @@ class Form extends React.Component {
     });
     return array;
   }
-  // 4、查询国家
+  // 3、查询国家
   getCountryList = async () => {
     const { caninForm } = this.state;
     try {
@@ -493,7 +381,7 @@ class Form extends React.Component {
       console.warn(err);
     }
   };
-  // 5、查询州列表（美国 state）
+  // 4、查询州列表（美国 state）
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
@@ -518,7 +406,7 @@ class Form extends React.Component {
       console.warn(err);
     }
   };
-  // 6-1、查询city list
+  // 5-1、查询city list
   getAllCityList = async () => {
     this.setState({
       dataLoading: true
@@ -550,7 +438,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 6-2、根据cityId查询region
+  // 5-2、根据cityId查询region
   getRegionDataByCityId = async (cityId) => {
     const { caninForm } = this.state;
     this.setState({
@@ -601,7 +489,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 7、根据地址查询运费
+  // 6、根据地址查询运费
   getShippingCalculation = async (data) => {
     const { caninForm } = this.state;
     this.setState({
@@ -654,6 +542,18 @@ class Form extends React.Component {
       });
     }
   };
+  // 7、this.props.updateData
+  updateDataToProps = (data) => {
+    let newForm = Object.assign({}, data);
+    // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
+    if (process.env.REACT_APP_COUNTRY == 'FR') {
+      let tvalue = newForm.phoneNumber;
+      if (tvalue.length > 19) {
+        newForm['phoneNumber'] = tvalue.replace(/0/, '');
+      }
+    }
+    this.props.updateData(newForm);
+  };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
     const { caninForm } = this.state;
@@ -689,7 +589,7 @@ class Form extends React.Component {
       caninForm.regionId = data.value;
     }
     this.setState({ caninForm }, () => {
-      this.props.updateData(this.state.caninForm);
+      this.updateDataToProps(this.state.caninForm);
     });
   }
   // 处理数组
@@ -740,7 +640,7 @@ class Form extends React.Component {
     }
     caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
-      this.props.updateData(this.state.caninForm);
+      this.updateDataToProps(this.state.caninForm);
       this.validvalidationData(tname, tvalue);
     });
   };
@@ -753,7 +653,7 @@ class Form extends React.Component {
       target?.type === 'checkbox' ? target?.checked : target?.value;
     caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
-      this.props.updateData(this.state.caninForm);
+      this.updateDataToProps(this.state.caninForm);
       // 验证数据
       this.validvalidationData(tname, tvalue);
     });
@@ -810,7 +710,7 @@ class Form extends React.Component {
     caninForm.cityId = data.id;
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
-      this.props.updateData(this.state.caninForm);
+      this.updateDataToProps(this.state.caninForm);
     });
   };
 
@@ -895,7 +795,7 @@ class Form extends React.Component {
           address1Data: []
         },
         () => {
-          this.props.updateData(this.state.caninForm);
+          this.updateDataToProps(this.state.caninForm);
           this.selectInputBlur(e);
         }
       );
@@ -1091,7 +991,7 @@ class Form extends React.Component {
     const { caninForm } = this.state;
     caninForm['birthdate'] = date ? format(date, 'yyyy/MM/dd') : '';
     this.setState({ caninForm }, () => {
-      this.props.updateData(this.state.caninForm);
+      this.updateDataToProps(this.state.caninForm);
     });
   }
   // email and birthData
