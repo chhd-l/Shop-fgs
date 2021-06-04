@@ -63,12 +63,12 @@ podTemplate(label: label, cloud: 'kubernetes',
 
 
                 // 设置 Docker 镜像名称
-                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
+                dockerImageName = "${REGISTRY_URL}/${DOCKER_HUB_GROUP}/${APP_NAME}:${APP_VERSION}"
                 sh "cat Dockerfile"
                 sh "id"
                 sh "echo $PATH"
                 if ("${DOCKER_HUB_GROUP}" == '') {
-                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}-${TARGET_ENV}:${APP_VERSION}"
+                    dockerImageName = "${REGISTRY_URL}/${APP_NAME}:${APP_VERSION}"
                 }
                 // 提供 Docker 环境，使用 Docker 工具来进行 Docker 镜像构建与推送
                 docker.withRegistry("http://${REGISTRY_URL}", "${REGISTRY_CREADENTIAL}") {
@@ -112,7 +112,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                     // 执行 Kuberctl 命令进行部署操作
                     //sh "kubectl replace --force -n ${PROJECT_ENV} -f deploy.yaml"
                     //}
-                    sh "kubectl set image sts ${APP_NAME} *=${dockerImageName} -n ${PROJECT_ENV}"
+                    sh "kubectl set image deployment ${APP_NAME} *=${dockerImageName} -n ${PROJECT_ENV}"
                 }
         }
         

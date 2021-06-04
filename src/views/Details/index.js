@@ -636,9 +636,19 @@ class Details extends React.Component {
     });
   };
   showPrescriberCodeBeforeAddCart = () => {
-    const { clinicStore } = this.props;
-    if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
-      this.setState({ showPrescriberCodeModal: true });
+    if (process.env.REACT_APP_GA_COUNTRY === 'DE') {
+      const { clinicStore } = this.props;
+      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+        this.setState({ showPrescriberCodeModal: true });
+      }
+    }
+  };
+  closePrescriberCodeModal = async () => {
+    this.setState({ showPrescriberCodeModal: false });
+    if (this.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      await this.hanldeUnloginAddToCart();
     }
   };
   async hanldeAddToCart() {
@@ -953,12 +963,10 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {process.env.REACT_APP_GA_COUNTRY && (
+            {process.env.REACT_APP_GA_COUNTRY === 'DE' && (
               <PrescriberCodeModal
                 visible={this.state.showPrescriberCodeModal}
-                close={() => {
-                  this.setState({ showPrescriberCodeModal: false });
-                }}
+                close={this.closePrescriberCodeModal}
               />
             )}
             <BannerTip />
