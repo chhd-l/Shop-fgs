@@ -953,7 +953,7 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {process.env.REACT_APP_GA_COUNTRY && (
+            {process.env.REACT_APP_GA_COUNTRY === 'DE' && (
               <PrescriberCodeModal
                 visible={this.state.showPrescriberCodeModal}
                 close={this.closePrescriberCodeModal}
