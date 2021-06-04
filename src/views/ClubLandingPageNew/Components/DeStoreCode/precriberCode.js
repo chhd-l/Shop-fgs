@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { getPrescriberByCode } from '@/api/clinic';
 import LazyLoad from 'react-lazyload';
 import line from '../../deimage/Line@4x.png';
-import successImg from '../../image/bingo-blue.png';
+import successImg from '../../image/bingo-green.png';
+import deleteIcon from '../../image/delete-icon.svg';
 import './index.less';
 import { getDeviceType } from '@/utils/utils';
 
@@ -37,8 +38,8 @@ class PrescriberCode extends React.Component {
     if (prescriberVo.length > 0) {
       const { clinicStore } = this.props;
       clinicStore.setSelectClinicId(prescriberVo[0].id);
-      clinicStore.setSelectClinicName(prescriberVo[0].name);
-      this.setState({ showSuccessPanel: true });
+      clinicStore.setSelectClinicName(prescriberVo[0].prescriberName);
+      this.setState({ showSuccessPanel: true, errMsg: '' });
     } else {
       this.setState({
         errMsg: this.props.intl.messages.dePrescriberCodeErrMsg
@@ -100,6 +101,7 @@ class PrescriberCode extends React.Component {
                           }}
                         >
                           <span
+                            style={{ position: 'relative' }}
                             className={[
                               'rc-input',
                               'rc-input--inline',
@@ -118,10 +120,28 @@ class PrescriberCode extends React.Component {
                               value={this.state.keywords}
                               onChange={this.inputSearchValue}
                               maxLength="50"
-                              onFocus={() => {
-                                this.setState({ errMsg: '' });
-                              }}
+                              // onFocus={() => {
+                              //   this.setState({ errMsg: '' });
+                              // }}
                             />
+                            {errMsg && (
+                              <span
+                                style={{
+                                  position: 'absolute',
+                                  top: '0.5rem',
+                                  right: '.2rem',
+                                  zIndex: 2
+                                }}
+                                onClick={() => {
+                                  this.setState({ keywords: '' });
+                                }}
+                              >
+                                <img
+                                  src={deleteIcon}
+                                  style={{ width: '2rem' }}
+                                />
+                              </span>
+                            )}
                           </span>
                           {errMsg && (
                             <span
