@@ -112,7 +112,7 @@ podTemplate(label: label, cloud: 'kubernetes',
                     // 执行 Kuberctl 命令进行部署操作
                     //sh "kubectl replace --force -n ${PROJECT_ENV} -f deploy.yaml"
                     //}
-                    sh "kubectl set image sts ${APP_NAME} *=${dockerImageName} -n ${PROJECT_ENV}"
+                    sh "kubectl set image deployment ${APP_NAME} *=${dockerImageName} -n ${PROJECT_ENV}"
                 }
         }
         
