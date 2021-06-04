@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -27,16 +26,12 @@ import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
 import logoad from './Components/GetMoreAd/image/logoad.png';
 import StoreCode from './Components/DeStoreCode/storecode';
 import SalesCategory from '../Home/modules/SalesCategory';
-import goldenfood from './image/goldenfood.png';
-import line from './deimage/Line@4x.png';
-import HubSalesCategory from '../../components/HubSalesCategory';
-import { salesCategoryFilterRule } from '../../components/HubSalesCategory/utils';
+import Logo from '../../components/Logo';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
 let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (

@@ -54,6 +54,7 @@ import {
   hubGAAToCar,
   HubGaPdpBuyFromRetailer
 } from './GA';
+import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -137,7 +138,8 @@ class Details extends React.Component {
       ccidBtnDisplay: false,
       questionParams: undefined,
       defaultPurchaseType: 0,
-      headingTag: 'h1'
+      headingTag: 'h1',
+      showPrescriberCodeModal: false //是否打开de PrescriberCodeModal
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -626,10 +628,17 @@ class Details extends React.Component {
       // this.props.updateSelectedData(this.state.form);
     });
   };
+  showPrescriberCodeBeforeAddCart = () => {
+    const { clinicStore } = this.props;
+    if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+      this.setState({ showPrescriberCodeModal: true });
+    }
+  };
   async hanldeAddToCart() {
     try {
       if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
+      await this.showPrescriberCodeBeforeAddCart();
       if (this.isLogin) {
         this.hanldeLoginAddToCart();
       } else {
@@ -934,6 +943,14 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+            {process.env.REACT_APP_GA_COUNTRY && (
+              <PrescriberCodeModal
+                visible={this.state.showPrescriberCodeModal}
+                close={() => {
+                  this.setState({ showPrescriberCodeModal: false });
+                }}
+              />
+            )}
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
