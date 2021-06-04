@@ -22,7 +22,9 @@ export default class Modal extends React.Component {
           />
         ) : null}
         <div
-          className={`modal prescriber-modal fade ${visible ? 'show' : ''}`}
+          className={`modal prescriber-code-modal fade ${
+            visible ? 'show' : ''
+          }`}
           tabIndex="-1"
           role="dialog"
           aria-labelledby="removeProductLineItemModal"
