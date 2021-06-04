@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -11,32 +10,21 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import declublogo from './deimage/declublogo.png'
 import vetdeimage from './deimage/Product-composition-dog.png'
+import decat from './deimage/delangdingpagecat.png'
+import dedog from './deimage/delangdingpagedog.png'
+import decat1 from './deimage/decat1.png'
+import decat2 from './deimage/decat2.png'
+import dedog1 from './deimage/dedog1.png'
+import dedog2 from './deimage/dedog2.png'
 
-import dehowit1 from './deimage/dehowit1.png'
-import dehowit2 from './deimage/dehowit2.png'
-import dehowit3 from './deimage/dehowit3.png'
-import dehowit4 from './deimage/dehowit4.png'
-import number1 from './deimage/number1.png'
-import number2 from './deimage/number2.png'
-import number3 from './deimage/number3.png'
-import number4 from './deimage/number4.png'
-import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
-import logoad from './Components/GetMoreAd/image/logoad.png';
-import StoreCode from './Components/DeStoreCode/storecode';
 import SalesCategory from '../Home/modules/SalesCategory';
-import goldenfood from './image/goldenfood.png';
-import line from './deimage/Line@4x.png';
-import HubSalesCategory from '../../components/HubSalesCategory';
-import { salesCategoryFilterRule } from '../../components/HubSalesCategory/utils';
+import Logo from '../../components/Logo';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
 let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
@@ -227,7 +215,59 @@ class ClubLandingPageDeVet extends React.Component {
 
           <Divider />
 
-          <HubSalesCategory rule={salesCategoryFilterRule}/>
+          <div>
+            <div className="rc-fgs-component-container">
+              <div className="hub-category rc-bg-colour--brand3 rc-margin-bottom--xs">
+                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm"><h4
+                  className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"><span>Découvrez nos <br/> gammes d’aliments</span>
+                </h4>
+                  <div className="rc-intro inherit-fontsize text-center contact_options__subheading"><p><span>Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que <br/> soient sa taille, sa race, son âge ou son mode de vie.</span>
+                  </p></div>
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
+                      <div className="header-title">
+                        <h1 className="rc-espilon">Pour chien</h1>
+                        <img src={decat}/>
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
+                                                                     href="https://www.royalcanin.com/fr/shop/dogs/retail-products">
+                          <img src={decat1}/>
+                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments pour chien</h3></div>
+                        </a></div>
+                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
+                                                                     href="https://www.royalcanin.com/fr/shop/dogs/vet-products">
+                          <img src={decat2}/>
+                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments vétérinaire pour
+                            chien</h3></div>
+                        </a></div>
+                      </div>
+                    </div>
+                    <div className="rc-column">
+                      <div className="header-title">
+                        <h1 className="rc-espilon">Pour chien</h1>
+                        <img src={dedog}/>
+
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
+                                                                     href="https://www.royalcanin.com/fr/shop/dogs/retail-products">
+                          <img src={dedog1}/>
+                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments pour chien</h3></div>
+                        </a></div>
+                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
+                                                                     href="https://www.royalcanin.com/fr/shop/dogs/vet-products">
+                          <img src={dedog2}/>
+                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments vétérinaire pour
+                            chien</h3></div>
+                        </a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <Divider/>
 
