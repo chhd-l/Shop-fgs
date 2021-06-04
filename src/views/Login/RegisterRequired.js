@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.css';
 import { findUserConsentList, userBindConsent } from '@/api/consent';
-import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 import Consent from '@/components/Consent';
 import { withOktaAuth } from '@okta/okta-react';
 import LoginButton from '@/components/LoginButton';
@@ -13,9 +12,8 @@ import Loading from '@/components/Loading';
 import { bindSubmitParam } from '@/utils/utils';
 import Modal from '@/components/Modal';
 import { addEventListenerArr } from './addEventListener';
-// import { confirmAndCommit } from "@/api/payment";
-// import {  Link } from 'react-router-dom'
-// import store from "storejs";
+import loginRedirection from '@/lib/login-redirection';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -148,8 +146,8 @@ class RegisterRequired extends Component {
     try {
       let lastPath =
         (this.props.location.state && this.props.location.state.path) || '/';
-      if (sessionItemRoyal.get('okta-redirectUrl')) {
-        lastPath = sessionItemRoyal.get('okta-redirectUrl');
+      if (localItemRoyal.get('okta-redirectUrl')) {
+        lastPath = localItemRoyal.get('okta-redirectUrl');
       }
       if (lastPath === 'pay') {
         lastPath = '/checkout';
@@ -210,21 +208,13 @@ class RegisterRequired extends Component {
       });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
-        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
-          ? sessionItemRoyal.get('okta-redirectUrl')
-          : '/';
-        if (tmpUrl === '/prescription') {
-          const url = await distributeLinktoPrecriberOrPaymentPage({
-            configStore,
-            checkoutStore: this.props.checkoutStore,
-            clinicStore,
-            isLogin: this.isLogin
-          });
-          url && history.push(url);
-          // history.push('/prescription');
-        } else {
-          history.push(tmpUrl);
-        }
+        loginRedirection({
+          configStore,
+          clinicStore,
+          checkoutStore: this.props.checkoutStore,
+          history,
+          isLogin: this.isLogin
+        });
       }
 
       // lastPath

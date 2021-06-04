@@ -245,8 +245,17 @@ class AddressList extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongAddressMsg[akey];
-      data[akey] ? '' : errMsgArr.push(fky);
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        data.city || data.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        data.country || data.countryId ? (akey = '') : akey;
+      }
+      if (akey) data[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -275,14 +284,12 @@ class AddressList extends React.Component {
       city = wrongAddressMsg['city'],
       province = wrongAddressMsg['province'],
       settlement = wrongAddressMsg['settlement'];
-
     data.street ? '' : errArr.push(streets);
     data.postCode ? '' : errArr.push(postCode);
     data.house ? '' : errArr.push(house);
     data.city ? '' : errArr.push(city);
     data.province ? '' : errArr.push(province);
     data.settlement ? '' : errArr.push(settlement);
-
     return errArr.join(',');
   };
   // 新增或者编辑地址 edit or add

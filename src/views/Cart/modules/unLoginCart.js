@@ -46,6 +46,7 @@ import { Helmet } from 'react-helmet';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 const isGift = true;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const isHubGA = process.env.REACT_APP_HUB_GA;
@@ -372,7 +373,7 @@ class UnLoginCart extends React.Component {
     }
     try {
       this.GAAccessToGuestCheck();
-      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      localItemRoyal.set('okta-redirectUrl', '/cart');
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
       await this.updateStock({ isThrowErr: true });

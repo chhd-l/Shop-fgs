@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import { inject } from 'mobx-react';
 import Rate from '@/components/Rate';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { FormattedMessage } from 'react-intl';
@@ -343,7 +344,7 @@ function ListItemForDefault(props) {
   );
 }
 
-function ListItemBodyH5ForGlobalStyle({ item }) {
+function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
   return (
     <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
       <div className="product-name" title={item.goodsName}>
@@ -355,10 +356,21 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
       {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
       )}
-      {item.fromPrice ? (
+      <PriceItemShow item={item} configStore={configStore} />
+    </div>
+  );
+}
+
+const PriceItemShow = ({ item, configStore }) => {
+  const priceDisplayMethod = configStore?.info?.storeVO?.priceDisplayMethod;
+  // const priceDisplayMethod = 1;
+  const PriceItemShowForH5 = (
+    <>
+      {item.fromPrice &&
+      (priceDisplayMethod == 0 || priceDisplayMethod == 1) ? (
         <div className="product-price">
           <div className="card--product-contaner-price">
-            {item.toPrice ? (
+            {item.toPrice && priceDisplayMethod == 1 && (
               <FormattedMessage
                 id="pirceRange"
                 values={{
@@ -374,7 +386,8 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
                   )
                 }}
               />
-            ) : (
+            )}
+            {priceDisplayMethod == 0 && (
               <span className="contaner-price__value">
                 {formatMoney(item.fromPrice)}
               </span>
@@ -382,16 +395,120 @@ function ListItemBodyH5ForGlobalStyle({ item }) {
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
-}
-
-function ListItemBody({ item, headingTag }) {
+  const PriceItemShowForPc = (
+    <>
+      {item?.fromPrice &&
+      (priceDisplayMethod == 0 || priceDisplayMethod == 1) ? (
+        <div className="d-flex justify-content-center pt-3 pb-3">
+          <div className="rc-card__price text-left PriceFitScreen">
+            <div className={`rc-full-width PriceFitScreen`}>
+              <span className="value sales card--product-contaner-price">
+                {item.toPrice && priceDisplayMethod == 1 && (
+                  <FormattedMessage
+                    id="pirceRange"
+                    values={{
+                      fromPrice: (
+                        <span className="contaner-price__value">
+                          {formatMoney(item.fromPrice)}
+                        </span>
+                      ),
+                      toPrice: (
+                        <span className="contaner-price__value">
+                          {formatMoney(item.toPrice)}
+                        </span>
+                      )
+                    }}
+                  />
+                )}
+                {priceDisplayMethod == 0 && (
+                  <span className="contaner-price__value">
+                    {formatMoney(item?.fromPrice)}
+                  </span>
+                )}
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+  return (
+    <>
+      {isMobilePhone ? PriceItemShowForH5 : PriceItemShowForPc}
+      {priceDisplayMethod == 2 ? (
+        <div className={`d-flex justify-content-center for-no-global-price-h5`}>
+          <div className="rc-card__price text-left PriceFitScreen">
+            <div
+              className={`rc-full-width PriceFitScreen flex justify-content-center for-no-global-price-h5`}
+            >
+              <span
+                style={{
+                  color: '#323232',
+                  fontWeight: 400
+                }}
+                className="value sales"
+              >
+                {/* 最低marketPrice */}
+                {item?.miMarketPrice
+                  ? formatMoney(item.miMarketPrice)
+                  : null}{' '}
+                {/* 划线价 */}
+                {item?.miLinePrice && item.miLinePrice > 0 ? (
+                  <span
+                    className="text-line-through rc-text-colour--text font-weight-lighter"
+                    style={{
+                      fontSize: '.8em'
+                    }}
+                  >
+                    {formatMoney(item.miLinePrice)}
+                  </span>
+                ) : null}
+              </span>
+            </div>
+            {item?.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
+              <div className="range position-relative SePriceScreen ">
+                <span
+                  style={{
+                    color: '#323232',
+                    fontWeight: 400
+                  }}
+                >
+                  {formatMoney(item.miSubscriptionPrice)}{' '}
+                </span>
+                <span
+                  className="iconfont font-weight-bold red mr-1"
+                  style={{
+                    fontSize: '.65em'
+                  }}
+                >
+                  &#xe675;
+                </span>
+                <span
+                  className="red-text text-nowrap"
+                  style={{
+                    fontSize: '.7em',
+                    transform: 'translateY(-50%)'
+                  }}
+                >
+                  <FormattedMessage id="autoshop" />
+                </span>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+};
+function ListItemBody({ item, headingTag, configStore }) {
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center pl-4 pr-4"
       title="${item?.goodsName}">
       ${item?.goodsName}
   </${headingTag ? headingTag : 'h2'}>`;
+
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
@@ -431,69 +548,7 @@ function ListItemBody({ item, headingTag }) {
         <FormattedMessage id="startFrom" />
       </div>
       {/*商品价格*/}
-      <div className={`d-flex justify-content-center`}>
-        <div className="rc-card__price text-left PriceFitScreen">
-          <div
-            className={`rc-full-width PriceFitScreen flex justify-content-center`}
-          >
-            <span
-              style={{
-                color: '#323232',
-                fontWeight: 400
-              }}
-              className="value sales"
-            >
-              {/* 最低marketPrice */}
-              {item?.miMarketPrice
-                ? formatMoney(item.miMarketPrice)
-                : null}{' '}
-              {/* 划线价 */}
-              {item?.miLinePrice && item.miLinePrice > 0 ? (
-                <span
-                  className="text-line-through rc-text-colour--text font-weight-lighter"
-                  style={{
-                    fontSize: '.8em'
-                  }}
-                >
-                  {formatMoney(item.miLinePrice)}
-                </span>
-              ) : null}
-            </span>
-          </div>
-          {item?.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div
-              className="range position-relative SePriceScreen "
-              style={{ transform: 'translateX(24%)' }}
-            >
-              <span
-                style={{
-                  color: '#323232',
-                  fontWeight: 400
-                }}
-              >
-                {formatMoney(item.miSubscriptionPrice)}{' '}
-              </span>
-              <span
-                className="iconfont font-weight-bold red mr-1"
-                style={{
-                  fontSize: '.65em'
-                }}
-              >
-                &#xe675;
-              </span>
-              <span
-                className="red-text text-nowrap"
-                style={{
-                  fontSize: '.7em',
-                  transform: 'translateY(-50%)'
-                }}
-              >
-                <FormattedMessage id="autoshop" />
-              </span>
-            </div>
-          ) : null}
-        </div>
-      </div>
+      <PriceItemShow item={item} configStore={configStore} />
     </>
   );
   return (
@@ -511,37 +566,7 @@ function ListItemBody({ item, headingTag }) {
           {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
             <InlineRatings productId={item.goodsNo} />
           )}
-          {item?.fromPrice ? (
-            <div className="d-flex justify-content-center pt-3 pb-3">
-              <div className="rc-card__price text-left PriceFitScreen">
-                <div className={`rc-full-width PriceFitScreen`}>
-                  <span className="value sales card--product-contaner-price">
-                    {item.toPrice ? (
-                      <FormattedMessage
-                        id="pirceRange"
-                        values={{
-                          fromPrice: (
-                            <span className="contaner-price__value">
-                              {formatMoney(item.fromPrice)}
-                            </span>
-                          ),
-                          toPrice: (
-                            <span className="contaner-price__value">
-                              {formatMoney(item.toPrice)}
-                            </span>
-                          )
-                        }}
-                      />
-                    ) : (
-                      <span className="contaner-price__value">
-                        {formatMoney(item?.fromPrice)}
-                      </span>
-                    )}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ) : null}
+          <PriceItemShow item={item} configStore={configStore} />
           {item?.goodsNewSubtitle ? (
             <div
               className="rc-card__meta text-center ui-text-overflow-line2 col-12 pl-4 pr-4"
@@ -557,7 +582,7 @@ function ListItemBody({ item, headingTag }) {
     </div>
   );
 }
-
+@inject('configStore')
 export default class PLPCover extends React.Component {
   static defaultProps = {
     showBorder: true
@@ -614,7 +639,10 @@ export default class PLPCover extends React.Component {
         breadListByDeco={breadListByDeco}
         link={link}
       >
-        <ListItemBodyH5ForGlobalStyle item={item} />
+        <ListItemBodyH5ForGlobalStyle
+          item={item}
+          configStore={this.props.configStore}
+        />
       </ListItemH5ForGlobalStyle>
     ) : (
       <>
@@ -653,7 +681,11 @@ export default class PLPCover extends React.Component {
           breadListByDeco={breadListByDeco}
           link={link}
         >
-          <ListItemBody item={item} headingTag={headingTag} />
+          <ListItemBody
+            configStore={this.props.configStore}
+            item={item}
+            headingTag={headingTag}
+          />
         </ListItemForDefault>
         {/* </div> */}
       </>

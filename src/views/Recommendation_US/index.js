@@ -603,7 +603,7 @@ class Recommendation extends React.Component {
   async buyNow(needLogin) {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+      localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
     let {

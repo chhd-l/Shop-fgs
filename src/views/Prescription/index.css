@@ -4,6 +4,21 @@
   border-top: 1px solid #ccc;
 }
 
+.vet-clinic-tip {
+  color: #000000;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.vet-clinic-tip-link {
+  color: #e2001a;
+  text-decoration: underline;
+}
+.vet-clinic-tip-link:hover {
+  color: #e2001a;
+  text-decoration: underline;
+}
+
 @media (max-width: 960px) {
   /* 手机 */
   .clinic-search-list {

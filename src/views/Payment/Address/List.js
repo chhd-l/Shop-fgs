@@ -68,6 +68,7 @@ class AddressList extends React.Component {
         DuData: null, // 俄罗斯DuData
         email: ''
       },
+      cityList: [],
       errMsg: '',
       loading: true,
       saveLoading: false,
@@ -104,7 +105,12 @@ class AddressList extends React.Component {
         deliveryAddress: Object.assign(this.state.deliveryAddress, cfm)
       });
     });
+
+    // 查询 city list
+    // this.getAllCityList();
+
     this.queryAddressList({ init: true });
+
     this.setState({
       listBtnLoading: false,
       wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
@@ -122,6 +128,28 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  // 查询 city list
+  getAllCityList = async () => {
+    try {
+      const res = await getCityList();
+      if (res?.context?.systemCityVO) {
+        let starr = [];
+        let obj = res.context.systemCityVO;
+        obj.forEach((item) => {
+          let res = {
+            cityId: item.id,
+            city: item.cityName
+          };
+          starr.push(res);
+        });
+        this.setState({
+          cityList: Object.assign(obj, starr)
+        });
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
     try {
@@ -221,8 +249,17 @@ class AddressList extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongAddressMsg[akey];
-      tmpObj[akey] ? '' : errMsgArr.push(fky);
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        tmpObj.city || tmpObj.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        tmpObj.country || tmpObj.countryId ? (akey = '') : akey;
+      }
+      if (akey) tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息

@@ -111,20 +111,20 @@ const AutoshipBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem ? (
+        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem?.goodsInfoWeight&&selectedSpecItem?.goodsInfoUnit ? (
           <div
             style={{
               fontSize: '.875rem',
               color: '#999'
             }}
           >
-            {formatMoney(
+            ({formatMoney(
               (
                 currentSubscriptionPrice /
                 parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit}{' '}
+            /{selectedSpecItem.goodsInfoUnit}{' '})
           </div>
         ) : null}
       </div>

@@ -153,6 +153,7 @@ import de from 'date-fns/locale/de';
 import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
 import ClubLandingPageNew from './views/ClubLandingPageNew';
 import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
+import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
 
 if (process.env.REACT_APP_COUNTRY === 'FR') {
   registerLocale(process.env.REACT_APP_LANG, fr);
@@ -527,6 +528,10 @@ const App = () => {
                 <Route path="/clublandinpagede"
                        exact
                        component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
+                />
+                <Route path="/clublandinpagedevet"
+                       exact
+                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDeVet:Exception}
                 />
                 <Route
                   path="/general-conditions"

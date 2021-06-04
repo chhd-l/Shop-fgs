@@ -97,7 +97,7 @@ class Modal extends React.Component {
                 ) : (
                   <LoginButton
                     beforeLoginCallback={() => {
-                      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+                      localItemRoyal.set('okta-redirectUrl', '/prescription');
                     }}
                   >
                     <FormattedMessage id="yes" />
