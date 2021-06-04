@@ -283,8 +283,9 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -2497,7 +2498,7 @@ class Payment extends React.Component {
           this.loginBillingAddrRef &&
           this.loginBillingAddrRef.current
         ) {
-          // console.log('------------- 会员保存地址，并弹出地址校验');
+          console.log('------------- 会员保存地址，并弹出地址校验');
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
@@ -2718,7 +2719,7 @@ class Payment extends React.Component {
       this.loginBillingAddrRef &&
       this.loginBillingAddrRef.current
     ) {
-      // console.log('------ 调用保存 billingAddress 方法');
+      // console.log('★------ 调用保存 billingAddress 方法');
       await this.loginBillingAddrRef.current.handleSavePromise();
     }
     // 隐藏地址校验弹框
@@ -3249,8 +3250,9 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
-        data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
