@@ -284,9 +284,8 @@ class Payment extends React.Component {
     this.payUCreditCardRef = React.createRef();
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -3249,9 +3248,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3706,6 +3704,7 @@ class Payment extends React.Component {
                     navigateToProDetails={true}
                     location={location}
                     history={history}
+                    isRepay={true}
                   />
                 ) : (
                   <PayProductInfo
@@ -3726,19 +3725,6 @@ class Payment extends React.Component {
                     installMentParam={installMentParam}
                   />
                 )}
-                {/* 分期手续费 */}
-                {installMentParam ? (
-                  <div className="pl-3 pr-3 pt-1 pb-0 red">
-                    <div className="row">
-                      <div className="col-7">
-                        <FormattedMessage id="installMent.additionalFee" />
-                      </div>
-                      <div className="col-5 text-right">
-                        {formatMoney(installMentParam.additionalFee)}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
 
                 <Faq />
               </div>

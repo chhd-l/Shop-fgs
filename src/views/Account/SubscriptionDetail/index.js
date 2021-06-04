@@ -249,7 +249,8 @@ class SubscriptionDetail extends React.Component {
       details: {},
       images: [],
       specList: [],
-      barcode: ''
+      barcode: '',
+      installmentPrice: null
     };
   }
   componentWillUnmount() {
@@ -507,8 +508,9 @@ class SubscriptionDetail extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
+    const barcode = images.find(
+      (item) => item.packSize === goodSize
+    )?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -824,14 +826,12 @@ class SubscriptionDetail extends React.Component {
     let isAutoshipAndClub = promotions?.match(/autoship_club/i)?.index > -1;
     let errorMsg = '';
     if (isAutoshipAndClub) {
-      errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr1'
-      ];
+      errorMsg =
+        this.props.intl.messages['subscriptionDetail.cantBindPetsErr1'];
     }
     if (isCatAndDog) {
-      errorMsg = this.props.intl.messages[
-        'subscriptionDetail.cantBindPetsErr2'
-      ];
+      errorMsg =
+        this.props.intl.messages['subscriptionDetail.cantBindPetsErr2'];
     }
     if (errorMsg) {
       this.showErrMsgs(errorMsg, 'errMsgPage');
@@ -1472,7 +1472,8 @@ class SubscriptionDetail extends React.Component {
           tabName,
           isNotInactive:
             subDetail.subscribeStatus === '0' ||
-            subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
+            subDetail.subscribeStatus === '1', //subscribeStatus为2的时候不能操作按钮
+          installmentPrice: subDetail.installmentPrice
         },
         () => {
           fn && fn();
@@ -3078,7 +3079,8 @@ class SubscriptionDetail extends React.Component {
       isActive,
       isNotInactive,
       isGift,
-      remainingsVisible
+      remainingsVisible,
+      installmentPrice
     } = this.state;
     // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isClub =
@@ -3226,9 +3228,10 @@ class SubscriptionDetail extends React.Component {
                         //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
                         let title = '';
                         //寄送地址
-                        title = this.props.intl.messages[
-                          'subscription.shippingAddress'
-                        ];
+                        title =
+                          this.props.intl.messages[
+                            'subscription.shippingAddress'
+                          ];
                         //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
                         if (param.billingAddressId) {
                           title =
@@ -3276,9 +3279,10 @@ class SubscriptionDetail extends React.Component {
                         };
                         //增加返回changeField字段
                         Object.assign(param, {
-                          changeField: this.props.intl.messages[
-                            'subscription.BillingAddress'
-                          ]
+                          changeField:
+                            this.props.intl.messages[
+                              'subscription.BillingAddress'
+                            ]
                         });
                         console.log(param);
                         this.setState({ loading: true });
@@ -3520,9 +3524,8 @@ class SubscriptionDetail extends React.Component {
                                             <FormattedMessage
                                               id="cart.errorMaxInfo"
                                               values={{
-                                                val:
-                                                  process.env
-                                                    .REACT_APP_LIMITED_NUM
+                                                val: process.env
+                                                  .REACT_APP_LIMITED_NUM
                                               }}
                                             />
                                           );
@@ -3565,9 +3568,8 @@ class SubscriptionDetail extends React.Component {
                                           <FormattedMessage
                                             id="cart.errorMaxInfo"
                                             values={{
-                                              val:
-                                                process.env
-                                                  .REACT_APP_LIMITED_NUM
+                                              val: process.env
+                                                .REACT_APP_LIMITED_NUM
                                             }}
                                           />
                                         );
@@ -3860,9 +3862,8 @@ class SubscriptionDetail extends React.Component {
                                                   errorShow: false
                                                 });
                                                 const val = e.target.value;
-                                                let {
-                                                  currentGoodsInfo
-                                                } = this.state;
+                                                let { currentGoodsInfo } =
+                                                  this.state;
                                                 if (val === '') {
                                                   el.subscribeNum = 1;
                                                   this.setState({
@@ -3894,9 +3895,8 @@ class SubscriptionDetail extends React.Component {
                                                       <FormattedMessage
                                                         id="cart.errorMaxInfo"
                                                         values={{
-                                                          val:
-                                                            process.env
-                                                              .REACT_APP_LIMITED_NUM
+                                                          val: process.env
+                                                            .REACT_APP_LIMITED_NUM
                                                         }}
                                                       />
                                                     );
@@ -3947,9 +3947,8 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage
                                                       id="cart.errorMaxInfo"
                                                       values={{
-                                                        val:
-                                                          process.env
-                                                            .REACT_APP_LIMITED_NUM
+                                                        val: process.env
+                                                          .REACT_APP_LIMITED_NUM
                                                       }}
                                                     />
                                                   );
@@ -4400,19 +4399,23 @@ class SubscriptionDetail extends React.Component {
                                                           modalType:
                                                             'changeDate',
                                                           modalShow: true,
-                                                          currentModalObj: this.state.modalList.filter(
-                                                            (el) =>
-                                                              el.type ===
-                                                              'changeDate'
-                                                          )[0],
-                                                          currentChangeDate: date,
-                                                          currentChangeItem: el.tradeItems.map(
-                                                            (el) => {
-                                                              return {
-                                                                skuId: el.skuId
-                                                              };
-                                                            }
-                                                          )
+                                                          currentModalObj:
+                                                            this.state.modalList.filter(
+                                                              (el) =>
+                                                                el.type ===
+                                                                'changeDate'
+                                                            )[0],
+                                                          currentChangeDate:
+                                                            date,
+                                                          currentChangeItem:
+                                                            el.tradeItems.map(
+                                                              (el) => {
+                                                                return {
+                                                                  skuId:
+                                                                    el.skuId
+                                                                };
+                                                              }
+                                                            )
                                                         });
                                                       }}
                                                     />
@@ -4452,18 +4455,20 @@ class SubscriptionDetail extends React.Component {
                                                       this.setState({
                                                         modalType: 'skipNext',
                                                         modalShow: true,
-                                                        currentModalObj: this.state.modalList.filter(
-                                                          (el) =>
-                                                            el.type ===
-                                                            'skipNext'
-                                                        )[0],
-                                                        skipNextGoods: el.tradeItems.map(
-                                                          (el) => {
-                                                            return {
-                                                              skuId: el.skuId
-                                                            };
-                                                          }
-                                                        )
+                                                        currentModalObj:
+                                                          this.state.modalList.filter(
+                                                            (el) =>
+                                                              el.type ===
+                                                              'skipNext'
+                                                          )[0],
+                                                        skipNextGoods:
+                                                          el.tradeItems.map(
+                                                            (el) => {
+                                                              return {
+                                                                skuId: el.skuId
+                                                              };
+                                                            }
+                                                          )
                                                       });
                                                     }}
                                                   >
@@ -5305,8 +5310,12 @@ class SubscriptionDetail extends React.Component {
                                           className="col-4 col-md-2"
                                           style={{ textAlign: 'center' }}
                                         >
+                                          {/* 存在分期时，总价显示另一个字段 */}
                                           {formatMoney(
-                                            el.tradePrice.totalPrice
+                                            el.tradePrice.installmentPrice
+                                              ? el.tradePrice
+                                                  .totalAddInstallmentPrice
+                                              : el.tradePrice.totalPrice
                                           )}
                                         </div>
                                       </div>
@@ -5624,7 +5633,6 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <FormattedMessage id="edit" />{' '}
-                                    {/* <FormattedMessage id="card" /> */}
                                   </a>
                                 )}
                               </div>
@@ -5670,7 +5678,17 @@ class SubscriptionDetail extends React.Component {
                                 <p className="mb-0">
                                   {currentCardInfo.holderName}
                                 </p>
-                                {/* <p className="mb-0">{currentCardInfo.phone}</p> */}
+                                {/* 分期费用明细 */}
+                                {0 && installmentPrice ? (
+                                  <p>
+                                    {formatMoney(details.tradePrice.totalPrice)}{' '}
+                                    ({installmentPrice.installmentNumber} *{' '}
+                                    {formatMoney(
+                                      installmentPrice.installmentPrice
+                                    )}
+                                    )
+                                  </p>
+                                ) : null}
                               </div>
                             </div>
                           </div>

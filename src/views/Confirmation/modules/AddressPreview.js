@@ -163,13 +163,17 @@ class InfosPreview extends React.Component {
                   <br />
                 </>
               ) : null}
-              {/* {payRecord.phone ? (
-                <>
-                  {payRecord.phone}
-                  <br />
-                </>
+              {/* 分期费用明细 */}
+              {0 && details.tradePrice.installmentPrice ? (
+                <p>
+                  {formatMoney(details.tradePrice.totalPrice)} (
+                  {details.tradePrice.installmentPrice.installmentNumber} *{' '}
+                  {formatMoney(
+                    details.tradePrice.installmentPrice.installmentPrice
+                  )}
+                  )
+                </p>
               ) : null}
-              {payRecord.email} */}
             </div>
           ) : null}
           {/* {JSON.stringify(details.invoice)} */}

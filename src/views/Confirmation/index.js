@@ -95,7 +95,7 @@ class Confirmation extends React.Component {
 
     Promise.all(subOrderNumberList.map((ele) => getOrderDetails(ele)))
       .then(async (res) => {
-        let resContext = res[0].context;
+        let resContext = res[0]?.context;
         this.setState({
           email: resContext.consignee.email
         });
@@ -104,7 +104,7 @@ class Confirmation extends React.Component {
           {
             details: resContext,
             totalTid: resContext.totalTid,
-            detailList: res.map((ele) => ele.context)
+            detailList: res.map((ele) => ele?.context)
           },
           () => {
             !isHubGA && this.getGAEComTransaction();
@@ -120,7 +120,7 @@ class Confirmation extends React.Component {
         );
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
-          payRecord: payRecordRes.context,
+          payRecord: payRecordRes?.context,
           loading: false
         });
       })
