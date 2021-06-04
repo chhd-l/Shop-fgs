@@ -134,8 +134,9 @@ class PrescriberCode extends React.Component {
                           )}
                         </div>
                         <button
-                          className="rc-btn rc-btn--one"
+                          className="rc-btn rc-btn--one mobilemargin3vh"
                           onClick={this.searchPrescriberCode}
+
                         >
                           <FormattedMessage id="deLandingPage.prescriberCode.searchBtn" />
                         </button>

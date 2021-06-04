@@ -170,19 +170,6 @@ class ClubLandingPageDe extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          <div
-            style={{
-              textAlign: 'center',
-              height: '42px',
-              backgroundColor: '#F6F6F6',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ alignSelf: 'center', color: '#E2001A' }}>
-              <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>
-            </div>
-          </div>
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
@@ -790,7 +777,7 @@ class ClubLandingPageDe extends React.Component {
                                         className="align-self-center widthAuto"
                                         src={dephone}
                                         title="By telephone"
-                                        style={{ width: '7vw' }}
+                                        style={{ width: '4vw' }}
                                       />
                                     </LazyLoad>
                                   </div>

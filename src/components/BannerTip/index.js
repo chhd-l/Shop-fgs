@@ -9,6 +9,7 @@ class BannerTip extends React.Component {
       noticeVisible: true
     };
     this.hideNotice = this.hideNotice.bind(this);
+    console.log(process.env.REACT_APP_COUNTRY,'haha')
   }
   hideNotice() {
     this.setState({
