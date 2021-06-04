@@ -137,7 +137,7 @@ function QListAndPetJSX(props) {
               ) : (
                 <LoginButton
                   beforeLoginCallback={async () => {
-                    sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+                    localItemRoyal.set('okta-redirectUrl', '/account/pets');
                   }}
                   btnClass="rc-btn rc-btn--one mb-3"
                   history={props.history}

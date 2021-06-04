@@ -42,9 +42,9 @@ class OktaLoginPage extends React.Component {
   }
   async componentDidMount() {
     if (this.isLogin) {
-      if (sessionItemRoyal.get('okta-redirectUrl-hub')) {
-        let href = sessionItemRoyal.get('okta-redirectUrl-hub');
-        sessionItemRoyal.remove('okta-redirectUrl-hub');
+      if (localItemRoyal.get('okta-redirectUrl-hub')) {
+        let href = localItemRoyal.get('okta-redirectUrl-hub');
+        localItemRoyal.remove('okta-redirectUrl-hub');
         window.location.href = href;
       } else {
         this.props.history.push('/');

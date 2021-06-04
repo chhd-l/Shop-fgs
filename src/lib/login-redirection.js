@@ -1,6 +1,7 @@
 import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 const loginRedirection = async ({
   clinicStore,
@@ -9,8 +10,8 @@ const loginRedirection = async ({
   history,
   isLogin
 }) => {
-  const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
-    ? sessionItemRoyal.get('okta-redirectUrl')
+  const tmpUrl = localItemRoyal.get('okta-redirectUrl')
+    ? localItemRoyal.get('okta-redirectUrl')
     : '/';
   if (tmpUrl === '/prescription' || tmpUrl === '/cart') {
     const url = await distributeLinktoPrecriberOrPaymentPage({

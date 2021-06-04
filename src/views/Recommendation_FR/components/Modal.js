@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import LoginButton from '@/components/LoginButton';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore')
 class Modal extends React.Component {
@@ -92,7 +93,7 @@ class Modal extends React.Component {
                 ) : (
                   <LoginButton
                     beforeLoginCallback={() => {
-                      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+                      localItemRoyal.set('okta-redirectUrl', '/prescription');
                     }}
                   >
                     <FormattedMessage id="yes" />
