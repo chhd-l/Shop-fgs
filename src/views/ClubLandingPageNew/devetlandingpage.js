@@ -10,13 +10,13 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import vetdeimage from './deimage/Product-composition-dog.png'
-import decat from './deimage/delangdingpagecat.png'
-import dedog from './deimage/delangdingpagedog.png'
-import decat1 from './deimage/decat1.png'
-import decat2 from './deimage/decat2.png'
-import dedog1 from './deimage/dedog1.png'
-import dedog2 from './deimage/dedog2.png'
+import vetdeimage from './deimage/Product-composition-dog.png';
+import decat from './deimage/delangdingpagecat.png';
+import dedog from './deimage/delangdingpagedog.png';
+import decat1 from './deimage/decat1.png';
+import decat2 from './deimage/decat2.png';
+import dedog1 from './deimage/dedog1.png';
+import dedog2 from './deimage/dedog2.png';
 
 import SalesCategory from '../Home/modules/SalesCategory';
 import Logo from '../../components/Logo';
@@ -179,10 +179,12 @@ class ClubLandingPageDeVet extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
-                          <p style={{
-                            fontSize: '28px',
-                            color: '#E2001A'
-                          }}>
+                          <p
+                            style={{
+                              fontSize: '28px',
+                              color: '#E2001A'
+                            }}
+                          >
                             What makes the RC Vet Portfolio special​
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -215,52 +217,91 @@ class ClubLandingPageDeVet extends React.Component {
 
           <Divider />
 
-          <div>
+          <div className="">
             <div className="rc-fgs-component-container">
               <div className="hub-category rc-bg-colour--brand3 rc-margin-bottom--xs">
-                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm"><h4
-                  className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"><span>Découvrez nos <br/> gammes d’aliments</span>
-                </h4>
-                  <div className="rc-intro inherit-fontsize text-center contact_options__subheading"><p><span>Chaque formule a été créée pour fournir une nutrition adaptée ses besoins de santé quels que <br/> soient sa taille, sa race, son âge ou son mode de vie.</span>
-                  </p></div>
+                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
+                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                    <span>
+                      Découvrez nos <br /> gammes d’aliments
+                    </span>
+                  </h4>
+                  <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
+                    <p>
+                      <span>
+                        Chaque formule a été créée pour fournir une nutrition
+                        adaptée ses besoins de santé quels que <br /> soient sa
+                        taille, sa race, son âge ou son mode de vie.
+                      </span>
+                    </p>
+                  </div>
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">
                       <div className="header-title">
                         <h1 className="rc-espilon">Pour chien</h1>
-                        <img src={decat}/>
+                        <img src={decat} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
-                                                                     href="https://www.royalcanin.com/fr/shop/dogs/retail-products">
-                          <img src={decat1}/>
-                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments pour chien</h3></div>
-                        </a></div>
-                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
-                                                                     href="https://www.royalcanin.com/fr/shop/dogs/vet-products">
-                          <img src={decat2}/>
-                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments vétérinaire pour
-                            chien</h3></div>
-                        </a></div>
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/retail-products"
+                          >
+                            <img src={decat1} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/vet-products"
+                          >
+                            <img src={decat2} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments vétérinaire pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
                       </div>
                     </div>
                     <div className="rc-column">
                       <div className="header-title">
                         <h1 className="rc-espilon">Pour chien</h1>
-                        <img src={dedog}/>
-
+                        <img src={dedog} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
-                                                                     href="https://www.royalcanin.com/fr/shop/dogs/retail-products">
-                          <img src={dedog1}/>
-                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments pour chien</h3></div>
-                        </a></div>
-                        <div className="rc-column category-goods"><a className="rc-moblie-flex flex-wrap justify-content-center"
-                                                                     href="https://www.royalcanin.com/fr/shop/dogs/vet-products">
-                          <img src={dedog2}/>
-                          <div className="d-flex justify-content-center"><h3 className="rc-margin--none">Aliments vétérinaire pour
-                            chien</h3></div>
-                        </a></div>
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/retail-products"
+                          >
+                            <img src={dedog1} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/vet-products"
+                          >
+                            <img src={dedog2} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments vétérinaire pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -269,7 +310,7 @@ class ClubLandingPageDeVet extends React.Component {
             </div>
           </div>
 
-          <Divider/>
+          <Divider />
 
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
@@ -283,10 +324,15 @@ class ClubLandingPageDeVet extends React.Component {
                         </h4>
                       </div>
                       <div className="flex justify-content-center">
-                      <iframe width="560" height="315" src="https://www.youtube.com/embed/3Tfl1pmFej8" title="YouTube video player"
-                              frameBorder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen></iframe>
+                        <iframe
+                          width="560"
+                          height="315"
+                          src="https://www.youtube.com/embed/3Tfl1pmFej8"
+                          title="YouTube video player"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
@@ -295,8 +341,8 @@ class ClubLandingPageDeVet extends React.Component {
             </div>
           </div>
 
-          <Divider/>
-          <SalesCategory/>
+          <Divider />
+          <SalesCategory />
 
           <Footer />
         </main>

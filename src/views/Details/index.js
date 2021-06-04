@@ -639,10 +639,12 @@ class Details extends React.Component {
       if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
       await this.showPrescriberCodeBeforeAddCart();
-      if (this.isLogin) {
-        this.hanldeLoginAddToCart();
-      } else {
-        await this.hanldeUnloginAddToCart();
+      if (!this.state.showPrescriberCodeModal) {
+        if (this.isLogin) {
+          this.hanldeLoginAddToCart();
+        } else {
+          await this.hanldeUnloginAddToCart();
+        }
       }
     } catch (err) {}
   }
