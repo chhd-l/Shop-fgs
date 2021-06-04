@@ -17,8 +17,8 @@ export default function Table(props) {
   } = checkoutStore;
   const { productList, calTotalNum } = value;
 
-  let installmentPrice = installMentParam?.installmentPrice || 0; //分期费
-  let installmentTotalPrice = installMentParam?.totalPrice || 0; //分期后总价
+  let installmentPrice = installMentParam?.installmentPrice; //分期费
+  let installmentTotalPrice = installMentParam?.totalPrice; //分期后总价
 
   return (
     <div className="rc-table">
