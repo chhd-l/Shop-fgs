@@ -634,6 +634,14 @@ class Details extends React.Component {
       this.setState({ showPrescriberCodeModal: true });
     }
   };
+  closePrescriberCodeModal = async () => {
+    this.setState({ showPrescriberCodeModal: false });
+    if (this.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      await this.hanldeUnloginAddToCart();
+    }
+  };
   async hanldeAddToCart() {
     try {
       if (!this.btnStatus) return false;
@@ -948,9 +956,7 @@ class Details extends React.Component {
             {process.env.REACT_APP_GA_COUNTRY && (
               <PrescriberCodeModal
                 visible={this.state.showPrescriberCodeModal}
-                close={() => {
-                  this.setState({ showPrescriberCodeModal: false });
-                }}
+                close={this.closePrescriberCodeModal}
               />
             )}
             <BannerTip />
