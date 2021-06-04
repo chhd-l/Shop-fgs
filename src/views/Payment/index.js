@@ -827,7 +827,7 @@ class Payment extends React.Component {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
             shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
-            currency: 'EUR',
+            currency: process.env.REACT_APP_CURRENCY,
             country: process.env.REACT_APP_Adyen_country,
             payPspItemEnum: 'ADYEN_CREDIT_CARD'
           });
@@ -846,7 +846,7 @@ class Payment extends React.Component {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
             shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: 'EUR',
+            currency: process.env.REACT_APP_CURRENCY,
             country: process.env.REACT_APP_Adyen_country,
             email
           });
@@ -856,7 +856,7 @@ class Payment extends React.Component {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
             shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: 'EUR',
+            currency: process.env.REACT_APP_CURRENCY,
             country: process.env.REACT_APP_Adyen_country,
             email
           });
@@ -866,7 +866,7 @@ class Payment extends React.Component {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
             shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: 'EUR',
+            currency: process.env.REACT_APP_CURRENCY,
             country: process.env.REACT_APP_Adyen_country,
             email
           });
