@@ -2778,7 +2778,8 @@ class Payment extends React.Component {
       saveBillingLoading,
       payWayNameArr,
       cyberPaymentForm,
-      cardTypeVal
+      cardTypeVal,
+      tid
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -2914,9 +2915,13 @@ class Payment extends React.Component {
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
                     mustSaveForFutherPayments={this.isCurrentBuyWaySubscription}
-                    isSupportInstallMent={Boolean(
-                      +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
-                    )}
+                    isSupportInstallMent={
+                      tid
+                        ? false
+                        : Boolean(
+                            +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
+                          )
+                    }
                     needEmail={+process.env.REACT_APP_PAYU_EMAIL}
                     needPhone={+process.env.REACT_APP_PAYU_PHONE}
                     // todo 动态
