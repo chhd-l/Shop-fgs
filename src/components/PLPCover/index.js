@@ -370,7 +370,7 @@ const PriceItemShow = ({ item, configStore }) => {
       (priceDisplayMethod == 0 || priceDisplayMethod == 1) ? (
         <div className="product-price">
           <div className="card--product-contaner-price">
-            {item.toPrice && priceDisplayMethod == 1 && (
+            {item.toPrice && priceDisplayMethod == 0 && (
               <FormattedMessage
                 id="pirceRange"
                 values={{
@@ -387,7 +387,7 @@ const PriceItemShow = ({ item, configStore }) => {
                 }}
               />
             )}
-            {priceDisplayMethod == 0 && (
+            {priceDisplayMethod == 1 && (
               <span className="contaner-price__value">
                 {formatMoney(item.fromPrice)}
               </span>
@@ -405,7 +405,7 @@ const PriceItemShow = ({ item, configStore }) => {
           <div className="rc-card__price text-left PriceFitScreen">
             <div className={`rc-full-width PriceFitScreen`}>
               <span className="value sales card--product-contaner-price">
-                {item.toPrice && priceDisplayMethod == 1 && (
+                {item.toPrice && priceDisplayMethod == 0 && (
                   <FormattedMessage
                     id="pirceRange"
                     values={{
@@ -422,7 +422,7 @@ const PriceItemShow = ({ item, configStore }) => {
                     }}
                   />
                 )}
-                {priceDisplayMethod == 0 && (
+                {priceDisplayMethod == 1 && (
                   <span className="contaner-price__value">
                     {formatMoney(item?.fromPrice)}
                   </span>
