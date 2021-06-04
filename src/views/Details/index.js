@@ -636,11 +636,11 @@ class Details extends React.Component {
   };
   closePrescriberCodeModal = async () => {
     this.setState({ showPrescriberCodeModal: false });
-    if (this.isLogin) {
-      this.hanldeLoginAddToCart();
-    } else {
-      await this.hanldeUnloginAddToCart();
-    }
+    // if (this.isLogin) {
+    //   this.hanldeLoginAddToCart();
+    // } else {
+    //   await this.hanldeUnloginAddToCart();
+    // }
   };
   async hanldeAddToCart() {
     try {
