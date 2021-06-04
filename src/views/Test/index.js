@@ -58,25 +58,50 @@ class Test extends React.Component {
   componentWillUnmount() {}
   componentDidMount() {
     // 设置手机号输入限制
-    let element = document.getElementById('testinput');
+    let element = document.getElementById('testinput111');
     // mask: '+{7} (000) 000-00-00'
     let pval = IMask(element, {
-      // mask: '(+33) 0 00 00 00 00',
-      mask: function (val) {
-        val = val.replace(/^[0]/, '+(33)');
-        // val = val.replace(/^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/, '+(33)');
-        // console.log('输入的全部内容: ', val);
-        return val;
-      },
-      prepare: function (str) {
-        console.log('当前输入的内容: ', str);
-        return str;
+      // mask: '(33) 0 00 00 00 00',
+      mask: function (value) {
+        console.log(value);
+        if (value > 4) {
+          return false;
+        }
       }
+      // mask: /^[1-6]\d{0,5}$/
+      // mask: function (value) {
+      //   return /^\([3][3]\)[\s][1-9].*$/.test(value)
+      // }
+      // mask: function (value) {
+      //   return /^\d*$/.test(value) &&
+      //     value.split('').every(function (ch, i) {
+      //       var prevCh = value[i - 1];
+      //       return !prevCh || prevCh < ch;
+      //     });
+      // }
+      // prepare: function (str) {
+      //   console.log('当前输入的内容: ', str);
+      //   return str;
+      // }
     });
 
     document.addEventListener('keyup', (e) => {
       // console.log(e.keyCode);
     });
+
+    // setTimeout(() => {
+    //   let elmt = document.getElementById('testinput');
+    //   let pval = IMask(element, {
+    //     mask: [
+    //       {
+    //         mask: '(+33) 0 00 00 00 00'
+    //       },
+    //       {
+    //         mask: '(+33) 00 00 00 00 00'
+    //       }
+    //     ]
+    //   });
+    // }, 1000);
   }
   validData = async ({ data }) => {
     console.log('------------------- > validData data: ', data);
@@ -113,11 +138,42 @@ class Test extends React.Component {
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    // console.log('111111--------- ', name, ' : ', value);
+
+    console.log('-------->  ', value);
+
+    //   /i : 区分大小写，/g : 全局替换，/ig : 区分大小写且全局替换
+
+    // regExp = /^\(\+[3][3]\)[\s][0-9][\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+    // value = value.replace(/(.{4}(?!$))/g, "$1<br/>");
+
+    // console.log(222, '--------- value: ', value);
+    // console.log(222, '--------- regExp: ', /^\(\+[3][3]\).*$/.test(value));
+
+    if (!/^\(\+[3][3]\).*$/.test(value)) {
+      value = value.replace(/(.{1})/, '(+33) ');
+    } else {
+      let varr = value.split('');
+      if (varr[6]) {
+        let element = document.getElementById('testinput');
+        let imask = '';
+        console.log(varr[6]);
+        Number(varr[6]) > 0
+          ? (imask = '(+33) 0 00 00 00 00')
+          : (imask = '(+33) 00 00 00 00 00');
+        let pval = IMask(element, {
+          mask: imask
+        });
+        // pval.destroy();
+        // if(Number(varr[6]) > 0){
+
+        // }else{
+
+        // }
+      }
+    }
+
     form[name] = value;
-    this.setState({ form }, () => {
-      // console.log('222222--------- ', name, ' : ', value);
-    });
+    this.setState({ form });
   };
   // 文本框失去焦点
   inputBlur = async (e) => {
@@ -145,24 +201,37 @@ class Test extends React.Component {
         <h1>0528</h1>
         <br />
         <br />
-        <h1>2021-06-03 11:06:36</h1>
+        <h1>2021-06-04 11:50:30</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>
         <br />
         <br />
+        phoneNumber111:{' '}
         <input
           className={`rc-input__control testInputShipping`}
           id="testinput"
           type="text"
           name="testinput"
-          maxLength="18"
+          maxLength="20"
+          value={form['testinput']}
           style={{ border: '1px solid #000' }}
           onChange={(e) => this.inputChange(e)}
           onBlur={this.inputBlur}
         />
         <hr />
         <hr />
+        phoneNumber222:{' '}
+        <input
+          className={`rc-input__control testInputShipping`}
+          id="testinput111"
+          type="text"
+          name="testinput111"
+          maxLength="20"
+          style={{ border: '1px solid #000' }}
+          onChange={(e) => this.inputChange(e)}
+          onBlur={this.inputBlur}
+        />
         <hr />
         <hr />
         <input
