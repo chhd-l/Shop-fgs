@@ -17,7 +17,7 @@ export default function Table(props) {
   } = checkoutStore;
   const { productList, calTotalNum } = value;
 
-  let installmentPrice = installMentParam?.installmentPrice; //分期费
+  let addtionalFee = installMentParam?.addtionalFee; //分期费
 
   return (
     <div className="rc-table">
@@ -112,13 +112,13 @@ export default function Table(props) {
               <td className="rc-table__td">Kargo bedeli</td>
               <td className="rc-table__td">{deliveryPrice} TL</td>
             </tr>
-            {installmentPrice && (
+            {addtionalFee && (
               <tr className="rc-table__row">
                 <td className="rc-table__td"></td>
                 <td className="rc-table__td"></td>
                 <td className="rc-table__td"></td>
                 <td className="rc-table__td">Oran</td>
-                <td className="rc-table__td">{installmentPrice} TL</td>
+                <td className="rc-table__td">{addtionalFee} TL</td>
               </tr>
             )}
             <tr className="rc-table__row">
