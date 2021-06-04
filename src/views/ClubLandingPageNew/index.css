@@ -70,64 +70,64 @@
   .ui-pop .btn-cheat {
     height: 1.2rem;
   }
-  .deflexcolumn{
+  .deflexcolumn {
     flex-direction: column;
   }
-  .dewidth{
+  .dewidth {
     width: 100vw;
   }
-  .orderone{
+  .orderone {
     order: 1;
   }
-  .ordertwo{
+  .ordertwo {
     order: 2;
     margin-bottom: 2vh;
   }
-  .orderthree{
+  .orderthree {
     order: 3;
   }
-  .decenter{
+  .decenter {
     justify-content: center;
     margin-bottom: 2vh;
   }
-  .detextcenter{
+  .detextcenter {
     text-align: center;
   }
-  .demarginleft{
+  .demarginleft {
     margin-left: 5vw;
   }
-  .deimagetranslate{
+  .deimagetranslate {
     transform: rotate(90deg);
   }
-  .demobile30{
+  .demobile30 {
     width: 30vw;
     margin-top: 0;
   }
-  .mobileunshow{
+  .mobileunshow {
     display: none;
   }
-  .mobilemargin3vh{
+  .mobilemargin3vh {
     margin-top: 2vh;
   }
 }
 
 @media (min-width: 639.98px) {
-  .desktop30vw{
-    width:30vw;
+  .desktop30vw {
+    width: 30vw;
   }
-  .button20vw{
+  .button20vw {
     width: 20vw;
   }
-  .marginleftpc{
+  .marginleftpc {
     margin-left: 5vh;
   }
-  .marginToppc{
+  .marginToppc {
     margin-top: 2vh;
   }
-  .pcunshow{
+  .pcunshow {
     display: none;
   }
-  .desktop35vw{
+  .desktop35vw {
     width: 35vw;
   }
 }

@@ -5,13 +5,13 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { queryCityNameById, getCityList, getAddressBykeyWord } from '@/api';
+import { getAddressBykeyWord } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-// import EditForm from './EditForm';
 import EditForm from '@/components/Form';
+import PickUp from '@/components/PickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
@@ -40,6 +40,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isPickUpDelivery: false, // 用来标记是否是 pick up
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -88,8 +89,9 @@ class AddressList extends React.Component {
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -800,8 +802,11 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const { deliveryAddress, selectListValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectListValidationOption,
+      validationAddress
+    } = this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -973,6 +978,7 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
     const {
+      isPickUpDelivery,
       isValid,
       formAddressValid,
       deliveryAddress,
@@ -987,8 +993,6 @@ class AddressList extends React.Component {
       listValidationModalVisible,
       selectListValidationOption
     } = this.state;
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
 
     const _list = addressList.map((item, i) => (
       <div
@@ -1274,7 +1278,15 @@ class AddressList extends React.Component {
                         <FormattedMessage id="order.noDataTip" />
                       )
                     ) : null}
-                    {_form}
+
+                    {/* 判断pick up */}
+                    {isPickUpDelivery ? (
+                      <>
+                        <PickUp />
+                      </>
+                    ) : (
+                      <>{_form}</>
+                    )}
                   </>
                 ) : panelStatus.isCompleted ? (
                   <AddressPreview
