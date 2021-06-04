@@ -12,9 +12,14 @@ export default function Table(props) {
     subscriptionDiscountPrice,
     deliveryPrice,
     tradePrice,
-    promotionVOList
+    promotionVOList,
+    installMentParam
   } = checkoutStore;
   const { productList, calTotalNum } = value;
+
+  let installmentPrice = installMentParam?.installmentPrice; //分期费
+  let installmentTotalPrice = installMentParam?.totalPrice; //分期后总价
+
   return (
     <div className="rc-table">
       <div className="rc-scroll--x">
@@ -108,6 +113,15 @@ export default function Table(props) {
               <td className="rc-table__td">Kargo bedeli</td>
               <td className="rc-table__td">{deliveryPrice} TL</td>
             </tr>
+            {installmentPrice && (
+              <tr className="rc-table__row">
+                <td className="rc-table__td"></td>
+                <td className="rc-table__td"></td>
+                <td className="rc-table__td"></td>
+                <td className="rc-table__td">Oran</td>
+                <td className="rc-table__td">{installmentPrice} TL</td>
+              </tr>
+            )}
             <tr className="rc-table__row">
               <td className="rc-table__td"></td>
               <td className="rc-table__td"></td>
