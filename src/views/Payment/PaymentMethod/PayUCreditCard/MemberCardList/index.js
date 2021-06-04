@@ -155,7 +155,7 @@ class MemberCardList extends React.Component {
         creditCardList
       },
       () => {
-        this.handleSelectedIdChange();
+        this.handleSelectedIdChange({ isResetInstallData: false });
       }
     );
   }
@@ -466,7 +466,7 @@ class MemberCardList extends React.Component {
       scrollPaymentPanelIntoView();
     });
   };
-  handleSelectedIdChange = async () => {
+  handleSelectedIdChange = async ({ isResetInstallData = true } = {}) => {
     const { isSupportInstallMent } = this.props;
     const { selectedId, creditCardList, memberUnsavedCardList } = this.state;
     const s = memberUnsavedCardList
@@ -477,9 +477,15 @@ class MemberCardList extends React.Component {
     this.props.updateFormValidStatus(
       s && (s.cardCvv || s.encrypted_cvv) ? true : false
     );
-    // 切换卡时，清空分期信息
-    // todo 选择了分期后，再输入cvv，会被清空分期信息
-    this.installmentTableChanger(null);
+    // 切换卡时，重置分期信息
+    if (isResetInstallData) {
+      this.installmentTableChanger(null);
+      this.setState({
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          installmentChecked: false
+        })
+      });
+    }
 
     // 查询被选中的卡，是否支持分期
     // 该卡如果已经查询过，就不再查询了，直到下一次切换时再重新查询
@@ -507,10 +513,7 @@ class MemberCardList extends React.Component {
       });
     }
     this.setState({
-      installMentTableData,
-      creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-        installmentChecked: false
-      })
+      installMentTableData
     });
   };
   handleClickCardItem(el) {
@@ -541,8 +544,14 @@ class MemberCardList extends React.Component {
         })
       }),
       () => {
+        // 取消分期时，重置分期信息
+        if (!this.state.creditCardInfoForm.installmentChecked) {
+          this.installmentTableChanger(null);
+        }
         // 切换是否分期时，会被重置按钮可点击状态
-        // this.validFormData();
+        if (key !== 'installmentChecked') {
+          this.validFormData();
+        }
       }
     );
   }

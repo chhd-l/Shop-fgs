@@ -40,8 +40,7 @@ class PayProductInfo extends React.Component {
     guestEmail: '',
     isGuestCart: false,
     isCheckOut: false,
-    deliveryAddress: [],
-    installMentParam: null // 分期明细
+    deliveryAddress: []
   };
   constructor(props) {
     super(props);
@@ -213,14 +212,6 @@ class PayProductInfo extends React.Component {
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
-  }
-  get computedTradePrice() {
-    const { installMentParam } = this.props;
-    let ret = this.tradePrice;
-    if (installMentParam) {
-      ret = installMentParam.totalPrice;
-    }
-    return ret;
   }
   get discountPrice() {
     return this.props.checkoutStore.discountPrice;
@@ -508,7 +499,8 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { productList, discount, needHideProductList, isShowValidCode } =
       this.state;
-    const { checkoutStore, installMentParam } = this.props;
+    const { checkoutStore } = this.props;
+    const { installMentParam } = checkoutStore;
     const List =
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
@@ -983,7 +975,7 @@ class PayProductInfo extends React.Component {
                     )}
                   </>
                 ) : (
-                  <>{formatMoney(this.computedTradePrice)}</>
+                  <>{formatMoney(this.tradePrice)}</>
                 )}
               </span>
             </div>
