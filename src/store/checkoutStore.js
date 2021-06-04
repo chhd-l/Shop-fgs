@@ -40,7 +40,7 @@ class CheckoutStore {
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
   @observable pr_petsInfo = localItemRoyal.get('pr-petsInfo') || {};
 
-  @observable installMentParam = null;
+  @observable installMentParam = null; // 分期参数
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
