@@ -84,12 +84,17 @@ export const bannerTips = () => {
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
-                  <Link
+                  {process.env.REACT_APP_COUNTRY=="DE"?<Link
+                    to="/clublandinpagede"
+                    className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                  >
+                    <FormattedMessage id="bannerTip.btnText" />
+                  </Link>:<Link
                     to="/subscription-landing"
                     className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                   >
                     <FormattedMessage id="bannerTip.btnText" />
-                  </Link>
+                  </Link>}
                 </span>
               </Container>
             </div>
