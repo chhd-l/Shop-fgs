@@ -378,7 +378,6 @@ class Payment extends React.Component {
     return this.isLogin ? this.loginCartData : this.cartData;
   }
   get tradePrice() {
-    // todo
     return this.props.checkoutStore.tradePrice;
   }
   get paymentMethodPanelStatus() {
@@ -3380,7 +3379,6 @@ class Payment extends React.Component {
       isAdd,
       mobileCartVisibleKey,
       guestEmail,
-      installMentParam,
       deliveryAddress,
       paymentValidationLoading,
       validationModalVisible,
@@ -3724,7 +3722,6 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
-                    installMentParam={installMentParam}
                   />
                 )}
 
