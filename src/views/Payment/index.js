@@ -234,7 +234,6 @@ class Payment extends React.Component {
       saveBillingLoading: false,
       payWayErr: '',
       pet: {},
-      installMentParam: null, // 分期参数
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -983,7 +982,9 @@ class Payment extends React.Component {
         },
         payUCreditCardTU: async () => {
           let installments;
-          const { installMentParam } = this.state;
+          const {
+            checkoutStore: { installMentParam }
+          } = this.props;
           if (installMentParam) {
             installments = installMentParam.installmentNumber;
           }
@@ -2735,7 +2736,7 @@ class Payment extends React.Component {
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
     }
-    this.setState({ installMentParam: null });
+    this.props.checkoutStore.setInstallMentParam(null);
     paymentStore.setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
@@ -2757,7 +2758,6 @@ class Payment extends React.Component {
   }
 
   onInstallMentParamChange = (data) => {
-    this.setState({ installMentParam: data });
     this.props.checkoutStore.setInstallMentParam(data);
   };
 
