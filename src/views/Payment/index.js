@@ -378,6 +378,7 @@ class Payment extends React.Component {
     return this.isLogin ? this.loginCartData : this.cartData;
   }
   get tradePrice() {
+    // todo
     return this.props.checkoutStore.tradePrice;
   }
   get paymentMethodPanelStatus() {
@@ -2758,6 +2759,7 @@ class Payment extends React.Component {
 
   onInstallMentParamChange = (data) => {
     this.setState({ installMentParam: data });
+    this.props.checkoutStore.setInstallMentParam(data);
   };
 
   /**
