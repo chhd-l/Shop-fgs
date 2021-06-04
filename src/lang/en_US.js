@@ -1415,6 +1415,7 @@ const en_US = {
     'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
   'clinic.vetClinicsTip1':
     'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
-  'clinic.vetClinicsTip2': 'Contact us'
+  'clinic.vetClinicsTip2': 'Contact us',
+  dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
 };
 export default en_US;

@@ -1316,7 +1316,7 @@ const de_DE = {
     'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
   dePrescriberCodeTxt: 'z B.XYZ1234',
   dePrescriberCodeErrMsg:
-    'The Code entered invalid.<br>Please try another code',
+    'Der eingegebene Code ist ungültig.<br>Bitte versuchen Sie es mit einem anderen Code',
   'deLandingPage.prescriberCode.searchBtn': 'Code speichern',
   'deLandingPage.prescriberCode.tip5': 'Sie haben noch keinen Empfehlungscode?',
   'deLandingPage.prescriberCode.tip6':
