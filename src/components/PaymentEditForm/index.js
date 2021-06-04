@@ -112,28 +112,30 @@ class PaymentEditForm extends React.Component {
     let phoneReg = '';
     switch (process.env.REACT_APP_COUNTRY) {
       case 'FR':
-        phoneReg = '+{33}000000000';
+        phoneReg = [
+          { mask: '(+33) 0 00 00 00 00' },
+          { mask: '(+33) \\00 00 00 00 00' }
+        ];
         break;
       case 'US':
-        phoneReg = '000-000-0000';
+        phoneReg = [{ mask: '000-000-0000' }];
         break;
       case 'RU':
-        phoneReg = '+{7} (000) 000-00-00';
+        phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
       case 'MX':
-        phoneReg = '+(52) 000 000 00';
-        break;
-      case 'DE':
-        phoneReg = '0000 000000 000';
+        phoneReg = [{ mask: '+(52) 000 000 00' }];
         break;
       case 'TR':
-        phoneReg = '{0} (000) 000-00-00';
+        phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       default:
-        phoneReg = '00000000000';
+        phoneReg = [{ mask: '00000000000' }];
         break;
     }
-    maskOptions = { mask: phoneReg };
+    maskOptions = {
+      mask: phoneReg
+    };
     let pval = IMask(element, maskOptions);
   };
   componentDidMount() {

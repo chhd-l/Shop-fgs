@@ -510,22 +510,22 @@ class Home extends React.Component {
 
     const parametersString = history.location.search;
     if (parametersString.indexOf('redirect=order') >= 0) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         '/account/orders' + history.location.search
       );
     }
     if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         '/account/subscription' + history.location.search
       );
     }
     if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+      localItemRoyal.set('okta-redirectUrl', '/account/information');
     }
     if (parametersString.indexOf('redirect=pets') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+      localItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);

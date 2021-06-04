@@ -146,8 +146,8 @@ class RegisterRequired extends Component {
     try {
       let lastPath =
         (this.props.location.state && this.props.location.state.path) || '/';
-      if (sessionItemRoyal.get('okta-redirectUrl')) {
-        lastPath = sessionItemRoyal.get('okta-redirectUrl');
+      if (localItemRoyal.get('okta-redirectUrl')) {
+        lastPath = localItemRoyal.get('okta-redirectUrl');
       }
       if (lastPath === 'pay') {
         lastPath = '/checkout';
