@@ -861,13 +861,17 @@ class List extends React.Component {
             if (fnEle == 'Size') {
               //XSmall + Mini  and  Maxi + Giant 特殊处理传值
               if (
-                fvEles.includes('Миниатюрные-(до-4-кг)') &&
-                fvEles.includes('Мелкие-(5-10-кг)')
+                [
+                  'Миниатюрные-(до-4-кг)|Мелкие-(5-10-кг)',
+                  'Мелкие-(5-10-кг)|Миниатюрные-(до-4-кг)'
+                ].includes(fvEles)
               ) {
                 sizePrefvSeo.push('мелких размеров');
               } else if (
-                fvEles.includes('Крупные-(26-44--кг)') &&
-                fvEles.includes('Очень-крупные--(более-45-кг)')
+                [
+                  'Крупные-(26-44--кг)|Очень-крупные--(более-45-кг)',
+                  'Очень-крупные--(более-45-кг)|Крупные-(26-44--кг)'
+                ].includes(fvEles)
               ) {
                 sizePrefvSeo.push('крупных размеров');
               } else {
@@ -878,7 +882,16 @@ class List extends React.Component {
             const attrNameEn = item.attributesValuesVOList.find(
               (item) => item.attributeDetailNameEn == fvEles
             )?.attributeDetailNameSeoEn;
-            fnEle == 'Lifestages' && lifestagesPrefv.push(attrNameEn);
+            if (fnEle == 'Lifestages') {
+              let attr = attrNameEn;
+              if (
+                this.state.isDogPage &&
+                ['Взрослая', 'Стареющая', 'Пожилая'].includes(fvEles)
+              ) {
+                attr = attrNameEn.replace('кошек', 'собак');
+              }
+              lifestagesPrefv.push(attr);
+            }
             fnEle == 'Sterilized' && sterilizedPrefv.push(attrNameEn);
             fnEle == 'Technology' && technologyPrefv.push(attrNameEn);
             fnEle == 'Breeds' && breedsPrefv.push(attrNameEn);
