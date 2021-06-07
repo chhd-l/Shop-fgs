@@ -497,8 +497,17 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     localItemRoyal.get(`rc-clinic-name-link`)
   ) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
-    clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
-    clinicStore.setSelectClinicName(localItemRoyal.get(`rc-clinic-name-link`));
+    if (
+      !(
+        localItemRoyal.get(`rc-clinic-id-select`) &&
+        localItemRoyal.get(`rc-clinic-name-select`)
+      )
+    ) {
+      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
+      clinicStore.setSelectClinicName(
+        localItemRoyal.get(`rc-clinic-name-link`)
+      );
+    }
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';
   }
