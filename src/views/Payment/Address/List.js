@@ -236,7 +236,7 @@ class AddressList extends React.Component {
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
-    dfarr = dfarr.filter(
+    dfarr = (dfarr || []).filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
     );
     let errMsgArr = [];
