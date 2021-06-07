@@ -1126,7 +1126,7 @@ class List extends React.Component {
         goodsAttributesValueRelVOAllList,
         goodsCateName
       } = item;
-      const goodsNo = goodsList.filter(
+      const goodsNo = goodsList?.filter(
         (good) => good.goodsName == goodsName
       )?.[0]?.goodsNo;
       const breed = (goodsAttributesValueRelVOAllList || [])
@@ -1188,7 +1188,7 @@ class List extends React.Component {
         goodsAttributesValueRelVOAllList,
         goodsCateName
       } = item;
-      const goodsNo = goodsList.filter(
+      const goodsNo = goodsList?.filter(
         (good) => good.goodsName == goodsName
       )?.[0]?.goodsNo;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
