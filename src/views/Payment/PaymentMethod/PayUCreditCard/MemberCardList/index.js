@@ -155,7 +155,7 @@ class MemberCardList extends React.Component {
         creditCardList
       },
       () => {
-        this.handleSelectedIdChange();
+        this.handleSelectedIdChange({ isResetInstallData: false });
       }
     );
   }
@@ -466,14 +466,9 @@ class MemberCardList extends React.Component {
       scrollPaymentPanelIntoView();
     });
   };
-  handleSelectedIdChange = async () => {
+  handleSelectedIdChange = async ({ isResetInstallData = true } = {}) => {
     const { isSupportInstallMent } = this.props;
-    const {
-      selectedId,
-      creditCardList,
-      memberUnsavedCardList,
-      creditCardInfoForm
-    } = this.state;
+    const { selectedId, creditCardList, memberUnsavedCardList } = this.state;
     const s = memberUnsavedCardList
       .concat(creditCardList)
       .filter((c) => c.id === selectedId)[0];
@@ -482,6 +477,15 @@ class MemberCardList extends React.Component {
     this.props.updateFormValidStatus(
       s && (s.cardCvv || s.encrypted_cvv) ? true : false
     );
+    // 切换卡时，重置分期信息
+    if (isResetInstallData) {
+      this.installmentTableChanger(null);
+      this.setState({
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          installmentChecked: false
+        })
+      });
+    }
 
     // 查询被选中的卡，是否支持分期
     // 该卡如果已经查询过，就不再查询了，直到下一次切换时再重新查询
@@ -509,10 +513,7 @@ class MemberCardList extends React.Component {
       });
     }
     this.setState({
-      installMentTableData,
-      creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-        installmentChecked: false
-      })
+      installMentTableData
     });
   };
   handleClickCardItem(el) {
@@ -543,7 +544,14 @@ class MemberCardList extends React.Component {
         })
       }),
       () => {
-        this.validFormData();
+        // 取消分期时，重置分期信息
+        if (!this.state.creditCardInfoForm.installmentChecked) {
+          this.installmentTableChanger(null);
+        }
+        // 切换是否分期时，会被重置按钮可点击状态
+        if (key !== 'installmentChecked') {
+          this.validFormData();
+        }
       }
     );
   }
@@ -551,7 +559,9 @@ class MemberCardList extends React.Component {
     this.handleClickCancel();
   };
   installmentTableChanger = (data) => {
-    this.setState({ installMentParam: data });
+    this.setState({ installMentParam: data }, () => {
+      this.props.onInstallMentParamChange(this.state.installMentParam);
+    });
   };
   render() {
     const { creditCardListMerged } = this;

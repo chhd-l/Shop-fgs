@@ -496,6 +496,7 @@ class PayProductInfo extends React.Component {
       isShowValidCode
     } = this.state;
     const { checkoutStore } = this.props;
+    const { installMentParam } = checkoutStore;
     const List =
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
@@ -911,10 +912,30 @@ class PayProductInfo extends React.Component {
                     </div>
                   </>
                 ) : null}
+
+                {/* 分期明细 */}
+                {installMentParam ? (
+                  <div className="row leading-lines shipping-item red">
+                    <div className="col-7 start-lines">
+                      <p className="order-receipt-label order-shipping-cost">
+                        <FormattedMessage id="installMent.additionalFee" />
+                      </p>
+                    </div>
+                    <div className="col-5 end-lines">
+                      <p className="text-right">
+                        <span className="shipping-total-cost">
+                          <strong>
+                            {formatMoney(installMentParam.additionalFee)}
+                          </strong>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
-          {/* {JSON.stringify(this.props.deliveryAddress)} */}
+
           <div className="product-summary__total grand-total row leading-lines border-top pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3">
             <div className="col-6 start-lines">
               <span>
@@ -944,7 +965,7 @@ class PayProductInfo extends React.Component {
                         <strong>{subtractionSign}</strong>
                       </>
                     ) : (
-                      <>{formatMoney(this.tradePrice)}</>
+                      <>{formatMoney(this.tradePrice)}1</>
                     )}
                   </>
                 ) : (

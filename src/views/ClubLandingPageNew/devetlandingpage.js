@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -11,32 +10,21 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import declublogo from './deimage/declublogo.png'
-import vetdeimage from './deimage/Product-composition-dog.png'
+import vetdeimage from './deimage/Product-composition-dog.png';
+import decat from './deimage/delangdingpagecat.png';
+import dedog from './deimage/delangdingpagedog.png';
+import decat1 from './deimage/decat1.png';
+import decat2 from './deimage/decat2.png';
+import dedog1 from './deimage/dedog1.png';
+import dedog2 from './deimage/dedog2.png';
 
-import dehowit1 from './deimage/dehowit1.png'
-import dehowit2 from './deimage/dehowit2.png'
-import dehowit3 from './deimage/dehowit3.png'
-import dehowit4 from './deimage/dehowit4.png'
-import number1 from './deimage/number1.png'
-import number2 from './deimage/number2.png'
-import number3 from './deimage/number3.png'
-import number4 from './deimage/number4.png'
-import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
-import logoad from './Components/GetMoreAd/image/logoad.png';
-import StoreCode from './Components/DeStoreCode/storecode';
 import SalesCategory from '../Home/modules/SalesCategory';
-import goldenfood from './image/goldenfood.png';
-import line from './deimage/Line@4x.png';
-import HubSalesCategory from '../../components/HubSalesCategory';
-import { salesCategoryFilterRule } from '../../components/HubSalesCategory/utils';
+import Logo from '../../components/Logo';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
 let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
@@ -161,19 +149,6 @@ class ClubLandingPageDeVet extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          <div
-            style={{
-              textAlign: 'center',
-              height: '42px',
-              backgroundColor: '#F6F6F6',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ alignSelf: 'center', color: '#E2001A' }}>
-              <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>
-            </div>
-          </div>
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
@@ -191,28 +166,30 @@ class ClubLandingPageDeVet extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
-                          <p style={{
-                            fontSize: '28px',
-                            color: '#E2001A'
-                          }}>
-                            What makes the RC Vet Portfolio special​
+                          <p
+                            style={{
+                              fontSize: '28px',
+                              color: '#E2001A'
+                            }}
+                          >
+                            Die richtige Ernährung ist eine wesentliche Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Djaöfonöoihaer
+                              Verbesserung der Lebensqualität der Tiere
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Aeornöoiaöoebaröoobaöobe​
+                              Unterstützung von Tieren mit fütterungsbedingten Erkrankungen
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Oaberoö.aneonioaebnr
+                              Beeinflussung des Wachstums von Katzen- und Hundewelpen
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              aöneörionanöobearboobe
+                              Beitrag zum Management von Erkrankungen
                             </li>
                           </ul>
                           <br />
@@ -227,9 +204,99 @@ class ClubLandingPageDeVet extends React.Component {
 
           <Divider />
 
-          <HubSalesCategory rule={salesCategoryFilterRule}/>
+          <div className="">
+            <div className="rc-fgs-component-container">
+              <div className="hub-category rc-bg-colour--brand3 rc-margin-bottom--xs">
+                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
+                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                    <span>
+                      Die tierärztlichen Diätnahrungen <br /> von ROYAL CANIN®
+                    </span>
+                  </h4>
+                  <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
+                    <p>
+                      <span>
+                        <p>Seit 1968 erforscht ROYAL CANIN® die besonderen Ernährungsbedürfnisse von Katzen und Hunden bis ins kleinste Detail. Denn schon kleinste Nährstoffunterschiede in der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten. Das gilt natürlich um so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben. Gerade dann kann eine maßgeschneiderte Ernährung helfen, die Gesundheit Ihres Haustieres zu unterstützen und zu erhalten.</p>
+                        <p>ROYAL CANIN® bietet deshalb ein umfangreiches Programm an Nahrungen an, die speziell auf die tierärztlich festgestellten besonderen Bedürfnisse von Katzen und Hunden abgestimmt sind. Sprechen Sie mit Ihrer Tierärztin oder Ihrem Tierarzt darüber, mit welcher ROYAL CANIN® Nahrung Sie die Gesundheit Ihres vierbeinigen Begleiters am besten unterstützen können.</p>
+                      </span>
+                    </p>
+                  </div>
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
+                      <div className="header-title">
+                        <h1 className="rc-espilon">Für Katzen</h1>
+                        <img src={decat} />
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/retail-products"
+                          >
+                            <img src={decat1} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/vet-products"
+                          >
+                            <img src={decat2} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments vétérinaire pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rc-column">
+                      <div className="header-title">
+                        <h1 className="rc-espilon">Für Hunde</h1>
+                        <img src={dedog} />
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/retail-products"
+                          >
+                            <img src={dedog1} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
+                        <div className="rc-column category-goods">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="https://www.royalcanin.com/fr/shop/dogs/vet-products"
+                          >
+                            <img src={dedog2} />
+                            <div className="d-flex justify-content-center">
+                              <h3 className="rc-margin--none">
+                                Aliments vétérinaire pour chien
+                              </h3>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Divider/>
+          <Divider />
 
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
@@ -239,14 +306,19 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                       <div>
                         <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                          Empfehlungscode Ihrer Tierarztpraxis
+                          Unser Diätnahrungssortiment
                         </h4>
                       </div>
                       <div className="flex justify-content-center">
-                      <iframe width="560" height="315" src="https://www.youtube.com/embed/3Tfl1pmFej8" title="YouTube video player"
-                              frameBorder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen></iframe>
+                        <iframe
+                          width="560"
+                          height="315"
+                          src="https://www.youtube.com/embed/3Tfl1pmFej8"
+                          title="YouTube video player"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
@@ -255,8 +327,8 @@ class ClubLandingPageDeVet extends React.Component {
             </div>
           </div>
 
-          <Divider/>
-          <SalesCategory/>
+          <Divider />
+          <SalesCategory />
 
           <Footer />
         </main>

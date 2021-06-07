@@ -1393,7 +1393,7 @@ export default {
     },
     {
       shortUrl: '/ru/Skin-&-coat-1323',
-      redirectUrl: '/ru/skin-&-coat-1323'
+      redirectUrl: '/skin-&-coat-1323'
     },
     {
       shortUrl: '/ru/Skin-Care-Small-Dogs-4006_RU.html',
@@ -1554,8 +1554,7 @@ export default {
         '/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
     },
     {
-      shortUrl:
-        '/ru/shop/ru/Urinary-S/O-Moderate-Calorie-(в-соусе)-4080_RU.html',
+      shortUrl: '/Urinary-S/O-Moderate-Calorie-(в-соусе)-4080_RU.html',
       redirectUrl:
         '/urinary-so-moderate-calorie-(%D0%B2-%D1%81%D0%BE%D1%83%D1%81%D0%B5)-4080'
     },

@@ -552,8 +552,11 @@ class AddressList extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
@@ -596,8 +599,8 @@ class AddressList extends React.Component {
         areaId: deliveryAddress.areaId,
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
-        countryId: +deliveryAddress.countryId,
-        country: +deliveryAddress.country,
+        countryId: deliveryAddress.countryId,
+        country: deliveryAddress.country,
         cityId: deliveryAddress.cityId,
         city: deliveryAddress.city,
         cityName: deliveryAddress.cityName,

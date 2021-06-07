@@ -228,7 +228,7 @@ const UserPaymentInfo = ({
 
               {/* 电话 */}
               {localAddressForm?.phoneNumber &&
-                currentDeliveryAddress?.address2 && (
+                currentBillingAddress?.consigneeNumber && (
                   <p className="mb-0 sd_mb_tel">
                     {currentBillingAddress.consigneeNumber}
                   </p>

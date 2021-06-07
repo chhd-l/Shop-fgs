@@ -38,6 +38,8 @@ import foodPic2 from './img/step2_food.png';
 import LazyLoad from 'react-lazyload';
 
 const isMobile = getDeviceType() !== 'PC';
+const localItemRoyal = window.__.localItemRoyal;
+
 const Step1Pc = (props) => {
   return (
     <div className="margin12">
@@ -711,7 +713,7 @@ class SmartFeederSubscription extends Component {
     // 未登录情况下，直接跳转登录，food dispenser需要登录之后才能checkout
     // this.GAAccessToGuestCheck();
     try {
-      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      localItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
     } catch (err) {
     } finally {

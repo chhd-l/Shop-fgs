@@ -34,21 +34,6 @@ export function addSchemaOrgMarkup(details, instockStatus) {
           ? numReviewsComponent[0].innerHTML.split('(')[1].split(')')[0]
           : ''
     }
-    // review: [
-    //   {
-    //     '@type': 'Review',
-    //     author: 'Ellie',
-    //     datePublished: '2011-04-01',
-    //     reviewBody: 'The lamp burned out and now I have to replace it.',
-    //     name: 'Not a happy camper',
-    //     reviewRating: {
-    //       '@type': 'Rating',
-    //       bestRating: '5',
-    //       ratingValue: '1',
-    //       worstRating: '1'
-    //     }
-    //   }
-    // ]
   };
   loadJS({
     code: JSON.stringify(code),

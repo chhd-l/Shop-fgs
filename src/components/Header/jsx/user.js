@@ -14,6 +14,7 @@ import '../css/user.less';
 const loginStore = stores.loginStore;
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const clientWidth = document.body.clientWidth;
@@ -122,6 +123,12 @@ const UserJSX = (props) => {
                           process.env.REACT_APP_COUNTRY === 'US' ||
                           process.env.REACT_APP_COUNTRY === 'DE'
                         ) {
+                          localItemRoyal.set(
+                            'okta-redirectUrl',
+                            history &&
+                              history.location.pathname +
+                                history.location.search
+                          );
                           history.push('/register');
                         } else {
                           window.location.href =
