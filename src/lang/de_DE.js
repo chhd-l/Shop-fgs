@@ -886,8 +886,7 @@ const de_DE = {
   registerFailed: 'Registrierung fehlgeschlagen',
   registerFeckbook: 'Mit Facebook verbinden',
   registerFillIn: 'Bitte füllen Sie dieses Feld aus',
-  registerFooter1:
-    'Sie müssen mindestens 16 Jahre alt sein, um ein Formular einzureichen. Sie können uns kontaktieren, indem Sie an Royal Canin France, Verbraucherservice - BP4 - 650 Avenue de la Petite Camargue - 30470 AIMARGUES oder per E-Mail an',
+  registerFooter1: '',
   registerGoogle: 'Mit Google verbinden',
   registerHaveAccount: 'Sie haben bereits ein Kundenkonto?',
   registerLength: '8 Zeichen',
