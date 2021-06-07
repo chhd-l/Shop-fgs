@@ -2581,7 +2581,7 @@ class Payment extends React.Component {
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
-      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      // v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
 
       let fky = wrongBillingAddress[akey];
       // 判断city和cityId 是否均为空
