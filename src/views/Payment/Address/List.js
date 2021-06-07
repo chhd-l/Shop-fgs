@@ -40,7 +40,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPickUpDelivery: false, // 用来标记是否是 pick up
+      isDeliveryOrPickUp: false, // 用来标记是否是 pick up
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -979,7 +979,7 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
     const {
-      isPickUpDelivery,
+      isDeliveryOrPickUp,
       isValid,
       formAddressValid,
       deliveryAddress,
@@ -1258,15 +1258,6 @@ class AddressList extends React.Component {
               <>
                 {panelStatus.isEdit ? (
                   <>
-                    {/* 判断pick up */}
-                    {isPickUpDelivery ? (
-                      <>
-                        <PickUp />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-
                     {!addOrEdit ? (
                       addressList.length ? (
                         <>
