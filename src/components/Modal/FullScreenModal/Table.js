@@ -117,7 +117,7 @@ export default function Table(props) {
                 <td className="rc-table__td"></td>
                 <td className="rc-table__td"></td>
                 <td className="rc-table__td"></td>
-                <td className="rc-table__td">Oran</td>
+                <td className="rc-table__td">Taksit ilave bedeli</td>
                 <td className="rc-table__td">{addtionalFee} TL</td>
               </tr>
             )}
