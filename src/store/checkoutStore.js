@@ -40,11 +40,17 @@ class CheckoutStore {
     localItemRoyal.get('rc-couponCodeFitFlag') || false;
   @observable pr_petsInfo = localItemRoyal.get('pr-petsInfo') || {};
 
+  @observable installMentParam = null; // 分期参数
+
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
 
   @computed get tradePrice() {
-    return this?.cartPrice?.tradePrice || 0;
+    let ret = this?.cartPrice?.tradePrice;
+    if (this.installMentParam) {
+      ret = this.installMentParam.totalPrice;
+    }
+    return ret || 0;
   }
   @computed get totalMinusSubPrice() {
     return this?.cartPrice?.totalMinusSubPrice || 0;
@@ -733,6 +739,11 @@ class CheckoutStore {
         throw new Error(err.message);
       }
     }
+  }
+
+  @action
+  setInstallMentParam(data) {
+    this.installMentParam = data;
   }
 }
 export default CheckoutStore;
