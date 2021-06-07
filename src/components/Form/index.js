@@ -548,7 +548,7 @@ class Form extends React.Component {
     // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
     if (process.env.REACT_APP_COUNTRY == 'FR') {
       let tvalue = newForm.phoneNumber;
-      if (tvalue.length > 19) {
+      if (tvalue?.length > 19) {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
       }
     }
