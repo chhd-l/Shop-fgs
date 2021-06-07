@@ -106,6 +106,31 @@ class PickUp extends React.Component {
 
         {dataLoading ? <Loading /> : null} */}
         {/* <button class="rc-btn rc-btn--one" onClick={() => this.setMyMap()}>地图</button> */}
+
+        <div className="row rc_form_box">
+          <div className="col-md-6">
+            <div className="form-group">
+              <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                <input
+                  type="email"
+                  className="rc-input__control emailShipping"
+                  id="email"
+                  alt="Fill city of delivery"
+                  name="email"
+                  placeholder="Fill city of delivery"
+                  maxLength="50"
+                />
+              </span>
+            </div>
+          </div>
+          <div className="col-md-12">
+            <div className="d-flex justify-content-end mt-3 rc_btn_pick_up">
+              <button className="rc-btn rc-btn--one">
+                <FormattedMessage id="yes2" />
+              </button>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

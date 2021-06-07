@@ -169,7 +169,7 @@ class EmailForm extends React.Component {
               </div>
             </div>
 
-            <div className="d-flex justify-content-end mt-3">
+            <div className="d-flex justify-content-end mt-3 rc_btn_email_form">
               <button
                 className="rc-btn rc-btn--one rc-btn--sm"
                 onClick={this.handleClickConfirm}
