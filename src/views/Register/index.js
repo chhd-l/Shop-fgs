@@ -59,7 +59,9 @@ class Register extends Component {
       emailMessage: '',
       requiredConsentCount: 0,
       hasError: false,
-      errorMessage: ''
+      errorMessage: '',
+      firstNameValid: true,
+      lastNameValid: true
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -231,6 +233,16 @@ class Register extends Component {
           nameValid: !!value
         });
         break;
+      case 'firstName':
+        this.setState({
+          firstNameValid: !!value
+        });
+        break;
+      case 'lastName':
+        this.setState({
+          lastNameValid: !!value
+        });
+        break;
       case 'email':
         var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
         this.setState({
@@ -285,7 +297,10 @@ class Register extends Component {
       storeId: process.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
-      customerName: registerForm.name,
+      customerName:
+        process.env.REACT_APP_COUNTRY !== 'DE'
+          ? registerForm.name
+          : registerForm.firstName + ' ' + registerForm.lastName,
       callback: process.env.REACT_APP_ACCESS_PATH + registerUrl
     })
       .then(async (res) => {
@@ -426,6 +441,8 @@ class Register extends Component {
       ruleSpecial,
       passwordChanged,
       nameValid,
+      firstNameValid,
+      lastNameValid,
       emailValid,
       passwordValid,
       registerForm,
@@ -437,10 +454,14 @@ class Register extends Component {
       errorMessage
     } = this.state;
     const allValid =
-      nameValid &&
+      (process.env.REACT_APP_COUNTRY !== 'DE'
+        ? nameValid
+        : firstNameValid && lastNameValid) &&
       emailValid &&
       passwordValid &&
-      registerForm.name &&
+      (process.env.REACT_APP_COUNTRY !== 'DE'
+        ? registerForm.name
+        : registerForm.firstName && registerForm.lastName) &&
       registerForm.email &&
       registerForm.password;
     const requireCheckd =
@@ -594,46 +615,127 @@ class Register extends Component {
                           encoding="off"
                         >
                           <div className="rc-margin-bottom--xs">
-                            <div className="form-group rc-margin-bottom--md required rc-text--left">
-                              <div
-                                className={
-                                  'rc-input rc-input--full-width ' +
-                                  (nameValid ? '' : 'rc-input--error')
-                                }
-                                data-rc-feature-forms-setup="true"
-                              >
-                                <input
-                                  className="rc-input__control"
-                                  id="registerName"
-                                  type="text"
-                                  maxLength="50"
-                                  name="name"
-                                  onChange={(e) => this.registerChange(e)}
-                                  onBlur={(e) => this.inputBlur(e)}
-                                  value={registerForm.name}
-                                />
-                                <label
-                                  className="rc-input__label"
-                                  htmlFor="registerName"
+                            {process.env.REACT_APP_COUNTRY !== 'DE' ? (
+                              <div className="form-group rc-margin-bottom--md required rc-text--left">
+                                <div
+                                  className={
+                                    'rc-input rc-input--full-width ' +
+                                    (nameValid ? '' : 'rc-input--error')
+                                  }
+                                  data-rc-feature-forms-setup="true"
                                 >
-                                  <span className="rc-input__label-text">
-                                    {' '}
-                                    <FormattedMessage id="registerName" />{' '}
-                                  </span>
-                                </label>
-                                {nameValid ? null : (
-                                  <span
-                                    className="input-cross icon-unsuscribe iconfont"
-                                    onClick={() => this.deleteInput('name')}
+                                  <input
+                                    className="rc-input__control"
+                                    id="registerName"
+                                    type="text"
+                                    maxLength="50"
+                                    name="name"
+                                    onChange={(e) => this.registerChange(e)}
+                                    onBlur={(e) => this.inputBlur(e)}
+                                    value={registerForm.name}
+                                  />
+                                  <label className="rc-input__label">
+                                    <span className="rc-input__label-text">
+                                      {' '}
+                                      <FormattedMessage id="registerName" />{' '}
+                                    </span>
+                                  </label>
+                                  {nameValid ? null : (
+                                    <span
+                                      className="input-cross icon-unsuscribe iconfont"
+                                      onClick={() => this.deleteInput('name')}
+                                    >
+                                      &#xe6b2;
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="invalid-feedback">
+                                  <FormattedMessage id="registerFillIn" />
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                <div className="form-group rc-margin-bottom--md required rc-text--left">
+                                  <div
+                                    className={
+                                      'rc-input rc-input--full-width ' +
+                                      (firstNameValid ? '' : 'rc-input--error')
+                                    }
+                                    data-rc-feature-forms-setup="true"
                                   >
-                                    &#xe6b2;
-                                  </span>
-                                )}
-                              </div>
-                              <div className="invalid-feedback">
-                                <FormattedMessage id="registerFillIn" />
-                              </div>
-                            </div>
+                                    <input
+                                      className="rc-input__control"
+                                      id="registerName"
+                                      type="text"
+                                      maxLength="50"
+                                      name="firstName"
+                                      onChange={(e) => this.registerChange(e)}
+                                      onBlur={(e) => this.inputBlur(e)}
+                                      value={registerForm.firstName}
+                                    />
+                                    <label className="rc-input__label">
+                                      <span className="rc-input__label-text">
+                                        {' '}
+                                        <FormattedMessage id="payment.firstName" />{' '}
+                                      </span>
+                                    </label>
+                                    {firstNameValid ? null : (
+                                      <span
+                                        className="input-cross icon-unsuscribe iconfont"
+                                        onClick={() =>
+                                          this.deleteInput('firstName')
+                                        }
+                                      >
+                                        &#xe6b2;
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="invalid-feedback">
+                                    <FormattedMessage id="registerFillIn" />
+                                  </div>
+                                </div>
+                                <div className="form-group rc-margin-bottom--md required rc-text--left">
+                                  <div
+                                    className={
+                                      'rc-input rc-input--full-width ' +
+                                      (lastNameValid ? '' : 'rc-input--error')
+                                    }
+                                    data-rc-feature-forms-setup="true"
+                                  >
+                                    <input
+                                      className="rc-input__control"
+                                      id="registerName"
+                                      type="text"
+                                      maxLength="50"
+                                      name="lastName"
+                                      onChange={(e) => this.registerChange(e)}
+                                      onBlur={(e) => this.inputBlur(e)}
+                                      value={registerForm.lastName}
+                                    />
+                                    <label className="rc-input__label">
+                                      <span className="rc-input__label-text">
+                                        {' '}
+                                        <FormattedMessage id="payment.lastName" />{' '}
+                                      </span>
+                                    </label>
+                                    {lastNameValid ? null : (
+                                      <span
+                                        className="input-cross icon-unsuscribe iconfont"
+                                        onClick={() =>
+                                          this.deleteInput('lastName')
+                                        }
+                                      >
+                                        &#xe6b2;
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="invalid-feedback">
+                                    <FormattedMessage id="registerFillIn" />
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
                             <div className="form-group rc-margin-bottom--md required rc-text--left">
                               <div
                                 className={
