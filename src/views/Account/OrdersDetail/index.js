@@ -250,6 +250,17 @@ class AccountOrders extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
+  get isShowInstallMent() {
+    const { details } = this.state;
+    return !!details.tradePrice.installmentPrice;
+  }
+  // 存在分期时，总价显示另一个字段
+  get totalPrice() {
+    const { details } = this.state;
+    return this.isShowInstallMent
+      ? details.tradePrice.totalAddInstallmentPrice
+      : details.tradePrice.totalPrice;
+  }
   init() {
     const { orderNumber, progressList } = this.state;
     this.setState({ loading: true });
@@ -544,7 +555,6 @@ class AccountOrders extends React.Component {
   }
   handleClickPayNow = async () => {
     const { details: order, details } = this.state;
-    const { consignee, invoice, tradePrice } = details;
     this.setState({ payNowLoading: true });
     const tradeItems = details.tradeItems.map((ele) => {
       return {
@@ -558,34 +568,7 @@ class AccountOrders extends React.Component {
         subscriptionStatus: ele.subscriptionStatus
       };
     });
-    const tmpDeliveryAddress = {
-      firstName: consignee.firstName,
-      lastName: consignee.lastName,
-      address1: consignee.detailAddress1,
-      address2: consignee.detailAddress2,
-      rfc: consignee.rfc,
-      country: consignee.countryId ? consignee.countryId.toString() : '',
-      // city: consignee.cityId ? consignee.cityId.toString() : '',
-      city: consignee.city == consignee.cityName ? null : consignee.city,
-      cityName: consignee.cityName,
-      postCode: consignee.postCode,
-      phoneNumber: consignee.phone,
-      addressId: consignee.id
-    };
-    const tmpBillingAddress = {
-      firstName: invoice.firstName,
-      lastName: invoice.lastName,
-      address1: invoice.address1,
-      address2: invoice.address2,
-      rfc: invoice.rfc,
-      country: invoice.countryId ? invoice.countryId.toString() : '',
-      // city: invoice.cityId ? invoice.cityId.toString() : '',
-      city: invoice.city == invoice.cityName ? null : invoice.city,
-      cityName: invoice.cityName,
-      postCode: invoice.postCode,
-      phoneNumber: invoice.phone,
-      addressId: invoice.addressId
-    };
+
     this.props.checkoutStore.setLoginCartData(tradeItems);
     sessionItemRoyal.set('rc-tid', details.id);
 
@@ -1379,6 +1362,24 @@ class AccountOrders extends React.Component {
                                     <></>
                                   )}
 
+                                  {/* 分期手续费 */}
+                                  {this.isShowInstallMent ? (
+                                    <>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-md-2 mb-2 red">
+                                        <FormattedMessage id="installMent.additionalFee" />
+                                      </div>
+                                      <div className="col-6 col-md-3 text-right red text-nowrap">
+                                        {formatMoney(
+                                          details.tradePrice.installmentPrice
+                                            .additionalFee
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null}
+
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
@@ -1399,7 +1400,7 @@ class AccountOrders extends React.Component {
                                     </span>{' '}
                                   </div>
                                   <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
-                                    {formatMoney(details.tradePrice.totalPrice)}
+                                    {formatMoney(this.totalPrice)}
                                   </div>
                                 </div>
                               </div>
@@ -1633,13 +1634,29 @@ class AccountOrders extends React.Component {
                                             {payRecord.holderName}
                                           </p>
                                         ) : null}
-                                        {/* {payRecord.phone ? (
-                                          <>
-                                            {payRecord.phone}
-                                            <br />
-                                          </>
+
+                                        {/* 分期费用明细 */}
+                                        {0 &&
+                                        details.tradePrice.installmentPrice ? (
+                                          <p>
+                                            {formatMoney(
+                                              details.tradePrice.totalPrice
+                                            )}{' '}
+                                            (
+                                            {
+                                              details.tradePrice
+                                                .installmentPrice
+                                                .installmentNumber
+                                            }{' '}
+                                            *{' '}
+                                            {formatMoney(
+                                              details.tradePrice
+                                                .installmentPrice
+                                                .installmentPrice
+                                            )}
+                                            )
+                                          </p>
                                         ) : null}
-                                        {payRecord.email} */}
                                       </div>
                                     </div>
                                   </div>

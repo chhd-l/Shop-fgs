@@ -39,7 +39,7 @@ export const getDeSpecies = (item) => {
 //species属性
 const getSpecies = (item) => {
   if (process.env.REACT_APP_COUNTRY == 'DE') {
-    return getDeSpecies(item)[0] == 'Hund' ? 'dog' : 'cat';
+    return getDeSpecies(item)[0] == 'Hund' ? 'Dog' : 'Cat';
   } else {
     return (
       {
