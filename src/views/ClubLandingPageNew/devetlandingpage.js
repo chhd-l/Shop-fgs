@@ -172,24 +172,24 @@ class ClubLandingPageDeVet extends React.Component {
                               color: '#E2001A'
                             }}
                           >
-                            What makes the RC Vet Portfolio special​
+                            Die richtige Ernährung ist eine wesentliche Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Djaöfonöoihaer
+                              Verbesserung der Lebensqualität der Tiere
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Aeornöoiaöoebaröoobaöobe​
+                              Unterstützung von Tieren mit fütterungsbedingten Erkrankungen
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Oaberoö.aneonioaebnr
+                              Beeinflussung des Wachstums von Katzen- und Hundewelpen
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              aöneörionanöobearboobe
+                              Beitrag zum Management von Erkrankungen
                             </li>
                           </ul>
                           <br />
@@ -210,22 +210,21 @@ class ClubLandingPageDeVet extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <span>
-                      Découvrez nos <br /> gammes d’aliments
+                      Die tierärztlichen Diätnahrungen <br /> von ROYAL CANIN®
                     </span>
                   </h4>
                   <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
                     <p>
                       <span>
-                        Chaque formule a été créée pour fournir une nutrition
-                        adaptée ses besoins de santé quels que <br /> soient sa
-                        taille, sa race, son âge ou son mode de vie.
+                        <p>Seit 1968 erforscht ROYAL CANIN® die besonderen Ernährungsbedürfnisse von Katzen und Hunden bis ins kleinste Detail. Denn schon kleinste Nährstoffunterschiede in der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten. Das gilt natürlich um so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben. Gerade dann kann eine maßgeschneiderte Ernährung helfen, die Gesundheit Ihres Haustieres zu unterstützen und zu erhalten.</p>
+                        <p>ROYAL CANIN® bietet deshalb ein umfangreiches Programm an Nahrungen an, die speziell auf die tierärztlich festgestellten besonderen Bedürfnisse von Katzen und Hunden abgestimmt sind. Sprechen Sie mit Ihrer Tierärztin oder Ihrem Tierarzt darüber, mit welcher ROYAL CANIN® Nahrung Sie die Gesundheit Ihres vierbeinigen Begleiters am besten unterstützen können.</p>
                       </span>
                     </p>
                   </div>
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">
                       <div className="header-title">
-                        <h1 className="rc-espilon">Pour chien</h1>
+                        <h1 className="rc-espilon">Für Katzen</h1>
                         <img src={decat} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
@@ -259,7 +258,7 @@ class ClubLandingPageDeVet extends React.Component {
                     </div>
                     <div className="rc-column">
                       <div className="header-title">
-                        <h1 className="rc-espilon">Pour chien</h1>
+                        <h1 className="rc-espilon">Für Hunde</h1>
                         <img src={dedog} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
@@ -307,7 +306,7 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                       <div>
                         <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                          Empfehlungscode Ihrer Tierarztpraxis
+                          Unser Diätnahrungssortiment
                         </h4>
                       </div>
                       <div className="flex justify-content-center">

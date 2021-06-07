@@ -29,14 +29,14 @@ class ClinicStore {
   @observable clinicRecoCode = localItemRoyal.get(`rc-clinic-reco-code`) || '';
 
   @computed get clinicId() {
-    return this.linkClinicId || this.selectClinicId || this.defaultClinicId;
+    return this.selectClinicId || this.linkClinicId || this.defaultClinicId;
   }
   @computed get clinicRecommendationInfos() {
     return this.linkClinicRecommendationInfos;
   }
   @computed get clinicName() {
     return (
-      this.linkClinicName || this.selectClinicName || this.defaultClinicName
+      this.selectClinicName || this.linkClinicName || this.defaultClinicName
     );
   }
 
