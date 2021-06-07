@@ -97,7 +97,8 @@ class PrescriberCode extends React.Component {
                         <div
                           style={{
                             display: 'inline-flex',
-                            flexDirection: 'column'
+                            flexDirection: 'column',
+                            maxWidth: '250px'
                           }}
                         >
                           <span
