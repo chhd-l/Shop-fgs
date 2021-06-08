@@ -408,9 +408,9 @@ class Payment extends React.Component {
   sendCyberPaymentForm = (cyberPaymentForm) => {
     this.setState({ cyberPaymentForm });
   };
-  sendAdyenOxxoIsValid = () => {
-    this.setState({ adyenOxxoValid: true });
-  };
+  // sendAdyenOxxoIsValid = () => {
+  //   this.setState({ adyenOxxoValid: true });
+  // };
   initPanelStatus() {
     const { paymentStore } = this.props;
     const { tid } = this.state;
@@ -2722,12 +2722,13 @@ class Payment extends React.Component {
               {/* adyenOxxo */}
               {paymentTypeVal === 'adyenOxxo' ? (
                 <>
-                  <AdyenOxxo
-                    sendAdyenOxxoIsValid={this.sendAdyenOxxoIsValid}
-                    billingJSX={this.renderBillingJSX({ type: 'adyenOxxo' })}
+                  <OxxoConfirm
+                    type={'oxxo'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
                   />
                   {payConfirmBtn({
-                    disabled: !this.state.adyenOxxoValid || validForBilling
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
                   })}
                 </>
               ) : null}
@@ -3495,6 +3496,7 @@ class Payment extends React.Component {
               </div>
             </div>
             <Adyen3DForm action={this.state.adyenAction} />
+            <AdyenOxxo action={this.state.adyenOxxoAction} />
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
