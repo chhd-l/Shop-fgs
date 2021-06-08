@@ -116,7 +116,7 @@ class Details extends React.Component {
       checkOutErrMsg: '',
       addToCartLoading: false,
       productRate: 0,
-      backgroundSpaces:'🐕',
+      backgroundSpaces: '🐕',
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
@@ -380,17 +380,17 @@ class Details extends React.Component {
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
-        const backgroundSpace=res.context.goods.cateId;
+        const backgroundSpace = res.context.goods.cateId;
         // 获取club与autoship字典
         if (res && res.context && goodsRes) {
           this.setState({
             productRate: res.context.avgEvaluate
           });
         }
-        if(backgroundSpace){
+        if (backgroundSpace) {
           this.setState({
             backgroundSpaces: res.context.goods.cateId
-          })
+          });
         }
         if (goodsRes) {
           const { goods, images } = res.context;
@@ -636,7 +636,7 @@ class Details extends React.Component {
     });
   };
   showPrescriberCodeBeforeAddCart = () => {
-    if (process.env.REACT_APP_GA_COUNTRY === 'DE') {
+    if (!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
       const { clinicStore } = this.props;
       if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
         this.setState({ showPrescriberCodeModal: true });
@@ -963,7 +963,7 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {process.env.REACT_APP_GA_COUNTRY === 'DE' && (
+            {!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
               <PrescriberCodeModal
                 visible={this.state.showPrescriberCodeModal}
                 close={this.closePrescriberCodeModal}
