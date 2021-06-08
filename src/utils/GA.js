@@ -26,12 +26,10 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
 };
 
 const getDeSpecies = (item) => {
-  const { goodsAttributesValueRelList } = item;
-  return (goodsAttributesValueRelList || [])
+  const { goodsAttributesValueRelVOList } = item;
+  return (goodsAttributesValueRelVOList || [])
     .filter(
-      (attr) =>
-        attr.goodsAttributeName &&
-        attr.goodsAttributeName.toLowerCase() == 'spezies'
+      (attr) => attr.goodsAttributeName && attr.goodsAttributeName == 'SPEZIES'
     )
     .map((item) => item.goodsAttributeValue);
 };
