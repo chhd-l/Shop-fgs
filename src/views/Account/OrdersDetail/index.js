@@ -999,7 +999,6 @@ class AccountOrders extends React.Component {
 
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
-
     const {
       details,
       payRecord,
@@ -1011,6 +1010,7 @@ class AccountOrders extends React.Component {
       showLogisticsDetail,
       curLogisticInfo
     } = this.state;
+    // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
     const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
@@ -1181,7 +1181,36 @@ class AccountOrders extends React.Component {
                                                 />
                                               </span>
                                             </span>
-
+                                            {item.subscriptionSourceList
+                                              ?.length ? (
+                                              <span>
+                                                <span
+                                                  className="iconfont mr-2"
+                                                  style={{ color: '#ec001a' }}
+                                                >
+                                                  &#xe675;
+                                                </span>
+                                                <FormattedMessage id="subscription.numberFirstWordUpperCase" />
+                                                {item.subscriptionSourceList.map(
+                                                  (el) => (
+                                                    <p className="ui-text-overflow-line1">
+                                                      <Link
+                                                        to={`/account/subscription/order/detail/${el.subscribeId}`}
+                                                        className="rc-styled-link medium mb-0"
+                                                      >
+                                                        {filterOrderId({
+                                                          orderNo:
+                                                            el.subscribeId,
+                                                          orderNoForOMS: this
+                                                            .state
+                                                            .orderNumberForOMS
+                                                        })}
+                                                      </Link>
+                                                    </p>
+                                                  )
+                                                )}
+                                              </span>
+                                            ) : null}
                                             <span className="rc-md-down">
                                               {details.subscriptionResponseVO &&
                                               item.subscriptionStatus ? (
