@@ -289,7 +289,7 @@ class ClinicForm extends React.Component {
                 ) : null}
               </span>
             </div>
-            <div className="d-flex justify-content-end mt-3">
+            <div className="d-flex justify-content-end mt-3 rc_btn_clinic_form">
               <button
                 className="rc-btn rc-btn--one rc-btn--sm"
                 onClick={this.handleClickConfirm}

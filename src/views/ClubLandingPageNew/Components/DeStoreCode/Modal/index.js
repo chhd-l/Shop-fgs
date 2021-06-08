@@ -37,7 +37,7 @@ export default class Modal extends React.Component {
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
             <div className="modal-content prescriber-modal-content mt-0">
-              <div>
+              <div className="mobile-margin-top">
                 <button
                   type="button"
                   className="close-btn close"

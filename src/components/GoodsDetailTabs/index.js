@@ -17,9 +17,9 @@ import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
-import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png'
-import pdpbackgrounddog from './image/goodsdetailtabbackground.png'
-import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png'
+import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
+import pdpbackgrounddog from './image/goodsdetailtabbackground.png';
+import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
@@ -29,6 +29,7 @@ import clubiconnew5 from './image/clubiconnew5.png';
 import benefitsone from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsone.png';
 import benefitstwo from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitstwo.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
+import { getDeSpecies } from '../../utils/GA';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -39,27 +40,26 @@ const pdpmobilebackgrounddog = {
 const pdpbackgroundmobilecats = {
   backgroundImage: `url(${pdpbackgroundmobilecat})`,
   overflow: 'hidden',
-  backgroundSize: 'cover',
-}
+  backgroundSize: 'cover'
+};
 
-const pdpbackgrounddogs={
+const pdpbackgrounddogs = {
   backgroundImage: `url(${pdpbackgrounddog})`,
-  height:'700px',
+  height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
-  display:'flex',
-  flexDirection:'column',
-}
+  display: 'flex',
+  flexDirection: 'column'
+};
 
-const pdpbackgroundcats={
+const pdpbackgroundcats = {
   backgroundImage: `url(${pdpbackgroundcat})`,
-  height:'700px',
+  height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
-  display:'flex',
-  flexDirection:'column',
-}
-
+  display: 'flex',
+  flexDirection: 'column'
+};
 
 const SubscriptionItems = [
   {
@@ -84,30 +84,22 @@ const SubscriptionItems = [
 
 let clubListDataNew = [
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon1'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />,
     img: clubiconnew1,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon2'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon2'} />,
     img: clubiconnew2,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon3'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon3'} />,
     img: clubiconnew3,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon4'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon4'} />,
     img: clubiconnew4,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
@@ -118,16 +110,13 @@ let clubListDataNew = [
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
-  process.env.REACT_APP_COUNTRY === 'RU'?
-  {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon6'}
-    />,
-    img: iconsix,
-    alt: 'CLUB BENEFITS PET ADVISOR'
-  }:{
-
-    },
+  process.env.REACT_APP_COUNTRY === 'RU'
+    ? {
+        text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon6'} />,
+        img: iconsix,
+        alt: 'CLUB BENEFITS PET ADVISOR'
+      }
+    : {}
 ];
 
 let clubListData = [
@@ -179,7 +168,7 @@ const GoodsDetailTabs = function (props) {
     isClub,
     goodsDetailSpace
   } = props;
-  console.log(goodsDetailSpace,"🐕")
+  console.log(goodsDetailSpace, '🐕');
   if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
   }
@@ -399,7 +388,7 @@ const GoodsDetailTabs = function (props) {
   const Show = true;
 
   //判断猫狗
-  const [spaceShow,setSpaceShow]=useState('1');
+  const [spaceShow, setSpaceShow] = useState('1');
 
   const getSpeciesId = (item) => {
     if (process.env.REACT_APP_COUNTRY == 'DE') {
@@ -428,10 +417,9 @@ const GoodsDetailTabs = function (props) {
     }
   };
 
-  useEffect(()=>{
-    setSpaceShow(getSpeciesId(goodsDetailSpace))
-  },[])
-
+  useEffect(() => {
+    setSpaceShow(getSpeciesId(goodsDetailSpace));
+  }, []);
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -560,7 +548,11 @@ const GoodsDetailTabs = function (props) {
                     <>
                       <div
                         className="clubdetailsmobile"
-                        style={spaceShow=="1"?pdpbackgroundmobilecats:pdpmobilebackgrounddog}
+                        style={
+                          spaceShow == '1'
+                            ? pdpbackgroundmobilecats
+                            : pdpmobilebackgrounddog
+                        }
                       >
                         <div className="row rc-margin-x--none">
                           <div className="rc-full-width">
@@ -577,8 +569,9 @@ const GoodsDetailTabs = function (props) {
                                       fontWeight: 'bold'
                                     }}
                                   >
-                                    <FormattedMessage id="ClubLP.LongBanner.title"
-                                      values={{val1:<br/>,val2:<br/>}}
+                                    <FormattedMessage
+                                      id="ClubLP.LongBanner.title"
+                                      values={{ val1: <br />, val2: <br /> }}
                                     />
                                   </p>
                                   <p
@@ -775,7 +768,11 @@ const GoodsDetailTabs = function (props) {
                 )}
                 {Show ? (
                   <div>
-                    <div style={spaceShow == "1"?pdpbackgroundcats:pdpbackgrounddogs}>
+                    <div
+                      style={
+                        spaceShow == '1' ? pdpbackgroundcats : pdpbackgrounddogs
+                      }
+                    >
                       <div className="row rc-margin-x--none">
                         <div className="rc-full-width">
                           <div className="experience-component experience-assets-contentBlock">

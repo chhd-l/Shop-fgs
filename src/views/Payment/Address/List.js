@@ -40,7 +40,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPickUpDelivery: false, // 用来标记是否是 pick up
+      isDeliveryOrPickUp: false, // 用来标记是否是 pick up
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -766,6 +766,7 @@ class AddressList extends React.Component {
         }
       }
     );
+    // throw new Error('This Error No Display');
   };
   // 选择地址
   chooseListValidationAddress = (e) => {
@@ -978,7 +979,7 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
     const {
-      isPickUpDelivery,
+      isDeliveryOrPickUp,
       isValid,
       formAddressValid,
       deliveryAddress,
@@ -1264,9 +1265,9 @@ class AddressList extends React.Component {
                           {addressList.length > 1 && _foldBtn}
                           {/* 该按钮，只用来确认地址列表 */}
                           {this.isDeliverAddress && (
-                            <div className="d-flex justify-content-end mt-3">
+                            <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
                               <button
-                                className={`rc-btn rc-btn--one`}
+                                className={`rc-btn rc-btn--one rc_btn_list_confirm`}
                                 onClick={this.clickConfirmAddressPanel}
                               >
                                 <FormattedMessage id="yes2" />
@@ -1279,14 +1280,7 @@ class AddressList extends React.Component {
                       )
                     ) : null}
 
-                    {/* 判断pick up */}
-                    {isPickUpDelivery ? (
-                      <>
-                        <PickUp />
-                      </>
-                    ) : (
-                      <>{_form}</>
-                    )}
+                    {_form}
                   </>
                 ) : panelStatus.isCompleted ? (
                   <AddressPreview

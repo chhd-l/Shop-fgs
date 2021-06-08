@@ -236,7 +236,6 @@ class Payment extends React.Component {
       saveBillingLoading: false,
       payWayErr: '',
       pet: {},
-      installMentParam: null, // 分期参数
       //cyber参数
       cyberPaymentForm: {
         cardholderName: '', //Didier Valansot
@@ -803,7 +802,9 @@ class Payment extends React.Component {
         },
         payUCreditCardTU: async () => {
           let installments;
-          const { installMentParam } = this.state;
+          const {
+            checkoutStore: { installMentParam }
+          } = this.props;
           if (installMentParam) {
             installments = installMentParam.installmentNumber;
           }
@@ -2270,7 +2271,7 @@ class Payment extends React.Component {
           this.loginBillingAddrRef &&
           this.loginBillingAddrRef.current
         ) {
-          // console.log('------------- 会员保存地址，并弹出地址校验');
+          console.log('------------- 会员保存地址，并弹出地址校验');
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
@@ -2338,6 +2339,7 @@ class Payment extends React.Component {
       billingAddressAddOrEdit,
       billingAddress
     } = this.state;
+    console.log(billingAddress);
 
     // 判断 BillingAddress 完整性
     const laddf = this.props.configStore.localAddressForm;
@@ -2353,7 +2355,7 @@ class Payment extends React.Component {
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
-      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      // v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
 
       let fky = wrongBillingAddress[akey];
       // 判断city和cityId 是否均为空
@@ -2491,7 +2493,7 @@ class Payment extends React.Component {
       this.loginBillingAddrRef &&
       this.loginBillingAddrRef.current
     ) {
-      // console.log('------ 调用保存 billingAddress 方法');
+      // console.log('★------ 调用保存 billingAddress 方法');
       await this.loginBillingAddrRef.current.handleSavePromise();
     }
     // 隐藏地址校验弹框
@@ -2509,7 +2511,7 @@ class Payment extends React.Component {
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
     }
-    this.setState({ installMentParam: null });
+    this.props.checkoutStore.setInstallMentParam(null);
     paymentStore.setStsToEdit({
       key: 'paymentMethod',
       hideOthers: true
@@ -2531,7 +2533,7 @@ class Payment extends React.Component {
   }
 
   onInstallMentParamChange = (data) => {
-    this.setState({ installMentParam: data });
+    this.props.checkoutStore.setInstallMentParam(data);
   };
 
   /**
@@ -2551,7 +2553,8 @@ class Payment extends React.Component {
       saveBillingLoading,
       payWayNameArr,
       cyberPaymentForm,
-      cardTypeVal
+      cardTypeVal,
+      tid
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -2588,7 +2591,7 @@ class Payment extends React.Component {
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
       return (
-        <div className="d-flex justify-content-end mt-3">
+        <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <button
             className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
             disabled={disabled}
@@ -2603,7 +2606,7 @@ class Payment extends React.Component {
     const reInputCVVBtn = ({ disabled, loading = false }) => {
       // console.log('2263 CVV Btn: ', disabled);
       return (
-        <div className="d-flex justify-content-end mt-3">
+        <div className="d-flex justify-content-end mt-3 rc_btn_payment_cvv">
           <button
             className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
             disabled={disabled}
@@ -2686,9 +2689,13 @@ class Payment extends React.Component {
                     type={'PayUCreditCard'}
                     isLogin={this.isLogin}
                     mustSaveForFutherPayments={this.isCurrentBuyWaySubscription}
-                    isSupportInstallMent={Boolean(
-                      +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
-                    )}
+                    isSupportInstallMent={
+                      tid
+                        ? false
+                        : Boolean(
+                            +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
+                          )
+                    }
                     needEmail={+process.env.REACT_APP_PAYU_EMAIL}
                     needPhone={+process.env.REACT_APP_PAYU_PHONE}
                     // todo 动态
@@ -3088,7 +3095,6 @@ class Payment extends React.Component {
       isAdd,
       mobileCartVisibleKey,
       guestEmail,
-      installMentParam,
       deliveryAddress,
       paymentValidationLoading,
       validationModalVisible,
@@ -3414,6 +3420,7 @@ class Payment extends React.Component {
                     navigateToProDetails={true}
                     location={location}
                     history={history}
+                    isRepay={true}
                   />
                 ) : (
                   <PayProductInfo
@@ -3431,22 +3438,8 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
-                    installMentParam={installMentParam}
                   />
                 )}
-                {/* 分期手续费 */}
-                {installMentParam ? (
-                  <div className="pl-3 pr-3 pt-1 pb-0 red">
-                    <div className="row">
-                      <div className="col-7">
-                        <FormattedMessage id="installMent.additionalFee" />
-                      </div>
-                      <div className="col-5 text-right">
-                        {formatMoney(installMentParam.additionalFee)}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
 
                 <Faq />
               </div>

@@ -39,7 +39,7 @@ class VisitorAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPickUpDelivery: false, // 用来标记是否是 pick up
+      isDeliveryOrPickUp: false, // 用来标记是否是 pick up
       visitorData: null,
       form: this.props.initData,
       unConfirmedForm: '', //未确认时 但验证成功时的表单数据
@@ -342,7 +342,7 @@ class VisitorAddress extends React.Component {
 
     const { showConfirmBtn } = this.props;
     const {
-      isPickUpDelivery,
+      isDeliveryOrPickUp,
       form,
       isValid,
       formAddressValid,
@@ -381,14 +381,7 @@ class VisitorAddress extends React.Component {
         {!panelStatus.isPrepare ? (
           panelStatus.isEdit ? (
             <fieldset className="shipping-address-block rc-fieldset">
-              {/* 判断pick up */}
-              {isPickUpDelivery ? (
-                <>
-                  <PickUp />
-                </>
-              ) : (
-                <>{_editForm}</>
-              )}
+              {_editForm}
 
               {showConfirmBtn && (
                 <div className="d-flex justify-content-end mb-2">

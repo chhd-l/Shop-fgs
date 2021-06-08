@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getPrescriberByCode } from '@/api/clinic';
-import LazyLoad from 'react-lazyload';
 import line from '../../deimage/Line@4x.png';
 import successImg from '../../image/bingo-green.png';
 import deleteIcon from '../../image/delete-icon.svg';
@@ -80,7 +79,11 @@ class PrescriberCode extends React.Component {
                 </div>
                 {!this.state.showSuccessPanel ? (
                   <div
-                    style={{ display: 'flex', justifyContent: 'center' }}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: isMobile ? '' : 'flex-start'
+                    }}
                     className="deflexcolumn"
                   >
                     <div className="de-prescriber-code-input-search">
@@ -98,11 +101,15 @@ class PrescriberCode extends React.Component {
                           style={{
                             display: 'inline-flex',
                             flexDirection: 'column',
-                            maxWidth: '250px'
+                            width: isMobile ? '100%' : '250px',
+                            maxWidth: isMobile ? '200px' : '250px'
                           }}
                         >
                           <span
-                            style={{ position: 'relative' }}
+                            style={{
+                              position: 'relative',
+                              marginRight: isMobile ? '0' : '1.5rem'
+                            }}
                             className={[
                               'rc-input',
                               'rc-input--inline',
@@ -155,6 +162,7 @@ class PrescriberCode extends React.Component {
                           )}
                         </div>
                         <button
+                          style={{ width: isMobile ? '100%' : '' }}
                           className="rc-btn rc-btn--one mobilemargin3vh"
                           onClick={this.searchPrescriberCode}
                         >
