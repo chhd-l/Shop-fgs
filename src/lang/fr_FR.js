@@ -914,7 +914,7 @@ const fr_FR = {
   'recommendation.welcomeText2': 'Voici la recommandation de votre éleveur :',
   // 'recommendation.welcomeSubText': '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
   'recommendation.welcomeSubText':
-    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une {val} selon le format du produit acheté',
+    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une {val} {val2} selon le format du produit acheté',
   'recommendation.buyNow': 'Acheter maintenant',
   'recommendation.copyTips':
     'Dans votre panier, entrez le code promotionnel et commandez !',
@@ -1590,60 +1590,82 @@ const fr_FR = {
   'subscription.club': 'club',
 
   //NewLandingpageClub
-  'ClubLP.discount.content':'10% DE RÉDUCTION ET LIVRAISON OFFERTE',
-  'ClubLP.LongBanner.title':'OFFREZ À VOTRE {val1} ANIMAL UNE SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
-  'ClubLP.LongBanner.content':'à partir de 19,90 euros/réapprovisionnement',
-  'ClubLP.LongBanner.button':'Essayer maintenant',
-  'ClubLP.LongBanner.content2':"S'abonner sans engagement",
-  'ClubLP.LongBanner.SubscriptionTitle':"Les avantages de l'abonnement pour votre chats et votre chien",
-  'ClubLP.LongBanner.SubscriptionTitle1':'Un aliment sur mesure pour une santé optimale',
-  'ClubLP.LongBanner.SubscriptionContent1':"Des ingrédients de haute qualité choisis pour cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés",
-  'ClubLP.LongBanner.SubscriptionTitle2':"Vous pouvez changer d'aliment quand les besoins de l’animal évoluent",
-  'ClubLP.LongBanner.SubscriptionContent2':'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
-  'ClubLP.LongBanner.SubscriptionTitle3':'La bonne quantité à chaque fois',
-  'ClubLP.LongBanner.SubscriptionContent3':'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
-  'ClubLP.Advantage.title':'UN ALIMENT SUR MESURE',
-  'ClubLP.Advantage.content1':'Des aliments conçus pour répondre aux besoins uniques des chats et des chiens',
-  'ClubLP.Advantage.content2':'Des formules complètes et équilibrées pour des besoins uniques',
-  'ClubLP.Advantage.content3':"Une combinaison d'ingrédients hautement digestibles sélectionnés pour répondre à chaque profil nutritionnel",
-  'ClubLP.Advantage.content4':"Des nutriments sélectionnés pour leur haute qualité, à partir de sources durables ayant une plus faible empreinte carbone",
-  'ClubLP.Advantage.button':'Trouvez votre aliment sur mesure dès maintenant',
-  'ClubLP.SubscriptionBenefitsNew.title':'UN ABONNEMENT QUI VOUS FACILITE LA VIE',
-  'ClubLP.SubscriptionBenefitsNew.icon1':'Livraison offerte et automatique',
-  'ClubLP.SubscriptionBenefitsNew.icon2':'10% de réduction pour toute commande',
-  'ClubLP.SubscriptionBenefitsNew.icon3':'Accès à un conseiller à votre écoute',
-  'ClubLP.SubscriptionBenefitsNew.icon4':'un kit de bienvenue et des cadeaux exclusifs',
-  'ClubLP.SubscriptionBenefitsNew.icon5':'un accompagnement et des conseils sur mesure',
-  'ClubLP.SubscriptionBenefitsNew.button':'Commencer',
-  'ClubLP.NewHowItWorks.title':'COMMENT ÇA MARCHE',
-  'ClubLP.NewJoinUs.title':'PARLEZ-NOUS DE VOTRE ANIMAL',
-  'ClubLP.NewJoinUs.content':'pour obtenir une recommandation nutritionnelle précise.',
-  'ClubLP.NewJoinUs.button':'Commencer',
-  'ClubLP.OurCustomers.title':'NOS CLIENTS FIDELES',
-  'ClubLP.GetMoreAd.title':"OBTENIR DES AVANTAGES SUPPLÉMENTAIRES AVEC L'ABONNEMENT AU CLUB",
-  'ClubLP.GetMoreAd.subtitle1':'Achat {val} unique',
-  'ClubLP.GetMoreAd.subtitle2':'Abonnement au {val} CLUB',
-  'ClubLP.GetMoreAd.Single.tip1':'Aliment sur mesure',
-  'ClubLP.GetMoreAd.Single.tip2':'Livraison offerte',
-  'ClubLP.GetMoreAd.Club.tip1':'Aliment sur mesure',
-  'ClubLP.GetMoreAd.Club.tip2':'Livraison offerte',
-  'ClubLP.GetMoreAd.Club.tip3':'10% de réduction sur chaque commande',
-  'ClubLP.GetMoreAd.Club.tip4':'Réapprovisionnement automatique livré à domicile',
-  'ClubLP.GetMoreAd.Club.tip5':'Newsletters personnalisées ',
-  'ClubLP.GetMoreAd.Club.tip6':'Kit cadeau de bienvenue',
-  'ClubLP.GetMoreAd.Club.tip7':'Avantages et services exclusifs',
-  'ClubLP.GetMoreAd.button':'Démarrer',
-  'ClubLP.Help.title':"Nous sommes là pour vous aider",
-  'ClubLP.Help.subtitle1':'Notre équipe est disponible pour répondre à vos questions et vous fournir la meilleure expérience possible.',
-  'ClubLP.Help.subtitle2':'Vous pouvez nous joindre par les moyens suivants :',
-  'ClubLP.Help.call.title':'Appelez-nous',
-  'ClubLP.Help.call.content':'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
-  'ClubLP.Help.call.number':'O874 657 890',
-  'ClubLP.Help.call.mobile.number':'O874 657 890',
-  'ClubLP.Help.email.title':'Envoyez-nous un e-mail',
-  'ClubLP.Help.email.content':"Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ",
-  'ClubLP.Help.email.address':'Envoyez-nous un e-mail',
-  'ClubLP.Help.faq.content':"Vous pouvez consulter notre FAQ pour consulter si votre question n'a pas déjà été traitée.",
-
+  'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
+  'ClubLP.LongBanner.title':
+    'OFFREZ À VOTRE {val1} ANIMAL UNE SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
+  'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
+  'ClubLP.LongBanner.button': 'Essayer maintenant',
+  'ClubLP.LongBanner.content2': "S'abonner sans engagement",
+  'ClubLP.LongBanner.SubscriptionTitle':
+    "Les avantages de l'abonnement pour votre chats et votre chien",
+  'ClubLP.LongBanner.SubscriptionTitle1':
+    'Un aliment sur mesure pour une santé optimale',
+  'ClubLP.LongBanner.SubscriptionContent1':
+    'Des ingrédients de haute qualité choisis pour cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
+  'ClubLP.LongBanner.SubscriptionTitle2':
+    "Vous pouvez changer d'aliment quand les besoins de l’animal évoluent",
+  'ClubLP.LongBanner.SubscriptionContent2':
+    'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'La bonne quantité à chaque fois',
+  'ClubLP.LongBanner.SubscriptionContent3':
+    'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
+  'ClubLP.Advantage.title': 'UN ALIMENT SUR MESURE',
+  'ClubLP.Advantage.content1':
+    'Des aliments conçus pour répondre aux besoins uniques des chats et des chiens',
+  'ClubLP.Advantage.content2':
+    'Des formules complètes et équilibrées pour des besoins uniques',
+  'ClubLP.Advantage.content3':
+    "Une combinaison d'ingrédients hautement digestibles sélectionnés pour répondre à chaque profil nutritionnel",
+  'ClubLP.Advantage.content4':
+    'Des nutriments sélectionnés pour leur haute qualité, à partir de sources durables ayant une plus faible empreinte carbone',
+  'ClubLP.Advantage.button': 'Trouvez votre aliment sur mesure dès maintenant',
+  'ClubLP.SubscriptionBenefitsNew.title':
+    'UN ABONNEMENT QUI VOUS FACILITE LA VIE',
+  'ClubLP.SubscriptionBenefitsNew.icon1': 'Livraison offerte et automatique',
+  'ClubLP.SubscriptionBenefitsNew.icon2':
+    '10% de réduction pour toute commande',
+  'ClubLP.SubscriptionBenefitsNew.icon3':
+    'Accès à un conseiller à votre écoute',
+  'ClubLP.SubscriptionBenefitsNew.icon4':
+    'un kit de bienvenue et des cadeaux exclusifs',
+  'ClubLP.SubscriptionBenefitsNew.icon5':
+    'un accompagnement et des conseils sur mesure',
+  'ClubLP.SubscriptionBenefitsNew.button': 'Commencer',
+  'ClubLP.NewHowItWorks.title': 'COMMENT ÇA MARCHE',
+  'ClubLP.NewJoinUs.title': 'PARLEZ-NOUS DE VOTRE ANIMAL',
+  'ClubLP.NewJoinUs.content':
+    'pour obtenir une recommandation nutritionnelle précise.',
+  'ClubLP.NewJoinUs.button': 'Commencer',
+  'ClubLP.OurCustomers.title': 'NOS CLIENTS FIDELES',
+  'ClubLP.GetMoreAd.title':
+    "OBTENIR DES AVANTAGES SUPPLÉMENTAIRES AVEC L'ABONNEMENT AU CLUB",
+  'ClubLP.GetMoreAd.subtitle1': 'Achat {val} unique',
+  'ClubLP.GetMoreAd.subtitle2': 'Abonnement au {val} CLUB',
+  'ClubLP.GetMoreAd.Single.tip1': 'Aliment sur mesure',
+  'ClubLP.GetMoreAd.Single.tip2': 'Livraison offerte',
+  'ClubLP.GetMoreAd.Club.tip1': 'Aliment sur mesure',
+  'ClubLP.GetMoreAd.Club.tip2': 'Livraison offerte',
+  'ClubLP.GetMoreAd.Club.tip3': '10% de réduction sur chaque commande',
+  'ClubLP.GetMoreAd.Club.tip4':
+    'Réapprovisionnement automatique livré à domicile',
+  'ClubLP.GetMoreAd.Club.tip5': 'Newsletters personnalisées ',
+  'ClubLP.GetMoreAd.Club.tip6': 'Kit cadeau de bienvenue',
+  'ClubLP.GetMoreAd.Club.tip7': 'Avantages et services exclusifs',
+  'ClubLP.GetMoreAd.button': 'Démarrer',
+  'ClubLP.Help.title': 'Nous sommes là pour vous aider',
+  'ClubLP.Help.subtitle1':
+    'Notre équipe est disponible pour répondre à vos questions et vous fournir la meilleure expérience possible.',
+  'ClubLP.Help.subtitle2': 'Vous pouvez nous joindre par les moyens suivants :',
+  'ClubLP.Help.call.title': 'Appelez-nous',
+  'ClubLP.Help.call.content':
+    'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
+  'ClubLP.Help.call.number': 'O874 657 890',
+  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
+  'ClubLP.Help.email.content':
+    'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',
+  'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
+  'ClubLP.Help.faq.content':
+    "Vous pouvez consulter notre FAQ pour consulter si votre question n'a pas déjà été traitée."
 };
 export default fr_FR;
