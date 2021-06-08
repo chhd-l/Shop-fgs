@@ -705,6 +705,10 @@ const ru_RU = {
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'Квартира',
   'payment.comment': 'Комментарий к доставке',
+
+  'payment.deliveryDateText': 'Дата доставки',
+  'payment.timeSlot': 'промежуток времени',
+
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
