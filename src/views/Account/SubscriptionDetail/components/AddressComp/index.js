@@ -230,6 +230,7 @@ class AddressList extends React.Component {
   }
   // 判断地址完整性
   getSubAddressErrMsg = (data) => {
+    console.log(data);
     let { wrongAddressMsg } = this.state;
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;

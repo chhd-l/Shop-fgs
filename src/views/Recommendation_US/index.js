@@ -966,9 +966,30 @@ class Recommendation extends React.Component {
                 <FormattedMessage
                   id="recommendation.welcomeSubText"
                   values={{
+                    val2: (
+                      <em style={{ fontSize: '14px', color: '#666' }}>
+                        (Offre personnelle valable sur l'intégralité de nos
+                        aliments chien & chat (hors aliments humides, Babycat
+                        milk, gamme Size mini indoor & conditionnements de 1kg)
+                        et cumulable avec l'offre d'abonnement. Valable une
+                        seule fois et uniquement sur la boutique en ligne Royal
+                        Canin{' '}
+                        <a
+                          href="https://www.royalcanin.com/fr/shop"
+                          style={{
+                            color: '#000',
+                            textDecoration: 'underline',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          https://www.royalcanin.com/fr/shop
+                        </a>
+                        )
+                      </em>
+                    ),
                     val: (
                       <strong style={{ color: '#e2001a' }}>
-                        réduction de 5 à 20€
+                        réduction de 5€ à 20€
                       </strong>
                     )
                   }}

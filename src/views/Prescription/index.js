@@ -370,6 +370,7 @@ class Prescription extends React.Component {
                           <DistributeHubLinkOrATag
                             href={'/contact-us'}
                             ariaLabel="Links to contact us"
+                            target={'_blank'}
                           >
                             <span className="vet-clinic-tip-link">
                               <FormattedMessage id="clinic.vetClinicsTip2" />
