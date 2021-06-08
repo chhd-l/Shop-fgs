@@ -10,10 +10,10 @@
  *
  *********/
 import React from 'react';
-import locales from '@/lang';
+import { inject, observer } from 'mobx-react';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
-import CitySearchSelection from '@/components/CitySearchSelection';
 import SearchSelection from '@/components/SearchSelection';
 import {
   getDictionary,
@@ -25,27 +25,12 @@ import {
   loadJS,
   getDeviceType
 } from '@/utils/utils';
-import DatePicker from 'react-datepicker';
-import { format } from 'date-fns';
 import Loading from '@/components/Loading';
-import {
-  getSystemConfig,
-  getAddressSetting,
-  getProvincesList,
-  getRegionByCityId,
-  getAddressBykeyWord,
-  getCityList
-} from '@/api';
-import { shippingCalculation } from '@/api/cart';
-import { inject, observer } from 'mobx-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import IMask from 'imask';
+import { getSystemConfig, getAddressBykeyWord } from '@/api';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const CURRENT_LANGFILE = locales;
-let tempolineCache = {};
 @inject('configStore')
 @injectIntl
 @observer
@@ -60,37 +45,6 @@ class PickUp extends React.Component {
     };
   }
   componentDidMount() {}
-  setMyMap = () => {
-    dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
-    loadJS({
-      url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
-      callback: function () {
-        window.kaktusMap.openWidget({
-          city_from: 'Москва',
-          city_to: 'Санкт-Петербург',
-          dimensions: {
-            height: 10,
-            width: 10,
-            depth: 10
-          },
-          weight: 600
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-          //Инициализация виджета. Должна вызываться после полной отрисовки страницы.
-          kaktusMap({
-            domain: 'shop000000', //здесь нужно указать домен в системе kak2c
-            host: '//app.kak2c.ru'
-          });
-        });
-
-        //Пример подписки на события виджета
-        document.addEventListener('kaktusEvent', function (event) {
-          console.log(event.detail);
-        });
-      }
-    });
-  };
   render() {
     const { dataLoading, formLoading } = this.state;
     return (
@@ -106,6 +60,31 @@ class PickUp extends React.Component {
 
         {dataLoading ? <Loading /> : null} */}
         {/* <button class="rc-btn rc-btn--one" onClick={() => this.setMyMap()}>地图</button> */}
+
+        <div className="row rc_form_box">
+          <div className="col-md-6">
+            <div className="form-group">
+              <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                <input
+                  type="email"
+                  className="rc-input__control emailShipping"
+                  id="email"
+                  alt="Fill city of delivery"
+                  name="email"
+                  placeholder="Fill city of delivery"
+                  maxLength="50"
+                />
+              </span>
+            </div>
+          </div>
+          <div className="col-md-12">
+            <div className="d-flex justify-content-end mt-3 rc_btn_pick_up">
+              <button className="rc-btn rc-btn--one">
+                <FormattedMessage id="yes2" />
+              </button>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

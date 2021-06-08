@@ -2,10 +2,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from './image/pictosshippingnew@4x.png';
-import phoneiconnew from './image/phonenew@4x.png';
+import phoneicon from './image/phoneicon@4x.png'
 import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
+import iconsix from './image/iconsix.png'
 
 const SubsriptionBenefitsNew = () => {
   return (
@@ -122,7 +123,7 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Бесплатная доставка корма на протяжении всего участия в программе "
                           title="ideal formula"
-                          src={phoneiconnew}
+                          src={phoneicon}
                         />
                       </LazyLoad>
                     </div>
@@ -147,7 +148,7 @@ const SubsriptionBenefitsNew = () => {
                             style={{ width: '100px', height: '100px' }}
                             alt="Бесплатная доставка корма на протяжении всего участия в программе "
                             title="ideal formula"
-                            src={phoneiconnew}
+                            src={iconsix}
                           />
                         </LazyLoad>
                       </div>

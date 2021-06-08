@@ -104,8 +104,10 @@ let clubListDataNew = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon5'} />,
-    img: clubiconnew5,
+    text: <FormattedMessage
+      id={'ClubLP.SubscriptionBenefitsNew.icon5'}
+    />,
+    img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   process.env.REACT_APP_COUNTRY === 'RU'
@@ -383,7 +385,7 @@ const GoodsDetailTabs = function (props) {
   }, []);
 
   //club new subscribtion每次提交的时候记得把true改为false
-  const Show = false;
+  const Show = true;
 
   //判断猫狗
   const [spaceShow, setSpaceShow] = useState('1');

@@ -2339,6 +2339,7 @@ class Payment extends React.Component {
       billingAddressAddOrEdit,
       billingAddress
     } = this.state;
+    console.log(billingAddress);
 
     // 判断 BillingAddress 完整性
     const laddf = this.props.configStore.localAddressForm;
@@ -2354,7 +2355,7 @@ class Payment extends React.Component {
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
-      v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      // v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
 
       let fky = wrongBillingAddress[akey];
       // 判断city和cityId 是否均为空
@@ -2590,7 +2591,7 @@ class Payment extends React.Component {
 
     const payConfirmBtn = ({ disabled, loading = false }) => {
       return (
-        <div className="d-flex justify-content-end mt-3">
+        <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <button
             className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
             disabled={disabled}
@@ -2605,7 +2606,7 @@ class Payment extends React.Component {
     const reInputCVVBtn = ({ disabled, loading = false }) => {
       // console.log('2263 CVV Btn: ', disabled);
       return (
-        <div className="d-flex justify-content-end mt-3">
+        <div className="d-flex justify-content-end mt-3 rc_btn_payment_cvv">
           <button
             className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
             disabled={disabled}
