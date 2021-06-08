@@ -25,7 +25,7 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
   );
 };
 
-const getDeSpecies = (item) => {
+export const getDeSpecies = (item) => {
   const { goodsAttributesValueRelVOList } = item;
   return (goodsAttributesValueRelVOList || [])
     .filter(
