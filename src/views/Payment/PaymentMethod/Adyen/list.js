@@ -80,31 +80,6 @@ class AdyenCreditCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get showList() {
-    const {
-      cardList,
-      memberUnsavedCardList,
-      formVisible,
-      listLoading
-    } = this.state;
-    let ret = false;
-    if (
-      this.isLogin &&
-      !listLoading &&
-      !formVisible &&
-      (cardList.length || memberUnsavedCardList.length) // todo，只由formVisible控制
-    ) {
-      return true;
-    }
-    if (!this.isLogin && !formVisible) {
-      return true;
-    }
-    return ret;
-  }
-  // 是否重建form表单
-  get isRebuildForm() {
-    return this.isLogin;
-  }
   queryList = async ({
     currentCardEncryptedSecurityCode,
     showListLoading = true
@@ -611,27 +586,56 @@ class AdyenCreditCardList extends React.Component {
   };
   render() {
     const { billingJSX } = this.props;
-    const { formVisible, listLoading } = this.state;
+    const {
+      cardList,
+      memberUnsavedCardList,
+      formVisible,
+      listLoading,
+      saveLoading
+    } = this.state;
+    const footerJSX = (
+      <>
+        {billingJSX}
 
+        {/* 会员取消新增form操作按钮 */}
+        {/* <>
+          <span
+            className="rc-styled-link editPersonalInfoBtn"
+            name="contactInformation"
+            onClick={this.handleClickCancel}
+          >
+            <FormattedMessage id="cancel" />
+          </span>
+          <span className="mr-1 ml-1">
+            <FormattedMessage id="or" />
+          </span>
+        </> */}
+      </>
+    );
     return (
       <>
-        {listLoading ? (
-          <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
-        ) : null}
-
-        {this.showList && this.renderList()}
-
-        {this.isRebuildForm ? (
-          formVisible ? (
-            this.renderEditForm()
-          ) : null
+        {this.isLogin ? (
+          listLoading ? (
+            <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+          ) : !formVisible &&
+            (cardList.length || memberUnsavedCardList.length) ? (
+            <>
+              <span>{this.renderList()}</span>
+            </>
+          ) : (
+            <>
+              <span>{this.renderEditForm()}</span>
+            </>
+          )
         ) : (
-          <div className={`${formVisible ? '' : 'hidden'}`}>
-            <span>{this.renderEditForm()}</span>
-          </div>
+          <>
+            {!formVisible && this.renderList()}
+            <div className={`${formVisible ? '' : 'hidden'}`}>
+              <span>{this.renderEditForm()}</span>
+            </div>
+          </>
         )}
-
-        <span>{billingJSX}</span>
+        <span>{footerJSX}</span>
       </>
     );
   }
