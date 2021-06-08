@@ -18,7 +18,8 @@ class ValidationAddressModal extends React.Component {
       postCode: '',
       countryName: ''
     },
-    selectValidationOption: 'suggestedAddress'
+    selectValidationOption: 'suggestedAddress',
+    defaultValidationAddress: null // 默认校验地址
   };
   constructor(props) {
     super(props);
@@ -35,10 +36,18 @@ class ValidationAddressModal extends React.Component {
     };
   }
   componentDidMount() {
+    const { defaultValidationAddress } = this.props;
     this.setState({
       modalVisible: false
     });
-    this.toAddressValidation();
+    if (defaultValidationAddress) {
+      this.setState({
+        modalVisible: true,
+        validationAddress: defaultValidationAddress
+      });
+    } else {
+      this.toAddressValidation();
+    }
   }
   close() {
     this.setState({
