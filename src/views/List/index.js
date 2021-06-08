@@ -586,7 +586,7 @@ function ProductFinderAd({
 }) {
   return (
     {
-      FR: (
+      fr: (
         <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
@@ -681,7 +681,7 @@ function ProductFinderAd({
           ) : null}
         </div>
       )
-    }[process.env.REACT_APP_COUNTRY] || null
+    }[process.env.REACT_APP_LANG] || null
   );
 }
 
@@ -838,6 +838,7 @@ class List extends React.Component {
       ).split('|');
       tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
     }
+
     // ru filter seo 定制化 ==
     let lifestagesPrefv = [],
       sterilizedPrefv = [],
@@ -903,15 +904,6 @@ class List extends React.Component {
         sizePrefv.push(fvEles);
       }
     }
-
-    let ttPrefv = [
-      ...technologyPrefv,
-      ...lifestagesPrefv,
-      ...sizePrefvSeo,
-      ...breedsPrefv,
-      ...sterilizedPrefv
-    ];
-    console.log(ttPrefv, 'ttjio[ereo');
 
     if (!lifestagesPrefv.length && prefnNum) {
       const foodType = this.state.isDogPage
@@ -1104,7 +1096,13 @@ class List extends React.Component {
   }
 
   // hub商品列表 埋点
-  hubGAProductImpression(productList, totalElements, keywords, type) {
+  hubGAProductImpression(
+    productList,
+    goodsList,
+    totalElements,
+    keywords,
+    type
+  ) {
     const { sizePrefv = [], filterList = [] } = this.state;
     const filterPrefv = sizePrefv.split('|');
     const sizeAttr = filterList.filter(
@@ -1124,11 +1122,13 @@ class List extends React.Component {
         goodsCate,
         goodsInfos,
         goodsBrand,
-        goodsNo,
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName
       } = item;
+      const goodsNo = goodsList?.filter(
+        (good) => good.goodsName == goodsName
+      )?.[0]?.goodsNo;
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
         .map((item) => item.goodsAttributeValue);
@@ -1177,7 +1177,7 @@ class List extends React.Component {
   }
 
   // hubGa点击页码切换埋点
-  hubGAPageChange(productList) {
+  hubGAPageChange(productList, goodsList) {
     const products = productList.map((item, index) => {
       const {
         fromPrice,
@@ -1186,9 +1186,11 @@ class List extends React.Component {
         goodsBrand,
         goodsName,
         goodsAttributesValueRelVOAllList,
-        goodsCateName,
-        goodsNo
+        goodsCateName
       } = item;
+      const goodsNo = goodsList?.filter(
+        (good) => good.goodsName == goodsName
+      )?.[0]?.goodsNo;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter(
@@ -1593,7 +1595,7 @@ class List extends React.Component {
 
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
-      Array.from(pEle.attributesValueList || [], (cEle) => {
+      Array.from(pEle.attributesValueList, (cEle) => {
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
         const targetPIdx = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
@@ -1833,59 +1835,94 @@ class List extends React.Component {
         const keywords = this.state.keywords;
         if (esGoodsPage && esGoodsPage.content.length) {
           let goodsContent = esGoodsPage.content;
-          goodsContent = goodsContent.map((ele) => {
-            //hub商品图片下方展示的属性
-            const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
+          if (res.context.goodsList) {
+            goodsContent = goodsContent.map((ele) => {
+              //hub商品图片下方展示的属性
+              const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
+                .filter(
+                  (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
+                )
+                .map((t) => t.goodsAttributeValueEn);
+              const breedsValueAttr = (
+                ele.goodsAttributesValueRelVOAllList || []
               )
-              .map((t) => t.goodsAttributeValueEn);
-            const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
+                .filter(
+                  (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
+                )
+                .map((t) => t.goodsAttributeValue);
+              const technologyAttr = (
+                ele.goodsAttributesValueRelVOAllList || []
               )
-              .map((t) => t.goodsAttributeValue);
-            const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) =>
-                  item?.goodsAttributeName?.toLowerCase() == 'technology'
-              )
-              .map((t) => t.goodsAttributeValueEn);
-            const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-            const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-            const breed = breedValue
-              ? breedValue.toLowerCase() === 'cat'
-                ? 'Для кошек'
-                : 'Для собак'
-              : ''; //俄罗斯定制，嗐！
-            const ruAttrs = breed
-              ? [breed, ...technologyAttr]
-              : [...technologyAttr];
-            const technologyOrBreedsAttr =
-              isHub && process.env.REACT_APP_COUNTRY === 'RU'
-                ? ruAttrs.join(',')
-                : attrs;
-            const taggingVOList = (ele.taggingVOList || []).filter(
-              (t) => t.displayStatus
-            );
+                .filter(
+                  (item) =>
+                    item?.goodsAttributeName?.toLowerCase() == 'technology'
+                )
+                .map((t) => t.goodsAttributeValueEn);
+              const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
+              const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
+              const breed = breedValue
+                ? breedValue.toLowerCase() === 'cat'
+                  ? 'Для кошек'
+                  : 'Для собак'
+                : ''; //俄罗斯定制，嗐！
+              const ruAttrs = breed
+                ? [breed, ...technologyAttr]
+                : [...technologyAttr];
+              const technologyOrBreedsAttr =
+                isHub && process.env.REACT_APP_COUNTRY === 'RU'
+                  ? ruAttrs.join(',')
+                  : attrs;
+              const taggingVOList = (ele.taggingVOList || []).filter(
+                (t) => t.displayStatus
+              );
 
-            let ret = Object.assign({}, ele, {
-              // 最低marketPrice对应的划线价
-              miLinePrice: ele.goodsInfos.sort(
-                (a, b) => a.marketPrice - b.marketPrice
-              )[0].linePrice,
-              taggingForText: taggingVOList.filter(
-                (e) => e.taggingType === 'Text' && e.showPage?.includes('PLP')
-              )[0],
-              taggingForImage: taggingVOList.filter(
-                (e) => e.taggingType === 'Image' && e.showPage?.includes('PLP')
-              )[0],
-              technologyOrBreedsAttr,
-              fromPrice: ele.fromPrice,
-              toPrice: ele.toPrice
+              let ret = Object.assign({}, ele, {
+                // 最低marketPrice对应的划线价
+                miLinePrice: ele.goodsInfos.sort(
+                  (a, b) => a.marketPrice - b.marketPrice
+                )[0].linePrice,
+                taggingForText: taggingVOList.filter(
+                  (e) => e.taggingType === 'Text' && e.showPage?.includes('PLP')
+                )[0],
+                taggingForImage: taggingVOList.filter(
+                  (e) =>
+                    e.taggingType === 'Image' && e.showPage?.includes('PLP')
+                )[0],
+                technologyOrBreedsAttr,
+                fromPrice: ele.fromPrice,
+                toPrice: ele.toPrice
+              });
+              const tmpItem = find(
+                res.context.goodsList,
+                (g) => g.goodsId === ele.id
+              );
+              if (tmpItem) {
+                const {
+                  goodsCateName,
+                  goodsSubtitle,
+                  goodsNewSubtitle, // 商品into介绍
+                  subscriptionStatus,
+                  avgEvaluate,
+                  minMarketPrice,
+                  goodsImg,
+                  miMarketPrice,
+                  goodsNo,
+                  ...others
+                } = tmpItem;
+                ret = Object.assign(ret, {
+                  goodsCateName,
+                  goodsSubtitle,
+                  goodsNewSubtitle,
+                  subscriptionStatus,
+                  avgEvaluate,
+                  minMarketPrice,
+                  goodsImg,
+                  goodsNo
+                });
+              }
+              return ret;
             });
-            return ret;
-          });
+          }
 
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
@@ -1923,6 +1960,7 @@ class List extends React.Component {
               this.hubGA
                 ? this.hubGAProductImpression(
                     esGoodsPage.content,
+                    res.context.goodsList,
                     totalElements,
                     keywords,
                     type
@@ -1936,7 +1974,10 @@ class List extends React.Component {
               // hubGa点击页码切换埋点
               this.hubGA &&
                 type === 'pageChange' &&
-                this.hubGAPageChange(esGoodsPage.content);
+                this.hubGAPageChange(
+                  esGoodsPage.content,
+                  res.context.goodsList
+                );
             }
           );
         } else {
