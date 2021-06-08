@@ -661,6 +661,7 @@ class AddressList extends React.Component {
       }, 2000);
       return res;
     } catch (err) {
+      console.log(664, '-------- err: ', err);
       this.setState({
         saveErrorMsg: err.message.toString()
       });
@@ -716,6 +717,7 @@ class AddressList extends React.Component {
       });
   }
   showErrorMsg(msg) {
+    console.log(722, '-------- err msg: ', msg);
     this.setState({
       saveErrorMsg: msg
     });
@@ -723,7 +725,8 @@ class AddressList extends React.Component {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        saveErrorMsg: ''
+        saveErrorMsg: '',
+        successTipVisible: false
       });
     }, 3000);
   }
@@ -845,7 +848,7 @@ class AddressList extends React.Component {
         <div
           className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
             this.state.saveErrorMsg ? '' : 'hidden'
-          }`}
+          } subscription-detail-address-comp`}
         >
           <aside
             className="rc-alert rc-alert--error rc-alert--with-close errorAccount"

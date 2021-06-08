@@ -34,7 +34,8 @@ import {
   getProvincesList,
   getRegionByCityId,
   getAddressBykeyWord,
-  getCityList
+  getCityList,
+  getDeliveryDateAndTimeSlot
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
@@ -103,6 +104,10 @@ class Form extends React.Component {
       cityList: [], // city列表
       regionList: [], // region列表
       address1Data: [], // DuData address1
+      isDeliveryDateAndTimeSlot: false,
+      deliveryDataTimeSlotList: [],
+      deliveryDateList: [], // delivery date
+      timeSlotList: [], // time slot
       errMsgObj: {}
     };
   }
@@ -152,6 +157,52 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
+  // 0、获取 DeliveryDate 和 TimeSlot
+  getDeliveryDateAndTimeSlot = async (str) => {
+    let res = null;
+    try {
+      res = await getDeliveryDateAndTimeSlot({ cityNo: str });
+      let flag = false;
+      let ddts = {};
+      let ddlist = [];
+      let tslist = [];
+      if (res.context) {
+        flag = true;
+        let robj = res.context;
+        robj.forEach((v, i) => {
+          ddts[v.date] = v.dateTimeInfos;
+          ddlist.push({
+            value: i,
+            name: v.date,
+            date: v.date,
+            weekDay: v.weekDay
+          });
+
+          (v?.dateTimeInfos).forEach((r, j) => {
+            i == 0
+              ? tslist.push({
+                  value: j,
+                  name: r.startTime + ' - ' + r.endTime,
+                  startTime: r.startTime,
+                  endTime: r.endTime,
+                  sort: r.sort
+                })
+              : '';
+          });
+        });
+      }
+      this.setState({
+        isDeliveryDateAndTimeSlot: flag,
+        deliveryDataTimeSlotList: ddts,
+        deliveryDateList: ddlist,
+        timeSlotList: tslist
+      });
+    } catch (err) {
+      console.warn(err);
+    } finally {
+      return res;
+    }
+  };
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
     let element = document.getElementById('phoneNumberShipping');
@@ -208,6 +259,7 @@ class Form extends React.Component {
           } else if (this.props.personalData) {
             // persnalData不需要展示comment
             narr = narr.filter((item) => item.fieldKey != 'comment');
+          } else {
           }
 
           // 格式化表单json
@@ -254,18 +306,11 @@ class Form extends React.Component {
     let rule = [];
     let cfdata = Object.assign({}, caninForm);
 
-    // 绑卡页面添加 email
-    let emailObj = {
-      id: 99999999,
-      sequence: 99999999,
+    // 前端写死的文本框默认数据
+    let defaultObj = {
       inputType: 0,
-      fieldKey: 'email',
-      fieldName: 'email',
-      filedType: 'text',
-      inputFreeTextFlag: 1,
-      inputSearchBoxFlag: 0,
-      inputDropDownBoxFlag: 0,
       maxLength: 50,
+      filedType: 'text',
       requiredFlag: 1,
       enableFlag: 1,
       dataSource: 0,
@@ -281,10 +326,59 @@ class Form extends React.Component {
       regExp: {},
       errMsg: ''
     };
+    // 绑卡页面添加 email
+    let emailObj = Object.assign(
+      {
+        id: 99999999,
+        sequence: 99999999,
+        fieldKey: 'email',
+        fieldName: 'email',
+        inputFreeTextFlag: 1,
+        inputSearchBoxFlag: 0,
+        inputDropDownBoxFlag: 0
+      },
+      defaultObj
+    );
+    // delivery date
+    let deliveryDateObj = Object.assign(
+      {
+        id: 99999998,
+        sequence: 12,
+        fieldKey: 'deliveryDate',
+        fieldName: 'deliveryDate',
+        inputFreeTextFlag: 0,
+        inputSearchBoxFlag: 0,
+        inputDropDownBoxFlag: 1
+      },
+      defaultObj
+    );
+    // time slot
+    let timeSlotObj = Object.assign(
+      {
+        id: 99999997,
+        sequence: 12,
+        fieldKey: 'timeSlot',
+        fieldName: 'timeSlot',
+        inputFreeTextFlag: 0,
+        inputSearchBoxFlag: 0,
+        inputDropDownBoxFlag: 1
+      },
+      defaultObj
+    );
+
     if (this.props.isCyberBillingAddress) {
       array.push(emailObj);
     }
 
+    if (
+      process.env.REACT_APP_COUNTRY == 'RU' &&
+      !this.props.isCyberBillingAddress &&
+      !this.props.personalData
+    ) {
+      array.push(deliveryDateObj);
+      array.push(timeSlotObj);
+    }
+    array.sort((a, b) => a.sequence - b.sequence);
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       // item.filedType = item.filedType == 0 ? 'text' : 'number';
@@ -538,7 +632,7 @@ class Form extends React.Component {
   };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
-    const { caninForm } = this.state;
+    const { caninForm, deliveryDataTimeSlotList } = this.state;
     caninForm[key + 'Id'] = data.value;
     if (key == 'state') {
       caninForm.provinceId = data.value;
@@ -569,6 +663,23 @@ class Form extends React.Component {
       caninForm.areaId = data.value;
       caninForm.region = data.name;
       caninForm.regionId = data.value;
+    } else if (key == 'deliveryDate') {
+      caninForm.deliveryDate = data.name;
+      let tslist = [];
+      deliveryDataTimeSlotList[data.name]?.forEach((r, j) => {
+        tslist.push({
+          value: j,
+          name: r.startTime + ' - ' + r.endTime,
+          startTime: r.startTime,
+          endTime: r.endTime,
+          sort: r.sort
+        });
+      });
+      this.setState({
+        timeSlotList: tslist
+      });
+    } else if (key == 'timeSlot') {
+      caninForm.timeSlot = data.name;
     }
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
@@ -759,6 +870,10 @@ class Form extends React.Component {
             this.props.getFormAddressValidFlag(true);
             // purchases接口计算运费
             this.props.calculateFreight(this.state.caninForm);
+            // delivery date and time slot
+            if (!this.props.isCyberBillingAddress && !this.props.personalData) {
+              this.getDeliveryDateAndTimeSlot(data?.cityId);
+            }
           }
         );
       });
@@ -1041,9 +1156,14 @@ class Form extends React.Component {
       </>
     );
   };
-  // 俄罗斯
   render() {
-    const { dataLoading, formLoading, formList, errMsgObj } = this.state;
+    const {
+      dataLoading,
+      formLoading,
+      formList,
+      errMsgObj,
+      isDeliveryDateAndTimeSlot
+    } = this.state;
     return (
       <>
         {formLoading ? (
@@ -1057,7 +1177,13 @@ class Form extends React.Component {
               formList.map((item, index) => (
                 <>
                   <div
-                    className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
+                    className={`col-md-${item.occupancyNum == 1 ? 6 : 12} ${
+                      !isDeliveryDateAndTimeSlot &&
+                      (item.fieldKey == 'deliveryDate' ||
+                        item.fieldKey == 'timeSlot')
+                        ? 'hidden'
+                        : ''
+                    }`}
                     key={index}
                   >
                     {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
@@ -1070,7 +1196,11 @@ class Form extends React.Component {
                         className="form-control-label"
                         htmlFor={`${item.fieldKey}Shipping`}
                       >
-                        <FormattedMessage id={`payment.${item.fieldKey}`} />
+                        {item.fieldKey == 'deliveryDate' ? (
+                          <FormattedMessage id={`payment.deliveryDateText`} />
+                        ) : (
+                          <FormattedMessage id={`payment.${item.fieldKey}`} />
+                        )}
                       </label>
 
                       {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
@@ -1139,6 +1269,8 @@ class Form extends React.Component {
                     this.emailAndBirthDataJSX()}
                 </>
               ))}
+
+            {/* 根据接口返回判断是否显示 DeliveryDate 和 TimeSlot */}
           </div>
         )}
 
