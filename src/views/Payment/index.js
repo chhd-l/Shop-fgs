@@ -2108,7 +2108,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
@@ -2566,7 +2566,8 @@ class Payment extends React.Component {
       billingAddressAddOrEdit,
       billingAddress
     } = this.state;
-
+    console.log('clickReInputCvvConfirm billingAddress: ', billingAddress);
+    let billaddr = Object.assign({}, billingAddress);
     // 判断 BillingAddress 完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -2581,7 +2582,9 @@ class Payment extends React.Component {
       // region 对应数据库字段 area
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
-      // v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      if (billaddr?.consigneeNumber) {
+        v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+      }
 
       let fky = wrongBillingAddress[akey];
       // 判断city和cityId 是否均为空
