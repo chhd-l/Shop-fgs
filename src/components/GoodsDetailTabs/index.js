@@ -115,7 +115,7 @@ let clubListDataNew = [
     text: <FormattedMessage
       id={'ClubLP.SubscriptionBenefitsNew.icon5'}
     />,
-    img: clubiconnew5,
+    img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   process.env.REACT_APP_COUNTRY === 'RU'?
