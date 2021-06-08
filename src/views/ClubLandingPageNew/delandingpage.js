@@ -830,7 +830,9 @@ class ClubLandingPageDe extends React.Component {
                       </h4>
                     </div>
                     <div className="text-center">
+                      <a href="https://analytics-eu.clickdimensions.com/royalcanincom-agp6w/pages/sgjjrbkleemouganordtia.html">
                       <button className="rc-btn rc-btn--two">Anmelden</button>
+                      </a>
                       <br />
                       <br />
                       <br />
