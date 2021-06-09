@@ -21,7 +21,6 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
 import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
-import AdyenOxxo from '@/components/Adyen/oxxo';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
