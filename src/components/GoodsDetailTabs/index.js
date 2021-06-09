@@ -390,8 +390,6 @@ const GoodsDetailTabs = function (props) {
 
   const getSpeciesId = (item) => {
     if (process.env.REACT_APP_COUNTRY == 'DE') {
-      return getDeSpecies(item)[0] == 'Hund' ? '2' : '1';
-    } else {
       return (
         {
           1158: '1', //Russia Cat SPT food
