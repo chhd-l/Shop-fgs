@@ -160,7 +160,7 @@ class Form extends React.Component {
       case 'FR':
         phoneReg = [
           { mask: '(+33) 0 00 00 00 00' },
-          { mask: '(+33) 00 00 00 00 00' }
+          { mask: '(+33) \\00 00 00 00 00' }
         ];
         break;
       case 'US':
