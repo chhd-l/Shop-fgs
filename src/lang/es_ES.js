@@ -1,4 +1,5 @@
 const es_ES = {
+  BacktoSavedPayments: 'Devuelve el pago guardado',
   aboutUs: 'SOBRE NOSOTROS',
   'aboutUs.description':
     'La salud animal es la clave de su belleza y bienestar. Estudiamos con detenimiento la fisiología más pequeña de perros y gatos para conocer cuáles son sus necesidades y ofrecerles una dieta única y personalizada.',

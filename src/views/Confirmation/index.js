@@ -84,9 +84,6 @@ class Confirmation extends React.Component {
   componentWillMount() {
     isHubGA && this.getPetVal();
   }
-  componentWillUnmount() {
-    sessionItemRoyal.remove('adyenOxxoAction');
-  }
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
     dataLayer.push(GA_product);

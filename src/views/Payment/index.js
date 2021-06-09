@@ -2368,46 +2368,53 @@ class Payment extends React.Component {
   clickReInputCvvConfirm = () => {
     const {
       wrongBillingAddress,
+      deliveryAddress,
+      billingAddress,
       billingChecked,
       tid,
       isShowValidationModal,
-      billingAddressAddOrEdit,
-      billingAddress
+      billingAddressAddOrEdit
     } = this.state;
     console.log(billingAddress);
 
-    // 判断 BillingAddress 完整性
-    const laddf = this.props.configStore.localAddressForm;
-    let dfarr = laddf.settings;
-    dfarr = dfarr.filter(
-      (item) => item.enableFlag == 1 && item.requiredFlag == 1
-    );
-    let errMsgArr = [];
-    dfarr.forEach((v, i) => {
-      let akey = v.fieldKey;
-      // state 对应数据库字段 province
-      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
-      // region 对应数据库字段 area
-      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
-      // phoneNumber 对应数据库字段 consigneeNumber
-      // v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
-
-      let fky = wrongBillingAddress[akey];
-      // 判断city和cityId 是否均为空
-      if (v.fieldKey == 'city') {
-        billingAddress.city || billingAddress.cityId ? (akey = '') : akey;
+    if (!tid || tid == null) {
+      let billaddr = Object.assign({}, billingAddress);
+      // 判断 BillingAddress 完整性
+      const laddf = this.props.configStore.localAddressForm;
+      let dfarr = laddf.settings;
+      dfarr = dfarr.filter(
+        (item) => item.enableFlag == 1 && item.requiredFlag == 1
+      );
+      let errMsgArr = [];
+      dfarr.forEach((v, i) => {
+        let akey = v.fieldKey;
+        // state 对应数据库字段 province
+        v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+        // region 对应数据库字段 area
+        v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+        // phoneNumber 对应数据库字段 consigneeNumber
+        if (billaddr?.consigneeNumber) {
+          v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+        }
+        let fky = wrongBillingAddress[akey];
+        // 判断city和cityId 是否均为空
+        if (v.fieldKey == 'city') {
+          billaddr.city || billaddr.cityId ? (akey = '') : akey;
+        }
+        // 判断country和countryId 是否均为空
+        if (v.fieldKey == 'country') {
+          billaddr.country || billaddr.countryId ? (akey = '') : akey;
+        }
+        if (akey) billaddr[akey] ? '' : errMsgArr.push(fky);
+      });
+      errMsgArr = errMsgArr.join(', ');
+      // 如果地址字段有缺失，提示错误信息
+      if (errMsgArr.length) {
+        this.showBillingAddressErrorMsg(
+          wrongBillingAddress['title'] + errMsgArr
+        );
+        return;
       }
-      // 判断country和countryId 是否均为空
-      if (v.fieldKey == 'country') {
-        billingAddress.country || billingAddress.countryId ? (akey = '') : akey;
-      }
-      if (akey) billingAddress[akey] ? '' : errMsgArr.push(fky);
-    });
-    errMsgArr = errMsgArr.join(', ');
-    // 如果地址字段有缺失，提示错误信息
-    if (errMsgArr.length) {
-      this.showBillingAddressErrorMsg(wrongBillingAddress['title'] + errMsgArr);
-      return;
     }
 
     // 点击按钮后进入下一步
@@ -2417,14 +2424,14 @@ class Payment extends React.Component {
       isShowValidationModal &&
       billingAddressAddOrEdit
     ) {
-      // console.log('★ --- payment 地址验证 ');
+      console.log('★ --- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
-      // console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
+      console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
   };
