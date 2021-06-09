@@ -1,4 +1,5 @@
 const es_ES = {
+  BacktoSavedPayments: 'Devuelve el pago guardado',
   aboutUs: 'SOBRE NOSOTROS',
   'aboutUs.description':
     'La salud animal es la clave de su belleza y bienestar. Estudiamos con detenimiento la fisiología más pequeña de perros y gatos para conocer cuáles son sus necesidades y ofrecerles una dieta única y personalizada.',
@@ -657,6 +658,32 @@ const es_ES = {
     '¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!',
   'payment.totalProduct': '{val} producto(s) en total',
   'payment.yourOrder': 'Su pedido',
+
+  'payment.tomorrow': 'Mañana',
+
+  // 星期
+  'payment.Monday': 'Lunes',
+  'payment.Tuesday': 'Martes',
+  'payment.Wednesday': 'Miércoles',
+  'payment.Thursday': 'Hoy es jueves.',
+  'payment.Friday': 'Viernes',
+  'payment.Saturday': 'Hoy es sábado.',
+  'payment.Sunday': 'Domingo',
+
+  // 月份
+  'payment.January': 'Enero',
+  'payment.February': 'Febrero',
+  'payment.March': 'Marzo',
+  'payment.April': 'Abril',
+  'payment.May': 'Mayo',
+  'payment.June': 'Junio',
+  'payment.July': 'Julio',
+  'payment.August': 'Agosto',
+  'payment.September': 'Septiembre',
+  'payment.October': 'Octubre',
+  'payment.November': 'Noviembre',
+  'payment.December': 'Diciembre',
+
   paymentMethod: 'Método de pago',
   'paymethods.btn': 'Add Payment',
   //account.paymethods

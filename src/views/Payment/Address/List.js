@@ -21,7 +21,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 /**
  * address list(delivery/billing) - member
  */
-@inject('checkoutStore', 'configStore', 'paymentStore')
+@inject('checkoutStore', 'configStore', 'paymentStore', 'addressStore')
 // @injectIntl * 不能引入，引入后Payment中无法使用该组件 ref
 @observer
 class AddressList extends React.Component {
@@ -65,6 +65,10 @@ class AddressList extends React.Component {
         isDefalt: false,
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
+        deliveryDate: null,
+        timeSlot: null,
+        receiveType: null, //  HOME 、 PICKUP
+        pickUpCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         email: ''
       },
@@ -85,7 +89,8 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      wrongAddressMsg: null
+      wrongAddressMsg: null,
+      validationAddress: null // 建议地址
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -233,7 +238,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -598,7 +603,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -609,7 +614,7 @@ class AddressList extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        console.log('--------- ★★★★★★ List 验证通过');
+        // console.log('--------- ★★★★★★ List 验证通过');
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
@@ -629,7 +634,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    console.log('address1地址校验flag : ', flag);
+    // console.log('address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
     this.setState(
       {
@@ -706,6 +711,10 @@ class AddressList extends React.Component {
         entrance: deliveryAddress.entrance || '',
         apartment: deliveryAddress.apartment || '',
 
+        deliveryDate: deliveryAddress.deliveryDate || '',
+        timeSlot: deliveryAddress.timeSlot || '',
+        receiveType: deliveryAddress.receiveType || '',
+
         type: this.props.type.toUpperCase()
       };
       params.provinceId = deliveryAddress.provinceId;
@@ -745,28 +754,23 @@ class AddressList extends React.Component {
    * 2 确认地址信息，并返回到封面
    * 3 ★ 俄罗斯需要根据地址先计算运费
    */
-  handleSave = () => {
-    const { isValid, addOrEdit } = this.state;
-    if (!isValid || !addOrEdit) {
-      return false;
-    }
-    // 地址验证
-    this.setState(
-      {
-        saveLoading: true
-      },
-      () => {
-        if (this.props.isValidationModal) {
-          setTimeout(() => {
-            this.setState({
-              listValidationModalVisible: true
-            });
-            this.props.updateValidationStaus(false);
-          }, 800);
-        }
+  handleSave = async () => {
+    try {
+      const { isValid, addOrEdit } = this.state;
+      if (!isValid || !addOrEdit) {
+        return false;
       }
-    );
-    // throw new Error('This Error No Display');
+      // 地址验证
+      this.setState({
+        saveLoading: true
+      });
+      const res = await this.props.addressStore.validAddr({
+        data: this.state.deliveryAddress
+      });
+      await this.getListValidationData(res, true);
+    } catch (err) {
+      throw new Error();
+    }
   };
   // 选择地址
   chooseListValidationAddress = (e) => {
@@ -775,18 +779,29 @@ class AddressList extends React.Component {
     });
   };
   // 获取地址验证查询到的数据
-  getListValidationData = async (data) => {
+  getListValidationData = async (
+    data,
+    showListValidationModalVisible = false
+  ) => {
     this.setState({
       validationLoading: false
     });
     if (data && data != null) {
-      // 获取并设置地址校验返回的数据
-      this.setState({
-        validationAddress: data
-      });
+      // 有校验地址，获取并设置地址校验返回的数据
+      this.setState(
+        {
+          validationAddress: data
+        },
+        () => {
+          if (showListValidationModalVisible) {
+            this.setState({ listValidationModalVisible: true });
+          }
+        }
+      );
+      throw new Error();
     } else {
-      // 下一步
-      this.showNextPanel();
+      // 没有校验地址，直接下一步
+      await this.showNextPanel();
     }
   };
   // 下一步
@@ -930,12 +945,14 @@ class AddressList extends React.Component {
     const {
       deliveryAddress,
       listValidationModalVisible,
-      selectListValidationOption
+      selectListValidationOption,
+      validationAddress
     } = this.state;
     return (
       <>
         <ValidationAddressModal
           btnLoading={this.state.listBtnLoading}
+          defaultValidationAddress={validationAddress}
           address={deliveryAddress}
           updateValidationData={(res) => this.getListValidationData(res)}
           selectValidationOption={selectListValidationOption}
@@ -1134,6 +1151,7 @@ class AddressList extends React.Component {
         {addOrEdit && (
           <EditForm
             ref={this.editFormRef}
+            type={this.props.type}
             isLogin={true}
             initData={deliveryAddress}
             getFormAddressValidFlag={this.getFormAddressValidFlag}

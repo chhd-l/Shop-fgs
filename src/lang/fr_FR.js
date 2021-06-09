@@ -757,6 +757,32 @@ const fr_FR = {
   'payment.terms3.header': 'Infolettre ROYAL CANIN',
   'payment.totalProduct': '{val} produit(s)',
   'payment.yourOrder': 'Votre commande',
+
+  'payment.tomorrow': 'Demain.',
+
+  // 星期
+  'payment.Monday': 'Lundi',
+  'payment.Tuesday': 'Mardi',
+  'payment.Wednesday': 'Mercredi',
+  'payment.Thursday': 'Jeudi',
+  'payment.Friday': 'Vendredi',
+  'payment.Saturday': 'Samedi',
+  'payment.Sunday': 'Dimanche',
+
+  // 月份
+  'payment.January': 'Janvier',
+  'payment.February': 'Février',
+  'payment.March': 'Mars',
+  'payment.April': 'Avril',
+  'payment.May': 'Mai',
+  'payment.June': 'Juin',
+  'payment.July': 'Juillet',
+  'payment.August': 'Août',
+  'payment.September': 'Septembre',
+  'payment.October': 'Octobre',
+  'payment.November': 'Novembre',
+  'payment.December': 'Décembre',
+
   paymentMethod: 'Mode de paiement',
   'paymethods.btn': 'Ajouter un moyen de paiement',
   //account.paymethods

@@ -6,6 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OxxoModal from './modules/OxxoModal';
+import AdyenOxxoModal from './modules/AdyenOxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
 import Modal from '@/components/Modal';
@@ -42,6 +43,9 @@ class Confirmation extends React.Component {
       loading: true,
       paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
       oxxoPayUrl: sessionItemRoyal.get('oxxoPayUrl'),
+      adyenOxxoAction: sessionItemRoyal.get('adyenOxxoAction')
+        ? JSON.parse(sessionItemRoyal.get('adyenOxxoAction'))
+        : '',
       submitLoading: false,
       evalutateScore: -1,
       consumerComment: '',
@@ -88,7 +92,8 @@ class Confirmation extends React.Component {
     });
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
-      if (this.state.oxxoPayUrl) {
+      if (this.state.oxxoPayUrl || this.state.adyenOxxoAction) {
+        //payOxxo和adyenOxxo都会显示Modal
         this.setState({ modalShow: false, oxxoModalShow: true });
       }
     }, 3000);
@@ -373,16 +378,17 @@ class Confirmation extends React.Component {
                 className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}
               >
                 <div className="d-flex align-items-center justify-content-center">
-                  {this.state.oxxoPayUrl ? (
+                  {this.state.oxxoPayUrl || this.state.adyenOxxoAction ? (
                     <>
-                      <Link
+                      <a
+                        href="javascript:;"
                         className="rc-btn rc-btn--one"
                         onClick={() => {
                           this.setState({ oxxoModalShow: true });
                         }}
                       >
                         <FormattedMessage id="printEbanx" />
-                      </Link>
+                      </a>
                       &nbsp;
                       <FormattedMessage id="or" />
                       &nbsp;
@@ -469,6 +475,13 @@ class Confirmation extends React.Component {
         <OxxoModal
           visible={this.state.oxxoModalShow}
           oxxoPayUrl={this.state.oxxoPayUrl}
+          close={() => {
+            this.setState({ oxxoModalShow: false });
+          }}
+        />
+        <AdyenOxxoModal
+          visible={this.state.oxxoModalShow}
+          action={this.state.adyenOxxoAction}
           close={() => {
             this.setState({ oxxoModalShow: false });
           }}

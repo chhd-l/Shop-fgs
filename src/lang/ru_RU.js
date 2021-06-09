@@ -719,6 +719,32 @@ const ru_RU = {
   'payment.deliveryDate2': 'Срок доставки {val} рабочих дня.',
   'payment.shippingDiscount': 'Скидка на доставку',
   'payment.deliveryFee': 'Стоимость доставки',
+
+  'payment.tomorrow': 'завтра',
+
+  // 星期
+  'payment.Monday': 'Понедельник',
+  'payment.Tuesday': 'Вторник',
+  'payment.Wednesday': 'Среда',
+  'payment.Thursday': 'Четверг',
+  'payment.Friday': 'Пятница',
+  'payment.Saturday': 'Суббота',
+  'payment.Sunday': 'Воскресенье',
+
+  // 月份
+  'payment.January': 'Января',
+  'payment.February': 'Февраля',
+  'payment.March': 'Марта',
+  'payment.April': 'Апреля',
+  'payment.May': 'Мая',
+  'payment.June': 'Июня',
+  'payment.July': 'Июля',
+  'payment.August': 'Августа',
+  'payment.September': 'Сентября',
+  'payment.October': 'Октября',
+  'payment.November': 'Ноября',
+  'payment.December': 'Декабря',
+
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',

@@ -1049,6 +1049,7 @@ class AddressList extends React.Component {
                 {addOrEdit && (
                   <EditForm
                     initData={deliveryAddress}
+                    type={this.props.type}
                     isLogin={true}
                     updateData={(data) => this.updateDeliveryAddress(data)}
                     calculateFreight={(data) => this.calculateFreight(data)}

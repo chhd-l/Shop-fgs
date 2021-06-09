@@ -834,6 +834,32 @@ const en_US = {
   'payment.totalProduct2': '{val} products',
   'payment.yourOrder': 'Your order',
   'payment.cardInfoErr': 'The card information is incorrect, please check.',
+
+  'payment.tomorrow': 'tomorrow',
+
+  // 星期
+  'payment.Monday': 'Monday',
+  'payment.Tuesday': 'Tuesday',
+  'payment.Wednesday': 'Wednesday',
+  'payment.Thursday': 'Thursday',
+  'payment.Friday': 'Friday',
+  'payment.Saturday': 'Saturday',
+  'payment.Sunday': 'Sunday',
+
+  // 月份
+  'payment.January': 'January',
+  'payment.February': 'February',
+  'payment.March': 'March',
+  'payment.April': 'April',
+  'payment.May': 'May',
+  'payment.June': 'June',
+  'payment.July': 'July',
+  'payment.August': 'August',
+  'payment.September': 'September',
+  'payment.October': 'October',
+  'payment.November': 'November',
+  'payment.December': 'December',
+
   paymentMethod: 'Payment method',
   'paymethods.btn': 'Add Payment',
   //account.paymethods
