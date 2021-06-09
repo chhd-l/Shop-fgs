@@ -1659,8 +1659,8 @@ const fr_FR = {
   'ClubLP.Help.call.title': 'Appelez-nous',
   'ClubLP.Help.call.content':
     'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '0800 41 51 61',
+  'ClubLP.Help.call.mobile.number': '0800 41 51 61',
   'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
   'ClubLP.Help.email.content':
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',

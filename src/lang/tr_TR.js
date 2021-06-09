@@ -1285,8 +1285,8 @@ const tr_TR = {
   'ClubLP.Help.call.title': 'Bizi arayın!',
   'ClubLP.Help.call.content':
     "Beslenme danışmanlarımız hafta içi her gün 09.00'dan 18.00'a kadar burada!",
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '0850 737 1200',
+  'ClubLP.Help.call.mobile.number': '0850 737 1200',
   'ClubLP.Help.email.title': 'Bize e-posta gönderin!',
   'ClubLP.Help.email.content':
     'Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!',
