@@ -16,15 +16,11 @@ export function transactionPixel(details) {
     orderId: details.id,
     total: String(details.tradePrice.totalPrice.toFixed(2)),
     items: items,
-    optional_order_parameter: {
-      shippingDate: details.orderTimeOut.split(' ')[0]
-    },
-    optional_PII_parameter: {
-      email: details.consignee.email,
-      locale: 'en_US',
-      nickname: details.consignee.name,
-      userId: details.consignee.id
-    }
+    shippingDate: details.orderTimeOut.split(' ')[0],
+    email: details.consignee.email,
+    locale: 'en_US',
+    nickname: details.consignee.name,
+    userId: details.consignee.id
   };
   loadJS({
     code: `window.bvCallback = function (BV) {
