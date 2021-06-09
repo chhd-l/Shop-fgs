@@ -68,7 +68,9 @@ class Confirmation extends React.Component {
     this.timer = null;
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props);
+    let obj = sessionItemRoyal.get('gaPet')
+      ? JSON.parse(sessionItemRoyal.get('gaPet'))
+      : '';
     this.setState({ pet: obj });
   }
   getIsAllOneShootGoods = () => {

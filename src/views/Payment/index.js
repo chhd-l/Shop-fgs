@@ -501,6 +501,7 @@ class Payment extends React.Component {
   getPetVal() {
     let obj = doGetGAVal(this.props);
     this.setState({ pet: obj });
+    sessionItemRoyal.set('gaPet', JSON.stringify(obj));
   }
   queryList = async () => {
     try {
