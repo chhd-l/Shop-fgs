@@ -29,7 +29,7 @@ import clubiconnew5 from './image/clubiconnew5.png';
 import benefitsone from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsone.png';
 import benefitstwo from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitstwo.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
-
+import { getDeSpecies } from '../../utils/GA';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -104,9 +104,7 @@ let clubListDataNew = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon5'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon5'} />,
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },

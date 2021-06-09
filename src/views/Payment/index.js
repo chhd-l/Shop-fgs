@@ -60,6 +60,7 @@ import AdyenCreditCard from './PaymentMethod/Adyen';
 import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
+import AdyenOxxo from '@/components/Adyen/oxxo';
 import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
 
 import CyberPaymentForm from '@/components/CyberPaymentForm';
@@ -135,6 +136,8 @@ class Payment extends React.Component {
     super(props);
     this.state = {
       adyenAction: {},
+      adyenOxxoAction: {},
+      adyenOxxoValid: false,
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       seoConfig: {
@@ -405,6 +408,9 @@ class Payment extends React.Component {
   sendCyberPaymentForm = (cyberPaymentForm) => {
     this.setState({ cyberPaymentForm });
   };
+  // sendAdyenOxxoIsValid = () => {
+  //   this.setState({ adyenOxxoValid: true });
+  // };
   initPanelStatus() {
     const { paymentStore } = this.props;
     const { tid } = this.state;
@@ -545,6 +551,11 @@ class Payment extends React.Component {
           name: 'directEbanking',
           langKey: 'sofort',
           paymentTypeVal: 'directEbanking'
+        },
+        adyen_oxxo: {
+          name: 'adyen_oxxo',
+          langKey: 'oxxo',
+          paymentTypeVal: 'adyenOxxo'
         },
         pc_web: {
           name: 'cyber',
@@ -872,6 +883,15 @@ class Payment extends React.Component {
             email
           });
         },
+        adyenOxxo: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'ADYEN_OXXO',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
+            currency: process.env.REACT_APP_CURRENCY,
+            country: process.env.REACT_APP_Adyen_country,
+            email
+          });
+        },
         cyber: () => {
           parameters = Object.assign({}, commonParameter, {
             payPspItemEnum: 'CYBER',
@@ -1082,6 +1102,24 @@ class Payment extends React.Component {
             window.location.href = res.context.redirectUrl;
           } else {
             gotoConfirmationPage = true;
+          }
+          break;
+        case 'adyenOxxo':
+          subOrderNumberList =
+            tidList.length && tidList[0]
+              ? tidList
+              : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
+
+          if (res.context.redirectUrl) {
+            adyenOxxoAction = JSON.parse(res.context.redirectUrl);
+            if (subOrderNumberList.length) {
+              sessionItemRoyal.set(
+                'subOrderNumberList',
+                JSON.stringify(subOrderNumberList)
+              );
+            }
+            this.setState({ adyenOxxoAction });
           }
           break;
         case 'adyenCard':
@@ -2681,6 +2719,19 @@ class Payment extends React.Component {
                   })}
                 </>
               ) : null}
+              {/* adyenOxxo */}
+              {paymentTypeVal === 'adyenOxxo' ? (
+                <>
+                  <OxxoConfirm
+                    type={'oxxo'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              ) : null}
               {/* payu creditCard */}
               {this.isPayUPaymentTypeVal && (
                 <>
@@ -3445,6 +3496,7 @@ class Payment extends React.Component {
               </div>
             </div>
             <Adyen3DForm action={this.state.adyenAction} />
+            <AdyenOxxo action={this.state.adyenOxxoAction} />
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
