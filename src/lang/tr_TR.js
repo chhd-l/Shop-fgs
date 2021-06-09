@@ -645,6 +645,32 @@ const tr_TR = {
     'İlk {icon} Abonelik siparişinizi kaydedin ve bugün {val} ({val2}) tasarruf edin!',
   'payment.totalProduct': '{val} ürün',
   'payment.yourOrder': 'Siparişiniz',
+
+  'payment.tomorrow': 'Yarın...',
+
+  // 星期
+  'payment.Monday': 'Pazartesi.',
+  'payment.Tuesday': 'Salı günü.',
+  'payment.Wednesday': 'Çarşamba.',
+  'payment.Thursday': 'Perşembe',
+  'payment.Friday': 'Cuma',
+  'payment.Saturday': 'Cumartesi',
+  'payment.Sunday': 'Pazar',
+
+  // 月份
+  'payment.January': 'Ocak',
+  'payment.February': 'Şubat',
+  'payment.March': 'Mart',
+  'payment.April': 'April',
+  'payment.May': 'May ıs',
+  'payment.June': 'Haziran',
+  'payment.July': 'Temmuz',
+  'payment.August': 'Ağustos',
+  'payment.September': 'Eylül',
+  'payment.October': 'Ekim',
+  'payment.November': 'Kasım',
+  'payment.December': 'Aralık',
+
   paymentMethod: 'Ödeme şekli',
   'paymethods.btn': 'Ödeme Ekle',
   //account.paymethods:
