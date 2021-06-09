@@ -6,6 +6,7 @@ import ConfigStore from './configStore';
 import HeaderCartStore from './headerCartStore';
 import PaymentStore from './paymentStore';
 import HeaderSearchStore from './headerSearchStore';
+import AddressStore from './addressStore';
 
 const stores = {
   loginStore: new LoginStore(),
@@ -15,7 +16,8 @@ const stores = {
   configStore: new ConfigStore(),
   headerCartStore: new HeaderCartStore(),
   paymentStore: new PaymentStore(),
-  headerSearchStore: new HeaderSearchStore()
+  headerSearchStore: new HeaderSearchStore(),
+  addressStore: new AddressStore()
 };
 /// 默认导出接口
 export default stores;
