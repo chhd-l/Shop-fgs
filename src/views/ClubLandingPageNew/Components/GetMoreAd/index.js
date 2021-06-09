@@ -150,25 +150,25 @@ const GetMoreAd = () => {
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
                               </a>
                             </li>
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
                               </a>
                             </li>
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
                               </a>
                             </li>
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
                               </a>
@@ -180,19 +180,19 @@ const GetMoreAd = () => {
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
                               </a>
                             </li>
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
                               </a>
                             </li>
                             <li className="rc-list__item">
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                              <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
                               </a>
@@ -202,7 +202,7 @@ const GetMoreAd = () => {
                       </div>
                     </div>
                     <br />
-                    <div className=" rc-btn-group m-0 rc-column rc-padding-x--none buttonmargintop">
+                    <div className=" rc-btn-group m-0 rc-column rc-padding-x--none " style={{display:'flex',justifyContent:'center'}}>
                       <Link to="/">
                         <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs marginleftButton">
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />

@@ -108,7 +108,7 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        <FormattedMessage id="club.wheretohelp.card.email.send" />
+                                        <FormattedMessage id="ClubLP.Help.email.title" />
                                       </p>
                                     </Link>
                                   )}
