@@ -588,14 +588,6 @@ class Payment extends React.Component {
               (!this.isCurrentBuyWaySubscription || e.supportSubscription) &&
               (e.code !== 'cod' || this.tradePrice <= e.maxAmount)
           );
-
-        //包含ADYEN_OXXO repay时过滤掉此选项
-        payWayNameArr = payWayNameArr.filter((item) => {
-          return (
-            item.name != 'ADYEN_OXXO' ||
-            (item.name == 'ADYEN_OXXO' && isRepay == false)
-          );
-        });
       }
 
       //默认第一个,如没有支付方式,就不初始化方法
@@ -664,8 +656,6 @@ class Payment extends React.Component {
         localItemRoyal.get('rc-calculation-param') || null;
       // 查询运费折扣
       this.updateDeliveryAddrData(calculationParam);
-
-      this.isDeleteAdyenOxxo();
     });
   }
   showErrorMsg = (msg) => {
@@ -1260,19 +1250,6 @@ class Payment extends React.Component {
     } finally {
       this.endLoading();
     }
-  }
-  //repay去除adyenOxxo
-  isDeleteAdyenOxxo() {
-    let isRepay = this.state.tid ? true : false;
-    let payWayNameArr = [...this.state.payWayNameArr];
-    //包含ADYEN_OXXO repay时过滤掉此选项
-    payWayNameArr = payWayNameArr.filter((item) => {
-      return (
-        item.name != 'ADYEN_OXXO' ||
-        (item.name == 'ADYEN_OXXO' && isRepay == false)
-      );
-    });
-    this.setState({ payWayNameArr });
   }
   // 删除本地购物车
   removeLocalCartData() {
