@@ -22,10 +22,14 @@ export const UnLoginUserBox = ({ history, className }) => {
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />
         <Link
-          className="medium pl-2 ui-cursor-pointer"
+          className="medium pl-2 ui-cursor-pointer 1212"
           onClick={() => {
             localItemRoyal.set(
               'okta-redirectUrl',
+              history && history.location.pathname + history.location.search
+            );
+            console.log(
+              'history && history.location.pathname + history.location.search',
               history && history.location.pathname + history.location.search
             );
           }}
