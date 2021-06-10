@@ -68,7 +68,9 @@ class Confirmation extends React.Component {
     this.timer = null;
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props);
+    let obj = sessionItemRoyal.get('gaPet')
+      ? JSON.parse(sessionItemRoyal.get('gaPet'))
+      : '';
     this.setState({ pet: obj });
   }
   getIsAllOneShootGoods = () => {
@@ -78,7 +80,7 @@ class Confirmation extends React.Component {
     this.setState({ isAllOneShootGoods });
   };
   componentWillMount() {
-    isHubGA && this.getPetVal();
+    this.getPetVal();
   }
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
@@ -107,11 +109,8 @@ class Confirmation extends React.Component {
             detailList: res.map((ele) => ele?.context)
           },
           () => {
-            !isHubGA && this.getGAEComTransaction();
-            if (isHubGA) {
-              this.getIsAllOneShootGoods();
-              orderConfirmationPushEvent(this.state.details);
-            }
+            this.getIsAllOneShootGoods();
+            orderConfirmationPushEvent(this.state.details);
             //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
             if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               transactionPixel(this.state.details);

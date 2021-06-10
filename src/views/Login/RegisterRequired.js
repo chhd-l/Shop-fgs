@@ -144,14 +144,6 @@ class RegisterRequired extends Component {
         : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
     try {
-      let lastPath =
-        (this.props.location.state && this.props.location.state.path) || '/';
-      if (localItemRoyal.get('okta-redirectUrl')) {
-        lastPath = localItemRoyal.get('okta-redirectUrl');
-      }
-      if (lastPath === 'pay') {
-        lastPath = '/checkout';
-      }
       const isRequiredChecked = this.state.list
         .filter((item) => item.isRequired)
         .every((item) => item.isChecked);
@@ -164,7 +156,8 @@ class RegisterRequired extends Component {
           ...{ oktaToken },
           customerId
         });
-        this.props.history.push(lastPath);
+
+        this.redirectPage();
       } else {
         this.showAlert('isShowRequired', 2000);
       }
@@ -186,6 +179,16 @@ class RegisterRequired extends Component {
         return item2.isChecked == true;
       });
   }
+  // 重定向页面
+  redirectPage = () => {
+    loginRedirection({
+      configStore: this.props.configStore,
+      clinicStore: this.props.clinicStore,
+      checkoutStore: this.props.checkoutStore,
+      history: this.props.history,
+      isLogin: this.isLogin
+    });
+  };
   //从子组件传回
   sendList = (list) => {
     this.setState({ list });
@@ -208,18 +211,8 @@ class RegisterRequired extends Component {
       });
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
-        loginRedirection({
-          configStore,
-          clinicStore,
-          checkoutStore: this.props.checkoutStore,
-          history,
-          isLogin: this.isLogin
-        });
+        this.redirectPage();
       }
-
-      // lastPath
-      // 1:pay(专指从在payment点击支付时的跳转)
-      // 2:其他页面
 
       const optioalList = result.context.optionalList.map((item) => {
         return {

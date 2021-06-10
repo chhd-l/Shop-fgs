@@ -276,25 +276,26 @@ class AccountProfile extends React.Component {
                     />
                   </PanleContainer>
 
-                  {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-                    <PanleContainer
-                      loading={loading}
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'Clinic'
-                      })}
-                    >
-                      <ClinicEditForm
-                        originData={originData}
-                        data={this.state.clinicData}
-                        updateData={this.queryCustomerBaseInfo}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
-                  )}
+                  {process.env.REACT_APP_COUNTRY !== 'RU' &&
+                    process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
+                      <PanleContainer
+                        loading={loading}
+                        customCls={classNames({
+                          hidden:
+                            editOperationPaneName &&
+                            editOperationPaneName !== 'Clinic'
+                        })}
+                      >
+                        <ClinicEditForm
+                          originData={originData}
+                          data={this.state.clinicData}
+                          updateData={this.queryCustomerBaseInfo}
+                          updateEditOperationPanelName={
+                            this.updateEditOperationPanelName
+                          }
+                        />
+                      </PanleContainer>
+                    )}
 
                   <PanleContainer
                     customCls={classNames({
