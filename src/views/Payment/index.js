@@ -577,10 +577,7 @@ class Payment extends React.Component {
       }
       let payWayNameArr = [];
 
-      let isRepay = this.state.tid ? true : false;
-
       if (payWay.context) {
-        console.log(1234, this.isCurrentBuyWaySubscription);
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map((p) => {
@@ -622,6 +619,7 @@ class Payment extends React.Component {
       this.state.payWayNameArr.filter(
         (p) => p.paymentTypeVal === this.state.paymentTypeVal
       )[0]?.payPspItemCardTypeVOList || [];
+    debugger;
     this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
