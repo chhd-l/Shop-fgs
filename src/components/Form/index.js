@@ -598,7 +598,6 @@ class Form extends React.Component {
       }
     });
 
-    console.log('★★★★ --------------- rule: ', rule);
     cfdata.formRule = rule;
     cfdata.receiveType = 'HOME_DELIVERY';
     this.setState({
