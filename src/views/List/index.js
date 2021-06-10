@@ -2144,12 +2144,13 @@ class List extends React.Component {
       ));
 
     const { title, metaDescription, metaKeywords } = this.state.seoConfig;
-    const titleSeo =
-      title && titleData && title.replace(/{H1}/, titleData.title);
+    const h1Title =
+      process.env.REACT_APP_COUNTRY === 'RU'
+        ? titleData?.title?.toLowerCase()
+        : titleData?.title;
+    const titleSeo = title && titleData && title.replace(/{H1}/, h1Title);
     const metaDescriptionSeo =
-      metaDescription &&
-      titleData &&
-      metaDescription.replace(/{H1}/, titleData.title);
+      metaDescription && titleData && metaDescription.replace(/{H1}/, h1Title);
     const ruFilterSeoTitle = title && title.replace(/{H1}/, allPrefv);
     const ruFilterSeoDesc =
       metaDescription && metaDescription.replace(/{H1}/, allPrefv);
