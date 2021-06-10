@@ -109,6 +109,12 @@
   .mobilemargin3vh {
     margin-top: 2vh;
   }
+  .demobilevideo{
+    order: 2;
+  }
+  .demobiletext{
+    order: 1;
+  }
 }
 
 @media (min-width: 639.98px) {
@@ -119,10 +125,11 @@
     width: 20vw;
   }
   .marginleftpc {
-    margin-left: 5vh;
+    margin-left: 2vh;
   }
   .marginToppc {
     margin-top: 2vh;
+    margin-left: 1vw;
   }
   .pcunshow {
     display: none;
