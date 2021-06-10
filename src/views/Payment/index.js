@@ -397,7 +397,13 @@ class Payment extends React.Component {
   }
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
-    return this.state.subForm?.buyWay === 'frequency';
+    let isSubscription =
+      this.state.subForm?.buyWay == 'frequency' ||
+      this.state.orderDetails?.subscriptionResponseVO
+        ? true
+        : false;
+    //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
+    return isSubscription;
   }
   /**
    * init panel prepare/edit/complete status
@@ -574,6 +580,7 @@ class Payment extends React.Component {
       let isRepay = this.state.tid ? true : false;
 
       if (payWay.context) {
+        console.log(1234, this.isCurrentBuyWaySubscription);
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
           .map((p) => {
