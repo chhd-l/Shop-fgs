@@ -185,12 +185,12 @@ class SubscriptionDetail extends React.Component {
     this.setState({ type: 'main' });
   };
   addressSave = (el, isBillSame, fn) => {
-    // console.log(el, isBillSame);
-    if (addressType === 'delivery') {
+    console.log(el, isBillSame);
+    if (this.state.addressType === 'delivery') {
       let param = {
-        subscribeId: subDetail.subscribeId,
+        subscribeId: this.state.subDetail.subscribeId,
         deliveryAddressId: el.deliveryAddressId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
+        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
           return {
             skuId: el.skuId,
             subscribeNum: el.subscribeNum,
@@ -714,7 +714,9 @@ class SubscriptionDetail extends React.Component {
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={() => this.addressSave(el, isBillSame, fn)}
+                    save={(el, isBillSame, fn) =>
+                      this.addressSave(el, isBillSame, fn)
+                    }
                     cancel={this.cancelEdit}
                   />
                 </div>
