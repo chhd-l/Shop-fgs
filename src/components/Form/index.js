@@ -557,13 +557,14 @@ class Form extends React.Component {
   // 下拉框选择
   handleSelectedItemChange(key, data) {
     const { caninForm } = this.state;
-    caninForm[key + 'Id'] = data.value;
+    let value = data.value;
+    caninForm[key + 'Id'] = value;
     if (key == 'state') {
-      caninForm.provinceId = data.value;
+      caninForm.provinceId = value;
       caninForm.province = data.name;
       caninForm.provinceNo = data.no; // 省份简写
 
-      caninForm.stateId = data.value;
+      caninForm.stateId = value;
       caninForm.state = data.name;
       caninForm.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
@@ -580,13 +581,13 @@ class Form extends React.Component {
       // 获取本地存储的需要显示的地址字段
       const localAddressForm = this.props.configStore.localAddressForm;
       if (localAddressForm['region']) {
-        this.getRegionDataByCityId(data.value);
+        this.getRegionDataByCityId(value);
       }
     } else if (key == 'region') {
       caninForm.area = data.name;
-      caninForm.areaId = data.value;
+      caninForm.areaId = value;
       caninForm.region = data.name;
-      caninForm.regionId = data.value;
+      caninForm.regionId = value;
     }
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
@@ -711,6 +712,8 @@ class Form extends React.Component {
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
+      // 验证数据
+      this.validvalidationData('city', caninForm.city);
     });
   };
 
