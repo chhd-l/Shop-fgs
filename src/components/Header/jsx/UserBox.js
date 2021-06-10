@@ -21,7 +21,16 @@ export const UnLoginUserBox = ({ history, className }) => {
       />
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />
-        <Link className="medium pl-2 ui-cursor-pointer" to="/register">
+        <Link
+          className="medium pl-2 ui-cursor-pointer"
+          onClick={() => {
+            localItemRoyal.set(
+              'okta-redirectUrl',
+              history && history.location.pathname + history.location.search
+            );
+          }}
+          to="/register"
+        >
           <FormattedMessage id="header.User.registerNow" />
         </Link>
       </div>
