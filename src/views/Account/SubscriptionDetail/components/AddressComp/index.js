@@ -108,6 +108,8 @@ class AddressList extends React.Component {
         province: '',
         postCode: '',
         phoneNumber: '',
+        deliveryDate: '',
+        timeSlot: '',
         isDefalt: false
       },
       wrongAddressMsg: null,
@@ -329,15 +331,18 @@ class AddressList extends React.Component {
         cityId: tmp.cityId,
         city: tmp.city,
         cityName: tmp.cityName,
+        province: tmp.province || null,
+        provinceId: tmp.provinceId || null,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         email: tmp.email,
+        deliveryDate: tmp.deliveryDate || null,
+        deliveryDateId: tmp.deliveryDate || null,
+        timeSlot: tmp.timeSlot || null,
+        timeSlotId: tmp.timeSlot || null,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
-      if (process.env.REACT_APP_COUNTRY == 'US') {
-        tmpDeliveryAddress.province = tmp.province;
-        tmpDeliveryAddress.provinceId = tmp.provinceId;
-      }
+
       this.setState(
         {
           deliveryAddress: Object.assign(
@@ -366,6 +371,10 @@ class AddressList extends React.Component {
           cityId: 0,
           postCode: '',
           phoneNumber: '',
+          deliveryDate: null,
+          deliveryDateId: null,
+          timeSlot: null,
+          timeSlotId: null,
           isDefalt: false
         }
       });
@@ -659,9 +668,9 @@ class AddressList extends React.Component {
           successTipVisible: false
         });
       }, 2000);
-      return res;
+      // return res;
     } catch (err) {
-      console.log(664, '-------- err: ', err);
+      console.log(672, err);
       this.setState({
         saveErrorMsg: err.message.toString()
       });

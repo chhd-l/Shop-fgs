@@ -1538,6 +1538,20 @@ class AccountOrders extends React.Component {
                                           )}
                                         </p>
                                       ) : null}
+
+                                      {/* delivery date */}
+                                      {details.consignee?.deliveryDate && (
+                                        <p className="mb-0 od_mb_deliveryDate">
+                                          {details.consignee.deliveryDate}
+                                        </p>
+                                      )}
+
+                                      {/* time slot */}
+                                      {details.consignee?.timeSlot && (
+                                        <p className="mb-0 od_mb_timeSlot">
+                                          {details.consignee.timeSlot}
+                                        </p>
+                                      )}
                                     </div>
                                   </div>
                                 </div>

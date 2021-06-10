@@ -185,7 +185,7 @@ class SubscriptionDetail extends React.Component {
     this.setState({ type: 'main' });
   };
   addressSave = (el, isBillSame, fn) => {
-    console.log(el, isBillSame);
+    // console.log(el, isBillSame);
     if (addressType === 'delivery') {
       let param = {
         subscribeId: subDetail.subscribeId,
@@ -214,7 +214,7 @@ class SubscriptionDetail extends React.Component {
       Object.assign(param, {
         changeField: title
       });
-      console.log(param);
+      // console.log(param);
       this.setState({ loading: true });
       updateDetail(param)
         .then((res) => {
@@ -250,7 +250,7 @@ class SubscriptionDetail extends React.Component {
       Object.assign(param, {
         changeField: this.props.intl.messages['subscription.BillingAddress']
       });
-      console.log(param);
+      // console.log(param);
       this.setState({ loading: true });
       updateDetail(param)
         .then((res) => {
@@ -406,7 +406,7 @@ class SubscriptionDetail extends React.Component {
             });
           });
         } catch (err) {
-          console.log(err, 'err1111');
+          console.log(err);
         }
       }
       completeOption.forEach((el) => {
@@ -458,7 +458,7 @@ class SubscriptionDetail extends React.Component {
         }
       );
     } catch (err) {
-      console.log(22222, err);
+      // console.log(22222, err);
       this.showErrMsg(err.message);
     } finally {
       this.setState({ loading: false });
@@ -635,7 +635,7 @@ class SubscriptionDetail extends React.Component {
       triggerShowChangeProduct,
       seoConfig
     } = this.state;
-    console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
+    // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') &&
       process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
