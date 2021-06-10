@@ -381,8 +381,10 @@ class Form extends React.Component {
     let pval = IMask(element, maskOptions);
   };
   // 1、获取 session 存储的 address form 数据并处理
-  setAddressFormData = () => {
+  setAddressFormData = async () => {
     const { caninForm } = this.state;
+    // todo
+    await this.props.configStore.getSystemFormConfig();
     const localAddressForm = this.props.configStore.localAddressForm;
     // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
     // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
