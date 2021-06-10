@@ -1028,6 +1028,11 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--sm rc-btn--one"
                     disabled={btnSubSaveFlag}
                     onClick={() => {
+                      console.info(
+                        '....',
+                        addressList.filter((el) => el.selected)[0]
+                      );
+                      debugger;
                       this.props.save(
                         addressList.filter((el) => el.selected)[0],
                         isBillSame,
