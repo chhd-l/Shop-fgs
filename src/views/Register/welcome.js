@@ -22,7 +22,11 @@ export default class welcome extends Component {
         : '/help';
     return (
       <div id="welcome" className="page">
-        <div _ngcontent-dqg-c56="" class="register-success-container">
+        <div
+          _ngcontent-dqg-c56=""
+          class="register-success-container"
+          style={{ marginBottom: 15 }}
+        >
           <div _ngcontent-dqg-c56="" class="register-success-container__logo">
             <img
               _ngcontent-dqg-c56=""
