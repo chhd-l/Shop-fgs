@@ -18,8 +18,9 @@ import decat2 from './deimage/decat2.png';
 import dedog1 from './deimage/dedog1.png';
 import dedog2 from './deimage/dedog2.png';
 
-import SalesCategory from '../Home/modules/SalesCategory';
-import Logo from '../../components/Logo';
+import deLPdog from './deimage/deLPdog.png'
+import deLPcat from './deimage/deLPcat.png'
+
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -228,30 +229,12 @@ class ClubLandingPageDeVet extends React.Component {
                         <img src={decat} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column category-goods">
+                        <div className="rc-column">
                           <a
                             className="rc-moblie-flex flex-wrap justify-content-center"
                             href="https://www.royalcanin.com/fr/shop/dogs/retail-products"
                           >
-                            <img src={decat1} />
-                            <div className="d-flex justify-content-center">
-                              <h3 className="rc-margin--none">
-                                Aliments pour chien
-                              </h3>
-                            </div>
-                          </a>
-                        </div>
-                        <div className="rc-column category-goods">
-                          <a
-                            className="rc-moblie-flex flex-wrap justify-content-center"
-                            href="https://www.royalcanin.com/fr/shop/dogs/vet-products"
-                          >
-                            <img src={decat2} />
-                            <div className="d-flex justify-content-center">
-                              <h3 className="rc-margin--none">
-                                Aliments vétérinaire pour chien
-                              </h3>
-                            </div>
+                            <img src={deLPcat} />
                           </a>
                         </div>
                       </div>
@@ -262,30 +245,12 @@ class ClubLandingPageDeVet extends React.Component {
                         <img src={dedog} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column category-goods">
+                        <div className="rc-column ">
                           <a
                             className="rc-moblie-flex flex-wrap justify-content-center"
                             href="https://www.royalcanin.com/fr/shop/dogs/retail-products"
                           >
-                            <img src={dedog1} />
-                            <div className="d-flex justify-content-center">
-                              <h3 className="rc-margin--none">
-                                Aliments pour chien
-                              </h3>
-                            </div>
-                          </a>
-                        </div>
-                        <div className="rc-column category-goods">
-                          <a
-                            className="rc-moblie-flex flex-wrap justify-content-center"
-                            href="https://www.royalcanin.com/fr/shop/dogs/vet-products"
-                          >
-                            <img src={dedog2} />
-                            <div className="d-flex justify-content-center">
-                              <h3 className="rc-margin--none">
-                                Aliments vétérinaire pour chien
-                              </h3>
-                            </div>
+                            <img src={deLPdog} />
                           </a>
                         </div>
                       </div>

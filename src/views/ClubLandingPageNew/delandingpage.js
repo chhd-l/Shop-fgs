@@ -538,37 +538,37 @@ class ClubLandingPageDe extends React.Component {
                             <div className="rc-padding-y--lg--mobile rc-full-width">
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     10% Rabatt auf Ihre Bestellungen
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     immer genug Nahrung für Ihr Tier Zuhause
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     keine Mindestlaufzeit oder Kündigungsfrist
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     flexibel anpassbar
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     kostenloser Versand
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     schnelle Lieferung innerhalb von 1-3
                                     Werktagen
