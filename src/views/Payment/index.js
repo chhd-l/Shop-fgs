@@ -2558,6 +2558,9 @@ class Payment extends React.Component {
   // 编辑
   handleClickPaymentPanelEdit = async () => {
     const { paymentStore } = this.props;
+
+    paymentStore.setRreshCardList(true);
+
     const { billingChecked, paymentTypeVal } = this.state;
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
