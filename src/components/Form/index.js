@@ -150,9 +150,10 @@ class Form extends React.Component {
     let isdsFlag = false;
     if (initData.deliveryDate && initData.timeSlot) {
       isdsFlag = true;
+      this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('112 -------------★ EditForm initData: ', initData);
-    // console.log('113-------------★ EditForm caninForm: ', this.state.caninForm);
+    // console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState(
       {
         caninForm: Object.assign(caninForm, initData),
@@ -254,14 +255,27 @@ class Form extends React.Component {
     }
     return month;
   };
+  // 根据address1查询地址信息
+  getAddressListByKeyWord = async (address1) => {
+    let res = null;
+    try {
+      res = await getAddressBykeyWord({ keyword: address1 });
+      if (res?.context && res?.context?.addressList.length) {
+        let addls = res.context.addressList;
+        this.getDeliveryDateAndTimeSlotData(addls[0].cityId);
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   // 0、获取 DeliveryDate 和 TimeSlot
-  getDeliveryDateAndTimeSlot = async (str) => {
+  getDeliveryDateAndTimeSlotData = async (str) => {
     const { caninForm } = this.state;
     let res = null;
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
       let flag = false;
-      let ddts = {};
+      let alldata = {};
       let ddlist = [];
       let tslist = [];
 
@@ -272,9 +286,7 @@ class Form extends React.Component {
         let obj = Object.assign({}, caninForm);
         flag = true;
         let robj = res.context;
-        robj.forEach((v, i) => {
-          // 所有数据
-          ddts[v.date] = v.dateTimeInfos;
+        robj.forEach((v) => {
           // delivery date
           // 获取星期
           let weekday = this.getWeekDay(v.weekDay);
@@ -290,44 +302,49 @@ class Form extends React.Component {
           } else {
             daystr = weekday;
           }
+          let dymstr = daystr + ', ' + ymd[2] + ' ' + month;
+          // 所有数据
+          alldata[dymstr] = v.dateTimeInfos;
           // 格式: 星期, 15 月份
           ddlist.push({
-            id: i + 1,
-            name: daystr + ', ' + ymd[2] + ' ' + month,
+            id: dymstr,
+            name: dymstr,
             no: v.date
           });
-          // time slot
-          (v?.dateTimeInfos).forEach((r, j) => {
-            i == 0
-              ? tslist.push({
-                  id: j + 1,
-                  name: r.startTime + ' - ' + r.endTime,
-                  startTime: r.startTime,
-                  endTime: r.endTime,
-                  sort: r.sort
-                })
-              : '';
-          });
+        });
+        // 为空的时候设置默认值
+        if (!obj.deliveryDate) {
           obj.deliveryDateId = ddlist[0].id;
           obj.deliveryDate = ddlist[0].name;
-          obj.timeSlotId = tslist[0].id;
-          obj.timeSlot = tslist[0].name;
+        }
+        // 设置 time slot
+        alldata[obj.deliveryDate]?.forEach((r) => {
+          let setime = r.startTime + ' - ' + r.endTime;
+          tslist.push({
+            id: setime,
+            name: setime,
+            startTime: r.startTime,
+            endTime: r.endTime,
+            sort: r.sort
+          });
+          // time slot 为空的时候
+          if (!obj.timeSlot) {
+            obj.timeSlotId = setime;
+            obj.timeSlot = setime;
+          }
         });
-
         this.setState({
           caninForm: Object.assign(caninForm, obj)
         });
       }
       this.setState({
         isDeliveryDateAndTimeSlot: flag,
-        deliveryDataTimeSlotList: ddts,
+        deliveryDataTimeSlotList: alldata,
         deliveryDateList: ddlist,
         timeSlotList: tslist
       });
     } catch (err) {
       console.warn(err);
-    } finally {
-      return res;
     }
   };
   // 设置手机号输入限制
@@ -364,8 +381,10 @@ class Form extends React.Component {
     let pval = IMask(element, maskOptions);
   };
   // 1、获取 session 存储的 address form 数据并处理
-  setAddressFormData = () => {
+  setAddressFormData = async () => {
     const { caninForm } = this.state;
+    // todo
+    await this.props.configStore.getSystemFormConfig();
     const localAddressForm = this.props.configStore.localAddressForm;
     // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
     // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
@@ -571,7 +590,7 @@ class Form extends React.Component {
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
         ruleItem.regExp = regExp;
       }
-      rule.push(ruleItem);
+      item.requiredFlag == 1 ? rule.push(ruleItem) : null;
 
       // 查询城市列表
       if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
@@ -785,7 +804,7 @@ class Form extends React.Component {
       // 获取本地存储的需要显示的地址字段
       const localAddressForm = this.props.configStore.localAddressForm;
       if (localAddressForm['region']) {
-        this.getRegionDataByCityId(data.value);
+        this.getRegionDataByCityId(value);
       }
     } else if (key == 'region') {
       cform.area = data.name;
@@ -796,15 +815,18 @@ class Form extends React.Component {
       cform.deliveryDate = data.name;
       cform.deliveryDateId = data.value;
       let tslist = [];
-      deliveryDataTimeSlotList[data.no]?.forEach((r, i) => {
+      deliveryDataTimeSlotList[data.name]?.forEach((r) => {
+        let setime = r.startTime + ' - ' + r.endTime;
         tslist.push({
-          id: i + 1,
-          name: r.startTime + ' - ' + r.endTime,
+          id: setime,
+          name: setime,
           startTime: r.startTime,
           endTime: r.endTime,
           sort: r.sort
         });
       });
+      cform.timeSlotId = tslist[0].id;
+      cform.timeSlot = tslist[0].name;
       this.setState({
         timeSlotList: tslist
       });
@@ -940,6 +962,8 @@ class Form extends React.Component {
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
+      // 验证数据
+      this.validvalidationData('city', caninForm.city);
     });
   };
 
@@ -968,6 +992,12 @@ class Form extends React.Component {
       caninForm.address1 = data.unrestrictedValue;
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
+
+      // 清空数据
+      caninForm.deliveryDateId = null;
+      caninForm.deliveryDate = null;
+      caninForm.timeSlotId = null;
+      caninForm.timeSlot = null;
 
       this.setState({ caninForm }, async () => {
         // 判断暂存地址 tempolineCache 中是否有要查询的地址
@@ -1012,7 +1042,7 @@ class Form extends React.Component {
               !this.props.personalData &&
               this.props.type != 'billing'
             ) {
-              this.getDeliveryDateAndTimeSlot(data?.cityId);
+              this.getDeliveryDateAndTimeSlotData(data?.cityId);
             }
           }
         );

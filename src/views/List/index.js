@@ -1927,10 +1927,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -2144,12 +2145,13 @@ class List extends React.Component {
       ));
 
     const { title, metaDescription, metaKeywords } = this.state.seoConfig;
-    const titleSeo =
-      title && titleData && title.replace(/{H1}/, titleData.title);
+    const h1Title =
+      process.env.REACT_APP_COUNTRY === 'RU'
+        ? titleData?.title?.toLowerCase()
+        : titleData?.title;
+    const titleSeo = title && titleData && title.replace(/{H1}/, h1Title);
     const metaDescriptionSeo =
-      metaDescription &&
-      titleData &&
-      metaDescription.replace(/{H1}/, titleData.title);
+      metaDescription && titleData && metaDescription.replace(/{H1}/, h1Title);
     const ruFilterSeoTitle = title && title.replace(/{H1}/, allPrefv);
     const ruFilterSeoDesc =
       metaDescription && metaDescription.replace(/{H1}/, allPrefv);

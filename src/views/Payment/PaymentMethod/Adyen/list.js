@@ -70,6 +70,12 @@ class AdyenCreditCardList extends React.Component {
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
   }
+  componentDidUpdate() {
+    if (this.props.paymentStore.isRreshList) {
+      this.queryList();
+      this.props.paymentStore.setRreshCardList(false);
+    }
+  }
   componentDidMount() {
     if (this.isLogin) {
       this.queryList();

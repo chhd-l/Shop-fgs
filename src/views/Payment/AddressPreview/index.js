@@ -39,8 +39,6 @@ class InfosPreview extends React.Component {
               <div className="rounded rc-border-all rc-border-colour--interface checkout--padding">
                 <div className="summary-details shipping rc-margin-bottom--xs">
                   <div className="address-summary row">
-                    {' '}
-                    // 样式修改
                     <div className="col-12 deliveryAddress">
                       <h5 className="center">
                         <FormattedMessage id="payment.deliveryTitle" />

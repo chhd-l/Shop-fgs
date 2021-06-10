@@ -286,9 +286,8 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -397,7 +396,13 @@ class Payment extends React.Component {
   }
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
-    return this.state.subForm?.buyWay === 'frequency';
+    let isSubscription =
+      this.state.subForm?.buyWay == 'frequency' ||
+      this.state.orderDetails?.subscriptionResponseVO
+        ? true
+        : false;
+    //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
+    return isSubscription;
   }
   /**
    * init panel prepare/edit/complete status
@@ -468,6 +473,7 @@ class Payment extends React.Component {
   getPetVal() {
     let obj = doGetGAVal(this.props);
     this.setState({ pet: obj });
+    sessionItemRoyal.set('gaPet', JSON.stringify(obj));
   }
   queryList = async () => {
     try {
@@ -570,6 +576,7 @@ class Payment extends React.Component {
         };
       }
       let payWayNameArr = [];
+
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -612,6 +619,7 @@ class Payment extends React.Component {
       this.state.payWayNameArr.filter(
         (p) => p.paymentTypeVal === this.state.paymentTypeVal
       )[0]?.payPspItemCardTypeVOList || [];
+    debugger;
     this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
@@ -1248,7 +1256,6 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
-
   // 删除本地购物车
   removeLocalCartData() {
     const { checkoutStore } = this.props;
@@ -2269,9 +2276,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2283,9 +2291,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2549,6 +2558,9 @@ class Payment extends React.Component {
   // 编辑
   handleClickPaymentPanelEdit = async () => {
     const { paymentStore } = this.props;
+
+    paymentStore.setRreshCardList(true);
+
     const { billingChecked, paymentTypeVal } = this.state;
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
@@ -3019,9 +3031,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {

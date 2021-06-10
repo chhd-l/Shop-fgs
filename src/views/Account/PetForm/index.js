@@ -79,7 +79,6 @@ class PetForm extends React.Component {
     // datePickerDom.disabled = true;
     datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
     console.log(this.props, 'props');
-
     let petsType = this.props.location.state?.petsType;
     if (petsType) {
       let isCat = petsType?.toLowerCase() === 'cat';
@@ -119,7 +118,7 @@ class PetForm extends React.Component {
     };
     try {
       const res = await petsById(params);
-      let currentPet = res.context.context;
+      let currentPet = res.context;
       const {
         activity,
         birthOfPets,

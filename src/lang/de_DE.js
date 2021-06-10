@@ -450,8 +450,9 @@ const de_DE = {
     'Wenden Sie sich gerne auch via E-Mail an uns. Wir werden Ihnen schnellstmöglich weiterhelfen.',
   'help.tip4': '',
   'help.title':
-    'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
+    'Haben Sie Fragen? Unser Service-Team hilft Ihnen gerne weiter.',
   here: 'Expertenteam',
+  here2: 'Service-Team',
   home: 'Übersicht',
   'home.convenientTip1':
     'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',

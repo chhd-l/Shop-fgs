@@ -570,6 +570,10 @@ class AddressList extends React.Component {
         street: tmp.street || '',
         house: tmp.house || '',
         housing: tmp.housing || '',
+        deliveryDate: tmp.deliveryDate || '',
+        deliveryDateId: tmp.deliveryDate || '',
+        timeSlot: tmp.timeSlot || '',
+        timeSlotId: tmp.timeSlot || '',
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
@@ -679,16 +683,7 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
-      let params = {
-        address1: deliveryAddress.address1,
-        address2: deliveryAddress.address2,
-        areaId: deliveryAddress.areaId,
-        firstName: deliveryAddress.firstName,
-        lastName: deliveryAddress.lastName,
-        countryId: deliveryAddress.countryId,
-        country: deliveryAddress.country,
-        cityId: deliveryAddress.cityId,
-        city: deliveryAddress.city,
+      let params = Object.assign({}, deliveryAddress, {
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
@@ -697,30 +692,46 @@ class AddressList extends React.Component {
           deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-        postCode: deliveryAddress.postCode,
-        rfc: deliveryAddress.rfc,
-        email: deliveryAddress.email,
-        comment: deliveryAddress?.comment,
-
         region: deliveryAddress.province, // DuData相关参数
-        area: deliveryAddress.area,
-        settlement: deliveryAddress.settlement,
-        street: deliveryAddress.street || '',
-        house: deliveryAddress.house || '',
-        housing: deliveryAddress.housing || '',
-        entrance: deliveryAddress.entrance || '',
-        apartment: deliveryAddress.apartment || '',
+        type: this.props.type.toUpperCase(),
+        isValidated: deliveryAddress.validationResult
+      });
+      // let params = {
+      //   address1: deliveryAddress.address1,
+      //   address2: deliveryAddress.address2,
+      //   areaId: deliveryAddress.areaId,
+      //   firstName: deliveryAddress.firstName,
+      //   lastName: deliveryAddress.lastName,
+      //   countryId: deliveryAddress.countryId,
+      //   country: deliveryAddress.country,
+      //   cityId: deliveryAddress.cityId,
+      //   city: deliveryAddress.city,
+      //   consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+      //   consigneeNumber: deliveryAddress.phoneNumber,
+      //   customerId: originData ? originData.customerId : '',
+      //   deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+      //   deliveryAddressId: originData ? originData.deliveryAddressId : '',
+      //   isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+      //   postCode: deliveryAddress.postCode,
+      //   rfc: deliveryAddress.rfc,
+      //   email: deliveryAddress.email,
+      //   comment: deliveryAddress?.comment,
 
-        deliveryDate: deliveryAddress.deliveryDate || '',
-        timeSlot: deliveryAddress.timeSlot || '',
-        receiveType: deliveryAddress.receiveType || '',
+      //   region: deliveryAddress.province, // DuData相关参数
+      //   area: deliveryAddress.area,
+      //   settlement: deliveryAddress.settlement,
+      //   street: deliveryAddress.street || '',
+      //   house: deliveryAddress.house || '',
+      //   housing: deliveryAddress.housing || '',
+      //   entrance: deliveryAddress.entrance || '',
+      //   apartment: deliveryAddress.apartment || '',
 
-        type: this.props.type.toUpperCase()
-      };
-      params.provinceId = deliveryAddress.provinceId;
-      params.province = deliveryAddress.province;
-      params.provinceNo = deliveryAddress.provinceNo;
-      params.isValidated = deliveryAddress.validationResult;
+      //   deliveryDate: deliveryAddress.deliveryDate || '',
+      //   timeSlot: deliveryAddress.timeSlot || '',
+      //   receiveType: deliveryAddress.receiveType || '',
+
+      //   type: this.props.type.toUpperCase()
+      // };
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;

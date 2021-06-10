@@ -49,7 +49,6 @@ const NextDelivery = ({
     });
   };
   const skipNext = (el) => {
-    e.preventDefault();
     setState({
       modalType: 'skipNext',
       modalShow: true,
@@ -165,7 +164,6 @@ const NextDelivery = ({
                 <a
                   className="rc-styled-link ui-text-overflow-line1"
                   style={{ width: '60px' }}
-                  href="#/"
                   onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
