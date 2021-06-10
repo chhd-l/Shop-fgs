@@ -570,6 +570,10 @@ class AddressList extends React.Component {
         street: tmp.street || '',
         house: tmp.house || '',
         housing: tmp.housing || '',
+        deliveryDate: tmp.deliveryDate || '',
+        deliveryDateId: tmp.deliveryDate || '',
+        timeSlot: tmp.timeSlot || '',
+        timeSlotId: tmp.timeSlot || '',
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
