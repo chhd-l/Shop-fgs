@@ -590,7 +590,7 @@ class Form extends React.Component {
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
         ruleItem.regExp = regExp;
       }
-      rule.push(ruleItem);
+      item.requiredFlag == 1 ? rule.push(ruleItem) : null;
 
       // 查询城市列表
       if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
