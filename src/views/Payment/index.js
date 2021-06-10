@@ -286,9 +286,8 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   componentWillMount() {
     isHubGA && this.getPetVal();
@@ -397,7 +396,13 @@ class Payment extends React.Component {
   }
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
-    return this.state.subForm?.buyWay === 'frequency';
+    let isSubscription =
+      this.state.subForm?.buyWay == 'frequency' ||
+      this.state.orderDetails?.subscriptionResponseVO
+        ? true
+        : false;
+    //this.state.orderDetails?.subscriptionResponseVO 这个是repay通过订单号查询的是否订阅的字段
+    return isSubscription;
   }
   /**
    * init panel prepare/edit/complete status
@@ -468,6 +473,7 @@ class Payment extends React.Component {
   getPetVal() {
     let obj = doGetGAVal(this.props);
     this.setState({ pet: obj });
+    sessionItemRoyal.set('gaPet', JSON.stringify(obj));
   }
   queryList = async () => {
     try {
@@ -546,6 +552,11 @@ class Payment extends React.Component {
           langKey: 'sofort',
           paymentTypeVal: 'directEbanking'
         },
+        adyen_oxxo: {
+          name: 'adyen_oxxo',
+          langKey: 'oxxo',
+          paymentTypeVal: 'adyenOxxo'
+        },
         pc_web: {
           name: 'cyber',
           langKey: 'cyber',
@@ -565,6 +576,7 @@ class Payment extends React.Component {
         };
       }
       let payWayNameArr = [];
+
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -607,6 +619,7 @@ class Payment extends React.Component {
       this.state.payWayNameArr.filter(
         (p) => p.paymentTypeVal === this.state.paymentTypeVal
       )[0]?.payPspItemCardTypeVOList || [];
+    debugger;
     this.props.paymentStore.setSupportPaymentMethods(supportPaymentMethods);
     this.setState(
       { cardTypeVal: supportPaymentMethods[0]?.cardType || '' },
@@ -872,6 +885,15 @@ class Payment extends React.Component {
             email
           });
         },
+        adyenOxxo: () => {
+          parameters = Object.assign(commonParameter, {
+            payPspItemEnum: 'ADYEN_OXXO',
+            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
+            currency: process.env.REACT_APP_CURRENCY,
+            country: process.env.REACT_APP_Adyen_country,
+            email
+          });
+        },
         cyber: () => {
           parameters = Object.assign({}, commonParameter, {
             payPspItemEnum: 'CYBER',
@@ -1084,6 +1106,27 @@ class Payment extends React.Component {
             gotoConfirmationPage = true;
           }
           break;
+        case 'adyenOxxo':
+          subOrderNumberList =
+            tidList.length && tidList[0]
+              ? tidList
+              : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
+
+          if (res.context.redirectUrl) {
+            let adyenOxxoAction = res.context.redirectUrl;
+            if (adyenOxxoAction) {
+              sessionItemRoyal.set('adyenOxxoAction', adyenOxxoAction);
+            }
+            if (subOrderNumberList.length) {
+              sessionItemRoyal.set(
+                'subOrderNumberList',
+                JSON.stringify(subOrderNumberList)
+              );
+            }
+            gotoConfirmationPage = true;
+          }
+          break;
         case 'adyenCard':
           subOrderNumberList =
             tidList.length && tidList[0]
@@ -1213,7 +1256,6 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
-
   // 删除本地购物车
   removeLocalCartData() {
     const { checkoutStore } = this.props;
@@ -1927,7 +1969,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
@@ -2234,9 +2276,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2248,9 +2291,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2333,46 +2377,53 @@ class Payment extends React.Component {
   clickReInputCvvConfirm = () => {
     const {
       wrongBillingAddress,
+      deliveryAddress,
+      billingAddress,
       billingChecked,
       tid,
       isShowValidationModal,
-      billingAddressAddOrEdit,
-      billingAddress
+      billingAddressAddOrEdit
     } = this.state;
     console.log(billingAddress);
 
-    // 判断 BillingAddress 完整性
-    const laddf = this.props.configStore.localAddressForm;
-    let dfarr = laddf.settings;
-    dfarr = dfarr.filter(
-      (item) => item.enableFlag == 1 && item.requiredFlag == 1
-    );
-    let errMsgArr = [];
-    dfarr.forEach((v, i) => {
-      let akey = v.fieldKey;
-      // state 对应数据库字段 province
-      v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
-      // region 对应数据库字段 area
-      v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
-      // phoneNumber 对应数据库字段 consigneeNumber
-      // v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
-
-      let fky = wrongBillingAddress[akey];
-      // 判断city和cityId 是否均为空
-      if (v.fieldKey == 'city') {
-        billingAddress.city || billingAddress.cityId ? (akey = '') : akey;
+    if (!tid || tid == null) {
+      let billaddr = Object.assign({}, billingAddress);
+      // 判断 BillingAddress 完整性
+      const laddf = this.props.configStore.localAddressForm;
+      let dfarr = laddf.settings;
+      dfarr = dfarr.filter(
+        (item) => item.enableFlag == 1 && item.requiredFlag == 1
+      );
+      let errMsgArr = [];
+      dfarr.forEach((v, i) => {
+        let akey = v.fieldKey;
+        // state 对应数据库字段 province
+        v.fieldKey == 'state' ? (akey = 'province') : v.fieldKey;
+        // region 对应数据库字段 area
+        v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
+        // phoneNumber 对应数据库字段 consigneeNumber
+        if (billaddr?.consigneeNumber) {
+          v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+        }
+        let fky = wrongBillingAddress[akey];
+        // 判断city和cityId 是否均为空
+        if (v.fieldKey == 'city') {
+          billaddr.city || billaddr.cityId ? (akey = '') : akey;
+        }
+        // 判断country和countryId 是否均为空
+        if (v.fieldKey == 'country') {
+          billaddr.country || billaddr.countryId ? (akey = '') : akey;
+        }
+        if (akey) billaddr[akey] ? '' : errMsgArr.push(fky);
+      });
+      errMsgArr = errMsgArr.join(', ');
+      // 如果地址字段有缺失，提示错误信息
+      if (errMsgArr.length) {
+        this.showBillingAddressErrorMsg(
+          wrongBillingAddress['title'] + errMsgArr
+        );
+        return;
       }
-      // 判断country和countryId 是否均为空
-      if (v.fieldKey == 'country') {
-        billingAddress.country || billingAddress.countryId ? (akey = '') : akey;
-      }
-      if (akey) billingAddress[akey] ? '' : errMsgArr.push(fky);
-    });
-    errMsgArr = errMsgArr.join(', ');
-    // 如果地址字段有缺失，提示错误信息
-    if (errMsgArr.length) {
-      this.showBillingAddressErrorMsg(wrongBillingAddress['title'] + errMsgArr);
-      return;
     }
 
     // 点击按钮后进入下一步
@@ -2382,14 +2433,14 @@ class Payment extends React.Component {
       isShowValidationModal &&
       billingAddressAddOrEdit
     ) {
-      // console.log('★ --- payment 地址验证 ');
+      console.log('★ --- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
-      // console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
+      console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
   };
@@ -2507,6 +2558,9 @@ class Payment extends React.Component {
   // 编辑
   handleClickPaymentPanelEdit = async () => {
     const { paymentStore } = this.props;
+
+    paymentStore.setRreshCardList(true);
+
     const { billingChecked, paymentTypeVal } = this.state;
     if (paymentTypeVal == 'cyber' && this.isLogin) {
       await this.queryList();
@@ -2675,6 +2729,19 @@ class Payment extends React.Component {
                     type={'oxxo'}
                     updateEmail={this.updateEmail}
                     billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              ) : null}
+              {/* adyenOxxo */}
+              {paymentTypeVal === 'adyenOxxo' ? (
+                <>
+                  <OxxoConfirm
+                    type={'adyenOxxo'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({ type: 'adyenOxxo' })}
                   />
                   {payConfirmBtn({
                     disabled: !EMAIL_REGEXP.test(email) || validForBilling
@@ -2964,9 +3031,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {

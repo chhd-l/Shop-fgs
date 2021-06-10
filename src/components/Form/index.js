@@ -34,7 +34,8 @@ import {
   getProvincesList,
   getRegionByCityId,
   getAddressBykeyWord,
-  getCityList
+  getCityList,
+  getDeliveryDateAndTimeSlot
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
@@ -92,6 +93,12 @@ class Form extends React.Component {
         comment: '',
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
+        deliveryDate: '',
+        deliveryDateId: 0,
+        timeSlot: '',
+        timeSlotId: 0,
+        receiveType: 'HOME_DELIVERY', //  HOME_DELIVERY、PICK_UP ********************** 选择deliveryDate或者pickup时
+        pickUpCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         formRule: [] // form表单校验规则
       },
@@ -103,6 +110,10 @@ class Form extends React.Component {
       cityList: [], // city列表
       regionList: [], // region列表
       address1Data: [], // DuData address1
+      isDeliveryDateAndTimeSlot: false,
+      deliveryDataTimeSlotList: [],
+      deliveryDateList: [], // delivery date
+      timeSlotList: [], // time slot
       errMsgObj: {}
     };
   }
@@ -135,11 +146,23 @@ class Form extends React.Component {
     caninForm.regionId = initData.areaId;
     initData.regionId = initData.areaId;
 
+    // deliveryDate和timeSlot有值就显示
+    let isdsFlag = false;
+    if (initData.deliveryDate && initData.timeSlot) {
+      isdsFlag = true;
+      this.getAddressListByKeyWord(initData.address1);
+    }
     // console.log('112 -------------★ EditForm initData: ', initData);
     // console.log('113-------------★ EditForm caninForm: ', caninForm);
-    this.setState({ caninForm: Object.assign(caninForm, initData) }, () => {
-      this.updateDataToProps(this.state.caninForm);
-    });
+    this.setState(
+      {
+        caninForm: Object.assign(caninForm, initData),
+        isDeliveryDateAndTimeSlot: isdsFlag
+      },
+      () => {
+        this.updateDataToProps(this.state.caninForm);
+      }
+    );
 
     // 获取 session 存储的 address form 数据并处理
     this.setAddressFormData();
@@ -152,6 +175,178 @@ class Form extends React.Component {
     // 重置参数
     this.props.getFormAddressValidFlag(false);
   }
+
+  // 星期
+  getWeekDay = (day) => {
+    let weekday = '';
+    day = Number(day);
+    switch (day) {
+      case 1:
+        weekday = this.getIntlMsg('payment.Monday');
+        break;
+      case 2:
+        weekday = this.getIntlMsg('payment.Tuesday');
+        break;
+      case 3:
+        weekday = this.getIntlMsg('payment.Wednesday');
+        break;
+      case 4:
+        weekday = this.getIntlMsg('payment.Thursday');
+        break;
+      case 5:
+        weekday = this.getIntlMsg('payment.Friday');
+        break;
+      case 6:
+        weekday = this.getIntlMsg('payment.Saturday');
+        break;
+      case 7:
+        weekday = this.getIntlMsg('payment.Sunday');
+        break;
+      default:
+        weekday = '';
+        break;
+    }
+    return weekday;
+  };
+  // 月份
+  getMonth = (num) => {
+    let month = '';
+    num = Number(num);
+    switch (num) {
+      case 1:
+        month = this.getIntlMsg('payment.January');
+        break;
+      case 2:
+        month = this.getIntlMsg('payment.February');
+        break;
+      case 3:
+        month = this.getIntlMsg('payment.March');
+        break;
+      case 4:
+        month = this.getIntlMsg('payment.April');
+        break;
+      case 5:
+        month = this.getIntlMsg('payment.May');
+        break;
+      case 6:
+        month = this.getIntlMsg('payment.June');
+        break;
+      case 7:
+        month = this.getIntlMsg('payment.July');
+        break;
+      case 8:
+        month = this.getIntlMsg('payment.August');
+        break;
+      case 9:
+        month = this.getIntlMsg('payment.September');
+        break;
+      case 10:
+        month = this.getIntlMsg('payment.October');
+        break;
+      case 11:
+        month = this.getIntlMsg('payment.November');
+        break;
+      case 12:
+        month = this.getIntlMsg('payment.December');
+        break;
+      default:
+        month = '';
+        break;
+    }
+    return month;
+  };
+  // 根据address1查询地址信息
+  getAddressListByKeyWord = async (address1) => {
+    let res = null;
+    try {
+      res = await getAddressBykeyWord({ keyword: address1 });
+      if (res?.context && res?.context?.addressList.length) {
+        let addls = res.context.addressList;
+        this.getDeliveryDateAndTimeSlotData(addls[0].cityId);
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  // 0、获取 DeliveryDate 和 TimeSlot
+  getDeliveryDateAndTimeSlotData = async (str) => {
+    const { caninForm } = this.state;
+    let res = null;
+    try {
+      res = await getDeliveryDateAndTimeSlot({ cityNo: str });
+      let flag = false;
+      let alldata = {};
+      let ddlist = [];
+      let tslist = [];
+
+      // 获取明天几号
+      let mdate = new Date();
+      let tomorrow = mdate.getDate() + 1;
+      if (res.context) {
+        let obj = Object.assign({}, caninForm);
+        flag = true;
+        let robj = res.context;
+        robj.forEach((v) => {
+          // delivery date
+          // 获取星期
+          let weekday = this.getWeekDay(v.weekDay);
+          // 获取月份
+          let ymd = v.date.split('-');
+          let month = this.getMonth(ymd[1]);
+
+          // 判断是否有 ‘明天’ 的日期
+          let thisday = Number(ymd[2]);
+          let daystr = '';
+          if (tomorrow == thisday) {
+            daystr = this.getIntlMsg('payment.tomorrow');
+          } else {
+            daystr = weekday;
+          }
+          let dymstr = daystr + ', ' + ymd[2] + ' ' + month;
+          // 所有数据
+          alldata[dymstr] = v.dateTimeInfos;
+          // 格式: 星期, 15 月份
+          ddlist.push({
+            id: dymstr,
+            name: dymstr,
+            no: v.date
+          });
+        });
+        // 为空的时候设置默认值
+        if (!obj.deliveryDate) {
+          obj.deliveryDateId = ddlist[0].id;
+          obj.deliveryDate = ddlist[0].name;
+        }
+        // 设置 time slot
+        alldata[obj.deliveryDate]?.forEach((r) => {
+          let setime = r.startTime + ' - ' + r.endTime;
+          tslist.push({
+            id: setime,
+            name: setime,
+            startTime: r.startTime,
+            endTime: r.endTime,
+            sort: r.sort
+          });
+          // time slot 为空的时候
+          if (!obj.timeSlot) {
+            obj.timeSlotId = setime;
+            obj.timeSlot = setime;
+          }
+        });
+        this.setState({
+          caninForm: Object.assign(caninForm, obj)
+        });
+      }
+      this.setState({
+        isDeliveryDateAndTimeSlot: flag,
+        deliveryDataTimeSlotList: alldata,
+        deliveryDateList: ddlist,
+        timeSlotList: tslist
+      });
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   // 设置手机号输入限制
   setPhoneNumberReg = () => {
     let element = document.getElementById('phoneNumberShipping');
@@ -161,7 +356,7 @@ class Form extends React.Component {
       case 'FR':
         phoneReg = [
           { mask: '(+33) 0 00 00 00 00' },
-          { mask: '(+33) \\00 00 00 00 00' }
+          { mask: '(+33) 00 00 00 00 00' }
         ];
         break;
       case 'US':
@@ -186,8 +381,10 @@ class Form extends React.Component {
     let pval = IMask(element, maskOptions);
   };
   // 1、获取 session 存储的 address form 数据并处理
-  setAddressFormData = () => {
+  setAddressFormData = async () => {
     const { caninForm } = this.state;
+    // todo
+    await this.props.configStore.getSystemFormConfig();
     const localAddressForm = this.props.configStore.localAddressForm;
     // 表单类型，手动输入地址: MANUALLY，自动填充地址: AUTOMATICALLY
     // console.log('获取 session 存储的需要显示的地址字段: ', localAddressForm);
@@ -208,6 +405,7 @@ class Form extends React.Component {
           } else if (this.props.personalData) {
             // persnalData不需要展示comment
             narr = narr.filter((item) => item.fieldKey != 'comment');
+          } else {
           }
 
           // 格式化表单json
@@ -254,18 +452,11 @@ class Form extends React.Component {
     let rule = [];
     let cfdata = Object.assign({}, caninForm);
 
-    // 绑卡页面添加 email
-    let emailObj = {
-      id: 99999999,
-      sequence: 99999999,
+    // 前端写死的文本框默认数据
+    let defaultObj = {
       inputType: 0,
-      fieldKey: 'email',
-      fieldName: 'email',
-      filedType: 'text',
-      inputFreeTextFlag: 1,
-      inputSearchBoxFlag: 0,
-      inputDropDownBoxFlag: 0,
       maxLength: 50,
+      filedType: 'text',
       requiredFlag: 1,
       enableFlag: 1,
       dataSource: 0,
@@ -281,10 +472,59 @@ class Form extends React.Component {
       regExp: {},
       errMsg: ''
     };
+    // 绑卡页面添加 email
+    let emailObj = Object.assign(
+      {
+        id: 99999999,
+        sequence: 99999999,
+        fieldKey: 'email',
+        fieldName: 'email',
+        inputFreeTextFlag: 1,
+        inputSearchBoxFlag: 0,
+        inputDropDownBoxFlag: 0
+      },
+      defaultObj
+    );
+    // delivery date
+    let deliveryDateObj = Object.assign(
+      {
+        id: 99999998,
+        sequence: 12,
+        fieldKey: 'deliveryDate',
+        fieldName: 'deliveryDate',
+        inputFreeTextFlag: 0,
+        inputSearchBoxFlag: 0,
+        inputDropDownBoxFlag: 1
+      },
+      defaultObj
+    );
+    // time slot
+    let timeSlotObj = Object.assign(
+      {
+        id: 99999997,
+        sequence: 12,
+        fieldKey: 'timeSlot',
+        fieldName: 'timeSlot',
+        inputFreeTextFlag: 0,
+        inputSearchBoxFlag: 0,
+        inputDropDownBoxFlag: 1
+      },
+      defaultObj
+    );
+
     if (this.props.isCyberBillingAddress) {
       array.push(emailObj);
     }
 
+    if (
+      process.env.REACT_APP_COUNTRY == 'RU' &&
+      !this.props.isCyberBillingAddress &&
+      !this.props.personalData
+    ) {
+      array.push(deliveryDateObj);
+      array.push(timeSlotObj);
+    }
+    array.sort((a, b) => a.sequence - b.sequence);
     array.forEach((item) => {
       // filedType '字段类型:0.text,1.number'
       // item.filedType = item.filedType == 0 ? 'text' : 'number';
@@ -350,7 +590,7 @@ class Form extends React.Component {
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
         ruleItem.regExp = regExp;
       }
-      rule.push(ruleItem);
+      item.requiredFlag == 1 ? rule.push(ruleItem) : null;
 
       // 查询城市列表
       if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
@@ -359,6 +599,7 @@ class Form extends React.Component {
     });
 
     cfdata.formRule = rule;
+    cfdata.receiveType = 'HOME_DELIVERY';
     this.setState({
       caninForm: Object.assign(caninForm, cfdata)
     });
@@ -503,7 +744,7 @@ class Form extends React.Component {
         cityFias: data.cityId,
         settlementFias: data.settlementId || null
       });
-      console.log('★ -------------- 2、计算运费 res: ', res);
+      // console.log('★ -------------- 2、计算运费 res: ', res);
       if (res?.context?.success && res?.context?.tariffs[0]) {
         let calculation = res?.context?.tariffs[0];
         return calculation;
@@ -538,41 +779,69 @@ class Form extends React.Component {
   };
   // 下拉框选择
   handleSelectedItemChange(key, data) {
-    const { caninForm } = this.state;
-    caninForm[key + 'Id'] = data.value;
+    const { caninForm, deliveryDataTimeSlotList } = this.state;
+    let cform = Object.assign({}, caninForm);
+    cform[key + 'Id'] = data.value;
     if (key == 'state') {
-      caninForm.provinceId = data.value;
-      caninForm.province = data.name;
-      caninForm.provinceNo = data.no; // 省份简写
+      cform.provinceId = data.value;
+      cform.province = data.name;
+      cform.provinceNo = data.no; // 省份简写
 
-      caninForm.stateId = data.value;
-      caninForm.state = data.name;
-      caninForm.stateNo = data.no; // 省份简写
+      cform.stateId = data.value;
+      cform.state = data.name;
+      cform.stateNo = data.no; // 省份简写
     } else if (key == 'country') {
-      caninForm.country = data.name;
+      cform.country = data.name;
     } else if (key == 'city') {
-      caninForm.city = data.name;
-      caninForm.areaId = '';
-      caninForm.area = '';
-      caninForm.regionId = '';
-      caninForm.region = '';
+      cform.city = data.name;
+      cform.areaId = '';
+      cform.area = '';
+      cform.regionId = '';
+      cform.region = '';
       this.setState({
         regionList: []
       });
       // 获取本地存储的需要显示的地址字段
       const localAddressForm = this.props.configStore.localAddressForm;
       if (localAddressForm['region']) {
-        this.getRegionDataByCityId(data.value);
+        this.getRegionDataByCityId(value);
       }
     } else if (key == 'region') {
-      caninForm.area = data.name;
-      caninForm.areaId = data.value;
-      caninForm.region = data.name;
-      caninForm.regionId = data.value;
+      cform.area = data.name;
+      cform.areaId = data.value;
+      cform.region = data.name;
+      cform.regionId = data.value;
+    } else if (key == 'deliveryDate') {
+      cform.deliveryDate = data.name;
+      cform.deliveryDateId = data.value;
+      let tslist = [];
+      deliveryDataTimeSlotList[data.name]?.forEach((r) => {
+        let setime = r.startTime + ' - ' + r.endTime;
+        tslist.push({
+          id: setime,
+          name: setime,
+          startTime: r.startTime,
+          endTime: r.endTime,
+          sort: r.sort
+        });
+      });
+      cform.timeSlotId = tslist[0].id;
+      cform.timeSlot = tslist[0].name;
+      this.setState({
+        timeSlotList: tslist
+      });
+    } else if (key == 'timeSlot') {
+      cform.timeSlot = data.name;
+      cform.timeSlotId = data.value;
     }
-    this.setState({ caninForm }, () => {
-      this.updateDataToProps(this.state.caninForm);
-    });
+    this.setState(
+      {
+        caninForm: Object.assign(caninForm, cform)
+      },
+      () => {
+        this.updateDataToProps(this.state.caninForm);
+      }
+    );
   }
   // 处理数组
   computedList(key) {
@@ -586,7 +855,7 @@ class Form extends React.Component {
     });
     if (key == 'state') {
       tmp.unshift({ value: '', name: 'State' });
-    } else if (key != 'country') {
+    } else if (key != 'country' && key != 'deliveryDate' && key != 'timeSlot') {
       tmp.unshift({ value: '', name: '' });
     }
     return tmp;
@@ -693,12 +962,14 @@ class Form extends React.Component {
     caninForm.city = data.cityName;
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
+      // 验证数据
+      this.validvalidationData('city', caninForm.city);
     });
   };
 
   // DuData地址搜索选择 1
   handleAddressInputChange = async (data) => {
-    console.log('★ -------------- DuData地址搜索选择 data: ', data);
+    // console.log('★ -------------- DuData地址搜索选择 data: ', data);
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
@@ -721,6 +992,12 @@ class Form extends React.Component {
       caninForm.address1 = data.unrestrictedValue;
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
+
+      // 清空数据
+      caninForm.deliveryDateId = null;
+      caninForm.deliveryDate = null;
+      caninForm.timeSlotId = null;
+      caninForm.timeSlot = null;
 
       this.setState({ caninForm }, async () => {
         // 判断暂存地址 tempolineCache 中是否有要查询的地址
@@ -759,6 +1036,14 @@ class Form extends React.Component {
             this.props.getFormAddressValidFlag(true);
             // purchases接口计算运费
             this.props.calculateFreight(this.state.caninForm);
+            // delivery date and time slot
+            if (
+              !this.props.isCyberBillingAddress &&
+              !this.props.personalData &&
+              this.props.type != 'billing'
+            ) {
+              this.getDeliveryDateAndTimeSlotData(data?.cityId);
+            }
           }
         );
       });
@@ -814,8 +1099,8 @@ class Form extends React.Component {
     // postalCode               postCode  √
     // house                    house     √
     // city                     city      √
-    // districtCode             province
-    // settlement               settlement
+    // districtCode             province    √
+    // settlement               settlement  √
     let errArr = [];
     let streets = this.getIntlMsg('payment.streets'),
       postCode = this.getIntlMsg('payment.postCode'),
@@ -1041,9 +1326,14 @@ class Form extends React.Component {
       </>
     );
   };
-  // 俄罗斯
   render() {
-    const { dataLoading, formLoading, formList, errMsgObj } = this.state;
+    const {
+      dataLoading,
+      formLoading,
+      formList,
+      errMsgObj,
+      isDeliveryDateAndTimeSlot
+    } = this.state;
     return (
       <>
         {formLoading ? (
@@ -1057,7 +1347,13 @@ class Form extends React.Component {
               formList.map((item, index) => (
                 <>
                   <div
-                    className={`col-md-${item.occupancyNum == 1 ? 6 : 12}`}
+                    className={`col-md-${item.occupancyNum == 1 ? 6 : 12} ${
+                      !isDeliveryDateAndTimeSlot &&
+                      (item.fieldKey == 'deliveryDate' ||
+                        item.fieldKey == 'timeSlot')
+                        ? 'hidden'
+                        : ''
+                    }`}
                     key={index}
                   >
                     {/* requiredFlag '是否必填: 0.关闭,1.开启' */}
@@ -1070,7 +1366,11 @@ class Form extends React.Component {
                         className="form-control-label"
                         htmlFor={`${item.fieldKey}Shipping`}
                       >
-                        <FormattedMessage id={`payment.${item.fieldKey}`} />
+                        {item.fieldKey == 'deliveryDate' ? (
+                          <FormattedMessage id={`payment.deliveryDateText`} />
+                        ) : (
+                          <FormattedMessage id={`payment.${item.fieldKey}`} />
+                        )}
                       </label>
 
                       {/* 当 inputFreeTextFlag=1，inputSearchBoxFlag=0 时，为普通文本框（text、number） */}
@@ -1133,12 +1433,26 @@ class Form extends React.Component {
                       ) : null}
                     </div>
                   </div>
+
+                  {/* 这是一个空的div，deliveryDate和timeSlot存在时显示 */}
+                  {item.fieldKey == 'phoneNumber' ? (
+                    <>
+                      <div
+                        className={`col-md-6 ${
+                          isDeliveryDateAndTimeSlot ? '' : 'hidden'
+                        }`}
+                      ></div>
+                    </>
+                  ) : null}
+
                   {/* 个人中心添加 email 和 birthData */}
                   {this.props.personalData &&
                     item.fieldKey == 'lastName' &&
                     this.emailAndBirthDataJSX()}
                 </>
               ))}
+
+            {/* 根据接口返回判断是否显示 DeliveryDate 和 TimeSlot */}
           </div>
         )}
 

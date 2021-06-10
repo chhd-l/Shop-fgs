@@ -450,8 +450,9 @@ const de_DE = {
     'Wenden Sie sich gerne auch via E-Mail an uns. Wir werden Ihnen schnellstmöglich weiterhelfen.',
   'help.tip4': '',
   'help.title':
-    'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
+    'Haben Sie Fragen? Unser Service-Team hilft Ihnen gerne weiter.',
   here: 'Expertenteam',
+  here2: 'Service-Team',
   home: 'Übersicht',
   'home.convenientTip1':
     'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',
@@ -724,6 +725,32 @@ const de_DE = {
   'payment.terms3.header': 'ROYAL CANIN Newsletter',
   'payment.totalProduct': '{val} Artikel im Warenkorb',
   'payment.yourOrder': 'Deine Bestellung',
+
+  'payment.tomorrow': 'morgen',
+
+  // 星期
+  'payment.Monday': 'Montag',
+  'payment.Tuesday': 'Dienstag',
+  'payment.Wednesday': 'Mittwoch',
+  'payment.Thursday': 'Donnerstag',
+  'payment.Friday': 'Freitag',
+  'payment.Saturday': 'Samstag',
+  'payment.Sunday': 'Sonntag',
+
+  // 月份
+  'payment.January': 'Januar',
+  'payment.February': 'Februar',
+  'payment.March': 'März',
+  'payment.April': 'April',
+  'payment.May': 'Mai',
+  'payment.June': 'Juni',
+  'payment.July': 'Juli',
+  'payment.August': 'August',
+  'payment.September': 'September',
+  'payment.October': 'Oktober',
+  'payment.November': 'November',
+  'payment.December': 'Dezember',
+
   paymentMethod: 'Zahlungsmethode',
   'paymethods.btn': 'Zahlungsmethode hinzufügen',
   'paymethods.info':

@@ -176,7 +176,7 @@ class ClubLandingPageDe extends React.Component {
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
-                      <div className="rc-column">
+                      <div className="rc-column demobilevideo">
                         <iframe
                           width="560"
                           height="315"
@@ -187,10 +187,10 @@ class ClubLandingPageDe extends React.Component {
                           allowFullScreen
                         ></iframe>
                       </div>
-                      <div className="rc-column">
+                      <div className="rc-column demobiletext">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <div className="rc-alpha inherit-fontsize">
+                            <div className="rc-alpha inherit-fontsize detextcenter">
                               Die VET Diäten von ROYAL CANIN®
                             </div>
                             <li className="rc-list__item">
@@ -253,7 +253,7 @@ class ClubLandingPageDe extends React.Component {
                         className="orderone decenter"
                       >
                         <LazyLoad>
-                          <img src={number1} style={{ height: '50px' }} />
+                          <img src={number1} style={{ width: '50px' }} />
                         </LazyLoad>
                       </div>
                       <div className="desktop30vw orderthree">
@@ -290,7 +290,7 @@ class ClubLandingPageDe extends React.Component {
                         className="orderone decenter"
                       >
                         <LazyLoad>
-                          <img src={number2} style={{ height: '50px' }} />
+                          <img src={number2} style={{ width: '50px' }} />
                         </LazyLoad>
                       </div>
                       <div className="ordertwo">
@@ -319,7 +319,7 @@ class ClubLandingPageDe extends React.Component {
                         className="orderone decenter"
                       >
                         <LazyLoad>
-                          <img src={number3} style={{ height: '50px' }} />
+                          <img src={number3} style={{ width: '50px' }} />
                         </LazyLoad>
                       </div>
                       <div
@@ -358,7 +358,7 @@ class ClubLandingPageDe extends React.Component {
                         className="orderone decenter"
                       >
                         <LazyLoad>
-                          <img src={number4} style={{ height: '50px' }} />
+                          <img src={number4} style={{ width: '50px' }} />
                         </LazyLoad>
                       </div>
                       <div className="ordertwo">
@@ -403,7 +403,6 @@ class ClubLandingPageDe extends React.Component {
                         <div
                           style={{
                             height: '15vh',
-                            marginRight: '5vh'
                           }}
                         >
                           <div
@@ -433,7 +432,7 @@ class ClubLandingPageDe extends React.Component {
                                   fontSize: '28px',
                                   fontWeight: 'bolder'
                                 }}
-                                className="marginToppc"
+                                className="marginToppc "
                               >
                                 Einzelbestellung
                               </p>
@@ -465,7 +464,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div
                         style={{
-                          height: '85vh',
+                          height: '78vh',
                           boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
                         }}
                       >
@@ -538,37 +537,37 @@ class ClubLandingPageDe extends React.Component {
                             <div className="rc-padding-y--lg--mobile rc-full-width">
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     10% Rabatt auf Ihre Bestellungen
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     immer genug Nahrung für Ihr Tier Zuhause
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     keine Mindestlaufzeit oder Kündigungsfrist
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     flexibel anpassbar
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     kostenloser Versand
                                   </a>
                                 </li>
                                 <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                   <a style={{ marginLeft: '10px' }}>
                                     schnelle Lieferung innerhalb von 1-3
                                     Werktagen
@@ -627,7 +626,7 @@ class ClubLandingPageDe extends React.Component {
                           }}
                         >
                           <LazyLoad>
-                            <img src={online1} style={{ height: '100px' }} />
+                            <img src={online1} style={{ width: '100px' }} />
                           </LazyLoad>
                         </div>
                         <div
@@ -639,7 +638,7 @@ class ClubLandingPageDe extends React.Component {
                           }}
                         >
                           <LazyLoad>
-                            <img src={online2} style={{ height: '100px' }} />
+                            <img src={online2} style={{ width: '100px' }} />
                           </LazyLoad>
                         </div>
                         <div style={{ width: '30vw' }}>
@@ -675,7 +674,7 @@ class ClubLandingPageDe extends React.Component {
                           }}
                         >
                           <LazyLoad>
-                            <img src={online3} style={{ height: '100px' }} />
+                            <img src={online3} style={{ width: '100px' }} />
                           </LazyLoad>
                         </div>
                         <div
@@ -687,7 +686,7 @@ class ClubLandingPageDe extends React.Component {
                           }}
                         >
                           <LazyLoad>
-                            <img src={online4} style={{ height: '100px' }} />
+                            <img src={online4} style={{ width: '100px' }} />
                           </LazyLoad>
                         </div>
                         <div style={{ width: '30vw' }}>
@@ -774,10 +773,10 @@ class ClubLandingPageDe extends React.Component {
                                   <div className="rc-column rc-content-v-middle">
                                     <LazyLoad>
                                       <img
-                                        className="align-self-center widthAuto"
+                                        className="align-self-center "
                                         src={dephone}
                                         title="By telephone"
-                                        style={{ width: '4vw' }}
+                                        style={{ width: '18vw' }}
                                       />
                                     </LazyLoad>
                                   </div>
@@ -798,10 +797,10 @@ class ClubLandingPageDe extends React.Component {
                                   <div className="rc-column rc-content-v-middle">
                                     <LazyLoad>
                                       <img
-                                        className="align-self-center widthAuto"
+                                        className="align-self-center "
                                         src={demail}
                                         title="By telephone"
-                                        style={{ width: '7vw' }}
+                                        style={{ width: '20vw' }}
                                       />
                                     </LazyLoad>
                                   </div>

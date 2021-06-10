@@ -16,8 +16,9 @@ const api = {
   seo: 'seo/setting',
   getSystemConfig: '/system/config',
   addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
-  getPrescriberSettingInfo: '/order/config/listSystemConfig', //查询是否需要显示用户选择绑定prescriber弹框
-  cancelEmail: '/customer/updateCustomerSendEmailFlag' //取消用户邮箱绑定
+  getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
+  cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
+  getDeliveryDateAndTimeSlot: '/delivery/timeSlot' // 俄罗斯获取 DeliveryDate 和 TimeSlot
 };
 
 export default api;
@@ -155,5 +156,14 @@ export function cancelEmailBind(parameter) {
     url: `${api.cancelEmail}`,
     method: 'put',
     params: parameter
+  });
+}
+
+// 俄罗斯获取 DeliveryDate 和 TimeSlot
+export function getDeliveryDateAndTimeSlot(parameter) {
+  return axios({
+    url: `${api.getDeliveryDateAndTimeSlot}`,
+    method: 'post',
+    data: parameter
   });
 }

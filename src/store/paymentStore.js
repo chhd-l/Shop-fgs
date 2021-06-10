@@ -107,6 +107,8 @@ class PaymentStore {
     consigneeNumber: ''
   };
 
+  @observable isRreshList = false;
+
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
   }
@@ -464,6 +466,10 @@ class PaymentStore {
   @action.bound
   setGuestEmail(param) {
     this.guestEmail = param;
+  }
+  @action.bound
+  setRreshCardList(bool) {
+    this.isRreshList = bool;
   }
 }
 export default PaymentStore;

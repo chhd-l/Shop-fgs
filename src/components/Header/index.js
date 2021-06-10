@@ -731,7 +731,8 @@ class Header extends React.Component {
             </div>
           )}
         </HeaderContainer>
-        {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        {process.env.REACT_APP_COUNTRY !== 'RU' &&
+          process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>
     );

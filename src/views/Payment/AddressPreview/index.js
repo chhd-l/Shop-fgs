@@ -39,39 +39,39 @@ class InfosPreview extends React.Component {
               <div className="rounded rc-border-all rc-border-colour--interface checkout--padding">
                 <div className="summary-details shipping rc-margin-bottom--xs">
                   <div className="address-summary row">
-                    <div className="col-md-12 deliveryAddress">
+                    <div className="col-12 deliveryAddress">
                       <h5 className="center">
                         <FormattedMessage id="payment.deliveryTitle" />
                       </h5>
                       <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           <FormattedMessage id="payment.firstName" />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           &nbsp;{details.consignee.firstName}
                         </div>
 
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           <FormattedMessage id="payment.lastName" />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           &nbsp;{details.consignee.lastName}
                         </div>
 
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           <FormattedMessage id="payment.address1" />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           &nbsp;{details.consignee.detailAddress1}
                         </div>
 
                         {localAddressForm['address2'] &&
                           details.consignee.detailAddress2 && (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.address2" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.consignee.detailAddress2}
                               </div>
                             </>
@@ -79,11 +79,11 @@ class InfosPreview extends React.Component {
 
                         {process.env.REACT_APP_COUNTRY == 'US' ? null : (
                           <>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.country" />
                             </div>
 
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               &nbsp;
                               {matchNamefromDict(
                                 this.state.countryList,
@@ -95,10 +95,10 @@ class InfosPreview extends React.Component {
 
                         {localAddressForm['city'] && (
                           <>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.city" />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               &nbsp;{details.consignee.city}
                             </div>
                           </>
@@ -106,10 +106,10 @@ class InfosPreview extends React.Component {
 
                         {localAddressForm['region'] && (
                           <>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.region" />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               &nbsp;{details.consignee.area}
                             </div>
                           </>
@@ -117,10 +117,10 @@ class InfosPreview extends React.Component {
 
                         {localAddressForm['state'] && (
                           <>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.state" />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               &nbsp;{details.consignee.province}
                             </div>
                           </>
@@ -128,75 +128,75 @@ class InfosPreview extends React.Component {
 
                         {localAddressForm['postCode'] && (
                           <>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.postCode" />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               &nbsp;{details.consignee.postCode}
                             </div>
                           </>
                         )}
 
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           <FormattedMessage id="payment.phoneNumber" />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           &nbsp;{details.consignee.phone}
                         </div>
 
                         {details.consignee.rfc ? (
                           <>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               <FormattedMessage id="payment.rfc" />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-12 col-md-6">
                               &nbsp;{details.consignee.rfc}
                             </div>
                           </>
                         ) : null}
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           <FormattedMessage id="payment.normalDelivery2" />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                           <FormattedMessage id="payment.forFree" />
                         </div>
                       </div>
                     </div>
                     {details.invoice ? (
-                      <div className="col-md-12 address-summary-left">
+                      <div className="col-12 address-summary-left">
                         <h5 className="center">
                           <FormattedMessage id="payment.billTitle" />
                         </h5>
 
                         <div className="row">
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             <FormattedMessage id="payment.firstName" />
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             &nbsp;{details.invoice.firstName}
                           </div>
 
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             <FormattedMessage id="payment.lastName" />
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             &nbsp;{details.invoice.lastName}
                           </div>
 
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             <FormattedMessage id="payment.address1" />
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             &nbsp;{details.invoice.address1}
                           </div>
 
                           {localAddressForm['address2'] &&
                             details.invoice.detailAddress2 && (
                               <>
-                                <div className="col-md-6">
+                                <div className="col-12 col-md-6">
                                   <FormattedMessage id="payment.address2" />
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-12 col-md-6">
                                   &nbsp;{details.invoice.address2}
                                 </div>
                               </>
@@ -204,10 +204,10 @@ class InfosPreview extends React.Component {
 
                           {process.env.REACT_APP_COUNTRY == 'US' ? null : (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.country" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;
                                 {matchNamefromDict(
                                   this.state.countryList,
@@ -219,10 +219,10 @@ class InfosPreview extends React.Component {
 
                           {localAddressForm['city'] && (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.city" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.invoice.city}
                               </div>
                             </>
@@ -230,10 +230,10 @@ class InfosPreview extends React.Component {
 
                           {localAddressForm['region'] && (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.region" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.invoice.area}
                               </div>
                             </>
@@ -241,10 +241,10 @@ class InfosPreview extends React.Component {
 
                           {localAddressForm['state'] && (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.state" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.invoice.province}
                               </div>
                             </>
@@ -252,38 +252,38 @@ class InfosPreview extends React.Component {
 
                           {localAddressForm['postCode'] && (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.postCode" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.invoice.postCode}
                               </div>
                             </>
                           )}
 
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             <FormattedMessage id="payment.phoneNumber" />
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             &nbsp;{details.invoice.phone}
                           </div>
 
                           {details.invoice.rfc ? (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.rfc" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.invoice.rfc}
                               </div>
                             </>
                           ) : null}
                           {details.buyerRemark ? (
                             <>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 <FormattedMessage id="payment.commentOnDelivery" />
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-12 col-md-6">
                                 &nbsp;{details.buyerRemark}
                               </div>
                             </>

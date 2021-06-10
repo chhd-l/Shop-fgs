@@ -21,7 +21,20 @@ export const UnLoginUserBox = ({ history, className }) => {
       />
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />
-        <Link className="medium pl-2 ui-cursor-pointer" to="/register">
+        <Link
+          className="medium pl-2 ui-cursor-pointer 1212"
+          onClick={() => {
+            localItemRoyal.set(
+              'okta-redirectUrl',
+              history && history.location.pathname + history.location.search
+            );
+            console.log(
+              'history && history.location.pathname + history.location.search',
+              history && history.location.pathname + history.location.search
+            );
+          }}
+          to="/register"
+        >
           <FormattedMessage id="header.User.registerNow" />
         </Link>
       </div>
@@ -61,11 +74,8 @@ export const UnLoginUserBox = ({ history, className }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const {
-    personInformationRouter,
-    petsRouter,
-    subscriptionsRouter
-  } = self.props;
+  const { personInformationRouter, petsRouter, subscriptionsRouter } =
+    self.props;
   const menuList = [
     {
       link: '/account',
