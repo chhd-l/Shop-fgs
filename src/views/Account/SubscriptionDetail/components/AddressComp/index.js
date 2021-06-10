@@ -601,19 +601,8 @@ class AddressList extends React.Component {
         validationModalVisible: false,
         validationLoading: false
       });
-
-      let params = {
-        address1: deliveryAddress.address1,
-        address2: deliveryAddress.address2,
-        area: deliveryAddress.area,
-        areaId: deliveryAddress.areaId,
-        firstName: deliveryAddress.firstName,
-        lastName: deliveryAddress.lastName,
-        countryId: deliveryAddress.countryId,
-        country: deliveryAddress.country,
-        cityId: deliveryAddress.cityId,
-        city: deliveryAddress.city,
-        cityName: deliveryAddress.cityName,
+      let params = Object.assign({}, deliveryAddress, {
+        region: deliveryAddress.province, // DuData相关参数
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
@@ -622,26 +611,45 @@ class AddressList extends React.Component {
           deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-        postCode: deliveryAddress.postCode,
-        rfc: deliveryAddress.rfc,
-        email: deliveryAddress.email,
-        comment: deliveryAddress?.comment,
-
-        region: deliveryAddress.province, // DuData相关参数
-        area: deliveryAddress.area,
-        settlement: deliveryAddress.settlement,
-        street: deliveryAddress.street,
-        house: deliveryAddress.house,
-        housing: deliveryAddress.housing,
-        entrance: deliveryAddress.entrance,
-        apartment: deliveryAddress.apartment,
-
+        province: deliveryAddress.province,
+        provinceId: deliveryAddress.provinceId,
+        isValidated: deliveryAddress.validationResult,
         type: this.props.type.toUpperCase()
-      };
+      });
+      // let params = {
+      //   address1: deliveryAddress.address1,
+      //   address2: deliveryAddress.address2,
+      //   area: deliveryAddress.area,
+      //   areaId: deliveryAddress.areaId,
+      //   firstName: deliveryAddress.firstName,
+      //   lastName: deliveryAddress.lastName,
+      //   countryId: deliveryAddress.countryId,
+      //   country: deliveryAddress.country,
+      //   cityId: deliveryAddress.cityId,
+      //   city: deliveryAddress.city,
+      //   cityName: deliveryAddress.cityName,
+      //   consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+      //   consigneeNumber: deliveryAddress.phoneNumber,
+      //   customerId: originData ? originData.customerId : '',
+      //   deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+      //   deliveryAddressId: originData ? originData.deliveryAddressId : '',
+      //   isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+      //   postCode: deliveryAddress.postCode,
+      //   rfc: deliveryAddress.rfc,
+      //   email: deliveryAddress.email,
+      //   comment: deliveryAddress?.comment,
 
-      params.province = deliveryAddress.province;
-      params.provinceId = deliveryAddress.provinceId;
-      params.isValidated = deliveryAddress.validationResult;
+      //   region: deliveryAddress.province, // DuData相关参数
+      //   area: deliveryAddress.area,
+      //   settlement: deliveryAddress.settlement,
+      //   street: deliveryAddress.street,
+      //   house: deliveryAddress.house,
+      //   housing: deliveryAddress.housing,
+      //   entrance: deliveryAddress.entrance,
+      //   apartment: deliveryAddress.apartment,
+
+      //   type: this.props.type.toUpperCase()
+      // };
 
       this.setState({ saveLoading: true });
       const tmpPromise =
@@ -678,7 +686,8 @@ class AddressList extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          saveErrorMsg: ''
+          saveErrorMsg: '',
+          successTipVisible: false
         });
       }, 5000);
     } finally {
