@@ -452,6 +452,7 @@ const de_DE = {
   'help.title':
     'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
   here: 'Expertenteam',
+  here2: 'Service-Team',
   home: 'Übersicht',
   'home.convenientTip1':
     'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',

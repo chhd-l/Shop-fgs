@@ -158,11 +158,11 @@ class FAQ extends React.Component {
                                 rel="nofollow"
                                 className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
                                 target="_blank"
-                                to="/help/contact"
+                                to="/help"
                                 rel="nofollow"
                               >
                                 <ins>
-                                  <FormattedMessage id="here" />
+                                  <FormattedMessage id="here2" />
                                 </ins>
                                 {Boolean(
                                   process.env
