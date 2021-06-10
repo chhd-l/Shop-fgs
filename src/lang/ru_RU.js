@@ -719,6 +719,32 @@ const ru_RU = {
   'payment.deliveryDate2': 'Срок доставки {val} рабочих дня.',
   'payment.shippingDiscount': 'Скидка на доставку',
   'payment.deliveryFee': 'Стоимость доставки',
+
+  'payment.tomorrow': 'завтра',
+
+  // 星期
+  'payment.Monday': 'Понедельник',
+  'payment.Tuesday': 'Вторник',
+  'payment.Wednesday': 'Среда',
+  'payment.Thursday': 'Четверг',
+  'payment.Friday': 'Пятница',
+  'payment.Saturday': 'Суббота',
+  'payment.Sunday': 'Воскресенье',
+
+  // 月份
+  'payment.January': 'Января',
+  'payment.February': 'Февраля',
+  'payment.March': 'Марта',
+  'payment.April': 'Апреля',
+  'payment.May': 'Мая',
+  'payment.June': 'Июня',
+  'payment.July': 'Июля',
+  'payment.August': 'Августа',
+  'payment.September': 'Сентября',
+  'payment.October': 'Октября',
+  'payment.November': 'Ноября',
+  'payment.December': 'Декабря',
+
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',
@@ -1402,12 +1428,12 @@ const ru_RU = {
   'ClubLP.Help.call.title': 'Позвоните нам',
   'ClubLP.Help.call.content':
     'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '8800 200 37 35',
+  'ClubLP.Help.call.mobile.number': '8800 200 37 35',
   'ClubLP.Help.email.title': 'Напишите нам e-mail',
   'ClubLP.Help.email.content':
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
-  'ClubLP.Help.email.address': 'Send us an Email',
+  'ClubLP.Help.email.address': 'Отправьте нам e-mail',
   'ClubLP.Help.faq.content':
     'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
   'clinic.vetClinicsTip1':

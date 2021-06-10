@@ -65,6 +65,10 @@ class AddressList extends React.Component {
         isDefalt: false,
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
+        deliveryDate: null,
+        timeSlot: null,
+        receiveType: null, //  HOME 、 PICKUP
+        pickUpCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         email: ''
       },
@@ -234,7 +238,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -566,6 +570,10 @@ class AddressList extends React.Component {
         street: tmp.street || '',
         house: tmp.house || '',
         housing: tmp.housing || '',
+        deliveryDate: tmp.deliveryDate || '',
+        deliveryDateId: tmp.deliveryDate || '',
+        timeSlot: tmp.timeSlot || '',
+        timeSlotId: tmp.timeSlot || '',
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
@@ -599,7 +607,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -610,7 +618,7 @@ class AddressList extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        console.log('--------- ★★★★★★ List 验证通过');
+        // console.log('--------- ★★★★★★ List 验证通过');
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
@@ -630,7 +638,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    console.log('address1地址校验flag : ', flag);
+    // console.log('address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
     this.setState(
       {
@@ -706,6 +714,10 @@ class AddressList extends React.Component {
         housing: deliveryAddress.housing || '',
         entrance: deliveryAddress.entrance || '',
         apartment: deliveryAddress.apartment || '',
+
+        deliveryDate: deliveryAddress.deliveryDate || '',
+        timeSlot: deliveryAddress.timeSlot || '',
+        receiveType: deliveryAddress.receiveType || '',
 
         type: this.props.type.toUpperCase()
       };
@@ -1143,6 +1155,7 @@ class AddressList extends React.Component {
         {addOrEdit && (
           <EditForm
             ref={this.editFormRef}
+            type={this.props.type}
             isLogin={true}
             initData={deliveryAddress}
             getFormAddressValidFlag={this.getFormAddressValidFlag}

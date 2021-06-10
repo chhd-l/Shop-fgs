@@ -757,6 +757,32 @@ const fr_FR = {
   'payment.terms3.header': 'Infolettre ROYAL CANIN',
   'payment.totalProduct': '{val} produit(s)',
   'payment.yourOrder': 'Votre commande',
+
+  'payment.tomorrow': 'Demain.',
+
+  // 星期
+  'payment.Monday': 'Lundi',
+  'payment.Tuesday': 'Mardi',
+  'payment.Wednesday': 'Mercredi',
+  'payment.Thursday': 'Jeudi',
+  'payment.Friday': 'Vendredi',
+  'payment.Saturday': 'Samedi',
+  'payment.Sunday': 'Dimanche',
+
+  // 月份
+  'payment.January': 'Janvier',
+  'payment.February': 'Février',
+  'payment.March': 'Mars',
+  'payment.April': 'Avril',
+  'payment.May': 'Mai',
+  'payment.June': 'Juin',
+  'payment.July': 'Juillet',
+  'payment.August': 'Août',
+  'payment.September': 'Septembre',
+  'payment.October': 'Octobre',
+  'payment.November': 'Novembre',
+  'payment.December': 'Décembre',
+
   paymentMethod: 'Mode de paiement',
   'paymethods.btn': 'Ajouter un moyen de paiement',
   //account.paymethods
@@ -1659,8 +1685,8 @@ const fr_FR = {
   'ClubLP.Help.call.title': 'Appelez-nous',
   'ClubLP.Help.call.content':
     'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '0800 41 51 61',
+  'ClubLP.Help.call.mobile.number': '0800 41 51 61',
   'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
   'ClubLP.Help.email.content':
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',

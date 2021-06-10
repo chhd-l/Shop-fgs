@@ -389,7 +389,7 @@ const GoodsDetailTabs = function (props) {
   const [spaceShow, setSpaceShow] = useState('1');
 
   const getSpeciesId = (item) => {
-    if (process.env.REACT_APP_COUNTRY == 'DE') {
+
       return (
         {
           1158: '1', //Russia Cat SPT food
@@ -410,7 +410,6 @@ const GoodsDetailTabs = function (props) {
           1175: '2' //US Dog VET food
         }[item] || ''
       );
-    }
   };
 
   useEffect(() => {
