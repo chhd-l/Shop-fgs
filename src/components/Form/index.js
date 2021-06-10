@@ -262,14 +262,14 @@ class Form extends React.Component {
       res = await getAddressBykeyWord({ keyword: address1 });
       if (res?.context && res?.context?.addressList.length) {
         let addls = res.context.addressList;
-        this.getDeliveryDateAndTimeSlot(addls[0].cityId);
+        this.getDeliveryDateAndTimeSlotData(addls[0].cityId);
       }
     } catch (err) {
       console.warn(err);
     }
   };
   // 0、获取 DeliveryDate 和 TimeSlot
-  getDeliveryDateAndTimeSlot = async (str) => {
+  getDeliveryDateAndTimeSlotData = async (str) => {
     const { caninForm } = this.state;
     let res = null;
     try {
@@ -345,8 +345,6 @@ class Form extends React.Component {
       });
     } catch (err) {
       console.warn(err);
-    } finally {
-      return res;
     }
   };
   // 设置手机号输入限制
@@ -1042,7 +1040,7 @@ class Form extends React.Component {
               !this.props.personalData &&
               this.props.type != 'billing'
             ) {
-              this.getDeliveryDateAndTimeSlot(data?.cityId);
+              this.getDeliveryDateAndTimeSlotData(data?.cityId);
             }
           }
         );

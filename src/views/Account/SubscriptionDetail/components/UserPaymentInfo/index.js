@@ -173,6 +173,20 @@ const UserPaymentInfo = ({
                 )}
               </>
             )}
+
+            {/* delivery date */}
+            {currentDeliveryAddress?.deliveryDate && (
+              <p className="mb-0 sd_mb_deliveryDate">
+                {currentDeliveryAddress.deliveryDate}
+              </p>
+            )}
+
+            {/* time slot */}
+            {currentDeliveryAddress?.timeSlot && (
+              <p className="mb-0 sd_mb_timeSlot">
+                {currentDeliveryAddress.timeSlot}
+              </p>
+            )}
           </div>
         </div>
       </div>
