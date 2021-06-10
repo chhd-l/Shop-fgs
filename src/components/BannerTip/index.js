@@ -1,5 +1,5 @@
 import React from 'react';
-import { bannerTips } from './bannerTips';
+import BannerTips from './bannerTips';
 
 class BannerTip extends React.Component {
   constructor(props) {
@@ -16,9 +16,9 @@ class BannerTip extends React.Component {
   }
   render() {
     return this.state.noticeVisible &&
-      process.env.REACT_APP_SHOW_BANNERTIP === 'true'
-      ? bannerTips()
-      : null;
+      process.env.REACT_APP_SHOW_BANNERTIP === 'true' ? (
+      <BannerTips />
+    ) : null;
   }
 }
 
