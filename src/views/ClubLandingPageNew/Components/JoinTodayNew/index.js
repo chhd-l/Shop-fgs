@@ -56,7 +56,7 @@ const JoinTodayNew = () => {
                       </div>
                       <div style={{ display: 'flex' }}>
                         <button
-                          style={{ margin: '0 auto' }}
+                          style={{ margin: '0 auto'}}
                           className="rc-btn rc-btn--one"
                         >
                           <FormattedMessage id="ClubLP.NewJoinUs.button" />

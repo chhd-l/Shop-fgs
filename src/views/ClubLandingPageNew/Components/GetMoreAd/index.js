@@ -71,10 +71,10 @@ const GetMoreAd = () => {
                     <div style={{ height: '30vh' }}>
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
-                          <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                          <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
+                              <a style={{ marginLeft: '10px'}}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
                               </a>
                             </li>
@@ -105,7 +105,7 @@ const GetMoreAd = () => {
                         style={{
                           display: 'flex',
                           marginLeft: '10vw',
-                          marginTop: '10vh'
+                          marginTop: '5vh'
                         }}
                       >
                         <div>
@@ -148,7 +148,7 @@ const GetMoreAd = () => {
                     >
                       <div className="rc-column" style={{ padding: '0' }}>
                         <div className="rc-padding-y--lg--mobile rc-full-width">
-                          <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                          <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw" >
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
@@ -178,7 +178,7 @@ const GetMoreAd = () => {
                       </div>
                       <div className="rc-column" style={{ padding: '0' }}>
                         <div className="rc-padding-y--lg--mobile rc-full-width">
-                          <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                          <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align" >
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
                               <a style={{ marginLeft: '10px' }}>
@@ -204,7 +204,7 @@ const GetMoreAd = () => {
                     <br />
                     <div className=" rc-btn-group m-0 rc-column rc-padding-x--none " style={{display:'flex',justifyContent:'center'}}>
                       <Link to="/">
-                        <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs marginleftButton">
+                        <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton marginleftButton">
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
                       </Link>
