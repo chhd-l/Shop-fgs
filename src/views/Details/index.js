@@ -307,7 +307,7 @@ class Details extends React.Component {
       productRate: 0,
       replyNum: 0,
       goodsId: null,
-      cateId:'',
+      cateId: '',
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
@@ -473,6 +473,7 @@ class Details extends React.Component {
       } else {
         buyWay = defaultPurchaseType;
       }
+      console.log(defaultPurchaseType, 'defaultPurchaseType');
       this.setState({
         form: Object.assign(this.state.form, {
           buyWay
@@ -638,14 +639,16 @@ class Details extends React.Component {
 
       return item;
     });
-
-    defaultPurchaseType === 1 ||
-    sessionItemRoyal.get('pf-result') ||
-    localStorage.getItem('pfls')
-      ? skuPromotions == 'club'
-        ? (form.buyWay = 2)
-        : (form.buyWay = 1)
-      : (form.buyWay = 0);
+    if (defaultPurchaseType !== -1) {
+      defaultPurchaseType === 1 ||
+      sessionItemRoyal.get('pf-result') ||
+      localStorage.getItem('pfls')
+        ? skuPromotions == 'club'
+          ? (form.buyWay = 2)
+          : (form.buyWay = 1)
+        : (form.buyWay = 0);
+    }
+    console.log(defaultPurchaseType, form, 'defaultPurchaseType');
     this.setState(
       {
         details,
@@ -1570,8 +1573,8 @@ class Details extends React.Component {
       goodsNo
     } = item;
     this.setState({
-      cateId:cateId,
-    })
+      cateId: cateId
+    });
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size =
@@ -1619,7 +1622,7 @@ class Details extends React.Component {
     }
     this.setState({
       breed,
-      specie,
+      specie
     });
   }
 

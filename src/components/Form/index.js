@@ -147,17 +147,14 @@ class Form extends React.Component {
     initData.regionId = initData.areaId;
 
     // deliveryDate和timeSlot有值就显示
-    let isdsFlag = false;
     if (initData.deliveryDate && initData.timeSlot) {
-      isdsFlag = true;
       this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('112 -------------★ EditForm initData: ', initData);
     // console.log('113-------------★ EditForm caninForm: ', caninForm);
     this.setState(
       {
-        caninForm: Object.assign(caninForm, initData),
-        isDeliveryDateAndTimeSlot: isdsFlag
+        caninForm: Object.assign(caninForm, initData)
       },
       () => {
         this.updateDataToProps(this.state.caninForm);
@@ -302,20 +299,23 @@ class Form extends React.Component {
           } else {
             daystr = weekday;
           }
-          let dymstr = daystr + ', ' + ymd[2] + ' ' + month;
+          let oldstr = weekday + ', ' + ymd[2] + ' ' + month;
+          let newstr = daystr + ', ' + ymd[2] + ' ' + month;
           // 所有数据
-          alldata[dymstr] = v.dateTimeInfos;
+          alldata[oldstr] = v.dateTimeInfos;
           // 格式: 星期, 15 月份
           ddlist.push({
-            id: dymstr,
-            name: dymstr,
+            id: oldstr,
+            name: newstr,
             no: v.date
           });
         });
-        // 为空的时候设置默认值
+        // 通过年月日判读是否过期
+
+        // delivery date为空或者过期设置第一条数据为默认值
         if (!obj.deliveryDate) {
           obj.deliveryDateId = ddlist[0].id;
-          obj.deliveryDate = ddlist[0].name;
+          obj.deliveryDate = ddlist[0].id;
         }
         // 设置 time slot
         alldata[obj.deliveryDate]?.forEach((r) => {
@@ -327,7 +327,7 @@ class Form extends React.Component {
             endTime: r.endTime,
             sort: r.sort
           });
-          // time slot 为空的时候
+          // time slot为空或者过期设置第一条数据为默认值
           if (!obj.timeSlot) {
             obj.timeSlotId = setime;
             obj.timeSlot = setime;
@@ -812,10 +812,10 @@ class Form extends React.Component {
       cform.region = data.name;
       cform.regionId = data.value;
     } else if (key == 'deliveryDate') {
-      cform.deliveryDate = data.name;
+      cform.deliveryDate = data.value;
       cform.deliveryDateId = data.value;
       let tslist = [];
-      deliveryDataTimeSlotList[data.name]?.forEach((r) => {
+      deliveryDataTimeSlotList[data.value]?.forEach((r) => {
         let setime = r.startTime + ' - ' + r.endTime;
         tslist.push({
           id: setime,
@@ -1042,7 +1042,7 @@ class Form extends React.Component {
               !this.props.personalData &&
               this.props.type != 'billing'
             ) {
-              this.getDeliveryDateAndTimeSlotData(data?.cityId);
+              this.getDeliveryDateAndTimeSlotData(data?.provinceId);
             }
           }
         );
