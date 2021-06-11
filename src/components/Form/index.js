@@ -320,7 +320,7 @@ class Form extends React.Component {
         // 通过年月日判读是否过期
 
         // delivery date为空或者过期设置第一条数据为默认值
-        if (!obj.deliveryDate) {
+        if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
           obj.deliveryDateId = ddlist[0].id;
           obj.deliveryDate = ddlist[0].id;
         }
