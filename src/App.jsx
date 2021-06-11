@@ -525,7 +525,7 @@ const App = () => {
                        exact
                        component={ClubLandingPageNew}
                 />
-                <Route path="/clublandinpagede"
+                <Route path="/vet-diets"
                        exact
                        component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
                 />

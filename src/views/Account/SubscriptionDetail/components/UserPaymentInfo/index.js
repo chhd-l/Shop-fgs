@@ -35,7 +35,7 @@ const UserPaymentInfo = ({
     window.scrollTo(0, 0);
     if (type == 'PaymentComp') {
       setState({
-        addressType: type
+        type
       });
       return;
     }

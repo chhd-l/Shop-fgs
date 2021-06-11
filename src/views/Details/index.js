@@ -307,6 +307,7 @@ class Details extends React.Component {
       productRate: 0,
       replyNum: 0,
       goodsId: null,
+      cateId:'',
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
@@ -1568,6 +1569,9 @@ class Details extends React.Component {
       goodsInfos,
       goodsNo
     } = item;
+    this.setState({
+      cateId:cateId,
+    })
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size =
@@ -1615,7 +1619,7 @@ class Details extends React.Component {
     }
     this.setState({
       breed,
-      specie
+      specie,
     });
   }
 
@@ -1687,6 +1691,7 @@ class Details extends React.Component {
     const { history, location, match, configStore } = this.props;
     const {
       goodsId,
+      cateId,
       details,
       images,
       quantity,
@@ -2682,6 +2687,7 @@ class Details extends React.Component {
                 isClub={
                   details.promotions && details.promotions.includes('club')
                 }
+                goodsDetailSpace={cateId}
               />
             ) : null}
 

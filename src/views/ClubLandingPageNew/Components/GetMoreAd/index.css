@@ -19,6 +19,14 @@
   .buttonmargintop {
     transform: translateY(7vh);
   }
+  .textmobile15vw{
+    padding:0;
+    margin-left:0;
+    list-style-position:outside;
+  }
+  .getmorebutton{
+    margin-top: 20vh;
+  }
 }
 
 @media (min-width: 639.98px) {
@@ -27,5 +35,11 @@
   }
   .widthsmall {
     height: 60vh;
+  }
+  .text21vw{
+    width: 21vw;
+  }
+  .getmorebutton{
+    margin-top: 10vh;
   }
 }

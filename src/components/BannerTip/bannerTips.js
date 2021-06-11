@@ -1,11 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { getDeviceType } from '@/utils/utils';
 import { isLimitLogin } from '@/components/LoginButton/utils';
 import './index.less';
+import { accountCallBack, mktCallBack } from '@/api/home.js';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const localItemRoyal = window.__.localItemRoyal;
 
 function Container({ children }) {
   return isMobile ? (
@@ -51,7 +53,58 @@ function LimitLoginAlertTips() {
   );
 }
 
-export const bannerTips = () => {
+const bannerTips = () => {
+  const [mktMessage, setMktMessage] = useState('');
+  const [show, setShow] = useState(null);
+  const oktaSessionToken = localItemRoyal.get('okta-session-token');
+  const history = useHistory();
+  function ShowMKTMessage() {
+    if (oktaSessionToken) {
+      accountCallBack().then((res) => {
+        if (res.mktConsentActivateStatus) {
+          setMktMessage(<FormattedMessage id="home.userReturnHasMKT" />);
+        } else {
+          setMktMessage(<FormattedMessage id="home.userReurnNoMKT" />);
+        }
+        return showFiveSeconds();
+      });
+    } else {
+      // example: ?customerId=800001798a0bf24f7bc8e5dc96ac5d88&consentId=127&uuid=812e111ebe754154a9092805c08937f9
+      let parameters = history.location.search;
+      parameters.replace('?', '');
+      let searchList = parameters.split('&');
+      if (searchList.length === 3) {
+        let customerId = searchList[0].split('=')[1];
+        let consentId = searchList[1].split('=')[1];
+        let uuid = searchList[2].split('=')[1];
+        if (customerId && consentId && uuid) {
+          mktCallBack({ customerId, consentId, uuid }).then((res) => {
+            if (res.customerActivateStatus) {
+              setMktMessage(<FormattedMessage id="home.MKTReturnHasUser" />);
+            } else {
+              setMktMessage(<FormattedMessage id="home.MKTReturnNoUser" />);
+            }
+            return showFiveSeconds();
+          });
+        }
+      }
+    }
+  }
+
+  function showFiveSeconds() {
+    setShow(true);
+    return setTimeout(() => {
+      setShow(false);
+    }, 5000);
+  }
+
+  useEffect(() => {
+    const timeId = ShowMKTMessage();
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, []);
+
   return (
     <div
       // id="bannerTip"
@@ -76,6 +129,7 @@ export const bannerTips = () => {
               </div>
             </div>
           ) : null}
+          {show && process.env.REACT_APP_COUNTRY === 'DE' ? mktMessage : null}
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
@@ -110,3 +164,4 @@ export const bannerTips = () => {
     </div>
   );
 };
+export default bannerTips;

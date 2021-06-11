@@ -166,7 +166,7 @@ const SubsriptionBenefitsNew = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <button className="rc-btn rc-btn--one">
+            <button className="rc-btn rc-btn--one" >
               <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.button'} />
             </button>
           </h4>

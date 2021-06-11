@@ -450,7 +450,7 @@ const de_DE = {
     'Wenden Sie sich gerne auch via E-Mail an uns. Wir werden Ihnen schnellstmöglich weiterhelfen.',
   'help.tip4': '',
   'help.title':
-    'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
+    'Haben Sie Fragen? Unser Service-Team hilft Ihnen gerne weiter.',
   here: 'Expertenteam',
   here2: 'Service-Team',
   home: 'Übersicht',
@@ -476,6 +476,13 @@ const de_DE = {
   'home.productsCategory': 'Unsere Produkte',
   'home.promotionTip':
     '10% Rabatt auf den ersten Einkauf + 5% Rabatt auf jede Autoship?',
+  'home.userReurnNoMKT':
+    'IHR KONTO WURDE ERFOLGREICH ANGELEGT! BITTE BESTÄTIGEN SIE AUCH IHRE NEWSLETTER ANMELDUNG UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
+  'home.userReturnHasMKT':
+    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. VIELEN DANK!',
+  'home.MKTReturnNoUser':
+    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. BITTE AKTIVIEREN SIE AUCH IHREN ACCOUNT UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
+  'home.MKTReturnHasUser': 'IHR KONTO WURDE ERFOLGREICH ANGELEGT!',
   'home.specialAnimalNutrition': 'Spezielle Tierernährung',
   'home.specialInfo1': 'Die Pracht jeder Rasse ist',
   'home.specialInfo2': 'in seiner Einzigartigkeit.',

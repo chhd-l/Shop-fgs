@@ -114,6 +114,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('subNumber');
         sessionItemRoyal.remove('oxxoPayUrl');
         sessionItemRoyal.remove('adyenOxxoAction');
+        sessionItemRoyal.remove('gaPet');
       }
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');

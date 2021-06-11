@@ -34,6 +34,9 @@ class Payu3dsResult extends Component {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
+      console.log(err.context.businessId);
+      sessionItemRoyal.set('rc-tid', err.context.businessId);
+      sessionItemRoyal.set('rc-tidList', err.context.tidList);
       this.props.history.push('/checkout');
     } finally {
       await sleep(2000); //防止还没跳转
