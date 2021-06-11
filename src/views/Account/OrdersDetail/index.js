@@ -1540,9 +1540,9 @@ class AccountOrders extends React.Component {
                                       ) : null}
 
                                       {/* delivery date */}
-                                      {details.consignee?.deliveryDate && (
+                                      {details.consignee?.deliverDate && (
                                         <p className="mb-0 od_mb_deliveryDate">
-                                          {details.consignee.deliveryDate}
+                                          {details.consignee.deliverDate}
                                         </p>
                                       )}
 
