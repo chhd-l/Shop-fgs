@@ -1103,7 +1103,7 @@ class AccountOrders extends React.Component {
                                 </div>
 
                                 {/* 订阅订单号 */}
-                                {details.subscriptionResponseVO ? (
+                                {/* {details.subscriptionResponseVO ? (
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="subscription.numberFirstWordUpperCase" />
                                     <br />
@@ -1118,7 +1118,7 @@ class AccountOrders extends React.Component {
                                       })}
                                     </Link>
                                   </div>
-                                ) : null}
+                                ) : null} */}
 
                                 {/* clinic信息 */}
                                 {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
