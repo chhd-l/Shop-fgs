@@ -402,7 +402,7 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <div
                           style={{
-                            height: '15vh',
+                            height: '15vh'
                           }}
                         >
                           <div
@@ -752,7 +752,10 @@ class ClubLandingPageDe extends React.Component {
                             <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw">
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
                                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                  <div className="rc-column rc-double-width rc-padding-top--md--mobile">
+                                  <div
+                                    className="rc-column rc-double-width rc-padding-top--md--mobile"
+                                    style={{ marginRight: '-2rem' }}
+                                  >
                                     <div className="w-100">
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per Telefon
@@ -830,7 +833,7 @@ class ClubLandingPageDe extends React.Component {
                     </div>
                     <div className="text-center">
                       <a href="https://analytics-eu.clickdimensions.com/royalcanincom-agp6w/pages/sgjjrbkleemouganordtia.html">
-                      <button className="rc-btn rc-btn--two">Anmelden</button>
+                        <button className="rc-btn rc-btn--two">Anmelden</button>
                       </a>
                       <br />
                       <br />

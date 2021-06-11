@@ -421,6 +421,7 @@ const fr_FR = {
   freeShipping: 'Livraison offerte',
   FrequentQuestions: 'Questions courantes',
   from: 'De',
+  plpFromText: 'à partir de',
   gender: 'Sexe',
   getConsumerAccountFailed: "Échec de l'obtention du compte consommateur",
   getDataFailed: 'Obtenir les données a échoué',
