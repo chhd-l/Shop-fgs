@@ -26,6 +26,7 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isDeliveryOrBilling: 'delivery',
+    showDeliveryDateTimeSlot: false,
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
@@ -358,6 +359,7 @@ class VisitorAddress extends React.Component {
         type="delivery"
         initData={form}
         isLogin={false}
+        showDeliveryDateTimeSlot={this.props.showDeliveryDateTimeSlot}
         getFormAddressValidFlag={this.getFormAddressValidFlag}
         updateData={this.updateDeliveryAddress}
         calculateFreight={this.calculateFreight}

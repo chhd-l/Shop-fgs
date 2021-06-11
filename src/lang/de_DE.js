@@ -729,6 +729,8 @@ const de_DE = {
 
   'payment.tomorrow': 'morgen',
 
+  'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
+
   // 星期
   'payment.Monday': 'Montag',
   'payment.Tuesday': 'Dienstag',
