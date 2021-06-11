@@ -261,6 +261,7 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
+      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -430,7 +431,8 @@ class Details extends React.Component {
                 fromPrice: res.context.fromPrice,
                 toPrice: res.context.toPrice,
                 goodsDescriptionDetailList:
-                  res.context.goodsDescriptionDetailList
+                  res.context.goodsDescriptionDetailList,
+                defaultFrequencyId: goodsRes.defaultFrequencyId
               }),
               spuImages: images,
               breadCrumbs: [{ name: goodsRes.goodsName }],
@@ -440,6 +442,7 @@ class Details extends React.Component {
             },
             () => {
               this.handleBreadCrumbsData();
+              console.log(this.state.details, 'defaultFrequencyId');
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||
