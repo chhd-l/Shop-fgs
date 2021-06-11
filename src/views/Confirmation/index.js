@@ -15,12 +15,15 @@ import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
 import { queryCityNameById } from '@/api';
 import { getOrderDetails, getPayRecord } from '@/api/order';
-import './index.css';
+import './index.less';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
 import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
+import { mktCallBack, accountCallBack } from '@/api/home.js';
+import { findUserSelectedList, userBindConsent } from '@/api/consent';
+import { bindSubmitParam } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -67,9 +70,21 @@ class Confirmation extends React.Component {
       payRecord: null,
       email: '',
       isAllOneShootGoods: true,
-      pet: {}
+      pet: {},
+      mktSelectedFlag: true,
+      mktActivateFlag: true,
+
+      mktSelectSuccess: false,
+      mktActivateSuccess: false,
+
+      mktConsent: '',
+      mktSelectedFlagChecked: false,
+      mktActivateChecked: false,
+      list: []
     };
     this.timer = null;
+    this.activeMkt = this.activeMkt.bind(this);
+    this.selectMktConsent = this.selectMktConsent.bind(this);
   }
   getPetVal() {
     let obj = sessionItemRoyal.get('gaPet')
@@ -85,6 +100,9 @@ class Confirmation extends React.Component {
   };
   componentWillMount() {
     this.getPetVal();
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
@@ -134,6 +152,38 @@ class Confirmation extends React.Component {
           errorMsg2: err.message
         });
       });
+
+    accountCallBack().then((res) => {
+      const customerId = this.userInfo && this.userInfo.customerId;
+      this.setState({
+        mktSelectedFlag: res.mktSelectedFlag,
+        mktActivateFlag: res.mktActivateFlag
+      });
+      if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
+        findUserSelectedList({
+          customerId,
+          oktaToken: localItemRoyal.get('oktaToken')
+        }).then((res) => {
+          const optioalList = res.context.optionalList.map((item) => {
+            return {
+              id: item.id,
+              consentTitle: item.consentTitle,
+              isChecked: item.selectedFlag,
+              isRequired: false,
+              detailList: item.detailList,
+              consentDesc: item.consentDesc
+            };
+          });
+          this.setState({
+            mktConsent:
+              res.context.optionalList.length > 0
+                ? res.context.optionalList[0].consentTitle
+                : '',
+            list: optioalList
+          });
+        });
+      }
+    }); // need MKT Consent For DE?
   }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
@@ -316,9 +366,52 @@ class Confirmation extends React.Component {
     }
   }
   //GA 埋点 end
+  activeMkt() {
+    const customerId = this.userInfo && this.userInfo.customerId;
+    this.setState({ mktSelectedFlagChecked: true });
+    mktCallBack({
+      customerId,
+      consentDesc: 'RC_DF_DE_FGS_DOUBLE_OPT_EMAIL'
+    }).then((res) => {
+      this.setState({
+        mktSelectSuccess: res.code === 'K-000000'
+      });
+    });
+  }
+
+  selectMktConsent() {
+    this.setState({ mktActivateChecked: true });
+    const customerId = this.userInfo && this.userInfo.customerId;
+    let oktaToken = 'Bearer ' + localItemRoyal.get('oktaToken');
+    let submitParam = bindSubmitParam(this.state.list);
+    userBindConsent({
+      ...submitParam,
+      ...{ oktaToken },
+      customerId
+    })
+      .then((res) => {
+        this.setState({
+          mktActivateSuccess: res.code === 'K-000000'
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   render() {
-    const { loading, details, subOrderNumberList } = this.state;
+    const {
+      loading,
+      details,
+      subOrderNumberList,
+      mktSelectedFlag,
+      mktActivateFlag,
+      mktSelectSuccess,
+      mktActivateSuccess,
+      mktConsent,
+      mktSelectedFlagChecked,
+      mktActivateChecked
+    } = this.state;
     const event = {
       page: {
         type: 'Order Confirmation',
@@ -330,6 +423,7 @@ class Confirmation extends React.Component {
       },
       pet: this.state.pet
     };
+    const isLogin = !!localItemRoyal.get('rc-token');
 
     return (
       <div>
@@ -373,6 +467,80 @@ class Confirmation extends React.Component {
                   }}
                 />
               </p>
+              {process.env.REACT_APP_COUNTRY === 'DE' && isLogin ? (
+                <div className="col-12 col-md-6 mktConsent">
+                  {mktSelectedFlag && !mktActivateFlag ? (
+                    <>
+                      {mktSelectSuccess ? (
+                        <p>
+                          <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
+                        </p>
+                      ) : (
+                        <div
+                          className="checkBox"
+                          onClick={(e) => {
+                            this.activeMkt();
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            className="rc-input__checkbox"
+                            checked={mktSelectedFlagChecked}
+                          />
+                          <label className="rc-input__label--inline text-break w-100">
+                            <div className="checkboxDetail">
+                              <p>
+                                <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
+                              </p>
+                            </div>
+                          </label>
+                        </div>
+                      )}
+                    </>
+                  ) : null}
+                  {!mktSelectedFlag && !mktActivateFlag ? (
+                    <>
+                      {mktActivateSuccess ? (
+                        <>
+                          <p>
+                            <FormattedMessage id="confirmation.mktNotSelectedConfirm" />
+                          </p>
+                          <p>
+                            <FormattedMessage id="confirmation.mktNotSelectedCSuccess" />
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p>
+                            <strong>
+                              <FormattedMessage id="confirmation.mktNotSelectedTitle" />
+                            </strong>
+                          </p>
+                          <p>
+                            <FormattedMessage id="confirmation.mktNotSelectedDescription" />
+                          </p>
+                          <div
+                            onClick={() => this.selectMktConsent()}
+                            className="checkBox"
+                          >
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              checked={mktActivateChecked}
+                            />
+                            <label className="rc-input__label--inline text-break w-100">
+                              <div
+                                className="checkboxDetail"
+                                dangerouslySetInnerHTML={{ __html: mktConsent }}
+                              ></div>
+                            </label>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ) : null}
+                </div>
+              ) : null}
               <div
                 className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}
               >

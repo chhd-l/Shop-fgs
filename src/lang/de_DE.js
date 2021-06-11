@@ -223,6 +223,17 @@ const de_DE = {
   'confirmation.account': 'zu meinem Profil',
   'confirmation.customerInformation': 'Ihre Informationen',
   'confirmation.info1': 'Vielen Dank für Ihren Auftrag.',
+  'confirmation.mktSelectedNotActiveInfo':
+    'In Ihrer Account-Anmeldung haben Sie den Newsletter abboniert. Bitte denken Sie daran, die dazu erhaltene Mail zu bestätigen, um Inhalte von uns erhalten zu können.',
+  'confirmation.mktSelectedSuccess':
+    'Ihre Newsletter-Anmeldung wurde erfolgreich bestätigt. Vielen Dank!',
+  'confirmation.mktNotSelectedTitle': 'Newsletter-Anmeldung',
+  'confirmation.mktNotSelectedDescription':
+    'Abbonniern Sie jetzt den Royal Canin-Newsletter und verpassen Sie keine Neuigkeiten und Angebote mehr',
+  'confirmation.mktNotSelectedConfirm':
+    'Bitte bestätigen Sie ihre E-Mail Adresse',
+  'confirmation.mktNotSelectedCSuccess':
+    'Wir haben Ihnen eine E-Mail zur Bestätigung Ihrer E-Mail Adresse geschickt. Bitte prüfen Sie auch den Spam-Ordner und klicken Sie auf den angegebenen Link, um die Anmeldung abzuschließen.',
   'confirmation.info2':
     'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':

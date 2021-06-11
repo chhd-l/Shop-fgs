@@ -25,7 +25,7 @@ export default class welcome extends Component {
         <div
           _ngcontent-dqg-c56=""
           class="register-success-container"
-          style={{ marginBottom: 15 }}
+          style={{ marginBottom: 45 }}
         >
           <div _ngcontent-dqg-c56="" class="register-success-container__logo">
             <img
