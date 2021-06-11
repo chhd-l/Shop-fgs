@@ -760,6 +760,8 @@ const fr_FR = {
 
   'payment.tomorrow': 'Demain.',
 
+  'payment.staleDate': "Veuillez répéter la date et l'heure de livraison.",
+
   // 星期
   'payment.Monday': 'Lundi',
   'payment.Tuesday': 'Mardi',

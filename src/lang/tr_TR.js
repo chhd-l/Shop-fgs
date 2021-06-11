@@ -648,6 +648,8 @@ const tr_TR = {
 
   'payment.tomorrow': 'Yarın...',
 
+  'payment.staleDate': 'Lütfen teslim tarihini ve zamanı tekrar edin',
+
   // 星期
   'payment.Monday': 'Pazartesi.',
   'payment.Tuesday': 'Salı günü.',

@@ -837,6 +837,8 @@ const en_US = {
 
   'payment.tomorrow': 'tomorrow',
 
+  'payment.staleDate': 'Please repeat the date and time of delivery',
+
   // 星期
   'payment.Monday': 'Monday',
   'payment.Tuesday': 'Tuesday',
