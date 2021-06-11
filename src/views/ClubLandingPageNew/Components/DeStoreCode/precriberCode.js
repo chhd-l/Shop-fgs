@@ -24,6 +24,9 @@ class PrescriberCode extends React.Component {
     };
   }
   inputSearchValue = (e) => {
+    if (e.target.value === '') {
+      this.setState({ errMsg: '' });
+    }
     this.setState({
       keywords: e.target.value
     });
@@ -141,7 +144,7 @@ class PrescriberCode extends React.Component {
                                   zIndex: 2
                                 }}
                                 onClick={() => {
-                                  this.setState({ keywords: '' });
+                                  this.setState({ keywords: '', errMsg: '' });
                                 }}
                               >
                                 <img
