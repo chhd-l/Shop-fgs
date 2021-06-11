@@ -406,6 +406,7 @@ const de_DE = {
   freeShipping: 'Kostenloser Versand',
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
+  plpFromText: 'Von',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',

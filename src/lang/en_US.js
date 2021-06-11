@@ -537,6 +537,7 @@ const en_US = {
   freeShipping: 'Free shipping',
   FrequentQuestions: 'Common questions',
   from: 'From',
+  plpFromText: 'From',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',

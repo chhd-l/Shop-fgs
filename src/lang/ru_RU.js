@@ -420,6 +420,7 @@ const ru_RU = {
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
   freeShipping: 'Бесплатная доставка от 2500₽',
   from: 'От',
+  plpFromText: 'От',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
