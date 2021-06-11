@@ -406,6 +406,7 @@ const de_DE = {
   freeShipping: 'Kostenloser Versand',
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
+  plpFromText: 'Von',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -729,6 +730,8 @@ const de_DE = {
   'payment.yourOrder': 'Deine Bestellung',
 
   'payment.tomorrow': 'morgen',
+
+  'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 
   // 星期
   'payment.Monday': 'Montag',
@@ -1343,7 +1346,7 @@ const de_DE = {
   searchShow: 'Suchergebnisse',
   'deLandingPage.prescriberCode.title': 'Empfehlungscode Ihrer Tierarztpraxis',
   'deLandingPage.prescriberCode.tip1':
-    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sieeinen individuellen',
+    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sie einen individuellen',
   'deLandingPage.prescriberCode.tip2':
     '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
   'deLandingPage.prescriberCode.tip3':
