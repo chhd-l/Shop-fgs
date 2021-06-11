@@ -562,7 +562,9 @@ const de_DE = {
   moreAddress: 'Mehr Adresse',
   moreChoicesAvailable: 'Weitere Auswahlmöglichkeiten',
   mustChooseACommunicationMethodTip:
-    'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen',
+    'Entschuldigung, Sie haben die Zustimmung zur Kommunikation überprüft',
+  mustChooseTheConsentTip:
+    'Um zu bestätigen, dass Sie kontaktiert werden möchten, kreuzen Sie bitte das entsprechende Kästchen an.',
   myAutoshipOrder: 'Meine regelmäßigen Lieferungen',
   name: 'Name',
   name2: 'NAME',
