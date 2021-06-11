@@ -260,6 +260,7 @@ class ClubLandingPageNew extends React.Component {
 
           <CommentCarouselNew />
 
+          <Divider/>
           <GetMoreAd />
 
           <Divider />
