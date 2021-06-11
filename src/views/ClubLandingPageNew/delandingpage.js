@@ -779,7 +779,7 @@ class ClubLandingPageDe extends React.Component {
                                         className="align-self-center "
                                         src={dephone}
                                         title="By telephone"
-                                        style={{ width: '18vw' }}
+                                        style={{ width: '2.5rem' }}
                                       />
                                     </LazyLoad>
                                   </div>

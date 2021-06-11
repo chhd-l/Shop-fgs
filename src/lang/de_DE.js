@@ -1341,7 +1341,7 @@ const de_DE = {
   searchShow: 'Suchergebnisse',
   'deLandingPage.prescriberCode.title': 'Empfehlungscode Ihrer Tierarztpraxis',
   'deLandingPage.prescriberCode.tip1':
-    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sieeinen individuellen',
+    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sie einen individuellen',
   'deLandingPage.prescriberCode.tip2':
     '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
   'deLandingPage.prescriberCode.tip3':
