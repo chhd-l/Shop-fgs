@@ -371,6 +371,7 @@ const es_ES = {
     'Se le enviará una carta con instrucciones para cambiar la contraseña.',
   freeShipping: 'Envío gratis',
   from: 'De',
+  plpFromText: 'De',
   gender: 'Género',
   getConsumerAccountFailed: 'Obtener la cuenta del consumidor fallida',
   getDataFailed: 'Obtener datos fallidos',
@@ -660,6 +661,8 @@ const es_ES = {
   'payment.yourOrder': 'Su pedido',
 
   'payment.tomorrow': 'Mañana',
+
+  'payment.staleDate': 'Por favor, repita la fecha y hora de entrega.',
 
   // 星期
   'payment.Monday': 'Lunes',

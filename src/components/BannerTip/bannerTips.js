@@ -57,37 +57,41 @@ const bannerTips = () => {
   const [mktMessage, setMktMessage] = useState('');
   const [show, setShow] = useState(null);
   const oktaSessionToken = localItemRoyal.get('okta-session-token');
+  const alreadyShowMkt = localItemRoyal.get('already-show-MKT');
   const history = useHistory();
   function ShowMKTMessage() {
-    if (oktaSessionToken) {
+    // example: ?customerId=800001798a0bf24f7bc8e5dc96ac5d88&consentId=127&uuid=812e111ebe754154a9092805c08937f9
+    let parameters = history.location.search;
+    parameters.replace('?', '');
+    let searchList = parameters.split('&');
+    let customerId = '';
+    let consentId = '';
+    let uuid = '';
+    if (searchList.length === 3) {
+      customerId = searchList[0].split('=')[1];
+      consentId = searchList[1].split('=')[1];
+      uuid = searchList[2].split('=')[1];
+    }
+
+    if (customerId && consentId && uuid) {
+      mktCallBack({ customerId, consentId, uuid }).then((res) => {
+        if (res.customerActivateStatus) {
+          setMktMessage(<FormattedMessage id="home.MKTReturnHasUser" />);
+        } else {
+          setMktMessage(<FormattedMessage id="home.MKTReturnNoUser" />);
+        }
+        return showFiveSeconds();
+      });
+    } else if (oktaSessionToken && alreadyShowMkt !== 'true') {
       accountCallBack().then((res) => {
         if (res.mktConsentActivateStatus) {
           setMktMessage(<FormattedMessage id="home.userReturnHasMKT" />);
         } else {
           setMktMessage(<FormattedMessage id="home.userReurnNoMKT" />);
         }
+        localItemRoyal.set('already-show-MKT', 'true');
         return showFiveSeconds();
       });
-    } else {
-      // example: ?customerId=800001798a0bf24f7bc8e5dc96ac5d88&consentId=127&uuid=812e111ebe754154a9092805c08937f9
-      let parameters = history.location.search;
-      parameters.replace('?', '');
-      let searchList = parameters.split('&');
-      if (searchList.length === 3) {
-        let customerId = searchList[0].split('=')[1];
-        let consentId = searchList[1].split('=')[1];
-        let uuid = searchList[2].split('=')[1];
-        if (customerId && consentId && uuid) {
-          mktCallBack({ customerId, consentId, uuid }).then((res) => {
-            if (res.customerActivateStatus) {
-              setMktMessage(<FormattedMessage id="home.MKTReturnHasUser" />);
-            } else {
-              setMktMessage(<FormattedMessage id="home.MKTReturnNoUser" />);
-            }
-            return showFiveSeconds();
-          });
-        }
-      }
     }
   }
 
@@ -140,7 +144,7 @@ const bannerTips = () => {
                   </span>
                   {process.env.REACT_APP_COUNTRY == 'DE' ? (
                     <Link
-                      to="/clublandinpagede"
+                      to="/vet-diets"
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                     >
                       <FormattedMessage id="bannerTip.btnText" />

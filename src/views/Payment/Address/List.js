@@ -28,6 +28,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
+    showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     titleVisible: true,
     isValidationModal: true, // 是否显示验证弹框
@@ -230,7 +231,39 @@ class AddressList extends React.Component {
       this.setState({ loading: false });
     }
   }
+  // 判断 delivery date和time slot是否过期
+  deliveryDateStaleDateOrNot = () => {
+    const { selectedId, addressList } = this.state;
+    const obj =
+      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    let flag = true;
+    let updateTime = obj.updateTime; // 修改日期
+    if (!updateTime) {
+      updateTime = obj.createTime;
+    }
 
+    // 修改时间 2021-06-11 07:11:35.000
+    let timeArr = updateTime.split(' ');
+    let nyrArr = timeArr[0].split('-');
+    let updateDate = nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2];
+
+    // 当前时间
+    let mdate = new Date();
+    let tm = mdate.getMonth() + 1;
+    tm < 10 ? (tm = '0' + tm) : tm;
+    let today = mdate.getFullYear() + '' + tm + '' + mdate.getDate();
+
+    console.log('177 ★★ ---- updateDate: ', updateDate);
+    console.log('177 ★★ ---- today: ', today);
+    // 当天16点前下单，明天配送；过了16点，后天配送。
+    // 判断当前时间段，如果是当天过了16点提示重新选择
+    // 已过期
+    if (Number(updateDate) <= Number(today)) {
+      this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
+      flag = false;
+    }
+    return flag;
+  };
   /**
    * 会员确认地址列表信息，并展示封面
    */
@@ -238,7 +271,14 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+
+    // 判断是否过期
+    // let isStaleDateOrNot = this.deliveryDateStaleDateOrNot();
+    // if (!isStaleDateOrNot) {
+    //   return;
+    // }
+
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -1165,6 +1205,7 @@ class AddressList extends React.Component {
             type={this.props.type}
             isLogin={true}
             initData={deliveryAddress}
+            showDeliveryDateTimeSlot={this.props.showDeliveryDateTimeSlot}
             getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}

@@ -12,6 +12,7 @@ import { addEventListenerArr } from './addEventListener';
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
   {
+    DE: ['RC_DF_DE_FGS_OPT_EMAIL'],
     US: [
       'RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_PRODUCTS_OPT_MAIL',
@@ -45,9 +46,8 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (process.env.REACT_APP_COUNTRY == 'TR') {
