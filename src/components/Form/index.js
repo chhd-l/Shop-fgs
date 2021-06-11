@@ -344,12 +344,17 @@ class Form extends React.Component {
           caninForm: Object.assign(caninForm, obj)
         });
       }
-      this.setState({
-        isDeliveryDateAndTimeSlot: flag,
-        deliveryDataTimeSlotList: alldata,
-        deliveryDateList: ddlist,
-        timeSlotList: tslist
-      });
+      this.setState(
+        {
+          isDeliveryDateAndTimeSlot: flag,
+          deliveryDataTimeSlotList: alldata,
+          deliveryDateList: ddlist,
+          timeSlotList: tslist
+        },
+        () => {
+          console.log('609 isDeliveryDateAndTimeSlot: ', flag);
+        }
+      );
     } catch (err) {
       console.warn(err);
     }
@@ -611,6 +616,7 @@ class Form extends React.Component {
     });
 
     cfdata.formRule = rule;
+    cfdata.formRuleOther = rule;
     cfdata.formRuleRu = ruleTimeSlot;
     cfdata.receiveType = 'HOME_DELIVERY';
     this.setState(
@@ -785,6 +791,7 @@ class Form extends React.Component {
   };
   // 7、this.props.updateData
   updateDataToProps = (data) => {
+    const { isDeliveryDateAndTimeSlot } = this.state;
     let newForm = Object.assign({}, data);
     // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
     if (process.env.REACT_APP_COUNTRY == 'FR') {
@@ -793,6 +800,13 @@ class Form extends React.Component {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
       }
     }
+    if (isDeliveryDateAndTimeSlot) {
+      newForm.formRule = newForm.formRuleRu;
+    } else {
+      newForm.formRule = newForm.formRuleOther;
+    }
+
+    console.log('609 newForm: ', newForm);
     this.props.updateData(newForm);
   };
   // 下拉框选择
@@ -946,6 +960,7 @@ class Form extends React.Component {
       targetRule = caninForm.formRule.filter((e) => e.key === tname);
     }
 
+    console.log('609 targetRule: ', targetRule);
     try {
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
