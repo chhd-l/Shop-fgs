@@ -223,6 +223,17 @@ const de_DE = {
   'confirmation.account': 'zu meinem Profil',
   'confirmation.customerInformation': 'Ihre Informationen',
   'confirmation.info1': 'Vielen Dank für Ihren Auftrag.',
+  'confirmation.mktSelectedNotActiveInfo':
+    'In Ihrer Account-Anmeldung haben Sie den Newsletter abboniert. Bitte denken Sie daran, die dazu erhaltene Mail zu bestätigen, um Inhalte von uns erhalten zu können.',
+  'confirmation.mktSelectedSuccess':
+    'Ihre Newsletter-Anmeldung wurde erfolgreich bestätigt. Vielen Dank!',
+  'confirmation.mktNotSelectedTitle': 'Newsletter-Anmeldung',
+  'confirmation.mktNotSelectedDescription':
+    'Abbonniern Sie jetzt den Royal Canin-Newsletter und verpassen Sie keine Neuigkeiten und Angebote mehr',
+  'confirmation.mktNotSelectedConfirm':
+    'Bitte bestätigen Sie ihre E-Mail Adresse',
+  'confirmation.mktNotSelectedCSuccess':
+    'Wir haben Ihnen eine E-Mail zur Bestätigung Ihrer E-Mail Adresse geschickt. Bitte prüfen Sie auch den Spam-Ordner und klicken Sie auf den angegebenen Link, um die Anmeldung abzuschließen.',
   'confirmation.info2':
     'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':
@@ -563,7 +574,9 @@ const de_DE = {
   moreAddress: 'Mehr Adresse',
   moreChoicesAvailable: 'Weitere Auswahlmöglichkeiten',
   mustChooseACommunicationMethodTip:
-    'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen',
+    'Entschuldigung, Sie haben die Zustimmung zur Kommunikation überprüft',
+  mustChooseTheConsentTip:
+    'Um zu bestätigen, dass Sie kontaktiert werden möchten, kreuzen Sie bitte das entsprechende Kästchen an.',
   myAutoshipOrder: 'Meine regelmäßigen Lieferungen',
   name: 'Name',
   name2: 'NAME',
@@ -728,6 +741,8 @@ const de_DE = {
   'payment.yourOrder': 'Deine Bestellung',
 
   'payment.tomorrow': 'morgen',
+
+  'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 
   // 星期
   'payment.Monday': 'Montag',
@@ -1342,7 +1357,7 @@ const de_DE = {
   searchShow: 'Suchergebnisse',
   'deLandingPage.prescriberCode.title': 'Empfehlungscode Ihrer Tierarztpraxis',
   'deLandingPage.prescriberCode.tip1':
-    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sieeinen individuellen',
+    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sie einen individuellen',
   'deLandingPage.prescriberCode.tip2':
     '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
   'deLandingPage.prescriberCode.tip3':

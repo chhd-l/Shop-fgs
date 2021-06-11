@@ -723,6 +723,8 @@ const ru_RU = {
 
   'payment.tomorrow': 'завтра',
 
+  'payment.staleDate': 'Повторите, пожалуйста, дату и время поставки.',
+
   // 星期
   'payment.Monday': 'Понедельник',
   'payment.Tuesday': 'Вторник',

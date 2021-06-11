@@ -662,6 +662,8 @@ const es_ES = {
 
   'payment.tomorrow': 'Mañana',
 
+  'payment.staleDate': 'Por favor, repita la fecha y hora de entrega.',
+
   // 星期
   'payment.Monday': 'Lunes',
   'payment.Tuesday': 'Martes',
