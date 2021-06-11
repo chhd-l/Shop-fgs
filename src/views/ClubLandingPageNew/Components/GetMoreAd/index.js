@@ -204,7 +204,7 @@ const GetMoreAd = () => {
                     <br />
                     <div className=" rc-btn-group m-0 rc-column rc-padding-x--none " style={{display:'flex',justifyContent:'center'}}>
                       <Link to="/">
-                        <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton marginleftButton">
+                        <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton marginleftButton" style={{padding:'10px 70px'}}>
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
                       </Link>
