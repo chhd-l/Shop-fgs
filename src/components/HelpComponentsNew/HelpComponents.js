@@ -137,7 +137,19 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.faq.content" />
+                                    <FormattedMessage id="ClubLP.Help.faq.content" values={{val:
+                                        <DistributeHubLinkOrATag
+                                          href={'/about-us/faqs'}
+                                          ariaLabel="Links to faq"
+                                        >
+                                          <a
+                                            style={{
+                                              textDecoration: 'underline'
+                                            }}
+                                          >
+                                            часто задаваемые вопросы:
+                                          </a>
+                                      </DistributeHubLinkOrATag>}}/>
                                   </p>
 
                                   <div className="rc-margin-top--xs">
