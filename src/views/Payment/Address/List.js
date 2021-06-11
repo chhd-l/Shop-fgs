@@ -28,6 +28,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
+    showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     titleVisible: true,
     isValidationModal: true, // 是否显示验证弹框
@@ -1165,6 +1166,7 @@ class AddressList extends React.Component {
             type={this.props.type}
             isLogin={true}
             initData={deliveryAddress}
+            showDeliveryDateTimeSlot={true}
             getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}

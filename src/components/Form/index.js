@@ -55,6 +55,7 @@ class Form extends React.Component {
     type: 'billing',
     initData: null,
     personalData: false,
+    showDeliveryDateTimeSlot: false, // 控制是否展示 delivery date 和 time slot
     isCyberBillingAddress: false,
     isLogin: false,
     updateData: () => {},
@@ -147,7 +148,11 @@ class Form extends React.Component {
     initData.regionId = initData.areaId;
 
     // deliveryDate和timeSlot有值就显示
-    if (initData.deliveryDate && initData.timeSlot) {
+    if (
+      initData.deliveryDate &&
+      initData.timeSlot &&
+      this.props.showDeliveryDateTimeSlot
+    ) {
       this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('112 -------------★ EditForm initData: ', initData);
@@ -259,7 +264,7 @@ class Form extends React.Component {
       res = await getAddressBykeyWord({ keyword: address1 });
       if (res?.context && res?.context?.addressList.length) {
         let addls = res.context.addressList;
-        this.getDeliveryDateAndTimeSlotData(addls[0].cityId);
+        this.getDeliveryDateAndTimeSlotData(addls[0].provinceId);
       }
     } catch (err) {
       console.warn(err);
@@ -281,7 +286,9 @@ class Form extends React.Component {
       let tomorrow = mdate.getDate() + 1;
       if (res.context) {
         let obj = Object.assign({}, caninForm);
+
         flag = true;
+
         let robj = res.context;
         robj.forEach((v) => {
           // delivery date
@@ -313,7 +320,7 @@ class Form extends React.Component {
         // 通过年月日判读是否过期
 
         // delivery date为空或者过期设置第一条数据为默认值
-        if (!obj.deliveryDate) {
+        if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
           obj.deliveryDateId = ddlist[0].id;
           obj.deliveryDate = ddlist[0].id;
         }
@@ -405,7 +412,6 @@ class Form extends React.Component {
           } else if (this.props.personalData) {
             // persnalData不需要展示comment
             narr = narr.filter((item) => item.fieldKey != 'comment');
-          } else {
           }
 
           // 格式化表单json
@@ -450,6 +456,7 @@ class Form extends React.Component {
   formListFormat(array) {
     const { caninForm } = this.state;
     let rule = [];
+    let ruleTimeSlot = [];
     let cfdata = Object.assign({}, caninForm);
 
     // 前端写死的文本框默认数据
@@ -590,7 +597,12 @@ class Form extends React.Component {
       if (item.fieldKey == 'postCode' || item.fieldKey == 'phoneNumber') {
         ruleItem.regExp = regExp;
       }
-      item.requiredFlag == 1 ? rule.push(ruleItem) : null;
+
+      item.requiredFlag == 1 ||
+      !(item.fieldKey == 'deliveryDate' && item.fieldKey == 'timeSlot')
+        ? rule.push(ruleItem)
+        : null;
+      item.requiredFlag == 1 ? ruleTimeSlot.push(ruleItem) : null;
 
       // 查询城市列表
       if (item.fieldKey == 'city' && item.inputDropDownBoxFlag == 1) {
@@ -599,10 +611,16 @@ class Form extends React.Component {
     });
 
     cfdata.formRule = rule;
+    cfdata.formRuleRu = ruleTimeSlot;
     cfdata.receiveType = 'HOME_DELIVERY';
-    this.setState({
-      caninForm: Object.assign(caninForm, cfdata)
-    });
+    this.setState(
+      {
+        caninForm: Object.assign(caninForm, cfdata)
+      },
+      () => {
+        console.log('609 ', this.state.caninForm);
+      }
+    );
     return array;
   }
   // 3、查询国家
@@ -920,8 +938,14 @@ class Form extends React.Component {
   };
   // 验证数据
   validvalidationData = async (tname, tvalue) => {
-    const { errMsgObj, caninForm } = this.state;
-    const targetRule = caninForm.formRule.filter((e) => e.key === tname);
+    const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
+    let targetRule = null;
+    if (isDeliveryDateAndTimeSlot) {
+      targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
+    } else {
+      targetRule = caninForm.formRule.filter((e) => e.key === tname);
+    }
+
     try {
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
@@ -943,9 +967,14 @@ class Form extends React.Component {
   };
   // 验证表单所有数据
   validFormAllData = async () => {
-    const { caninForm } = this.state;
+    const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     try {
-      await validData(caninForm.formRule, caninForm); // 验证整个表单
+      // 验证整个表单
+      if (isDeliveryDateAndTimeSlot) {
+        await validData(caninForm.formRuleRu, caninForm);
+      } else {
+        await validData(caninForm.formRule, caninForm);
+      }
       this.props.getFormAddressValidFlag(true);
     } catch {
       this.props.getFormAddressValidFlag(false);
@@ -1037,11 +1066,7 @@ class Form extends React.Component {
             // purchases接口计算运费
             this.props.calculateFreight(this.state.caninForm);
             // delivery date and time slot
-            if (
-              !this.props.isCyberBillingAddress &&
-              !this.props.personalData &&
-              this.props.type != 'billing'
-            ) {
+            if (this.props.showDeliveryDateTimeSlot) {
               this.getDeliveryDateAndTimeSlotData(data?.provinceId);
             }
           }
