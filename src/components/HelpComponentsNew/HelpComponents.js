@@ -69,7 +69,8 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-content-v-middle">
                                 <LazyLoad>
                                   <img
-                                    className="align-self-center widthAuto"
+                                    className="align-self-center "
+                                    style={{width:'25vw'}}
                                     src={callImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt1'
@@ -117,7 +118,8 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-content-v-middle">
                                 <LazyLoad>
                                   <img
-                                    className="align-self-center widthAuto"
+                                    className="align-self-center "
+                                    style={{width:'25vw'}}
                                     src={emailImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt2'
@@ -159,7 +161,8 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-content-v-middle">
                                 <LazyLoad>
                                   <img
-                                    className="align-self-center widthAuto"
+                                    className="align-self-center "
+                                    style={{width:'25vw'}}
                                     src={faqImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt3'

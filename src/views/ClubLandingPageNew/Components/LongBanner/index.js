@@ -76,7 +76,7 @@ const LongBanner = () => {
                       paddingLeft: '80px',
                       paddingRight: '80px'
                     }}
-                    className="rc-btn rc-btn--one"
+                    className="rc-btn rc-btn--one transformmobile10px"
                   >
                     <FormattedMessage id="ClubLP.LongBanner.button" />
                   </button>

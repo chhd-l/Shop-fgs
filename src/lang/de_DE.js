@@ -417,6 +417,7 @@ const de_DE = {
   freeShipping: 'Kostenloser Versand',
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
+  plpFromText: 'Von',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -573,7 +574,9 @@ const de_DE = {
   moreAddress: 'Mehr Adresse',
   moreChoicesAvailable: 'Weitere Auswahlmöglichkeiten',
   mustChooseACommunicationMethodTip:
-    'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen',
+    'Entschuldigung, Sie haben die Zustimmung zur Kommunikation überprüft',
+  mustChooseTheConsentTip:
+    'Um zu bestätigen, dass Sie kontaktiert werden möchten, kreuzen Sie bitte das entsprechende Kästchen an.',
   myAutoshipOrder: 'Meine regelmäßigen Lieferungen',
   name: 'Name',
   name2: 'NAME',
@@ -738,6 +741,8 @@ const de_DE = {
   'payment.yourOrder': 'Deine Bestellung',
 
   'payment.tomorrow': 'morgen',
+
+  'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 
   // 星期
   'payment.Monday': 'Montag',
@@ -1352,7 +1357,7 @@ const de_DE = {
   searchShow: 'Suchergebnisse',
   'deLandingPage.prescriberCode.title': 'Empfehlungscode Ihrer Tierarztpraxis',
   'deLandingPage.prescriberCode.tip1':
-    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sieeinen individuellen',
+    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sie einen individuellen',
   'deLandingPage.prescriberCode.tip2':
     '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
   'deLandingPage.prescriberCode.tip3':

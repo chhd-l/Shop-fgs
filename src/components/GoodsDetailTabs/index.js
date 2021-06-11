@@ -166,7 +166,7 @@ const GoodsDetailTabs = function (props) {
     isClub,
     goodsDetailSpace
   } = props;
-  console.log(goodsDetailSpace, '🐕');
+  console.log(goodsDetailSpace, '🐕※');
   if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
   }
@@ -384,12 +384,8 @@ const GoodsDetailTabs = function (props) {
 
   //club new subscribtion每次提交的时候记得把true改为false
   const Show = true;
-
   //判断猫狗
-  const [spaceShow, setSpaceShow] = useState('1');
-
   const getSpeciesId = (item) => {
-
       return (
         {
           1158: '1', //Russia Cat SPT food
@@ -411,10 +407,6 @@ const GoodsDetailTabs = function (props) {
         }[item] || ''
       );
   };
-
-  useEffect(() => {
-    setSpaceShow(getSpeciesId(goodsDetailSpace));
-  }, []);
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -544,7 +536,7 @@ const GoodsDetailTabs = function (props) {
                       <div
                         className="clubdetailsmobile"
                         style={
-                          spaceShow == '1'
+                          getSpeciesId(goodsDetailSpace) == '1'
                             ? pdpbackgroundmobilecats
                             : pdpmobilebackgrounddog
                         }
@@ -765,7 +757,7 @@ const GoodsDetailTabs = function (props) {
                   <div>
                     <div
                       style={
-                        spaceShow == '1' ? pdpbackgroundcats : pdpbackgrounddogs
+                        getSpeciesId(goodsDetailSpace) == '1' ? pdpbackgroundcats : pdpbackgrounddogs
                       }
                     >
                       <div className="row rc-margin-x--none">

@@ -51,6 +51,7 @@ import { getGoodsRelation } from '@/api/details';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -307,6 +308,7 @@ class Details extends React.Component {
       productRate: 0,
       replyNum: 0,
       goodsId: null,
+      cateId: '',
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
@@ -472,6 +474,7 @@ class Details extends React.Component {
       } else {
         buyWay = defaultPurchaseType;
       }
+      console.log(defaultPurchaseType, 'defaultPurchaseType');
       this.setState({
         form: Object.assign(this.state.form, {
           buyWay
@@ -637,14 +640,16 @@ class Details extends React.Component {
 
       return item;
     });
-
-    defaultPurchaseType === 1 ||
-    sessionItemRoyal.get('pf-result') ||
-    localStorage.getItem('pfls')
-      ? skuPromotions == 'club'
-        ? (form.buyWay = 2)
-        : (form.buyWay = 1)
-      : (form.buyWay = 0);
+    if (defaultPurchaseType !== -1) {
+      defaultPurchaseType === 1 ||
+      sessionItemRoyal.get('pf-result') ||
+      localStorage.getItem('pfls')
+        ? skuPromotions == 'club'
+          ? (form.buyWay = 2)
+          : (form.buyWay = 1)
+        : (form.buyWay = 0);
+    }
+    console.log(defaultPurchaseType, form, 'defaultPurchaseType');
     this.setState(
       {
         details,
@@ -1284,14 +1289,33 @@ class Details extends React.Component {
       }
     );
   }
+  showPrescriberCodeBeforeAddCart = () => {
+    if (!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
+      const { clinicStore } = this.props;
+      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+        this.setState({ showPrescriberCodeModal: true });
+      }
+    }
+  };
+  closePrescriberCodeModal = async () => {
+    this.setState({ showPrescriberCodeModal: false });
+    if (this.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      await this.hanldeUnloginAddToCart();
+    }
+  };
   async hanldeAddToCart() {
     try {
       if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
-      if (this.isLogin) {
-        this.hanldeLoginAddToCart();
-      } else {
-        await this.hanldeUnloginAddToCart();
+      await this.showPrescriberCodeBeforeAddCart();
+      if (!this.state.showPrescriberCodeModal) {
+        if (this.isLogin) {
+          this.hanldeLoginAddToCart();
+        } else {
+          await this.hanldeUnloginAddToCart();
+        }
       }
     } catch (err) {}
   }
@@ -1568,6 +1592,9 @@ class Details extends React.Component {
       goodsInfos,
       goodsNo
     } = item;
+    this.setState({
+      cateId: cateId
+    });
     const cateName = goodsCateName?.split('/') || '';
     const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
     const size =
@@ -1687,6 +1714,7 @@ class Details extends React.Component {
     const { history, location, match, configStore } = this.props;
     const {
       goodsId,
+      cateId,
       details,
       images,
       quantity,
@@ -1818,6 +1846,12 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+            {!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
+              <PrescriberCodeModal
+                visible={this.state.showPrescriberCodeModal}
+                close={this.closePrescriberCodeModal}
+              />
+            )}
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
@@ -2682,6 +2716,7 @@ class Details extends React.Component {
                 isClub={
                   details.promotions && details.promotions.includes('club')
                 }
+                goodsDetailSpace={cateId}
               />
             ) : null}
 

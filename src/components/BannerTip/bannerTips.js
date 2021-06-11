@@ -144,7 +144,7 @@ const bannerTips = () => {
                   </span>
                   {process.env.REACT_APP_COUNTRY == 'DE' ? (
                     <Link
-                      to="/clublandinpagede"
+                      to="/vet-diets"
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                     >
                       <FormattedMessage id="bannerTip.btnText" />

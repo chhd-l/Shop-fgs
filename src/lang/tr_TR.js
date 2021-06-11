@@ -361,6 +361,7 @@ const tr_TR = {
   freeShipping: 'Ücretsiz kargo.',
   oneoffFreeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
+  plpFromText: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
   getDataFailed: 'Veri Alma Başarısız Oldu',
@@ -647,6 +648,8 @@ const tr_TR = {
   'payment.yourOrder': 'Siparişiniz',
 
   'payment.tomorrow': 'Yarın...',
+
+  'payment.staleDate': 'Lütfen teslim tarihini ve zamanı tekrar edin',
 
   // 星期
   'payment.Monday': 'Pazartesi.',

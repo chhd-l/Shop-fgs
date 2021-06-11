@@ -14,6 +14,9 @@
   .fontheight {
     height: 25vh;
   }
+  .transformmobile10px{
+    transform: translateX(-23px);
+  }
 }
 
 @media (min-width: 639.98px) {
