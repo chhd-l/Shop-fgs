@@ -107,6 +107,7 @@
     "test": "node scripts/test.js",
     "start:mx": "dotenv -e .env.development.local -e ./env/mx/.env.development -e ./env/mx/.env node scripts/start.js",
     "start:shopuat_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopuat -e ./env/mx/.env node scripts/start.js",
+    "start:shopuat_de": "dotenv -e .env.development.local -e ./env/de/.env.shopuat -e ./env/de/.env node scripts/start.js",
     "start:shopstg_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopstg -e ./env/mx/.env node scripts/start.js",
     "start:shopsit_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopsit -e ./env/mx/.env node scripts/start.js",
     "start:prod_mx": "dotenv -e .env.development.local -e ./env/mx/.env.production -e ./env/mx/.env node scripts/start.js",
