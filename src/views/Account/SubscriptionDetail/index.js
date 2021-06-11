@@ -636,9 +636,8 @@ class SubscriptionDetail extends React.Component {
       seoConfig
     } = this.state;
     // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
-    let isShowClub =
-      subDetail.subscriptionType?.toLowerCase().includes('club') &&
-      process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
+    let isShowClub = subDetail.subscriptionType?.toLowerCase().includes('club');
+    // && process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
       <div className="subscriptionDetail">
         <div>

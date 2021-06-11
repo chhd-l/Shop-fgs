@@ -537,6 +537,7 @@ const en_US = {
   freeShipping: 'Free shipping',
   FrequentQuestions: 'Common questions',
   from: 'From',
+  plpFromText: 'From',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -836,6 +837,8 @@ const en_US = {
   'payment.cardInfoErr': 'The card information is incorrect, please check.',
 
   'payment.tomorrow': 'tomorrow',
+
+  'payment.staleDate': 'Please repeat the date and time of delivery',
 
   // 星期
   'payment.Monday': 'Monday',

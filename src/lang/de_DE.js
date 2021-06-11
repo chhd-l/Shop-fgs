@@ -406,6 +406,7 @@ const de_DE = {
   freeShipping: 'Kostenloser Versand',
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
+  plpFromText: 'Von',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -727,6 +728,8 @@ const de_DE = {
   'payment.yourOrder': 'Deine Bestellung',
 
   'payment.tomorrow': 'morgen',
+
+  'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 
   // 星期
   'payment.Monday': 'Montag',

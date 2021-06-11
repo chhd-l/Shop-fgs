@@ -2024,6 +2024,7 @@ class Payment extends React.Component {
             <VisitorAddress
               key={1}
               type="delivery"
+              showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               initData={deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
