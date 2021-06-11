@@ -233,7 +233,7 @@ class AddressList extends React.Component {
   }
   // 判断 delivery date和time slot是否过期
   deliveryDateStaleDateOrNot = () => {
-    const { selectedId, addressList, wrongAddressMsg } = this.state;
+    const { selectedId, addressList } = this.state;
     const obj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     let flag = true;
@@ -253,10 +253,12 @@ class AddressList extends React.Component {
     tm < 10 ? (tm = '0' + tm) : tm;
     let today = mdate.getFullYear() + '' + tm + '' + mdate.getDate();
 
+    console.log('177 ★★ ---- updateDate: ', updateDate);
+    console.log('177 ★★ ---- today: ', today);
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择
     // 已过期
-    if (updateDate <= today) {
+    if (Number(updateDate) <= Number(today)) {
       this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
       flag = false;
     }
@@ -272,10 +274,10 @@ class AddressList extends React.Component {
     console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
     // 判断是否过期
-    let isStaleDateOrNot = this.deliveryDateStaleDateOrNot();
-    if (!isStaleDateOrNot) {
-      return;
-    }
+    // let isStaleDateOrNot = this.deliveryDateStaleDateOrNot();
+    // if (!isStaleDateOrNot) {
+    //   return;
+    // }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
