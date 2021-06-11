@@ -32,7 +32,7 @@ class AddressPreview extends React.Component {
         <p className={`${boldName ? 'medium' : ''}`}>
           {form.firstName + ' ' + form.lastName}
         </p>
-        <p>{form.address1}</p>
+        <p className="preview_address">{form.address1}</p>
         {localAddressForm['address2'] && form.address2 && (
           <p>{form.address2}</p>
         )}
@@ -40,12 +40,15 @@ class AddressPreview extends React.Component {
         {/* 俄罗斯计算运费 */}
         {process.env.REACT_APP_COUNTRY == 'RU' ? (
           <>
-            <p>{form.phoneNumber || form.consigneeNumber} </p>
+            <p className="preview_phone_number">
+              {form.phoneNumber || form.consigneeNumber}{' '}
+            </p>
+
             {/* 是否存在运费 */}
             {form?.calculation?.deliveryPrice &&
               form?.calculation?.minDeliveryTime && (
                 <>
-                  <p>
+                  <p className="preview_delivery_price">
                     <FormattedMessage id="payment.deliveryFee" />:{' '}
                     {formatMoney(form?.calculation?.deliveryPrice)}
                   </p>
@@ -72,10 +75,20 @@ class AddressPreview extends React.Component {
                   )}
                 </>
               )}
+
+            {/* delivery date */}
+            {form?.deliveryDate && (
+              <p className="preview_delivery_date">{form.deliveryDate}</p>
+            )}
+
+            {/* time slot */}
+            {form?.timeSlot && (
+              <p className="preview_time_slot">{form.timeSlot}</p>
+            )}
           </>
         ) : (
           <>
-            <p>
+            <p className="preview_infos">
               {process.env.REACT_APP_COUNTRY == 'US' ? null : (
                 <>
                   <span>
