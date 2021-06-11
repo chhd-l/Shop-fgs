@@ -809,14 +809,14 @@ class ClubLandingPageDe extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
+                                    <a href={this.state.tel}>
                                       <img
                                         className="align-self-center "
                                         src={dephone}
                                         title="By telephone"
                                         style={{ width: '2.5rem' }}
                                       />
-                                    </LazyLoad>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -847,14 +847,14 @@ class ClubLandingPageDe extends React.Component {
                                     </div>
                                   </div>
                                   <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
+                                    <a href={this.state.mailAddress}>
                                       <img
                                         className="align-self-center "
                                         src={demail}
                                         title="By telephone"
                                         style={{ width: '2.5rem' }}
                                       />
-                                    </LazyLoad>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
