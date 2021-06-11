@@ -51,6 +51,7 @@ import { getGoodsRelation } from '@/api/details';
 import BazaarVoiceReviews from '@/components/BazaarVoice/reviews';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 import { addSchemaOrgMarkup } from '@/components/BazaarVoice/schemaOrgMarkup';
+import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1288,14 +1289,33 @@ class Details extends React.Component {
       }
     );
   }
+  showPrescriberCodeBeforeAddCart = () => {
+    if (!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
+      const { clinicStore } = this.props;
+      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+        this.setState({ showPrescriberCodeModal: true });
+      }
+    }
+  };
+  closePrescriberCodeModal = async () => {
+    this.setState({ showPrescriberCodeModal: false });
+    if (this.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      await this.hanldeUnloginAddToCart();
+    }
+  };
   async hanldeAddToCart() {
     try {
       if (!this.btnStatus) return false;
       this.setState({ checkOutErrMsg: '' });
-      if (this.isLogin) {
-        this.hanldeLoginAddToCart();
-      } else {
-        await this.hanldeUnloginAddToCart();
+      await this.showPrescriberCodeBeforeAddCart();
+      if (!this.state.showPrescriberCodeModal) {
+        if (this.isLogin) {
+          this.hanldeLoginAddToCart();
+        } else {
+          await this.hanldeUnloginAddToCart();
+        }
       }
     } catch (err) {}
   }
@@ -1826,6 +1846,12 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+            {!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
+              <PrescriberCodeModal
+                visible={this.state.showPrescriberCodeModal}
+                close={this.closePrescriberCodeModal}
+              />
+            )}
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
