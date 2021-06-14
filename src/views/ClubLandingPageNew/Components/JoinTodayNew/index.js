@@ -4,6 +4,7 @@ import joinusnewlogo from './image/joinusnewlogo.png';
 import joinusnewright from './image/joinusnewright.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const JoinTodayNew = () => {
   return (
@@ -54,13 +55,17 @@ const JoinTodayNew = () => {
                           <FormattedMessage id="ClubLP.NewJoinUs.content" />
                         </h5>
                       </div>
-                      <div style={{ display: 'flex' }}>
+                      <div style={{ display: 'flex', justifyContent:'center'}}>
+                        <DistributeHubLinkOrATag
+                          href={'/product-finder'}
+                          ariaLabel="Links to product finder"
+                        >
                         <button
-                          style={{ margin: '0 auto'}}
                           className="rc-btn rc-btn--one"
                         >
                           <FormattedMessage id="ClubLP.NewJoinUs.button" />
                         </button>
+                        </DistributeHubLinkOrATag>
                       </div>
                     </div>
                     <div className="col-12 col-md-4 order-2 order-md-2 ">

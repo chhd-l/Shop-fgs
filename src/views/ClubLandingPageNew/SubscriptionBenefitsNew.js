@@ -7,6 +7,7 @@ import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
 import iconsix from './image/iconsix.png'
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const SubsriptionBenefitsNew = () => {
   return (
@@ -166,9 +167,14 @@ const SubsriptionBenefitsNew = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+            <DistributeHubLinkOrATag
+              href={'/product-finder'}
+              ariaLabel="Links to product finder"
+            >
             <button className="rc-btn rc-btn--one" >
               <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.button'} />
             </button>
+            </DistributeHubLinkOrATag>
           </h4>
         </div>
       </div>

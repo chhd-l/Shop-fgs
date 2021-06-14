@@ -6,14 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroCarousel from '@/components/HeroCarousel';
-import FooterImage from './modules/FooterImage';
-import SalesCategory from './modules/SalesCategory';
-import HubSalesCategory from '@/components/HubSalesCategory';
-import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
-import { Ads } from './ad';
-import { TopAds } from './ad';
-import { Advantage } from './advantage';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
@@ -220,11 +213,14 @@ class ClubLandingPageNew extends React.Component {
                           <br />
                           <br />
                           <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
-                            <Link to="/cats/vet-products">
+                            <DistributeHubLinkOrATag
+                              href={'/product-finder'}
+                              ariaLabel="Links to product finder"
+                            >
                               <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                                 <FormattedMessage id="ClubLP.Advantage.button" />
                               </button>
-                            </Link>
+                            </DistributeHubLinkOrATag>
                           </div>
                         </div>
                       </div>
