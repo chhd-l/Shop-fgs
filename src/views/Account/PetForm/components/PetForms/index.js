@@ -159,6 +159,7 @@ const PetForms = ({
   useEffect(() => {
     // 编辑的时候需要重置所有值
     let petFormData = Object.assign(petForm, currentPetParam);
+
     setPetForm(petFormData);
     purebredOpitons.map((item) => {
       let checked = item.value == currentPetParam.isPurebred;
@@ -289,8 +290,11 @@ const PetForms = ({
     });
   };
   const sizeOptionsChange = (data) => {
-    setNewPetForm('weight', data.value);
-    setNewPetForm('breedcode', data.description);
+    let newpetForm = Object.assign({}, petForm, {
+      weight: data.value,
+      breedcode: data.description
+    });
+    setPetForm(newpetForm);
     setState({
       selectedSizeObj: { value: data.value }
     });
