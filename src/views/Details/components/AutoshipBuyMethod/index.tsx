@@ -26,7 +26,6 @@ const AutoshipBuyMethod = ({
   changeMethod,
   changeFreqency,
 }: Props) => {
-  console.info('selectedSpecItem', selectedSpecItem)
   const [toolTipVisible, setToolTipVisible] = useState(false)
   return (
     <div>

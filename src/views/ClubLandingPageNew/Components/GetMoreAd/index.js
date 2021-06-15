@@ -1,10 +1,11 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import logoad from './image/logoad.png';
-import { Link } from 'react-router-dom';
 import logoclubad from './image/CLUBLOGOSUBSCIPTION@4x.png';
+import rulogo from '../../image/CLUB_logoRU@2x.png'
 import './index.css';
 import { FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const GetMoreAd = () => {
   return (
@@ -110,11 +111,18 @@ const GetMoreAd = () => {
                       >
                         <div>
                           <LazyLoad>
+                            {process.env.REACT_APP_COUNTRY == 'RU'?
+                              <img
+                                className="w-60 lazyloaded"
+                                src={rulogo}
+                                style={{ width: '100px' }}
+                              />:
                             <img
                               className="w-60 lazyloaded"
                               src={logoclubad}
                               style={{ width: '100px' }}
                             />
+                            }
                           </LazyLoad>
                         </div>
                         <div
@@ -140,6 +148,7 @@ const GetMoreAd = () => {
                     </div>
 
                     <div
+                      className="mobileflex"
                       style={{
                         height: '30vh',
                         display: 'flex',
@@ -147,7 +156,7 @@ const GetMoreAd = () => {
                       }}
                     >
                       <div className="rc-column" style={{ padding: '0' }}>
-                        <div className="rc-padding-y--lg--mobile rc-full-width">
+                        <div className=" rc-full-width ">
                           <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw" >
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
@@ -177,7 +186,7 @@ const GetMoreAd = () => {
                         </div>
                       </div>
                       <div className="rc-column" style={{ padding: '0' }}>
-                        <div className="rc-padding-y--lg--mobile rc-full-width">
+                        <div className=" rc-full-width ">
                           <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align" >
                             <li className="rc-list__item">
                               <em className="bingo rc-margin-right--xs"></em>
@@ -203,11 +212,14 @@ const GetMoreAd = () => {
                     </div>
                     <br />
                     <div className=" rc-btn-group m-0 rc-column rc-padding-x--none " style={{display:'flex',justifyContent:'center'}}>
-                      <Link to="/">
+                      <DistributeHubLinkOrATag
+                        href={'/product-finder'}
+                        ariaLabel="Links to product finder"
+                      >
                         <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton marginleftButton" style={{padding:'10px 70px'}}>
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
-                      </Link>
+                      </DistributeHubLinkOrATag>
                     </div>
                   </div>
                 </div>

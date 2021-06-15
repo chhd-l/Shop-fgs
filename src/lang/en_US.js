@@ -1387,6 +1387,7 @@ const en_US = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'A feeding plan designed to adapt to long term health',
   'ClubLP.LongBanner.SubscriptionTitle3': 'The right portion every time',
+  'ClubLP.LongBanner.SubscriptionTitle3.new': 'The right portion every time',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Daily rationing instructions so your pet always gets the right amount of food',
   'ClubLP.Advantage.title': 'Health is not one size fits all',

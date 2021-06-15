@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const SubscriptionItems = [
   {
@@ -70,6 +71,10 @@ const LongBanner = () => {
                   <p style={{ fontSize: '0.7em', color: '#ffffff' }}>
                     <FormattedMessage id="ClubLP.LongBanner.content" />
                   </p>
+                  <DistributeHubLinkOrATag
+                    href={'/product-finder'}
+                    ariaLabel="Links to product finder"
+                  >
                   <button
                     style={{
                       padding: '0',
@@ -80,6 +85,7 @@ const LongBanner = () => {
                   >
                     <FormattedMessage id="ClubLP.LongBanner.button" />
                   </button>
+                  </DistributeHubLinkOrATag>
                   <p
                     style={{
                       color: '#ffffff',
