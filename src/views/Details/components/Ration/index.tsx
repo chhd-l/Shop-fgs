@@ -9,27 +9,37 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { FormattedMessage } from 'react-intl';
 import { ObjectConstructor } from '@/utils/types.ts';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const Tr = process.env.REACT_APP_COUNTRY === 'TR';
 
 interface Props {
-  setState: Function
-  goodsNo: string
+  setState: Function;
+  goodsNo: string;
 }
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const Ration = ({ goodsNo, setState }: Props) => {
   const [isFromPF, setIsFromPF] = useState(false);
-  const [rationInfo, setRationInfo ] = useState({weight: '', weightUnit: ''})
+  const [rationInfo, setRationInfo] = useState({ weight: '', weightUnit: '' });
 
   const getRationInfos = async () => {
     let pf_params = {};
-    console.log(localStorage.getItem('pfls') && getClubFlag(), sessionItemRoyal.get('pf-result') && getClubFlag(), 'aaaaa')
-    console.log(localStorage.getItem('pfls'),getClubFlag(), JSON.parse(sessionItemRoyal.get('pf-result')), 'aaaaa')
+    console.log(
+      localStorage.getItem('pfls') && getClubFlag(),
+      sessionItemRoyal.get('pf-result') && getClubFlag(),
+      'aaaaa'
+    );
+    console.log(
+      localStorage.getItem('pfls'),
+      getClubFlag(),
+      JSON.parse(sessionItemRoyal.get('pf-result')),
+      'aaaaa'
+    );
     try {
       if (localStorage.getItem('pfls') && getClubFlag()) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
-        setState({questionParams: JSON.stringify(pf_params)})
-        setIsFromPF(true)
+        setState({ questionParams: JSON.stringify(pf_params) });
+        setIsFromPF(true);
         let rationRes = await getRation(
           Object.assign(
             {
@@ -39,12 +49,12 @@ const Ration = ({ goodsNo, setState }: Props) => {
           )
         );
         if (rationRes.code === 'K-000000') {
-          setRationInfo(rationRes.context.rationResponseItems[0])
+          setRationInfo(rationRes.context.rationResponseItems[0]);
         }
       } else if (sessionItemRoyal.get('pf-result') && getClubFlag()) {
         pf_params = JSON.parse(sessionItemRoyal.get('pf-result')).queryParams;
-        setState({questionParams: JSON.stringify(pf_params)})
-        setIsFromPF(true)
+        setState({ questionParams: JSON.stringify(pf_params) });
+        setIsFromPF(true);
         let rationRes = await getRation(
           Object.assign(
             {
@@ -54,16 +64,16 @@ const Ration = ({ goodsNo, setState }: Props) => {
           )
         );
         if (rationRes.code === 'K-000000') {
-          setRationInfo(rationRes.context.rationResponseItems[0])
+          setRationInfo(rationRes.context.rationResponseItems[0]);
         }
       }
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
-    getRationInfos()
+    getRationInfos();
   }, []);
   return (
     <div>
@@ -77,8 +87,7 @@ const Ration = ({ goodsNo, setState }: Props) => {
                 id="details.recommendedDaily.info"
                 values={{
                   val: rationInfo.weight
-                    ? rationInfo.weight +
-                      rationInfo.weightUnit
+                    ? rationInfo.weight + rationInfo.weightUnit
                     : '0g'
                 }}
               />
@@ -99,23 +108,23 @@ const Ration = ({ goodsNo, setState }: Props) => {
           } align-items-center justify-content-center justify-content-md-between p-3 mb-2 mt-2 flex-wrap`}
         >
           <div style={{ flex: '1' }}>
-            <FormattedMessage id="details.findProductTip" />{' '}
+            <FormattedMessage
+              id="details.findProductTip"
+              values={{
+                btn: (
+                  <DistributeHubLinkOrATag
+                    href="/product-finder"
+                    to="/product-finder"
+                    className={`rc-styled-link ${
+                      Tr || isMobile ? '' : 'backProductFinder'
+                    } mt-0 pb-0`}
+                  >
+                    <FormattedMessage id="details.findProductTips" />
+                  </DistributeHubLinkOrATag>
+                )
+              }}
+            />
           </div>
-          {/* <Link
-            className="rc-styled-link mt-0 pb-0"
-            to="/product-finder"
-          >
-            <FormattedMessage id="details.findProductTips" />
-          </Link> */}
-          <DistributeHubLinkOrATag
-            href="/product-finder"
-            to="/product-finder"
-            className={`rc-styled-link backProductFinder mt-0 pb-0 ${
-              isMobile ? 'float-none' : ''
-            }`}
-          >
-            <FormattedMessage id="details.findProductTips" />
-          </DistributeHubLinkOrATag>
         </div>
       )}
     </div>

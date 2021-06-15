@@ -18,7 +18,7 @@ import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Component
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
 import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
-import pdpbackgrounddog from './image/goodsdetailtabbackground.png';
+import pdpbackgrounddog from './image/goodsdetailtabbackgroundru.png';
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
@@ -29,7 +29,11 @@ import clubiconnew5 from './image/clubiconnew5.png';
 import benefitsone from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsone.png';
 import benefitstwo from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitstwo.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
-import { getDeSpecies } from '../../utils/GA';
+
+import benefitsonedog from './image/benefitsonedog.png'
+import benefitstwodog from './image/benefitstwodog.png'
+import benefitsonecat from './image/benefitsonecat.png'
+import benefitstwocat from './image/benefitstwocat.png'
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -61,26 +65,7 @@ const pdpbackgroundcats = {
   flexDirection: 'column'
 };
 
-const SubscriptionItems = [
-  {
-    SubscriptionImg: benefitsone,
-    SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
-    )
-  },
-  {
-    SubscriptionImg: benefitstwo,
-    SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
-    )
-  },
-  {
-    SubscriptionImg: benefitsthree,
-    SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
-    )
-  }
-];
+
 
 let clubListDataNew = [
   {
@@ -152,10 +137,6 @@ if (process.env.REACT_APP_COUNTRY === 'RU') {
   });
 }
 const GoodsDetailTabs = function (props) {
-  const intl = useIntl();
-  let hubGA = process.env.REACT_APP_HUB_GA == '1';
-  let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-  let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
   let {
     goodsDescriptionDetailList,
     goodsType,
@@ -166,6 +147,53 @@ const GoodsDetailTabs = function (props) {
     isClub,
     goodsDetailSpace
   } = props;
+  //判断猫狗
+  const getSpeciesId = (item) => {
+    return (
+      {
+        1158: '1', //Russia Cat SPT food
+        1159: '1', //Russia Cat VET Food
+        1160: '2', //Russia Dog SPT food
+        1161: '2', //Russia Dog VET food
+        1165: '1', //Turkey Cat SPT food
+        1166: '1', //Turkey Cat VET Food
+        1167: '2', //Turkey Dog SPT food
+        1168: '2', //Turkey Dog VET food
+        1133: '2', //France Dog SPT food
+        1134: '1', //France Cat SPT food
+        1153: '2', //France Dog VET food
+        1154: '1', //France Cat VET Food
+        1172: '1', //US Cat SPT food
+        1173: '1', //US Cat VET food
+        1174: '2', //US Dog SPT food
+        1175: '2' //US Dog VET food
+      }[item] || ''
+    );
+  };
+  const SubscriptionItems = [
+    {
+      SubscriptionImg: getSpeciesId(goodsDetailSpace) == '1'?benefitsonecat:benefitsonedog,
+      SubscriptionTitle: (
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+      )
+    },
+    {
+      SubscriptionImg: getSpeciesId(goodsDetailSpace) == '1'?benefitstwocat:benefitstwodog,
+      SubscriptionTitle: (
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+      )
+    },
+    {
+      SubscriptionImg: benefitsthree,
+      SubscriptionTitle: (
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
+      )
+    }
+  ];
+  const intl = useIntl();
+  let hubGA = process.env.REACT_APP_HUB_GA == '1';
+  let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+  let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
   console.log(goodsDetailSpace, '🐕※');
   if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
@@ -384,29 +412,7 @@ const GoodsDetailTabs = function (props) {
 
   //club new subscribtion每次提交的时候记得把true改为false
   const Show = true;
-  //判断猫狗
-  const getSpeciesId = (item) => {
-      return (
-        {
-          1158: '1', //Russia Cat SPT food
-          1159: '1', //Russia Cat VET Food
-          1160: '2', //Russia Dog SPT food
-          1161: '2', //Russia Dog VET food
-          1165: '1', //Turkey Cat SPT food
-          1166: '1', //Turkey Cat VET Food
-          1167: '2', //Turkey Dog SPT food
-          1168: '2', //Turkey Dog VET food
-          1133: '2', //France Dog SPT food
-          1134: '1', //France Cat SPT food
-          1153: '2', //France Dog VET food
-          1154: '1', //France Cat VET Food
-          1172: '1', //US Cat SPT food
-          1173: '1', //US Cat VET food
-          1174: '2', //US Dog SPT food
-          1175: '2' //US Dog VET food
-        }[item] || ''
-      );
-  };
+
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -567,7 +573,7 @@ const GoodsDetailTabs = function (props) {
                                       textAlign: 'center'
                                     }}
                                   >
-                                    <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                    {process.env.REACT_APP_COUNTRY === 'RU'?<br/>:<FormattedMessage id="ClubLP.LongBanner.content2" />}
                                   </p>
                                 </div>
                               </div>
@@ -779,7 +785,7 @@ const GoodsDetailTabs = function (props) {
                                   ></FormattedMessage>
                                 </p>
                                 <p style={{ fontSize: '0.7em' }}>
-                                  <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                  {process.env.REACT_APP_COUNTRY === 'RU'?<br/>:<FormattedMessage id="ClubLP.LongBanner.content2" />}
                                 </p>
                               </div>
                             </div>
