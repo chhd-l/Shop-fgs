@@ -727,6 +727,12 @@ class Details extends React.Component {
 
     let petsRes = {};
     let pf_params = {};
+    console.log(
+      sessionItemRoyal.get('pf-result') && getClubFlag(),
+      sessionItemRoyal.get('pf-result'),
+      getClubFlag(),
+      'aaaaa'
+    );
     try {
       if (localStorage.getItem('pfls') && getClubFlag()) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
