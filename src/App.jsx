@@ -515,24 +515,34 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
-                <Route path="/clublandingpagenew"
-                       exact
-                       component={ClubLandingPageNew}
+                <Route
+                  path="/clublandingpagenew"
+                  exact
+                  component={ClubLandingPageNew}
                 />
-                <Route path="/vet-diets"
-                       exact
-                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
+                <Route
+                  path="/vet-diets"
+                  exact
+                  component={
+                    process.env.REACT_APP_COUNTRY == 'DE'
+                      ? ClubLandingPageDe
+                      : Exception
+                  }
                 />
-                <Route path="/clublandinpagedevet"
-                       exact
-                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDeVet:Exception}
+                <Route
+                  path="/clublandinpagedevet"
+                  exact
+                  component={
+                    process.env.REACT_APP_COUNTRY == 'DE'
+                      ? ClubLandingPageDeVet
+                      : Exception
+                  }
                 />
                 <Route
                   path="/general-conditions"
                   exact
                   component={generalConditions}
                 />
-
 
                 <Route
                   path="/general-conditions-tr"
@@ -640,9 +650,10 @@ const App = () => {
                 <Route
                   exact
                   // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                  path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
+                  // path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
+                  path={process.env.REACT_APP_SEARCH_LINK}
                   render={(props) => {
-                    if (props.location.state && props.location.state.noresult) {
+                    if (props.location?.state?.noresult) {
                       return <SearchShow {...props} />;
                     } else {
                       return <List key={props.location.search} {...props} />;
@@ -714,7 +725,7 @@ const App = () => {
 
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(redirectUrl)
+                      console.log(redirectUrl);
 
                       // PDP文件重定向end
 
@@ -739,8 +750,8 @@ const App = () => {
                       // }
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(pathname)
-                      console.log(redirectUrl)
+                      console.log(pathname);
+                      console.log(redirectUrl);
                       // debugger
 
                       // 除去PDP页面文件重定向end
