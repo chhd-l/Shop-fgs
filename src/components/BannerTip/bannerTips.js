@@ -75,7 +75,7 @@ const bannerTips = () => {
 
     if (customerId && consentId && uuid) {
       mktCallBack({ customerId, consentId, uuid }).then((res) => {
-        if (res.customerActivateStatus) {
+        if (res.context && res.context.customerActivateStatus) {
           setMktMessage(<FormattedMessage id="home.MKTReturnHasUser" />);
         } else {
           setMktMessage(<FormattedMessage id="home.MKTReturnNoUser" />);
@@ -84,7 +84,7 @@ const bannerTips = () => {
       });
     } else if (oktaSessionToken && alreadyShowMkt !== 'true') {
       accountCallBack().then((res) => {
-        if (res.mktConsentActivateStatus) {
+        if (res.context && res.context.mktConsentActivateStatus) {
           setMktMessage(<FormattedMessage id="home.userReturnHasMKT" />);
         } else {
           setMktMessage(<FormattedMessage id="home.userReurnNoMKT" />);
