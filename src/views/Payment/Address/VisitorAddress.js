@@ -88,7 +88,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
-    // console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
+    console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
@@ -136,6 +136,7 @@ class VisitorAddress extends React.Component {
     this.setState({ form: this.state.unConfirmedForm }); //qhx 只有在确认后才赋值给form字段
     console.log('★ ----- 游客确认 isValidationModal:', isValidationModal);
     console.log('★ ----- 游客确认 validationAddress:', validationAddress);
+    console.log('★ ----- 游客确认 form:', this.state.unConfirmedForm);
     // 地址验证
     // visitorValidationModalVisible - 控制是否查询数据
     if (isValidationModal) {
