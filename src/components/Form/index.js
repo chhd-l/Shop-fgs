@@ -352,7 +352,9 @@ class Form extends React.Component {
           timeSlotList: tslist
         },
         () => {
-          console.log('609 isDeliveryDateAndTimeSlot: ', flag);
+          console.log('611 alldata: ', alldata);
+          console.log('611 ddlist: ', ddlist);
+          console.log('611 tslist: ', tslist);
         }
       );
     } catch (err) {
@@ -625,7 +627,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        console.log('609 ', this.state.caninForm);
+        console.log('609 caninForm:', this.state.caninForm);
       }
     );
     return array;
@@ -801,10 +803,7 @@ class Form extends React.Component {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
       }
     }
-    console.log(
-      '609 updateDataToProps isDeliveryDateAndTimeSlot: ',
-      isDeliveryDateAndTimeSlot
-    );
+
     if (isDeliveryDateAndTimeSlot) {
       newForm.formRule = newForm.formRuleRu;
     } else {
@@ -959,17 +958,12 @@ class Form extends React.Component {
   validvalidationData = async (tname, tvalue) => {
     const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
     let targetRule = null;
-    console.log(
-      '609 validvalidationData isDeliveryDateAndTimeSlot: ',
-      isDeliveryDateAndTimeSlot
-    );
+
     if (isDeliveryDateAndTimeSlot) {
       targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
     } else {
       targetRule = caninForm.formRule.filter((e) => e.key === tname);
     }
-
-    console.log('609 targetRule: ', targetRule);
     try {
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
@@ -993,10 +987,6 @@ class Form extends React.Component {
   validFormAllData = async () => {
     const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     try {
-      console.log(
-        '609 validFormAllData isDeliveryDateAndTimeSlot: ',
-        isDeliveryDateAndTimeSlot
-      );
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
         await validData(caninForm.formRuleRu, caninForm);

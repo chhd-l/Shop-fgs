@@ -76,7 +76,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      EN: (
+      US: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul

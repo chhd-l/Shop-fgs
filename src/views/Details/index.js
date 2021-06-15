@@ -1106,7 +1106,10 @@ class Details extends React.Component {
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (
-                              <Ration />
+                              <Ration
+                                goodsNo={details.goodsNo}
+                                setState={this.setState.bind(this)}
+                              />
                             ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <HandledSpec
