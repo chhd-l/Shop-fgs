@@ -170,7 +170,7 @@ class Confirmation extends React.Component {
               return {
                 id: item.id,
                 consentTitle: item.consentTitle,
-                isChecked: item.selectedFlag,
+                isChecked: true,
                 isRequired: false,
                 detailList: item.detailList,
                 consentDesc: item.consentDesc
@@ -385,7 +385,7 @@ class Confirmation extends React.Component {
   selectMktConsent() {
     this.setState({ mktActivateChecked: true });
     const customerId = this.userInfo && this.userInfo.customerId;
-    let oktaToken = 'Bearer ' + localItemRoyal.get('oktaToken');
+    let oktaToken = localItemRoyal.get('oktaToken');
     let submitParam = bindSubmitParam(this.state.list);
     userBindConsent({
       ...submitParam,

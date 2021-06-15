@@ -368,7 +368,10 @@ class Form extends React.Component {
         timeSlotList: tslist
       });
     } catch (err) {
-      console.warn(err);
+      // console.warn(err);
+      this.setState({
+        isDeliveryDateAndTimeSlot: false
+      });
     }
   };
   // 设置手机号输入限制
