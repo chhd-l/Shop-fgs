@@ -291,10 +291,6 @@ class AddressList extends React.Component {
     // if (!isStaleDateOrNot) {
     //   return;
     // }
-    // if (tmpObj.province == 'Москва' || tmpObj.province == 'Московская') {
-    //   this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
-    //   return;
-    // }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
