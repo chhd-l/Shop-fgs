@@ -1772,6 +1772,8 @@ class Payment extends React.Component {
         // };
         if (!billingChecked) {
           tmpBillingAddress = {
+            area: billingAddress.area || '',
+            areaId: billingAddress.areaId || '',
             firstName: billingAddress.firstName,
             lastName: billingAddress.lastName,
             address1: billingAddress.address1,

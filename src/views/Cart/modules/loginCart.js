@@ -1204,7 +1204,7 @@ class LoginCart extends React.Component {
               </p>
             </div>
             <div className="col-4">
-              <p className="text-right shipping-cost text-nowrap">
+              <p className="text-right shipping-cost text-nowrap rc_login_cart">
                 {this.taxFeePrice > 0 ? (
                   formatMoney(this.taxFeePrice)
                 ) : (
