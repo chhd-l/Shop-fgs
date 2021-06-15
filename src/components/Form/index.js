@@ -257,6 +257,28 @@ class Form extends React.Component {
     }
     return month;
   };
+  // delivery date 格式转换: 星期, 15 月份
+  getFormatDeliveryDateStr = (date) => {
+    // 获取明天几号
+    let mdate = new Date();
+    let tomorrow = mdate.getDate() + 1;
+    // 获取星期
+    var week = mdate.getDay() + 1;
+    let weekday = this.getWeekDay(week);
+    // 获取月份
+    let ymd = date.split('-');
+    let month = this.getMonth(ymd[1]);
+
+    // 判断是否有 ‘明天’ 的日期
+    let thisday = Number(ymd[2]);
+    let daystr = '';
+    if (tomorrow == thisday) {
+      daystr = this.getIntlMsg('payment.tomorrow');
+    } else {
+      daystr = weekday;
+    }
+    return daystr + ', ' + ymd[2] + ' ' + month;
+  };
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
     let res = null;
@@ -277,84 +299,74 @@ class Form extends React.Component {
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
       let flag = false;
-      let alldata = {};
-      let ddlist = [];
-      let tslist = [];
+      let alldata = {}; // 全部数据
+      let ddlist = []; // delivery date
+      let tslist = []; // time slot
 
-      // 获取明天几号
-      let mdate = new Date();
-      let tomorrow = mdate.getDate() + 1;
       if (res.context) {
+        flag = true; // 标记
         let obj = Object.assign({}, caninForm);
-
-        flag = true;
-
         let robj = res.context;
-        robj.forEach((v) => {
-          // delivery date
-          // 获取星期
-          let weekday = this.getWeekDay(v.weekDay);
-          // 获取月份
-          let ymd = v.date.split('-');
-          let month = this.getMonth(ymd[1]);
-
-          // 判断是否有 ‘明天’ 的日期
-          let thisday = Number(ymd[2]);
-          let daystr = '';
-          if (tomorrow == thisday) {
-            daystr = this.getIntlMsg('payment.tomorrow');
-          } else {
-            daystr = weekday;
-          }
-          let oldstr = weekday + ', ' + ymd[2] + ' ' + month;
-          let newstr = daystr + ', ' + ymd[2] + ' ' + month;
+        robj.forEach((v, i) => {
+          // 格式化 delivery date 格式: 星期, 15 月份
+          let datestr = this.getFormatDeliveryDateStr(v.date);
           // 所有数据
-          alldata[oldstr] = v.dateTimeInfos;
-          // 格式: 星期, 15 月份
+          alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
-            id: oldstr,
-            name: newstr,
+            id: datestr,
+            name: datestr,
             no: v.date
           });
+          if (obj.deliveryDate == v.date) {
+            obj.deliveryDateId = datestr;
+          }
         });
-        // 通过年月日判读是否过期
-
         // delivery date为空或者过期设置第一条数据为默认值
         if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
           obj.deliveryDateId = ddlist[0].id;
-          obj.deliveryDate = ddlist[0].id;
+          obj.deliveryDate = ddlist[0].no;
         }
+        console.log(
+          '611 obj.timeSlot: ',
+          obj.timeSlot + '   ' + obj.timeSlotId
+        );
+
         // 设置 time slot
-        alldata[obj.deliveryDate]?.forEach((r) => {
-          let setime = r.startTime + ' - ' + r.endTime;
+        let tsFlag = false;
+        alldata[obj.deliveryDate]?.forEach((v, i) => {
+          let setime = v.startTime + '-' + v.endTime;
           tslist.push({
             id: setime,
             name: setime,
-            startTime: r.startTime,
-            endTime: r.endTime,
-            sort: r.sort
+            startTime: v.startTime,
+            endTime: v.endTime,
+            sort: v.sort
           });
-          // time slot为空或者过期设置第一条数据为默认值
-          if (!obj.timeSlot) {
+          if (setime == obj.timeSlot) {
             obj.timeSlotId = setime;
             obj.timeSlot = setime;
+            tsFlag = true;
           }
         });
+        // time slot为空或者过期设置第一条数据为默认值
+        if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
+          obj.timeSlotId = tslist[0].id;
+          obj.timeSlot = tslist[0].name;
+        }
+
+        console.log('611 alldata: ', alldata);
+        console.log('611 ddlist: ', ddlist);
+        console.log('611 tslist: ', tslist);
         this.setState({
           caninForm: Object.assign(caninForm, obj)
         });
       }
-      this.setState(
-        {
-          isDeliveryDateAndTimeSlot: flag,
-          deliveryDataTimeSlotList: alldata,
-          deliveryDateList: ddlist,
-          timeSlotList: tslist
-        },
-        () => {
-          console.log('609 isDeliveryDateAndTimeSlot: ', flag);
-        }
-      );
+      this.setState({
+        isDeliveryDateAndTimeSlot: flag,
+        deliveryDataTimeSlotList: alldata,
+        deliveryDateList: ddlist,
+        timeSlotList: tslist
+      });
     } catch (err) {
       console.warn(err);
     }
@@ -625,7 +637,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        console.log('609 ', this.state.caninForm);
+        console.log('609 caninForm:', this.state.caninForm);
       }
     );
     return array;
@@ -801,14 +813,15 @@ class Form extends React.Component {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
       }
     }
-    console.log(
-      '609 updateDataToProps isDeliveryDateAndTimeSlot: ',
-      isDeliveryDateAndTimeSlot
-    );
+
     if (isDeliveryDateAndTimeSlot) {
       newForm.formRule = newForm.formRuleRu;
     } else {
       newForm.formRule = newForm.formRuleOther;
+      newForm.deliveryDate = '';
+      newForm.deliveryDateId = 0;
+      newForm.timeSlot = '';
+      newForm.timeSlotId = 0;
     }
 
     console.log('609 newForm: ', newForm);
@@ -849,11 +862,11 @@ class Form extends React.Component {
       cform.region = data.name;
       cform.regionId = data.value;
     } else if (key == 'deliveryDate') {
-      cform.deliveryDate = data.value;
+      cform.deliveryDate = data.no;
       cform.deliveryDateId = data.value;
       let tslist = [];
-      deliveryDataTimeSlotList[data.value]?.forEach((r) => {
-        let setime = r.startTime + ' - ' + r.endTime;
+      deliveryDataTimeSlotList[data.no]?.forEach((r) => {
+        let setime = r.startTime + '-' + r.endTime;
         tslist.push({
           id: setime,
           name: setime,
@@ -959,17 +972,12 @@ class Form extends React.Component {
   validvalidationData = async (tname, tvalue) => {
     const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
     let targetRule = null;
-    console.log(
-      '609 validvalidationData isDeliveryDateAndTimeSlot: ',
-      isDeliveryDateAndTimeSlot
-    );
+
     if (isDeliveryDateAndTimeSlot) {
       targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
     } else {
       targetRule = caninForm.formRule.filter((e) => e.key === tname);
     }
-
-    console.log('609 targetRule: ', targetRule);
     try {
       await validData(targetRule, { [tname]: tvalue });
       this.setState({
@@ -993,10 +1001,6 @@ class Form extends React.Component {
   validFormAllData = async () => {
     const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     try {
-      console.log(
-        '609 validFormAllData isDeliveryDateAndTimeSlot: ',
-        isDeliveryDateAndTimeSlot
-      );
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
         await validData(caninForm.formRuleRu, caninForm);
@@ -1110,7 +1114,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 提示消息 1-1
+  // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
   };

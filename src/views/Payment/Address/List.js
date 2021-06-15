@@ -232,49 +232,46 @@ class AddressList extends React.Component {
     }
   }
   // 判断 delivery date和time slot是否过期
-  deliveryDateStaleDateOrNot = () => {
-    const { selectedId, addressList } = this.state;
-    const obj =
-      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+  deliveryDateStaleDateOrNot = (data) => {
     let flag = true;
-    let updateTime = obj.updateTime; // 修改日期
-    if (!updateTime) {
-      updateTime = obj.createTime;
-    }
 
-    // 修改时间 2021-06-11 07:11:35.000
-    let timeArr = updateTime.split(' ');
-    let nyrArr = timeArr[0].split('-');
-    let updateDate = nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2];
-    let updateHour = timeArr[1].split(':')[0];
+    let deliveryDate = data.deliveryDate; // deliveryDate 日期
+    let timeSlot = data.timeSlot;
+
+    // deliveryDate: 2021-06-11
+    let nyrArr = deliveryDate.split('-');
+    let dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
+    // timeSlot: 14:00-18:00
+    let hmArr = timeSlot.split('-');
+    let startHour = hmArr[0].split(':')[0];
+    let endHour = hmArr[1].split(':')[0];
 
     // 当前时间
     let mdate = new Date();
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
     let todayHour = mdate.getHours();
-    let today = mdate.getFullYear() + '' + tm + '' + mdate.getDate();
+    let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
 
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择
     // 已过期
-    updateDate = Number(updateDate);
-    today = Number(today);
-    if (updateDate < today) {
-      this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
+    let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
+    if (today > dldate) {
+      this.showErrMsg(errMsg);
       flag = false;
+    } else {
+      // 当天判断小时
+      if (dldate == today && !(startHour <= todayHour < endHour)) {
+        this.showErrMsg(errMsg);
+        flag = false;
+      }
     }
-    // else {
-    //   // 当天判断小时
-    //   if (updateDate == today && Number(updateHour) < todayHour) {
-    //     this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
-    //     flag = false;
-    //   }
-    // }
-    console.log('177 ★★ ---- updateDate: ', updateDate);
-    console.log('177 ★★ ---- today: ', today);
-    console.log('177 ★★ ---- updateHour: ', updateHour);
-    console.log('177 ★★ ---- todayHour: ', todayHour);
+    console.log(
+      '177 ★★ ---- dldate: ',
+      dldate + ' startHour: ' + startHour + ' endHour: ' + endHour
+    );
+    console.log('177 ★★ ---- today: ', today + ' todayHour: ', todayHour);
     return flag;
   };
   /**
@@ -286,15 +283,12 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    // 判断是否过期
-    // let isStaleDateOrNot = this.deliveryDateStaleDateOrNot();
-    // if (!isStaleDateOrNot) {
-    //   return;
-    // }
-    // if (tmpObj.province == 'Москва' || tmpObj.province == 'Московская') {
-    //   this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
-    //   return;
-    // }
+    if (tmpObj.deliveryDate) {
+      // 判断 deliveryDate 是否过期
+      if (!this.deliveryDateStaleDateOrNot(tmpObj)) {
+        return;
+      }
+    }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;

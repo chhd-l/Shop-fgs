@@ -708,7 +708,7 @@ const ru_RU = {
   'payment.comment': 'Комментарий к доставке',
 
   'payment.deliveryDateText': 'Дата доставки',
-  'payment.timeSlot': 'промежуток времени',
+  'payment.timeSlot': 'Время доставки',
 
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
@@ -1376,7 +1376,8 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Программа питания для поддержания здоровья',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
-  'ClubLP.LongBanner.SubscriptionTitle3.new':'Рекомендации по нормам кормления для выбора оптимальной порции',
+  'ClubLP.LongBanner.SubscriptionTitle3.new':
+    'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',
