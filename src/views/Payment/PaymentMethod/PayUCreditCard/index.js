@@ -325,7 +325,7 @@ class PayOs extends React.Component {
         }
       }
       this.props.onVisitorPayosDataConfirm(this.state.payosdata);
-      this.props.onInstallMentParamChange(this.state.installMentParam);
+      // this.props.onInstallMentParamChange(this.state.installMentParam);
       scrollPaymentPanelIntoView();
     } catch (err) {
       this.props.showErrorMsg(err.message);
@@ -348,7 +348,9 @@ class PayOs extends React.Component {
     }));
   }
   installmentTableChanger = (data) => {
-    this.setState({ installMentParam: data });
+    this.setState({ installMentParam: data }, () => {
+      this.props.onInstallMentParamChange(this.state.installMentParam);
+    });
   };
   handleClickEditBtn = () => {
     this.setState({ isEdit: true, payosdata: null });
