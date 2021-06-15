@@ -115,11 +115,17 @@
   .demobiletext{
     order: 1;
   }
+  .Lpflexrow{
+    flex-direction: row;
+  }
 }
 
 @media (min-width: 639.98px) {
   .desktop30vw {
     width: 30vw;
+  }
+  .Lpflexcolumn{
+    flex-direction: column;
   }
   .button20vw {
     width: 20vw;
