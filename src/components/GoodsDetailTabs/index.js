@@ -16,18 +16,17 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
+import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png'
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
 import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
-import pdpbackgrounddog from './image/goodsdetailtabbackgroundru.png';
+import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
+import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png'
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
 import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
-import clubiconnew5 from './image/clubiconnew5.png';
-import benefitsone from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsone.png';
-import benefitstwo from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitstwo.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
 
 import benefitsonedog from './image/benefitsonedog.png'
@@ -48,7 +47,7 @@ const pdpbackgroundmobilecats = {
 };
 
 const pdpbackgrounddogs = {
-  backgroundImage: `url(${pdpbackgrounddog})`,
+  backgroundImage: `url(${process.env.REACT_APP_COUNTRY === 'RU'?pdpbackgrounddog:pdpbackgorunddogother})`,
   height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -57,7 +56,7 @@ const pdpbackgrounddogs = {
 };
 
 const pdpbackgroundcats = {
-  backgroundImage: `url(${pdpbackgroundcat})`,
+  backgroundImage: `url(${process.env.REACT_APP_COUNTRY === 'RU'?pdpbackgroundcatru:pdpbackgroundcat})`,
   height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',

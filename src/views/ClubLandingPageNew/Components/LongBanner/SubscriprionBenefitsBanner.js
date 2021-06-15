@@ -5,6 +5,8 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import './index.css';
+import clublogo from './image/clublogo.png'
+import clubru from './image/Clubru.png'
 
 const SubscriptionBenefitsBanner = (SubscriptionItem) => {
   return (
@@ -13,6 +15,9 @@ const SubscriptionBenefitsBanner = (SubscriptionItem) => {
         <div className="experience-component experience-assets-contentBlock margintopmobile">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile ">
             <div style={{ backgroundColor: '#ffffff', borderRadius: '25px' }}>
+              <div className="flex desknone" style={{justifyContent:"center",padding:'20px'}}>
+                <img style={{width:"100px"}} src={process.env.REACT_APP_COUNTRY == 'RU'?clubru:clublogo}/>
+              </div>
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                 <div
                   className="rc-beta"
