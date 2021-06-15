@@ -603,10 +603,11 @@ class Form extends React.Component {
         ruleItem.regExp = regExp;
       }
 
-      item.requiredFlag == 1 ||
-      !(item.fieldKey == 'deliveryDate' && item.fieldKey == 'timeSlot')
+      item.requiredFlag == 1 &&
+      !(item.fieldKey == 'deliveryDate' || item.fieldKey == 'timeSlot')
         ? rule.push(ruleItem)
         : null;
+      // 有 deliveryDate 和 timeSlot 的验证规则
       item.requiredFlag == 1 ? ruleTimeSlot.push(ruleItem) : null;
 
       // 查询城市列表
@@ -800,6 +801,10 @@ class Form extends React.Component {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
       }
     }
+    console.log(
+      '609 updateDataToProps isDeliveryDateAndTimeSlot: ',
+      isDeliveryDateAndTimeSlot
+    );
     if (isDeliveryDateAndTimeSlot) {
       newForm.formRule = newForm.formRuleRu;
     } else {
@@ -954,6 +959,10 @@ class Form extends React.Component {
   validvalidationData = async (tname, tvalue) => {
     const { errMsgObj, caninForm, isDeliveryDateAndTimeSlot } = this.state;
     let targetRule = null;
+    console.log(
+      '609 validvalidationData isDeliveryDateAndTimeSlot: ',
+      isDeliveryDateAndTimeSlot
+    );
     if (isDeliveryDateAndTimeSlot) {
       targetRule = caninForm.formRuleRu.filter((e) => e.key === tname);
     } else {
@@ -984,6 +993,10 @@ class Form extends React.Component {
   validFormAllData = async () => {
     const { caninForm, isDeliveryDateAndTimeSlot } = this.state;
     try {
+      console.log(
+        '609 validFormAllData isDeliveryDateAndTimeSlot: ',
+        isDeliveryDateAndTimeSlot
+      );
       // 验证整个表单
       if (isDeliveryDateAndTimeSlot) {
         await validData(caninForm.formRuleRu, caninForm);

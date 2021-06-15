@@ -27,6 +27,15 @@
   .getmorebutton{
     margin-top: 20vh;
   }
+  .mobileflex{
+    flex-direction: column;
+  }
+  .paddingbottom0{
+    padding: 0;
+  }
+  .paddingtop0{
+    padding-top: 0;
+  }
 }
 
 @media (min-width: 639.98px) {

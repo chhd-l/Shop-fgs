@@ -30,6 +30,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
 const isHubGA = process.env.REACT_APP_HUB_GA;
+const isLogin = !!localItemRoyal.get('rc-token');
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
 class Confirmation extends React.Component {
@@ -153,37 +154,39 @@ class Confirmation extends React.Component {
         });
       });
 
-    accountCallBack().then((res) => {
-      const customerId = this.userInfo && this.userInfo.customerId;
-      this.setState({
-        mktSelectedFlag: res.mktSelectedFlag,
-        mktActivateFlag: res.mktActivateFlag
-      });
-      if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
-        findUserSelectedList({
-          customerId,
-          oktaToken: localItemRoyal.get('oktaToken')
-        }).then((res) => {
-          const optioalList = res.context.optionalList.map((item) => {
-            return {
-              id: item.id,
-              consentTitle: item.consentTitle,
-              isChecked: item.selectedFlag,
-              isRequired: false,
-              detailList: item.detailList,
-              consentDesc: item.consentDesc
-            };
-          });
-          this.setState({
-            mktConsent:
-              res.context.optionalList.length > 0
-                ? res.context.optionalList[0].consentTitle
-                : '',
-            list: optioalList
-          });
+    if (process.env.REACT_APP_COUNTRY === 'DE' && isLogin) {
+      accountCallBack().then((res) => {
+        const customerId = this.userInfo && this.userInfo.customerId;
+        this.setState({
+          mktSelectedFlag: res.mktSelectedFlag,
+          mktActivateFlag: res.mktActivateFlag
         });
-      }
-    }); // need MKT Consent For DE?
+        if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
+          findUserSelectedList({
+            customerId,
+            oktaToken: localItemRoyal.get('oktaToken')
+          }).then((res) => {
+            const optioalList = res.context.optionalList.map((item) => {
+              return {
+                id: item.id,
+                consentTitle: item.consentTitle,
+                isChecked: item.selectedFlag,
+                isRequired: false,
+                detailList: item.detailList,
+                consentDesc: item.consentDesc
+              };
+            });
+            this.setState({
+              mktConsent:
+                res.context.optionalList.length > 0
+                  ? res.context.optionalList[0].consentTitle
+                  : '',
+              list: optioalList
+            });
+          });
+        }
+      }); // Is need MKT Consent For DE?
+    }
   }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
@@ -423,7 +426,6 @@ class Confirmation extends React.Component {
       },
       pet: this.state.pet
     };
-    const isLogin = !!localItemRoyal.get('rc-token');
 
     return (
       <div>

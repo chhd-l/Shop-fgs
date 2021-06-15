@@ -103,10 +103,12 @@ const bannerTips = () => {
   }
 
   useEffect(() => {
-    const timeId = ShowMKTMessage();
-    return () => {
-      clearTimeout(timeId);
-    };
+    if (process.env.REACT_APP_COUNTRY === 'DE') {
+      const timeId = ShowMKTMessage();
+      return () => {
+        clearTimeout(timeId);
+      };
+    }
   }, []);
 
   return (
