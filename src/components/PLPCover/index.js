@@ -370,23 +370,28 @@ const PriceItemShow = ({ item, configStore }) => {
       (priceDisplayMethod == 0 || priceDisplayMethod == 1) ? (
         <div className="product-price">
           <div className="card--product-contaner-price">
-            {item.toPrice && priceDisplayMethod == 0 && (
-              <FormattedMessage
-                id="pirceRange"
-                values={{
-                  fromPrice: (
-                    <span className="contaner-price__value">
-                      {formatMoney(item.fromPrice)}
-                    </span>
-                  ),
-                  toPrice: (
-                    <span className="contaner-price__value">
-                      {formatMoney(item.toPrice)}
-                    </span>
-                  )
-                }}
-              />
-            )}
+            {priceDisplayMethod == 0 &&
+              (item.toPrice ? (
+                <FormattedMessage
+                  id="pirceRange"
+                  values={{
+                    fromPrice: (
+                      <span className="contaner-price__value">
+                        {formatMoney(item.fromPrice)}
+                      </span>
+                    ),
+                    toPrice: (
+                      <span className="contaner-price__value">
+                        {formatMoney(item.toPrice)}
+                      </span>
+                    )
+                  }}
+                />
+              ) : (
+                <span className="contaner-price__value">
+                  {formatMoney(item.fromPrice)}
+                </span>
+              ))}
             {priceDisplayMethod == 1 &&
               (process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
                 <>
@@ -456,23 +461,28 @@ const PriceItemShow = ({ item, configStore }) => {
           <div className="rc-card__price text-left PriceFitScreen">
             <div className={`rc-full-width PriceFitScreen`}>
               <span className="value sales card--product-contaner-price">
-                {item.toPrice && priceDisplayMethod == 0 && (
-                  <FormattedMessage
-                    id="pirceRange"
-                    values={{
-                      fromPrice: (
-                        <span className="contaner-price__value">
-                          {formatMoney(item.fromPrice)}
-                        </span>
-                      ),
-                      toPrice: (
-                        <span className="contaner-price__value">
-                          {formatMoney(item.toPrice)}
-                        </span>
-                      )
-                    }}
-                  />
-                )}
+                {priceDisplayMethod == 0 &&
+                  (item.toPrice ? (
+                    <FormattedMessage
+                      id="pirceRange"
+                      values={{
+                        fromPrice: (
+                          <span className="contaner-price__value">
+                            {formatMoney(item.fromPrice)}
+                          </span>
+                        ),
+                        toPrice: (
+                          <span className="contaner-price__value">
+                            {formatMoney(item.toPrice)}
+                          </span>
+                        )
+                      }}
+                    />
+                  ) : (
+                    <span className="contaner-price__value">
+                      {formatMoney(item.fromPrice)}
+                    </span>
+                  ))}
                 {priceDisplayMethod == 1 &&
                   (process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
                     <>

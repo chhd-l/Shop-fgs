@@ -529,7 +529,7 @@ const App = () => {
                        exact
                        component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
                 />
-                <Route path="/clublandinpagedevet"
+                <Route path="/landinpagedevet"
                        exact
                        component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDeVet:Exception}
                 />

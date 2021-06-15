@@ -23,6 +23,8 @@ const Ration = ({ goodsNo, setState }: Props) => {
 
   const getRationInfos = async () => {
     let pf_params = {};
+    console.log(localStorage.getItem('pfls') && getClubFlag(), sessionItemRoyal.get('pf-result') && getClubFlag(), 'aaaaa')
+    console.log(localStorage.getItem('pfls'),getClubFlag(), JSON.parse(sessionItemRoyal.get('pf-result')), 'aaaaa')
     try {
       if (localStorage.getItem('pfls') && getClubFlag()) {
         pf_params = JSON.parse(localStorage.getItem('pfls')).lastQuery;
