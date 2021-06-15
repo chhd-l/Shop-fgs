@@ -658,7 +658,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    console.log('611 --------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;

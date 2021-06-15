@@ -326,10 +326,6 @@ class Form extends React.Component {
           obj.deliveryDateId = ddlist[0].id;
           obj.deliveryDate = ddlist[0].no;
         }
-        console.log(
-          '611 obj.timeSlot: ',
-          obj.timeSlot + '   ' + obj.timeSlotId
-        );
 
         // 设置 time slot
         let tsFlag = false;
@@ -354,12 +350,14 @@ class Form extends React.Component {
           obj.timeSlot = tslist[0].name;
         }
 
-        console.log('611 alldata: ', alldata);
-        console.log('611 ddlist: ', ddlist);
-        console.log('611 tslist: ', tslist);
-        this.setState({
-          caninForm: Object.assign(caninForm, obj)
-        });
+        this.setState(
+          {
+            caninForm: Object.assign(caninForm, obj)
+          },
+          () => {
+            this.updateDataToProps(this.state.caninForm);
+          }
+        );
       }
       this.setState({
         isDeliveryDateAndTimeSlot: flag,
