@@ -128,8 +128,12 @@ import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 import FelinRecommendation from '@/views/FelinRecommendation';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
-
+import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
+import ClubLandingPageNew from './views/ClubLandingPageNew';
+import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
+import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
 import ClubLandingPage from './views/ClubLandingPage';
+
 import { redirectFun } from '@/redirect/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -142,22 +146,18 @@ Date.prototype.addHours = function (h) {
 };
 
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
-import fr from 'date-fns/locale/fr';
-import es from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
-import ClubLandingPageNew from './views/ClubLandingPageNew';
-import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
-import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
+import DateFnsLocaleFr from 'date-fns/locale/fr';
+import DateFnsLocaleES from 'date-fns/locale/es';
+import DateFnsLocaleDE from 'date-fns/locale/de';
 
 if (process.env.REACT_APP_COUNTRY === 'FR') {
-  registerLocale(process.env.REACT_APP_LANG, fr);
+  registerLocale('fr', DateFnsLocaleFr);
   setDefaultLocale('fr');
 } else if (process.env.REACT_APP_COUNTRY === 'DE') {
-  registerLocale(process.env.REACT_APP_LANG, de);
+  registerLocale('de', DateFnsLocaleDE);
   setDefaultLocale('de');
 } else if (process.env.REACT_APP_COUNTRY === 'MX') {
-  registerLocale(process.env.REACT_APP_LANG, es);
+  registerLocale('es', DateFnsLocaleES);
   setDefaultLocale('es');
 }
 
@@ -650,7 +650,6 @@ const App = () => {
                 <Route
                   exact
                   // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                  // path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                   path={process.env.REACT_APP_SEARCH_LINK}
                   render={(props) => {
                     if (props.location?.state?.noresult) {

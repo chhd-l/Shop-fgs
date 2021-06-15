@@ -5,6 +5,7 @@ const locales = {
   FR: require('@/lang/fr_FR'),
   RU: require('@/lang/ru_RU'),
   TR: require('@/lang/tr_TR'),
-  CA: require('@/lang/en_CA')
+  CA: require('@/lang/en_CA'),
+  CORE: require('@/lang/fr_FR')
 };
 export default locales[process.env.REACT_APP_COUNTRY].default;
