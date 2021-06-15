@@ -304,7 +304,7 @@ class Form extends React.Component {
       let tslist = []; // time slot
 
       let obj = Object.assign({}, caninForm);
-      if (res.context) {
+      if (res.context && res.context?.length) {
         flag = true; // 标记
         let robj = res.context;
         robj.forEach((v, i) => {
@@ -350,6 +350,7 @@ class Form extends React.Component {
           obj.timeSlot = tslist[0].name;
         }
       } else {
+        console.log('611 ------------- 清空数据');
         obj.deliveryDate = '';
         obj.deliveryDateId = 0;
         obj.timeSlot = '';
