@@ -655,7 +655,7 @@ function ProductFinderAd({
                 >
                   <img
                     style={{ width: '100%' }}
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-spt.jpg`}
                     alt="product finder recomend vet cat"
                   />
                 </LazyLoad>
