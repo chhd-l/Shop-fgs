@@ -43,7 +43,6 @@ class PetForm extends React.Component {
         sterilized: 1
       },
       subList: [],
-      isEditAlert: false,
       loading: true,
       sterilized: 0,
       showList: false,
@@ -481,34 +480,6 @@ class PetForm extends React.Component {
               ) : null}
             </div>
           </div>
-
-          <Modal
-            headerVisible={true}
-            footerVisible={false}
-            visible={this.state.isEditAlert}
-            modalTitle={''}
-            close={() => {
-              this.props.history.push('/account/pets/');
-              this.setState({ isEditAlert: false });
-            }}
-          >
-            <div className="text-center">
-              <p>
-                <div>
-                  <FormattedMessage id="petSaveTips1" />
-                </div>
-                <FormattedMessage id="petSaveTips2" />
-              </p>
-              <p>
-                <button
-                  onClick={() => this.gotoNext('updateLifeStage', true)}
-                  className="rc-btn rc-btn--one rc-btn--sm"
-                >
-                  <FormattedMessage id="See recommendation" />
-                </button>
-              </p>
-            </div>
-          </Modal>
           <Footer />
         </main>
       </div>
