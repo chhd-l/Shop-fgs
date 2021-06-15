@@ -263,13 +263,14 @@ class AddressList extends React.Component {
     if (updateDate < today) {
       this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
       flag = false;
-    } else {
-      // 当天判断小时
-      if (updateDate == today && Number(updateHour) < todayHour) {
-        this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
-        flag = false;
-      }
     }
+    // else {
+    //   // 当天判断小时
+    //   if (updateDate == today && Number(updateHour) < todayHour) {
+    //     this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
+    //     flag = false;
+    //   }
+    // }
     console.log('177 ★★ ---- updateDate: ', updateDate);
     console.log('177 ★★ ---- today: ', today);
     console.log('177 ★★ ---- updateHour: ', updateHour);
@@ -290,10 +291,10 @@ class AddressList extends React.Component {
     // if (!isStaleDateOrNot) {
     //   return;
     // }
-    if (tmpObj.province == 'Москва' || tmpObj.province == 'Московская') {
-      this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
-      return;
-    }
+    // if (tmpObj.province == 'Москва' || tmpObj.province == 'Московская') {
+    //   this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
+    //   return;
+    // }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
