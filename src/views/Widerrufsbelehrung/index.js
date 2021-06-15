@@ -3,9 +3,6 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { getFaq } from '../../api/faq';
-import { FormattedMessage } from 'react-intl';
-import Skeleton from 'react-skeleton-loader';
 import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 import { Helmet } from 'react-helmet';
@@ -23,7 +20,6 @@ class Widerrufsbelehrung extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      dataFAQ: [],
       // 当前展开的FAQ
       showCur: -1,
       loading: true
@@ -36,60 +32,10 @@ class Widerrufsbelehrung extends React.Component {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     window.scrollTo({ top: 0 });
-    getFaq({
-      language: process.env.REACT_APP_LANG,
-      storeId: process.env.REACT_APP_STOREID
-    })
-      .then((res) => {
-        this.setState(
-          {
-            dataFAQ: res.context,
-            loading: false
-          },
-          () => {
-            const widget = document.querySelector(
-              `#${this.props.match.params.catogery}`
-            );
-            if (widget) {
-              setTimeout(() => {
-                window.scrollTo({ top: widget.offsetTop - 90 });
-              });
-            }
-          }
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          loading: false
-        });
-      });
-  }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
-  }
-  handleSelect(index) {
-    if (index === this.state.showCur) {
-      this.setState({
-        showCur: -1
-      });
-    } else {
-      this.setState({
-        showCur: index
-      });
-    }
   }
 
-  render(h) {
+  render() {
     const event = {
       page: {
         type: 'Content',

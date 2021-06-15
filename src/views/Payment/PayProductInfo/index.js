@@ -262,7 +262,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
-                    {process.env.REACT_APP_LANG !== 'ru' &&
+                    {process.env.REACT_APP_COUNTRY !== 'RU' &&
                     el.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.promotions.includes('club') ? (
@@ -489,12 +489,8 @@ class PayProductInfo extends React.Component {
     );
   }
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      productList,
-      discount,
-      needHideProductList,
-      isShowValidCode
-    } = this.state;
+    const { productList, discount, needHideProductList, isShowValidCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const { installMentParam } = checkoutStore;
     const List =
@@ -554,16 +550,18 @@ class PayProductInfo extends React.Component {
                         this.setState({
                           isClickApply: true,
                           isShowValidCode: false,
-                          lastPromotionInputValue: this.state
-                            .promotionInputValue
+                          lastPromotionInputValue:
+                            this.state.promotionInputValue
                         });
                         // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
                         let purchasesPara =
                           localItemRoyal.get('rc-payment-purchases-param') ||
                           {};
-                        purchasesPara.promotionCode = this.state.promotionInputValue;
+                        purchasesPara.promotionCode =
+                          this.state.promotionInputValue;
                         purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
+                        purchasesPara.address1 =
+                          this.props.deliveryAddress?.address1;
                         console.log('------- ', purchasesPara);
                         if (!this.isLogin) {
                           purchasesPara.guestEmail = this.props.guestEmail;

@@ -61,7 +61,6 @@ export default class Search extends React.Component {
     this.setState({ loading: true });
     Promise.all([
       getList({
-        // cateId: process.env.REACT_APP_CATEID,
         keywords,
         propDetails: [],
         pageNum: 0,

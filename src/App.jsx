@@ -24,12 +24,7 @@ import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
-import locales from '@/lang'; // ENUM_LANGFILE[process.env.REACT_APP_LANG]
-
-// const locales = {
-//   'en-US': require('./locales/en-US.js'),
-//   'zh-CN': require('./locales/zh-CN.js')
-// };
+import locales from '@/lang';
 
 import '@/utils/global';
 import { IntlProvider } from 'react-intl';
@@ -164,7 +159,6 @@ if (process.env.REACT_APP_COUNTRY === 'FR') {
 } else if (process.env.REACT_APP_COUNTRY === 'MX') {
   registerLocale(process.env.REACT_APP_LANG, es);
   setDefaultLocale('es');
-} else if (process.env.REACT_APP_COUNTRY === 'US') {
 }
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
