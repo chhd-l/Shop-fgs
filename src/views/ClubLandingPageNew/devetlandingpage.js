@@ -254,7 +254,7 @@ class ClubLandingPageDeVet extends React.Component {
                         <div className="rc-column">
                           <a
                             className="rc-moblie-flex flex-wrap justify-content-center"
-                            href="/cats"
+                            href="/de/cats"
                           >
                             <img src={deLPcat} />
                           </a>
@@ -270,7 +270,7 @@ class ClubLandingPageDeVet extends React.Component {
                         <div className="rc-column ">
                           <a
                             className="rc-moblie-flex flex-wrap justify-content-center"
-                            href="/dogs"
+                            href="/de/dogs"
                           >
                             <img src={deLPdog} />
                           </a>

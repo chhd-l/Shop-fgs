@@ -803,7 +803,7 @@ class ClubLandingPageDe extends React.Component {
                                           0221 937060 650
                                         </p>
                                       </div>
-                                      <p style={{ fontSize: '12px' }}>
+                                      <p style={{ fontSize: '12px' }} className="detextnowrap">
                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
                                       </p>
                                     </div>

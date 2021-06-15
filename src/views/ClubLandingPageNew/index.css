@@ -137,6 +137,9 @@
   .desktop35vw {
     width: 35vw;
   }
+  .detextnowrap{
+    white-space: nowrap;
+  }
 }
 
 .DeCenter {
