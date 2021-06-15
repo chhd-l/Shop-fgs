@@ -77,7 +77,7 @@ const SubscriptionItems = [
   {
     SubscriptionImg: benefitsthree,
     SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
     )
   }
 ];

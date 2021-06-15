@@ -2,6 +2,7 @@ import React from 'react';
 import LazyLoad from 'react-lazyload';
 import logoad from './image/logoad.png';
 import logoclubad from './image/CLUBLOGOSUBSCIPTION@4x.png';
+import rulogo from '../../image/CLUB_logoRU@2x.png'
 import './index.css';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -110,11 +111,18 @@ const GetMoreAd = () => {
                       >
                         <div>
                           <LazyLoad>
+                            {process.env.REACT_APP_COUNTRY == 'RU'?
+                              <img
+                                className="w-60 lazyloaded"
+                                src={rulogo}
+                                style={{ width: '100px' }}
+                              />:
                             <img
                               className="w-60 lazyloaded"
                               src={logoclubad}
                               style={{ width: '100px' }}
                             />
+                            }
                           </LazyLoad>
                         </div>
                         <div

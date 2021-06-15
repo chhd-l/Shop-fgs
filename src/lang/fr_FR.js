@@ -1636,6 +1636,7 @@ const fr_FR = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
   'ClubLP.LongBanner.SubscriptionTitle3': 'La bonne quantité à chaque fois',
+  'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
   'ClubLP.Advantage.title': 'UN ALIMENT SUR MESURE',

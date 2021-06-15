@@ -1,6 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import joinusnewlogo from './image/joinusnewlogo.png';
+import rulogo from '../../image/CLUB_logoRU@2x.png'
 import joinusnewright from './image/joinusnewright.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
@@ -34,6 +35,14 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-1 order-md-0  orderJoin1">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad>
+                          {process.env.REACT_APP_COUNTRY == 'RU'?
+                            <img
+                              className="w-auto lazyloaded logomargin"
+                              style={{
+                                maxWidth: '50%'
+                              }}
+                              src={rulogo}
+                            />:
                           <img
                             className="w-auto lazyloaded logomargin"
                             style={{
@@ -41,6 +50,7 @@ const JoinTodayNew = () => {
                             }}
                             src={joinusnewlogo}
                           />
+                          }
                         </LazyLoad>
                       </div>
                     </div>
