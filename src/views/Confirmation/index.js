@@ -158,8 +158,8 @@ class Confirmation extends React.Component {
       accountCallBack().then((res) => {
         const customerId = this.userInfo && this.userInfo.customerId;
         this.setState({
-          mktSelectedFlag: res.mktSelectedFlag,
-          mktActivateFlag: res.mktActivateFlag
+          mktSelectedFlag: res.context.mktSelectedFlag,
+          mktActivateFlag: res.context.mktActivateFlag
         });
         if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
           findUserSelectedList({
