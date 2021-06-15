@@ -1376,6 +1376,7 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Программа питания для поддержания здоровья',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
+  'ClubLP.LongBanner.SubscriptionTitle3.new':'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',
@@ -1438,7 +1439,7 @@ const ru_RU = {
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
   'ClubLP.Help.email.address': 'Отправьте нам e-mail',
   'ClubLP.Help.faq.content':
-    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
+    'Посмотрите {val} возможно, на Ваш вопрос уже есть ответ',
   'clinic.vetClinicsTip1':
     'Не нашли клинику в списке? Напишите нам об этом {val}.',
   'clinic.vetClinicsTip2': 'Написать'

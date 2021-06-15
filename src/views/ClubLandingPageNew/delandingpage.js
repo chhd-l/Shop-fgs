@@ -40,6 +40,7 @@ import faqImgNew from '../../components/HelpComponentsNew/img/FAQicon@4x.png';
 import Logo from '../../components/Logo';
 import DeMyList from './demylist';
 import PrescriberCode from './Components/DeStoreCode/precriberCode';
+import PhoneModal from '../../views/StaticPage/Help/components/phoneModal.js';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -69,7 +70,10 @@ class ClubLandingPageDe extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      searchEvent: {}
+      searchEvent: {},
+      tel: 'tel:0221 937060 650',
+      mailAddress: 'mailto:service.de@royalcanin.com',
+      showModal: false
     };
   }
 
@@ -91,6 +95,13 @@ class ClubLandingPageDe extends React.Component {
       location.href = url;
     }
   }
+
+  mobileDial = () => {
+    this.setState({ showModal: true });
+  };
+  cancelModal = () => {
+    this.setState({ showModal: false });
+  };
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -168,6 +179,9 @@ class ClubLandingPageDe extends React.Component {
           history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
+        {this.state.showModal ? (
+          <PhoneModal cancelModal={this.cancelModal} />
+        ) : null}
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
           <div className="experience-component experience-layouts-1column">
@@ -185,7 +199,7 @@ class ClubLandingPageDe extends React.Component {
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
-                        ></iframe>
+                        />
                       </div>
                       <div className="rc-column demobiletext">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
@@ -726,7 +740,7 @@ class ClubLandingPageDe extends React.Component {
                       aria-hidden="true"
                     ></a>
                     <div className="row align-items-md-center">
-                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                      <div className=" col-12 col-lg-5 rc-padding-x--sm--desktop">
                         <picture data-rc-feature-objectfillpolyfill-setup="true">
                           <img
                             className="w-100 lazyloaded"
@@ -736,7 +750,7 @@ class ClubLandingPageDe extends React.Component {
                           />
                         </picture>
                       </div>
-                      <div className=" col-12 col-lg-6">
+                      <div className=" col-12 col-lg-7">
                         <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text">
                             Haben Sie Fragen zu den VET Diäten von ROYAL CANIN®?
@@ -749,63 +763,98 @@ class ClubLandingPageDe extends React.Component {
                             </span>
                           </p>
                           <div className="flex deflexcolumn">
-                            <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw">
+                            <article
+                              className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw"
+                              style={{ padding: '1rem 0' }}
+                            >
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
                                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                   <div
                                     className="rc-column rc-double-width rc-padding-top--md--mobile"
-                                    style={{ marginRight: '-2rem' }}
+                                    style={{ marginRight: '-4rem' }}
                                   >
                                     <div className="w-100">
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per Telefon
                                       </p>
-                                      <p
-                                        style={{
-                                          color: '#E2001A',
-                                          fontWeight: 'bolder'
-                                        }}
-                                      >
-                                        0221 937060 650
-                                      </p>
+                                      <div className="rc-margin-top--xs">
+                                        <p
+                                          style={{ color: '#E2001A' }}
+                                          className="rc-numeric rc-md-up"
+                                        >
+                                          <a
+                                            href={this.state.tel}
+                                            style={{
+                                              color: '#E2001A',
+                                              fontSize: '1rem',
+                                              fontWeight: 'bolder'
+                                            }}
+                                          >
+                                            0221 937060 650
+                                          </a>
+                                        </p>
+                                      </div>
+                                      <div className="rc-margin-top--xs">
+                                        <p
+                                          style={{ color: '#E2001A' }}
+                                          className="rc-alpha rc-border--none rc-md-down"
+                                          onClick={this.mobileDial}
+                                        >
+                                          0221 937060 650
+                                        </p>
+                                      </div>
                                       <p style={{ fontSize: '12px' }}>
                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
                                       </p>
                                     </div>
                                   </div>
                                   <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
+                                    <a href={this.state.tel}>
                                       <img
                                         className="align-self-center "
                                         src={dephone}
                                         title="By telephone"
                                         style={{ width: '2.5rem' }}
                                       />
-                                    </LazyLoad>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
                             </article>
-                            <article className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw">
+                            <article
+                              className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw"
+                              style={{ padding: '1rem 0 1rem 1rem' }}
+                            >
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
                                 <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
-                                    <div className="w-100 ">
+                                    <div
+                                      className="w-100 "
+                                      style={{ marginTop: '1.5rem' }}
+                                    >
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per E-Mail
                                       </p>
-                                      <p>service.de@royalcanin.com</p>
+                                      <p>
+                                        <a
+                                          href={this.state.mailAddress}
+                                          className="rc-styled-link"
+                                          style={{ color: '#E2001A' }}
+                                        >
+                                          service.de@royalcanin.com
+                                        </a>
+                                      </p>
                                     </div>
                                   </div>
                                   <div className="rc-column rc-content-v-middle">
-                                    <LazyLoad>
+                                    <a href={this.state.mailAddress}>
                                       <img
                                         className="align-self-center "
                                         src={demail}
                                         title="By telephone"
-                                        style={{ width: '20vw' }}
+                                        style={{ width: '2.5rem' }}
                                       />
-                                    </LazyLoad>
+                                    </a>
                                   </div>
                                 </div>
                               </div>

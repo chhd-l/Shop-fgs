@@ -246,22 +246,35 @@ class AddressList extends React.Component {
     let timeArr = updateTime.split(' ');
     let nyrArr = timeArr[0].split('-');
     let updateDate = nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2];
+    let updateHour = timeArr[1].split(':')[0];
 
     // 当前时间
     let mdate = new Date();
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
+    let todayHour = mdate.getHours();
     let today = mdate.getFullYear() + '' + tm + '' + mdate.getDate();
 
-    console.log('177 ★★ ---- updateDate: ', updateDate);
-    console.log('177 ★★ ---- today: ', today);
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择
     // 已过期
-    if (Number(updateDate) <= Number(today)) {
+    updateDate = Number(updateDate);
+    today = Number(today);
+    if (updateDate < today) {
       this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
       flag = false;
     }
+    // else {
+    //   // 当天判断小时
+    //   if (updateDate == today && Number(updateHour) < todayHour) {
+    //     this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
+    //     flag = false;
+    //   }
+    // }
+    console.log('177 ★★ ---- updateDate: ', updateDate);
+    console.log('177 ★★ ---- today: ', today);
+    console.log('177 ★★ ---- updateHour: ', updateHour);
+    console.log('177 ★★ ---- todayHour: ', todayHour);
     return flag;
   };
   /**
@@ -276,6 +289,10 @@ class AddressList extends React.Component {
     // 判断是否过期
     // let isStaleDateOrNot = this.deliveryDateStaleDateOrNot();
     // if (!isStaleDateOrNot) {
+    //   return;
+    // }
+    // if (tmpObj.province == 'Москва' || tmpObj.province == 'Московская') {
+    //   this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
     //   return;
     // }
 
