@@ -137,7 +137,7 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.faq.content" values={{val:
+                                    <FormattedMessage id="ClubLP.Help.faq.content" values={{val:RU?
                                         <DistributeHubLinkOrATag
                                           href={'/about-us/faqs'}
                                           ariaLabel="Links to faq"
@@ -149,7 +149,30 @@ const HelpComponentsNew = (props) => {
                                           >
                                             часто задаваемые вопросы:
                                           </a>
-                                      </DistributeHubLinkOrATag>}}/>
+                                      </DistributeHubLinkOrATag>:TR?<DistributeHubLinkOrATag
+                                          href={'/about-us/faqs'}
+                                          ariaLabel="Links to faq"
+                                        >
+                                          <a
+                                            style={{
+                                              textDecoration: 'underline'
+                                            }}
+                                          >
+                                            Sıkça Sorulan Sorular
+                                          </a>
+                                        </DistributeHubLinkOrATag>:
+                                        <DistributeHubLinkOrATag
+                                          href={'/about-us/faqs'}
+                                          ariaLabel="Links to faq"
+                                        >
+                                          <a
+                                            style={{
+                                              textDecoration: 'underline'
+                                            }}
+                                          >
+                                            FAQ pour
+                                          </a>
+                                        </DistributeHubLinkOrATag>}}/>
                                   </p>
 
                                   <div className="rc-margin-top--xs">

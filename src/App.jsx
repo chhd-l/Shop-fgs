@@ -335,7 +335,7 @@ const App = () => {
                 />
                 <Route
                   exact
-                  path="/club-subscription"
+                  path="/club-subscriptionbyebye"
                   render={(props) => {
                     let tmpComponent;
                     switch (process.env.REACT_APP_COUNTRY) {
@@ -521,7 +521,7 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
-                <Route path="/clublandingpagenew"
+                <Route path="/club-subscription"
                        exact
                        component={ClubLandingPageNew}
                 />
