@@ -7,7 +7,12 @@ import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { getAddressBykeyWord } from '@/api';
 import { shippingCalculation } from '@/api/cart';
-import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  matchNamefromDict,
+  transTime
+} from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from '@/components/Form';
@@ -28,6 +33,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
+    reSelectTimeSlot: '',
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     titleVisible: true,
@@ -248,7 +254,8 @@ class AddressList extends React.Component {
     let endHour = hmArr[1].split(':')[0];
 
     // 当前时间
-    let mdate = new Date();
+    // let mdate = new Date();
+    let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
     let todayHour = mdate.getHours();
@@ -262,7 +269,7 @@ class AddressList extends React.Component {
     // 判断当前时间段，如果是当天过了16点提示重新选择。
 
     // 已过期（俄罗斯时间）
-    let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
+    let errMsg = this.props.reSelectTimeSlot;
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
       console.log('666  ----->  今天或者更早');

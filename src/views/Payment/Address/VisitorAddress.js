@@ -6,7 +6,7 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import PickUp from '@/components/PickUp';
-import { validData } from '@/utils/utils';
+import { validData, transTime } from '@/utils/utils';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
@@ -26,6 +26,7 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isDeliveryOrBilling: 'delivery',
+    reSelectTimeSlot: '',
     showDeliveryDateTimeSlot: false,
     initData: null,
     titleVisible: true,
@@ -142,7 +143,8 @@ class VisitorAddress extends React.Component {
     let endHour = hmArr[1].split(':')[0];
 
     // 当前时间
-    let mdate = new Date();
+    // let mdate = new Date();
+    let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
     let todayHour = mdate.getHours();
@@ -156,7 +158,7 @@ class VisitorAddress extends React.Component {
     // 判断当前时间段，如果是当天过了16点提示重新选择。
 
     // 已过期（俄罗斯时间）
-    let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
+    let errMsg = this.props.reSelectTimeSlot;
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
       console.log('666  ----->  今天或者更早');
