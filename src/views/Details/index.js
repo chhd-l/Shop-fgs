@@ -14,6 +14,7 @@ import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Rate from '@/components/Rate';
 import BannerTip from '@/components/BannerTip';
+import Reviews from './components/Reviews';
 import {
   formatMoney,
   setSeoConfig,
@@ -203,8 +204,7 @@ function Advantage() {
   const defaultIconList = [
     {
       icon: <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography" />,
-      text:
-        'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
+      text: 'Access to Royal Canin Pet Advisor Live to answer all your pet questions'
     },
     {
       icon: (
@@ -414,14 +414,8 @@ class Details extends React.Component {
     });
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -552,13 +546,8 @@ class Details extends React.Component {
     );
   }
   setGoogleProductStructuredDataMarkup() {
-    const {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo
-    } = this.state;
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
+      this.state;
     loadJS({
       code: JSON.stringify({
         '@context': 'http://schema.org/',
@@ -1262,8 +1251,9 @@ class Details extends React.Component {
     const goodSize = specList.map((item) =>
       item.chidren.find((good) => good.specDetailId === sdId)
     )?.[0]?.detailName;
-    const barcode = images.find((item) => item.packSize === goodSize)
-      ?.goodsInfoBarcode;
+    const barcode = images.find(
+      (item) => item.packSize === goodSize
+    )?.goodsInfoBarcode;
     this.setState(
       {
         specList,
@@ -1359,13 +1349,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       this.hubGA && this.hubGAAToCar(quantity, details);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1850,6 +1835,7 @@ class Details extends React.Component {
                                 >
                                   <Rate
                                     def={productRate}
+                                    key={productRate}
                                     disabled={true}
                                     marginSize="sRate"
                                   />
@@ -2432,8 +2418,7 @@ class Details extends React.Component {
                                         <FormattedMessage
                                           id="saveExtra"
                                           values={{
-                                            val:
-                                              selectedSpecItem?.subscriptionPercentage
+                                            val: selectedSpecItem?.subscriptionPercentage
                                           }}
                                         />
                                       </div>
@@ -2544,8 +2529,7 @@ class Details extends React.Component {
                                       <FormattedMessage
                                         id="saveExtra"
                                         values={{
-                                          val:
-                                            selectedSpecItem?.subscriptionPercentage
+                                          val: selectedSpecItem?.subscriptionPercentage
                                         }}
                                       />
                                     </div>
@@ -2758,6 +2742,16 @@ class Details extends React.Component {
                 </div>
               </>
             ) : null}
+            {!!+process.env.REACT_APP_PDP_RATING_VISIBLE ? (
+              <div id="review-container">
+                <Reviews
+                  key={this.state.goodsId}
+                  id={this.state.goodsId}
+                  isLogin={this.isLogin}
+                />
+              </div>
+            ) : null}
+
             {this.state.relatedGoodsList.length > 0 ? (
               <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
             ) : null}
