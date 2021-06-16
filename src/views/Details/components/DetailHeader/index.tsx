@@ -43,7 +43,7 @@ const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyN
                 className="display-inline"
                 style={{ verticalAlign: 'middle' }}
               >
-                <Rate def={productRate} disabled={true} marginSize="sRate" />
+                <Rate key={productRate} def={productRate} disabled={true} marginSize="sRate" />
               </div>
               <span
                 className="comments rc-margin-left--xs rc-text-colour--text"

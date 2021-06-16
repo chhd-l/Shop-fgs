@@ -7,6 +7,8 @@ import LazyLoad from 'react-lazyload';
 import '../index.css';
 import Skeleton from 'react-skeleton-loader';
 import { getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 @injectIntl
 class Reviews extends React.Component {
   static defaultProps = {
@@ -25,13 +27,11 @@ class Reviews extends React.Component {
       noData: true,
       showPicIndex: -1,
       imgList: -1,
-      total: 0,
-      isMobile: false
+      total: 0
     };
     this.handleDirectionClick = this.handleDirectionClick.bind(this);
   }
   componentDidMount() {
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
     this.state.id && this.getGoodsEvaluates(1, 5, null);
   }
 
@@ -105,6 +105,7 @@ class Reviews extends React.Component {
       default:
         break;
     }
+
     let res = await (this.props.isLogin
       ? getLoginGoodsEvaluate
       : getUnLoginGoodsEvaluate)(parmas);
@@ -199,7 +200,15 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const { data, imgList, showPicIndex, total, isMobile } = this.state;
+    const {
+      imgList,
+      showPicIndex,
+      total,
+      goodsEvaluatesList,
+      evaluatesCurrentPage,
+      valuatesTotalPages,
+      noData
+    } = this.state;
     return (
       <div>
         {showPicIndex >= 0 && imgList ? (
@@ -230,7 +239,7 @@ class Reviews extends React.Component {
             <div className="Mask" onClick={this.handleCancelMask.bind(this)} />
           </div>
         ) : null}
-        {data && !data.noData ? (
+        {!noData ? (
           <div className="commentBox">
             {/* <div>
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
@@ -289,7 +298,7 @@ class Reviews extends React.Component {
                       {this.state.loading ? (
                         <Skeleton color="#f5f5f5" width="100%" height="100%" />
                       ) : (
-                        data.goodsEvaluatesList.map((item, i) => (
+                        goodsEvaluatesList.map((item, i) => (
                           <div
                             className="rc-border-bottom rc-border-colour--interface"
                             key={i}
@@ -378,9 +387,9 @@ class Reviews extends React.Component {
                     <div className="rc-column rc-margin-top--md">
                       <Pagination
                         loading={false}
-                        defaultCurrentPage={data.evaluatesCurrentPage}
-                        key={data.evaluatesCurrentPage}
-                        totalPage={data.valuatesTotalPages}
+                        defaultCurrentPage={evaluatesCurrentPage}
+                        key={evaluatesCurrentPage}
+                        totalPage={valuatesTotalPages}
                         onPageNumChange={this.hanldePageNumChange}
                       />
                     </div>

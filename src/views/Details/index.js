@@ -19,6 +19,7 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import BannerTip from '@/components/BannerTip';
+import Reviews from './components/Reviews';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -181,14 +182,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -293,13 +288,8 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
-    let {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo
-    } = this.state;
+    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo } =
+      this.state;
     details.sizeList = sizeList;
     this.setState(Object.assign({ details }, data), () => {
       this.updateInstockStatus();
@@ -486,7 +476,7 @@ class Details extends React.Component {
                     this.state.details,
                     this.state.instockStatus
                   );
-                }, 3000);
+                }, 60000);
               }
             }
           );
@@ -730,13 +720,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1263,6 +1248,15 @@ class Details extends React.Component {
             {/* 电话邮箱联系板块 */}
             {isHub ? (
               <PhoneAndEmail loading={loading} details={details} />
+            ) : null}
+            {!!+process.env.REACT_APP_PDP_RATING_VISIBLE ? (
+              <div id="review-container">
+                <Reviews
+                  key={this.state.goodsId}
+                  id={this.state.goodsId}
+                  isLogin={this.isLogin}
+                />
+              </div>
             ) : null}
             <RelateProductCarousel id={goodsId} />
 
