@@ -750,6 +750,7 @@ class SubscriptionDetail extends React.Component {
                     <div className={`${loading ? 'hidden' : ''} `}>
                       <SubGoodsInfos
                         getDetail={this.getDetail}
+                        handleSaveChange={this.handleSaveChange.bind(this)}
                         modalList={modalList}
                         triggerShowChangeProduct={triggerShowChangeProduct}
                         isDataChange={isDataChange}
