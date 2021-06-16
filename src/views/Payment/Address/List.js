@@ -287,7 +287,7 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    if (tmpObj.deliveryDate) {
+    if (tmpObj?.deliveryDate) {
       // 判断 deliveryDate 是否过期
       if (!this.deliveryDateStaleDateOrNot(tmpObj)) {
         return;
@@ -826,7 +826,7 @@ class AddressList extends React.Component {
       if (!isValid || !addOrEdit) {
         return false;
       }
-      if (deliveryAddress.deliveryDate) {
+      if (deliveryAddress?.deliveryDate) {
         // 判断 deliveryDate 是否过期
         if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
           return;
