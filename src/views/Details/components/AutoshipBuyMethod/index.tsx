@@ -94,7 +94,7 @@ const AutoshipBuyMethod = ({
             className="discountBox"
             style={{
               background:
-                process.env.REACT_APP_LANG === 'ru' ? '#3ab41d' : '#ec001a'
+                process.env.REACT_APP_COUNTRY === 'RU' ? '#3ab41d' : '#ec001a'
             }}
           >
             <FormattedMessage
