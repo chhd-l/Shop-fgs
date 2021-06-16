@@ -117,7 +117,7 @@ class PetForm extends React.Component {
     };
     try {
       const res = await petsById(params);
-      let currentPet = res.context;
+      let currentPet = res.context?.context || res.context;
       const {
         activity,
         birthOfPets,
