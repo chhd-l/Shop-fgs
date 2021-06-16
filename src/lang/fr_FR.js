@@ -1696,6 +1696,6 @@ const fr_FR = {
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',
   'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
   'ClubLP.Help.faq.content':
-    "Vous pouvez consulter notre FAQ pour consulter si votre question n'a pas déjà été traitée."
+    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée."
 };
 export default fr_FR;

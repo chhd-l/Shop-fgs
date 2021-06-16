@@ -1326,6 +1326,6 @@ const tr_TR = {
     'Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!',
   'ClubLP.Help.email.address': 'Bize e-posta gönderin!',
   'ClubLP.Help.faq.content':
-    'Sorunuz önceden cevaplanmış olabilir! Sıkça Sorulan Sorular sayfamıza göz atmayı unutmayın!'
+    'Sorunuz önceden cevaplanmış olabilir! {val} sayfamıza göz atmayı unutmayın!'
 };
 export default tr_TR;
