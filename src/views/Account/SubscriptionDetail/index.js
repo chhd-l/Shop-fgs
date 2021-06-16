@@ -370,6 +370,7 @@ class SubscriptionDetail extends React.Component {
       let noStartYearOption = [];
       let completedYearOption = [];
       let petsType = '';
+      subDetail.goodsInfo = subDetail.goodsInfo || []; //防止商品被删报错
       let isCat =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
         'Cat';
@@ -431,6 +432,7 @@ class SubscriptionDetail extends React.Component {
         name: noStartYearOption[0] && noStartYearOption[0]['value']
       };
       let isGift =
+        subDetail.goodsInfo &&
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
@@ -458,8 +460,8 @@ class SubscriptionDetail extends React.Component {
         }
       );
     } catch (err) {
-      // console.log(22222, err);
-      this.showErrMsg(err.message);
+      console.log(22222, err);
+      this.showErrMsg(err.message || err);
     } finally {
       this.setState({ loading: false });
     }

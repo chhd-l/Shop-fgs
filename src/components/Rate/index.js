@@ -56,7 +56,7 @@ export default class Rate extends Component {
       <svg
         className="svg-icon"
         aria-hidden="true"
-        style={{ width: '1em', height: '1em' }}
+        style={{ width: '1.3em', height: '1.3em', verticalAlign: 'middle' }}
       >
         <use xlinkHref="#iconxingxing" />
       </svg>
@@ -70,7 +70,7 @@ export default class Rate extends Component {
       );
     return (
       <div>
-        <div className="rate flex">
+        <div className="rate flex 1111111">
           {new Array(count).fill().map((item, index) => (
             <span
               className="rate__icon__container"
