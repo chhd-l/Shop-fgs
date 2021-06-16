@@ -16,7 +16,7 @@ export function addSchemaOrgMarkup(details, instockStatus) {
     mpn: details.goodsNo,
     image: details.goodsImg,
     brand: details.brandName || 'Royal Canin',
-    description: details.goodsDescription || 'Royal Canin',
+    description: details.goodsSubtitle || 'Royal Canin',
     offers: {
       '@type': 'Offer',
       url: window.location.href,
