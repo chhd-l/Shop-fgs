@@ -27,81 +27,36 @@ class AddressPreview extends React.Component {
   };
   // 星期
   getWeekDay = (day) => {
-    let weekday = '';
-    switch (day) {
-      case 1:
-        weekday = this.getIntlMsg('payment.Monday');
-        break;
-      case 2:
-        weekday = this.getIntlMsg('payment.Tuesday');
-        break;
-      case 3:
-        weekday = this.getIntlMsg('payment.Wednesday');
-        break;
-      case 4:
-        weekday = this.getIntlMsg('payment.Thursday');
-        break;
-      case 5:
-        weekday = this.getIntlMsg('payment.Friday');
-        break;
-      case 6:
-        weekday = this.getIntlMsg('payment.Saturday');
-        break;
-      case 0:
-        weekday = this.getIntlMsg('payment.Sunday');
-        break;
-      default:
-        weekday = '';
-        break;
-    }
-    return weekday;
+    let weekArr = [
+      this.getIntlMsg('payment.Sunday'),
+      this.getIntlMsg('payment.Monday'),
+      this.getIntlMsg('payment.Tuesday'),
+      this.getIntlMsg('payment.Wednesday'),
+      this.getIntlMsg('payment.Thursday'),
+      this.getIntlMsg('payment.Friday'),
+      this.getIntlMsg('payment.Saturday')
+    ];
+    return weekArr[day];
   };
   // 月份
   getMonth = (num) => {
-    let month = '';
     num = Number(num);
-    switch (num) {
-      case 1:
-        month = this.getIntlMsg('payment.January');
-        break;
-      case 2:
-        month = this.getIntlMsg('payment.February');
-        break;
-      case 3:
-        month = this.getIntlMsg('payment.March');
-        break;
-      case 4:
-        month = this.getIntlMsg('payment.April');
-        break;
-      case 5:
-        month = this.getIntlMsg('payment.May');
-        break;
-      case 6:
-        month = this.getIntlMsg('payment.June');
-        break;
-      case 7:
-        month = this.getIntlMsg('payment.July');
-        break;
-      case 8:
-        month = this.getIntlMsg('payment.August');
-        break;
-      case 9:
-        month = this.getIntlMsg('payment.September');
-        break;
-      case 10:
-        month = this.getIntlMsg('payment.October');
-        break;
-      case 11:
-        month = this.getIntlMsg('payment.November');
-        break;
-      case 12:
-        month = this.getIntlMsg('payment.December');
-        break;
-      default:
-        month = '';
-        break;
-    }
-    return month;
+    let monthArr = [
+      '0',
+      this.getIntlMsg('payment.January'),
+      this.getIntlMsg('payment.February'),
+      this.getIntlMsg('payment.March'),
+      this.getIntlMsg('payment.April'),
+      this.getIntlMsg('payment.May'),
+      this.getIntlMsg('payment.June'),
+      this.getIntlMsg('payment.July'),
+      this.getIntlMsg('payment.August'),
+      this.getIntlMsg('payment.September'),
+      this.getIntlMsg('payment.October'),
+      this.getIntlMsg('payment.November'),
+      this.getIntlMsg('payment.December')
+    ];
+    return monthArr[num];
   };
   // delivery date 格式转换: 星期, 15 月份
   getFormatDeliveryDateStr = (date) => {
