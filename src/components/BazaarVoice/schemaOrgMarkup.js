@@ -2,16 +2,16 @@ import { loadJS } from '../../utils/utils';
 
 export function addSchemaOrgMarkup(details, instockStatus) {
   const avgRatingComponent = document.getElementsByClassName(
-    'bv_avgRating_component_container '
+    'bv_avgRating_component_container'
   );
   const numReviewsComponent = document.getElementsByClassName(
-    'bv_numReviews_text '
+    'bv_numReviews_text'
   );
   const code = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     '@id': window.location.href,
-    name: 'Kenmore White 17" Microwave',
+    name: details.goodsName,
     sku: details.goodsNo,
     mpn: details.goodsNo,
     image: details.goodsImg,
