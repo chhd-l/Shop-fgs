@@ -1109,7 +1109,7 @@ const es_ES = {
     'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
   'welcome.notReceiveEmail': 'Sie haben keine E-Mail erhalten?',
   'welcome.contactSupport': 'Support kontaktieren',
-  'welcome.privacyStatement': 'Datenschutzerklärung',
+  'welcome.privacyStatement': 'Protección de Datos',
   'welcome.cookiesNotice': 'Cookies Notice',
   'welcome.legal': 'Legal',
   'welcome.accessibility': 'Accessibility',

@@ -30,7 +30,9 @@ const ChooseSKU = ({ intl }) => {
     showModal,
     showProdutctDetail,
     setForm,
+    initMainProduct,
     form,
+    setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
   const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
@@ -41,7 +43,7 @@ const ChooseSKU = ({ intl }) => {
   );
   const [skuPromotions, setSkuPromotions] = useState(0);
   const [stock, setStock] = useState(0);
-
+  let timer = null;
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const matchGoods = (data, sizeList) => {
@@ -118,7 +120,7 @@ const ChooseSKU = ({ intl }) => {
       let goodsInfoFlag =
         buyWay && details.promotions?.includes('club') ? 2 : buyWay;
       let subscribeId = subDetail.subscribeId;
-
+      let addGoodsItemsSku = currentSelectedSize.goodsInfoId;
       let addGoodsItems = {
         skuId: currentSelectedSize.goodsInfoId,
         subscribeNum: quantity,
@@ -126,6 +128,7 @@ const ChooseSKU = ({ intl }) => {
         periodTypeId: form.frequencyId
         // productFinderFlag: currentSelectedSize.productFinderFlag
       };
+
       let deleteGoodsItems = currentGoodsItems.map((el) => {
         return {
           subscribeId,
@@ -137,7 +140,7 @@ const ChooseSKU = ({ intl }) => {
       );
       if (isTheSamePro?.skuId) {
         //替换的skuid一致，不能正常提交
-        setErrorMsgSureChange(intl.messages['subscription.thesameProd']);
+        changeErrorMsg(intl.messages['subscription.thesameProd']);
         setChangeNowLoading(false);
         return;
       }
@@ -152,19 +155,42 @@ const ChooseSKU = ({ intl }) => {
       changeSubscriptionGoods(params)
         .then((res) => {
           setChangeNowLoading(false);
-          getDetail();
-          showModal();
+          getDetail(({ goodsInfo }) => {
+            changeSubDetail(goodsInfo, addGoodsItemsSku);
+          });
+          initMainProduct();
           //关闭2弹窗 todo
         })
         .catch((err) => {
           setChangeNowLoading(false);
-          setErrorMsgSureChange(err && err.message);
+          changeErrorMsg(err && err.message);
         });
     } catch (err) {
-      setErrorMsgSureChange(err && err.message);
+      changeErrorMsg(err && err.message);
 
       setChangeNowLoading(false);
     }
+  };
+  const changeSubDetail = (goodsInfo, skuid) => {
+    console.info('//////////////////////////////////');
+    console.info(skuid);
+    console.info(goodsInfo[0].skuId);
+    debugger;
+    let el = goodsInfo?.find((e) => e.skuId == skuid);
+    // setState({triggerShowChangeProduct:Object.assign(
+    //   {},
+    //   triggerShowChangeProduct,
+    //   {
+    //     goodsInfo: [el],
+    //   })})
+    setCurrentGoodsItems([el]);
+  };
+  const changeErrorMsg = (errMsg) => {
+    setErrorMsgSureChange(errMsg);
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      setErrorMsgSureChange('');
+    }, 1000);
   };
   let seleced = quantity < stock && skuPromotions == 'club';
   return (

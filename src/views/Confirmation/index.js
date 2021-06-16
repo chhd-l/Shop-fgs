@@ -470,9 +470,9 @@ class Confirmation extends React.Component {
                 />
               </p>
               {process.env.REACT_APP_COUNTRY === 'DE' && isLogin ? (
-                <div className="col-12 col-md-6 mktConsent">
+                <>
                   {mktSelectedFlag && !mktActivateFlag ? (
-                    <>
+                    <div className="col-12 col-md-6 mktConsent">
                       {mktSelectSuccess ? (
                         <p>
                           <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
@@ -498,10 +498,10 @@ class Confirmation extends React.Component {
                           </label>
                         </div>
                       )}
-                    </>
+                    </div>
                   ) : null}
                   {!mktSelectedFlag && !mktActivateFlag ? (
-                    <>
+                    <div className="col-12 col-md-6 mktConsent">
                       {mktActivateSuccess ? (
                         <>
                           <p>
@@ -539,9 +539,9 @@ class Confirmation extends React.Component {
                           </div>
                         </>
                       )}
-                    </>
+                    </div>
                   ) : null}
-                </div>
+                </>
               ) : null}
               <div
                 className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}

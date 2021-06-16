@@ -926,7 +926,7 @@ const de_DE = {
   registerCompleteForm:
     'Um ein Kundenkonto anzulegen, bitte die Felder unten ausfüllen.',
   registerContinuing:
-    'Bei der Anmeldung über Facebook oder Google erfolgt keine Anwendung unserer Datenschutzerklärung. Einzelheiten zu den dort geltenden Datenschutzbestimmungen entnehmen Sie bitte den entsprechenden Datenschutzerklärungen der einzelnen Anbieter. ',
+    'Bei der Anmeldung über Facebook oder Google erfolgt keine Anwendung unserer <strong>Datenschutzerklärung</strong>. Einzelheiten zu den dort geltenden Datenschutzbestimmungen entnehmen Sie bitte den entsprechenden Datenschutzerklärungen der einzelnen Anbieter. ',
   registerCreateYourAccout: 'Erstellen Sie Ihr Royal Canin-Konto',
   registerEmail: 'E-Mail-Adresse',
   registerEmailFormate:
