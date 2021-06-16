@@ -208,9 +208,9 @@ class AddressList extends React.Component {
 
       // state对象暂时用不到
       addressList.forEach((v, i) => {
+        v.stateNo = v.state.stateNo;
         delete v.state;
       });
-      // console.log('169 ★★★ addressList: ', addressList);
 
       this.setState(
         {
@@ -240,6 +240,7 @@ class AddressList extends React.Component {
 
     // deliveryDate: 2021-06-11
     let nyrArr = deliveryDate.split('-');
+    // 20210616
     let dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
     // timeSlot: 14:00-18:00
     let hmArr = timeSlot.split('-');
@@ -251,27 +252,27 @@ class AddressList extends React.Component {
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
     let todayHour = mdate.getHours();
+    // 20210616
     let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
 
-    // 当天16点前下单，明天配送；过了16点，后天配送。
+    // 已过期（俄罗斯时间）
     // 判断当前时间段，如果是当天过了16点提示重新选择
-    // 已过期
     let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
+    console.log('666   today: ' + today + '   dldate: ' + dldate);
+    // 小于当前日期的
     if (today > dldate) {
       this.showErrMsg(errMsg);
       flag = false;
     } else {
-      // 当天判断小时
-      if (dldate == today && !(startHour <= todayHour < endHour)) {
+      // 当天16点前下单，明天配送
+      if (today == dldate && !(startHour <= todayHour < endHour)) {
         this.showErrMsg(errMsg);
         flag = false;
       }
+      if (today < dldate) {
+      }
+      // 过了16点，后天配送
     }
-    // console.log(
-    //   '177 ★★ ---- dldate: ',
-    //   dldate + ' startHour: ' + startHour + ' endHour: ' + endHour
-    // );
-    // console.log('177 ★★ ---- today: ', today + ' todayHour: ', todayHour);
     return flag;
   };
   /**

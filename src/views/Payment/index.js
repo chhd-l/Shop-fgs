@@ -1929,18 +1929,12 @@ class Payment extends React.Component {
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
-    let stateNo = '';
-    if (this.isLogin) {
-      stateNo = data?.state?.stateNo;
-    } else {
-      stateNo = data?.stateNo;
-    }
     param = {
       promotionCode: this.state.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
       taxFeeData: {
         country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-        region: stateNo, // 省份简写
+        region: data?.stateNo, // 省份简写
         city: data?.city,
         street: data?.address1,
         postalCode: data?.postCode,
@@ -1955,7 +1949,7 @@ class Payment extends React.Component {
 
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
-
+    console.log('666 param: ', param);
     try {
       // 获取税额
       if (this.isLogin) {

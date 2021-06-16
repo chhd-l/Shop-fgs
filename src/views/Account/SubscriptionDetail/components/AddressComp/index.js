@@ -439,7 +439,7 @@ class AddressList extends React.Component {
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
-    let stateNo = data?.state?.stateNo;
+    let stateNo = data?.stateNo;
     param = {
       promotionCode: '',
       purchaseFlag: false, // 购物车: true，checkout: false
