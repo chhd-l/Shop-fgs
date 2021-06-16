@@ -476,7 +476,7 @@ class Details extends React.Component {
                     this.state.details,
                     this.state.instockStatus
                   );
-                }, 3000);
+                }, 60000);
               }
             }
           );

@@ -16,12 +16,15 @@ export function addSchemaOrgMarkup(details, instockStatus) {
     mpn: details.goodsNo,
     image: details.goodsImg,
     brand: details.brandName || 'Royal Canin',
+    description: details.goodsDescription || 'Royal Canin',
     offers: {
       '@type': 'Offer',
+      url: window.location.href,
       priceCurrency: process.env.REACT_APP_CURRENCY,
       availability: instockStatus
         ? 'http://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
+      price: details.toPrice || details.fromPrice,
       lowPrice: details.fromPrice,
       highPrice: details.toPrice || details.fromPrice
     },
