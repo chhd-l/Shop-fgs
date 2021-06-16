@@ -1367,6 +1367,10 @@ const ru_RU = {
   'ClubLP.LongBanner.content2': 'Управление подпиской в Личном кабинете',
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев собак',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек',
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Специализированное питание с учетом особенностей Вашего питомца',
   'ClubLP.LongBanner.SubscriptionContent1':

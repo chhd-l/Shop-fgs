@@ -8,7 +8,7 @@ import './index.css';
 import clublogo from './image/clublogo.png'
 import clubru from './image/Clubru.png'
 
-const SubscriptionBenefitsBanner = (SubscriptionItem) => {
+const SubscriptionBenefitsBanner = ({SubscriptionItem,Subtitle}) => {
   return (
     <div className="row rc-margin-x--none">
       <div className="rc-full-width">
@@ -23,14 +23,14 @@ const SubscriptionBenefitsBanner = (SubscriptionItem) => {
                   className="rc-beta"
                   style={{ fontWeight: 'bold', fontSize: '23px' }}
                 >
-                  <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
+                  {Subtitle.title}
                 </div>
               </div>
               <div
                 style={{ display: 'flex', justifyContent: 'space-around' }}
                 className="flexwrap"
               >
-                {SubscriptionItem.SubscriptionItem.map((items) => (
+                {SubscriptionItem.map((items) => (
                   <div className="text-center">
                     <article>
                       <LazyLoad>
