@@ -262,7 +262,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
-                    {process.env.REACT_APP_LANG !== 'ru' &&
+                    {process.env.REACT_APP_COUNTRY !== 'RU' &&
                     el.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.promotions.includes('club') ? (
