@@ -267,11 +267,11 @@ class AddressList extends React.Component {
         flag = false;
       }
     }
-    console.log(
-      '177 ★★ ---- dldate: ',
-      dldate + ' startHour: ' + startHour + ' endHour: ' + endHour
-    );
-    console.log('177 ★★ ---- today: ', today + ' todayHour: ', todayHour);
+    // console.log(
+    //   '177 ★★ ---- dldate: ',
+    //   dldate + ' startHour: ' + startHour + ' endHour: ' + endHour
+    // );
+    // console.log('177 ★★ ---- today: ', today + ' todayHour: ', todayHour);
     return flag;
   };
   /**
@@ -281,7 +281,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
     if (tmpObj.deliveryDate) {
       // 判断 deliveryDate 是否过期
@@ -658,7 +658,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('611 --------- ★★★★★★ List updateDeliveryAddress: ', data);
+    // console.log('611 --------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
