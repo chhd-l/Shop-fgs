@@ -1319,8 +1319,6 @@ class Payment extends React.Component {
       userBindConsent({
         ...submitParam,
         ...{ oktaToken: '' },
-        // consentPage: 'check out',
-        // useBackendOktaTokenFlag: true,
         customerId:
           (postVisitorRegisterAndLoginRes.context &&
             postVisitorRegisterAndLoginRes.context.customerId) ||
