@@ -664,6 +664,9 @@ const es_ES = {
 
   'payment.staleDate': 'Por favor, repita la fecha y hora de entrega.',
 
+  'payment.reselectTimeSlot':
+    'Por favor, vuelva a seleccionar la fecha y hora de entrega.',
+
   // 星期
   'payment.Monday': 'Lunes',
   'payment.Tuesday': 'Martes',

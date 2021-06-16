@@ -28,6 +28,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
+    reSelectTimeSlot: '',
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     titleVisible: true,
@@ -252,6 +253,9 @@ class AddressList extends React.Component {
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
     let todayHour = mdate.getHours();
+    let todayMinutes = mdate.getMinutes();
+    todayMinutes < 10 ? (todayMinutes = '0' + todayMinutes) : todayMinutes;
+
     // 20210616
     let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
 
@@ -259,7 +263,7 @@ class AddressList extends React.Component {
     // 判断当前时间段，如果是当天过了16点提示重新选择。
 
     // 已过期（俄罗斯时间）
-    let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
+    let errMsg = this.props.reSelectTimeSlot;
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
       console.log('666  ----->  今天或者更早');
@@ -268,8 +272,10 @@ class AddressList extends React.Component {
     } else {
       // 其他时间
       // 明天配送的情况（当前下单时间没有超过 16 点）
-      // 如果选择的时间是明天，判断当前时间是否超过16点，并且判断选择的结束时间
-      if (dldate == today + 1 && todayHour >= 16 && Number(endHour) < 16) {
+      // 如果选择的时间是明天，判断当前时间是否超过16点，超过16点提示重选
+      let nowTime = Number(todayHour + '' + todayMinutes);
+      console.log('666  ----->  nowTime: ', nowTime);
+      if (dldate == today + 1 && nowTime > 1600) {
         console.log('666  ----->  明天');
         this.showErrMsg(errMsg);
         flag = false;
