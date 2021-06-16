@@ -525,11 +525,11 @@ const App = () => {
                        exact
                        component={ClubLandingPageNew}
                 />
-                <Route path="/vet-diets"
+                <Route path="/how-to-order"
                        exact
                        component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
                 />
-                <Route path="/vetlandingpage"
+                <Route path="/vet-diets"
                        exact
                        component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDeVet:Exception}
                 />

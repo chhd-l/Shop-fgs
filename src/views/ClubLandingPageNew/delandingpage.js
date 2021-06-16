@@ -410,19 +410,16 @@ class ClubLandingPageDe extends React.Component {
                       <div
                         style={{
                           boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE',
-                          marginTop: '10vh'
                         }}
-                        className="widthsmall"
+                        className="widthsmall deskmargintop10vh"
                       >
                         <div
-                          style={{
-                            height: '15vh'
-                          }}
+                          className="deskheight15vh"
                         >
                           <div
                             style={{
                               display: 'flex',
-                              marginLeft: '5vw',
+                              justifyContent:'center',
                               marginTop: '10vh'
                             }}
                           >
@@ -484,9 +481,9 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <div
                           style={{
-                            height: '22vh',
                             marginRight: '5vh'
                           }}
+                          className="deskheight22vh"
                         >
                           <div
                             style={{
@@ -768,7 +765,7 @@ class ClubLandingPageDe extends React.Component {
                               style={{ padding: '1rem 0' }}
                             >
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
-                                <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight rc-padding-top--md--mobile">
                                   <div
                                     className="rc-column rc-double-width rc-padding-top--md--mobile"
                                     style={{ marginRight: '-4rem' }}
@@ -826,7 +823,7 @@ class ClubLandingPageDe extends React.Component {
                               style={{ padding: '1rem 0 1rem 1rem' }}
                             >
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
-                                <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle fullHeight rc-padding-top--md--mobile">
                                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                     <div
                                       className="w-100 "

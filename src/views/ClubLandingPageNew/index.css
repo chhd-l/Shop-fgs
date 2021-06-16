@@ -145,6 +145,16 @@
   .detextnowrap{
     white-space: nowrap;
   }
+  .deskheight22vh{
+    height: 22vh;
+  }
+  .deskheight15vh{
+    height: 15vh;
+  }
+  .deskmargintop10vh
+  {
+    margin-top: 10vh;
+  }
 }
 
 .DeCenter {
