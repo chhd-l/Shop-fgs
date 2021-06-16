@@ -18,7 +18,9 @@ import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Component
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png'
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
+import pdpbackgroundmobiledogtr from './image/goodsdeatailsbackgroundmobiletr.png';
 import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
+import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png'
 import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
 import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png'
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
@@ -34,14 +36,27 @@ import benefitstwodog from './image/benefitstwodog.png'
 import benefitsonecat from './image/benefitsonecat.png'
 import benefitstwocat from './image/benefitstwocat.png'
 
+
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
 
+const pdpmobilebackgrounddogtr = {
+  backgroundImage: `url(${pdpbackgroundmobiledogtr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
 const pdpbackgroundmobilecats = {
   backgroundImage: `url(${pdpbackgroundmobilecat})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
+const pdpbackgroundmobilecatstr = {
+  backgroundImage: `url(${pdpbackgroundmobilecattr})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
@@ -169,6 +184,14 @@ const GoodsDetailTabs = function (props) {
       }[item] || ''
     );
   };
+  const SubTitles={
+    title:getSpeciesId(goodsDetailSpace) == '1'?(
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.cat" />
+    ):(
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.dog" />
+    ),
+  }
+
   const SubscriptionItems = [
     {
       SubscriptionImg: getSpeciesId(goodsDetailSpace) == '1'?benefitsonecat:benefitsonedog,
@@ -542,8 +565,8 @@ const GoodsDetailTabs = function (props) {
                         className="clubdetailsmobile"
                         style={
                           getSpeciesId(goodsDetailSpace) == '1'
-                            ? pdpbackgroundmobilecats
-                            : pdpmobilebackgrounddog
+                            ? process.env.REACT_APP_COUNTRY === 'TR'?pdpbackgroundmobilecatstr:pdpbackgroundmobilecats
+                            : process.env.REACT_APP_COUNTRY === 'TR'?pdpmobilebackgrounddogtr:pdpmobilebackgrounddog
                         }
                       >
                         <div className="row rc-margin-x--none">
@@ -621,6 +644,7 @@ const GoodsDetailTabs = function (props) {
                           <div>
                             <SubscriptionBenefitsBanner
                               SubscriptionItem={SubscriptionItems}
+                              Subtitle={SubTitles}
                             />
                           </div>
                         </div>
@@ -821,6 +845,7 @@ const GoodsDetailTabs = function (props) {
                         <div style={{ width: '100vw', marginTop: '-5vh' }}>
                           <SubscriptionBenefitsBanner
                             SubscriptionItem={SubscriptionItems}
+                            Subtitle={SubTitles}
                           />
                         </div>
                       </div>

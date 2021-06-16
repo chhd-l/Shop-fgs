@@ -1258,6 +1258,10 @@ const tr_TR = {
   'ClubLP.LongBanner.content2': 'Taahhütsüz',
   'ClubLP.LongBanner.SubscriptionTitle':
     'KEDİLER VE KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    'KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    'KEDİLER  İÇİN ABONELİK AVANTAJLARI',
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Evcil hayvanınıza uygun beslenme çözümü',
   'ClubLP.LongBanner.SubscriptionContent1':

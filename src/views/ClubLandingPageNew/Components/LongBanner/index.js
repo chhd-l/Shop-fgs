@@ -6,7 +6,11 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-
+const SubTitles={
+  title:(
+    <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
+  ),
+}
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
@@ -99,7 +103,8 @@ const LongBanner = () => {
             </div>
           </div>
         </div>
-        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} />
+        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} Subtitle={SubTitles
+        } />
       </div>
     </>
   );
