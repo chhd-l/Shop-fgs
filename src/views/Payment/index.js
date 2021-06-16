@@ -294,6 +294,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
     }
@@ -489,7 +490,7 @@ class Payment extends React.Component {
     }
   };
   checkRequiredItem = (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
+    let requiredList = list?.filter((item) => item.isRequired);
     this.setState({
       requiredList
     });

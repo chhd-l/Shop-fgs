@@ -50,7 +50,7 @@ class Consent extends Component {
       }
       return { __html: text };
     };
-    return list.map((item, index) => {
+    return list?.map((item, index) => {
       return (
         <div key={index} id={index} style={{ display: 'flex' }}>
           <input
