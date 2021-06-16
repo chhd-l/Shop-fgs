@@ -208,7 +208,7 @@ class AddressList extends React.Component {
 
       // state对象暂时用不到
       addressList.forEach((v, i) => {
-        v.stateNo = v.state.stateNo;
+        v.stateNo = v.state?.stateNo || '';
         delete v.state;
       });
 
@@ -266,12 +266,11 @@ class AddressList extends React.Component {
     } else {
       // 当天16点前下单，明天配送
       if (today == dldate && !(startHour <= todayHour < endHour)) {
+        // 当前时间（小时）没有超过 16 点，明天配送
+        // 当前时间（小时）超过 16 点，后天配送
         this.showErrMsg(errMsg);
         flag = false;
       }
-      if (today < dldate) {
-      }
-      // 过了16点，后天配送
     }
     return flag;
   };
