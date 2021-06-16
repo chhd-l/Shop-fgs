@@ -6,7 +6,7 @@ import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import PickUp from '@/components/PickUp';
-import { validData } from '@/utils/utils';
+import { validData, transTime } from '@/utils/utils';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
@@ -143,7 +143,8 @@ class VisitorAddress extends React.Component {
     let endHour = hmArr[1].split(':')[0];
 
     // 当前时间
-    let mdate = new Date();
+    // let mdate = new Date();
+    let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
     let tm = mdate.getMonth() + 1;
     tm < 10 ? (tm = '0' + tm) : tm;
     let todayHour = mdate.getHours();
