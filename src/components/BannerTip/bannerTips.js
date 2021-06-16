@@ -139,7 +139,7 @@ const bannerTips = () => {
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
-                <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
+                {process.env.REACT_APP_COUNTRY == 'DE' ?null:<span className="rc-icon rc-refresh rc-brand1 rc-iconography" />}
                 <span className="align-middle">
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
