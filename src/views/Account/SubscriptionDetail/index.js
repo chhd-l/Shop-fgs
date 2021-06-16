@@ -454,7 +454,7 @@ class SubscriptionDetail extends React.Component {
             subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
-          fn && fn();
+          fn && fn(subDetail);
         }
       );
     } catch (err) {

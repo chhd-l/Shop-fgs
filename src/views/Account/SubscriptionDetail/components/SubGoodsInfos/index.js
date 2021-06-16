@@ -419,7 +419,7 @@ const SubGoodsInfos = ({
                           </div>
                         </div>
                       </div>
-                      {isShowClub && !!subDetail.petsId && isNotInactive && (
+                      {isShowClub && !!el.petsId && isNotInactive && (
                         <div
                           style={{
                             position: 'relative',
