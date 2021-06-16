@@ -520,19 +520,19 @@ export const productFinderPushEvent = ({
 
 export const GABuyNow = () => {
   dataLayer.push({
-    'event ': 'breederRecoBuyNow'
+    event: 'breederRecoBuyNow'
   });
 };
 
 export const GABreederRecoPromoCodeCTA = () => {
   dataLayer.push({
-    'event ': 'breederRecoPromoCodeCTA'
+    event: 'breederRecoPromoCodeCTA'
   });
 };
 
 export const GABreederRecoSeeInCart = () => {
   dataLayer.push({
-    'event ': 'breederRecoSeeInCart'
+    event: 'breederRecoSeeInCart'
   });
 };
 

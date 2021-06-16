@@ -259,13 +259,13 @@ class AddressList extends React.Component {
     // 判断当前时间段，如果是当天过了16点提示重新选择
     let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
     console.log('666   today: ' + today + '   dldate: ' + dldate);
-    // 小于当前日期的
-    if (today > dldate) {
+    // 小于等于当前日期的
+    if (today >= dldate) {
       this.showErrMsg(errMsg);
       flag = false;
     } else {
       // 当天16点前下单，明天配送
-      if (today == dldate && !(startHour <= todayHour < endHour)) {
+      if (dldate == today + 1 && !(startHour <= todayHour < endHour)) {
         // 当前时间（小时）没有超过 16 点，明天配送
         // 当前时间（小时）超过 16 点，后天配送
         this.showErrMsg(errMsg);
