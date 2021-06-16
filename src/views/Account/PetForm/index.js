@@ -244,7 +244,9 @@ class PetForm extends React.Component {
     }
 
     param.selectedSpecialNeedsObj = {
-      value: currentPet.customerPetsPropRelations[0]?.propName
+      value:
+        currentPet.customerPetsPropRelations &&
+        currentPet.customerPetsPropRelations[0]?.propName
     };
     let params = {
       breedCode: param.isPurebred ? param.breed : 'Other Breed',
@@ -454,9 +456,7 @@ class PetForm extends React.Component {
               />
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId &&
-            getClubFlag() &&
-            process.env.REACT_APP_COUNTRY !== 'RU' ? (
+            {currentPet.petsId && getClubFlag() ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
