@@ -255,22 +255,26 @@ class AddressList extends React.Component {
     // 20210616
     let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
 
+    // 当天16点前下单，明天配送；过了16点，后天配送。
+    // 判断当前时间段，如果是当天过了16点提示重新选择。
+
     // 已过期（俄罗斯时间）
-    // 判断当前时间段，如果是当天过了16点提示重新选择
     let errMsg = 'Повторите, пожалуйста, дату и время поставки.';
-    console.log('666   today: ' + today + '   dldate: ' + dldate);
-    // 小于等于当前日期的
+    // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
+      console.log('666  ----->  今天或者更早');
       this.showErrMsg(errMsg);
       flag = false;
     } else {
-      // 当天16点前下单，明天配送
-      if (dldate == today + 1 && !(startHour <= todayHour < endHour)) {
-        // 当前时间（小时）没有超过 16 点，明天配送
-        // 当前时间（小时）超过 16 点，后天配送
+      // 其他时间
+      // 明天配送的情况（当前下单时间没有超过 16 点）
+      // 如果选择的时间是明天，判断当前时间是否超过16点，并且判断选择的结束时间
+      if (dldate == today + 1 && todayHour >= 16 && Number(endHour) < 16) {
+        console.log('666  ----->  明天');
         this.showErrMsg(errMsg);
         flag = false;
       }
+      // 后天配送的情况（当前下单时间超过 16 点）
     }
     return flag;
   };
@@ -283,7 +287,7 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    if (tmpObj.deliveryDate) {
+    if (tmpObj?.deliveryDate) {
       // 判断 deliveryDate 是否过期
       if (!this.deliveryDateStaleDateOrNot(tmpObj)) {
         return;
@@ -818,16 +822,22 @@ class AddressList extends React.Component {
    */
   handleSave = async () => {
     try {
-      const { isValid, addOrEdit } = this.state;
+      const { isValid, addOrEdit, deliveryAddress } = this.state;
       if (!isValid || !addOrEdit) {
         return false;
+      }
+      if (deliveryAddress?.deliveryDate) {
+        // 判断 deliveryDate 是否过期
+        if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
+          return;
+        }
       }
       // 地址验证
       this.setState({
         saveLoading: true
       });
       const res = await this.props.addressStore.validAddr({
-        data: this.state.deliveryAddress
+        data: deliveryAddress
       });
       await this.getListValidationData(res, true);
     } catch (err) {
