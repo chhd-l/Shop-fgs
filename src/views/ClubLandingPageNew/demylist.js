@@ -23,7 +23,7 @@ const DeMyList = () => {
         <div className="experience-region experience-questions">
           <div
             className={`rc-list__accordion-item test-color
-                                  showItem`}
+                                  `}
           >
             <div
               className="rc-list__header"
@@ -34,7 +34,7 @@ const DeMyList = () => {
               }}
             >
               <div>
-                <p>
+                <p >
                   Auswahl aus dem gesamten VET Diäten Sortiment von ROYAL CANIN®
                 </p>
               </div>
@@ -72,10 +72,10 @@ const DeMyList = () => {
           </div>
           <div
             className={`rc-list__accordion-item test-color
-                                  showItem`}
+                                 `}
           >
             <div
-              className="rc-list__header"
+              className="rc-list__header "
               style={{
                 display: 'flex',
                 padding: '1rem 2.5rem 1rem 0.5rem',
@@ -118,7 +118,7 @@ const DeMyList = () => {
           </div>
           <div
             className={`rc-list__accordion-item test-color
-                                  showItem`}
+                                  `}
           >
             <div
               className="rc-list__header"
@@ -167,7 +167,7 @@ const DeMyList = () => {
           </div>
           <div
             className={`rc-list__accordion-item test-color
-                                  showItem`}
+                                  `}
           >
             <div
               className="rc-list__header"

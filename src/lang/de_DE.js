@@ -487,7 +487,7 @@ const de_DE = {
   'home.point6': 'MIT DIR ZUSAMMEN',
   'home.productsCategory': 'Unsere Produkte',
   'home.promotionTip':
-    '10% Rabatt auf den ersten Einkauf + 5% Rabatt auf jede Autoship?',
+    'Jetzt Empfehlungscode eingeben und tierärztliche Produkte bestellen!',
   'home.userReurnNoMKT':
     'IHR KONTO WURDE ERFOLGREICH ANGELEGT! BITTE BESTÄTIGEN SIE AUCH IHRE NEWSLETTER ANMELDUNG UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
   'home.userReturnHasMKT':
