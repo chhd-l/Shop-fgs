@@ -444,7 +444,7 @@ const NextDelivery = ({
                 <label className="col-5 text-left">
                   <FormattedMessage id="estimatedTax" />
                 </label>
-                <div className="text-right red-text col-5 col-md-3">
+                <div className="text-right red-text col-5 col-md-3 components_next_delivery">
                   <strong>{formatMoney(el.tradePrice.taxFeePrice)}</strong>
                 </div>
               </div>

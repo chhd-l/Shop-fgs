@@ -26,7 +26,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import { format } from 'date-fns';
+import { daysInWeek, format } from 'date-fns';
 import Loading from '@/components/Loading';
 import {
   getSystemConfig,
@@ -181,7 +181,6 @@ class Form extends React.Component {
   // 星期
   getWeekDay = (day) => {
     let weekday = '';
-    day = Number(day);
     switch (day) {
       case 1:
         weekday = this.getIntlMsg('payment.Monday');
@@ -201,7 +200,7 @@ class Form extends React.Component {
       case 6:
         weekday = this.getIntlMsg('payment.Saturday');
         break;
-      case 7:
+      case 0:
         weekday = this.getIntlMsg('payment.Sunday');
         break;
       default:
@@ -263,7 +262,7 @@ class Form extends React.Component {
     let mdate = new Date();
     let tomorrow = mdate.getDate() + 1;
     // 获取星期
-    var week = mdate.getDay() + 1;
+    var week = new Date(date).getDay();
     let weekday = this.getWeekDay(week);
     // 获取月份
     let ymd = date.split('-');
@@ -303,9 +302,9 @@ class Form extends React.Component {
       let ddlist = []; // delivery date
       let tslist = []; // time slot
 
-      if (res.context) {
+      let obj = Object.assign({}, caninForm);
+      if (res.context && res.context?.length) {
         flag = true; // 标记
-        let obj = Object.assign({}, caninForm);
         let robj = res.context;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
@@ -349,22 +348,24 @@ class Form extends React.Component {
           obj.timeSlotId = tslist[0].id;
           obj.timeSlot = tslist[0].name;
         }
-
-        this.setState(
-          {
-            caninForm: Object.assign(caninForm, obj)
-          },
-          () => {
-            this.updateDataToProps(this.state.caninForm);
-          }
-        );
+      } else {
+        obj.deliveryDate = '';
+        obj.deliveryDateId = 0;
+        obj.timeSlot = '';
+        obj.timeSlotId = 0;
       }
-      this.setState({
-        isDeliveryDateAndTimeSlot: flag,
-        deliveryDataTimeSlotList: alldata,
-        deliveryDateList: ddlist,
-        timeSlotList: tslist
-      });
+      this.setState(
+        {
+          caninForm: Object.assign({}, obj),
+          isDeliveryDateAndTimeSlot: flag,
+          deliveryDataTimeSlotList: alldata,
+          deliveryDateList: ddlist,
+          timeSlotList: tslist
+        },
+        () => {
+          this.updateDataToProps(this.state.caninForm);
+        }
+      );
     } catch (err) {
       // console.warn(err);
       this.setState({
@@ -638,7 +639,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        console.log('609 caninForm:', this.state.caninForm);
+        // console.log('609 caninForm:', this.state.caninForm);
       }
     );
     return array;
@@ -742,17 +743,9 @@ class Form extends React.Component {
             caninForm.area = item.regionName;
             caninForm.regionId = item.id;
             caninForm.region = item.regionName;
-            this.setState(
-              {
-                caninForm
-              },
-              () => {
-                console.log(
-                  '479 -- ★  根据cityId查询region caninForm: ',
-                  caninForm
-                );
-              }
-            );
+            this.setState({
+              caninForm
+            });
           }
         });
         this.setState({
@@ -819,13 +812,10 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleRu;
     } else {
       newForm.formRule = newForm.formRuleOther;
-      newForm.deliveryDate = '';
-      newForm.deliveryDateId = 0;
-      newForm.timeSlot = '';
-      newForm.timeSlotId = 0;
     }
 
-    console.log('609 newForm: ', newForm);
+    // console.log('611 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
+    // console.log('611 newForm: ', newForm);
     this.props.updateData(newForm);
   };
   // 下拉框选择
@@ -1055,12 +1045,6 @@ class Form extends React.Component {
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
 
-      // 清空数据
-      caninForm.deliveryDateId = null;
-      caninForm.deliveryDate = null;
-      caninForm.timeSlotId = null;
-      caninForm.timeSlot = null;
-
       this.setState({ caninForm }, async () => {
         // 判断暂存地址 tempolineCache 中是否有要查询的地址
         const key = data.unrestrictedValue;
@@ -1101,6 +1085,8 @@ class Form extends React.Component {
             // delivery date and time slot
             if (this.props.showDeliveryDateTimeSlot) {
               this.getDeliveryDateAndTimeSlotData(data?.provinceId);
+            } else {
+              this.updateDataToProps(caninForm);
             }
           }
         );

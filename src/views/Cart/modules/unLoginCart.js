@@ -1324,7 +1324,7 @@ class UnLoginCart extends React.Component {
                 </p>
               </div>
               <div className="col-4">
-                <p className="text-right shipping-cost">
+                <p className="text-right shipping-cost rc_un_login_cart">
                   {this.taxFeePrice > 0 ? (
                     formatMoney(this.taxFeePrice)
                   ) : (

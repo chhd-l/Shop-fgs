@@ -731,7 +731,7 @@ class Payment extends React.Component {
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
         // 获取token，避免传给接口明文cvv
-        console.log(selectedCardInfo, 'selectedCardInfo');
+        // console.log(selectedCardInfo, 'selectedCardInfo');
         this.startLoading();
         let cvvResult = await new Promise((resolve) => {
           window.POS.tokenize(
@@ -959,7 +959,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log('1028: ', parameters);
+      // console.log('1028: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1419,7 +1419,7 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    console.log('★★★★★★ 1548 封装下单参数: ', param);
+    // console.log('★★★★★★ 1548 封装下单参数: ', param);
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
     //   phone: creditCardInfo?.phoneNumber,
@@ -1772,6 +1772,8 @@ class Payment extends React.Component {
         // };
         if (!billingChecked) {
           tmpBillingAddress = {
+            area: billingAddress.area || '',
+            areaId: billingAddress.areaId || '',
             firstName: billingAddress.firstName,
             lastName: billingAddress.lastName,
             address1: billingAddress.address1,
@@ -1966,7 +1968,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
@@ -2312,7 +2314,7 @@ class Payment extends React.Component {
           this.loginBillingAddrRef &&
           this.loginBillingAddrRef.current
         ) {
-          console.log('------------- 会员保存地址，并弹出地址校验');
+          // console.log('------------- 会员保存地址，并弹出地址校验');
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
@@ -2381,7 +2383,7 @@ class Payment extends React.Component {
       isShowValidationModal,
       billingAddressAddOrEdit
     } = this.state;
-    console.log(billingAddress);
+    // console.log(billingAddress);
 
     if (!tid || tid == null) {
       let billaddr = Object.assign({}, billingAddress);
@@ -2430,14 +2432,14 @@ class Payment extends React.Component {
       isShowValidationModal &&
       billingAddressAddOrEdit
     ) {
-      console.log('★ --- payment 地址验证 ');
+      // console.log('★ --- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
-      console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
+      // console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
   };
