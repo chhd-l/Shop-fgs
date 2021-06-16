@@ -92,7 +92,7 @@ const GetMoreAd = () => {
                   </div>
                   <div
                     style={{
-                      height: '80vh',
+                      height: '83vh',
                       boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
                     }}
                   >
