@@ -214,8 +214,7 @@ class Form extends React.Component {
   // delivery date 格式转换: 星期, 15 月份
   getFormatDeliveryDateStr = (date) => {
     // 获取明天几号
-    // let mdate = new Date();
-    let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
+    let mdate = new Date();
     let tomorrow = mdate.getDate() + 1;
     // 获取星期
     var week = new Date(date).getDay();
