@@ -141,11 +141,19 @@ class Test extends React.Component {
     return (
       <div style={{ padding: '30px' }}>
         <br />
+        <button
+          onClick={() => {
+            openKaktusWidget();
+          }}
+        >
+          map
+        </button>
+        <div id="kaktusMap"></div>
         <br />
         <h1>0513</h1>
         <br />
         <br />
-        <h1>2021-06-16 13:45:18</h1>
+        <h1>2021-06-16 15:15:18</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>
