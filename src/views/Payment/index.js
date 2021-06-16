@@ -1986,6 +1986,10 @@ class Payment extends React.Component {
     this.showErrorMsg(msg);
   };
 
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   /**
    * 渲染address panel
    */
@@ -2006,6 +2010,7 @@ class Payment extends React.Component {
             <AddressList
               id="1"
               type="delivery"
+              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
@@ -2018,6 +2023,7 @@ class Payment extends React.Component {
             <VisitorAddress
               key={1}
               type="delivery"
+              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               initData={deliveryAddress}

@@ -744,6 +744,9 @@ const de_DE = {
 
   'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 
+  'payment.reselectTimeSlot':
+    'Bitte wählen Sie das Lieferdatum und die Lieferzeit erneut aus.',
+
   // 星期
   'payment.Monday': 'Montag',
   'payment.Tuesday': 'Dienstag',
