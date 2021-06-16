@@ -28,7 +28,6 @@ class AddressPreview extends React.Component {
   // 星期
   getWeekDay = (day) => {
     let weekday = '';
-    day = Number(day);
     switch (day) {
       case 1:
         weekday = this.getIntlMsg('payment.Monday');
@@ -48,7 +47,7 @@ class AddressPreview extends React.Component {
       case 6:
         weekday = this.getIntlMsg('payment.Saturday');
         break;
-      case 7:
+      case 0:
         weekday = this.getIntlMsg('payment.Sunday');
         break;
       default:
@@ -110,7 +109,7 @@ class AddressPreview extends React.Component {
     let mdate = new Date();
     let tomorrow = mdate.getDate() + 1;
     // 获取星期
-    var week = mdate.getDay() + 1;
+    var week = new Date(date).getDay();
     let weekday = this.getWeekDay(week);
     // 获取月份
     let ymd = date.split('-');

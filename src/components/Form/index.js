@@ -26,7 +26,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import { format } from 'date-fns';
+import { daysInWeek, format } from 'date-fns';
 import Loading from '@/components/Loading';
 import {
   getSystemConfig,
@@ -181,7 +181,6 @@ class Form extends React.Component {
   // 星期
   getWeekDay = (day) => {
     let weekday = '';
-    day = Number(day);
     switch (day) {
       case 1:
         weekday = this.getIntlMsg('payment.Monday');
@@ -201,7 +200,7 @@ class Form extends React.Component {
       case 6:
         weekday = this.getIntlMsg('payment.Saturday');
         break;
-      case 7:
+      case 0:
         weekday = this.getIntlMsg('payment.Sunday');
         break;
       default:
@@ -263,7 +262,7 @@ class Form extends React.Component {
     let mdate = new Date();
     let tomorrow = mdate.getDate() + 1;
     // 获取星期
-    var week = mdate.getDay() + 1;
+    var week = new Date(date).getDay();
     let weekday = this.getWeekDay(week);
     // 获取月份
     let ymd = date.split('-');
@@ -350,7 +349,6 @@ class Form extends React.Component {
           obj.timeSlot = tslist[0].name;
         }
       } else {
-        console.log('611 ------------- 清空数据');
         obj.deliveryDate = '';
         obj.deliveryDateId = 0;
         obj.timeSlot = '';
@@ -641,7 +639,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        console.log('609 caninForm:', this.state.caninForm);
+        // console.log('609 caninForm:', this.state.caninForm);
       }
     );
     return array;
@@ -745,17 +743,9 @@ class Form extends React.Component {
             caninForm.area = item.regionName;
             caninForm.regionId = item.id;
             caninForm.region = item.regionName;
-            this.setState(
-              {
-                caninForm
-              },
-              () => {
-                console.log(
-                  '479 -- ★  根据cityId查询region caninForm: ',
-                  caninForm
-                );
-              }
-            );
+            this.setState({
+              caninForm
+            });
           }
         });
         this.setState({
@@ -824,8 +814,8 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
 
-    console.log('611 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
-    console.log('611 newForm: ', newForm);
+    // console.log('611 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
+    // console.log('611 newForm: ', newForm);
     this.props.updateData(newForm);
   };
   // 下拉框选择
