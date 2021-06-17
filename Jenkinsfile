@@ -31,7 +31,7 @@ podTemplate(label: label, cloud: 'kubernetes',
             )
     ],
     volumes: [
-        hostPathVolume(hostPath: '/var/run/', mountPath:'/var/run/')
+        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock')
             ],
     imagePullSecrets: [ 'sit-docker' ]
 )
