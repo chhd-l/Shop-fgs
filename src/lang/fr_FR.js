@@ -780,6 +780,8 @@ const fr_FR = {
   'plp.retail.cat.button': 'Découvrez la gamme',
   'plp.retail.cat.detail':
     'Aliments diététiques qui aident à maintenir la santé des chats diagnostiqués avec des problèmes',
+  'plp.retail.dog.detail':
+    'Aliments diététiques qui aident à maintenir la santé des chiens diagnostiqués avec des problèmes',
   'plp.retail.cat.product.finder.button': 'Trouver un produit',
   'plp.retail.cat.product.finder.detail':
     'Essayez notre recherche {val} de produits',

@@ -582,7 +582,8 @@ function ProductFinderAd({
   isRetailProducts,
   isVetProducts,
   retailProductLink,
-  vetProductLink
+  vetProductLink,
+  isDogPage
 }) {
   return (
     {
@@ -622,7 +623,11 @@ function ProductFinderAd({
                 <LazyLoad style={{ width: '100%', height: '100%' }}>
                   <img
                     style={{ width: '100%' }}
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
+                    src={
+                      isDogPage
+                        ? `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-retail.jpg`
+                        : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`
+                    }
                     alt="product finder recomend retail cat"
                   />
                 </LazyLoad>
@@ -635,7 +640,13 @@ function ProductFinderAd({
                   <FormattedMessage id="plp.retail.cat.title" />
                 </p>
                 <p>
-                  <FormattedMessage id="plp.retail.cat.detail" />
+                  <FormattedMessage
+                    id={
+                      isDogPage
+                        ? 'plp.retail.dog.detail'
+                        : 'plp.retail.cat.detail'
+                    }
+                  />
                 </p>
                 <Link to={`${vetProductLink}`} className="rc-btn rc-btn--two">
                   <FormattedMessage id="plp.retail.cat.button" />
@@ -655,7 +666,7 @@ function ProductFinderAd({
                 >
                   <img
                     style={{ width: '100%' }}
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-spt.jpg`}
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-cat-vet.jpg`}
                     alt="product finder recomend vet cat"
                   />
                 </LazyLoad>
@@ -1927,10 +1938,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
