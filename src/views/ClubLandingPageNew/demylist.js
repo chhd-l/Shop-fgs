@@ -34,7 +34,7 @@ const DeMyList = () => {
               }}
             >
               <div>
-                <p >
+                <p>
                   Auswahl aus dem gesamten VET Diäten Sortiment von ROYAL CANIN®
                 </p>
               </div>

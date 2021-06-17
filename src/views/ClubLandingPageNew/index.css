@@ -109,13 +109,13 @@
   .mobilemargin3vh {
     margin-top: 2vh;
   }
-  .demobilevideo{
+  .demobilevideo {
     order: 2;
   }
-  .demobiletext{
+  .demobiletext {
     order: 1;
   }
-  .Lpflexrow{
+  .Lpflexrow {
     flex-direction: row;
   }
 }
@@ -124,7 +124,7 @@
   .desktop30vw {
     width: 30vw;
   }
-  .Lpflexcolumn{
+  .Lpflexcolumn {
     flex-direction: column;
   }
   .button20vw {
@@ -142,17 +142,16 @@
   .desktop35vw {
     width: 35vw;
   }
-  .detextnowrap{
+  .detextnowrap {
     white-space: nowrap;
   }
-  .deskheight22vh{
+  .deskheight22vh {
     height: 22vh;
   }
-  .deskheight15vh{
+  .deskheight15vh {
     height: 15vh;
   }
-  .deskmargintop10vh
-  {
+  .deskmargintop10vh {
     margin-top: 10vh;
   }
 }
