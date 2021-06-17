@@ -7,6 +7,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import PickUp from '@/components/PickUp';
 import { validData, transTime } from '@/utils/utils';
+import { addressValidation } from '@/api/index';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
@@ -127,7 +128,7 @@ class VisitorAddress extends React.Component {
     this.props.calculateFreight(data);
   };
   // 判断 delivery date和time slot是否过期
-  deliveryDateStaleDateOrNot = (data) => {
+  deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
 
     let deliveryDate = data.deliveryDate; // deliveryDate 日期
@@ -144,15 +145,21 @@ class VisitorAddress extends React.Component {
 
     // 当前时间
     // let mdate = new Date();
-    let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
-    let tm = mdate.getMonth() + 1;
-    tm < 10 ? (tm = '0' + tm) : tm;
-    let todayHour = mdate.getHours();
-    let todayMinutes = mdate.getMinutes();
-    todayMinutes < 10 ? (todayMinutes = '0' + todayMinutes) : todayMinutes;
-
+    // let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
+    // let tm = mdate.getMonth() + 1;
+    // tm < 10 ? (tm = '0' + tm) : tm;
+    // let todayHour = mdate.getHours();
+    // let todayMinutes = mdate.getMinutes();
+    // todayMinutes < 10 ? (todayMinutes = '0' + todayMinutes) : todayMinutes;
     // 20210616
-    let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
+    // let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
+    let vdres = await addressValidation(data);
+    let localTime = vdres.defaultLocalDateTime.split(' ');
+    let lnyr = localTime[0].split('-');
+    let today = lnyr[0] + '' + lnyr[1] + '' + lnyr[2];
+    let lsfm = localTime[1].split(':');
+    let todayHour = lsfm[0];
+    let todayMinutes = lsfm[1];
 
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择。
@@ -180,22 +187,23 @@ class VisitorAddress extends React.Component {
     return flag;
   };
   // 游客确认 Delivery address
-  handleClickConfirm = () => {
+  handleClickConfirm = async () => {
     const { isValid, validationAddress, unConfirmedForm } = this.state;
     const { isValidationModal } = this.props;
     if (!isValid) {
       return false;
     }
     if (unConfirmedForm?.deliveryDate) {
+      let yesOrNot = await this.deliveryDateStaleDateOrNot(unConfirmedForm);
       // 判断 deliveryDate 是否过期
-      if (!this.deliveryDateStaleDateOrNot(unConfirmedForm)) {
+      if (!yesOrNot) {
         return;
       }
     }
     this.setState({ form: unConfirmedForm }); //qhx 只有在确认后才赋值给form字段
-    console.log('★ ----- 游客确认 isValidationModal:', isValidationModal);
-    console.log('★ ----- 游客确认 validationAddress:', validationAddress);
-    console.log('★ ----- 游客确认 form:', this.state.unConfirmedForm);
+    // console.log('★ ----- 游客确认 isValidationModal:', isValidationModal);
+    // console.log('★ ----- 游客确认 validationAddress:', validationAddress);
+    // console.log('★ ----- 游客确认 form:', this.state.unConfirmedForm);
     // 地址验证
     // visitorValidationModalVisible - 控制是否查询数据
     if (isValidationModal) {

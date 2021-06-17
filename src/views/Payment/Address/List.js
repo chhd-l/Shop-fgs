@@ -7,6 +7,7 @@ import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { getAddressBykeyWord } from '@/api';
 import { shippingCalculation } from '@/api/cart';
+import { addressValidation } from '@/api/index';
 import {
   getDictionary,
   validData,
@@ -238,7 +239,7 @@ class AddressList extends React.Component {
     }
   }
   // 判断 delivery date和time slot是否过期
-  deliveryDateStaleDateOrNot = (data) => {
+  deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
 
     let deliveryDate = data.deliveryDate; // deliveryDate 日期
@@ -255,19 +256,27 @@ class AddressList extends React.Component {
 
     // 当前时间
     // let mdate = new Date();
-    let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
-    let tm = mdate.getMonth() + 1;
-    tm < 10 ? (tm = '0' + tm) : tm;
-    let todayHour = mdate.getHours();
-    let todayMinutes = mdate.getMinutes();
-    todayMinutes < 10 ? (todayMinutes = '0' + todayMinutes) : todayMinutes;
-
-    // 20210616
-    let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
+    // let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
+    // let tm = mdate.getMonth() + 1;
+    // tm < 10 ? (tm = '0' + tm) : tm;
+    // let todayHour = mdate.getHours();
+    // let todayMinutes = mdate.getMinutes();
+    // todayMinutes < 10 ? (todayMinutes = '0' + todayMinutes) : todayMinutes;
+    // // 20210616
+    // let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
+    let vdres = await addressValidation(data);
+    let localTime = vdres.defaultLocalDateTime.split(' ');
+    let lnyr = localTime[0].split('-');
+    let today = lnyr[0] + '' + lnyr[1] + '' + lnyr[2];
+    let lsfm = localTime[1].split(':');
+    let todayHour = lsfm[0];
+    let todayMinutes = lsfm[1];
 
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择。
 
+    console.log('666  ----->  localTime: ' + localTime[0] + ' ' + localTime[1]);
+    console.log('666  ----->  dldate: ' + dldate);
     // 已过期（俄罗斯时间）
     let errMsg = this.props.reSelectTimeSlot;
     // 当天或者当天之前的时间算已过期时间
@@ -300,8 +309,9 @@ class AddressList extends React.Component {
     // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
     if (tmpObj?.deliveryDate) {
+      let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
       // 判断 deliveryDate 是否过期
-      if (!this.deliveryDateStaleDateOrNot(tmpObj)) {
+      if (!yesOrNot) {
         return;
       }
     }
