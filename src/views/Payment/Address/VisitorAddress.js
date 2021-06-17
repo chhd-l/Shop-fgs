@@ -7,7 +7,11 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import PickUp from '@/components/PickUp';
 import { validData, transTime } from '@/utils/utils';
-import { addressValidation } from '@/api/index';
+import {
+  getAddressBykeyWord,
+  addressValidation,
+  getDeliveryDateAndTimeSlot
+} from '@/api/index';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
@@ -57,6 +61,7 @@ class VisitorAddress extends React.Component {
       },
       billingChecked: true,
       isValid: false,
+      btnConfirmLoading: false,
       formAddressValid: false,
       visitorValidationLoading: false, // 地址校验loading
       visitorValidationModalVisible: false, // 地址校验查询开关
@@ -138,51 +143,52 @@ class VisitorAddress extends React.Component {
     let nyrArr = deliveryDate.split('-');
     // 20210616
     let dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
-    // timeSlot: 14:00-18:00
-    let hmArr = timeSlot.split('-');
-    let startHour = hmArr[0].split(':')[0];
-    let endHour = hmArr[1].split(':')[0];
 
-    // 当前时间
-    // let mdate = new Date();
-    // let mdate = transTime({ timeZone: 'Europe/Moscow' }); // 俄罗斯时区
-    // let tm = mdate.getMonth() + 1;
-    // tm < 10 ? (tm = '0' + tm) : tm;
-    // let todayHour = mdate.getHours();
-    // let todayMinutes = mdate.getMinutes();
-    // todayMinutes < 10 ? (todayMinutes = '0' + todayMinutes) : todayMinutes;
-    // 20210616
-    // let today = Number(mdate.getFullYear() + '' + tm + '' + mdate.getDate());
-    let vdres = await addressValidation(data);
-    let localTime = vdres.defaultLocalDateTime.split(' ');
-    let lnyr = localTime[0].split('-');
-    let today = lnyr[0] + '' + lnyr[1] + '' + lnyr[2];
-    let lsfm = localTime[1].split(':');
-    let todayHour = lsfm[0];
-    let todayMinutes = lsfm[1];
+    // 根据 address 取到 DuData返回的provinceId
+    let dudata = await getAddressBykeyWord({ keyword: data.address1 });
+    if (dudata?.context && dudata?.context?.addressList.length > 0) {
+      let addls = dudata.context.addressList[0];
+      // 再根据 provinceId 获取到 cutOffTime
+      let vdres = await getDeliveryDateAndTimeSlot({
+        cityNo: addls?.provinceId
+      });
+      let cutOffTime = vdres.context?.cutOffTime;
+      let localTime = vdres.defaultLocalDateTime.split(' ');
+      let lnyr = localTime[0].split('-');
+      let today = lnyr[0] + '' + lnyr[1] + '' + lnyr[2];
+      let lsfm = localTime[1].split(':');
+      let todayHour = lsfm[0];
+      let todayMinutes = lsfm[1];
 
-    // 当天16点前下单，明天配送；过了16点，后天配送。
-    // 判断当前时间段，如果是当天过了16点提示重新选择。
+      // 当天16点前下单，明天配送；过了16点，后天配送。
+      // 判断当前时间段，如果是当天过了16点提示重新选择。
 
-    // 已过期（俄罗斯时间）
-    let errMsg = this.props.reSelectTimeSlot;
-    // 当天或者当天之前的时间算已过期时间
-    if (today >= dldate) {
-      console.log('666  ----->  今天或者更早');
-      this.showErrMsg(errMsg);
-      flag = false;
-    } else {
-      // 其他时间
-      // 明天配送的情况（当前下单时间没有超过 16 点）
-      // 如果选择的时间是明天，判断当前时间是否超过16点，并且判断选择的结束时间
-      let nowTime = Number(todayHour + '' + todayMinutes);
-      console.log('666  ----->  nowTime: ', nowTime);
-      if (dldate == today + 1 && nowTime > 1600) {
-        console.log('666  ----->  明天');
+      // 已过期（俄罗斯时间）
+      let errMsg = this.props.reSelectTimeSlot;
+      // 当天或者当天之前的时间算已过期时间
+      if (today >= dldate) {
+        console.log('666  ----->  今天或者更早');
         this.showErrMsg(errMsg);
         flag = false;
+      } else {
+        // 其他时间
+        // 明天配送的情况（当前下单时间没有超过 16 点）
+        // 如果选择的时间是明天，判断当前时间是否超过16点，并且判断选择的结束时间
+        let nowTime = Number(todayHour + '' + todayMinutes);
+        console.log('666  ----->  nowTime: ', nowTime);
+        let ctt = cutOffTime.split(':');
+        cutOffTime
+          ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
+          : (cutOffTime = 1600);
+        if (dldate == today + 1 && nowTime > cutOffTime) {
+          console.log('666  ----->  明天');
+          this.showErrMsg(errMsg);
+          flag = false;
+        }
+        // 后天配送的情况（当前下单时间超过 16 点）
       }
-      // 后天配送的情况（当前下单时间超过 16 点）
+    } else {
+      flag = false;
     }
     return flag;
   };
@@ -194,7 +200,9 @@ class VisitorAddress extends React.Component {
       return false;
     }
     if (unConfirmedForm?.deliveryDate) {
+      this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(unConfirmedForm);
+      this.setState({ btnConfirmLoading: false });
       // 判断 deliveryDate 是否过期
       if (!yesOrNot) {
         return;
@@ -456,7 +464,9 @@ class VisitorAddress extends React.Component {
               {showConfirmBtn && (
                 <div className="d-flex justify-content-end mb-2">
                   <button
-                    className="rc-btn rc-btn--one rc-btn--sm"
+                    className={`rc-btn rc-btn--one rc-btn--sm ${
+                      this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                    }`}
                     onClick={this.handleClickConfirm}
                     disabled={isValid && formAddressValid ? false : true}
                   >

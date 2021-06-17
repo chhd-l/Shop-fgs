@@ -258,9 +258,9 @@ class Form extends React.Component {
       let tslist = []; // time slot
 
       let obj = Object.assign({}, caninForm);
-      if (res.context && res.context?.length) {
+      if (res.context && res.context?.timeSlots?.length) {
         flag = true; // 标记
-        let robj = res.context;
+        let robj = res.context.timeSlots;
         robj.forEach((v, i) => {
           // 格式化 delivery date 格式: 星期, 15 月份
           let datestr = this.getFormatDeliveryDateStr(v.date);
