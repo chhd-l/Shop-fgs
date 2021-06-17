@@ -1313,22 +1313,6 @@ class Payment extends React.Component {
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = bindSubmitParam(this.state.listData);
 
-      // if(process.env.REACT_APP_COUNTRY == 'TR' || process.env.REACT_APP_COUNTRY == 'RU'){
-      //   await postVisitorRegisterAndLogin({...param,...submitParam});
-      // }else{
-      //   let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-      //     param
-      //   );
-      //   userBindConsent({
-      //     ...submitParam,
-      //     ...{ oktaToken: '' },
-      //     customerId:
-      //       (postVisitorRegisterAndLoginRes.context &&
-      //         postVisitorRegisterAndLoginRes.context.customerId) ||
-      //       ''
-      //   });
-      // }
-
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
         ...param,
         ...submitParam
