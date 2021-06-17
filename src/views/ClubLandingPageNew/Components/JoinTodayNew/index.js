@@ -60,10 +60,10 @@ const JoinTodayNew = () => {
                           <FormattedMessage id="ClubLP.NewJoinUs.title" />
                         </h2>
                       </div>
-                      <div className="rc-intro inherit-fontsize rc-text--center">
-                        <h5 className="textMarginLeft">
+                      <div className="rc-intro inherit-fontsize rc-text--center textCenterJoin">
+                        <a className="">
                           <FormattedMessage id="ClubLP.NewJoinUs.content" />
-                        </h5>
+                        </a>
                       </div>
                       <div style={{ display: 'flex', justifyContent:'center'}}>
                         <DistributeHubLinkOrATag

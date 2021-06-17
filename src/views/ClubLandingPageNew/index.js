@@ -174,8 +174,8 @@ class ClubLandingPageNew extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
-                    <div className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                      <h3>
+                    <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
+                      <h3 >
                         <FormattedMessage id="ClubLP.Advantage.title" />
                       </h3>
                     </div>
@@ -189,7 +189,7 @@ class ClubLandingPageNew extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
                   <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                    <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                    <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -210,7 +210,7 @@ class ClubLandingPageNew extends React.Component {
                               <FormattedMessage id="ClubLP.Advantage.content4" />
                             </li>
                           </ul>
-                          <div className="rc-padding-x--none">
+                          <div className="rc-padding-x--none detextcenter">
                             <DistributeHubLinkOrATag
                               href={'/product-finder'}
                               ariaLabel="Links to product finder"
