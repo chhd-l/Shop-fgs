@@ -490,11 +490,11 @@ const de_DE = {
     'Jetzt Empfehlungscode eingeben und tierärztliche Produkte bestellen!',
   'home.userReurnNoMKT':
     'IHR KONTO WURDE ERFOLGREICH ANGELEGT! BITTE BESTÄTIGEN SIE AUCH IHRE NEWSLETTER ANMELDUNG UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
-  'home.userReturnHasMKT':
-    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. VIELEN DANK!',
+  'home.userReturnHasMKT': 'IHR KONTO WURDE ERFOLGREICH ANGELEGT!',
   'home.MKTReturnNoUser':
     'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. BITTE AKTIVIEREN SIE AUCH IHREN ACCOUNT UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
-  'home.MKTReturnHasUser': 'IHR KONTO WURDE ERFOLGREICH ANGELEGT!',
+  'home.MKTReturnHasUser':
+    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. VIELEN DANK!',
   'home.specialAnimalNutrition': 'Spezielle Tierernährung',
   'home.specialInfo1': 'Die Pracht jeder Rasse ist',
   'home.specialInfo2': 'in seiner Einzigartigkeit.',

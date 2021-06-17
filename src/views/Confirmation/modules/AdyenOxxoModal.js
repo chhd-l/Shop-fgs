@@ -75,6 +75,13 @@ export default class AdyenOxxoModal extends Component {
                 <div id="oxxo-container" style={{ padding: '10px' }}></div>
               </div>
               <div className="modal-footer" style={{ borderTop: 'none' }}>
+                <a
+                  href="https://www.oxxo.cl/ubicaciones"
+                  target="blank"
+                  style={{ marginRight: '35px' }}
+                >
+                  <FormattedMessage id="visitStoreMap" />
+                </a>
                 <span onClick={this.close} style={{ cursor: 'pointer' }}>
                   <FormattedMessage id="close" />
                 </span>
