@@ -27,22 +27,21 @@ const GetMoreAd = () => {
                   <div
                     style={{
                       boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE',
-                      marginTop: '10vh'
                     }}
-                    className="widthsmall"
+                    className="widthsmall margintop10vh"
                   >
                     <div
                       style={{
-                        height: '15vh',
                         marginRight: '5vh'
                       }}
+                      className="margintop15vh"
                     >
                       <div
                         style={{
                           display: 'flex',
                           marginLeft: '5vw',
-                          marginTop: '10vh'
                         }}
+                        className="margintop10vh margintop3vh"
                       >
                         <div>
                           <LazyLoad>
@@ -71,7 +70,7 @@ const GetMoreAd = () => {
 
                     <div style={{ height: '30vh' }}>
                       <div className="rc-column">
-                        <div className="rc-padding-y--lg--mobile rc-full-width">
+                        <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
@@ -96,6 +95,7 @@ const GetMoreAd = () => {
                       boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
                     }}
                   >
+                    <div>
                     <div
                       style={{
                         height: '15vh',
@@ -149,9 +149,8 @@ const GetMoreAd = () => {
                     </div>
 
                     <div
-                      className="mobileflex"
+                      className="mobileflex getmore30vh getmore47vh"
                       style={{
-                        height: '30vh',
                         display: 'flex',
                         justifyContent: 'space-between'
                       }}
@@ -211,6 +210,7 @@ const GetMoreAd = () => {
                         </div>
                       </div>
                     </div>
+                    </div>
                     <br />
                     <div
                       className=" rc-btn-group m-0 rc-column rc-padding-x--none "
@@ -221,7 +221,7 @@ const GetMoreAd = () => {
                         ariaLabel="Links to product finder"
                       >
                         <button
-                          className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton marginleftButton"
+                          className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton "
                           style={{ padding: '10px 70px' }}
                         >
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />

@@ -72,6 +72,7 @@ const JoinTodayNew = () => {
                         >
                         <button
                           className="rc-btn rc-btn--one"
+                          style={{paddingLeft:'60px',paddingRight:'60px'}}
                         >
                           <FormattedMessage id="ClubLP.NewJoinUs.button" />
                         </button>
