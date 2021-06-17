@@ -298,10 +298,15 @@ class Details extends React.Component {
       details,
       spuImages,
       goodsDetailTab,
-      goodsNo
+      goodsNo,
+      form
     } = this.state;
     details.sizeList = sizeList;
-    this.setState(Object.assign({ details }, data), () => {
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    if (!selectedSpecItem.subscriptionStatus && form.buyWay > 0) {
+      form.buyWay = -1;
+    }
+    this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
         setGoogleProductStructuredDataMarkup({

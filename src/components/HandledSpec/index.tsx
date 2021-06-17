@@ -52,7 +52,6 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
       currentLinePrice: 0,
       currentSubscriptionPrice: 0,
       currentSubscriptionStatus: 0,
-      defaultPurchaseType: 0,
       stock: 0,
       skuPromotions: 0,
     }
@@ -99,7 +98,6 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
 
       return item;
     });
-
     // defaultPurchaseType === 1 ||
     // sessionItemRoyal.get('pf-result') ||
     // localStorage.getItem('pfls')
