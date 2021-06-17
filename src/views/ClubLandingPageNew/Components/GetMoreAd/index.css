@@ -19,21 +19,21 @@
   .buttonmargintop {
     transform: translateY(7vh);
   }
-  .textmobile15vw{
-    padding:0;
-    margin-left:0;
-    list-style-position:outside;
+  .textmobile15vw {
+    padding: 0;
+    margin-left: 0;
+    list-style-position: outside;
   }
-  .getmorebutton{
+  .getmorebutton {
     margin-top: 21vh;
   }
-  .mobileflex{
+  .mobileflex {
     flex-direction: column;
   }
-  .paddingbottom0{
+  .paddingbottom0 {
     padding: 0;
   }
-  .paddingtop0{
+  .paddingtop0 {
     padding-top: 0;
   }
 }
@@ -45,10 +45,10 @@
   .widthsmall {
     height: 60vh;
   }
-  .text21vw{
+  .text21vw {
     width: 21vw;
   }
-  .getmorebutton{
+  .getmorebutton {
     margin-top: 10vh;
   }
 }

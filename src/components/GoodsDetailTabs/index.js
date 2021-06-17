@@ -16,13 +16,13 @@ import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
-import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png'
+import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
 import pdpbackgroundmobiledogtr from './image/goodsdeatailsbackgroundmobiletr.png';
 import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
-import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png'
+import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png';
 import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
-import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png'
+import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png';
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
@@ -31,11 +31,10 @@ import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
 
-import benefitsonedog from './image/benefitsonedog.png'
-import benefitstwodog from './image/benefitstwodog.png'
-import benefitsonecat from './image/benefitsonecat.png'
-import benefitstwocat from './image/benefitstwocat.png'
-
+import benefitsonedog from './image/benefitsonedog.png';
+import benefitstwodog from './image/benefitstwodog.png';
+import benefitsonecat from './image/benefitsonecat.png';
+import benefitstwocat from './image/benefitstwocat.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -62,7 +61,11 @@ const pdpbackgroundmobilecatstr = {
 };
 
 const pdpbackgrounddogs = {
-  backgroundImage: `url(${process.env.REACT_APP_COUNTRY === 'RU'?pdpbackgrounddog:pdpbackgorunddogother})`,
+  backgroundImage: `url(${
+    process.env.REACT_APP_COUNTRY === 'RU'
+      ? pdpbackgrounddog
+      : pdpbackgorunddogother
+  })`,
   height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
@@ -71,15 +74,17 @@ const pdpbackgrounddogs = {
 };
 
 const pdpbackgroundcats = {
-  backgroundImage: `url(${process.env.REACT_APP_COUNTRY === 'RU'?pdpbackgroundcatru:pdpbackgroundcat})`,
+  backgroundImage: `url(${
+    process.env.REACT_APP_COUNTRY === 'RU'
+      ? pdpbackgroundcatru
+      : pdpbackgroundcat
+  })`,
   height: '700px',
   backgroundSize: 'cover',
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column'
 };
-
-
 
 let clubListDataNew = [
   {
@@ -184,23 +189,26 @@ const GoodsDetailTabs = function (props) {
       }[item] || ''
     );
   };
-  const SubTitles={
-    title:getSpeciesId(goodsDetailSpace) == '1'?(
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.cat" />
-    ):(
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.dog" />
-    ),
-  }
+  const SubTitles = {
+    title:
+      getSpeciesId(goodsDetailSpace) == '1' ? (
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.cat" />
+      ) : (
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.dog" />
+      )
+  };
 
   const SubscriptionItems = [
     {
-      SubscriptionImg: getSpeciesId(goodsDetailSpace) == '1'?benefitsonecat:benefitsonedog,
+      SubscriptionImg:
+        getSpeciesId(goodsDetailSpace) == '1' ? benefitsonecat : benefitsonedog,
       SubscriptionTitle: (
         <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
       )
     },
     {
-      SubscriptionImg: getSpeciesId(goodsDetailSpace) == '1'?benefitstwocat:benefitstwodog,
+      SubscriptionImg:
+        getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
       SubscriptionTitle: (
         <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
       )
@@ -435,7 +443,6 @@ const GoodsDetailTabs = function (props) {
   //club new subscribtion每次提交的时候记得把true改为false
   const Show = true;
 
-
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
   return isMobile ? (
@@ -565,8 +572,12 @@ const GoodsDetailTabs = function (props) {
                         className="clubdetailsmobile"
                         style={
                           getSpeciesId(goodsDetailSpace) == '1'
-                            ? process.env.REACT_APP_COUNTRY === 'TR'?pdpbackgroundmobilecatstr:pdpbackgroundmobilecats
-                            : process.env.REACT_APP_COUNTRY === 'TR'?pdpmobilebackgrounddogtr:pdpmobilebackgrounddog
+                            ? process.env.REACT_APP_COUNTRY === 'TR'
+                              ? pdpbackgroundmobilecatstr
+                              : pdpbackgroundmobilecats
+                            : process.env.REACT_APP_COUNTRY === 'TR'
+                            ? pdpmobilebackgrounddogtr
+                            : pdpmobilebackgrounddog
                         }
                       >
                         <div className="row rc-margin-x--none">
@@ -595,7 +606,11 @@ const GoodsDetailTabs = function (props) {
                                       textAlign: 'center'
                                     }}
                                   >
-                                    {process.env.REACT_APP_COUNTRY === 'RU'?<br/>:<FormattedMessage id="ClubLP.LongBanner.content2" />}
+                                    {process.env.REACT_APP_COUNTRY === 'RU' ? (
+                                      <br />
+                                    ) : (
+                                      <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                    )}
                                   </p>
                                 </div>
                               </div>
@@ -786,7 +801,9 @@ const GoodsDetailTabs = function (props) {
                   <div>
                     <div
                       style={
-                        getSpeciesId(goodsDetailSpace) == '1' ? pdpbackgroundcats : pdpbackgrounddogs
+                        getSpeciesId(goodsDetailSpace) == '1'
+                          ? pdpbackgroundcats
+                          : pdpbackgrounddogs
                       }
                     >
                       <div className="row rc-margin-x--none">
@@ -808,7 +825,11 @@ const GoodsDetailTabs = function (props) {
                                   ></FormattedMessage>
                                 </p>
                                 <p style={{ fontSize: '0.7em' }}>
-                                  {process.env.REACT_APP_COUNTRY === 'RU'?<br/>:<FormattedMessage id="ClubLP.LongBanner.content2" />}
+                                  {process.env.REACT_APP_COUNTRY === 'RU' ? (
+                                    <br />
+                                  ) : (
+                                    <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                  )}
                                 </p>
                               </div>
                             </div>
