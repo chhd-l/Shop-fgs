@@ -206,7 +206,7 @@ class ImageMagnifier extends Component {
         return el;
       });
       this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        currentImg: selectedSizeInfo[0]?.goodsInfoImg,
         videoShow: false,
         hoverIndex,
         offsetX: isMobile ? hoverIndex * 230 : hoverIndex * 250
