@@ -70,7 +70,7 @@ const HelpComponentsNew = (props) => {
                                 <LazyLoad>
                                   <img
                                     className="align-self-center "
-                                    style={{width:'25vw'}}
+                                    style={{ width: '25vw' }}
                                     src={callImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt1'
@@ -119,7 +119,7 @@ const HelpComponentsNew = (props) => {
                                 <LazyLoad>
                                   <img
                                     className="align-self-center "
-                                    style={{width:'25vw'}}
+                                    style={{ width: '25vw' }}
                                     src={emailImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt2'
@@ -137,19 +137,51 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.faq.content" values={{val:
-                                        <DistributeHubLinkOrATag
-                                          href={'/about-us/faqs'}
-                                          ariaLabel="Links to faq"
-                                        >
-                                          <a
-                                            style={{
-                                              textDecoration: 'underline'
-                                            }}
+                                    <FormattedMessage
+                                      id="ClubLP.Help.faq.content"
+                                      values={{
+                                        val: RU ? (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
                                           >
-                                            часто задаваемые вопросы:
-                                          </a>
-                                      </DistributeHubLinkOrATag>}}/>
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              часто задаваемые вопросы:
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        ) : TR ? (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              Sıkça Sorulan Sorular
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        ) : (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              FAQ pour
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        )
+                                      }}
+                                    />
                                   </p>
 
                                   <div className="rc-margin-top--xs">
@@ -174,7 +206,7 @@ const HelpComponentsNew = (props) => {
                                 <LazyLoad>
                                   <img
                                     className="align-self-center "
-                                    style={{width:'25vw'}}
+                                    style={{ width: '25vw' }}
                                     src={faqImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt3'

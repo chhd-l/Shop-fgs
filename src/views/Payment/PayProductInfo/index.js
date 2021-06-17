@@ -262,7 +262,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
-                    {process.env.REACT_APP_LANG !== 'ru' &&
+                    {process.env.REACT_APP_COUNTRY !== 'RU' &&
                     el.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.promotions.includes('club') ? (
@@ -865,7 +865,7 @@ class PayProductInfo extends React.Component {
                     </div>
                     <div className="col-5 end-lines">
                       <p className="text-right">
-                        <span className="shipping-total-cost">
+                        <span className="shipping-total-cost rc_pay_product_info">
                           {!this.isLogin &&
                           process.env.REACT_APP_COUNTRY == 'US' ? (
                             <>

@@ -405,6 +405,9 @@ class Register extends Component {
         });
     }
   }
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   render() {
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
@@ -593,7 +596,17 @@ class Register extends Component {
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              <FormattedMessage id="registerContinuing" />
+                              {process.env.REACT_APP_COUNTRY === 'DE' ? (
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: this.getIntlMsg(
+                                      'registerContinuing'
+                                    )
+                                  }}
+                                ></span>
+                              ) : (
+                                <FormattedMessage id="registerContinuing" />
+                              )}
                             </p>
                           </div>
                           <div className="rc-column ouPadding">

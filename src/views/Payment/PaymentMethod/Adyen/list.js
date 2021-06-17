@@ -72,7 +72,9 @@ class AdyenCreditCardList extends React.Component {
   }
   componentDidUpdate() {
     if (this.props.paymentStore.isRreshList) {
-      this.queryList();
+      if (this.isLogin) {
+        this.queryList();
+      }
       this.props.paymentStore.setRreshCardList(false);
     }
   }

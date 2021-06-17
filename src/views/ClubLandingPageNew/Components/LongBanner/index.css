@@ -1,6 +1,6 @@
 @media (max-width: 639.98px) {
   .clubdesktop {
-    height: 1509px;
+    height: 1589px;
     background-image: url('./image/CLUBmobbackground@4x.png');
     overflow: hidden;
     background-size: cover;
@@ -14,7 +14,7 @@
   .fontheight {
     height: 25vh;
   }
-  .transformmobile10px{
+  .transformmobile10px {
     transform: translateX(-23px);
   }
 }
@@ -27,5 +27,8 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+  .desknone {
+    display: none;
   }
 }

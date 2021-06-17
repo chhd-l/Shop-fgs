@@ -708,7 +708,7 @@ const ru_RU = {
   'payment.comment': 'Комментарий к доставке',
 
   'payment.deliveryDateText': 'Дата доставки',
-  'payment.timeSlot': 'промежуток времени',
+  'payment.timeSlot': 'Время доставки',
 
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
@@ -723,7 +723,7 @@ const ru_RU = {
 
   'payment.tomorrow': 'завтра',
 
-  'payment.staleDate': 'Повторите, пожалуйста, дату и время поставки.',
+  'payment.reselectTimeSlot': 'Повторите, пожалуйста, дату и время поставки.',
 
   // 星期
   'payment.Monday': 'Понедельник',
@@ -1367,6 +1367,10 @@ const ru_RU = {
   'ClubLP.LongBanner.content2': 'Управление подпиской в Личном кабинете',
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев собак',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек',
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Специализированное питание с учетом особенностей Вашего питомца',
   'ClubLP.LongBanner.SubscriptionContent1':
@@ -1376,7 +1380,8 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Программа питания для поддержания здоровья',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
-  'ClubLP.LongBanner.SubscriptionTitle3.new':'Рекомендации по нормам кормления для выбора оптимальной порции',
+  'ClubLP.LongBanner.SubscriptionTitle3.new':
+    'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',

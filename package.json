@@ -71,7 +71,6 @@
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
     "react": "^16.13.1",
-    "react-addons-css-transition-group": "^15.6.2",
     "react-app-polyfill": "^1.0.6",
     "react-bootstrap": "^1.5.1",
     "react-calendar": "^3.3.1",
@@ -105,6 +104,10 @@
   },
   "scripts": {
     "test": "node scripts/test.js",
+    "start:core": "dotenv -e .env.development.local -e ./env/core/.env.development -e ./env/core/.env node scripts/start.js",
+    "start:shopsit_core": "dotenv -e .env.development.local -e ./env/core/.env.shopsit -e ./env/core/.env node scripts/start.js",
+    "start:shopstg_core": "dotenv -e .env.development.local -e ./env/core/.env.shopstg -e ./env/core/.env node scripts/start.js",
+    "start:shopsit_ca": "dotenv -e .env.development.local -e ./env/ca/.env.shopsit -e ./env/ca/.env node scripts/start.js",
     "start:mx": "dotenv -e .env.development.local -e ./env/mx/.env.development -e ./env/mx/.env node scripts/start.js",
     "start:shopuat_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopuat -e ./env/mx/.env node scripts/start.js",
     "start:shopuat_de": "dotenv -e .env.development.local -e ./env/de/.env.shopuat -e ./env/de/.env node scripts/start.js",
@@ -142,8 +145,11 @@
     "start:uatwedding_tr": "dotenv -e .env.development.local -e ./env/tr/.env.uatwedding -e ./env/tr/.env node scripts/start.js",
     "start:prod_tr": "dotenv -e .env.development.local -e ./env/tr/.env.production -e ./env/tr/.env node scripts/start.js",
     "start:prod_tr_hub": "dotenv -e .env.development.local -e ./env/tr/.env.production.hub -e ./env/tr/.env node scripts/start.js",
+    "build:shopsit_core": "dotenv -e ./env/core/.env.shopsit -e ./env/core/.env node scripts/build.js",
+    "build:shopsit_ca": "dotenv -e ./env/ca/.env.shopsit -e ./env/ca/.env node scripts/build.js",
     "build:mx": "dotenv -e ./env/mx/.env.development -e ./env/mx/.env node scripts/build.js",
     "build:shopuat_mx": "dotenv -e ./env/mx/.env.shopuat -e ./env/mx/.env node scripts/build.js",
+    "build:shopstg_core": "dotenv -e ./env/core/.env.shopstg -e ./env/core/.env node scripts/build.js",
     "build:shopstg_mx": "dotenv -e ./env/mx/.env.shopstg -e ./env/mx/.env node scripts/build.js",
     "build:shopsit_mx": "dotenv -e ./env/mx/.env.shopsit -e ./env/mx/.env node scripts/build.js",
     "build:prod_mx": "dotenv -e ./env/mx/.env.production -e ./env/mx/.env node scripts/build.js",
@@ -205,7 +211,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,json,css,vue}": [
+    "src/**/*.{js,ts,jsx,tsx,json,css,vue}": [
       "prettier --write",
       "git add"
     ]

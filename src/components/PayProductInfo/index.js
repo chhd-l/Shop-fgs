@@ -102,7 +102,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, item)}
                   >
                     <span className="light">{item.spuName}</span>
-                    {process.env.REACT_APP_LANG !== 'ru' &&
+                    {process.env.REACT_APP_COUNTRY !== 'RU' &&
                     item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"
@@ -447,7 +447,7 @@ class PayProductInfo extends React.Component {
                         </div>
                         <div className="col-5 end-lines">
                           <p className="text-right">
-                            <span className="shipping-total-cost">
+                            <span className="shipping-total-cost components_pay_product_info">
                               {/* {formatMoney(details.tradePrice.taxFeePrice)} */}
                               {formatMoney(this.taxFeePrice)}
                             </span>

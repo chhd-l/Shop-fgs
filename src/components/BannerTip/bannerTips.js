@@ -57,7 +57,6 @@ const bannerTips = () => {
   const [mktMessage, setMktMessage] = useState('');
   const [show, setShow] = useState(null);
   const oktaSessionToken = localItemRoyal.get('okta-session-token');
-  const alreadyShowMkt = localItemRoyal.get('already-show-MKT');
   const history = useHistory();
   function ShowMKTMessage() {
     // example: ?customerId=800001798a0bf24f7bc8e5dc96ac5d88&consentId=127&uuid=812e111ebe754154a9092805c08937f9
@@ -82,14 +81,19 @@ const bannerTips = () => {
         }
         return showFiveSeconds();
       });
-    } else if (oktaSessionToken && alreadyShowMkt !== 'true') {
+    } else if (oktaSessionToken) {
+      let mtkOktaKey = 'already-show-MKT_' + oktaSessionToken;
+      const alreadyShowMkt = localItemRoyal.get(mtkOktaKey);
+      if (alreadyShowMkt === 'true') {
+        return;
+      }
       accountCallBack().then((res) => {
         if (res.context && res.context.mktConsentActivateStatus) {
           setMktMessage(<FormattedMessage id="home.userReturnHasMKT" />);
         } else {
           setMktMessage(<FormattedMessage id="home.userReurnNoMKT" />);
         }
-        localItemRoyal.set('already-show-MKT', 'true');
+        localItemRoyal.set(mtkOktaKey, 'true');
         return showFiveSeconds();
       });
     }
@@ -139,14 +143,16 @@ const bannerTips = () => {
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
-                <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
+                {process.env.REACT_APP_COUNTRY == 'DE' ? null : (
+                  <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
+                )}
                 <span className="align-middle">
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
                   {process.env.REACT_APP_COUNTRY == 'DE' ? (
                     <Link
-                      to="/vet-diets"
+                      to="/how-to-order"
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                     >
                       <FormattedMessage id="bannerTip.btnText" />

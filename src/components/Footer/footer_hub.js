@@ -104,64 +104,66 @@ class FooterHub extends React.Component {
             </div>
             <div className="rc-divider rc-md-up" />
             {/* MenuGroups */}
-            <div className="rc-layout-container rc-one-column rc-padding-x--xs">
-              <div className="rc-column rc-padding-x--xs">
-                <nav
-                  data-toggle-group="mobile"
-                  data-toggle-effect="rc-expand--vertical"
-                  className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
-                >
-                  <ul
-                    className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
-                    role="menubar"
+            {MenuGroups.length > 0 ? (
+              <div className="rc-layout-container rc-one-column rc-padding-x--xs">
+                <div className="rc-column rc-padding-x--xs">
+                  <nav
+                    data-toggle-group="mobile"
+                    data-toggle-effect="rc-expand--vertical"
+                    className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
                   >
-                    {MenuGroups.map((item, index) => {
-                      return (
-                        <li
-                          className="rc-list__item rc-list__item--group"
-                          key={index}
-                        >
-                          <h3
-                            className="rc-list__header"
-                            role="menuitem"
-                            data-toggle={`nav-footer-list-${index}`}
-                            id={`nav-footer-${index}`}
+                    <ul
+                      className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
+                      role="menubar"
+                    >
+                      {MenuGroups.map((item, index) => {
+                        return (
+                          <li
+                            className="rc-list__item rc-list__item--group"
+                            key={index}
                           >
-                            <a href={item.Link.Url} className="color-f6f6f6">
-                              {item.Link.Text}
-                            </a>
-                          </h3>
-                          <ul
-                            className="rc-list rc-list--blank rc-list--align"
-                            role="menu"
-                            id={`nav-footer-list-${index}`}
-                            aria-labelledby={`nav-footer-${index}`}
-                          >
-                            {item.MenuItems
-                              ? item.MenuItems.map((listItem, i) => {
-                                  return (
-                                    <li className="rc-list__item" key={i}>
-                                      <a
-                                        className="rc-list__link text-decoration-none color-f6f6f6"
-                                        href={listItem.Link.Url}
-                                        // target="_blank"
-                                        role="menuitem"
-                                        rel="nofollow"
-                                      >
-                                        {listItem.Link.Text}
-                                      </a>
-                                    </li>
-                                  );
-                                })
-                              : null}
-                          </ul>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </nav>
+                            <h3
+                              className="rc-list__header"
+                              role="menuitem"
+                              data-toggle={`nav-footer-list-${index}`}
+                              id={`nav-footer-${index}`}
+                            >
+                              <a href={item.Link.Url} className="color-f6f6f6">
+                                {item.Link.Text}
+                              </a>
+                            </h3>
+                            <ul
+                              className="rc-list rc-list--blank rc-list--align"
+                              role="menu"
+                              id={`nav-footer-list-${index}`}
+                              aria-labelledby={`nav-footer-${index}`}
+                            >
+                              {item.MenuItems
+                                ? item.MenuItems.map((listItem, i) => {
+                                    return (
+                                      <li className="rc-list__item" key={i}>
+                                        <a
+                                          className="rc-list__link text-decoration-none color-f6f6f6"
+                                          href={listItem.Link.Url}
+                                          // target="_blank"
+                                          role="menuitem"
+                                          rel="nofollow"
+                                        >
+                                          {listItem.Link.Text}
+                                        </a>
+                                      </li>
+                                    );
+                                  })
+                                : null}
+                            </ul>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </nav>
+                </div>
               </div>
-            </div>
+            ) : null}
             <div className="rc-divider rc-md-up" />
             {/* MenuItems Mobile */}
             <div className="rc-md-down rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">

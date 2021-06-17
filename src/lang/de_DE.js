@@ -487,14 +487,14 @@ const de_DE = {
   'home.point6': 'MIT DIR ZUSAMMEN',
   'home.productsCategory': 'Unsere Produkte',
   'home.promotionTip':
-    '10% Rabatt auf den ersten Einkauf + 5% Rabatt auf jede Autoship?',
+    'Jetzt Empfehlungscode eingeben und tierärztliche Produkte bestellen!',
   'home.userReurnNoMKT':
     'IHR KONTO WURDE ERFOLGREICH ANGELEGT! BITTE BESTÄTIGEN SIE AUCH IHRE NEWSLETTER ANMELDUNG UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
-  'home.userReturnHasMKT':
-    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. VIELEN DANK!',
+  'home.userReturnHasMKT': 'IHR KONTO WURDE ERFOLGREICH ANGELEGT!',
   'home.MKTReturnNoUser':
     'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. BITTE AKTIVIEREN SIE AUCH IHREN ACCOUNT UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
-  'home.MKTReturnHasUser': 'IHR KONTO WURDE ERFOLGREICH ANGELEGT!',
+  'home.MKTReturnHasUser':
+    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. VIELEN DANK!',
   'home.specialAnimalNutrition': 'Spezielle Tierernährung',
   'home.specialInfo1': 'Die Pracht jeder Rasse ist',
   'home.specialInfo2': 'in seiner Einzigartigkeit.',
@@ -744,6 +744,9 @@ const de_DE = {
 
   'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 
+  'payment.reselectTimeSlot':
+    'Bitte wählen Sie das Lieferdatum und die Lieferzeit erneut aus.',
+
   // 星期
   'payment.Monday': 'Montag',
   'payment.Tuesday': 'Dienstag',
@@ -926,7 +929,7 @@ const de_DE = {
   registerCompleteForm:
     'Um ein Kundenkonto anzulegen, bitte die Felder unten ausfüllen.',
   registerContinuing:
-    'Bei der Anmeldung über Facebook oder Google erfolgt keine Anwendung unserer Datenschutzerklärung. Einzelheiten zu den dort geltenden Datenschutzbestimmungen entnehmen Sie bitte den entsprechenden Datenschutzerklärungen der einzelnen Anbieter. ',
+    'Bei der Anmeldung über Facebook oder Google erfolgt keine Anwendung unserer <strong>Datenschutzerklärung</strong>. Einzelheiten zu den dort geltenden Datenschutzbestimmungen entnehmen Sie bitte den entsprechenden Datenschutzerklärungen der einzelnen Anbieter. ',
   registerCreateYourAccout: 'Erstellen Sie Ihr Royal Canin-Konto',
   registerEmail: 'E-Mail-Adresse',
   registerEmailFormate:

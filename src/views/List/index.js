@@ -586,7 +586,7 @@ function ProductFinderAd({
 }) {
   return (
     {
-      fr: (
+      FR: (
         <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">
@@ -655,7 +655,7 @@ function ProductFinderAd({
                 >
                   <img
                     style={{ width: '100%' }}
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-vet-cat@2x.jpeg`}
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-spt.jpg`}
                     alt="product finder recomend vet cat"
                   />
                 </LazyLoad>
@@ -681,7 +681,7 @@ function ProductFinderAd({
           ) : null}
         </div>
       )
-    }[process.env.REACT_APP_LANG] || null
+    }[process.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -1927,11 +1927,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',

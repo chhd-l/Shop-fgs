@@ -651,6 +651,8 @@ const tr_TR = {
 
   'payment.staleDate': 'Lütfen teslim tarihini ve zamanı tekrar edin',
 
+  'payment.reselectTimeSlot': 'Lütfen teslim tarihi ve zaman yerini seçin.',
+
   // 星期
   'payment.Monday': 'Pazartesi.',
   'payment.Tuesday': 'Salı günü.',
@@ -1258,6 +1260,10 @@ const tr_TR = {
   'ClubLP.LongBanner.content2': 'Taahhütsüz',
   'ClubLP.LongBanner.SubscriptionTitle':
     'KEDİLER VE KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    'KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    'KEDİLER  İÇİN ABONELİK AVANTAJLARI',
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Evcil hayvanınıza uygun beslenme çözümü',
   'ClubLP.LongBanner.SubscriptionContent1':
@@ -1267,7 +1273,8 @@ const tr_TR = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Evcil hayvanınızın uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Her zaman doğru porsiyon miktarı',
-  'ClubLP.LongBanner.SubscriptionTitle3.new': 'Her zaman doğru porsiyon miktarı',
+  'ClubLP.LongBanner.SubscriptionTitle3.new':
+    'Her zaman doğru porsiyon miktarı',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Evcil hayvanınızın doğru miktarda mama alması için günlük bilgilendirmeler',
   'ClubLP.Advantage.title': 'FARKLI IRKLAR FARKLI İHTİYAÇLAR',
@@ -1322,6 +1329,6 @@ const tr_TR = {
     'Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!',
   'ClubLP.Help.email.address': 'Bize e-posta gönderin!',
   'ClubLP.Help.faq.content':
-    'Sorunuz önceden cevaplanmış olabilir! Sıkça Sorulan Sorular sayfamıza göz atmayı unutmayın!'
+    'Sorunuz önceden cevaplanmış olabilir! {val} sayfamıza göz atmayı unutmayın!'
 };
 export default tr_TR;

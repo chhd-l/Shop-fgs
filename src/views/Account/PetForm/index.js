@@ -43,7 +43,6 @@ class PetForm extends React.Component {
         sterilized: 1
       },
       subList: [],
-      isEditAlert: false,
       loading: true,
       sterilized: 0,
       showList: false,
@@ -118,7 +117,7 @@ class PetForm extends React.Component {
     };
     try {
       const res = await petsById(params);
-      let currentPet = res.context;
+      let currentPet = res.context?.context || res.context;
       const {
         activity,
         birthOfPets,
@@ -245,7 +244,9 @@ class PetForm extends React.Component {
     }
 
     param.selectedSpecialNeedsObj = {
-      value: currentPet.customerPetsPropRelations[0]?.propName
+      value:
+        currentPet.customerPetsPropRelations &&
+        currentPet.customerPetsPropRelations[0]?.propName
     };
     let params = {
       breedCode: param.isPurebred ? param.breed : 'Other Breed',
@@ -455,9 +456,7 @@ class PetForm extends React.Component {
               />
             </div>
             {/* 土耳其、俄罗斯club绑定订阅 */}
-            {currentPet.petsId &&
-            getClubFlag() &&
-            process.env.REACT_APP_COUNTRY !== 'RU' ? (
+            {currentPet.petsId && getClubFlag() ? (
               <LinkedSubs
                 petsId={this.props.match.params.id}
                 loading={this.state.loading}
@@ -481,34 +480,6 @@ class PetForm extends React.Component {
               ) : null}
             </div>
           </div>
-
-          <Modal
-            headerVisible={true}
-            footerVisible={false}
-            visible={this.state.isEditAlert}
-            modalTitle={''}
-            close={() => {
-              this.props.history.push('/account/pets/');
-              this.setState({ isEditAlert: false });
-            }}
-          >
-            <div className="text-center">
-              <p>
-                <div>
-                  <FormattedMessage id="petSaveTips1" />
-                </div>
-                <FormattedMessage id="petSaveTips2" />
-              </p>
-              <p>
-                <button
-                  onClick={() => this.gotoNext('updateLifeStage', true)}
-                  className="rc-btn rc-btn--one rc-btn--sm"
-                >
-                  <FormattedMessage id="See recommendation" />
-                </button>
-              </p>
-            </div>
-          </Modal>
           <Footer />
         </main>
       </div>

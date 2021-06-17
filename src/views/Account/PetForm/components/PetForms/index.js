@@ -128,6 +128,7 @@ const PetForms = ({
     imgUrl: '',
     breedcode: ''
   });
+  const [isEditAlert, setIsEditAlert] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
   const [sensitivityList, setSensitivityList] = useState([]);
   const [breedList, setBreedList] = useState([]);
@@ -158,6 +159,7 @@ const PetForms = ({
   useEffect(() => {
     // 编辑的时候需要重置所有值
     let petFormData = Object.assign(petForm, currentPetParam);
+
     setPetForm(petFormData);
     purebredOpitons.map((item) => {
       let checked = item.value == currentPetParam.isPurebred;
@@ -288,8 +290,11 @@ const PetForms = ({
     });
   };
   const sizeOptionsChange = (data) => {
-    setNewPetForm('weight', data.value);
-    setNewPetForm('breedcode', data.description);
+    let newpetForm = Object.assign({}, petForm, {
+      weight: data.value,
+      breedcode: data.description
+    });
+    setPetForm(newpetForm);
     setState({
       selectedSizeObj: { value: data.value }
     });
@@ -436,7 +441,7 @@ const PetForms = ({
       weight: JSON.stringify(petForm.weightObj),
       needs: petForm.sensitivity
     };
-    let isEditAlert = false;
+    let isEditAlertNew = false;
     let param = {
       customerPets: pets,
       storeId: process.env.REACT_APP_STOREID,
@@ -487,8 +492,9 @@ const PetForms = ({
               await changeSubscriptionDetailPets(params);
               // 有链接sub的，编辑宠物需要弹提示框
               if (isFromSubscriptionDetail) {
-                isEditAlert = true;
-                setState({ isEditAlert: true });
+                isEditAlertNew = true;
+                setIsEditAlert(true);
+                // setState({ isEditAlert: true });
               }
             } catch (err) {
               showErrorMsg(err.message);
@@ -498,11 +504,12 @@ const PetForms = ({
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
         if (petsIdLinkedSub && diffIndex > 0 && isLinkedSubLength == 1) {
-          isEditAlert = true;
-          setState({ isEditAlert: true });
+          isEditAlertNew = true;
+          setIsEditAlert(true);
+          // setState({ isEditAlert: true });
         }
       }
-      if (!isEditAlert) {
+      if (!isEditAlertNew) {
         gotoNext(null, diffIndex);
       }
     } catch (err) {
@@ -635,14 +642,14 @@ const PetForms = ({
               key={petForm.sensitivity}
             />
           </div>
-          {console.info(
+          {/* {console.info(
             '!(petForm.isPurebred == 1)',
             !(petForm.isPurebred == 1)
           )}
           {console.info(
             '!(petForm.......................)',
             petForm.isPurebred
-          )}
+          )} */}
           {!(petForm.isPurebred == 1) ? (
             !isCat ? (
               <div className="form-group col-lg-6 pull-left required">
@@ -894,6 +901,33 @@ const PetForms = ({
               }`}
             >
               <FormattedMessage id="pet.deletePet" />
+            </button>
+          </p>
+        </div>
+      </Modal>
+      <Modal
+        headerVisible={true}
+        footerVisible={false}
+        visible={isEditAlert}
+        modalTitle={''}
+        close={() => {
+          history.push('/account/pets/');
+          setIsEditAlert(false);
+        }}
+      >
+        <div className="text-center">
+          <p>
+            <div>
+              <FormattedMessage id="petSaveTips1" />
+            </div>
+            <FormattedMessage id="petSaveTips2" />
+          </p>
+          <p>
+            <button
+              onClick={() => gotoNext('updateLifeStage', true)}
+              className="rc-btn rc-btn--one rc-btn--sm"
+            >
+              <FormattedMessage id="See recommendation" />
             </button>
           </p>
         </div>

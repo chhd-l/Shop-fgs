@@ -294,6 +294,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
     }
@@ -489,7 +490,7 @@ class Payment extends React.Component {
     }
   };
   checkRequiredItem = (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
+    let requiredList = list?.filter((item) => item.isRequired);
     this.setState({
       requiredList
     });
@@ -731,7 +732,7 @@ class Payment extends React.Component {
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
         // 获取token，避免传给接口明文cvv
-        console.log(selectedCardInfo, 'selectedCardInfo');
+        // console.log(selectedCardInfo, 'selectedCardInfo');
         this.startLoading();
         let cvvResult = await new Promise((resolve) => {
           window.POS.tokenize(
@@ -959,7 +960,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log('1028: ', parameters);
+      // console.log('1028: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1419,7 +1420,7 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    console.log('★★★★★★ 1548 封装下单参数: ', param);
+    // console.log('★★★★★★ 1548 封装下单参数: ', param);
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
     //   phone: creditCardInfo?.phoneNumber,
@@ -1772,6 +1773,8 @@ class Payment extends React.Component {
         // };
         if (!billingChecked) {
           tmpBillingAddress = {
+            area: billingAddress.area || '',
+            areaId: billingAddress.areaId || '',
             firstName: billingAddress.firstName,
             lastName: billingAddress.lastName,
             address1: billingAddress.address1,
@@ -1927,18 +1930,12 @@ class Payment extends React.Component {
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
-    let stateNo = '';
-    if (this.isLogin) {
-      stateNo = data?.state?.stateNo;
-    } else {
-      stateNo = data?.stateNo;
-    }
     param = {
       promotionCode: this.state.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
       taxFeeData: {
         country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
-        region: stateNo, // 省份简写
+        region: data?.stateNo || '', // 省份简写
         city: data?.city,
         street: data?.address1,
         postalCode: data?.postCode,
@@ -1953,7 +1950,7 @@ class Payment extends React.Component {
 
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
-
+    console.log('666 param: ', param);
     try {
       // 获取税额
       if (this.isLogin) {
@@ -1966,7 +1963,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
@@ -1989,6 +1986,10 @@ class Payment extends React.Component {
     this.showErrorMsg(msg);
   };
 
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   /**
    * 渲染address panel
    */
@@ -2009,6 +2010,7 @@ class Payment extends React.Component {
             <AddressList
               id="1"
               type="delivery"
+              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
@@ -2021,6 +2023,7 @@ class Payment extends React.Component {
             <VisitorAddress
               key={1}
               type="delivery"
+              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               initData={deliveryAddress}
@@ -2312,7 +2315,7 @@ class Payment extends React.Component {
           this.loginBillingAddrRef &&
           this.loginBillingAddrRef.current
         ) {
-          console.log('------------- 会员保存地址，并弹出地址校验');
+          // console.log('------------- 会员保存地址，并弹出地址校验');
           await this.loginBillingAddrRef.current.handleSave();
         }
         // 2 save card form, when add a new card
@@ -2381,7 +2384,7 @@ class Payment extends React.Component {
       isShowValidationModal,
       billingAddressAddOrEdit
     } = this.state;
-    console.log(billingAddress);
+    // console.log(billingAddress);
 
     if (!tid || tid == null) {
       let billaddr = Object.assign({}, billingAddress);
@@ -2430,14 +2433,14 @@ class Payment extends React.Component {
       isShowValidationModal &&
       billingAddressAddOrEdit
     ) {
-      console.log('★ --- payment 地址验证 ');
+      // console.log('★ --- payment 地址验证 ');
       // 未勾选，显示地址验证
       this.setState({
         paymentValidationLoading: true,
         validationModalVisible: true
       });
     } else {
-      console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
+      // console.log('★ --- clickReInputCvvConfirm 跳过验证，下一步 ');
       this.cvvConfirmNextPanel();
     }
   };

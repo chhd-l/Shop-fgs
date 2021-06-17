@@ -6,7 +6,9 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-
+const SubTitles = {
+  title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
+};
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
@@ -75,16 +77,16 @@ const LongBanner = () => {
                     href={'/product-finder'}
                     ariaLabel="Links to product finder"
                   >
-                  <button
-                    style={{
-                      padding: '0',
-                      paddingLeft: '80px',
-                      paddingRight: '80px'
-                    }}
-                    className="rc-btn rc-btn--one transformmobile10px"
-                  >
-                    <FormattedMessage id="ClubLP.LongBanner.button" />
-                  </button>
+                    <button
+                      style={{
+                        padding: '0',
+                        paddingLeft: '80px',
+                        paddingRight: '80px'
+                      }}
+                      className="rc-btn rc-btn--one transformmobile10px"
+                    >
+                      <FormattedMessage id="ClubLP.LongBanner.button" />
+                    </button>
                   </DistributeHubLinkOrATag>
                   <p
                     style={{
@@ -99,7 +101,10 @@ const LongBanner = () => {
             </div>
           </div>
         </div>
-        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} />
+        <SubscriptionBenefitsBanner
+          SubscriptionItem={SubscriptionItems}
+          Subtitle={SubTitles}
+        />
       </div>
     </>
   );

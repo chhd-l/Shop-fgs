@@ -5,9 +5,18 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { getAddressBykeyWord } from '@/api';
+import {
+  getAddressBykeyWord,
+  addressValidation,
+  getDeliveryDateAndTimeSlot
+} from '@/api';
 import { shippingCalculation } from '@/api/cart';
-import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  matchNamefromDict,
+  transTime
+} from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from '@/components/Form';
@@ -28,6 +37,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
+    reSelectTimeSlot: '',
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     titleVisible: true,
@@ -77,6 +87,7 @@ class AddressList extends React.Component {
       errMsg: '',
       loading: true,
       saveLoading: false,
+      btnConfirmLoading: false,
       addOrEdit: false,
       addressList: [],
       countryList: [],
@@ -208,9 +219,9 @@ class AddressList extends React.Component {
 
       // state对象暂时用不到
       addressList.forEach((v, i) => {
+        v.stateNo = v.state?.stateNo || '';
         delete v.state;
       });
-      // console.log('169 ★★★ addressList: ', addressList);
 
       this.setState(
         {
@@ -232,49 +243,90 @@ class AddressList extends React.Component {
     }
   }
   // 判断 delivery date和time slot是否过期
-  deliveryDateStaleDateOrNot = () => {
-    const { selectedId, addressList } = this.state;
-    const obj =
-      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+  deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
-    let updateTime = obj.updateTime; // 修改日期
-    if (!updateTime) {
-      updateTime = obj.createTime;
+    // 提示重新选择
+    let errMsg = this.props.reSelectTimeSlot;
+
+    let deliveryDate = data.deliveryDate; // deliveryDate 日期
+    let timeSlot = data.timeSlot;
+
+    // deliveryDate: 2021-06-11
+    let nyrArr = deliveryDate.split('-');
+    // 20210616
+    let dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
+
+    let deliveryDateFlag = false;
+    let timeSlotFlag = false;
+    let cutOffTime = '';
+    // 根据 address 取到 DuData返回的provinceId
+    let dudata = await getAddressBykeyWord({ keyword: data.address1 });
+    let vdres = [];
+    if (dudata?.context && dudata?.context?.addressList.length > 0) {
+      let addls = dudata.context.addressList[0];
+      // 再根据 provinceId 获取到 cutOffTime
+      vdres = await getDeliveryDateAndTimeSlot({ cityNo: addls?.provinceId });
+      if (vdres.context && vdres.context?.timeSlots?.length) {
+        let tobj = vdres.context.timeSlots;
+        cutOffTime = vdres.context?.cutOffTime;
+        console.log('666  ----->  deliveryDate: ', deliveryDate);
+        console.log('666  ----->  timeSlot: ', timeSlot);
+        console.log('666  ----->  tobj: ', tobj);
+        tobj.forEach((v, i) => {
+          if (v.date == deliveryDate) {
+            deliveryDateFlag = true;
+            (v?.dateTimeInfos).forEach((o, j) => {
+              let sltime = o.startTime + '-' + o.endTime;
+              if (sltime == timeSlot) {
+                console.log('666  ----->  timeSlot: ', timeSlot);
+                timeSlotFlag = true;
+              }
+            });
+          }
+        });
+      }
+    }
+    // 如果时间不存在
+    if (!deliveryDateFlag || !timeSlotFlag) {
+      this.showErrMsg(errMsg);
+      return false;
     }
 
-    // 修改时间 2021-06-11 07:11:35.000
-    let timeArr = updateTime.split(' ');
-    let nyrArr = timeArr[0].split('-');
-    let updateDate = nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2];
-    let updateHour = timeArr[1].split(':')[0];
+    let localTime = vdres.defaultLocalDateTime.split(' ');
+    let lnyr = localTime[0].split('-');
+    let today = lnyr[0] + '' + lnyr[1] + '' + lnyr[2];
+    let lsfm = localTime[1].split(':');
+    let todayHour = lsfm[0];
+    let todayMinutes = lsfm[1];
 
-    // 当前时间
-    let mdate = new Date();
-    let tm = mdate.getMonth() + 1;
-    tm < 10 ? (tm = '0' + tm) : tm;
-    let todayHour = mdate.getHours();
-    let today = mdate.getFullYear() + '' + tm + '' + mdate.getDate();
+    // 当天16点前下单，明天配送；过了16点，后天配送。
+    // 判断当前时间段，如果是当天过了16点提示重新选择。
 
-    // 当天16点前下单，明天配送；过了16点，后天配送。
-    // 判断当前时间段，如果是当天过了16点提示重新选择
-    // 已过期
-    updateDate = Number(updateDate);
-    today = Number(today);
-    if (updateDate < today) {
-      this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
+    console.log('666  ----->  localTime: ' + localTime[0] + ' ' + localTime[1]);
+    console.log('666  ----->  dldate: ' + dldate);
+    // 已过期（俄罗斯时间）
+    // 当天或者当天之前的时间算已过期时间
+    if (today >= dldate) {
+      console.log('666  ----->  今天或者更早');
+      this.showErrMsg(errMsg);
       flag = false;
+    } else {
+      // 其他时间
+      // 明天配送的情况（当前下单时间没有超过 16 点）
+      // 如果选择的时间是明天，判断当前时间是否超过16点，超过16点提示重选
+      let nowTime = Number(todayHour + '' + todayMinutes);
+      console.log('666  ----->  nowTime: ', nowTime);
+      let ctt = cutOffTime.split(':');
+      cutOffTime
+        ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
+        : (cutOffTime = 1600);
+      if (dldate == today + 1 && nowTime > cutOffTime) {
+        console.log('666  ----->  明天');
+        this.showErrMsg(errMsg);
+        flag = false;
+      }
+      // 后天配送的情况（当前下单时间超过 16 点）
     }
-    // else {
-    //   // 当天判断小时
-    //   if (updateDate == today && Number(updateHour) < todayHour) {
-    //     this.showErrMsg('Повторите, пожалуйста, дату и время поставки.');
-    //     flag = false;
-    //   }
-    // }
-    console.log('177 ★★ ---- updateDate: ', updateDate);
-    console.log('177 ★★ ---- today: ', today);
-    console.log('177 ★★ ---- updateHour: ', updateHour);
-    console.log('177 ★★ ---- todayHour: ', todayHour);
     return flag;
   };
   /**
@@ -284,13 +336,17 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    // 判断是否过期
-    // let isStaleDateOrNot = this.deliveryDateStaleDateOrNot();
-    // if (!isStaleDateOrNot) {
-    //   return;
-    // }
+    if (tmpObj?.deliveryDate) {
+      this.setState({ btnConfirmLoading: true });
+      let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
+      this.setState({ btnConfirmLoading: false });
+      // 判断 deliveryDate 是否过期
+      if (!yesOrNot) {
+        return;
+      }
+    }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
@@ -660,7 +716,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    // console.log('611 --------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -820,16 +876,22 @@ class AddressList extends React.Component {
    */
   handleSave = async () => {
     try {
-      const { isValid, addOrEdit } = this.state;
+      const { isValid, addOrEdit, deliveryAddress } = this.state;
       if (!isValid || !addOrEdit) {
         return false;
+      }
+      if (deliveryAddress?.deliveryDate) {
+        // 判断 deliveryDate 是否过期
+        if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
+          return;
+        }
       }
       // 地址验证
       this.setState({
         saveLoading: true
       });
       const res = await this.props.addressStore.validAddr({
-        data: this.state.deliveryAddress
+        data: deliveryAddress
       });
       await this.getListValidationData(res, true);
     } catch (err) {
@@ -1350,7 +1412,11 @@ class AddressList extends React.Component {
                           {this.isDeliverAddress && (
                             <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
                               <button
-                                className={`rc-btn rc-btn--one rc_btn_list_confirm`}
+                                className={`rc-btn rc-btn--one rc_btn_list_confirm ${
+                                  this.state.btnConfirmLoading
+                                    ? 'ui-btn-loading'
+                                    : ''
+                                }`}
                                 onClick={this.clickConfirmAddressPanel}
                               >
                                 <FormattedMessage id="yes2" />

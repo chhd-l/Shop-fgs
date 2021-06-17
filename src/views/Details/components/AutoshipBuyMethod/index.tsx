@@ -6,14 +6,14 @@ import { formatMoney } from '@/utils/utils';
 const De = process.env.REACT_APP_COUNTRY === 'DE';
 
 interface Props {
-  form: any
-  configStore: any
-  skuPromotions: any
-  selectedSpecItem: any
-  currentUnitPrice: any
-  currentSubscriptionPrice: any
-  changeMethod: Function
-  changeFreqency: Function,
+  form: any;
+  configStore: any;
+  skuPromotions: any;
+  selectedSpecItem: any;
+  currentUnitPrice: any;
+  currentSubscriptionPrice: any;
+  changeMethod: Function;
+  changeFreqency: Function;
 }
 
 const AutoshipBuyMethod = ({
@@ -24,9 +24,9 @@ const AutoshipBuyMethod = ({
   currentUnitPrice,
   currentSubscriptionPrice,
   changeMethod,
-  changeFreqency,
+  changeFreqency
 }: Props) => {
-  const [toolTipVisible, setToolTipVisible] = useState(false)
+  const [toolTipVisible, setToolTipVisible] = useState(false);
   return (
     <div>
       <div
@@ -63,10 +63,10 @@ const AutoshipBuyMethod = ({
                 <span
                   className="info-tooltip delivery-method-tooltip"
                   onMouseEnter={() => {
-                    setToolTipVisible(true)
+                    setToolTipVisible(true);
                   }}
                   onMouseLeave={() => {
-                    setToolTipVisible(false)
+                    setToolTipVisible(false);
                   }}
                 >
                   i
@@ -74,16 +74,14 @@ const AutoshipBuyMethod = ({
                 <ConfirmTooltip
                   arrowStyle={{ left: '50%' }}
                   containerStyle={{
-                    transform:
-                      'translate(-33%, 110%)'
+                    transform: 'translate(-33%, 110%)'
                   }}
                   display={toolTipVisible}
                   cancelBtnVisible={false}
                   confirmBtnVisible={false}
                   updateChildDisplay={(status) => {
-                    setToolTipVisible(status)
-                  }
-                  }
+                    setToolTipVisible(status);
+                  }}
                   content={<FormattedMessage id="subscription.promotionTip2" />}
                 />
               </span>
@@ -94,7 +92,7 @@ const AutoshipBuyMethod = ({
             className="discountBox"
             style={{
               background:
-                process.env.REACT_APP_LANG === 'ru' ? '#3ab41d' : '#ec001a'
+                process.env.REACT_APP_COUNTRY === 'RU' ? '#3ab41d' : '#ec001a'
             }}
           >
             <FormattedMessage
@@ -127,20 +125,23 @@ const AutoshipBuyMethod = ({
               <FormattedMessage id="starUnit" defaultMessage=" " />
             </span>
           </div>
-          {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem?.goodsInfoWeight&&selectedSpecItem?.goodsInfoUnit ? (
+          {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+          selectedSpecItem?.goodsInfoWeight &&
+          selectedSpecItem?.goodsInfoUnit ? (
             <div
               style={{
                 fontSize: '.875rem',
                 color: '#999'
               }}
             >
-              ({formatMoney(
+              (
+              {formatMoney(
                 (
                   currentSubscriptionPrice /
                   parseFloat(selectedSpecItem.goodsInfoWeight)
                 ).toFixed(2)
               )}
-              /{selectedSpecItem.goodsInfoUnit}{' '})
+              /{selectedSpecItem.goodsInfoUnit} )
             </div>
           ) : null}
         </div>

@@ -26,7 +26,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import { format } from 'date-fns';
+import { daysInWeek, format } from 'date-fns';
 import Loading from '@/components/Loading';
 import {
   getSystemConfig,
@@ -180,82 +180,58 @@ class Form extends React.Component {
 
   // 星期
   getWeekDay = (day) => {
-    let weekday = '';
-    day = Number(day);
-    switch (day) {
-      case 1:
-        weekday = this.getIntlMsg('payment.Monday');
-        break;
-      case 2:
-        weekday = this.getIntlMsg('payment.Tuesday');
-        break;
-      case 3:
-        weekday = this.getIntlMsg('payment.Wednesday');
-        break;
-      case 4:
-        weekday = this.getIntlMsg('payment.Thursday');
-        break;
-      case 5:
-        weekday = this.getIntlMsg('payment.Friday');
-        break;
-      case 6:
-        weekday = this.getIntlMsg('payment.Saturday');
-        break;
-      case 7:
-        weekday = this.getIntlMsg('payment.Sunday');
-        break;
-      default:
-        weekday = '';
-        break;
-    }
-    return weekday;
+    let weekArr = [
+      this.getIntlMsg('payment.Sunday'),
+      this.getIntlMsg('payment.Monday'),
+      this.getIntlMsg('payment.Tuesday'),
+      this.getIntlMsg('payment.Wednesday'),
+      this.getIntlMsg('payment.Thursday'),
+      this.getIntlMsg('payment.Friday'),
+      this.getIntlMsg('payment.Saturday')
+    ];
+    return weekArr[day];
   };
   // 月份
   getMonth = (num) => {
-    let month = '';
     num = Number(num);
-    switch (num) {
-      case 1:
-        month = this.getIntlMsg('payment.January');
-        break;
-      case 2:
-        month = this.getIntlMsg('payment.February');
-        break;
-      case 3:
-        month = this.getIntlMsg('payment.March');
-        break;
-      case 4:
-        month = this.getIntlMsg('payment.April');
-        break;
-      case 5:
-        month = this.getIntlMsg('payment.May');
-        break;
-      case 6:
-        month = this.getIntlMsg('payment.June');
-        break;
-      case 7:
-        month = this.getIntlMsg('payment.July');
-        break;
-      case 8:
-        month = this.getIntlMsg('payment.August');
-        break;
-      case 9:
-        month = this.getIntlMsg('payment.September');
-        break;
-      case 10:
-        month = this.getIntlMsg('payment.October');
-        break;
-      case 11:
-        month = this.getIntlMsg('payment.November');
-        break;
-      case 12:
-        month = this.getIntlMsg('payment.December');
-        break;
-      default:
-        month = '';
-        break;
+    let monthArr = [
+      '0',
+      this.getIntlMsg('payment.January'),
+      this.getIntlMsg('payment.February'),
+      this.getIntlMsg('payment.March'),
+      this.getIntlMsg('payment.April'),
+      this.getIntlMsg('payment.May'),
+      this.getIntlMsg('payment.June'),
+      this.getIntlMsg('payment.July'),
+      this.getIntlMsg('payment.August'),
+      this.getIntlMsg('payment.September'),
+      this.getIntlMsg('payment.October'),
+      this.getIntlMsg('payment.November'),
+      this.getIntlMsg('payment.December')
+    ];
+    return monthArr[num];
+  };
+  // delivery date 格式转换: 星期, 15 月份
+  getFormatDeliveryDateStr = (date) => {
+    // 获取明天几号
+    let mdate = new Date();
+    let tomorrow = mdate.getDate() + 1;
+    // 获取星期
+    var week = new Date(date).getDay();
+    let weekday = this.getWeekDay(week);
+    // 获取月份
+    let ymd = date.split('-');
+    let month = this.getMonth(ymd[1]);
+
+    // 判断是否有 ‘明天’ 的日期
+    let thisday = Number(ymd[2]);
+    let daystr = '';
+    if (tomorrow == thisday) {
+      daystr = this.getIntlMsg('payment.tomorrow');
+    } else {
+      daystr = weekday;
     }
-    return month;
+    return daystr + ', ' + ymd[2] + ' ' + month;
   };
   // 根据address1查询地址信息
   getAddressListByKeyWord = async (address1) => {
@@ -277,88 +253,79 @@ class Form extends React.Component {
     try {
       res = await getDeliveryDateAndTimeSlot({ cityNo: str });
       let flag = false;
-      let alldata = {};
-      let ddlist = [];
-      let tslist = [];
+      let alldata = {}; // 全部数据
+      let ddlist = []; // delivery date
+      let tslist = []; // time slot
 
-      // 获取明天几号
-      let mdate = new Date();
-      let tomorrow = mdate.getDate() + 1;
-      if (res.context) {
-        let obj = Object.assign({}, caninForm);
-
-        flag = true;
-
-        let robj = res.context;
-        robj.forEach((v) => {
-          // delivery date
-          // 获取星期
-          let weekday = this.getWeekDay(v.weekDay);
-          // 获取月份
-          let ymd = v.date.split('-');
-          let month = this.getMonth(ymd[1]);
-
-          // 判断是否有 ‘明天’ 的日期
-          let thisday = Number(ymd[2]);
-          let daystr = '';
-          if (tomorrow == thisday) {
-            daystr = this.getIntlMsg('payment.tomorrow');
-          } else {
-            daystr = weekday;
-          }
-          let oldstr = weekday + ', ' + ymd[2] + ' ' + month;
-          let newstr = daystr + ', ' + ymd[2] + ' ' + month;
+      let obj = Object.assign({}, caninForm);
+      if (res.context && res.context?.timeSlots?.length) {
+        flag = true; // 标记
+        let robj = res.context.timeSlots;
+        robj.forEach((v, i) => {
+          // 格式化 delivery date 格式: 星期, 15 月份
+          let datestr = this.getFormatDeliveryDateStr(v.date);
           // 所有数据
-          alldata[oldstr] = v.dateTimeInfos;
-          // 格式: 星期, 15 月份
+          alldata[v.date] = v.dateTimeInfos;
           ddlist.push({
-            id: oldstr,
-            name: newstr,
+            id: datestr,
+            name: datestr,
             no: v.date
           });
+          if (obj.deliveryDate == v.date) {
+            obj.deliveryDateId = datestr;
+          }
         });
-        // 通过年月日判读是否过期
-
         // delivery date为空或者过期设置第一条数据为默认值
         if (!obj.deliveryDate || !alldata[obj.deliveryDate]) {
           obj.deliveryDateId = ddlist[0].id;
-          obj.deliveryDate = ddlist[0].id;
+          obj.deliveryDate = ddlist[0].no;
         }
+
         // 设置 time slot
-        alldata[obj.deliveryDate]?.forEach((r) => {
-          let setime = r.startTime + ' - ' + r.endTime;
+        let tsFlag = false;
+        alldata[obj.deliveryDate]?.forEach((v, i) => {
+          let setime = v.startTime + '-' + v.endTime;
           tslist.push({
             id: setime,
             name: setime,
-            startTime: r.startTime,
-            endTime: r.endTime,
-            sort: r.sort
+            startTime: v.startTime,
+            endTime: v.endTime,
+            sort: v.sort
           });
-          // time slot为空或者过期设置第一条数据为默认值
-          if (!obj.timeSlot) {
+          if (setime == obj.timeSlot) {
             obj.timeSlotId = setime;
             obj.timeSlot = setime;
+            tsFlag = true;
           }
         });
-        this.setState({
-          caninForm: Object.assign(caninForm, obj)
-        });
+        // time slot为空或者过期设置第一条数据为默认值
+        if (!obj.timeSlot || !alldata[obj.deliveryDate] || !tsFlag) {
+          obj.timeSlotId = tslist[0].id;
+          obj.timeSlot = tslist[0].name;
+        }
+      } else {
+        obj.deliveryDate = '';
+        obj.deliveryDateId = 0;
+        obj.timeSlot = '';
+        obj.timeSlotId = 0;
       }
       this.setState(
         {
+          caninForm: Object.assign({}, obj),
           isDeliveryDateAndTimeSlot: flag,
           deliveryDataTimeSlotList: alldata,
           deliveryDateList: ddlist,
           timeSlotList: tslist
         },
         () => {
-          console.log('611 alldata: ', alldata);
-          console.log('611 ddlist: ', ddlist);
-          console.log('611 tslist: ', tslist);
+          this.updateDataToProps(this.state.caninForm);
         }
       );
     } catch (err) {
-      console.warn(err);
+      // console.warn(err);
+      this.setState({
+        isDeliveryDateAndTimeSlot: false
+      });
     }
   };
   // 设置手机号输入限制
@@ -627,7 +594,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        console.log('609 caninForm:', this.state.caninForm);
+        // console.log('609 caninForm:', this.state.caninForm);
       }
     );
     return array;
@@ -731,17 +698,9 @@ class Form extends React.Component {
             caninForm.area = item.regionName;
             caninForm.regionId = item.id;
             caninForm.region = item.regionName;
-            this.setState(
-              {
-                caninForm
-              },
-              () => {
-                console.log(
-                  '479 -- ★  根据cityId查询region caninForm: ',
-                  caninForm
-                );
-              }
-            );
+            this.setState({
+              caninForm
+            });
           }
         });
         this.setState({
@@ -810,7 +769,8 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
 
-    console.log('609 newForm: ', newForm);
+    // console.log('611 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
+    // console.log('611 newForm: ', newForm);
     this.props.updateData(newForm);
   };
   // 下拉框选择
@@ -848,11 +808,11 @@ class Form extends React.Component {
       cform.region = data.name;
       cform.regionId = data.value;
     } else if (key == 'deliveryDate') {
-      cform.deliveryDate = data.value;
+      cform.deliveryDate = data.no;
       cform.deliveryDateId = data.value;
       let tslist = [];
-      deliveryDataTimeSlotList[data.value]?.forEach((r) => {
-        let setime = r.startTime + ' - ' + r.endTime;
+      deliveryDataTimeSlotList[data.no]?.forEach((r) => {
+        let setime = r.startTime + '-' + r.endTime;
         tslist.push({
           id: setime,
           name: setime,
@@ -1040,12 +1000,6 @@ class Form extends React.Component {
       caninForm.city = data.city;
       caninForm.postCode = data.postCode;
 
-      // 清空数据
-      caninForm.deliveryDateId = null;
-      caninForm.deliveryDate = null;
-      caninForm.timeSlotId = null;
-      caninForm.timeSlot = null;
-
       this.setState({ caninForm }, async () => {
         // 判断暂存地址 tempolineCache 中是否有要查询的地址
         const key = data.unrestrictedValue;
@@ -1086,6 +1040,8 @@ class Form extends React.Component {
             // delivery date and time slot
             if (this.props.showDeliveryDateTimeSlot) {
               this.getDeliveryDateAndTimeSlotData(data?.provinceId);
+            } else {
+              this.updateDataToProps(caninForm);
             }
           }
         );
@@ -1100,7 +1056,7 @@ class Form extends React.Component {
       });
     }
   };
-  // 提示消息 1-1
+  // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
   };

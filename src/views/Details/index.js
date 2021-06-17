@@ -19,6 +19,7 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import BannerTip from '@/components/BannerTip';
+import Reviews from './components/Reviews';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -491,7 +492,7 @@ class Details extends React.Component {
                     this.state.details,
                     this.state.instockStatus
                   );
-                }, 3000);
+                }, 60000);
               }
             }
           );
@@ -1268,6 +1269,15 @@ class Details extends React.Component {
             {/* 电话邮箱联系板块 */}
             {isHub ? (
               <PhoneAndEmail loading={loading} details={details} />
+            ) : null}
+            {!!+process.env.REACT_APP_PDP_RATING_VISIBLE ? (
+              <div id="review-container">
+                <Reviews
+                  key={this.state.goodsId}
+                  id={this.state.goodsId}
+                  isLogin={this.isLogin}
+                />
+              </div>
             ) : null}
             <RelateProductCarousel id={goodsId} />
 
