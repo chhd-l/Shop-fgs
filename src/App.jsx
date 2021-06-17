@@ -24,12 +24,7 @@ import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
-import locales from '@/lang'; // ENUM_LANGFILE[process.env.REACT_APP_LANG]
-
-// const locales = {
-//   'en-US': require('./locales/en-US.js'),
-//   'zh-CN': require('./locales/zh-CN.js')
-// };
+import locales from '@/lang';
 
 import '@/utils/global';
 import { IntlProvider } from 'react-intl';
@@ -133,8 +128,12 @@ import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 import FelinRecommendation from '@/views/FelinRecommendation';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
-
+import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
+import ClubLandingPageNew from './views/ClubLandingPageNew';
+import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
+import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
 import ClubLandingPage from './views/ClubLandingPage';
+
 import { redirectFun } from '@/redirect/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -147,24 +146,19 @@ Date.prototype.addHours = function (h) {
 };
 
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
-import fr from 'date-fns/locale/fr';
-import es from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
-import ClubLandingPageNew from './views/ClubLandingPageNew';
-import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
-import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
+import DateFnsLocaleFr from 'date-fns/locale/fr';
+import DateFnsLocaleES from 'date-fns/locale/es';
+import DateFnsLocaleDE from 'date-fns/locale/de';
 
 if (process.env.REACT_APP_COUNTRY === 'FR') {
-  registerLocale(process.env.REACT_APP_LANG, fr);
+  registerLocale('fr', DateFnsLocaleFr);
   setDefaultLocale('fr');
 } else if (process.env.REACT_APP_COUNTRY === 'DE') {
-  registerLocale(process.env.REACT_APP_LANG, de);
+  registerLocale('de', DateFnsLocaleDE);
   setDefaultLocale('de');
 } else if (process.env.REACT_APP_COUNTRY === 'MX') {
-  registerLocale(process.env.REACT_APP_LANG, es);
+  registerLocale('es', DateFnsLocaleES);
   setDefaultLocale('es');
-} else if (process.env.REACT_APP_COUNTRY === 'US') {
 }
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
@@ -335,7 +329,7 @@ const App = () => {
                 />
                 <Route
                   exact
-                  path="/club-subscription"
+                  path="/club-subscriptionbyebye"
                   render={(props) => {
                     let tmpComponent;
                     switch (process.env.REACT_APP_COUNTRY) {
@@ -521,7 +515,7 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
-                <Route path="/clublandingpagenew"
+                <Route path="/club-subscription"
                        exact
                        component={ClubLandingPageNew}
                 />
@@ -538,7 +532,6 @@ const App = () => {
                   exact
                   component={generalConditions}
                 />
-
 
                 <Route
                   path="/general-conditions-tr"
@@ -646,9 +639,9 @@ const App = () => {
                 <Route
                   exact
                   // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                  path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
+                  path={process.env.REACT_APP_SEARCH_LINK}
                   render={(props) => {
-                    if (props.location.state && props.location.state.noresult) {
+                    if (props.location?.state?.noresult) {
                       return <SearchShow {...props} />;
                     } else {
                       return <List key={props.location.search} {...props} />;
@@ -720,7 +713,7 @@ const App = () => {
 
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(redirectUrl)
+                      console.log(redirectUrl);
 
                       // PDP文件重定向end
 
@@ -745,8 +738,8 @@ const App = () => {
                       // }
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(pathname)
-                      console.log(redirectUrl)
+                      console.log(pathname);
+                      console.log(redirectUrl);
                       // debugger
 
                       // 除去PDP页面文件重定向end

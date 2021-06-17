@@ -61,7 +61,6 @@ export default class Search extends React.Component {
     this.setState({ loading: true });
     Promise.all([
       getList({
-        // cateId: process.env.REACT_APP_CATEID,
         keywords,
         propDetails: [],
         pageNum: 0,
@@ -153,7 +152,7 @@ export default class Search extends React.Component {
   handleSearch = () => {
     if (this.state.loading || !this.state.hasSearchedDone) return;
     this.props.history.push({
-      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+      pathname: process.env.REACT_APP_SEARCH_LINK,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
       search: `?q=${this.state.keywords}`,
       state: {
@@ -268,10 +267,8 @@ export default class Search extends React.Component {
                   <div className="rc-margin-top--xs">
                     <Link
                       className="productName rc-large-body ui-cursor-pointer"
-                      // to={`/list/keywords/${keywords}`}
                       to={{
-                        // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
-                        pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+                        pathname: process.env.REACT_APP_SEARCH_LINK,
                         search: `?q=${keywords}`
                       }}
                     >
@@ -451,8 +448,7 @@ export default class Search extends React.Component {
                 <Link
                   className="productName rc-large-body ui-cursor-pointer"
                   to={{
-                    // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
-                    pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+                    pathname: process.env.REACT_APP_SEARCH_LINK,
                     search: `?q=${keywords}`
                   }}
                 >

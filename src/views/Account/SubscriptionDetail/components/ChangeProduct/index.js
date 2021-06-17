@@ -87,7 +87,7 @@ const ChangeProduct = () => {
       let newDetails = Object.assign({}, details, res.context.goods, {
         promotions: res.context.goods?.promotions?.toLowerCase(),
         goodsInfos: res.context.goodsInfos,
-        sizeList: [],
+        // sizeList: [],
         goodsSpecDetails: res.context.goodsSpecDetails,
         goodsSpecs: res.context.goodsSpecs,
         goodsAttributesValueRelList: res.context.goodsAttributesValueRelList

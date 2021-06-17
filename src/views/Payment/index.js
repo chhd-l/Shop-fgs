@@ -294,6 +294,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
     }
@@ -489,7 +490,7 @@ class Payment extends React.Component {
     }
   };
   checkRequiredItem = (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
+    let requiredList = list?.filter((item) => item.isRequired);
     this.setState({
       requiredList
     });
@@ -1309,20 +1310,14 @@ class Payment extends React.Component {
           consigneeEmail: deliveryAddress.email
         }
       );
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-        param
-      );
-
       //游客绑定consent 一定要在游客注册之后 start
       let submitParam = bindSubmitParam(this.state.listData);
-      userBindConsent({
-        ...submitParam,
-        ...{ oktaToken: '' },
-        customerId:
-          (postVisitorRegisterAndLoginRes.context &&
-            postVisitorRegisterAndLoginRes.context.customerId) ||
-          ''
+
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin({
+        ...param,
+        ...submitParam
       });
+
       //游客绑定consent 一定要在游客注册之后 end
 
       sessionItemRoyal.set(
@@ -1985,6 +1980,10 @@ class Payment extends React.Component {
     this.showErrorMsg(msg);
   };
 
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   /**
    * 渲染address panel
    */
@@ -2005,6 +2004,7 @@ class Payment extends React.Component {
             <AddressList
               id="1"
               type="delivery"
+              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
@@ -2017,6 +2017,7 @@ class Payment extends React.Component {
             <VisitorAddress
               key={1}
               type="delivery"
+              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               initData={deliveryAddress}

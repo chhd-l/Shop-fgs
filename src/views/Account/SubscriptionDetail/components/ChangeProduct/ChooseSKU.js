@@ -121,6 +121,10 @@ const ChooseSKU = ({ intl }) => {
         buyWay && details.promotions?.includes('club') ? 2 : buyWay;
       let subscribeId = subDetail.subscribeId;
       let addGoodsItemsSku = currentSelectedSize.goodsInfoId;
+      if (!addGoodsItemsSku) {
+        console.info('err:请选择目标商品替换');
+        return;
+      }
       let addGoodsItems = {
         skuId: currentSelectedSize.goodsInfoId,
         subscribeNum: quantity,
@@ -154,12 +158,12 @@ const ChooseSKU = ({ intl }) => {
       };
       changeSubscriptionGoods(params)
         .then((res) => {
-          setChangeNowLoading(false);
           getDetail(({ goodsInfo }) => {
             changeSubDetail(goodsInfo, addGoodsItemsSku);
+            // 需要把订阅详情请求回来再重置状态，不然用户一直点击会出现还没正常更替就重复点击有问题
+            setChangeNowLoading(false);
+            initMainProduct();
           });
-          initMainProduct();
-          //关闭2弹窗 todo
         })
         .catch((err) => {
           setChangeNowLoading(false);

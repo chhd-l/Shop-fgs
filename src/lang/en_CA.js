@@ -840,8 +840,6 @@ const en_US = {
 
   'payment.staleDate': 'Please repeat the date and time of delivery',
 
-  'payment.reselectTimeSlot': 'Please re select delivery date and timeslot.',
-
   // 星期
   'payment.Monday': 'Monday',
   'payment.Tuesday': 'Tuesday',
