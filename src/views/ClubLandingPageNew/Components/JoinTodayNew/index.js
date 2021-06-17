@@ -81,14 +81,22 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-2 order-md-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
-                          <img
+                          {process.env.REACT_APP_COUNTRY == 'RU'?
+                            <img
                             src={joinusnewright}
                             style={{
                               maxHeight: '90%',
                               maxWidth: '90%',
                               marginLeft: '5vw'
                             }}
-                          />
+                          />:<img
+                            src={joinusnewright}
+                            style={{
+                              maxHeight: '90%',
+                              maxWidth: '90%',
+                              marginLeft: '5vw'
+                            }}
+                          />}
                         </LazyLoad>
                       </div>
                     </div>

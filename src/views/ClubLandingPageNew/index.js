@@ -174,10 +174,10 @@ class ClubLandingPageNew extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
-                    <div className="rc-alpha inherit-fontsize">
-                      <h1>
+                    <div className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                      <h3>
                         <FormattedMessage id="ClubLP.Advantage.title" />
-                      </h1>
+                      </h3>
                     </div>
                   </div>
                 </div>
@@ -210,9 +210,7 @@ class ClubLandingPageNew extends React.Component {
                               <FormattedMessage id="ClubLP.Advantage.content4" />
                             </li>
                           </ul>
-                          <br />
-                          <br />
-                          <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
+                          <div className="rc-padding-x--none">
                             <DistributeHubLinkOrATag
                               href={'/product-finder'}
                               ariaLabel="Links to product finder"
