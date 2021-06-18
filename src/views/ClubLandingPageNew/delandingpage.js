@@ -769,7 +769,7 @@ class ClubLandingPageDe extends React.Component {
                                     style={{ marginRight: '-4rem' }}
                                   >
                                     <div className="w-100">
-                                      <p style={{ fontWeight: 'bolder' }}>
+                                      <p style={{ fontWeight: 'bolder',marginBottom:'0px',marginTop:'20px'}}>
                                         per Telefon
                                       </p>
                                       <div className="rc-margin-top--xs">
@@ -799,7 +799,7 @@ class ClubLandingPageDe extends React.Component {
                                         </p>
                                       </div>
                                       <p
-                                        style={{ fontSize: '12px' }}
+                                        style={{ fontSize: '12px',marginBottom:'0px' }}
                                         className="detextnowrap"
                                       >
                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
@@ -833,7 +833,7 @@ class ClubLandingPageDe extends React.Component {
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per E-Mail
                                       </p>
-                                      <p>
+                                      <p style={{marginBottom:'35px'}}>
                                         <a
                                           href={this.state.mailAddress}
                                           className="rc-styled-link"

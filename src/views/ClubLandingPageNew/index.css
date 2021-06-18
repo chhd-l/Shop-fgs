@@ -118,6 +118,9 @@
   .Lpflexrow {
     flex-direction: row;
   }
+  .demarigintop10px{
+    margin-top: 10px;
+  }
 }
 
 @media (min-width: 639.98px) {
