@@ -1,23 +1,13 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import Form from '@/components/Form';
-import BannerTip from '@/components/BannerTip';
-import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
-import BreadCrumbs from '../../components/BreadCrumbs';
-import { Link } from 'react-router-dom';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
 import PickUp from '@/components/PickUp';
-import { getAddressList, saveAddress, editAddress } from '@/api/address';
+import { dynamicLoadCss, loadJS } from '@/utils/utils';
 
 import './index.less';
 
@@ -59,6 +49,12 @@ class Test extends React.Component {
   };
   componentWillUnmount() {}
   componentDidMount() {
+    dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
+    loadJS({
+      url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
+      type: 'text/javascript'
+    });
+
     // 设置手机号输入限制
     let element = document.getElementById('testinput');
     // mask: '+{7} (000) 000-00-00'
@@ -138,20 +134,31 @@ class Test extends React.Component {
     if (e.keyCode === 13) {
     }
   };
-  // 修改地址测试
-  updateDeliveryAddressById = async () => {
-    try {
-      openKaktusWidget();
-      let res = await editAddress({
-        consigneeName: 'AAA1 KKK',
-        deliveryAddressId: '8000017977f869ca30aa3a30ea021052',
-        deliveryDate: '',
-        timeSlot: ''
+  // 加载地图
+  loadMap = () => {
+    console.log(1111, window.kaktusMap);
+    const openKaktusWidget = () => {
+      window.kaktusMap.openWidget({
+        city_from: 'Москва',
+        city_to: 'Москва',
+        dimensions: {
+          height: 10,
+          width: 10,
+          depth: 10
+        },
+        weight: 600
       });
-      console.log('666 修改地址测试: ', res);
-    } catch (err) {
-      console.log('666 修改地址测试 err: ', err);
-    }
+    };
+    document.addEventListener('DOMContentLoaded', () => {
+      kaktusMap({
+        domain: 'shop4995727',
+        host: 'https://app.kak2c.ru'
+      });
+    });
+
+    document.addEventListener('kaktusEvent', (event) => {
+      console.log(event.detail);
+    });
   };
   render() {
     const { form, isValid, selectedOption } = this.state;
@@ -163,7 +170,7 @@ class Test extends React.Component {
         <br />
         <button
           onClick={() => {
-            this.updateDeliveryAddressById();
+            this.loadMap();
           }}
         >
           map

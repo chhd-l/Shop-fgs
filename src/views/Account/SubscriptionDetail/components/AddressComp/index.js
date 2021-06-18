@@ -167,7 +167,7 @@ class AddressList extends React.Component {
       });
     });
     this.setState({
-      wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+      wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
     });
   }
   async queryAddressList() {

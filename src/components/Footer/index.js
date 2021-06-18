@@ -12,6 +12,7 @@ import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 const cur_menubar = menubar[process.env.REACT_APP_COUNTRY] || [];
 const cur_contactInfo = contactInfo[process.env.REACT_APP_COUNTRY] || null;
@@ -33,7 +34,7 @@ class Footer extends React.Component {
     this.props.configStore.getSystemFormConfig(); // 查询address form表单配置开关
 
     // 地址错误提示信息
-    sessionItemRoyal.set(
+    localItemRoyal.set(
       'rc-wrongAddressMsg',
       JSON.stringify({
         title: this.props.intl.messages['payment.pleaseInput'],

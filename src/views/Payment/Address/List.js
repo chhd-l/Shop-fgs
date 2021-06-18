@@ -27,6 +27,7 @@ import AddressPreview from './Preview';
 import './list.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 /**
  * address list(delivery/billing) - member
  */
@@ -130,7 +131,7 @@ class AddressList extends React.Component {
 
     this.setState({
       listBtnLoading: false,
-      wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+      wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
     });
   }
   get isDeliverAddress() {
@@ -338,7 +339,7 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
     if (process.env.REACT_APP_COUNTRY == 'RU') {
       this.setState({ btnConfirmLoading: true });
@@ -353,6 +354,7 @@ class AddressList extends React.Component {
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
+    console.log('666 wrongAddressMsg: ', wrongAddressMsg);
     let dfarr = laddf.settings;
     dfarr = (dfarr || []).filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1

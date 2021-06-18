@@ -191,8 +191,8 @@ class Payment extends React.Component {
         postCode: '',
         phoneNumber: ''
       },
-      wrongBillingAddress: sessionItemRoyal.get('rc-wrongAddressMsg')
-        ? JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+      wrongBillingAddress: localItemRoyal.get('rc-wrongAddressMsg')
+        ? JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
         : [],
       billingAddressErrorMsg: '',
       creditCardInfo: {
