@@ -50,7 +50,80 @@ input:-webkit-autofill {
     }
   }
 
+  .fillcity_of_delivery {
+    border-bottom: 2px solid #d7d7d7;
+  }
+
+  .rc_radio_box {
+    margin-bottom: 1rem;
+
+    .rc-input {
+      position: relative;
+      width: 100%;
+
+      .delivery_date_price {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+
+    .need_delivery_date {
+      display: block;
+      margin-left: 2rem;
+    }
+
+  }
+
+
 }
+
+#kaktusMap {
+  display: none;
+}
+
+// PC端地图
+.pickup_map_box {
+  display: block;
+
+  #kaktusMap {
+    display: block !important;
+    width: 100%;
+
+    .css-1xuqurl {
+      position: relative !important;
+      background: none;
+
+      .css-e4xzu {
+        box-shadow: none;
+        padding: 0;
+
+        .modals-wrapper {
+          height: 505px !important;
+
+          .ymaps-2-1-78-controls__control {
+            display: none !important;
+          }
+
+          .ymaps-2-1-78-copyrights-pane {
+            display: none !important;
+          }
+        }
+      }
+
+      .close-button {
+        display: none;
+      }
+
+      .map-top-panel {
+        display: none;
+      }
+    }
+  }
+}
+
+
 
 @media (max-width: 960px) {
   .rc_form_box {
