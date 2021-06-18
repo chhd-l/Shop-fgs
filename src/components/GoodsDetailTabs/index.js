@@ -114,7 +114,22 @@ let clubListDataNew = [
   },
   process.env.REACT_APP_COUNTRY === 'RU'
     ? {
-        text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon6'} />,
+        text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon6'} values={{
+          val: (
+            <a
+              onClick={() => {
+                window.PetStoryWC.start();
+              }}
+              style={{
+                textDecoration: 'underline',
+                color: '#e3001b',
+                cursor: 'pointer'
+              }}
+            >
+              PetStory
+            </a>
+          )
+        }}/>,
         img: iconsix,
         alt: 'CLUB BENEFITS PET ADVISOR'
       }
@@ -192,9 +207,9 @@ const GoodsDetailTabs = function (props) {
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.cat" />
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.cat" values={{val:<br/>}}/>
       ) : (
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.dog" />
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.dog" values={{val:<br/>}} />
       )
   };
 
@@ -203,20 +218,26 @@ const GoodsDetailTabs = function (props) {
       SubscriptionImg:
         getSpeciesId(goodsDetailSpace) == '1' ? benefitsonecat : benefitsonedog,
       SubscriptionTitle: (
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+        <a style={{fontWeight:'bold',fontSize:'17px'}}>
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1.new" />
+        </a>
       )
     },
     {
       SubscriptionImg:
         getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
       SubscriptionTitle: (
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+        <a style={{fontWeight:'bold',fontSize:'17px'}}>
+        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2.new" />
+        </a>
       )
     },
     {
       SubscriptionImg: benefitsthree,
       SubscriptionTitle: (
+        <a style={{fontWeight:'bold',fontSize:'17px'}}>
         <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
+        </a>
       )
     }
   ];
@@ -774,7 +795,7 @@ const GoodsDetailTabs = function (props) {
                               alt={item.alt}
                               className="m-auto rc-margin--none--desktop"
                             />
-                            <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                            <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100" >
                               <p className="mb-0" style={{ textAlign: 'left' }}>
                                 {item.text}
                               </p>
@@ -851,7 +872,7 @@ const GoodsDetailTabs = function (props) {
                                   alt={item.alt}
                                   className="m-auto rc-margin--none--desktop"
                                 />
-                                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100" style={{marginTop:'5px'}}>
                                   <p
                                     className="mb-0"
                                     style={{ textAlign: 'left', width: '22vw' }}

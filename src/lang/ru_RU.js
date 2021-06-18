@@ -1371,9 +1371,9 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
-    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев собак',
+    'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев собак',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
-    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек',
+    'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев кошек',
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Специализированное питание с учетом особенностей Вашего питомца',
   'ClubLP.LongBanner.SubscriptionContent1':
@@ -1383,6 +1383,10 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Программа питания для поддержания здоровья',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
+  'ClubLP.LongBanner.SubscriptionTitle1.new':
+    'Программа питания, созданная для поддержания здоровья на протяжении всей жизни',
+  'ClubLP.LongBanner.SubscriptionTitle2.new':
+    'Рационы, адаптированные для Вашего питомца',
   'ClubLP.LongBanner.SubscriptionTitle3.new':
     'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.LongBanner.SubscriptionContent3':
