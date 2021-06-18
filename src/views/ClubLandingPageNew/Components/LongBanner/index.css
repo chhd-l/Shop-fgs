@@ -16,6 +16,7 @@
   }
   .transformmobile10px {
     transform: translateX(-23px);
+    text-align: center;
   }
 }
 

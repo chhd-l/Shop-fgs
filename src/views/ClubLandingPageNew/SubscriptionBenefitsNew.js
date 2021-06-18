@@ -22,7 +22,7 @@ const SubsriptionBenefitsNew = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" >
               <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />
             </h4>
             <div className="value-proposition__container">
@@ -41,7 +41,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon1'}
                         />
@@ -63,7 +63,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon2'}
                         />
@@ -85,7 +85,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon3'}
                         />
@@ -107,7 +107,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon4'}
                         />
@@ -129,7 +129,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon5'}
                         />
@@ -154,9 +154,25 @@ const SubsriptionBenefitsNew = () => {
                         </LazyLoad>
                       </div>
                       <div className="d-flex align-items-center value-proposition__text">
-                        <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                        <p className="rc-margin-bottom--none rc-intro demarginleft">
                           <FormattedMessage
-                            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+                            id="ClubLP.SubscriptionBenefitsNew.icon6"
+                            values={{
+                              val: (
+                                <a
+                                  onClick={() => {
+                                    window.PetStoryWC.start();
+                                  }}
+                                  style={{
+                                    textDecoration: 'underline',
+                                    color: '#e3001b',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  PetStory
+                                </a>
+                              )
+                            }}
                           />
                         </p>
                       </div>

@@ -60,10 +60,10 @@ const JoinTodayNew = () => {
                           <FormattedMessage id="ClubLP.NewJoinUs.title" />
                         </h2>
                       </div>
-                      <div className="rc-intro inherit-fontsize rc-text--center">
-                        <h5 className="textMarginLeft">
+                      <div className="rc-intro inherit-fontsize rc-text--center textCenterJoin">
+                        <a className="">
                           <FormattedMessage id="ClubLP.NewJoinUs.content" />
-                        </h5>
+                        </a>
                       </div>
                       <div style={{ display: 'flex', justifyContent:'center'}}>
                         <DistributeHubLinkOrATag
@@ -72,6 +72,7 @@ const JoinTodayNew = () => {
                         >
                         <button
                           className="rc-btn rc-btn--one"
+                          style={{paddingLeft:'60px',paddingRight:'60px'}}
                         >
                           <FormattedMessage id="ClubLP.NewJoinUs.button" />
                         </button>
@@ -81,14 +82,22 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-2 order-md-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
-                          <img
+                          {process.env.REACT_APP_COUNTRY == 'RU'?
+                            <img
                             src={joinusnewright}
                             style={{
                               maxHeight: '90%',
                               maxWidth: '90%',
                               marginLeft: '5vw'
                             }}
-                          />
+                          />:<img
+                            src={joinusnewright}
+                            style={{
+                              maxHeight: '90%',
+                              maxWidth: '90%',
+                              marginLeft: '5vw'
+                            }}
+                          />}
                         </LazyLoad>
                       </div>
                     </div>

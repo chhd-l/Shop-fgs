@@ -12,8 +12,9 @@
     margin-top: 3vh;
     margin-left: 18vw;
   }
-  .textMarginLeft {
-    margin-left: 20vw;
+  .textCenterJoin {
+    display: flex;
+    justify-content: center;
   }
 }
 

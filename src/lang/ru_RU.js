@@ -1405,7 +1405,7 @@ const ru_RU = {
     'Приветственный подарок, вознаграждения и сервисы',
   'ClubLP.SubscriptionBenefitsNew.icon5': 'Бесплатный обучающий контент',
   'ClubLP.SubscriptionBenefitsNew.icon6':
-    'Бесплатные онлайн-консультации нутрициолога в Petstory',
+    'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
   'ClubLP.NewHowItWorks.title': 'Как это работает?',
   'ClubLP.NewJoinUs.title': 'Расскажите нам о своем питомце',
