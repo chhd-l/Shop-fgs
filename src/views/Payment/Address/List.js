@@ -254,10 +254,8 @@ class AddressList extends React.Component {
     console.log('666  ----->  deliveryDate: ', deliveryDate);
     console.log('666  ----->  timeSlot: ', timeSlot);
 
-    // deliveryDate: 2021-06-11
-    let nyrArr = deliveryDate.split('-');
     // 20210616
-    let dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
+    let dldate = '';
 
     let deliveryDateFlag = false;
     let timeSlotFlag = false;
@@ -270,6 +268,15 @@ class AddressList extends React.Component {
       // 再根据 provinceId 获取到 cutOffTime
       vdres = await getDeliveryDateAndTimeSlot({ cityNo: addls?.provinceId });
       if (vdres.context && vdres.context?.timeSlots?.length) {
+        if (!deliveryDate || !timeSlot) {
+          this.showErrMsg(errMsg);
+          return false;
+        }
+        // deliveryDate: 2021-06-11
+        let nyrArr = deliveryDate?.split('-');
+        // 20210616
+        dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
+
         let tobj = vdres.context.timeSlots;
         cutOffTime = vdres.context?.cutOffTime;
         console.log('666  ----->  tobj: ', tobj);
