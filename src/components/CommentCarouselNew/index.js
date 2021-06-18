@@ -35,7 +35,6 @@ const CommentCarouselNew = () => {
                 <div className="rc-carousel__card-gal">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      {process.env.REACT_APP_COUNTRY === 'tr' ? (
                         <img
                           src={newtrcommentone}
                           alt="alt text"
@@ -46,23 +45,10 @@ const CommentCarouselNew = () => {
                             marginBottom: '30px'
                           }}
                         />
-                      ) : (
-                        <img
-                          src={CommentOne}
-                          alt="alt text"
-                          style={{
-                            borderRadius: '50%',
-                            width: '50%',
-                            marginTop: '30px',
-                            marginBottom: '30px'
-                          }}
-                        />
-                      )}
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      {process.env.REACT_APP_COUNTRY === 'tr' ? (
                         <img
                           src={newtrcommenttwo}
                           alt="alt text"
@@ -73,23 +59,10 @@ const CommentCarouselNew = () => {
                             marginBottom: '30px'
                           }}
                         />
-                      ) : (
-                        <img
-                          src={CommentTwo}
-                          alt="alt text"
-                          style={{
-                            borderRadius: '50%',
-                            width: '50%',
-                            marginTop: '30px',
-                            marginBottom: '30px'
-                          }}
-                        />
-                      )}
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      {process.env.REACT_APP_COUNTRY === 'tr' ? (
                         <img
                           src={newtrcommentthree}
                           alt="alt text"
@@ -100,23 +73,10 @@ const CommentCarouselNew = () => {
                             marginBottom: '30px'
                           }}
                         />
-                      ) : (
-                        <img
-                          src={CommentThree}
-                          alt="alt text"
-                          style={{
-                            borderRadius: '50%',
-                            width: '50%',
-                            marginTop: '30px',
-                            marginBottom: '30px'
-                          }}
-                        />
-                      )}
                     </picture>
                   </article>
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      {process.env.REACT_APP_COUNTRY === 'tr' ? (
                         <img
                           src={newtrcommentFour}
                           alt="alt text"
@@ -127,18 +87,6 @@ const CommentCarouselNew = () => {
                             marginBottom: '30px'
                           }}
                         />
-                      ) : (
-                        <img
-                          src={CommentFour}
-                          alt="alt text"
-                          style={{
-                            borderRadius: '50%',
-                            width: '50%',
-                            marginTop: '30px',
-                            marginBottom: '30px'
-                          }}
-                        />
-                      )}
                     </picture>
                   </article>
                 </div>
