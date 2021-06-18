@@ -800,7 +800,7 @@ class Form extends React.Component {
       // 获取本地存储的需要显示的地址字段
       const localAddressForm = this.props.configStore.localAddressForm;
       if (localAddressForm['region']) {
-        this.getRegionDataByCityId(value);
+        this.getRegionDataByCityId(data.value);
       }
     } else if (key == 'region') {
       cform.area = data.name;

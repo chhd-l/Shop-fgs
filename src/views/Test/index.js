@@ -49,11 +49,36 @@ class Test extends React.Component {
   };
   componentWillUnmount() {}
   componentDidMount() {
-    dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
-    loadJS({
-      url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
-      type: 'text/javascript'
-    });
+    // dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
+    // loadJS({
+    //   url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
+    //   type: 'text/javascript'
+    // });
+    // loadJS({
+    //   code: `function openKaktusWidget() {
+    //     window.kaktusMap.openWidget({
+    //       city_from: 'Москва',
+    //       city_to: 'Москва',
+    //       dimensions: {
+    //         height: 10,
+    //         width: 10,
+    //         depth: 10,
+    //       },
+    //       weight: 600
+    //     });
+    //   }
+
+    //   document.addEventListener('DOMContentLoaded', () => {
+    //     kaktusMap({
+    //       domain: 'shop4995727',
+    //       host: 'https://app.kak2c.ru'
+    //     });
+    //   });
+
+    //   document.addEventListener('kaktusEvent', function (event) {
+    //     console.log(event.detail);
+    //   });`
+    // });
 
     // 设置手机号输入限制
     let element = document.getElementById('testinput');
@@ -136,29 +161,7 @@ class Test extends React.Component {
   };
   // 加载地图
   loadMap = () => {
-    console.log(666, window.kaktusMap);
-    // const openKaktusWidget = () => {
-    window.kaktusMap.openWidget({
-      city_from: 'Москва',
-      city_to: 'Москва',
-      dimensions: {
-        height: 10,
-        width: 10,
-        depth: 10
-      },
-      weight: 600
-    });
-    // };
-    document.addEventListener('DOMContentLoaded', () => {
-      kaktusMap({
-        domain: 'shop4995727',
-        host: 'https://app.kak2c.ru'
-      });
-    });
-
-    document.addEventListener('kaktusEvent', (event) => {
-      console.log(event.detail);
-    });
+    openKaktusWidget();
   };
   render() {
     const { form, isValid, selectedOption } = this.state;

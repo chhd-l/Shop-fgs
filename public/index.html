@@ -194,35 +194,37 @@
 <!-- End Facebook Pixel Code -->
 
 
-<!-- <link href="https://static.kak2c.ru/kak2c.pvz-map.css" rel="stylesheet">
-<script type="text/javascript" src="https://static.kak2c.ru/kak2c.pvz-map.js"></script> -->
+<link href="https://static.kak2c.ru/kak2c.pvz-map.css" rel="stylesheet">
+<script type="text/javascript" src="https://static.kak2c.ru/kak2c.pvz-map.js"></script>
 
-<!-- <script>
-  function openKaktusWidget() {
-    window.kaktusMap.openWidget({
-      city_from: 'Москва',
-      city_to: 'Москва',
-      dimensions: {
-        height: 10,
-        width: 10,
-        depth: 10,
-      },
-      weight: 600
+<script>
+  if (/\/checkout$/.test(window.location.pathname)) {
+    function openKaktusWidget() {
+      window.kaktusMap.openWidget({
+        city_from: 'Москва',
+        city_to: 'Москва',
+        dimensions: {
+          height: 10,
+          width: 10,
+          depth: 10,
+        },
+        weight: 600
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      kaktusMap({
+        domain: 'shop4995727',
+        host: 'https://app.kak2c.ru'
+      });
+    });
+
+    document.addEventListener('kaktusEvent', function (event) {
+      console.log(event.detail);
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    kaktusMap({
-      domain: 'shop4995727',
-      host: 'https://app.kak2c.ru'
-    });
-  });
-
-  document.addEventListener('kaktusEvent', function (event) {
-    console.log(event.detail);
-  });
-
-</script> -->
+</script>
 
 <!-- Facebook Pixel Code -->
 <script>
