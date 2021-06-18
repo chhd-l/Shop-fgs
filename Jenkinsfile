@@ -36,7 +36,7 @@ podTemplate(label: label, cloud: 'kubernetes',
     envVars: [ 
           envVar(key: 'DOCKER_HOST',value: 'tcp://40.117.189.42:2375')
     ],
-    imagePullSecrets: [ 'sit-docker' ]
+    imagePullSecrets: [ 'sit-docker' ],
 )
 {
 
