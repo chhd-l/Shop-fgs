@@ -723,7 +723,7 @@ const ru_RU = {
 
   'payment.tomorrow': 'завтра',
 
-  'payment.reselectTimeSlot': 'Повторите, пожалуйста, дату и время поставки.',
+  'payment.reselectTimeSlot': 'Пожалуйста, укажите дату и время доставки.',
 
   // 星期
   'payment.Monday': 'Понедельник',
