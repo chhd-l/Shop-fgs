@@ -13,7 +13,9 @@ const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
     SubscriptionTitle: (
+      <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
       <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+      </a>
     ),
     SubscriptionContent: (
       <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" />
@@ -22,7 +24,9 @@ const SubscriptionItems = [
   {
     SubscriptionImg: benefitstwo,
     SubscriptionTitle: (
+      <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
       <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+      </a>
     ),
     SubscriptionContent: (
       <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" />
@@ -31,7 +35,9 @@ const SubscriptionItems = [
   {
     SubscriptionImg: benefitsthree,
     SubscriptionTitle: (
+      <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
       <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+      </a>
     ),
     SubscriptionContent: (
       <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" />

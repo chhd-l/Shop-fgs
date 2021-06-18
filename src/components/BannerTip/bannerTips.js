@@ -91,7 +91,11 @@ const bannerTips = () => {
         if (res.context && res.context.mktConsentActivateStatus) {
           setMktMessage(<FormattedMessage id="home.userReturnHasMKT" />);
         } else {
-          setMktMessage(<FormattedMessage id="home.userReurnNoMKT" />);
+          if (res.context.mktSelectedFlag) {
+            setMktMessage(<FormattedMessage id="home.userReurnNoMKT" />);
+          } else {
+            setMktMessage(<FormattedMessage id="home.userReturnHasMKT" />); // Not select MKT when register
+          }
         }
         localItemRoyal.set(mtkOktaKey, 'true');
         return showFiveSeconds();
