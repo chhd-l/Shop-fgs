@@ -91,7 +91,7 @@ const LongBanner = () => {
                   <p
                     style={{
                       color: '#ffffff',
-                      marginBottom: '0px'
+                      marginBottom: '0px',
                     }}
                   >
                     <FormattedMessage id="ClubLP.LongBanner.content2" />

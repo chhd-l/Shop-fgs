@@ -14,7 +14,7 @@ const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle }) => {
       <div className="rc-full-width">
         <div className="experience-component experience-assets-contentBlock margintopmobile">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile ">
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '25px' }}>
+            <div style={{ backgroundColor: '#ffffff' }}>
               <div
                 className="flex desknone"
                 style={{ justifyContent: 'center', padding: '20px' }}
