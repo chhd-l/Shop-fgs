@@ -16,7 +16,7 @@ const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle }) => {
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile ">
             <div style={{ backgroundColor: '#ffffff' }}>
               <div
-                className="flex desknone"
+                className="flex "
                 style={{ justifyContent: 'center', padding: '20px' }}
               >
                 <img

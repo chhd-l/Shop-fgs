@@ -3,6 +3,7 @@ import LazyLoad from 'react-lazyload';
 import joinusnewlogo from './image/joinusnewlogo.png';
 import rulogo from '../../image/CLUB_logoRU@2x.png';
 import joinusnewright from './image/joinusnewright.png';
+import joinusnewru from './image/joinusnewrightru.png'
 import './index.css';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -90,7 +91,7 @@ const JoinTodayNew = () => {
                         <LazyLoad height={180}>
                           {process.env.REACT_APP_COUNTRY == 'RU' ? (
                             <img
-                              src={joinusnewright}
+                              src={joinusnewru}
                               style={{
                                 maxHeight: '90%',
                                 maxWidth: '90%',
