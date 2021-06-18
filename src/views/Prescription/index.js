@@ -361,7 +361,7 @@ class Prescription extends React.Component {
 
             <div className="map-saerch">
               <div className="clinic-search-list">
-                {process.env.REACT_APP_COUNTRY === 'RU' && (
+                {process.env.REACT_APP_COUNTRY === 'ru' && (
                   <div className="vet-clinic-tip">
                     <FormattedMessage
                       id="clinic.vetClinicsTip1"

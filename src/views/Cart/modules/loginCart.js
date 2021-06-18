@@ -896,7 +896,7 @@ class LoginCart extends React.Component {
           {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
-          process.env.REACT_APP_COUNTRY !== 'RU' ? (
+          process.env.REACT_APP_COUNTRY !== 'ru' ? (
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
@@ -1509,9 +1509,9 @@ class LoginCart extends React.Component {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
     const dogsPic =
-      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+      process.env.REACT_APP_COUNTRY === 'fr' ? dogsImgFr : dogsImg;
     const catsPic =
-      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
+      process.env.REACT_APP_COUNTRY === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1595,7 +1595,7 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          // fixToHeader: process.env.REACT_APP_COUNTRY !== 'FR'
+                          // fixToHeader: process.env.REACT_APP_COUNTRY !== 'fr'
                           fixToHeader: false
                         })}
                       </div>
@@ -1628,7 +1628,7 @@ class LoginCart extends React.Component {
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                               // style={{ margin: '0 10%' }}
                               style={
-                                process.env.REACT_APP_COUNTRY === 'FR'
+                                process.env.REACT_APP_COUNTRY === 'fr'
                                   ? {}
                                   : { margin: '0 10%' }
                               }

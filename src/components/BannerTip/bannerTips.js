@@ -111,7 +111,7 @@ const bannerTips = () => {
   }
 
   useEffect(() => {
-    if (process.env.REACT_APP_COUNTRY === 'DE') {
+    if (process.env.REACT_APP_COUNTRY === 'de') {
       const timeId = ShowMKTMessage();
       return () => {
         clearTimeout(timeId);
@@ -127,12 +127,12 @@ const bannerTips = () => {
       {process.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div>
           {/* 美国临时加一个写死的Notice  */}
-          {process.env.REACT_APP_COUNTRY === 'US' ? (
+          {process.env.REACT_APP_COUNTRY === 'us' ? (
             <div class="rc-bg-colour--brand4 text-center">
               <div class="rc-layout-container rc-content-h-middle">
                 <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
                   <div class="d-flex align-items-center">
-                    {process.env.REACT_APP_COUNTRY == 'US' && isLimitLogin() ? (
+                    {process.env.REACT_APP_COUNTRY == 'us' && isLimitLogin() ? (
                       <LimitLoginAlertTips />
                     ) : (
                       <AlertTips />
@@ -143,18 +143,18 @@ const bannerTips = () => {
               </div>
             </div>
           ) : null}
-          {show && process.env.REACT_APP_COUNTRY === 'DE' ? mktMessage : null}
+          {show && process.env.REACT_APP_COUNTRY === 'de' ? mktMessage : null}
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
-                {process.env.REACT_APP_COUNTRY == 'DE' ? null : (
+                {process.env.REACT_APP_COUNTRY == 'de' ? null : (
                   <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
                 )}
                 <span className="align-middle">
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
-                  {process.env.REACT_APP_COUNTRY == 'DE' ? (
+                  {process.env.REACT_APP_COUNTRY == 'de' ? (
                     <Link
                       to="/how-to-order"
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"

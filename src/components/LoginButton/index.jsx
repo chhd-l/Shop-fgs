@@ -91,7 +91,7 @@ const LoginButton = (props) => {
               customerId
             })
               .then((res) => {
-                 setIsGetUserInfoDown(true);
+                setIsGetUserInfoDown(true);
               })
               .catch((e) => {
                 console.log(e);
@@ -127,8 +127,9 @@ const LoginButton = (props) => {
                   loginStore.setUserInfo(customerInfoRes.context);
                   // 去除cart页面不合并购物车逻辑，因为现在登录后不会回到tmpUrl所指页面
                   if (
-                    // tmpUrl !== '/cart' && 
-                  checkoutStore.cartData.length) {
+                    // tmpUrl !== '/cart' &&
+                    checkoutStore.cartData.length
+                  ) {
                     await mergeUnloginCartData();
                     await checkoutStore.updateLoginCart();
                   }
@@ -152,17 +153,22 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    // if (process.env.REACT_APP_COUNTRY == 'US' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    // if (process.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
     try {
       sessionItemRoyal.remove('rc-token-lose');
       localItemRoyal.set(
         'okta-redirectUrl',
-        props.history && props.history.location.pathname + props.history.location.search
+        props.history &&
+          props.history.location.pathname + props.history.location.search
       );
-      
-      console.log(props.history && (props.history.location.pathname + props.history.location.search), 'aaaa')
+
+      console.log(
+        props.history &&
+          props.history.location.pathname + props.history.location.search,
+        'aaaa'
+      );
       // debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(

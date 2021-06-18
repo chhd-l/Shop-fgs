@@ -1079,7 +1079,7 @@ class AccountOrders extends React.Component {
     }
 
     // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
-    const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
+    const isTr = process.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
         <PageBaseInfo additionalEvents={event} />
@@ -1534,9 +1534,9 @@ class AccountOrders extends React.Component {
                                       </p>
 
                                       {/* 国家 */}
-                                      {process.env.REACT_APP_COUNTRY === 'US' ||
+                                      {process.env.REACT_APP_COUNTRY === 'us' ||
                                       process.env.REACT_APP_COUNTRY ===
-                                        'RU' ? null : (
+                                        'ru' ? null : (
                                         <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
                                             this.state.countryList,
@@ -1653,7 +1653,7 @@ class AccountOrders extends React.Component {
 
                                         {/* 国家 */}
                                         {process.env.REACT_APP_COUNTRY ===
-                                          'US' ||
+                                          'us' ||
                                         process.env.REACT_APP_COUNTRY ===
                                           'ru' ? null : (
                                           <p className="mb-0 od_mb_country">

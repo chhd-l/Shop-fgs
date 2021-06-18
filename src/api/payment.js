@@ -71,7 +71,7 @@ export function batchAdd(parameter) {
 export function confirmAndCommit(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_GA_COUNTRY == 'US'
+      process.env.REACT_APP_GA_COUNTRY == 'us'
         ? api.confirmAndCommitUs
         : api.confirmAndCommit,
     method: 'post',
@@ -106,7 +106,7 @@ export function deleteCard(para) {
 export function customerCommitAndPay(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_GA_COUNTRY == 'US'
+      process.env.REACT_APP_GA_COUNTRY == 'us'
         ? api.customerCommitAndPayUs
         : api.customerCommitAndPay,
     method: 'post',
@@ -117,7 +117,7 @@ export function customerCommitAndPay(parameter) {
 export function customerCommitAndPayMix(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_GA_COUNTRY == 'US'
+      process.env.REACT_APP_GA_COUNTRY == 'us'
         ? api.customerCommitAndPayMixUs
         : api.customerCommitAndPayMix,
     method: 'post',
@@ -127,7 +127,7 @@ export function customerCommitAndPayMix(parameter) {
 
 export function rePay(parameter) {
   return axios({
-    url: process.env.REACT_APP_GA_COUNTRY == 'US' ? api.rePayUs : api.rePay,
+    url: process.env.REACT_APP_GA_COUNTRY == 'us' ? api.rePayUs : api.rePay,
     method: 'post',
     data: parameter
   });

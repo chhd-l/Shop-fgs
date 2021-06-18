@@ -929,7 +929,7 @@ class UnLoginCart extends React.Component {
           {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
-          process.env.REACT_APP_COUNTRY !== 'RU' ? (
+          process.env.REACT_APP_COUNTRY !== 'ru' ? (
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
@@ -1557,9 +1557,9 @@ class UnLoginCart extends React.Component {
     const List = this.getProducts(this.state.productList);
 
     const dogsPic =
-      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+      process.env.REACT_APP_COUNTRY === 'fr' ? dogsImgFr : dogsImg;
     const catsPic =
-      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
+      process.env.REACT_APP_COUNTRY === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1667,7 +1667,7 @@ class UnLoginCart extends React.Component {
                         <div
                           className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                           style={
-                            process.env.REACT_APP_COUNTRY === 'FR'
+                            process.env.REACT_APP_COUNTRY === 'fr'
                               ? {}
                               : { margin: '0 10%' }
                           }

@@ -3,7 +3,7 @@ import LazyLoad from 'react-lazyload';
 import joinusnewlogo from './image/joinusnewlogo.png';
 import rulogo from '../../image/CLUB_logoRU@2x.png';
 import joinusnewright from './image/joinusnewright.png';
-import joinusnewru from './image/joinusnewrightru.png'
+import joinusnewru from './image/joinusnewrightru.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -36,7 +36,7 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-1 order-md-0  orderJoin1">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad>
-                          {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                          {process.env.REACT_APP_COUNTRY == 'ru' ? (
                             <img
                               className="w-auto lazyloaded logomargin"
                               style={{
@@ -89,7 +89,7 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-2 order-md-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
-                          {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                          {process.env.REACT_APP_COUNTRY == 'ru' ? (
                             <img
                               src={joinusnewru}
                               style={{

@@ -175,7 +175,7 @@ class ClubLandingPageNew extends React.Component {
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
                     <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                      <h3 style={{fontWeight:'550'}}>
+                      <h3 style={{ fontWeight: '550' }}>
                         <FormattedMessage id="ClubLP.Advantage.title" />
                       </h3>
                     </div>
@@ -259,7 +259,7 @@ class ClubLandingPageNew extends React.Component {
 
           <Divider />
 
-          {process.env.REACT_APP_COUNTRY == 'RU' ? (
+          {process.env.REACT_APP_COUNTRY == 'ru' ? (
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none ">
                 <div className="rc-full-width">

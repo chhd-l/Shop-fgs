@@ -30,7 +30,7 @@ const HandledRelateProductCarousel = ({ id }: Props) => {
         const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
         const ruAttrs = [breed, ...technologyAttr];
         const technologyOrBreedsAttr =
-          isHub && process.env.REACT_APP_COUNTRY === 'RU'
+          isHub && process.env.REACT_APP_COUNTRY === 'ru'
             ? ruAttrs.join(',')
             : attrs;
         return Object.assign(ele, { technologyOrBreedsAttr });

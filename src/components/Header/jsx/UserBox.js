@@ -74,8 +74,11 @@ export const UnLoginUserBox = ({ history, className }) => {
 };
 
 export const LoginUserBox = ({ self, className }) => {
-  const { personInformationRouter, petsRouter, subscriptionsRouter } =
-    self.props;
+  const {
+    personInformationRouter,
+    petsRouter,
+    subscriptionsRouter
+  } = self.props;
   const menuList = [
     {
       link: '/account',
@@ -140,7 +143,7 @@ export const LoginUserBox = ({ self, className }) => {
     {
       link: '/faq',
       href:
-        process.env.REACT_APP_COUNTRY == 'RU'
+        process.env.REACT_APP_COUNTRY == 'ru'
           ? '/about-us/faq'
           : '/about-us/faqs',
       isHubOuterLink: true,

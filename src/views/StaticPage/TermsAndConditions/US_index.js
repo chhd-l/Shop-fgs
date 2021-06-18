@@ -80,7 +80,7 @@ class TermsConditionsUs extends React.Component {
         />
 
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_COUNTRY == 'FR' ? null : <BannerTip />}
+          {process.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
           {/* <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile"> */}
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  noParagraphMargin">

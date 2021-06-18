@@ -197,7 +197,7 @@ class ValidationAddressModal extends React.Component {
                               <span className="postalCode">
                                 {address.postCode}
                               </span>
-                              {process.env.REACT_APP_COUNTRY == 'US' ? null : (
+                              {process.env.REACT_APP_COUNTRY == 'us' ? null : (
                                 <>
                                   ,
                                   <span className="countryCode">

@@ -298,7 +298,7 @@ class Register extends Component {
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
       customerName:
-        process.env.REACT_APP_COUNTRY !== 'DE'
+        process.env.REACT_APP_COUNTRY !== 'de'
           ? registerForm.name
           : registerForm.firstName + ' ' + registerForm.lastName,
       callback: process.env.REACT_APP_ACCESS_PATH + registerUrl
@@ -388,7 +388,7 @@ class Register extends Component {
       });
   };
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'TR') {
+    if (process.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }
@@ -457,12 +457,12 @@ class Register extends Component {
       errorMessage
     } = this.state;
     const allValid =
-      (process.env.REACT_APP_COUNTRY !== 'DE'
+      (process.env.REACT_APP_COUNTRY !== 'de'
         ? nameValid
         : firstNameValid && lastNameValid) &&
       emailValid &&
       passwordValid &&
-      (process.env.REACT_APP_COUNTRY !== 'DE'
+      (process.env.REACT_APP_COUNTRY !== 'de'
         ? registerForm.name
         : registerForm.firstName && registerForm.lastName) &&
       registerForm.email &&
@@ -472,7 +472,7 @@ class Register extends Component {
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
     const isHub = process.env.REACT_APP_HUB == '1';
-    const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
+    const isTr = process.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
     let homePage = process.env.REACT_APP_HOMEPAGE;
     const contactUrl =
       homePage.substring(homePage.length - 1, homePage.length) === '/'
@@ -535,7 +535,7 @@ class Register extends Component {
                             <strong>
                               <a
                                 href={
-                                  process.env.REACT_APP_COUNTRY === 'US'
+                                  process.env.REACT_APP_COUNTRY === 'us'
                                     ? homePage + contactUrl
                                     : homePage + helpUrl
                                 }
@@ -590,13 +590,13 @@ class Register extends Component {
                           <FormattedMessage id="registerLoginIn" />
                         </a>
                       </p>
-                      {process.env.REACT_APP_COUNTRY !== 'RU' &&
-                      process.env.REACT_APP_COUNTRY !== 'TR' ? (
+                      {process.env.REACT_APP_COUNTRY !== 'ru' &&
+                      process.env.REACT_APP_COUNTRY !== 'tr' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              {process.env.REACT_APP_COUNTRY === 'DE' ? (
+                              {process.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
                                     __html: this.getIntlMsg(
@@ -628,7 +628,7 @@ class Register extends Component {
                           encoding="off"
                         >
                           <div className="rc-margin-bottom--xs">
-                            {process.env.REACT_APP_COUNTRY !== 'DE' ? (
+                            {process.env.REACT_APP_COUNTRY !== 'de' ? (
                               <div className="form-group rc-margin-bottom--md required rc-text--left">
                                 <div
                                   className={
@@ -1004,7 +1004,7 @@ class Register extends Component {
                                 id="registerFooter1"
                                 defaultMessage={' '}
                               />
-                              {process.env.REACT_APP_COUNTRY === 'US' ? (
+                              {process.env.REACT_APP_COUNTRY === 'us' ? (
                                 <a href={homePage + contactUrl}>&nbsp;here</a>
                               ) : null}
                             </p>

@@ -539,7 +539,7 @@ class Home extends React.Component {
     if (localItemRoyal.get('login-again')) {
       return null;
     }
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Ru = process.env.REACT_APP_COUNTRY === 'ru';
     return (
       <div>
         {!Ru ? (

@@ -74,7 +74,7 @@ export default class welcome extends Component {
                 apptracking="registration.contactSupport"
                 class="rc-link"
                 href={
-                  process.env.REACT_APP_COUNTRY === 'US'
+                  process.env.REACT_APP_COUNTRY === 'us'
                     ? homePage + contactUrl
                     : homePage + helpUrl
                 }
@@ -87,7 +87,7 @@ export default class welcome extends Component {
           </div>
         </div>
 
-        {process.env.REACT_APP_COUNTRY === 'DE' ? (
+        {process.env.REACT_APP_COUNTRY === 'de' ? (
           <Footer />
         ) : (
           <div

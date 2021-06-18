@@ -5,7 +5,7 @@ import shippingiconnew from './image/pictosshippingnew@4x.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
-import discountnewtr from './image/discountnewtr.png'
+import discountnewtr from './image/discountnewtr.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
 import iconsix from './image/iconsix.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -23,7 +23,10 @@ const SubsriptionBenefitsNew = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontWeight:'550'}}>
+            <h4
+              className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+              style={{ fontWeight: '550' }}
+            >
               <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />
             </h4>
             <div className="value-proposition__container">
@@ -59,7 +62,11 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
-                          src={process.env.REACT_APP_COUNTRY == 'TR'?discountnewtr:discountnew}
+                          src={
+                            process.env.REACT_APP_COUNTRY == 'tr'
+                              ? discountnewtr
+                              : discountnew
+                          }
                         />
                       </LazyLoad>
                     </div>
@@ -138,7 +145,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                {process.env.REACT_APP_COUNTRY == 'ru' ? (
                   <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div

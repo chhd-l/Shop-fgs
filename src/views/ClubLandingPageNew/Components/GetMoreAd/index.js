@@ -16,7 +16,10 @@ const GetMoreAd = () => {
             <div className="experience-component experience-assets-contentBlock">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontWeight:'550'}}>
+                  <h4
+                    className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                    style={{ fontWeight: '550' }}
+                  >
                     <FormattedMessage id="ClubLP.GetMoreAd.title" />
                   </h4>
                 </div>
@@ -111,7 +114,7 @@ const GetMoreAd = () => {
                         >
                           <div>
                             <LazyLoad>
-                              {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                              {process.env.REACT_APP_COUNTRY == 'ru' ? (
                                 <img
                                   className="w-60 lazyloaded"
                                   src={rulogo}

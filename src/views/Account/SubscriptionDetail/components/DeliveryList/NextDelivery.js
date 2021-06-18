@@ -474,7 +474,7 @@ const NextDelivery = ({
                 <strong>{formatMoney(el.tradePrice.totalPrice)}</strong>
               </div>
             </div>
-            {process.env.REACT_APP_COUNTRY === 'US' ? (
+            {process.env.REACT_APP_COUNTRY === 'us' ? (
               <div className="row">
                 <div className="col-1 col-md-3" />
                 <label className="col-9 text-left">

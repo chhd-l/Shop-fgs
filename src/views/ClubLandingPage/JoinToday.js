@@ -10,7 +10,7 @@ import './index.css';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
-import ruclublogo from './ClubImage/CLUB_logoRU@2x.png'
+import ruclublogo from './ClubImage/CLUB_logoRU@2x.png';
 
 const JoinToday = (props) => {
   return (
@@ -44,7 +44,7 @@ const JoinToday = (props) => {
                       <div
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
-                        {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                        {process.env.REACT_APP_COUNTRY == 'ru' ? (
                           <img
                             style={{ width: '200px' }}
                             src={ruclublogo}

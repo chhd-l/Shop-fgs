@@ -276,7 +276,7 @@ class AccountProfile extends React.Component {
                     />
                   </PanleContainer>
 
-                  {process.env.REACT_APP_COUNTRY !== 'RU' &&
+                  {process.env.REACT_APP_COUNTRY !== 'ru' &&
                     process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
                       <PanleContainer
                         loading={loading}

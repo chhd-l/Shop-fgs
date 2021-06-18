@@ -114,7 +114,7 @@ class Help extends React.Component {
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
                                   {process.env.REACT_APP_COUNTRY ==
-                                  'DE' ? null : (
+                                  'de' ? null : (
                                     <FormattedMessage id="help.tip1" />
                                   )}
                                 </p>
@@ -289,7 +289,7 @@ class Help extends React.Component {
               </div>
             </div>
           </div>
-          {process.env.REACT_APP_COUNTRY == 'FR' ? (
+          {process.env.REACT_APP_COUNTRY == 'fr' ? (
             <div>
               <FrTips />
               <FrFaq />

@@ -198,7 +198,7 @@ const HandledSpec = ({
           }
         } else {
           if (
-            process.env.REACT_APP_COUNTRY === 'DE' &&
+            process.env.REACT_APP_COUNTRY === 'de' &&
             sItem.chidren.length > 1 &&
             !sItem.chidren[1].isEmpty
           ) {

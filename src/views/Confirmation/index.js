@@ -154,7 +154,7 @@ class Confirmation extends React.Component {
         });
       });
 
-    if (process.env.REACT_APP_COUNTRY === 'DE' && isLogin) {
+    if (process.env.REACT_APP_COUNTRY === 'de' && isLogin) {
       accountCallBack().then((res) => {
         const customerId = this.userInfo && this.userInfo.customerId;
         this.setState({
@@ -469,7 +469,7 @@ class Confirmation extends React.Component {
                   }}
                 />
               </p>
-              {process.env.REACT_APP_COUNTRY === 'DE' && isLogin ? (
+              {process.env.REACT_APP_COUNTRY === 'de' && isLogin ? (
                 <>
                   {mktSelectedFlag && !mktActivateFlag ? (
                     <div className="col-12 col-md-6 mktConsent">

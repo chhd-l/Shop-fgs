@@ -264,7 +264,7 @@ class RegisterRequired extends Component {
     }
   };
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'TR') {
+    if (process.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }

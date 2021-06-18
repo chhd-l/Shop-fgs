@@ -22,7 +22,7 @@ const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle }) => {
                 <img
                   style={{ width: '100px' }}
                   src={
-                    process.env.REACT_APP_COUNTRY == 'RU' ? clubru : clublogo
+                    process.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo
                   }
                 />
               </div>

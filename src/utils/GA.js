@@ -2,7 +2,7 @@ const isHubGA = process.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
-const isRu = process.env.REACT_APP_COUNTRY === 'RU';
+const isRu = process.env.REACT_APP_COUNTRY === 'ru';
 
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
@@ -36,7 +36,7 @@ export const getDeSpecies = (item) => {
 
 //species属性
 const getSpecies = (item) => {
-  if (process.env.REACT_APP_COUNTRY == 'DE') {
+  if (process.env.REACT_APP_COUNTRY == 'de') {
     return getDeSpecies(item)[0] == 'Hund' ? 'Dog' : 'Cat';
   } else {
     return (
@@ -64,7 +64,7 @@ const getSpecies = (item) => {
 
 //SpeciesId属性
 const getSpeciesId = (item) => {
-  if (process.env.REACT_APP_COUNTRY == 'DE') {
+  if (process.env.REACT_APP_COUNTRY == 'de') {
     return getDeSpecies(item)[0] == 'Hund' ? '2' : '1';
   } else {
     return (

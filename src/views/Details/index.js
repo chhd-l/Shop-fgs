@@ -63,9 +63,9 @@ const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
 const isHub = process.env.REACT_APP_HUB == '1';
-const Fr = process.env.REACT_APP_COUNTRY === 'FR';
-const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-const Tr = process.env.REACT_APP_COUNTRY === 'TR';
+const Fr = process.env.REACT_APP_COUNTRY === 'fr';
+const Ru = process.env.REACT_APP_COUNTRY === 'ru';
+const Tr = process.env.REACT_APP_COUNTRY === 'tr';
 // const pageLink = window.location.href;
 
 @inject(
@@ -1025,10 +1025,10 @@ class Details extends React.Component {
                                     </div>
                                   ) : null}
                                   {isCountriesContainer([
-                                    'FR',
-                                    'RU',
-                                    'TR',
-                                    'US'
+                                    'fr',
+                                    'ru',
+                                    'tr',
+                                    'us'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1229,7 +1229,7 @@ class Details extends React.Component {
                               buyFromRetailer={this.handleBuyFromRetailer}
                             />
                             {form.buyWay === 2 &&
-                            process.env.REACT_APP_COUNTRY !== 'RU' ? (
+                            process.env.REACT_APP_COUNTRY !== 'ru' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>

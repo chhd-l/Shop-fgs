@@ -334,22 +334,22 @@ class Form extends React.Component {
     let maskOptions = [];
     let phoneReg = '';
     switch (process.env.REACT_APP_COUNTRY) {
-      case 'FR':
+      case 'fr':
         phoneReg = [
           { mask: '(+33) 0 00 00 00 00' },
           { mask: '(+33) 00 00 00 00 00' }
         ];
         break;
-      case 'US':
+      case 'us':
         phoneReg = [{ mask: '000-000-0000' }];
         break;
-      case 'RU':
+      case 'ru':
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
-      case 'MX':
+      case 'mx':
         phoneReg = [{ mask: '+(52) 000 000 00' }];
         break;
-      case 'TR':
+      case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       default:
@@ -498,7 +498,7 @@ class Form extends React.Component {
     }
 
     if (
-      process.env.REACT_APP_COUNTRY == 'RU' &&
+      process.env.REACT_APP_COUNTRY == 'ru' &&
       !this.props.isCyberBillingAddress &&
       !this.props.personalData
     ) {
@@ -514,7 +514,7 @@ class Form extends React.Component {
       let errMsg = '';
       switch (item.fieldKey) {
         case 'postCode':
-          process.env.REACT_APP_COUNTRY == 'US'
+          process.env.REACT_APP_COUNTRY == 'us'
             ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
             : (regExp = /^\d{5}$/);
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
@@ -524,19 +524,19 @@ class Form extends React.Component {
           errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
           break;
         case 'phoneNumber':
-          if (process.env.REACT_APP_COUNTRY == 'FR') {
+          if (process.env.REACT_APP_COUNTRY == 'fr') {
             // 法国
             regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'US') {
+          } else if (process.env.REACT_APP_COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'MX') {
+          } else if (process.env.REACT_APP_COUNTRY == 'mx') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'RU') {
+          } else if (process.env.REACT_APP_COUNTRY == 'ru') {
             // 俄罗斯
             regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'TR') {
+          } else if (process.env.REACT_APP_COUNTRY == 'tr') {
             // 土耳其
             regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
@@ -548,7 +548,7 @@ class Form extends React.Component {
         default:
           regExp = /\S/;
           let errstr = '';
-          if (process.env.REACT_APP_COUNTRY == 'RU') {
+          if (process.env.REACT_APP_COUNTRY == 'ru') {
             errstr = 'payment.errorInfo2';
           } else {
             errstr = 'payment.errorInfo';
@@ -756,7 +756,7 @@ class Form extends React.Component {
     const { isDeliveryDateAndTimeSlot } = this.state;
     let newForm = Object.assign({}, data);
     // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
-    if (process.env.REACT_APP_COUNTRY == 'FR') {
+    if (process.env.REACT_APP_COUNTRY == 'fr') {
       let tvalue = newForm.phoneNumber;
       if (tvalue?.length > 19) {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
@@ -874,7 +874,7 @@ class Form extends React.Component {
         return;
       }
       switch (process.env.REACT_APP_COUNTRY) {
-        case 'US':
+        case 'us':
           tvalue = tvalue
             .replace(/\s/g, '')
             .replace(/-$/, '')
@@ -931,7 +931,7 @@ class Form extends React.Component {
           [tname]: ''
         })
       });
-      if (process.env.REACT_APP_COUNTRY != 'RU') {
+      if (process.env.REACT_APP_COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
         this.validFormAllData(); // 验证表单所有数据
       }

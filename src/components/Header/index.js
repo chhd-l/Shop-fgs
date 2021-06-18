@@ -506,8 +506,8 @@ class Header extends React.Component {
   };
   hanldeClickSignUp = () => {
     if (
-      process.env.REACT_APP_COUNTRY === 'FR' ||
-      process.env.REACT_APP_COUNTRY === 'US'
+      process.env.REACT_APP_COUNTRY === 'fr' ||
+      process.env.REACT_APP_COUNTRY === 'us'
     ) {
       this.props.history.push('/register');
     } else {
@@ -731,7 +731,7 @@ class Header extends React.Component {
             </div>
           )}
         </HeaderContainer>
-        {process.env.REACT_APP_COUNTRY !== 'RU' &&
+        {process.env.REACT_APP_COUNTRY !== 'ru' &&
           process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

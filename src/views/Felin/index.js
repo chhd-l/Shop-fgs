@@ -417,7 +417,7 @@ export default class Felin extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    // if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'FR') {
+    // if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'fr') {
     //   value = value.replace(/^[0]/, '+(33)');
     // }
     userInfo[name] = value;
@@ -1118,7 +1118,7 @@ export default class Felin extends React.Component {
                             </span>
                             <Calendar
                               value={this.state.currentDate}
-                              calendarType="US"
+                              calendarType="us"
                               locale={process.env.REACT_APP_Adyen_locale}
                               view="month"
                               onViewChange={() => {

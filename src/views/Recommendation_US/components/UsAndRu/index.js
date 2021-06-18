@@ -37,8 +37,8 @@ const LineModule = () => (
 );
 const UsAndRu = (props) => {
   let PuppyJPG = `${imgUrlPreFix}/${props.intl.messages['recommendation.plusImg']}`;
-  const isUs = process.env.REACT_APP_COUNTRY === 'US';
-  const isRu = process.env.REACT_APP_COUNTRY === 'RU';
+  const isUs = process.env.REACT_APP_COUNTRY === 'us';
+  const isRu = process.env.REACT_APP_COUNTRY === 'ru';
   let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
   let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;

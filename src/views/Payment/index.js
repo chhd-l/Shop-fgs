@@ -108,7 +108,7 @@ function CreditCardInfoPreview({
           <br />
           <span>
             {getFormatDate(expirationDate, (date) => {
-              if (process.env.REACT_APP_COUNTRY === 'FR') {
+              if (process.env.REACT_APP_COUNTRY === 'fr') {
                 return date.slice(3);
               } else {
                 return date;
@@ -567,7 +567,7 @@ class Payment extends React.Component {
         }
       };
       if (
-        process.env.REACT_APP_COUNTRY === 'RU' &&
+        process.env.REACT_APP_COUNTRY === 'ru' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
       ) {
         payMethodsObj = {
@@ -771,7 +771,7 @@ class Payment extends React.Component {
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
       //在commonParameter加上一个consentIds-start
-      if (process.env.REACT_APP_COUNTRY == 'TR') {
+      if (process.env.REACT_APP_COUNTRY == 'tr') {
         let list = [...this.state.listData];
         let consentIds = [];
         list
@@ -2239,7 +2239,7 @@ class Payment extends React.Component {
       cyberPaymentParam.lastName = newBillingAddress.lastName;
       cyberPaymentParam.address1 = newBillingAddress.address1;
       cyberPaymentParam.address2 = newBillingAddress.address2;
-      cyberPaymentParam.country = 'US';
+      cyberPaymentParam.country = 'us';
       cyberPaymentParam.state = newBillingAddress.province;
       cyberPaymentParam.city = newBillingAddress.city;
       cyberPaymentParam.zipCode = newBillingAddress.postCode;

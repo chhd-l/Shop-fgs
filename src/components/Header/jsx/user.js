@@ -99,7 +99,7 @@ const UserJSX = (props) => {
                       className="rc-styled-link"
                       onClick={() => {
                         // if (
-                        //   process.env.REACT_APP_COUNTRY == 'US' &&
+                        //   process.env.REACT_APP_COUNTRY == 'us' &&
                         //   isLimitLogin()
                         // ) {
                         //   // 美国4/17的美国中部时间早8点到晚4点不能登录账户
@@ -117,11 +117,11 @@ const UserJSX = (props) => {
                           return;
                         }
                         if (
-                          process.env.REACT_APP_COUNTRY === 'TR' ||
-                          process.env.REACT_APP_COUNTRY === 'RU' ||
-                          process.env.REACT_APP_COUNTRY === 'FR' ||
-                          process.env.REACT_APP_COUNTRY === 'US' ||
-                          process.env.REACT_APP_COUNTRY === 'DE'
+                          process.env.REACT_APP_COUNTRY === 'tr' ||
+                          process.env.REACT_APP_COUNTRY === 'ru' ||
+                          process.env.REACT_APP_COUNTRY === 'fr' ||
+                          process.env.REACT_APP_COUNTRY === 'us' ||
+                          process.env.REACT_APP_COUNTRY === 'de'
                         ) {
                           localItemRoyal.set(
                             'okta-redirectUrl',

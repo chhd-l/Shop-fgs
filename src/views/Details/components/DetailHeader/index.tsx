@@ -6,7 +6,7 @@ import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const createMarkup = (text: 'string') => ({ __html: text });
-const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+const Ru = process.env.REACT_APP_COUNTRY === 'ru';
 interface Props {
   checkOutErrMsg: string;
   goodHeading: string;

@@ -150,13 +150,13 @@ import DateFnsLocaleFr from 'date-fns/locale/fr';
 import DateFnsLocaleES from 'date-fns/locale/es';
 import DateFnsLocaleDE from 'date-fns/locale/de';
 
-if (process.env.REACT_APP_COUNTRY === 'FR') {
+if (process.env.REACT_APP_COUNTRY === 'fr') {
   registerLocale('fr', DateFnsLocaleFr);
   setDefaultLocale('fr');
-} else if (process.env.REACT_APP_COUNTRY === 'DE') {
+} else if (process.env.REACT_APP_COUNTRY === 'de') {
   registerLocale('de', DateFnsLocaleDE);
   setDefaultLocale('de');
-} else if (process.env.REACT_APP_COUNTRY === 'MX') {
+} else if (process.env.REACT_APP_COUNTRY === 'mx') {
   registerLocale('es', DateFnsLocaleES);
   setDefaultLocale('es');
 }
@@ -303,10 +303,10 @@ const App = () => {
                   render={(props) => {
                     let fragment = '';
                     switch (process.env.REACT_APP_COUNTRY) {
-                      case 'FR':
+                      case 'fr':
                         fragment = <TermsConditions {...props} />;
                         break;
-                      case 'TR':
+                      case 'tr':
                         fragment = <TermsConditionsTr {...props} />;
                         break;
                     }
@@ -322,7 +322,7 @@ const App = () => {
                   exact
                   path="/termsandconditions"
                   component={
-                    process.env.REACT_APP_COUNTRY == 'FR'
+                    process.env.REACT_APP_COUNTRY == 'fr'
                       ? TermsConditions
                       : TermsConditionsUs
                   }
@@ -333,8 +333,8 @@ const App = () => {
                   render={(props) => {
                     let tmpComponent;
                     switch (process.env.REACT_APP_COUNTRY) {
-                      case 'RU':
-                      case 'TR':
+                      case 'ru':
+                      case 'tr':
                         return <ClubLandingPage {...props} />;
                       default:
                         return <Exception {...props} />;
@@ -497,16 +497,16 @@ const App = () => {
                   component={(() => {
                     let sublanding = '';
                     switch (process.env.REACT_APP_COUNTRY) {
-                      case 'DE':
+                      case 'de':
                         sublanding = DE_SubscriptionLanding;
                         break;
-                      case 'US':
+                      case 'us':
                         sublanding = US_SubscriptionLanding;
                         break;
-                      case 'RU':
+                      case 'ru':
                         sublanding = VetLandingPage;
                         break;
-                      case 'TR':
+                      case 'tr':
                         sublanding = TR_SubscriptionLanding;
                         break;
                       default:
@@ -524,7 +524,7 @@ const App = () => {
                   path="/how-to-order"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'DE'
+                    process.env.REACT_APP_COUNTRY == 'de'
                       ? ClubLandingPageDe
                       : Exception
                   }
@@ -533,7 +533,7 @@ const App = () => {
                   path="/vet-diets"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'DE'
+                    process.env.REACT_APP_COUNTRY == 'de'
                       ? ClubLandingPageDeVet
                       : Exception
                   }
@@ -553,7 +553,7 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'DE' ? AboutUsDe : AboutUs
+                    process.env.REACT_APP_COUNTRY == 'de' ? AboutUsDe : AboutUs
                   }
                 />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
@@ -586,7 +586,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'US'
+                    process.env.REACT_APP_COUNTRY == 'us'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -596,7 +596,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'US'
+                    process.env.REACT_APP_COUNTRY == 'us'
                       ? US_QualitySafety
                       : QualitySafety
                   }

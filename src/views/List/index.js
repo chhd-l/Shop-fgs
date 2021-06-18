@@ -1134,7 +1134,7 @@ class List extends React.Component {
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie: process.env.REACT_APP_COUNTRY == 'DE' ? deSpecie : specie,
+        specie: process.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1197,7 +1197,7 @@ class List extends React.Component {
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie: process.env.REACT_APP_COUNTRY == 'DE' ? deSpecie : specie,
+        specie: process.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1854,7 +1854,7 @@ class List extends React.Component {
               ? [breed, ...technologyAttr]
               : [...technologyAttr];
             const technologyOrBreedsAttr =
-              isHub && process.env.REACT_APP_COUNTRY === 'RU'
+              isHub && process.env.REACT_APP_COUNTRY === 'ru'
                 ? ruAttrs.join(',')
                 : attrs;
             const taggingVOList = (ele.taggingVOList || []).filter(
@@ -1882,11 +1882,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -2097,7 +2096,7 @@ class List extends React.Component {
 
     const { title, metaDescription, metaKeywords } = this.state.seoConfig;
     const h1Title =
-      process.env.REACT_APP_COUNTRY === 'RU'
+      process.env.REACT_APP_COUNTRY === 'ru'
         ? titleData?.title?.toLowerCase()
         : titleData?.title;
     const titleSeo = title && titleData && title.replace(/{H1}/, h1Title);
@@ -2110,15 +2109,15 @@ class List extends React.Component {
     const trFilterSeoDesc =
       prefv1 + ' ' + animalType + ' ' + metaDescriptionSeo;
     const filterSeoTitle =
-      process.env.REACT_APP_COUNTRY === 'RU'
+      process.env.REACT_APP_COUNTRY === 'ru'
         ? ruFilterSeoTitle
         : trFilterSeoTitle;
     const filterSeoDesc =
-      process.env.REACT_APP_COUNTRY === 'RU'
+      process.env.REACT_APP_COUNTRY === 'ru'
         ? ruFilterSeoDesc
         : trFilterSeoDesc;
     const filterSeoWords =
-      process.env.REACT_APP_COUNTRY === 'RU' ? allPrefv : metaKeywords;
+      process.env.REACT_APP_COUNTRY === 'ru' ? allPrefv : metaKeywords;
     return (
       <div>
         {this.state.event && (
@@ -2457,7 +2456,7 @@ class List extends React.Component {
             </section>
             <ProductFinderAd {...this.state} />
           </div>
-          {process.env.REACT_APP_COUNTRY == 'DE' ? (
+          {process.env.REACT_APP_COUNTRY == 'de' ? (
             <div className="notate ml-2 mb-2">
               <FormattedMessage
                 id="notate"

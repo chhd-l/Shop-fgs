@@ -1382,11 +1382,11 @@ span.ship-to-phone {
   border-color: #c03344;
 }
 
-[data-country='RU'][data-device='iphone-5'] .checkout-steps__item {
+[data-country='ru'][data-device='iphone-5'] .checkout-steps__item {
   font-size: 0.9rem;
 }
 
-[data-country='RU'][data-device='iphone-5'] .checkout-steps__item hr {
+[data-country='ru'][data-device='iphone-5'] .checkout-steps__item hr {
   width: 5px;
   margin: 0 0.3rem 0 0.5rem;
 }

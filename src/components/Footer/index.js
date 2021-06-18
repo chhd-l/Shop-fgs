@@ -203,11 +203,11 @@ class Footer extends React.Component {
               </p>
               <div className="rc-text--inverse">
                 <p>
-                  {process.env.REACT_APP_COUNTRY == 'FR'
+                  {process.env.REACT_APP_COUNTRY == 'fr'
                     ? 'Nos spécialistes sont disponibles de 8h30 à 12h30 et de 14h à 17h du lundi au vendredi.'
                     : this.props.configStore.contactTimePeriod}
                 </p>
-                {process.env.REACT_APP_COUNTRY == 'FR' ? (
+                {process.env.REACT_APP_COUNTRY == 'fr' ? (
                   <p>
                     <FormattedMessage
                       id="contactUsViaPhone"
@@ -227,7 +227,7 @@ class Footer extends React.Component {
                 <a
                   style={{
                     display:
-                      process.env.REACT_APP_COUNTRY == 'FR'
+                      process.env.REACT_APP_COUNTRY == 'fr'
                         ? 'none'
                         : 'inline-block'
                   }}

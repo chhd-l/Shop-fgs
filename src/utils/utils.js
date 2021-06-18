@@ -49,10 +49,10 @@ export function formatMoney(
   }
   val += '';
   let length = val.length;
-  if (process.env.REACT_APP_COUNTRY === 'TR') {
+  if (process.env.REACT_APP_COUNTRY === 'tr') {
     return val + ' TL';
   }
-  if (process.env.REACT_APP_COUNTRY === 'RU') {
+  if (process.env.REACT_APP_COUNTRY === 'ru') {
     // console.log(val, 'val----');
     val = parseInt(Math.round(val));
     return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
@@ -553,14 +553,14 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   autoShipFrequency = flatten(autoShipFrequency).map((el) => {
     el.goodsInfoFlag = 1;
     // 设置法国周一、周二不可选
-    if (lang == 'FR') {
+    if (lang == 'fr') {
       el.id == 5744 || el.id == 3558
         ? (el.disabled = true)
         : (el.disabled = false);
     }
     return el;
   });
-  if (lang == 'DE') {
+  if (lang == 'de') {
     autoShipFrequency = autoShipFrequency.filter((el) => {
       // 德国只展示1-3个月的frequency
       return (
@@ -578,7 +578,7 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   clubFrequency = flatten(clubFrequency).map((el) => {
     el.goodsInfoFlag = 2;
     // 设置法国周一、周二不可选
-    if (lang == 'FR') {
+    if (lang == 'fr') {
       el.id == 5744 || el.id == 3558
         ? (el['disabled'] = true)
         : (el['disabled'] = false);
@@ -591,7 +591,7 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   } else if (frequencyType === 'club') {
     frequencyList = clubFrequency;
   }
-  if (lang == 'DE') {
+  if (lang == 'de') {
     // 德国不存在club，并且只展示1-3个月的frequency
     frequencyList = autoShipFrequency;
   }
@@ -675,7 +675,7 @@ export async function fetchHeaderNavigations() {
 }
 
 export function getFormatDate(date, callback, lang) {
-  if (isMatchedLang(['FR'])) {
+  if (isMatchedLang(['fr'])) {
     const cache = createIntlCache();
     const intl = createIntl(
       {
@@ -689,19 +689,19 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(getZoneTime(date));
     }
-  } else if (isMatchedLang(['US'])) {
+  } else if (isMatchedLang(['us'])) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['TR'])) {
+  } else if (isMatchedLang(['tr'])) {
     return format(getZoneTime(date), 'dd-MM-yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['RU'])) {
+  } else if (isMatchedLang(['ru'])) {
     return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['DE'])) {
+  } else if (isMatchedLang(['de'])) {
     return format(getZoneTime(date), 'dd.MM.yyyy', {
       locale: datePickerConfig.locale_module
     });
@@ -719,22 +719,22 @@ function getDatePickerConfig() {
   const lang = process.env.REACT_APP_COUNTRY;
 
   switch (lang) {
-    case 'DE':
+    case 'de':
       registerLocale('de', DE);
       break;
-    case 'MX':
+    case 'mx':
       registerLocale('es', MX);
       break;
-    case 'FR':
+    case 'fr':
       registerLocale('fr', FR);
       break;
-    case 'US':
+    case 'us':
       registerLocale('en', US);
       break;
-    case 'RU':
+    case 'ru':
       registerLocale('ru', RU);
       break;
-    case 'TR':
+    case 'tr':
       registerLocale('tr', TR);
       break;
     default:
@@ -891,7 +891,7 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1;
+  return ['tr', 'ru'].indexOf(process.env.REACT_APP_COUNTRY) > -1;
 }
 
 // 美国订单号去掉RCFUS开头
@@ -949,7 +949,7 @@ export const sleep = (time) => {
   });
 };
 export function getZoneTime(date) {
-  if (process.env.REACT_APP_COUNTRY === 'US') {
+  if (process.env.REACT_APP_COUNTRY === 'us') {
     return new Date(date).addHours(12);
   }
   return new Date(date);
@@ -963,7 +963,7 @@ import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import { el } from 'date-fns/locale';
 export function getClubLogo() {
-  if (process.env.REACT_APP_COUNTRY === 'RU') {
+  if (process.env.REACT_APP_COUNTRY === 'ru') {
     return Club_Logo_ru;
   } else {
     return Club_Logo;

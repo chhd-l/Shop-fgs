@@ -81,7 +81,7 @@ class AboutUs extends React.Component {
             {seoConfig.metaDescription || 'Royal canin'}
           </h1>
           <BannerTip />
-          {/* {process.env.REACT_APP_COUNTRY == 'FR' ? null: <BannerTip />} */}
+          {/* {process.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
           <br />
           <BreadCrumbs />
           <div className="storefront-page">
@@ -283,7 +283,7 @@ class AboutUs extends React.Component {
                 </div>
               </div>
 
-              {process.env.REACT_APP_COUNTRY == 'US' ? (
+              {process.env.REACT_APP_COUNTRY == 'us' ? (
                 <div className="experience-component experience-layouts-1column">
                   <div className="row rc-margin-x--none">
                     <div className="rc-full-width">

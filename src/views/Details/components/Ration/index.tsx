@@ -9,7 +9,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { FormattedMessage } from 'react-intl';
 import { ObjectConstructor } from '@/utils/types.ts';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const Tr = process.env.REACT_APP_COUNTRY === 'TR';
+const Tr = process.env.REACT_APP_COUNTRY === 'tr';
 
 interface Props {
   setState: Function;

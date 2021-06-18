@@ -64,7 +64,7 @@ class SameAsCheckbox extends React.Component {
             <FormattedMessage id="biliingAddressSameAs" />
           </label>
         </div>
-        {process.env.REACT_APP_GA_COUNTRY == 'US' ? null : (
+        {process.env.REACT_APP_GA_COUNTRY == 'us' ? null : (
           <div className="normalDelivery fit-mobile-normalDelivery">
             <span>
               <FormattedMessage id="payment.normalDelivery2" />
@@ -82,7 +82,7 @@ class SameAsCheckbox extends React.Component {
               >
                 i
               </span>
-              {process.env.REACT_APP_COUNTRY == 'FR' ? null : (
+              {process.env.REACT_APP_COUNTRY == 'fr' ? null : (
                 <ConfirmTooltip
                   containerStyle={{
                     transform: 'translate(-62%, 117%)'

@@ -56,7 +56,7 @@ function CardItem(props) {
           <p className="mb-0 ac_mb_address1">{data?.address1}</p>
         )}
 
-        {process.env.REACT_APP_COUNTRY == 'US' ? null : (
+        {process.env.REACT_APP_COUNTRY == 'us' ? null : (
           <>
             <p className="mb-0">{props.countryName}</p>
           </>
@@ -910,7 +910,7 @@ class AddressList extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    {process.env.REACT_APP_COUNTRY !== 'RU' ? (
+                    {process.env.REACT_APP_COUNTRY !== 'ru' ? (
                       <div
                         className="d-flex align-items-center justify-content-between flex-wrap"
                         style={{ lineHeight: '40px' }}

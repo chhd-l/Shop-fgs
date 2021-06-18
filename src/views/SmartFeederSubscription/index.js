@@ -871,7 +871,7 @@ class SmartFeederSubscription extends Component {
                 }
               } else {
                 if (
-                  process.env.REACT_APP_COUNTRY === 'DE' &&
+                  process.env.REACT_APP_COUNTRY === 'de' &&
                   sItem.chidren.length > 1 &&
                   !sItem.chidren[1].isEmpty
                 ) {
@@ -920,9 +920,9 @@ class SmartFeederSubscription extends Component {
                   if (tmpGoodsDetail[key]) {
                     console.log(tmpGoodsDetail[key], 'ghaha');
                     if (
-                      process.env.REACT_APP_COUNTRY === 'FR' ||
-                      process.env.REACT_APP_COUNTRY === 'RU' ||
-                      process.env.REACT_APP_COUNTRY === 'TR'
+                      process.env.REACT_APP_COUNTRY === 'fr' ||
+                      process.env.REACT_APP_COUNTRY === 'ru' ||
+                      process.env.REACT_APP_COUNTRY === 'tr'
                     ) {
                       let tempObj = {};
                       let tempContent = '';
@@ -1058,9 +1058,9 @@ class SmartFeederSubscription extends Component {
                   if (tmpGoodsDetail[key]) {
                     console.log(tmpGoodsDetail[key], 'ghaha');
                     if (
-                      process.env.REACT_APP_COUNTRY === 'FR' ||
-                      process.env.REACT_APP_COUNTRY === 'RU' ||
-                      process.env.REACT_APP_COUNTRY === 'TR'
+                      process.env.REACT_APP_COUNTRY === 'fr' ||
+                      process.env.REACT_APP_COUNTRY === 'ru' ||
+                      process.env.REACT_APP_COUNTRY === 'tr'
                     ) {
                       let tempObj = {};
                       let tempContent = '';

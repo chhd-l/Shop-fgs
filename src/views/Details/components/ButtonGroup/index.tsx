@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import BuyFromRetailerBtn from '../BuyFromRetailerBtn';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
 const isHub = process.env.REACT_APP_HUB == '1';
-const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+const Ru = process.env.REACT_APP_COUNTRY === 'ru';
 interface Props {
   addToCartLoading: boolean;
   btnStatus: boolean;
@@ -13,8 +13,8 @@ interface Props {
   barcode: string;
   goodsType: number | string;
   vet: boolean;
-  addToCart: Function
-  buyFromRetailer: Function
+  addToCart: Function;
+  buyFromRetailer: Function;
 }
 const ButtonGroup = ({
   addToCartLoading,
@@ -29,11 +29,11 @@ const ButtonGroup = ({
   buyFromRetailer
 }: Props) => {
   const handleAddToCart = () => {
-    addToCart()
-  }
+    addToCart();
+  };
   const handleBuyFromRetailer = () => {
-    buyFromRetailer()
-  }
+    buyFromRetailer();
+  };
   return (
     <div>
       <div className="rc-md-up">
@@ -74,7 +74,9 @@ const ButtonGroup = ({
                 // ccidBtnDisplay={ccidBtnDisplay}
                 barcode={barcode}
                 goodsType={goodsType}
-                onClick={()=>{handleBuyFromRetailer}}
+                onClick={() => {
+                  handleBuyFromRetailer;
+                }}
                 // ref={(el) => this.ccidBtnRef(el)}
               />
             </>

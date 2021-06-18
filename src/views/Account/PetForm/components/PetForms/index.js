@@ -87,14 +87,14 @@ const PetForms = ({
   location,
   showErrorMsg
 }) => {
-  const Us = process.env.REACT_APP_COUNTRY == 'US';
+  const Us = process.env.REACT_APP_COUNTRY == 'us';
   const RuTr =
-    process.env.REACT_APP_COUNTRY == 'RU' ||
-    process.env.REACT_APP_COUNTRY == 'TR';
+    process.env.REACT_APP_COUNTRY == 'ru' ||
+    process.env.REACT_APP_COUNTRY == 'tr';
   const notUsDeFr =
-    process.env.REACT_APP_COUNTRY !== 'US' &&
-    process.env.REACT_APP_COUNTRY !== 'DE' &&
-    process.env.REACT_APP_COUNTRY !== 'FR';
+    process.env.REACT_APP_COUNTRY !== 'us' &&
+    process.env.REACT_APP_COUNTRY !== 'de' &&
+    process.env.REACT_APP_COUNTRY !== 'fr';
   const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =

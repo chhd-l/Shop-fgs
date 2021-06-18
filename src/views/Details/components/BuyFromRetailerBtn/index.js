@@ -90,7 +90,7 @@ class BuyFromRetailerBtn extends React.Component {
   render() {
     const { onClick, barcode, goodsType } = this.props;
     const { ccidBtnDisplay } = this.state;
-    const Fr = process.env.REACT_APP_COUNTRY === 'FR';
+    const Fr = process.env.REACT_APP_COUNTRY === 'fr';
     return (
       <div ref={(el) => this.ccidBtnRef(el)}>
         {Fr ? (

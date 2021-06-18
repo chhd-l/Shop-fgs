@@ -162,9 +162,9 @@ const TrhowitworksnewListmobile = [
   }
 ];
 
-const RU = process.env.REACT_APP_COUNTRY == 'RU';
-const TR = process.env.REACT_APP_COUNTRY == 'TR';
-const FR = process.env.REACT_APP_COUNTRY == 'FR';
+const RU = process.env.REACT_APP_COUNTRY == 'ru';
+const TR = process.env.REACT_APP_COUNTRY == 'tr';
+const FR = process.env.REACT_APP_COUNTRY == 'fr';
 
 const HowItWorksNew = () => {
   return (
@@ -174,7 +174,10 @@ const HowItWorksNew = () => {
           <div className="experience-component experience-assets-contentBlock">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
               <div>
-                <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha" style={{fontWeight:'550'}}>
+                <h4
+                  className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha"
+                  style={{ fontWeight: '550' }}
+                >
                   <FormattedMessage id="ClubLP.NewHowItWorks.title" />
                 </h4>
               </div>

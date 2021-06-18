@@ -62,7 +62,7 @@ const pdpbackgroundmobilecatstr = {
 
 const pdpbackgrounddogs = {
   backgroundImage: `url(${
-    process.env.REACT_APP_COUNTRY === 'RU'
+    process.env.REACT_APP_COUNTRY === 'ru'
       ? pdpbackgrounddog
       : pdpbackgorunddogother
   })`,
@@ -75,7 +75,7 @@ const pdpbackgrounddogs = {
 
 const pdpbackgroundcats = {
   backgroundImage: `url(${
-    process.env.REACT_APP_COUNTRY === 'RU'
+    process.env.REACT_APP_COUNTRY === 'ru'
       ? pdpbackgroundcatru
       : pdpbackgroundcat
   })`,
@@ -112,24 +112,29 @@ let clubListDataNew = [
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
-  process.env.REACT_APP_COUNTRY === 'RU'
+  process.env.REACT_APP_COUNTRY === 'ru'
     ? {
-        text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon6'} values={{
-          val: (
-            <a
-              onClick={() => {
-                window.PetStoryWC.start();
-              }}
-              style={{
-                textDecoration: 'underline',
-                color: '#e3001b',
-                cursor: 'pointer'
-              }}
-            >
-              PetStory
-            </a>
-          )
-        }}/>,
+        text: (
+          <FormattedMessage
+            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+            values={{
+              val: (
+                <a
+                  onClick={() => {
+                    window.PetStoryWC.start();
+                  }}
+                  style={{
+                    textDecoration: 'underline',
+                    color: '#e3001b',
+                    cursor: 'pointer'
+                  }}
+                >
+                  PetStory
+                </a>
+              )
+            }}
+          />
+        ),
         img: iconsix,
         alt: 'CLUB BENEFITS PET ADVISOR'
       }
@@ -163,7 +168,7 @@ let clubListData = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
-if (process.env.REACT_APP_COUNTRY === 'RU') {
+if (process.env.REACT_APP_COUNTRY === 'ru') {
   clubListData.push({
     text: <FormattedMessage id="clubListData.tip6" />,
     img: iconsix,
@@ -207,9 +212,15 @@ const GoodsDetailTabs = function (props) {
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.cat" values={{val:<br/>}}/>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle.tab.cat"
+          values={{ val: <br /> }}
+        />
       ) : (
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle.tab.dog" values={{val:<br/>}} />
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle.tab.dog"
+          values={{ val: <br /> }}
+        />
       )
   };
 
@@ -218,8 +229,8 @@ const GoodsDetailTabs = function (props) {
       SubscriptionImg:
         getSpeciesId(goodsDetailSpace) == '1' ? benefitsonecat : benefitsonedog,
       SubscriptionTitle: (
-        <a style={{fontWeight:'bold',fontSize:'17px'}}>
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1.new" />
+        <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
+          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1.new" />
         </a>
       )
     },
@@ -227,16 +238,16 @@ const GoodsDetailTabs = function (props) {
       SubscriptionImg:
         getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
       SubscriptionTitle: (
-        <a style={{fontWeight:'bold',fontSize:'17px'}}>
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2.new" />
+        <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
+          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2.new" />
         </a>
       )
     },
     {
       SubscriptionImg: benefitsthree,
       SubscriptionTitle: (
-        <a style={{fontWeight:'bold',fontSize:'17px'}}>
-        <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
+        <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
+          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
         </a>
       )
     }
@@ -386,7 +397,7 @@ const GoodsDetailTabs = function (props) {
       .filter((e) => e.displayName && e.content);
 
     // 美国需临时加入一个tab
-    if (process.env.REACT_APP_COUNTRY === 'US') {
+    if (process.env.REACT_APP_COUNTRY === 'us') {
       let COHORTPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
       let BENEFITS_WELCOMEPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
       let BENEFITS_DISCOUNT = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
@@ -418,7 +429,7 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
       });
     }
-    // if (process.env.REACT_APP_COUNTRY === 'RU' && saleableFlag && sptGoods) {
+    // if (process.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
     //   let mixfeeding = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
     //   let MixfeedingFood = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
     //   tmpGoodsDescriptionDetailList.push({
@@ -593,10 +604,10 @@ const GoodsDetailTabs = function (props) {
                         className="clubdetailsmobile"
                         style={
                           getSpeciesId(goodsDetailSpace) == '1'
-                            ? process.env.REACT_APP_COUNTRY === 'TR'
+                            ? process.env.REACT_APP_COUNTRY === 'tr'
                               ? pdpbackgroundmobilecatstr
                               : pdpbackgroundmobilecats
-                            : process.env.REACT_APP_COUNTRY === 'TR'
+                            : process.env.REACT_APP_COUNTRY === 'tr'
                             ? pdpmobilebackgrounddogtr
                             : pdpmobilebackgrounddog
                         }
@@ -627,7 +638,7 @@ const GoodsDetailTabs = function (props) {
                                       textAlign: 'center'
                                     }}
                                   >
-                                    {process.env.REACT_APP_COUNTRY === 'RU' ? (
+                                    {process.env.REACT_APP_COUNTRY === 'ru' ? (
                                       <br />
                                     ) : (
                                       <FormattedMessage id="ClubLP.LongBanner.content2" />
@@ -795,7 +806,7 @@ const GoodsDetailTabs = function (props) {
                               alt={item.alt}
                               className="m-auto rc-margin--none--desktop"
                             />
-                            <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100" >
+                            <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
                               <p className="mb-0" style={{ textAlign: 'left' }}>
                                 {item.text}
                               </p>
@@ -846,7 +857,7 @@ const GoodsDetailTabs = function (props) {
                                   ></FormattedMessage>
                                 </p>
                                 <p style={{ fontSize: '0.7em' }}>
-                                  {process.env.REACT_APP_COUNTRY === 'RU' ? (
+                                  {process.env.REACT_APP_COUNTRY === 'ru' ? (
                                     <br />
                                   ) : (
                                     <FormattedMessage id="ClubLP.LongBanner.content2" />
@@ -872,7 +883,10 @@ const GoodsDetailTabs = function (props) {
                                   alt={item.alt}
                                   className="m-auto rc-margin--none--desktop"
                                 />
-                                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100" style={{marginTop:'5px'}}>
+                                <div
+                                  className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100"
+                                  style={{ marginTop: '5px' }}
+                                >
                                   <p
                                     className="mb-0"
                                     style={{ textAlign: 'left', width: '22vw' }}

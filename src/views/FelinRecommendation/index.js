@@ -140,7 +140,7 @@ class FelinRecommendation extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  if (process.env.REACT_APP_COUNTRY === 'FR') {
+                  if (process.env.REACT_APP_COUNTRY === 'fr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {

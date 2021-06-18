@@ -22,7 +22,7 @@ class TermsCommon extends Component {
     };
   }
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'TR') {
+    if (process.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }
@@ -82,7 +82,7 @@ class TermsCommon extends Component {
   }
   //从子组件传回
   sendList = (list) => {
-    // if(process.env.REACT_APP_COUNTRY=='TR'){
+    // if(process.env.REACT_APP_COUNTRY=='tr'){
     //   list.forEach((item)=>{
     //     if(item.id=='tr_A'){
     //       if(item.isChecked){
@@ -120,7 +120,7 @@ class TermsCommon extends Component {
           id={this.props.id}
         />
 
-        {process.env.REACT_APP_COUNTRY === 'DE' ? (
+        {process.env.REACT_APP_COUNTRY === 'de' ? (
           <>
             <a style={{ color: '#7F6666', cursor: 'default' }}>
               Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich.
