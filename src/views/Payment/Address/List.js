@@ -336,9 +336,10 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    if (tmpObj?.deliveryDate) {
+    // if (tmpObj?.deliveryDate) {
+    if (tmpObj.province == 'Москва' || tmpObj.province == 'Московская') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
       this.setState({ btnConfirmLoading: false });
