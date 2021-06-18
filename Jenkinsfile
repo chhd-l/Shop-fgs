@@ -16,6 +16,8 @@ def AZURE_STORAGE_ACCOUNT='d2cshop'
 
 def JOB_NAME = 'SHOP-PUSH-${UUID.randomUUID().toString()}'
 
+def DOCKER_HOST = "tcp://40.117.189.42:2375"
+
 
 
 // cloud为我们前面提供的云名称，nodeSelector是K8S运行pod的节点选择
@@ -30,9 +32,9 @@ podTemplate(label: label, cloud: 'kubernetes',
             resourceRequestMemory: '2000Mi'
             )
     ],
-    volumes: [
-        hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock')
-            ],
+    //volumes: [
+    //    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath:'/var/run/docker.sock')
+    //        ],
     imagePullSecrets: [ 'sit-docker' ]
 )
 {
