@@ -2,11 +2,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from './image/pictosshippingnew@4x.png';
-import phoneicon from './image/phoneicon@4x.png'
+import phoneicon from './image/phoneicon@4x.png';
 import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
-import iconsix from './image/iconsix.png'
+import iconsix from './image/iconsix.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const SubsriptionBenefitsNew = () => {
@@ -41,7 +41,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon1'}
                         />
@@ -63,7 +63,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon2'}
                         />
@@ -85,7 +85,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon3'}
                         />
@@ -107,7 +107,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon4'}
                         />
@@ -129,7 +129,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon5'}
                         />
@@ -154,9 +154,25 @@ const SubsriptionBenefitsNew = () => {
                         </LazyLoad>
                       </div>
                       <div className="d-flex align-items-center value-proposition__text">
-                        <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                        <p className="rc-margin-bottom--none rc-intro demarginleft">
                           <FormattedMessage
-                            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+                            id="ClubLP.SubscriptionBenefitsNew.icon6"
+                            values={{
+                              val: (
+                                <a
+                                  onClick={() => {
+                                    window.PetStoryWC.start();
+                                  }}
+                                  style={{
+                                    textDecoration: 'underline',
+                                    color: '#e3001b',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  PetStory
+                                </a>
+                              )
+                            }}
                           />
                         </p>
                       </div>
@@ -171,9 +187,11 @@ const SubsriptionBenefitsNew = () => {
               href={'/product-finder'}
               ariaLabel="Links to product finder"
             >
-            <button className="rc-btn rc-btn--one" >
-              <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.button'} />
-            </button>
+              <button className="rc-btn rc-btn--one">
+                <FormattedMessage
+                  id={'ClubLP.SubscriptionBenefitsNew.button'}
+                />
+              </button>
             </DistributeHubLinkOrATag>
           </h4>
         </div>

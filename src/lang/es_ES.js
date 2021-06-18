@@ -662,6 +662,9 @@ const es_ES = {
 
   'payment.tomorrow': 'Mañana',
 
+  'payment.homeDelivery': 'Entrega a domicilio',
+  'payment.pickUpDelivery': 'Entrega',
+
   'payment.staleDate': 'Por favor, repita la fecha y hora de entrega.',
 
   'payment.reselectTimeSlot':

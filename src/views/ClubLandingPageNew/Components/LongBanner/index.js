@@ -51,7 +51,7 @@ const LongBanner = () => {
                 style={{ marginBottom: '0px' }}
               >
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
                   style={{
                     marginLeft: '13vw',
                     marginTop: '30px',
@@ -83,7 +83,7 @@ const LongBanner = () => {
                         paddingLeft: '80px',
                         paddingRight: '80px'
                       }}
-                      className="rc-btn rc-btn--one transformmobile10px"
+                      className="rc-btn rc-btn--one "
                     >
                       <FormattedMessage id="ClubLP.LongBanner.button" />
                     </button>
