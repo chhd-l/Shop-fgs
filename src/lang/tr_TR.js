@@ -1276,6 +1276,10 @@ const tr_TR = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Evcil hayvanınızın uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Her zaman doğru porsiyon miktarı',
+  'ClubLP.LongBanner.SubscriptionTitle1.new':
+    'Рекомендации по нормам кормления для выбора оптимальной порции',
+  'ClubLP.LongBanner.SubscriptionTitle2.new':
+    'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.LongBanner.SubscriptionTitle3.new':
     'Her zaman doğru porsiyon miktarı',
   'ClubLP.LongBanner.SubscriptionContent3':
