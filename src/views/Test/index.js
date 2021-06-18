@@ -16,6 +16,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
+import PickUp from '@/components/PickUp';
 
 import './index.less';
 
@@ -139,21 +140,30 @@ class Test extends React.Component {
   render() {
     const { form, isValid, selectedOption } = this.state;
     return (
-      <div style={{ padding: '30px' }}>
+      <div
+        className="rc-content--fixed-header rc-bg-colour--brand4"
+        style={{ padding: '30px' }}
+      >
         <br />
-        <button
+        {/* <button
           onClick={() => {
             openKaktusWidget();
           }}
         >
           map
         </button>
-        <div id="kaktusMap"></div>
+        <div className="pickup_map_box">
+          <div id="kaktusMap" style={{ display: 'block' }}></div>
+        </div> */}
+        <br />
+        <br />
+        <br />
+        <PickUp />
         <br />
         <h1>0513</h1>
         <br />
         <br />
-        <h1>2021-06-17 12:02:18</h1>
+        <h1>2021-06-18 19:23:18</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>

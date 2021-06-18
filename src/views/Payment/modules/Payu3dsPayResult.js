@@ -35,7 +35,7 @@ class Payu3dsResult extends Component {
       }
     } catch (err) {
       sessionItemRoyal.set('rc-tid', err.context.businessId);
-      sessionItemRoyal.set('rc-tidList', err.context.tidList);
+      sessionItemRoyal.set('rc-tidList', JSON.stringify(err.context.tidList));
       this.props.history.push('/checkout');
     } finally {
       await sleep(2000); //防止还没跳转

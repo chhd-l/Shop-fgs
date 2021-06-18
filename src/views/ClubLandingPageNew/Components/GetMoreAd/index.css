@@ -2,13 +2,10 @@
   .flexColumn {
     flex-direction: column;
   }
-  .marginleftButton {
-    margin-top: 8vh;
-  }
   .widthsmall {
     width: 80vw;
     margin-left: 7vw;
-    height: 50vh;
+    height: 39vh;
   }
   .marginleftLogo {
     margin-left: 3vw;
@@ -24,9 +21,6 @@
     margin-left: 0;
     list-style-position: outside;
   }
-  .getmorebutton {
-    margin-top: 21vh;
-  }
   .mobileflex {
     flex-direction: column;
   }
@@ -35,6 +29,15 @@
   }
   .paddingtop0 {
     padding-top: 0;
+  }
+  .margintop3vh {
+    margin-top: 5vh;
+  }
+  .getmore47vh {
+    height: 47vh;
+  }
+  .getmorebutton {
+    margin-top: 4vh;
   }
 }
 
@@ -50,5 +53,14 @@
   }
   .getmorebutton {
     margin-top: 10vh;
+  }
+  .margintop10vh {
+    margin-top: 10vh;
+  }
+  .margintop15vh {
+    margin-top: 15vh;
+  }
+  .getmore30vh {
+    height: 30vh;
   }
 }

@@ -838,6 +838,9 @@ const en_US = {
 
   'payment.tomorrow': 'tomorrow',
 
+  'payment.homeDelivery': 'Home delivery',
+  'payment.pickUpDelivery': 'Pick up delivery',
+
   'payment.staleDate': 'Please repeat the date and time of delivery',
 
   'payment.reselectTimeSlot': 'Please re select delivery date and timeslot.',

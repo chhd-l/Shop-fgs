@@ -41,50 +41,104 @@ class PickUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataLoading: false
+      dataLoading: false,
+      pickUpBtnLoading: false
     };
   }
   componentDidMount() {}
+  handleChange = (e) => {
+    let val = e.currentTarget?.value;
+    if (val == 'Pick up delivery') {
+      openKaktusWidget();
+      document.addEventListener('DOMContentLoaded', () => {
+        kaktusMap({
+          domain: 'shop4995727',
+          // domain: 'shop000000',
+          host: 'https://app.kak2c.ru'
+        });
+      });
+
+      document.addEventListener('kaktusEvent', function (event) {
+        console.log(event.detail);
+      });
+    }
+  };
   render() {
-    const { dataLoading, formLoading } = this.state;
     return (
       <>
-        {/* {formLoading ? (
-          <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
-        ) : (
-          <div
-            className="row rc_form_box"
-            style={{ display: isMobile ? 'block' : 'flex' }}
-          ></div>
-        )}
-
-        {dataLoading ? <Loading /> : null} */}
-        {/* <button class="rc-btn rc-btn--one" onClick={() => this.setMyMap()}>地图</button> */}
-
-        <div className="row rc_form_box">
-          <div className="col-md-6">
-            <div className="form-group">
+        <div
+          className="row rc_form_box"
+          style={{ display: isMobile ? 'block' : 'flex' }}
+        >
+          <div className="col-md-7">
+            <div className="form-group rc-full-width rc-input--full-width">
               <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
                 <input
-                  type="email"
-                  className="rc-input__control emailShipping"
-                  id="email"
+                  type="text"
+                  className="rc-input__control fillcity_of_delivery"
+                  id="text"
                   alt="Fill city of delivery"
-                  name="email"
+                  name="text"
                   placeholder="Fill city of delivery"
                   maxLength="50"
                 />
               </span>
             </div>
-          </div>
-          <div className="col-md-12">
-            <div className="d-flex justify-content-end mt-3 rc_btn_pick_up">
-              <button className="rc-btn rc-btn--one">
-                <FormattedMessage id="yes2" />
-              </button>
+            {/* Home delivery */}
+            <div className="rc_radio_box rc-full-width rc-input--full-width">
+              <div className="rc-input rc-input--inline">
+                <input
+                  className="rc-input__radio"
+                  value="Home delivery"
+                  id="homeDelivery"
+                  type="radio"
+                  name="homeDeliveryOrPickUp"
+                  onChange={this.handleChange}
+                />
+                <label
+                  className="rc-input__label--inline"
+                  htmlFor="homeDelivery"
+                >
+                  <FormattedMessage id="payment.homeDelivery" />
+                </label>
+                <div className="delivery_date_price">200 Rub</div>
+              </div>
+              <div className="need_delivery_date">From 1 to 3 working days</div>
+            </div>
+            {/* pickUp delivery */}
+            <div className="rc_radio_box rc-full-width rc-input--full-width">
+              <div className="rc-input rc-input--inline">
+                <input
+                  className="rc-input__radio"
+                  value="Pick up delivery"
+                  id="pickUpDelivery"
+                  type="radio"
+                  name="homeDeliveryOrPickUp"
+                  onChange={this.handleChange}
+                />
+                <label
+                  className="rc-input__label--inline"
+                  htmlFor="pickUpDelivery"
+                >
+                  <FormattedMessage id="payment.pickUpDelivery" />
+                </label>
+                <div className="delivery_date_price">200 Rub</div>
+              </div>
+              <div className="need_delivery_date">From 1 to 3 working days</div>
             </div>
           </div>
         </div>
+
+        <div className="row pickup_map_box">
+          <div id="kaktusMap"></div>
+        </div>
+        {/* <div className="col-md-12">
+  <div className="d-flex justify-content-end mt-3 rc_btn_pick_up">
+    <button className={`rc-btn rc-btn--one rc_btn_pick_up ${this.state.pickUpBtnLoading ? 'ui-btn-loading' : ''}`}>
+      <FormattedMessage id="yes2" />
+    </button>
+  </div>
+</div> */}
       </>
     );
   }
