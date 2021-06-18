@@ -62,7 +62,7 @@ const LongBanner = () => {
                     style={{
                       fontSize: '1.2em',
                       color: '#ffffff',
-                      fontWeight: 'bold',
+                      fontWeight: 'bold'
                     }}
                   >
                     <FormattedMessage

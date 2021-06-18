@@ -2,12 +2,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from './image/pictosshippingnew@4x.png';
-import phoneicon from './image/phoneicon@4x.png'
+import phoneicon from './image/phoneicon@4x.png';
 import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
 import discountnewtr from './image/discountnewtr.png'
 import advisernew from './image/pictospetadvisernew@4x.png';
-import iconsix from './image/iconsix.png'
+import iconsix from './image/iconsix.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const SubsriptionBenefitsNew = () => {
@@ -23,7 +23,7 @@ const SubsriptionBenefitsNew = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" >
+            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
               <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />
             </h4>
             <div className="value-proposition__container">
@@ -188,9 +188,11 @@ const SubsriptionBenefitsNew = () => {
               href={'/product-finder'}
               ariaLabel="Links to product finder"
             >
-            <button className="rc-btn rc-btn--one" >
-              <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.button'} />
-            </button>
+              <button className="rc-btn rc-btn--one">
+                <FormattedMessage
+                  id={'ClubLP.SubscriptionBenefitsNew.button'}
+                />
+              </button>
             </DistributeHubLinkOrATag>
           </h4>
         </div>
