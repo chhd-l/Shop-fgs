@@ -121,6 +121,9 @@
   .demarigintop10px{
     margin-top: 10px;
   }
+  .defontsize24px{
+    font-size: 24px;
+  }
 }
 
 @media (min-width: 639.98px) {
