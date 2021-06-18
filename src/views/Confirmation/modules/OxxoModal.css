@@ -1,6 +1,11 @@
-@media (min-width: 960px) {
+/* @media (max-width: 640px) {
   #oxxoModal {
-    width: 20% !important;
+    width: 90% !important;
+  }
+} */
+@media (max-width: 640px) and (min-width: 960px) {
+  #oxxoModal {
+    width: 40% !important;
   }
 }
 #oxxoModal .print {
@@ -22,15 +27,46 @@
   font-size: 1.125rem;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 640px) {
   #oxxoModal {
-    top: 40% !important;
+    top: 50% !important;
   }
   #mainBody {
-    max-height: 60vh !important;
-    min-height: 60vh !important;
+    max-height: 80vh !important;
+    min-height: 80vh !important;
   }
 }
+
+@media (min-width: 640px) and (max-width: 960px) {
+  #oxxoModal {
+    top: 45% !important;
+  }
+  #mainBody {
+    max-height: 65vh !important;
+    min-height: 65vh !important;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1200px) {
+  #oxxoModal {
+    top: 30% !important;
+  }
+  #mainBody {
+    max-height: 50vh !important;
+    min-height: 50vh !important;
+  }
+}
+@media (min-width: 1200px) {
+  #oxxoModal {
+    width: 20%;
+    top: 50% !important;
+  }
+  #mainBody {
+    max-height: 80vh !important;
+    min-height: 80vh !important;
+  }
+}
+
 #oxxo-container .adyen-checkout__voucher-result__code__barcode {
   margin-left: -16px;
   margin-top: 10px;
