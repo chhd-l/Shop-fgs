@@ -10,8 +10,8 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
 const HelpComponents = (props) => {
-  const RU = process.env.REACT_APP_COUNTRY == 'ru';
-  const TR = process.env.REACT_APP_COUNTRY == 'tr';
+  const ru = process.env.REACT_APP_COUNTRY == 'ru';
+  const tr = process.env.REACT_APP_COUNTRY == 'tr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -116,7 +116,7 @@ const HelpComponents = (props) => {
                                   {/*}*/}
                                   <FormattedMessage id="club.wheretohelp.card.email.description" />
                                 </p>
-                                {TR || RU ? (
+                                {tr || ru ? (
                                   <DistributeHubLinkOrATag
                                     href={'/contact-us'}
                                     ariaLabel="Links to contact us"
@@ -191,7 +191,7 @@ const HelpComponents = (props) => {
                           <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                             <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                               <div className="w-100">
-                                {RU ? (
+                                {ru ? (
                                   <p>
                                     <FormattedMessage
                                       id="club.wheretohelp.card.faq"
@@ -213,7 +213,7 @@ const HelpComponents = (props) => {
                                       }}
                                     />
                                   </p>
-                                ) : TR ? (
+                                ) : tr ? (
                                   <p>
                                     <FormattedMessage
                                       id="club.wheretohelp.card.faq"

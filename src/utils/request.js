@@ -36,13 +36,13 @@ service.interceptors.request.use((config) => {
     });
   }
   config.headers['Accept-Language'] = {
-    US: 'en-US',
-    MX: 'es-MX',
-    DE: 'de',
-    FR: 'fr',
-    TR: 'tr',
-    RU: 'ru',
-    CN: 'zh-CN'
+    us: 'en-US',
+    mx: 'es-MX',
+    de: 'de',
+    fr: 'fr',
+    tr: 'tr',
+    ru: 'ru',
+    cn: 'zh-CN'
   }[process.env.REACT_APP_COUNTRY];
   config.headers['storeId'] = process.env.REACT_APP_STOREID;
   // 添加取消标记

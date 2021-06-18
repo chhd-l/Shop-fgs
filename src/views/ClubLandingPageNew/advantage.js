@@ -36,7 +36,7 @@ export function Advantage() {
 
   const list =
     {
-      US: [
+      us: [
         {
           imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
           imgAlt: 'ideal formula',
@@ -59,7 +59,7 @@ export function Advantage() {
           text: 'Free Automatic Shipping'
         }
       ],
-      FR: [
+      fr: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -88,7 +88,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ],
-      DE: [
+      de: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -117,7 +117,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip4" />
         }
       ],
-      RU: [
+      ru: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -146,7 +146,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ],
-      TR: [
+      tr: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',

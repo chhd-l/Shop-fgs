@@ -49,7 +49,7 @@ function Divider() {
 function HealthNutrition() {
   return (
     {
-      US: (
+      us: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
@@ -243,7 +243,7 @@ function HealthNutrition() {
 function Share() {
   return (
     {
-      US: (
+      us: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -372,7 +372,7 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      US: [
+      us: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
           img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,

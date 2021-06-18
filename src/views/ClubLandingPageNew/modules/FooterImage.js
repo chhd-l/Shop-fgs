@@ -65,7 +65,7 @@ class FooterImage extends React.Component {
     );
 
     const footerImage = {
-      MX: (
+      mx: (
         <div className="row rc-margin-x--none d-flex">
           <div
             className="col-6 col-lg-4 order-1 order-lg-0"
@@ -122,8 +122,8 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      US: defaultVal,
-      DE: (
+      us: defaultVal,
+      de: (
         <div className="rc-layout-container rc-three-column">
           <div className="rc-column">
             <LazyLoad height={200}>
@@ -187,7 +187,7 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      FR: (
+      fr: (
         <div className="row rc-margin-x--none d-flex">
           <div
             className="col-6 col-lg-4 order-1 order-lg-0"

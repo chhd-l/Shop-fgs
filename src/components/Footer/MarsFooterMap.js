@@ -9,7 +9,7 @@ import { cookieSettingsBtn } from './cookieSettingsBtn';
 class MarsFooterMap extends React.Component {
   render() {
     const marsFooterMap = {
-      ES: (
+      mx: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -76,7 +76,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      US: (
+      us: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -196,7 +196,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      DE: (
+      de: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -279,7 +279,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      FR: (
+      fr: (
         <div id="mars-footer-panel">
           <div className="mars-footer-container">
             <ul
@@ -361,7 +361,7 @@ class MarsFooterMap extends React.Component {
           </div>
         </div>
       ),
-      RU: (
+      ru: (
         <div
           id="mars-footer-panel"
           className="mars-footer-mars mars-footer-icon-size-medium"
@@ -434,7 +434,7 @@ class MarsFooterMap extends React.Component {
           </div>{' '}
         </div>
       ),
-      TR: (
+      tr: (
         <div
           id="mars-footer-panel"
           className="mars-footer-mars mars-footer-icon-size-medium"

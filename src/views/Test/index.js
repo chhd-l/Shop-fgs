@@ -136,19 +136,19 @@ class Test extends React.Component {
   };
   // 加载地图
   loadMap = () => {
-    console.log(1111, window.kaktusMap);
-    const openKaktusWidget = () => {
-      window.kaktusMap.openWidget({
-        city_from: 'Москва',
-        city_to: 'Москва',
-        dimensions: {
-          height: 10,
-          width: 10,
-          depth: 10
-        },
-        weight: 600
-      });
-    };
+    console.log(666, window.kaktusMap);
+    // const openKaktusWidget = () => {
+    window.kaktusMap.openWidget({
+      city_from: 'Москва',
+      city_to: 'Москва',
+      dimensions: {
+        height: 10,
+        width: 10,
+        depth: 10
+      },
+      weight: 600
+    });
+    // };
     document.addEventListener('DOMContentLoaded', () => {
       kaktusMap({
         domain: 'shop4995727',

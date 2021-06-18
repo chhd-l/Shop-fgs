@@ -1,9 +1,9 @@
 const searchNoResult = {
-  FR: '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show',
-  US: '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
-  RU: '/on/demandware.store/Sites-RU-Site/ru_RU/Search-Show',
-  TR: '/on/demandware.store/Sites-TR-Site/tr_TR/Search-Show',
-  DE: '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
+  fr: '/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show',
+  us: '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show',
+  ru: '/on/demandware.store/Sites-RU-Site/ru_RU/Search-Show',
+  tr: '/on/demandware.store/Sites-TR-Site/tr_TR/Search-Show',
+  de: '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
 };
 const breadcrumbNameMap = {
   '/account': [{ name: 'home' }],

@@ -586,7 +586,7 @@ function ProductFinderAd({
 }) {
   return (
     {
-      FR: (
+      fr: (
         <div className="ml-4 mr-4 pl-4 pr-4 pb-4 pb-md-0">
           {isRetailProducts || isVetProducts ? null : (
             <div className="row align-items-center">

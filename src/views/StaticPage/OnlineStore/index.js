@@ -77,7 +77,7 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      US: [
+      us: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
           img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,

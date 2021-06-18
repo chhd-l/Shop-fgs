@@ -162,9 +162,9 @@ const TrhowitworksnewListmobile = [
   }
 ];
 
-const RU = process.env.REACT_APP_COUNTRY == 'ru';
-const TR = process.env.REACT_APP_COUNTRY == 'tr';
-const FR = process.env.REACT_APP_COUNTRY == 'fr';
+const ru = process.env.REACT_APP_COUNTRY == 'ru';
+const tr = process.env.REACT_APP_COUNTRY == 'tr';
+const fr = process.env.REACT_APP_COUNTRY == 'fr';
 
 const HowItWorksNew = () => {
   return (
@@ -187,7 +187,7 @@ const HowItWorksNew = () => {
                   style={{ display: 'flex', justifyContent: 'space-around' }}
                   className="flexwrapHow "
                 >
-                  {RU
+                  {ru
                     ? RuhowitworksnewList.map((step) => (
                         <div>
                           <LazyLoad height={180}>
@@ -198,7 +198,7 @@ const HowItWorksNew = () => {
                           </LazyLoad>
                         </div>
                       ))
-                    : TR
+                    : tr
                     ? TrhowitworksnewList.map((step) => (
                         <div>
                           <LazyLoad height={180}>
@@ -209,7 +209,7 @@ const HowItWorksNew = () => {
                           </LazyLoad>
                         </div>
                       ))
-                    : FR
+                    : fr
                     ? FrhowitworksnewList.map((step) => (
                         <div>
                           <LazyLoad height={180}>
@@ -233,7 +233,7 @@ const HowItWorksNew = () => {
                 </div>
               </div>
               <div className="mobilenone">
-                {RU
+                {ru
                   ? RuhowitworksnewListmobile.map((step) => (
                       <div>
                         <LazyLoad height={180}>
@@ -244,7 +244,7 @@ const HowItWorksNew = () => {
                         </LazyLoad>
                       </div>
                     ))
-                  : TR
+                  : tr
                   ? TrhowitworksnewListmobile.map((step) => (
                       <div>
                         <LazyLoad height={180}>
@@ -255,7 +255,7 @@ const HowItWorksNew = () => {
                         </LazyLoad>
                       </div>
                     ))
-                  : FR
+                  : fr
                   ? FrhowitworksnewListmobile.map((step) => (
                       <div>
                         <LazyLoad height={180}>

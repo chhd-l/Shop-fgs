@@ -1097,21 +1097,21 @@ class Recommendation extends React.Component {
   render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
-      RU: (
+      ru: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
           addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
-      US: (
+      us: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
           addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
-      FR: (
+      fr: (
         <Fr
           configStore={this.props.configStore}
           addCart={this.addCart}
@@ -1185,14 +1185,14 @@ class Recommendation extends React.Component {
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
-      FR: isSPT
+      fr: isSPT
         ? tabDesText
         : nutritionalReco ||
           "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
-      US:
+      us:
         productList[activeIndex]?.productMessage ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
-      RU: this.state.locationPath
+      ru: this.state.locationPath
     };
     return (
       <div className="Recommendation_FR Recommendation_US">

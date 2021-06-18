@@ -1,6 +1,6 @@
 export const menubar = {
   // titleId:列头部名称，list：每列的数据 {prop：stone portal配置的数据，messageId：列数据名称，url：前端自定义超链接，link：前端路由}
-  US: [
+  us: [
     [
       {
         titleId: 'footer.aboutRoyalCanin',
@@ -46,7 +46,7 @@ export const menubar = {
       }
     ]
   ],
-  MX: [
+  mx: [
     [
       {
         titleId: 'footer.aboutRoyalCanin',
@@ -103,7 +103,7 @@ export const menubar = {
       }
     ]
   ],
-  DE: [
+  de: [
     [
       {
         titleId: 'aboutUs',
@@ -202,7 +202,7 @@ export const menubar = {
       }
     ]
   ],
-  FR: [
+  fr: [
     [
       {
         titleId: 'footer.aboutRoyalCanin',
@@ -286,7 +286,7 @@ export const menubar = {
       }
     ]
   ],
-  RU: [
+  ru: [
     [
       {
         titleId: 'О КОМПАНИИ ROYAL CANIN®',
@@ -379,7 +379,7 @@ export const menubar = {
       }
     ]
   ],
-  TR: [
+  tr: [
     [
       {
         titleId: 'footer.aboutRoyalCanin',

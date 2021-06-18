@@ -15,9 +15,9 @@ if (process.env.REACT_APP_COUNTRY == 'fr' && process.env.REACT_APP_HUB != 1) {
 const redirectFun = () => {
   let RedirectUrlObj = {};
   let RedirectUrlJSON = {
-    FR: New_RedirectUrlJSON_fr,
-    RU: RedirectUrlJSON_ru,
-    TR: RedirectUrlJSON_tr
+    fr: New_RedirectUrlJSON_fr,
+    ru: RedirectUrlJSON_ru,
+    tr: RedirectUrlJSON_tr
   };
   if (RedirectUrlJSON[process.env.REACT_APP_COUNTRY]) {
     RedirectUrlJSON[process.env.REACT_APP_COUNTRY].RECORDS.filter(

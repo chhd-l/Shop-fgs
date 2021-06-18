@@ -12,16 +12,16 @@ import { addEventListenerArr } from './addEventListener';
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
   {
-    DE: ['RC_DF_DE_FGS_OPT_EMAIL'],
-    US: [
+    de: ['RC_DF_DE_FGS_OPT_EMAIL'],
+    us: [
       'RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_PRODUCTS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_NL_OPT_MAIL',
       'RC_DF_HQ_MARS_PRIVACY_POLICY'
     ],
-    FR: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
-    RU: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    TR: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+    fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
+    ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
   }[process.env.REACT_APP_COUNTRY] || [];
 @inject('paymentStore')
 @observer

@@ -575,7 +575,7 @@ const App = () => {
                   exact
                   path="/Values"
                   component={
-                    { FR: FR_Values, US: US_Values, RU: RU_Values }[
+                    { fr: FR_Values, us: US_Values, ru: RU_Values }[
                       process.env.REACT_APP_COUNTRY
                     ] || Values
                   }
@@ -689,7 +689,7 @@ const App = () => {
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
-                      const splitName = { FR: '_FR.html', US: '_US.html' }[
+                      const splitName = { fr: '_FR.html', us: '_US.html' }[
                         process.env.REACT_APP_COUNTRY
                       ];
                       const productNameMappping = {

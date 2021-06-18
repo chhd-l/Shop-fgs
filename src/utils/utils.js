@@ -9,12 +9,12 @@ import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
-import MX from 'date-fns/locale/es';
-import DE from 'date-fns/locale/de';
-import FR from 'date-fns/locale/fr';
-import TR from 'date-fns/locale/tr';
-import US from 'date-fns/locale/en-US';
-import RU from 'date-fns/locale/ru';
+import mx from 'date-fns/locale/es';
+import de from 'date-fns/locale/de';
+import fr from 'date-fns/locale/fr';
+import tr from 'date-fns/locale/tr';
+import us from 'date-fns/locale/en-US';
+import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
@@ -720,34 +720,34 @@ function getDatePickerConfig() {
 
   switch (lang) {
     case 'de':
-      registerLocale('de', DE);
+      registerLocale('de', de);
       break;
     case 'mx':
-      registerLocale('es', MX);
+      registerLocale('es', mx);
       break;
     case 'fr':
-      registerLocale('fr', FR);
+      registerLocale('fr', fr);
       break;
     case 'us':
-      registerLocale('en', US);
+      registerLocale('en', us);
       break;
     case 'ru':
-      registerLocale('ru', RU);
+      registerLocale('ru', ru);
       break;
     case 'tr':
-      registerLocale('tr', TR);
+      registerLocale('tr', tr);
       break;
     default:
       break;
   }
 
   const datePickerCfg = {
-    MX: { format: 'yyyy-MM-dd', locale: 'es', locale_module: MX },
-    DE: { format: 'dd.MM.yyyy', locale: 'de', locale_module: DE },
-    FR: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: FR },
-    US: { format: 'MM/dd/yyyy', locale: 'en', locale_module: US },
-    RU: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: RU },
-    TR: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: TR },
+    mx: { format: 'yyyy-MM-dd', locale: 'es', locale_module: mx },
+    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
+    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
+    us: { format: 'MM/dd/yyyy', locale: 'en', locale_module: us },
+    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
+    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
@@ -905,7 +905,7 @@ export const filterOrderId = ({ orderNo, orderNoForOMS }) => {
     {
       // 1. 美国订单号去掉RCFUS开头
       // 2. 美国先展示OMS order number，否则展示order number
-      US: orderNoForOMS || orderNo.replace(/RCFUS/, '')
+      us: orderNoForOMS || orderNo.replace(/RCFUS/, '')
     }[process.env.REACT_APP_COUNTRY] || orderNo
   );
 };

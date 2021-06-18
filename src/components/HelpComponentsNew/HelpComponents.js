@@ -9,8 +9,8 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
 const HelpComponentsNew = (props) => {
-  const RU = process.env.REACT_APP_COUNTRY == 'ru';
-  const TR = process.env.REACT_APP_COUNTRY == 'tr';
+  const ru = process.env.REACT_APP_COUNTRY == 'ru';
+  const tr = process.env.REACT_APP_COUNTRY == 'tr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -93,7 +93,7 @@ const HelpComponentsNew = (props) => {
                                   <p>
                                     <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
-                                  {TR || RU ? (
+                                  {tr || ru ? (
                                     <DistributeHubLinkOrATag
                                       href={'/contact-us'}
                                       ariaLabel="Links to contact us"
@@ -140,7 +140,7 @@ const HelpComponentsNew = (props) => {
                                     <FormattedMessage
                                       id="ClubLP.Help.faq.content"
                                       values={{
-                                        val: RU ? (
+                                        val: ru ? (
                                           <DistributeHubLinkOrATag
                                             href={'/about-us/faqs'}
                                             ariaLabel="Links to faq"
@@ -153,7 +153,7 @@ const HelpComponentsNew = (props) => {
                                               часто задаваемые вопросы:
                                             </a>
                                           </DistributeHubLinkOrATag>
-                                        ) : TR ? (
+                                        ) : tr ? (
                                           <DistributeHubLinkOrATag
                                             href={'/about-us/faqs'}
                                             ariaLabel="Links to faq"

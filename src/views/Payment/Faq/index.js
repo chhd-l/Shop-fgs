@@ -3,7 +3,7 @@ import Cover from './Cover';
 
 const benifitList =
   {
-    US: [
+    us: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: '100% secure payment'
@@ -18,7 +18,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Free shipping' }
     ],
-    RU: [
+    ru: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: '100% безопасный платеж'
@@ -33,7 +33,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
     ],
-    TR: [
+    tr: [
       { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
       {
         iconCls: 'rc-loading--xs rc-iconography--xs',
@@ -45,7 +45,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Hızlı teslimat' }
     ],
-    FR: [
+    fr: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: 'Achat 100% sécurisé'
@@ -66,7 +66,7 @@ const benifitList =
   }[process.env.REACT_APP_COUNTRY] || [];
 const faqList =
   {
-    US: [
+    us: [
       {
         title: 'How can I reach customer service?',
         context: `<h1 class="rc-zeta"></h1>
@@ -102,7 +102,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    RU: [
+    ru: [
       {
         title: 'Служба поддержки',
         context: `<h1 class="rc-zeta"></h1>
@@ -129,7 +129,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    TR: [
+    tr: [
       {
         title: 'MÜŞTERİ HİZMETLERİ',
         context: `<h1 class="rc-zeta"></h1>
@@ -159,7 +159,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    FR: [
+    fr: [
       {
         title: 'Comment puis-je joindre le service client ?',
         context: `<h1 class="rc-zeta"></h1>

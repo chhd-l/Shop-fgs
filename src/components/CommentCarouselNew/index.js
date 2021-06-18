@@ -11,8 +11,8 @@ import newtrcommentthree from './img/CommentOne.png';
 import newtrcommentFour from './img/FeedbackImage4.jpeg';
 
 const CommentCarouselNew = () => {
-  const Ru = process.env.REACT_APP_COUNTRY === 'ru';
-  const TR = process.env.REACT_APP_COUNTRY == 'tr';
+  const ru = process.env.REACT_APP_COUNTRY === 'ru';
+  const tr = process.env.REACT_APP_COUNTRY == 'tr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">

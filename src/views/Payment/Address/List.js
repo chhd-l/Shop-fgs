@@ -251,6 +251,8 @@ class AddressList extends React.Component {
 
     let deliveryDate = data.deliveryDate; // deliveryDate 日期
     let timeSlot = data.timeSlot;
+    console.log('666  ----->  deliveryDate: ', deliveryDate);
+    console.log('666  ----->  timeSlot: ', timeSlot);
 
     // deliveryDate: 2021-06-11
     let nyrArr = deliveryDate.split('-');
@@ -270,8 +272,6 @@ class AddressList extends React.Component {
       if (vdres.context && vdres.context?.timeSlots?.length) {
         let tobj = vdres.context.timeSlots;
         cutOffTime = vdres.context?.cutOffTime;
-        console.log('666  ----->  deliveryDate: ', deliveryDate);
-        console.log('666  ----->  timeSlot: ', timeSlot);
         console.log('666  ----->  tobj: ', tobj);
         tobj.forEach((v, i) => {
           if (v.date == deliveryDate) {
@@ -341,6 +341,10 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
+    console.log(
+      '666 process.env.REACT_APP_COUNTRY: ',
+      process.env.REACT_APP_COUNTRY
+    );
     if (process.env.REACT_APP_COUNTRY == 'ru') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
