@@ -1364,7 +1364,7 @@ const ru_RU = {
   'ClubLP.discount.content':
     'Скидка 10% и бесплатная доставка при подписке на сумму от 2500 руб.',
   'ClubLP.LongBanner.title':
-    'Специализированное питание по {val1} подписке для, {val2} поддержания здоровья',
+    'ПОЛУЧИТЕ ВЫГОДНЫЕ {val1} УСЛОВИЯ ПРОГРАММЫ {val2} ROYAL CANIN® КЛУБ',
   'ClubLP.LongBanner.content': 'От NN руб. за заказ',
   'ClubLP.LongBanner.button': 'Попробовать сейчас',
   'ClubLP.LongBanner.content2': 'Управление подпиской в Личном кабинете',
@@ -1375,14 +1375,14 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
     'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев кошек',
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Специализированное питание с учетом особенностей Вашего питомца',
+    'Научно обоснованное {val} питание',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Научно обоснованное питание с учетом особенностей Вашего питомца',
+    '50 лет экспертизы в создании {val} здоровых рационов',
   'ClubLP.LongBanner.SubscriptionTitle2':
-    'Рацион, адаптированный для Вашего питомца',
+    'Рацион, адаптированный для {val} Вашего питомца',
   'ClubLP.LongBanner.SubscriptionContent2':
-    'Программа питания для поддержания здоровья',
-  'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
+    'Высококачественные ингредиенты,{val1} подобранные с учетом индивидуальных{val2} потребностей питомца',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер {val}порции',
   'ClubLP.LongBanner.SubscriptionTitle1.new':
     'Программа питания, созданная для поддержания здоровья на протяжении всей жизни',
   'ClubLP.LongBanner.SubscriptionTitle2.new':
@@ -1390,7 +1390,7 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionTitle3.new':
     'Рекомендации по нормам кормления для выбора оптимальной порции',
   'ClubLP.LongBanner.SubscriptionContent3':
-    'Рекомендации по нормам кормления для выбора оптимальной порции',
+    'Рекомендации по нормам кормления {val}для выбора оптимальной порции',
   'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',
   'ClubLP.Advantage.content1':
     'Питание, специально разработанное для удовлетворения уникальных потребностей кошек и собак',

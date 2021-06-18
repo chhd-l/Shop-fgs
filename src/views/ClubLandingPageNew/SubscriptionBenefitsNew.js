@@ -173,7 +173,6 @@ const SubsriptionBenefitsNew = () => {
                                   }}
                                   style={{
                                     textDecoration: 'underline',
-                                    color: '#e3001b',
                                     cursor: 'pointer'
                                   }}
                                 >

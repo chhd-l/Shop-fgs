@@ -14,33 +14,33 @@ const SubscriptionItems = [
     SubscriptionImg: benefitsone,
     SubscriptionTitle: (
       <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" values={{val:<br/>}} />
       </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" values={{val:<br/>}}/>
     )
   },
   {
     SubscriptionImg: benefitstwo,
     SubscriptionTitle: (
       <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" values={{val:<br/>}}/>
       </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" values={{val1:<br/> ,val2:<br/>}}/>
     )
   },
   {
     SubscriptionImg: benefitsthree,
     SubscriptionTitle: (
       <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" values={{val:<br/>}}/>
       </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" />
+      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" values={{val:<br/>}}/>
     )
   }
 ];
