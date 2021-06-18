@@ -37,6 +37,7 @@ podTemplate(label: label, cloud: 'kubernetes',
           envVar(key: 'DOCKER_HOST',value: 'tcp://40.117.189.42:2375')
     ],
     imagePullSecrets: [ 'sit-docker' ]
+    nodeSelector: [ 'aks-jenkinspool-97525739-vmss000000' ]
 )
 {
 
