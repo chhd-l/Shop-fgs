@@ -54,6 +54,7 @@ import {
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { batchAddPets } from '@/api/pet';
+import { editAddress } from '@/api/address';
 
 import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
@@ -972,8 +973,7 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
-
-  // 根据条件-调用不同的支付接口,进行支付
+  // 根据条件-调用不同的支付接口,进行支付,支付成功跳转到 confirmation
   async allAdyenPayment(parameters, type) {
     try {
       let action;
@@ -1218,6 +1218,7 @@ class Payment extends React.Component {
         this.props.clinicStore.removeLinkClinicId();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
         this.props.clinicStore.removeLinkClinicName();
+
         // 跳转 confirmation
         this.props.history.push('/confirmation');
       }
@@ -1257,11 +1258,29 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
+  // 下单后，清空 delivery date 和 time slot
+  clearTimeslotAndDeliverydate = async () => {
+    const { deliveryAddress } = this.state;
+    try {
+      let deliveryAdd = Object.assign({}, deliveryAddress, {
+        deliveryDate: '',
+        timeSlot: '',
+        consigneeNumber: deliveryAddress.phoneNumber,
+        isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0
+      });
+      let res = await editAddress(deliveryAdd);
+      console.log('666 修改地址: ', res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // 删除本地购物车
-  removeLocalCartData() {
+  async removeLocalCartData() {
     const { checkoutStore } = this.props;
     if (this.isLogin) {
       checkoutStore.removeLoginCartData();
+      // 清空 delivery date 和 time slot
+      await this.clearTimeslotAndDeliverydate();
     } else {
       checkoutStore.setCartData(
         checkoutStore.cartData.filter((ele) => !ele.selected)
@@ -3125,7 +3144,7 @@ class Payment extends React.Component {
     }
     const { paymentTypeVal } = this.state;
     // console.log('★★★★★★ clickPay: ', this.state.billingAddress);
-    // console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
+    console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });

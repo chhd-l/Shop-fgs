@@ -759,7 +759,7 @@ class ClubLandingPageDe extends React.Component {
                           </p>
                           <div className="flex deflexcolumn">
                             <article
-                              className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw"
+                              className="desktop35vw"
                               style={{ padding: '1rem 0' }}
                             >
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -769,7 +769,7 @@ class ClubLandingPageDe extends React.Component {
                                     style={{ marginRight: '-4rem' }}
                                   >
                                     <div className="w-100">
-                                      <p style={{ fontWeight: 'bolder' }}>
+                                      <p style={{ fontWeight: 'bolder',marginBottom:'0px',marginTop:'20px'}}>
                                         per Telefon
                                       </p>
                                       <div className="rc-margin-top--xs">
@@ -799,7 +799,7 @@ class ClubLandingPageDe extends React.Component {
                                         </p>
                                       </div>
                                       <p
-                                        style={{ fontSize: '12px' }}
+                                        style={{ fontSize: '12px',marginBottom:'0px' }}
                                         className="detextnowrap"
                                       >
                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
@@ -820,7 +820,7 @@ class ClubLandingPageDe extends React.Component {
                               </div>
                             </article>
                             <article
-                              className="rc-full-width rc-column rc-margin-top--md--mobile desktop35vw"
+                              className="desktop35vw"
                               style={{ padding: '1rem 0 1rem 1rem' }}
                             >
                               <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -833,10 +833,10 @@ class ClubLandingPageDe extends React.Component {
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per E-Mail
                                       </p>
-                                      <p>
+                                      <p style={{marginBottom:'35px'}}>
                                         <a
                                           href={this.state.mailAddress}
-                                          className="rc-styled-link"
+                                          className="rc-styled-link defontsize24px"
                                           style={{ color: '#E2001A' }}
                                         >
                                           service.de@royalcanin.com

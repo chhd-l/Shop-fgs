@@ -67,7 +67,9 @@ class BuyFromRetailerBtn extends React.Component {
       <ConfirmTooltip
         arrowDirection="bottom"
         containerStyle={{
-          transform: 'translate(-95%, -50%)'
+          transform: 'translate(-95%, -50%)',
+          width: ' 15.3rem',
+          minWidth: 'auto'
         }}
         display={this.state.toolTipVisible}
         cancelBtnVisible={false}
@@ -78,6 +80,10 @@ class BuyFromRetailerBtn extends React.Component {
           })
         }
         content={<FormattedMessage id="details.buyFromRetailerTip" />}
+        textStyle={{
+          fontWeight: 500,
+          fontSize: '1rem'
+        }}
       />
     );
   };

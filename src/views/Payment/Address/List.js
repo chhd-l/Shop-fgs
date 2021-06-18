@@ -284,6 +284,8 @@ class AddressList extends React.Component {
             });
           }
         });
+      } else {
+        return 'no timeslot';
       }
     }
     // 如果时间不存在
@@ -336,11 +338,12 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    if (tmpObj?.deliveryDate) {
+    if (process.env.REACT_APP_COUNTRY == 'RU') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
+      console.log('666 --> ', yesOrNot);
       this.setState({ btnConfirmLoading: false });
       // 判断 deliveryDate 是否过期
       if (!yesOrNot) {

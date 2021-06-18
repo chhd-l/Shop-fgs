@@ -17,6 +17,7 @@ import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
 import PickUp from '@/components/PickUp';
+import { getAddressList, saveAddress, editAddress } from '@/api/address';
 
 import './index.less';
 
@@ -137,6 +138,21 @@ class Test extends React.Component {
     if (e.keyCode === 13) {
     }
   };
+  // 修改地址测试
+  updateDeliveryAddressById = async () => {
+    try {
+      openKaktusWidget();
+      let res = await editAddress({
+        consigneeName: 'AAA1 KKK',
+        deliveryAddressId: '8000017977f869ca30aa3a30ea021052',
+        deliveryDate: '',
+        timeSlot: ''
+      });
+      console.log('666 修改地址测试: ', res);
+    } catch (err) {
+      console.log('666 修改地址测试 err: ', err);
+    }
+  };
   render() {
     const { form, isValid, selectedOption } = this.state;
     return (
@@ -145,20 +161,20 @@ class Test extends React.Component {
         style={{ padding: '30px' }}
       >
         <br />
-        {/* <button
+        <button
           onClick={() => {
-            openKaktusWidget();
+            this.updateDeliveryAddressById();
           }}
         >
           map
         </button>
         <div className="pickup_map_box">
           <div id="kaktusMap" style={{ display: 'block' }}></div>
-        </div> */}
+        </div>
         <br />
         <br />
         <br />
-        <PickUp />
+        {/* <PickUp /> */}
         <br />
         <h1>0513</h1>
         <br />
