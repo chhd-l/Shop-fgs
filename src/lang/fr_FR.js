@@ -761,6 +761,9 @@ const fr_FR = {
 
   'payment.tomorrow': 'Demain.',
 
+  'payment.homeDelivery': 'Livraison à domicile',
+  'payment.pickUpDelivery': 'Ramassage et livraison',
+
   'payment.staleDate': "Veuillez répéter la date et l'heure de livraison.",
 
   'payment.reselectTimeSlot':

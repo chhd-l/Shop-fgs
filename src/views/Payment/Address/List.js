@@ -20,7 +20,7 @@ import {
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from '@/components/Form';
-import PickUp from '@/components/PickUp';
+// import PickUp from '@/components/PickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
@@ -1406,8 +1406,14 @@ class AddressList extends React.Component {
                     {!addOrEdit ? (
                       addressList.length ? (
                         <>
+                          {/* 地址列表 */}
                           <div className="addr-container-scroll">{_list}</div>
+
+                          {/* 更多地址 */}
                           {addressList.length > 1 && _foldBtn}
+
+                          {/* delivery date 和 time slot */}
+
                           {/* 该按钮，只用来确认地址列表 */}
                           {this.isDeliverAddress && (
                             <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
@@ -1443,7 +1449,6 @@ class AddressList extends React.Component {
               </>
             )}
           </div>
-
           {validationLoading && <Loading positionFixed="true" />}
           {listValidationModalVisible ? this.ValidationAddressModalJSX() : null}
         </div>

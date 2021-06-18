@@ -175,7 +175,7 @@ class ClubLandingPageNew extends React.Component {
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
                     <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                      <h3 >
+                      <h3>
                         <FormattedMessage id="ClubLP.Advantage.title" />
                       </h3>
                     </div>
@@ -254,7 +254,7 @@ class ClubLandingPageNew extends React.Component {
 
           <CommentCarouselNew />
 
-          <Divider/>
+          <Divider />
           <GetMoreAd />
 
           <Divider />
