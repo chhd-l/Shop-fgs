@@ -1,4 +1,4 @@
-@media (min-width: 640px) {
+@media (min-width: 960px) {
   #oxxoModal {
     width: 20% !important;
   }
@@ -22,7 +22,7 @@
   font-size: 1.125rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 960px) {
   #oxxoModal {
     top: 40% !important;
   }
