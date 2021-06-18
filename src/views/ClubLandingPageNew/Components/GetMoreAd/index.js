@@ -2,7 +2,7 @@ import React from 'react';
 import LazyLoad from 'react-lazyload';
 import logoad from './image/logoad.png';
 import logoclubad from './image/CLUBLOGOSUBSCIPTION@4x.png';
-import rulogo from '../../image/CLUB_logoRU@2x.png'
+import rulogo from '../../image/CLUB_logoRU@2x.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -26,23 +26,22 @@ const GetMoreAd = () => {
                 >
                   <div
                     style={{
-                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE',
-                      marginTop: '10vh'
+                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE'
                     }}
-                    className="widthsmall"
+                    className="widthsmall margintop10vh"
                   >
                     <div
                       style={{
-                        height: '15vh',
                         marginRight: '5vh'
                       }}
+                      className="margintop15vh"
                     >
                       <div
                         style={{
                           display: 'flex',
-                          marginLeft: '5vw',
-                          marginTop: '10vh'
+                          marginLeft: '5vw'
                         }}
+                        className="margintop10vh margintop3vh"
                       >
                         <div>
                           <LazyLoad>
@@ -71,11 +70,11 @@ const GetMoreAd = () => {
 
                     <div style={{ height: '30vh' }}>
                       <div className="rc-column">
-                        <div className="rc-padding-y--lg--mobile rc-full-width">
+                        <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item">
                               <em className="bingoWhite rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px'}}>
+                              <a style={{ marginLeft: '10px' }}>
                                 <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
                               </a>
                             </li>
@@ -96,127 +95,135 @@ const GetMoreAd = () => {
                       boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
                     }}
                   >
-                    <div
-                      style={{
-                        height: '15vh',
-                        marginRight: '5vh'
-                      }}
-                    >
+                    <div>
                       <div
                         style={{
-                          display: 'flex',
-                          marginLeft: '10vw',
-                          marginTop: '5vh'
+                          height: '15vh',
+                          marginRight: '5vh'
                         }}
                       >
-                        <div>
-                          <LazyLoad>
-                            {process.env.REACT_APP_COUNTRY == 'RU'?
-                              <img
-                                className="w-60 lazyloaded"
-                                src={rulogo}
-                                style={{ width: '100px' }}
-                              />:
-                            <img
-                              className="w-60 lazyloaded"
-                              src={logoclubad}
-                              style={{ width: '100px' }}
-                            />
-                            }
-                          </LazyLoad>
-                        </div>
                         <div
                           style={{
-                            marginLeft: '5vh',
-                            transform: 'translateY(-10px)'
+                            display: 'flex',
+                            marginLeft: '10vw',
+                            marginTop: '5vh'
                           }}
                         >
-                          <p
+                          <div>
+                            <LazyLoad>
+                              {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                                <img
+                                  className="w-60 lazyloaded"
+                                  src={rulogo}
+                                  style={{ width: '100px' }}
+                                />
+                              ) : (
+                                <img
+                                  className="w-60 lazyloaded"
+                                  src={logoclubad}
+                                  style={{ width: '100px' }}
+                                />
+                              )}
+                            </LazyLoad>
+                          </div>
+                          <div
                             style={{
-                              fontSize: '28px',
-                              fontWeight: 'bolder',
-                              color: '#E2001A'
+                              marginLeft: '5vh',
+                              transform: 'translateY(-10px)'
                             }}
                           >
-                            <FormattedMessage
-                              id="ClubLP.GetMoreAd.subtitle2"
-                              values={{ val: <br /> }}
-                            />
-                          </p>
+                            <p
+                              style={{
+                                fontSize: '28px',
+                                fontWeight: 'bolder',
+                                color: '#E2001A'
+                              }}
+                            >
+                              <FormattedMessage
+                                id="ClubLP.GetMoreAd.subtitle2"
+                                values={{ val: <br /> }}
+                              />
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div
-                      className="mobileflex"
-                      style={{
-                        height: '30vh',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <div className="rc-column" style={{ padding: '0' }}>
-                        <div className=" rc-full-width ">
-                          <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw" >
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
-                              </a>
-                            </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
-                              </a>
-                            </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
-                              </a>
-                            </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
-                              </a>
-                            </li>
-                          </ul>
+                      <div
+                        className="mobileflex getmore30vh getmore47vh"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between'
+                        }}
+                      >
+                        <div className="rc-column" style={{ padding: '0' }}>
+                          <div className=" rc-full-width ">
+                            <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw">
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
+                                </a>
+                              </li>
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
+                                </a>
+                              </li>
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
+                                </a>
+                              </li>
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
-                      </div>
-                      <div className="rc-column" style={{ padding: '0' }}>
-                        <div className=" rc-full-width ">
-                          <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align" >
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
-                              </a>
-                            </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
-                              </a>
-                            </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
-                                <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
-                              </a>
-                            </li>
-                          </ul>
+                        <div className="rc-column" style={{ padding: '0' }}>
+                          <div className=" rc-full-width ">
+                            <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align">
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
+                                </a>
+                              </li>
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
+                                </a>
+                              </li>
+                              <li className="rc-list__item">
+                                <em className="bingo rc-margin-right--xs"></em>
+                                <a style={{ marginLeft: '10px' }}>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <br />
-                    <div className=" rc-btn-group m-0 rc-column rc-padding-x--none " style={{display:'flex',justifyContent:'center'}}>
+                    <div
+                      className=" rc-btn-group m-0 rc-column rc-padding-x--none "
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
                       <DistributeHubLinkOrATag
                         href={'/product-finder'}
                         ariaLabel="Links to product finder"
                       >
-                        <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton marginleftButton" style={{padding:'10px 70px'}}>
+                        <button
+                          className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton "
+                          style={{ padding: '10px 70px' }}
+                        >
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
                       </DistributeHubLinkOrATag>

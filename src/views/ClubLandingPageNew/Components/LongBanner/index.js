@@ -6,11 +6,9 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-const SubTitles={
-  title:(
-    <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
-  ),
-}
+const SubTitles = {
+  title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
+};
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
@@ -53,7 +51,7 @@ const LongBanner = () => {
                 style={{ marginBottom: '0px' }}
               >
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
                   style={{
                     marginLeft: '13vw',
                     marginTop: '30px',
@@ -79,16 +77,16 @@ const LongBanner = () => {
                     href={'/product-finder'}
                     ariaLabel="Links to product finder"
                   >
-                  <button
-                    style={{
-                      padding: '0',
-                      paddingLeft: '80px',
-                      paddingRight: '80px'
-                    }}
-                    className="rc-btn rc-btn--one transformmobile10px"
-                  >
-                    <FormattedMessage id="ClubLP.LongBanner.button" />
-                  </button>
+                    <button
+                      style={{
+                        padding: '0',
+                        paddingLeft: '80px',
+                        paddingRight: '80px'
+                      }}
+                      className="rc-btn rc-btn--one "
+                    >
+                      <FormattedMessage id="ClubLP.LongBanner.button" />
+                    </button>
                   </DistributeHubLinkOrATag>
                   <p
                     style={{
@@ -103,8 +101,10 @@ const LongBanner = () => {
             </div>
           </div>
         </div>
-        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} Subtitle={SubTitles
-        } />
+        <SubscriptionBenefitsBanner
+          SubscriptionItem={SubscriptionItems}
+          Subtitle={SubTitles}
+        />
       </div>
     </>
   );

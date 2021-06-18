@@ -14,8 +14,9 @@
   .fontheight {
     height: 25vh;
   }
-  .transformmobile10px{
+  .transformmobile10px {
     transform: translateX(-23px);
+    text-align: center;
   }
 }
 
@@ -28,7 +29,7 @@
     display: flex;
     flex-direction: column;
   }
-  .desknone{
+  .desknone {
     display: none;
   }
 }

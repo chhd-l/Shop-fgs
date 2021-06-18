@@ -726,7 +726,7 @@ const ru_RU = {
   'payment.homeDelivery': 'доставлять товары на дом',
   'payment.pickUpDelivery': 'принимать поставку',
 
-  'payment.reselectTimeSlot': 'Повторите, пожалуйста, дату и время поставки.',
+  'payment.reselectTimeSlot': 'Пожалуйста, укажите дату и время доставки.',
 
   // 星期
   'payment.Monday': 'Понедельник',
@@ -1408,7 +1408,7 @@ const ru_RU = {
     'Приветственный подарок, вознаграждения и сервисы',
   'ClubLP.SubscriptionBenefitsNew.icon5': 'Бесплатный обучающий контент',
   'ClubLP.SubscriptionBenefitsNew.icon6':
-    'Бесплатные онлайн-консультации нутрициолога в Petstory',
+    'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
   'ClubLP.NewHowItWorks.title': 'Как это работает?',
   'ClubLP.NewJoinUs.title': 'Расскажите нам о своем питомце',

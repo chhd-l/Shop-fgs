@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  matchNamefromDict,
-  getDeviceType,
-  unique
-} from '@/utils/utils';
+import { matchNamefromDict, getDeviceType, unique } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
 import Selection from '@/components/Selection/index.js';
@@ -11,14 +7,23 @@ import { PropTypes } from 'mobx-react';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
-  details: any,
-  updatedSku: Function,
-  updatedPriceOrCode: Function
+  details: any;
+  updatedSku: Function;
+  updatedPriceOrCode: Function;
 }
 
-const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) => {
-  
-  const {goodsSpecs, goodsSpecDetails, goodsInfos, isSkuNoQuery, goodsNo} = details
+const HandledSpec = ({
+  details,
+  updatedSku,
+  updatedPriceOrCode = () => {}
+}: Props) => {
+  const {
+    goodsSpecs,
+    goodsSpecDetails,
+    goodsInfos,
+    isSkuNoQuery,
+    goodsNo
+  } = details;
   const [sizeList, setSizeList] = useState([]);
 
   const getPriceOrCode = () => {
@@ -32,8 +37,8 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
       goodsInfos.find((item: any) => item.packSize === selectGoodSize)
         ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
     const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-    updatedPriceOrCode(barcode,selectPrice)
-  }
+    updatedPriceOrCode(barcode, selectPrice);
+  };
 
   const matchGoods = () => {
     // let {
@@ -52,16 +57,15 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
       currentLinePrice: 0,
       currentSubscriptionPrice: 0,
       currentSubscriptionStatus: 0,
-      defaultPurchaseType: 0,
       stock: 0,
-      skuPromotions: 0,
-    }
-  
-    let selectedArr:any[] = [];
-    let idArr:any[] = [];
-    goodsSpecs.map((el:any) => {
-      if (el.chidren.filter((item:any) => item.selected).length) {
-        selectedArr.push(el.chidren.filter((item:any) => item.selected)[0]);
+      skuPromotions: 0
+    };
+
+    let selectedArr: any[] = [];
+    let idArr: any[] = [];
+    goodsSpecs.map((el: any) => {
+      if (el.chidren.filter((item: any) => item.selected).length) {
+        selectedArr.push(el.chidren.filter((item: any) => item.selected)[0]);
       }
       return el;
     });
@@ -99,7 +103,6 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
 
       return item;
     });
-
     // defaultPurchaseType === 1 ||
     // sessionItemRoyal.get('pf-result') ||
     // localStorage.getItem('pfls')
@@ -107,8 +110,8 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
     //     ? (form.buyWay = 2)
     //     : (form.buyWay = 1)
     //   : (form.buyWay = 0);
-    updatedSku(handledValues, sizeList)
-  }
+    updatedSku(handledValues, sizeList);
+  };
   const bundleMatchGoods = () => {
     let handledValues = {
       currentUnitPrice: 0,
@@ -118,7 +121,7 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
       defaultPurchaseType: 0,
       stock: 0,
       skuPromotions: 0
-    }
+    };
     handledValues.currentUnitPrice = sizeList[0].salePrice;
     handledValues.currentSubscriptionPrice = sizeList[0].subscriptionPrice;
     handledValues.currentSubscriptionStatus = sizeList[0].subscriptionStatus;
@@ -126,8 +129,8 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
     handledValues.stock = sizeList[0].stock;
     sizeList[0].selected = true;
 
-    updatedSku(handledValues, sizeList)
-  }
+    updatedSku(handledValues, sizeList);
+  };
 
   const handleChooseSize = (sId: any, sdId: any) => {
     goodsSpecs
@@ -145,111 +148,103 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
     )?.[0]?.detailName;
     const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
       ?.goodsInfoBarcode;
-      updatedPriceOrCode(barcode)
-    matchGoods()
-  }
+    updatedPriceOrCode(barcode);
+    matchGoods();
+  };
 
   useEffect(() => {
-        let choosedSpecsArr: any[] = [];
-        let sizeList = [];
-        if (isSkuNoQuery) {
-          // 通过sku查询
-          let specsItem = goodsInfos.filter(
-            (item: any) => item.goodsInfoNo == goodsNo
-          );
-          choosedSpecsArr =
-            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-        }
-        // 组装购物车的前端数据结构与规格的层级关系
-        if(goodsSpecDetails) {
-          goodsSpecs.map((sItem: any, index: any) => {
-            sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
-              if (index === 0) {
-                let filterproducts = goodsInfos.filter((goodEl: any) =>
-                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                );
-                sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(
-                  (item: any) => item.stock === 0
-                );
-                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-              }
-              return sdItem.specId === sItem.specId;
-            });
-            let defaultSelcetdSku = -1;
-            if (choosedSpecsArr.length) {
-              for (let i = 0; i < choosedSpecsArr.length; i++) {
-                let specDetailIndex = sItem.specDetailIds.indexOf(
-                  choosedSpecsArr[i]
-                );
-                if (specDetailIndex > -1) {
-                  defaultSelcetdSku = specDetailIndex;
-                }
-              }
+    let choosedSpecsArr: any[] = [];
+    let sizeList = [];
+    if (isSkuNoQuery) {
+      // 通过sku查询
+      let specsItem = goodsInfos.filter(
+        (item: any) => item.goodsInfoNo == goodsNo
+      );
+      choosedSpecsArr =
+        specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
+    }
+    // 组装购物车的前端数据结构与规格的层级关系
+    if (goodsSpecDetails) {
+      goodsSpecs.map((sItem: any, index: any) => {
+        sItem.chidren = goodsSpecDetails.filter((sdItem: any, i: number) => {
+          if (index === 0) {
+            let filterproducts = goodsInfos.filter((goodEl: any) =>
+              goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+            );
+            sdItem.goodsInfoUnit = filterproducts?.[0]?.goodsInfoUnit;
+            sdItem.isEmpty = filterproducts.every(
+              (item: any) => item.stock === 0
+            );
+            // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
+          }
+          return sdItem.specId === sItem.specId;
+        });
+        let defaultSelcetdSku = -1;
+        if (choosedSpecsArr.length) {
+          for (let i = 0; i < choosedSpecsArr.length; i++) {
+            let specDetailIndex = sItem.specDetailIds.indexOf(
+              choosedSpecsArr[i]
+            );
+            if (specDetailIndex > -1) {
+              defaultSelcetdSku = specDetailIndex;
             }
-            if (defaultSelcetdSku > -1) {
-              // 默认选择该sku
-              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-                // 如果是sku进来的，需要默认当前sku被选择
-                sItem.chidren[defaultSelcetdSku].selected = true;
-              }
-            } else {
-              if (
-                process.env.REACT_APP_COUNTRY === 'DE' &&
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
-              } else if (
-                sItem.chidren.length > 1 &&
-                !sItem.chidren[1].isEmpty
-              ) {
-                sItem.chidren[1].selected = true;
+          }
+        }
+        if (defaultSelcetdSku > -1) {
+          // 默认选择该sku
+          if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+            // 如果是sku进来的，需要默认当前sku被选择
+            sItem.chidren[defaultSelcetdSku].selected = true;
+          }
+        } else {
+          if (
+            process.env.REACT_APP_COUNTRY === 'DE' &&
+            sItem.chidren.length > 1 &&
+            !sItem.chidren[1].isEmpty
+          ) {
+            sItem.chidren[1].selected = true;
+          } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+            sItem.chidren[1].selected = true;
+          } else {
+            for (let i = 0; i < sItem.chidren.length; i++) {
+              if (sItem.chidren[i].isEmpty) {
               } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-                // 如果所有sku都没有库存 取第一个规格
-                if (
-                  sItem.chidren.filter((el: any) => el.selected).length === 0 &&
-                  sItem.chidren.length
-                ) {
-                  sItem.chidren[0].selected = true;
-                }
+                sItem.chidren[i].selected = true;
+                break;
               }
             }
-            return sItem;
-          });
-
-        }else {
-          goodsInfos[0].selected = true
+            // 如果所有sku都没有库存 取第一个规格
+            if (
+              sItem.chidren.filter((el: any) => el.selected).length === 0 &&
+              sItem.chidren.length
+            ) {
+              sItem.chidren[0].selected = true;
+            }
+          }
         }
-        setSizeList(goodsInfos)
+        return sItem;
+      });
+    } else {
+      goodsInfos[0].selected = true;
+    }
+    setSizeList(goodsInfos);
   }, [details.goodsNo]);
   useEffect(() => {
     (async () => {
       if (sizeList.length) {
         if (goodsSpecDetails) {
-          await matchGoods()
-          getPriceOrCode()
+          await matchGoods();
+          getPriceOrCode();
         } else {
-          bundleMatchGoods()
+          bundleMatchGoods();
         }
       }
-    })()
-  }, [sizeList])
+    })();
+  }, [sizeList]);
   return (
     <div className="spec">
       {goodsSpecs?.map((sItem: any, i: number) => (
-        <div
-          id="choose-select"
-          className="spec-choose-select"
-          key={i}
-        >
+        <div id="choose-select" className="spec-choose-select" key={i}>
           <div className="rc-margin-bottom--xs">
             <FormattedMessage id={sItem?.specName} />:
           </div>
@@ -263,28 +258,19 @@ const HandledSpec = ({ details, updatedSku, updatedPriceOrCode=()=>{} }: Props) 
                   key={i}
                   className={`rc-swatch__item ${
                     sdItem.selected ? 'selected' : ''
-                  } ${
-                    sdItem.isEmpty ? 'outOfStock' : ''
-                  }`}
+                  } ${sdItem.isEmpty ? 'outOfStock' : ''}`}
                   onClick={() => {
                     if (sdItem.isEmpty || sdItem.selected) {
                       return false;
                     } else {
-                      handleChooseSize(
-                        sItem.specId,
-                        sdItem.specDetailId
-                      );
+                      handleChooseSize(sItem.specId, sdItem.specDetailId);
                     }
                   }}
                 >
                   <span
                     style={{
-                      backgroundColor: sdItem.isEmpty
-                        ? '#ccc'
-                        : '#fff',
-                      cursor: sdItem.isEmpty
-                        ? 'not-allowed'
-                        : 'pointer'
+                      backgroundColor: sdItem.isEmpty ? '#ccc' : '#fff',
+                      cursor: sdItem.isEmpty ? 'not-allowed' : 'pointer'
                     }}
                   >
                     {/* {parseFloat(sdItem.detailName)}{' '} */}

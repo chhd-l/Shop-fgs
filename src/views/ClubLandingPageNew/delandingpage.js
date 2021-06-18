@@ -409,17 +409,15 @@ class ClubLandingPageDe extends React.Component {
                     >
                       <div
                         style={{
-                          boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE',
+                          boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE'
                         }}
                         className="widthsmall deskmargintop10vh"
                       >
-                        <div
-                          className="deskheight15vh"
-                        >
+                        <div className="deskheight15vh">
                           <div
                             style={{
                               display: 'flex',
-                              justifyContent:'center',
+                              justifyContent: 'center',
                               marginTop: '10vh'
                             }}
                           >
@@ -800,7 +798,10 @@ class ClubLandingPageDe extends React.Component {
                                           0221 937060 650
                                         </p>
                                       </div>
-                                      <p style={{ fontSize: '12px' }} className="detextnowrap">
+                                      <p
+                                        style={{ fontSize: '12px' }}
+                                        className="detextnowrap"
+                                      >
                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
                                       </p>
                                     </div>

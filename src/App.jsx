@@ -515,17 +515,28 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
-                <Route path="/club-subscription"
-                       exact
-                       component={ClubLandingPageNew}
+                <Route
+                  path="/club-subscription"
+                  exact
+                  component={ClubLandingPageNew}
                 />
-                <Route path="/how-to-order"
-                       exact
-                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
+                <Route
+                  path="/how-to-order"
+                  exact
+                  component={
+                    process.env.REACT_APP_COUNTRY == 'DE'
+                      ? ClubLandingPageDe
+                      : Exception
+                  }
                 />
-                <Route path="/vet-diets"
-                       exact
-                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDeVet:Exception}
+                <Route
+                  path="/vet-diets"
+                  exact
+                  component={
+                    process.env.REACT_APP_COUNTRY == 'DE'
+                      ? ClubLandingPageDeVet
+                      : Exception
+                  }
                 />
                 <Route
                   path="/general-conditions"

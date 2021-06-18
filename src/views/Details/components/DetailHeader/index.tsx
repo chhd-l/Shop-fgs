@@ -1,6 +1,6 @@
 import React from 'react';
-import { getDeviceType,getElementToPageTop } from '@/utils/utils';
-import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx'
+import { getDeviceType, getElementToPageTop } from '@/utils/utils';
+import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
 import Rate from '@/components/Rate';
 import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
@@ -8,14 +8,21 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const createMarkup = (text: 'string') => ({ __html: text });
 const Ru = process.env.REACT_APP_COUNTRY === 'RU';
 interface Props {
-  checkOutErrMsg: string
-  goodHeading: string
-  details: any
-  productRate: string | number
-  replyNum: string | number
-  selectedSpecItem: any
+  checkOutErrMsg: string;
+  goodHeading: string;
+  details: any;
+  productRate: string | number;
+  replyNum: string | number;
+  selectedSpecItem: any;
 }
-const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyNum, selectedSpecItem}: Props) => {
+const DetailHeader = ({
+  checkOutErrMsg,
+  goodHeading,
+  details,
+  productRate,
+  replyNum,
+  selectedSpecItem
+}: Props) => {
   const handleAClick = () => {
     if (replyNum > 0) {
       let el = document.getElementById('review-container');
@@ -25,7 +32,7 @@ const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyN
         behavior: 'smooth'
       });
     }
-  }
+  };
   return isMobile ? (
     <div className="detailHeader mt-3">
       <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
@@ -43,7 +50,12 @@ const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyN
                 className="display-inline"
                 style={{ verticalAlign: 'middle' }}
               >
-                <Rate key={productRate} def={productRate} disabled={true} marginSize="sRate" />
+                <Rate
+                  key={productRate}
+                  def={productRate}
+                  disabled={true}
+                  marginSize="sRate"
+                />
               </div>
               <span
                 className="comments rc-margin-left--xs rc-text-colour--text"
@@ -113,4 +125,4 @@ const DetailHeader = ({checkOutErrMsg, goodHeading, details, productRate, replyN
   );
 };
 
-export default DetailHeader
+export default DetailHeader;
