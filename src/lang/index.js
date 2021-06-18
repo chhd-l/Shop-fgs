@@ -24,7 +24,8 @@ const locales = {
   de: require('@/lang/de_DE'),
   fr: require('@/lang/fr_FR'),
   ru: require('@/lang/ru_RU'),
-  tr: require('@/lang/tr_TR')
+  tr: require('@/lang/tr_TR'),
+  CORE: require('@/lang/en_US')
 };
 // const locales = {
 //   en: import(/*webpackChunkName: "h-w1*/'@/lang/en_US'),

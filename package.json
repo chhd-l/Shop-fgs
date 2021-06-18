@@ -99,6 +99,7 @@
   },
   "scripts": {
     "test": "node scripts/test.js",
+    "start:shopstg_core": "dotenv -e .env.development.local -e ./env/core/.env.shopstg -e ./env/core/.env node scripts/start.js",
     "start:mx": "dotenv -e .env.development.local -e ./env/mx/.env.development -e ./env/mx/.env node scripts/start.js",
     "start:shopuat_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopuat -e ./env/mx/.env node scripts/start.js",
     "start:shopstg_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopstg -e ./env/mx/.env node scripts/start.js",
@@ -136,6 +137,7 @@
     "start:prod_tr_hub": "dotenv -e .env.development.local -e ./env/tr/.env.production.hub -e ./env/tr/.env node scripts/start.js",
     "build:mx": "dotenv -e ./env/mx/.env.development -e ./env/mx/.env node scripts/build.js",
     "build:shopuat_mx": "dotenv -e ./env/mx/.env.shopuat -e ./env/mx/.env node scripts/build.js",
+    "build:shopstg_core": "dotenv -e ./env/core/.env.shopstg -e ./env/core/.env node scripts/build.js",
     "build:shopstg_mx": "dotenv -e ./env/mx/.env.shopstg -e ./env/mx/.env node scripts/build.js",
     "build:shopsit_mx": "dotenv -e ./env/mx/.env.shopsit -e ./env/mx/.env node scripts/build.js",
     "build:prod_mx": "dotenv -e ./env/mx/.env.production -e ./env/mx/.env node scripts/build.js",
