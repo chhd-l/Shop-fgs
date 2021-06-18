@@ -38,7 +38,7 @@ class ConfirmTooltip extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
   };
   render() {
-    const { arrowDirection } = this.props;
+    const { arrowDirection, textStyle } = this.props;
     return this.props.display ? (
       <div
         className={`confirm-tool-container position-relative arrow-direction-${arrowDirection}`}
@@ -51,7 +51,9 @@ class ConfirmTooltip extends React.Component {
           tabIndex="1"
         >
           <div className={`confirm-tool-arrow`} style={this.props.arrowStyle} />
-          <div className="pt-1 content-text">{this.props.content}</div>
+          <div className="pt-1 content-text" style={textStyle}>
+            {this.props.content}
+          </div>
           <div className="d-flex justify-content-between">
             {this.props.cancelBtnVisible ? (
               <div
