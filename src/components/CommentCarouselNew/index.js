@@ -20,7 +20,7 @@ const CommentCarouselNew = () => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                <h3 className="rc-beta">
+                <h3 className="rc-beta" style={{fontWeight:'550'}}>
                   <FormattedMessage id="ClubLP.OurCustomers.title" />
                 </h3>
               </div>

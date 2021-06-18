@@ -23,7 +23,7 @@ const SubsriptionBenefitsNew = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontWeight:'550'}}>
               <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />
             </h4>
             <div className="value-proposition__container">

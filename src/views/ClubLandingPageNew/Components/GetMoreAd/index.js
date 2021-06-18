@@ -16,7 +16,7 @@ const GetMoreAd = () => {
             <div className="experience-component experience-assets-contentBlock">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontWeight:'550'}}>
                     <FormattedMessage id="ClubLP.GetMoreAd.title" />
                   </h4>
                 </div>
