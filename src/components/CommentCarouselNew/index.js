@@ -34,7 +34,12 @@ const CommentCarouselNew = () => {
                       <img
                         src={CommentOne}
                         alt="alt text"
-                        style={{ borderRadius: '50%', width: '50%',marginTop:'30px',marginBottom:'30px'}}
+                        style={{
+                          borderRadius: '50%',
+                          width: '50%',
+                          marginTop: '30px',
+                          marginBottom: '30px'
+                        }}
                       />
                     </picture>
                   </article>
@@ -43,7 +48,12 @@ const CommentCarouselNew = () => {
                       <img
                         src={CommentTwo}
                         alt="alt text"
-                        style={{ borderRadius: '50%', width: '50%' ,marginTop:'30px',marginBottom:'30px'}}
+                        style={{
+                          borderRadius: '50%',
+                          width: '50%',
+                          marginTop: '30px',
+                          marginBottom: '30px'
+                        }}
                       />
                     </picture>
                   </article>
@@ -52,7 +62,12 @@ const CommentCarouselNew = () => {
                       <img
                         src={CommentThree}
                         alt="alt text"
-                        style={{ borderRadius: '50%', width: '50%' ,marginTop:'30px',marginBottom:'30px'}}
+                        style={{
+                          borderRadius: '50%',
+                          width: '50%',
+                          marginTop: '30px',
+                          marginBottom: '30px'
+                        }}
                       />
                     </picture>
                   </article>
@@ -61,7 +76,12 @@ const CommentCarouselNew = () => {
                       <img
                         src={CommentFour}
                         alt="alt text"
-                        style={{ borderRadius: '50%', width: '50%' ,marginTop:'30px',marginBottom:'30px'}}
+                        style={{
+                          borderRadius: '50%',
+                          width: '50%',
+                          marginTop: '30px',
+                          marginBottom: '30px'
+                        }}
                       />
                     </picture>
                   </article>
@@ -70,7 +90,12 @@ const CommentCarouselNew = () => {
                       <img
                         src={CommentTrOne}
                         alt="alt text"
-                        style={{ borderRadius: '50%', width: '50%' ,marginTop:'30px',marginBottom:'30px'}}
+                        style={{
+                          borderRadius: '50%',
+                          width: '50%',
+                          marginTop: '30px',
+                          marginBottom: '30px'
+                        }}
                       />
                     </picture>
                   </article>
