@@ -12,7 +12,9 @@ class Index extends React.Component {
   render() {
     return (
       <div
-        className={`${isMobilePhone ? '' : 'd-flex justify-content-center'}`}
+        className={`${
+          isMobilePhone ? '' : 'd-flex justify-content-center mt-2'
+        }`}
         data-bv-show="inline_rating"
         data-bv-product-id={this.props.productId}
       />
