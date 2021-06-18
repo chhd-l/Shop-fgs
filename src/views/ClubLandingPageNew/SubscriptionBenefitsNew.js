@@ -5,6 +5,7 @@ import shippingiconnew from './image/pictosshippingnew@4x.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
+import discountnewtr from './image/discountnewtr.png'
 import advisernew from './image/pictospetadvisernew@4x.png';
 import iconsix from './image/iconsix.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -58,7 +59,7 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
-                          src={discountnew}
+                          src={process.env.REACT_APP_COUNTRY == 'TR'?discountnewtr:discountnew}
                         />
                       </LazyLoad>
                     </div>
