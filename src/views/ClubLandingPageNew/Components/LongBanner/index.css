@@ -1,6 +1,6 @@
 @media (max-width: 639.98px) {
   .clubdesktop {
-    height: 1589px;
+    height: 1609px;
     background-image: url('./image/CLUBmobbackground@4x.png');
     overflow: hidden;
     background-size: cover;
@@ -15,7 +15,7 @@
     height: 25vh;
   }
   .transformmobile10px {
-    transform: translateX(-23px);
+    transform: translateX(0.4vw);
     text-align: center;
   }
 }
@@ -33,7 +33,9 @@
     display: none;
   }
   .longbannerwidth266{
-    width: 266.25px;
-    text-align: center;
+  }
+  .transformmobile10px {
+    margin-top: 30px;
+    margin-left: 13vw;
   }
 }

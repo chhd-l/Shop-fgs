@@ -59,8 +59,6 @@ const LongBanner = () => {
                 <div
                   className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
                   style={{
-                    marginLeft: '13vw',
-                    marginTop: '30px',
                     marginBottom: '0px'
                   }}
                 >
@@ -101,7 +99,7 @@ const LongBanner = () => {
                     }}
                     className="longbannerwidth266"
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.content2" />
+                    <FormattedMessage id="ClubLP.LongBanner.content2"values={{val:<br/>}} />
                   </p>
                 </div>
               </div>
