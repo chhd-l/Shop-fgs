@@ -8,7 +8,8 @@ export function transactionPixel(details) {
     return {
       price: String(item.originalPrice.toFixed(2)),
       quantity: String(item.num),
-      productId: item.spuNo
+      productId: item.spuNo,
+      name: item.goodsName
     };
   });
   const transactionInfo = {
