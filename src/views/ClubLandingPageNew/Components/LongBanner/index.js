@@ -6,9 +6,20 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import clublogo from './image/clublogo.png';
+import clubru from './image/Clubru.png';
+
 const SubTitles = {
   title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
 };
+const LogoShows={
+  logo:<img
+    style={{ width: '100px' }}
+    src={
+      process.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo
+    }
+  />
+}
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
@@ -109,6 +120,7 @@ const LongBanner = () => {
         <SubscriptionBenefitsBanner
           SubscriptionItem={SubscriptionItems}
           Subtitle={SubTitles}
+          LogoShow={LogoShows}
         />
       </div>
     </>

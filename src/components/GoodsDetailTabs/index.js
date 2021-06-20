@@ -35,6 +35,8 @@ import benefitsonedog from './image/benefitsonedog.png';
 import benefitstwodog from './image/benefitstwodog.png';
 import benefitsonecat from './image/benefitsonecat.png';
 import benefitstwocat from './image/benefitstwocat.png';
+import clubru from '../../views/ClubLandingPageNew/Components/LongBanner/image/Clubru.png';
+import clublogo from '../../views/ClubLandingPageNew/Components/LongBanner/image/clublogo.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -66,7 +68,7 @@ const pdpbackgrounddogs = {
       ? pdpbackgrounddog
       : pdpbackgorunddogother
   })`,
-  height: '700px',
+  height: '800px',
   backgroundSize: 'cover',
   overflow: 'hidden',
   display: 'flex',
@@ -209,6 +211,9 @@ const GoodsDetailTabs = function (props) {
       }[item] || ''
     );
   };
+  const LogoShows={
+    logo:<></>
+  }
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
@@ -624,7 +629,7 @@ const GoodsDetailTabs = function (props) {
                                     style={{
                                       fontSize: '1em',
                                       textAlign: 'center',
-                                      fontWeight: 'bold'
+                                      fontWeight: '550'
                                     }}
                                   >
                                     <FormattedMessage
@@ -692,6 +697,7 @@ const GoodsDetailTabs = function (props) {
                             <SubscriptionBenefitsBanner
                               SubscriptionItem={SubscriptionItems}
                               Subtitle={SubTitles}
+                              LogoShow={LogoShows}
                             />
                           </div>
                         </div>
@@ -848,7 +854,8 @@ const GoodsDetailTabs = function (props) {
                               <div className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                                 <p
                                   style={{
-                                    fontSize: '1.1em'
+                                    fontSize: '1.1em',
+                                    fontWeight:'550'
                                   }}
                                 >
                                   <FormattedMessage
@@ -902,6 +909,7 @@ const GoodsDetailTabs = function (props) {
                           <SubscriptionBenefitsBanner
                             SubscriptionItem={SubscriptionItems}
                             Subtitle={SubTitles}
+                            LogoShow={LogoShows}
                           />
                         </div>
                       </div>

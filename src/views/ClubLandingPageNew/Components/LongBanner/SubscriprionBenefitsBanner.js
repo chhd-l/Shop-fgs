@@ -5,10 +5,8 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import './index.css';
-import clublogo from './image/clublogo.png';
-import clubru from './image/Clubru.png';
 
-const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle }) => {
+const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle,LogoShow }) => {
   return (
     <div className="row rc-margin-x--none">
       <div className="rc-full-width">
@@ -19,12 +17,7 @@ const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle }) => {
                 className="flex "
                 style={{ justifyContent: 'center', padding: '20px' }}
               >
-                <img
-                  style={{ width: '100px' }}
-                  src={
-                    process.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo
-                  }
-                />
+                {LogoShow.logo}
               </div>
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                 <div
