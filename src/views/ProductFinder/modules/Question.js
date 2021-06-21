@@ -76,8 +76,12 @@ class Question extends React.Component {
       () => {
         // 从缓存中读取上次答题进度缓存
         if (cachedQuestionData) {
-          const { finderNumber, stepOrder, questionParams, configSizeAttach } =
-            cachedQuestionData;
+          const {
+            finderNumber,
+            stepOrder,
+            questionParams,
+            configSizeAttach
+          } = cachedQuestionData;
           this.setState(
             {
               finderNumber,
@@ -824,7 +828,7 @@ class Question extends React.Component {
                   >
                     <FormattedMessage id="aboutUs.learnMore" />
                     {Boolean(
-                      process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                     ) && (
                       <span className="warning_blank">Opens a new window</span>
                     )}
@@ -837,7 +841,7 @@ class Question extends React.Component {
                   >
                     <FormattedMessage id="contactUs" />
                     {Boolean(
-                      process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                      window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                     ) && (
                       <span className="warning_blank">Opens a new window</span>
                     )}

@@ -143,7 +143,7 @@ class Tailorednutrition extends React.Component {
                             <picture>
                               <img
                                 className="w-100 lazyloaded"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/SACRED_BIRMAN_KITTEN___BIRTH___GROWTH___BRAND_EMBLEMATIC_Med._Res.___Basic-1.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/SACRED_BIRMAN_KITTEN___BIRTH___GROWTH___BRAND_EMBLEMATIC_Med._Res.___Basic-1.jpg`}
                                 alt="Alimentation sur mesure - Chats"
                                 title="Alimentation sur mesure - Chats"
                               />
@@ -171,7 +171,7 @@ class Tailorednutrition extends React.Component {
                             <LazyLoad>
                               <img
                                 className="w-100 lazyloaded"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/GERMAN_SHEPHERD_PUPPY___BRAND_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/GERMAN_SHEPHERD_PUPPY___BRAND_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
                                 alt="Alimentation sur mesure - Chiens"
                                 title="Alimentation sur mesure - Chiens"
                               />
@@ -235,7 +235,7 @@ class Tailorednutrition extends React.Component {
                                 className="w-100 lazyloaded"
                                 alt="Chiens - Alimentation en fonction de la taille"
                                 title="Chiens - Alimentation en fonction de la taille"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/JACK_RUSSEL_TERRIER_ADULT_-_VET_VHN_Med._Res.___Basic.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/JACK_RUSSEL_TERRIER_ADULT_-_VET_VHN_Med._Res.___Basic.jpg`}
                               />{' '}
                             </picture>
                           </div>
@@ -263,7 +263,7 @@ class Tailorednutrition extends React.Component {
                                 className="w-100 lazyloaded"
                                 alt="Alimentation sur mesure - Races"
                                 title="Alimentation sur mesure - Races"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ROYAL_CANIN_50_YEARS_IMAGES_PERSIAN_3_12_Med._Res.___Basic.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ROYAL_CANIN_50_YEARS_IMAGES_PERSIAN_3_12_Med._Res.___Basic.jpg`}
                               />
                             </picture>
                           </div>

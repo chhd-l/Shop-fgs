@@ -43,10 +43,10 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 
-const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
-const isUs = process.env.REACT_APP_COUNTRY === 'us';
-const isRu = process.env.REACT_APP_COUNTRY === 'ru';
-const isFr = process.env.REACT_APP_COUNTRY === 'fr';
+const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
+const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
+const isRu = window.__.env.REACT_APP_COUNTRY === 'ru';
+const isFr = window.__.env.REACT_APP_COUNTRY === 'fr';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -427,7 +427,7 @@ class Recommendation extends React.Component {
   getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
     getPrescriberByPrescriberIdAndStoreId({
       prescriberId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     }).then((res) => {
       let recommendationInfos = {
         recommenderName: res.context?.recommendationName || '',
@@ -619,12 +619,12 @@ class Recommendation extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
       console.log(totalPrice, 'instock');
       this.showErrorMsg(
         <FormattedMessage
           id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
         />
       );
       return false;
@@ -1519,7 +1519,7 @@ class Recommendation extends React.Component {
                                 <div className="">
                                   {
                                     grayBoxInnerText[
-                                      process.env.REACT_APP_COUNTRY
+                                      window.__.env.REACT_APP_COUNTRY
                                     ]
                                   }
                                 </div>
@@ -1580,8 +1580,8 @@ class Recommendation extends React.Component {
             </div>
           )}
           <Test />
-          {/* {this.otherShow()[process.env.REACT_APP_COUNTRY]} */}
-          {otherShow[process.env.REACT_APP_COUNTRY]}
+          {/* {this.otherShow()[window.__.env.REACT_APP_COUNTRY]} */}
+          {otherShow[window.__.env.REACT_APP_COUNTRY]}
           <Footer />
         </main>
       </div>

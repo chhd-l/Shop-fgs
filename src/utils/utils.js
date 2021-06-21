@@ -35,7 +35,7 @@ const mapEnum = {
  */
 export function formatMoney(
   val,
-  currency = process.env.REACT_APP_CURRENCY_TYPE || 1,
+  currency = window.__.env.REACT_APP_CURRENCY_TYPE || 1,
   noFixed
 ) {
   if (isNaN(val)) {
@@ -49,22 +49,22 @@ export function formatMoney(
   }
   val += '';
   let length = val.length;
-  if (process.env.REACT_APP_COUNTRY === 'tr') {
+  if (window.__.env.REACT_APP_COUNTRY === 'tr') {
     return val + ' TL';
   }
-  if (process.env.REACT_APP_COUNTRY === 'ru') {
+  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
     // console.log(val, 'val----');
     val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
+    return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
       style: 'currency',
-      currency: process.env.REACT_APP_CURRENCY,
+      currency: window.__.env.REACT_APP_CURRENCY,
       maximumSignificantDigits: length
     }).format(val);
   }
 
-  return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
+  return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
     style: 'currency',
-    currency: process.env.REACT_APP_CURRENCY
+    currency: window.__.env.REACT_APP_CURRENCY
   }).format(val);
 }
 
@@ -163,7 +163,7 @@ export async function getDictionary({ type, name = '' }) {
   } else {
     let res = await getDict({
       delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       type,
       name
     });
@@ -418,7 +418,7 @@ async function getSiteSeo() {
   try {
     const res = await getSeoConfig({
       type: 4,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -431,7 +431,7 @@ async function getPageSeo(pageName) {
     const res = await getSeoConfig({
       type: 3,
       pageName: pageName,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -443,7 +443,7 @@ async function getCateSeo(categoryId) {
     const res = await getSeoConfig({
       type: 2,
       storeCateId: categoryId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -455,7 +455,7 @@ async function getGoodsSeo(goodsId) {
     const res = await getSeoConfig({
       type: 1,
       goodsId: goodsId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -543,7 +543,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
 }
 
 export async function getFrequencyDict(currentFrequencyId, frequencyType) {
-  const lang = process.env.REACT_APP_COUNTRY;
+  const lang = window.__.env.REACT_APP_COUNTRY;
 
   let autoShipFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day' }),
@@ -716,7 +716,7 @@ export function getFormatDate(date, callback, lang) {
 window.getFormatDate = getFormatDate;
 
 function getDatePickerConfig() {
-  const lang = process.env.REACT_APP_COUNTRY;
+  const lang = window.__.env.REACT_APP_COUNTRY;
 
   switch (lang) {
     case 'de':
@@ -752,7 +752,7 @@ function getDatePickerConfig() {
   };
 
   const curDatePickerCfg =
-    datePickerCfg[process.env.REACT_APP_COUNTRY] || datePickerCfg.default;
+    datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
   return curDatePickerCfg;
 }
 let datePickerConfig = getDatePickerConfig();
@@ -846,7 +846,7 @@ export function filterObjectValueDeep(obj) {
 }
 
 export function isCountriesContainer(countries) {
-  return countries.indexOf(process.env.REACT_APP_COUNTRY) > -1;
+  return countries.indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 }
 
 /**
@@ -870,13 +870,13 @@ export function getOktaCallBackUrl(sessionToken) {
   const nonce =
     '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
   // hard code
-  let homePage = process.env.REACT_APP_HOMEPAGE;
+  let homePage = window.__.env.REACT_APP_HOMEPAGE;
   const regiserUrl =
     homePage.substring(homePage.length - 1, homePage.length) === '/'
       ? 'implicit/callback'
       : '/implicit/callback';
   const redirectUri = window.location.origin + homePage + regiserUrl;
-  var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
+  var callOktaCallBack = `${window.__.env.REACT_APP_ISSUER}/v1/authorize?client_id=${window.__.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
   return callOktaCallBack;
 }
 
@@ -891,7 +891,7 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['tr', 'ru'].indexOf(process.env.REACT_APP_COUNTRY) > -1;
+  return ['tr', 'ru'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 }
 
 // 美国订单号去掉RCFUS开头
@@ -906,7 +906,7 @@ export const filterOrderId = ({ orderNo, orderNoForOMS }) => {
       // 1. 美国订单号去掉RCFUS开头
       // 2. 美国先展示OMS order number，否则展示order number
       us: orderNoForOMS || orderNo.replace(/RCFUS/, '')
-    }[process.env.REACT_APP_COUNTRY] || orderNo
+    }[window.__.env.REACT_APP_COUNTRY] || orderNo
   );
 };
 
@@ -949,21 +949,21 @@ export const sleep = (time) => {
   });
 };
 export function getZoneTime(date) {
-  if (process.env.REACT_APP_COUNTRY === 'us') {
+  if (window.__.env.REACT_APP_COUNTRY === 'us') {
     return new Date(date).addHours(12);
   }
   return new Date(date);
 }
 function isMatchedLang(langArr, lang) {
   return langArr?.find(
-    (crLang) => process.env.REACT_APP_COUNTRY === crLang || lang === crLang
+    (crLang) => window.__.env.REACT_APP_COUNTRY === crLang || lang === crLang
   );
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import { el } from 'date-fns/locale';
 export function getClubLogo() {
-  if (process.env.REACT_APP_COUNTRY === 'ru') {
+  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
     return Club_Logo_ru;
   } else {
     return Club_Logo;

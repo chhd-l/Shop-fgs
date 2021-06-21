@@ -142,7 +142,7 @@ class Values extends React.Component {
                                   className="w-100 lazyloaded"
                                   alt="Les animaux de compagnie en premier"
                                   title="Les animaux de compagnie en premier"
-                                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/POMERANIAN_ADULT___BRAND_EMBLEMATIC_Med._Res.___Basic.jpg`}
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/POMERANIAN_ADULT___BRAND_EMBLEMATIC_Med._Res.___Basic.jpg`}
                                 />
                               </picture>
                             </LazyLoad>

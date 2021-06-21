@@ -55,7 +55,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
@@ -267,7 +267,7 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
         isThrowErr,
-        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
       callback && callback();
       this.setData();
@@ -477,8 +477,8 @@ class LoginCart extends React.Component {
         tmp = quantityMinLimit;
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       }
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
+      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = window.__.env.REACT_APP_LIMITED_NUM;
       }
       item.buyCount = tmp;
       clearTimeout(this.amountTimer);
@@ -498,7 +498,7 @@ class LoginCart extends React.Component {
       return;
     }
     this.setState({ errorMsg: '' });
-    if (item.buyCount < process.env.REACT_APP_LIMITED_NUM) {
+    if (item.buyCount < window.__.env.REACT_APP_LIMITED_NUM) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -511,7 +511,7 @@ class LoginCart extends React.Component {
       this.showErrMsg(
         <FormattedMessage
           id="cart.errorMaxInfo"
-          values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+          values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
         />
       );
     }
@@ -555,7 +555,7 @@ class LoginCart extends React.Component {
       }
     ];
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
           products: list
@@ -896,7 +896,7 @@ class LoginCart extends React.Component {
           {pitem.goods.promotions &&
           pitem.goods.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
-          process.env.REACT_APP_COUNTRY !== 'ru' ? (
+          window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
@@ -1509,9 +1509,9 @@ class LoginCart extends React.Component {
     const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
     const dogsPic =
-      process.env.REACT_APP_COUNTRY === 'fr' ? dogsImgFr : dogsImg;
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? dogsImgFr : dogsImg;
     const catsPic =
-      process.env.REACT_APP_COUNTRY === 'fr' ? catsImgFr : catsImg;
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1595,7 +1595,7 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          // fixToHeader: process.env.REACT_APP_COUNTRY !== 'fr'
+                          // fixToHeader: window.__.env.REACT_APP_COUNTRY !== 'fr'
                           fixToHeader: false
                         })}
                       </div>
@@ -1628,7 +1628,7 @@ class LoginCart extends React.Component {
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                               // style={{ margin: '0 10%' }}
                               style={
-                                process.env.REACT_APP_COUNTRY === 'fr'
+                                window.__.env.REACT_APP_COUNTRY === 'fr'
                                   ? {}
                                   : { margin: '0 10%' }
                               }

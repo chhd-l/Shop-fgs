@@ -17,9 +17,9 @@ const GA_Comp = ({details}: Props) => {
 //商品详情页 埋点
 const GAProductDetailPageView = (item: any) => {
   const ecoEvents = {
-    event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+    event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductView`,
     ecommerce: {
-      currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+      currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
       detail: {
         actionField: {
           list: GAListParam //list's name where the product was clicked from (Catalogue, Homepage, Search Results)

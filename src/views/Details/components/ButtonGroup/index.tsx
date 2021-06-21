@@ -2,8 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import BuyFromRetailerBtn from '../BuyFromRetailerBtn';
 import ErrMsgForCheckoutPanel from '../ErrMsgForCheckoutPanel/index.tsx';
-const isHub = process.env.REACT_APP_HUB == '1';
-const Ru = process.env.REACT_APP_COUNTRY === 'ru';
+const isHub = window.__.env.REACT_APP_HUB == '1';
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 interface Props {
   addToCartLoading: boolean;
   btnStatus: boolean;

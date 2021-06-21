@@ -86,7 +86,7 @@ function ListItemH5ForGlobalStyle(props) {
                       />
                     ) : (
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
                         className=" pt-3 ImgForMobile"
                         style={{
                           maxHeight: '100%',
@@ -253,7 +253,7 @@ function ListItemForDefault(props) {
                     src={
                       isDogPage
                         ? retailDog
-                        : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
+                        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                     }
                     alt="product finder recomend retail cat find"
                     title=""
@@ -353,7 +353,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {item.technologyOrBreedsAttr ? (
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
-      {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+      {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
       )}
       <PriceItemShow item={item} configStore={configStore} />
@@ -393,7 +393,7 @@ const PriceItemShow = ({ item, configStore }) => {
                 </span>
               ))}
             {priceDisplayMethod == 1 &&
-              (process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+              (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
                 <>
                   <div
                     className="text-left NameFitScreen"
@@ -484,7 +484,7 @@ const PriceItemShow = ({ item, configStore }) => {
                     </span>
                   ))}
                 {priceDisplayMethod == 1 &&
-                  (process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+                  (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
                     <>
                       <div
                         className="text-center NameFitScreen"
@@ -654,7 +654,7 @@ function ListItemBody({ item, headingTag, configStore }) {
   );
   return (
     <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0 pc-product-card">
-      {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+      {window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly pl-4 pr-4">
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
@@ -664,7 +664,7 @@ function ListItemBody({ item, headingTag, configStore }) {
               </p>
             ) : null}
           </div>
-          {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+          {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
             <InlineRatings productId={item.goodsNo} />
           )}
           <PriceItemShow item={item} configStore={configStore} />
@@ -700,7 +700,7 @@ export default class PLPCover extends React.Component {
       showBorder,
       className
     } = this.props;
-    return process.env.REACT_APP_PLP_STYLE === 'layout-global' &&
+    return window.__.env.REACT_APP_PLP_STYLE === 'layout-global' &&
       isMobilePhone ? (
       <ListItemH5ForGlobalStyle
         showBorder={showBorder}

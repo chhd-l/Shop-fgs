@@ -29,7 +29,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const isLogin = !!localItemRoyal.get('rc-token');
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
@@ -136,7 +136,7 @@ class Confirmation extends React.Component {
             this.getIsAllOneShootGoods();
             orderConfirmationPushEvent(this.state.details);
             //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
-            if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+            if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               transactionPixel(this.state.details);
             }
           }
@@ -154,7 +154,7 @@ class Confirmation extends React.Component {
         });
       });
 
-    if (process.env.REACT_APP_COUNTRY === 'de' && isLogin) {
+    if (window.__.env.REACT_APP_COUNTRY === 'de' && isLogin) {
       accountCallBack().then((res) => {
         const customerId = this.userInfo && this.userInfo.customerId;
         this.setState({
@@ -273,9 +273,9 @@ class Confirmation extends React.Component {
         };
       });
       let eEvents = {
-        event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
         ecommerce: {
-          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
           purchase: {
             actionField: {
               id: this.state.totalTid,
@@ -315,9 +315,9 @@ class Confirmation extends React.Component {
               : 'self-selected'
           });
           subscription_eEvents = {
-            event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
-              currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+              currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
               purchase: {
                 actionField: {
                   id: this.state.totalTid,
@@ -347,9 +347,9 @@ class Confirmation extends React.Component {
               : 'self-selected'
           });
           oneShooteEvents = {
-            event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
-              currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+              currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
               purchase: {
                 actionField: {
                   id: this.state.totalTid,
@@ -469,7 +469,7 @@ class Confirmation extends React.Component {
                   }}
                 />
               </p>
-              {process.env.REACT_APP_COUNTRY === 'de' && isLogin ? (
+              {window.__.env.REACT_APP_COUNTRY === 'de' && isLogin ? (
                 <>
                   {mktSelectedFlag && !mktActivateFlag ? (
                     <div className="col-12 col-md-6 mktConsent">
@@ -619,7 +619,7 @@ class Confirmation extends React.Component {
                   </div>
                   <AddressPreview
                     hideBillingAddr={Boolean(
-                      +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                      +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
                     )}
                     details={this.state.details}
                     payRecord={this.state.payRecord}

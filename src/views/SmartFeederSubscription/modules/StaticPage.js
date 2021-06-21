@@ -167,7 +167,7 @@ const staticPage = (props) => {
               controls
             >
               <source
-                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Petkit-with-subtitles-in-French.mp4`}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Petkit-with-subtitles-in-French.mp4`}
                 type="video/mp4"
               ></source>
               Your browser does not support the video tag.

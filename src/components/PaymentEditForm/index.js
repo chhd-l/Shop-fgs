@@ -110,7 +110,7 @@ class PaymentEditForm extends React.Component {
     let element = document.getElementById('paymentPhoneNumber');
     let maskOptions = {};
     let phoneReg = '';
-    switch (process.env.REACT_APP_COUNTRY) {
+    switch (window.__.env.REACT_APP_COUNTRY) {
       case 'fr':
         phoneReg = [
           { mask: '(+33) 0 00 00 00 00' },
@@ -151,11 +151,13 @@ class PaymentEditForm extends React.Component {
     });
 
     // 查询省份列表（美国：州）
-    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
-      this.setState({
-        stateList: res.context.systemStates
-      });
-    });
+    getProvincesList({ storeId: window.__.env.REACT_APP_STOREID }).then(
+      (res) => {
+        this.setState({
+          stateList: res.context.systemStates
+        });
+      }
+    );
 
     if (this.props.needPhone && this.props.paymentType == 'PAYU') {
       // 设置手机号输入限制
@@ -227,10 +229,10 @@ class PaymentEditForm extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -261,10 +263,10 @@ class PaymentEditForm extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -274,7 +276,7 @@ class PaymentEditForm extends React.Component {
       }
 
       await addOrUpdatePaymentMethod({
-        storeId: process.env.REACT_APP_STOREID,
+        storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.userInfo ? this.userInfo.customerId : '',
         email: creditCardInfoForm.email,
         phone: creditCardInfoForm.phoneNumber || '',

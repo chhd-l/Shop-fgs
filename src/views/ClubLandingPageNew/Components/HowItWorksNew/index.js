@@ -162,9 +162,9 @@ const TrhowitworksnewListmobile = [
   }
 ];
 
-const ru = process.env.REACT_APP_COUNTRY == 'ru';
-const tr = process.env.REACT_APP_COUNTRY == 'tr';
-const fr = process.env.REACT_APP_COUNTRY == 'fr';
+const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+const fr = window.__.env.REACT_APP_COUNTRY == 'fr';
 
 const HowItWorksNew = () => {
   return (

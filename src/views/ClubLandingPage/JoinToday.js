@@ -44,7 +44,7 @@ const JoinToday = (props) => {
                       <div
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
-                        {process.env.REACT_APP_COUNTRY == 'ru' ? (
+                        {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                           <img
                             style={{ width: '200px' }}
                             src={ruclublogo}

@@ -152,13 +152,13 @@ import DateFnsLocaleFr from 'date-fns/locale/fr';
 import DateFnsLocaleES from 'date-fns/locale/es';
 import DateFnsLocaleDE from 'date-fns/locale/de';
 
-if (process.env.REACT_APP_COUNTRY === 'fr') {
+if (window.__.env.REACT_APP_COUNTRY === 'fr') {
   registerLocale('fr', DateFnsLocaleFr);
   setDefaultLocale('fr');
-} else if (process.env.REACT_APP_COUNTRY === 'de') {
+} else if (window.__.env.REACT_APP_COUNTRY === 'de') {
   registerLocale('de', DateFnsLocaleDE);
   setDefaultLocale('de');
-} else if (process.env.REACT_APP_COUNTRY === 'mx') {
+} else if (window.__.env.REACT_APP_COUNTRY === 'mx') {
   registerLocale('es', DateFnsLocaleES);
   setDefaultLocale('es');
 }
@@ -184,7 +184,7 @@ const LoginCallback = (props) => {
       window.location.search.indexOf('?code') >= 0 &&
       window.location.search.indexOf('&state') >= 0;
     if (sessionToken && !authStateReady && !authCallBack) {
-      await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
     } else {
       if (authStateReady) {
       } else {
@@ -200,7 +200,7 @@ const LoginCallback = (props) => {
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
-  oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+  oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
   return <div />;
 };
 
@@ -218,9 +218,9 @@ const App = () => {
   };
   return (
     <Provider {...stores}>
-      <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
+      <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={locales}>
         <Router
-          basename={process.env.REACT_APP_HOMEPAGE}
+          basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
           forceRefresh={true}
         >
@@ -304,7 +304,7 @@ const App = () => {
                   path="/general-terms-conditions"
                   render={(props) => {
                     let fragment = '';
-                    switch (process.env.REACT_APP_COUNTRY) {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'fr':
                         fragment = <TermsConditions {...props} />;
                         break;
@@ -324,7 +324,7 @@ const App = () => {
                   exact
                   path="/termsandconditions"
                   component={
-                    process.env.REACT_APP_COUNTRY == 'fr'
+                    window.__.env.REACT_APP_COUNTRY == 'fr'
                       ? TermsConditions
                       : TermsConditionsUs
                   }
@@ -334,7 +334,7 @@ const App = () => {
                   path="/club-subscriptionbyebye"
                   render={(props) => {
                     let tmpComponent;
-                    switch (process.env.REACT_APP_COUNTRY) {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'ru':
                       case 'tr':
                         return <ClubLandingPage {...props} />;
@@ -498,7 +498,7 @@ const App = () => {
                   path="/subscription-landing"
                   component={(() => {
                     let sublanding = '';
-                    switch (process.env.REACT_APP_COUNTRY) {
+                    switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'de':
                         sublanding = DE_SubscriptionLanding;
                         break;
@@ -526,7 +526,7 @@ const App = () => {
                   path="/how-to-order"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'de'
+                    window.__.env.REACT_APP_COUNTRY == 'de'
                       ? ClubLandingPageDe
                       : Exception
                   }
@@ -535,7 +535,7 @@ const App = () => {
                   path="/vet-diets"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'de'
+                    window.__.env.REACT_APP_COUNTRY == 'de'
                       ? ClubLandingPageDeVet
                       : Exception
                   }
@@ -555,7 +555,7 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'de' ? AboutUsDe : AboutUs
+                    window.__.env.REACT_APP_COUNTRY == 'de' ? AboutUsDe : AboutUs
                   }
                 />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
@@ -578,7 +578,7 @@ const App = () => {
                   path="/Values"
                   component={
                     { fr: FR_Values, us: US_Values, ru: RU_Values }[
-                      process.env.REACT_APP_COUNTRY
+                      window.__.env.REACT_APP_COUNTRY
                     ] || Values
                   }
                 />
@@ -588,7 +588,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'us'
+                    window.__.env.REACT_APP_COUNTRY == 'us'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -598,7 +598,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'us'
+                    window.__.env.REACT_APP_COUNTRY == 'us'
                       ? US_QualitySafety
                       : QualitySafety
                   }
@@ -652,7 +652,7 @@ const App = () => {
                 <Route
                   exact
                   // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                  path={process.env.REACT_APP_SEARCH_LINK}
+                  path={window.__.env.REACT_APP_SEARCH_LINK}
                   render={(props) => {
                     if (props.location?.state?.noresult) {
                       return <SearchShow {...props} />;
@@ -692,7 +692,7 @@ const App = () => {
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
                       const splitName = { fr: '_FR.html', us: '_US.html' }[
-                        process.env.REACT_APP_COUNTRY
+                        window.__.env.REACT_APP_COUNTRY
                       ];
                       const productNameMappping = {
                         '/ageing-12+-en-gelÃ©e-4153':

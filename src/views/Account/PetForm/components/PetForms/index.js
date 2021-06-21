@@ -87,14 +87,14 @@ const PetForms = ({
   location,
   showErrorMsg
 }) => {
-  const Us = process.env.REACT_APP_COUNTRY == 'us';
+  const Us = window.__.env.REACT_APP_COUNTRY == 'us';
   const RuTr =
-    process.env.REACT_APP_COUNTRY == 'ru' ||
-    process.env.REACT_APP_COUNTRY == 'tr';
+    window.__.env.REACT_APP_COUNTRY == 'ru' ||
+    window.__.env.REACT_APP_COUNTRY == 'tr';
   const notUsDeFr =
-    process.env.REACT_APP_COUNTRY !== 'us' &&
-    process.env.REACT_APP_COUNTRY !== 'de' &&
-    process.env.REACT_APP_COUNTRY !== 'fr';
+    window.__.env.REACT_APP_COUNTRY !== 'us' &&
+    window.__.env.REACT_APP_COUNTRY !== 'de' &&
+    window.__.env.REACT_APP_COUNTRY !== 'fr';
   const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =
@@ -211,7 +211,7 @@ const PetForms = ({
       type: isCat ? 'catBreed' : 'dogBreed',
       name: e.target.value,
       delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     })
       .then((res) => {
         setBreedListLoading(false);
@@ -434,7 +434,7 @@ const PetForms = ({
       petsSizeValueName: petForm.weight,
       petsType: isCat ? 'cat' : 'dog',
       sterilized: petForm.sterilized,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       isPurebred: petForm.isPurebred,
       activity: petForm.activity,
       lifestyle: petForm.lifestyle,
@@ -444,7 +444,7 @@ const PetForms = ({
     let isEditAlertNew = false;
     let param = {
       customerPets: pets,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       userId: consumerAccount
     };
     let action = addPet;

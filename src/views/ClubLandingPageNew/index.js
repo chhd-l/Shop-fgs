@@ -29,7 +29,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -116,11 +116,11 @@ class ClubLandingPageNew extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
     if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
 
@@ -195,34 +195,34 @@ class ClubLandingPageNew extends React.Component {
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item flex">
                               <div>
-                              <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo rc-margin-right--xs"></em>
                               </div>
                               <div>
-                              <FormattedMessage id="ClubLP.Advantage.content1" />
-                              </div>
-                            </li>
-                            <li className="rc-list__item flex">
-                              <div>
-                              <em className="bingo rc-margin-right--xs"></em>
-                              </div>
-                              <div>
-                              <FormattedMessage id="ClubLP.Advantage.content2" />
+                                <FormattedMessage id="ClubLP.Advantage.content1" />
                               </div>
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                              <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo rc-margin-right--xs"></em>
                               </div>
                               <div>
-                              <FormattedMessage id="ClubLP.Advantage.content3" />
+                                <FormattedMessage id="ClubLP.Advantage.content2" />
                               </div>
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                              <em className="bingo rc-margin-right--xs"></em>
+                                <em className="bingo rc-margin-right--xs"></em>
                               </div>
                               <div>
-                              <FormattedMessage id="ClubLP.Advantage.content4" />
+                                <FormattedMessage id="ClubLP.Advantage.content3" />
+                              </div>
+                            </li>
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                <FormattedMessage id="ClubLP.Advantage.content4" />
                               </div>
                             </li>
                           </ul>
@@ -275,7 +275,7 @@ class ClubLandingPageNew extends React.Component {
 
           <Divider />
 
-          {process.env.REACT_APP_COUNTRY == 'ru' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none ">
                 <div className="rc-full-width">

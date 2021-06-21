@@ -29,15 +29,15 @@ class GoogleTagManager extends React.Component {
     // REACT_APP_HUB_GA是hub(土耳其，法国，俄罗斯)和美国专用的
     const { page = {}, pet = {}, search = {} } = this.props.additionalEvents;
     const commonSite = {
-      country: process.env.REACT_APP_GA_COUNTRY,
-      environment: process.env.REACT_APP_GA_ENV,
-      id: process.env.REACT_APP_GTM_SITE_ID
+      country: window.__.env.REACT_APP_GA_COUNTRY,
+      environment: window.__.env.REACT_APP_GA_ENV,
+      id: window.__.env.REACT_APP_GTM_SITE_ID
     };
     let event = {
       page: {},
       site: {
         ...commonSite,
-        currency: process.env.REACT_APP_GA_CURRENCY_CODE
+        currency: window.__.env.REACT_APP_GA_CURRENCY_CODE
       },
       search: {
         query: '',
@@ -86,7 +86,7 @@ class GoogleTagManager extends React.Component {
 
       hubEvent.user = {
         segment: 'Authenticated',
-        country: process.env.REACT_APP_GA_COUNTRY,
+        country: window.__.env.REACT_APP_GA_COUNTRY,
         id: userInfo.customerId
       };
     } else {
@@ -100,11 +100,11 @@ class GoogleTagManager extends React.Component {
 
       hubEvent.user = {
         segment: 'Not Authenticated',
-        country: process.env.REACT_APP_GA_COUNTRY,
+        country: window.__.env.REACT_APP_GA_COUNTRY,
         id: ''
       };
     }
-    event.user.country = process.env.REACT_APP_GA_COUNTRY;
+    event.user.country = window.__.env.REACT_APP_GA_COUNTRY;
 
     let additionalEvents = Object.assign(
       {},
@@ -118,7 +118,7 @@ class GoogleTagManager extends React.Component {
       this.props.hubAdditionalEvents
     );
 
-    let hubGA = process.env.REACT_APP_HUB_GA == '1';
+    let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
     let addEvents = hubGA ? hubAdditionalEvents : additionalEvents;
     let { ecommerceEvents = {}, hubEcommerceEvents = {} } = this.props;
     let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
@@ -148,7 +148,7 @@ class GoogleTagManager extends React.Component {
     //     j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
     //     ;
     //     f.parentNode.insertBefore(j,f);
-    // })(window,document,'script','dataLayer','${process.env.REACT_APP_GA_GTMID}');`,
+    // })(window,document,'script','dataLayer','${window.__.env.REACT_APP_GA_GTMID}');`,
     //       className: 'optanon-category-2',
     //       type: 'text/plain'
     //     });

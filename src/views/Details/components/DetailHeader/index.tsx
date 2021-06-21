@@ -6,7 +6,7 @@ import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const createMarkup = (text: 'string') => ({ __html: text });
-const Ru = process.env.REACT_APP_COUNTRY === 'ru';
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 interface Props {
   checkOutErrMsg: string;
   goodHeading: string;
@@ -43,7 +43,7 @@ const DetailHeader = ({
             {details.goodsSubtitle}
           </h2>
         </div>
-        {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+        {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
           <div className="stars">
             <div className="rc-card__price flex-inline">
               <div
@@ -80,7 +80,7 @@ const DetailHeader = ({
         }}
       />
       {!isMobile &&
-        !!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+        !!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
@@ -93,7 +93,7 @@ const DetailHeader = ({
             {details.goodsSubtitle}
           </h2>
         </div>
-        {!!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+        {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
           <div className="stars text-nowrap">
             <div className="rc-card__price flex-inline">
               <div

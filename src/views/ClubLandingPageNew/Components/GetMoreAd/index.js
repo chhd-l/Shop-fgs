@@ -77,22 +77,22 @@ const GetMoreAd = () => {
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item flex">
                               <div>
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                                <em className="bingoWhite rc-margin-right--xs"></em>
                               </div>
                               <div style={{ marginLeft: '10px' }}>
-                              <a >
-                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
-                              </a>
+                                <a>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
+                                </a>
                               </div>
                             </li>
                             <li className="rc-list__item flex">
                               <div>
-                              <em className="bingoWhite rc-margin-right--xs"></em>
+                                <em className="bingoWhite rc-margin-right--xs"></em>
                               </div>
                               <div style={{ marginLeft: '10px' }}>
-                              <a >
-                                <FormattedMessage id="ClubLP.GetMoreAd.Single.tip2" />
-                              </a>
+                                <a>
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Single.tip2" />
+                                </a>
                               </div>
                             </li>
                           </ul>
@@ -122,7 +122,7 @@ const GetMoreAd = () => {
                         >
                           <div>
                             <LazyLoad>
-                              {process.env.REACT_APP_COUNTRY == 'ru' ? (
+                              {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                                 <img
                                   className="w-60 lazyloaded"
                                   src={rulogo}
@@ -171,42 +171,42 @@ const GetMoreAd = () => {
                             <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw">
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
+                                  </a>
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
+                                  </a>
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
+                                  </a>
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
+                                  </a>
                                 </div>
                               </li>
                             </ul>
@@ -217,32 +217,32 @@ const GetMoreAd = () => {
                             <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align">
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
+                                  </a>
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
+                                  </a>
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
                                 <div>
-                                <em className="bingo rc-margin-right--xs"></em>
+                                  <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                <a >
-                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
-                                </a>
+                                  <a>
+                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
+                                  </a>
                                 </div>
                               </li>
                             </ul>

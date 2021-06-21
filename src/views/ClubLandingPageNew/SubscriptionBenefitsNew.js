@@ -63,7 +63,7 @@ const SubsriptionBenefitsNew = () => {
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
                           src={
-                            process.env.REACT_APP_COUNTRY == 'tr'
+                            window.__.env.REACT_APP_COUNTRY == 'tr'
                               ? discountnewtr
                               : discountnew
                           }
@@ -145,7 +145,7 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                {process.env.REACT_APP_COUNTRY == 'ru' ? (
+                {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                   <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
@@ -194,7 +194,10 @@ const SubsriptionBenefitsNew = () => {
               href={'/product-finder'}
               ariaLabel="Links to product finder"
             >
-              <button className="rc-btn rc-btn--one" style={{paddingLeft:'90px',paddingRight:'90px'}}>
+              <button
+                className="rc-btn rc-btn--one"
+                style={{ paddingLeft: '90px', paddingRight: '90px' }}
+              >
                 <FormattedMessage
                   id={'ClubLP.SubscriptionBenefitsNew.button'}
                 />

@@ -146,7 +146,7 @@ class PetForm extends React.Component {
         petsName,
         petsSex,
         petsSizeValueId: '',
-        storeId: process.env.REACT_APP_STOREID,
+        storeId: window.__.env.REACT_APP_STOREID,
         petsSizeValueName,
         petsType,
         sterilized,

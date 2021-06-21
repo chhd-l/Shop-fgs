@@ -4,10 +4,10 @@ const api = {
   miniPurchases: '/site/front/miniPurchases',
   purchases: '/site/front/purchases', // 游客计算价格
   sitePurchases: '/site/purchases', // 会员计算价格
-  sitePurchase: `/site/${process.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
-  siteMiniPurchases: `/site/${process.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
-  mergePurchase: `/site/${process.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
-  switchSize: `/site/${process.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
+  sitePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
+  siteMiniPurchases: `/site/${window.__.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
+  mergePurchase: `/site/${window.__.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
+  switchSize: `/site/${window.__.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch', //购物车related product
   shippingCalculation: '/tempoline' // 计算运费
 };

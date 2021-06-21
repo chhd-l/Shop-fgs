@@ -96,7 +96,7 @@ class Header extends React.Component {
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
 
     this.preTop = 0;
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -136,7 +136,7 @@ class Header extends React.Component {
       if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
         const res = await getPrescriberByEncryptCode({
           encryptCode: clinciRecoCode,
-          storeId: process.env.REACT_APP_STOREID
+          storeId: window.__.env.REACT_APP_STOREID
         });
         if (
           res.context &&
@@ -157,7 +157,7 @@ class Header extends React.Component {
         // 根据prescriberId查询Clinic详情(查询id)
         const idRes = await getPrescriberByPrescriberIdAndStoreId({
           prescriberId: linkClinicId,
-          storeId: process.env.REACT_APP_STOREID
+          storeId: window.__.env.REACT_APP_STOREID
         });
 
         // 根据id查询Clinic详情
@@ -185,7 +185,7 @@ class Header extends React.Component {
         this.props.match && this.props.match.path === '/details/:id'
           ? this.props.match.params.id
           : '',
-      shopId: process.env.REACT_APP_STOREID,
+      shopId: window.__.env.REACT_APP_STOREID,
       page:
         clinciRecoCode || linkClinicId
           ? '5'
@@ -197,7 +197,7 @@ class Header extends React.Component {
             }[this.props.match && this.props.match.path] || ''
     });
 
-    (+process.env.REACT_APP_HUB
+    (+window.__.env.REACT_APP_HUB
       ? this.initNavigationsForHub
       : this.initNavigations)();
   }
@@ -306,11 +306,11 @@ class Header extends React.Component {
       checkoutStore.removeLoginCartData();
       await oktaAuth.signOut({
         postLogoutRedirectUri:
-          window.location.origin + process.env.REACT_APP_HOMEPAGE
+          window.location.origin + window.__.env.REACT_APP_HOMEPAGE
       });
       setTimeout(async () => {
         loginStore.changeLoginModal(false);
-        await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+        await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       }, 3000);
     } catch (e) {
       loginStore.changeLoginModal(false);
@@ -417,8 +417,8 @@ class Header extends React.Component {
     // if (process.env.NODE_ENV === 'development') {
     //   registredUrl = prefix + encodeURIComponent(callbackUrl)
     // } else if (process.env.NODE_ENV === 'production') {
-    //   callbackUrl = process.env.REACT_APP_RegisterCallback
-    //   registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
+    //   callbackUrl = window.__.env.REACT_APP_RegisterCallback
+    //   registredUrl = window.__.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
     // }
     // window.location.href = registredUrl
     const { history } = this.props;
@@ -451,7 +451,7 @@ class Header extends React.Component {
   GAClickMenu(interaction) {
     const { category, action, label, value } = interaction;
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}clickMenu`,
       interaction: {
         category,
         action,
@@ -506,14 +506,14 @@ class Header extends React.Component {
   };
   hanldeClickSignUp = () => {
     if (
-      process.env.REACT_APP_COUNTRY === 'fr' ||
-      process.env.REACT_APP_COUNTRY === 'us'
+      window.__.env.REACT_APP_COUNTRY === 'fr' ||
+      window.__.env.REACT_APP_COUNTRY === 'us'
     ) {
       this.props.history.push('/register');
     } else {
       window.location.href =
-        process.env.REACT_APP_RegisterPrefix +
-        window.encodeURIComponent(process.env.REACT_APP_RegisterCallback);
+        window.__.env.REACT_APP_RegisterPrefix +
+        window.encodeURIComponent(window.__.env.REACT_APP_RegisterCallback);
     }
   };
   toggleSearchIcon = () => {
@@ -553,18 +553,18 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <HeaderContainer isScroll={!process.env.REACT_APP_HUB || isMobile}>
-          {!!+process.env.REACT_APP_HUB ? (
+        <HeaderContainer isScroll={!window.__.env.REACT_APP_HUB || isMobile}>
+          {!!+window.__.env.REACT_APP_HUB ? (
             <div className="rc-language-banner rc-bg-colour--brand4 rc-lg-up">
               <div className="rc-layout-container rc-one-column rc-max-width--xxl rc-text--right pt-0">
                 <div className="rc-column p-0">
-                  {process.env.REACT_APP_HUB_VET_PORTAL &&
-                  process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
+                  {window.__.env.REACT_APP_HUB_VET_PORTAL &&
+                  window.__.env.REACT_APP_HUB_BREEDER_PORTAL ? (
                     <span style={{ fontSize: '.85em' }}>
                       {/* <FormattedMessage id="header.User.royalCaninPartner" /> */}
                       <a
                         className="medium"
-                        href={process.env.REACT_APP_HUB_VET_PORTAL}
+                        href={window.__.env.REACT_APP_HUB_VET_PORTAL}
                       >
                         <FormattedMessage id="header.User.vetPortal" />
                       </a>
@@ -573,7 +573,7 @@ class Header extends React.Component {
                       </span>
                       <a
                         className="medium ml-2"
-                        href={process.env.REACT_APP_HUB_BREEDER_PORTAL}
+                        href={window.__.env.REACT_APP_HUB_BREEDER_PORTAL}
                       >
                         <FormattedMessage id="header.User.breederPortal" />
                       </a>
@@ -596,7 +596,7 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  {!!+process.env.REACT_APP_HUB ? (
+                  {!!+window.__.env.REACT_APP_HUB ? (
                     <MegaMenuMobileForHub
                       menuData={headerNavigationListForHub}
                       handleClickNavItem={this.handleClickNavItem}
@@ -635,7 +635,7 @@ class Header extends React.Component {
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    {!!+process.env.REACT_APP_HUB && isMobile ? (
+                    {!!+window.__.env.REACT_APP_HUB && isMobile ? (
                       <span
                         className="iconfont icon-search mr-2 icon-search-mini"
                         onClick={this.toggleSearchIcon}
@@ -670,13 +670,13 @@ class Header extends React.Component {
             </ul>
           </nav>
           {/* 向下滑动页面时，才会出现搜索条 */}
-          {showMiniIcons && !!+process.env.REACT_APP_HUB && isMobile && (
+          {showMiniIcons && !!+window.__.env.REACT_APP_HUB && isMobile && (
             <nav className="bg-white nav-search pl-3 pr-3 pb-2 search-full-input-container">
               <Search history={history} />
             </nav>
           )}
 
-          {+process.env.REACT_APP_HUB ? (
+          {+window.__.env.REACT_APP_HUB ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
               updateActiveTopParentId={this.updateActiveTopParentId}
@@ -731,8 +731,8 @@ class Header extends React.Component {
             </div>
           )}
         </HeaderContainer>
-        {process.env.REACT_APP_COUNTRY !== 'ru' &&
-          process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+          window.__.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>
     );

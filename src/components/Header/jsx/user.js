@@ -99,7 +99,7 @@ const UserJSX = (props) => {
                       className="rc-styled-link"
                       onClick={() => {
                         // if (
-                        //   process.env.REACT_APP_COUNTRY == 'us' &&
+                        //   window.__.env.REACT_APP_COUNTRY == 'us' &&
                         //   isLimitLogin()
                         // ) {
                         //   // 美国4/17的美国中部时间早8点到晚4点不能登录账户
@@ -107,21 +107,21 @@ const UserJSX = (props) => {
                         // }
                         // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                         // window.location.href =
-                        //   process.env.REACT_APP_RegisterPrefix +
+                        //   window.__.env.REACT_APP_RegisterPrefix +
                         //   window.encodeURIComponent(
-                        //     process.env.REACT_APP_RegisterCallback
+                        //     window.__.env.REACT_APP_RegisterCallback
                         //   );
                         // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                         // this.signUp()
-                        if (!process.env.REACT_APP_STOREID) {
+                        if (!window.__.env.REACT_APP_STOREID) {
                           return;
                         }
                         if (
-                          process.env.REACT_APP_COUNTRY === 'tr' ||
-                          process.env.REACT_APP_COUNTRY === 'ru' ||
-                          process.env.REACT_APP_COUNTRY === 'fr' ||
-                          process.env.REACT_APP_COUNTRY === 'us' ||
-                          process.env.REACT_APP_COUNTRY === 'de'
+                          window.__.env.REACT_APP_COUNTRY === 'tr' ||
+                          window.__.env.REACT_APP_COUNTRY === 'ru' ||
+                          window.__.env.REACT_APP_COUNTRY === 'fr' ||
+                          window.__.env.REACT_APP_COUNTRY === 'us' ||
+                          window.__.env.REACT_APP_COUNTRY === 'de'
                         ) {
                           localItemRoyal.set(
                             'okta-redirectUrl',
@@ -132,9 +132,9 @@ const UserJSX = (props) => {
                           history.push('/register');
                         } else {
                           window.location.href =
-                            process.env.REACT_APP_RegisterPrefix +
+                            window.__.env.REACT_APP_RegisterPrefix +
                             window.encodeURIComponent(
-                              process.env.REACT_APP_RegisterCallback
+                              window.__.env.REACT_APP_RegisterCallback
                             );
                         }
                       }}
@@ -204,7 +204,7 @@ const UserJSX = (props) => {
     </>
   );
 
-  return +process.env.REACT_APP_HUB ? (
+  return +window.__.env.REACT_APP_HUB ? (
     //clientWidth用于兼容 ipad pro展示
     !isMobile || clientWidth > 769 ? (
       // <li onMouseOver={self.handleMouseOver} onMouseOut={self.handleMouseOut} onClick={self.loginIcon}>

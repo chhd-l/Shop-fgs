@@ -47,7 +47,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -144,11 +144,11 @@ class ClubLandingPageDe extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
     if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
 
@@ -769,7 +769,13 @@ class ClubLandingPageDe extends React.Component {
                                     style={{ marginRight: '-4rem' }}
                                   >
                                     <div className="w-100">
-                                      <p style={{ fontWeight: 'bolder',marginBottom:'0px',marginTop:'20px'}}>
+                                      <p
+                                        style={{
+                                          fontWeight: 'bolder',
+                                          marginBottom: '0px',
+                                          marginTop: '20px'
+                                        }}
+                                      >
                                         per Telefon
                                       </p>
                                       <div className="rc-margin-top--xs">
@@ -799,7 +805,10 @@ class ClubLandingPageDe extends React.Component {
                                         </p>
                                       </div>
                                       <p
-                                        style={{ fontSize: '12px',marginBottom:'0px' }}
+                                        style={{
+                                          fontSize: '12px',
+                                          marginBottom: '0px'
+                                        }}
                                         className="detextnowrap"
                                       >
                                         8:00-17:00 Uhr – Anrufe zum Ortstarif
@@ -833,7 +842,7 @@ class ClubLandingPageDe extends React.Component {
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per E-Mail
                                       </p>
-                                      <p style={{marginBottom:'35px'}}>
+                                      <p style={{ marginBottom: '35px' }}>
                                         <a
                                           href={this.state.mailAddress}
                                           className="rc-styled-link defontsize24px"
