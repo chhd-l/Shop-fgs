@@ -76,7 +76,7 @@ class Form extends React.Component {
         address1: '',
         address2: '',
         country: '',
-        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         cityId: '',
         city: '',
         areaId: '',
@@ -623,7 +623,7 @@ class Form extends React.Component {
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
-        storeId: window.__.env.REACT_APP_STOREID
+        storeId: process.env.REACT_APP_STOREID
       });
       if (res?.context?.systemStates) {
         let starr = [];
