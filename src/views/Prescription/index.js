@@ -61,7 +61,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
 @observer
 class Prescription extends React.Component {
   constructor(props) {
-    const lang = process.env.REACT_APP_COUNTRY;
+    const lang = window.__.env.REACT_APP_COUNTRY;
     const lat = initLocation[lang].lat;
     const lng = initLocation[lang].lng;
     super(props);
@@ -97,7 +97,7 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: lat,
         longitude: lng,
-        storeId: process.env.REACT_APP_STOREID
+        storeId: window.__.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
         lat: 0,
@@ -106,7 +106,7 @@ class Prescription extends React.Component {
       loading: true,
       modalShow: false //是否显示询问绑定prescriber弹框
     };
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
     //获取是否显示prescriber弹框
@@ -193,7 +193,7 @@ class Prescription extends React.Component {
   }
   async getAllPrescription() {
     let params = {
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     };
     const res = await getAllPrescription(params);
     let clinicArr = res.context.prescriberVo;
@@ -361,7 +361,7 @@ class Prescription extends React.Component {
 
             <div className="map-saerch">
               <div className="clinic-search-list">
-                {process.env.REACT_APP_COUNTRY === 'RU' && (
+                {window.__.env.REACT_APP_COUNTRY === 'ru' && (
                   <div className="vet-clinic-tip">
                     <FormattedMessage
                       id="clinic.vetClinicsTip1"
@@ -370,6 +370,7 @@ class Prescription extends React.Component {
                           <DistributeHubLinkOrATag
                             href={'/contact-us'}
                             ariaLabel="Links to contact us"
+                            target={'_blank'}
                           >
                             <span className="vet-clinic-tip-link">
                               <FormattedMessage id="clinic.vetClinicsTip2" />

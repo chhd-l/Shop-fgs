@@ -9,12 +9,12 @@ import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
 import { createIntl, createIntlCache } from 'react-intl';
-import MX from 'date-fns/locale/es';
-import DE from 'date-fns/locale/de';
-import FR from 'date-fns/locale/fr';
-import TR from 'date-fns/locale/tr';
-import US from 'date-fns/locale/en-US';
-import RU from 'date-fns/locale/ru';
+import mx from 'date-fns/locale/es';
+import de from 'date-fns/locale/de';
+import fr from 'date-fns/locale/fr';
+import tr from 'date-fns/locale/tr';
+import us from 'date-fns/locale/en-US';
+import ru from 'date-fns/locale/ru';
 import { registerLocale } from 'react-datepicker';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
@@ -35,7 +35,7 @@ const mapEnum = {
  */
 export function formatMoney(
   val,
-  currency = process.env.REACT_APP_CURRENCY_TYPE || 1,
+  currency = window.__.env.REACT_APP_CURRENCY_TYPE || 1,
   noFixed
 ) {
   if (isNaN(val)) {
@@ -49,22 +49,22 @@ export function formatMoney(
   }
   val += '';
   let length = val.length;
-  if (process.env.REACT_APP_COUNTRY === 'TR') {
+  if (window.__.env.REACT_APP_COUNTRY === 'tr') {
     return val + ' TL';
   }
-  if (process.env.REACT_APP_COUNTRY === 'RU') {
+  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
     // console.log(val, 'val----');
     val = parseInt(Math.round(val));
-    return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
+    return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
       style: 'currency',
-      currency: process.env.REACT_APP_CURRENCY,
+      currency: window.__.env.REACT_APP_CURRENCY,
       maximumSignificantDigits: length
     }).format(val);
   }
 
-  return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
+  return new Intl.NumberFormat(window.__.env.REACT_APP_NAVIGATOR_LANG, {
     style: 'currency',
-    currency: process.env.REACT_APP_CURRENCY
+    currency: window.__.env.REACT_APP_CURRENCY
   }).format(val);
 }
 
@@ -163,7 +163,7 @@ export async function getDictionary({ type, name = '' }) {
   } else {
     let res = await getDict({
       delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       type,
       name
     });
@@ -418,7 +418,7 @@ async function getSiteSeo() {
   try {
     const res = await getSeoConfig({
       type: 4,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -431,7 +431,7 @@ async function getPageSeo(pageName) {
     const res = await getSeoConfig({
       type: 3,
       pageName: pageName,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -443,7 +443,7 @@ async function getCateSeo(categoryId) {
     const res = await getSeoConfig({
       type: 2,
       storeCateId: categoryId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -455,7 +455,7 @@ async function getGoodsSeo(goodsId) {
     const res = await getSeoConfig({
       type: 1,
       goodsId: goodsId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
   } catch (err) {
@@ -497,8 +497,17 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     localItemRoyal.get(`rc-clinic-name-link`)
   ) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
-    clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
-    clinicStore.setSelectClinicName(localItemRoyal.get(`rc-clinic-name-link`));
+    if (
+      !(
+        localItemRoyal.get(`rc-clinic-id-select`) &&
+        localItemRoyal.get(`rc-clinic-name-select`)
+      )
+    ) {
+      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
+      clinicStore.setSelectClinicName(
+        localItemRoyal.get(`rc-clinic-name-link`)
+      );
+    }
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';
   }
@@ -534,7 +543,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
 }
 
 export async function getFrequencyDict(currentFrequencyId, frequencyType) {
-  const lang = process.env.REACT_APP_COUNTRY;
+  const lang = window.__.env.REACT_APP_COUNTRY;
 
   let autoShipFrequency = await Promise.all([
     getDictionary({ type: 'Frequency_day' }),
@@ -544,14 +553,14 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   autoShipFrequency = flatten(autoShipFrequency).map((el) => {
     el.goodsInfoFlag = 1;
     // 设置法国周一、周二不可选
-    if (lang == 'FR') {
+    if (lang == 'fr') {
       el.id == 5744 || el.id == 3558
         ? (el.disabled = true)
         : (el.disabled = false);
     }
     return el;
   });
-  if (lang == 'DE') {
+  if (lang == 'de') {
     autoShipFrequency = autoShipFrequency.filter((el) => {
       // 德国只展示1-3个月的frequency
       return (
@@ -569,7 +578,7 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   clubFrequency = flatten(clubFrequency).map((el) => {
     el.goodsInfoFlag = 2;
     // 设置法国周一、周二不可选
-    if (lang == 'FR') {
+    if (lang == 'fr') {
       el.id == 5744 || el.id == 3558
         ? (el['disabled'] = true)
         : (el['disabled'] = false);
@@ -582,7 +591,7 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
   } else if (frequencyType === 'club') {
     frequencyList = clubFrequency;
   }
-  if (lang == 'DE') {
+  if (lang == 'de') {
     // 德国不存在club，并且只展示1-3个月的frequency
     frequencyList = autoShipFrequency;
   }
@@ -666,7 +675,7 @@ export async function fetchHeaderNavigations() {
 }
 
 export function getFormatDate(date, callback, lang) {
-  if (isMatchedLang(['FR'])) {
+  if (isMatchedLang(['fr'])) {
     const cache = createIntlCache();
     const intl = createIntl(
       {
@@ -680,19 +689,19 @@ export function getFormatDate(date, callback, lang) {
     } else {
       return intl.formatDate(getZoneTime(date));
     }
-  } else if (isMatchedLang(['US'])) {
+  } else if (isMatchedLang(['us'])) {
     return format(getZoneTime(date), 'MM/dd/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['TR'])) {
+  } else if (isMatchedLang(['tr'])) {
     return format(getZoneTime(date), 'dd-MM-yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['RU'])) {
+  } else if (isMatchedLang(['ru'])) {
     return format(getZoneTime(date), 'dd/MM/yyyy', {
       locale: datePickerConfig.locale_module
     });
-  } else if (isMatchedLang(['DE'])) {
+  } else if (isMatchedLang(['de'])) {
     return format(getZoneTime(date), 'dd.MM.yyyy', {
       locale: datePickerConfig.locale_module
     });
@@ -707,43 +716,43 @@ export function getFormatDate(date, callback, lang) {
 window.getFormatDate = getFormatDate;
 
 function getDatePickerConfig() {
-  const lang = process.env.REACT_APP_COUNTRY;
+  const lang = window.__.env.REACT_APP_COUNTRY;
 
   switch (lang) {
-    case 'DE':
-      registerLocale('de', DE);
+    case 'de':
+      registerLocale('de', de);
       break;
-    case 'MX':
-      registerLocale('es', MX);
+    case 'mx':
+      registerLocale('es', mx);
       break;
-    case 'FR':
-      registerLocale('fr', FR);
+    case 'fr':
+      registerLocale('fr', fr);
       break;
-    case 'US':
-      registerLocale('en', US);
+    case 'us':
+      registerLocale('en', us);
       break;
-    case 'RU':
-      registerLocale('ru', RU);
+    case 'ru':
+      registerLocale('ru', ru);
       break;
-    case 'TR':
-      registerLocale('tr', TR);
+    case 'tr':
+      registerLocale('tr', tr);
       break;
     default:
       break;
   }
 
   const datePickerCfg = {
-    MX: { format: 'yyyy-MM-dd', locale: 'es', locale_module: MX },
-    DE: { format: 'dd.MM.yyyy', locale: 'de', locale_module: DE },
-    FR: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: FR },
-    US: { format: 'MM/dd/yyyy', locale: 'en', locale_module: US },
-    RU: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: RU },
-    TR: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: TR },
+    mx: { format: 'yyyy-MM-dd', locale: 'es', locale_module: mx },
+    de: { format: 'dd.MM.yyyy', locale: 'de', locale_module: de },
+    fr: { format: 'dd/MM/yyyy', locale: 'fr', locale_module: fr },
+    us: { format: 'MM/dd/yyyy', locale: 'en', locale_module: us },
+    ru: { format: 'dd/MM/yyyy', locale: 'ru', locale_module: ru },
+    tr: { format: 'dd-MM-yyyy', locale: 'tr', locale_module: tr },
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
   const curDatePickerCfg =
-    datePickerCfg[process.env.REACT_APP_COUNTRY] || datePickerCfg.default;
+    datePickerCfg[window.__.env.REACT_APP_COUNTRY] || datePickerCfg.default;
   return curDatePickerCfg;
 }
 let datePickerConfig = getDatePickerConfig();
@@ -790,7 +799,6 @@ export async function queryApiFromSessionCache({ sessionKey, api }) {
   if (ret) {
     ret = JSON.parse(ret);
   } else {
-    console.log('apiapiapi', api);
     const res = await api();
     ret = res;
     sessionItemRoyal.set(sessionKey, JSON.stringify(ret));
@@ -838,7 +846,7 @@ export function filterObjectValueDeep(obj) {
 }
 
 export function isCountriesContainer(countries) {
-  return countries.indexOf(process.env.REACT_APP_COUNTRY) > -1;
+  return countries.indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 }
 
 /**
@@ -862,13 +870,13 @@ export function getOktaCallBackUrl(sessionToken) {
   const nonce =
     '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
   // hard code
-  let homePage = process.env.REACT_APP_HOMEPAGE;
+  let homePage = window.__.env.REACT_APP_HOMEPAGE;
   const regiserUrl =
     homePage.substring(homePage.length - 1, homePage.length) === '/'
       ? 'implicit/callback'
       : '/implicit/callback';
   const redirectUri = window.location.origin + homePage + regiserUrl;
-  var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
+  var callOktaCallBack = `${window.__.env.REACT_APP_ISSUER}/v1/authorize?client_id=${window.__.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${sessionToken}`;
   return callOktaCallBack;
 }
 
@@ -883,7 +891,7 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['TR', 'RU'].indexOf(process.env.REACT_APP_COUNTRY) > -1;
+  return ['tr', 'ru'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 }
 
 // 美国订单号去掉RCFUS开头
@@ -897,8 +905,8 @@ export const filterOrderId = ({ orderNo, orderNoForOMS }) => {
     {
       // 1. 美国订单号去掉RCFUS开头
       // 2. 美国先展示OMS order number，否则展示order number
-      US: orderNoForOMS || orderNo.replace(/RCFUS/, '')
-    }[process.env.REACT_APP_COUNTRY] || orderNo
+      us: orderNoForOMS || orderNo.replace(/RCFUS/, '')
+    }[window.__.env.REACT_APP_COUNTRY] || orderNo
   );
 };
 
@@ -941,21 +949,21 @@ export const sleep = (time) => {
   });
 };
 export function getZoneTime(date) {
-  if (process.env.REACT_APP_COUNTRY === 'US') {
+  if (window.__.env.REACT_APP_COUNTRY === 'us') {
     return new Date(date).addHours(12);
   }
   return new Date(date);
 }
 function isMatchedLang(langArr, lang) {
   return langArr?.find(
-    (crLang) => process.env.REACT_APP_COUNTRY === crLang || lang === crLang
+    (crLang) => window.__.env.REACT_APP_COUNTRY === crLang || lang === crLang
   );
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
 import { el } from 'date-fns/locale';
 export function getClubLogo() {
-  if (process.env.REACT_APP_COUNTRY === 'RU') {
+  if (window.__.env.REACT_APP_COUNTRY === 'ru') {
     return Club_Logo_ru;
   } else {
     return Club_Logo;

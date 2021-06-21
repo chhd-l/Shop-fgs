@@ -1,31 +1,31 @@
 export const contactInfo = {
-  US: {
+  us: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
     email: { link: '/help/contact', messageId: 'footer.contactUs' }
   },
-  MX: {
+  mx: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
     email: { link: '/help', messageId: 'footer.contactUs' }
   },
-  DE: {
+  de: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
     email: {
       url: 'mailto:service.de@royalcanin.com',
       messageId: 'footer.email'
     }
   },
-  FR: {
+  fr: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
     email: {
       url: 'mailto:suivi.dtc.france@royalcanin.com',
       messageId: 'footer.email'
     }
   },
-  RU: {
+  ru: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
     email: { link: '/aboutUs-ru', messageId: 'footer.email' }
   },
-  TR: {
+  tr: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
     email: { url: 'mailto:info.de@royalcanin.com', messageId: 'footer.email' }
   }

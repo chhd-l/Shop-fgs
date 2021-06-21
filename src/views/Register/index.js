@@ -59,7 +59,9 @@ class Register extends Component {
       emailMessage: '',
       requiredConsentCount: 0,
       hasError: false,
-      errorMessage: ''
+      errorMessage: '',
+      firstNameValid: true,
+      lastNameValid: true
     };
     this.sendList = this.sendList.bind(this);
     this.initConsent = this.initConsent.bind(this);
@@ -231,6 +233,16 @@ class Register extends Component {
           nameValid: !!value
         });
         break;
+      case 'firstName':
+        this.setState({
+          firstNameValid: !!value
+        });
+        break;
+      case 'lastName':
+        this.setState({
+          lastNameValid: !!value
+        });
+        break;
       case 'email':
         var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
         this.setState({
@@ -276,23 +288,26 @@ class Register extends Component {
     this.setState({
       circleLoading: true
     });
-    let accessPath = process.env.REACT_APP_ACCESS_PATH;
+    let accessPath = window.__.env.REACT_APP_ACCESS_PATH;
     let registerUrl =
       accessPath.substring(accessPath.length - 1, accessPath.length) === '/'
         ? 'register'
         : '/register';
     await oktaRegister({
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
-      customerName: registerForm.name,
-      callback: process.env.REACT_APP_ACCESS_PATH + registerUrl
+      customerName:
+        window.__.env.REACT_APP_COUNTRY !== 'de'
+          ? registerForm.name
+          : registerForm.firstName + ' ' + registerForm.lastName,
+      callback: window.__.env.REACT_APP_ACCESS_PATH + registerUrl
     })
       .then(async (res) => {
         if (res.code === 'K-000000') {
           //GA 注册成功 start
           dataLayer.push({
-            event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}accountCreation`,
             interaction: {
               category: 'account creation',
               action: 'accounct creation',
@@ -373,7 +388,7 @@ class Register extends Component {
       });
   };
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'TR') {
+    if (window.__.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }
@@ -390,6 +405,9 @@ class Register extends Component {
         });
     }
   }
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
   render() {
     const registerBack =
       window.location.search.indexOf('?origin=register') >= 0 &&
@@ -426,6 +444,8 @@ class Register extends Component {
       ruleSpecial,
       passwordChanged,
       nameValid,
+      firstNameValid,
+      lastNameValid,
       emailValid,
       passwordValid,
       registerForm,
@@ -437,19 +457,23 @@ class Register extends Component {
       errorMessage
     } = this.state;
     const allValid =
-      nameValid &&
+      (window.__.env.REACT_APP_COUNTRY !== 'de'
+        ? nameValid
+        : firstNameValid && lastNameValid) &&
       emailValid &&
       passwordValid &&
-      registerForm.name &&
+      (window.__.env.REACT_APP_COUNTRY !== 'de'
+        ? registerForm.name
+        : registerForm.firstName && registerForm.lastName) &&
       registerForm.email &&
       registerForm.password;
     const requireCheckd =
       list.filter((x) => x.isChecked && x.isRequired).length ===
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
-    const isHub = process.env.REACT_APP_HUB == '1';
-    const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
-    let homePage = process.env.REACT_APP_HOMEPAGE;
+    const isHub = window.__.env.REACT_APP_HUB == '1';
+    const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
+    let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =
       homePage.substring(homePage.length - 1, homePage.length) === '/'
         ? 'help/contact'
@@ -471,8 +495,8 @@ class Register extends Component {
                   <a
                     href={
                       isHub
-                        ? process.env.REACT_APP_HUB_URLPREFIX
-                        : process.env.REACT_APP_ACCESS_PATH
+                        ? window.__.env.REACT_APP_HUB_URLPREFIX
+                        : window.__.env.REACT_APP_ACCESS_PATH
                     }
                     className="logo-home d-inline-block border-bottom border-transparent"
                     title="Commerce Cloud Storefront Reference Architecture Accueil"
@@ -482,7 +506,7 @@ class Register extends Component {
                     </span>
                     <h1 className="content-asset mb-0">
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
                         width="164"
                         height="60"
                         alt="Royal Canin Flagship Store"
@@ -511,7 +535,7 @@ class Register extends Component {
                             <strong>
                               <a
                                 href={
-                                  process.env.REACT_APP_COUNTRY === 'US'
+                                  window.__.env.REACT_APP_COUNTRY === 'us'
                                     ? homePage + contactUrl
                                     : homePage + helpUrl
                                 }
@@ -558,7 +582,7 @@ class Register extends Component {
                         <a
                           onClick={() =>
                             this.props.oktaAuth.signInWithRedirect(
-                              process.env.REACT_APP_HOMEPAGE
+                              window.__.env.REACT_APP_HOMEPAGE
                             )
                           }
                           className="rc-styled-link"
@@ -566,13 +590,23 @@ class Register extends Component {
                           <FormattedMessage id="registerLoginIn" />
                         </a>
                       </p>
-                      {process.env.REACT_APP_COUNTRY !== 'RU' &&
-                      process.env.REACT_APP_COUNTRY !== 'TR' ? (
+                      {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                      window.__.env.REACT_APP_COUNTRY !== 'tr' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              <FormattedMessage id="registerContinuing" />
+                              {window.__.env.REACT_APP_COUNTRY === 'de' ? (
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: this.getIntlMsg(
+                                      'registerContinuing'
+                                    )
+                                  }}
+                                ></span>
+                              ) : (
+                                <FormattedMessage id="registerContinuing" />
+                              )}
                             </p>
                           </div>
                           <div className="rc-column ouPadding">
@@ -594,46 +628,127 @@ class Register extends Component {
                           encoding="off"
                         >
                           <div className="rc-margin-bottom--xs">
-                            <div className="form-group rc-margin-bottom--md required rc-text--left">
-                              <div
-                                className={
-                                  'rc-input rc-input--full-width ' +
-                                  (nameValid ? '' : 'rc-input--error')
-                                }
-                                data-rc-feature-forms-setup="true"
-                              >
-                                <input
-                                  className="rc-input__control"
-                                  id="registerName"
-                                  type="text"
-                                  maxLength="50"
-                                  name="name"
-                                  onChange={(e) => this.registerChange(e)}
-                                  onBlur={(e) => this.inputBlur(e)}
-                                  value={registerForm.name}
-                                />
-                                <label
-                                  className="rc-input__label"
-                                  htmlFor="registerName"
+                            {window.__.env.REACT_APP_COUNTRY !== 'de' ? (
+                              <div className="form-group rc-margin-bottom--md required rc-text--left">
+                                <div
+                                  className={
+                                    'rc-input rc-input--full-width ' +
+                                    (nameValid ? '' : 'rc-input--error')
+                                  }
+                                  data-rc-feature-forms-setup="true"
                                 >
-                                  <span className="rc-input__label-text">
-                                    {' '}
-                                    <FormattedMessage id="registerName" />{' '}
-                                  </span>
-                                </label>
-                                {nameValid ? null : (
-                                  <span
-                                    className="input-cross icon-unsuscribe iconfont"
-                                    onClick={() => this.deleteInput('name')}
+                                  <input
+                                    className="rc-input__control"
+                                    id="registerName"
+                                    type="text"
+                                    maxLength="50"
+                                    name="name"
+                                    onChange={(e) => this.registerChange(e)}
+                                    onBlur={(e) => this.inputBlur(e)}
+                                    value={registerForm.name}
+                                  />
+                                  <label className="rc-input__label">
+                                    <span className="rc-input__label-text">
+                                      {' '}
+                                      <FormattedMessage id="registerName" />{' '}
+                                    </span>
+                                  </label>
+                                  {nameValid ? null : (
+                                    <span
+                                      className="input-cross icon-unsuscribe iconfont"
+                                      onClick={() => this.deleteInput('name')}
+                                    >
+                                      &#xe6b2;
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="invalid-feedback">
+                                  <FormattedMessage id="registerFillIn" />
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                <div className="form-group rc-margin-bottom--md required rc-text--left">
+                                  <div
+                                    className={
+                                      'rc-input rc-input--full-width ' +
+                                      (firstNameValid ? '' : 'rc-input--error')
+                                    }
+                                    data-rc-feature-forms-setup="true"
                                   >
-                                    &#xe6b2;
-                                  </span>
-                                )}
-                              </div>
-                              <div className="invalid-feedback">
-                                <FormattedMessage id="registerFillIn" />
-                              </div>
-                            </div>
+                                    <input
+                                      className="rc-input__control"
+                                      id="registerName"
+                                      type="text"
+                                      maxLength="50"
+                                      name="firstName"
+                                      onChange={(e) => this.registerChange(e)}
+                                      onBlur={(e) => this.inputBlur(e)}
+                                      value={registerForm.firstName}
+                                    />
+                                    <label className="rc-input__label">
+                                      <span className="rc-input__label-text">
+                                        {' '}
+                                        <FormattedMessage id="payment.firstName" />{' '}
+                                      </span>
+                                    </label>
+                                    {firstNameValid ? null : (
+                                      <span
+                                        className="input-cross icon-unsuscribe iconfont"
+                                        onClick={() =>
+                                          this.deleteInput('firstName')
+                                        }
+                                      >
+                                        &#xe6b2;
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="invalid-feedback">
+                                    <FormattedMessage id="registerFillIn" />
+                                  </div>
+                                </div>
+                                <div className="form-group rc-margin-bottom--md required rc-text--left">
+                                  <div
+                                    className={
+                                      'rc-input rc-input--full-width ' +
+                                      (lastNameValid ? '' : 'rc-input--error')
+                                    }
+                                    data-rc-feature-forms-setup="true"
+                                  >
+                                    <input
+                                      className="rc-input__control"
+                                      id="registerName"
+                                      type="text"
+                                      maxLength="50"
+                                      name="lastName"
+                                      onChange={(e) => this.registerChange(e)}
+                                      onBlur={(e) => this.inputBlur(e)}
+                                      value={registerForm.lastName}
+                                    />
+                                    <label className="rc-input__label">
+                                      <span className="rc-input__label-text">
+                                        {' '}
+                                        <FormattedMessage id="payment.lastName" />{' '}
+                                      </span>
+                                    </label>
+                                    {lastNameValid ? null : (
+                                      <span
+                                        className="input-cross icon-unsuscribe iconfont"
+                                        onClick={() =>
+                                          this.deleteInput('lastName')
+                                        }
+                                      >
+                                        &#xe6b2;
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="invalid-feedback">
+                                    <FormattedMessage id="registerFillIn" />
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
                             <div className="form-group rc-margin-bottom--md required rc-text--left">
                               <div
                                 className={
@@ -889,7 +1004,7 @@ class Register extends Component {
                                 id="registerFooter1"
                                 defaultMessage={' '}
                               />
-                              {process.env.REACT_APP_COUNTRY === 'US' ? (
+                              {window.__.env.REACT_APP_COUNTRY === 'us' ? (
                                 <a href={homePage + contactUrl}>&nbsp;here</a>
                               ) : null}
                             </p>

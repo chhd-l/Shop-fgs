@@ -306,12 +306,12 @@ class Help extends React.Component {
       if (idx > -1) {
         cartDataCopy.splice(idx, 1, tmpData);
       } else {
-        if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
+        if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorMaxCate"
-                values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+                values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
               />
             )
           });
@@ -344,7 +344,7 @@ class Help extends React.Component {
   async buyNow(needLogin) {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+      localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
     let {
@@ -360,12 +360,12 @@ class Help extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
       // console.log(totalPrice, 'instock');
       this.showErrorMsg(
         <FormattedMessage
           id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
         />
       );
       return false;
@@ -533,11 +533,11 @@ class Help extends React.Component {
     let cur_recommendation2 = recommendation2;
     let cur_recommendation3 = recommendation3;
     let cur_recommendation4 = recommendation4;
-    if (process.env.REACT_APP_COUNTRY === 'DE') {
+    if (window.__.env.REACT_APP_COUNTRY === 'de') {
       cur_recommendation2 = de_recommendation2;
       cur_recommendation3 = de_recommendation3;
       cur_recommendation4 = de_recommendation4;
-    } else if (process.env.REACT_APP_COUNTRY === 'MX') {
+    } else if (window.__.env.REACT_APP_COUNTRY === 'mx') {
       cur_recommendation2 = mx_recommendation2;
       cur_recommendation3 = mx_recommendation3;
       cur_recommendation4 = mx_recommendation4;

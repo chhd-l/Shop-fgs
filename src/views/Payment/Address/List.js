@@ -5,30 +5,44 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
-import { queryCityNameById, getAddressBykeyWord } from '@/api';
+import {
+  getAddressBykeyWord,
+  addressValidation,
+  getDeliveryDateAndTimeSlot
+} from '@/api';
 import { shippingCalculation } from '@/api/cart';
-import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  matchNamefromDict,
+  transTime
+} from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-// import EditForm from './EditForm';
 import EditForm from '@/components/Form';
+// import PickUp from '@/components/PickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 /**
  * address list(delivery/billing) - member
  */
-@inject('checkoutStore', 'configStore', 'paymentStore')
+@inject('checkoutStore', 'configStore', 'paymentStore', 'addressStore')
 // @injectIntl * 不能引入，引入后Payment中无法使用该组件 ref
 @observer
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
+    intlMessages: null,
+    showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
+    saveAddressNumber: 0, // 保存Delivery地址次数
+    updateSaveAddressNumber: () => {},
     titleVisible: true,
     isValidationModal: true, // 是否显示验证弹框
     isAddOrEdit: () => {},
@@ -40,13 +54,14 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDeliveryOrPickUp: false, // 用来标记是否是 pick up
       deliveryAddress: {
         firstName: '',
         lastName: '',
         address1: '',
         address2: '',
         rfc: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         country: '',
         cityId: '',
         city: '',
@@ -64,12 +79,18 @@ class AddressList extends React.Component {
         isDefalt: false,
         minDeliveryTime: 0,
         maxDeliveryTime: 0,
+        deliveryDate: null,
+        timeSlot: null,
+        receiveType: null, //  HOME 、 PICKUP
+        pickUpCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         email: ''
       },
+      cityList: [],
       errMsg: '',
       loading: true,
       saveLoading: false,
+      btnConfirmLoading: false,
       addOrEdit: false,
       addressList: [],
       countryList: [],
@@ -83,7 +104,8 @@ class AddressList extends React.Component {
       validationLoading: false, // 地址校验loading
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
-      wrongAddressMsg: null
+      wrongAddressMsg: null,
+      validationAddress: null // 建议地址
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
@@ -94,6 +116,11 @@ class AddressList extends React.Component {
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
+
+    // 更新delivery address保存次数
+    let snum = this.props.saveAddressNumber;
+    this.props.updateSaveAddressNumber(snum + 1);
+
     getDictionary({ type: 'country' }).then((res) => {
       let cfm = deliveryAddress;
       cfm.country = res[0].value;
@@ -103,10 +130,15 @@ class AddressList extends React.Component {
         deliveryAddress: Object.assign(this.state.deliveryAddress, cfm)
       });
     });
+
+    // 查询 city list
+    // this.getAllCityList();
+
     this.queryAddressList({ init: true });
+
     this.setState({
       listBtnLoading: false,
-      wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+      wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
     });
   }
   get isDeliverAddress() {
@@ -121,13 +153,95 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intlMessages[str];
+  };
+  // 星期
+  getWeekDay = (day) => {
+    let weekArr = [
+      this.getIntlMsg('payment.Sunday'),
+      this.getIntlMsg('payment.Monday'),
+      this.getIntlMsg('payment.Tuesday'),
+      this.getIntlMsg('payment.Wednesday'),
+      this.getIntlMsg('payment.Thursday'),
+      this.getIntlMsg('payment.Friday'),
+      this.getIntlMsg('payment.Saturday')
+    ];
+    return weekArr[day];
+  };
+  // 月份
+  getMonth = (num) => {
+    num = Number(num);
+    let monthArr = [
+      '0',
+      this.getIntlMsg('payment.January'),
+      this.getIntlMsg('payment.February'),
+      this.getIntlMsg('payment.March'),
+      this.getIntlMsg('payment.April'),
+      this.getIntlMsg('payment.May'),
+      this.getIntlMsg('payment.June'),
+      this.getIntlMsg('payment.July'),
+      this.getIntlMsg('payment.August'),
+      this.getIntlMsg('payment.September'),
+      this.getIntlMsg('payment.October'),
+      this.getIntlMsg('payment.November'),
+      this.getIntlMsg('payment.December')
+    ];
+    return monthArr[num];
+  };
+  // delivery date 格式转换: 星期, 15 月份
+  getFormatDeliveryDateStr = (date) => {
+    // 获取明天几号
+    let mdate = new Date();
+    let tomorrow = mdate.getDate() + 1;
+    // 获取星期
+    var week = new Date(date).getDay();
+    let weekday = this.getWeekDay(week);
+    // 获取月份
+    let ymd = date.split('-');
+    let month = this.getMonth(ymd[1]);
+
+    // 判断是否有 ‘明天’ 的日期
+    let thisday = Number(ymd[2]);
+    let daystr = '';
+    if (tomorrow == thisday) {
+      daystr = this.getIntlMsg('payment.tomorrow');
+    } else {
+      daystr = weekday;
+    }
+    return daystr + ', ' + ymd[2] + ' ' + month;
+  };
+  // 查询 city list
+  getAllCityList = async () => {
+    try {
+      const res = await getCityList();
+      if (res?.context?.systemCityVO) {
+        let starr = [];
+        let obj = res.context.systemCityVO;
+        obj.forEach((item) => {
+          let res = {
+            cityId: item.id,
+            city: item.cityName
+          };
+          starr.push(res);
+        });
+        this.setState({
+          cityList: Object.assign(obj, starr)
+        });
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
+    this.setState({ loading: true });
+    const { selectedId } = this.state;
     try {
-      const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
-
+      // console.log('666 查询地址列表: ', res);
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
@@ -170,12 +284,41 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
-
-      // state对象暂时用不到
-      addressList.forEach((v, i) => {
+      console.log('666 保存次数：', this.props.saveAddressNumber);
+      addressList.forEach(async (v, i) => {
+        v.stateNo = v.state?.stateNo || '';
+        // state对象暂时用不到
         delete v.state;
+        if (
+          process.env.REACT_APP_COUNTRY == 'ru' &&
+          this.props.saveAddressNumber > 1
+        ) {
+          // 根据 address 取到 DuData返回的provinceId
+          let dudata = await getAddressBykeyWord({ keyword: v.address1 });
+          if (dudata?.context && dudata?.context?.addressList.length > 0) {
+            let addls = dudata.context.addressList[0];
+            // 再根据 provinceId 获取到 cutOffTime
+            let vdres = await getDeliveryDateAndTimeSlot({
+              cityNo: addls?.provinceId
+            });
+            if (vdres.context && vdres.context?.timeSlots?.length) {
+              let tobj = vdres.context.timeSlots[0];
+              v.deliveryDate = tobj.date;
+              v.timeSlot =
+                tobj.dateTimeInfos[0].startTime +
+                '-' +
+                tobj.dateTimeInfos[0].endTime;
+              console.log(
+                '666 deliveryDate: ',
+                v.deliveryDate + '   timeSlot: ',
+                v.timeSlot
+              );
+            }
+            // 修改地址
+            await editAddress(v);
+          }
+        }
       });
-      // console.log('169 ★★★ addressList: ', addressList);
 
       this.setState(
         {
@@ -196,7 +339,102 @@ class AddressList extends React.Component {
       this.setState({ loading: false });
     }
   }
+  // 判断 delivery date和time slot是否过期
+  deliveryDateStaleDateOrNot = async (data) => {
+    let flag = true;
+    // 提示重新选择
+    let errMsg = this.getIntlMsg('payment.reselectTimeSlot');
 
+    let deliveryDate = data.deliveryDate; // deliveryDate 日期
+    let timeSlot = data.timeSlot;
+    console.log('666  ----->  deliveryDate: ', deliveryDate);
+    console.log('666  ----->  timeSlot: ', timeSlot);
+
+    // 20210616
+    let dldate = '';
+
+    let deliveryDateFlag = false;
+    let timeSlotFlag = false;
+    let cutOffTime = '';
+    // 根据 address 取到 DuData返回的provinceId
+    let dudata = await getAddressBykeyWord({ keyword: data.address1 });
+    let vdres = [];
+    if (dudata?.context && dudata?.context?.addressList.length > 0) {
+      let addls = dudata.context.addressList[0];
+      // 再根据 provinceId 获取到 cutOffTime
+      vdres = await getDeliveryDateAndTimeSlot({ cityNo: addls?.provinceId });
+      if (vdres.context && vdres.context?.timeSlots?.length) {
+        if (!deliveryDate || !timeSlot) {
+          this.showErrMsg(errMsg);
+          return false;
+        }
+        // deliveryDate: 2021-06-11
+        let nyrArr = deliveryDate?.split('-');
+        // 20210616
+        dldate = Number(nyrArr[0] + '' + nyrArr[1] + '' + nyrArr[2]);
+
+        let tobj = vdres.context.timeSlots;
+        cutOffTime = vdres.context?.cutOffTime;
+        console.log('666  ----->  tobj: ', tobj);
+        tobj.forEach((v, i) => {
+          if (v.date == deliveryDate) {
+            deliveryDateFlag = true;
+            (v?.dateTimeInfos).forEach((o, j) => {
+              let sltime = o.startTime + '-' + o.endTime;
+              if (sltime == timeSlot) {
+                console.log('666  ----->  timeSlot: ', timeSlot);
+                timeSlotFlag = true;
+              }
+            });
+          }
+        });
+      } else {
+        return 'no timeslot';
+      }
+    }
+    // 如果时间不存在
+    if (!deliveryDateFlag || !timeSlotFlag) {
+      this.showErrMsg(errMsg);
+      return false;
+    }
+
+    let localTime = vdres.defaultLocalDateTime.split(' ');
+    let lnyr = localTime[0].split('-');
+    let today = lnyr[0] + '' + lnyr[1] + '' + lnyr[2];
+    let lsfm = localTime[1].split(':');
+    let todayHour = lsfm[0];
+    let todayMinutes = lsfm[1];
+
+    // 当天16点前下单，明天配送；过了16点，后天配送。
+    // 判断当前时间段，如果是当天过了16点提示重新选择。
+
+    console.log('666  ----->  localTime: ' + localTime[0] + ' ' + localTime[1]);
+    console.log('666  ----->  dldate: ' + dldate);
+    // 已过期（俄罗斯时间）
+    // 当天或者当天之前的时间算已过期时间
+    if (today >= dldate) {
+      console.log('666  ----->  今天或者更早');
+      this.showErrMsg(errMsg);
+      flag = false;
+    } else {
+      // 其他时间
+      // 明天配送的情况（当前下单时间没有超过 16 点）
+      // 如果选择的时间是明天，判断当前时间是否超过16点，超过16点提示重选
+      let nowTime = Number(todayHour + '' + todayMinutes);
+      console.log('666  ----->  nowTime: ', nowTime);
+      let ctt = cutOffTime.split(':');
+      cutOffTime
+        ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
+        : (cutOffTime = 1600);
+      if (dldate == today + 1 && nowTime > cutOffTime) {
+        console.log('666  ----->  明天');
+        this.showErrMsg(errMsg);
+        flag = false;
+      }
+      // 后天配送的情况（当前下单时间超过 16 点）
+    }
+    return flag;
+  };
   /**
    * 会员确认地址列表信息，并展示封面
    */
@@ -204,11 +442,28 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('177 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+
+    console.log(
+      '666 window.__.env.REACT_APP_COUNTRY: ',
+      window.__.env.REACT_APP_COUNTRY
+    );
+    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+      this.setState({ btnConfirmLoading: true });
+      let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
+      console.log('666 --> ', yesOrNot);
+      this.setState({ btnConfirmLoading: false });
+      // 判断 deliveryDate 是否过期
+      if (!yesOrNot) {
+        return;
+      }
+    }
+
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
+    console.log('666 wrongAddressMsg: ', wrongAddressMsg);
     let dfarr = laddf.settings;
-    dfarr = dfarr.filter(
+    dfarr = (dfarr || []).filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
     );
     let errMsgArr = [];
@@ -220,8 +475,17 @@ class AddressList extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongAddressMsg[akey];
-      tmpObj[akey] ? '' : errMsgArr.push(fky);
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        tmpObj.city || tmpObj.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        tmpObj.country || tmpObj.countryId ? (akey = '') : akey;
+      }
+      if (akey) tmpObj[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -231,7 +495,7 @@ class AddressList extends React.Component {
     }
 
     this.updateSelectedData('confirm');
-    if (process.env.REACT_APP_COUNTRY != 'RU') {
+    if (window.__.env.REACT_APP_COUNTRY != 'ru') {
       this.confirmToNextPanel();
     }
   };
@@ -241,7 +505,7 @@ class AddressList extends React.Component {
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // 俄罗斯DuData
-    if (process.env.REACT_APP_COUNTRY == 'RU' && str == 'confirm') {
+    if (window.__.env.REACT_APP_COUNTRY == 'ru' && str == 'confirm') {
       // 判断地址完整性
       let errmsg = this.getDuDataAddressErrMsg(tmpObj);
       if (errmsg) {
@@ -484,7 +748,7 @@ class AddressList extends React.Component {
       areaId: '',
       area: '',
       rfc: '',
-      countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+      countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
       cityId: '',
       city: '',
@@ -527,6 +791,10 @@ class AddressList extends React.Component {
         street: tmp.street || '',
         house: tmp.house || '',
         housing: tmp.housing || '',
+        deliveryDate: tmp.deliveryDate || '',
+        deliveryDateId: tmp.deliveryDate || '',
+        timeSlot: tmp.timeSlot || '',
+        timeSlotId: tmp.timeSlot || '',
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
@@ -560,7 +828,7 @@ class AddressList extends React.Component {
     });
   };
   updateDeliveryAddress = async (data) => {
-    // console.log('--------- ★★★★★★ List updateDeliveryAddress: ', data);
+    // console.log('611 --------- ★★★★★★ List updateDeliveryAddress: ', data);
     try {
       if (!data?.formRule || (data?.formRule).length <= 0) {
         return;
@@ -571,7 +839,7 @@ class AddressList extends React.Component {
       await validData(data.formRule, data); // 数据验证
 
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        console.log('--------- ★★★★★★ List 验证通过');
+        // console.log('--------- ★★★★★★ List 验证通过');
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
         this.props.updateData(data);
@@ -591,7 +859,7 @@ class AddressList extends React.Component {
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
-    console.log('address1地址校验flag : ', flag);
+    // console.log('address1地址校验flag : ', flag);
     const { deliveryAddress } = this.state;
     this.setState(
       {
@@ -636,16 +904,7 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
-      let params = {
-        address1: deliveryAddress.address1,
-        address2: deliveryAddress.address2,
-        areaId: deliveryAddress.areaId,
-        firstName: deliveryAddress.firstName,
-        lastName: deliveryAddress.lastName,
-        countryId: deliveryAddress.countryId,
-        country: deliveryAddress.country,
-        cityId: deliveryAddress.cityId,
-        city: deliveryAddress.city,
+      let params = Object.assign({}, deliveryAddress, {
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
@@ -654,26 +913,46 @@ class AddressList extends React.Component {
           deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-        postCode: deliveryAddress.postCode,
-        rfc: deliveryAddress.rfc,
-        email: deliveryAddress.email,
-        comment: deliveryAddress?.comment,
-
         region: deliveryAddress.province, // DuData相关参数
-        area: deliveryAddress.area,
-        settlement: deliveryAddress.settlement,
-        street: deliveryAddress.street || '',
-        house: deliveryAddress.house || '',
-        housing: deliveryAddress.housing || '',
-        entrance: deliveryAddress.entrance || '',
-        apartment: deliveryAddress.apartment || '',
+        type: this.props.type.toUpperCase(),
+        isValidated: deliveryAddress.validationResult
+      });
+      // let params = {
+      //   address1: deliveryAddress.address1,
+      //   address2: deliveryAddress.address2,
+      //   areaId: deliveryAddress.areaId,
+      //   firstName: deliveryAddress.firstName,
+      //   lastName: deliveryAddress.lastName,
+      //   countryId: deliveryAddress.countryId,
+      //   country: deliveryAddress.country,
+      //   cityId: deliveryAddress.cityId,
+      //   city: deliveryAddress.city,
+      //   consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+      //   consigneeNumber: deliveryAddress.phoneNumber,
+      //   customerId: originData ? originData.customerId : '',
+      //   deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+      //   deliveryAddressId: originData ? originData.deliveryAddressId : '',
+      //   isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+      //   postCode: deliveryAddress.postCode,
+      //   rfc: deliveryAddress.rfc,
+      //   email: deliveryAddress.email,
+      //   comment: deliveryAddress?.comment,
 
-        type: this.props.type.toUpperCase()
-      };
-      params.provinceId = deliveryAddress.provinceId;
-      params.province = deliveryAddress.province;
-      params.provinceNo = deliveryAddress.provinceNo;
-      params.isValidated = deliveryAddress.validationResult;
+      //   region: deliveryAddress.province, // DuData相关参数
+      //   area: deliveryAddress.area,
+      //   settlement: deliveryAddress.settlement,
+      //   street: deliveryAddress.street || '',
+      //   house: deliveryAddress.house || '',
+      //   housing: deliveryAddress.housing || '',
+      //   entrance: deliveryAddress.entrance || '',
+      //   apartment: deliveryAddress.apartment || '',
+
+      //   deliveryDate: deliveryAddress.deliveryDate || '',
+      //   timeSlot: deliveryAddress.timeSlot || '',
+      //   receiveType: deliveryAddress.receiveType || '',
+
+      //   type: this.props.type.toUpperCase()
+      // };
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
@@ -690,6 +969,11 @@ class AddressList extends React.Component {
         addOrEdit: false,
         saveLoading: false
       });
+
+      // 更新delivery address保存次数
+      let snum = this.props.saveAddressNumber;
+      this.props.updateSaveAddressNumber(snum + 1);
+
       this.clickConfirmAddressPanel();
     } catch (err) {
       this.setState({
@@ -707,27 +991,29 @@ class AddressList extends React.Component {
    * 2 确认地址信息，并返回到封面
    * 3 ★ 俄罗斯需要根据地址先计算运费
    */
-  handleSave = () => {
-    const { isValid, addOrEdit } = this.state;
-    if (!isValid || !addOrEdit) {
-      return false;
-    }
-    // 地址验证
-    this.setState(
-      {
-        saveLoading: true
-      },
-      () => {
-        if (this.props.isValidationModal) {
-          setTimeout(() => {
-            this.setState({
-              listValidationModalVisible: true
-            });
-            this.props.updateValidationStaus(false);
-          }, 800);
+  handleSave = async () => {
+    try {
+      const { isValid, addOrEdit, deliveryAddress } = this.state;
+      if (!isValid || !addOrEdit) {
+        return false;
+      }
+      if (deliveryAddress?.deliveryDate) {
+        // 判断 deliveryDate 是否过期
+        if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
+          return;
         }
       }
-    );
+      // 地址验证
+      this.setState({
+        saveLoading: true
+      });
+      const res = await this.props.addressStore.validAddr({
+        data: deliveryAddress
+      });
+      await this.getListValidationData(res, true);
+    } catch (err) {
+      throw new Error();
+    }
   };
   // 选择地址
   chooseListValidationAddress = (e) => {
@@ -736,18 +1022,29 @@ class AddressList extends React.Component {
     });
   };
   // 获取地址验证查询到的数据
-  getListValidationData = async (data) => {
+  getListValidationData = async (
+    data,
+    showListValidationModalVisible = false
+  ) => {
     this.setState({
       validationLoading: false
     });
     if (data && data != null) {
-      // 获取并设置地址校验返回的数据
-      this.setState({
-        validationAddress: data
-      });
+      // 有校验地址，获取并设置地址校验返回的数据
+      this.setState(
+        {
+          validationAddress: data
+        },
+        () => {
+          if (showListValidationModalVisible) {
+            this.setState({ listValidationModalVisible: true });
+          }
+        }
+      );
+      throw new Error();
     } else {
-      // 下一步
-      this.showNextPanel();
+      // 没有校验地址，直接下一步
+      await this.showNextPanel();
     }
   };
   // 下一步
@@ -891,12 +1188,14 @@ class AddressList extends React.Component {
     const {
       deliveryAddress,
       listValidationModalVisible,
-      selectListValidationOption
+      selectListValidationOption,
+      validationAddress
     } = this.state;
     return (
       <>
         <ValidationAddressModal
           btnLoading={this.state.listBtnLoading}
+          defaultValidationAddress={validationAddress}
           address={deliveryAddress}
           updateValidationData={(res) => this.getListValidationData(res)}
           selectValidationOption={selectListValidationOption}
@@ -925,7 +1224,7 @@ class AddressList extends React.Component {
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     let farr = [data.address1, data.city];
-    if (process.env.REACT_APP_COUNTRY == 'US') {
+    if (window.__.env.REACT_APP_COUNTRY == 'us') {
       farr.push(data.province);
     } else {
       let country = matchNamefromDict(this.state.countryList, data.countryId);
@@ -940,6 +1239,7 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
     const {
+      isDeliveryOrPickUp,
       isValid,
       formAddressValid,
       deliveryAddress,
@@ -954,8 +1254,6 @@ class AddressList extends React.Component {
       listValidationModalVisible,
       selectListValidationOption
     } = this.state;
-    // 获取本地存储的需要显示的地址字段
-    const localAddressForm = this.props.configStore?.localAddressForm;
 
     const _list = addressList.map((item, i) => (
       <div
@@ -1007,7 +1305,7 @@ class AddressList extends React.Component {
             <br />
             <p>
               {this.setAddressFields(item)}
-              {/* {process.env.REACT_APP_COUNTRY == 'US' ? [
+              {/* {window.__.env.REACT_APP_COUNTRY == 'us' ? [
                 item.address1,
                 item.city,
                 item.province
@@ -1018,6 +1316,14 @@ class AddressList extends React.Component {
                   item.city,
                   localAddressForm['region'] && item.area,
                 ].join(', ')} */}
+              {item.deliveryDate && item.timeSlot ? (
+                <>
+                  <br />
+                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                  {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
+                  {item.timeSlot}
+                </>
+              ) : null}
             </p>
           </div>
           <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">
@@ -1096,8 +1402,10 @@ class AddressList extends React.Component {
         {addOrEdit && (
           <EditForm
             ref={this.editFormRef}
+            type={this.props.type}
             isLogin={true}
             initData={deliveryAddress}
+            showDeliveryDateTimeSlot={this.props.showDeliveryDateTimeSlot}
             getFormAddressValidFlag={this.getFormAddressValidFlag}
             updateData={this.updateDeliveryAddress}
             calculateFreight={this.calculateFreight}
@@ -1223,13 +1531,23 @@ class AddressList extends React.Component {
                     {!addOrEdit ? (
                       addressList.length ? (
                         <>
+                          {/* 地址列表 */}
                           <div className="addr-container-scroll">{_list}</div>
+
+                          {/* 更多地址 */}
                           {addressList.length > 1 && _foldBtn}
+
+                          {/* delivery date 和 time slot */}
+
                           {/* 该按钮，只用来确认地址列表 */}
                           {this.isDeliverAddress && (
-                            <div className="d-flex justify-content-end mt-3">
+                            <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
                               <button
-                                className={`rc-btn rc-btn--one`}
+                                className={`rc-btn rc-btn--one rc_btn_list_confirm ${
+                                  this.state.btnConfirmLoading
+                                    ? 'ui-btn-loading'
+                                    : ''
+                                }`}
                                 onClick={this.clickConfirmAddressPanel}
                               >
                                 <FormattedMessage id="yes2" />
@@ -1241,6 +1559,7 @@ class AddressList extends React.Component {
                         <FormattedMessage id="order.noDataTip" />
                       )
                     ) : null}
+
                     {_form}
                   </>
                 ) : panelStatus.isCompleted ? (
@@ -1255,7 +1574,6 @@ class AddressList extends React.Component {
               </>
             )}
           </div>
-
           {validationLoading && <Loading positionFixed="true" />}
           {listValidationModalVisible ? this.ValidationAddressModalJSX() : null}
         </div>

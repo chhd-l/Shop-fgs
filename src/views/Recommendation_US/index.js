@@ -43,10 +43,10 @@ import {
   GABigBreederAddToCar
 } from '@/utils/GA';
 
-const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
-const isUs = process.env.REACT_APP_COUNTRY === 'US';
-const isRu = process.env.REACT_APP_COUNTRY === 'RU';
-const isFr = process.env.REACT_APP_COUNTRY === 'FR';
+const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
+const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
+const isRu = window.__.env.REACT_APP_COUNTRY === 'ru';
+const isFr = window.__.env.REACT_APP_COUNTRY === 'fr';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -427,7 +427,7 @@ class Recommendation extends React.Component {
   getPrescriberByPrescriberIdAndStoreId = (prescriberId) => {
     getPrescriberByPrescriberIdAndStoreId({
       prescriberId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     }).then((res) => {
       let recommendationInfos = {
         recommenderName: res.context?.recommendationName || '',
@@ -603,7 +603,7 @@ class Recommendation extends React.Component {
   async buyNow(needLogin) {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
+      localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
     let {
@@ -619,12 +619,12 @@ class Recommendation extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
       console.log(totalPrice, 'instock');
       this.showErrorMsg(
         <FormattedMessage
           id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
         />
       );
       return false;
@@ -966,9 +966,30 @@ class Recommendation extends React.Component {
                 <FormattedMessage
                   id="recommendation.welcomeSubText"
                   values={{
+                    val2: (
+                      <em style={{ fontSize: '14px', color: '#666' }}>
+                        (Offre personnelle valable sur l'intégralité de nos
+                        aliments chien & chat (hors aliments humides, Babycat
+                        milk, gamme Size mini indoor & conditionnements de 1kg)
+                        et cumulable avec l'offre d'abonnement. Valable une
+                        seule fois et uniquement sur la boutique en ligne Royal
+                        Canin{' '}
+                        <a
+                          href="https://www.royalcanin.com/fr/shop"
+                          style={{
+                            color: '#000',
+                            textDecoration: 'underline',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          https://www.royalcanin.com/fr/shop
+                        </a>
+                        )
+                      </em>
+                    ),
                     val: (
                       <strong style={{ color: '#e2001a' }}>
-                        réduction de 5 à 20€
+                        réduction de 5€ à 20€
                       </strong>
                     )
                   }}
@@ -1076,21 +1097,21 @@ class Recommendation extends React.Component {
   render() {
     console.info('helpContentText', this.helpContentText);
     let otherShow = {
-      RU: (
+      ru: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
           addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
-      US: (
+      us: (
         <UsAndRu
           buttonLoading={this.state.buttonLoading}
           addCartBtnStatus={this.addCartBtnStatus}
           addCart={this.addCart}
         />
       ),
-      FR: (
+      fr: (
         <Fr
           configStore={this.props.configStore}
           addCart={this.addCart}
@@ -1164,14 +1185,14 @@ class Recommendation extends React.Component {
       productList[activeIndex]?.goodsInfos[0]?.goods.goodsSubtitle || '';
     let tabDesText = tabDes.length > 101 ? this.get100Words(tabDes) : tabDes;
     let grayBoxInnerText = {
-      FR: isSPT
+      fr: isSPT
         ? tabDesText
         : nutritionalReco ||
           "Les quantités d'alimentation recommandées se trouvent au dos du sac. Assurez-vous de faire la transition des aliments lentement au cours de la semaine pour éviter les maux d'estomac.",
-      US:
+      us:
         productList[activeIndex]?.productMessage ||
         'Recommended feeding amounts are located on the back of the bag. Make sure you transition food slowly over the course of the week to help prevent stomach upset.',
-      RU: this.state.locationPath
+      ru: this.state.locationPath
     };
     return (
       <div className="Recommendation_FR Recommendation_US">
@@ -1498,7 +1519,7 @@ class Recommendation extends React.Component {
                                 <div className="">
                                   {
                                     grayBoxInnerText[
-                                      process.env.REACT_APP_COUNTRY
+                                      window.__.env.REACT_APP_COUNTRY
                                     ]
                                   }
                                 </div>
@@ -1559,8 +1580,8 @@ class Recommendation extends React.Component {
             </div>
           )}
           <Test />
-          {/* {this.otherShow()[process.env.REACT_APP_COUNTRY]} */}
-          {otherShow[process.env.REACT_APP_COUNTRY]}
+          {/* {this.otherShow()[window.__.env.REACT_APP_COUNTRY]} */}
+          {otherShow[window.__.env.REACT_APP_COUNTRY]}
           <Footer />
         </main>
       </div>

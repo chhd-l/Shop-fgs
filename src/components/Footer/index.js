@@ -12,6 +12,10 @@ import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
+const cur_menubar = menubar[window.__.env.REACT_APP_COUNTRY] || [];
+const cur_contactInfo = contactInfo[window.__.env.REACT_APP_COUNTRY] || null;
 @inject('configStore', 'loginStore')
 @injectIntl
 @observer
@@ -19,8 +23,6 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cur_menubar: menubar[process.env.REACT_APP_COUNTRY] || [],
-      cur_contactInfo: contactInfo[process.env.REACT_APP_COUNTRY] || null,
       a: 1
     };
   }
@@ -32,7 +34,7 @@ class Footer extends React.Component {
     this.props.configStore.getSystemFormConfig(); // 查询address form表单配置开关
 
     // 地址错误提示信息
-    sessionItemRoyal.set(
+    localItemRoyal.set(
       'rc-wrongAddressMsg',
       JSON.stringify({
         title: this.props.intl.messages['payment.pleaseInput'],
@@ -80,53 +82,54 @@ class Footer extends React.Component {
               </span>
             </div>
           </div>
-          <div className="rc-divider rc-md-up"></div>
-          <div className="rc-layout-container rc-one-column rc-padding-x--xs">
-            <div className="rc-column rc-padding-x--xs">
-              <nav
-                data-toggle-group="mobile"
-                data-toggle-effect="rc-expand--vertical"
-                className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
-              >
-                <ul
-                  className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
-                  role="menubar"
+          <div className="rc-divider rc-md-up" />
+          {cur_menubar.length > 0 ? (
+            <div className="rc-layout-container rc-one-column rc-padding-x--xs">
+              <div className="rc-column rc-padding-x--xs">
+                <nav
+                  data-toggle-group="mobile"
+                  data-toggle-effect="rc-expand--vertical"
+                  className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
                 >
-                  {this.state.cur_menubar.map((item, index) => {
-                    return (
-                      <li
-                        className="rc-list__item rc-list__item--group"
-                        key={index}
-                      >
-                        <h3
-                          className="rc-list__header"
-                          role="menuitem"
-                          data-toggle={`nav-footer-list-${index}`}
-                          id={`nav-footer-${index}`}
+                  <ul
+                    className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
+                    role="menubar"
+                  >
+                    {cur_menubar.map((item, index) => {
+                      return (
+                        <li
+                          className="rc-list__item rc-list__item--group"
+                          key={index}
                         >
-                          <FormattedMessage id={item[0].titleId} />
-                        </h3>
-                        <ul
-                          className="rc-list rc-list--blank rc-list--align"
-                          role="menu"
-                          id={`nav-footer-list-${index}`}
-                          aria-labelledby={`nav-footer-${index}`}
-                        >
-                          {item[0].list.map((listItem, i) => {
-                            return (
-                              <li className="rc-list__item" key={i}>
-                                {!!listItem.link ? (
-                                  listItem.needLogin && !this.isLogin ? (
-                                    <>
-                                      <Link
-                                        to="/account"
-                                        className="rc-list__link text-decoration-none color-f6f6f6 55"
-                                      >
-                                        <FormattedMessage
-                                          id={listItem.messageId}
-                                        />
-                                      </Link>
-                                      {/* <LoginButton
+                          <h3
+                            className="rc-list__header"
+                            role="menuitem"
+                            data-toggle={`nav-footer-list-${index}`}
+                            id={`nav-footer-${index}`}
+                          >
+                            <FormattedMessage id={item[0].titleId} />
+                          </h3>
+                          <ul
+                            className="rc-list rc-list--blank rc-list--align"
+                            role="menu"
+                            id={`nav-footer-list-${index}`}
+                            aria-labelledby={`nav-footer-${index}`}
+                          >
+                            {item[0].list.map((listItem, i) => {
+                              return (
+                                <li className="rc-list__item" key={i}>
+                                  {!!listItem.link ? (
+                                    listItem.needLogin && !this.isLogin ? (
+                                      <>
+                                        <Link
+                                          to="/account"
+                                          className="rc-list__link text-decoration-none color-f6f6f6 55"
+                                        >
+                                          <FormattedMessage
+                                            id={listItem.messageId}
+                                          />
+                                        </Link>
+                                        {/* <LoginButton
                                         beforeLoginCallback={async () => {
                                           sessionItemRoyal.set(
                                             'okta-redirectUrl',
@@ -140,54 +143,57 @@ class Footer extends React.Component {
                                           id={listItem.messageId}
                                         />
                                       </LoginButton> */}
-                                    </>
+                                      </>
+                                    ) : (
+                                      <Link
+                                        className="rc-list__link text-decoration-none color-f6f6f6 66"
+                                        to={listItem.link}
+                                        role="menuitem"
+                                      >
+                                        <FormattedMessage
+                                          id={listItem.messageId}
+                                        />
+                                      </Link>
+                                    )
                                   ) : (
-                                    <Link
-                                      className="rc-list__link text-decoration-none color-f6f6f6 66"
-                                      to={listItem.link}
+                                    <a
+                                      className="rc-list__link text-decoration-none color-f6f6f6 1111"
+                                      href={
+                                        (!!listItem.prop &&
+                                          this.props.configStore[
+                                            listItem.prop
+                                          ]) ||
+                                        listItem.url
+                                      }
+                                      target="_blank"
                                       role="menuitem"
+                                      rel="nofollow"
                                     >
                                       <FormattedMessage
                                         id={listItem.messageId}
                                       />
-                                    </Link>
-                                  )
-                                ) : (
-                                  <a
-                                    className="rc-list__link text-decoration-none color-f6f6f6 1111"
-                                    href={
-                                      (!!listItem.prop &&
-                                        this.props.configStore[
-                                          listItem.prop
-                                        ]) ||
-                                      listItem.url
-                                    }
-                                    target="_blank"
-                                    role="menuitem"
-                                    rel="nofollow"
-                                  >
-                                    <FormattedMessage id={listItem.messageId} />
-                                    {Boolean(
-                                      process.env
-                                        .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
-                                    ) && (
-                                      <span className="warning_blank">
-                                        Opens a new window
-                                      </span>
-                                    )}
-                                  </a>
-                                )}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </nav>
+                                      {Boolean(
+                                        window.__.env
+                                          .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                                      ) && (
+                                        <span className="warning_blank">
+                                          Opens a new window
+                                        </span>
+                                      )}
+                                    </a>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              </div>
             </div>
-          </div>
+          ) : null}
           <div className="rc-divider rc-md-up" />
           {/*tips */}
           <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
@@ -197,11 +203,11 @@ class Footer extends React.Component {
               </p>
               <div className="rc-text--inverse">
                 <p>
-                  {process.env.REACT_APP_COUNTRY == 'FR'
+                  {window.__.env.REACT_APP_COUNTRY == 'fr'
                     ? 'Nos spécialistes sont disponibles de 8h30 à 12h30 et de 14h à 17h du lundi au vendredi.'
                     : this.props.configStore.contactTimePeriod}
                 </p>
-                {process.env.REACT_APP_COUNTRY == 'FR' ? (
+                {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
                   <p>
                     <FormattedMessage
                       id="contactUsViaPhone"
@@ -216,34 +222,28 @@ class Footer extends React.Component {
           </div>
           {/* mail and phone */}
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
-            {this.state.cur_contactInfo && (
+            {cur_contactInfo && (
               <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
                 <a
                   style={{
                     display:
-                      process.env.REACT_APP_COUNTRY == 'FR'
+                      window.__.env.REACT_APP_COUNTRY == 'fr'
                         ? 'none'
                         : 'inline-block'
                   }}
                   className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
                   role="menuitem"
                   href={`tel:${
-                    this.props.configStore[
-                      this.state.cur_contactInfo.phoneNumber.prop
-                    ]
+                    this.props.configStore[cur_contactInfo.phoneNumber.prop]
                   }`}
                 >
-                  {
-                    this.props.configStore[
-                      this.state.cur_contactInfo.phoneNumber.prop
-                    ]
-                  }
+                  {this.props.configStore[cur_contactInfo.phoneNumber.prop]}
                 </a>
-                {!!this.state.cur_contactInfo.email.link ? (
+                {!!cur_contactInfo.email.link ? (
                   <Link
                     className="ctnus rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
                     role="menuitem"
-                    to={this.state.cur_contactInfo.email.link}
+                    to={cur_contactInfo.email.link}
                   >
                     <FormattedMessage id="footer.contactUs" />
                   </Link>
@@ -251,7 +251,7 @@ class Footer extends React.Component {
                   <a
                     className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
                     role="menuitem"
-                    href={this.state.cur_contactInfo.email.url}
+                    href={cur_contactInfo.email.url}
                   >
                     <FormattedMessage id="footer.email" />
                   </a>
@@ -263,7 +263,7 @@ class Footer extends React.Component {
           <MarsFooterMap />
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        {cookieSettingsBtn[process.env.REACT_APP_COUNTRY]}
+        {cookieSettingsBtn[window.__.env.REACT_APP_COUNTRY]}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     );
@@ -271,7 +271,7 @@ class Footer extends React.Component {
   render() {
     return (
       <div>
-        {+process.env.REACT_APP_HUB ? (
+        {+window.__.env.REACT_APP_HUB ? (
           <FooterHub isLogin={this.isLogin} history={this.props.history} />
         ) : (
           this.footerInfo()

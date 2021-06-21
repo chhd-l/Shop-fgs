@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 class DistributeHubLinkOrATag extends React.Component {
+  static defaultProps = {
+    target: '_self'
+  };
   render() {
     const {
       children,
@@ -12,17 +16,19 @@ class DistributeHubLinkOrATag extends React.Component {
       itemType,
       itemProp,
       ariaLabel,
-      style
+      style,
+      target
     } = this.props;
-    return +process.env.REACT_APP_HUB ? (
+    return +window.__.env.REACT_APP_HUB ? (
       <a
-        href={`${process.env.REACT_APP_HUB_URLPREFIX}${href}`}
+        href={`${window.__.env.REACT_APP_HUB_URLPREFIX}${href}`}
         className={className}
         style={style}
         onClick={onClick}
         itemType={itemType}
         itemProp={itemProp}
         aria-label={ariaLabel}
+        target={target}
       >
         {children}
       </a>

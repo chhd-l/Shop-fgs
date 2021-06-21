@@ -1,0 +1,134 @@
+// 解决文本框自动填充后背景蓝色黄色问题
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.rc_form_box {
+  .rc_row_line {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .rc-input__label {
+    &::before {
+      height: 2px !important;
+    }
+  }
+
+  .rc_input_textarea {
+    padding: .95rem;
+    resize: vertical;
+    min-height: 120px;
+    height: auto;
+    border-style: solid;
+    border-width: 2px;
+    display: block;
+    line-height: 1.5rem;
+    width: 100%;
+    margin-bottom: 0;
+    font-weight: 300;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #d7d7d7 !important;
+  }
+
+  .rc_first_noselect {
+    .choices__list.choices__list--dropdown {
+      .choices__item {
+        &:nth-child(1) {
+          cursor: not-allowed;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  .fillcity_of_delivery {
+    border-bottom: 2px solid #d7d7d7;
+  }
+
+  .rc_radio_box {
+    margin-bottom: 1rem;
+
+    .rc-input {
+      position: relative;
+      width: 100%;
+
+      .delivery_date_price {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+
+    .need_delivery_date {
+      display: block;
+      margin-left: 2rem;
+    }
+
+  }
+
+
+}
+
+#kaktusMap {
+  display: none;
+}
+
+// PC端地图
+.pickup_map_box {
+  display: block;
+
+  #kaktusMap {
+    display: block !important;
+    width: 100%;
+
+    .css-1xuqurl {
+      position: relative !important;
+      background: none;
+
+      .css-e4xzu {
+        box-shadow: none;
+        padding: 0;
+
+        .modals-wrapper {
+          height: 505px !important;
+
+          .ymaps-2-1-78-controls__control {
+            display: none !important;
+          }
+
+          .ymaps-2-1-78-copyrights-pane {
+            display: none !important;
+          }
+        }
+      }
+
+      .close-button {
+        display: none;
+      }
+
+      .map-top-panel {
+        display: none;
+      }
+    }
+  }
+}
+
+
+
+@media (max-width: 960px) {
+  .rc_form_box {
+    .choices {
+      max-width: 100% !important;
+    }
+  }
+}

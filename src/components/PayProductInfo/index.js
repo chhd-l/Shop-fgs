@@ -23,7 +23,8 @@ class PayProductInfo extends React.Component {
     operateBtnVisible: false,
     fixToHeader: false,
     navigateToProDetails: false, // click product name navigate to product detail
-    style: {}
+    style: {},
+    isRepay: false
   };
   constructor(props) {
     super(props);
@@ -47,6 +48,17 @@ class PayProductInfo extends React.Component {
   }
   get freeShippingFlag() {
     return this.props.checkoutStore.freeShippingFlag;
+  }
+  // 存在分期，且不是repay时，才显示分期信息
+  get isShowInstallMent() {
+    const { details, isRepay } = this.props;
+    return !!details.tradePrice.installmentPrice && !isRepay;
+  }
+  get totalPrice() {
+    const { details } = this.props;
+    return this.isShowInstallMent
+      ? details.tradePrice.totalAddInstallmentPrice
+      : details.tradePrice.totalPrice;
   }
   handleClickProName(item) {
     if (this.props.navigateToProDetails) {
@@ -90,7 +102,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, item)}
                   >
                     <span className="light">{item.spuName}</span>
-                    {process.env.REACT_APP_LANG !== 'ru' &&
+                    {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
                     item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"
@@ -435,7 +447,7 @@ class PayProductInfo extends React.Component {
                         </div>
                         <div className="col-5 end-lines">
                           <p className="text-right">
-                            <span className="shipping-total-cost">
+                            <span className="shipping-total-cost components_pay_product_info">
                               {/* {formatMoney(details.tradePrice.taxFeePrice)} */}
                               {formatMoney(this.taxFeePrice)}
                             </span>
@@ -465,6 +477,29 @@ class PayProductInfo extends React.Component {
                         </div>
                       </div>
                     ) : null} */}
+
+                    {/* 分期手续费 */}
+                    {this.isShowInstallMent ? (
+                      <div className="row leading-lines shipping-item red">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span>
+                              <FormattedMessage id="installMent.additionalFee" />
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost">
+                              {formatMoney(
+                                details.tradePrice.installmentPrice
+                                  .additionalFee
+                              )}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -476,7 +511,7 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="col-6 end-lines text-right">
                   <span className="grand-total-sum">
-                    {formatMoney(details.tradePrice.totalPrice)}
+                    {formatMoney(this.totalPrice)}
                   </span>
                 </div>
               </div>

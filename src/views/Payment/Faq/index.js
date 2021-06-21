@@ -3,7 +3,7 @@ import Cover from './Cover';
 
 const benifitList =
   {
-    US: [
+    us: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: '100% secure payment'
@@ -18,7 +18,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Free shipping' }
     ],
-    RU: [
+    ru: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: '100% безопасный платеж'
@@ -33,7 +33,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Быстрая доставка' }
     ],
-    TR: [
+    tr: [
       { iconCls: 'rc-lock--xs rc-iconography--xs', text: '100% güvenli ödeme' },
       {
         iconCls: 'rc-loading--xs rc-iconography--xs',
@@ -45,7 +45,7 @@ const benifitList =
       },
       { iconCls: 'rc-shop--xs rc-iconography--xs', text: 'Hızlı teslimat' }
     ],
-    FR: [
+    fr: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
         text: 'Achat 100% sécurisé'
@@ -63,10 +63,10 @@ const benifitList =
         text: 'Livraison 3 jours ouvrés'
       }
     ]
-  }[process.env.REACT_APP_COUNTRY] || [];
+  }[window.__.env.REACT_APP_COUNTRY] || [];
 const faqList =
   {
-    US: [
+    us: [
       {
         title: 'How can I reach customer service?',
         context: `<h1 class="rc-zeta"></h1>
@@ -92,17 +92,17 @@ const faqList =
       {
         title: 'Do you offer free returns?',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p>Please see our return policy in our <a href="${process.env.REACT_APP_HOMEPAGE.replace(
+        <p></p><p>Please see our return policy in our <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
           /\/$/gi,
           ''
-        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${process.env.REACT_APP_HOMEPAGE.replace(
+        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
           /\/$/gi,
           ''
         )}/help/contact" target="_blank" rel="noopener noreferrer"><span style="color: #6888c9;">contact us</span><span class="warning_blank">Opens a new window</span></a> for further assistance.</p><p></p>`,
         gaContext: 'Free return'
       }
     ],
-    RU: [
+    ru: [
       {
         title: 'Служба поддержки',
         context: `<h1 class="rc-zeta"></h1>
@@ -125,11 +125,11 @@ const faqList =
       {
         title: 'Возврат товара',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p><a href="${process.env.REACT_APP_HUB_URLPREFIX}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
+        <p></p><p><a href="${window.__.env.REACT_APP_HUB_URLPREFIX}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
         gaContext: 'Free return'
       }
     ],
-    TR: [
+    tr: [
       {
         title: 'MÜŞTERİ HİZMETLERİ',
         context: `<h1 class="rc-zeta"></h1>
@@ -159,7 +159,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ],
-    FR: [
+    fr: [
       {
         title: 'Comment puis-je joindre le service client ?',
         context: `<h1 class="rc-zeta"></h1>
@@ -187,7 +187,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ]
-  }[process.env.REACT_APP_COUNTRY] || [];
+  }[window.__.env.REACT_APP_COUNTRY] || [];
 
 export default class Faq extends React.Component {
   render() {

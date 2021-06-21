@@ -43,7 +43,7 @@ export default function Help(props) {
             <img
               className="ls-is-cached lazyloaded"
               alt="Par téléphone icon"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
             />
           </LazyLoad>
         </div>
@@ -51,7 +51,7 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
               alt="Par téléphone icon"
             />
           </LazyLoad>
@@ -71,7 +71,7 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className=" ls-is-cached lazyloaded"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
               alt="Par e-mail icon"
             />
           </LazyLoad>
@@ -80,7 +80,7 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
               alt="Par e-mail icon"
             />
           </LazyLoad>
@@ -101,7 +101,7 @@ export default function Help(props) {
             <img
               className="ls-is-cached lazyloaded"
               alt="FAQ icon"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
             />
           </LazyLoad>
         </div>
@@ -109,7 +109,7 @@ export default function Help(props) {
           <LazyLoad>
             <img
               className="lazyload"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
               alt="FAQ icon"
             />
           </LazyLoad>

@@ -137,8 +137,8 @@ class AccountHome extends React.Component {
               </div>
             </div>
           </div>
-          {process.env.REACT_APP_GOOGLEPLAY_APP_LINK &&
-          process.env.REACT_APP_APP_STORE_LINK ? (
+          {window.__.env.REACT_APP_GOOGLEPLAY_APP_LINK &&
+          window.__.env.REACT_APP_APP_STORE_LINK ? (
             <div className="accountHomeFooterLink">
               <h2>
                 <img src={accountSLogo} />
@@ -149,10 +149,10 @@ class AccountHome extends React.Component {
                 de votre compagnon{' '}
               </p>
               <div className="payBtn">
-                <a href={process.env.REACT_APP_GOOGLEPLAY_APP_LINK}>
+                <a href={window.__.env.REACT_APP_GOOGLEPLAY_APP_LINK}>
                   <img src={GooglePayImg} />
                 </a>
-                <a href={process.env.REACT_APP_APP_STORE_LINK}>
+                <a href={window.__.env.REACT_APP_APP_STORE_LINK}>
                   <img src={ApplePayImg} />
                 </a>
               </div>

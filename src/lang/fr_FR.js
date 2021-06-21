@@ -421,6 +421,7 @@ const fr_FR = {
   freeShipping: 'Livraison offerte',
   FrequentQuestions: 'Questions courantes',
   from: 'De',
+  plpFromText: 'à partir de',
   gender: 'Sexe',
   getConsumerAccountFailed: "Échec de l'obtention du compte consommateur",
   getDataFailed: 'Obtenir les données a échoué',
@@ -757,6 +758,40 @@ const fr_FR = {
   'payment.terms3.header': 'Infolettre ROYAL CANIN',
   'payment.totalProduct': '{val} produit(s)',
   'payment.yourOrder': 'Votre commande',
+
+  'payment.tomorrow': 'Demain.',
+
+  'payment.homeDelivery': 'Livraison à domicile',
+  'payment.pickUpDelivery': 'Ramassage et livraison',
+
+  'payment.staleDate': "Veuillez répéter la date et l'heure de livraison.",
+
+  'payment.reselectTimeSlot':
+    'Veuillez sélectionner à nouveau la date et la période de livraison.',
+
+  // 星期
+  'payment.Monday': 'Lundi',
+  'payment.Tuesday': 'Mardi',
+  'payment.Wednesday': 'Mercredi',
+  'payment.Thursday': 'Jeudi',
+  'payment.Friday': 'Vendredi',
+  'payment.Saturday': 'Samedi',
+  'payment.Sunday': 'Dimanche',
+
+  // 月份
+  'payment.January': 'Janvier',
+  'payment.February': 'Février',
+  'payment.March': 'Mars',
+  'payment.April': 'Avril',
+  'payment.May': 'Mai',
+  'payment.June': 'Juin',
+  'payment.July': 'Juillet',
+  'payment.August': 'Août',
+  'payment.September': 'Septembre',
+  'payment.October': 'Octobre',
+  'payment.November': 'Novembre',
+  'payment.December': 'Décembre',
+
   paymentMethod: 'Mode de paiement',
   'paymethods.btn': 'Ajouter un moyen de paiement',
   //account.paymethods
@@ -780,6 +815,8 @@ const fr_FR = {
   'plp.retail.cat.button': 'Découvrez la gamme',
   'plp.retail.cat.detail':
     'Aliments diététiques qui aident à maintenir la santé des chats diagnostiqués avec des problèmes',
+  'plp.retail.dog.detail':
+    'Aliments diététiques qui aident à maintenir la santé des chiens diagnostiqués avec des problèmes',
   'plp.retail.cat.product.finder.button': 'Trouver un produit',
   'plp.retail.cat.product.finder.detail':
     'Essayez notre recherche {val} de produits',
@@ -914,7 +951,7 @@ const fr_FR = {
   'recommendation.welcomeText2': 'Voici la recommandation de votre éleveur :',
   // 'recommendation.welcomeSubText': '{val}lle a été élaborée en fonction des besoins uniques de votre animal',
   'recommendation.welcomeSubText':
-    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une {val} selon le format du produit acheté',
+    'Cliquez sur le code ci-dessous pour le copier, puis collez-le dans votre panier pour bénéficier d’une {val} {val2} selon le format du produit acheté',
   'recommendation.buyNow': 'Acheter maintenant',
   'recommendation.copyTips':
     'Dans votre panier, entrez le code promotionnel et commandez !',
@@ -1607,6 +1644,7 @@ const fr_FR = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
   'ClubLP.LongBanner.SubscriptionTitle3': 'La bonne quantité à chaque fois',
+  'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
   'ClubLP.Advantage.title': 'UN ALIMENT SUR MESURE',
@@ -1659,13 +1697,13 @@ const fr_FR = {
   'ClubLP.Help.call.title': 'Appelez-nous',
   'ClubLP.Help.call.content':
     'Nos conseillers sont heureux de vous aider tous les jours de 9 h à 18 h.',
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '0800 41 51 61',
+  'ClubLP.Help.call.mobile.number': '0800 41 51 61',
   'ClubLP.Help.email.title': 'Envoyez-nous un e-mail',
   'ClubLP.Help.email.content':
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',
   'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
   'ClubLP.Help.faq.content':
-    "Vous pouvez consulter notre FAQ pour consulter si votre question n'a pas déjà été traitée."
+    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée."
 };
 export default fr_FR;

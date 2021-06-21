@@ -361,6 +361,7 @@ const tr_TR = {
   freeShipping: 'Ücretsiz kargo.',
   oneoffFreeShipping: '125 TL Üzeri Ücretsiz kargo.',
   from: 'Kimden',
+  plpFromText: 'Kimden',
   gender: 'Cinsiyet',
   getConsumerAccountFailed: 'Tüketici Hesabını Alma Başarısız Oldu',
   getDataFailed: 'Veri Alma Başarısız Oldu',
@@ -645,6 +646,39 @@ const tr_TR = {
     'İlk {icon} Abonelik siparişinizi kaydedin ve bugün {val} ({val2}) tasarruf edin!',
   'payment.totalProduct': '{val} ürün',
   'payment.yourOrder': 'Siparişiniz',
+
+  'payment.tomorrow': 'Yarın...',
+
+  'payment.homeDelivery': 'Ev teslimatı',
+  'payment.pickUpDelivery': 'Teslim alın.',
+
+  'payment.staleDate': 'Lütfen teslim tarihini ve zamanı tekrar edin',
+
+  'payment.reselectTimeSlot': 'Lütfen teslim tarihi ve zaman yerini seçin.',
+
+  // 星期
+  'payment.Monday': 'Pazartesi.',
+  'payment.Tuesday': 'Salı günü.',
+  'payment.Wednesday': 'Çarşamba.',
+  'payment.Thursday': 'Perşembe',
+  'payment.Friday': 'Cuma',
+  'payment.Saturday': 'Cumartesi',
+  'payment.Sunday': 'Pazar',
+
+  // 月份
+  'payment.January': 'Ocak',
+  'payment.February': 'Şubat',
+  'payment.March': 'Mart',
+  'payment.April': 'April',
+  'payment.May': 'May ıs',
+  'payment.June': 'Haziran',
+  'payment.July': 'Temmuz',
+  'payment.August': 'Ağustos',
+  'payment.September': 'Eylül',
+  'payment.October': 'Ekim',
+  'payment.November': 'Kasım',
+  'payment.December': 'Aralık',
+
   paymentMethod: 'Ödeme şekli',
   'paymethods.btn': 'Ödeme Ekle',
   //account.paymethods:
@@ -1223,12 +1257,16 @@ const tr_TR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '%5 İndirim&Ücretsiz Kargo',
   'ClubLP.LongBanner.title':
-    'ABONE OLARAK EVCİL {val1} HAYVANINIZA TAM BİR SAĞLIKLI BESLENME, {val2} ÇÖZÜMÜ SUNUN',
-  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+    'ABONE OLARAK EVCİL {val1} HAYVANINIZA TAM BİR SAĞLIKLI {val2} BESLENME,  ÇÖZÜMÜ SUNUN',
+  'ClubLP.LongBanner.content': '124 TL’den başlayan fiyatlarla/sipariş',
   'ClubLP.LongBanner.button': 'Şimdi Deneyin',
   'ClubLP.LongBanner.content2': 'Taahhütsüz',
   'ClubLP.LongBanner.SubscriptionTitle':
     'KEDİLER VE KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    'KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    'KEDİLER  İÇİN ABONELİK AVANTAJLARI',
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Evcil hayvanınıza uygun beslenme çözümü',
   'ClubLP.LongBanner.SubscriptionContent1':
@@ -1238,6 +1276,12 @@ const tr_TR = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'Evcil hayvanınızın uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Her zaman doğru porsiyon miktarı',
+  'ClubLP.LongBanner.SubscriptionTitle1.new':
+    'Evcil hayvanınıza uygun beslenme çözümü',
+  'ClubLP.LongBanner.SubscriptionTitle2.new':
+    'Evcil hayvanınızın ihtiyaçlarına uygun beslenme ',
+  'ClubLP.LongBanner.SubscriptionTitle3.new':
+    'Her zaman doğru porsiyon miktarı',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Evcil hayvanınızın doğru miktarda mama alması için günlük bilgilendirmeler',
   'ClubLP.Advantage.title': 'FARKLI IRKLAR FARKLI İHTİYAÇLAR',
@@ -1285,13 +1329,13 @@ const tr_TR = {
   'ClubLP.Help.call.title': 'Bizi arayın!',
   'ClubLP.Help.call.content':
     "Beslenme danışmanlarımız hafta içi her gün 09.00'dan 18.00'a kadar burada!",
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '0850 737 1200',
+  'ClubLP.Help.call.mobile.number': '0850 737 1200',
   'ClubLP.Help.email.title': 'Bize e-posta gönderin!',
   'ClubLP.Help.email.content':
     'Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!',
   'ClubLP.Help.email.address': 'Bize e-posta gönderin!',
   'ClubLP.Help.faq.content':
-    'Sorunuz önceden cevaplanmış olabilir! Sıkça Sorulan Sorular sayfamıza göz atmayı unutmayın!'
+    'Sorunuz önceden cevaplanmış olabilir! {val} sayfamıza göz atmayı unutmayın!'
 };
 export default tr_TR;

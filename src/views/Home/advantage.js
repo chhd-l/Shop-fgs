@@ -22,7 +22,7 @@ export function Advantage() {
         <FormattedMessage
           id="home.convenientTip2"
           values={{
-            val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+            val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
           }}
         />
       )
@@ -36,30 +36,30 @@ export function Advantage() {
 
   const list =
     {
-      US: [
+      us: [
         {
-          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
+          imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_PRODUCT-RECOS@x2.png`,
           imgAlt: 'ideal formula',
           text: 'Find the Ideal Formula for Your Pet’s Health'
         },
         {
-          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
+          imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_DISCOUNT@x2.png`,
           imgAlt: 'club benefits',
           text:
             'Save 5% on Every Autoship Order Plus, 30% Off Your First Order Through Royal Canin Club'
         },
         {
-          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`,
+          imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/COHORT-A_CLUB-BENEFITS_PET-ADVISOR@x2.png`,
           imgAlt: 'Welcome Box',
           text: 'Get Expert Advice & Support with Royal Canin Pet Advisor Live'
         },
         {
-          imgUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`,
+          imgUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/CLUB-BENEFITS_FREE-SHIPPING@x2.png`,
           imgAlt: 'Free Automatic Shipping',
           text: 'Free Automatic Shipping'
         }
       ],
-      FR: [
+      fr: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -77,7 +77,7 @@ export function Advantage() {
             <FormattedMessage
               id="home.convenientTip2"
               values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
               }}
             />
           )
@@ -88,7 +88,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ],
-      DE: [
+      de: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -106,7 +106,7 @@ export function Advantage() {
             <FormattedMessage
               id="home.convenientTip3"
               values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
               }}
             />
           )
@@ -117,7 +117,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip4" />
         }
       ],
-      RU: [
+      ru: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -146,7 +146,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ],
-      TR: [
+      tr: [
         {
           imgUrl: pack,
           imgAlt: 'pack icon',
@@ -164,7 +164,7 @@ export function Advantage() {
             <FormattedMessage
               id="home.convenientTip2"
               values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
               }}
             />
           )
@@ -175,7 +175,7 @@ export function Advantage() {
           text: <FormattedMessage id="home.convenientTip3" />
         }
       ]
-    }[process.env.REACT_APP_COUNTRY] || defaultList;
+    }[window.__.env.REACT_APP_COUNTRY] || defaultList;
 
   return list.map((item, i) => (
     <div

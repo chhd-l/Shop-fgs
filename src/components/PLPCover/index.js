@@ -86,7 +86,7 @@ function ListItemH5ForGlobalStyle(props) {
                       />
                     ) : (
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`}
                         className=" pt-3 ImgForMobile"
                         style={{
                           maxHeight: '100%',
@@ -253,7 +253,7 @@ function ListItemForDefault(props) {
                     src={
                       isDogPage
                         ? retailDog
-                        : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
+                        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                     }
                     alt="product finder recomend retail cat find"
                     title=""
@@ -353,7 +353,7 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
       {item.technologyOrBreedsAttr ? (
         <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
       ) : null}
-      {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+      {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
         <InlineRatings productId={item.goodsNo} />
       )}
       <PriceItemShow item={item} configStore={configStore} />
@@ -363,35 +363,91 @@ function ListItemBodyH5ForGlobalStyle({ item, configStore }) {
 
 const PriceItemShow = ({ item, configStore }) => {
   const priceDisplayMethod = configStore?.info?.storeVO?.priceDisplayMethod;
-  // const priceDisplayMethod = 1;
+  // const priceDisplayMethod = 0;
   const PriceItemShowForH5 = (
     <>
       {item.fromPrice &&
       (priceDisplayMethod == 0 || priceDisplayMethod == 1) ? (
         <div className="product-price">
           <div className="card--product-contaner-price">
-            {item.toPrice && priceDisplayMethod == 1 && (
-              <FormattedMessage
-                id="pirceRange"
-                values={{
-                  fromPrice: (
-                    <span className="contaner-price__value">
-                      {formatMoney(item.fromPrice)}
+            {priceDisplayMethod == 0 &&
+              (item.toPrice ? (
+                <FormattedMessage
+                  id="pirceRange"
+                  values={{
+                    fromPrice: (
+                      <span className="contaner-price__value">
+                        {formatMoney(item.fromPrice)}
+                      </span>
+                    ),
+                    toPrice: (
+                      <span className="contaner-price__value">
+                        {formatMoney(item.toPrice)}
+                      </span>
+                    )
+                  }}
+                />
+              ) : (
+                <span className="contaner-price__value">
+                  {formatMoney(item.fromPrice)}
+                </span>
+              ))}
+            {priceDisplayMethod == 1 &&
+              (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+                <>
+                  <div
+                    className="text-left NameFitScreen"
+                    style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
+                  >
+                    <FormattedMessage id="plpFromText" />
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <div
+                      className="rc-full-width PriceFitScreen"
+                      style={{ fontSize: '1.25rem' }}
+                    >
+                      <span className="value sales card--product-contaner-price">
+                        <span
+                          className="contaner-price__value"
+                          style={{
+                            color: '#323232',
+                            fontWeight: 400
+                          }}
+                        >
+                          {formatMoney(item?.fromPrice)}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div
+                    className="text-center NameFitScreen"
+                    style={{
+                      color: '#4a4a4a',
+                      opacity: item?.goodsInfos
+                        ? item?.goodsInfos.length
+                        : '' > 1
+                        ? 1
+                        : 0
+                    }}
+                  >
+                    <FormattedMessage id="startFrom" />
+                  </div>
+                  <div className=" text-center">
+                    <span
+                      style={{
+                        color: '#323232',
+                        fontWeight: 400
+                      }}
+                      className="contaner-price__value"
+                    >
+                      {formatMoney(item?.fromPrice)}
                     </span>
-                  ),
-                  toPrice: (
-                    <span className="contaner-price__value">
-                      {formatMoney(item.toPrice)}
-                    </span>
-                  )
-                }}
-              />
-            )}
-            {priceDisplayMethod == 0 && (
-              <span className="contaner-price__value">
-                {formatMoney(item.fromPrice)}
-              </span>
-            )}
+                  </div>
+                </>
+              ))}
           </div>
         </div>
       ) : null}
@@ -401,32 +457,86 @@ const PriceItemShow = ({ item, configStore }) => {
     <>
       {item?.fromPrice &&
       (priceDisplayMethod == 0 || priceDisplayMethod == 1) ? (
-        <div className="d-flex justify-content-center pt-3 pb-3">
+        <div className="d-flex justify-content-center">
           <div className="rc-card__price text-left PriceFitScreen">
             <div className={`rc-full-width PriceFitScreen`}>
               <span className="value sales card--product-contaner-price">
-                {item.toPrice && priceDisplayMethod == 1 && (
-                  <FormattedMessage
-                    id="pirceRange"
-                    values={{
-                      fromPrice: (
-                        <span className="contaner-price__value">
-                          {formatMoney(item.fromPrice)}
-                        </span>
-                      ),
-                      toPrice: (
-                        <span className="contaner-price__value">
-                          {formatMoney(item.toPrice)}
-                        </span>
-                      )
-                    }}
-                  />
-                )}
-                {priceDisplayMethod == 0 && (
-                  <span className="contaner-price__value">
-                    {formatMoney(item?.fromPrice)}
-                  </span>
-                )}
+                {priceDisplayMethod == 0 &&
+                  (item.toPrice ? (
+                    <FormattedMessage
+                      id="pirceRange"
+                      values={{
+                        fromPrice: (
+                          <span className="contaner-price__value">
+                            {formatMoney(item.fromPrice)}
+                          </span>
+                        ),
+                        toPrice: (
+                          <span className="contaner-price__value">
+                            {formatMoney(item.toPrice)}
+                          </span>
+                        )
+                      }}
+                    />
+                  ) : (
+                    <span className="contaner-price__value">
+                      {formatMoney(item.fromPrice)}
+                    </span>
+                  ))}
+                {priceDisplayMethod == 1 &&
+                  (window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+                    <>
+                      <div
+                        className="text-center NameFitScreen"
+                        style={{ color: 'rgb(74, 74, 74)', opacity: 2 }}
+                      >
+                        <FormattedMessage id="plpFromText" />
+                      </div>
+                      <div className="d-flex justify-content-center">
+                        <div
+                          className="rc-full-width PriceFitScreen"
+                          style={{ fontSize: '1.25rem' }}
+                        >
+                          <span className="value sales card--product-contaner-price">
+                            <span
+                              className="contaner-price__value"
+                              style={{
+                                color: '#323232',
+                                fontWeight: 400
+                              }}
+                            >
+                              {formatMoney(item?.fromPrice)}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className="text-center NameFitScreen"
+                        style={{
+                          color: '#4a4a4a',
+                          opacity: item?.goodsInfos
+                            ? item?.goodsInfos.length
+                            : '' > 1
+                            ? 1
+                            : 0
+                        }}
+                      >
+                        <FormattedMessage id="startFrom" />
+                      </div>
+                      <span
+                        style={{
+                          color: '#323232',
+                          fontWeight: 400
+                        }}
+                        className="contaner-price__value"
+                      >
+                        {formatMoney(item?.fromPrice)}
+                      </span>
+                    </>
+                  ))}
               </span>
             </div>
           </div>
@@ -538,22 +648,13 @@ function ListItemBody({ item, headingTag, configStore }) {
         </span>
       </div>
       <br />
-      <div
-        className="text-center NameFitScreen"
-        style={{
-          color: '#4a4a4a',
-          opacity: item?.goodsInfos ? item?.goodsInfos.length : '' > 1 ? 1 : 0
-        }}
-      >
-        <FormattedMessage id="startFrom" />
-      </div>
       {/*商品价格*/}
       <PriceItemShow item={item} configStore={configStore} />
     </>
   );
   return (
     <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0 pc-product-card">
-      {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+      {window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly pl-4 pr-4">
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
@@ -563,7 +664,7 @@ function ListItemBody({ item, headingTag, configStore }) {
               </p>
             ) : null}
           </div>
-          {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
+          {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS && (
             <InlineRatings productId={item.goodsNo} />
           )}
           <PriceItemShow item={item} configStore={configStore} />
@@ -599,7 +700,7 @@ export default class PLPCover extends React.Component {
       showBorder,
       className
     } = this.props;
-    return process.env.REACT_APP_PLP_STYLE === 'layout-global' &&
+    return window.__.env.REACT_APP_PLP_STYLE === 'layout-global' &&
       isMobilePhone ? (
       <ListItemH5ForGlobalStyle
         showBorder={showBorder}

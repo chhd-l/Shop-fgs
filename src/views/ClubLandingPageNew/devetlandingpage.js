@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -11,33 +10,22 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import declublogo from './deimage/declublogo.png'
-import vetdeimage from './deimage/Product-composition-dog.png'
+import vetdeimage from './deimage/Product-composition-dog.png';
+import decat from './deimage/delangdingpagecat.png';
+import dedog from './deimage/delangdingpagedog.png';
+import decat1 from './deimage/decat1.png';
+import decat2 from './deimage/decat2.png';
+import dedog1 from './deimage/dedog1.png';
+import dedog2 from './deimage/dedog2.png';
 
-import dehowit1 from './deimage/dehowit1.png'
-import dehowit2 from './deimage/dehowit2.png'
-import dehowit3 from './deimage/dehowit3.png'
-import dehowit4 from './deimage/dehowit4.png'
-import number1 from './deimage/number1.png'
-import number2 from './deimage/number2.png'
-import number3 from './deimage/number3.png'
-import number4 from './deimage/number4.png'
-import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
-import logoad from './Components/GetMoreAd/image/logoad.png';
-import StoreCode from './Components/DeStoreCode/storecode';
-import SalesCategory from '../Home/modules/SalesCategory';
-import goldenfood from './image/goldenfood.png';
-import line from './deimage/Line@4x.png';
-import HubSalesCategory from '../../components/HubSalesCategory';
-import { salesCategoryFilterRule } from '../../components/HubSalesCategory/utils';
+import deLPdog from './deimage/deLPdog.png';
+import deLPcat from './deimage/deLPcat.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
-let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -124,11 +112,11 @@ class ClubLandingPageDeVet extends React.Component {
       sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
     if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
 
@@ -161,19 +149,6 @@ class ClubLandingPageDeVet extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
-          <div
-            style={{
-              textAlign: 'center',
-              height: '42px',
-              backgroundColor: '#F6F6F6',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ alignSelf: 'center', color: '#E2001A' }}>
-              <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>
-            </div>
-          </div>
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
@@ -191,28 +166,33 @@ class ClubLandingPageDeVet extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
-                          <p style={{
-                            fontSize: '28px',
-                            color: '#E2001A'
-                          }}>
-                            What makes the RC Vet Portfolio special​
+                          <p
+                            style={{
+                              fontSize: '28px',
+                              color: '#E2001A'
+                            }}
+                          >
+                            Die richtige Ernährung ist eine wesentliche
+                            Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Djaöfonöoihaer
+                              Verbesserung der Lebensqualität der Tiere
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Aeornöoiaöoebaröoobaöobe​
+                              Unterstützung von Tieren mit fütterungsbedingten
+                              Erkrankungen
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              Oaberoö.aneonioaebnr
+                              Beeinflussung des Wachstums von Katzen- und
+                              Hundewelpen
                             </li>
                             <li className="rc-list__item">
                               <em className="petCrew rc-margin-right--xs"></em>
-                              aöneörionanöobearboobe
+                              Beitrag zum Management von Erkrankungen
                             </li>
                           </ul>
                           <br />
@@ -227,9 +207,83 @@ class ClubLandingPageDeVet extends React.Component {
 
           <Divider />
 
-          <HubSalesCategory rule={salesCategoryFilterRule}/>
+          <div className="">
+            <div className="rc-fgs-component-container">
+              <div className="hub-category rc-bg-colour--brand3 rc-margin-bottom--xs">
+                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
+                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                    <span>
+                      Die tierärztlichen Diätnahrungen <br /> von ROYAL CANIN®
+                    </span>
+                  </h4>
+                  <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
+                    <p>
+                      <span>
+                        <p>
+                          Seit 1968 erforscht ROYAL CANIN® die besonderen
+                          Ernährungsbedürfnisse von Katzen und Hunden bis ins
+                          kleinste Detail. Denn schon kleinste
+                          Nährstoffunterschiede in der Nahrung können einen
+                          großen Unterschied für das Wohlbefinden Ihres
+                          Haustieres bedeuten. Das gilt natürlich um so mehr,
+                          wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund
+                          ein besonderes Bedürfnis festgestellt haben. Gerade
+                          dann kann eine maßgeschneiderte Ernährung helfen, die
+                          Gesundheit Ihres Haustieres zu unterstützen und zu
+                          erhalten.
+                        </p>
+                        <p>
+                          ROYAL CANIN® bietet deshalb ein umfangreiches Programm
+                          an Nahrungen an, die speziell auf die tierärztlich
+                          festgestellten besonderen Bedürfnisse von Katzen und
+                          Hunden abgestimmt sind. Sprechen Sie mit Ihrer
+                          Tierärztin oder Ihrem Tierarzt darüber, mit welcher
+                          ROYAL CANIN® Nahrung Sie die Gesundheit Ihres
+                          vierbeinigen Begleiters am besten unterstützen können.
+                        </p>
+                      </span>
+                    </p>
+                  </div>
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
+                      <div className="header-title">
+                        <h1 className="rc-espilon">Für Katzen</h1>
+                        <img src={decat} />
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="/de/cats"
+                          >
+                            <img src={deLPcat} />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="rc-column">
+                      <div className="header-title">
+                        <h1 className="rc-espilon">Für Hunde</h1>
+                        <img src={dedog} />
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column ">
+                          <a
+                            className="rc-moblie-flex flex-wrap justify-content-center"
+                            href="/de/dogs"
+                          >
+                            <img src={deLPdog} />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Divider/>
+          <Divider />
 
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
@@ -239,14 +293,19 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                       <div>
                         <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                          Empfehlungscode Ihrer Tierarztpraxis
+                          Unser Diätnahrungssortiment
                         </h4>
                       </div>
                       <div className="flex justify-content-center">
-                      <iframe width="560" height="315" src="https://www.youtube.com/embed/3Tfl1pmFej8" title="YouTube video player"
-                              frameBorder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen></iframe>
+                        <iframe
+                          width="560"
+                          height="315"
+                          src="https://www.youtube.com/embed/3Tfl1pmFej8"
+                          title="YouTube video player"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
@@ -255,8 +314,353 @@ class ClubLandingPageDeVet extends React.Component {
             </div>
           </div>
 
-          <Divider/>
-          <SalesCategory/>
+          <Divider />
+          <section>
+            <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
+              <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
+                <div className=" rc-match-heights text-center text-md-left">
+                  <div className="DeCenter col-lg-3 align-self-center">
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
+                      Unsere Produkte für verschiedene Schwerpunkte der
+                      Tiergesundheit
+                    </h2>
+                  </div>
+                  <div className="DeCenter col-lg-9">
+                    <div className="row custom-gutter">
+                      <span className="hidden rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"></span>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Aufzucht &amp; Wachstum"
+                          href="/de/aufzucht_wachstum"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250505313217.jpg"
+                                alt="Aufzucht &amp; Wachstum product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">
+                              Aufzucht &amp; Wachstum
+                            </h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Diabetes mellitus"
+                          href="/de/diabetes_mellitus"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250443423647.jpg"
+                                alt="Diabetes mellitus product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">
+                              Diabetes mellitus
+                            </h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Gelenke"
+                          href="/de/gelenke"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250449533854.jpg"
+                                alt="Gelenke product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Gelenke</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Haut &amp; Fell"
+                          href="/de/haut_fell"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250439243509.jpg"
+                                alt="Haut &amp; Fell product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Haut &amp; Fell</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Herz"
+                          href="/de/herz"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250452557607.jpg"
+                                alt="Herz product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Herz</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Kastration"
+                          href="/de/kastration"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250459262693.jpg"
+                                alt="Kastration product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Kastration</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Leber"
+                          href="/de/leber"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250447457709.jpg"
+                                alt="Leber product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Leber</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Magen-Darm-Trakt"
+                          href="/de/magen_darm_trakt"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250445143898.jpg"
+                                alt="Magen-Darm-Trakt product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">
+                              Magen-Darm-Trakt
+                            </h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Maulhöhle"
+                          href="/de/maulhohle"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250502527142.jpg"
+                                alt="Maulhöhle product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Maulhöhle</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Niere"
+                          href="/de/niere"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250448519699.jpg"
+                                alt="Niere product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Niere</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Pill Assist"
+                          href="/de/pill_assist"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250507286476.jpg"
+                                alt="Pill Assist product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Pill Assist</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Prophylaxe"
+                          href="/de/prophylaxe"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250506536953.jpg"
+                                alt="Prophylaxe product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Prophylaxe</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Übergewicht"
+                          href="/de/ubergewicht"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250442139814.jpg"
+                                alt="Übergewicht product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Übergewicht</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Untere Harnwege"
+                          href="/de/untere_harnwege"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250435180570.jpg"
+                                alt="Untere Harnwege product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Untere Harnwege</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Verhalten"
+                          href="/de/verhalten"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202011250504018221.jpg"
+                                alt="Verhalten product image"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Verhalten</h3>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <a
+                          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          title="Alles anzeigen"
+                          href="/de/list/keywords"
+                        >
+                          <picture className="category-cards__card__img">
+                            <div className="lazyload-wrapper ">
+                              <img
+                                src="https://d2cstgstorage.z13.web.core.windows.net/202012140704238285.jpg"
+                                alt="Alles anzeigen product image"
+                                title="all"
+                                style={{ width: '144px' }}
+                              />
+                            </div>
+                          </picture>
+                          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                            <h3 className="rc-margin--none">Alles anzeigen</h3>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <Footer />
         </main>

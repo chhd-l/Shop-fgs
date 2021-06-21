@@ -9,8 +9,8 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
 const HelpComponentsNew = (props) => {
-  const RU = process.env.REACT_APP_COUNTRY == 'RU';
-  const TR = process.env.REACT_APP_COUNTRY == 'TR';
+  const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+  const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -69,7 +69,8 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-content-v-middle">
                                 <LazyLoad>
                                   <img
-                                    className="align-self-center widthAuto"
+                                    className="align-self-center "
+                                    style={{ width: '25vw' }}
                                     src={callImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt1'
@@ -92,7 +93,7 @@ const HelpComponentsNew = (props) => {
                                   <p>
                                     <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
-                                  {TR || RU ? (
+                                  {tr || ru ? (
                                     <DistributeHubLinkOrATag
                                       href={'/contact-us'}
                                       ariaLabel="Links to contact us"
@@ -108,7 +109,7 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        <FormattedMessage id="club.wheretohelp.card.email.send" />
+                                        <FormattedMessage id="ClubLP.Help.email.title" />
                                       </p>
                                     </Link>
                                   )}
@@ -117,7 +118,8 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-content-v-middle">
                                 <LazyLoad>
                                   <img
-                                    className="align-self-center widthAuto"
+                                    className="align-self-center "
+                                    style={{ width: '25vw' }}
                                     src={emailImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt2'
@@ -135,7 +137,51 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.faq.content" />
+                                    <FormattedMessage
+                                      id="ClubLP.Help.faq.content"
+                                      values={{
+                                        val: ru ? (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              часто задаваемые вопросы:
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        ) : tr ? (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              Sıkça Sorulan Sorular
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        ) : (
+                                          <DistributeHubLinkOrATag
+                                            href={'/about-us/faqs'}
+                                            ariaLabel="Links to faq"
+                                          >
+                                            <a
+                                              style={{
+                                                textDecoration: 'underline'
+                                              }}
+                                            >
+                                              FAQ pour
+                                            </a>
+                                          </DistributeHubLinkOrATag>
+                                        )
+                                      }}
+                                    />
                                   </p>
 
                                   <div className="rc-margin-top--xs">
@@ -159,7 +205,8 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-content-v-middle">
                                 <LazyLoad>
                                   <img
-                                    className="align-self-center widthAuto"
+                                    className="align-self-center "
+                                    style={{ width: '25vw' }}
                                     src={faqImgNew}
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt3'

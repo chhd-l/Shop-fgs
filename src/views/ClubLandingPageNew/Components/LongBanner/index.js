@@ -5,33 +5,71 @@ import { FormattedMessage } from 'react-intl';
 import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import clublogo from './image/clublogo.png';
+import clubru from './image/Clubru.png';
 
+const SubTitles = {
+  title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
+};
+const LogoShows = {
+  logo: (
+    <img
+      style={{ width: '100px' }}
+      src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
+    />
+  )
+};
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
     SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
+      <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle1"
+          values={{ val: <br /> }}
+        />
+      </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" />
+      <FormattedMessage
+        id="ClubLP.LongBanner.SubscriptionContent1"
+        values={{ val: <br /> }}
+      />
     )
   },
   {
     SubscriptionImg: benefitstwo,
     SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
+      <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle2"
+          values={{ val: <br /> }}
+        />
+      </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" />
+      <FormattedMessage
+        id="ClubLP.LongBanner.SubscriptionContent2"
+        values={{ val1: <br />, val2: <br /> }}
+      />
     )
   },
   {
     SubscriptionImg: benefitsthree,
     SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
+      <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle3"
+          values={{ val: <br /> }}
+        />
+      </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" />
+      <FormattedMessage
+        id="ClubLP.LongBanner.SubscriptionContent3"
+        values={{ val: <br /> }}
+      />
     )
   }
 ];
@@ -48,10 +86,8 @@ const LongBanner = () => {
                 style={{ marginBottom: '0px' }}
               >
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
                   style={{
-                    marginLeft: '13vw',
-                    marginTop: '30px',
                     marginBottom: '0px'
                   }}
                 >
@@ -70,30 +106,47 @@ const LongBanner = () => {
                   <p style={{ fontSize: '0.7em', color: '#ffffff' }}>
                     <FormattedMessage id="ClubLP.LongBanner.content" />
                   </p>
-                  <button
-                    style={{
-                      padding: '0',
-                      paddingLeft: '80px',
-                      paddingRight: '80px'
-                    }}
-                    className="rc-btn rc-btn--one"
+                  <DistributeHubLinkOrATag
+                    href={'/product-finder'}
+                    ariaLabel="Links to product finder"
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.button" />
-                  </button>
+                    <button
+                      style={{
+                        padding: '0',
+                        paddingLeft: '80px',
+                        paddingRight: '80px'
+                      }}
+                      className="rc-btn rc-btn--one "
+                    >
+                      <FormattedMessage id="ClubLP.LongBanner.button" />
+                    </button>
+                  </DistributeHubLinkOrATag>
                   <p
                     style={{
                       color: '#ffffff',
                       marginBottom: '0px'
                     }}
+                    className={`longbannerwidth266 ${
+                      window.__.env.REACT_APP_COUNTRY == 'tr'
+                        ? `trmarginleft10vw`
+                        : null
+                    }`}
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.content2" />
+                    <FormattedMessage
+                      id="ClubLP.LongBanner.content2"
+                      values={{ val: <br /> }}
+                    />
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <SubscriptionBenefitsBanner SubscriptionItem={SubscriptionItems} />
+        <SubscriptionBenefitsBanner
+          SubscriptionItem={SubscriptionItems}
+          Subtitle={SubTitles}
+          LogoShow={LogoShows}
+        />
       </div>
     </>
   );

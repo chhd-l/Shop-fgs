@@ -27,7 +27,7 @@ class EditForm extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
         city: '',
         cityName: '',
@@ -64,11 +64,13 @@ class EditForm extends React.Component {
     });
 
     // 查询省份列表（美国：州）
-    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
-      this.setState({
-        provinceList: res.context.systemStates
-      });
-    });
+    getProvincesList({ storeId: window.__.env.REACT_APP_STOREID }).then(
+      (res) => {
+        this.setState({
+          provinceList: res.context.systemStates
+        });
+      }
+    );
   }
   computedList(key) {
     let tmp = '';
@@ -100,7 +102,7 @@ class EditForm extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'FR') {
+    if (name === 'phoneNumber' && window.__.env.REACT_APP_COUNTRY === 'fr') {
       value = value.replace(/^[0]/, '+(33)');
     }
     address[name] = value;
@@ -411,7 +413,7 @@ class EditForm extends React.Component {
           <FormattedMessage id="example" />:{' '}
           <FormattedMessage id="examplePostCode" />
         </div>
-        {/* {process.env.REACT_APP_COUNTRY === 'DE' ? (
+        {/* {window.__.env.REACT_APP_COUNTRY === 'de' ? (
           <span style={{ padding: '2px', color: '#CA5264' }}>
             * Pflichtfelder
           </span>
@@ -426,7 +428,7 @@ class EditForm extends React.Component {
         className={[
           'form-group',
           'dwfrm_shipping_shippingAddress_addressFields_phone',
-          process.env.REACT_APP_COUNTRY == 'DE' ? '' : 'required'
+          window.__.env.REACT_APP_COUNTRY == 'de' ? '' : 'required'
         ].join(' ')}
       >
         {' '}
@@ -477,13 +479,13 @@ class EditForm extends React.Component {
           <div className="col-12">{this.addressRequiredJSX()}</div>
           <div className="col-12">{this.addressOptionJSX()}</div>
 
-          {process.env.REACT_APP_COUNTRY != 'US' ? (
+          {window.__.env.REACT_APP_COUNTRY != 'us' ? (
             <div className="col-12 col-md-6">{this.landJSX()}</div>
           ) : null}
 
           <div className="col-12 col-md-6">{this.cityJSX()}</div>
 
-          {process.env.REACT_APP_COUNTRY === 'US' ? (
+          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
             <div className="col-12 col-md-6">{this.provinceJSX()}</div>
           ) : null}
 
@@ -494,7 +496,7 @@ class EditForm extends React.Component {
     );
     return (
       {
-        DE: (
+        de: (
           <>
             <div className="row">
               <div className="col-12 col-md-6">{this.firstNameJSX()}</div>
@@ -516,7 +518,7 @@ class EditForm extends React.Component {
             </div>
           </>
         )
-      }[process.env.REACT_APP_COUNTRY] || defaultJSX
+      }[window.__.env.REACT_APP_COUNTRY] || defaultJSX
     );
   };
   render() {

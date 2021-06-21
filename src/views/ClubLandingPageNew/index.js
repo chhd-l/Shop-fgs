@@ -6,14 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroCarousel from '@/components/HeroCarousel';
-import FooterImage from './modules/FooterImage';
-import SalesCategory from './modules/SalesCategory';
-import HubSalesCategory from '@/components/HubSalesCategory';
-import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
-import { Ads } from './ad';
-import { TopAds } from './ad';
-import { Advantage } from './advantage';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
@@ -36,7 +29,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -105,29 +98,29 @@ class ClubLandingPageNew extends React.Component {
 
     const parametersString = history.location.search;
     if (parametersString.indexOf('redirect=order') >= 0) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         '/account/orders' + history.location.search
       );
     }
     if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         '/account/subscription' + history.location.search
       );
     }
     if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+      localItemRoyal.set('okta-redirectUrl', '/account/information');
     }
     if (parametersString.indexOf('redirect=pets') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+      localItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
     if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
 
@@ -181,10 +174,10 @@ class ClubLandingPageNew extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-headingBlock">
                   <div className="rc-max-width--md text-center rc-margin-y--md">
-                    <div className="rc-alpha inherit-fontsize">
-                      <h1>
+                    <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
+                      <h3 style={{ fontWeight: '550' }}>
                         <FormattedMessage id="ClubLP.Advantage.title" />
-                      </h1>
+                      </h3>
                     </div>
                   </div>
                 </div>
@@ -195,36 +188,53 @@ class ClubLandingPageNew extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
-                    <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm  content-block rc-max-width--lg">
+                    <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
-                        <div className="rc-padding-y--lg--mobile rc-full-width">
+                        <div className=" rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content1" />
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                <FormattedMessage id="ClubLP.Advantage.content1" />
+                              </div>
                             </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content2" />
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                <FormattedMessage id="ClubLP.Advantage.content2" />
+                              </div>
                             </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content3" />
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                <FormattedMessage id="ClubLP.Advantage.content3" />
+                              </div>
                             </li>
-                            <li className="rc-list__item">
-                              <em className="bingo rc-margin-right--xs"></em>
-                              <FormattedMessage id="ClubLP.Advantage.content4" />
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                <FormattedMessage id="ClubLP.Advantage.content4" />
+                              </div>
                             </li>
                           </ul>
-                          <br />
-                          <br />
-                          <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
-                            <Link to="/cats/vet-products">
+                          <div className="rc-padding-x--none detextcenter">
+                            <DistributeHubLinkOrATag
+                              href={'/product-finder'}
+                              ariaLabel="Links to product finder"
+                            >
                               <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                                 <FormattedMessage id="ClubLP.Advantage.button" />
                               </button>
-                            </Link>
+                            </DistributeHubLinkOrATag>
                           </div>
                         </div>
                       </div>
@@ -260,11 +270,12 @@ class ClubLandingPageNew extends React.Component {
 
           <CommentCarouselNew />
 
+          <Divider />
           <GetMoreAd />
 
           <Divider />
 
-          {process.env.REACT_APP_COUNTRY == 'RU' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none ">
                 <div className="rc-full-width">

@@ -1,4 +1,5 @@
 const es_ES = {
+  BacktoSavedPayments: 'Devuelve el pago guardado',
   aboutUs: 'SOBRE NOSOTROS',
   'aboutUs.description':
     'La salud animal es la clave de su belleza y bienestar. Estudiamos con detenimiento la fisiología más pequeña de perros y gatos para conocer cuáles son sus necesidades y ofrecerles una dieta única y personalizada.',
@@ -370,6 +371,7 @@ const es_ES = {
     'Se le enviará una carta con instrucciones para cambiar la contraseña.',
   freeShipping: 'Envío gratis',
   from: 'De',
+  plpFromText: 'De',
   gender: 'Género',
   getConsumerAccountFailed: 'Obtener la cuenta del consumidor fallida',
   getDataFailed: 'Obtener datos fallidos',
@@ -657,6 +659,40 @@ const es_ES = {
     '¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!',
   'payment.totalProduct': '{val} producto(s) en total',
   'payment.yourOrder': 'Su pedido',
+
+  'payment.tomorrow': 'Mañana',
+
+  'payment.homeDelivery': 'Entrega a domicilio',
+  'payment.pickUpDelivery': 'Entrega',
+
+  'payment.staleDate': 'Por favor, repita la fecha y hora de entrega.',
+
+  'payment.reselectTimeSlot':
+    'Por favor, vuelva a seleccionar la fecha y hora de entrega.',
+
+  // 星期
+  'payment.Monday': 'Lunes',
+  'payment.Tuesday': 'Martes',
+  'payment.Wednesday': 'Miércoles',
+  'payment.Thursday': 'Hoy es jueves.',
+  'payment.Friday': 'Viernes',
+  'payment.Saturday': 'Hoy es sábado.',
+  'payment.Sunday': 'Domingo',
+
+  // 月份
+  'payment.January': 'Enero',
+  'payment.February': 'Febrero',
+  'payment.March': 'Marzo',
+  'payment.April': 'Abril',
+  'payment.May': 'Mayo',
+  'payment.June': 'Junio',
+  'payment.July': 'Julio',
+  'payment.August': 'Agosto',
+  'payment.September': 'Septiembre',
+  'payment.October': 'Octubre',
+  'payment.November': 'Noviembre',
+  'payment.December': 'Diciembre',
+
   paymentMethod: 'Método de pago',
   'paymethods.btn': 'Add Payment',
   //account.paymethods
@@ -1079,7 +1115,7 @@ const es_ES = {
     'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
   'welcome.notReceiveEmail': 'Sie haben keine E-Mail erhalten?',
   'welcome.contactSupport': 'Support kontaktieren',
-  'welcome.privacyStatement': 'Datenschutzerklärung',
+  'welcome.privacyStatement': 'Protección de Datos',
   'welcome.cookiesNotice': 'Cookies Notice',
   'welcome.legal': 'Legal',
   'welcome.accessibility': 'Accessibility',

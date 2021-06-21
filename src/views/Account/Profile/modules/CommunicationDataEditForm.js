@@ -12,16 +12,17 @@ import { addEventListenerArr } from './addEventListener';
 const localItemRoyal = window.__.localItemRoyal;
 const SPECAIL_CONSENT_ENUM =
   {
-    US: [
+    de: ['RC_DF_DE_FGS_OPT_EMAIL'],
+    us: [
       'RC_DF_US_PREF_CENTER_OFFERS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_PRODUCTS_OPT_MAIL',
       'RC_DF_US_PREF_CENTER_NL_OPT_MAIL',
       'RC_DF_HQ_MARS_PRIVACY_POLICY'
     ],
-    FR: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
-    RU: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
-    TR: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
-  }[process.env.REACT_APP_COUNTRY] || [];
+    fr: ['RC_DF_FR_FGS_OPT_MOBILE', 'RC_DF_FR_FGS_OPT_EMAIL'],
+    ru: ['RC_DF_RU_FGS_OPT_EMAIL', 'RC_DF_RU_FGS_OPT_MOBILE'],
+    tr: ['RC_DF_TR_FGS_OPT_EMAIL', 'RC_DF_TR_FGS_OPT_MOBILE']
+  }[window.__.env.REACT_APP_COUNTRY] || [];
 @inject('paymentStore')
 @observer
 class CommunicationDataEditForm extends React.Component {
@@ -50,7 +51,7 @@ class CommunicationDataEditForm extends React.Component {
     );
   }
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'TR') {
+    if (window.__.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }

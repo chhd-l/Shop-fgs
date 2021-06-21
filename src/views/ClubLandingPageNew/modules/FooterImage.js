@@ -16,15 +16,15 @@ class FooterImage extends React.Component {
             <picture>
               <source
                 media="(max-width: 640px)"
-                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
+                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
               />
               <source
                 media="(min-width: 640px) and (max-width: 769px)"
-                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
+                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
               />
               <source
                 media="(min-width: 769px)"
-                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
+                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
               />
 
               <img
@@ -65,7 +65,7 @@ class FooterImage extends React.Component {
     );
 
     const footerImage = {
-      MX: (
+      mx: (
         <div className="row rc-margin-x--none d-flex">
           <div
             className="col-6 col-lg-4 order-1 order-lg-0"
@@ -75,15 +75,15 @@ class FooterImage extends React.Component {
               <picture>
                 <source
                   media="(max-width: 640px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
                 />
                 <source
                   media="(min-width: 640px) and (max-width: 769px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
                 />
                 <source
                   media="(min-width: 769px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
                 />
 
                 <img
@@ -122,23 +122,23 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      US: defaultVal,
-      DE: (
+      us: defaultVal,
+      de: (
         <div className="rc-layout-container rc-three-column">
           <div className="rc-column">
             <LazyLoad height={200}>
               <picture>
                 <source
                   media="(max-width: 640px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
                 />
                 <source
                   media="(min-width: 640px) and (max-width: 769px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
                 />
                 <source
                   media="(min-width: 769px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
                 />
 
                 <img
@@ -187,7 +187,7 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      FR: (
+      fr: (
         <div className="row rc-margin-x--none d-flex">
           <div
             className="col-6 col-lg-4 order-1 order-lg-0"
@@ -197,15 +197,15 @@ class FooterImage extends React.Component {
               <picture>
                 <source
                   media="(max-width: 640px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x640px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x640px.jpg 2x`}
                 />
                 <source
                   media="(min-width: 640px) and (max-width: 769px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x769px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x769px.jpg 2x`}
                 />
                 <source
                   media="(min-width: 769px)"
-                  srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
+                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@1x770px.jpg 1x, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/footerpet@2x770px.jpg 2x`}
                 />
 
                 <img
@@ -246,7 +246,7 @@ class FooterImage extends React.Component {
       )
     };
     return (
-      <div>{footerImage[process.env.REACT_APP_COUNTRY] || defaultVal}</div>
+      <div>{footerImage[window.__.env.REACT_APP_COUNTRY] || defaultVal}</div>
     );
   }
 }

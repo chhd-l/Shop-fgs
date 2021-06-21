@@ -37,7 +37,7 @@ class Confirmation extends React.Component {
     }
   }
   checkRequiredItem = async (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
+    let requiredList = list?.filter((item) => item.isRequired);
     this.setState({
       requiredList
     });

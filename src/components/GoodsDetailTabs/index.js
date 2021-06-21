@@ -5,6 +5,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
 
+import iconsixnew from './image/iconsixnew.png'
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
 import spetadviser from './image/pictospetadviser@4x.png';
@@ -14,20 +15,29 @@ import landingBanner from './image/landing-banner.jpg';
 import iconsix from './image/iconsix.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
-import goodsdetalsbackground from './image/goodsdetailtabbackground.png';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
+import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
-import pdpbackgrounddog from './image/goodsdetailtabbackground.png'
+import pdpbackgroundmobiledogtr from './image/goodsdeatailsbackgroundmobiletr.png';
+import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
+import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png';
+import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
+import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png';
+import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
 import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
-import clubiconnew5 from './image/clubiconnew5.png';
-import benefitsone from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsone.png';
-import benefitstwo from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitstwo.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
+
+import benefitsonedog from './image/benefitsonedog.png';
+import benefitstwodog from './image/benefitstwodog.png';
+import benefitsonecat from './image/benefitsonecat.png';
+import benefitstwocat from './image/benefitstwocat.png';
+import clubru from '../../views/ClubLandingPageNew/Components/LongBanner/image/Clubru.png';
+import clublogo from '../../views/ClubLandingPageNew/Components/LongBanner/image/clublogo.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -35,84 +45,103 @@ const pdpmobilebackgrounddog = {
   backgroundSize: 'cover'
 };
 
+const pdpmobilebackgrounddogtr = {
+  backgroundImage: `url(${pdpbackgroundmobiledogtr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
 
-const pdpbackgrounddogs={
-  backgroundImage: `url(${pdpbackgrounddog})`,
-  height:'700px',
+const pdpbackgroundmobilecats = {
+  backgroundImage: `url(${pdpbackgroundmobilecat})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
+const pdpbackgroundmobilecatstr = {
+  backgroundImage: `url(${pdpbackgroundmobilecattr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
+const pdpbackgrounddogs = {
+  backgroundImage: `url(${
+    window.__.env.REACT_APP_COUNTRY === 'ru'
+      ? pdpbackgrounddog
+      : pdpbackgorunddogother
+  })`,
+  height: '800px',
   backgroundSize: 'cover',
   overflow: 'hidden',
-  display:'flex',
-  flexDirection:'column',
-}
+  display: 'flex',
+  flexDirection: 'column'
+};
 
-
-const SubscriptionItems = [
-  {
-    SubscriptionImg: benefitsone,
-    SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" />
-    )
-  },
-  {
-    SubscriptionImg: benefitstwo,
-    SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" />
-    )
-  },
-  {
-    SubscriptionImg: benefitsthree,
-    SubscriptionTitle: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" />
-    )
-  }
-];
+const pdpbackgroundcats = {
+  backgroundImage: `url(${
+    window.__.env.REACT_APP_COUNTRY === 'ru'
+      ? pdpbackgroundcatru
+      : pdpbackgroundcat
+  })`,
+  height: '700px',
+  backgroundSize: 'cover',
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column'
+};
 
 let clubListDataNew = [
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon1'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />,
     img: clubiconnew1,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon2'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon2'} />,
     img: clubiconnew2,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon3'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon3'} />,
     img: clubiconnew3,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon4'}
-    />,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon4'} />,
     img: clubiconnew4,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
   {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon5'}
-    />,
-    img: clubiconnew5,
+    text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon5'} />,
+    img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
-  process.env.REACT_APP_COUNTRY === 'RU'?
-  {
-    text: <FormattedMessage
-      id={'ClubLP.SubscriptionBenefitsNew.icon6'}
-    />,
-    img: iconsix,
-    alt: 'CLUB BENEFITS PET ADVISOR'
-  }:{
-
-    },
+  window.__.env.REACT_APP_COUNTRY === 'ru'
+    ? {
+        text: (
+          <FormattedMessage
+            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+            values={{
+              val: (
+                <a
+                  onClick={() => {
+                    window.PetStoryWC.start();
+                  }}
+                  style={{
+                    textDecoration: 'underline',
+                    color: '#e3001b',
+                    cursor: 'pointer'
+                  }}
+                >
+                  PetStory
+                </a>
+              )
+            }}
+          />
+        ),
+        img: iconsixnew,
+        alt: 'CLUB BENEFITS PET ADVISOR'
+      }
+    : {}
 ];
 
 let clubListData = [
@@ -142,7 +171,7 @@ let clubListData = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
-if (process.env.REACT_APP_COUNTRY === 'RU') {
+if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   clubListData.push({
     text: <FormattedMessage id="clubListData.tip6" />,
     img: iconsix,
@@ -150,10 +179,6 @@ if (process.env.REACT_APP_COUNTRY === 'RU') {
   });
 }
 const GoodsDetailTabs = function (props) {
-  const intl = useIntl();
-  let hubGA = process.env.REACT_APP_HUB_GA == '1';
-  let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-  let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
   let {
     goodsDescriptionDetailList,
     goodsType,
@@ -161,8 +186,83 @@ const GoodsDetailTabs = function (props) {
     saleableFlag,
     displayFlag,
     detailRes,
-    isClub
+    isClub,
+    goodsDetailSpace
   } = props;
+  //判断猫狗
+  const getSpeciesId = (item) => {
+    return (
+      {
+        1158: '1', //Russia Cat SPT food
+        1159: '1', //Russia Cat VET Food
+        1160: '2', //Russia Dog SPT food
+        1161: '2', //Russia Dog VET food
+        1165: '1', //Turkey Cat SPT food
+        1166: '1', //Turkey Cat VET Food
+        1167: '2', //Turkey Dog SPT food
+        1168: '2', //Turkey Dog VET food
+        1133: '2', //France Dog SPT food
+        1134: '1', //France Cat SPT food
+        1153: '2', //France Dog VET food
+        1154: '1', //France Cat VET Food
+        1172: '1', //US Cat SPT food
+        1173: '1', //US Cat VET food
+        1174: '2', //US Dog SPT food
+        1175: '2' //US Dog VET food
+      }[item] || ''
+    );
+  };
+  const LogoShows = {
+    logo: <></>
+  };
+  const SubTitles = {
+    title:
+      getSpeciesId(goodsDetailSpace) == '1' ? (
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle.tab.cat"
+          values={{ val: <br /> }}
+        />
+      ) : (
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle.tab.dog"
+          values={{ val: <br /> }}
+        />
+      )
+  };
+
+  const SubscriptionItems = [
+    {
+      SubscriptionImg:
+        getSpeciesId(goodsDetailSpace) == '1' ? benefitsonecat : benefitsonedog,
+      SubscriptionTitle: (
+        <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
+          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1.new" />
+        </a>
+      )
+    },
+    {
+      SubscriptionImg:
+        getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
+      SubscriptionTitle: (
+        <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
+          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2.new" />
+        </a>
+      )
+    },
+    {
+      SubscriptionImg: benefitsthree,
+      SubscriptionTitle: (
+        <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
+          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
+        </a>
+      )
+    }
+  ];
+  const intl = useIntl();
+  let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
+  let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+  let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
+  console.log(goodsDetailSpace, '🐕※');
   if (activeTabIdxList === undefined) {
     activeTabIdxList = isMobile ? [] : [0];
   }
@@ -303,15 +403,15 @@ const GoodsDetailTabs = function (props) {
       .filter((e) => e.displayName && e.content);
 
     // 美国需临时加入一个tab
-    if (process.env.REACT_APP_COUNTRY === 'US') {
-      let COHORTPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
-      let BENEFITS_WELCOMEPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
-      let BENEFITS_DISCOUNT = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
-      let BENEFITS_PRODUCTPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_PRODUCT-RECOS.png`;
-      let HOWTOJOINSHOPpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SHOP.png`;
-      let HOWTOJOINAUTOSHIPpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-AUTOSHIP.png`;
-      let HOWTOJOINSCHEDULEpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SCHEDULE.png`;
-      let HOWTOJOINENJOYpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-ENJOY.png`;
+    if (window.__.env.REACT_APP_COUNTRY === 'us') {
+      let COHORTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
+      let BENEFITS_WELCOMEPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
+      let BENEFITS_DISCOUNT = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
+      let BENEFITS_PRODUCTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_PRODUCT-RECOS.png`;
+      let HOWTOJOINSHOPpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SHOP.png`;
+      let HOWTOJOINAUTOSHIPpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-AUTOSHIP.png`;
+      let HOWTOJOINSCHEDULEpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SCHEDULE.png`;
+      let HOWTOJOINENJOYpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-ENJOY.png`;
 
       tmpGoodsDescriptionDetailList.push({
         displayName: 'Royal Canin Club',
@@ -335,9 +435,9 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
       });
     }
-    // if (process.env.REACT_APP_COUNTRY === 'RU' && saleableFlag && sptGoods) {
-    //   let mixfeeding = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
-    //   let MixfeedingFood = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
+    // if (window.__.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
+    //   let mixfeeding = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
+    //   let MixfeedingFood = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
     //   tmpGoodsDescriptionDetailList.push({
     //     displayName: 'Смешанное кормление',
     //     content:
@@ -379,7 +479,7 @@ const GoodsDetailTabs = function (props) {
   }, []);
 
   //club new subscribtion每次提交的时候记得把true改为false
-  const Show = false;
+  const Show = true;
 
   const createMarkup = (text) => ({ __html: text });
   const headerHeight = document.querySelector('.rc-header')?.offsetHeight;
@@ -508,7 +608,15 @@ const GoodsDetailTabs = function (props) {
                     <>
                       <div
                         className="clubdetailsmobile"
-                        style={pdpmobilebackgrounddog}
+                        style={
+                          getSpeciesId(goodsDetailSpace) == '1'
+                            ? window.__.env.REACT_APP_COUNTRY === 'tr'
+                              ? pdpbackgroundmobilecatstr
+                              : pdpbackgroundmobilecats
+                            : window.__.env.REACT_APP_COUNTRY === 'tr'
+                            ? pdpmobilebackgrounddogtr
+                            : pdpmobilebackgrounddog
+                        }
                       >
                         <div className="row rc-margin-x--none">
                           <div className="rc-full-width">
@@ -522,13 +630,13 @@ const GoodsDetailTabs = function (props) {
                                     style={{
                                       fontSize: '1em',
                                       textAlign: 'center',
-                                      fontWeight: 'bold'
+                                      fontWeight: '550'
                                     }}
                                   >
-                                    GIVE YOUR PET A<br />
-                                    COMPLETE HEALTH SOLUTION,
-                                    <br />
-                                    BY SUBSCRIPTION
+                                    <FormattedMessage
+                                      id="ClubLP.LongBanner.title"
+                                      values={{ val1: <br />, val2: <br /> }}
+                                    />
                                   </p>
                                   <p
                                     style={{
@@ -536,7 +644,12 @@ const GoodsDetailTabs = function (props) {
                                       textAlign: 'center'
                                     }}
                                   >
-                                    Free from engagement
+                                    {window.__.env.REACT_APP_COUNTRY ===
+                                    'ru' ? (
+                                      <br />
+                                    ) : (
+                                      <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                    )}
                                   </p>
                                 </div>
                               </div>
@@ -585,6 +698,8 @@ const GoodsDetailTabs = function (props) {
                           <div>
                             <SubscriptionBenefitsBanner
                               SubscriptionItem={SubscriptionItems}
+                              Subtitle={SubTitles}
+                              LogoShow={LogoShows}
                             />
                           </div>
                         </div>
@@ -724,7 +839,13 @@ const GoodsDetailTabs = function (props) {
                 )}
                 {Show ? (
                   <div>
-                    <div style={pdpbackgrounddogs}>
+                    <div
+                      style={
+                        getSpeciesId(goodsDetailSpace) == '1'
+                          ? pdpbackgroundcats
+                          : pdpbackgrounddogs
+                      }
+                    >
                       <div className="row rc-margin-x--none">
                         <div className="rc-full-width">
                           <div className="experience-component experience-assets-contentBlock">
@@ -735,7 +856,8 @@ const GoodsDetailTabs = function (props) {
                               <div className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                                 <p
                                   style={{
-                                    fontSize: '1.1em'
+                                    fontSize: '1.1em',
+                                    fontWeight: '550'
                                   }}
                                 >
                                   <FormattedMessage
@@ -744,7 +866,11 @@ const GoodsDetailTabs = function (props) {
                                   ></FormattedMessage>
                                 </p>
                                 <p style={{ fontSize: '0.7em' }}>
-                                  <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                  {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
+                                    <br />
+                                  ) : (
+                                    <FormattedMessage id="ClubLP.LongBanner.content2" />
+                                  )}
                                 </p>
                               </div>
                             </div>
@@ -766,7 +892,10 @@ const GoodsDetailTabs = function (props) {
                                   alt={item.alt}
                                   className="m-auto rc-margin--none--desktop"
                                 />
-                                <div className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100">
+                                <div
+                                  className="rc-intro rc-padding-left--sm rc-margin-bottom--none text-center d-flex align-items-center h-100"
+                                  style={{ marginTop: '5px' }}
+                                >
                                   <p
                                     className="mb-0"
                                     style={{ textAlign: 'left', width: '22vw' }}
@@ -781,6 +910,8 @@ const GoodsDetailTabs = function (props) {
                         <div style={{ width: '100vw', marginTop: '-5vh' }}>
                           <SubscriptionBenefitsBanner
                             SubscriptionItem={SubscriptionItems}
+                            Subtitle={SubTitles}
+                            LogoShow={LogoShows}
                           />
                         </div>
                       </div>

@@ -420,6 +420,7 @@ const ru_RU = {
     'Вам будет отправлено письмо с инструкциями по смене пароля.',
   freeShipping: 'Бесплатная доставка от 2500₽',
   from: 'От',
+  plpFromText: 'От',
   gender: 'Пол',
   GeneralConditions: 'Возврат покупки',
   getConsumerAccountFailed: 'Не удалось получить учетную запись потребителя',
@@ -705,6 +706,10 @@ const ru_RU = {
   'payment.entrance': 'Подъезд',
   'payment.apartment': 'Квартира',
   'payment.comment': 'Комментарий к доставке',
+
+  'payment.deliveryDateText': 'Дата доставки',
+  'payment.timeSlot': 'Время доставки',
+
   'payment.subTip1': 'Вы сэкономите дополнительно {val} на этом заказе!',
   'payment.subTip2':
     'Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!',
@@ -715,6 +720,37 @@ const ru_RU = {
   'payment.deliveryDate2': 'Срок доставки {val} рабочих дня.',
   'payment.shippingDiscount': 'Скидка на доставку',
   'payment.deliveryFee': 'Стоимость доставки',
+
+  'payment.tomorrow': 'завтра',
+
+  'payment.homeDelivery': 'доставлять товары на дом',
+  'payment.pickUpDelivery': 'принимать поставку',
+
+  'payment.reselectTimeSlot': 'Пожалуйста, укажите дату и время доставки.',
+
+  // 星期
+  'payment.Monday': 'Понедельник',
+  'payment.Tuesday': 'Вторник',
+  'payment.Wednesday': 'Среда',
+  'payment.Thursday': 'Четверг',
+  'payment.Friday': 'Пятница',
+  'payment.Saturday': 'Суббота',
+  'payment.Sunday': 'Воскресенье',
+
+  // 月份
+  'payment.January': 'Января',
+  'payment.February': 'Февраля',
+  'payment.March': 'Марта',
+  'payment.April': 'Апреля',
+  'payment.May': 'Мая',
+  'payment.June': 'Июня',
+  'payment.July': 'Июля',
+  'payment.August': 'Августа',
+  'payment.September': 'Сентября',
+  'payment.October': 'Октября',
+  'payment.November': 'Ноября',
+  'payment.December': 'Декабря',
+
   securePaymentProcessing: 'Безопасная обработка платежа',
   paymentMethod: 'Способ оплаты',
   'paymethods.btn': 'Добавить платеж',
@@ -1328,23 +1364,33 @@ const ru_RU = {
   'ClubLP.discount.content':
     'Скидка 10% и бесплатная доставка при подписке на сумму от 2500 руб.',
   'ClubLP.LongBanner.title':
-    'Специализированное питание по {val1} подписке для, {val2} поддержания здоровья',
+    'ПОЛУЧИТЕ ВЫГОДНЫЕ {val1} УСЛОВИЯ ПРОГРАММЫ {val2} ROYAL CANIN® КЛУБ',
   'ClubLP.LongBanner.content': 'От NN руб. за заказ',
   'ClubLP.LongBanner.button': 'Попробовать сейчас',
-  'ClubLP.LongBanner.content2': 'Управление подпиской в Личном кабинете',
+  'ClubLP.LongBanner.content2': '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. {val}Цена указана без учета скидок и стоимости доставки.',
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев собак',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев кошек',
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Специализированное питание с учетом особенностей Вашего питомца',
+    'Научно обоснованное {val} питание',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Научно обоснованное питание с учетом особенностей Вашего питомца',
+    '50 лет экспертизы в создании {val} здоровых рационов',
   'ClubLP.LongBanner.SubscriptionTitle2':
-    'Рацион, адаптированный для Вашего питомца',
+    'Рацион, адаптированный для {val} Вашего питомца',
   'ClubLP.LongBanner.SubscriptionContent2':
-    'Программа питания для поддержания здоровья',
-  'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер порции',
-  'ClubLP.LongBanner.SubscriptionContent3':
+    'Высококачественные ингредиенты,{val1} подобранные с учетом индивидуальных{val2} потребностей питомца',
+  'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер {val}порции',
+  'ClubLP.LongBanner.SubscriptionTitle1.new':
+    'Программа питания, созданная для поддержания здоровья на протяжении всей жизни',
+  'ClubLP.LongBanner.SubscriptionTitle2.new':
+    'Рационы, адаптированные для Вашего питомца',
+  'ClubLP.LongBanner.SubscriptionTitle3.new':
     'Рекомендации по нормам кормления для выбора оптимальной порции',
+  'ClubLP.LongBanner.SubscriptionContent3':
+    'Рекомендации по нормам кормления {val}для выбора оптимальной порции',
   'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',
   'ClubLP.Advantage.content1':
     'Питание, специально разработанное для удовлетворения уникальных потребностей кошек и собак',
@@ -1366,7 +1412,7 @@ const ru_RU = {
     'Приветственный подарок, вознаграждения и сервисы',
   'ClubLP.SubscriptionBenefitsNew.icon5': 'Бесплатный обучающий контент',
   'ClubLP.SubscriptionBenefitsNew.icon6':
-    'Бесплатные онлайн-консультации нутрициолога в Petstory',
+    'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
   'ClubLP.NewHowItWorks.title': 'Как это работает?',
   'ClubLP.NewJoinUs.title': 'Расскажите нам о своем питомце',
@@ -1398,14 +1444,14 @@ const ru_RU = {
   'ClubLP.Help.call.title': 'Позвоните нам',
   'ClubLP.Help.call.content':
     'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
-  'ClubLP.Help.call.number': 'O874 657 890',
-  'ClubLP.Help.call.mobile.number': 'O874 657 890',
+  'ClubLP.Help.call.number': '8-800-200-37-35',
+  'ClubLP.Help.call.mobile.number': '8-800-200-37-35',
   'ClubLP.Help.email.title': 'Напишите нам e-mail',
   'ClubLP.Help.email.content':
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
-  'ClubLP.Help.email.address': 'Send us an Email',
+  'ClubLP.Help.email.address': 'Отправьте нам e-mail',
   'ClubLP.Help.faq.content':
-    'Посмотрите часто задаваемые вопросы: возможно, на Ваш вопрос уже есть ответ',
+    'Посмотрите {val} возможно, на Ваш вопрос уже есть ответ',
   'clinic.vetClinicsTip1':
     'Не нашли клинику в списке? Напишите нам об этом {val}.',
   'clinic.vetClinicsTip2': 'Написать'

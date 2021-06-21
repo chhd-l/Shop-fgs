@@ -24,7 +24,8 @@ const Advantage = () => {
       text: 'Personalized product recommendations'
     }
   ];
-  const iconList = { US: defaultIconList }[process.env.REACT_APP_COUNTRY] || [];
+  const iconList =
+    { us: defaultIconList }[window.__.env.REACT_APP_COUNTRY] || [];
   return iconList.length > 0 ? (
     <div className="rc-bg-colour--brand4">
       <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">

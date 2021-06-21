@@ -49,8 +49,8 @@ class FAQ extends React.Component {
     // }
     window.scrollTo({ top: 0 });
     getFaq({
-      language: process.env.REACT_APP_LANG,
-      storeId: process.env.REACT_APP_STOREID
+      language: window.__.env.REACT_APP_LANG,
+      storeId: window.__.env.REACT_APP_STOREID
     })
       .then((res) => {
         this.setState(
@@ -158,14 +158,14 @@ class FAQ extends React.Component {
                                 rel="nofollow"
                                 className="rc-styled-link ui-cursor-pointer faq_rc_styled_link"
                                 target="_blank"
-                                to="/help/contact"
+                                to="/help"
                                 rel="nofollow"
                               >
                                 <ins>
-                                  <FormattedMessage id="here" />
+                                  <FormattedMessage id="here2" />
                                 </ins>
                                 {Boolean(
-                                  process.env
+                                  window.__.env
                                     .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                                 ) && (
                                   <span className="warning_blank">

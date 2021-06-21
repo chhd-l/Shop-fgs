@@ -4,20 +4,21 @@ const api = {
   storeCate: '/storeCate',
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
-  queryCityByName: `${process.env.REACT_APP_STOREID}/system/city`,
+  queryCityByName: `${window.__.env.REACT_APP_STOREID}/system/city`,
   getCityList: `/system/city`,
   getRegionByCityId: `/systemRegion/queryByStoreId`, // 根据cityId查询region
   getProvincesList: `/systemState/queryByStoreId`, // 查询省份列表
   getAddressBykeyWord: `/address-input-auto/list`, // DuData，根据输入的关键字返回详细地址信息
   addressValidation: `/addressValidation/validation`, // 地址校验接口
   buryPoint: '/fgs.gif',
-  getConfig: `/config/store/${process.env.REACT_APP_STOREID}`,
+  getConfig: `/config/store/${window.__.env.REACT_APP_STOREID}`,
   navigations: '/navigations', // 查询二级菜单
   seo: 'seo/setting',
   getSystemConfig: '/system/config',
   addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
-  getPrescriberSettingInfo: '/order/config/listSystemConfig', //查询是否需要显示用户选择绑定prescriber弹框
-  cancelEmail: '/customer/updateCustomerSendEmailFlag' //取消用户邮箱绑定
+  getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
+  cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
+  getDeliveryDateAndTimeSlot: '/delivery/timeSlot' // 俄罗斯获取 DeliveryDate 和 TimeSlot
 };
 
 export default api;
@@ -110,7 +111,7 @@ export function getConfig() {
   return axios({
     url: `${api.getConfig}`,
     method: 'get',
-    params: { storeId: process.env.REACT_APP_STOREID }
+    params: { storeId: window.__.env.REACT_APP_STOREID }
   });
 }
 
@@ -145,7 +146,7 @@ export function getPrescriberSettingInfo() {
   return axios({
     url: `${api.getPrescriberSettingInfo}`,
     method: 'get',
-    params: { storeId: process.env.REACT_APP_STOREID }
+    params: { storeId: window.__.env.REACT_APP_STOREID }
   });
 }
 
@@ -155,5 +156,14 @@ export function cancelEmailBind(parameter) {
     url: `${api.cancelEmail}`,
     method: 'put',
     params: parameter
+  });
+}
+
+// 俄罗斯获取 DeliveryDate 和 TimeSlot
+export function getDeliveryDateAndTimeSlot(parameter) {
+  return axios({
+    url: `${api.getDeliveryDateAndTimeSlot}`,
+    method: 'post',
+    data: parameter
   });
 }

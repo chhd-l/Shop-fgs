@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import './index.less';
+import Footer from '@/components/Footer';
 
 export default class welcome extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class welcome extends Component {
     };
   }
   render() {
-    let homePage = process.env.REACT_APP_HOMEPAGE;
+    let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =
       homePage.substring(homePage.length - 1, homePage.length) === '/'
         ? 'help/contact'
@@ -21,11 +22,15 @@ export default class welcome extends Component {
         : '/help';
     return (
       <div id="welcome" className="page">
-        <div _ngcontent-dqg-c56="" class="register-success-container">
+        <div
+          _ngcontent-dqg-c56=""
+          class="register-success-container"
+          style={{ marginBottom: 45 }}
+        >
           <div _ngcontent-dqg-c56="" class="register-success-container__logo">
             <img
               _ngcontent-dqg-c56=""
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`}
               alt=""
             />
           </div>
@@ -35,7 +40,7 @@ export default class welcome extends Component {
           >
             <img
               _ngcontent-dqg-c56=""
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cat-dog.jpg`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cat-dog.jpg`}
               alt=""
             />
           </div>
@@ -69,7 +74,7 @@ export default class welcome extends Component {
                 apptracking="registration.contactSupport"
                 class="rc-link"
                 href={
-                  process.env.REACT_APP_COUNTRY === 'US'
+                  window.__.env.REACT_APP_COUNTRY === 'us'
                     ? homePage + contactUrl
                     : homePage + helpUrl
                 }
@@ -81,132 +86,137 @@ export default class welcome extends Component {
             </p>
           </div>
         </div>
-        <div
-          id="mars-footer-panel"
-          class="mars-footer-mars 	mars-footer-icon-size-medium"
-          data-cookie-warning-enabled="no"
-        >
-          <div class="mars-footer-container">
-            <ul
-              class="mars-footer-list-right"
-              style={{ fontSize: 10, fontFamily: 'Inherit' }}
-            >
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/privacy-policy"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '1'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    {' '}
-                    <FormattedMessage id="welcome.privacyStatement" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/cookies-english"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '2'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.cookiesNotice" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/legal"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '3'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.legal" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/accessibility"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '4'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.accessibility" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/mars-incorporated-adchoices-united-states"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '5'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.adChoices" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/legal/ca-supply-chain-act"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '6'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.cASupplyChainTransparencyAct" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/modern-slavery-act"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '7'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.modernSlaveryAct" />
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.mars.com/contact-us"
-                  onclick="_gaq.push(['_trackEvent', 'footer', 'click', '8'])"
-                >
-                  <span class="mars-footer-icon">
-                     <strong></strong>
-                  </span>{' '}
-                  <span class="mars-footer-label">
-                    <FormattedMessage id="welcome.contactUS" />
-                  </span>
-                </a>
-              </li>
-            </ul>
+
+        {window.__.env.REACT_APP_COUNTRY === 'de' ? (
+          <Footer />
+        ) : (
+          <div
+            id="mars-footer-panel"
+            class="mars-footer-mars 	mars-footer-icon-size-medium"
+            data-cookie-warning-enabled="no"
+          >
+            <div class="mars-footer-container">
+              <ul
+                class="mars-footer-list-right"
+                style={{ fontSize: 10, fontFamily: 'Inherit' }}
+              >
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/privacy-policy"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '1'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      {' '}
+                      <FormattedMessage id="welcome.privacyStatement" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/cookies-english"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '2'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.cookiesNotice" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/legal"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '3'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.legal" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/accessibility"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '4'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.accessibility" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/mars-incorporated-adchoices-united-states"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '5'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.adChoices" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/legal/ca-supply-chain-act"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '6'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.cASupplyChainTransparencyAct" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/modern-slavery-act"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '7'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.modernSlaveryAct" />
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    href="https://www.mars.com/contact-us"
+                    onclick="_gaq.push(['_trackEvent', 'footer', 'click', '8'])"
+                  >
+                    <span class="mars-footer-icon">
+                       <strong></strong>
+                    </span>{' '}
+                    <span class="mars-footer-label">
+                      <FormattedMessage id="welcome.contactUS" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

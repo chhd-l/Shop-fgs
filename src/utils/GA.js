@@ -1,8 +1,8 @@
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 const localItemRoyal = window.__.localItemRoyal;
 
-const isRu = process.env.REACT_APP_COUNTRY === 'RU';
+const isRu = window.__.env.REACT_APP_COUNTRY === 'ru';
 
 const getPromotionInfo = () => {
   let promotionInfo = localItemRoyal.get('rc-totalInfo');
@@ -25,21 +25,19 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
   );
 };
 
-const getDeSpecies = (item) => {
-  const { goodsAttributesValueRelList } = item;
-  return (goodsAttributesValueRelList || [])
+export const getDeSpecies = (item) => {
+  const { goodsAttributesValueRelVOList } = item;
+  return (goodsAttributesValueRelVOList || [])
     .filter(
-      (attr) =>
-        attr.goodsAttributeName &&
-        attr.goodsAttributeName.toLowerCase() == 'spezies'
+      (attr) => attr.goodsAttributeName && attr.goodsAttributeName == 'SPEZIES'
     )
     .map((item) => item.goodsAttributeValue);
 };
 
 //species属性
 const getSpecies = (item) => {
-  if (process.env.REACT_APP_COUNTRY == 'DE') {
-    return getDeSpecies(item)[0] == 'Hund' ? 'dog' : 'cat';
+  if (window.__.env.REACT_APP_COUNTRY == 'de') {
+    return getDeSpecies(item)[0] == 'Hund' ? 'Dog' : 'Cat';
   } else {
     return (
       {
@@ -66,7 +64,7 @@ const getSpecies = (item) => {
 
 //SpeciesId属性
 const getSpeciesId = (item) => {
-  if (process.env.REACT_APP_COUNTRY == 'DE') {
+  if (window.__.env.REACT_APP_COUNTRY == 'de') {
     return getDeSpecies(item)[0] == 'Hund' ? '2' : '1';
   } else {
     return (
@@ -463,7 +461,7 @@ export const orderConfirmationPushEvent = (details) => {
     event: 'orderConfirmation',
     orderConfirmation: deleteObjEmptyAttr({
       id: details.totalTid || '', //Transaction ID, same as backend system
-      currency: process.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
+      currency: window.__.env.REACT_APP_GA_CURRENCY_CODE, //cf. https://support.google.com/analytics/answer/6205902?hl=en for complete list
       amount: details.tradePrice.totalPrice, //Transaction amount without taxes and shipping, US number format, for local currency
       taxes: details.tradePrice.taxFeePrice, //Taxes amount, US number format, local currency
       shipping: details.tradePrice.deliveryPrice, //Shipping amount, US number format, local currency
@@ -522,19 +520,19 @@ export const productFinderPushEvent = ({
 
 export const GABuyNow = () => {
   dataLayer.push({
-    'event ': 'breederRecoBuyNow'
+    event: 'breederRecoBuyNow'
   });
 };
 
 export const GABreederRecoPromoCodeCTA = () => {
   dataLayer.push({
-    'event ': 'breederRecoPromoCodeCTA'
+    event: 'breederRecoPromoCodeCTA'
   });
 };
 
 export const GABreederRecoSeeInCart = () => {
   dataLayer.push({
-    'event ': 'breederRecoSeeInCart'
+    event: 'breederRecoSeeInCart'
   });
 };
 

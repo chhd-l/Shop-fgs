@@ -6,10 +6,10 @@ const localItemRoyal = window.__.localItemRoyal;
 let env = process.env.NODE_ENV;
 let base_url;
 if (env === 'development') {
-  // base_url = process.env.REACT_APP_BASEURL
+  // base_url = window.__.env.REACT_APP_BASEURL
   base_url = '/api';
 } else if (env === 'production') {
-  base_url = process.env.REACT_APP_BASEURL;
+  base_url = window.__.env.REACT_APP_BASEURL;
 }
 
 // 创建 axios 实例
@@ -36,15 +36,15 @@ service.interceptors.request.use((config) => {
     });
   }
   config.headers['Accept-Language'] = {
-    US: 'en-US',
-    MX: 'es-MX',
-    DE: 'de',
-    FR: 'fr',
-    TR: 'tr',
-    RU: 'ru',
-    CN: 'zh-CN'
-  }[process.env.REACT_APP_COUNTRY];
-  config.headers['storeId'] = process.env.REACT_APP_STOREID;
+    us: 'en-US',
+    mx: 'es-MX',
+    de: 'de',
+    fr: 'fr',
+    tr: 'tr',
+    ru: 'ru',
+    cn: 'zh-CN'
+  }[window.__.env.REACT_APP_COUNTRY];
+  config.headers['storeId'] = window.__.env.REACT_APP_STOREID;
   // 添加取消标记
   config.cancelToken = new axios.CancelToken((cancel) => {
     window.axiosCancel = window.axiosCancel || [];
@@ -80,7 +80,7 @@ service.interceptors.response.use(
         response.data.code === 'K-000002'
       ) {
         sessionItemRoyal.set('rc-token-lose', 1);
-        window.location.href = process.env.REACT_APP_HOMEPAGE;
+        window.location.href = window.__.env.REACT_APP_HOMEPAGE;
       }
       let ret = response.data || 'Error';
 

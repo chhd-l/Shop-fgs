@@ -2,10 +2,13 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from './image/pictosshippingnew@4x.png';
-import phoneiconnew from './image/phonenew@4x.png';
+import phoneicon from './image/phoneicon@4x.png';
 import gifticonnew from './image/pictosgiftsnew@4x.png';
 import discountnew from './image/discountnew@4x.png';
+import discountnewtr from './image/discountnewtr.png';
 import advisernew from './image/pictospetadvisernew@4x.png';
+import iconsix from './image/iconsix.png';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const SubsriptionBenefitsNew = () => {
   return (
@@ -20,13 +23,16 @@ const SubsriptionBenefitsNew = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+            <h4
+              className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+              style={{ fontWeight: '550' }}
+            >
               <FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />
             </h4>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center ">
-                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
                         <img
@@ -39,7 +45,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon1'}
                         />
@@ -48,7 +54,7 @@ const SubsriptionBenefitsNew = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
                         <img
@@ -56,12 +62,16 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Брендированный подарок при каждой доставке"
                           title="ideal formula"
-                          src={discountnew}
+                          src={
+                            window.__.env.REACT_APP_COUNTRY == 'tr'
+                              ? discountnewtr
+                              : discountnew
+                          }
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon2'}
                         />
@@ -70,7 +80,7 @@ const SubsriptionBenefitsNew = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
                         <img
@@ -83,7 +93,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon3'}
                         />
@@ -92,7 +102,7 @@ const SubsriptionBenefitsNew = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
                         <img
@@ -105,7 +115,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon4'}
                         />
@@ -114,7 +124,7 @@ const SubsriptionBenefitsNew = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                  <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <LazyLoad height={200}>
                         <img
@@ -122,12 +132,12 @@ const SubsriptionBenefitsNew = () => {
                           style={{ width: '100px', height: '100px' }}
                           alt="Бесплатная доставка корма на протяжении всего участия в программе "
                           title="ideal formula"
-                          src={phoneiconnew}
+                          src={phoneicon}
                         />
                       </LazyLoad>
                     </div>
                     <div className="d-flex align-items-center value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft">
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon5'}
                         />
@@ -135,9 +145,9 @@ const SubsriptionBenefitsNew = () => {
                     </div>
                   </div>
                 </div>
-                {process.env.REACT_APP_COUNTRY == 'RU' ? (
+                {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                   <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                    <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                    <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
@@ -147,14 +157,29 @@ const SubsriptionBenefitsNew = () => {
                             style={{ width: '100px', height: '100px' }}
                             alt="Бесплатная доставка корма на протяжении всего участия в программе "
                             title="ideal formula"
-                            src={phoneiconnew}
+                            src={iconsix}
                           />
                         </LazyLoad>
                       </div>
                       <div className="d-flex align-items-center value-proposition__text">
-                        <p className="rc-margin-bottom--none rc-intro club_subscription_intro_center">
+                        <p className="rc-margin-bottom--none rc-intro demarginleft">
                           <FormattedMessage
-                            id={'ClubLP.SubscriptionBenefitsNew.icon6'}
+                            id="ClubLP.SubscriptionBenefitsNew.icon6"
+                            values={{
+                              val: (
+                                <a
+                                  onClick={() => {
+                                    window.PetStoryWC.start();
+                                  }}
+                                  style={{
+                                    textDecoration: 'underline',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  PetStory
+                                </a>
+                              )
+                            }}
                           />
                         </p>
                       </div>
@@ -165,9 +190,19 @@ const SubsriptionBenefitsNew = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <button className="rc-btn rc-btn--one">
-              <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.button'} />
-            </button>
+            <DistributeHubLinkOrATag
+              href={'/product-finder'}
+              ariaLabel="Links to product finder"
+            >
+              <button
+                className="rc-btn rc-btn--one"
+                style={{ paddingLeft: '90px', paddingRight: '90px' }}
+              >
+                <FormattedMessage
+                  id={'ClubLP.SubscriptionBenefitsNew.button'}
+                />
+              </button>
+            </DistributeHubLinkOrATag>
           </h4>
         </div>
       </div>

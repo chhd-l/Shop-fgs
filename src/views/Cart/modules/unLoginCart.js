@@ -46,9 +46,10 @@ import { Helmet } from 'react-helmet';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 const isGift = true;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const pageLink = window.location.href;
 
 @injectIntl
@@ -349,7 +350,7 @@ class UnLoginCart extends React.Component {
   GAAccessToGuestCheck() {
     if (isHubGA) return;
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
       interaction: {
         category: 'checkout',
         action: 'guest checkout',
@@ -372,7 +373,7 @@ class UnLoginCart extends React.Component {
     }
     try {
       this.GAAccessToGuestCheck();
-      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      localItemRoyal.set('okta-redirectUrl', '/cart');
       const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
       await this.updateStock({ isThrowErr: true });
@@ -454,12 +455,12 @@ class UnLoginCart extends React.Component {
       }
 
       // 单个产品总数量不能超过限制
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
+      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = window.__.env.REACT_APP_LIMITED_NUM;
         err = (
           <FormattedMessage
             id="cart.errorMaxInfo"
-            values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+            values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
           />
         );
       }
@@ -470,12 +471,15 @@ class UnLoginCart extends React.Component {
         .reduce((pre, cur) => {
           return Number(pre) + Number(cur.quantity);
         }, 0);
-      if (otherProsNum + tmp > +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT) {
-        tmp = +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT - otherProsNum;
+      if (
+        otherProsNum + tmp >
+        +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+      ) {
+        tmp = +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT - otherProsNum;
         err = (
           <FormattedMessage
             id="cart.errorAllProductNumLimit"
-            values={{ val: process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }}
+            values={{ val: window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT }}
           />
         );
       }
@@ -520,7 +524,7 @@ class UnLoginCart extends React.Component {
       }
     ];
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       ecommerce: {
         remove: {
           products: list
@@ -555,7 +559,7 @@ class UnLoginCart extends React.Component {
       await this.props.checkoutStore.updateUnloginCart({
         cartData: productList,
         isThrowErr,
-        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
       callback && callback();
       this.setState({ checkoutLoading: false });
@@ -928,7 +932,7 @@ class UnLoginCart extends React.Component {
           {pitem.promotions &&
           pitem.promotions.includes('club') &&
           pitem.goodsInfoFlag === 2 &&
-          process.env.REACT_APP_COUNTRY !== 'RU' ? (
+          window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
             <ClubGiftBanner intl={this.props.intl} />
           ) : null}
           {isGift &&
@@ -1323,7 +1327,7 @@ class UnLoginCart extends React.Component {
                 </p>
               </div>
               <div className="col-4">
-                <p className="text-right shipping-cost">
+                <p className="text-right shipping-cost rc_un_login_cart">
                   {this.taxFeePrice > 0 ? (
                     formatMoney(this.taxFeePrice)
                   ) : (
@@ -1556,9 +1560,9 @@ class UnLoginCart extends React.Component {
     const List = this.getProducts(this.state.productList);
 
     const dogsPic =
-      process.env.REACT_APP_COUNTRY === 'FR' ? dogsImgFr : dogsImg;
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? dogsImgFr : dogsImg;
     const catsPic =
-      process.env.REACT_APP_COUNTRY === 'FR' ? catsImgFr : catsImg;
+      window.__.env.REACT_APP_COUNTRY === 'fr' ? catsImgFr : catsImg;
     return (
       <div className="Carts">
         <Helmet>
@@ -1666,7 +1670,7 @@ class UnLoginCart extends React.Component {
                         <div
                           className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
                           style={
-                            process.env.REACT_APP_COUNTRY === 'FR'
+                            window.__.env.REACT_APP_COUNTRY === 'fr'
                               ? {}
                               : { margin: '0 10%' }
                           }

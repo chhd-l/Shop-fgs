@@ -186,11 +186,11 @@ class SubscriptionDetail extends React.Component {
   };
   addressSave = (el, isBillSame, fn) => {
     console.log(el, isBillSame);
-    if (addressType === 'delivery') {
+    if (this.state.addressType === 'delivery') {
       let param = {
-        subscribeId: subDetail.subscribeId,
+        subscribeId: this.state.subDetail.subscribeId,
         deliveryAddressId: el.deliveryAddressId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
+        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
           return {
             skuId: el.skuId,
             subscribeNum: el.subscribeNum,
@@ -214,7 +214,7 @@ class SubscriptionDetail extends React.Component {
       Object.assign(param, {
         changeField: title
       });
-      console.log(param);
+      // console.log(param);
       this.setState({ loading: true });
       updateDetail(param)
         .then((res) => {
@@ -250,7 +250,7 @@ class SubscriptionDetail extends React.Component {
       Object.assign(param, {
         changeField: this.props.intl.messages['subscription.BillingAddress']
       });
-      console.log(param);
+      // console.log(param);
       this.setState({ loading: true });
       updateDetail(param)
         .then((res) => {
@@ -370,6 +370,7 @@ class SubscriptionDetail extends React.Component {
       let noStartYearOption = [];
       let completedYearOption = [];
       let petsType = '';
+      subDetail.goodsInfo = subDetail.goodsInfo || []; //防止商品被删报错
       let isCat =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
         'Cat';
@@ -406,7 +407,7 @@ class SubscriptionDetail extends React.Component {
             });
           });
         } catch (err) {
-          console.log(err, 'err1111');
+          console.log(err);
         }
       }
       completeOption.forEach((el) => {
@@ -431,6 +432,7 @@ class SubscriptionDetail extends React.Component {
         name: noStartYearOption[0] && noStartYearOption[0]['value']
       };
       let isGift =
+        subDetail.goodsInfo &&
         subDetail.goodsInfo[0]?.subscriptionPlanId &&
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
@@ -454,12 +456,12 @@ class SubscriptionDetail extends React.Component {
             subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
-          fn && fn();
+          fn && fn(subDetail);
         }
       );
     } catch (err) {
       console.log(22222, err);
-      this.showErrMsg(err.message);
+      this.showErrMsg(err.message || err);
     } finally {
       this.setState({ loading: false });
     }
@@ -635,10 +637,9 @@ class SubscriptionDetail extends React.Component {
       triggerShowChangeProduct,
       seoConfig
     } = this.state;
-    console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
-    let isShowClub =
-      subDetail.subscriptionType?.toLowerCase().includes('club') &&
-      process.env.REACT_APP_COUNTRY != 'RU'; //ru的club展示不绑定宠物，和普通订阅一样
+    // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
+    let isShowClub = subDetail.subscriptionType?.toLowerCase().includes('club');
+    // && window.__.env.REACT_APP_COUNTRY != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
       <div className="subscriptionDetail">
         <div>
@@ -694,8 +695,8 @@ class SubscriptionDetail extends React.Component {
                 >
                   {currentCardInfo && (
                     <PaymentComp
-                      needEmail={+process.env.REACT_APP_PAYU_EMAIL}
-                      needPhone={+process.env.REACT_APP_PAYU_PHONE}
+                      needEmail={+window.__.env.REACT_APP_PAYU_EMAIL}
+                      needPhone={+window.__.env.REACT_APP_PAYU_PHONE}
                       history={this.props.history}
                       paymentId={currentCardInfo.id}
                       type={type}
@@ -714,7 +715,9 @@ class SubscriptionDetail extends React.Component {
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={() => this.addressSave(el, isBillSame, fn)}
+                    save={(el, isBillSame, fn) =>
+                      this.addressSave(el, isBillSame, fn)
+                    }
                     cancel={this.cancelEdit}
                   />
                 </div>
@@ -749,6 +752,7 @@ class SubscriptionDetail extends React.Component {
                     <div className={`${loading ? 'hidden' : ''} `}>
                       <SubGoodsInfos
                         getDetail={this.getDetail}
+                        handleSaveChange={this.handleSaveChange.bind(this)}
                         modalList={modalList}
                         triggerShowChangeProduct={triggerShowChangeProduct}
                         isDataChange={isDataChange}

@@ -110,30 +110,32 @@ class PaymentEditForm extends React.Component {
     let element = document.getElementById('paymentPhoneNumber');
     let maskOptions = {};
     let phoneReg = '';
-    switch (process.env.REACT_APP_COUNTRY) {
-      case 'FR':
-        phoneReg = '+{33}000000000';
+    switch (window.__.env.REACT_APP_COUNTRY) {
+      case 'fr':
+        phoneReg = [
+          { mask: '(+33) 0 00 00 00 00' },
+          { mask: '(+33) 00 00 00 00 00' }
+        ];
         break;
-      case 'US':
-        phoneReg = '000-000-0000';
+      case 'us':
+        phoneReg = [{ mask: '000-000-0000' }];
         break;
-      case 'RU':
-        phoneReg = '+{7} (000) 000-00-00';
+      case 'ru':
+        phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
-      case 'MX':
-        phoneReg = '+(52) 000 000 00';
+      case 'mx':
+        phoneReg = [{ mask: '+(52) 000 000 00' }];
         break;
-      case 'DE':
-        phoneReg = '0000 000000 000';
-        break;
-      case 'TR':
-        phoneReg = '{0} (000) 000-00-00';
+      case 'tr':
+        phoneReg = [{ mask: '{0} (000) 000-00-00' }];
         break;
       default:
-        phoneReg = '00000000000';
+        phoneReg = [{ mask: '00000000000' }];
         break;
     }
-    maskOptions = { mask: phoneReg };
+    maskOptions = {
+      mask: phoneReg
+    };
     let pval = IMask(element, maskOptions);
   };
   componentDidMount() {
@@ -149,11 +151,13 @@ class PaymentEditForm extends React.Component {
     });
 
     // 查询省份列表（美国：州）
-    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
-      this.setState({
-        stateList: res.context.systemStates
-      });
-    });
+    getProvincesList({ storeId: window.__.env.REACT_APP_STOREID }).then(
+      (res) => {
+        this.setState({
+          stateList: res.context.systemStates
+        });
+      }
+    );
 
     if (this.props.needPhone && this.props.paymentType == 'PAYU') {
       // 设置手机号输入限制
@@ -225,10 +229,10 @@ class PaymentEditForm extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -259,10 +263,10 @@ class PaymentEditForm extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -272,7 +276,7 @@ class PaymentEditForm extends React.Component {
       }
 
       await addOrUpdatePaymentMethod({
-        storeId: process.env.REACT_APP_STOREID,
+        storeId: window.__.env.REACT_APP_STOREID,
         customerId: this.userInfo ? this.userInfo.customerId : '',
         email: creditCardInfoForm.email,
         phone: creditCardInfoForm.phoneNumber || '',

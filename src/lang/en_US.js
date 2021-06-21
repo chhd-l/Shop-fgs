@@ -537,6 +537,7 @@ const en_US = {
   freeShipping: 'Free shipping',
   FrequentQuestions: 'Common questions',
   from: 'From',
+  plpFromText: 'From',
   gender: 'Gender',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -834,6 +835,39 @@ const en_US = {
   'payment.totalProduct2': '{val} products',
   'payment.yourOrder': 'Your order',
   'payment.cardInfoErr': 'The card information is incorrect, please check.',
+
+  'payment.tomorrow': 'tomorrow',
+
+  'payment.homeDelivery': 'Home delivery',
+  'payment.pickUpDelivery': 'Pick up delivery',
+
+  'payment.staleDate': 'Please repeat the date and time of delivery',
+
+  'payment.reselectTimeSlot': 'Please re select delivery date and timeslot.',
+
+  // 星期
+  'payment.Monday': 'Monday',
+  'payment.Tuesday': 'Tuesday',
+  'payment.Wednesday': 'Wednesday',
+  'payment.Thursday': 'Thursday',
+  'payment.Friday': 'Friday',
+  'payment.Saturday': 'Saturday',
+  'payment.Sunday': 'Sunday',
+
+  // 月份
+  'payment.January': 'January',
+  'payment.February': 'February',
+  'payment.March': 'March',
+  'payment.April': 'April',
+  'payment.May': 'May',
+  'payment.June': 'June',
+  'payment.July': 'July',
+  'payment.August': 'August',
+  'payment.September': 'September',
+  'payment.October': 'October',
+  'payment.November': 'November',
+  'payment.December': 'December',
+
   paymentMethod: 'Payment method',
   'paymethods.btn': 'Add Payment',
   //account.paymethods
@@ -1358,6 +1392,7 @@ const en_US = {
   'ClubLP.LongBanner.SubscriptionContent2':
     'A feeding plan designed to adapt to long term health',
   'ClubLP.LongBanner.SubscriptionTitle3': 'The right portion every time',
+  'ClubLP.LongBanner.SubscriptionTitle3.new': 'The right portion every time',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Daily rationing instructions so your pet always gets the right amount of food',
   'ClubLP.Advantage.title': 'Health is not one size fits all',
@@ -1415,6 +1450,7 @@ const en_US = {
     'Send us an EmailYou can check our FAQ section to see if your question has already been answered',
   'clinic.vetClinicsTip1':
     'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
-  'clinic.vetClinicsTip2': 'Contact us'
+  'clinic.vetClinicsTip2': 'Contact us',
+  dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
 };
 export default en_US;

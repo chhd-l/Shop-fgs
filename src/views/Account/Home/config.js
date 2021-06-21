@@ -74,7 +74,9 @@ const faqs = {
   textLangKey: 'account.faqTip',
   link: '/faq',
   href:
-    process.env.REACT_APP_COUNTRY == 'RU' ? '/about-us/faq' : '/about-us/faqs',
+    window.__.env.REACT_APP_COUNTRY == 'ru'
+      ? '/about-us/faq'
+      : '/about-us/faqs',
   isHubOuterLink: true
 };
 
@@ -82,8 +84,8 @@ const itemList = (function () {
   const defaultItemList = [information, pets, orders, subscription, faqs];
   return (
     {
-      // RU: [information, pets, orders, subscription] //ru 没有faqs
-    }[process.env.REACT_APP_COUNTRY] || defaultItemList
+      // ru: [information, pets, orders, subscription] //ru 没有faqs
+    }[window.__.env.REACT_APP_COUNTRY] || defaultItemList
   );
 })();
 

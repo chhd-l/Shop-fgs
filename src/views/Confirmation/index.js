@@ -6,6 +6,7 @@ import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OxxoModal from './modules/OxxoModal';
+import AdyenOxxoModal from './modules/AdyenOxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
 import Modal from '@/components/Modal';
@@ -14,18 +15,22 @@ import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
 import { queryCityNameById } from '@/api';
 import { getOrderDetails, getPayRecord } from '@/api/order';
-import './index.css';
+import './index.less';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
 import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
+import { mktCallBack, accountCallBack } from '@/api/home.js';
+import { findUserSelectedList, userBindConsent } from '@/api/consent';
+import { bindSubmitParam } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
+const isLogin = !!localItemRoyal.get('rc-token');
 @inject('checkoutStore', 'frequencyStore', 'loginStore')
 @observer
 class Confirmation extends React.Component {
@@ -42,6 +47,9 @@ class Confirmation extends React.Component {
       loading: true,
       paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
       oxxoPayUrl: sessionItemRoyal.get('oxxoPayUrl'),
+      adyenOxxoAction: sessionItemRoyal.get('adyenOxxoAction')
+        ? JSON.parse(sessionItemRoyal.get('adyenOxxoAction'))
+        : '',
       submitLoading: false,
       evalutateScore: -1,
       consumerComment: '',
@@ -63,12 +71,26 @@ class Confirmation extends React.Component {
       payRecord: null,
       email: '',
       isAllOneShootGoods: true,
-      pet: {}
+      pet: {},
+      mktSelectedFlag: true,
+      mktActivateFlag: true,
+
+      mktSelectSuccess: false,
+      mktActivateSuccess: false,
+
+      mktConsent: '',
+      mktSelectedFlagChecked: false,
+      mktActivateChecked: false,
+      list: []
     };
     this.timer = null;
+    this.activeMkt = this.activeMkt.bind(this);
+    this.selectMktConsent = this.selectMktConsent.bind(this);
   }
   getPetVal() {
-    let obj = doGetGAVal(this.props);
+    let obj = sessionItemRoyal.get('gaPet')
+      ? JSON.parse(sessionItemRoyal.get('gaPet'))
+      : '';
     this.setState({ pet: obj });
   }
   getIsAllOneShootGoods = () => {
@@ -78,7 +100,10 @@ class Confirmation extends React.Component {
     this.setState({ isAllOneShootGoods });
   };
   componentWillMount() {
-    isHubGA && this.getPetVal();
+    this.getPetVal();
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
@@ -88,14 +113,15 @@ class Confirmation extends React.Component {
     });
     const { subOrderNumberList } = this.state;
     setTimeout(() => {
-      if (this.state.oxxoPayUrl) {
+      if (this.state.oxxoPayUrl || this.state.adyenOxxoAction) {
+        //payOxxo和adyenOxxo都会显示Modal
         this.setState({ modalShow: false, oxxoModalShow: true });
       }
     }, 3000);
 
     Promise.all(subOrderNumberList.map((ele) => getOrderDetails(ele)))
       .then(async (res) => {
-        let resContext = res[0].context;
+        let resContext = res[0]?.context;
         this.setState({
           email: resContext.consignee.email
         });
@@ -104,23 +130,20 @@ class Confirmation extends React.Component {
           {
             details: resContext,
             totalTid: resContext.totalTid,
-            detailList: res.map((ele) => ele.context)
+            detailList: res.map((ele) => ele?.context)
           },
           () => {
-            !isHubGA && this.getGAEComTransaction();
-            if (isHubGA) {
-              this.getIsAllOneShootGoods();
-              orderConfirmationPushEvent(this.state.details);
-            }
+            this.getIsAllOneShootGoods();
+            orderConfirmationPushEvent(this.state.details);
             //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
-            if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+            if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               transactionPixel(this.state.details);
             }
           }
         );
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
-          payRecord: payRecordRes.context,
+          payRecord: payRecordRes?.context,
           loading: false
         });
       })
@@ -130,6 +153,40 @@ class Confirmation extends React.Component {
           errorMsg2: err.message
         });
       });
+
+    if (window.__.env.REACT_APP_COUNTRY === 'de' && isLogin) {
+      accountCallBack().then((res) => {
+        const customerId = this.userInfo && this.userInfo.customerId;
+        this.setState({
+          mktSelectedFlag: res.context.mktSelectedFlag,
+          mktActivateFlag: res.context.mktActivateFlag
+        });
+        if (!res.mktSelectedFlag && !res.mktSelectedFlag) {
+          findUserSelectedList({
+            customerId,
+            oktaToken: localItemRoyal.get('oktaToken')
+          }).then((res) => {
+            const optioalList = res.context.optionalList.map((item) => {
+              return {
+                id: item.id,
+                consentTitle: item.consentTitle,
+                isChecked: true,
+                isRequired: false,
+                detailList: item.detailList,
+                consentDesc: item.consentDesc
+              };
+            });
+            this.setState({
+              mktConsent:
+                res.context.optionalList.length > 0
+                  ? res.context.optionalList[0].consentTitle
+                  : '',
+              list: optioalList
+            });
+          });
+        }
+      }); // Is need MKT Consent For DE?
+    }
   }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
@@ -216,9 +273,9 @@ class Confirmation extends React.Component {
         };
       });
       let eEvents = {
-        event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+        event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
         ecommerce: {
-          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
           purchase: {
             actionField: {
               id: this.state.totalTid,
@@ -258,9 +315,9 @@ class Confirmation extends React.Component {
               : 'self-selected'
           });
           subscription_eEvents = {
-            event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
-              currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+              currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
               purchase: {
                 actionField: {
                   id: this.state.totalTid,
@@ -290,9 +347,9 @@ class Confirmation extends React.Component {
               : 'self-selected'
           });
           oneShooteEvents = {
-            event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
-              currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+              currencyCode: window.__.env.REACT_APP_GA_CURRENCY_CODE,
               purchase: {
                 actionField: {
                   id: this.state.totalTid,
@@ -312,9 +369,52 @@ class Confirmation extends React.Component {
     }
   }
   //GA 埋点 end
+  activeMkt() {
+    const customerId = this.userInfo && this.userInfo.customerId;
+    this.setState({ mktSelectedFlagChecked: true });
+    mktCallBack({
+      customerId,
+      consentDesc: 'RC_DF_DE_FGS_DOUBLE_OPT_EMAIL'
+    }).then((res) => {
+      this.setState({
+        mktSelectSuccess: res.code === 'K-000000'
+      });
+    });
+  }
+
+  selectMktConsent() {
+    this.setState({ mktActivateChecked: true });
+    const customerId = this.userInfo && this.userInfo.customerId;
+    let oktaToken = localItemRoyal.get('oktaToken');
+    let submitParam = bindSubmitParam(this.state.list);
+    userBindConsent({
+      ...submitParam,
+      ...{ oktaToken },
+      customerId
+    })
+      .then((res) => {
+        this.setState({
+          mktActivateSuccess: res.code === 'K-000000'
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   render() {
-    const { loading, details, subOrderNumberList } = this.state;
+    const {
+      loading,
+      details,
+      subOrderNumberList,
+      mktSelectedFlag,
+      mktActivateFlag,
+      mktSelectSuccess,
+      mktActivateSuccess,
+      mktConsent,
+      mktSelectedFlagChecked,
+      mktActivateChecked
+    } = this.state;
     const event = {
       page: {
         type: 'Order Confirmation',
@@ -369,20 +469,95 @@ class Confirmation extends React.Component {
                   }}
                 />
               </p>
+              {window.__.env.REACT_APP_COUNTRY === 'de' && isLogin ? (
+                <>
+                  {mktSelectedFlag && !mktActivateFlag ? (
+                    <div className="col-12 col-md-6 mktConsent">
+                      {mktSelectSuccess ? (
+                        <p>
+                          <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
+                        </p>
+                      ) : (
+                        <div
+                          className="checkBox"
+                          onClick={(e) => {
+                            this.activeMkt();
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            className="rc-input__checkbox"
+                            checked={mktSelectedFlagChecked}
+                          />
+                          <label className="rc-input__label--inline text-break w-100">
+                            <div className="checkboxDetail">
+                              <p>
+                                <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
+                              </p>
+                            </div>
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
+                  {!mktSelectedFlag && !mktActivateFlag ? (
+                    <div className="col-12 col-md-6 mktConsent">
+                      {mktActivateSuccess ? (
+                        <>
+                          <p>
+                            <FormattedMessage id="confirmation.mktNotSelectedConfirm" />
+                          </p>
+                          <p>
+                            <FormattedMessage id="confirmation.mktNotSelectedCSuccess" />
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p>
+                            <strong>
+                              <FormattedMessage id="confirmation.mktNotSelectedTitle" />
+                            </strong>
+                          </p>
+                          <p>
+                            <FormattedMessage id="confirmation.mktNotSelectedDescription" />
+                          </p>
+                          <div
+                            onClick={() => this.selectMktConsent()}
+                            className="checkBox"
+                          >
+                            <input
+                              type="checkbox"
+                              className="rc-input__checkbox"
+                              checked={mktActivateChecked}
+                            />
+                            <label className="rc-input__label--inline text-break w-100">
+                              <div
+                                className="checkboxDetail"
+                                dangerouslySetInnerHTML={{ __html: mktConsent }}
+                              ></div>
+                            </label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) : null}
+                </>
+              ) : null}
               <div
                 className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}
               >
                 <div className="d-flex align-items-center justify-content-center">
-                  {this.state.oxxoPayUrl ? (
+                  {this.state.oxxoPayUrl || this.state.adyenOxxoAction ? (
                     <>
-                      <Link
+                      <a
+                        href="javascript:;"
                         className="rc-btn rc-btn--one"
                         onClick={() => {
                           this.setState({ oxxoModalShow: true });
                         }}
                       >
                         <FormattedMessage id="printEbanx" />
-                      </Link>
+                      </a>
                       &nbsp;
                       <FormattedMessage id="or" />
                       &nbsp;
@@ -444,7 +619,7 @@ class Confirmation extends React.Component {
                   </div>
                   <AddressPreview
                     hideBillingAddr={Boolean(
-                      +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+                      +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
                     )}
                     details={this.state.details}
                     payRecord={this.state.payRecord}
@@ -469,6 +644,13 @@ class Confirmation extends React.Component {
         <OxxoModal
           visible={this.state.oxxoModalShow}
           oxxoPayUrl={this.state.oxxoPayUrl}
+          close={() => {
+            this.setState({ oxxoModalShow: false });
+          }}
+        />
+        <AdyenOxxoModal
+          visible={this.state.oxxoModalShow}
+          action={this.state.adyenOxxoAction}
           close={() => {
             this.setState({ oxxoModalShow: false });
           }}

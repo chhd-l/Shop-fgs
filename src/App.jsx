@@ -18,18 +18,14 @@ import {
   Switch,
   useHistory
 } from 'react-router-dom';
+import ENV_CONFIG from './env/index';
 import { Security, useOktaAuth } from '@okta/okta-react';
 
 import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
-import locales from '@/lang'; // ENUM_LANGFILE[process.env.REACT_APP_LANG]
-
-// const locales = {
-//   'en-US': require('./locales/en-US.js'),
-//   'zh-CN': require('./locales/zh-CN.js')
-// };
+import locales from '@/lang';
 
 import '@/utils/global';
 import { IntlProvider } from 'react-intl';
@@ -133,9 +129,14 @@ import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import Felin from '@/views/Felin';
 import FelinRecommendation from '@/views/FelinRecommendation';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
-
+import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
+import ClubLandingPageNew from './views/ClubLandingPageNew';
+import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
+import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
 import ClubLandingPage from './views/ClubLandingPage';
+
 import { redirectFun } from '@/redirect/utils';
+import '@/utils/init';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -147,24 +148,19 @@ Date.prototype.addHours = function (h) {
 };
 
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
-import fr from 'date-fns/locale/fr';
-import es from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
-import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
-import ClubLandingPageNew from './views/ClubLandingPageNew';
-import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
-import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
+import DateFnsLocaleFr from 'date-fns/locale/fr';
+import DateFnsLocaleES from 'date-fns/locale/es';
+import DateFnsLocaleDE from 'date-fns/locale/de';
 
-if (process.env.REACT_APP_COUNTRY === 'FR') {
-  registerLocale(process.env.REACT_APP_LANG, fr);
+if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+  registerLocale('fr', DateFnsLocaleFr);
   setDefaultLocale('fr');
-} else if (process.env.REACT_APP_COUNTRY === 'DE') {
-  registerLocale(process.env.REACT_APP_LANG, de);
+} else if (window.__.env.REACT_APP_COUNTRY === 'de') {
+  registerLocale('de', DateFnsLocaleDE);
   setDefaultLocale('de');
-} else if (process.env.REACT_APP_COUNTRY === 'MX') {
-  registerLocale(process.env.REACT_APP_LANG, es);
+} else if (window.__.env.REACT_APP_COUNTRY === 'mx') {
+  registerLocale('es', DateFnsLocaleES);
   setDefaultLocale('es');
-} else if (process.env.REACT_APP_COUNTRY === 'US') {
 }
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
@@ -188,7 +184,7 @@ const LoginCallback = (props) => {
       window.location.search.indexOf('?code') >= 0 &&
       window.location.search.indexOf('&state') >= 0;
     if (sessionToken && !authStateReady && !authCallBack) {
-      await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      await oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
     } else {
       if (authStateReady) {
       } else {
@@ -204,7 +200,7 @@ const LoginCallback = (props) => {
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
-  oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+  oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
   return <div />;
 };
 
@@ -222,9 +218,9 @@ const App = () => {
   };
   return (
     <Provider {...stores}>
-      <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
+      <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={locales}>
         <Router
-          basename={process.env.REACT_APP_HOMEPAGE}
+          basename={window.__.env.REACT_APP_HOMEPAGE}
           path={'/'}
           forceRefresh={true}
         >
@@ -308,11 +304,11 @@ const App = () => {
                   path="/general-terms-conditions"
                   render={(props) => {
                     let fragment = '';
-                    switch (process.env.REACT_APP_COUNTRY) {
-                      case 'FR':
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'fr':
                         fragment = <TermsConditions {...props} />;
                         break;
-                      case 'TR':
+                      case 'tr':
                         fragment = <TermsConditionsTr {...props} />;
                         break;
                     }
@@ -328,19 +324,19 @@ const App = () => {
                   exact
                   path="/termsandconditions"
                   component={
-                    process.env.REACT_APP_COUNTRY == 'FR'
+                    window.__.env.REACT_APP_COUNTRY == 'fr'
                       ? TermsConditions
                       : TermsConditionsUs
                   }
                 />
                 <Route
                   exact
-                  path="/club-subscription"
+                  path="/club-subscriptionbyebye"
                   render={(props) => {
                     let tmpComponent;
-                    switch (process.env.REACT_APP_COUNTRY) {
-                      case 'RU':
-                      case 'TR':
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'ru':
+                      case 'tr':
                         return <ClubLandingPage {...props} />;
                       default:
                         return <Exception {...props} />;
@@ -502,17 +498,17 @@ const App = () => {
                   path="/subscription-landing"
                   component={(() => {
                     let sublanding = '';
-                    switch (process.env.REACT_APP_COUNTRY) {
-                      case 'DE':
+                    switch (window.__.env.REACT_APP_COUNTRY) {
+                      case 'de':
                         sublanding = DE_SubscriptionLanding;
                         break;
-                      case 'US':
+                      case 'us':
                         sublanding = US_SubscriptionLanding;
                         break;
-                      case 'RU':
+                      case 'ru':
                         sublanding = VetLandingPage;
                         break;
-                      case 'TR':
+                      case 'tr':
                         sublanding = TR_SubscriptionLanding;
                         break;
                       default:
@@ -521,24 +517,34 @@ const App = () => {
                     return sublanding;
                   })()}
                 />
-                <Route path="/clublandingpagenew"
-                       exact
-                       component={ClubLandingPageNew}
+                <Route
+                  path="/club-subscription"
+                  exact
+                  component={ClubLandingPageNew}
                 />
-                <Route path="/clublandinpagede"
-                       exact
-                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDe:Exception}
+                <Route
+                  path="/how-to-order"
+                  exact
+                  component={
+                    window.__.env.REACT_APP_COUNTRY == 'de'
+                      ? ClubLandingPageDe
+                      : Exception
+                  }
                 />
-                <Route path="/clublandinpagedevet"
-                       exact
-                       component={process.env.REACT_APP_COUNTRY == 'DE'?ClubLandingPageDeVet:Exception}
+                <Route
+                  path="/vet-diets"
+                  exact
+                  component={
+                    window.__.env.REACT_APP_COUNTRY == 'de'
+                      ? ClubLandingPageDeVet
+                      : Exception
+                  }
                 />
                 <Route
                   path="/general-conditions"
                   exact
                   component={generalConditions}
                 />
-
 
                 <Route
                   path="/general-conditions-tr"
@@ -549,7 +555,9 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'DE' ? AboutUsDe : AboutUs
+                    window.__.env.REACT_APP_COUNTRY == 'de'
+                      ? AboutUsDe
+                      : AboutUs
                   }
                 />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
@@ -571,8 +579,8 @@ const App = () => {
                   exact
                   path="/Values"
                   component={
-                    { FR: FR_Values, US: US_Values, RU: RU_Values }[
-                      process.env.REACT_APP_COUNTRY
+                    { fr: FR_Values, us: US_Values, ru: RU_Values }[
+                      window.__.env.REACT_APP_COUNTRY
                     ] || Values
                   }
                 />
@@ -582,7 +590,7 @@ const App = () => {
                   path="/Tailorednutrition"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'US'
+                    window.__.env.REACT_APP_COUNTRY == 'us'
                       ? US_Tailorednutrition
                       : Tailorednutrition
                   }
@@ -592,7 +600,7 @@ const App = () => {
                   path="/Quality-safety"
                   exact
                   component={
-                    process.env.REACT_APP_COUNTRY == 'US'
+                    window.__.env.REACT_APP_COUNTRY == 'us'
                       ? US_QualitySafety
                       : QualitySafety
                   }
@@ -632,23 +640,25 @@ const App = () => {
                 <Route
                   exact
                   path="/list/:category/:keywords"
-                  render={(props) => (
-                    <List
-                      key={
-                        props.match.params.category +
-                        props.match.params.keywords
-                      }
-                      {...props}
-                    />
-                  )}
+                  render={(props) => {
+                    return (
+                      <List
+                        key={
+                          props.match.params.category +
+                          props.match.params.keywords
+                        }
+                        {...props}
+                      />
+                    );
+                  }}
                 />
 
                 <Route
                   exact
                   // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                  path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
+                  path={window.__.env.REACT_APP_SEARCH_LINK}
                   render={(props) => {
-                    if (props.location.state && props.location.state.noresult) {
+                    if (props.location?.state?.noresult) {
                       return <SearchShow {...props} />;
                     } else {
                       return <List key={props.location.search} {...props} />;
@@ -685,8 +695,8 @@ const App = () => {
                     // 只有一级路由(/)且存在-，且-后边的字符串包含了数字的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /retail-products /dog-size/x-small)
                     if (PDP_Regex.test(pathname)) {
                       let redirectUrl = '';
-                      const splitName = { FR: '_FR.html', US: '_US.html' }[
-                        process.env.REACT_APP_COUNTRY
+                      const splitName = { fr: '_FR.html', us: '_US.html' }[
+                        window.__.env.REACT_APP_COUNTRY
                       ];
                       const productNameMappping = {
                         '/ageing-12+-en-gelÃ©e-4153':
@@ -720,7 +730,7 @@ const App = () => {
 
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(redirectUrl)
+                      console.log(redirectUrl);
 
                       // PDP文件重定向end
 
@@ -745,8 +755,8 @@ const App = () => {
                       // }
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(pathname)
-                      console.log(redirectUrl)
+                      console.log(pathname);
+                      console.log(redirectUrl);
                       // debugger
 
                       // 除去PDP页面文件重定向end

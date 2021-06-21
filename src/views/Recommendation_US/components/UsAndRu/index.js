@@ -3,7 +3,7 @@ import LazyLoad from 'react-lazyload';
 import Help from '../../../SmartFeederSubscription/modules/Help';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
-const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
+const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
 const howImageArr = [
   {
     img: `${imgUrlPreFix}/HOW-TO-JOIN-SHOP.png`,
@@ -37,8 +37,8 @@ const LineModule = () => (
 );
 const UsAndRu = (props) => {
   let PuppyJPG = `${imgUrlPreFix}/${props.intl.messages['recommendation.plusImg']}`;
-  const isUs = process.env.REACT_APP_COUNTRY === 'US';
-  const isRu = process.env.REACT_APP_COUNTRY === 'RU';
+  const isUs = window.__.env.REACT_APP_COUNTRY === 'us';
+  const isRu = window.__.env.REACT_APP_COUNTRY === 'ru';
   let cur_recommendation2 = `${imgUrlPreFix}/1xexpertise.jpg`;
   let cur_recommendation3 = `${imgUrlPreFix}/2xpartnership.jpg`;
   let cur_recommendation4 = `${imgUrlPreFix}/3xquality.jpg`;

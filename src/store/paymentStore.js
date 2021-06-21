@@ -5,7 +5,7 @@ import { isNewAccount } from '@/api/user';
 import { checkoutDataLayerPushEvent } from '@/utils/GA';
 
 const localItemRoyal = window.__.localItemRoyal;
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 class PaymentStore {
   @observable isLogin = !!localItemRoyal.get('rc-token');
@@ -106,6 +106,8 @@ class PaymentStore {
     phoneNumber: '',
     consigneeNumber: ''
   };
+
+  @observable isRreshList = false;
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -250,7 +252,7 @@ class PaymentStore {
                 dataLayer,
                 (ele) =>
                   ele.event ===
-                  process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+                  window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
               );
               if (result) {
                 result.checkout = {
@@ -268,7 +270,7 @@ class PaymentStore {
                   step: 2,
                   option
                 },
-                event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+                event: window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
                 page: {
                   type: 'Checkout',
                   virtualPageURL: '/checkout/shipping'
@@ -290,7 +292,7 @@ class PaymentStore {
                 dataLayer,
                 (ele) =>
                   ele.event ===
-                  process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+                  window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
               ) || {};
             result.checkout = {
               step: 3,
@@ -306,7 +308,7 @@ class PaymentStore {
                 step: 3,
                 option: 'shippingMethod'
               },
-              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+              event: window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
               page: {
                 type: 'Checkout',
                 virtualPageURL: '/checkout/billing'
@@ -326,7 +328,7 @@ class PaymentStore {
               dataLayer,
               (ele) =>
                 ele.event ===
-                process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
+                window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView'
             );
             result.checkout = { step: 4, option: 'paymentMethod' };
             result.page = {
@@ -339,7 +341,7 @@ class PaymentStore {
                 step: 4,
                 option: 'paymentMethod'
               },
-              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+              event: window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
               page: {
                 type: 'Checkout',
                 virtualPageURL: '/checkout/placeOrder'
@@ -464,6 +466,10 @@ class PaymentStore {
   @action.bound
   setGuestEmail(param) {
     this.guestEmail = param;
+  }
+  @action.bound
+  setRreshCardList(bool) {
+    this.isRreshList = bool;
   }
 }
 export default PaymentStore;

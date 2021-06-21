@@ -19,6 +19,7 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import ImageMagnifier_fr from './components/ImageMagnifier';
 import AddCartSuccessMobile from './components/AddCartSuccessMobile';
 import BannerTip from '@/components/BannerTip';
+import Reviews from './components/Reviews';
 import {
   getDeviceType,
   getFrequencyDict,
@@ -54,16 +55,17 @@ import {
   hubGAAToCar,
   HubGaPdpBuyFromRetailer
 } from './GA';
+import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
-const isHub = process.env.REACT_APP_HUB == '1';
-const Fr = process.env.REACT_APP_COUNTRY === 'FR';
-const Ru = process.env.REACT_APP_COUNTRY === 'RU';
-const Tr = process.env.REACT_APP_COUNTRY === 'TR';
+const isHub = window.__.env.REACT_APP_HUB == '1';
+const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 // const pageLink = window.location.href;
 
 @inject(
@@ -115,6 +117,7 @@ class Details extends React.Component {
       checkOutErrMsg: '',
       addToCartLoading: false,
       productRate: 0,
+      backgroundSpaces: '🐕',
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
@@ -137,7 +140,8 @@ class Details extends React.Component {
       ccidBtnDisplay: false,
       questionParams: undefined,
       defaultPurchaseType: 0,
-      headingTag: 'h1'
+      headingTag: 'h1',
+      showPrescriberCodeModal: false //是否打开de PrescriberCodeModal
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -258,6 +262,7 @@ class Details extends React.Component {
           (autoshipDictRes[0] && autoshipDictRes[0].id) ||
           '';
       }
+      console.log(details, defaultFrequencyId, 'defaultFrequencyId');
 
       this.setState({
         form: Object.assign(this.state.form, {
@@ -294,10 +299,15 @@ class Details extends React.Component {
       details,
       spuImages,
       goodsDetailTab,
-      goodsNo
+      goodsNo,
+      form
     } = this.state;
     details.sizeList = sizeList;
-    this.setState(Object.assign({ details }, data), () => {
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    if (!selectedSpecItem.subscriptionStatus && form.buyWay > 0) {
+      form.buyWay = -1;
+    }
+    this.setState(Object.assign({ details, form }, data), () => {
       this.updateInstockStatus();
       setTimeout(() =>
         setGoogleProductStructuredDataMarkup({
@@ -377,10 +387,16 @@ class Details extends React.Component {
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
         const goodsRes = res && res.context && res.context.goods;
+        const backgroundSpace = res.context.goods.cateId;
         // 获取club与autoship字典
         if (res && res.context && goodsRes) {
           this.setState({
             productRate: res.context.avgEvaluate
+          });
+        }
+        if (backgroundSpace) {
+          this.setState({
+            backgroundSpaces: res.context.goods.cateId
           });
         }
         if (goodsRes) {
@@ -421,7 +437,8 @@ class Details extends React.Component {
                 fromPrice: res.context.fromPrice,
                 toPrice: res.context.toPrice,
                 goodsDescriptionDetailList:
-                  res.context.goodsDescriptionDetailList
+                  res.context.goodsDescriptionDetailList,
+                defaultFrequencyId: goodsRes.defaultFrequencyId
               }),
               spuImages: images,
               breadCrumbs: [{ name: goodsRes.goodsName }],
@@ -431,6 +448,7 @@ class Details extends React.Component {
             },
             () => {
               this.handleBreadCrumbsData();
+              console.log(this.state.details, 'defaultFrequencyId');
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||
@@ -467,14 +485,14 @@ class Details extends React.Component {
             },
             async () => {
               //启用BazaarVoice时，在PDP页面add schema.org markup
-              if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+              if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
                 //设置延时获取BazaarVoice dom节点
                 setTimeout(() => {
                   addSchemaOrgMarkup(
                     this.state.details,
                     this.state.instockStatus
                   );
-                }, 3000);
+                }, 60000);
               }
             }
           );
@@ -546,8 +564,8 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
 
-    const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
-    const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
+    const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const vetWidgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;
     if (widgetId || vetWidgetId) {
       loadJS({
@@ -555,9 +573,9 @@ class Details extends React.Component {
         id: 'cci-widget',
         dataSets: {
           token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-          locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+          locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
-            process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+            window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
           widgetid: id,
           ean: barcode,
           subid: '',
@@ -584,8 +602,8 @@ class Details extends React.Component {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= process.env.REACT_APP_LIMITED_NUM) {
-        res = process.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
+        res = window.__.env.REACT_APP_LIMITED_NUM;
       }
     }
     this.setState(
@@ -611,8 +629,8 @@ class Details extends React.Component {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
+      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = window.__.env.REACT_APP_LIMITED_NUM;
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
@@ -626,14 +644,36 @@ class Details extends React.Component {
       // this.props.updateSelectedData(this.state.form);
     });
   };
-  async hanldeAddToCart() {
-    try {
-      if (!this.btnStatus) return false;
-      this.setState({ checkOutErrMsg: '' });
+  showPrescriberCodeBeforeAddCart = () => {
+    if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
+      const { clinicStore } = this.props;
+      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+        this.setState({ showPrescriberCodeModal: true });
+      }
+    }
+  };
+  closePrescriberCodeModal = async () => {
+    this.setState({ showPrescriberCodeModal: false });
+    const { clinicStore } = this.props;
+    if (clinicStore.selectClinicId && clinicStore.selectClinicName) {
       if (this.isLogin) {
         this.hanldeLoginAddToCart();
       } else {
         await this.hanldeUnloginAddToCart();
+      }
+    }
+  };
+  async hanldeAddToCart() {
+    try {
+      if (!this.btnStatus) return false;
+      this.setState({ checkOutErrMsg: '' });
+      await this.showPrescriberCodeBeforeAddCart();
+      if (!this.state.showPrescriberCodeModal) {
+        if (this.isLogin) {
+          this.hanldeLoginAddToCart();
+        } else {
+          await this.hanldeUnloginAddToCart();
+        }
       }
     } catch (err) {}
   }
@@ -780,7 +820,7 @@ class Details extends React.Component {
     let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
           products: [
@@ -855,6 +895,7 @@ class Details extends React.Component {
       form,
       productRate,
       instockStatus,
+      backgroundSpaces,
       goodsDetailTab,
       activeTabIdxList,
       checkOutErrMsg,
@@ -881,7 +922,7 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      process.env.REACT_APP_HUB === '1' &&
+      window.__.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
 
@@ -934,6 +975,12 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
+              <PrescriberCodeModal
+                visible={this.state.showPrescriberCodeModal}
+                close={this.closePrescriberCodeModal}
+              />
+            )}
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
@@ -978,10 +1025,10 @@ class Details extends React.Component {
                                     </div>
                                   ) : null}
                                   {isCountriesContainer([
-                                    'FR',
-                                    'RU',
-                                    'TR',
-                                    'US'
+                                    'fr',
+                                    'ru',
+                                    'tr',
+                                    'us'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1068,7 +1115,10 @@ class Details extends React.Component {
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (
-                              <Ration />
+                              <Ration
+                                goodsNo={details.goodsNo}
+                                setState={this.setState.bind(this)}
+                              />
                             ) : null}
                             <div className="specAndQuantity rc-margin-bottom--xs ">
                               <HandledSpec
@@ -1179,7 +1229,7 @@ class Details extends React.Component {
                               buyFromRetailer={this.handleBuyFromRetailer}
                             />
                             {form.buyWay === 2 &&
-                            process.env.REACT_APP_COUNTRY !== 'RU' ? (
+                            window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
@@ -1206,21 +1256,31 @@ class Details extends React.Component {
                 isClub={
                   details.promotions && details.promotions.includes('club')
                 }
+                goodsDetailSpace={backgroundSpaces}
               />
             ) : null}
 
-            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+            {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
               !!details.goodsNo && (
                 <BazaarVoiceReviews productId={details.goodsNo} />
               )}
 
             <div className="split-line rc-bg-colour--brand4" />
-            {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
+            {window.__.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
               <AdvantageTips />
             ) : null}
             {/* 电话邮箱联系板块 */}
             {isHub ? (
               <PhoneAndEmail loading={loading} details={details} />
+            ) : null}
+            {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE ? (
+              <div id="review-container">
+                <Reviews
+                  key={this.state.goodsId}
+                  id={this.state.goodsId}
+                  isLogin={this.isLogin}
+                />
+              </div>
             ) : null}
             <RelateProductCarousel id={goodsId} />
 

@@ -22,7 +22,7 @@ class TermsCommon extends Component {
     };
   }
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'TR') {
+    if (window.__.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }
@@ -82,7 +82,7 @@ class TermsCommon extends Component {
   }
   //从子组件传回
   sendList = (list) => {
-    // if(process.env.REACT_APP_COUNTRY=='TR'){
+    // if(window.__.env.REACT_APP_COUNTRY=='tr'){
     //   list.forEach((item)=>{
     //     if(item.id=='tr_A'){
     //       if(item.isChecked){
@@ -120,7 +120,7 @@ class TermsCommon extends Component {
           id={this.props.id}
         />
 
-        {process.env.REACT_APP_COUNTRY === 'DE' ? (
+        {window.__.env.REACT_APP_COUNTRY === 'de' ? (
           <>
             <a style={{ color: '#7F6666', cursor: 'default' }}>
               Mit Klicken des Buttons Kaufen wird Ihre Bestellung verbindlich.
@@ -134,7 +134,7 @@ class TermsCommon extends Component {
               >
                 Geschäftsbedingungen.
                 {Boolean(
-                  process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                  window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                 ) && <span className="warning_blank">Opens a new window</span>}
               </Link>
             </a>
@@ -149,7 +149,7 @@ class TermsCommon extends Component {
                 >
                   hier
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}

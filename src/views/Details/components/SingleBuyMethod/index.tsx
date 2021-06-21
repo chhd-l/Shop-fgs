@@ -64,7 +64,13 @@ const SingleBuyMethod = ({
           </label>
           <br />
           <div className="freeshippingBox">
-            <FormattedMessage id={process.env.REACT_APP_COUNTRY=='TR'?'oneoffFreeShipping':'freeShipping'} />
+            <FormattedMessage
+              id={
+                window.__.env.REACT_APP_COUNTRY == 'tr'
+                  ? 'oneoffFreeShipping'
+                  : 'freeShipping'
+              }
+            />
           </div>
         </div>
       </div>
@@ -78,19 +84,22 @@ const SingleBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem?.goodsInfoWeight&&selectedSpecItem?.goodsInfoUnit ? (
+        {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        selectedSpecItem?.goodsInfoWeight &&
+        selectedSpecItem?.goodsInfoUnit ? (
           <div
             style={{
               fontSize: '.875rem',
               color: '#999'
             }}
           >
-            ({formatMoney(
+            (
+            {formatMoney(
               (
                 currentUnitPrice / parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit}{' '})
+            /{selectedSpecItem.goodsInfoUnit} )
           </div>
         ) : null}
       </div>

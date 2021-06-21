@@ -49,7 +49,6 @@ const NextDelivery = ({
     });
   };
   const skipNext = (el) => {
-    e.preventDefault();
     setState({
       modalType: 'skipNext',
       modalShow: true,
@@ -165,7 +164,6 @@ const NextDelivery = ({
                 <a
                   className="rc-styled-link ui-text-overflow-line1"
                   style={{ width: '60px' }}
-                  href="#/"
                   onClick={(e) => skipNext(el)}
                 >
                   <FormattedMessage id="skip" />
@@ -446,7 +444,7 @@ const NextDelivery = ({
                 <label className="col-5 text-left">
                   <FormattedMessage id="estimatedTax" />
                 </label>
-                <div className="text-right red-text col-5 col-md-3">
+                <div className="text-right red-text col-5 col-md-3 components_next_delivery">
                   <strong>{formatMoney(el.tradePrice.taxFeePrice)}</strong>
                 </div>
               </div>
@@ -476,7 +474,7 @@ const NextDelivery = ({
                 <strong>{formatMoney(el.tradePrice.totalPrice)}</strong>
               </div>
             </div>
-            {process.env.REACT_APP_COUNTRY === 'US' ? (
+            {window.__.env.REACT_APP_COUNTRY === 'us' ? (
               <div className="row">
                 <div className="col-1 col-md-3" />
                 <label className="col-9 text-left">

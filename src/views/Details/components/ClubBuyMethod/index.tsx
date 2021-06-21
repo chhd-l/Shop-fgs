@@ -3,18 +3,18 @@ import { FormattedMessage } from 'react-intl';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
-const De = process.env.REACT_APP_COUNTRY === 'DE';
+const De = window.__.env.REACT_APP_COUNTRY === 'de';
 
 interface Props {
   form: any;
-  configStore:any;
+  configStore: any;
   skuPromotions: any;
   selectedSpecItem: any;
   currentUnitPrice: any;
   currentSubscriptionPrice: any;
   changeMethod: Function;
   changeFreqency: Function;
-  toClubTab: Function
+  toClubTab: Function;
 }
 
 const AutoshipBuyMethod = ({
@@ -30,8 +30,8 @@ const AutoshipBuyMethod = ({
 }: Props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   const handleToClubTab = () => {
-    toClubTab()
-  }
+    toClubTab();
+  };
   return (
     <div
       className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
@@ -111,20 +111,23 @@ const AutoshipBuyMethod = ({
             <FormattedMessage id="starUnit" defaultMessage=" " />
           </span>
         </div>
-        {configStore?.info?.storeVO?.basePricePDPShowedFlag && selectedSpecItem?.goodsInfoWeight&&selectedSpecItem?.goodsInfoUnit ? (
+        {configStore?.info?.storeVO?.basePricePDPShowedFlag &&
+        selectedSpecItem?.goodsInfoWeight &&
+        selectedSpecItem?.goodsInfoUnit ? (
           <div
             style={{
               fontSize: '.875rem',
               color: '#999'
             }}
           >
-            ({formatMoney(
+            (
+            {formatMoney(
               (
                 currentSubscriptionPrice /
                 parseFloat(selectedSpecItem.goodsInfoWeight)
               ).toFixed(2)
             )}
-            /{selectedSpecItem.goodsInfoUnit}{' '})
+            /{selectedSpecItem.goodsInfoUnit} )
           </div>
         ) : null}
       </div>

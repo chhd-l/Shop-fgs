@@ -1,6 +1,6 @@
 @media (max-width: 639.98px) {
   .clubdesktop {
-    height: 1509px;
+    height: 1609px;
     background-image: url('./image/CLUBmobbackground@4x.png');
     overflow: hidden;
     background-size: cover;
@@ -14,15 +14,32 @@
   .fontheight {
     height: 25vh;
   }
+  .transformmobile10px {
+    transform: translateX(0.4vw);
+    text-align: center;
+  }
 }
 
 @media (min-width: 639.98px) {
   .clubmobile {
-    height: 769px;
+    height: 945px;
     background-image: url('./image/Bitmap@4x.png');
     background-size: cover;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+  .desknone {
+    display: none;
+  }
+  .longbannerwidth266{
+  }
+  .transformmobile10px {
+    margin-top: 30px;
+    margin-left: 13vw;
+  }
+  .trmarginleft10vw{
+    width: 266.07px;
+    text-align: center;
   }
 }

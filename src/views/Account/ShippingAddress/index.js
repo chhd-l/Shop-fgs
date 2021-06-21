@@ -495,8 +495,8 @@ class ShippingAddress extends React.Component {
                               </div>
                               <div>
                                 <span>
-                                  {process.env.REACT_APP_COUNTRY ==
-                                  'US' ? null : (
+                                  {window.__.env.REACT_APP_COUNTRY ==
+                                  'us' ? null : (
                                     <>
                                       {matchNamefromDict(
                                         this.state.countryList,

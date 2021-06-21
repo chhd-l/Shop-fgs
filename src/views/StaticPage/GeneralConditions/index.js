@@ -869,7 +869,7 @@ class Help extends React.Component {
               >
                 <ins>ссылке</ins>
                 {Boolean(
-                  process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                  window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                 ) && <span className="warning_blank">Opens a new window</span>}
               </a>
               <u style={{ color: 'rgb(68, 68, 68)' }}>.</u>

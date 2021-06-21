@@ -1,12 +1,12 @@
 import axios from '@/utils/request';
 
 const api = {
-  visitorRegisterAndLogin: `/${process.env.REACT_APP_STOREID}/guest/register`,
-  batchAdd: `/site/${process.env.REACT_APP_STOREID}/batch-add`,
-  confirmAndCommit: `/${process.env.REACT_APP_STOREID}/guest/checkout`,
-  confirmAndCommitUs: `/us/${process.env.REACT_APP_STOREID}/guest/checkout`,
-  addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
-  getPaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
+  visitorRegisterAndLogin: `/${window.__.env.REACT_APP_STOREID}/guest/register`,
+  batchAdd: `/site/${window.__.env.REACT_APP_STOREID}/batch-add`,
+  confirmAndCommit: `/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
+  confirmAndCommitUs: `/us/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
+  addOrUpdatePaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
+  getPaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
   setDefaltCard: '/pay-payment-info/default',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
@@ -19,17 +19,17 @@ const api = {
   customerCommitAndPayMixUs: 'us/trade-custom/mix/checkout',
   getMarketingDiscount: '/marketing/discount',
   // getMarketingDiscount: '/marketing/getMarketingDiscount',
-  getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
-  adyenPaymentsDetails: `/${process.env.REACT_APP_STOREID}/adyen/payment`,
-  payu3dsPaymentsDetails: `/payCallback/${process.env.REACT_APP_STOREID}/payu/${process.env.REACT_APP_LANG}/authorization`,
+  getWays: `/${window.__.env.REACT_APP_STOREID}/pay/getPayPspList`,
+  adyenPaymentsDetails: `/${window.__.env.REACT_APP_STOREID}/adyen/payment`,
+  payu3dsPaymentsDetails: `/payCallback/${window.__.env.REACT_APP_STOREID}/payu/${window.__.env.REACT_APP_LANG}/authorization`,
   // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
   // getProductPetConfig: '/order/config/findPet'
-  adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
+  adyen3DSResult: `/${window.__.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
   Adyen3DSResult: '/Adyen3DSResult',
   //CYBER
-  usPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-pay-payment-info`, //CYBER绑卡
-  usGuestPaymentInfo: `/${process.env.REACT_APP_STOREID}/us-guest-pay-payment-info`, //CYBER游客绑卡
+  usPaymentInfo: `/${window.__.env.REACT_APP_STOREID}/us-pay-payment-info`, //CYBER绑卡
+  usGuestPaymentInfo: `/${window.__.env.REACT_APP_STOREID}/us-guest-pay-payment-info`, //CYBER游客绑卡
 
   installments: '/payment-method/installments'
 };
@@ -71,7 +71,7 @@ export function batchAdd(parameter) {
 export function confirmAndCommit(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_GA_COUNTRY == 'US'
+      window.__.env.REACT_APP_GA_COUNTRY == 'us'
         ? api.confirmAndCommitUs
         : api.confirmAndCommit,
     method: 'post',
@@ -106,7 +106,7 @@ export function deleteCard(para) {
 export function customerCommitAndPay(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_GA_COUNTRY == 'US'
+      window.__.env.REACT_APP_GA_COUNTRY == 'us'
         ? api.customerCommitAndPayUs
         : api.customerCommitAndPay,
     method: 'post',
@@ -117,7 +117,7 @@ export function customerCommitAndPay(parameter) {
 export function customerCommitAndPayMix(parameter) {
   return axios({
     url:
-      process.env.REACT_APP_GA_COUNTRY == 'US'
+      window.__.env.REACT_APP_GA_COUNTRY == 'us'
         ? api.customerCommitAndPayMixUs
         : api.customerCommitAndPayMix,
     method: 'post',
@@ -127,7 +127,7 @@ export function customerCommitAndPayMix(parameter) {
 
 export function rePay(parameter) {
   return axios({
-    url: process.env.REACT_APP_GA_COUNTRY == 'US' ? api.rePayUs : api.rePay,
+    url: window.__.env.REACT_APP_GA_COUNTRY == 'us' ? api.rePayUs : api.rePay,
     method: 'post',
     data: parameter
   });

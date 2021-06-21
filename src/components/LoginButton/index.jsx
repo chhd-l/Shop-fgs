@@ -21,6 +21,7 @@ import { isLimitLogin } from './utils';
 import { userBindConsent } from '@/api/consent';
 import Modal from '@/components/Modal';
 import LimitLoginModal from '@/views/Home/modules/LimitLoginModal';
+import loginRedirection from '@/lib/login-redirection';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -64,9 +65,9 @@ const LoginButton = (props) => {
             localItemRoyal.set('login-again', true);
             const idToken = authState.idToken;
             const redirectUri =
-              window.location.origin + process.env.REACT_APP_HOMEPAGE;
+              window.location.origin + window.__.env.REACT_APP_HOMEPAGE;
             window.location.href = `${
-              process.env.REACT_APP_ISSUER
+              window.__.env.REACT_APP_ISSUER
             }/v1/logout?id_token_hint=${
               idToken ? idToken.value : ''
             }&post_logout_redirect_uri=${redirectUri}`;
@@ -90,7 +91,7 @@ const LoginButton = (props) => {
               customerId
             })
               .then((res) => {
-                history.push('/');
+                setIsGetUserInfoDown(true);
               })
               .catch((e) => {
                 console.log(e);
@@ -102,7 +103,7 @@ const LoginButton = (props) => {
                   // GA 登录成功埋点 start
                   window.dataLayer &&
                     window.dataLayer.push({
-                      event: `${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      event: `${window.__.env.REACT_APP_GTM_SITE_ID}loginAccess`,
                       interaction: {
                         category: 'registration',
                         action: 'login',
@@ -124,12 +125,11 @@ const LoginButton = (props) => {
                     customerInfoRes.context.defaultClinics;
 
                   loginStore.setUserInfo(customerInfoRes.context);
-
-                  const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   // 去除cart页面不合并购物车逻辑，因为现在登录后不会回到tmpUrl所指页面
                   if (
-                    // tmpUrl !== '/cart' && 
-                  checkoutStore.cartData.length) {
+                    // tmpUrl !== '/cart' &&
+                    checkoutStore.cartData.length
+                  ) {
                     await mergeUnloginCartData();
                     await checkoutStore.updateLoginCart();
                   }
@@ -153,21 +153,26 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    // if (process.env.REACT_APP_COUNTRY == 'US' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    // if (window.__.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
     try {
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
-        props.history && props.history.location.pathname + props.history.location.search
+        props.history &&
+          props.history.location.pathname + props.history.location.search
       );
-      
-      console.log(props.history && (props.history.location.pathname + props.history.location.search), 'aaaa')
+
+      console.log(
+        props.history &&
+          props.history.location.pathname + props.history.location.search,
+        'aaaa'
+      );
       // debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(
-        props.callbackUrl || process.env.REACT_APP_HOMEPAGE
+        props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE
       );
     } catch (err) {
       console.log(err);

@@ -1,9 +1,12 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import joinusnewlogo from './image/joinusnewlogo.png';
+import rulogo from '../../image/CLUB_logoRU@2x.png';
 import joinusnewright from './image/joinusnewright.png';
+import joinusnewru from './image/joinusnewrightru.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
+import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 
 const JoinTodayNew = () => {
   return (
@@ -33,13 +36,23 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-1 order-md-0  orderJoin1">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad>
-                          <img
-                            className="w-auto lazyloaded logomargin"
-                            style={{
-                              maxWidth: '50%'
-                            }}
-                            src={joinusnewlogo}
-                          />
+                          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                            <img
+                              className="w-auto lazyloaded logomargin"
+                              style={{
+                                maxWidth: '50%'
+                              }}
+                              src={rulogo}
+                            />
+                          ) : (
+                            <img
+                              className="w-auto lazyloaded logomargin"
+                              style={{
+                                maxWidth: '50%'
+                              }}
+                              src={joinusnewlogo}
+                            />
+                          )}
                         </LazyLoad>
                       </div>
                     </div>
@@ -49,31 +62,52 @@ const JoinTodayNew = () => {
                           <FormattedMessage id="ClubLP.NewJoinUs.title" />
                         </h2>
                       </div>
-                      <div className="rc-intro inherit-fontsize rc-text--center">
-                        <h5 className="textMarginLeft">
+                      <div className="rc-intro inherit-fontsize rc-text--center textCenterJoin">
+                        <a className="">
                           <FormattedMessage id="ClubLP.NewJoinUs.content" />
-                        </h5>
+                        </a>
                       </div>
-                      <div style={{ display: 'flex' }}>
-                        <button
-                          style={{ margin: '0 auto' }}
-                          className="rc-btn rc-btn--one"
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <DistributeHubLinkOrATag
+                          href={'/product-finder'}
+                          ariaLabel="Links to product finder"
                         >
-                          <FormattedMessage id="ClubLP.NewJoinUs.button" />
-                        </button>
+                          <button
+                            className="rc-btn rc-btn--one"
+                            style={{
+                              paddingLeft: '90px',
+                              paddingRight: '90px'
+                            }}
+                          >
+                            <FormattedMessage id="ClubLP.NewJoinUs.button" />
+                          </button>
+                        </DistributeHubLinkOrATag>
                       </div>
                     </div>
                     <div className="col-12 col-md-4 order-2 order-md-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
-                          <img
-                            src={joinusnewright}
-                            style={{
-                              maxHeight: '90%',
-                              maxWidth: '90%',
-                              marginLeft: '5vw'
-                            }}
-                          />
+                          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                            <img
+                              src={joinusnewru}
+                              style={{
+                                maxHeight: '90%',
+                                maxWidth: '90%',
+                                marginLeft: '3vw'
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src={joinusnewright}
+                              style={{
+                                maxHeight: '90%',
+                                maxWidth: '90%',
+                                marginLeft: '5vw'
+                              }}
+                            />
+                          )}
                         </LazyLoad>
                       </div>
                     </div>

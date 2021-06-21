@@ -70,6 +70,14 @@ class AdyenCreditCardList extends React.Component {
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
     this.editFormRef = React.createRef();
   }
+  componentDidUpdate() {
+    if (this.props.paymentStore.isRreshList) {
+      if (this.isLogin) {
+        this.queryList();
+      }
+      this.props.paymentStore.setRreshCardList(false);
+    }
+  }
   componentDidMount() {
     if (this.isLogin) {
       this.queryList();
@@ -269,9 +277,9 @@ class AdyenCreditCardList extends React.Component {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: process.env.REACT_APP_Adyen_ENV,
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale
+            environment: window.__.env.REACT_APP_Adyen_ENV,
+            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
+            locale: window.__.env.REACT_APP_Adyen_locale
           });
           checkout
             .create('card', {
@@ -620,16 +628,11 @@ class AdyenCreditCardList extends React.Component {
           ) : !formVisible &&
             (cardList.length || memberUnsavedCardList.length) ? (
             <>
-              <span>
-                {this.renderList()}
-                {footerJSX}
-              </span>
+              <span>{this.renderList()}</span>
             </>
           ) : (
             <>
-              <span>
-                {this.renderEditForm()} {footerJSX}
-              </span>
+              <span>{this.renderEditForm()}</span>
             </>
           )
         ) : (
@@ -638,9 +641,9 @@ class AdyenCreditCardList extends React.Component {
             <div className={`${formVisible ? '' : 'hidden'}`}>
               <span>{this.renderEditForm()}</span>
             </div>
-            <span>{footerJSX}</span>
           </>
         )}
+        <span>{footerJSX}</span>
       </>
     );
   }

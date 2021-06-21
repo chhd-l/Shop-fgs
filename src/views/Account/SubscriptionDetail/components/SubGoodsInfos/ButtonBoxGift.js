@@ -21,7 +21,7 @@ const ButtonBoxGift = () => {
     } = subDetail.noStartTradeList[0]?.tradeItems[0];
     let params = {
       planId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     };
     try {
       let res = await getRemainings(params);

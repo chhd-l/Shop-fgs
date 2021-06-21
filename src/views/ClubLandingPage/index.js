@@ -50,7 +50,7 @@ function Divider() {
 function HealthNutrition() {
   return (
     {
-      US: (
+      us: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
@@ -237,14 +237,14 @@ function HealthNutrition() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_COUNTRY] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
 function Share() {
   return (
     {
-      US: (
+      us: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -360,7 +360,7 @@ function Share() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_COUNTRY] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -373,19 +373,19 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      US: [
+      us: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
-          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
           langKey: 'home.point2'
         },
         { img: premiumHome, langKey: 'home.point3' },
         {
-          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
+    }[window.__.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
@@ -513,23 +513,23 @@ class ClubLandingPage extends React.Component {
 
     const parametersString = history.location.search;
     if (parametersString.indexOf('redirect=order') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
+      localItemRoyal.set('okta-redirectUrl', '/account/orders');
     }
     if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
+      localItemRoyal.set('okta-redirectUrl', '/account/subscription');
     }
     if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+      localItemRoyal.set('okta-redirectUrl', '/account/information');
     }
     if (parametersString.indexOf('redirect=pets') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+      localItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
     if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
 
@@ -658,7 +658,7 @@ class ClubLandingPage extends React.Component {
           <JoinToday />
           <br />
           <CommentCarousel />
-          {process.env.REACT_APP_COUNTRY == 'RU' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none ">
                 <div className="rc-full-width">

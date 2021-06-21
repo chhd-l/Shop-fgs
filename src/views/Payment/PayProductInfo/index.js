@@ -11,7 +11,7 @@ import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 const guid = uuidv4();
 let isGACheckoutLock = false;
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -165,7 +165,7 @@ class PayProductInfo extends React.Component {
           step: '',
           option: ''
         },
-        event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+        event: window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
         page: {
           type: 'Checkout',
           virtualPageURL: '/checkout/emailAddress'
@@ -262,7 +262,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
-                    {process.env.REACT_APP_LANG !== 'ru' &&
+                    {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
                     el.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.promotions.includes('club') ? (
@@ -457,7 +457,7 @@ class PayProductInfo extends React.Component {
       >
         {headerIcon}
         <span className="medium">
-          {process.env.REACT_APP_COUNTRY == 'US' && this.props.isCheckOut ? (
+          {window.__.env.REACT_APP_COUNTRY == 'us' && this.props.isCheckOut ? (
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
@@ -496,6 +496,7 @@ class PayProductInfo extends React.Component {
       isShowValidCode
     } = this.state;
     const { checkoutStore } = this.props;
+    const { installMentParam } = checkoutStore;
     const List =
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
@@ -864,9 +865,9 @@ class PayProductInfo extends React.Component {
                     </div>
                     <div className="col-5 end-lines">
                       <p className="text-right">
-                        <span className="shipping-total-cost">
+                        <span className="shipping-total-cost rc_pay_product_info">
                           {!this.isLogin &&
-                          process.env.REACT_APP_COUNTRY == 'US' ? (
+                          window.__.env.REACT_APP_COUNTRY == 'us' ? (
                             <>
                               {/* 是否在cart页面 */}
                               {this.props.isGuestCart && subtractionSign}
@@ -891,7 +892,7 @@ class PayProductInfo extends React.Component {
 
                 {!this.isLogin &&
                 this.props.isGuestCart &&
-                process.env.REACT_APP_COUNTRY == 'US' ? (
+                window.__.env.REACT_APP_COUNTRY == 'us' ? (
                   <>
                     <div
                       class="row rc-margin-bottom--xs"
@@ -911,10 +912,30 @@ class PayProductInfo extends React.Component {
                     </div>
                   </>
                 ) : null}
+
+                {/* 分期明细 */}
+                {installMentParam ? (
+                  <div className="row leading-lines shipping-item red">
+                    <div className="col-7 start-lines">
+                      <p className="order-receipt-label order-shipping-cost">
+                        <FormattedMessage id="installMent.additionalFee" />
+                      </p>
+                    </div>
+                    <div className="col-5 end-lines">
+                      <p className="text-right">
+                        <span className="shipping-total-cost">
+                          <strong>
+                            {formatMoney(installMentParam.additionalFee)}
+                          </strong>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
-          {/* {JSON.stringify(this.props.deliveryAddress)} */}
+
           <div className="product-summary__total grand-total row leading-lines border-top pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3">
             <div className="col-6 start-lines">
               <span>
@@ -924,7 +945,7 @@ class PayProductInfo extends React.Component {
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
                 {/* 是否登录 */}
-                {!this.isLogin && process.env.REACT_APP_COUNTRY == 'US' ? (
+                {!this.isLogin && window.__.env.REACT_APP_COUNTRY == 'us' ? (
                   <>
                     {/* 是否在cart页面 */}
                     {this.props.isGuestCart && (
@@ -944,7 +965,7 @@ class PayProductInfo extends React.Component {
                         <strong>{subtractionSign}</strong>
                       </>
                     ) : (
-                      <>{formatMoney(this.tradePrice)}</>
+                      <>{formatMoney(this.tradePrice)}1</>
                     )}
                   </>
                 ) : (
@@ -954,7 +975,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
 
-          {process.env.REACT_APP_COUNTRY == 'DE' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'de' ? (
             <div
               style={{
                 fontSize: '.75rem',

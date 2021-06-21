@@ -143,7 +143,7 @@ class SubscriptionLanding extends React.Component {
                             <img
                               alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                               className="w-100 lazyloaded"
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship_dog.png`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship_dog.png`}
                             ></img>
                           </LazyLoad>
                         </div>
@@ -173,7 +173,7 @@ class SubscriptionLanding extends React.Component {
                               className="m-auto w-auto lazyloaded"
                               alt="image one"
                               title="image one"
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon1@1x.png`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon1@1x.png`}
                             ></img>
                           </LazyLoad>
                         </div>
@@ -198,7 +198,7 @@ class SubscriptionLanding extends React.Component {
                           <LazyLoad>
                             <img
                               className="m-auto w-auto lazyloaded"
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`}
                               alt="image two"
                               title="image two"
                             ></img>
@@ -218,7 +218,7 @@ class SubscriptionLanding extends React.Component {
                           <LazyLoad>
                             <img
                               className="m-auto w-auto lazyloaded"
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`}
                               alt="image three"
                               title="image three"
                             ></img>
@@ -243,7 +243,7 @@ class SubscriptionLanding extends React.Component {
                           <img
                             className="m-auto w-auto lazyloaded"
                             alt="image four"
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`}
+                            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`}
                             title="image four"
                           ></img>
                         </div>
@@ -348,7 +348,7 @@ class SubscriptionLanding extends React.Component {
                 <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>
-            {process.env.REACT_APP_COUNTRY == 'FR' ? (
+            {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
               <Help />
             ) : (
               <div className="experience-region experience-main">

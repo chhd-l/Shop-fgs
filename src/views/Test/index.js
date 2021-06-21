@@ -1,21 +1,13 @@
 import React from 'react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import Form from '@/components/Form';
-import BannerTip from '@/components/BannerTip';
-import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
-import BreadCrumbs from '../../components/BreadCrumbs';
-import { Link } from 'react-router-dom';
-import { setSeoConfig } from '@/utils/utils';
-import { Helmet } from 'react-helmet';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
+import PickUp from '@/components/PickUp';
+import { dynamicLoadCss, loadJS } from '@/utils/utils';
 
 import './index.less';
 
@@ -34,7 +26,7 @@ class Test extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
         cityId: '',
         city: '',
@@ -57,6 +49,37 @@ class Test extends React.Component {
   };
   componentWillUnmount() {}
   componentDidMount() {
+    // dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
+    // loadJS({
+    //   url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
+    //   type: 'text/javascript'
+    // });
+    // loadJS({
+    //   code: `function openKaktusWidget() {
+    //     window.kaktusMap.openWidget({
+    //       city_from: 'Москва',
+    //       city_to: 'Москва',
+    //       dimensions: {
+    //         height: 10,
+    //         width: 10,
+    //         depth: 10,
+    //       },
+    //       weight: 600
+    //     });
+    //   }
+
+    //   document.addEventListener('DOMContentLoaded', () => {
+    //     kaktusMap({
+    //       domain: 'shop4995727',
+    //       host: 'https://app.kak2c.ru'
+    //     });
+    //   });
+
+    //   document.addEventListener('kaktusEvent', function (event) {
+    //     console.log(event.detail);
+    //   });`
+    // });
+
     // 设置手机号输入限制
     let element = document.getElementById('testinput');
     // mask: '+{7} (000) 000-00-00'
@@ -136,16 +159,37 @@ class Test extends React.Component {
     if (e.keyCode === 13) {
     }
   };
+  // 加载地图
+  loadMap = () => {
+    openKaktusWidget();
+  };
   render() {
     const { form, isValid, selectedOption } = this.state;
     return (
-      <div style={{ padding: '30px' }}>
+      <div
+        className="rc-content--fixed-header rc-bg-colour--brand4"
+        style={{ padding: '30px' }}
+      >
         <br />
+        <button
+          onClick={() => {
+            this.loadMap();
+          }}
+        >
+          map
+        </button>
+        <div className="pickup_map_box">
+          <div id="kaktusMap" style={{ display: 'block' }}></div>
+        </div>
+        <br />
+        <br />
+        <br />
+        {/* <PickUp /> */}
         <br />
         <h1>0513</h1>
         <br />
         <br />
-        <h1>2021-06-01 14:51:00</h1>
+        <h1>2021-06-21 13:47:18</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>

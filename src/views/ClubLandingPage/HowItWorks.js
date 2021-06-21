@@ -12,8 +12,8 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
-  const RU = process.env.REACT_APP_COUNTRY == 'RU';
-  const TR = process.env.REACT_APP_COUNTRY == 'TR';
+  const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+  const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (
@@ -89,7 +89,7 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    {RU ? (
+                    {ru ? (
                       <LazyLoad height={180}>
                         <img
                           className="w-90 lazyloaded"
@@ -99,7 +99,7 @@ const HowItWorks = (props) => {
                           })}
                         />
                       </LazyLoad>
-                    ) : TR ? (
+                    ) : tr ? (
                       <LazyLoad height={180}>
                         <img
                           className="w-90 lazyloaded"
@@ -193,7 +193,7 @@ const HowItWorks = (props) => {
                         </h5>
                       </p>
                     </div>
-                    {RU ? (
+                    {ru ? (
                       <LazyLoad height={180}>
                         <img
                           className="w-90 lazyloaded"
@@ -203,7 +203,7 @@ const HowItWorks = (props) => {
                           })}
                         />
                       </LazyLoad>
-                    ) : TR ? (
+                    ) : tr ? (
                       <LazyLoad height={180}>
                         <img
                           className="w-90 lazyloaded"

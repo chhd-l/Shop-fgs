@@ -173,17 +173,17 @@ const RecommendationListModal = ({ intl }) => {
             <p className="text-center red" style={{ fontSize: '1.5rem' }}>
               <FormattedMessage id="switchProductTip1" />{' '}
               {subDetail.petsInfo?.petsName}{' '}
-              {process.env.REACT_APP_COUNTRY != 'TR' && (
+              {window.__.env.REACT_APP_COUNTRY != 'tr' && (
                 <FormattedMessage id="switchProductTip2" />
               )}
-              {process.env.REACT_APP_COUNTRY != 'TR' && ' '}
-              {process.env.REACT_APP_COUNTRY != 'TR' &&
+              {window.__.env.REACT_APP_COUNTRY != 'tr' && ' '}
+              {window.__.env.REACT_APP_COUNTRY != 'tr' &&
                 (subDetail.petsInfo?.petsSex ? (
                   <FormattedMessage id="switchProductTip.his" />
                 ) : (
                   <FormattedMessage id="switchProductTip.her" />
                 ))}
-              {process.env.REACT_APP_COUNTRY != 'TR' && ' '}
+              {window.__.env.REACT_APP_COUNTRY != 'tr' && ' '}
               <FormattedMessage id="switchProductTip3" />!
             </p>
             <div className="d-flex align-items-center justify-content-center rc-padding-left--lg--desktop rc-padding-right--lg--desktop">

@@ -155,7 +155,7 @@ class MemberCardList extends React.Component {
         creditCardList
       },
       () => {
-        this.handleSelectedIdChange();
+        this.handleSelectedIdChange({ isResetInstallData: false });
       }
     );
   }
@@ -196,10 +196,10 @@ class MemberCardList extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -308,10 +308,10 @@ class MemberCardList extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -351,7 +351,7 @@ class MemberCardList extends React.Component {
 
       if (creditCardInfoForm.savedCardChecked) {
         const addRes = await addOrUpdatePaymentMethod({
-          storeId: process.env.REACT_APP_STOREID,
+          storeId: window.__.env.REACT_APP_STOREID,
           customerId: this.userInfo ? this.userInfo.customerId : '',
           email: creditCardInfoForm.email,
           phone: creditCardInfoForm.phoneNumber,
@@ -466,14 +466,9 @@ class MemberCardList extends React.Component {
       scrollPaymentPanelIntoView();
     });
   };
-  handleSelectedIdChange = async () => {
+  handleSelectedIdChange = async ({ isResetInstallData = true } = {}) => {
     const { isSupportInstallMent } = this.props;
-    const {
-      selectedId,
-      creditCardList,
-      memberUnsavedCardList,
-      creditCardInfoForm
-    } = this.state;
+    const { selectedId, creditCardList, memberUnsavedCardList } = this.state;
     const s = memberUnsavedCardList
       .concat(creditCardList)
       .filter((c) => c.id === selectedId)[0];
@@ -482,6 +477,15 @@ class MemberCardList extends React.Component {
     this.props.updateFormValidStatus(
       s && (s.cardCvv || s.encrypted_cvv) ? true : false
     );
+    // 切换卡时，重置分期信息
+    if (isResetInstallData) {
+      this.installmentTableChanger(null);
+      this.setState({
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          installmentChecked: false
+        })
+      });
+    }
 
     // 查询被选中的卡，是否支持分期
     // 该卡如果已经查询过，就不再查询了，直到下一次切换时再重新查询
@@ -495,7 +499,7 @@ class MemberCardList extends React.Component {
         pspItemCode: 'payu_tu',
         binNumber: s ? s.bin_number || s.binNumber : '', // 卡前6位
         payAmount: this.tradePrice,
-        storeId: process.env.REACT_APP_STOREID
+        storeId: window.__.env.REACT_APP_STOREID
       });
 
       s.hasQueryInstallMent = true;
@@ -509,10 +513,7 @@ class MemberCardList extends React.Component {
       });
     }
     this.setState({
-      installMentTableData,
-      creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-        installmentChecked: false
-      })
+      installMentTableData
     });
   };
   handleClickCardItem(el) {
@@ -543,7 +544,14 @@ class MemberCardList extends React.Component {
         })
       }),
       () => {
-        this.validFormData();
+        // 取消分期时，重置分期信息
+        if (!this.state.creditCardInfoForm.installmentChecked) {
+          this.installmentTableChanger(null);
+        }
+        // 切换是否分期时，会被重置按钮可点击状态
+        if (key !== 'installmentChecked') {
+          this.validFormData();
+        }
       }
     );
   }
@@ -551,7 +559,9 @@ class MemberCardList extends React.Component {
     this.handleClickCancel();
   };
   installmentTableChanger = (data) => {
-    this.setState({ installMentParam: data });
+    this.setState({ installMentParam: data }, () => {
+      this.props.onInstallMentParamChange(this.state.installMentParam);
+    });
   };
   render() {
     const { creditCardListMerged } = this;
@@ -662,7 +672,8 @@ class MemberCardList extends React.Component {
 
     return (
       <div id="PaymentComp" className={`loginCardBox`}>
-        {listLoading ? (
+        {/* 等payu组件加载完成，才显示 */}
+        {listLoading || !this.props.inited ? (
           <div className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
           </div>

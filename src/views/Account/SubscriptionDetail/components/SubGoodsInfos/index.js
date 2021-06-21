@@ -43,7 +43,7 @@ const SubGoodsInfos = ({
     }
     if (
       el.subscribeNum > 1 ||
-      el.subscribeNum < process.env.REACT_APP_LIMITED_NUM
+      el.subscribeNum < window.__.env.REACT_APP_LIMITED_NUM
     ) {
       isPlus ? el.subscribeNum++ : el.subscribeNum--;
       setState({
@@ -55,7 +55,7 @@ const SubGoodsInfos = ({
         <FormattedMessage
           id="cart.errorMaxInfo"
           values={{
-            val: process.env.REACT_APP_LIMITED_NUM
+            val: window.__.env.REACT_APP_LIMITED_NUM
           }}
         />
       ) : (
@@ -82,13 +82,13 @@ const SubGoodsInfos = ({
         tmp = 1;
         errMsg = <FormattedMessage id="cart.errorInfo" />;
       }
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
+      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = window.__.env.REACT_APP_LIMITED_NUM;
         errMsg = (
           <FormattedMessage
             id="cart.errorMaxInfo"
             values={{
-              val: process.env.REACT_APP_LIMITED_NUM
+              val: window.__.env.REACT_APP_LIMITED_NUM
             }}
           />
         );
@@ -419,7 +419,7 @@ const SubGoodsInfos = ({
                           </div>
                         </div>
                       </div>
-                      {isShowClub && !!subDetail.petsId && isNotInactive && (
+                      {isShowClub && !!el.petsId && isNotInactive && (
                         <div
                           style={{
                             position: 'relative',

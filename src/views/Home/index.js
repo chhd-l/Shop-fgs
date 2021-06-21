@@ -34,7 +34,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
-let RCDrawPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -49,7 +49,7 @@ function Divider() {
 function HealthNutrition() {
   return (
     {
-      US: (
+      us: (
         <div className="experience-component experience-layouts-1to2columnRatio">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             <div className="row d-flex align-items-center">
@@ -86,25 +86,25 @@ function HealthNutrition() {
                                 <picture data-rc-feature-objectfillpolyfill-setup="true">
                                   <source
                                     media="(max-width: 640px)"
-                                    data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
-                                    srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
+                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
+                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
                                   />
                                   <source
                                     media="(min-width: 640px) and (max-width: 1439px)"
-                                    data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
-                                    srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
+                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
+                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
                                   />
                                   <source
                                     media="(min-width: 1439px)"
-                                    data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
-                                    srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
+                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
+                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
                                   />
                                   <img
                                     className="w-100 ls-is-cached lazyloaded"
-                                    data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
+                                    data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
                                     alt="Royal Canin specific dog food for every breed"
                                     title="Royal Canin specific dog food for every breed"
-                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
+                                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
                                   />
                                 </picture>
                               </LazyLoad>
@@ -138,25 +138,25 @@ function HealthNutrition() {
                                 <picture data-rc-feature-objectfillpolyfill-setup="true">
                                   <source
                                     media="(max-width: 640px)"
-                                    data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
-                                    srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
+                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
+                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
                                   />
                                   <source
                                     media="(min-width: 640px) and (max-width: 1439px)"
-                                    data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
-                                    srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
+                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
+                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
                                   />
                                   <source
                                     media="(min-width: 1439px)"
-                                    data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
-                                    srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
+                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
+                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
                                   />
                                   <img
                                     className="w-100 ls-is-cached lazyloaded"
-                                    data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
+                                    data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
                                     alt="Royal Canin specific cat food for every breed"
                                     title="Royal Canin specific cat food for every breed"
-                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
+                                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
                                   />
                                 </picture>
                               </LazyLoad>
@@ -185,18 +185,18 @@ function HealthNutrition() {
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
                             <source
                               media="(max-width: 640px)"
-                              data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw4.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw5.jpg 2x`}
-                              srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw4.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw5.jpg 2x`}
+                              data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw5.jpg 2x`}
+                              srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw5.jpg 2x`}
                             />
                             <source
                               media="(min-width: 640px) and (max-width: 769px)"
-                              data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw2.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw3.jpg 2x`}
-                              srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw2.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw3.jpg 2x`}
+                              data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw3.jpg 2x`}
+                              srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw3.jpg 2x`}
                             />
                             <source
                               media="(min-width: 769px)"
-                              data-srcset={`${RCDrawPng}, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg 2x`}
-                              srcSet={`${RCDrawPng}, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg 2x`}
+                              data-srcset={`${RCDrawPng}, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg 2x`}
+                              srcSet={`${RCDrawPng}, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw1.jpg 2x`}
                             />
                             <img
                               className="w-100 ls-is-cached lazyloaded"
@@ -236,14 +236,14 @@ function HealthNutrition() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_COUNTRY] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
 function Share() {
   return (
     {
-      US: (
+      us: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
@@ -275,8 +275,8 @@ function Share() {
                                 className="w-100 lazyloaded"
                                 alt="Royal Canin Dog Products on Social Media"
                                 title="Royal Canin Dog Products on Social Media"
-                                srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg,  ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg 2x`}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg`}
+                                srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg,  ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg 2x`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -298,8 +298,8 @@ function Share() {
                                 className="w-100 lazyloaded"
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
-                                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
+                                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -321,8 +321,8 @@ function Share() {
                                 className="w-100 lazyloaded"
                                 alt="Royal Canin Dog Products on Social Media"
                                 title="Royal Canin Dog Products on Social Media"
-                                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg 2x`}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg`}
+                                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg 2x`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -344,8 +344,8 @@ function Share() {
                                 className="w-100 ls-is-cached lazyloaded"
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
-                                srcSet={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg 2x`}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
+                                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg 2x`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -359,7 +359,7 @@ function Share() {
           </div>
         </div>
       )
-    }[process.env.REACT_APP_COUNTRY] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -372,19 +372,19 @@ function AdvantageTips() {
   ];
   const iconList =
     {
-      US: [
+      us: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
-          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
           langKey: 'home.point2'
         },
         { img: premiumHome, langKey: 'home.point3' },
         {
-          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
+    }[window.__.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
@@ -510,36 +510,36 @@ class Home extends React.Component {
 
     const parametersString = history.location.search;
     if (parametersString.indexOf('redirect=order') >= 0) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         '/account/orders' + history.location.search
       );
     }
     if (parametersString.indexOf('redirect=subscription') >= 0) {
-      sessionItemRoyal.set(
+      localItemRoyal.set(
         'okta-redirectUrl',
         '/account/subscription' + history.location.search
       );
     }
     if (parametersString.indexOf('redirect=baseinfo') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+      localItemRoyal.set('okta-redirectUrl', '/account/information');
     }
     if (parametersString.indexOf('redirect=pets') >= 0) {
-      sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
+      localItemRoyal.set('okta-redirectUrl', '/account/pets');
     }
     if (parametersString.indexOf('toOkta=true') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
     if (parametersString.indexOf('origin=forgot') >= 0) {
-      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      this.props.oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
 
     if (localItemRoyal.get('login-again')) {
       return null;
     }
-    const Ru = process.env.REACT_APP_COUNTRY === 'RU';
+    const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
     return (
       <div>
         {!Ru ? (
@@ -576,7 +576,7 @@ class Home extends React.Component {
               <HeroCarousel history={history} />
             </div>
           </div>
-          {process.env.REACT_APP_HUB == 1 ? (
+          {window.__.env.REACT_APP_HUB == 1 ? (
             <HubSalesCategory rule={salesCategoryFilterRule} />
           ) : (
             <SalesCategory />

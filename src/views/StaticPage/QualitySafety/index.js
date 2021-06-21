@@ -122,7 +122,7 @@ class QualitySafety extends React.Component {
                                 className="w-100 lazyloaded"
                                 alt="Alimentation et processus de sécurité Royal Canin"
                                 title="Alimentation et processus de sécurité Royal Canin"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_1225Export_All_Lowres-1.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_1225Export_All_Lowres-1.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -150,7 +150,7 @@ class QualitySafety extends React.Component {
                             <LazyLoad>
                               <img
                                 alt="export all lowres image"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/DSC_0847Export_All_Lowres.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -209,7 +209,7 @@ class QualitySafety extends React.Component {
                                 className="w-100 ls-is-cached lazyloaded"
                                 alt="Des matières premières de qualité"
                                 title="Des matières premières de qualité"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/2015-Pet-Center-pictures-Campus-Royal-Canin-000004.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/2015-Pet-Center-pictures-Campus-Royal-Canin-000004.jpg`}
                               />
                             </LazyLoad>
                           </picture>

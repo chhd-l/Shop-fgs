@@ -21,14 +21,27 @@ export const UnLoginUserBox = ({ history, className }) => {
       />
       <div className="newUser">
         <FormattedMessage id="header.User.newUser" />
-        <Link className="medium pl-2 ui-cursor-pointer" to="/register">
+        <Link
+          className="medium pl-2 ui-cursor-pointer 1212"
+          onClick={() => {
+            localItemRoyal.set(
+              'okta-redirectUrl',
+              history && history.location.pathname + history.location.search
+            );
+            console.log(
+              'history && history.location.pathname + history.location.search',
+              history && history.location.pathname + history.location.search
+            );
+          }}
+          to="/register"
+        >
           <FormattedMessage id="header.User.registerNow" />
         </Link>
       </div>
-      {process.env.REACT_APP_HUB_MONROYALCANIN ? (
+      {window.__.env.REACT_APP_HUB_MONROYALCANIN ? (
         <a
           className="Offers pt-2 pb-2111 text-left mt-1"
-          href={process.env.REACT_APP_HUB_MONROYALCANIN}
+          href={window.__.env.REACT_APP_HUB_MONROYALCANIN}
           style={{ display: 'block' }}
         >
           <span className="iconfont iconzhuanfa mr-3 rc-text-colour--iconography" />
@@ -37,20 +50,20 @@ export const UnLoginUserBox = ({ history, className }) => {
       ) : null}
 
       {0 &&
-      process.env.REACT_APP_HUB_VET_PORTAL &&
-      process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
+      window.__.env.REACT_APP_HUB_VET_PORTAL &&
+      window.__.env.REACT_APP_HUB_BREEDER_PORTAL ? (
         <div className="border-top pt-2">
           <div className="brandName">
             <FormattedMessage id="header.User.royalCaninPartner" />
           </div>
           <div className="breeder">
-            <a href={process.env.REACT_APP_HUB_BREEDER_PORTAL}>
+            <a href={window.__.env.REACT_APP_HUB_BREEDER_PORTAL}>
               <FormattedMessage id="header.User.breederPortal" />
             </a>
             <span>
               <FormattedMessage id="header.User.or" />
             </span>
-            <a href={process.env.REACT_APP_HUB_VET_PORTAL}>
+            <a href={window.__.env.REACT_APP_HUB_VET_PORTAL}>
               <FormattedMessage id="header.User.vetPortal" />
             </a>
           </div>
@@ -130,7 +143,7 @@ export const LoginUserBox = ({ self, className }) => {
     {
       link: '/faq',
       href:
-        process.env.REACT_APP_COUNTRY == 'RU'
+        window.__.env.REACT_APP_COUNTRY == 'ru'
           ? '/about-us/faq'
           : '/about-us/faqs',
       isHubOuterLink: true,
@@ -186,10 +199,10 @@ export const LoginUserBox = ({ self, className }) => {
           )}
         </React.Fragment>
       ))}
-      {process.env.REACT_APP_HUB_MONROYALCANIN ? (
+      {window.__.env.REACT_APP_HUB_MONROYALCANIN ? (
         <a
           className="basicItem"
-          href={process.env.REACT_APP_HUB_MONROYALCANIN}
+          href={window.__.env.REACT_APP_HUB_MONROYALCANIN}
           style={{ borderTop: '1px solid #DEDEDE', paddingTop: '5px' }}
         >
           <span className="iconfont iconzhuanfa rc-text-colour--iconography" />
@@ -199,20 +212,20 @@ export const LoginUserBox = ({ self, className }) => {
         </a>
       ) : null}
       {0 &&
-      process.env.REACT_APP_HUB_VET_PORTAL &&
-      process.env.REACT_APP_HUB_BREEDER_PORTAL ? (
+      window.__.env.REACT_APP_HUB_VET_PORTAL &&
+      window.__.env.REACT_APP_HUB_BREEDER_PORTAL ? (
         <div className="border-top pt-2">
           <div className="brandName">
             <FormattedMessage id="header.User.royalCaninPartner" />
           </div>
           <div className="breeder">
-            <a href={process.env.REACT_APP_HUB_BREEDER_PORTAL}>
+            <a href={window.__.env.REACT_APP_HUB_BREEDER_PORTAL}>
               <FormattedMessage id="header.User.breederPortal" />
             </a>
             <span>
               <FormattedMessage id="header.User.or" />
             </span>
-            <a href={process.env.REACT_APP_HUB_VET_PORTAL}>
+            <a href={window.__.env.REACT_APP_HUB_VET_PORTAL}>
               <FormattedMessage id="header.User.vetPortal" />
             </a>
           </div>

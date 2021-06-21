@@ -97,7 +97,7 @@ class VetLandingPage extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          {/* {process.env.REACT_APP_COUNTRY == 'FR' ? null: <BannerTip />} */}
+          {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
           <br />
           <BreadCrumbs />
           <div className="storefront-page">

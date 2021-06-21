@@ -7,7 +7,7 @@ export default class paymentMethod extends React.Component {
 
     return (
       <>
-        <div className="d-flex justify-content-end mt-3">
+        <div className="d-flex justify-content-end mt-3 rc_btn_payment_method">
           <button
             className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
             disabled={1 || validForBilling}

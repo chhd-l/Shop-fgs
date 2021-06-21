@@ -56,7 +56,7 @@ function CardItem(props) {
           <p className="mb-0 ac_mb_address1">{data?.address1}</p>
         )}
 
-        {process.env.REACT_APP_COUNTRY == 'US' ? null : (
+        {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
           <>
             <p className="mb-0">{props.countryName}</p>
           </>
@@ -99,7 +99,7 @@ class AddressList extends React.Component {
         address1: '',
         address2: '',
         rfc: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         country: '',
         city: '',
         cityId: '',
@@ -108,6 +108,8 @@ class AddressList extends React.Component {
         province: '',
         postCode: '',
         phoneNumber: '',
+        deliveryDate: '',
+        timeSlot: '',
         isDefalt: false
       },
       wrongAddressMsg: null,
@@ -165,7 +167,7 @@ class AddressList extends React.Component {
       });
     });
     this.setState({
-      wrongAddressMsg: JSON.parse(sessionItemRoyal.get('rc-wrongAddressMsg'))
+      wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
     });
   }
   async queryAddressList() {
@@ -230,6 +232,7 @@ class AddressList extends React.Component {
   }
   // 判断地址完整性
   getSubAddressErrMsg = (data) => {
+    console.log(data);
     let { wrongAddressMsg } = this.state;
     const laddf = this.props.configStore.localAddressForm;
     let dfarr = laddf.settings;
@@ -245,8 +248,17 @@ class AddressList extends React.Component {
       v.fieldKey == 'region' ? (akey = 'area') : v.fieldKey;
       // phoneNumber 对应数据库字段 consigneeNumber
       v.fieldKey == 'phoneNumber' ? (akey = 'consigneeNumber') : v.fieldKey;
+
       let fky = wrongAddressMsg[akey];
-      data[akey] ? '' : errMsgArr.push(fky);
+      // 判断city和cityId 是否均为空
+      if (v.fieldKey == 'city') {
+        data.city || data.cityId ? (akey = '') : akey;
+      }
+      // 判断country和countryId 是否均为空
+      if (v.fieldKey == 'country') {
+        data.country || data.countryId ? (akey = '') : akey;
+      }
+      if (akey) data[akey] ? '' : errMsgArr.push(fky);
     });
     errMsgArr = errMsgArr.join(', ');
     // 如果地址字段有缺失，提示错误信息
@@ -293,7 +305,7 @@ class AddressList extends React.Component {
       address1: '',
       address2: '',
       rfc: '',
-      countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+      countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
       city: '',
       cityId: '',
@@ -319,15 +331,18 @@ class AddressList extends React.Component {
         cityId: tmp.cityId,
         city: tmp.city,
         cityName: tmp.cityName,
+        province: tmp.province || null,
+        provinceId: tmp.provinceId || null,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         email: tmp.email,
+        deliveryDate: tmp.deliveryDate || null,
+        deliveryDateId: tmp.deliveryDate || null,
+        timeSlot: tmp.timeSlot || null,
+        timeSlotId: tmp.timeSlot || null,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false
       };
-      if (process.env.REACT_APP_COUNTRY == 'US') {
-        tmpDeliveryAddress.province = tmp.province;
-        tmpDeliveryAddress.provinceId = tmp.provinceId;
-      }
+
       this.setState(
         {
           deliveryAddress: Object.assign(
@@ -350,12 +365,16 @@ class AddressList extends React.Component {
           address1: '',
           address2: '',
           rfc: '',
-          countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+          countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
           country: '',
           city: '',
           cityId: 0,
           postCode: '',
           phoneNumber: '',
+          deliveryDate: null,
+          deliveryDateId: null,
+          timeSlot: null,
+          timeSlotId: null,
           isDefalt: false
         }
       });
@@ -420,13 +439,13 @@ class AddressList extends React.Component {
       // 把查询运费折扣相关参数存到本地
       localItemRoyal.set('rc-calculation-param', data);
     }
-    let stateNo = data?.state?.stateNo;
+    let stateNo = data?.stateNo || '';
     param = {
       promotionCode: '',
       purchaseFlag: false, // 购物车: true，checkout: false
       subscriptionFlag: true,
       taxFeeData: {
-        country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+        country: window.__.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
         region: stateNo, // 省份简写
         city: data?.city,
         street: data?.address1,
@@ -543,8 +562,11 @@ class AddressList extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmValidationAddress() {
-    const { deliveryAddress, selectValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectValidationOption,
+      validationAddress
+    } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
@@ -579,19 +601,8 @@ class AddressList extends React.Component {
         validationModalVisible: false,
         validationLoading: false
       });
-
-      let params = {
-        address1: deliveryAddress.address1,
-        address2: deliveryAddress.address2,
-        area: deliveryAddress.area,
-        areaId: deliveryAddress.areaId,
-        firstName: deliveryAddress.firstName,
-        lastName: deliveryAddress.lastName,
-        countryId: +deliveryAddress.countryId,
-        country: +deliveryAddress.country,
-        cityId: deliveryAddress.cityId,
-        city: deliveryAddress.city,
-        cityName: deliveryAddress.cityName,
+      let params = Object.assign({}, deliveryAddress, {
+        region: deliveryAddress.province, // DuData相关参数
         consigneeName:
           deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
         consigneeNumber: deliveryAddress.phoneNumber,
@@ -600,26 +611,45 @@ class AddressList extends React.Component {
           deliveryAddress.address1 + ' ' + deliveryAddress.address2,
         deliveryAddressId: originData ? originData.deliveryAddressId : '',
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-        postCode: deliveryAddress.postCode,
-        rfc: deliveryAddress.rfc,
-        email: deliveryAddress.email,
-        comment: deliveryAddress?.comment,
-
-        region: deliveryAddress.province, // DuData相关参数
-        area: deliveryAddress.area,
-        settlement: deliveryAddress.settlement,
-        street: deliveryAddress.street,
-        house: deliveryAddress.house,
-        housing: deliveryAddress.housing,
-        entrance: deliveryAddress.entrance,
-        apartment: deliveryAddress.apartment,
-
+        province: deliveryAddress.province,
+        provinceId: deliveryAddress.provinceId,
+        isValidated: deliveryAddress.validationResult,
         type: this.props.type.toUpperCase()
-      };
+      });
+      // let params = {
+      //   address1: deliveryAddress.address1,
+      //   address2: deliveryAddress.address2,
+      //   area: deliveryAddress.area,
+      //   areaId: deliveryAddress.areaId,
+      //   firstName: deliveryAddress.firstName,
+      //   lastName: deliveryAddress.lastName,
+      //   countryId: deliveryAddress.countryId,
+      //   country: deliveryAddress.country,
+      //   cityId: deliveryAddress.cityId,
+      //   city: deliveryAddress.city,
+      //   cityName: deliveryAddress.cityName,
+      //   consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+      //   consigneeNumber: deliveryAddress.phoneNumber,
+      //   customerId: originData ? originData.customerId : '',
+      //   deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
+      //   deliveryAddressId: originData ? originData.deliveryAddressId : '',
+      //   isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+      //   postCode: deliveryAddress.postCode,
+      //   rfc: deliveryAddress.rfc,
+      //   email: deliveryAddress.email,
+      //   comment: deliveryAddress?.comment,
 
-      params.province = deliveryAddress.province;
-      params.provinceId = deliveryAddress.provinceId;
-      params.isValidated = deliveryAddress.validationResult;
+      //   region: deliveryAddress.province, // DuData相关参数
+      //   area: deliveryAddress.area,
+      //   settlement: deliveryAddress.settlement,
+      //   street: deliveryAddress.street,
+      //   house: deliveryAddress.house,
+      //   housing: deliveryAddress.housing,
+      //   entrance: deliveryAddress.entrance,
+      //   apartment: deliveryAddress.apartment,
+
+      //   type: this.props.type.toUpperCase()
+      // };
 
       this.setState({ saveLoading: true });
       const tmpPromise =
@@ -646,8 +676,9 @@ class AddressList extends React.Component {
           successTipVisible: false
         });
       }, 2000);
-      return res;
+      // return res;
     } catch (err) {
+      console.log(672, err);
       this.setState({
         saveErrorMsg: err.message.toString()
       });
@@ -655,7 +686,8 @@ class AddressList extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          saveErrorMsg: ''
+          saveErrorMsg: '',
+          successTipVisible: false
         });
       }, 5000);
     } finally {
@@ -703,6 +735,7 @@ class AddressList extends React.Component {
       });
   }
   showErrorMsg(msg) {
+    console.log(722, '-------- err msg: ', msg);
     this.setState({
       saveErrorMsg: msg
     });
@@ -710,7 +743,8 @@ class AddressList extends React.Component {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        saveErrorMsg: ''
+        saveErrorMsg: '',
+        successTipVisible: false
       });
     }, 3000);
   }
@@ -832,7 +866,7 @@ class AddressList extends React.Component {
         <div
           className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
             this.state.saveErrorMsg ? '' : 'hidden'
-          }`}
+          } subscription-detail-address-comp`}
         >
           <aside
             className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -876,7 +910,7 @@ class AddressList extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    {process.env.REACT_APP_COUNTRY !== 'RU' ? (
+                    {window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
                       <div
                         className="d-flex align-items-center justify-content-between flex-wrap"
                         style={{ lineHeight: '40px' }}
@@ -1012,6 +1046,11 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--sm rc-btn--one"
                     disabled={btnSubSaveFlag}
                     onClick={() => {
+                      console.info(
+                        '....',
+                        addressList.filter((el) => el.selected)[0]
+                      );
+                      debugger;
                       this.props.save(
                         addressList.filter((el) => el.selected)[0],
                         isBillSame,
@@ -1033,6 +1072,7 @@ class AddressList extends React.Component {
                 {addOrEdit && (
                   <EditForm
                     initData={deliveryAddress}
+                    type={this.props.type}
                     isLogin={true}
                     updateData={(data) => this.updateDeliveryAddress(data)}
                     calculateFreight={(data) => this.calculateFreight(data)}

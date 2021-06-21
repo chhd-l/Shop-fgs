@@ -32,6 +32,7 @@ import './index.less';
 import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
+import { injectIntl } from 'react-intl';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -186,7 +187,7 @@ function LogisticsProgress(props) {
 }
 
 @inject('checkoutStore', 'configStore')
-// @injectIntl
+@injectIntl
 @observer
 class AccountOrders extends React.Component {
   constructor(props) {
@@ -249,6 +250,17 @@ class AccountOrders extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
+  }
+  get isShowInstallMent() {
+    const { details } = this.state;
+    return !!details.tradePrice.installmentPrice;
+  }
+  // 存在分期时，总价显示另一个字段
+  get totalPrice() {
+    const { details } = this.state;
+    return this.isShowInstallMent
+      ? details.tradePrice.totalAddInstallmentPrice
+      : details.tradePrice.totalPrice;
   }
   init() {
     const { orderNumber, progressList } = this.state;
@@ -544,7 +556,6 @@ class AccountOrders extends React.Component {
   }
   handleClickPayNow = async () => {
     const { details: order, details } = this.state;
-    const { consignee, invoice, tradePrice } = details;
     this.setState({ payNowLoading: true });
     const tradeItems = details.tradeItems.map((ele) => {
       return {
@@ -558,34 +569,7 @@ class AccountOrders extends React.Component {
         subscriptionStatus: ele.subscriptionStatus
       };
     });
-    const tmpDeliveryAddress = {
-      firstName: consignee.firstName,
-      lastName: consignee.lastName,
-      address1: consignee.detailAddress1,
-      address2: consignee.detailAddress2,
-      rfc: consignee.rfc,
-      country: consignee.countryId ? consignee.countryId.toString() : '',
-      // city: consignee.cityId ? consignee.cityId.toString() : '',
-      city: consignee.city == consignee.cityName ? null : consignee.city,
-      cityName: consignee.cityName,
-      postCode: consignee.postCode,
-      phoneNumber: consignee.phone,
-      addressId: consignee.id
-    };
-    const tmpBillingAddress = {
-      firstName: invoice.firstName,
-      lastName: invoice.lastName,
-      address1: invoice.address1,
-      address2: invoice.address2,
-      rfc: invoice.rfc,
-      country: invoice.countryId ? invoice.countryId.toString() : '',
-      // city: invoice.cityId ? invoice.cityId.toString() : '',
-      city: invoice.city == invoice.cityName ? null : invoice.city,
-      cityName: invoice.cityName,
-      postCode: invoice.postCode,
-      phoneNumber: invoice.phone,
-      addressId: invoice.addressId
-    };
+
     this.props.checkoutStore.setLoginCartData(tradeItems);
     sessionItemRoyal.set('rc-tid', details.id);
 
@@ -956,7 +940,7 @@ class AccountOrders extends React.Component {
               title={normalProgressList[currentProgerssIndex]?.flowStateDesc}
               tip={<FormattedMessage id="order.completeTip" />}
               operation={
-                !!+process.env.REACT_APP_PDP_RATING_VISIBLE && (
+                !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
                   <FormattedMessage id="comment">
                     {(txt) => (
                       <Link
@@ -1002,6 +986,65 @@ class AccountOrders extends React.Component {
     // }
     return ret;
   };
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intl.messages[str];
+  };
+  // 星期
+  getWeekDay = (day) => {
+    let weekArr = [
+      this.getIntlMsg('payment.Sunday'),
+      this.getIntlMsg('payment.Monday'),
+      this.getIntlMsg('payment.Tuesday'),
+      this.getIntlMsg('payment.Wednesday'),
+      this.getIntlMsg('payment.Thursday'),
+      this.getIntlMsg('payment.Friday'),
+      this.getIntlMsg('payment.Saturday')
+    ];
+    return weekArr[day];
+  };
+  // 月份
+  getMonth = (num) => {
+    num = Number(num);
+    let monthArr = [
+      '0',
+      this.getIntlMsg('payment.January'),
+      this.getIntlMsg('payment.February'),
+      this.getIntlMsg('payment.March'),
+      this.getIntlMsg('payment.April'),
+      this.getIntlMsg('payment.May'),
+      this.getIntlMsg('payment.June'),
+      this.getIntlMsg('payment.July'),
+      this.getIntlMsg('payment.August'),
+      this.getIntlMsg('payment.September'),
+      this.getIntlMsg('payment.October'),
+      this.getIntlMsg('payment.November'),
+      this.getIntlMsg('payment.December')
+    ];
+    return monthArr[num];
+  };
+  // delivery date 格式转换: 星期, 15 月份
+  getFormatDeliveryDateStr = (date) => {
+    // 获取明天几号
+    let mdate = new Date();
+    let tomorrow = mdate.getDate() + 1;
+    // 获取星期
+    var week = new Date(date).getDay();
+    let weekday = this.getWeekDay(week);
+    // 获取月份
+    let ymd = date.split('-');
+    let month = this.getMonth(ymd[1]);
+
+    // 判断是否有 ‘明天’ 的日期
+    let thisday = Number(ymd[2]);
+    let daystr = '';
+    if (tomorrow == thisday) {
+      daystr = this.getIntlMsg('payment.tomorrow');
+    } else {
+      daystr = weekday;
+    }
+    return daystr + ', ' + ymd[2] + ' ' + month;
+  };
   render() {
     const event = {
       page: {
@@ -1016,7 +1059,6 @@ class AccountOrders extends React.Component {
 
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
-
     const {
       details,
       payRecord,
@@ -1028,7 +1070,16 @@ class AccountOrders extends React.Component {
       showLogisticsDetail,
       curLogisticInfo
     } = this.state;
-    const isTr = process.env.REACT_APP_COUNTRY === 'TR'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
+
+    let newDeliveryDate = '';
+    if (details?.consignee?.deliveryDate) {
+      newDeliveryDate = this.getFormatDeliveryDateStr(
+        details.consignee.deliveryDate
+      );
+    }
+
+    // details?.tradeItems?.map(el=>{el.subscriptionSourceList=[{subscribeId:'12323232323232'},{subscribeId:'12323232323232'}]})
+    const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其Total VAT Included的翻译，需要对Total VAT Included特殊化处理
     return (
       <div>
         <PageBaseInfo additionalEvents={event} />
@@ -1120,7 +1171,7 @@ class AccountOrders extends React.Component {
                                 </div>
 
                                 {/* 订阅订单号 */}
-                                {details.subscriptionResponseVO ? (
+                                {/* {details.subscriptionResponseVO ? (
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="subscription.numberFirstWordUpperCase" />
                                     <br />
@@ -1135,10 +1186,11 @@ class AccountOrders extends React.Component {
                                       })}
                                     </Link>
                                   </div>
-                                ) : null}
+                                ) : null} */}
 
                                 {/* clinic信息 */}
-                                {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                                {window.__.env
+                                  .REACT_APP_CHECKOUT_WITH_CLINIC ===
                                   'true' && (
                                   <div className="col-12 col-md-3 text-left mb-2">
                                     <FormattedMessage id="payment.clinicTitle3" />
@@ -1198,7 +1250,36 @@ class AccountOrders extends React.Component {
                                                 />
                                               </span>
                                             </span>
-
+                                            {item.subscriptionSourceList
+                                              ?.length ? (
+                                              <span>
+                                                <span
+                                                  className="iconfont mr-2"
+                                                  style={{ color: '#ec001a' }}
+                                                >
+                                                  &#xe675;
+                                                </span>
+                                                <FormattedMessage id="subscription.numberFirstWordUpperCase" />
+                                                {item.subscriptionSourceList.map(
+                                                  (el) => (
+                                                    <p className="ui-text-overflow-line1">
+                                                      <Link
+                                                        to={`/account/subscription/order/detail/${el.subscribeId}`}
+                                                        className="rc-styled-link medium mb-0"
+                                                      >
+                                                        {filterOrderId({
+                                                          orderNo:
+                                                            el.subscribeId,
+                                                          orderNoForOMS: this
+                                                            .state
+                                                            .orderNumberForOMS
+                                                        })}
+                                                      </Link>
+                                                    </p>
+                                                  )
+                                                )}
+                                              </span>
+                                            ) : null}
                                             <span className="rc-md-down">
                                               {details.subscriptionResponseVO &&
                                               item.subscriptionStatus ? (
@@ -1379,6 +1460,24 @@ class AccountOrders extends React.Component {
                                     <></>
                                   )}
 
+                                  {/* 分期手续费 */}
+                                  {this.isShowInstallMent ? (
+                                    <>
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-md-2 mb-2 red">
+                                        <FormattedMessage id="installMent.additionalFee" />
+                                      </div>
+                                      <div className="col-6 col-md-3 text-right red text-nowrap">
+                                        {formatMoney(
+                                          details.tradePrice.installmentPrice
+                                            .additionalFee
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null}
+
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
@@ -1399,7 +1498,7 @@ class AccountOrders extends React.Component {
                                     </span>{' '}
                                   </div>
                                   <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
-                                    {formatMoney(details.tradePrice.totalPrice)}
+                                    {formatMoney(this.totalPrice)}
                                   </div>
                                 </div>
                               </div>
@@ -1436,9 +1535,10 @@ class AccountOrders extends React.Component {
                                       </p>
 
                                       {/* 国家 */}
-                                      {process.env.REACT_APP_COUNTRY === 'US' ||
-                                      process.env.REACT_APP_COUNTRY ===
-                                        'RU' ? null : (
+                                      {window.__.env.REACT_APP_COUNTRY ===
+                                        'us' ||
+                                      window.__.env.REACT_APP_COUNTRY ===
+                                        'ru' ? null : (
                                         <p className="mb-0 od_mb_country">
                                           {matchNamefromDict(
                                             this.state.countryList,
@@ -1508,12 +1608,26 @@ class AccountOrders extends React.Component {
                                           )}
                                         </p>
                                       ) : null}
+
+                                      {/* delivery date */}
+                                      {newDeliveryDate && (
+                                        <p className="mb-0 od_mb_deliveryDate">
+                                          {newDeliveryDate}
+                                        </p>
+                                      )}
+
+                                      {/* time slot */}
+                                      {details.consignee?.timeSlot && (
+                                        <p className="mb-0 od_mb_timeSlot">
+                                          {details.consignee.timeSlot}
+                                        </p>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                               {!Boolean(
-                                +process.env
+                                +window.__.env
                                   .REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
                               ) ? (
                                 <div className="col-12 col-md-4 mb-2">
@@ -1540,9 +1654,9 @@ class AccountOrders extends React.Component {
                                         </p>
 
                                         {/* 国家 */}
-                                        {process.env.REACT_APP_COUNTRY ===
-                                          'US' ||
-                                        process.env.REACT_APP_COUNTRY ===
+                                        {window.__.env.REACT_APP_COUNTRY ===
+                                          'us' ||
+                                        window.__.env.REACT_APP_COUNTRY ===
                                           'ru' ? null : (
                                           <p className="mb-0 od_mb_country">
                                             {matchNamefromDict(
@@ -1633,13 +1747,29 @@ class AccountOrders extends React.Component {
                                             {payRecord.holderName}
                                           </p>
                                         ) : null}
-                                        {/* {payRecord.phone ? (
-                                          <>
-                                            {payRecord.phone}
-                                            <br />
-                                          </>
+
+                                        {/* 分期费用明细 */}
+                                        {0 &&
+                                        details.tradePrice.installmentPrice ? (
+                                          <p>
+                                            {formatMoney(
+                                              details.tradePrice.totalPrice
+                                            )}{' '}
+                                            (
+                                            {
+                                              details.tradePrice
+                                                .installmentPrice
+                                                .installmentNumber
+                                            }{' '}
+                                            *{' '}
+                                            {formatMoney(
+                                              details.tradePrice
+                                                .installmentPrice
+                                                .installmentPrice
+                                            )}
+                                            )
+                                          </p>
                                         ) : null}
-                                        {payRecord.email} */}
                                       </div>
                                     </div>
                                   </div>

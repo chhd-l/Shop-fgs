@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RelateProductCarousel from '@/components/RelateProductCarousel';
-const isHub = process.env.REACT_APP_HUB == '1';
+const isHub = window.__.env.REACT_APP_HUB == '1';
 interface Props {
   id: string;
 }
@@ -30,7 +30,7 @@ const HandledRelateProductCarousel = ({ id }: Props) => {
         const breed = breedValue?.toLowerCase() === 'cat' ? 'Kошка' : 'Cобака'; //俄罗斯定制，嗐！
         const ruAttrs = [breed, ...technologyAttr];
         const technologyOrBreedsAttr =
-          isHub && process.env.REACT_APP_COUNTRY === 'RU'
+          isHub && window.__.env.REACT_APP_COUNTRY === 'ru'
             ? ruAttrs.join(',')
             : attrs;
         return Object.assign(ele, { technologyOrBreedsAttr });

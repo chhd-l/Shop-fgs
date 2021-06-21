@@ -53,7 +53,7 @@ class ShippingAddressFrom extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
         country: '',
         city: '',
         cityId: '',
@@ -227,8 +227,8 @@ class ShippingAddressFrom extends React.Component {
         areaId: data.areaId,
         firstName: data.firstName,
         lastName: data.lastName,
-        countryId: +data.countryId,
-        country: +data.country,
+        countryId: data.countryId,
+        country: data.country,
         city: data.city,
         cityId: data.cityId,
         consigneeName: data.firstName + ' ' + data.lastName,
@@ -254,12 +254,10 @@ class ShippingAddressFrom extends React.Component {
 
         type: curType.toUpperCase()
       };
-      // if (params?.province && params?.province != null) {
       params.province = data.province;
       params.provinceId = data.provinceId;
       params.isValidated = data.validationResult;
-      // }
-      console.log('----------------------> handleSave params: ', params);
+      // console.log('----------------------> handleSave params: ', params);
 
       let res = await (this.state.isAdd ? saveAddress : editAddress)(params);
       myAccountActionPushEvent('Add Address'); // GA

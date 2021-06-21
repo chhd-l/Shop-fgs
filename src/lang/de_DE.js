@@ -223,6 +223,17 @@ const de_DE = {
   'confirmation.account': 'zu meinem Profil',
   'confirmation.customerInformation': 'Ihre Informationen',
   'confirmation.info1': 'Vielen Dank für Ihren Auftrag.',
+  'confirmation.mktSelectedNotActiveInfo':
+    'In Ihrer Account-Anmeldung haben Sie den Newsletter abboniert. Bitte denken Sie daran, die dazu erhaltene Mail zu bestätigen, um Inhalte von uns erhalten zu können.',
+  'confirmation.mktSelectedSuccess':
+    'Ihre Newsletter-Anmeldung wurde erfolgreich bestätigt. Vielen Dank!',
+  'confirmation.mktNotSelectedTitle': 'Newsletter-Anmeldung',
+  'confirmation.mktNotSelectedDescription':
+    'Abbonniern Sie jetzt den Royal Canin-Newsletter und verpassen Sie keine Neuigkeiten und Angebote mehr',
+  'confirmation.mktNotSelectedConfirm':
+    'Bitte bestätigen Sie ihre E-Mail Adresse',
+  'confirmation.mktNotSelectedCSuccess':
+    'Wir haben Ihnen eine E-Mail zur Bestätigung Ihrer E-Mail Adresse geschickt. Bitte prüfen Sie auch den Spam-Ordner und klicken Sie auf den angegebenen Link, um die Anmeldung abzuschließen.',
   'confirmation.info2':
     'Sie erhalten in Kürze eine E-Mail-Bestätigung unter {val1}',
   'confirmation.info3':
@@ -406,6 +417,7 @@ const de_DE = {
   freeShipping: 'Kostenloser Versand',
   FrequentQuestions: 'Häufige Fragen',
   from: 'Von',
+  plpFromText: 'Von',
   gender: 'Geschlecht',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
@@ -450,8 +462,9 @@ const de_DE = {
     'Wenden Sie sich gerne auch via E-Mail an uns. Wir werden Ihnen schnellstmöglich weiterhelfen.',
   'help.tip4': '',
   'help.title':
-    'Haben Sie Fragen? Unser Expertenteam hilft Ihnen gerne weiter.',
+    'Haben Sie Fragen? Unser Service-Team hilft Ihnen gerne weiter.',
   here: 'Expertenteam',
+  here2: 'Service-Team',
   home: 'Übersicht',
   'home.convenientTip1':
     'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',
@@ -474,7 +487,14 @@ const de_DE = {
   'home.point6': 'MIT DIR ZUSAMMEN',
   'home.productsCategory': 'Unsere Produkte',
   'home.promotionTip':
-    '10% Rabatt auf den ersten Einkauf + 5% Rabatt auf jede Autoship?',
+    'Jetzt Empfehlungscode eingeben und tierärztliche Produkte bestellen!',
+  'home.userReurnNoMKT':
+    'IHR KONTO WURDE ERFOLGREICH ANGELEGT! BITTE BESTÄTIGEN SIE AUCH IHRE NEWSLETTER ANMELDUNG UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
+  'home.userReturnHasMKT': 'IHR KONTO WURDE ERFOLGREICH ANGELEGT!',
+  'home.MKTReturnNoUser':
+    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. BITTE AKTIVIEREN SIE AUCH IHREN ACCOUNT UM UNSEREN VOLLEN SERVICE NUTZEN ZU KÖNNEN.',
+  'home.MKTReturnHasUser':
+    'IHRE NEWSLETTER-ANMELDUNG WURDE ERFOLGREICH BESTÄTIGT. VIELEN DANK!',
   'home.specialAnimalNutrition': 'Spezielle Tierernährung',
   'home.specialInfo1': 'Die Pracht jeder Rasse ist',
   'home.specialInfo2': 'in seiner Einzigartigkeit.',
@@ -554,7 +574,9 @@ const de_DE = {
   moreAddress: 'Mehr Adresse',
   moreChoicesAvailable: 'Weitere Auswahlmöglichkeiten',
   mustChooseACommunicationMethodTip:
-    'Entschuldigung, Sie haben die Kommunikationsgenehmigung überprüft, daher müssen Sie eine Kommunikationsmethode auswählen',
+    'Entschuldigung, Sie haben die Zustimmung zur Kommunikation überprüft',
+  mustChooseTheConsentTip:
+    'Um zu bestätigen, dass Sie kontaktiert werden möchten, kreuzen Sie bitte das entsprechende Kästchen an.',
   myAutoshipOrder: 'Meine regelmäßigen Lieferungen',
   name: 'Name',
   name2: 'NAME',
@@ -717,6 +739,40 @@ const de_DE = {
   'payment.terms3.header': 'ROYAL CANIN Newsletter',
   'payment.totalProduct': '{val} Artikel im Warenkorb',
   'payment.yourOrder': 'Deine Bestellung',
+
+  'payment.tomorrow': 'morgen',
+
+  'payment.homeDelivery': 'Lieferung nach Hause',
+  'payment.pickUpDelivery': 'Abholung der Lieferung',
+
+  'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
+
+  'payment.reselectTimeSlot':
+    'Bitte wählen Sie das Lieferdatum und die Lieferzeit erneut aus.',
+
+  // 星期
+  'payment.Monday': 'Montag',
+  'payment.Tuesday': 'Dienstag',
+  'payment.Wednesday': 'Mittwoch',
+  'payment.Thursday': 'Donnerstag',
+  'payment.Friday': 'Freitag',
+  'payment.Saturday': 'Samstag',
+  'payment.Sunday': 'Sonntag',
+
+  // 月份
+  'payment.January': 'Januar',
+  'payment.February': 'Februar',
+  'payment.March': 'März',
+  'payment.April': 'April',
+  'payment.May': 'Mai',
+  'payment.June': 'Juni',
+  'payment.July': 'Juli',
+  'payment.August': 'August',
+  'payment.September': 'September',
+  'payment.October': 'Oktober',
+  'payment.November': 'November',
+  'payment.December': 'Dezember',
+
   paymentMethod: 'Zahlungsmethode',
   'paymethods.btn': 'Zahlungsmethode hinzufügen',
   'paymethods.info':
@@ -874,9 +930,9 @@ const de_DE = {
   registerAname: 'Eine Nummer',
   registerCloud: 'Commerce Cloud Storefront-Referenzarchitektur',
   registerCompleteForm:
-    'Um Ihr Konto zu erstellen, füllen Sie bitte das folgende Formular aus.',
+    'Um ein Kundenkonto anzulegen, bitte die Felder unten ausfüllen.',
   registerContinuing:
-    'Indem Sie fortfahren, stimmen Sie unserer MARS-Datenschutzrichtlinie zu. sammelt und verwendet Ihren Vor- und Nachnamen sowie Ihre E-Mail-Adresse, um Ihnen eine personalisierte Erfahrung zu bieten. ',
+    'Bei der Anmeldung über Facebook oder Google erfolgt keine Anwendung unserer <strong>Datenschutzerklärung</strong>. Einzelheiten zu den dort geltenden Datenschutzbestimmungen entnehmen Sie bitte den entsprechenden Datenschutzerklärungen der einzelnen Anbieter. ',
   registerCreateYourAccout: 'Erstellen Sie Ihr Royal Canin-Konto',
   registerEmail: 'E-Mail-Adresse',
   registerEmailFormate:
@@ -886,12 +942,11 @@ const de_DE = {
   registerFailed: 'Registrierung fehlgeschlagen',
   registerFeckbook: 'Mit Facebook verbinden',
   registerFillIn: 'Bitte füllen Sie dieses Feld aus',
-  registerFooter1:
-    'Sie müssen mindestens 16 Jahre alt sein, um ein Formular einzureichen. Sie können uns kontaktieren, indem Sie an Royal Canin France, Verbraucherservice - BP4 - 650 Avenue de la Petite Camargue - 30470 AIMARGUES oder per E-Mail an',
+  registerFooter1: '',
   registerGoogle: 'Mit Google verbinden',
-  registerHaveAccount: 'Haben Sie bereits ein Konto?',
+  registerHaveAccount: 'Sie haben bereits ein Kundenkonto?',
   registerLength: '8 Zeichen',
-  registerLoginIn: 'Kasse',
+  registerLoginIn: 'Anmelden',
   registerLowercase: 'Ein Kleinbuchstabe',
   registerMandatory: 'Pflichtfeld',
   registerName: 'Name',
@@ -903,6 +958,7 @@ const de_DE = {
   registerTogglePassword: 'Passwortsichtbarkeit umschalten',
   registerUppercase: 'Ein Großbuchstabe',
   registerWelcome: 'Willkommen bei',
+  'register.royalCanin': 'Royal Canin',
   remember48Hours:
     'Denken Sie daran, dass die Bestellung vor {val} zwei Tage später vor {val} pm oder nach {val} pm drei Tage später vor {val} pm abläuft.',
   rememberMe: 'Behalte mich in Erinnerung',
@@ -1277,11 +1333,11 @@ const de_DE = {
   'subscriptionDetail.product': 'Product',
   pirceRange: 'Von {fromPrice} bis {toPrice}',
   'mobile.cart.orderSummary': 'Bestellübersicht',
-  'welcome.createdSuccessfully': 'Ihr Konto wurde erfolgreich erstellt!',
+  'welcome.createdSuccessfully': 'Ihr Kundenkonto wurde erfolgreich angelegt!',
   'welcome.confirmEmail':
-    'Um die Erstellung Ihres Kontos abzuschließen, klicken Sie in der E-Mail an die folgende E-Mail-Adresse auf "Bestätigen":',
+    'Um Ihren Anmeldevorgang abzuschließen, klicken Sie in der E-Mail auf „Bestätigen“, die an folgende E-Mail-Adresse versandt wurde:',
   'welcome.notReceiveEmail': 'Sie haben keine E-Mail erhalten?',
-  'welcome.contactSupport': 'Support kontaktieren',
+  'welcome.contactSupport': 'Kontaktieren Sie unseren Support',
   'welcome.privacyStatement': 'Datenschutzerklärung',
   'welcome.cookiesNotice': 'Cookies Notice',
   'welcome.legal': 'Legal',
@@ -1304,7 +1360,25 @@ const de_DE = {
   'subscription.all': 'alle',
   'subscription.autoship': 'Autoship',
   'subscription.club': 'Verein',
-  searchShow: 'Suchergebnisse'
+  searchShow: 'Suchergebnisse',
+  'deLandingPage.prescriberCode.title': 'Empfehlungscode Ihrer Tierarztpraxis',
+  'deLandingPage.prescriberCode.tip1':
+    'Um eine Bestellung in unserem Shop zu tätigen, benötigen Sie einen individuellen',
+  'deLandingPage.prescriberCode.tip2':
+    '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
+  'deLandingPage.prescriberCode.tip3':
+    'eine fachgerechte Empfehlung vorausgeht.',
+  'deLandingPage.prescriberCode.tip4':
+    'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
+  dePrescriberCodeTxt: 'z B.XYZ1234',
+  dePrescriberCodeErrMsg:
+    'Der eingegebene Code ist ungültig.<br>Bitte versuchen Sie es mit einem anderen Code',
+  'deLandingPage.prescriberCode.searchBtn': 'Code speichern',
+  'deLandingPage.prescriberCode.tip5': 'Sie haben noch keinen Empfehlungscode?',
+  'deLandingPage.prescriberCode.tip6':
+    ' Fragen Sie bei unseren teilnehmenden Tierärzt*innen.',
+  'deLandingPage.prescriberCode.navigateBtn': 'Tierarztpraxen anzeigen',
+  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!'
 };
 
 export default de_DE;

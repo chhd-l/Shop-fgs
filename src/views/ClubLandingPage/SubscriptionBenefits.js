@@ -53,7 +53,7 @@ export function SubscriptionBenefits() {
               <FormattedMessage
                 id="home.convenientTip2"
                 values={{
-                  val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                  val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
                 }}
               />
             </p>
@@ -82,7 +82,7 @@ export function SubscriptionBenefits() {
 
   return (
     {
-      US: (
+      us: (
         <>
           <div className="col-12 col-md-6 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -186,7 +186,7 @@ export function SubscriptionBenefits() {
           </div>
         </>
       ),
-      RU: (
+      ru: (
         <>
           <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center ">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -328,7 +328,7 @@ export function SubscriptionBenefits() {
           </div>
         </>
       ),
-      TR: (
+      tr: (
         <>
           <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -433,7 +433,7 @@ export function SubscriptionBenefits() {
         </>
       ),
 
-      FR: (
+      fr: (
         <>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -496,7 +496,7 @@ export function SubscriptionBenefits() {
                   <FormattedMessage
                     id="home.convenientTip2"
                     values={{
-                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                      val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
                     }}
                   />
                 </p>
@@ -526,7 +526,7 @@ export function SubscriptionBenefits() {
           </div>
         </>
       ),
-      DE: (
+      de: (
         <>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
@@ -589,7 +589,7 @@ export function SubscriptionBenefits() {
                   <FormattedMessage
                     id="home.convenientTip3"
                     values={{
-                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                      val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
                     }}
                   />
                 </p>
@@ -619,6 +619,6 @@ export function SubscriptionBenefits() {
           </div>
         </>
       )
-    }[process.env.REACT_APP_COUNTRY] || defaultJSX
+    }[window.__.env.REACT_APP_COUNTRY] || defaultJSX
   );
 }

@@ -34,7 +34,7 @@ class PersonalDataEditForm extends React.Component {
         lastName: '',
         birthdate: '',
         email: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
         country: '',
         provinceNo: '',
         provinceId: '',
@@ -92,7 +92,7 @@ class PersonalDataEditForm extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'FR') {
+    if (name === 'phoneNumber' && window.__.env.REACT_APP_COUNTRY === 'fr') {
       value = value.replace(/^[0]/, '+(33)');
     }
     form[name] = value;
@@ -259,7 +259,7 @@ class PersonalDataEditForm extends React.Component {
         communicationPhone: form.communicationPhone,
         oktaToken: oktaToken
       };
-      if (process.env.REACT_APP_COUNTRY === 'US') {
+      if (window.__.env.REACT_APP_COUNTRY === 'us') {
         mydata.province = form.province;
         mydata.provinceId = form.provinceId;
       }
@@ -467,21 +467,21 @@ class PersonalDataEditForm extends React.Component {
                   },
                   {
                     name:
-                      process.env.REACT_APP_COUNTRY === 'US' ? null : (
+                      window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
                         <FormattedMessage id="payment.phoneNumber" />
                       ),
                     val:
-                      process.env.REACT_APP_COUNTRY === 'US'
+                      window.__.env.REACT_APP_COUNTRY === 'us'
                         ? null
                         : data.phoneNumber
                   },
                   {
                     name:
-                      process.env.REACT_APP_COUNTRY === 'US' ? null : (
+                      window.__.env.REACT_APP_COUNTRY === 'us' ? null : (
                         <FormattedMessage id="payment.address1" />
                       ),
                     val:
-                      process.env.REACT_APP_COUNTRY === 'US'
+                      window.__.env.REACT_APP_COUNTRY === 'us'
                         ? null
                         : data.address1
                   }
