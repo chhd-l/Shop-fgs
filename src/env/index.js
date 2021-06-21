@@ -58,13 +58,14 @@ const pathnameToCountryEnv = [
   }
 ];
 
-const pathnameKey = pathnameToCountryEnv.filter((item) => {
-  return item.reg.test(location.pathname) && item.envFileName;
-})[0];
-if (!pathnameKey) {
-  console.warn('匹配不到国家');
-}
-countryKey = pathnameToCountryEnv[pathnameKey || '/us'];
+countryKey =
+  pathnameToCountryEnv.filter((item) => {
+    return item.reg.test(location.pathname) && item.envFileName;
+  })[0]['envFileName'] || 'ENV_CORE';
+// if (!pathnameKey) {
+//   console.warn('匹配不到国家');
+// }
+// countryKey = pathnameToCountryEnv[pathnameKey || '/us'];
 
 switch (location.host) {
   case 'shopsit.royalcanin.com':
