@@ -291,7 +291,7 @@ class AddressList extends React.Component {
         delete v.state;
         if (
           process.env.REACT_APP_COUNTRY == 'ru' &&
-          this.props.saveAddressNumber == 0
+          this.props.saveAddressNumber > 1
         ) {
           // 根据 address 取到 DuData返回的provinceId
           let dudata = await getAddressBykeyWord({ keyword: v.address1 });
