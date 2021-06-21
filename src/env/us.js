@@ -1,7 +1,7 @@
 const env = {
   base: {
     // #国家
-    REACT_APP_COUNTRY: 'US',
+    REACT_APP_COUNTRY: 'us',
 
     // #接口配置
     REACT_APP_BASEURL: 'https://shopuat.466920.com/api',

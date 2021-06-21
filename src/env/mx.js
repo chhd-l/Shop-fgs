@@ -1,7 +1,7 @@
 const env_mx = {
   base: {
     // #国家
-    REACT_APP_COUNTRY: 'MX',
+    REACT_APP_COUNTRY: 'mx',
 
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-NCWZQ3',

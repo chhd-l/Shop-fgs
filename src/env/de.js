@@ -1,7 +1,7 @@
 const env_de = {
   base: {
     // #国家
-    REACT_APP_COUNTRY: 'DE',
+    REACT_APP_COUNTRY: 'de',
 
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-NCWZQ3',

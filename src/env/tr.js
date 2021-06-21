@@ -1,7 +1,7 @@
 const env = {
   base: {
     // #国家
-    REACT_APP_COUNTRY: 'TR',
+    REACT_APP_COUNTRY: 'tr',
 
     // #payu表单字段控制
     REACT_APP_PAYU_EMAIL: '0',

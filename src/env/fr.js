@@ -1,7 +1,7 @@
 const env_fr = {
   base: {
     // #国家
-    REACT_APP_COUNTRY: 'FR',
+    REACT_APP_COUNTRY: 'fr',
 
     // #Adyen
     REACT_APP_Adyen_locale: 'fr-FR',
