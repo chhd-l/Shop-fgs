@@ -149,8 +149,8 @@ class Form extends React.Component {
 
     // deliveryDate和timeSlot有值就显示
     // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
-    console.log('666  ', process.env.REACT_APP_COUNTRY);
-    if (process.env.REACT_APP_COUNTRY == 'ru') {
+    console.log('666  ', window.__.env.REACT_APP_COUNTRY);
+    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
       this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('112 -------------★ EditForm initData: ', initData);

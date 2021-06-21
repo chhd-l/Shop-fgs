@@ -54,6 +54,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      listSaveAddressNumber: 0,
       isDeliveryOrPickUp: false, // 用来标记是否是 pick up
       deliveryAddress: {
         firstName: '',
@@ -116,10 +117,6 @@ class AddressList extends React.Component {
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
-
-    // 更新delivery address保存次数
-    let snum = this.props.saveAddressNumber;
-    this.props.updateSaveAddressNumber(snum + 1);
 
     getDictionary({ type: 'country' }).then((res) => {
       let cfm = deliveryAddress;
@@ -284,14 +281,26 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
-      console.log('666 保存次数：', this.props.saveAddressNumber);
+      console.log('666 saveAddressNumber: ', this.props.saveAddressNumber);
+      console.log(
+        '666 listSaveAddressNumber: ',
+        this.state.listSaveAddressNumber
+      );
+
+      // 更新delivery address保存次数
+      let snum = this.props.saveAddressNumber;
+      this.setState({
+        listSaveAddressNumber: snum + 1
+      });
+      await this.props.updateSaveAddressNumber(snum + 1);
+
       addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
         // state对象暂时用不到
         delete v.state;
         if (
-          process.env.REACT_APP_COUNTRY == 'ru' &&
-          this.props.saveAddressNumber > 1
+          window.__.env.REACT_APP_COUNTRY == 'ru' &&
+          this.state.listSaveAddressNumber == 0
         ) {
           // 根据 address 取到 DuData返回的provinceId
           let dudata = await getAddressBykeyWord({ keyword: v.address1 });
@@ -969,10 +978,6 @@ class AddressList extends React.Component {
         addOrEdit: false,
         saveLoading: false
       });
-
-      // 更新delivery address保存次数
-      let snum = this.props.saveAddressNumber;
-      this.props.updateSaveAddressNumber(snum + 1);
 
       this.clickConfirmAddressPanel();
     } catch (err) {

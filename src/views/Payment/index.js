@@ -399,7 +399,7 @@ class Payment extends React.Component {
     );
   }
   // 更新delivery address保存次数
-  updateSaveAddressNumber = (number) => {
+  updateSaveAddressNumber = async (number) => {
     console.log('666 更新delivery address保存次数: ', number);
     this.setState({
       saveAddressNumber: number
