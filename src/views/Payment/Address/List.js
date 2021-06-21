@@ -310,12 +310,15 @@ class AddressList extends React.Component {
                 tobj.dateTimeInfos[0].startTime +
                 '-' +
                 tobj.dateTimeInfos[0].endTime;
-              console.log(
-                '666 deliveryDate: ',
-                v.deliveryDate + '   timeSlot: ',
-                v.timeSlot
-              );
+            } else {
+              v.deliveryDate = '';
+              v.timeSlot = '';
             }
+            console.log(
+              '666 deliveryDate: ',
+              v.deliveryDate + '   timeSlot: ',
+              v.timeSlot
+            );
             // 修改地址
             await editAddress(v);
           }
