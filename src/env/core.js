@@ -59,7 +59,10 @@ const env_fr = {
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: '1'
+    REACT_APP_HUB_GA: '1',
+
+    REACT_APP_SEARCH_LINK:
+      '/on/demandware.store/Sites-CORE-Site/core_CORE/Search-show'
   },
   development: {
     // #okta

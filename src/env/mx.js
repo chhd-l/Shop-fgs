@@ -65,7 +65,10 @@ const env_mx = {
 
     // #Adyen
     REACT_APP_Adyen_locale: 'es_ES',
-    REACT_APP_Adyen_country: 'MX'
+    REACT_APP_Adyen_country: 'MX',
+
+    REACT_APP_SEARCH_LINK:
+      '/on/demandware.store/Sites-ES-Site/es_ES/Search-Show'
   },
   development: {
     // #okta

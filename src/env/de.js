@@ -61,7 +61,10 @@ const env_de = {
     REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '1',
 
     // #显示PrescriberCodeModal
-    REACT_APP_SHOWPRESCRIBERCODEMODAL: '1'
+    REACT_APP_SHOWPRESCRIBERCODEMODAL: '1',
+
+    REACT_APP_SEARCH_LINK:
+      '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
   },
   development: {
     // #okta
