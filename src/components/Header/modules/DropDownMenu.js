@@ -96,7 +96,7 @@ export default class DropDownMenu extends React.Component {
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
     const { currentDesc } = this.state;
-    let descObj = null;
+    let descObj = {};
     if (item.navigationDesc && item.imageLink) {
       descObj = {
         text: item.navigationDesc,
