@@ -9,8 +9,8 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
 const HelpComponentsNew = (props) => {
-  const ru = process.env.REACT_APP_COUNTRY == 'ru';
-  const tr = process.env.REACT_APP_COUNTRY == 'tr';
+  const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+  const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">

@@ -102,7 +102,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, item)}
                   >
                     <span className="light">{item.spuName}</span>
-                    {process.env.REACT_APP_COUNTRY !== 'ru' &&
+                    {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
                     item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import { formatMoney } from '@/utils/utils';
-const De = process.env.REACT_APP_COUNTRY === 'de';
+const De = window.__.env.REACT_APP_COUNTRY === 'de';
 
 interface Props {
   form: any;

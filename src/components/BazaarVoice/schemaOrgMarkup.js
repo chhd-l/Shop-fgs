@@ -20,7 +20,7 @@ export function addSchemaOrgMarkup(details, instockStatus) {
     offers: {
       '@type': 'Offer',
       url: window.location.href,
-      priceCurrency: process.env.REACT_APP_CURRENCY,
+      priceCurrency: window.__.env.REACT_APP_CURRENCY,
       availability: instockStatus
         ? 'http://schema.org/InStock'
         : 'https://schema.org/OutOfStock',

@@ -74,7 +74,9 @@ const faqs = {
   textLangKey: 'account.faqTip',
   link: '/faq',
   href:
-    process.env.REACT_APP_COUNTRY == 'ru' ? '/about-us/faq' : '/about-us/faqs',
+    window.__.env.REACT_APP_COUNTRY == 'ru'
+      ? '/about-us/faq'
+      : '/about-us/faqs',
   isHubOuterLink: true
 };
 
@@ -83,7 +85,7 @@ const itemList = (function () {
   return (
     {
       // ru: [information, pets, orders, subscription] //ru 没有faqs
-    }[process.env.REACT_APP_COUNTRY] || defaultItemList
+    }[window.__.env.REACT_APP_COUNTRY] || defaultItemList
   );
 })();
 

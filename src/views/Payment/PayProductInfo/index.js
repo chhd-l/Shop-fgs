@@ -11,7 +11,7 @@ import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 const guid = uuidv4();
 let isGACheckoutLock = false;
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -165,7 +165,7 @@ class PayProductInfo extends React.Component {
           step: '',
           option: ''
         },
-        event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+        event: window.__.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
         page: {
           type: 'Checkout',
           virtualPageURL: '/checkout/emailAddress'
@@ -262,7 +262,7 @@ class PayProductInfo extends React.Component {
                     onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
-                    {process.env.REACT_APP_COUNTRY !== 'ru' &&
+                    {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
                     el.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.promotions.includes('club') ? (
@@ -457,7 +457,7 @@ class PayProductInfo extends React.Component {
       >
         {headerIcon}
         <span className="medium">
-          {process.env.REACT_APP_COUNTRY == 'us' && this.props.isCheckOut ? (
+          {window.__.env.REACT_APP_COUNTRY == 'us' && this.props.isCheckOut ? (
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
@@ -867,7 +867,7 @@ class PayProductInfo extends React.Component {
                       <p className="text-right">
                         <span className="shipping-total-cost rc_pay_product_info">
                           {!this.isLogin &&
-                          process.env.REACT_APP_COUNTRY == 'us' ? (
+                          window.__.env.REACT_APP_COUNTRY == 'us' ? (
                             <>
                               {/* 是否在cart页面 */}
                               {this.props.isGuestCart && subtractionSign}
@@ -892,7 +892,7 @@ class PayProductInfo extends React.Component {
 
                 {!this.isLogin &&
                 this.props.isGuestCart &&
-                process.env.REACT_APP_COUNTRY == 'us' ? (
+                window.__.env.REACT_APP_COUNTRY == 'us' ? (
                   <>
                     <div
                       class="row rc-margin-bottom--xs"
@@ -945,7 +945,7 @@ class PayProductInfo extends React.Component {
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
                 {/* 是否登录 */}
-                {!this.isLogin && process.env.REACT_APP_COUNTRY == 'us' ? (
+                {!this.isLogin && window.__.env.REACT_APP_COUNTRY == 'us' ? (
                   <>
                     {/* 是否在cart页面 */}
                     {this.props.isGuestCart && (
@@ -975,7 +975,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
 
-          {process.env.REACT_APP_COUNTRY == 'de' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'de' ? (
             <div
               style={{
                 fontSize: '.75rem',

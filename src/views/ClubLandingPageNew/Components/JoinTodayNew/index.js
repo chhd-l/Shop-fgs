@@ -36,7 +36,7 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-1 order-md-0  orderJoin1">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad>
-                          {process.env.REACT_APP_COUNTRY == 'ru' ? (
+                          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                             <img
                               className="w-auto lazyloaded logomargin"
                               style={{
@@ -89,7 +89,7 @@ const JoinTodayNew = () => {
                     <div className="col-12 col-md-4 order-2 order-md-2 ">
                       <div className="rc-column rc-padding--none">
                         <LazyLoad height={180}>
-                          {process.env.REACT_APP_COUNTRY == 'ru' ? (
+                          {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
                             <img
                               src={joinusnewru}
                               style={{

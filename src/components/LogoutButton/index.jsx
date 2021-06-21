@@ -29,25 +29,25 @@ const LogoutButton = (props) => {
       if (idToken) {
         if (location.pathname.includes('/account')) {
           // const redirectUri =
-          // window.location.origin + process.env.REACT_APP_HOMEPAGE;
+          // window.location.origin + window.__.env.REACT_APP_HOMEPAGE;
           // // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
           // window.location.href = `${
-          //   process.env.REACT_APP_ISSUER
+          //   window.__.env.REACT_APP_ISSUER
           // }/v1/logout?id_token_hint=${
           //   idToken ? idToken.value : ''
           // }&post_logout_redirect_uri=${redirectUri}`;
           oktaAuth.revokeAccessToken();
-          // oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+          // oktaAuth.signOut(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
           oktaAuth.signOut({
-            postLogoutRedirectUri: process.env.REACT_APP_ACCESS_PATH
+            postLogoutRedirectUri: window.__.env.REACT_APP_ACCESS_PATH
           });
         } else {
           localItemRoyal.set('logout-redirect-url', location.href);
           oktaAuth.revokeAccessToken();
           oktaAuth.signOut({
-            postLogoutRedirectUri: process.env.REACT_APP_ACCESS_PATH
+            postLogoutRedirectUri: window.__.env.REACT_APP_ACCESS_PATH
           });
-          // oktaAuth.signOut(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
+          // oktaAuth.signOut(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
         }
       } else {
         loginStore.changeLoginModal(false);
@@ -72,12 +72,12 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-userinfo');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      // await logout(props.callbackUrl || process.env.REACT_APP_HOMEPAGE);
-      await logout(process.env.REACT_APP_HOMEPAGE);
+      // await logout(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
+      await logout(window.__.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       console.log(err);
       loginStore.changeLoginModal(false);
-      // logout(process.env.REACT_APP_HOMEPAGE);
+      // logout(window.__.env.REACT_APP_HOMEPAGE);
     }
   };
   const defaultLogoutBtnJSX = () => {
@@ -122,6 +122,6 @@ const LogoutButton = (props) => {
     );
   };
 
-  return +process.env.REACT_APP_HUB ? hubLogoutBtnJSX() : defaultLogoutBtnJSX();
+  return +window.__.env.REACT_APP_HUB ? hubLogoutBtnJSX() : defaultLogoutBtnJSX();
 };
 export default LogoutButton;

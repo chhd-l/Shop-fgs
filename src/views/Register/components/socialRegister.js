@@ -6,16 +6,19 @@ const SocialRegister = () => {
   const { oktaAuth, authState } = useOktaAuth();
 
   const loginWithFacebook = async () => {
-    oktaAuth.signInWithRedirect({ idp: process.env.REACT_APP_FaceBook_IDP });
+    oktaAuth.signInWithRedirect({ idp: window.__.env.REACT_APP_FaceBook_IDP });
   };
   const loginWithGoogle = async () => {
-    oktaAuth.signInWithRedirect({ idp: process.env.REACT_APP_Google_IDP });
+    oktaAuth.signInWithRedirect({ idp: window.__.env.REACT_APP_Google_IDP });
   };
 
   return (
     <div className="rc-two-column">
       <div className="rc-column">
-        <p className="social-auth-button fecebookBtn" onClick={loginWithFacebook}>
+        <p
+          className="social-auth-button fecebookBtn"
+          onClick={loginWithFacebook}
+        >
           <FormattedMessage id="registerFeckbook" />
         </p>
       </div>

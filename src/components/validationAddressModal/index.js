@@ -69,11 +69,11 @@ class ValidationAddressModal extends React.Component {
     try {
       let data = {
         city: address.city,
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
         deliveryAddress: address.address1,
         postCode: address.postCode,
         province: address.province,
-        storeId: Number(process.env.REACT_APP_STOREID)
+        storeId: Number(window.__.env.REACT_APP_STOREID)
       };
       let res = await addressValidation(data);
       if (res.context && res.context != null) {
@@ -197,7 +197,8 @@ class ValidationAddressModal extends React.Component {
                               <span className="postalCode">
                                 {address.postCode}
                               </span>
-                              {process.env.REACT_APP_COUNTRY == 'us' ? null : (
+                              {window.__.env.REACT_APP_COUNTRY ==
+                              'us' ? null : (
                                 <>
                                   ,
                                   <span className="countryCode">

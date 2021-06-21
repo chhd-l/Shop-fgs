@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { faqClickDataLayerPushEvent } from '@/utils/GA';
 import './index.css';
 
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 class Faq extends Component {
   static defaultProps = {

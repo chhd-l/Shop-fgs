@@ -339,10 +339,10 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -481,10 +481,10 @@ class PaymentComp extends React.Component {
           },
           {
             headers: {
-              public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-              'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+              public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+              'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
               'Content-type': 'application/json',
-              app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+              app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
               'api-version': '1.3.0'
             }
           }
@@ -514,7 +514,7 @@ class PaymentComp extends React.Component {
         isDefault: creditCardInfoForm.isDefault ? '1' : '0',
 
         accountName: this.userInfo ? this.userInfo.customerAccount : '',
-        storeId: process.env.REACT_APP_STOREID,
+        storeId: window.__.env.REACT_APP_STOREID,
         paymentToken: res ? res.data.token : creditCardInfoForm.paymentToken,
         paymentCustomerId: creditCardInfoForm.paymentCustomerId,
         paymentTransactionId: creditCardInfoForm.paymentTransactionId,

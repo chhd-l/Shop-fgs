@@ -84,9 +84,9 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
-  +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+  +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
 );
 
 function CreditCardInfoPreview({
@@ -108,7 +108,7 @@ function CreditCardInfoPreview({
           <br />
           <span>
             {getFormatDate(expirationDate, (date) => {
-              if (process.env.REACT_APP_COUNTRY === 'fr') {
+              if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                 return date.slice(3);
               } else {
                 return date;
@@ -152,7 +152,7 @@ class Payment extends React.Component {
         address1: '',
         address2: '',
         country: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         cityId: '',
         city: '',
         area: '',
@@ -185,7 +185,7 @@ class Payment extends React.Component {
         entrance: '',
         apartment: '',
         comment: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         country: '',
         cityId: '',
         city: '',
@@ -574,7 +574,7 @@ class Payment extends React.Component {
         }
       };
       if (
-        process.env.REACT_APP_COUNTRY === 'ru' &&
+        window.__.env.REACT_APP_COUNTRY === 'ru' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
       ) {
         payMethodsObj = {
@@ -778,7 +778,7 @@ class Payment extends React.Component {
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
       //在commonParameter加上一个consentIds-start
-      if (process.env.REACT_APP_COUNTRY == 'tr') {
+      if (window.__.env.REACT_APP_COUNTRY == 'tr') {
         let list = [...this.state.listData];
         let consentIds = [];
         list
@@ -849,9 +849,9 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
-            currency: process.env.REACT_APP_CURRENCY,
-            country: process.env.REACT_APP_Adyen_country,
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
+            currency: window.__.env.REACT_APP_CURRENCY,
+            country: window.__.env.REACT_APP_Adyen_country,
             payPspItemEnum: 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam.paymentToken) {
@@ -868,9 +868,9 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
             payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: process.env.REACT_APP_CURRENCY,
-            country: process.env.REACT_APP_Adyen_country,
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
+            currency: window.__.env.REACT_APP_CURRENCY,
+            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -878,9 +878,9 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
             payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: process.env.REACT_APP_CURRENCY,
-            country: process.env.REACT_APP_Adyen_country,
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
+            currency: window.__.env.REACT_APP_CURRENCY,
+            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -888,18 +888,18 @@ class Payment extends React.Component {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
             payPspItemEnum: 'ADYEN_SOFORT',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: process.env.REACT_APP_CURRENCY,
-            country: process.env.REACT_APP_Adyen_country,
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
+            currency: window.__.env.REACT_APP_CURRENCY,
+            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
         adyenOxxo: () => {
           parameters = Object.assign(commonParameter, {
             payPspItemEnum: 'ADYEN_OXXO',
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE,
-            currency: process.env.REACT_APP_CURRENCY,
-            country: process.env.REACT_APP_Adyen_country,
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE,
+            currency: window.__.env.REACT_APP_CURRENCY,
+            country: window.__.env.REACT_APP_Adyen_country,
             email
           });
         },
@@ -916,10 +916,10 @@ class Payment extends React.Component {
 
       const successUrlFun = (type) => {
         const defaultUrl = '',
-          Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
-          payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult',
+          Adyen3DSUrl = window.__.env.REACT_APP_Adyen3DSUrl,
+          payResultUrl = window.__.env.REACT_APP_SUCCESSFUL_URL + '/PayResult',
           payu3dsResultUrl =
-            process.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
+            window.__.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
         return (
           {
             adyenCard: Adyen3DSUrl,
@@ -938,7 +938,7 @@ class Payment extends React.Component {
         successUrl,
         deliveryAddressId: this.state.deliveryAddress?.addressId,
         billAddressId: this.state.billingAddress?.addressId,
-        domainName: process.env.REACT_APP_DOMAIN || '',
+        domainName: window.__.env.REACT_APP_DOMAIN || '',
         phone
       });
       return finalParam;
@@ -1043,7 +1043,7 @@ class Payment extends React.Component {
               customerPets: Object.assign(petForm, {
                 productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
               }),
-              storeId: process.env.REACT_APP_STOREID
+              storeId: window.__.env.REACT_APP_STOREID
             };
           });
           let res = await batchAddPets({
@@ -1428,7 +1428,7 @@ class Payment extends React.Component {
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
@@ -1460,7 +1460,7 @@ class Payment extends React.Component {
     //   //审核者信息放订单行
     //   clinicsId: clinicStore.selectClinicId,
     //   clinicsName: clinicStore.selectClinicName,
-    //   storeId: process.env.REACT_APP_STOREID,
+    //   storeId: window.__.env.REACT_APP_STOREID,
     //   tradeItems: [], // once order products
     //   subTradeItems: [], // subscription order products
     //   tradeMarketingList: [],
@@ -1853,7 +1853,7 @@ class Payment extends React.Component {
     try {
       await this.saveAddressAndCommentPromise();
       await this.props.checkoutStore.validCheckoutLimitRule({
-        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
     } catch (err) {
       console.warn(err);
@@ -1910,7 +1910,7 @@ class Payment extends React.Component {
         address1: '',
         address2: '',
         country: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         cityId: '',
         city: '',
         areaId: '',
@@ -1960,7 +1960,7 @@ class Payment extends React.Component {
       promotionCode: this.state.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
       taxFeeData: {
-        country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+        country: window.__.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
         region: data?.stateNo || '', // 省份简写
         city: data?.city,
         street: data?.address1,
@@ -2791,11 +2791,11 @@ class Payment extends React.Component {
                       tid
                         ? false
                         : Boolean(
-                            +process.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
+                            +window.__.env.REACT_APP_PAYU_SUPPORT_INSTALLMENT
                           )
                     }
-                    needEmail={+process.env.REACT_APP_PAYU_EMAIL}
-                    needPhone={+process.env.REACT_APP_PAYU_PHONE}
+                    needEmail={+window.__.env.REACT_APP_PAYU_EMAIL}
+                    needPhone={+window.__.env.REACT_APP_PAYU_PHONE}
                     // todo 动态
                     // pspItemCode={payWayNameArr.filter((c) => c)}
                     showErrorMsg={this.showErrorMsg}
@@ -3126,7 +3126,7 @@ class Payment extends React.Component {
         guestEmail,
         purchaseFlag: false, // 购物车: true，checkout: false
         taxFeeData: {
-          country: process.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
+          country: window.__.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
           region: deliveryAddress.provinceNo, // 省份简写
           city: deliveryAddress.city,
           street: deliveryAddress.address1,

@@ -269,7 +269,7 @@ class SubscriptionLanding extends React.Component {
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <div className="rc-column rc-padding--none">
                             <img
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.jpg`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/cat.jpg`}
                               alt="Cat image"
                             />
                           </div>
@@ -310,7 +310,7 @@ class SubscriptionLanding extends React.Component {
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <div className="rc-column rc-padding--none">
                             <img
-                              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.jpg`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship-landing/dog.jpg`}
                               alt="Dog image"
                             />
                           </div>
@@ -449,7 +449,7 @@ class SubscriptionLanding extends React.Component {
                                     >
                                       FAQs
                                       {Boolean(
-                                        process.env
+                                        window.__.env
                                           .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                                       ) && (
                                         <span className="warning_blank">

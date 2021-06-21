@@ -34,7 +34,7 @@ class PrescriberCode extends React.Component {
   searchPrescriberCode = async () => {
     let res = await getPrescriberByCode({
       code: this.state.keywords,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     let prescriberVo = (res.context && res.context.prescriberVo) || [];
     if (prescriberVo.length > 0) {

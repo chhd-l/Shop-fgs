@@ -196,8 +196,8 @@ export const menubar = {
           },
           { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
           { link: '/Widerrufsbelehrung', messageId: 'footer.withdrawal' }
-          // { url: process.env.REACT_APP_ACCESS_PATH+'Terms-And-Conditions', messageId: 'footer.termsOfService' },
-          // { url: process.env.REACT_APP_ACCESS_PATH+'Widerrufsbelehrung', messageId: 'footer.withdrawal' }
+          // { url: window.__.env.REACT_APP_ACCESS_PATH+'Terms-And-Conditions', messageId: 'footer.termsOfService' },
+          // { url: window.__.env.REACT_APP_ACCESS_PATH+'Widerrufsbelehrung', messageId: 'footer.withdrawal' }
         ]
       }
     ]

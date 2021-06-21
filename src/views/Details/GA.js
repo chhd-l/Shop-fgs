@@ -44,7 +44,7 @@ const setGoogleProductStructuredDataMarkup = ({
       offers: {
         url: {},
         '@type': 'AggregateOffer',
-        priceCurrency: process.env.REACT_APP_CURRENCY,
+        priceCurrency: window.__.env.REACT_APP_CURRENCY,
         availability: instockStatus
           ? 'http://schema.org/InStock'
           : 'https://schema.org/OutOfStock',

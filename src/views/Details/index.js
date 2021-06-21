@@ -62,10 +62,10 @@ const localItemRoyal = window.__.localItemRoyal;
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const PC = getDeviceType() === 'PC' || getDeviceType() === 'Pad';
-const isHub = process.env.REACT_APP_HUB == '1';
-const Fr = process.env.REACT_APP_COUNTRY === 'fr';
-const Ru = process.env.REACT_APP_COUNTRY === 'ru';
-const Tr = process.env.REACT_APP_COUNTRY === 'tr';
+const isHub = window.__.env.REACT_APP_HUB == '1';
+const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 // const pageLink = window.location.href;
 
 @inject(
@@ -485,7 +485,7 @@ class Details extends React.Component {
             },
             async () => {
               //启用BazaarVoice时，在PDP页面add schema.org markup
-              if (!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
+              if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
                 //设置延时获取BazaarVoice dom节点
                 setTimeout(() => {
                   addSchemaOrgMarkup(
@@ -564,8 +564,8 @@ class Details extends React.Component {
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
 
-    const widgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
-    const vetWidgetId = process.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
+    const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
+    const vetWidgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;
     if (widgetId || vetWidgetId) {
       loadJS({
@@ -573,9 +573,9 @@ class Details extends React.Component {
         id: 'cci-widget',
         dataSets: {
           token: '2257decde4d2d64a818fd4cd62349b235d8a74bb',
-          locale: process.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
+          locale: window.__.env.REACT_APP_HUBPAGE_RETAILER_LOCALE,
           displaylanguage:
-            process.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
+            window.__.env.REACT_APP_HUBPAGE_RETAILER_DISPLAY_LANGUAGE,
           widgetid: id,
           ean: barcode,
           subid: '',
@@ -602,8 +602,8 @@ class Details extends React.Component {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= process.env.REACT_APP_LIMITED_NUM) {
-        res = process.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
+        res = window.__.env.REACT_APP_LIMITED_NUM;
       }
     }
     this.setState(
@@ -629,8 +629,8 @@ class Details extends React.Component {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
+      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = window.__.env.REACT_APP_LIMITED_NUM;
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
@@ -645,7 +645,7 @@ class Details extends React.Component {
     });
   };
   showPrescriberCodeBeforeAddCart = () => {
-    if (!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
+    if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
       const { clinicStore } = this.props;
       if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
         this.setState({ showPrescriberCodeModal: true });
@@ -820,7 +820,7 @@ class Details extends React.Component {
     let goodsInfoNo = cur_selected_size[0]?.goodsInfoNo;
     let { form } = this.state;
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
           products: [
@@ -922,7 +922,7 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     const vet =
-      process.env.REACT_APP_HUB === '1' &&
+      window.__.env.REACT_APP_HUB === '1' &&
       !details.saleableFlag &&
       details.displayFlag; //vet产品并且是hub的情况下
 
@@ -975,7 +975,7 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {!!+process.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
+            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
               <PrescriberCodeModal
                 visible={this.state.showPrescriberCodeModal}
                 close={this.closePrescriberCodeModal}
@@ -1229,7 +1229,7 @@ class Details extends React.Component {
                               buyFromRetailer={this.handleBuyFromRetailer}
                             />
                             {form.buyWay === 2 &&
-                            process.env.REACT_APP_COUNTRY !== 'ru' ? (
+                            window.__.env.REACT_APP_COUNTRY !== 'ru' ? (
                               <p className="text-right medium mr-4">
                                 <FormattedMessage id="detail.subscriptionBuyTip" />
                               </p>
@@ -1260,20 +1260,20 @@ class Details extends React.Component {
               />
             ) : null}
 
-            {!!+process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
+            {!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS &&
               !!details.goodsNo && (
                 <BazaarVoiceReviews productId={details.goodsNo} />
               )}
 
             <div className="split-line rc-bg-colour--brand4" />
-            {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
+            {window.__.env.REACT_APP_HUB === '1' && goodsType !== 3 ? (
               <AdvantageTips />
             ) : null}
             {/* 电话邮箱联系板块 */}
             {isHub ? (
               <PhoneAndEmail loading={loading} details={details} />
             ) : null}
-            {!!+process.env.REACT_APP_PDP_RATING_VISIBLE ? (
+            {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE ? (
               <div id="review-container">
                 <Reviews
                   key={this.state.goodsId}

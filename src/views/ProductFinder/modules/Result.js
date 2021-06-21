@@ -21,7 +21,7 @@ import { clubSubscriptionSavePets } from '@/api/pet';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
@@ -301,7 +301,7 @@ class ProductFinderResult extends React.Component {
     // }
 
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
       ecommerce: {
         impressions: impressions
       }
@@ -311,7 +311,7 @@ class ProductFinderResult extends React.Component {
   GAProductClick = (item, index) => {
     console.info('test', item);
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
           actionField: { list: 'Related Items' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)

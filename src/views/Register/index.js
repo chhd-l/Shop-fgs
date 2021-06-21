@@ -288,26 +288,26 @@ class Register extends Component {
     this.setState({
       circleLoading: true
     });
-    let accessPath = process.env.REACT_APP_ACCESS_PATH;
+    let accessPath = window.__.env.REACT_APP_ACCESS_PATH;
     let registerUrl =
       accessPath.substring(accessPath.length - 1, accessPath.length) === '/'
         ? 'register'
         : '/register';
     await oktaRegister({
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
       customerName:
-        process.env.REACT_APP_COUNTRY !== 'de'
+        window.__.env.REACT_APP_COUNTRY !== 'de'
           ? registerForm.name
           : registerForm.firstName + ' ' + registerForm.lastName,
-      callback: process.env.REACT_APP_ACCESS_PATH + registerUrl
+      callback: window.__.env.REACT_APP_ACCESS_PATH + registerUrl
     })
       .then(async (res) => {
         if (res.code === 'K-000000') {
           //GA 注册成功 start
           dataLayer.push({
-            event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+            event: `${window.__.env.REACT_APP_GTM_SITE_ID}accountCreation`,
             interaction: {
               category: 'account creation',
               action: 'accounct creation',
@@ -388,7 +388,7 @@ class Register extends Component {
       });
   };
   componentDidUpdate() {
-    if (process.env.REACT_APP_COUNTRY == 'tr') {
+    if (window.__.env.REACT_APP_COUNTRY == 'tr') {
       this.addEventListenerFunTr();
     }
   }
@@ -457,12 +457,12 @@ class Register extends Component {
       errorMessage
     } = this.state;
     const allValid =
-      (process.env.REACT_APP_COUNTRY !== 'de'
+      (window.__.env.REACT_APP_COUNTRY !== 'de'
         ? nameValid
         : firstNameValid && lastNameValid) &&
       emailValid &&
       passwordValid &&
-      (process.env.REACT_APP_COUNTRY !== 'de'
+      (window.__.env.REACT_APP_COUNTRY !== 'de'
         ? registerForm.name
         : registerForm.firstName && registerForm.lastName) &&
       registerForm.email &&
@@ -471,9 +471,9 @@ class Register extends Component {
       list.filter((x) => x.isChecked && x.isRequired).length ===
       requiredConsentCount;
     const registerDisabled = !(allValid && requireCheckd);
-    const isHub = process.env.REACT_APP_HUB == '1';
-    const isTr = process.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
-    let homePage = process.env.REACT_APP_HOMEPAGE;
+    const isHub = window.__.env.REACT_APP_HUB == '1';
+    const isTr = window.__.env.REACT_APP_COUNTRY === 'tr'; //因为土耳其welcome to royal canin的翻译，需要对welcome to royal canin特殊化处理
+    let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =
       homePage.substring(homePage.length - 1, homePage.length) === '/'
         ? 'help/contact'
@@ -495,8 +495,8 @@ class Register extends Component {
                   <a
                     href={
                       isHub
-                        ? process.env.REACT_APP_HUB_URLPREFIX
-                        : process.env.REACT_APP_ACCESS_PATH
+                        ? window.__.env.REACT_APP_HUB_URLPREFIX
+                        : window.__.env.REACT_APP_ACCESS_PATH
                     }
                     className="logo-home d-inline-block border-bottom border-transparent"
                     title="Commerce Cloud Storefront Reference Architecture Accueil"
@@ -506,7 +506,7 @@ class Register extends Component {
                     </span>
                     <h1 className="content-asset mb-0">
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
                         width="164"
                         height="60"
                         alt="Royal Canin Flagship Store"
@@ -535,7 +535,7 @@ class Register extends Component {
                             <strong>
                               <a
                                 href={
-                                  process.env.REACT_APP_COUNTRY === 'us'
+                                  window.__.env.REACT_APP_COUNTRY === 'us'
                                     ? homePage + contactUrl
                                     : homePage + helpUrl
                                 }
@@ -582,7 +582,7 @@ class Register extends Component {
                         <a
                           onClick={() =>
                             this.props.oktaAuth.signInWithRedirect(
-                              process.env.REACT_APP_HOMEPAGE
+                              window.__.env.REACT_APP_HOMEPAGE
                             )
                           }
                           className="rc-styled-link"
@@ -590,13 +590,13 @@ class Register extends Component {
                           <FormattedMessage id="registerLoginIn" />
                         </a>
                       </p>
-                      {process.env.REACT_APP_COUNTRY !== 'ru' &&
-                      process.env.REACT_APP_COUNTRY !== 'tr' ? (
+                      {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                      window.__.env.REACT_APP_COUNTRY !== 'tr' ? (
                         <>
                           <SocialRegister />
                           <div className="rc-column">
                             <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                              {process.env.REACT_APP_COUNTRY === 'de' ? (
+                              {window.__.env.REACT_APP_COUNTRY === 'de' ? (
                                 <span
                                   dangerouslySetInnerHTML={{
                                     __html: this.getIntlMsg(
@@ -628,7 +628,7 @@ class Register extends Component {
                           encoding="off"
                         >
                           <div className="rc-margin-bottom--xs">
-                            {process.env.REACT_APP_COUNTRY !== 'de' ? (
+                            {window.__.env.REACT_APP_COUNTRY !== 'de' ? (
                               <div className="form-group rc-margin-bottom--md required rc-text--left">
                                 <div
                                   className={
@@ -1004,7 +1004,7 @@ class Register extends Component {
                                 id="registerFooter1"
                                 defaultMessage={' '}
                               />
-                              {process.env.REACT_APP_COUNTRY === 'us' ? (
+                              {window.__.env.REACT_APP_COUNTRY === 'us' ? (
                                 <a href={homePage + contactUrl}>&nbsp;here</a>
                               ) : null}
                             </p>

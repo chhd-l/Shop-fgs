@@ -65,9 +65,9 @@ const LoginButton = (props) => {
             localItemRoyal.set('login-again', true);
             const idToken = authState.idToken;
             const redirectUri =
-              window.location.origin + process.env.REACT_APP_HOMEPAGE;
+              window.location.origin + window.__.env.REACT_APP_HOMEPAGE;
             window.location.href = `${
-              process.env.REACT_APP_ISSUER
+              window.__.env.REACT_APP_ISSUER
             }/v1/logout?id_token_hint=${
               idToken ? idToken.value : ''
             }&post_logout_redirect_uri=${redirectUri}`;
@@ -103,7 +103,7 @@ const LoginButton = (props) => {
                   // GA 登录成功埋点 start
                   window.dataLayer &&
                     window.dataLayer.push({
-                      event: `${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      event: `${window.__.env.REACT_APP_GTM_SITE_ID}loginAccess`,
                       interaction: {
                         category: 'registration',
                         action: 'login',
@@ -153,7 +153,7 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
-    // if (process.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
+    // if (window.__.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
     try {
@@ -172,7 +172,7 @@ const LoginButton = (props) => {
       // debugger
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(
-        props.callbackUrl || process.env.REACT_APP_HOMEPAGE
+        props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE
       );
     } catch (err) {
       console.log(err);

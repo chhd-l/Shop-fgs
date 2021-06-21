@@ -193,7 +193,7 @@ class AccountOrders extends React.Component {
               tradeState.flowState === 'COMPLETED' ||
               tradeState.flowState === 'VOID',
             canReview:
-              !!+process.env.REACT_APP_PDP_RATING_VISIBLE &&
+              !!+window.__.env.REACT_APP_PDP_RATING_VISIBLE &&
               tradeState.flowState === 'COMPLETED' &&
               !ele.storeEvaluateVO,
             canViewTrackInfo:
@@ -206,7 +206,7 @@ class AccountOrders extends React.Component {
               ele.tradeDelivers &&
               ele.tradeDelivers.length,
             canDownInvoice:
-              ['fr'].includes(process.env.REACT_APP_COUNTRY) &&
+              ['fr'].includes(window.__.env.REACT_APP_COUNTRY) &&
               (tradeState.deliverStatus === 'SHIPPED' ||
                 tradeState.deliverStatus === 'DELIVERED')
           });
@@ -401,7 +401,7 @@ class AccountOrders extends React.Component {
       sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
     let result = JSON.stringify({ ...params, token: 'Bearer ' + token });
     const exportHref = `${
-      process.env.REACT_APP_BASEURL
+      window.__.env.REACT_APP_BASEURL
     }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
 
     window.open(exportHref);
@@ -474,7 +474,7 @@ class AccountOrders extends React.Component {
                     >
                       {txt}
                       {Boolean(
-                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                       ) && (
                         <span className="warning_blank">
                           Opens a new window
@@ -490,7 +490,7 @@ class AccountOrders extends React.Component {
                     >
                       {txt}
                       {Boolean(
-                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                       ) && (
                         <span className="warning_blank">
                           Opens a new window
