@@ -9,7 +9,8 @@ export function transactionPixel(details) {
       price: String(item.originalPrice.toFixed(2)),
       quantity: String(item.num),
       productId: item.spuNo,
-      name: item.goodsName
+      name: item.spuName,
+      shippingDate: details.tradeState.createTime.split(' ')[0]
     };
   });
   const transactionInfo = {
@@ -17,12 +18,10 @@ export function transactionPixel(details) {
     orderId: details.id,
     total: String(details.tradePrice.totalPrice.toFixed(2)),
     items: items,
-    //shippingDate: details.orderTimeOut.split(' ')[0],
     shippingDate: details.tradeState.createTime.split(' ')[0],
     email: details.consignee.email,
     locale: 'en_US',
-    nickname: details.consignee.name,
-    userId: details.consignee.id
+    nickname: details.consignee.name
   };
   loadJS({
     code: `window.bvCallback = function (BV) {
