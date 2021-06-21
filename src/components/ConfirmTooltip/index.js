@@ -67,7 +67,7 @@ class ConfirmTooltip extends React.Component {
             )}
             {this.props.confirmBtnVisible ? (
               <div
-                className="rc-btn rc-btn--one rc-btn--sm mgl10 mt-3"
+                className={' rc-btn rc-btn--one rc-btn--sm mgl10 mt-3'}
                 onClick={(e) => {
                   this.props.confirm(e);
                 }}

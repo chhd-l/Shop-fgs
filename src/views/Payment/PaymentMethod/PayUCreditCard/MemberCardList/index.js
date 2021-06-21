@@ -672,7 +672,8 @@ class MemberCardList extends React.Component {
 
     return (
       <div id="PaymentComp" className={`loginCardBox`}>
-        {listLoading ? (
+        {/* 等payu组件加载完成，才显示 */}
+        {listLoading || !this.props.inited ? (
           <div className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
           </div>
