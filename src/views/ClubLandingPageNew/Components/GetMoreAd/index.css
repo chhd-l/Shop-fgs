@@ -23,6 +23,8 @@
   }
   .mobileflex {
     flex-direction: column;
+    margin-left: 9vw;
+    width: 80vw;
   }
   .paddingbottom0 {
     padding: 0;

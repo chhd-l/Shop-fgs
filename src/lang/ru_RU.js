@@ -1444,8 +1444,8 @@ const ru_RU = {
   'ClubLP.Help.call.title': 'Позвоните нам',
   'ClubLP.Help.call.content':
     'Наши эксперты рады Вам помочь ежедневно с 9.00 до 18.00',
-  'ClubLP.Help.call.number': '8800 200 37 35',
-  'ClubLP.Help.call.mobile.number': '8800 200 37 35',
+  'ClubLP.Help.call.number': '8-800-200-37-35',
+  'ClubLP.Help.call.mobile.number': '8-800-200-37-35',
   'ClubLP.Help.email.title': 'Напишите нам e-mail',
   'ClubLP.Help.email.content':
     'Мы сделаем все возможное, чтобы ответить Вам как можно скорее, в течение 12 часов',
