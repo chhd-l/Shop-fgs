@@ -23,20 +23,44 @@ const ALL_ENV = {
   ENV_CA
 };
 
-const pathnameToCountryEnv = {
-  '/fr': 'ENV_FR',
-  '/de': 'ENV_DE',
-  '/ru': 'ENV_RU',
-  '/tr': 'ENV_TR',
-  '/mx': 'ENV_MX',
-  '/us': 'ENV_US',
-  '/core': 'ENV_CORE',
-  '/ca': 'ENV_CA'
-};
+const pathnameToCountryEnv = [
+  {
+    reg: /^\/fr/,
+    envFileName: 'ENV_FR'
+  },
+  {
+    reg: /^\/de/,
+    envFileName: 'ENV_DE'
+  },
+  {
+    reg: /^\/ru/,
+    envFileName: 'ENV_RU'
+  },
+  {
+    reg: /^\/tr/,
+    envFileName: 'ENV_TR'
+  },
+  {
+    reg: /^\/mx/,
+    envFileName: 'ENV_MX'
+  },
+  {
+    reg: /^\/us/,
+    envFileName: 'ENV_US'
+  },
+  {
+    reg: /^\/core/,
+    envFileName: 'ENV_CORE'
+  },
+  {
+    reg: /^\/ca/,
+    envFileName: 'ENV_CA'
+  }
+];
 
-let pathnameKey = Object.keys(pathnameToCountryEnv).filter((key) =>
-  location.pathname.includes(key)
-)[0];
+const pathnameKey = pathnameToCountryEnv.filter((item) => {
+  return item.reg.test(location.pathname) && item.envFileName;
+})[0];
 if (!pathnameKey) {
   console.warn('匹配不到国家');
 }
