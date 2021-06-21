@@ -72,7 +72,7 @@ const env = {
     REACT_APP_SHOW_BAZAARVOICE_RATINGS: '1',
 
     REACT_APP_SEARCH_LINK:
-      '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show'
+      '/on/demandware.store/Sites-CA-Site/ca_CA/Search-Show'
   },
   development: {
     // #okta
