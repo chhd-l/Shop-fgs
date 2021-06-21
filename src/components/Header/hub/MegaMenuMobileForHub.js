@@ -60,9 +60,9 @@ class MegaMenuMobileForHub extends React.Component {
   componentDidMount() {
     let shareData = [];
     let portalData = [];
-    if (process.env.REACT_APP_HUB_MONROYALCANIN) {
+    if (window.__.env.REACT_APP_HUB_MONROYALCANIN) {
       shareData.push({
-        link: process.env.REACT_APP_HUB_MONROYALCANIN,
+        link: window.__.env.REACT_APP_HUB_MONROYALCANIN,
         text: (
           <>
             <span className="iconfont iconzhuanfa" />{' '}
@@ -71,9 +71,9 @@ class MegaMenuMobileForHub extends React.Component {
         )
       });
     }
-    if (process.env.REACT_APP_HUB_BREEDER_PORTAL) {
+    if (window.__.env.REACT_APP_HUB_BREEDER_PORTAL) {
       portalData.push({
-        link: process.env.REACT_APP_HUB_BREEDER_PORTAL,
+        link: window.__.env.REACT_APP_HUB_BREEDER_PORTAL,
         text: (
           <>
             <span className="iconfont iconzhuanfa" />{' '}
@@ -82,9 +82,9 @@ class MegaMenuMobileForHub extends React.Component {
         )
       });
     }
-    if (process.env.REACT_APP_HUB_VET_PORTAL) {
+    if (window.__.env.REACT_APP_HUB_VET_PORTAL) {
       portalData.push({
-        link: process.env.REACT_APP_HUB_VET_PORTAL,
+        link: window.__.env.REACT_APP_HUB_VET_PORTAL,
         text: (
           <>
             <span className="iconfont iconzhuanfa" />{' '}

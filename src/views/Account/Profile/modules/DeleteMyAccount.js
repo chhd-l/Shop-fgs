@@ -83,7 +83,7 @@ class DeleteMyAccount extends React.Component {
                   onClick={(e) => {
                     localItemRoyal.remove('rc-token');
                   }}
-                  href={process.env.REACT_APP_DELETE_My_ACCOUNT_URL}
+                  href={window.__.env.REACT_APP_DELETE_My_ACCOUNT_URL}
                 >
                   {txt}
                 </a>

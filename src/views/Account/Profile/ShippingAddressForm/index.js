@@ -53,7 +53,7 @@ class ShippingAddressFrom extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
         country: '',
         city: '',
         cityId: '',

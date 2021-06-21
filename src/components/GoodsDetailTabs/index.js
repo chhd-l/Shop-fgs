@@ -5,6 +5,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
 
+import iconsixnew from './image/iconsixnew.png'
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
 import spetadviser from './image/pictospetadviser@4x.png';
@@ -64,7 +65,7 @@ const pdpbackgroundmobilecatstr = {
 
 const pdpbackgrounddogs = {
   backgroundImage: `url(${
-    process.env.REACT_APP_COUNTRY === 'ru'
+    window.__.env.REACT_APP_COUNTRY === 'ru'
       ? pdpbackgrounddog
       : pdpbackgorunddogother
   })`,
@@ -77,7 +78,7 @@ const pdpbackgrounddogs = {
 
 const pdpbackgroundcats = {
   backgroundImage: `url(${
-    process.env.REACT_APP_COUNTRY === 'ru'
+    window.__.env.REACT_APP_COUNTRY === 'ru'
       ? pdpbackgroundcatru
       : pdpbackgroundcat
   })`,
@@ -114,7 +115,7 @@ let clubListDataNew = [
     img: phoneicon,
     alt: 'CLUB BENEFITS PET ADVISOR'
   },
-  process.env.REACT_APP_COUNTRY === 'ru'
+  window.__.env.REACT_APP_COUNTRY === 'ru'
     ? {
         text: (
           <FormattedMessage
@@ -137,7 +138,7 @@ let clubListDataNew = [
             }}
           />
         ),
-        img: iconsix,
+        img: iconsixnew,
         alt: 'CLUB BENEFITS PET ADVISOR'
       }
     : {}
@@ -170,7 +171,7 @@ let clubListData = [
     alt: 'CLUB BENEFITS PET ADVISOR'
   }
 ];
-if (process.env.REACT_APP_COUNTRY === 'ru') {
+if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   clubListData.push({
     text: <FormattedMessage id="clubListData.tip6" />,
     img: iconsix,
@@ -211,9 +212,9 @@ const GoodsDetailTabs = function (props) {
       }[item] || ''
     );
   };
-  const LogoShows={
-    logo:<></>
-  }
+  const LogoShows = {
+    logo: <></>
+  };
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
@@ -258,7 +259,7 @@ const GoodsDetailTabs = function (props) {
     }
   ];
   const intl = useIntl();
-  let hubGA = process.env.REACT_APP_HUB_GA == '1';
+  let hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
   let [goodsDetailTabsData, setGoodsDetailTabsData] = useState([]);
   console.log(goodsDetailSpace, '🐕※');
@@ -402,15 +403,15 @@ const GoodsDetailTabs = function (props) {
       .filter((e) => e.displayName && e.content);
 
     // 美国需临时加入一个tab
-    if (process.env.REACT_APP_COUNTRY === 'us') {
-      let COHORTPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
-      let BENEFITS_WELCOMEPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
-      let BENEFITS_DISCOUNT = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
-      let BENEFITS_PRODUCTPng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_PRODUCT-RECOS.png`;
-      let HOWTOJOINSHOPpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SHOP.png`;
-      let HOWTOJOINAUTOSHIPpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-AUTOSHIP.png`;
-      let HOWTOJOINSCHEDULEpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SCHEDULE.png`;
-      let HOWTOJOINENJOYpng = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-ENJOY.png`;
+    if (window.__.env.REACT_APP_COUNTRY === 'us') {
+      let COHORTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/COHORT-A_CLUB-BENEFITS_PET-ADVISOR.png`;
+      let BENEFITS_WELCOMEPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_WELCOME-BOX.png`;
+      let BENEFITS_DISCOUNT = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_DISCOUNT.png`;
+      let BENEFITS_PRODUCTPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/CLUB-BENEFITS_PRODUCT-RECOS.png`;
+      let HOWTOJOINSHOPpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SHOP.png`;
+      let HOWTOJOINAUTOSHIPpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-AUTOSHIP.png`;
+      let HOWTOJOINSCHEDULEpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-SCHEDULE.png`;
+      let HOWTOJOINENJOYpng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/HOW-TO-JOIN-ENJOY.png`;
 
       tmpGoodsDescriptionDetailList.push({
         displayName: 'Royal Canin Club',
@@ -434,9 +435,9 @@ const GoodsDetailTabs = function (props) {
           '><div class="inherit-fontsize rc-body rc-padding-top--xs children-nomargin"><p>Get your exclusive <strong>Royal Canin Club</strong> perks, including access to Royal Canin Pet Advisor Live.</p></div></div></div></div></div>'
       });
     }
-    // if (process.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
-    //   let mixfeeding = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
-    //   let MixfeedingFood = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
+    // if (window.__.env.REACT_APP_COUNTRY === 'ru' && saleableFlag && sptGoods) {
+    //   let mixfeeding = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding.png`;
+    //   let MixfeedingFood = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/detail/Mixfeeding-Food.png`;
     //   tmpGoodsDescriptionDetailList.push({
     //     displayName: 'Смешанное кормление',
     //     content:
@@ -609,10 +610,10 @@ const GoodsDetailTabs = function (props) {
                         className="clubdetailsmobile"
                         style={
                           getSpeciesId(goodsDetailSpace) == '1'
-                            ? process.env.REACT_APP_COUNTRY === 'tr'
+                            ? window.__.env.REACT_APP_COUNTRY === 'tr'
                               ? pdpbackgroundmobilecatstr
                               : pdpbackgroundmobilecats
-                            : process.env.REACT_APP_COUNTRY === 'tr'
+                            : window.__.env.REACT_APP_COUNTRY === 'tr'
                             ? pdpmobilebackgrounddogtr
                             : pdpmobilebackgrounddog
                         }
@@ -643,7 +644,8 @@ const GoodsDetailTabs = function (props) {
                                       textAlign: 'center'
                                     }}
                                   >
-                                    {process.env.REACT_APP_COUNTRY === 'ru' ? (
+                                    {window.__.env.REACT_APP_COUNTRY ===
+                                    'ru' ? (
                                       <br />
                                     ) : (
                                       <FormattedMessage id="ClubLP.LongBanner.content2" />
@@ -855,7 +857,7 @@ const GoodsDetailTabs = function (props) {
                                 <p
                                   style={{
                                     fontSize: '1.1em',
-                                    fontWeight:'550'
+                                    fontWeight: '550'
                                   }}
                                 >
                                   <FormattedMessage
@@ -864,7 +866,7 @@ const GoodsDetailTabs = function (props) {
                                   ></FormattedMessage>
                                 </p>
                                 <p style={{ fontSize: '0.7em' }}>
-                                  {process.env.REACT_APP_COUNTRY === 'ru' ? (
+                                  {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
                                     <br />
                                   ) : (
                                     <FormattedMessage id="ClubLP.LongBanner.content2" />

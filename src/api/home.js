@@ -1,8 +1,8 @@
 import axios from '@/utils/request';
 
 const api = {
-  getBanner: `/${process.env.REACT_APP_STOREID}/banners`,
-  findStoreCateList: `/${process.env.REACT_APP_STOREID}/categories`, // 查询首页产品分类
+  getBanner: `/${window.__.env.REACT_APP_STOREID}/banners`,
+  findStoreCateList: `/${window.__.env.REACT_APP_STOREID}/categories`, // 查询首页产品分类
   mktCallBack: '/consent/mkt/callback',
   accountCallBack: '/consent/account/callback'
 };
@@ -12,7 +12,7 @@ export function getBanner() {
   return axios({
     url: `${api.getBanner}`,
     method: 'get',
-    params: { storeId: process.env.REACT_APP_STOREID }
+    params: { storeId: window.__.env.REACT_APP_STOREID }
   });
 }
 

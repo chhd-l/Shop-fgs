@@ -28,7 +28,7 @@ class LoginCart extends React.Component {
       checkoutLoading: false
     };
     this.handleCheckout = this.handleCheckout.bind(this);
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
     if (
@@ -71,7 +71,7 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
 
       let autoAuditFlag = false;
@@ -173,7 +173,7 @@ class LoginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
                     alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">
@@ -202,7 +202,7 @@ class LoginCart extends React.Component {
                   <div className="d-flex minicart_freeshipping_info align-items-center">
                     <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
-                      {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
+                      {window.__.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
                       ) : (
                         <FormattedMessage id="miniBasket" />

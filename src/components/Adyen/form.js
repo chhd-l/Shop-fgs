@@ -67,9 +67,9 @@ class AdyenCreditCardForm extends React.Component {
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
-            environment: process.env.REACT_APP_Adyen_ENV,
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale,
+            environment: window.__.env.REACT_APP_Adyen_ENV,
+            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
+            locale: window.__.env.REACT_APP_Adyen_locale,
             translations
           });
 
@@ -146,7 +146,7 @@ class AdyenCreditCardForm extends React.Component {
         // }
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
-          storeId: process.env.REACT_APP_STOREID,
+          storeId: window.__.env.REACT_APP_STOREID,
           customerId: this.userInfo ? this.userInfo.customerId : '',
           encryptedCardNumber: adyenFormData.encryptedCardNumber,
           encryptedExpiryMonth: adyenFormData.encryptedExpiryMonth,

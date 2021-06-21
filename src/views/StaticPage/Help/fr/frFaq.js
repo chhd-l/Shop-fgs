@@ -44,14 +44,14 @@ class FrFaq extends Component {
               <div
                 className="background-cover"
                 style={{
-                  backgroundImage: `url(${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg)`
+                  backgroundImage: `url(${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg)`
                 }}
               >
                 <picture className="rc-card__image">
                   <LazyLoad>
                     <img
                       className=" lazyloaded"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/02_help.jpg`}
                       alt="help icon"
                     />
                   </LazyLoad>
@@ -84,7 +84,7 @@ class FrFaq extends Component {
                       <LazyLoad>
                         <img
                           className="lazyloaded"
-                          src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@90.jpg`}
+                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@90.jpg`}
                           alt="faq icon"
                         />
                       </LazyLoad>

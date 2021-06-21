@@ -38,7 +38,7 @@ class Help extends React.Component {
             </div>
           </div>
         )
-      }[process.env.REACT_APP_COUNTRY] || null
+      }[window.__.env.REACT_APP_COUNTRY] || null
     );
   }
 }

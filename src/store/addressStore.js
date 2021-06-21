@@ -43,11 +43,11 @@ class addressStore {
     try {
       const res = await addressValidation({
         city: address.city,
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID,
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID,
         deliveryAddress: address.address1,
         postCode: address.postCode,
         province: address.province,
-        storeId: Number(process.env.REACT_APP_STOREID)
+        storeId: Number(window.__.env.REACT_APP_STOREID)
       });
       if (res.context && res.context != null) {
         ret = Object.assign(res.context.suggestionAddress, {

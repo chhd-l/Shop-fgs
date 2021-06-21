@@ -268,7 +268,7 @@ class AccountProfile extends React.Component {
                   >
                     <AddressList
                       hideBillingAddr={
-                        +process.env.REACT_APP_HIDE_ACCOUNT_BILLING_ADDR
+                        +window.__.env.REACT_APP_HIDE_ACCOUNT_BILLING_ADDR
                       }
                       updateEditOperationPanelName={
                         this.updateEditOperationPanelName
@@ -276,8 +276,8 @@ class AccountProfile extends React.Component {
                     />
                   </PanleContainer>
 
-                  {process.env.REACT_APP_COUNTRY !== 'ru' &&
-                    process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
+                  {window.__.env.REACT_APP_COUNTRY !== 'ru' &&
+                    window.__.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
                       <PanleContainer
                         loading={loading}
                         customCls={classNames({
@@ -329,14 +329,14 @@ class AccountProfile extends React.Component {
                       // 俄罗斯 需要message
                       needMessengers={
                         !Boolean(
-                          +process.env
+                          +window.__.env
                             .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS
                         )
                       }
                       // 美国 墨西哥 不需要phone
                       needPhone={
                         !Boolean(
-                          +process.env
+                          +window.__.env
                             .REACT_APP_HIDE_ACCOUNT_COMMUNICATION_PHONE
                         )
                       }
@@ -349,7 +349,7 @@ class AccountProfile extends React.Component {
                   </PanleContainer>
 
                   {/* 俄罗斯增加 Delete my account 模块，先做接口，后期跳转到okta */}
-                  {process.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
+                  {window.__.env.REACT_APP_DELETE_My_ACCOUNT_URL && (
                     <PanleContainer
                       customCls={classNames({
                         hidden: editOperationPaneName

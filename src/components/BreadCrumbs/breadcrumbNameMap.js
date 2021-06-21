@@ -154,7 +154,7 @@ const breadcrumbNameMap = {
   ],
   '/cat-nutrition': [{ name: 'catNutrition' }],
   '/kitten-nutrition': [{ name: 'Nutrition chatons' }],
-  [searchNoResult[process.env.REACT_APP_COUNTRY]]: [
+  [searchNoResult[window.__.env.REACT_APP_COUNTRY]]: [
     { name: 'searchNoBreed.breedName' }
   ],
   '/retail-products': [{ name: 'onlineStore.breedcrumb' }]

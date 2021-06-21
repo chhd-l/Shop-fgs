@@ -8,4 +8,4 @@ const locales = {
   ca: require('@/lang/en_CA'),
   core: require('@/lang/en_US')
 };
-export default locales[process.env.REACT_APP_COUNTRY].default;
+export default locales[window.__.env.REACT_APP_COUNTRY].default;

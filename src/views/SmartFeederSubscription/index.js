@@ -322,7 +322,7 @@ const Step3 = (props) => {
       planId,
       packageId,
       goodsInfoId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     });
     res = res.context;
     setDetailInfo(res);
@@ -871,7 +871,7 @@ class SmartFeederSubscription extends Component {
                 }
               } else {
                 if (
-                  process.env.REACT_APP_COUNTRY === 'de' &&
+                  window.__.env.REACT_APP_COUNTRY === 'de' &&
                   sItem.chidren.length > 1 &&
                   !sItem.chidren[1].isEmpty
                 ) {
@@ -920,9 +920,9 @@ class SmartFeederSubscription extends Component {
                   if (tmpGoodsDetail[key]) {
                     console.log(tmpGoodsDetail[key], 'ghaha');
                     if (
-                      process.env.REACT_APP_COUNTRY === 'fr' ||
-                      process.env.REACT_APP_COUNTRY === 'ru' ||
-                      process.env.REACT_APP_COUNTRY === 'tr'
+                      window.__.env.REACT_APP_COUNTRY === 'fr' ||
+                      window.__.env.REACT_APP_COUNTRY === 'ru' ||
+                      window.__.env.REACT_APP_COUNTRY === 'tr'
                     ) {
                       let tempObj = {};
                       let tempContent = '';
@@ -1008,7 +1008,7 @@ class SmartFeederSubscription extends Component {
               console.log(err, 'err');
               getDict({
                 type: 'goodsDetailTab',
-                storeId: process.env.REACT_APP_STOREID
+                storeId: window.__.env.REACT_APP_STOREID
               }).then((res) => {
                 goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
                   (ele) => ele.name
@@ -1058,9 +1058,9 @@ class SmartFeederSubscription extends Component {
                   if (tmpGoodsDetail[key]) {
                     console.log(tmpGoodsDetail[key], 'ghaha');
                     if (
-                      process.env.REACT_APP_COUNTRY === 'fr' ||
-                      process.env.REACT_APP_COUNTRY === 'ru' ||
-                      process.env.REACT_APP_COUNTRY === 'tr'
+                      window.__.env.REACT_APP_COUNTRY === 'fr' ||
+                      window.__.env.REACT_APP_COUNTRY === 'ru' ||
+                      window.__.env.REACT_APP_COUNTRY === 'tr'
                     ) {
                       let tempObj = {};
                       let tempContent = '';
@@ -1177,7 +1177,7 @@ class SmartFeederSubscription extends Component {
               console.log(err, 'tmpGoodsDetail');
               getDict({
                 type: 'goodsDetailTab',
-                storeId: process.env.REACT_APP_STOREID
+                storeId: window.__.env.REACT_APP_STOREID
               }).then((res) => {
                 goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
                   (ele) => ele.name
@@ -1330,11 +1330,11 @@ class SmartFeederSubscription extends Component {
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
-        if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
+        if (quantityNew > window.__.env.REACT_APP_LIMITED_NUM) {
           this.showCheckoutErrMsg(
             <FormattedMessage
               id="cart.errorMaxInfo"
-              values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+              values={{ val: window.__.env.REACT_APP_LIMITED_NUM }}
             />
           );
           this.setState({ addToCartLoading: false });
@@ -1398,11 +1398,11 @@ class SmartFeederSubscription extends Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
-      if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
+      if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
         this.showCheckoutErrMsg(
           <FormattedMessage
             id="cart.errorMaxCate"
-            values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+            values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
           />
         );
         return;
@@ -1525,7 +1525,7 @@ class SmartFeederSubscription extends Component {
     let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
     let { form } = this.state;
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
         add: {
           products: [
@@ -1722,7 +1722,7 @@ class SmartFeederSubscription extends Component {
       await sitePurchase(param);
       await checkoutStore.updateLoginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
       if (isMobile) {
         // this.refs.showModalButton.click();

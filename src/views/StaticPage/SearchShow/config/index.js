@@ -17,7 +17,7 @@ const mailFrag = (
 //2.跳转hub他们的constUs
 const hubFrag = (
   <a
-    href={`${process.env.REACT_APP_HUB_URLPREFIX}/contact-us`}
+    href={`${window.__.env.REACT_APP_HUB_URLPREFIX}/contact-us`}
     className="rc-styled-link"
   >
     <FormattedMessage id="searchNoResult.email.content" />
@@ -33,9 +33,9 @@ const fgsFrag = (
 
 export const getEmailWay = () => {
   const param =
-    process.env.REACT_APP_COUNTRY +
+    window.__.env.REACT_APP_COUNTRY +
     '_' +
-    (process.env.REACT_APP_HUB ? 'hub' : 'fgs');
+    (window.__.env.REACT_APP_HUB ? 'hub' : 'fgs');
 
   const defaultWay = mailFrag;
 

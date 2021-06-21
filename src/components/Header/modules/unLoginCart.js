@@ -30,7 +30,7 @@ class UnloginCart extends React.Component {
       petModalVisible: false,
       isAdd: 0
     };
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   async componentDidMount() {
     if (
@@ -62,7 +62,7 @@ class UnloginCart extends React.Component {
           }
         })
       : dataLayer.push({
-          event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+          event: `${window.__.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
           interaction: {
             category: 'checkout',
             action: 'guest checkout',
@@ -79,7 +79,7 @@ class UnloginCart extends React.Component {
       this.setState({ checkoutLoading: true });
       await checkoutStore.updateUnloginCart({
         isThrowErr: true,
-        minimunAmountPrice: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+        minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
 
       if (needLogin) {
@@ -181,7 +181,7 @@ class UnloginCart extends React.Component {
                 <div className="minicart__empty">
                   <img
                     className="cart-img"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cart.png`}
                     alt="ROYAL CANIN® online store"
                   />
                   <p className="rc-delta">
@@ -212,7 +212,7 @@ class UnloginCart extends React.Component {
                   <div className="d-flex minicart_freeshipping_info align-items-center">
                     <em className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs" />
                     <p>
-                      {process.env.REACT_APP_IS_PROMOTION === 'true' ? (
+                      {window.__.env.REACT_APP_IS_PROMOTION === 'true' ? (
                         <FormattedMessage id="cart.miniCartTitle" />
                       ) : (
                         <FormattedMessage id="miniBasket" />

@@ -237,7 +237,7 @@ class CheckoutStore {
     notSeableProNames = this.notSeableProNames,
     minimunAmountPrice = 0
   } = {}) {
-    if (this.tradePrice < Number(process.env.REACT_APP_MINIMUM_AMOUNT)) {
+    if (this.tradePrice < Number(window.__.env.REACT_APP_MINIMUM_AMOUNT)) {
       throw new Error(
         CURRENT_LANGFILE['cart.errorInfo3'].replace(/{.+}/, minimunAmountPrice)
       );
@@ -692,11 +692,11 @@ class CheckoutStore {
 
           // 校验
           // 1 单个产品数量限制
-          if (cartItem.quantity > +process.env.REACT_APP_LIMITED_NUM) {
+          if (cartItem.quantity > +window.__.env.REACT_APP_LIMITED_NUM) {
             throw new Error(
               CURRENT_LANGFILE['cart.errorMaxInfo'].replace(
                 /{.+}/,
-                +process.env.REACT_APP_LIMITED_NUM
+                +window.__.env.REACT_APP_LIMITED_NUM
               )
             );
           }
@@ -708,20 +708,20 @@ class CheckoutStore {
         if (
           cartDataCopy.reduce((pre, cur) => {
             return Number(pre) + Number(cur.quantity);
-          }, 0) > +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+          }, 0) > +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
         ) {
           throw new Error(
             CURRENT_LANGFILE['cart.errorAllProductNumLimit'].replace(
               /{.+}/,
-              +process.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
+              +window.__.env.REACT_APP_LIMITED_NUM_ALL_PRODUCT
             )
           );
         }
-        if (cartDataCopy.length >= +process.env.REACT_APP_LIMITED_CATE_NUM) {
+        if (cartDataCopy.length >= +window.__.env.REACT_APP_LIMITED_CATE_NUM) {
           throw new Error(
             CURRENT_LANGFILE['cart.errorMaxCate'].replace(
               /{.+}/,
-              +process.env.REACT_APP_LIMITED_CATE_NUM
+              +window.__.env.REACT_APP_LIMITED_CATE_NUM
             )
           );
         }

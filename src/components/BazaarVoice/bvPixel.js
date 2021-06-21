@@ -14,7 +14,7 @@ export function transactionPixel(details) {
     };
   });
   const transactionInfo = {
-    currency: process.env.REACT_APP_CURRENCY,
+    currency: window.__.env.REACT_APP_CURRENCY,
     orderId: details.id,
     total: String(details.tradePrice.totalPrice.toFixed(2)),
     items: items,

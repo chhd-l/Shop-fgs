@@ -76,7 +76,7 @@ class Form extends React.Component {
         address1: '',
         address2: '',
         country: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         cityId: '',
         city: '',
         areaId: '',
@@ -148,11 +148,9 @@ class Form extends React.Component {
     initData.regionId = initData.areaId;
 
     // deliveryDate和timeSlot有值就显示
-    if (
-      initData.deliveryDate &&
-      initData.timeSlot &&
-      this.props.showDeliveryDateTimeSlot
-    ) {
+    // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
+    console.log('666  ', window.__.env.REACT_APP_COUNTRY);
+    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
       this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('112 -------------★ EditForm initData: ', initData);
@@ -240,7 +238,11 @@ class Form extends React.Component {
       res = await getAddressBykeyWord({ keyword: address1 });
       if (res?.context && res?.context?.addressList.length) {
         let addls = res.context.addressList;
-        this.getDeliveryDateAndTimeSlotData(addls[0].provinceId);
+        // 给查询到的地址拼接 errMsg
+        addls.forEach((v, i) => {
+          v = this.setDuDataAddressErrMsg(v);
+        });
+        await this.handleAddressInputChange(addls[0]);
       }
     } catch (err) {
       console.warn(err);
@@ -333,7 +335,7 @@ class Form extends React.Component {
     let element = document.getElementById('phoneNumberShipping');
     let maskOptions = [];
     let phoneReg = '';
-    switch (process.env.REACT_APP_COUNTRY) {
+    switch (window.__.env.REACT_APP_COUNTRY) {
       case 'fr':
         phoneReg = [
           { mask: '(+33) 0 00 00 00 00' },
@@ -498,7 +500,7 @@ class Form extends React.Component {
     }
 
     if (
-      process.env.REACT_APP_COUNTRY == 'ru' &&
+      window.__.env.REACT_APP_COUNTRY == 'ru' &&
       !this.props.isCyberBillingAddress &&
       !this.props.personalData
     ) {
@@ -514,7 +516,7 @@ class Form extends React.Component {
       let errMsg = '';
       switch (item.fieldKey) {
         case 'postCode':
-          process.env.REACT_APP_COUNTRY == 'us'
+          window.__.env.REACT_APP_COUNTRY == 'us'
             ? (regExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/)
             : (regExp = /^\d{5}$/);
           errMsg = CURRENT_LANGFILE['enterCorrectPostCode'];
@@ -524,19 +526,19 @@ class Form extends React.Component {
           errMsg = CURRENT_LANGFILE['pleaseEnterTheCorrectEmail'];
           break;
         case 'phoneNumber':
-          if (process.env.REACT_APP_COUNTRY == 'fr') {
+          if (window.__.env.REACT_APP_COUNTRY == 'fr') {
             // 法国
             regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'us') {
+          } else if (window.__.env.REACT_APP_COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'mx') {
+          } else if (window.__.env.REACT_APP_COUNTRY == 'mx') {
             // 墨西哥
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'ru') {
+          } else if (window.__.env.REACT_APP_COUNTRY == 'ru') {
             // 俄罗斯
             regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-          } else if (process.env.REACT_APP_COUNTRY == 'tr') {
+          } else if (window.__.env.REACT_APP_COUNTRY == 'tr') {
             // 土耳其
             regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
@@ -548,7 +550,7 @@ class Form extends React.Component {
         default:
           regExp = /\S/;
           let errstr = '';
-          if (process.env.REACT_APP_COUNTRY == 'ru') {
+          if (window.__.env.REACT_APP_COUNTRY == 'ru') {
             errstr = 'payment.errorInfo2';
           } else {
             errstr = 'payment.errorInfo';
@@ -621,7 +623,7 @@ class Form extends React.Component {
   getUsStateList = async () => {
     try {
       const res = await getProvincesList({
-        storeId: process.env.REACT_APP_STOREID
+        storeId: window.__.env.REACT_APP_STOREID
       });
       if (res?.context?.systemStates) {
         let starr = [];
@@ -756,7 +758,7 @@ class Form extends React.Component {
     const { isDeliveryDateAndTimeSlot } = this.state;
     let newForm = Object.assign({}, data);
     // 处理法国电话号码格式，(+33) 0X XX XX XX XX 保存为: (+33) X XX XX XX XX
-    if (process.env.REACT_APP_COUNTRY == 'fr') {
+    if (window.__.env.REACT_APP_COUNTRY == 'fr') {
       let tvalue = newForm.phoneNumber;
       if (tvalue?.length > 19) {
         newForm['phoneNumber'] = tvalue.replace(/0/, '');
@@ -873,7 +875,7 @@ class Form extends React.Component {
         tvalue = '';
         return;
       }
-      switch (process.env.REACT_APP_COUNTRY) {
+      switch (window.__.env.REACT_APP_COUNTRY) {
         case 'us':
           tvalue = tvalue
             .replace(/\s/g, '')
@@ -931,7 +933,7 @@ class Form extends React.Component {
           [tname]: ''
         })
       });
-      if (process.env.REACT_APP_COUNTRY != 'ru') {
+      if (window.__.env.REACT_APP_COUNTRY != 'ru') {
         // 俄罗斯需要先校验 DuData 再校验所有表单数据
         this.validFormAllData(); // 验证表单所有数据
       }
@@ -976,7 +978,7 @@ class Form extends React.Component {
 
   // DuData地址搜索选择 1
   handleAddressInputChange = async (data) => {
-    // console.log('★ -------------- DuData地址搜索选择 data: ', data);
+    console.log('666 DuData地址搜索选择 data: ', data);
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
@@ -1052,7 +1054,8 @@ class Form extends React.Component {
       this.setState({
         errMsgObj: {
           ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
-        }
+        },
+        isDeliveryDateAndTimeSlot: false
       });
     }
   };
