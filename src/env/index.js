@@ -4,6 +4,8 @@ import ENV_MX from './mx';
 import ENV_RU from './ru';
 import ENV_TR from './tr';
 import ENV_US from './us';
+import ENV_CORE from './core';
+import ENV_CA from './ca';
 import ENV_LOCAL from './local';
 import GLOBAL_ENV from './global';
 
@@ -16,7 +18,9 @@ const ALL_ENV = {
   ENV_MX,
   ENV_RU,
   ENV_TR,
-  ENV_US
+  ENV_US,
+  ENV_CORE,
+  ENV_CA
 };
 
 const pathnameToCountryEnv = {
@@ -25,7 +29,9 @@ const pathnameToCountryEnv = {
   '/ru': 'ENV_RU',
   '/tr': 'ENV_TR',
   '/mx': 'ENV_MX',
-  '/us': 'ENV_US'
+  '/us': 'ENV_US',
+  '/core': 'ENV_CORE',
+  '/ca': 'ENV_CA'
 };
 
 let pathnameKey = Object.keys(pathnameToCountryEnv).filter((key) =>

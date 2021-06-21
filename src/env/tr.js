@@ -25,7 +25,6 @@ const env = {
 
     // #storid
     REACT_APP_STOREID: '123457911',
-    REACT_APP_CATEID: '1140',
 
     // #最低限额
     REACT_APP_MINIMUM_AMOUNT: '0 ',
