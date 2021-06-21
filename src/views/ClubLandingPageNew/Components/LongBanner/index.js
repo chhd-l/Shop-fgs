@@ -108,7 +108,7 @@ const LongBanner = () => {
                       color: '#ffffff',
                       marginBottom: '0px',
                     }}
-                    className="longbannerwidth266"
+                    className={`longbannerwidth266 ${process.env.REACT_APP_COUNTRY == 'tr'?`trmarginleft10vw`:null}`}
                   >
                     <FormattedMessage id="ClubLP.LongBanner.content2"values={{val:<br/>}} />
                   </p>

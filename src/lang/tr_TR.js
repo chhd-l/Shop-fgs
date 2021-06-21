@@ -1258,7 +1258,7 @@ const tr_TR = {
   'ClubLP.discount.content': '%5 İndirim&Ücretsiz Kargo',
   'ClubLP.LongBanner.title':
     'ABONE OLARAK EVCİL {val1} HAYVANINIZA TAM BİR SAĞLIKLI BESLENME, {val2} ÇÖZÜMÜ SUNUN',
-  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+  'ClubLP.LongBanner.content': '124 TL’den başlayan fiyatlarla/sipariş',
   'ClubLP.LongBanner.button': 'Şimdi Deneyin',
   'ClubLP.LongBanner.content2': 'Taahhütsüz',
   'ClubLP.LongBanner.SubscriptionTitle':
