@@ -3,9 +3,6 @@ const env = {
     // #国家
     REACT_APP_COUNTRY: 'us',
 
-    // #接口配置
-    REACT_APP_BASEURL: 'https://shopuat.466920.com/api',
-
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-TML5H48',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
