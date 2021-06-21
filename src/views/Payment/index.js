@@ -135,6 +135,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      saveAddressNumber: 0, // 保存Delivery地址次数
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
@@ -397,6 +398,12 @@ class Payment extends React.Component {
       this.state.paymentTypeVal
     );
   }
+  // 更新delivery address保存次数
+  updateSaveAddressNumber = (number) => {
+    this.setState({
+      saveAddressNumber: number
+    });
+  };
   // 当前是否为订阅购买
   get isCurrentBuyWaySubscription() {
     let isSubscription =
@@ -2033,6 +2040,8 @@ class Payment extends React.Component {
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
+              saveAddressNumber={this.state.saveAddressNumber}
+              updateSaveAddressNumber={(e) => this.updateSaveAddressNumber(e)}
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               updateData={this.updateDeliveryAddrData}

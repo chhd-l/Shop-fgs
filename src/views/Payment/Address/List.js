@@ -41,6 +41,8 @@ class AddressList extends React.Component {
     intlMessages: null,
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
+    saveAddressNumber: 0, // 保存Delivery地址次数
+    updateSaveAddressNumber: () => {},
     titleVisible: true,
     isValidationModal: true, // 是否显示验证弹框
     isAddOrEdit: () => {},
@@ -114,6 +116,11 @@ class AddressList extends React.Component {
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
+
+    // 更新delivery address保存次数
+    let snum = this.props.saveAddressNumber;
+    this.props.updateSaveAddressNumber(snum + 1);
+
     getDictionary({ type: 'country' }).then((res) => {
       let cfm = deliveryAddress;
       cfm.country = res[0].value;
@@ -230,12 +237,11 @@ class AddressList extends React.Component {
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
     this.setState({ loading: true });
+    const { selectedId } = this.state;
     try {
-      const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
-      console.log('666 查询地址列表: ', res);
-
+      // console.log('666 查询地址列表: ', res);
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
@@ -278,13 +284,15 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
-
+      console.log('666 保存次数：', this.props.saveAddressNumber);
       addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
         // state对象暂时用不到
         delete v.state;
-
-        if (process.env.REACT_APP_COUNTRY == 'ru') {
+        if (
+          process.env.REACT_APP_COUNTRY == 'ru' &&
+          this.props.saveAddressNumber == 0
+        ) {
           // 根据 address 取到 DuData返回的provinceId
           let dudata = await getAddressBykeyWord({ keyword: v.address1 });
           if (dudata?.context && dudata?.context?.addressList.length > 0) {
@@ -300,6 +308,11 @@ class AddressList extends React.Component {
                 tobj.dateTimeInfos[0].startTime +
                 '-' +
                 tobj.dateTimeInfos[0].endTime;
+              console.log(
+                '666 deliveryDate: ',
+                v.deliveryDate + '   timeSlot: ',
+                v.timeSlot
+              );
             }
             // 修改地址
             await editAddress(v);
@@ -956,6 +969,11 @@ class AddressList extends React.Component {
         addOrEdit: false,
         saveLoading: false
       });
+
+      // 更新delivery address保存次数
+      let snum = this.props.saveAddressNumber;
+      this.props.updateSaveAddressNumber(snum + 1);
+
       this.clickConfirmAddressPanel();
     } catch (err) {
       this.setState({
