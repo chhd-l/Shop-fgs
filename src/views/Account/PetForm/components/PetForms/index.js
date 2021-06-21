@@ -245,7 +245,7 @@ const PetForms = ({
     setPetForm(newpetForm);
   };
   const inputNickname = (e) => {
-    setNewPetForm('nickname', e.target.value);
+    setNewPetForm('nickname', e.target.value?.trim());
   };
   const weightChange = (e) => {
     let measure = '';

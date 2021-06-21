@@ -66,7 +66,10 @@ const env = {
     // #是否显示billing addr(checkout页)
     REACT_APP_HIDE_CHECKOUT_BILLING_ADDR: 1,
 
-    REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: 0
+    REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: 0,
+
+    REACT_APP_SEARCH_LINK:
+      '/on/demandware.store/Sites-RU-Site/ru_RU/Search-Show'
   },
   development: {
     // #okta

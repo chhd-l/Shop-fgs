@@ -62,7 +62,10 @@ const env = {
 
     REACT_APP_DOMAIN: '/tr/shop',
 
-    REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '0'
+    REACT_APP_HIDE_ACCOUNT_COMMUNICATION_MESSENGERS: '0',
+
+    REACT_APP_SEARCH_LINK:
+      '/on/demandware.store/Sites-TR-Site/tr_TR/Search-Show'
   },
   development: {
     // #okta

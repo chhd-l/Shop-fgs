@@ -18,7 +18,7 @@ import {
   Switch,
   useHistory
 } from 'react-router-dom';
-import ENV_CONFIG from './env/index'
+import ENV_CONFIG from './env/index';
 import { Security, useOktaAuth } from '@okta/okta-react';
 
 import config from './config';
@@ -555,7 +555,9 @@ const App = () => {
                   path="/About-Us"
                   exact
                   component={
-                    window.__.env.REACT_APP_COUNTRY == 'de' ? AboutUsDe : AboutUs
+                    window.__.env.REACT_APP_COUNTRY == 'de'
+                      ? AboutUsDe
+                      : AboutUs
                   }
                 />
                 <Route path="/cat-nutrition" exact component={CatNutrition} />
@@ -638,15 +640,17 @@ const App = () => {
                 <Route
                   exact
                   path="/list/:category/:keywords"
-                  render={(props) => (
-                    <List
-                      key={
-                        props.match.params.category +
-                        props.match.params.keywords
-                      }
-                      {...props}
-                    />
-                  )}
+                  render={(props) => {
+                    return (
+                      <List
+                        key={
+                          props.match.params.category +
+                          props.match.params.keywords
+                        }
+                        {...props}
+                      />
+                    );
+                  }}
                 />
 
                 <Route
