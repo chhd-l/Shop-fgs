@@ -38,7 +38,7 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
-    reSelectTimeSlot: '',
+    intlMessages: null,
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     titleVisible: true,
@@ -146,6 +146,65 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intlMessages[str];
+  };
+  // 星期
+  getWeekDay = (day) => {
+    let weekArr = [
+      this.getIntlMsg('payment.Sunday'),
+      this.getIntlMsg('payment.Monday'),
+      this.getIntlMsg('payment.Tuesday'),
+      this.getIntlMsg('payment.Wednesday'),
+      this.getIntlMsg('payment.Thursday'),
+      this.getIntlMsg('payment.Friday'),
+      this.getIntlMsg('payment.Saturday')
+    ];
+    return weekArr[day];
+  };
+  // 月份
+  getMonth = (num) => {
+    num = Number(num);
+    let monthArr = [
+      '0',
+      this.getIntlMsg('payment.January'),
+      this.getIntlMsg('payment.February'),
+      this.getIntlMsg('payment.March'),
+      this.getIntlMsg('payment.April'),
+      this.getIntlMsg('payment.May'),
+      this.getIntlMsg('payment.June'),
+      this.getIntlMsg('payment.July'),
+      this.getIntlMsg('payment.August'),
+      this.getIntlMsg('payment.September'),
+      this.getIntlMsg('payment.October'),
+      this.getIntlMsg('payment.November'),
+      this.getIntlMsg('payment.December')
+    ];
+    return monthArr[num];
+  };
+  // delivery date 格式转换: 星期, 15 月份
+  getFormatDeliveryDateStr = (date) => {
+    // 获取明天几号
+    let mdate = new Date();
+    let tomorrow = mdate.getDate() + 1;
+    // 获取星期
+    var week = new Date(date).getDay();
+    let weekday = this.getWeekDay(week);
+    // 获取月份
+    let ymd = date.split('-');
+    let month = this.getMonth(ymd[1]);
+
+    // 判断是否有 ‘明天’ 的日期
+    let thisday = Number(ymd[2]);
+    let daystr = '';
+    if (tomorrow == thisday) {
+      daystr = this.getIntlMsg('payment.tomorrow');
+    } else {
+      daystr = weekday;
+    }
+    return daystr + ', ' + ymd[2] + ' ' + month;
+  };
   // 查询 city list
   getAllCityList = async () => {
     try {
@@ -170,10 +229,12 @@ class AddressList extends React.Component {
   };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
+    this.setState({ loading: true });
     try {
       const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
+      console.log('666 查询地址列表: ', res);
 
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
@@ -218,10 +279,32 @@ class AddressList extends React.Component {
 
       this.props.updateData(tmpObj);
 
-      // state对象暂时用不到
-      addressList.forEach((v, i) => {
+      addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
+        // state对象暂时用不到
         delete v.state;
+
+        if (process.env.REACT_APP_COUNTRY == 'ru') {
+          // 根据 address 取到 DuData返回的provinceId
+          let dudata = await getAddressBykeyWord({ keyword: v.address1 });
+          if (dudata?.context && dudata?.context?.addressList.length > 0) {
+            let addls = dudata.context.addressList[0];
+            // 再根据 provinceId 获取到 cutOffTime
+            let vdres = await getDeliveryDateAndTimeSlot({
+              cityNo: addls?.provinceId
+            });
+            if (vdres.context && vdres.context?.timeSlots?.length) {
+              let tobj = vdres.context.timeSlots[0];
+              v.deliveryDate = tobj.date;
+              v.timeSlot =
+                tobj.dateTimeInfos[0].startTime +
+                '-' +
+                tobj.dateTimeInfos[0].endTime;
+            }
+            // 修改地址
+            await editAddress(v);
+          }
+        }
       });
 
       this.setState(
@@ -247,7 +330,7 @@ class AddressList extends React.Component {
   deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
     // 提示重新选择
-    let errMsg = this.props.reSelectTimeSlot;
+    let errMsg = this.getIntlMsg('payment.reselectTimeSlot');
 
     let deliveryDate = data.deliveryDate; // deliveryDate 日期
     let timeSlot = data.timeSlot;
@@ -1215,6 +1298,14 @@ class AddressList extends React.Component {
                   item.city,
                   localAddressForm['region'] && item.area,
                 ].join(', ')} */}
+              {item.deliveryDate && item.timeSlot ? (
+                <>
+                  <br />
+                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                  {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
+                  {item.timeSlot}
+                </>
+              ) : null}
             </p>
           </div>
           <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">

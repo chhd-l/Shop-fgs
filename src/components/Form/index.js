@@ -148,11 +148,8 @@ class Form extends React.Component {
     initData.regionId = initData.areaId;
 
     // deliveryDate和timeSlot有值就显示
-    if (
-      initData.deliveryDate &&
-      initData.timeSlot &&
-      this.props.showDeliveryDateTimeSlot
-    ) {
+    // if (initData.deliveryDate && initData.timeSlot && this.props.showDeliveryDateTimeSlot) {
+    if (process.env.REACT_APP_COUNTRY == 'ru') {
       this.getAddressListByKeyWord(initData.address1);
     }
     // console.log('112 -------------★ EditForm initData: ', initData);
@@ -240,7 +237,11 @@ class Form extends React.Component {
       res = await getAddressBykeyWord({ keyword: address1 });
       if (res?.context && res?.context?.addressList.length) {
         let addls = res.context.addressList;
-        this.getDeliveryDateAndTimeSlotData(addls[0].provinceId);
+        // 给查询到的地址拼接 errMsg
+        addls.forEach((v, i) => {
+          v = this.setDuDataAddressErrMsg(v);
+        });
+        await this.handleAddressInputChange(addls[0]);
       }
     } catch (err) {
       console.warn(err);
@@ -976,7 +977,7 @@ class Form extends React.Component {
 
   // DuData地址搜索选择 1
   handleAddressInputChange = async (data) => {
-    // console.log('★ -------------- DuData地址搜索选择 data: ', data);
+    console.log('666 DuData地址搜索选择 data: ', data);
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
@@ -1052,7 +1053,8 @@ class Form extends React.Component {
       this.setState({
         errMsgObj: {
           ['address1']: this.getIntlMsg('payment.pleaseInput') + errMsg
-        }
+        },
+        isDeliveryDateAndTimeSlot: false
       });
     }
   };

@@ -188,10 +188,10 @@ class ClubLandingPageNew extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm  content-block rc-max-width--lg">
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
-                        <div className="rc-padding-y--lg--mobile rc-full-width">
+                        <div className=" rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <li className="rc-list__item flex">
                               <div>

@@ -1969,7 +1969,7 @@ class Payment extends React.Component {
 
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
-    console.log('666 param: ', param);
+    // console.log('666 param: ', param);
     try {
       // 获取税额
       if (this.isLogin) {
@@ -2029,7 +2029,7 @@ class Payment extends React.Component {
             <AddressList
               id="1"
               type="delivery"
-              reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
+              intlMessages={this.props.intl.messages}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
@@ -2042,6 +2042,7 @@ class Payment extends React.Component {
             <VisitorAddress
               key={1}
               type="delivery"
+              intlMessages={this.props.intl.messages}
               reSelectTimeSlot={this.getIntlMsg('payment.reselectTimeSlot')}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
@@ -2125,6 +2126,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 type="billing"
                 isDeliveryOrBilling="billing"
+                intlMessages={this.props.intl.messages}
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
@@ -2143,6 +2145,7 @@ class Payment extends React.Component {
                 titleVisible={false}
                 showConfirmBtn={false}
                 type="billing"
+                intlMessages={this.props.intl.messages}
                 isDeliveryOrBilling="billing"
                 initData={billingAddress}
                 guestEmail={guestEmail}
