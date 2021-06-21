@@ -171,6 +171,8 @@ export const GACartScreenLoad = () => {
 
 //init 游客(cart+checkout都使用)
 export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
+  console.log(productList);
+  debugger;
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
   let breed = [];
@@ -196,6 +198,17 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
       : '';
     let range = item.goodsCateName?.split('/')[1] || '';
     let technology = item.goodsCateName?.split('/')[2] || '';
+    if (!technology) {
+      //第二种方式获取technology
+      item?.goodsAttributesValueRelList
+        ?.filter((item) => item.goodsAttributeName == 'Technology')
+        .forEach((item2) => {
+          if (item2.goodsAttributeValue) {
+            debugger;
+            technology = item2.goodsAttributeValue;
+          }
+        });
+    }
 
     let obj = deleteObjEmptyAttr({
       price: price, //Product Price, including discount if promo code activated for this product
@@ -255,14 +268,17 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
     //   }
     // });
     let technology = item.goods.goodsCateName?.split('/')[2] || '';
-    // let technology = ''
-    // item?.goodsAttributesValueRelVOList
-    // ?.filter((item) => item.goodsAttributeName == 'Technology')
-    // .forEach((item2) => {
-    //   if(item2.goodsAttributeValue){
-    //     technology = item2.goodsAttributeValue.split("_")[0]
-    //   }
-    // });
+    if (!technology) {
+      //第二种方式获取technology
+      item?.goodsAttributesValueRelVOList
+        ?.filter((item) => item.goodsAttributeName == 'Technology')
+        .forEach((item2) => {
+          if (item2.goodsAttributeValue) {
+            technology = item2.goodsAttributeValue;
+          }
+        });
+    }
+
     let breed = [];
     item?.goodsAttributesValueRelVOList
       ?.filter((item) => item?.goodsAttributeName?.toLowerCase() == 'breeds')
