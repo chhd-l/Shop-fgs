@@ -77,8 +77,8 @@ const JoinTodayNew = () => {
                           <button
                             className="rc-btn rc-btn--one"
                             style={{
-                              paddingLeft: '60px',
-                              paddingRight: '60px'
+                              paddingLeft: '90px',
+                              paddingRight: '90px'
                             }}
                           >
                             <FormattedMessage id="ClubLP.NewJoinUs.button" />
@@ -95,7 +95,7 @@ const JoinTodayNew = () => {
                               style={{
                                 maxHeight: '90%',
                                 maxWidth: '90%',
-                                marginLeft: '5vw'
+                                marginLeft: '3vw'
                               }}
                             />
                           ) : (

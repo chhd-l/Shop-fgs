@@ -434,6 +434,7 @@ class PayOs extends React.Component {
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
+                        inited={this.state.inited}
                       />
                     </div>
                   ) : (

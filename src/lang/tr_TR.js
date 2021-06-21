@@ -1257,8 +1257,8 @@ const tr_TR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '%5 İndirim&Ücretsiz Kargo',
   'ClubLP.LongBanner.title':
-    'ABONE OLARAK EVCİL {val1} HAYVANINIZA TAM BİR SAĞLIKLI BESLENME, {val2} ÇÖZÜMÜ SUNUN',
-  'ClubLP.LongBanner.content': 'starting from 19.90€ /refill',
+    'ABONE OLARAK EVCİL {val1} HAYVANINIZA TAM BİR SAĞLIKLI {val2} BESLENME,  ÇÖZÜMÜ SUNUN',
+  'ClubLP.LongBanner.content': '124 TL’den başlayan fiyatlarla/sipariş',
   'ClubLP.LongBanner.button': 'Şimdi Deneyin',
   'ClubLP.LongBanner.content2': 'Taahhütsüz',
   'ClubLP.LongBanner.SubscriptionTitle':
@@ -1277,9 +1277,9 @@ const tr_TR = {
     'Evcil hayvanınızın uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Her zaman doğru porsiyon miktarı',
   'ClubLP.LongBanner.SubscriptionTitle1.new':
-    'Рекомендации по нормам кормления для выбора оптимальной порции',
+    'Evcil hayvanınıza uygun beslenme çözümü',
   'ClubLP.LongBanner.SubscriptionTitle2.new':
-    'Рекомендации по нормам кормления для выбора оптимальной порции',
+    'Evcil hayvanınızın ihtiyaçlarına uygun beslenme ',
   'ClubLP.LongBanner.SubscriptionTitle3.new':
     'Her zaman doğru porsiyon miktarı',
   'ClubLP.LongBanner.SubscriptionContent3':

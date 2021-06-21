@@ -193,21 +193,37 @@ class ClubLandingPageNew extends React.Component {
                       <div className="rc-column">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <li className="rc-list__item">
+                            <li className="rc-list__item flex">
+                              <div>
                               <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
                               <FormattedMessage id="ClubLP.Advantage.content1" />
+                              </div>
                             </li>
-                            <li className="rc-list__item">
+                            <li className="rc-list__item flex">
+                              <div>
                               <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
                               <FormattedMessage id="ClubLP.Advantage.content2" />
+                              </div>
                             </li>
-                            <li className="rc-list__item">
+                            <li className="rc-list__item flex">
+                              <div>
                               <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
                               <FormattedMessage id="ClubLP.Advantage.content3" />
+                              </div>
                             </li>
-                            <li className="rc-list__item">
+                            <li className="rc-list__item flex">
+                              <div>
                               <em className="bingo rc-margin-right--xs"></em>
+                              </div>
+                              <div>
                               <FormattedMessage id="ClubLP.Advantage.content4" />
+                              </div>
                             </li>
                           </ul>
                           <div className="rc-padding-x--none detextcenter">

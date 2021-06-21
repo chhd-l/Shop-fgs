@@ -6,9 +6,20 @@ import benefitsone from './image/benefitsone.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import clublogo from './image/clublogo.png';
+import clubru from './image/Clubru.png';
+
 const SubTitles = {
   title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
 };
+const LogoShows={
+  logo:<img
+    style={{ width: '100px' }}
+    src={
+      process.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo
+    }
+  />
+}
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
@@ -59,8 +70,6 @@ const LongBanner = () => {
                 <div
                   className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
                   style={{
-                    marginLeft: '13vw',
-                    marginTop: '30px',
                     marginBottom: '0px'
                   }}
                 >
@@ -99,9 +108,9 @@ const LongBanner = () => {
                       color: '#ffffff',
                       marginBottom: '0px',
                     }}
-                    className="longbannerwidth266"
+                    className={`longbannerwidth266 ${process.env.REACT_APP_COUNTRY == 'tr'?`trmarginleft10vw`:null}`}
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.content2" />
+                    <FormattedMessage id="ClubLP.LongBanner.content2"values={{val:<br/>}} />
                   </p>
                 </div>
               </div>
@@ -111,6 +120,7 @@ const LongBanner = () => {
         <SubscriptionBenefitsBanner
           SubscriptionItem={SubscriptionItems}
           Subtitle={SubTitles}
+          LogoShow={LogoShows}
         />
       </div>
     </>

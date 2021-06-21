@@ -75,17 +75,25 @@ const GetMoreAd = () => {
                       <div className="rc-column">
                         <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
-                            <li className="rc-list__item">
+                            <li className="rc-list__item flex">
+                              <div>
                               <em className="bingoWhite rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
+                              </div>
+                              <div style={{ marginLeft: '10px' }}>
+                              <a >
                                 <FormattedMessage id="ClubLP.GetMoreAd.Single.tip1" />
                               </a>
+                              </div>
                             </li>
-                            <li className="rc-list__item">
+                            <li className="rc-list__item flex">
+                              <div>
                               <em className="bingoWhite rc-margin-right--xs"></em>
-                              <a style={{ marginLeft: '10px' }}>
+                              </div>
+                              <div style={{ marginLeft: '10px' }}>
+                              <a >
                                 <FormattedMessage id="ClubLP.GetMoreAd.Single.tip2" />
                               </a>
+                              </div>
                             </li>
                           </ul>
                         </div>
@@ -161,29 +169,45 @@ const GetMoreAd = () => {
                         <div className="rc-column" style={{ padding: '0' }}>
                           <div className=" rc-full-width ">
                             <ul className="rc-list rc-list--blank rc-list--large-icon text21vw textmobile15vw">
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
                                 </a>
+                                </div>
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
                                 </a>
+                                </div>
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
                                 </a>
+                                </div>
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
                                 </a>
+                                </div>
                               </li>
                             </ul>
                           </div>
@@ -191,23 +215,35 @@ const GetMoreAd = () => {
                         <div className="rc-column" style={{ padding: '0' }}>
                           <div className=" rc-full-width ">
                             <ul className="rc-list rc-list--blank  rc-list--large-icon text21vw textmobile15vw rc-list--align">
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip5" />
                                 </a>
+                                </div>
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip6" />
                                 </a>
+                                </div>
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item flex">
+                                <div>
                                 <em className="bingo rc-margin-right--xs"></em>
-                                <a style={{ marginLeft: '10px' }}>
+                                </div>
+                                <div style={{ marginLeft: '10px' }}>
+                                <a >
                                   <FormattedMessage id="ClubLP.GetMoreAd.Club.tip7" />
                                 </a>
+                                </div>
                               </li>
                             </ul>
                           </div>

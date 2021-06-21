@@ -1367,7 +1367,7 @@ const ru_RU = {
     'ПОЛУЧИТЕ ВЫГОДНЫЕ {val1} УСЛОВИЯ ПРОГРАММЫ {val2} ROYAL CANIN® КЛУБ',
   'ClubLP.LongBanner.content': 'От NN руб. за заказ',
   'ClubLP.LongBanner.button': 'Попробовать сейчас',
-  'ClubLP.LongBanner.content2': 'Управление подпиской в Личном кабинете',
+  'ClubLP.LongBanner.content2': '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. {val}Цена указана без учета скидок и стоимости доставки.',
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':

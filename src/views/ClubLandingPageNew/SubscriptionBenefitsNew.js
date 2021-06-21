@@ -194,7 +194,7 @@ const SubsriptionBenefitsNew = () => {
               href={'/product-finder'}
               ariaLabel="Links to product finder"
             >
-              <button className="rc-btn rc-btn--one">
+              <button className="rc-btn rc-btn--one" style={{paddingLeft:'90px',paddingRight:'90px'}}>
                 <FormattedMessage
                   id={'ClubLP.SubscriptionBenefitsNew.button'}
                 />
