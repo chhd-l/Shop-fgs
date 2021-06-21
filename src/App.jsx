@@ -18,6 +18,7 @@ import {
   Switch,
   useHistory
 } from 'react-router-dom';
+import ENV_CONFIG from './env/index'
 import { Security, useOktaAuth } from '@okta/okta-react';
 
 import config from './config';
@@ -135,6 +136,7 @@ import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
 import ClubLandingPage from './views/ClubLandingPage';
 
 import { redirectFun } from '@/redirect/utils';
+import '@/utils/init';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
