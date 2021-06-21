@@ -229,10 +229,12 @@ class AddressList extends React.Component {
   };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
+    this.setState({ loading: true });
     try {
       const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
+      console.log('666 查询地址列表: ', res);
 
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
@@ -277,10 +279,29 @@ class AddressList extends React.Component {
 
       this.props.updateData(tmpObj);
 
-      // state对象暂时用不到
-      addressList.forEach((v, i) => {
+      addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
+        // state对象暂时用不到
         delete v.state;
+        // 根据 address 取到 DuData返回的provinceId
+        let dudata = await getAddressBykeyWord({ keyword: v.address1 });
+        if (dudata?.context && dudata?.context?.addressList.length > 0) {
+          let addls = dudata.context.addressList[0];
+          // 再根据 provinceId 获取到 cutOffTime
+          let vdres = await getDeliveryDateAndTimeSlot({
+            cityNo: addls?.provinceId
+          });
+          if (vdres.context && vdres.context?.timeSlots?.length) {
+            let tobj = vdres.context.timeSlots[0];
+            v.deliveryDate = tobj.date;
+            v.timeSlot =
+              tobj.dateTimeInfos[0].startTime +
+              '-' +
+              tobj.dateTimeInfos[0].endTime;
+          }
+          // 修改地址
+          await editAddress(v);
+        }
       });
 
       this.setState(
