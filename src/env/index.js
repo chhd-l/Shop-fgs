@@ -58,7 +58,7 @@ const pathnameToCountryEnv = [
   }
 ];
 
-const countryKey =
+countryKey =
   pathnameToCountryEnv.filter((item) => {
     return item.reg.test(location.pathname) && item.envFileName;
   })[0]['envFileName'] || 'ENV_CORE';
