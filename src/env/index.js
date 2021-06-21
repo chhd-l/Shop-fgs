@@ -23,44 +23,44 @@ const ALL_ENV = {
   ENV_CA
 };
 
-const pathnameToCountryEnv = [
-  {
+const pathnameToCountryEnv = {
+  '/fr': {
     reg: /^\/fr/,
     envFileName: 'ENV_FR'
   },
-  {
+  '/de': {
     reg: /^\/de/,
     envFileName: 'ENV_DE'
   },
-  {
+  '/ru': {
     reg: /^\/ru/,
     envFileName: 'ENV_RU'
   },
-  {
+  '/tr': {
     reg: /^\/tr/,
     envFileName: 'ENV_TR'
   },
-  {
+  '/mx': {
     reg: /^\/mx/,
     envFileName: 'ENV_MX'
   },
-  {
+  '/us': {
     reg: /^\/us/,
     envFileName: 'ENV_US'
   },
-  {
+  '/core': {
     reg: /^\/core/,
     envFileName: 'ENV_CORE'
   },
-  {
+  '/ca': {
     reg: /^\/ca/,
     envFileName: 'ENV_CA'
   }
-];
+};
 
-const pathnameKey = pathnameToCountryEnv.filter((item) => {
+const pathnameKey = Object.values(pathnameToCountryEnv).filter((item) => {
   return item.reg.test(location.pathname) && item.envFileName;
-})[0];
+})[0]['envFileName'];
 if (!pathnameKey) {
   console.warn('匹配不到国家');
 }
