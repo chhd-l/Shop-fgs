@@ -154,7 +154,6 @@ class PayOs extends React.Component {
   }
   componentDidMount() {
     const { isLogin } = this.props;
-    const _this = this;
     if (isLogin) {
       loadJS({
         url: 'https://js.paymentsos.com/v2/0.0.1/token.min.js',
@@ -434,6 +433,7 @@ class PayOs extends React.Component {
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
+                        inited={this.state.inited}
                       />
                     </div>
                   ) : (
