@@ -292,7 +292,7 @@ class AddressList extends React.Component {
         // state对象暂时用不到
         delete v.state;
         if (
-          window.__.env.REACT_APP_COUNTRY == 'ru' &&
+          process.env.REACT_APP_COUNTRY == 'ru' &&
           this.state.listSaveAddressNumber == 0
         ) {
           // 根据 address 取到 DuData返回的provinceId
@@ -456,10 +456,10 @@ class AddressList extends React.Component {
     console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
     console.log(
-      '666 window.__.env.REACT_APP_COUNTRY: ',
-      window.__.env.REACT_APP_COUNTRY
+      '666 process.env.REACT_APP_COUNTRY: ',
+      process.env.REACT_APP_COUNTRY
     );
-    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+    if (process.env.REACT_APP_COUNTRY == 'ru') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
       console.log('666 --> ', yesOrNot);
@@ -506,7 +506,7 @@ class AddressList extends React.Component {
     }
 
     this.updateSelectedData('confirm');
-    if (window.__.env.REACT_APP_COUNTRY != 'ru') {
+    if (process.env.REACT_APP_COUNTRY != 'ru') {
       this.confirmToNextPanel();
     }
   };
@@ -516,7 +516,7 @@ class AddressList extends React.Component {
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // 俄罗斯DuData
-    if (window.__.env.REACT_APP_COUNTRY == 'ru' && str == 'confirm') {
+    if (process.env.REACT_APP_COUNTRY == 'ru' && str == 'confirm') {
       // 判断地址完整性
       let errmsg = this.getDuDataAddressErrMsg(tmpObj);
       if (errmsg) {
@@ -1231,7 +1231,7 @@ class AddressList extends React.Component {
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     let farr = [data.address1, data.city];
-    if (window.__.env.REACT_APP_COUNTRY == 'us') {
+    if (process.env.REACT_APP_COUNTRY == 'us') {
       farr.push(data.province);
     } else {
       let country = matchNamefromDict(this.state.countryList, data.countryId);
@@ -1312,7 +1312,7 @@ class AddressList extends React.Component {
             <br />
             <p>
               {this.setAddressFields(item)}
-              {/* {window.__.env.REACT_APP_COUNTRY == 'us' ? [
+              {/* {process.env.REACT_APP_COUNTRY == 'us' ? [
                 item.address1,
                 item.city,
                 item.province

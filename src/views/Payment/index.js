@@ -108,7 +108,7 @@ function CreditCardInfoPreview({
           <br />
           <span>
             {getFormatDate(expirationDate, (date) => {
-              if (window.__.env.REACT_APP_COUNTRY === 'fr') {
+              if (process.env.REACT_APP_COUNTRY === 'fr') {
                 return date.slice(3);
               } else {
                 return date;
@@ -575,7 +575,7 @@ class Payment extends React.Component {
         }
       };
       if (
-        window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        process.env.REACT_APP_COUNTRY === 'ru' &&
         sessionItemRoyal.get('rc-iframe-from-storepotal')
       ) {
         payMethodsObj = {
@@ -779,7 +779,7 @@ class Payment extends React.Component {
       let obj = await this.getPayCommonParam();
       let commonParameter = obj.commonParameter;
       //在commonParameter加上一个consentIds-start
-      if (window.__.env.REACT_APP_COUNTRY == 'tr') {
+      if (process.env.REACT_APP_COUNTRY == 'tr') {
         let list = [...this.state.listData];
         let consentIds = [];
         list
