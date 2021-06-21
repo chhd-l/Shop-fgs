@@ -171,8 +171,6 @@ export const GACartScreenLoad = () => {
 
 //init 游客(cart+checkout都使用)
 export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
-  console.log(productList);
-  debugger;
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
   let breed = [];
@@ -204,7 +202,6 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
         ?.filter((item) => item.goodsAttributeName == 'Technology')
         .forEach((item2) => {
           if (item2.goodsAttributeValue) {
-            debugger;
             technology = item2.goodsAttributeValue;
           }
         });
