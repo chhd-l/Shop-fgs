@@ -84,9 +84,9 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isHubGA = window.__.env.REACT_APP_HUB_GA;
+const isHubGA = process.env.REACT_APP_HUB_GA;
 const hideBillingAddr = Boolean(
-  +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+  +process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
 );
 
 function CreditCardInfoPreview({
