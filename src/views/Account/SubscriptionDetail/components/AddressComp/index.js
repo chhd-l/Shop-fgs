@@ -196,7 +196,7 @@ class AddressList extends React.Component {
           (ele) => (ele.selected = ele.isDefaltAddress === 1)
         );
         tmpId = defaultAddressItem.deliveryAddressId;
-        this.getSubAddressErrMsg(alist);
+        this.getSubAddressErrMsg(defaultAddressItem);
       } else if (addressList.length) {
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
