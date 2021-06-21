@@ -25,7 +25,7 @@ const env = {
     REACT_APP_CURRENCY: 'USD',
 
     // #storid
-    REACT_APP_STOREID: '123457910',
+    REACT_APP_STOREID: '123457914',
 
     // #最低限额
     REACT_APP_MINIMUM_AMOUNT: '0',

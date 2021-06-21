@@ -26,7 +26,7 @@ function Container({ children }) {
 
 function AlertTips() {
   return (
-    <span class="rc-margin-right--xs rc-margin-left--xs">
+    <span className="rc-margin-right--xs rc-margin-left--xs">
       Important Notice: Due to an increase in demand, your preferred product may
       be currently unavailable.
       <br />
@@ -41,7 +41,7 @@ function AlertTips() {
 // 美国4/17的美国中部时间早8点到晚4点不能登录账户
 function LimitLoginAlertTips() {
   return (
-    <span class="rc-margin-right--xs rc-margin-left--xs">
+    <span className="rc-margin-right--xs rc-margin-left--xs">
       Important Notice: Maintenance is planned for April 17th, 2021 from 8am-4pm
       CST.
       <br />
@@ -128,10 +128,10 @@ const bannerTips = () => {
         <div>
           {/* 美国临时加一个写死的Notice  */}
           {window.__.env.REACT_APP_COUNTRY === 'us' ? (
-            <div class="rc-bg-colour--brand4 text-center">
-              <div class="rc-layout-container rc-content-h-middle">
-                <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-                  <div class="d-flex align-items-center">
+            <div className="rc-bg-colour--brand4 text-center">
+              <div className="rc-layout-container rc-content-h-middle">
+                <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+                  <div className="d-flex align-items-center">
                     {window.__.env.REACT_APP_COUNTRY == 'us' &&
                     isLimitLogin() ? (
                       <LimitLoginAlertTips />
