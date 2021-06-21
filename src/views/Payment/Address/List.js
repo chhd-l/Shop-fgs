@@ -287,13 +287,6 @@ class AddressList extends React.Component {
         this.state.listSaveAddressNumber
       );
 
-      // 更新delivery address保存次数
-      let snum = this.props.saveAddressNumber;
-      this.setState({
-        listSaveAddressNumber: snum + 1
-      });
-      await this.props.updateSaveAddressNumber(snum + 1);
-
       addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
         // state对象暂时用不到
@@ -328,6 +321,12 @@ class AddressList extends React.Component {
           }
         }
       });
+      // 更新delivery address保存次数
+      let snum = this.props.saveAddressNumber;
+      this.setState({
+        listSaveAddressNumber: snum + 1
+      });
+      await this.props.updateSaveAddressNumber(snum + 1);
 
       this.setState(
         {
