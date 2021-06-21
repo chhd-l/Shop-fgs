@@ -26,7 +26,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -42,7 +42,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.cookies" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -58,7 +58,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -93,7 +93,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -109,7 +109,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.cookies" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -125,7 +125,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -139,7 +139,7 @@ class MarsFooterMap extends React.Component {
                 >
                   <span className="mars-footer-label">Accessibility</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -153,7 +153,7 @@ class MarsFooterMap extends React.Component {
                 >
                   <span className="mars-footer-label">CA Supply Chain Act</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -167,7 +167,7 @@ class MarsFooterMap extends React.Component {
                 >
                   <span className="mars-footer-label">Modern Slavery Act</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -181,7 +181,7 @@ class MarsFooterMap extends React.Component {
                 >
                   <span className="mars-footer-label">AdChoices</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -213,7 +213,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.privacy" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -229,7 +229,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.cookies2" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -245,7 +245,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -261,7 +261,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.impress" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -296,7 +296,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.privacy" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -312,7 +312,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.cookies2" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -328,7 +328,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -341,7 +341,7 @@ class MarsFooterMap extends React.Component {
                     <FormattedMessage id="footer.statutoryDeclaration" />
                   </span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -383,7 +383,7 @@ class MarsFooterMap extends React.Component {
                   </span>{' '}
                   <span className="mars-footer-label">Конфиденциальность</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -400,7 +400,7 @@ class MarsFooterMap extends React.Component {
                   </span>{' '}
                   <span className="mars-footer-label">Файлы Cookies</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -417,7 +417,7 @@ class MarsFooterMap extends React.Component {
                   </span>{' '}
                   <span className="mars-footer-label">Юридические условия</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -456,7 +456,7 @@ class MarsFooterMap extends React.Component {
                   </span>{' '}
                   <span className="mars-footer-label">Конфиденциальность</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -473,7 +473,7 @@ class MarsFooterMap extends React.Component {
                   </span>{' '}
                   <span className="mars-footer-label">Файлы Cookies</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -490,7 +490,7 @@ class MarsFooterMap extends React.Component {
                   </span>{' '}
                   <span className="mars-footer-label">Юридические условия</span>
                   {Boolean(
-                    process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                    window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                   ) && (
                     <span className="warning_blank">Opens a new window</span>
                   )}
@@ -510,9 +510,9 @@ class MarsFooterMap extends React.Component {
     };
     return (
       <div>
-        {+process.env.REACT_APP_HUB
+        {+window.__.env.REACT_APP_HUB
           ? null
-          : marsFooterMap[process.env.REACT_APP_COUNTRY]}
+          : marsFooterMap[window.__.env.REACT_APP_COUNTRY]}
       </div>
     );
   }

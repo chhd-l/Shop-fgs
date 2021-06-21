@@ -53,7 +53,7 @@ export function SubscriptionBenefits() {
               <FormattedMessage
                 id="home.convenientTip2"
                 values={{
-                  val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                  val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
                 }}
               />
             </p>
@@ -496,7 +496,7 @@ export function SubscriptionBenefits() {
                   <FormattedMessage
                     id="home.convenientTip2"
                     values={{
-                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                      val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
                     }}
                   />
                 </p>
@@ -589,7 +589,7 @@ export function SubscriptionBenefits() {
                   <FormattedMessage
                     id="home.convenientTip3"
                     values={{
-                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                      val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
                     }}
                   />
                 </p>
@@ -619,6 +619,6 @@ export function SubscriptionBenefits() {
           </div>
         </>
       )
-    }[process.env.REACT_APP_COUNTRY] || defaultJSX
+    }[window.__.env.REACT_APP_COUNTRY] || defaultJSX
   );
 }

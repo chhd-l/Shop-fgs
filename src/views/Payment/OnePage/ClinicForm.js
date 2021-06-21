@@ -82,7 +82,7 @@ class ClinicForm extends React.Component {
   }
   get checkoutWithClinic() {
     return (
-      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      window.__.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
       this.props.needPrescriber
     );
   }
@@ -211,7 +211,7 @@ class ClinicForm extends React.Component {
                 queryList={async ({ inputVal }) => {
                   let res = await getPrescriberByCode({
                     code: inputVal,
-                    storeId: process.env.REACT_APP_STOREID
+                    storeId: window.__.env.REACT_APP_STOREID
                   });
                   let resobj = (
                     (res.context && res.context.prescriberVo) ||
@@ -272,7 +272,7 @@ class ClinicForm extends React.Component {
                               >
                                 <FormattedMessage id="clickHere3" />
                                 {Boolean(
-                                  process.env
+                                  window.__.env
                                     .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                                 ) && (
                                   <span className="warning_blank">

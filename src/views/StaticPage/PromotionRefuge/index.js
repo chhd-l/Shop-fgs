@@ -69,7 +69,7 @@ class PromotionRefuge extends React.Component {
                                 className="w-100 lazyloaded"
                                 alt="Adoption dans les refuges "
                                 title="Adoption dans les refuges "
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Shelterspromo_fr.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Shelterspromo_fr.jpg`}
                               />
                             </LazyLoad>
                           </picture>
@@ -246,7 +246,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Sachet Royal Canin"
                                 title="Sachet Royal Canin"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -270,7 +270,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Expédition automatique"
                                 title="Expédition automatique"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -294,7 +294,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Livraison simplifiée"
                                 title="Livraison simplifiée"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -315,7 +315,7 @@ class PromotionRefuge extends React.Component {
                                 className="m-auto w-auto lazyloaded"
                                 alt="Abonnement flexible"
                                 title="Abonnement flexible"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
                               />
                             </LazyLoad>
                           </div>
@@ -384,7 +384,7 @@ class PromotionRefuge extends React.Component {
                                       className="align-self-center widthAuto lazyloaded"
                                       alt="Par téléphone"
                                       title="Par téléphone"
-                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service100@2x.png`}
+                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service100@2x.png`}
                                     />
                                   </LazyLoad>
                                 </div>
@@ -419,7 +419,7 @@ class PromotionRefuge extends React.Component {
                                       className="align-self-center widthAuto lazyloaded"
                                       alt="Par mail"
                                       title="Par mail"
-                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon100@2x.png`}
+                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon100@2x.png`}
                                     />
                                   </LazyLoad>
                                 </div>
@@ -467,7 +467,7 @@ class PromotionRefuge extends React.Component {
                                       className="align-self-center widthAuto lazyloaded"
                                       alt="FAQ image"
                                       title="FAQ"
-                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon100@2x.png`}
+                                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon100@2x.png`}
                                     />
                                   </LazyLoad>
                                 </div>

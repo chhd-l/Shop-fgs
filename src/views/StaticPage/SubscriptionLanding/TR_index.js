@@ -311,12 +311,12 @@ class Help extends React.Component {
                         <LazyLoad>
                           <img
                             className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png`}
-                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x1.png 2x`}
+                            data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png`}
+                            data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x1.png 2x`}
                             alt="call us"
                             title="call us"
-                            srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x1.png 2x`}
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png`}
+                            srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x1.png 2x`}
+                            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/customer-service@2x.png`}
                           />
                         </LazyLoad>
                       </div>
@@ -353,12 +353,12 @@ class Help extends React.Component {
                         <LazyLoad>
                           <img
                             className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png`}
-                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x1.png 2x`}
+                            data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png`}
+                            data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x1.png 2x`}
                             alt="email us"
                             title="email us"
-                            srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x1.png 2x`}
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png`}
+                            srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x1.png 2x`}
+                            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/Emailus_icon@2x.png`}
                           />
                         </LazyLoad>
                       </div>
@@ -398,12 +398,12 @@ class Help extends React.Component {
                         <LazyLoad>
                           <img
                             className="align-self-center widthAuto ls-is-cached lazyloaded"
-                            data-src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png`}
-                            data-srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x1.png 2x`}
+                            data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png`}
+                            data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x1.png 2x`}
                             alt="faq images"
                             title="faq"
-                            srcset={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png, ${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x1.png 2x`}
-                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png`}
+                            srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x1.png 2x`}
+                            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscriptionLanding/FAQ_icon@2x.png`}
                           />
                         </LazyLoad>
                       </div>

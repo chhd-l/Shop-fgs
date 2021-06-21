@@ -149,11 +149,11 @@ class RouteFilter extends Component {
     ) {
       localItemRoyal.set(
         'okta-redirectUrl-hub',
-        process.env.REACT_APP_ACCESS_PATH[
-          process.env.REACT_APP_ACCESS_PATH.length - 1
+        window.__.env.REACT_APP_ACCESS_PATH[
+          window.__.env.REACT_APP_ACCESS_PATH.length - 1
         ] === '/'
-          ? process.env.REACT_APP_ACCESS_PATH + 'account'
-          : process.env.REACT_APP_ACCESS_PATH + '/account'
+          ? window.__.env.REACT_APP_ACCESS_PATH + 'account'
+          : window.__.env.REACT_APP_ACCESS_PATH + '/account'
       );
       history.push('/okta-login-page');
     }
@@ -177,28 +177,28 @@ class RouteFilter extends Component {
 
     if (pathname !== '/login') {
       // loadJS({
-      //   url: process.env.REACT_APP_ONTRUST_SRC,
+      //   url: window.__.env.REACT_APP_ONTRUST_SRC,
       //   dataSets: {
-      //     domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+      //     domainScript: window.__.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
       //     documentLanguage: 'true'
       //   }
       // });
     }
-    // if (process.env.REACT_APP_CONSENT_SCRIPT) {
+    // if (window.__.env.REACT_APP_CONSENT_SCRIPT) {
     //   loadJS({
-    //     url: process.env.REACT_APP_CONSENT_SCRIPT,
+    //     url: window.__.env.REACT_APP_CONSENT_SCRIPT,
     //     id: 'global-script'
     //   });
     // }
 
     if (
-      process.env.REACT_APP_MARS_FOOTER &&
+      window.__.env.REACT_APP_MARS_FOOTER &&
       !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page/.test(
         pathname
       )
     ) {
       loadJS({
-        url: process.env.REACT_APP_MARS_FOOTER
+        url: window.__.env.REACT_APP_MARS_FOOTER
       });
     }
   }

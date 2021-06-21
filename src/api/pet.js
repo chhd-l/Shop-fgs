@@ -10,7 +10,7 @@ const api = {
   batchAddPets: '/pets/batchAddPets',
   getRecommendProducts: '/product/finder/pets/products',
   clubSubscriptionSavePets: '/pets/clubSubscriptionSavePets',
-  changeSubscriptionGoodsByPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`,
+  changeSubscriptionGoodsByPets: `/${window.__.env.REACT_APP_STOREID}/subs/changeSubscriptionGoodsByPets`,
   getRation: `/product/finder/club/ration`
 };
 

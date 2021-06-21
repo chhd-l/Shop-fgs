@@ -26,7 +26,7 @@ class Test extends React.Component {
         lastName: '',
         address1: '',
         address2: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
         cityId: '',
         city: '',

@@ -107,8 +107,8 @@ const UserPaymentInfo = ({
               )}
 
             {/* 国家 */}
-            {process.env.REACT_APP_COUNTRY == 'us' ||
-            process.env.REACT_APP_COUNTRY == 'ru' ? null : (
+            {window.__.env.REACT_APP_COUNTRY == 'us' ||
+            window.__.env.REACT_APP_COUNTRY == 'ru' ? null : (
               <p className="mb-0 sd_mb_country">
                 {countryList.length &&
                 countryList.filter(
@@ -191,8 +191,8 @@ const UserPaymentInfo = ({
         </div>
       </div>
       {/* 不是美国或者不隐藏支付checkout billing addr时，才显示billing addr */}
-      {process.env.REACT_APP_COUNTRY !== 'us' &&
-      !Boolean(+process.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) ? (
+      {window.__.env.REACT_APP_COUNTRY !== 'us' &&
+      !Boolean(+window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR) ? (
         <div className={`col-12 col-md-4 mb-2`} style={{ padding: '5px' }}>
           <div
             className="h-100 border border-d7d7d7"
@@ -249,8 +249,8 @@ const UserPaymentInfo = ({
                 )}
 
               {/* 国家 */}
-              {process.env.REACT_APP_COUNTRY == 'us' ||
-              process.env.REACT_APP_COUNTRY == 'ru' ? null : (
+              {window.__.env.REACT_APP_COUNTRY == 'us' ||
+              window.__.env.REACT_APP_COUNTRY == 'ru' ? null : (
                 <p className="mb-0 sd_mb_country">
                   {countryList.length &&
                   countryList.filter(

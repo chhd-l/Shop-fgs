@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const isHubGA = process.env.REACT_APP_HUB_GA;
+const isHubGA = window.__.env.REACT_APP_HUB_GA;
 
 @inject('loginStore', 'configStore', 'checkoutStore')
 @observer

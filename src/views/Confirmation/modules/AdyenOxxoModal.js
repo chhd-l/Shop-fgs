@@ -22,10 +22,10 @@ export default class AdyenOxxoModal extends Component {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: process.env.REACT_APP_Adyen_ENV,
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale,
-            shopperLocale: process.env.REACT_APP_SHOPPER_LOCALE
+            environment: window.__.env.REACT_APP_Adyen_ENV,
+            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
+            locale: window.__.env.REACT_APP_Adyen_locale,
+            shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE
           });
 
           //Present the voucher

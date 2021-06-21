@@ -24,7 +24,7 @@ class Filter extends React.Component {
     this.toggleContent = this.toggleContent.bind(this);
     this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
     this.handleClickValueItem = this.handleClickValueItem.bind(this);
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   get hasSelecedItems() {
     let ret = false;

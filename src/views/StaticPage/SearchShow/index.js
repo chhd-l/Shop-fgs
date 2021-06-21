@@ -71,7 +71,7 @@ class SearchShow extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}
+          {window.__.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
 
           <div className="search-results rc-padding--sm rc-max-width--xl">
@@ -126,7 +126,7 @@ class SearchShow extends React.Component {
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
                                 alt="customer service image"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                                 className="align-self-center w-auto"
                               />
                             </div>
@@ -147,7 +147,7 @@ class SearchShow extends React.Component {
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
                                 alt="email us image"
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>
                             </div>

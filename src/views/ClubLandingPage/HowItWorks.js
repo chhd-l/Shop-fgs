@@ -12,8 +12,8 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import './index.css';
 
 const HowItWorks = (props) => {
-  const ru = process.env.REACT_APP_COUNTRY == 'ru';
-  const tr = process.env.REACT_APP_COUNTRY == 'tr';
+  const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+  const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
   const headerHeight =
     document.querySelector('.rc-header')?.offsetHeight || 150;
   return (

@@ -65,7 +65,7 @@ function CardItem(props) {
         {/* 电话 */}
         <p className="mb-0 mp_mb_tel">{data.consigneeNumber}</p>
         {/* 国家 */}
-        {process.env.REACT_APP_COUNTRY == 'us' ? null : (
+        {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
           <p className="mb-0 mp_mb_country">{props.countryName}</p>
         )}
         {/* 地址 */}

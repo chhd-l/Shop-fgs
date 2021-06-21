@@ -29,13 +29,13 @@ function isExistListFun(result) {
 
   if (
     !isLogin &&
-    (process.env.REACT_APP_COUNTRY == 'us' ||
-      process.env.REACT_APP_COUNTRY == 'ru')
+    (window.__.env.REACT_APP_COUNTRY == 'us' ||
+      window.__.env.REACT_APP_COUNTRY == 'ru')
   ) {
     listData = [...requiredList]; //美国,俄罗斯游客只显示必选项
-  } else if (process.env.REACT_APP_COUNTRY == 'ru') {
+  } else if (window.__.env.REACT_APP_COUNTRY == 'ru') {
     listData = [...requiredList]; //俄罗斯-会员-必填项
-  } else if (process.env.REACT_APP_COUNTRY == 'tr') {
+  } else if (window.__.env.REACT_APP_COUNTRY == 'tr') {
     let cConsent = result.context.requiredList
       .filter((item) => {
         return item.consentDesc == 'RC_DF_TR_FGS_PRIVACY_POLICY';

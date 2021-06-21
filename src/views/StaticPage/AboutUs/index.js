@@ -81,7 +81,7 @@ class AboutUs extends React.Component {
             {seoConfig.metaDescription || 'Royal canin'}
           </h1>
           <BannerTip />
-          {/* {process.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
+          {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
           <br />
           <BreadCrumbs />
           <div className="storefront-page">
@@ -136,7 +136,7 @@ class AboutUs extends React.Component {
                                 className="w-100 ls-is-cached lazyloaded"
                                 alt={this.state.intl['aboutUs.history']}
                                 title={this.state.intl['aboutUs.history']}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`}
                               />
                             </picture>
                           </div>
@@ -165,7 +165,7 @@ class AboutUs extends React.Component {
                                 className="w-100 ls-is-cached lazyloaded"
                                 alt={this.state.intl['aboutUs.ourValues']}
                                 title={this.state.intl['aboutUs.ourValues']}
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
                               />
                             </picture>
                           </div>
@@ -236,7 +236,7 @@ class AboutUs extends React.Component {
                                     'aboutUs.FoodQualityandSafety'
                                   ]
                                 }
-                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`}
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`}
                               />
                             </picture>
                           </div>
@@ -283,7 +283,7 @@ class AboutUs extends React.Component {
                 </div>
               </div>
 
-              {process.env.REACT_APP_COUNTRY == 'us' ? (
+              {window.__.env.REACT_APP_COUNTRY == 'us' ? (
                 <div className="experience-component experience-layouts-1column">
                   <div className="row rc-margin-x--none">
                     <div className="rc-full-width">

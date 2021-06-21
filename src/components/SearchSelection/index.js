@@ -141,7 +141,7 @@ class SearchSelection extends React.Component {
                   sip: null,
                   stateId: null,
                   stateName: null,
-                  storeId: process.env.REACT_APP_STOREID,
+                  storeId: window.__.env.REACT_APP_STOREID,
                   systemCityPostCodes: null,
                   updateTime: null
                 };
