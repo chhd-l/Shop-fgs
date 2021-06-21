@@ -12,6 +12,7 @@ import shippingicon from './image/pictoshipping@4x.png';
 import nutrition from './image/pictonutrition@4x.png';
 import landingBanner from './image/landing-banner.jpg';
 import iconsix from './image/iconsix.png';
+import iconsixnew from './image/iconsixnew.png'
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
@@ -137,7 +138,7 @@ let clubListDataNew = [
             }}
           />
         ),
-        img: iconsix,
+        img: iconsixnew,
         alt: 'CLUB BENEFITS PET ADVISOR'
       }
     : {}
