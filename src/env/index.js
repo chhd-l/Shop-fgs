@@ -61,7 +61,7 @@ const pathnameToCountryEnv = [
 countryKey =
   pathnameToCountryEnv.filter((item) => {
     return item.reg.test(location.pathname) && item.envFileName;
-  })[0]['envFileName'] || 'ENV_CORE';
+  })[0]?.envFileName || 'ENV_CORE';
 // if (!pathnameKey) {
 //   console.warn('匹配不到国家');
 // }
