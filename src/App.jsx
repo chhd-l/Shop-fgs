@@ -631,11 +631,11 @@ const App = () => {
                   component={smartFeederSubscription}
                 />
 
-                <Route
+                {/* <Route
                   path="/FelinRecommendation/:id"
                   component={FelinRecommendation}
-                />
-                <Route path="/latelier/felin" component={Felin} />
+                /> */}
+                {/* <Route path="/latelier/felin" component={Felin} /> */}
                 {/* 特殊处理匹配PLP/PDP页面 */}
                 <Route
                   exact
