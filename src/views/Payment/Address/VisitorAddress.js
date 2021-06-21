@@ -31,7 +31,7 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isDeliveryOrBilling: 'delivery',
-    reSelectTimeSlot: '',
+    intlMessages: null,
     showDeliveryDateTimeSlot: false,
     initData: null,
     titleVisible: true,
@@ -164,7 +164,7 @@ class VisitorAddress extends React.Component {
       // 判断当前时间段，如果是当天过了16点提示重新选择。
 
       // 已过期（俄罗斯时间）
-      let errMsg = this.props.reSelectTimeSlot;
+      let errMsg = this.props.intlMessages['payment.reselectTimeSlot'];
       // 当天或者当天之前的时间算已过期时间
       if (today >= dldate) {
         console.log('666  ----->  今天或者更早');
