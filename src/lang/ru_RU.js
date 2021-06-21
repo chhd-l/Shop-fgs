@@ -1409,7 +1409,7 @@ const ru_RU = {
   'ClubLP.SubscriptionBenefitsNew.icon3':
     'Помощник Службы Заботы с 9.00 до 21.00',
   'ClubLP.SubscriptionBenefitsNew.icon4':
-    'Приветственный подарок, вознаграждения и сервисы',
+    'Приветственный подарок, подарки каждые 3 месяца участия в программе',
   'ClubLP.SubscriptionBenefitsNew.icon5': 'Бесплатный обучающий контент',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
@@ -1423,18 +1423,18 @@ const ru_RU = {
   'ClubLP.GetMoreAd.title': 'Больше преимуществ с подпиской ROYAL CANIN® КЛУБ',
   'ClubLP.GetMoreAd.subtitle1': 'Разовая {val} покупка',
   'ClubLP.GetMoreAd.subtitle2': 'Клубная {val} подписка',
-  'ClubLP.GetMoreAd.Single.tip1': 'Специализированное питание',
+  'ClubLP.GetMoreAd.Single.tip1': 'Питание для поддержания здоровья',
   'ClubLP.GetMoreAd.Single.tip2':
-    'Бесплатная доставка при подписке на сумму от 2500 руб.',
-  'ClubLP.GetMoreAd.Club.tip1': 'Специализированное питание',
+    'Бесплатная доставка корма по выбранному графику при покупке на сумму от 2500 руб.',
+  'ClubLP.GetMoreAd.Club.tip1': 'Питание для поддержания здоровья',
   'ClubLP.GetMoreAd.Club.tip2':
-    'Бесплатная доставка при подписке на сумму от 2500 руб.',
+    'Бесплатная доставка корма по выбранному графику при покупке на сумму от 2500 руб.',
   'ClubLP.GetMoreAd.Club.tip3': 'Скидка 10% на каждый заказ по подписке',
   'ClubLP.GetMoreAd.Club.tip4': 'Автоматическая доставка до Вашей двери',
   'ClubLP.GetMoreAd.Club.tip5':
-    'Бесплатный обучающий контент специально для Вас',
-  'ClubLP.GetMoreAd.Club.tip6': 'Приветственный подарок',
-  'ClubLP.GetMoreAd.Club.tip7': 'Эксклюзивные подарки и сервисы',
+    'Персонализированные образовательные рассылки',
+  'ClubLP.GetMoreAd.Club.tip6': 'Приветственный подарок, подарки каждые 3 месяца участия в программе',
+  'ClubLP.GetMoreAd.Club.tip7': 'Бесплатные онлайн-консультации нутрициолога в Petstory',
   'ClubLP.GetMoreAd.button': 'Начать',
   'ClubLP.Help.title': 'Есть вопросы?',
   'ClubLP.Help.subtitle1':
