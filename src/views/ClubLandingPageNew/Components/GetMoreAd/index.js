@@ -261,7 +261,7 @@ const GetMoreAd = () => {
                       >
                         <button
                           className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton "
-                          style={{ padding: '10px 70px' }}
+                          style={{ padding: '10px 90px' }}
                         >
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
                         </button>
