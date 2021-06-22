@@ -1131,6 +1131,8 @@ const es_ES = {
   'subscription.all': 'Todas',
   'subscription.autoship': 'Autoenvío',
   'subscription.club': 'club',
-  searchShow: 'Resultados de la búsqueda'
+  searchShow: 'Resultados de la búsqueda',
+  'account.yes': 'Sí',
+  'account.no': 'No'
 };
 export default es_ES;
