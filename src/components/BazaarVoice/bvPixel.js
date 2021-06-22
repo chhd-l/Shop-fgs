@@ -16,15 +16,10 @@ export function transactionPixel(details) {
       shippingDate: details.tradeState.createTime.split(' ')[0]
     };
   });
-  let totalPrice = 0;
-  details.tradeItems.map(
-    (item) => (totalPrice = totalPrice + item.num * item.price.toFixed(2))
-  );
   const transactionInfo = {
     currency: window.__.env.REACT_APP_CURRENCY,
     orderId: details.id,
     total: String(details.tradePrice.goodsPrice.toFixed(2)),
-    // total: String(totalPrice.toFixed(2)),
     items: items,
     // tax: String(details.tradePrice.taxFeePrice.toFixed(2)),
     shippingDate: details.tradeState.createTime.split(' ')[0],
