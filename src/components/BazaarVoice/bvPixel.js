@@ -10,7 +10,7 @@ export function transactionPixel(details) {
       price: item.subscriptionStatus
         ? String(item.subscriptionPrice.toFixed(2))
         : String(item.splitPrice.toFixed(2)),
-      quantity: String(item.num),
+      quantity: '1',
       productId: item.spuNo,
       name: item.spuName,
       shippingDate: details.tradeState.createTime.split(' ')[0]
