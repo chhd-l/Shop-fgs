@@ -186,7 +186,7 @@ class Test extends React.Component {
         <br />
         {/* <PickUp /> */}
         <br />
-        <h1>0513</h1>
+        <h1>0513_v2</h1>
         <br />
         <br />
         <h1>2021-06-21 13:47:18</h1>
