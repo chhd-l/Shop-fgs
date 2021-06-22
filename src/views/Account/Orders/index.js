@@ -179,7 +179,9 @@ class AccountOrders extends React.Component {
               new Date(ele.orderTimeOut).getTime() >
                 new Date(res.defaultLocalDateTime).getTime() &&
               (!ele.payWay ||
-                !['OXXO', 'COD'].includes(ele.payWay.toUpperCase())),
+                !['OXXO', 'ADYEN_OXXO', 'COD'].includes(
+                  ele.payWay.toUpperCase()
+                )),
             showOXXOExpireTime:
               tradeState.flowState === 'AUDIT' &&
               tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
