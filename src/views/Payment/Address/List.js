@@ -318,6 +318,10 @@ class AddressList extends React.Component {
               });
             }
           }
+        } else {
+          this.setState({
+            loading: false
+          });
         }
       });
       // 更新delivery address保存次数
