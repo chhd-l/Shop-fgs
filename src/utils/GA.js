@@ -224,6 +224,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
+      imageURL: item.goodsInfoImg,
       promoCodeName:
         (promotionInfo &&
           promotionInfo[index] &&
@@ -300,7 +301,7 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
       recommendationID: props.clinicStore.linkClinicId || '', //recommendation ID
       //'sizeCategory': 'Small', //'Small', 'Medium', 'Large', 'Very Large', reflecting the filter present in the PLP
       breed, //All animal breeds associated with the product in an array
-
+      imageURL: item.goodsInfoImg,
       promoCodeName:
         (promotionInfo &&
           promotionInfo[index] &&
