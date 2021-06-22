@@ -5,7 +5,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
 
-import iconsixnew from './image/iconsixnew.png'
+import iconsixnew from './image/iconsixnew.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
 import spetadviser from './image/pictospetadviser@4x.png';

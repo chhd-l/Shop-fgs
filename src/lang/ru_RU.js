@@ -1365,17 +1365,17 @@ const ru_RU = {
     'Скидка 10% и бесплатная доставка при подписке на сумму от 2500 руб.',
   'ClubLP.LongBanner.title':
     'ПОЛУЧИТЕ ВЫГОДНЫЕ {val1} УСЛОВИЯ ПРОГРАММЫ {val2} ROYAL CANIN® КЛУБ',
-  'ClubLP.LongBanner.content': 'От NN руб. за заказ',
-  'ClubLP.LongBanner.button': 'Попробовать сейчас',
-  'ClubLP.LongBanner.content2': '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. {val}Цена указана без учета скидок и стоимости доставки.',
+  'ClubLP.LongBanner.content': 'От 258 руб. за заказ',
+  'ClubLP.LongBanner.button': 'Вступить в КЛУБ',
+  'ClubLP.LongBanner.content2':
+    '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. {val}Цена указана без учета скидок и стоимости доставки.',
   'ClubLP.LongBanner.SubscriptionTitle':
-    'Преимущества подписки ROYAL CANIN® КЛУБ для владельцев кошек и собак',
+    'Преимущества рационов ROYAL CANIN® КЛУБ специально для вашего питомца',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
-    'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев собак',
+    'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашей собаки',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
-    'Преимущества подписки ROYAL CANIN®{val} КЛУБ для владельцев кошек',
-  'ClubLP.LongBanner.SubscriptionTitle1':
-    'Научно обоснованное {val} питание',
+    'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашей кошки',
+  'ClubLP.LongBanner.SubscriptionTitle1': 'Научно обоснованное {val} питание',
   'ClubLP.LongBanner.SubscriptionContent1':
     '50 лет экспертизы в создании {val} здоровых рационов',
   'ClubLP.LongBanner.SubscriptionTitle2':
@@ -1401,16 +1401,17 @@ const ru_RU = {
     'Высококачественные питательные вещества с высокой степенью усвояемости',
   'ClubLP.Advantage.button': 'Подобрать рацион',
   'ClubLP.SubscriptionBenefitsNew.title':
-    'Подписка ROYAL CANIN® КЛУБ сделает Вашу жизнь проще',
+    'Программа  ROYAL CANIN® КЛУБ сделает Вашу жизнь проще',
   'ClubLP.SubscriptionBenefitsNew.icon1':
-    'Автоматическое пополнение запасов корма с бесплатной доставкой при подписке на сумму от 2500 руб.',
+    'Бесплатная доставка корма по выбранному графику при покупке на сумму от 2500 руб.',
   'ClubLP.SubscriptionBenefitsNew.icon2':
-    'Скидка 10% на каждый заказ по подписке',
+    'Скидка 10% на каждый заказ по программе',
   'ClubLP.SubscriptionBenefitsNew.icon3':
     'Помощник Службы Заботы с 9.00 до 21.00',
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
-  'ClubLP.SubscriptionBenefitsNew.icon5': 'Бесплатный обучающий контент',
+  'ClubLP.SubscriptionBenefitsNew.icon5':
+    'Персонализированные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
@@ -1418,24 +1419,25 @@ const ru_RU = {
   'ClubLP.NewJoinUs.title': 'Расскажите нам о своем питомце',
   'ClubLP.NewJoinUs.content':
     'чтобы получить персональные рекомендации по питанию.',
-  'ClubLP.NewJoinUs.button': 'Начать',
+  'ClubLP.NewJoinUs.button': 'Подобрать рацион',
   'ClubLP.OurCustomers.title': 'Наши клиенты',
-  'ClubLP.GetMoreAd.title': 'Больше преимуществ с подпиской ROYAL CANIN® КЛУБ',
+  'ClubLP.GetMoreAd.title': 'Оцени преимущества программы ROYAL CANIN® КЛУБ',
   'ClubLP.GetMoreAd.subtitle1': 'Разовая {val} покупка',
-  'ClubLP.GetMoreAd.subtitle2': 'Клубная {val} подписка',
+  'ClubLP.GetMoreAd.subtitle2': 'Клубная {val} программа',
   'ClubLP.GetMoreAd.Single.tip1': 'Питание для поддержания здоровья',
   'ClubLP.GetMoreAd.Single.tip2':
     'Бесплатная доставка корма по выбранному графику при покупке на сумму от 2500 руб.',
   'ClubLP.GetMoreAd.Club.tip1': 'Питание для поддержания здоровья',
   'ClubLP.GetMoreAd.Club.tip2':
     'Бесплатная доставка корма по выбранному графику при покупке на сумму от 2500 руб.',
-  'ClubLP.GetMoreAd.Club.tip3': 'Скидка 10% на каждый заказ по подписке',
+  'ClubLP.GetMoreAd.Club.tip3': 'Скидка 10% на каждый заказ по программе',
   'ClubLP.GetMoreAd.Club.tip4': 'Автоматическая доставка до Вашей двери',
-  'ClubLP.GetMoreAd.Club.tip5':
-    'Персонализированные образовательные рассылки',
-  'ClubLP.GetMoreAd.Club.tip6': 'Приветственный подарок, подарки каждые 3 месяца участия в программе',
-  'ClubLP.GetMoreAd.Club.tip7': 'Бесплатные онлайн-консультации нутрициолога в Petstory',
-  'ClubLP.GetMoreAd.button': 'Начать',
+  'ClubLP.GetMoreAd.Club.tip5': 'Персонализированные образовательные рассылки',
+  'ClubLP.GetMoreAd.Club.tip6':
+    'Приветственный подарок, подарки каждые 3 месяца участия в программе',
+  'ClubLP.GetMoreAd.Club.tip7':
+    'Бесплатные онлайн-консультации нутрициолога в Petstory',
+  'ClubLP.GetMoreAd.button': 'Вступить в КЛУБ',
   'ClubLP.Help.title': 'Есть вопросы?',
   'ClubLP.Help.subtitle1':
     'Нужна помощь? Наша команда готова ответить на Ваши вопросы и помочь с выбором и покупкой.',

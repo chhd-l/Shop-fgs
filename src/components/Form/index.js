@@ -978,7 +978,7 @@ class Form extends React.Component {
 
   // DuData地址搜索选择 1
   handleAddressInputChange = async (data) => {
-    console.log('666 DuData地址搜索选择 data: ', data);
+    // console.log('666 DuData地址搜索选择 data: ', data);
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
