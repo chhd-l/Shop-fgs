@@ -270,7 +270,10 @@ class ClubLandingPageDe extends React.Component {
                           <img src={number1} style={{ width: '50px' }} />
                         </LazyLoad>
                       </div>
-                      <div className="desktop30vw orderthree">
+                      <div
+                        className="desktop30vw orderthree"
+                        style={{ display: 'flex', alignItems: 'center' }}
+                      >
                         <p>
                           Besuchen Sie Ihre Tierarztpraxis und erhalten Sie eine
                           Nahrungsempfehlung zur Behandlung eines besonderen
