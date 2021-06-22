@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
-import { updateCustomerBaseInfo } from '@/api/user';
+import Skeleton from 'react-skeleton-loader';
 import classNames from 'classnames';
 import { myAccountActionPushEvent } from '@/utils/GA';
 import { inject, observer } from 'mobx-react';
@@ -46,9 +46,8 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
-      this
-    );
+    this.handleCommunicationCheckBoxChange =
+      this.handleCommunicationCheckBoxChange.bind(this);
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {
@@ -69,9 +68,9 @@ class CommunicationDataEditForm extends React.Component {
     }
   }
   componentDidMount() {
-    this.setState({
-      form: Object.assign({}, this.props.data)
-    });
+    // this.setState({
+    //   form: Object.assign({}, this.props.data)
+    // });
     document.getElementById('wrap').addEventListener('click', (e) => {
       if (e.target.localName === 'font') {
         let keyWords = e.target.innerText;
@@ -107,7 +106,7 @@ class CommunicationDataEditForm extends React.Component {
       this.setState({
         isLoading: true
       });
-      let result = await findUserSelectedList({
+      const result = await findUserSelectedList({
         customerId: (userInfo && userInfo.customerId) || '',
         oktaToken: localItemRoyal.get('oktaToken')
       });
@@ -122,9 +121,15 @@ class CommunicationDataEditForm extends React.Component {
         };
       });
 
-      let list = [...optioalList];
+      const list = [...optioalList];
+      const { communicationEmail, communicationPhone, communicationPrint } =
+        result.context?.customerDetailVO || {};
       this.setState({
-        list
+        list,
+        form: Object.assign(
+          {},
+          { communicationEmail, communicationPhone, communicationPrint }
+        )
       });
     } catch (err) {
       console.log(err.message);
@@ -219,7 +224,7 @@ class CommunicationDataEditForm extends React.Component {
       // );
 
       await this.init();
-      this.props.updateData();
+      // this.props.updateData();
       this.handleCancel();
       this.setState({
         saveLoading: false
@@ -233,22 +238,22 @@ class CommunicationDataEditForm extends React.Component {
   };
   handleCancel = () => {
     this.changeEditFormVisible(false);
-    this.setState({ form: Object.assign({}, this.props.data) });
+    // this.setState({ form: Object.assign({}, this.props.data) });
   };
   //从子组件传回
   sendList = (list) => {
     this.setState({ list });
   };
-  changeEditFormVisible = (status) => {
+  changeEditFormVisible = async (status) => {
     this.setState({ editFormVisible: status });
+    this.props.updateEditOperationPanelName(status ? 'Communication' : '');
     if (status) {
       // 回置初始状态值
-      this.setState({
-        form: Object.assign({}, this.props.data)
-      });
-      this.init();
+      // this.setState({
+      //   form: Object.assign({}, this.props.data)
+      // });
+      await this.init();
     }
-    this.props.updateEditOperationPanelName(status ? 'Communication' : '');
   };
   handleClickEditBtn = () => {
     myAccountActionPushEvent('Edit contact info');
@@ -267,7 +272,7 @@ class CommunicationDataEditForm extends React.Component {
     this.setState({ form });
   }
   render() {
-    const { editFormVisible, list, form, errorMsg } = this.state;
+    const { editFormVisible, list, form, errorMsg, isLoading } = this.state;
     const curPageAtCover = !editFormVisible;
     return (
       <div className={classNames({ border: curPageAtCover })}>
@@ -351,7 +356,10 @@ class CommunicationDataEditForm extends React.Component {
                 editFormVisible ? 'hidden' : ''
               }`}
             />
-            <div className={`${editFormVisible ? '' : 'hidden'}`}>
+            {isLoading && editFormVisible ? (
+              <Skeleton color="#f5f5f5" width="100%" height="10%" count={3} />
+            ) : null}
+            <div className={`${!isLoading && editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}></span>
               <div>
                 <label className="form-control-label rc-input--full-width w-100">
