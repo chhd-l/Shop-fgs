@@ -18,6 +18,7 @@ export function transactionPixel(details) {
     orderId: details.id,
     total: String(details.tradePrice.totalPrice.toFixed(2)),
     items: items,
+    tax: String(details.tradePrice.taxFeePrice.toFixed(2)),
     shippingDate: details.tradeState.createTime.split(' ')[0],
     email: details.consignee.email,
     locale: 'en_US',

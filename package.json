@@ -119,6 +119,7 @@
     "start:shopsit_de": "dotenv -e .env.development.local -e ./env/de/.env.shopsit -e ./env/de/.env node scripts/start.js",
     "start:prod_de": "dotenv -e .env.development.local -e ./env/de/.env.production -e ./env/de/.env node scripts/start.js",
     "start:us": "dotenv -e .env.development.local -e ./env/us/.env.development -e ./env/us/.env node scripts/start.js",
+    "start:shopuat_us": "dotenv -e .env.development.local -e ./env/us/.env.shopuat -e ./env/us/.env node scripts/start.js",
     "start:shopstg_us": "dotenv -e .env.development.local -e ./env/us/.env.shopstg -e ./env/us/.env node scripts/start.js",
     "start:shopsit_us": "dotenv -e .env.development.local -e ./env/us/.env.shopsit -e ./env/us/.env node scripts/start.js",
     "start:prod_us": "dotenv -e .env.development.local -e ./env/us/.env.production -e ./env/us/.env node scripts/start.js",
