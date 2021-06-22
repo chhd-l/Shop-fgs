@@ -8,14 +8,6 @@ import howitworknewmobile1 from './image/howitworksmobile1.png';
 import howitworknewmobile2 from './image/howitworksmobile2.png';
 import howitworknewmobile3 from './image/howitworksmobile3.png';
 import howitworknewmobile4 from './image/howitworksmobile4.png';
-import ruhowitworknew1 from './image/ruhowitworksnew1.png';
-import ruhowitworknew2 from './image/ruhowitworksnew2.png';
-import ruhowitworknew3 from './image/ruhowitworksnew3.png';
-import ruhowitworknew4 from './image/ruhowitworksnew4.png';
-import ruhowitworknewmobile1 from './image/ruhowitworksmobile1.png';
-import ruhowitworknewmobile2 from './image/ruhowitworksmobile2.png';
-import ruhowitworknewmobile3 from './image/ruhowitworksmobile3.png';
-import ruhowitworknewmobile4 from './image/ruhowitworksmobile4.png';
 import frhowitworknew1 from './image/frhowitworknew1.png';
 import frhowitworknew2 from './image/frhowitworknew2.png';
 import frhowitworknew3 from './image/frhowitworknew3.png';
@@ -38,36 +30,7 @@ import './index.css';
 
 //写的不好好aaaaaaaa
 
-//Ru Image
-const RuhowitworksnewList = [
-  {
-    HowitworksStep: ruhowitworknew1
-  },
-  {
-    HowitworksStep: ruhowitworknew2
-  },
-  {
-    HowitworksStep: ruhowitworknew3
-  },
-  {
-    HowitworksStep: ruhowitworknew4
-  }
-];
 
-const RuhowitworksnewListmobile = [
-  {
-    HowitworksStep: ruhowitworknewmobile1
-  },
-  {
-    HowitworksStep: ruhowitworknewmobile2
-  },
-  {
-    HowitworksStep: ruhowitworknewmobile3
-  },
-  {
-    HowitworksStep: ruhowitworknewmobile4
-  }
-];
 
 //Fr Image
 const FrhowitworksnewList = [
@@ -166,7 +129,7 @@ const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
 const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
 const fr = window.__.env.REACT_APP_COUNTRY == 'fr';
 
-const HowItWorksNew = () => {
+const HowItWorksNew = ({RuhowitworksnewList,RuhowitworksnewListmobile}) => {
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">

@@ -38,6 +38,23 @@ import benefitsonecat from './image/benefitsonecat.png';
 import benefitstwocat from './image/benefitstwocat.png';
 import clubru from '../../views/ClubLandingPageNew/Components/LongBanner/image/Clubru.png';
 import clublogo from '../../views/ClubLandingPageNew/Components/LongBanner/image/clublogo.png';
+import ruhowitworknew1 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew1.png';
+import ruhowitworknew2 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew2.png';
+import ruhowitworknew3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew3.png';
+import ruhowitworknew4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew4.png';
+import ruhowitworknewmobile1 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile1.png';
+import ruhowitworknewmobile2 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile2.png';
+import ruhowitworknewmobile3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile3.png';
+import ruhowitworknewmobile4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile4.png';
+
+import ruhowitworksnewdog1 from './HowitWorksimage/ruhowitworksnewdog1.png'
+import ruhowitworksnewdog2 from './HowitWorksimage/ruhowitworksnewdog2.png'
+import ruhowitworksnewdog3 from './HowitWorksimage/ruhowitworksnewdog3.png'
+import ruhowitworksnewdog4 from './HowitWorksimage/ruhowitworksnewdog4.png'
+import ruhowitworksnewcat1 from './HowitWorksimage/ruhowitworksnewcat1.png'
+import ruhowitworksnewcat2 from './HowitWorksimage/ruhowitworksnewcat2.png'
+import ruhowitworksnewcat3 from './HowitWorksimage/ruhowitworksnewcat3.png'
+import ruhowitworksnewcat4 from './HowitWorksimage/ruhowitworksnewcat4.png'
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -88,6 +105,8 @@ const pdpbackgroundcats = {
   display: 'flex',
   flexDirection: 'column'
 };
+
+
 
 let clubListDataNew = [
   {
@@ -215,6 +234,44 @@ const GoodsDetailTabs = function (props) {
   const LogoShows = {
     logo: <></>
   };
+  //Ru Image
+  const RuhowitworksnewLists = [
+    {
+      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
+        ?ruhowitworksnewcat1:ruhowitworksnewdog1
+    },
+    {
+      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
+        ?ruhowitworksnewcat2:ruhowitworksnewdog2
+    },
+    {
+      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
+        ?ruhowitworksnewcat3:ruhowitworksnewdog3
+    },
+    {
+      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
+        ?ruhowitworksnewcat4:ruhowitworksnewdog4
+    }
+  ];
+
+  const RuhowitworksnewListmobiles = [
+    {
+      HowitworksStep: ruhowitworknewmobile1
+    },
+    {
+      HowitworksStep: ruhowitworknewmobile2
+    },
+    {
+      HowitworksStep: ruhowitworknewmobile3
+    },
+    {
+      HowitworksStep: ruhowitworknewmobile4
+    }
+  ];
+
+
+
+
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
@@ -704,7 +761,7 @@ const GoodsDetailTabs = function (props) {
                           </div>
                         </div>
                       </div>
-                      <HowItWorksNew />
+                      <HowItWorksNew RuhowitworksnewList={RuhowitworksnewLists} RuhowitworksnewListmobile={RuhowitworksnewListmobiles}/>
                     </>
                   ) : null}
                 </p>
@@ -916,7 +973,7 @@ const GoodsDetailTabs = function (props) {
                         </div>
                       </div>
                     </div>
-                    <HowItWorksNew />
+                    <HowItWorksNew RuhowitworksnewList={RuhowitworksnewLists} RuhowitworksnewListmobile={RuhowitworksnewListmobiles}/>
                   </div>
                 ) : null}
               </div>
