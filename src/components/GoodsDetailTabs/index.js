@@ -5,7 +5,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
 
-import iconsixnew from './image/iconsixnew.png'
+import iconsixnew from './image/iconsixnew.png';
 import phoneicon from './image/phoneicon@4x.png';
 import gifticon from './image/pictogifts@4x.png';
 import spetadviser from './image/pictospetadviser@4x.png';
@@ -13,6 +13,7 @@ import shippingicon from './image/pictoshipping@4x.png';
 import nutrition from './image/pictonutrition@4x.png';
 import landingBanner from './image/landing-banner.jpg';
 import iconsix from './image/iconsix.png';
+import iconsixnew from './image/iconsixnew.png';
 import './index.less';
 import HowItWorks from '@/views/ClubLandingPage/HowItWorks';
 import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Components/LongBanner/SubscriprionBenefitsBanner';
@@ -290,9 +291,8 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo = location.pathname.split('-')[
-      location.pathname.split('-').length - 1
-    ];
+    let goodsNo =
+      location.pathname.split('-')[location.pathname.split('-').length - 1];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
