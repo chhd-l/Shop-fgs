@@ -8,7 +8,7 @@ export function transactionPixel(details) {
   const items = details.tradeItems.map((item) => {
     return {
       price: item.subscriptionStatus
-        ? String(item.subscriptionPrice.toFixed(2))
+        ? String((item.subscriptionPrice * item.num).toFixed(2))
         : String(item.splitPrice.toFixed(2)),
       quantity: '1',
       productId: item.spuNo,
