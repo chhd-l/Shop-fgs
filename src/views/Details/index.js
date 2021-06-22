@@ -219,10 +219,12 @@ class Details extends React.Component {
   }
 
   setDefaultPurchaseType({ id }) {
-    const { promotions, details, frequencyList } = this.state;
-    const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
-      (ele) => ele.id && id && ele.id + '' === id + ''
-    )[0];
+    const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
+    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const targetDefaultPurchaseTypeItem =
+      purchaseTypeDict.filter(
+        (ele) => ele.id && id && ele.id + '' === id + ''
+      )[0] || purchaseTypeDict.filter((ele) => ele.name === 'None')[0];
     const { configStore, checkoutStore } = this.props;
     let defaultPurchaseType = 0;
     if (targetDefaultPurchaseTypeItem) {
@@ -448,7 +450,6 @@ class Details extends React.Component {
             },
             () => {
               this.handleBreadCrumbsData();
-              console.log(this.state.details, 'defaultFrequencyId');
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||

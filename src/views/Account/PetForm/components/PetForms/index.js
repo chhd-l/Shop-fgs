@@ -158,6 +158,7 @@ const PetForms = ({
 
   useEffect(() => {
     // 编辑的时候需要重置所有值
+    console.log(currentPetParam, currentPetParam.petsImg, 'currentPetParam');
     currentPetParam.imgUrl = currentPetParam.petsImg;
     let petFormData = Object.assign(petForm, currentPetParam);
 
