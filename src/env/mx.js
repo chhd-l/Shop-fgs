@@ -49,7 +49,7 @@ const env_mx = {
     REACT_APP_CHECKOUT_WITH_CLINIC: 'true',
 
     // #PDP RATING SETTING
-    REACT_APP_PDP_RATING_VISIBLE: '1',
+    REACT_APP_PDP_RATING_VISIBLE: '0',
 
     // #payu表单字段控制
     REACT_APP_PAYU_EMAIL: '1',
