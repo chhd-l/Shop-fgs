@@ -158,6 +158,7 @@ const PetForms = ({
 
   useEffect(() => {
     // 编辑的时候需要重置所有值
+    currentPetParam.imgUrl = currentPetParam.petsImg;
     let petFormData = Object.assign(petForm, currentPetParam);
 
     setPetForm(petFormData);
@@ -529,6 +530,7 @@ const PetForms = ({
   if (Us) {
     sensitivityLists = specialNeeds;
   }
+  console.log(petForm.imgUrl, 'petForm.imgUrl');
   return (
     <div
       className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
