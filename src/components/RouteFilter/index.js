@@ -66,6 +66,7 @@ class RouteFilter extends Component {
       this.props.authState && this.props.authState.accessToken
         ? this.props.authState.accessToken.value
         : '';
+
     if (oktaTokenString) {
       let oktaToken = 'Bearer ' + oktaTokenString;
       localItemRoyal.set('oktaToken', oktaToken);
@@ -84,6 +85,21 @@ class RouteFilter extends Component {
     }
   }
   componentDidUpdate() {
+    let parameters = this.props.location.search;
+    parameters.replace('?', '');
+    let searchList = parameters.split('&');
+    let customerId = '';
+    let consentId = '';
+    let uuid = '';
+    if (searchList.length === 3) {
+      customerId = searchList[0].split('=')[1];
+      consentId = searchList[1].split('=')[1];
+      uuid = searchList[2].split('=')[1];
+    }
+    if (customerId && consentId && uuid) {
+      return;
+    } // Dont not go to Required page when from MKT Eamil
+
     this.isGotoRequireConsentLandingPage();
   }
   componentDidMount() {
