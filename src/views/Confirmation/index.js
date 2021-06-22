@@ -475,7 +475,7 @@ class Confirmation extends React.Component {
                     <div className="col-12 col-md-6 mktConsent">
                       {mktSelectSuccess ? (
                         <p>
-                          <FormattedMessage id="confirmation.mktSelectedNotActiveInfo" />
+                          <FormattedMessage id="confirmation.mktSelectedSuccess" />
                         </p>
                       ) : (
                         <div
