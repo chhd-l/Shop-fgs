@@ -528,8 +528,7 @@ class Form extends React.Component {
         case 'phoneNumber':
           if (window.__.env.REACT_APP_COUNTRY == 'fr') {
             // 法国
-            regExp =
-              /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
+            regExp = /^\(\+[3][3]\)[\s](([0][1-9])|[1-9])[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}[\s][0-9]{2}$/;
           } else if (window.__.env.REACT_APP_COUNTRY == 'us') {
             // 美国
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -538,12 +537,10 @@ class Form extends React.Component {
             regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
           } else if (window.__.env.REACT_APP_COUNTRY == 'ru') {
             // 俄罗斯
-            regExp =
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+            regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
           } else if (window.__.env.REACT_APP_COUNTRY == 'tr') {
             // 土耳其
-            regExp =
-              /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
+            regExp = /^0\s\(?([2-9][0-8][0-9])\)?\s([1-9][0-9]{2})[\-\. ]?([0-9]{2})[\-\. ]?([0-9]{2})(\s*x[0-9]+)?$/;
           } else {
             // 其他国家
             regExp = /\S/;
@@ -1132,9 +1129,10 @@ class Form extends React.Component {
         <SearchSelection
           queryList={async ({ inputVal }) => {
             let res = await getAddressBykeyWord({ keyword: inputVal });
-            let robj = ((res?.context && res?.context?.addressList) || []).map(
-              (ele) => Object.assign(ele, { name: ele.unrestrictedValue })
-            );
+            let robj = (
+              (res?.context && res?.context?.addressList) ||
+              []
+            ).map((ele) => Object.assign(ele, { name: ele.unrestrictedValue }));
             if (robj.length) {
               // 给查询到的地址拼接 errMsg
               robj.forEach((item) => {

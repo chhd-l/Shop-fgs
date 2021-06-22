@@ -1367,15 +1367,15 @@ const ru_RU = {
     'ПОЛУЧИТЕ ВЫГОДНЫЕ {val1} УСЛОВИЯ ПРОГРАММЫ {val2} ROYAL CANIN® КЛУБ',
   'ClubLP.LongBanner.content': 'От 258 руб. за заказ',
   'ClubLP.LongBanner.button': 'Вступить в КЛУБ',
-  'ClubLP.LongBanner.content2': '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. {val}Цена указана без учета скидок и стоимости доставки.',
+  'ClubLP.LongBanner.content2':
+    '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. {val}Цена указана без учета скидок и стоимости доставки.',
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества рационов ROYAL CANIN® КЛУБ специально для вашего питомца',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
     'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашей собаки',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
     'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашей кошки',
-  'ClubLP.LongBanner.SubscriptionTitle1':
-    'Научно обоснованное {val} питание',
+  'ClubLP.LongBanner.SubscriptionTitle1': 'Научно обоснованное {val} питание',
   'ClubLP.LongBanner.SubscriptionContent1':
     '50 лет экспертизы в создании {val} здоровых рационов',
   'ClubLP.LongBanner.SubscriptionTitle2':
@@ -1410,7 +1410,8 @@ const ru_RU = {
     'Помощник Службы Заботы с 9.00 до 21.00',
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
-  'ClubLP.SubscriptionBenefitsNew.icon5': 'Персонализированные образовательные рассылки',
+  'ClubLP.SubscriptionBenefitsNew.icon5':
+    'Персонализированные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
@@ -1431,10 +1432,11 @@ const ru_RU = {
     'Бесплатная доставка корма по выбранному графику при покупке на сумму от 2500 руб.',
   'ClubLP.GetMoreAd.Club.tip3': 'Скидка 10% на каждый заказ по программе',
   'ClubLP.GetMoreAd.Club.tip4': 'Автоматическая доставка до Вашей двери',
-  'ClubLP.GetMoreAd.Club.tip5':
-    'Персонализированные образовательные рассылки',
-  'ClubLP.GetMoreAd.Club.tip6': 'Приветственный подарок, подарки каждые 3 месяца участия в программе',
-  'ClubLP.GetMoreAd.Club.tip7': 'Бесплатные онлайн-консультации нутрициолога в Petstory',
+  'ClubLP.GetMoreAd.Club.tip5': 'Персонализированные образовательные рассылки',
+  'ClubLP.GetMoreAd.Club.tip6':
+    'Приветственный подарок, подарки каждые 3 месяца участия в программе',
+  'ClubLP.GetMoreAd.Club.tip7':
+    'Бесплатные онлайн-консультации нутрициолога в Petstory',
   'ClubLP.GetMoreAd.button': 'Вступить в КЛУБ',
   'ClubLP.Help.title': 'Есть вопросы?',
   'ClubLP.Help.subtitle1':
