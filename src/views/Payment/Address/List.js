@@ -238,7 +238,6 @@ class AddressList extends React.Component {
     try {
       this.setState({ loading: true });
       let res = await getAddressList();
-      // console.log('666 查询地址列表: ', res);
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
@@ -281,12 +280,7 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
-      console.log('666 saveAddressNumber: ', this.props.saveAddressNumber);
-      console.log(
-        '666 listSaveAddressNumber: ',
-        this.state.listSaveAddressNumber
-      );
-
+      let editaddObj = [];
       addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
         // state对象暂时用不到
@@ -314,13 +308,15 @@ class AddressList extends React.Component {
               v.deliveryDate = '';
               v.timeSlot = '';
             }
-            console.log(
-              '666 deliveryDate: ',
-              v.deliveryDate + '   timeSlot: ',
-              v.timeSlot
-            );
+
             // 修改地址
-            await editAddress(v);
+            editaddObj = await editAddress(v);
+            console.log('666  length: ', addressList.length + '  ' + i);
+            if (addressList.length == i + 1) {
+              this.setState({
+                loading: false
+              });
+            }
           }
         }
       });
@@ -330,7 +326,6 @@ class AddressList extends React.Component {
         listSaveAddressNumber: snum + 1
       });
       await this.props.updateSaveAddressNumber(snum + 1);
-
       this.setState(
         {
           addressList,
@@ -344,12 +339,12 @@ class AddressList extends React.Component {
       );
     } catch (err) {
       this.setState({
-        errMsg: err.message
+        errMsg: err.message,
+        loading: false
       });
-    } finally {
-      this.setState({ loading: false });
     }
   }
+
   // 判断 delivery date和time slot是否过期
   deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
@@ -358,8 +353,8 @@ class AddressList extends React.Component {
 
     let deliveryDate = data.deliveryDate; // deliveryDate 日期
     let timeSlot = data.timeSlot;
-    console.log('666  ----->  deliveryDate: ', deliveryDate);
-    console.log('666  ----->  timeSlot: ', timeSlot);
+    // console.log('666  ----->  deliveryDate: ', deliveryDate);
+    // console.log('666  ----->  timeSlot: ', timeSlot);
 
     // 20210616
     let dldate = '';
@@ -386,14 +381,14 @@ class AddressList extends React.Component {
 
         let tobj = vdres.context.timeSlots;
         cutOffTime = vdres.context?.cutOffTime;
-        console.log('666  ----->  tobj: ', tobj);
+        // console.log('666  ----->  tobj: ', tobj);
         tobj.forEach((v, i) => {
           if (v.date == deliveryDate) {
             deliveryDateFlag = true;
             (v?.dateTimeInfos).forEach((o, j) => {
               let sltime = o.startTime + '-' + o.endTime;
               if (sltime == timeSlot) {
-                console.log('666  ----->  timeSlot: ', timeSlot);
+                // console.log('666  ----->  timeSlot: ', timeSlot);
                 timeSlotFlag = true;
               }
             });
@@ -419,8 +414,8 @@ class AddressList extends React.Component {
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择。
 
-    console.log('666  ----->  localTime: ' + localTime[0] + ' ' + localTime[1]);
-    console.log('666  ----->  dldate: ' + dldate);
+    // console.log('666  ----->  localTime: ' + localTime[0] + ' ' + localTime[1]);
+    // console.log('666  ----->  dldate: ' + dldate);
     // 已过期（俄罗斯时间）
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
@@ -432,7 +427,7 @@ class AddressList extends React.Component {
       // 明天配送的情况（当前下单时间没有超过 16 点）
       // 如果选择的时间是明天，判断当前时间是否超过16点，超过16点提示重选
       let nowTime = Number(todayHour + '' + todayMinutes);
-      console.log('666  ----->  nowTime: ', nowTime);
+      // console.log('666  ----->  nowTime: ', nowTime);
       let ctt = cutOffTime.split(':');
       cutOffTime
         ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
@@ -453,16 +448,16 @@ class AddressList extends React.Component {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+    // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    console.log(
-      '666 process.env.REACT_APP_COUNTRY: ',
-      process.env.REACT_APP_COUNTRY
-    );
+    // console.log(
+    //   '666 process.env.REACT_APP_COUNTRY: ',
+    //   process.env.REACT_APP_COUNTRY
+    // );
     if (process.env.REACT_APP_COUNTRY == 'ru') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
-      console.log('666 --> ', yesOrNot);
+      // console.log('666 --> ', yesOrNot);
       this.setState({ btnConfirmLoading: false });
       // 判断 deliveryDate 是否过期
       if (!yesOrNot) {
@@ -472,7 +467,7 @@ class AddressList extends React.Component {
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
-    console.log('666 wrongAddressMsg: ', wrongAddressMsg);
+    // console.log('666 wrongAddressMsg: ', wrongAddressMsg);
     let dfarr = laddf.settings;
     dfarr = (dfarr || []).filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
@@ -991,6 +986,11 @@ class AddressList extends React.Component {
         this.props.catchErrorMessage(err.message);
       }
       // throw new Error(err.message);
+    } finally {
+      this.setState({
+        loading: false,
+        saveLoading: false
+      });
     }
   }
   /**
