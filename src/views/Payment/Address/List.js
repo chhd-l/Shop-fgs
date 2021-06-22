@@ -280,7 +280,7 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
-
+      let editaddObj = [];
       addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
         // state对象暂时用不到
@@ -308,9 +308,14 @@ class AddressList extends React.Component {
               v.deliveryDate = '';
               v.timeSlot = '';
             }
-
             // 修改地址
-            await editAddress(v);
+            editaddObj = await editAddress(v);
+            // console.log('666  length: ', addressList.length + '  ' + i);
+            // if (addressList.length == i + 1) {
+            //   this.setState({
+            //     loading: false
+            //   });
+            // }
           }
         }
       });
@@ -320,7 +325,6 @@ class AddressList extends React.Component {
         listSaveAddressNumber: snum + 1
       });
       await this.props.updateSaveAddressNumber(snum + 1);
-
       this.setState(
         {
           addressList,
@@ -330,16 +334,19 @@ class AddressList extends React.Component {
         () => {
           // this.updateSelectedData();
           // this.confirmToNextPanel({ init });
+          this.setState({
+            loading: false
+          });
         }
       );
     } catch (err) {
       this.setState({
-        errMsg: err.message
+        errMsg: err.message,
+        loading: false
       });
-    } finally {
-      this.setState({ loading: false });
     }
   }
+
   // 判断 delivery date和time slot是否过期
   deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
@@ -422,7 +429,7 @@ class AddressList extends React.Component {
       // 明天配送的情况（当前下单时间没有超过 16 点）
       // 如果选择的时间是明天，判断当前时间是否超过16点，超过16点提示重选
       let nowTime = Number(todayHour + '' + todayMinutes);
-      console.log('666  ----->  nowTime: ', nowTime);
+      // console.log('666  ----->  nowTime: ', nowTime);
       let ctt = cutOffTime.split(':');
       cutOffTime
         ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
@@ -445,10 +452,10 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    console.log(
-      '666 window.__.env.REACT_APP_COUNTRY: ',
-      window.__.env.REACT_APP_COUNTRY
-    );
+    // console.log(
+    //   '666 process.env.REACT_APP_COUNTRY: ',
+    //   process.env.REACT_APP_COUNTRY
+    // );
     if (window.__.env.REACT_APP_COUNTRY == 'ru') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
@@ -981,6 +988,11 @@ class AddressList extends React.Component {
         this.props.catchErrorMessage(err.message);
       }
       // throw new Error(err.message);
+    } finally {
+      this.setState({
+        loading: false,
+        saveLoading: false
+      });
     }
   }
   /**

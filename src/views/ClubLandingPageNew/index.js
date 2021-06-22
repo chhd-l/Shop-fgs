@@ -302,7 +302,7 @@ class ClubLandingPageNew extends React.Component {
                         <div className=" col-12 col-lg-6">
                           <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                             <h2 className="rc-beta markup-text">
-                              Ищете ветеринарную диету?
+                              У Вашего питомца диагностировали заболевание?
                             </h2>
                             <p>
                               <span>
