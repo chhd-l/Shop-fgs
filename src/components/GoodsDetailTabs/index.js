@@ -47,14 +47,22 @@ import ruhowitworknewmobile2 from '../../views/ClubLandingPageNew/Components/How
 import ruhowitworknewmobile3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile3.png';
 import ruhowitworknewmobile4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile4.png';
 
-import ruhowitworksnewdog1 from './HowitWorksimage/ruhowitworksnewdog1.png'
-import ruhowitworksnewdog2 from './HowitWorksimage/ruhowitworksnewdog2.png'
-import ruhowitworksnewdog3 from './HowitWorksimage/ruhowitworksnewdog3.png'
-import ruhowitworksnewdog4 from './HowitWorksimage/ruhowitworksnewdog4.png'
-import ruhowitworksnewcat1 from './HowitWorksimage/ruhowitworksnewcat1.png'
-import ruhowitworksnewcat2 from './HowitWorksimage/ruhowitworksnewcat2.png'
-import ruhowitworksnewcat3 from './HowitWorksimage/ruhowitworksnewcat3.png'
-import ruhowitworksnewcat4 from './HowitWorksimage/ruhowitworksnewcat4.png'
+import ruhowitworksnewdog1 from './HowitWorksimage/ruhowitworksnewdog1.png';
+import ruhowitworksnewdog2 from './HowitWorksimage/ruhowitworksnewdog2.png';
+import ruhowitworksnewdog3 from './HowitWorksimage/ruhowitworksnewdog3.png';
+import ruhowitworksnewdog4 from './HowitWorksimage/ruhowitworksnewdog4.png';
+import ruhowitworksnewcat1 from './HowitWorksimage/ruhowitworksnewcat1.png';
+import ruhowitworksnewcat2 from './HowitWorksimage/ruhowitworksnewcat2.png';
+import ruhowitworksnewcat3 from './HowitWorksimage/ruhowitworksnewcat3.png';
+import ruhowitworksnewcat4 from './HowitWorksimage/ruhowitworksnewcat4.png';
+import ruhowitworknewmobilecat1 from './HowitWorksimage/ruhowitworknewmobilecat1.png';
+import ruhowitworknewmobilecat2 from './HowitWorksimage/ruhowitworknewmobilecat2.png';
+import ruhowitworknewmobilecat3 from './HowitWorksimage/ruhowitworknewmobilecat3.png';
+import ruhowitworknewmobilecat4 from './HowitWorksimage/ruhowitworknewmobilecat4.png';
+import ruhowitworknewmobiledog1 from './HowitWorksimage/ruhowitworknewmobiledog1.png';
+import ruhowitworknewmobiledog2 from './HowitWorksimage/ruhowitworknewmobiledog2.png';
+import ruhowitworknewmobiledog3 from './HowitWorksimage/ruhowitworknewmobiledog3.png';
+import ruhowitworknewmobiledog4 from './HowitWorksimage/ruhowitworknewmobiledog4.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -105,8 +113,6 @@ const pdpbackgroundcats = {
   display: 'flex',
   flexDirection: 'column'
 };
-
-
 
 let clubListDataNew = [
   {
@@ -237,40 +243,57 @@ const GoodsDetailTabs = function (props) {
   //Ru Image
   const RuhowitworksnewLists = [
     {
-      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
-        ?ruhowitworksnewcat1:ruhowitworksnewdog1
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat1
+          : ruhowitworksnewdog1
     },
     {
-      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
-        ?ruhowitworksnewcat2:ruhowitworksnewdog2
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat2
+          : ruhowitworksnewdog2
     },
     {
-      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
-        ?ruhowitworksnewcat3:ruhowitworksnewdog3
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat3
+          : ruhowitworksnewdog3
     },
     {
-      HowitworksStep: getSpeciesId(goodsDetailSpace) == '1'
-        ?ruhowitworksnewcat4:ruhowitworksnewdog4
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat4
+          : ruhowitworksnewdog4
     }
   ];
 
   const RuhowitworksnewListmobiles = [
     {
-      HowitworksStep: ruhowitworknewmobile1
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat1
+          : ruhowitworknewmobiledog1
     },
     {
-      HowitworksStep: ruhowitworknewmobile2
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat2
+          : ruhowitworknewmobiledog2
     },
     {
-      HowitworksStep: ruhowitworknewmobile3
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat3
+          : ruhowitworknewmobiledog3
     },
     {
-      HowitworksStep: ruhowitworknewmobile4
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat4
+          : ruhowitworknewmobiledog4
     }
   ];
-
-
-
 
   const SubTitles = {
     title:
@@ -761,7 +784,10 @@ const GoodsDetailTabs = function (props) {
                           </div>
                         </div>
                       </div>
-                      <HowItWorksNew RuhowitworksnewList={RuhowitworksnewLists} RuhowitworksnewListmobile={RuhowitworksnewListmobiles}/>
+                      <HowItWorksNew
+                        RuhowitworksnewList={RuhowitworksnewLists}
+                        RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                      />
                     </>
                   ) : null}
                 </p>
@@ -973,7 +999,10 @@ const GoodsDetailTabs = function (props) {
                         </div>
                       </div>
                     </div>
-                    <HowItWorksNew RuhowitworksnewList={RuhowitworksnewLists} RuhowitworksnewListmobile={RuhowitworksnewListmobiles}/>
+                    <HowItWorksNew
+                      RuhowitworksnewList={RuhowitworksnewLists}
+                      RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                    />
                   </div>
                 ) : null}
               </div>
