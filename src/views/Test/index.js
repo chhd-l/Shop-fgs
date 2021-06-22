@@ -186,10 +186,10 @@ class Test extends React.Component {
         <br />
         {/* <PickUp /> */}
         <br />
-        <h1>0513_v2</h1>
+        <h1>0513</h1>
         <br />
         <br />
-        <h1>2021-06-21 13:47:18</h1>
+        <h1>2021-06-22 13:59:18</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>
