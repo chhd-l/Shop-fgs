@@ -179,7 +179,7 @@ const ChooseSKU = ({ intl }) => {
     console.info('//////////////////////////////////');
     console.info(skuid);
     console.info(goodsInfo[0].skuId);
-    debugger;
+    //debugger;
     let el = goodsInfo?.find((e) => e.skuId == skuid);
     // setState({triggerShowChangeProduct:Object.assign(
     //   {},

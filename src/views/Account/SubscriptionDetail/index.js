@@ -236,9 +236,9 @@ class SubscriptionDetail extends React.Component {
       });
     } else {
       let param = {
-        subscribeId: subDetail.subscribeId,
+        subscribeId: this.state.subDetail.subscribeId,
         billingAddressId: el.deliveryAddressId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
+        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
           return {
             skuId: el.skuId,
             subscribeNum: el.subscribeNum,
@@ -531,7 +531,7 @@ class SubscriptionDetail extends React.Component {
         this.setState({
           successTipVisible: false
         });
-        fn && fn();
+        typeof fn == 'function' && fn();
       }, 1000);
     } else {
       this.setState({
