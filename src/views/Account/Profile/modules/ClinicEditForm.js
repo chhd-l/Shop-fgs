@@ -249,11 +249,11 @@ class ClinicEditForm extends React.Component {
                   const res = await (this.props.configStore
                     .prescriberSelectTyped === 0
                     ? getPrescriberByKeyWord({
-                        storeId: process.env.REACT_APP_STOREID,
+                        storeId: window.__.env.REACT_APP_STOREID,
                         keyWord: inputVal
                       })
                     : getPrescriberByCode({
-                        storeId: process.env.REACT_APP_STOREID,
+                        storeId: window.__.env.REACT_APP_STOREID,
                         code: inputVal
                       }));
                   return (

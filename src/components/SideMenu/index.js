@@ -53,7 +53,7 @@ const menuList = [
     langKey: 'footer.FAQ',
     url: '/faq',
     href:
-      process.env.REACT_APP_COUNTRY == 'ru'
+      window.__.env.REACT_APP_COUNTRY == 'ru'
         ? '/about-us/faq'
         : '/about-us/faqs',
     isHubOuterLink: true
@@ -119,7 +119,7 @@ class SideMenu extends React.Component {
             </FormattedMessage>
           </h2>
         ))}
-        {process.env.REACT_APP_HUB_MONROYALCANIN ? (
+        {window.__.env.REACT_APP_HUB_MONROYALCANIN ? (
           <h2
             style={{ borderTop: '1px solid #E9E9E9' }}
             className={`nav_item medium ui-cursor-pointer mb-4 pt-4`}
@@ -129,7 +129,7 @@ class SideMenu extends React.Component {
                 <>
                   <span className="iconfont iconzhuanfa" />
                   <a
-                    href={process.env.REACT_APP_HUB_MONROYALCANIN}
+                    href={window.__.env.REACT_APP_HUB_MONROYALCANIN}
                     title={txt}
                     alt={txt}
                     className="ml-2"

@@ -1,23 +1,23 @@
 import axios from '@/utils/request';
 
 const api = {
-  getList: `/${process.env.REACT_APP_STOREID}/subs`,
+  getList: `/${window.__.env.REACT_APP_STOREID}/subs`,
   getSubDetail: '/sub/',
-  updateDetail: `/${process.env.REACT_APP_STOREID}/sub/`,
-  changeSubscriptionDetailPets: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionDetailPets`,
+  updateDetail: `/${window.__.env.REACT_APP_STOREID}/sub/`,
+  changeSubscriptionDetailPets: `/${window.__.env.REACT_APP_STOREID}/subs/changeSubscriptionDetailPets`,
   getAddressDetail: '/customer/address/',
-  skipNextSub: `/${process.env.REACT_APP_STOREID}/sub/cancel-next`,
+  skipNextSub: `/${window.__.env.REACT_APP_STOREID}/sub/cancel-next`,
   cancelAllSub: '/sub/cancel',
   orderNowSub: '/sub/order-now',
   startSubscription: '/sub/reStartSubscription',
   pauseSubscription: '/sub/pauseSubscription',
   // orderNowSub: '/sub/createOrderNow',
-  // getPromotionPrice: `/${process.env.REACT_APP_STOREID}/sub/prom-price`,
+  // getPromotionPrice: `/${window.__.env.REACT_APP_STOREID}/sub/prom-price`,
   getPromotionPrice: '/sub/getPromotionPrice',
   // updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
-  updateNextDeliveryTime: `/${process.env.REACT_APP_STOREID}/sub/next-deliver/`,
-  changeSubscriptionGoods: `/${process.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
-  getListForPet: `/${process.env.REACT_APP_STOREID}/subGoodsByPetsId`,
+  updateNextDeliveryTime: `/${window.__.env.REACT_APP_STOREID}/sub/next-deliver/`,
+  changeSubscriptionGoods: `/${window.__.env.REACT_APP_STOREID}/subs/changeSubscriptionGoods`,
+  getListForPet: `/${window.__.env.REACT_APP_STOREID}/subGoodsByPetsId`,
   findPetProductForClub: '/product/finder/club/pets/products'
 };
 

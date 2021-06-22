@@ -16,7 +16,7 @@ export default class AddressForm extends React.Component {
         address1: '',
         address2: '',
         rfc: '',
-        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        country: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         countryName: '',
         city: '',
         cityName: '',
@@ -37,11 +37,13 @@ export default class AddressForm extends React.Component {
       });
     });
     // 查询省份列表（美国：州）
-    getProvincesList({ storeId: process.env.REACT_APP_STOREID }).then((res) => {
-      this.setState({
-        provinceList: res.context.systemStates
-      });
-    });
+    getProvincesList({ storeId: window.__.env.REACT_APP_STOREID }).then(
+      (res) => {
+        this.setState({
+          provinceList: res.context.systemStates
+        });
+      }
+    );
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
@@ -84,7 +86,7 @@ export default class AddressForm extends React.Component {
     if (name === 'postCode') {
       value = value.replace(/\s+/g, '');
     }
-    if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'fr') {
+    if (name === 'phoneNumber' && window.__.env.REACT_APP_COUNTRY === 'fr') {
       value = value.replace(/^[0]/, '+(33)');
     }
     const { deliveryAddress } = this.state;
@@ -342,7 +344,7 @@ export default class AddressForm extends React.Component {
         </div>
 
         {/* 国家 */}
-        {process.env.REACT_APP_COUNTRY != 'us' ? (
+        {window.__.env.REACT_APP_COUNTRY != 'us' ? (
           <div className="col-12 col-md-6">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
               <label className="form-control-label" htmlFor="shippingCountry">
@@ -365,7 +367,7 @@ export default class AddressForm extends React.Component {
         ) : null}
 
         {/* 省份 */}
-        {process.env.REACT_APP_COUNTRY === 'us' ? this._provinceJSX() : null}
+        {window.__.env.REACT_APP_COUNTRY === 'us' ? this._provinceJSX() : null}
 
         {/* 城市 */}
         <div className="col-12 col-md-6 required dwfrm_shipping_shippingAddress_addressFields_city">

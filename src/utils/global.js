@@ -1,26 +1,28 @@
 import store from 'storejs';
 
-window.__ = {
+window.__ = Object.assign(window.__ || {}, {
   sessionItemRoyal: {
     set(key, val) {
-      sessionStorage.setItem(`${process.env.REACT_APP_COUNTRY}-${key}`, val);
+      sessionStorage.setItem(`${window.__.env.REACT_APP_COUNTRY}-${key}`, val);
     },
     get(key) {
-      return sessionStorage.getItem(`${process.env.REACT_APP_COUNTRY}-${key}`);
+      return sessionStorage.getItem(
+        `${window.__.env.REACT_APP_COUNTRY}-${key}`
+      );
     },
     remove(key) {
-      sessionStorage.removeItem(`${process.env.REACT_APP_COUNTRY}-${key}`);
+      sessionStorage.removeItem(`${window.__.env.REACT_APP_COUNTRY}-${key}`);
     }
   },
   localItemRoyal: {
     set(key, val) {
-      store.set(`${process.env.REACT_APP_COUNTRY}-${key}`, val);
+      store.set(`${window.__.env.REACT_APP_COUNTRY}-${key}`, val);
     },
     get(key) {
-      return store.get(`${process.env.REACT_APP_COUNTRY}-${key}`);
+      return store.get(`${window.__.env.REACT_APP_COUNTRY}-${key}`);
     },
     remove(key) {
-      store.remove(`${process.env.REACT_APP_COUNTRY}-${key}`);
+      store.remove(`${window.__.env.REACT_APP_COUNTRY}-${key}`);
     }
   }
-};
+});

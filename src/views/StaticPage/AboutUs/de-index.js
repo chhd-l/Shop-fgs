@@ -82,7 +82,7 @@ class about extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          {/* {process.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
+          {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
           <br />
           <BreadCrumbs />
           <div className="storefront-page">
@@ -167,7 +167,7 @@ class about extends React.Component {
                           >
                             Mehr erfahren
                             {Boolean(
-                              process.env
+                              window.__.env
                                 .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                             ) && (
                               <span className="warning_blank">
@@ -226,7 +226,7 @@ class about extends React.Component {
                           >
                             Mehr erfahren
                             {Boolean(
-                              process.env
+                              window.__.env
                                 .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                             ) && (
                               <span className="warning_blank">
@@ -296,7 +296,7 @@ class about extends React.Component {
                           >
                             Mehr erfahren
                             {Boolean(
-                              process.env
+                              window.__.env
                                 .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                             ) && (
                               <span className="warning_blank">
@@ -357,7 +357,7 @@ class about extends React.Component {
                           >
                             Mehr erfahren
                             {Boolean(
-                              process.env
+                              window.__.env
                                 .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                             ) && (
                               <span className="warning_blank">
@@ -485,7 +485,7 @@ class about extends React.Component {
                         ROYAL CANIN PROFESSIONAL
                       </span>
                       {Boolean(
-                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                       ) && (
                         <span className="warning_blank">
                           Opens a new window
@@ -521,7 +521,7 @@ class about extends React.Component {
                         ROYAL CANIN PROFESSIONAL
                       </span>
                       {Boolean(
-                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                       ) && (
                         <span className="warning_blank">
                           Opens a new window
@@ -565,7 +565,7 @@ class about extends React.Component {
                     >
                       Jetzt entdecken
                       {Boolean(
-                        process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
+                        window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                       ) && (
                         <span className="warning_blank">
                           Opens a new window

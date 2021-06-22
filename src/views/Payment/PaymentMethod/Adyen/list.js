@@ -277,9 +277,9 @@ class AdyenCreditCardList extends React.Component {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
           const checkout = new AdyenCheckout({
-            environment: process.env.REACT_APP_Adyen_ENV,
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale
+            environment: window.__.env.REACT_APP_Adyen_ENV,
+            originKey: window.__.env.REACT_APP_AdyenOriginKEY,
+            locale: window.__.env.REACT_APP_Adyen_locale
           });
           checkout
             .create('card', {

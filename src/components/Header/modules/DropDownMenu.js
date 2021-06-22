@@ -24,7 +24,7 @@ export default class DropDownMenu extends React.Component {
       this
     );
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   handleNavChildrenMouseOver(item, childrenItem, e) {
     e.preventDefault();
@@ -54,7 +54,7 @@ export default class DropDownMenu extends React.Component {
   GAClickMenu(interaction) {
     const { category, action, label, value } = interaction;
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}clickMenu`,
       interaction: {
         category,
         action,
@@ -96,7 +96,7 @@ export default class DropDownMenu extends React.Component {
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
     const { currentDesc } = this.state;
-    let descObj = null;
+    let descObj = {};
     if (item.navigationDesc && item.imageLink) {
       descObj = {
         text: item.navigationDesc,
@@ -113,7 +113,7 @@ export default class DropDownMenu extends React.Component {
     return (
       <div
         className={`${
-          process.env.REACT_APP_COUNTRY == 'de' ? 'drop' : ''
+          window.__.env.REACT_APP_COUNTRY == 'de' ? 'drop' : ''
         } dropdown-nav d-flex ${activeTopParentId === item.id ? 'show' : ''}`}
         aria-hidden={activeTopParentId === item.id}
         onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}

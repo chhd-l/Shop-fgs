@@ -126,7 +126,7 @@ class Help extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  if (process.env.REACT_APP_COUNTRY === 'fr') {
+                  if (window.__.env.REACT_APP_COUNTRY === 'fr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
@@ -369,12 +369,12 @@ class Help extends React.Component {
       if (idx > -1) {
         cartDataCopy.splice(idx, 1, tmpData);
       } else {
-        if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
+        if (cartDataCopy.length >= window.__.env.REACT_APP_LIMITED_CATE_NUM) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorMaxCate"
-                values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+                values={{ val: window.__.env.REACT_APP_LIMITED_CATE_NUM }}
               />
             )
           });
@@ -423,12 +423,12 @@ class Help extends React.Component {
         totalPrice + el.recommendationNumber * el.goodsInfo.salePrice;
       return el;
     });
-    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+    if (totalPrice < window.__.env.REACT_APP_MINIMUM_AMOUNT) {
       console.log(totalPrice, 'instock');
       this.showErrorMsg(
         <FormattedMessage
           id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+          values={{ val: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT) }}
         />
       );
       return false;
@@ -1155,7 +1155,7 @@ class Help extends React.Component {
                 <img
                   alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                   className="w-100 lazyloaded"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`}
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`}
                 />
               </div>
             </div>
@@ -1173,7 +1173,7 @@ class Help extends React.Component {
                     className="m-auto w-auto lazyloaded"
                     alt="image one"
                     title="image one"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
                   />
                 </div>
                 <h7>
@@ -1188,7 +1188,7 @@ class Help extends React.Component {
                     className="m-auto w-auto lazyloaded"
                     alt="image two"
                     title="image two"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
                   />
                 </div>
                 <h7>
@@ -1203,7 +1203,7 @@ class Help extends React.Component {
                     className="m-auto w-auto lazyloaded"
                     alt="image three"
                     title="image three"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
                   />
                 </div>
                 <h7>
@@ -1217,7 +1217,7 @@ class Help extends React.Component {
                     className="m-auto w-auto lazyloaded"
                     alt="image four"
                     title="image four"
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
                   />
                 </div>
                 <h7>

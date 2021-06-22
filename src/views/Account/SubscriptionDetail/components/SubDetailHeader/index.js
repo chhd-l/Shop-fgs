@@ -246,7 +246,7 @@ const SubDetailHeader = ({
       ) : (
         <>
           {subDetail.subscriptionType?.toLowerCase().includes('club') && (
-            // process.env.REACT_APP_COUNTRY == 'ru' &&
+            // window.__.env.REACT_APP_COUNTRY == 'ru' &&
             <img
               src={getClubLogo()}
               style={{ maxWidth: '100px', marginRight: '10px' }}

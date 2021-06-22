@@ -11,7 +11,7 @@ export default class welcome extends Component {
     };
   }
   render() {
-    let homePage = process.env.REACT_APP_HOMEPAGE;
+    let homePage = window.__.env.REACT_APP_HOMEPAGE;
     const contactUrl =
       homePage.substring(homePage.length - 1, homePage.length) === '/'
         ? 'help/contact'
@@ -30,7 +30,7 @@ export default class welcome extends Component {
           <div _ngcontent-dqg-c56="" class="register-success-container__logo">
             <img
               _ngcontent-dqg-c56=""
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/rc_logo.svg`}
               alt=""
             />
           </div>
@@ -40,7 +40,7 @@ export default class welcome extends Component {
           >
             <img
               _ngcontent-dqg-c56=""
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cat-dog.jpg`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/cat-dog.jpg`}
               alt=""
             />
           </div>
@@ -74,7 +74,7 @@ export default class welcome extends Component {
                 apptracking="registration.contactSupport"
                 class="rc-link"
                 href={
-                  process.env.REACT_APP_COUNTRY === 'us'
+                  window.__.env.REACT_APP_COUNTRY === 'us'
                     ? homePage + contactUrl
                     : homePage + helpUrl
                 }
@@ -87,7 +87,7 @@ export default class welcome extends Component {
           </div>
         </div>
 
-        {process.env.REACT_APP_COUNTRY === 'de' ? (
+        {window.__.env.REACT_APP_COUNTRY === 'de' ? (
           <Footer />
         ) : (
           <div

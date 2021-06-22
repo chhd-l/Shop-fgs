@@ -63,7 +63,7 @@ const benifitList =
         text: 'Livraison 3 jours ouvrés'
       }
     ]
-  }[process.env.REACT_APP_COUNTRY] || [];
+  }[window.__.env.REACT_APP_COUNTRY] || [];
 const faqList =
   {
     us: [
@@ -92,10 +92,10 @@ const faqList =
       {
         title: 'Do you offer free returns?',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p>Please see our return policy in our <a href="${process.env.REACT_APP_HOMEPAGE.replace(
+        <p></p><p>Please see our return policy in our <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
           /\/$/gi,
           ''
-        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${process.env.REACT_APP_HOMEPAGE.replace(
+        )}/termsandconditions" target="_blank" rel="nofollow noopener"><span style="color: #6888c9;">Terms and Conditions</span><span class="warning_blank">Opens a new window</span></a>&nbsp;or <a href="${window.__.env.REACT_APP_HOMEPAGE.replace(
           /\/$/gi,
           ''
         )}/help/contact" target="_blank" rel="noopener noreferrer"><span style="color: #6888c9;">contact us</span><span class="warning_blank">Opens a new window</span></a> for further assistance.</p><p></p>`,
@@ -125,7 +125,7 @@ const faqList =
       {
         title: 'Возврат товара',
         context: `<h1 class="rc-zeta"></h1>
-        <p></p><p><a href="${process.env.REACT_APP_HUB_URLPREFIX}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
+        <p></p><p><a href="${window.__.env.REACT_APP_HUB_URLPREFIX}/about-us/terms-and-conditions">С условиями возврата&nbsp; Вы можете ознакомиться здесь</a></p><p></p>`,
         gaContext: 'Free return'
       }
     ],
@@ -187,7 +187,7 @@ const faqList =
         gaContext: 'Free return'
       }
     ]
-  }[process.env.REACT_APP_COUNTRY] || [];
+  }[window.__.env.REACT_APP_COUNTRY] || [];
 
 export default class Faq extends React.Component {
   render() {

@@ -43,19 +43,24 @@ class ShelterPrescription extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle:
-        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
-      emailDes:
-        this.props.intl.messages['recommendation.helpContentText.emailDes'],
-      emailLink:
-        this.props.intl.messages['recommendation.helpContentText.emailLink'],
-      phoneTitle:
-        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
+      emailTitle: this.props.intl.messages[
+        'recommendation.helpContentText.emailTitle'
+      ],
+      emailDes: this.props.intl.messages[
+        'recommendation.helpContentText.emailDes'
+      ],
+      emailLink: this.props.intl.messages[
+        'recommendation.helpContentText.emailLink'
+      ],
+      phoneTitle: this.props.intl.messages[
+        'recommendation.helpContentText.phoneTitle'
+      ],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2:
-        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
+      phoneDes2: this.props.intl.messages[
+        'recommendation.helpContentText.phoneDes2'
+      ]
       // title: "We're Here to Help",
       // emailLink: '/help/contact',
       // des:
@@ -135,7 +140,7 @@ class ShelterPrescription extends React.Component {
                 className="m-auto"
                 style={{ maxHeight: '150px', maxWidth: '150px' }}
                 alt={item.name}
-                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${item.goodsImg}`}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${item.goodsImg}`}
               />
             </picture>
             <div className="rc-card__body">
@@ -171,7 +176,7 @@ class ShelterPrescription extends React.Component {
             </div>
           </article>
         </a>
-        {Boolean(process.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW) && (
+        {Boolean(window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW) && (
           <span className="warning_blank">Opens a new window</span>
         )}
       </Link>

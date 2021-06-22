@@ -66,7 +66,7 @@ class Help extends Component {
                     <img
                       className="align-self-center widthAuto lazyloaded"
                       alt="customer service image"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                     />
                   </LazyLoad>
                 </div>
@@ -98,7 +98,7 @@ class Help extends Component {
                     <img
                       className="align-self-center widthAuto lazyloaded"
                       alt="email us icon"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon_100@2x .webp`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon_100@2x .webp`}
                     />
                   </LazyLoad>
                 </div>
@@ -135,7 +135,7 @@ class Help extends Component {
                     <img
                       className="align-self-center widthAuto lazyloaded"
                       alt="faq icon"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon_100@2x.png`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon_100@2x.png`}
                     />
                   </LazyLoad>
                 </div>

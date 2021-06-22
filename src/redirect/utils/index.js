@@ -5,7 +5,10 @@ import fgsJSON_fr from '../fr/fgs';
 
 let New_RedirectUrlJSON_fr = { ...RedirectUrlJSON_fr };
 
-if (process.env.REACT_APP_COUNTRY == 'fr' && process.env.REACT_APP_HUB != 1) {
+if (
+  window.__.env.REACT_APP_COUNTRY == 'fr' &&
+  window.__.env.REACT_APP_HUB != 1
+) {
   //说明是法国fgs环境,加上fgs环境需要加上的跳转链接
   for (let item of fgsJSON_fr.RECORDS) {
     New_RedirectUrlJSON_fr.RECORDS.push(item);
@@ -19,8 +22,8 @@ const redirectFun = () => {
     ru: RedirectUrlJSON_ru,
     tr: RedirectUrlJSON_tr
   };
-  if (RedirectUrlJSON[process.env.REACT_APP_COUNTRY]) {
-    RedirectUrlJSON[process.env.REACT_APP_COUNTRY].RECORDS.filter(
+  if (RedirectUrlJSON[window.__.env.REACT_APP_COUNTRY]) {
+    RedirectUrlJSON[window.__.env.REACT_APP_COUNTRY].RECORDS.filter(
       (item) => item.shortUrl !== item.redirectUrl
     )
       .map((item) => ({

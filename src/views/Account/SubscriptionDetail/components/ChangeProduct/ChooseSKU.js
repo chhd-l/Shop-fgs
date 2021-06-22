@@ -85,8 +85,8 @@ const ChooseSKU = ({ intl }) => {
       }
     } else {
       res = (quantity || 0) + 1;
-      if (quantity >= process.env.REACT_APP_LIMITED_NUM) {
-        res = process.env.REACT_APP_LIMITED_NUM;
+      if (quantity >= window.__.env.REACT_APP_LIMITED_NUM) {
+        res = window.__.env.REACT_APP_LIMITED_NUM;
       }
     }
     setQuantity(res);
@@ -103,8 +103,8 @@ const ChooseSKU = ({ intl }) => {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-        tmp = process.env.REACT_APP_LIMITED_NUM;
+      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = window.__.env.REACT_APP_LIMITED_NUM;
       }
       setQuantity(tmp);
     }

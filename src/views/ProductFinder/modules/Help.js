@@ -43,7 +43,7 @@ class Help extends React.Component {
                     <img
                       className="ls-is-cached lazyloaded"
                       alt="Par téléphone icon"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                     />
                   </LazyLoad>
                 </picture>
@@ -84,7 +84,7 @@ class Help extends React.Component {
                       <img
                         className=" ls-is-cached lazyloaded"
                         alt="Par e-mail icon"
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/email.png`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/email.png`}
                       />
                     </LazyLoad>
                   </picture>

@@ -42,6 +42,6 @@ export const LinkJSX = () => {
           Учить больше
         </Link>
       )
-    }[process.env.REACT_APP_COUNTRY] || defaultJSX
+    }[window.__.env.REACT_APP_COUNTRY] || defaultJSX
   );
 };

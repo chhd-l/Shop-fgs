@@ -45,7 +45,7 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 
 import smartFeeder from '@/assets/images/smart_feeder.png';
 
-const isHub = process.env.REACT_APP_HUB == '1';
+const isHub = window.__.env.REACT_APP_HUB == '1';
 const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -126,7 +126,7 @@ function ListItemH5ForGlobalStyle(props) {
                         src={
                           isDogPage
                             ? retailDog
-                            : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
+                            : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                         }
                         className="ImgFitScreen pt-3"
                         style={{
@@ -287,7 +287,7 @@ function ListItemForDefault(props) {
                       src={
                         isDogPage
                           ? retailDog
-                          : `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
+                          : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
                       }
                       alt="product finder recomend retail cat find"
                       title=""
@@ -521,7 +521,7 @@ function ListItemBody({ item, headingTag }) {
   );
   return (
     <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0 pc-product-card">
-      {process.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
+      {window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly pl-4 pr-4">
             <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
@@ -582,7 +582,8 @@ function ProductFinderAd({
   isRetailProducts,
   isVetProducts,
   retailProductLink,
-  vetProductLink
+  vetProductLink,
+  isDogPage
 }) {
   return (
     {
@@ -622,7 +623,11 @@ function ProductFinderAd({
                 <LazyLoad style={{ width: '100%', height: '100%' }}>
                   <img
                     style={{ width: '100%' }}
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`}
+                    src={
+                      isDogPage
+                        ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-retail.jpg`
+                        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`
+                    }
                     alt="product finder recomend retail cat"
                   />
                 </LazyLoad>
@@ -635,7 +640,13 @@ function ProductFinderAd({
                   <FormattedMessage id="plp.retail.cat.title" />
                 </p>
                 <p>
-                  <FormattedMessage id="plp.retail.cat.detail" />
+                  <FormattedMessage
+                    id={
+                      isDogPage
+                        ? 'plp.retail.dog.detail'
+                        : 'plp.retail.cat.detail'
+                    }
+                  />
                 </p>
                 <Link to={`${vetProductLink}`} className="rc-btn rc-btn--two">
                   <FormattedMessage id="plp.retail.cat.button" />
@@ -655,7 +666,7 @@ function ProductFinderAd({
                 >
                   <img
                     style={{ width: '100%' }}
-                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-spt.jpg`}
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-cat-vet.jpg`}
                     alt="product finder recomend vet cat"
                   />
                 </LazyLoad>
@@ -681,7 +692,7 @@ function ProductFinderAd({
           ) : null}
         </div>
       )
-    }[process.env.REACT_APP_COUNTRY] || null
+    }[window.__.env.REACT_APP_COUNTRY] || null
   );
 }
 
@@ -757,7 +768,7 @@ class List extends React.Component {
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
-    this.hubGA = process.env.REACT_APP_HUB_GA == '1';
+    this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
     this.showSmartFeeder = isDog && this.hubGA;
   }
   componentDidMount() {
@@ -1019,7 +1030,7 @@ class List extends React.Component {
   //点击商品 埋点
   GAProductClick(item, index) {
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
           actionField: { list: this.state.GAListParam },
@@ -1088,7 +1099,7 @@ class List extends React.Component {
     }
 
     dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+      event: `${window.__.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
       ecommerce: {
         impressions: impressions
       }
@@ -1134,7 +1145,7 @@ class List extends React.Component {
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie: process.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
+        specie: window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1197,7 +1208,7 @@ class List extends React.Component {
       const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie: process.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
+        specie: window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
         range: cateName?.[1] || '',
         name: goodsName,
         mainItemCode: goodsNo,
@@ -1778,7 +1789,7 @@ class List extends React.Component {
 
     let params = {
       cateType,
-      storeId: process.env.REACT_APP_STOREID,
+      storeId: window.__.env.REACT_APP_STOREID,
       cateId: this.state.cateId || '',
       pageNum: currentPage - 1,
       sortFlag: 11,
@@ -1854,7 +1865,7 @@ class List extends React.Component {
               ? [breed, ...technologyAttr]
               : [...technologyAttr];
             const technologyOrBreedsAttr =
-              isHub && process.env.REACT_APP_COUNTRY === 'ru'
+              isHub && window.__.env.REACT_APP_COUNTRY === 'ru'
                 ? ruAttrs.join(',')
                 : attrs;
             const taggingVOList = (ele.taggingVOList || []).filter(
@@ -1882,7 +1893,7 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`.replace(
+          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
             /\/$/,
             ''
           );
@@ -2096,7 +2107,7 @@ class List extends React.Component {
 
     const { title, metaDescription, metaKeywords } = this.state.seoConfig;
     const h1Title =
-      process.env.REACT_APP_COUNTRY === 'ru'
+      window.__.env.REACT_APP_COUNTRY === 'ru'
         ? titleData?.title?.toLowerCase()
         : titleData?.title;
     const titleSeo = title && titleData && title.replace(/{H1}/, h1Title);
@@ -2109,15 +2120,15 @@ class List extends React.Component {
     const trFilterSeoDesc =
       prefv1 + ' ' + animalType + ' ' + metaDescriptionSeo;
     const filterSeoTitle =
-      process.env.REACT_APP_COUNTRY === 'ru'
+      window.__.env.REACT_APP_COUNTRY === 'ru'
         ? ruFilterSeoTitle
         : trFilterSeoTitle;
     const filterSeoDesc =
-      process.env.REACT_APP_COUNTRY === 'ru'
+      window.__.env.REACT_APP_COUNTRY === 'ru'
         ? ruFilterSeoDesc
         : trFilterSeoDesc;
     const filterSeoWords =
-      process.env.REACT_APP_COUNTRY === 'ru' ? allPrefv : metaKeywords;
+      window.__.env.REACT_APP_COUNTRY === 'ru' ? allPrefv : metaKeywords;
     return (
       <div>
         {this.state.event && (
@@ -2415,7 +2426,7 @@ class List extends React.Component {
                                 return (
                                   <div
                                     className={`${
-                                      process.env.REACT_APP_PLP_STYLE ===
+                                      window.__.env.REACT_APP_PLP_STYLE ===
                                       'layout-global'
                                         ? 'col-12 pr-0 pl-md-2 pr-md-2'
                                         : 'col-6 pl-2 pr-2'
@@ -2456,7 +2467,7 @@ class List extends React.Component {
             </section>
             <ProductFinderAd {...this.state} />
           </div>
-          {process.env.REACT_APP_COUNTRY == 'de' ? (
+          {window.__.env.REACT_APP_COUNTRY == 'de' ? (
             <div className="notate ml-2 mb-2">
               <FormattedMessage
                 id="notate"

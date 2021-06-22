@@ -51,7 +51,7 @@ class FrTips extends Component {
                     <img
                       className=" lazyloaded"
                       alt="Expérience d'achat en ligne"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/onlineshop_90x90.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/onlineshop_90x90.jpg`}
                     />
                   </LazyLoad>
                 </picture>
@@ -80,7 +80,7 @@ class FrTips extends Component {
                     <img
                       className=" lazyloaded"
                       alt="Expérience d'achat en ligne"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/PETnutri_90x90.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/PETnutri_90x90.jpg`}
                     />
                   </LazyLoad>
                 </picture>
@@ -109,7 +109,7 @@ class FrTips extends Component {
                     <img
                       className=" lazyloaded"
                       alt="Expérience d'achat en ligne"
-                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/PETCARE_90x90.jpg`}
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/PETCARE_90x90.jpg`}
                     />
                   </LazyLoad>
                 </picture>

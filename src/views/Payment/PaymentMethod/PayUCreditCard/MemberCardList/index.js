@@ -196,10 +196,10 @@ class MemberCardList extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -308,10 +308,10 @@ class MemberCardList extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            public_key: window.__.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': window.__.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            app_id: window.__.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -351,7 +351,7 @@ class MemberCardList extends React.Component {
 
       if (creditCardInfoForm.savedCardChecked) {
         const addRes = await addOrUpdatePaymentMethod({
-          storeId: process.env.REACT_APP_STOREID,
+          storeId: window.__.env.REACT_APP_STOREID,
           customerId: this.userInfo ? this.userInfo.customerId : '',
           email: creditCardInfoForm.email,
           phone: creditCardInfoForm.phoneNumber,
@@ -499,7 +499,7 @@ class MemberCardList extends React.Component {
         pspItemCode: 'payu_tu',
         binNumber: s ? s.bin_number || s.binNumber : '', // 卡前6位
         payAmount: this.tradePrice,
-        storeId: process.env.REACT_APP_STOREID
+        storeId: window.__.env.REACT_APP_STOREID
       });
 
       s.hasQueryInstallMent = true;
@@ -672,7 +672,8 @@ class MemberCardList extends React.Component {
 
     return (
       <div id="PaymentComp" className={`loginCardBox`}>
-        {listLoading ? (
+        {/* 等payu组件加载完成，才显示 */}
+        {listLoading || !this.props.inited ? (
           <div className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
           </div>

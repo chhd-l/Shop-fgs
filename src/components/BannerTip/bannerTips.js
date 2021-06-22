@@ -26,7 +26,7 @@ function Container({ children }) {
 
 function AlertTips() {
   return (
-    <span class="rc-margin-right--xs rc-margin-left--xs">
+    <span className="rc-margin-right--xs rc-margin-left--xs">
       Important Notice: Due to an increase in demand, your preferred product may
       be currently unavailable.
       <br />
@@ -41,7 +41,7 @@ function AlertTips() {
 // 美国4/17的美国中部时间早8点到晚4点不能登录账户
 function LimitLoginAlertTips() {
   return (
-    <span class="rc-margin-right--xs rc-margin-left--xs">
+    <span className="rc-margin-right--xs rc-margin-left--xs">
       Important Notice: Maintenance is planned for April 17th, 2021 from 8am-4pm
       CST.
       <br />
@@ -111,7 +111,7 @@ const bannerTips = () => {
   }
 
   useEffect(() => {
-    if (process.env.REACT_APP_COUNTRY === 'de') {
+    if (window.__.env.REACT_APP_COUNTRY === 'de') {
       const timeId = ShowMKTMessage();
       return () => {
         clearTimeout(timeId);
@@ -124,15 +124,16 @@ const bannerTips = () => {
       // id="bannerTip"
       className="red font-weight-normal p-1 position-relative text-center pl-2 pr-2 pr-md-4 pl-md-4 rc-bg-colour--brand4 rc-bannertip-containner"
     >
-      {process.env.REACT_APP_IS_PROMOTION === 'true' && (
+      {window.__.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div>
           {/* 美国临时加一个写死的Notice  */}
-          {process.env.REACT_APP_COUNTRY === 'us' ? (
-            <div class="rc-bg-colour--brand4 text-center">
-              <div class="rc-layout-container rc-content-h-middle">
-                <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-                  <div class="d-flex align-items-center">
-                    {process.env.REACT_APP_COUNTRY == 'us' && isLimitLogin() ? (
+          {window.__.env.REACT_APP_COUNTRY === 'us' ? (
+            <div className="rc-bg-colour--brand4 text-center">
+              <div className="rc-layout-container rc-content-h-middle">
+                <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+                  <div className="d-flex align-items-center">
+                    {window.__.env.REACT_APP_COUNTRY == 'us' &&
+                    isLimitLogin() ? (
                       <LimitLoginAlertTips />
                     ) : (
                       <AlertTips />
@@ -143,18 +144,18 @@ const bannerTips = () => {
               </div>
             </div>
           ) : null}
-          {show && process.env.REACT_APP_COUNTRY === 'de' ? mktMessage : null}
+          {show && window.__.env.REACT_APP_COUNTRY === 'de' ? mktMessage : null}
           <div className="rc-bg-colour--brand4 text-center">
             <div className="rc-layout-container rc-content-h-middle">
               <Container>
-                {process.env.REACT_APP_COUNTRY == 'de' ? null : (
+                {window.__.env.REACT_APP_COUNTRY == 'de' ? null : (
                   <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
                 )}
                 <span className="align-middle">
                   <span className="rc-margin-right--xs rc-margin-left--xs rc-bannertip-text ui-cursor-pointer-pure">
                     <FormattedMessage id="home.promotionTip" />
                   </span>
-                  {process.env.REACT_APP_COUNTRY == 'de' ? (
+                  {window.__.env.REACT_APP_COUNTRY == 'de' ? (
                     <Link
                       to="/how-to-order"
                       className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"

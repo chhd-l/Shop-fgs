@@ -12,46 +12,64 @@ import clubru from './image/Clubru.png';
 const SubTitles = {
   title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
 };
-const LogoShows={
-  logo:<img
-    style={{ width: '100px' }}
-    src={
-      process.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo
-    }
-  />
-}
+const LogoShows = {
+  logo: (
+    <img
+      style={{ width: '100px' }}
+      src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
+    />
+  )
+};
 const SubscriptionItems = [
   {
     SubscriptionImg: benefitsone,
     SubscriptionTitle: (
-      <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1" values={{val:<br/>}} />
+      <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle1"
+          values={{ val: <br /> }}
+        />
       </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent1" values={{val:<br/>}}/>
+      <FormattedMessage
+        id="ClubLP.LongBanner.SubscriptionContent1"
+        values={{ val: <br /> }}
+      />
     )
   },
   {
     SubscriptionImg: benefitstwo,
     SubscriptionTitle: (
-      <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2" values={{val:<br/>}}/>
+      <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle2"
+          values={{ val: <br /> }}
+        />
       </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent2" values={{val1:<br/> ,val2:<br/>}}/>
+      <FormattedMessage
+        id="ClubLP.LongBanner.SubscriptionContent2"
+        values={{ val1: <br />, val2: <br /> }}
+      />
     )
   },
   {
     SubscriptionImg: benefitsthree,
     SubscriptionTitle: (
-      <a style={{fontWeight:'bold' ,fontSize:'18px'}} >
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3" values={{val:<br/>}}/>
+      <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
+        <FormattedMessage
+          id="ClubLP.LongBanner.SubscriptionTitle3"
+          values={{ val: <br /> }}
+        />
       </a>
     ),
     SubscriptionContent: (
-      <FormattedMessage id="ClubLP.LongBanner.SubscriptionContent3" values={{val:<br/>}}/>
+      <FormattedMessage
+        id="ClubLP.LongBanner.SubscriptionContent3"
+        values={{ val: <br /> }}
+      />
     )
   }
 ];
@@ -106,11 +124,18 @@ const LongBanner = () => {
                   <p
                     style={{
                       color: '#ffffff',
-                      marginBottom: '0px',
+                      marginBottom: '0px'
                     }}
-                    className="longbannerwidth266"
+                    className={`longbannerwidth266 ${
+                      window.__.env.REACT_APP_COUNTRY == 'tr'
+                        ? `trmarginleft10vw`
+                        : null
+                    }`}
                   >
-                    <FormattedMessage id="ClubLP.LongBanner.content2"values={{val:<br/>}} />
+                    <FormattedMessage
+                      id="ClubLP.LongBanner.content2"
+                      values={{ val: <br /> }}
+                    />
                   </p>
                 </div>
               </div>

@@ -78,7 +78,7 @@ class InfosPreview extends React.Component {
                 )}
               </div>
               <div>
-                {process.env.REACT_APP_COUNTRY == 'us' ? null : (
+                {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
                   <>
                     {matchNamefromDict(
                       this.state.countryList,
@@ -145,7 +145,7 @@ class InfosPreview extends React.Component {
                   <>
                     <span className="medium">
                       <FormattedMessage id="Expire" />{' '}
-                      {process.env.REACT_APP_COUNTRY == 'us'
+                      {window.__.env.REACT_APP_COUNTRY == 'us'
                         ? format(
                             new Date(payRecord.expirationDate).addHours(12),
                             'MM/yyyy'
@@ -207,7 +207,7 @@ class InfosPreview extends React.Component {
                 )}
               </div>
               <div>
-                {process.env.REACT_APP_COUNTRY == 'us' ? null : (
+                {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
                   <>
                     {matchNamefromDict(
                       this.state.countryList,

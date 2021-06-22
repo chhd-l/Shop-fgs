@@ -16,7 +16,7 @@ class BannerTip extends React.Component {
   }
   render() {
     return this.state.noticeVisible &&
-      process.env.REACT_APP_SHOW_BANNERTIP === 'true' ? (
+      window.__.env.REACT_APP_SHOW_BANNERTIP === 'true' ? (
       <BannerTips />
     ) : null;
   }

@@ -417,7 +417,7 @@ export default class Felin extends React.Component {
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
-    // if (name === 'phoneNumber' && process.env.REACT_APP_COUNTRY === 'fr') {
+    // if (name === 'phoneNumber' && window.__.env.REACT_APP_COUNTRY === 'fr') {
     //   value = value.replace(/^[0]/, '+(33)');
     // }
     userInfo[name] = value;
@@ -535,7 +535,7 @@ export default class Felin extends React.Component {
         customerDetailVO: null,
         id: null,
         apptNo: 'AP' + Math.ceil(Math.random() * 10000000),
-        storeId: process.env.REACT_APP_STOREID,
+        storeId: window.__.env.REACT_APP_STOREID,
         customerId: userInfo ? userInfo.customerId : null,
         type: this.state.felinType,
         apptDate: format(this.state.currentDate, 'yyyyMMdd'),
@@ -821,7 +821,7 @@ export default class Felin extends React.Component {
                   <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/logoAtelier felin.png`}
                         alt="logoAterlier icon"
                       />
                     </LazyLoad>
@@ -857,7 +857,7 @@ export default class Felin extends React.Component {
                     <LazyLoad>
                       <img
                         loop="infinite"
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat_sm.gif`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/felin_cat_sm.gif`}
                         alt="felin cat"
                       />
                     </LazyLoad>
@@ -903,7 +903,7 @@ export default class Felin extends React.Component {
                   <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/person@2x_1.jpeg`}
                         alt="felin person"
                       />
                     </LazyLoad>
@@ -916,7 +916,7 @@ export default class Felin extends React.Component {
                   <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/grid@2x.png`}
                         alt="felin grid"
                       />
                     </LazyLoad>
@@ -995,7 +995,7 @@ export default class Felin extends React.Component {
                   <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/box@2x_1.jpeg`}
                         alt="box image"
                       />
                     </LazyLoad>
@@ -1011,7 +1011,7 @@ export default class Felin extends React.Component {
                   <h4 className="rc-espilon">
                     <LazyLoad>
                       <img
-                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
+                        src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/felin/store@2x_1.jpeg`}
                         alt="store image"
                       />
                     </LazyLoad>
@@ -1119,7 +1119,7 @@ export default class Felin extends React.Component {
                             <Calendar
                               value={this.state.currentDate}
                               calendarType="us"
-                              locale={process.env.REACT_APP_Adyen_locale}
+                              locale={window.__.env.REACT_APP_Adyen_locale}
                               view="month"
                               onViewChange={() => {
                                 console.log(111);
@@ -1486,7 +1486,7 @@ export default class Felin extends React.Component {
                                 >
                                   https://www.mars.com/privacy-policy-france
                                   {Boolean(
-                                    process.env
+                                    window.__.env
                                       .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                                   ) && (
                                     <span className="warning_blank">

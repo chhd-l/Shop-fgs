@@ -14,8 +14,8 @@ import { withRouter } from 'react-router-dom';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const cur_menubar = menubar[process.env.REACT_APP_COUNTRY] || [];
-const cur_contactInfo = contactInfo[process.env.REACT_APP_COUNTRY] || null;
+const cur_menubar = menubar[window.__.env.REACT_APP_COUNTRY] || [];
+const cur_contactInfo = contactInfo[window.__.env.REACT_APP_COUNTRY] || null;
 @inject('configStore', 'loginStore')
 @injectIntl
 @observer
@@ -173,7 +173,7 @@ class Footer extends React.Component {
                                         id={listItem.messageId}
                                       />
                                       {Boolean(
-                                        process.env
+                                        window.__.env
                                           .REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW
                                       ) && (
                                         <span className="warning_blank">
@@ -203,11 +203,11 @@ class Footer extends React.Component {
               </p>
               <div className="rc-text--inverse">
                 <p>
-                  {process.env.REACT_APP_COUNTRY == 'fr'
+                  {window.__.env.REACT_APP_COUNTRY == 'fr'
                     ? 'Nos spécialistes sont disponibles de 8h30 à 12h30 et de 14h à 17h du lundi au vendredi.'
                     : this.props.configStore.contactTimePeriod}
                 </p>
-                {process.env.REACT_APP_COUNTRY == 'fr' ? (
+                {window.__.env.REACT_APP_COUNTRY == 'fr' ? (
                   <p>
                     <FormattedMessage
                       id="contactUsViaPhone"
@@ -227,7 +227,7 @@ class Footer extends React.Component {
                 <a
                   style={{
                     display:
-                      process.env.REACT_APP_COUNTRY == 'fr'
+                      window.__.env.REACT_APP_COUNTRY == 'fr'
                         ? 'none'
                         : 'inline-block'
                   }}
@@ -263,7 +263,7 @@ class Footer extends React.Component {
           <MarsFooterMap />
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        {cookieSettingsBtn[process.env.REACT_APP_COUNTRY]}
+        {cookieSettingsBtn[window.__.env.REACT_APP_COUNTRY]}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     );
@@ -271,7 +271,7 @@ class Footer extends React.Component {
   render() {
     return (
       <div>
-        {+process.env.REACT_APP_HUB ? (
+        {+window.__.env.REACT_APP_HUB ? (
           <FooterHub isLogin={this.isLogin} history={this.props.history} />
         ) : (
           this.footerInfo()

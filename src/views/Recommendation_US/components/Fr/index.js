@@ -123,7 +123,7 @@ const FrSPT = (props) => {
             <img
               alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
               className="w-100 lazyloaded"
-              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`}
             />
           </div>
         </div>
@@ -141,7 +141,7 @@ const FrSPT = (props) => {
                 className="m-auto w-auto lazyloaded"
                 alt="image one"
                 title="image one"
-                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
               />
             </div>
             <h7>
@@ -156,7 +156,7 @@ const FrSPT = (props) => {
                 className="m-auto w-auto lazyloaded"
                 alt="image two"
                 title="image two"
-                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
               />
             </div>
             <h7>
@@ -171,7 +171,7 @@ const FrSPT = (props) => {
                 className="m-auto w-auto lazyloaded"
                 alt="image three"
                 title="image three"
-                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
               />
             </div>
             <h7>
@@ -185,7 +185,7 @@ const FrSPT = (props) => {
                 className="m-auto w-auto lazyloaded"
                 alt="image four"
                 title="image four"
-                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
+                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
               />
             </div>
             <h7>
@@ -411,7 +411,7 @@ const FrSPT = (props) => {
   );
 };
 const Fr = (props) => {
-  const imgUrlPreFix = `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
+  const imgUrlPreFix = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation`;
   let PuppyJPG = `${imgUrlPreFix}/${props.intl.messages['recommendation.plusImg']}`;
   return (
     <>

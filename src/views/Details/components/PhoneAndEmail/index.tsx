@@ -10,9 +10,9 @@ interface Props {
   details: any;
   configStore: any;
 }
-const Fr = process.env.REACT_APP_COUNTRY === 'fr';
-const Ru = process.env.REACT_APP_COUNTRY === 'ru';
-const Tr = process.env.REACT_APP_COUNTRY === 'tr';
+const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
+const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
 const PhoneAndEmail = ({ loading, details, configStore }: Props) => {
   const [contactUs, setContactUs] = useState('');
   const [contactPhoneNumber, setContactPhoneNumber] = useState('');

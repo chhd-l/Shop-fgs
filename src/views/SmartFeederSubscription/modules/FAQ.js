@@ -33,7 +33,7 @@ class FAQ extends React.Component {
   getRemainings = async (planId) => {
     let params = {
       planId,
-      storeId: process.env.REACT_APP_STOREID
+      storeId: window.__.env.REACT_APP_STOREID
     };
     let res = await getRemainings(params);
     let remainingsList = res.context;

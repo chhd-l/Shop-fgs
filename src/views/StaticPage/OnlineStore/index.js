@@ -80,16 +80,16 @@ function AdvantageTips() {
       us: [
         { img: PaymentSecureHome, langKey: 'home.point1' },
         {
-          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CLUB-BENEFITS_FREE-SHIPPING.webp`,
           langKey: 'home.point2'
         },
         { img: premiumHome, langKey: 'home.point3' },
         {
-          img: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
+          img: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x_home_us.webp`,
           langKey: 'home.point4'
         }
       ]
-    }[process.env.REACT_APP_COUNTRY] || defaultIconList;
+    }[window.__.env.REACT_APP_COUNTRY] || defaultIconList;
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">

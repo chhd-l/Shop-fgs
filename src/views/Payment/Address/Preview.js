@@ -103,7 +103,7 @@ class AddressPreview extends React.Component {
         )}
 
         {/* 俄罗斯计算运费 */}
-        {process.env.REACT_APP_COUNTRY == 'ru' ? (
+        {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
           <>
             <p className="preview_phone_number">
               {form.phoneNumber || form.consigneeNumber}{' '}
@@ -154,7 +154,7 @@ class AddressPreview extends React.Component {
         ) : (
           <>
             <p className="preview_infos">
-              {process.env.REACT_APP_COUNTRY == 'us' ? null : (
+              {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
                 <>
                   <span>
                     {matchNamefromDict(

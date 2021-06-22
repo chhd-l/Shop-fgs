@@ -26,7 +26,7 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
   ru: ['mc', 'visa', 'amex', 'discover'],
   us: ['mc', 'visa', 'amex', 'discover'],
   de: ['mc', 'visa']
-}[process.env.REACT_APP_COUNTRY] || ['mc', 'visa', 'amex'];
+}[window.__.env.REACT_APP_COUNTRY] || ['mc', 'visa', 'amex'];
 
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 
@@ -37,7 +37,7 @@ export const ruTelephoneCheck = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-
 
 const TELEPHONE_REGEXP =
   { fr: /[+(33)|0]\d{9}$/, us: usTelephoneCheck, ru: ruTelephoneCheck }[
-    process.env.REACT_APP_COUNTRY
+    window.__.env.REACT_APP_COUNTRY
   ] || '';
 
 export const ADDRESS_RULE = [
@@ -91,7 +91,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'province',
-    require: process.env.REACT_APP_COUNTRY === 'us' ? true : false,
+    require: window.__.env.REACT_APP_COUNTRY === 'us' ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.state']
@@ -99,7 +99,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'state',
-    require: process.env.REACT_APP_COUNTRY === 'us' ? true : false,
+    require: window.__.env.REACT_APP_COUNTRY === 'us' ? true : false,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.state']
@@ -117,7 +117,7 @@ export const ADDRESS_RULE = [
   {
     key: 'phoneNumber',
     regExp: TELEPHONE_REGEXP,
-    require: process.env.REACT_APP_COUNTRY === 'de' ? false : true,
+    require: window.__.env.REACT_APP_COUNTRY === 'de' ? false : true,
     errMsg: CURRENT_LANGFILE['enterCorrectPhoneNumber']
   },
   {
@@ -221,7 +221,7 @@ export const PRESONAL_INFO_RULE = [
   {
     key: 'phoneNumber',
     regExp: TELEPHONE_REGEXP,
-    require: process.env.REACT_APP_COUNTRY == 'de' ? false : true,
+    require: window.__.env.REACT_APP_COUNTRY == 'de' ? false : true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.phoneNumber']

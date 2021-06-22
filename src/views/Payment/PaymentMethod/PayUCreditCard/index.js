@@ -159,8 +159,8 @@ class PayOs extends React.Component {
       loadJS({
         url: 'https://js.paymentsos.com/v2/0.0.1/token.min.js',
         callback: function () {
-          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
-          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+          window.POS.setPublicKey(window.__.env.REACT_APP_PaymentKEY_MEMBER);
+          window.POS.setEnvironment(window.__.env.REACT_APP_PaymentENV);
           _this.setState({
             inited: true
           });
@@ -170,8 +170,8 @@ class PayOs extends React.Component {
       loadJS({
         url: 'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
         callback: function () {
-          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_VISITOR);
-          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+          window.POS.setPublicKey(window.__.env.REACT_APP_PaymentKEY_VISITOR);
+          window.POS.setEnvironment(window.__.env.REACT_APP_PaymentENV);
           const style = {
             base: {
               secureFields: {
@@ -311,7 +311,7 @@ class PayOs extends React.Component {
                 pspItemCode: 'payu_tu',
                 binNumber: payosdataRes.bin_number, // 卡前6位
                 payAmount: this.tradePrice,
-                storeId: process.env.REACT_APP_STOREID
+                storeId: window.__.env.REACT_APP_STOREID
               });
 
               const installMentTableData =
@@ -434,6 +434,7 @@ class PayOs extends React.Component {
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
+                        inited={this.state.inited}
                       />
                     </div>
                   ) : (

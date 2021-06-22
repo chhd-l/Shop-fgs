@@ -38,9 +38,11 @@ class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery',
-    reSelectTimeSlot: '',
+    intlMessages: null,
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
+    saveAddressNumber: 0, // 保存Delivery地址次数
+    updateSaveAddressNumber: () => {},
     titleVisible: true,
     isValidationModal: true, // 是否显示验证弹框
     isAddOrEdit: () => {},
@@ -52,6 +54,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      listSaveAddressNumber: 0,
       isDeliveryOrPickUp: false, // 用来标记是否是 pick up
       deliveryAddress: {
         firstName: '',
@@ -59,7 +62,7 @@ class AddressList extends React.Component {
         address1: '',
         address2: '',
         rfc: '',
-        countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+        countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
         country: '',
         cityId: '',
         city: '',
@@ -114,6 +117,7 @@ class AddressList extends React.Component {
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
+
     getDictionary({ type: 'country' }).then((res) => {
       let cfm = deliveryAddress;
       cfm.country = res[0].value;
@@ -146,6 +150,65 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
+  // 对应的国际化字符串
+  getIntlMsg = (str) => {
+    return this.props.intlMessages[str];
+  };
+  // 星期
+  getWeekDay = (day) => {
+    let weekArr = [
+      this.getIntlMsg('payment.Sunday'),
+      this.getIntlMsg('payment.Monday'),
+      this.getIntlMsg('payment.Tuesday'),
+      this.getIntlMsg('payment.Wednesday'),
+      this.getIntlMsg('payment.Thursday'),
+      this.getIntlMsg('payment.Friday'),
+      this.getIntlMsg('payment.Saturday')
+    ];
+    return weekArr[day];
+  };
+  // 月份
+  getMonth = (num) => {
+    num = Number(num);
+    let monthArr = [
+      '0',
+      this.getIntlMsg('payment.January'),
+      this.getIntlMsg('payment.February'),
+      this.getIntlMsg('payment.March'),
+      this.getIntlMsg('payment.April'),
+      this.getIntlMsg('payment.May'),
+      this.getIntlMsg('payment.June'),
+      this.getIntlMsg('payment.July'),
+      this.getIntlMsg('payment.August'),
+      this.getIntlMsg('payment.September'),
+      this.getIntlMsg('payment.October'),
+      this.getIntlMsg('payment.November'),
+      this.getIntlMsg('payment.December')
+    ];
+    return monthArr[num];
+  };
+  // delivery date 格式转换: 星期, 15 月份
+  getFormatDeliveryDateStr = (date) => {
+    // 获取明天几号
+    let mdate = new Date();
+    let tomorrow = mdate.getDate() + 1;
+    // 获取星期
+    var week = new Date(date).getDay();
+    let weekday = this.getWeekDay(week);
+    // 获取月份
+    let ymd = date.split('-');
+    let month = this.getMonth(ymd[1]);
+
+    // 判断是否有 ‘明天’ 的日期
+    let thisday = Number(ymd[2]);
+    let daystr = '';
+    if (tomorrow == thisday) {
+      daystr = this.getIntlMsg('payment.tomorrow');
+    } else {
+      daystr = weekday;
+    }
+    return daystr + ', ' + ymd[2] + ' ' + month;
+  };
   // 查询 city list
   getAllCityList = async () => {
     try {
@@ -170,11 +233,12 @@ class AddressList extends React.Component {
   };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {
+    this.setState({ loading: true });
+    const { selectedId } = this.state;
     try {
-      const { selectedId } = this.state;
       this.setState({ loading: true });
       let res = await getAddressList();
-
+      // console.log('666 查询地址列表: ', res);
       let addressList = res.context.filter(
         (ele) => ele.type === this.props.type.toUpperCase()
       );
@@ -217,12 +281,55 @@ class AddressList extends React.Component {
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
+      console.log('666 saveAddressNumber: ', this.props.saveAddressNumber);
+      console.log(
+        '666 listSaveAddressNumber: ',
+        this.state.listSaveAddressNumber
+      );
 
-      // state对象暂时用不到
-      addressList.forEach((v, i) => {
+      addressList.forEach(async (v, i) => {
         v.stateNo = v.state?.stateNo || '';
+        // state对象暂时用不到
         delete v.state;
+        if (
+          window.__.env.REACT_APP_COUNTRY == 'ru' &&
+          this.state.listSaveAddressNumber == 0
+        ) {
+          // 根据 address 取到 DuData返回的provinceId
+          let dudata = await getAddressBykeyWord({ keyword: v.address1 });
+          if (dudata?.context && dudata?.context?.addressList.length > 0) {
+            let addls = dudata.context.addressList[0];
+            // 再根据 provinceId 获取到 cutOffTime
+            let vdres = await getDeliveryDateAndTimeSlot({
+              cityNo: addls?.provinceId
+            });
+            if (vdres.context && vdres.context?.timeSlots?.length) {
+              let tobj = vdres.context.timeSlots[0];
+              v.deliveryDate = tobj.date;
+              v.timeSlot =
+                tobj.dateTimeInfos[0].startTime +
+                '-' +
+                tobj.dateTimeInfos[0].endTime;
+            } else {
+              v.deliveryDate = '';
+              v.timeSlot = '';
+            }
+            console.log(
+              '666 deliveryDate: ',
+              v.deliveryDate + '   timeSlot: ',
+              v.timeSlot
+            );
+            // 修改地址
+            await editAddress(v);
+          }
+        }
       });
+      // 更新delivery address保存次数
+      let snum = this.props.saveAddressNumber;
+      this.setState({
+        listSaveAddressNumber: snum + 1
+      });
+      await this.props.updateSaveAddressNumber(snum + 1);
 
       this.setState(
         {
@@ -247,7 +354,7 @@ class AddressList extends React.Component {
   deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
     // 提示重新选择
-    let errMsg = this.props.reSelectTimeSlot;
+    let errMsg = this.getIntlMsg('payment.reselectTimeSlot');
 
     let deliveryDate = data.deliveryDate; // deliveryDate 日期
     let timeSlot = data.timeSlot;
@@ -349,10 +456,10 @@ class AddressList extends React.Component {
     console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
     console.log(
-      '666 process.env.REACT_APP_COUNTRY: ',
-      process.env.REACT_APP_COUNTRY
+      '666 window.__.env.REACT_APP_COUNTRY: ',
+      window.__.env.REACT_APP_COUNTRY
     );
-    if (process.env.REACT_APP_COUNTRY == 'ru') {
+    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
       console.log('666 --> ', yesOrNot);
@@ -399,7 +506,7 @@ class AddressList extends React.Component {
     }
 
     this.updateSelectedData('confirm');
-    if (process.env.REACT_APP_COUNTRY != 'ru') {
+    if (window.__.env.REACT_APP_COUNTRY != 'ru') {
       this.confirmToNextPanel();
     }
   };
@@ -409,7 +516,7 @@ class AddressList extends React.Component {
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // 俄罗斯DuData
-    if (process.env.REACT_APP_COUNTRY == 'ru' && str == 'confirm') {
+    if (window.__.env.REACT_APP_COUNTRY == 'ru' && str == 'confirm') {
       // 判断地址完整性
       let errmsg = this.getDuDataAddressErrMsg(tmpObj);
       if (errmsg) {
@@ -652,7 +759,7 @@ class AddressList extends React.Component {
       areaId: '',
       area: '',
       rfc: '',
-      countryId: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
+      countryId: window.__.env.REACT_APP_DEFAULT_COUNTRYID || '',
       country: '',
       cityId: '',
       city: '',
@@ -873,6 +980,7 @@ class AddressList extends React.Component {
         addOrEdit: false,
         saveLoading: false
       });
+
       this.clickConfirmAddressPanel();
     } catch (err) {
       this.setState({
@@ -1123,7 +1231,7 @@ class AddressList extends React.Component {
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
     let farr = [data.address1, data.city];
-    if (process.env.REACT_APP_COUNTRY == 'us') {
+    if (window.__.env.REACT_APP_COUNTRY == 'us') {
       farr.push(data.province);
     } else {
       let country = matchNamefromDict(this.state.countryList, data.countryId);
@@ -1204,7 +1312,7 @@ class AddressList extends React.Component {
             <br />
             <p>
               {this.setAddressFields(item)}
-              {/* {process.env.REACT_APP_COUNTRY == 'us' ? [
+              {/* {window.__.env.REACT_APP_COUNTRY == 'us' ? [
                 item.address1,
                 item.city,
                 item.province
@@ -1215,6 +1323,14 @@ class AddressList extends React.Component {
                   item.city,
                   localAddressForm['region'] && item.area,
                 ].join(', ')} */}
+              {item.deliveryDate && item.timeSlot ? (
+                <>
+                  <br />
+                  {/* 格式化 delivery date 格式: 星期, 15 月份 */}
+                  {this.getFormatDeliveryDateStr(item.deliveryDate)}{' '}
+                  {item.timeSlot}
+                </>
+              ) : null}
             </p>
           </div>
           <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">
