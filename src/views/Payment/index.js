@@ -1277,7 +1277,7 @@ class Payment extends React.Component {
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0
       });
       let res = await editAddress(deliveryAdd);
-      console.log('666 修改地址: ', res);
+      // console.log('666 修改地址: ', res);
     } catch (err) {
       console.log(err);
     }
