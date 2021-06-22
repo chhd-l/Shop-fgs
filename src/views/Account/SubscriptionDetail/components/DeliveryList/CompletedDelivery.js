@@ -143,11 +143,10 @@ const CompletedDelivery = ({ i, isActive, el }) => {
                 if (index < 2) {
                   return (
                     <>
-                      <LazyLoad>
+                      <LazyLoad style={{ margin: '0 .625rem' }}>
                         <img
                           style={{
                             width: '70px',
-                            margin: '0 .625rem',
                             display: 'inline'
                           }}
                           src={tradeItem.pic}
@@ -204,11 +203,11 @@ const CompletedDelivery = ({ i, isActive, el }) => {
                     if (index < 2) {
                       return (
                         <>
-                          <LazyLoad>
+                          <LazyLoad style={{ margin: '0 .625rem' }}>
                             <img
                               style={{
-                                width: '70px',
-                                margin: '0 .625rem'
+                                width: '70px'
+                                // margin: '0 .625rem'
                               }}
                               src={tradeItem.pic}
                               alt={tradeItem.skuName}
@@ -217,10 +216,12 @@ const CompletedDelivery = ({ i, isActive, el }) => {
                           <div
                             style={{
                               width: isMobile ? '120px' : 'auto',
-                              paddingTop: '30px'
+                              paddingTop: '30px',
+                              overflow: 'hidden'
                             }}
                           >
                             <h5
+                              title={tradeItem.skuName}
                               style={{
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
