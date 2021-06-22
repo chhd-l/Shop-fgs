@@ -7,8 +7,10 @@ export function transactionPixel(details) {
   console.log(details);
   const items = details.tradeItems.map((item) => {
     return {
-      price: String(item.price.toFixed(2)),
-      quantity: String(item.num),
+      price: item.subscriptionStatus
+        ? String((item.subscriptionPrice * item.num).toFixed(2))
+        : String(item.splitPrice.toFixed(2)),
+      quantity: '1',
       productId: item.spuNo,
       name: item.spuName,
       shippingDate: details.tradeState.createTime.split(' ')[0]
@@ -26,6 +28,7 @@ export function transactionPixel(details) {
     items: items,
     // tax: String(details.tradePrice.taxFeePrice.toFixed(2)),
     shippingDate: details.tradeState.createTime.split(' ')[0],
+    // discount: String(details.tradePrice.promotionDiscountPrice.toFixed(2)),
     email: details.consignee.email,
     locale: 'en_US',
     nickname: details.consignee.name
