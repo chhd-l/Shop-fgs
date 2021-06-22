@@ -6,7 +6,7 @@ export function transactionPixel(details) {
   console.log(details);
   const items = details.tradeItems.map((item) => {
     return {
-      price: String(item.originalPrice.toFixed(2)),
+      price: String(item.price.toFixed(2)),
       quantity: String(item.num),
       productId: item.spuNo,
       name: item.spuName,
@@ -18,6 +18,7 @@ export function transactionPixel(details) {
     orderId: details.id,
     total: String(details.tradePrice.totalPrice.toFixed(2)),
     items: items,
+    tax: String(details.tradePrice.taxFeePrice.toFixed(2)),
     shippingDate: details.tradeState.createTime.split(' ')[0],
     email: details.consignee.email,
     locale: 'en_US',
