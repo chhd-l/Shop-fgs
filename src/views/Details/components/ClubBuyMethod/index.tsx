@@ -17,7 +17,7 @@ interface Props {
   toClubTab: Function;
 }
 
-const AutoshipBuyMethod = ({
+const ClubBuyMethod = ({
   form,
   configStore,
   skuPromotions,
@@ -32,6 +32,7 @@ const AutoshipBuyMethod = ({
   const handleToClubTab = () => {
     toClubTab();
   };
+  console.log(form.frequencyId, skuPromotions, 'skuPromotions...')
   return (
     <div
       className={`buyMethod rc-margin-bottom--xs d-flex row align-items-center 3 ml-0 mr-0 ui-cursor-pointer-pure ${
@@ -135,4 +136,4 @@ const AutoshipBuyMethod = ({
   );
 };
 
-export default AutoshipBuyMethod;
+export default ClubBuyMethod;
