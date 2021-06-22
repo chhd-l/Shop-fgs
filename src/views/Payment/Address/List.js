@@ -309,17 +309,13 @@ class AddressList extends React.Component {
             }
             // 修改地址
             editaddObj = await editAddress(v);
-            console.log('666  length: ', addressList.length + '  ' + i);
-            if (addressList.length == i + 1) {
-              this.setState({
-                loading: false
-              });
-            }
+            // console.log('666  length: ', addressList.length + '  ' + i);
+            // if (addressList.length == i + 1) {
+            //   this.setState({
+            //     loading: false
+            //   });
+            // }
           }
-        } else {
-          this.setState({
-            loading: false
-          });
         }
       });
       // 更新delivery address保存次数
@@ -337,6 +333,9 @@ class AddressList extends React.Component {
         () => {
           // this.updateSelectedData();
           // this.confirmToNextPanel({ init });
+          this.setState({
+            loading: false
+          });
         }
       );
     } catch (err) {

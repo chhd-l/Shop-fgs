@@ -927,6 +927,7 @@ const es_ES = {
   clubSubscribe: 'Suscribir',
   subscribeDiscount: 'Subscription Save Discount',
   subscription: 'Suscripción',
+  'subscription.restart': 'reiniciar',
   'subscription.BillingAddress': 'Dirección de facturación',
   'subscription.cancelAll': 'Cancelar todo',
   'subscription.change': 'Cambio',

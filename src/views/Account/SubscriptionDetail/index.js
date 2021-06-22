@@ -236,9 +236,9 @@ class SubscriptionDetail extends React.Component {
       });
     } else {
       let param = {
-        subscribeId: subDetail.subscribeId,
+        subscribeId: this.state.subDetail.subscribeId,
         billingAddressId: el.deliveryAddressId,
-        goodsItems: subDetail.goodsInfo.map((el) => {
+        goodsItems: this.state.subDetail.goodsInfo.map((el) => {
           return {
             skuId: el.skuId,
             subscribeNum: el.subscribeNum,
@@ -301,8 +301,9 @@ class SubscriptionDetail extends React.Component {
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       // 非激活状态就不展示
-      // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐
+      // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
       goodsInfo?.length == 1 &&
+        this.state.subDetail.petsLifeStageFlag == 1 &&
         this.state.isNotInactive &&
         this.setState({
           triggerShowChangeProduct: {
@@ -531,7 +532,7 @@ class SubscriptionDetail extends React.Component {
         this.setState({
           successTipVisible: false
         });
-        fn && fn();
+        typeof fn == 'function' && fn();
       }, 1000);
     } else {
       this.setState({
