@@ -541,7 +541,7 @@ class List extends React.Component {
       ...breedsPrefv,
       ...sterilizedPrefv
     ]?.join(' '); //要排序，因此这样写的==
-    const prefv1 = decodeURI(funcUrl({ name: prefv1 }) || '');
+    const prefv1 = decodeURI(funcUrl({ name: 'prefv1' }) || '');
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
 
     this.setState({
@@ -588,10 +588,6 @@ class List extends React.Component {
         curSearch ? `?${curSearch}` : ''
       }`;
     }
-
-    console.log('1111curSearch', cur);
-    console.log('1111prevSearch', prev);
-    console.log('1111nextSearch', next);
 
     this.setState({
       canonicalLink: Object.assign(this.state.canonicalLink, {
