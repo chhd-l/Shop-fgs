@@ -400,9 +400,10 @@ class List extends React.Component {
       });
     }
     const { category, keywords } = this.props.match.params;
-    const keywordsSearch = decodeURI(funcUrl({ name: 'q' }));
+    const keywordsSearch = decodeURI(funcUrl({ name: 'q' }) || '');
     if (
       keywordsSearch &&
+      dataLayer &&
       dataLayer[0] &&
       dataLayer[0].page &&
       dataLayer[0].page.type
@@ -469,8 +470,8 @@ class List extends React.Component {
       sizePrefvSeo = [];
     let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }));
-      const fvEles = decodeURI(funcUrl({ name: `prefv${index + 1}` }));
+      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
+      const fvEles = decodeURI(funcUrl({ name: `prefv${index + 1}` }) || '');
       ruFilterMap.attributesList.map((item) => {
         if (item.attributeName == fnEle) {
           if (fvEles.includes('|')) {
@@ -540,7 +541,7 @@ class List extends React.Component {
       ...breedsPrefv,
       ...sterilizedPrefv
     ]?.join(' '); //要排序，因此这样写的==
-    const prefv1 = decodeURI(funcUrl({ name: prefv1 }));
+    const prefv1 = decodeURI(funcUrl({ name: prefv1 }) || '');
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
 
     this.setState({
@@ -1054,7 +1055,7 @@ class List extends React.Component {
         for (let index = 0; index < prefnNum; index++) {
           const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }));
           const fvEles = decodeURI(
-            funcUrl({ name: `prefv${index + 1}` })
+            funcUrl({ name: `prefv${index + 1}` }) || ''
           ).split('|');
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
@@ -1201,10 +1202,10 @@ class List extends React.Component {
     let prefnParamListFromSearch = [];
     const prefnNum = (search.match(/prefn/gi) || []).length;
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }));
-      const fvEles = decodeURI(funcUrl({ name: `prefv${index + 1}` })).split(
-        '|'
-      );
+      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
+      const fvEles = decodeURI(
+        funcUrl({ name: `prefv${index + 1}` }) || ''
+      ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
