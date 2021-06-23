@@ -671,7 +671,7 @@ class List extends React.Component {
    * @param {string} param0 需要处理的search参数
    * @returns {string} 处理后的search字符串，eg:'a=1&b=2&c=3'
    */
-  removePrefnMultiFromSearch({ search } = {}) {
+  removePrefnMultiFromSearch({ search = '' } = {}) {
     let ret = search;
     const allSearchParam = transferToObject({ search });
     for (const key in allSearchParam) {
