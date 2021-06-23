@@ -18,7 +18,9 @@ const api = {
   addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
   getPrescriberSettingInfo: '/order/config/listSystemConfig', // 查询是否需要显示用户选择绑定prescriber弹框
   cancelEmail: '/customer/updateCustomerSendEmailFlag', // 取消用户邮箱绑定
-  getDeliveryDateAndTimeSlot: '/delivery/timeSlot' // 俄罗斯获取 DeliveryDate 和 TimeSlot
+  getDeliveryDateAndTimeSlot: '/delivery/timeSlot', // 俄罗斯获取 DeliveryDate 和 TimeSlot
+  getPickupCityList: '/pick-up/queryCity',
+  getPickupCityInfo: '/pick-up/queryCityFee'
 };
 
 export default api;
@@ -163,6 +165,21 @@ export function cancelEmailBind(parameter) {
 export function getDeliveryDateAndTimeSlot(parameter) {
   return axios({
     url: `${api.getDeliveryDateAndTimeSlot}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function getPickupCityList(parameter) {
+  return axios({
+    url: `${api.getPickupCityList}?keyword=${parameter.keyword}`,
+    method: 'get'
+  });
+}
+
+export function getPickupCityInfo(parameter) {
+  return axios({
+    url: `${api.getPickupCityInfo}`,
     method: 'post',
     data: parameter
   });

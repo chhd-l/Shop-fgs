@@ -743,7 +743,7 @@ const de_DE = {
   'payment.tomorrow': 'morgen',
 
   'payment.homeDelivery': 'Lieferung nach Hause',
-  'payment.pickUpDelivery': 'Abholung der Lieferung',
+  'payment.pickupDelivery': 'Abholung der Lieferung',
 
   'payment.staleDate': 'Bitte wiederholen Sie das Datum und die Lieferzeit',
 

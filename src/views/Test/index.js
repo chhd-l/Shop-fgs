@@ -6,7 +6,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
-import PickUp from '@/components/PickUp';
+import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { dynamicLoadCss, loadJS } from '@/utils/utils';
 
 import './index.less';
@@ -49,35 +49,15 @@ class Test extends React.Component {
   };
   componentWillUnmount() {}
   componentDidMount() {
-    // dynamicLoadCss('https://static.kak2c.ru/kak2c.pvz-map.css');
-    // loadJS({
-    //   url: 'https://static.kak2c.ru/kak2c.pvz-map.js',
-    //   type: 'text/javascript'
-    // });
-    // loadJS({
-    //   code: `function openKaktusWidget() {
-    //     window.kaktusMap.openWidget({
-    //       city_from: 'Москва',
-    //       city_to: 'Москва',
-    //       dimensions: {
-    //         height: 10,
-    //         width: 10,
-    //         depth: 10,
-    //       },
-    //       weight: 600
-    //     });
-    //   }
-
-    //   document.addEventListener('DOMContentLoaded', () => {
-    //     kaktusMap({
-    //       domain: 'shop4995727',
-    //       host: 'https://app.kak2c.ru'
-    //     });
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   kaktusMap({
+    //     domain: 'shop4995727',
+    //     host: '//app.kak2c.ru'
     //   });
+    // });
 
-    //   document.addEventListener('kaktusEvent', function (event) {
-    //     console.log(event.detail);
-    //   });`
+    // document.addEventListener('kaktusEvent', function (event) {
+    //   console.log('666 map event detail: ', event.detail);
     // });
 
     // 设置手机号输入限制
@@ -159,10 +139,7 @@ class Test extends React.Component {
     if (e.keyCode === 13) {
     }
   };
-  // 加载地图
-  loadMap = () => {
-    openKaktusWidget();
-  };
+
   render() {
     const { form, isValid, selectedOption } = this.state;
     return (
@@ -171,25 +148,15 @@ class Test extends React.Component {
         style={{ padding: '30px' }}
       >
         <br />
-        <button
-          onClick={() => {
-            this.loadMap();
-          }}
-        >
-          map
-        </button>
-        <div className="pickup_map_box">
-          <div id="kaktusMap" style={{ display: 'block' }}></div>
-        </div>
         <br />
         <br />
         <br />
-        {/* <PickUp /> */}
+        <HomeDeliveryOrPickUp />
         <br />
         <h1>0513</h1>
         <br />
         <br />
-        <h1>2021-06-22 13:59:18</h1>
+        <h1>2021-06-23 10:00:18</h1>
         <br />
         <br />
         <h2>{this.state.aaa && this.state.bbb}</h2>

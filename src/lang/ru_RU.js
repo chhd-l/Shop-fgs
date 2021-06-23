@@ -724,9 +724,11 @@ const ru_RU = {
   'payment.tomorrow': 'завтра',
 
   'payment.homeDelivery': 'доставлять товары на дом',
-  'payment.pickUpDelivery': 'принимать поставку',
+  'payment.pickupDelivery': 'принимать поставку',
 
   'payment.reselectTimeSlot': 'Пожалуйста, укажите дату и время доставки.',
+
+  'payment.fillCityOfDelivery': 'заполнять город поставки',
 
   // 星期
   'payment.Monday': 'Понедельник',

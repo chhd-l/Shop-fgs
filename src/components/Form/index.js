@@ -771,8 +771,8 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
 
-    // console.log('611 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
-    // console.log('611 newForm: ', newForm);
+    // console.log('666 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
+    // console.log('666 newForm: ', newForm);
     this.props.updateData(newForm);
   };
   // 下拉框选择
@@ -837,7 +837,10 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cform)
       },
       () => {
+        // console.log('666  key: '+key+' data: ',data);
         this.updateDataToProps(this.state.caninForm);
+        // 验证数据
+        this.validvalidationData(key, data.value);
       }
     );
   }

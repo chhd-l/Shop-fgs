@@ -5,7 +5,7 @@ import { toJS } from 'mobx';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
-import PickUp from '@/components/PickUp';
+import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { validData, transTime } from '@/utils/utils';
 import {
   getAddressBykeyWord,

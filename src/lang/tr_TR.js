@@ -650,7 +650,7 @@ const tr_TR = {
   'payment.tomorrow': 'Yarın...',
 
   'payment.homeDelivery': 'Ev teslimatı',
-  'payment.pickUpDelivery': 'Teslim alın.',
+  'payment.pickupDelivery': 'Teslim alın.',
 
   'payment.staleDate': 'Lütfen teslim tarihini ve zamanı tekrar edin',
 

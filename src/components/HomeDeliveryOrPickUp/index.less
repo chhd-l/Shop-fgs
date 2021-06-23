@@ -76,7 +76,6 @@ input:-webkit-autofill {
 
   }
 
-
 }
 
 #kaktusMap {
@@ -86,17 +85,24 @@ input:-webkit-autofill {
 // PC端地图
 .pickup_map_box {
   display: block;
+  // width: 490px;
+  width: 100%;
+  height: 505px;
+  display: none;
+  margin-bottom: 1.5rem !important;
 
   #kaktusMap {
-    display: block !important;
     width: 100%;
+    height: 505px;
+    display: none;
 
     .css-1xuqurl {
-      position: relative !important;
       background: none;
+      z-index: 99;
 
       .css-e4xzu {
         box-shadow: none;
+        max-width: 100%;
         padding: 0;
 
         .modals-wrapper {
@@ -116,14 +122,54 @@ input:-webkit-autofill {
         display: none;
       }
 
-      .map-top-panel {
-        display: none;
+      // .map-top-panel {
+      //   display: none;
+      // }
+
+      .css-9zp9gv {
+        .map-bottom-panel {
+          .map-bottom-panel-buttons {
+            button {
+              border-radius: 30px;
+              border-color: #e2001a;
+
+              &.secondary {
+                background-color: #fff;
+                color: #e2001a;
+              }
+
+              &.primary {
+                background-color: #e2001a;
+                color: #fff;
+              }
+            }
+          }
+        }
+
+        .map-bottom-panel-address {
+          color: #b0b0b0;
+        }
+
+        .map-bottom-panel-worktime {
+          color: #b0b0b0;
+        }
       }
+
     }
   }
 }
 
+.pickup_map_box_relative {
+  display: block !important;
 
+  #kaktusMap {
+    display: block !important;
+
+    .css-1xuqurl {
+      position: relative !important;
+    }
+  }
+}
 
 @media (max-width: 960px) {
   .rc_form_box {
