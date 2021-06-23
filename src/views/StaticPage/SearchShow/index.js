@@ -4,8 +4,8 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { setSeoConfig, getParaByName } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
+import { setSeoConfig } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -29,8 +29,7 @@ class SearchShow extends React.Component {
   }
   componentWillUnmount() {}
   componentDidMount() {
-    const { search } = this.props.history.location;
-    const searchWords = decodeURI(getParaByName(search, 'q'));
+    const searchWords = decodeURI(funcUrl({ name: 'q' }));
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });

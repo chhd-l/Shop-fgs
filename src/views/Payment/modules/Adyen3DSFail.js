@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import url from 'url'
-import {
-  getParaByName
-} from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('paymentStore')
@@ -19,18 +17,14 @@ class Adyen3DSFail extends Component {
   }
   async componentDidMount() {
     try {
-    const { search } = this.props.history.location;
-    const tid = getParaByName(search, 'tid');
-    const subscribeId = getParaByName(search, 'subscribeId');
-    const tidList = getParaByName(search, 'tidList').split("|");
+      const tid = funcUrl({ name: 'tid' });
+      const subscribeId = funcUrl({ name: 'subscribeId' });
+      const tidList = funcUrl({ name: 'tidList' }).split('|');
 
       sessionItemRoyal.set('rc-tid', tid);
       sessionItemRoyal.set('rc-rePaySubscribeId', subscribeId);
-      sessionItemRoyal.set(
-          'rc-tidList',
-          JSON.stringify(tidList)
-        );
-        console.log({tid,subscribeId,tidList})
+      sessionItemRoyal.set('rc-tidList', JSON.stringify(tidList));
+      console.log({ tid, subscribeId, tidList });
       this.props.history.push('/checkout');
     } catch (err) {
       console.log(err);
