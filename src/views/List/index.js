@@ -13,10 +13,8 @@ import Footer from '@/components/Footer';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
-import Rate from '@/components/Rate';
 import Filters from './Filters';
 import FiltersPC from './FiltersPC';
-import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
 import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -30,7 +28,6 @@ import {
   queryStoreCateList,
   generateOptions,
   getParentNodesByChild,
-  formatMoney,
   getParaByName,
   getRequest,
   getDictionary,
@@ -43,187 +40,12 @@ import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 
-import smartFeeder from '@/assets/images/smart_feeder.png';
-
 const isHub = window.__.env.REACT_APP_HUB == '1';
 const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-
-function getMuntiImg(item) {
-  let img;
-  if (
-    item.goodsImg ||
-    item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0]
-      .goodsInfoImg
-  ) {
-    img =
-      item.goodsImg ||
-      item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0]
-        .goodsInfoImg;
-    return `${img.replace('.jpg', '_250.jpg')}, ${img} 2x`;
-  } else {
-    img = IMG_DEFAULT;
-    return `${img}`;
-  }
-}
-
-function ListItemH5ForGlobalStyle(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
-  return item && item.productFinder ? (
-    <div
-      className="rc-column rc-column-pad fr-mobile-product"
-      style={{ height: '300px' }}
-    >
-      <article
-        className="rc-card--product overflow-hidden"
-        style={{ minHeight: '120px' }}
-      >
-        <div className="fullHeight">
-          <span className="ui-cursor-pointer-pure">
-            <article className="rc-card--a  margin-top--5">
-              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
-                <div className="height-product-tile-plpOnly margin-top-mobile-20">
-                  <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
-                    <FormattedMessage id="plp.retail.cat.product.finder.title" />
-                  </h3>
-                </div>
-                <div
-                  className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
-                  style={{ fontSize: 'large', zIndex: 2 }}
-                >
-                  <FormattedMessage
-                    id="plp.retail.cat.product.finder.detail"
-                    values={{
-                      val: <br />
-                    }}
-                  />
-                </div>
-                <DistributeHubLinkOrATag
-                  href="/product-finder"
-                  to="/product-finder"
-                >
-                  <button
-                    className="rc-btn rc-btn--two margin-top-mobile-20"
-                    style={{ marginTop: '1.1875rem' }}
-                  >
-                    <FormattedMessage id="plp.retail.cat.product.finder.button" />
-                  </button>
-                </DistributeHubLinkOrATag>
-                <picture className="rc-card__image">
-                  <div className="rc-padding-bottom--xs justify-content-center ">
-                    <div
-                      className="lazyload-wrapper"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        transform: 'translate(31%,-65%)'
-                      }}
-                    >
-                      <img
-                        src={
-                          isDogPage
-                            ? retailDog
-                            : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat-find@2x.jpeg`
-                        }
-                        className="ImgFitScreen pt-3"
-                        style={{
-                          maxWidth: '50%',
-                          maxHeight: '100%',
-                          width: isDogPage ? '175px' : '150px',
-                          height: 'auto',
-                          margin: 'auto'
-                        }}
-                        alt="Retail Products"
-                      />
-                    </div>
-                  </div>
-                </picture>
-              </div>
-            </article>
-          </span>
-        </div>
-      </article>
-    </div>
-  ) : (
-    <div className="rc-column rc-column-pad fr-mobile-product">
-      <article
-        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
-        style={{ minHeight: '120px' }}
-      >
-        {props.leftPromotionJSX}
-        {props.rightPromotionJSX}
-        <div className="h-100">
-          <Link
-            className="ui-cursor-pointer"
-            to={{
-              pathname: item
-                ? `/${
-                    item.lowGoodsName
-                      ? item.lowGoodsName.split(' ').join('-').replace('/', '')
-                      : ''
-                  }-${item.goodsNo}` + sourceParam
-                : '',
-              state: { GAListParam, historyBreads: breadListByDeco }
-            }}
-            onClick={props.onClick}
-          >
-            <article
-              className="rc-card--a rc-text--center text-center"
-              style={{ flexWrap: 'wrap' }}
-            >
-              {item ? (
-                <picture
-                  className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
-                  style={{
-                    marginLeft: '-.625rem',
-                    paddingLeft: '5px',
-                    paddingRight: '.9375rem',
-                    fontSize: '0'
-                  }}
-                >
-                  {/*循环遍历的图片*/}
-                  <LazyLoad style={{ width: '100%', height: '100%' }}>
-                    <img
-                      src={
-                        item.goodsImg || item.goodsInfos
-                          ? item.goodsImg ||
-                            item.goodsInfos.sort(
-                              (a, b) => a.marketPrice - b.marketPrice
-                            )[0].goodsInfoImg ||
-                            IMG_DEFAULT
-                          : ''
-                      }
-                      alt={item.goodsName}
-                      title={item.goodsName}
-                      className="ImgFitScreen"
-                      style={{
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        width: 'auto',
-                        height: 'auto',
-                        margin: 'auto'
-                      }}
-                    />
-                  </LazyLoad>
-                </picture>
-              ) : null}
-              {props.children}
-
-              {item && item.goodsNewSubtitle ? (
-                <div className="rc-card__meta text-center col-12 ui-text-overflow-line2 m-0">
-                  {item.goodsNewSubtitle}
-                </div>
-              ) : null}
-            </article>
-          </Link>
-        </div>
-      </article>
-    </div>
-  );
-}
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -373,207 +195,6 @@ function ListItemForDefault(props) {
           </Link>
         </div>
       </article>
-    </div>
-  );
-}
-function ListItemBodyH5ForGlobalStyle({ item }) {
-  return (
-    <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start pr-0">
-      <div className="product-name" title={item.goodsName}>
-        {item.goodsName}
-      </div>
-      {item.technologyOrBreedsAttr ? (
-        <div className="rc-card__meta">{item.technologyOrBreedsAttr}</div>
-      ) : null}
-      {item.fromPrice ? (
-        <div className="product-price">
-          <div className="card--product-contaner-price">
-            {item.toPrice ? (
-              <FormattedMessage
-                id="pirceRange"
-                values={{
-                  fromPrice: (
-                    <span className="contaner-price__value">
-                      {formatMoney(item.fromPrice)}
-                    </span>
-                  ),
-                  toPrice: (
-                    <span className="contaner-price__value">
-                      {formatMoney(item.toPrice)}
-                    </span>
-                  )
-                }}
-              />
-            ) : (
-              <span className="contaner-price__value">
-                {formatMoney(item.fromPrice)}
-              </span>
-            )}
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-function ListItemBody({ item, headingTag }) {
-  const goodHeading = `<${headingTag ? headingTag : 'h2'}
-      class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center pl-4 pr-4"
-      title="${item.goodsName}">
-      ${item.goodsName}
-  </${headingTag ? headingTag : 'h2'}>`;
-  const defaultJSX = (
-    <>
-      <div className="height-product-tile-plpOnly">
-        <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-        {/*商品描述*/}
-        <h6
-          className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
-          style={{ color: '#4a4a4a' }}
-          title={item.goodsNewSubtitle}
-        >
-          {item.goodsNewSubtitle}
-        </h6>
-      </div>
-      {/*商品评分和评论数目*/}
-      <div
-        className={`d-flex align-items-center justify-content-center rc-card__price RateFitScreen`}
-      >
-        <div>
-          <Rate def={item.avgEvaluate} disabled={true} marginSize="smallRate" />
-        </div>
-        <span className="comments rc-margin-left--xs rc-text-colour--text">
-          ({item.goodsEvaluateNum})
-        </span>
-      </div>
-      <br />
-      <div
-        className="text-center NameFitScreen"
-        style={{
-          color: '#4a4a4a',
-          opacity: item.goodsInfos ? item.goodsInfos.length : '' > 1 ? 1 : 0
-        }}
-      >
-        <FormattedMessage id="startFrom" />
-      </div>
-      {/*商品价格*/}
-      <div className={`d-flex justify-content-center`}>
-        <div className="rc-card__price text-left PriceFitScreen">
-          <div
-            className={`rc-full-width PriceFitScreen flex justify-content-center`}
-          >
-            <span
-              style={{
-                color: '#323232',
-                fontWeight: 400
-              }}
-              className="value sales"
-            >
-              {/* 最低marketPrice */}
-              {item.miMarketPrice ? formatMoney(item.miMarketPrice) : null}{' '}
-              {/* 划线价 */}
-              {item.miLinePrice && item.miLinePrice > 0 ? (
-                <span
-                  className="text-line-through rc-text-colour--text font-weight-lighter"
-                  style={{
-                    fontSize: '.8em'
-                  }}
-                >
-                  {formatMoney(item.miLinePrice)}
-                </span>
-              ) : null}
-            </span>
-          </div>
-          {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div
-              className="range position-relative SePriceScreen "
-              style={{ transform: 'translateX(24%)' }}
-            >
-              <span
-                style={{
-                  color: '#323232',
-                  fontWeight: 400
-                }}
-              >
-                {formatMoney(item.miSubscriptionPrice)}{' '}
-              </span>
-              <span
-                className="iconfont font-weight-bold red mr-1"
-                style={{
-                  fontSize: '.65em'
-                }}
-              >
-                &#xe675;
-              </span>
-              <span
-                className="red-text text-nowrap"
-                style={{
-                  fontSize: '.7em',
-                  transform: 'translateY(-50%)'
-                }}
-              >
-                <FormattedMessage id="autoshop" />
-              </span>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </>
-  );
-  return (
-    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0 pc-product-card">
-      {window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
-        <>
-          <div className="height-product-tile-plpOnly pl-4 pr-4">
-            <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-            {item.technologyOrBreedsAttr ? (
-              <p className="rc-card__meta text-center rc-padding-top--xs">
-                {item.technologyOrBreedsAttr}
-              </p>
-            ) : null}
-          </div>
-          {item.fromPrice ? (
-            <div className="d-flex justify-content-center pt-3 pb-3">
-              <div className="rc-card__price text-left PriceFitScreen">
-                <div className={`rc-full-width PriceFitScreen`}>
-                  <span className="value sales card--product-contaner-price">
-                    {item.toPrice ? (
-                      <FormattedMessage
-                        id="pirceRange"
-                        values={{
-                          fromPrice: (
-                            <span className="contaner-price__value">
-                              {formatMoney(item.fromPrice)}
-                            </span>
-                          ),
-                          toPrice: (
-                            <span className="contaner-price__value">
-                              {formatMoney(item.toPrice)}
-                            </span>
-                          )
-                        }}
-                      />
-                    ) : (
-                      <span className="contaner-price__value">
-                        {formatMoney(item.fromPrice)}
-                      </span>
-                    )}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ) : null}
-          {item.goodsNewSubtitle ? (
-            <div
-              className="rc-card__meta text-center ui-text-overflow-line2 col-12 pl-4 pr-4"
-              style={{ marginBottom: '.625rem' }}
-            >
-              {item.goodsNewSubtitle}
-            </div>
-          ) : null}
-        </>
-      ) : (
-        defaultJSX
-      )}
     </div>
   );
 }
@@ -759,7 +380,7 @@ class List extends React.Component {
       isVetProducts,
       retailProductLink,
       vetProductLink,
-      pageLink: '',
+      canonicalLink: { cur: '', prev: '', next: '' },
       listLazyLoadSection: 1,
       prefv1: '',
       keywordsSearch: '',
@@ -804,7 +425,8 @@ class List extends React.Component {
             : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
         cateId,
-        keywordsSearch
+        keywordsSearch,
+        currentPage: Number(this.funcUrl({ name: 'p' })) || 1
       },
       () => {
         this.initData();
@@ -829,6 +451,7 @@ class List extends React.Component {
       });
     });
 
+    // 除开prefn以外的其他参数
     let baseSearchStr = '';
 
     const allSearchParam = getRequest();
@@ -838,17 +461,15 @@ class List extends React.Component {
       }
     }
 
-    this.setState({ baseSearchStr });
+    // 点击filter，一律重置页码
+    this.setState({
+      baseSearchStr: this.remove_arg_from_url({
+        search: baseSearchStr,
+        name: 'p'
+      })
+    });
 
-    let tmpSearch = '';
     const prefnNum = (search.match(/prefn/gi) || []).length;
-    for (let index = 0; index < Math.min(prefnNum, 1); index++) {
-      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
-      const fvEles = decodeURI(
-        getParaByName(search, `prefv${index + 1}`)
-      ).split('|');
-      tmpSearch = `?prefn1=${fnEle}&prefv1=${fvEles.join('|')}`;
-    }
 
     // ru filter seo 定制化 ==
     let lifestagesPrefv = [],
@@ -931,12 +552,62 @@ class List extends React.Component {
     ]?.join(' '); //要排序，因此这样写的==
     const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
+
     this.setState({
-      pageLink: `${window.location.origin}${window.location.pathname}${tmpSearch}`,
       prefv1,
       animalType,
       sizePrefv: sizePrefv.join(' '),
       allPrefv
+    });
+  }
+
+  // canonical link logic
+  // 1. 去除prefn multi
+  // 2. 需要取值绝对地址
+  // 3. 使用generatePageLink方法生成当前页/上一页/下一页
+  handleCanonicalLink() {
+    const { currentPage } = this.state;
+    const curLink = this.generatePageLink(currentPage);
+    const prevLink = this.generatePageLink(currentPage - 1);
+    const nextLink = this.generatePageLink(currentPage + 1);
+    const cur = curLink
+      ? h(
+          this.removePrefnMultiFromSearch({
+            search: curLink.search
+          })
+        )
+      : '';
+    const prev = prevLink
+      ? h(
+          this.removePrefnMultiFromSearch({
+            search: prevLink.search
+          })
+        )
+      : '';
+    const next = nextLink
+      ? h(
+          this.removePrefnMultiFromSearch({
+            search: nextLink.search
+          })
+        )
+      : '';
+
+    function h(curSearch) {
+      return `${window.location.origin}${window.location.pathname}${
+        curSearch ? `?${curSearch}` : ''
+      }`;
+    }
+
+    console.log('1111curSearch', cur);
+    console.log('1111prevSearch', prev);
+    console.log('1111nextSearch', next);
+
+    this.setState({
+      canonicalLink: Object.assign(this.state.canonicalLink, {
+        cur,
+        prev,
+        next
+      })
     });
   }
 
@@ -990,7 +661,21 @@ class List extends React.Component {
       });
     }
   }
-
+  /**
+   * remove prefn[2-9|0], only remain prefn1, remove prefv[2-9|0], only remain prefv1
+   * @param {string} param0 需要处理的search参数
+   * @returns {string} 处理后的search字符串，eg:'a=1&b=2&c=3'
+   */
+  removePrefnMultiFromSearch({ search } = {}) {
+    let ret = [];
+    const allSearchParam = getRequest({ search });
+    for (const key in allSearchParam) {
+      if (!/^prefn[2-9|0]/.test(key) && !/^prefv[2-9|0]/.test(key)) {
+        ret.push(`${key}=${allSearchParam[key]}`);
+      }
+    }
+    return ret.join('&');
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -1023,6 +708,81 @@ class List extends React.Component {
     let lastItem = ret[ret.length - 1];
     if (lastItem) {
       lastItem.link = { pathname, search };
+    }
+
+    return ret;
+  }
+  get prevPageLink() {
+    return this.generatePageLink(this.state.currentPage - 1);
+  }
+  get nextPageLink() {
+    return this.generatePageLink(this.state.currentPage + 1);
+  }
+  funcUrl({ name, value, type }) {
+    const {
+      location: { pathname, search }
+    } = this.props;
+    var baseUrl = type == undefined ? pathname + '?' : '';
+    // var query = loca.search.substr(1);
+    var query = search.substr(1);
+    // 如果没有传参,就返回 search 值 不包含问号
+    if (name == undefined) {
+      return query;
+    }
+    // 如果没有传值,就返回要查询的参数的值
+    if (value == undefined) {
+      var val = query.match(new RegExp('(^|&)' + name + '=([^&]*)(&|$)'));
+      return val != null ? decodeURI(val[2]) : null;
+    }
+    var url;
+    if (query == '') {
+      // 如果没有 search 值,则返回追加了参数的 url
+      url = baseUrl + name + '=' + value;
+    } else {
+      // 如果没有 search 值,则在其中修改对应的值,并且去重,最后返回 url
+      var obj = {};
+      var arr = query.split('&');
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].split('=');
+        obj[arr[i][0]] = arr[i][1];
+      }
+      obj[name] = value;
+      url =
+        baseUrl +
+        JSON.stringify(obj)
+          .replace(/[\"\{\}]/g, '')
+          .replace(/\:/g, '=')
+          .replace(/\,/g, '&');
+    }
+    return url;
+  }
+  /**
+   * 根据传入的页码，生成link参数
+   * @param {number} page 页码
+   * @returns {object} {pathname, search} | null
+   */
+  generatePageLink(page) {
+    const {
+      location: { pathname, search }
+    } = this.props;
+    let param;
+    let ret = { pathname };
+    // 超过页码范围
+    if (page < 1 || page > this.state.totalPage) {
+      return null;
+    }
+    if (page > 1) {
+      // 如果存在p参数，则替换，否则新增
+      param = this.funcUrl({ name: 'p', value: page }).split('?')[1];
+    } else {
+      // 第一页总是移除p参数
+      param = this.remove_arg_from_url({ search: search.substr(1), name: 'p' });
+    }
+
+    if (param) {
+      ret = Object.assign(ret, {
+        search: `?${param}`
+      });
     }
 
     return ret;
@@ -1231,7 +991,6 @@ class List extends React.Component {
     this.setState({ filterModalVisible: status });
   }
   async initData() {
-    const { isDogPage } = this.state;
     const { pathname, search, state } = this.props.history.location;
     Promise.all([
       queryStoreCateList(),
@@ -1366,6 +1125,7 @@ class List extends React.Component {
             );
           }
         }
+
         this.setState(
           {
             sortList,
@@ -1482,118 +1242,6 @@ class List extends React.Component {
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
-    // 处理每个filter的router(处理url prefn/state)
-    // Array.from(tmpList, (pEle) => {
-    //   Array.from(pEle.attributesValueList, (cEle) => {
-    //     let hasRouter = true;
-    //     let filters = cloneDeep((state && state.filters) || []);
-    //     let prefnParamList = cloneDeep(prefnParamListFromSearch);
-
-    //     // 该子节点是否存在于prefn中
-    //     const targetPIdxForPrefn = prefnParamList.findIndex(
-    //       (p) => p.prefn === pEle.attributeName
-    //     );
-    //     const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
-    //     // 该子节点是否存在于state.filters中
-    //     const targetPIdxForState = filters.findIndex(
-    //       (p) => p.attributeId === pEle.attributeId
-    //     );
-    //     const targetPItemForState = filters[targetPIdxForState];
-    //     if (cEle.selected) {
-    //       // 该子节点被选中，
-    //       // 1.1 若存在于链接中，则从链接中移除
-    //       // 1.2 若存在于state中，则从state中移除
-    //       // 2 若移除后，子节点为空了，则移除该父节点
-    //       let idx;
-    //       if (targetPItemForPrefn) {
-    //         idx = targetPItemForPrefn.prefvs.findIndex(
-    //           (p) => p === cEle.attributeDetailNameEn
-    //         );
-    //         targetPItemForPrefn.prefvs.splice(idx, 1);
-    //         if (!targetPItemForPrefn.prefvs.length) {
-    //           prefnParamList.splice(targetPIdxForPrefn, 1);
-    //         }
-    //       } else if (targetPItemForState) {
-    //         idx = targetPItemForState.attributeValueIdList.findIndex(
-    //           (p) => p === cEle.id
-    //         );
-    //         targetPItemForState.attributeValueIdList.splice(idx, 1);
-    //         targetPItemForState.attributeValues.splice(idx, 1);
-    //         if (!targetPItemForState.attributeValueIdList.length) {
-    //           filters.splice(targetPIdxForState, 1);
-    //         }
-    //       }
-    //     } else {
-    //       // 该子节点未被选中，在链接中新增prefn/新增state
-    //       // 1 该父节点存在于链接中，
-    //       // 1-1 该子节点为多选，找出并拼接上该子节点
-    //       // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
-    //       // 2 该父节点不存在于链接中，直接新增
-
-    //       if (targetPItemForPrefn) {
-    //         if (pEle.choiceStatus === 'Single choice') {
-    //           targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
-    //         } else {
-    //           targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
-    //         }
-    //       } else if (targetPItemForState) {
-    //         if (pEle.choiceStatus === 'Single choice') {
-    //           targetPItemForState.attributeValueIdList = [cEle.id];
-    //           targetPItemForState.attributeValues = [
-    //             cEle.attributeDetailNameEn
-    //           ];
-    //         } else {
-    //           targetPItemForState.attributeValueIdList.push(cEle.id);
-    //           targetPItemForState.attributeValues.push(
-    //             cEle.attributeDetailNameEn
-    //           );
-    //         }
-    //       } else {
-    //         // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
-    //         if (prefnParamList.length < 1) {
-    //           prefnParamList.push({
-    //             prefn: pEle.attributeName,
-    //             prefvs: [cEle.attributeDetailNameEn]
-    //           });
-    //         } else {
-    //           // hasRouter = false;
-    //           filters.push({
-    //             attributeId: pEle.attributeId,
-    //             attributeName: pEle.attributeName,
-    //             attributeValueIdList: [cEle.id],
-    //             attributeValues: [cEle.attributeDetailNameEn],
-    //             filterType: pEle.filterType
-    //           });
-    //         }
-    //       }
-    //     }
-    //     const decoParam = prefnParamList.reduce(
-    //       (pre, cur) => {
-    //         return {
-    //           ret:
-    //             pre.ret +
-    //             `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join(
-    //               '|'
-    //             )}`,
-    //           i: ++pre.i
-    //         };
-    //       },
-    //       { i: 1, ret: '' }
-    //     );
-    //     cEle.router = hasRouter
-    //       ? {
-    //           pathname,
-    //           search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
-    //           state: {
-    //             filters
-    //           }
-    //         }
-    //       : null;
-    //     return cEle;
-    //   });
-    //   return pEle;
-    // });
-
     // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
@@ -1647,19 +1295,37 @@ class List extends React.Component {
           },
           { i: 1, ret: '' }
         );
+
+        const search = decoParam.ret
+          ? `?${baseSearchStr ? `${baseSearchStr}&` : ''}${decoParam.ret.substr(
+              1
+            )}`
+          : `?${baseSearchStr}`;
         cEle.router = {
           pathname,
-          search: decoParam.ret
-            ? `?${
-                baseSearchStr ? `${baseSearchStr}&` : ''
-              }${decoParam.ret.substr(1)}`
-            : `?${baseSearchStr}`
+          // 点击filter，都重置为第一页，删除p查询参数
+          search: `?${this.remove_arg_from_url({
+            search: search.substr(1),
+            name: 'p'
+          })}`
         };
         return cEle;
       });
       return pEle;
     });
     this.setState({ filterList: allFilterList, initingFilter: false });
+  }
+  // 删除某个查询参数
+  remove_arg_from_url({ search, name }) {
+    //从当前URL的?号开始的字符串
+    //如:http://www.baidu.com/s?wd=baidu&cl=3 它的search就是?wd=baidu&cl=3
+
+    //如果没有参数则返回空
+    if (search != undefined) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+      return search.replace(reg, '');
+    }
+    return '';
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1893,10 +1559,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1922,6 +1589,7 @@ class List extends React.Component {
               totalPage: esGoodsPage.totalPages
             },
             () => {
+              this.handleCanonicalLink();
               // plp页面初始化埋点
               this.hubGA
                 ? this.hubGAProductImpression(
@@ -1982,14 +1650,7 @@ class List extends React.Component {
   }
 
   hanldePageNumChange = ({ currentPage }) => {
-    let lazyLoadSection = this.state.listLazyLoadSection + 1;
-    this.setState(
-      {
-        currentPage,
-        listLazyLoadSection: lazyLoadSection
-      },
-      () => this.getProductList('pageChange')
-    );
+    this.props.history.push(this.generatePageLink(currentPage));
   };
 
   hanldeItemClick(item, index) {
@@ -2040,15 +1701,6 @@ class List extends React.Component {
       () => this.getProductList()
     );
   };
-  updateOperatedFilterList = (data) => {
-    // 触发点击或跳转页面事件
-    this.setState(
-      { filterList: data, currentPage: 1, actionFromFilter: true },
-      () => {
-        this.getProductList();
-      }
-    );
-  };
   hanldePriceSliderChange = (val) => {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -2069,7 +1721,7 @@ class List extends React.Component {
   };
   render() {
     const { breadListByDeco, lastBreadListName } = this;
-    const { pageLink } = this.state;
+    const { canonicalLink } = this.state;
     const {
       history,
       configStore: { maxGoodsPrice }
@@ -2138,7 +1790,14 @@ class List extends React.Component {
           />
         )}
         <Helmet>
-          <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={canonicalLink.cur} />
+          {canonicalLink.prev ? (
+            <link rel="prev" href={canonicalLink.prev} />
+          ) : null}
+          {canonicalLink.next ? (
+            <link rel="next" href={canonicalLink.next} />
+          ) : null}
+
           <title>{this.state.prefv1 ? filterSeoTitle : titleSeo}</title>
           <meta
             name="description"
@@ -2312,7 +1971,6 @@ class List extends React.Component {
                           filterList={filterList}
                           key={`2-${filterList.length}`}
                           inputLabelKey={2}
-                          updateParentData={this.updateOperatedFilterList}
                           hanldePriceSliderChange={this.hanldePriceSliderChange}
                           markPriceAndSubscriptionLangDict={
                             markPriceAndSubscriptionLangDict
@@ -2328,7 +1986,6 @@ class List extends React.Component {
                           filterList={filterList}
                           key={`2-${filterList.length}`}
                           inputLabelKey={2}
-                          updateParentData={this.updateOperatedFilterList}
                           hanldePriceSliderChange={this.hanldePriceSliderChange}
                           markPriceAndSubscriptionLangDict={
                             markPriceAndSubscriptionLangDict
@@ -2457,6 +2114,8 @@ class List extends React.Component {
                             key={this.state.currentPage}
                             totalPage={this.state.totalPage}
                             onPageNumChange={this.hanldePageNumChange}
+                            prevPageLink={this.prevPageLink}
+                            nextPageLink={this.nextPageLink}
                           />
                         </div>
                       </div>

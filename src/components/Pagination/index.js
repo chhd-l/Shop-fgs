@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+
+function Item({ className, onClick, to, children }) {
+  return to ? (
+    <Link to={to} className={className}>
+      {children}
+    </Link>
+  ) : (
+    <span className={className} onClick={onClick}>
+      {children}
+    </span>
+  );
+}
 
 export default class Pagination extends Component {
   static defaultProps = {
     totalPage: 1,
     defaultCurrentPage: 1,
-    loading: false
+    loading: false,
+    prevPageLink: null,
+    nextPageLink: null
   };
   constructor(props) {
     super(props);
@@ -14,9 +29,8 @@ export default class Pagination extends Component {
     };
 
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this);
-    this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(
-      this
-    );
+    this.handleCurrentPageNumChange =
+      this.handleCurrentPageNumChange.bind(this);
   }
   handleCurrentPageNumChange(e) {
     if (this.props.loading) {
@@ -87,11 +101,14 @@ export default class Pagination extends Component {
               aria-label="Previous step"
             />
           ) : (
-            <div
-              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-              aria-label="Previous step"
-              onClick={this.handlePrevOrNextPage.bind(this, 'prev')}
-            />
+            <>
+              <Item
+                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                ariaLabel="Previous step"
+                onClick={this.handlePrevOrNextPage.bind(this, 'prev')}
+                to={this.props.prevPageLink}
+              />
+            </>
           )}
           <div className="d-flex align-items-center">
             <input
@@ -111,10 +128,13 @@ export default class Pagination extends Component {
               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
             />
           ) : (
-            <span
-              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-              onClick={this.handlePrevOrNextPage.bind(this, 'next')}
-            />
+            <>
+              <Item
+                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                onClick={this.handlePrevOrNextPage.bind(this, 'next')}
+                to={this.props.nextPageLink}
+              />
+            </>
           )}
         </div>
       </nav>

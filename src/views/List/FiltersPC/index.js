@@ -12,7 +12,6 @@ class Filter extends React.Component {
     initing: true,
     filterList: [],
     baseSearchStr: '',
-    updateParentData: () => {},
     maxGoodsPrice: 100,
     markPriceAndSubscriptionLangDict: []
   };
@@ -22,8 +21,6 @@ class Filter extends React.Component {
       filterList: props.filterList
     };
     this.toggleContent = this.toggleContent.bind(this);
-    this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
-    this.handleClickValueItem = this.handleClickValueItem.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
   get hasSelecedItems() {
@@ -63,61 +60,9 @@ class Filter extends React.Component {
     // });
   }
 
-  hanldeClickRemoveAll() {
-    let { filterList } = this.state;
-    Array.from(filterList, (parentEle) => {
-      Array.from(
-        parentEle.attributesValueList ||
-          parentEle.storeGoodsFilterValueVOList ||
-          [],
-        (childEle) => {
-          childEle.selected = false;
-          return childEle;
-        }
-      );
-      return parentEle;
-    });
-
-    this.setState(
-      {
-        filterList
-      },
-      () => this.props.updateParentData(this.state.filterList)
-    );
-    this.handleClickCloseBtn();
-  }
   handleClickCloseBtn = () => {
     this.props.onToggleFilterModal(false);
   };
-  handleClickValueItem({ parentItem, item, isRemoveOperate = false }) {
-    // radio情况下 点击删除应置为false
-    let { filterList } = this.state;
-    if (parentItem.choiceStatus === 'Multiple choice') {
-      item.selected = !item.selected;
-    } else if (parentItem.choiceStatus === 'Single choice') {
-      // 同级其他设置为false
-      Array.from(
-        parentItem.attributesValueList ||
-          parentItem.storeGoodsFilterValueVOList ||
-          [],
-        (ele) => {
-          ele.selected = false;
-          return ele;
-        }
-      );
-      if (isRemoveOperate) {
-        item.selected = false;
-      } else {
-        item.selected = true;
-      }
-    }
-    this.setState(
-      {
-        filterList
-      },
-      () => this.props.updateParentData(this.state.filterList)
-    );
-  }
 
   FilterClick(parentItem, item) {
     //hub filter点击埋点
@@ -153,10 +98,6 @@ class Filter extends React.Component {
               type="checkbox"
               name="checkbox"
               checked={childItem.selected}
-              onChange={this.handleClickValueItem.bind(this, {
-                parentItem,
-                item: childItem
-              })}
             />
             <label
               className="rc-input__label--inline"
@@ -176,10 +117,6 @@ class Filter extends React.Component {
               type="checkbox"
               name="checkbox"
               checked={childItem.selected}
-              onChange={this.handleClickValueItem.bind(this, {
-                parentItem,
-                item: childItem
-              })}
             />
             <label
               className="rc-input__label--inline"
@@ -210,10 +147,6 @@ class Filter extends React.Component {
               id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
               type="radio"
               checked={childItem.selected}
-              onChange={this.handleClickValueItem.bind(this, {
-                parentItem,
-                item: childItem
-              })}
             />
             <label
               className="rc-input__label--inline"
@@ -241,10 +174,6 @@ class Filter extends React.Component {
               id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
               type="radio"
               checked={childItem.selected}
-              onChange={this.handleClickValueItem.bind(this, {
-                parentItem,
-                item: childItem
-              })}
             />
             <label
               className="rc-input__label--inline"
@@ -308,29 +237,12 @@ class Filter extends React.Component {
                             {cItem.router ? (
                               <Link to={cItem.router}>
                                 {cItem.attributeDetailNameEn}
-                                <em
-                                  className="filter-remove"
-                                  // onClick={this.handleClickValueItem.bind(this, {
-                                  //   parentItem: pItem,
-                                  //   item: cItem,
-                                  //   isRemoveOperate: true
-                                  // })}
-                                />
+                                <em className="filter-remove" />
                               </Link>
                             ) : (
                               <span>
                                 {cItem.attributeDetailNameEn}
-                                <em
-                                  className="filter-remove"
-                                  onClick={this.handleClickValueItem.bind(
-                                    this,
-                                    {
-                                      parentItem: pItem,
-                                      item: cItem,
-                                      isRemoveOperate: true
-                                    }
-                                  )}
-                                />
+                                <em className="filter-remove" />
                               </span>
                             )}
                           </li>
@@ -347,7 +259,6 @@ class Filter extends React.Component {
                   <Link
                     to={{ pathname, search: `?${baseSearchStr}` }}
                     className="rc-styled-link js-clear-filter"
-                    // onClick={this.hanldeClickRemoveAll}
                   >
                     <FormattedMessage id="removeAllFilters" />
                   </Link>
