@@ -254,7 +254,7 @@ class ClubLandingPageDe extends React.Component {
                     >
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit1} className="desktop30vw" />
+                          <img src={dehowit1} className="dehowit01" />
                         </LazyLoad>
                       </div>
                       <div
@@ -292,9 +292,9 @@ class ClubLandingPageDe extends React.Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                         className="desktop30vw orderthree"
                       >
-                        <p>
-                          Geben Sie Ihren individuellen Empfehlungscode unten
-                          auf dieser Seite ein.
+                        <p style={{ textAlign: 'right' }}>
+                          Geben Sie Ihren individuellen <br /> Empfehlungscode
+                          unten auf dieser Seite ein.
                         </p>
                       </div>
                       <div
@@ -312,7 +312,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit2} className="desktop30vw" />
+                          <img src={dehowit2} className="dehowit02" />
                         </LazyLoad>
                       </div>
                     </div>
@@ -323,7 +323,7 @@ class ClubLandingPageDe extends React.Component {
                     >
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit3} className="desktop30vw" />
+                          <img src={dehowit3} className="dehowit03" />
                         </LazyLoad>
                       </div>
                       <div
@@ -358,7 +358,7 @@ class ClubLandingPageDe extends React.Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                         className="desktop30vw orderthree"
                       >
-                        <p>
+                        <p style={{ textAlign: 'right' }}>
                           Wählen Sie Ihre gewünschte Zahlungsmethode aus und
                           schließen Sie Ihre ROYAL CANIN® Bestellung ab. Sie
                           erhalten Ihre bestellte Nahrung innerhalb von 1-3
@@ -380,7 +380,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit4} className="desktop30vw" />
+                          <img src={dehowit4} className="dehowit04" />
                         </LazyLoad>
                       </div>
                     </div>
@@ -414,7 +414,7 @@ class ClubLandingPageDe extends React.Component {
                         style={{
                           boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE'
                         }}
-                        className="widthsmall deskmargintop10vh"
+                        className="widthsmall dedeskmargintop10vh"
                       >
                         <div className="deskheight15vh">
                           <div
@@ -476,7 +476,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div
                         style={{
-                          height: '78vh',
+                          height: '68vh',
                           boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
                         }}
                       >
@@ -490,7 +490,7 @@ class ClubLandingPageDe extends React.Component {
                             style={{
                               display: 'flex',
                               marginLeft: '3vw',
-                              marginTop: '10vh'
+                              marginTop: '7vh'
                             }}
                           >
                             <div>
