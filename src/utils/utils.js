@@ -776,8 +776,8 @@ export function matchNamefromDict(dictList = [], id) {
 
 //例如 ： http://localhost:3000/mother-&-babycat-2544?utm_source=vanityURL&utm_medium=leaflet&utm_campaign=shelter108782
 //转化成:  {utm_source: "vanityURL", utm_medium: "leaflet", utm_campaign: "shelter108782"}
-export function getRequest() {
-  var url = window.location.search;
+export function getRequest({ search = window.location.search } = {}) {
+  var url = search;
   var jsonList = {};
   if (url.indexOf('?') > -1) {
     var str = url.slice(url.indexOf('?') + 1);

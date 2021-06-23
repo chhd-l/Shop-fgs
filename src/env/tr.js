@@ -183,7 +183,10 @@ const env = {
 
     // #static/design language文件放置位置
     REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
+
+    // #支付成功跳转的地址
+    REACT_APP_SUCCESSFUL_URL: 'https://shopuat.royalcanin.com/tr'
   },
   shopstg: {
     // #okta
