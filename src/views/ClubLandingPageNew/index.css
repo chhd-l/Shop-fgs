@@ -131,6 +131,12 @@
 }
 
 @media (min-width: 639.98px) {
+  .detextalignright {
+    text-align: right;
+  }
+  .dewithsmall {
+    height: 60vh;
+  }
   .dehowit01 {
     width: 25vw;
     margin-left: 2.5vw;
@@ -176,6 +182,9 @@
   .deskheight22vh {
     height: 22vh;
   }
+  .dedeskheight22vh {
+    height: 18vh;
+  }
   .deskheight15vh {
     height: 15vh;
   }
@@ -183,7 +192,7 @@
     margin-top: 10vh;
   }
   .dedeskmargintop10vh {
-    margin-top: 4.1vh;
+    margin-top: 7.1vh;
   }
 }
 
