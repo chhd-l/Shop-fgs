@@ -802,6 +802,7 @@ const GoodsDetailTabs = function (props) {
       id="GoodsDetailTabs"
       className="rc-max-width--xl rc-padding-x--sm"
       style={{ position: 'relative' }}
+      data-tms="Product description"
     >
       <div
         id="j-details-for-club"

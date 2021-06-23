@@ -10,7 +10,7 @@ import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp/index.js';
-import { getParaByName } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import SubDetailHeader from './components/SubDetailHeader';
 import SubGoodsInfos from './components/SubGoodsInfos';
 import UserPaymentInfo from './components/UserPaymentInfo';
@@ -293,7 +293,7 @@ class SubscriptionDetail extends React.Component {
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
     let needBindPet =
-      getParaByName(search, 'needBindPet') ||
+      funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
       // 需要在异步的setstate之后执行

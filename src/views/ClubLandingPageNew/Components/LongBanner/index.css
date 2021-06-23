@@ -22,7 +22,7 @@
 
 @media (min-width: 639.98px) {
   .clubmobile {
-    height: 945px;
+    height: 975px;
     background-image: url('./image/Bitmap@4x.png');
     background-size: cover;
     overflow: hidden;
@@ -32,13 +32,13 @@
   .desknone {
     display: none;
   }
-  .longbannerwidth266{
+  .longbannerwidth266 {
   }
   .transformmobile10px {
     margin-top: 30px;
     margin-left: 13vw;
   }
-  .trmarginleft10vw{
+  .trmarginleft10vw {
     width: 266.07px;
     text-align: center;
   }

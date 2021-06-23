@@ -24,13 +24,13 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  getParaByName,
   loadJS,
   getDictionary,
   filterObjectValue,
   isCountriesContainer,
   getClubFlag
 } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
@@ -182,14 +182,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -277,12 +271,11 @@ class Details extends React.Component {
   }
 
   getUrlParam() {
-    const { search } = this.props.history.location;
-    const utmSource = getParaByName(search, 'utm_source');
-    const utmMedium = getParaByName(search, 'utm_medium');
-    const utmCampaign = getParaByName(search, 'utm_campaign');
-    const prefixFn = getParaByName(search, 'prefn1');
-    const prefixBreed = getParaByName(search, 'prefv1');
+    const utmSource = funcUrl({ name: 'utm_source' });
+    const utmMedium = funcUrl({ name: 'utm_medium' });
+    const utmCampaign = funcUrl({ name: 'utm_campaign' });
+    const prefixFn = funcUrl({ name: 'prefn1' });
+    const prefixBreed = funcUrl({ name: 'prefv1' });
     const requestJson = {
       utmSource,
       utmMedium,
@@ -296,14 +289,8 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
-    let {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo,
-      form
-    } = this.state;
+    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
+      this.state;
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem.subscriptionStatus && form.buyWay > 0) {
@@ -740,13 +727,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
