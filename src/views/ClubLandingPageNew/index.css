@@ -131,6 +131,9 @@
 }
 
 @media (min-width: 639.98px) {
+  .demarginleft {
+    text-align: center;
+  }
   .detextalignright {
     text-align: right;
   }
