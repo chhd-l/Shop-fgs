@@ -517,7 +517,8 @@ class ClubLandingPageDe extends React.Component {
                                 style={{
                                   fontSize: '28px',
                                   fontWeight: 'bolder',
-                                  color: '#E2001A'
+                                  color: '#E2001A',
+                                  marginBottom: '0px'
                                 }}
                               >
                                 Regelmäßige
