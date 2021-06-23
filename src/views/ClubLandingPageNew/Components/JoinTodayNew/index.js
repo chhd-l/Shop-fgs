@@ -4,6 +4,7 @@ import joinusnewlogo from './image/joinusnewlogo.png';
 import rulogo from '../../image/CLUB_logoRU@2x.png';
 import joinusnewright from './image/joinusnewright.png';
 import joinusnewru from './image/joinusnewrightru.png';
+import joinusnewtr from './image/joinusnewrighttr.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -96,6 +97,15 @@ const JoinTodayNew = () => {
                                 maxHeight: '90%',
                                 maxWidth: '90%',
                                 marginLeft: '3vw'
+                              }}
+                            />
+                          ) : window.__.env.REACT_APP_COUNTRY == 'tr' ? (
+                            <img
+                              src={joinusnewtr}
+                              style={{
+                                maxHeight: '90%',
+                                maxWidth: '90%',
+                                marginLeft: '5vw'
                               }}
                             />
                           ) : (
