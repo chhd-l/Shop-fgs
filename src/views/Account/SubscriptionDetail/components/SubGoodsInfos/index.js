@@ -65,7 +65,7 @@ const SubGoodsInfos = ({
       showErrMsg(errMsg);
     }
   };
-  const changeQuantity = () => {
+  const changeQuantity = (e, el, index) => {
     if (subDetail.subscribeStatus !== '0') {
       return;
     }
@@ -213,7 +213,7 @@ const SubGoodsInfos = ({
                       max="899"
                       maxLength="5"
                       onChange={(e) => {
-                        changeQuantity();
+                        changeQuantity(e, el, index);
                       }}
                       value={el.subscribeNum}
                     />
@@ -360,7 +360,7 @@ const SubGoodsInfos = ({
                                 max="899"
                                 maxLength="5"
                                 onChange={(e) => {
-                                  changeQuantity(e);
+                                  changeQuantity(e, el, index);
                                 }}
                                 value={el.subscribeNum}
                               />
