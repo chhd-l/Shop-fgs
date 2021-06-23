@@ -8,9 +8,17 @@ import benefitsthree from './image/benefitsthree.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
+import { getDeviceType } from '../../../../utils/utils';
+
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const SubTitles = {
-  title: <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle" />
+  title: (
+    <FormattedMessage
+      id="ClubLP.LongBanner.SubscriptionTitle"
+      values={{ val: isMobile ? <></> : <br /> }}
+    />
+  )
 };
 const LogoShows = {
   logo: (
