@@ -51,7 +51,7 @@ const env = {
     REACT_APP_DEFAULT_COUNTRYID: 1969,
 
     // #下单流程是否需要clinic
-    REACT_APP_CHECKOUT_WITH_CLINIC: true,
+    REACT_APP_CHECKOUT_WITH_CLINIC: 'true',
 
     // #PLP cover style
     REACT_APP_PLP_STYLE: 'layout-global',
