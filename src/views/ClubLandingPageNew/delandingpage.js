@@ -416,7 +416,7 @@ class ClubLandingPageDe extends React.Component {
                         }}
                         className="dewidthsmall dedeskmargintop10vh"
                       >
-                        <div className="deskheight15vh getmorebutton">
+                        <div className=" getmorebutton">
                           <div
                             style={{
                               display: 'flex',
@@ -489,13 +489,13 @@ class ClubLandingPageDe extends React.Component {
                           style={{
                             marginRight: '5vh'
                           }}
-                          className="dedeskheight22vh"
                         >
                           <div
                             style={{
                               display: 'flex',
                               marginLeft: '3vw',
-                              marginTop: '7vh'
+                              marginTop: '7vh',
+                              marginBottom: '2vh'
                             }}
                           >
                             <div>
