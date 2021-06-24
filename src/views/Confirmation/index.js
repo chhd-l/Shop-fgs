@@ -648,13 +648,13 @@ class Confirmation extends React.Component {
             this.setState({ oxxoModalShow: false });
           }}
         />
-        <AdyenOxxoModal
+        {/* <AdyenOxxoModal
           visible={this.state.oxxoModalShow}
           action={this.state.adyenOxxoAction}
           close={() => {
             this.setState({ oxxoModalShow: false });
           }}
-        />
+        /> */}
       </div>
     );
   }

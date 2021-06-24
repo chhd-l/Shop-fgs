@@ -182,8 +182,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -289,8 +295,14 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
-    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
-      this.state;
+    let {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo,
+      form
+    } = this.state;
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem.subscriptionStatus && form.buyWay > 0) {
@@ -472,6 +484,21 @@ class Details extends React.Component {
               images
             },
             async () => {
+              // vet商品，不可销售，并且展示在前台的情况下，获取envCode,去请求cc.js
+              const hub = window.__.env.REACT_APP_HUB === '1';
+              const vetGood = res.context.goods?.goodsType === 3;
+              const goodsInfoBarcode =
+                res.context.goodsInfos?.[0]?.goodsInfoBarcode;
+              if (hub && vetGood) {
+                let vetBarcode = goodsInfoBarcode
+                  ? goodsInfoBarcode
+                  : '3182550751148'; //暂时临时填充一个code,因为没有值，按钮将不会显示;
+                this.setState({
+                  barcode: vetBarcode
+                });
+                this.loadWidgetIdBtn(vetBarcode);
+              }
+
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
                 //设置延时获取BazaarVoice dom节点
@@ -727,8 +754,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
