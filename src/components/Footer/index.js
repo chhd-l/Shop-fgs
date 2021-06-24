@@ -69,7 +69,11 @@ class Footer extends React.Component {
   };
   footerInfo = () => {
     return (
-      <footer className="rc-bg-colour--interface-dark" id="footer">
+      <footer
+        className="rc-bg-colour--interface-dark"
+        id="footer"
+        data-tms="Footer"
+      >
         <div className="rc-max-width--xl rc-scroll--y">
           <div className="rc-layout-container rc-three-column rc-md-up">
             <div className="rc-column rc-text--right">

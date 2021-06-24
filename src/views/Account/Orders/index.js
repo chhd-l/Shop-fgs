@@ -18,9 +18,9 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate,
-  getParaByName
+  getFormatDate
 } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
@@ -95,8 +95,7 @@ class AccountOrders extends React.Component {
       this.setState({ seoConfig: res });
     });
 
-    let search = this.props.location.search;
-    let orderId = search && getParaByName(search, 'orderId');
+    const orderId = funcUrl({ name: 'orderId' });
     if (orderId) {
       let res = await getOrderList({ id: orderId });
       let hasDetails = res.context?.content?.length;
@@ -925,7 +924,7 @@ class AccountOrders extends React.Component {
                                         <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
                                       </div>
                                     )}
-                                    {order.subscribeId && !isGift ? (
+                                    {/* {order.subscribeId && !isGift ? (
                                       <div className="col-12 text-right rc-md-up">
                                         <Link
                                           to={`/account/subscription/order/detail/${order.subscribeId}`}
@@ -941,7 +940,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </Link>
                                       </div>
-                                    ) : null}
+                                    ) : null} */}
                                   </div>
                                 </div>
                               );

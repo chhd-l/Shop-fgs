@@ -13,8 +13,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
-import Filters from './Filters';
-import FiltersPC from './FiltersPC';
+import { Filters, FiltersPC } from './modules';
 import cloneDeep from 'lodash/cloneDeep';
 import flatMap from 'lodash/flatMap';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -28,14 +27,13 @@ import {
   queryStoreCateList,
   generateOptions,
   getParentNodesByChild,
-  getParaByName,
-  getRequest,
   getDictionary,
   setSeoConfig,
   getDeviceType,
   loadJS,
   filterObjectValue
 } from '@/utils/utils';
+import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -394,17 +392,18 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
-    const cateId = getParaByName(search, 'cateId');
-    const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
+    const cateId = funcUrl({ name: 'cateId' });
+    const utm_source = funcUrl({ name: 'utm_source' }); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
     if (utm_source) {
       this.setState({
         sourceParam: search
       });
     }
     const { category, keywords } = this.props.match.params;
-    const keywordsSearch = decodeURI(getParaByName(search, 'q'));
+    const keywordsSearch = decodeURI(funcUrl({ name: 'q' }) || '');
     if (
       keywordsSearch &&
+      dataLayer &&
       dataLayer[0] &&
       dataLayer[0].page &&
       dataLayer[0].page.type
@@ -426,7 +425,7 @@ class List extends React.Component {
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || '',
         cateId,
         keywordsSearch,
-        currentPage: Number(this.funcUrl({ name: 'p' })) || 1
+        currentPage: Number(funcUrl({ name: 'p' })) || 1
       },
       () => {
         this.initData();
@@ -452,18 +451,10 @@ class List extends React.Component {
     });
 
     // 除开prefn以外的其他参数
-    let baseSearchStr = '';
-
-    const allSearchParam = getRequest();
-    for (const key in allSearchParam) {
-      if (!key.includes('prefn') && !key.includes('prefv')) {
-        baseSearchStr += `${key}=${allSearchParam[key]}`;
-      }
-    }
-
+    const baseSearchStr = this.removePrefnFromSearch();
     // 点击filter，一律重置页码
     this.setState({
-      baseSearchStr: this.remove_arg_from_url({
+      baseSearchStr: removeArgFromUrl({
         search: baseSearchStr,
         name: 'p'
       })
@@ -479,8 +470,8 @@ class List extends React.Component {
       sizePrefvSeo = [];
     let sizePrefv = []; //用于ga filter 传参size
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
-      const fvEles = decodeURI(getParaByName(search, `prefv${index + 1}`));
+      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
+      const fvEles = decodeURI(funcUrl({ name: `prefv${index + 1}` }) || '');
       ruFilterMap.attributesList.map((item) => {
         if (item.attributeName == fnEle) {
           if (fvEles.includes('|')) {
@@ -550,7 +541,7 @@ class List extends React.Component {
       ...breedsPrefv,
       ...sterilizedPrefv
     ]?.join(' '); //要排序，因此这样写的==
-    const prefv1 = decodeURI(getParaByName(search, 'prefv1'));
+    const prefv1 = decodeURI(funcUrl({ name: 'prefv1' }) || '');
     const animalType = this.state.isDogPage ? 'dog' : 'cat';
 
     this.setState({
@@ -597,10 +588,6 @@ class List extends React.Component {
         curSearch ? `?${curSearch}` : ''
       }`;
     }
-
-    console.log('1111curSearch', cur);
-    console.log('1111prevSearch', prev);
-    console.log('1111nextSearch', next);
 
     this.setState({
       canonicalLink: Object.assign(this.state.canonicalLink, {
@@ -662,19 +649,33 @@ class List extends React.Component {
     }
   }
   /**
+   * 移除以prefn或prefv开头的查询参数
+   * @returns {string}
+   */
+  removePrefnFromSearch() {
+    const allSearchParam = transferToObject();
+    let ret = funcUrl();
+    for (const key in allSearchParam) {
+      if (/^prefn/.test(key) || /^prefv/.test(key)) {
+        ret = removeArgFromUrl({ search: ret, name: key });
+      }
+    }
+    return ret;
+  }
+  /**
    * remove prefn[2-9|0], only remain prefn1, remove prefv[2-9|0], only remain prefv1
    * @param {string} param0 需要处理的search参数
    * @returns {string} 处理后的search字符串，eg:'a=1&b=2&c=3'
    */
-  removePrefnMultiFromSearch({ search } = {}) {
-    let ret = [];
-    const allSearchParam = getRequest({ search });
+  removePrefnMultiFromSearch({ search = '' } = {}) {
+    let ret = search;
+    const allSearchParam = transferToObject({ search });
     for (const key in allSearchParam) {
-      if (!/^prefn[2-9|0]/.test(key) && !/^prefv[2-9|0]/.test(key)) {
-        ret.push(`${key}=${allSearchParam[key]}`);
+      if (/^prefn[2-9|0]/.test(key) || /^prefv[2-9|0]/.test(key)) {
+        ret = removeArgFromUrl({ search: ret, name: key });
       }
     }
-    return ret.join('&');
+    return ret.replace(/^\?/gi, '');
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -718,44 +719,6 @@ class List extends React.Component {
   get nextPageLink() {
     return this.generatePageLink(this.state.currentPage + 1);
   }
-  funcUrl({ name, value, type }) {
-    const {
-      location: { pathname, search }
-    } = this.props;
-    var baseUrl = type == undefined ? pathname + '?' : '';
-    // var query = loca.search.substr(1);
-    var query = search.substr(1);
-    // 如果没有传参,就返回 search 值 不包含问号
-    if (name == undefined) {
-      return query;
-    }
-    // 如果没有传值,就返回要查询的参数的值
-    if (value == undefined) {
-      var val = query.match(new RegExp('(^|&)' + name + '=([^&]*)(&|$)'));
-      return val != null ? decodeURI(val[2]) : null;
-    }
-    var url;
-    if (query == '') {
-      // 如果没有 search 值,则返回追加了参数的 url
-      url = baseUrl + name + '=' + value;
-    } else {
-      // 如果没有 search 值,则在其中修改对应的值,并且去重,最后返回 url
-      var obj = {};
-      var arr = query.split('&');
-      for (var i = 0; i < arr.length; i++) {
-        arr[i] = arr[i].split('=');
-        obj[arr[i][0]] = arr[i][1];
-      }
-      obj[name] = value;
-      url =
-        baseUrl +
-        JSON.stringify(obj)
-          .replace(/[\"\{\}]/g, '')
-          .replace(/\:/g, '=')
-          .replace(/\,/g, '&');
-    }
-    return url;
-  }
   /**
    * 根据传入的页码，生成link参数
    * @param {number} page 页码
@@ -773,10 +736,10 @@ class List extends React.Component {
     }
     if (page > 1) {
       // 如果存在p参数，则替换，否则新增
-      param = this.funcUrl({ name: 'p', value: page }).split('?')[1];
+      param = funcUrl({ name: 'p', value: page, type: 1 });
     } else {
       // 第一页总是移除p参数
-      param = this.remove_arg_from_url({ search: search.substr(1), name: 'p' });
+      param = removeArgFromUrl({ search: search.substr(1), name: 'p' });
     }
 
     if (param) {
@@ -1086,9 +1049,9 @@ class List extends React.Component {
         // 解析prefn/prefv, 匹配filter, 设置默认选中值
         const prefnNum = (search.match(/prefn/gi) || []).length;
         for (let index = 0; index < prefnNum; index++) {
-          const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+          const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }));
           const fvEles = decodeURI(
-            getParaByName(search, `prefv${index + 1}`)
+            funcUrl({ name: `prefv${index + 1}` }) || ''
           ).split('|');
           const tItem = this.handledAttributeDetailNameEn(res[3] || []).filter(
             (r) => r.attributeName === fnEle
@@ -1235,9 +1198,9 @@ class List extends React.Component {
     let prefnParamListFromSearch = [];
     const prefnNum = (search.match(/prefn/gi) || []).length;
     for (let index = 0; index < prefnNum; index++) {
-      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+      const fnEle = decodeURI(funcUrl({ name: `prefn${index + 1}` }) || '');
       const fvEles = decodeURI(
-        getParaByName(search, `prefv${index + 1}`)
+        funcUrl({ name: `prefv${index + 1}` }) || ''
       ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
@@ -1304,7 +1267,7 @@ class List extends React.Component {
         cEle.router = {
           pathname,
           // 点击filter，都重置为第一页，删除p查询参数
-          search: `?${this.remove_arg_from_url({
+          search: `?${removeArgFromUrl({
             search: search.substr(1),
             name: 'p'
           })}`
@@ -1314,18 +1277,6 @@ class List extends React.Component {
       return pEle;
     });
     this.setState({ filterList: allFilterList, initingFilter: false });
-  }
-  // 删除某个查询参数
-  remove_arg_from_url({ search, name }) {
-    //从当前URL的?号开始的字符串
-    //如:http://www.baidu.com/s?wd=baidu&cl=3 它的search就是?wd=baidu&cl=3
-
-    //如果没有参数则返回空
-    if (search != undefined) {
-      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
-      return search.replace(reg, '');
-    }
-    return '';
   }
   initFilterSelectedSts({
     seletedValList,
@@ -1559,11 +1510,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -2015,6 +1965,7 @@ class List extends React.Component {
                   </div>
                   <div
                     className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
+                    data-tms="Pagination"
                   >
                     {!loading && (
                       <>
