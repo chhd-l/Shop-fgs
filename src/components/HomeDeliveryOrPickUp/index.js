@@ -38,7 +38,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       pickUpBtnLoading: false,
       pickUpBoxPosition: '',
       homeAndPickup: [],
-      PickupCity: ''
+      pickupCity: '',
+      selectedItem: null // 记录选择的内容
     };
   }
   componentDidMount() {
@@ -55,25 +56,136 @@ class HomeDeliveryOrPickUp extends React.Component {
       console.log('666 map event detail: ', event.detail);
       // this.props.updateConfirmBtnDisabled(false);
     });
+
+    let sitem = sessionItemRoyal.get('rc_homeDeliveryAndPickup') || null;
+    // 初始化
+    if (sitem) {
+      sitem = JSON.parse(sitem);
+      let stype = '';
+      sitem?.homeAndPickup.forEach((v, i) => {
+        if (v.selected) {
+          stype = v.type;
+        }
+      });
+      this.setState(
+        {
+          selectedItem: sitem,
+          homeAndPickup: sitem.homeAndPickup,
+          pickupCity: sitem.city.city
+        },
+        () => {
+          this.setItemStatus(stype);
+        }
+      );
+    }
   }
-  componentDidUpdate(newPros, newState) {
-    console.log(newPros, newState);
-  }
+  // 重置地图父盒子定位
   resetPara = () => {
     this.setState({
       pickUpBoxPosition: ''
     });
   };
-  handleChange = (e) => {
+  // 搜索下拉选择
+  handlePickupCitySelectChange = async (data) => {
+    let res = null;
+    this.setState({
+      hdpuLoading: true
+    });
+    try {
+      res = await getPickupCityInfo(data);
+      if (res.context?.tariffs) {
+        // 先重置参数
+        this.props.updateDeliveryOrPickup(0);
+        this.setState(
+          {
+            homeAndPickup: [],
+            pickUpBoxPosition: ''
+          },
+          () => {
+            // type: 'COURIER'=> home delivery、'PVZ'=> pickup
+            let obj = res.context.tariffs;
+            let hdpu = [];
+            obj.forEach((v, i) => {
+              let type = v.type;
+              if (type == 'COURIER' || type == 'PVZ') {
+                type == 'COURIER'
+                  ? (v.type = 'homeDelivery')
+                  : (v.type = 'pickup');
+                hdpu.push(v);
+              }
+            });
+            let item = {
+              city: data,
+              homeAndPickup: hdpu
+            };
+
+            this.setState(
+              {
+                pickupCity: data.city,
+                homeAndPickup: hdpu,
+                selectedItem: Object.assign({}, item)
+              },
+              () => {
+                sessionItemRoyal.set(
+                  'rc_homeDeliveryAndPickup',
+                  JSON.stringify(item)
+                );
+              }
+            );
+          }
+        );
+      }
+    } catch (err) {
+      console.warn(err);
+    } finally {
+      this.setState({
+        hdpuLoading: false
+      });
+    }
+  };
+  // 单选按钮选择
+  handleRadioChange = (e) => {
+    const { selectedItem } = this.state;
     let val = e.currentTarget?.value;
-    if (val == 'pickup') {
+
+    let sitem = Object.assign({}, selectedItem);
+    sitem?.homeAndPickup.forEach((v, i) => {
+      if (v.type == val) {
+        v['selected'] = true;
+      } else {
+        v['selected'] = false;
+      }
+    });
+    this.setState(
+      {
+        selectedItem: Object.assign({}, sitem)
+      },
+      () => {
+        sessionItemRoyal.set('rc_homeDeliveryAndPickup', JSON.stringify(sitem));
+        this.setItemStatus(val);
+      }
+    );
+  };
+  // 设置状态
+  setItemStatus = (val) => {
+    const { selectedItem } = this.state;
+    if (val == 'homeDelivery') {
+      this.props.updateDeliveryOrPickup(1);
+      this.props.updateConfirmBtnDisabled(false);
+      this.setState({
+        pickUpBoxPosition: '',
+        hdpuLoading: false
+      });
+    } else if (val == 'pickup') {
       this.setState({
         hdpuLoading: true
       });
       // 打开地图
       window.kaktusMap.openWidget({
-        city_from: 'Москва',
-        city_to: 'Санкт-Петербург',
+        // city_from: 'Москва',
+        // city_to: 'Санкт-Петербург',
+        city_from: selectedItem.city.city,
+        city_to: selectedItem.city.city,
         dimensions: {
           height: 10,
           width: 10,
@@ -88,53 +200,16 @@ class HomeDeliveryOrPickUp extends React.Component {
         });
       }, 3000);
       this.props.updateDeliveryOrPickup(2);
-    } else {
-      this.props.updateDeliveryOrPickup(1);
-      this.props.updateConfirmBtnDisabled(false);
-      this.setState({
-        pickUpBoxPosition: '',
-        hdpuLoading: false
-      });
-    }
-  };
-  handlePickupCityInputChange = async (data) => {
-    let res = null;
-    this.setState({
-      hdpuLoading: true
-    });
-    try {
-      res = await getPickupCityInfo(data);
-      if (res.context?.tariffs) {
-        // type: 'COURIER'=> home delivery、'PVZ'=> pickup
-        let obj = res.context.tariffs;
-        let hdpu = [];
-        obj.forEach((v, i) => {
-          let type = v.type;
-          if (type == 'COURIER' || type == 'PVZ') {
-            type == 'COURIER' ? (v.type = 'homeDelivery') : (v.type = 'pickup');
-            hdpu.push(v);
-          }
-        });
-        this.setState({
-          homeAndPickup: hdpu
-        });
-      }
-    } catch (err) {
-      console.warn(err);
-    } finally {
-      this.setState({
-        hdpuLoading: false
-      });
     }
   };
   render() {
     const {
-      PickupCity,
       hdpuLoading,
       pickUpBoxPosition,
+      pickupCity,
       homeAndPickup
     } = this.state;
-    console.log('666 intlMessages: ', this.props.intlMessages);
+
     return (
       <>
         {hdpuLoading ? <Loading /> : null}
@@ -152,15 +227,14 @@ class HomeDeliveryOrPickUp extends React.Component {
                       (res?.context && res?.context?.pickUpQueryCityDTOs) ||
                       []
                     ).map((ele) => Object.assign(ele, { name: ele.city }));
-
                     return robj;
                   }}
                   selectedItemChange={(data) =>
-                    this.handlePickupCityInputChange(data)
+                    this.handlePickupCitySelectChange(data)
                   }
-                  key="pickupCity"
-                  defaultValue={PickupCity}
-                  value={PickupCity}
+                  key={pickupCity}
+                  defaultValue={pickupCity}
+                  value={pickupCity}
                   freeText={false}
                   name="pickupCity"
                   placeholder={
@@ -183,9 +257,10 @@ class HomeDeliveryOrPickUp extends React.Component {
                         className="rc-input__radio"
                         value={item.type}
                         id={item.type}
+                        checked={item.selected}
                         type="radio"
                         name="homeDeliveryOrPickUp"
-                        onChange={this.handleChange}
+                        onChange={this.handleRadioChange}
                       />
                       <label
                         className="rc-input__label--inline"
@@ -234,7 +309,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                   id="pickUpDelivery"
                   type="radio"
                   name="homeDeliveryOrPickUp"
-                  onChange={this.handleChange}
+                  onChange={this.handleRadioChange}
                 />
                 <label
                   className="rc-input__label--inline"

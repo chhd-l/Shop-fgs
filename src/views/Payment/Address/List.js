@@ -182,7 +182,7 @@ class AddressList extends React.Component {
   };
   // 更新 isDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    console.log('666 updateDeliveryOrPickup: ', num);
+    // console.log('666 updateDeliveryOrPickup: ', num);
     this.setState({
       isDeliveryOrPickUp: num
     });
