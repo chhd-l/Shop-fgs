@@ -117,8 +117,8 @@ class AddressPreview extends React.Component {
                     <FormattedMessage id="payment.deliveryFee" />:{' '}
                     {formatMoney(form?.calculation?.deliveryPrice)}
                   </p>
-                  {form?.calculation?.minDeliveryTime && (
-                    <>
+                  {!form.timeSlot && form?.calculation?.minDeliveryTime && (
+                    <p className="preview_delivery_date">
                       {form?.calculation?.minDeliveryTime ==
                       form?.calculation?.maxDeliveryTime ? (
                         <FormattedMessage
@@ -136,7 +136,7 @@ class AddressPreview extends React.Component {
                           }}
                         />
                       )}
-                    </>
+                    </p>
                   )}
                 </>
               )}
@@ -147,7 +147,7 @@ class AddressPreview extends React.Component {
             )}
 
             {/* time slot */}
-            {form?.timeSlot && (
+            {form.timeSlot && (
               <p className="preview_time_slot">{form.timeSlot}</p>
             )}
           </>
