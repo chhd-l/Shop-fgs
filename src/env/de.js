@@ -95,7 +95,7 @@ const env_de = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      ' a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test',
+      'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/de'
