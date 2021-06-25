@@ -131,14 +131,14 @@ const ENV = ALL_ENV[countryKey][envKey];
 const BASE_ENV = ALL_ENV[countryKey]['base'];
 
 let envVal = {
-  env: Object.assign(ENV, BASE_ENV, GLOBAL_ENV)
+  env: Object.assign(BASE_ENV, ENV, GLOBAL_ENV)
 };
 
 if (process.env.NODE_ENV === 'development') {
   const ENV = ALL_ENV[countryKey][envKey];
   const BASE_ENV = ALL_ENV[countryKey]['base'];
   envVal = {
-    env: Object.assign(ENV, BASE_ENV, ENV_LOCAL, GLOBAL_ENV)
+    env: Object.assign(BASE_ENV, ENV, ENV_LOCAL, GLOBAL_ENV)
   };
 }
 
