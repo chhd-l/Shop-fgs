@@ -2,6 +2,7 @@ import RedirectUrlJSON_fr from '../fr';
 import RedirectUrlJSON_ru from '../ru';
 import RedirectUrlJSON_tr from '../tr';
 import fgsJSON_fr from '../fr/fgs';
+import temp_hub_fr from '../fr/temp_hub';
 
 let New_RedirectUrlJSON_fr = { ...RedirectUrlJSON_fr };
 
@@ -11,6 +12,16 @@ if (
 ) {
   //说明是法国fgs环境,加上fgs环境需要加上的跳转链接
   for (let item of fgsJSON_fr.RECORDS) {
+    New_RedirectUrlJSON_fr.RECORDS.push(item);
+  }
+}
+
+if (
+  window.__.env.REACT_APP_COUNTRY == 'fr' &&
+  window.__.env.REACT_APP_HUB == 1
+) {
+  //说明是法国hub环境,加上hub环境需要加上的跳转链接
+  for (let item of temp_hub_fr.RECORDS) {
     New_RedirectUrlJSON_fr.RECORDS.push(item);
   }
 }
