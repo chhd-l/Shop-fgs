@@ -118,15 +118,43 @@
   .Lpflexrow {
     flex-direction: row;
   }
-  .demarigintop10px{
+  .demarigintop10px {
     margin-top: 10px;
   }
-  .defontsize24px{
+  .defontsize24px {
     font-size: 24px;
+  }
+  .dehowit03 {
+    width: 70vw;
+    margin-left: 13vw;
   }
 }
 
 @media (min-width: 639.98px) {
+  .demarginleft {
+    text-align: center;
+  }
+  .detextalignright {
+    text-align: right;
+  }
+  .dehowit01 {
+    width: 25vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+  }
+  .dehowit02 {
+    width: 18.75vw;
+    margin-right: 11.25vw;
+  }
+  .dehowit03 {
+    width: 14.1vw;
+    margin-right: 1.95vw;
+    margin-left: 13.95vw;
+  }
+  .dehowit04 {
+    width: 18.75vw;
+    margin-right: 11.25vw;
+  }
   .desktop30vw {
     width: 30vw;
   }
@@ -154,11 +182,17 @@
   .deskheight22vh {
     height: 22vh;
   }
+  .dedeskheight22vh {
+    height: 18vh;
+  }
   .deskheight15vh {
-    height: 15vh;
+    height: 13vh;
   }
   .deskmargintop10vh {
     margin-top: 10vh;
+  }
+  .dedeskmargintop10vh {
+    align-self: center;
   }
 }
 

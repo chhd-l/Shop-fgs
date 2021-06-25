@@ -494,6 +494,7 @@ const es_ES = {
   menu: 'menú',
   miniBasket: 'Mini Cesta',
   'mixed Breed': 'raza Mixta',
+  'Mixed Breed': 'Raza Mixta',
   MMYY: 'MM/AA',
   modalCancelAllContent:
     '¿Está seguro de que desea cancelar todas las entregas siguientes?',
@@ -1131,6 +1132,8 @@ const es_ES = {
   'subscription.all': 'Todas',
   'subscription.autoship': 'Autoenvío',
   'subscription.club': 'club',
-  searchShow: 'Resultados de la búsqueda'
+  searchShow: 'Resultados de la búsqueda',
+  'account.yes': 'Sí',
+  'account.no': 'No'
 };
 export default es_ES;

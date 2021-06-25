@@ -10,6 +10,11 @@ import { getSearch } from '@/api/hub';
 import querySearch from '../mock/search';
 import axios from 'axios';
 import { cancelPrevRequest } from '@/utils/utils';
+import {
+  GAInstantSearchFieldClick,
+  GAInstantSearchResultDisplay,
+  GAInstantSearchResultClick
+} from '@/utils/GA.js';
 
 const isHub = window.__.env.REACT_APP_HUB === '1';
 let sessionItemRoyal = window.__.sessionItemRoyal;
@@ -76,6 +81,23 @@ export default class Search extends React.Component {
     ])
       .then((res) => {
         let goodsContent = [];
+
+        let productResultNum = res[0]?.context?.esGoodsPage?.totalElements || 0;
+        let contentResultTitle = res[1]?.data?.FeaturedItems?.[0]?.Title;
+        let contentResultNum =
+          typeof contentResultTitle == 'string'
+            ? Number(
+                contentResultTitle.split(' ')[
+                  contentResultTitle.split(' ').length - 1
+                ]
+              )
+            : 0;
+        GAInstantSearchResultDisplay({
+          query: keywords,
+          productResultNum,
+          contentResultNum
+        });
+
         const esGoodsPage =
           res[0] && res[0].context && res[0].context.esGoodsPage;
         if (esGoodsPage && esGoodsPage.content.length) {
@@ -163,13 +185,33 @@ export default class Search extends React.Component {
   };
 
   hanldeSearchFocus = () => {
-    this.hubGA &&
-      dataLayer.push({
-        event: 'topPictosClick',
-        topPictosClick: {
-          itemName: 'Type and search'
-        }
-      });
+    // this.hubGA &&
+    //   dataLayer.push({
+    //     event: 'topPictosClick',
+    //     topPictosClick: {
+    //       itemName: 'Type and search'
+    //     }
+    //   });
+    GAInstantSearchFieldClick();
+  };
+  doGAInstantSearchResultClick = (type, item, idx, e) => {
+    GAInstantSearchResultClick({
+      type,
+      name: item.goodsName,
+      position: idx + 1
+    });
+    this.props.history.push({
+      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
+        item.goodsNo
+      }`,
+      state: {
+        GAListParam: 'Search Results'
+      }
+    });
+  };
+  doGAInstantSearchResultClick2 = (type, item, idx, e) => {
+    GAInstantSearchResultClick({ type, name: item.Title, position: idx + 1 });
+    location.href = item.Url;
   };
 
   renderResultJsx() {
@@ -188,9 +230,18 @@ export default class Search extends React.Component {
                   {result.productList.length ? (
                     result.productList.map((item, idx) => (
                       <div className="col-12 item" key={item.id + idx}>
-                        <div className="row">
+                        <div
+                          className="row"
+                          onClick={() =>
+                            this.doGAInstantSearchResultClick(
+                              'Product',
+                              item,
+                              idx
+                            )
+                          }
+                        >
                           <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                            <Link
+                            <div
                               className="ui-cursor-pointer"
                               style={{ width: '100%' }}
                               onClick={() => {
@@ -200,15 +251,15 @@ export default class Search extends React.Component {
                                 localStorage.removeItem('pfls');
                                 localStorage.removeItem('pfls-before');
                               }}
-                              to={{
-                                pathname: `/${item.lowGoodsName
-                                  .split(' ')
-                                  .join('-')
-                                  .replace('/', '')}-${item.goodsNo}`,
-                                state: {
-                                  GAListParam: 'Search Results'
-                                }
-                              }}
+                              // to={{
+                              //   pathname: `/${item.lowGoodsName
+                              //     .split(' ')
+                              //     .join('-')
+                              //     .replace('/', '')}-${item.goodsNo}`,
+                              //   state: {
+                              //     GAListParam: 'Search Results'
+                              //   }
+                              // }}
                             >
                               <LazyLoad>
                                 <img
@@ -225,10 +276,10 @@ export default class Search extends React.Component {
                                   }
                                 />
                               </LazyLoad>
-                            </Link>
+                            </div>
                           </div>
                           <div className="col-8 col-md-9 col-lg-10">
-                            <Link
+                            <div
                               onClick={() => {
                                 sessionItemRoyal.remove('pr-question-params');
                                 sessionItemRoyal.remove('pf-result');
@@ -236,21 +287,21 @@ export default class Search extends React.Component {
                                 localStorage.removeItem('pfls');
                                 localStorage.removeItem('pfls-before');
                               }}
-                              to={{
-                                pathname: `/${item.lowGoodsName
-                                  .split(' ')
-                                  .join('-')
-                                  .replace('/', '')}-${item.goodsNo}`,
-                                state: {
-                                  GAListParam: 'Search Results'
-                                }
-                              }}
+                              // to={{
+                              //   pathname: `/${item.lowGoodsName
+                              //     .split(' ')
+                              //     .join('-')
+                              //     .replace('/', '')}-${item.goodsNo}`,
+                              //   state: {
+                              //     GAListParam: 'Search Results'
+                              //   }
+                              // }}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.goodsName}
                               title={item.goodsName}
                             >
                               {item.goodsName}
-                            </Link>
+                            </div>
                             <div className="rc-meta searchProductKeyword" />
                           </div>
                         </div>
@@ -287,8 +338,12 @@ export default class Search extends React.Component {
                       className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                       alt={item.Title}
                       title={item.Title}
-                      href={item.Url}
+                      //href={item.Url}
+                      href="javascript:;"
                       key={i}
+                      onClick={() =>
+                        this.doGAInstantSearchResultClick2('Content', item, i)
+                      }
                     >
                       {item.Title}
                     </a>

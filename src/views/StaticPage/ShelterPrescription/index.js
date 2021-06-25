@@ -14,7 +14,8 @@ import qualityPng from './images/quality.png';
 import partnershipPng from './images/partnership.png';
 import { getList } from '@/api/list';
 import mockData from './mock.json';
-import { formatMoney, getParaByName } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 import Slider from 'react-slick';
 // import Rate from '@/components/Rate';
@@ -43,24 +44,19 @@ class ShelterPrescription extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle: this.props.intl.messages[
-        'recommendation.helpContentText.emailTitle'
-      ],
-      emailDes: this.props.intl.messages[
-        'recommendation.helpContentText.emailDes'
-      ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ],
-      phoneTitle: this.props.intl.messages[
-        'recommendation.helpContentText.phoneTitle'
-      ],
+      emailTitle:
+        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
+      emailDes:
+        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailLink:
+        this.props.intl.messages['recommendation.helpContentText.emailLink'],
+      phoneTitle:
+        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes2'
-      ]
+      phoneDes2:
+        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
       // title: "We're Here to Help",
       // emailLink: '/help/contact',
       // des:
@@ -87,7 +83,7 @@ class ShelterPrescription extends React.Component {
       this.setState({ seoConfig: res });
     });
 
-    let clinicId = getParaByName(location.search, 'shelterID');
+    let clinicId = funcUrl({ name: 'shelterID' });
     this.props.clinicStore.setLinkClinicId(clinicId);
     this.props.clinicStore.setLinkClinicName('');
     this.props.clinicStore.setAuditAuthority(false);

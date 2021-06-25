@@ -3,12 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
-import {
-  getParaByName,
-  getDeviceType,
-  generateOptions,
-  getDictionary
-} from '@/utils/utils';
+import { getDeviceType, generateOptions, getDictionary } from '@/utils/utils';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';

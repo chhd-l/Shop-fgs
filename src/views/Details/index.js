@@ -24,13 +24,13 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  getParaByName,
   loadJS,
   getDictionary,
   filterObjectValue,
   isCountriesContainer,
   getClubFlag
 } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
@@ -219,10 +219,12 @@ class Details extends React.Component {
   }
 
   setDefaultPurchaseType({ id }) {
-    const { promotions, details, frequencyList } = this.state;
-    const targetDefaultPurchaseTypeItem = this.state.purchaseTypeDict.filter(
-      (ele) => ele.id && id && ele.id + '' === id + ''
-    )[0];
+    const { promotions, details, frequencyList, purchaseTypeDict } = this.state;
+    console.log(purchaseTypeDict, 'purchaseTypeDict...', id);
+    const targetDefaultPurchaseTypeItem =
+      purchaseTypeDict.filter(
+        (ele) => ele.id && id && ele.id + '' === id + ''
+      )[0] || purchaseTypeDict.filter((ele) => ele.name === 'None')[0];
     const { configStore, checkoutStore } = this.props;
     let defaultPurchaseType = 0;
     if (targetDefaultPurchaseTypeItem) {
@@ -275,12 +277,11 @@ class Details extends React.Component {
   }
 
   getUrlParam() {
-    const { search } = this.props.history.location;
-    const utmSource = getParaByName(search, 'utm_source');
-    const utmMedium = getParaByName(search, 'utm_medium');
-    const utmCampaign = getParaByName(search, 'utm_campaign');
-    const prefixFn = getParaByName(search, 'prefn1');
-    const prefixBreed = getParaByName(search, 'prefv1');
+    const utmSource = funcUrl({ name: 'utm_source' });
+    const utmMedium = funcUrl({ name: 'utm_medium' });
+    const utmCampaign = funcUrl({ name: 'utm_campaign' });
+    const prefixFn = funcUrl({ name: 'prefn1' });
+    const prefixBreed = funcUrl({ name: 'prefv1' });
     const requestJson = {
       utmSource,
       utmMedium,
@@ -448,7 +449,6 @@ class Details extends React.Component {
             },
             () => {
               this.handleBreadCrumbsData();
-              console.log(this.state.details, 'defaultFrequencyId');
               this.setDefaultPurchaseType({
                 id:
                   goodsRes.defaultPurchaseType ||
@@ -484,6 +484,23 @@ class Details extends React.Component {
               images
             },
             async () => {
+              // 不可销售，并且展示在前台的商品，获取envCode,去请求cc.js
+              const { goods, goodsInfos } = res.context;
+              const notSaleGoods =
+                window.__.env.REACT_APP_HUB === '1' &&
+                !goods.saleableFlag &&
+                goods.displayFlag;
+              const goodsInfoBarcode = goodsInfos?.[0]?.goodsInfoBarcode;
+              if (notSaleGoods) {
+                let barcode = goodsInfoBarcode
+                  ? goodsInfoBarcode
+                  : '3182550751148'; //暂时临时填充一个code,因为没有值，按钮将不会显示;
+                this.setState({
+                  barcode
+                });
+                this.loadWidgetIdBtn(barcode);
+              }
+
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
                 //设置延时获取BazaarVoice dom节点
@@ -563,7 +580,6 @@ class Details extends React.Component {
   }
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
-
     const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     const vetWidgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;

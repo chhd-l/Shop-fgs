@@ -68,20 +68,6 @@ export function formatMoney(
   }).format(val);
 }
 
-export function getParaByName(search, name) {
-  search = search.substr(1);
-  if (typeof name === 'undefined') return search;
-  let searchArr = search.split('&');
-  for (let i = 0; i < searchArr.length; i++) {
-    let searchStr = searchArr[i];
-    searchArr[i] = searchStr.split('=');
-    if (searchArr[i][0] === name) {
-      return searchStr.replace(name + '=', '');
-    }
-  }
-  return '';
-}
-
 export function translateHtmlCharater(html) {
   var div = document.createElement('div');
   div.innerHTML = html;
@@ -771,22 +757,6 @@ export function matchNamefromDict(dictList = [], id) {
         (ele) => ele && id && ele.id.toString() === id.toString()
       )[0].name
     : id;
-}
-//js获取地址栏参数，并将其转换为json对象
-
-//例如 ： http://localhost:3000/mother-&-babycat-2544?utm_source=vanityURL&utm_medium=leaflet&utm_campaign=shelter108782
-//转化成:  {utm_source: "vanityURL", utm_medium: "leaflet", utm_campaign: "shelter108782"}
-export function getRequest() {
-  var url = window.location.search;
-  var jsonList = {};
-  if (url.indexOf('?') > -1) {
-    var str = url.slice(url.indexOf('?') + 1);
-    var strs = str.split('&');
-    for (var i = 0; i < strs.length; i++) {
-      jsonList[strs[i].split('=')[0]] = strs[i].split('=')[1]; //如果出现乱码的话，可以用decodeURI()进行解码
-    }
-  }
-  return jsonList;
 }
 
 // 数组去重

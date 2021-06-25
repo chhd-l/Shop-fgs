@@ -254,7 +254,7 @@ class ClubLandingPageDe extends React.Component {
                     >
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit1} className="desktop30vw" />
+                          <img src={dehowit1} className="dehowit01" />
                         </LazyLoad>
                       </div>
                       <div
@@ -270,7 +270,10 @@ class ClubLandingPageDe extends React.Component {
                           <img src={number1} style={{ width: '50px' }} />
                         </LazyLoad>
                       </div>
-                      <div className="desktop30vw orderthree">
+                      <div
+                        className="desktop30vw orderthree"
+                        style={{ display: 'flex', alignItems: 'center' }}
+                      >
                         <p>
                           Besuchen Sie Ihre Tierarztpraxis und erhalten Sie eine
                           Nahrungsempfehlung zur Behandlung eines besonderen
@@ -289,7 +292,7 @@ class ClubLandingPageDe extends React.Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                         className="desktop30vw orderthree"
                       >
-                        <p>
+                        <p className="detextalignright">
                           Geben Sie Ihren individuellen Empfehlungscode unten
                           auf dieser Seite ein.
                         </p>
@@ -309,7 +312,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit2} className="desktop30vw" />
+                          <img src={dehowit2} className="dehowit02" />
                         </LazyLoad>
                       </div>
                     </div>
@@ -320,7 +323,7 @@ class ClubLandingPageDe extends React.Component {
                     >
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit3} className="desktop30vw" />
+                          <img src={dehowit3} className="dehowit03" />
                         </LazyLoad>
                       </div>
                       <div
@@ -355,7 +358,7 @@ class ClubLandingPageDe extends React.Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                         className="desktop30vw orderthree"
                       >
-                        <p>
+                        <p className="detextalignright">
                           Wählen Sie Ihre gewünschte Zahlungsmethode aus und
                           schließen Sie Ihre ROYAL CANIN® Bestellung ab. Sie
                           erhalten Ihre bestellte Nahrung innerhalb von 1-3
@@ -377,7 +380,7 @@ class ClubLandingPageDe extends React.Component {
                       </div>
                       <div className="ordertwo">
                         <LazyLoad>
-                          <img src={dehowit4} className="desktop30vw" />
+                          <img src={dehowit4} className="dehowit04" />
                         </LazyLoad>
                       </div>
                     </div>
@@ -411,14 +414,13 @@ class ClubLandingPageDe extends React.Component {
                         style={{
                           boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE'
                         }}
-                        className="widthsmall deskmargintop10vh"
+                        className="dewidthsmall dedeskmargintop10vh"
                       >
-                        <div className="deskheight15vh">
+                        <div className=" getmorebutton">
                           <div
                             style={{
                               display: 'flex',
-                              justifyContent: 'center',
-                              marginTop: '10vh'
+                              justifyContent: 'center'
                             }}
                           >
                             <div>
@@ -449,22 +451,28 @@ class ClubLandingPageDe extends React.Component {
                           </div>
                         </div>
 
-                        <div style={{ height: '30vh' }}>
+                        <div style={{ height: '15vh' }}>
                           <div className="rc-column">
                             <div className="rc-padding-y--lg--mobile rc-full-width">
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                                <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    kostenloser Versand ​
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingoWhite rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>kostenloser Versand ​</a>
+                                  </div>
                                 </li>
-                                <li className="rc-list__item">
-                                  <em className="bingoWhite rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    schnelle Lieferung innerhalb von 1-3
-                                    Werktagen​
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingoWhite rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>
+                                      schnelle Lieferung innerhalb von 1-3
+                                      Werktagen​
+                                    </a>
+                                  </div>
                                 </li>
                               </ul>
                             </div>
@@ -472,8 +480,8 @@ class ClubLandingPageDe extends React.Component {
                         </div>
                       </div>
                       <div
+                        className="dewithsmall"
                         style={{
-                          height: '78vh',
                           boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
                         }}
                       >
@@ -481,13 +489,13 @@ class ClubLandingPageDe extends React.Component {
                           style={{
                             marginRight: '5vh'
                           }}
-                          className="deskheight22vh"
                         >
                           <div
                             style={{
                               display: 'flex',
                               marginLeft: '3vw',
-                              marginTop: '10vh'
+                              marginTop: '7vh',
+                              marginBottom: '2vh'
                             }}
                           >
                             <div>
@@ -509,7 +517,8 @@ class ClubLandingPageDe extends React.Component {
                                 style={{
                                   fontSize: '28px',
                                   fontWeight: 'bolder',
-                                  color: '#E2001A'
+                                  color: '#E2001A',
+                                  marginBottom: '0px'
                                 }}
                               >
                                 Regelmäßige
@@ -530,7 +539,6 @@ class ClubLandingPageDe extends React.Component {
 
                         <div
                           style={{
-                            height: '30vh',
                             display: 'flex',
                             justifyContent: 'space-between'
                           }}
@@ -545,42 +553,60 @@ class ClubLandingPageDe extends React.Component {
                           >
                             <div className="rc-padding-y--lg--mobile rc-full-width">
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                                <li className="rc-list__item">
-                                  <em className="bingo rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    10% Rabatt auf Ihre Bestellungen
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>10% Rabatt auf Ihre Bestellungen</a>
+                                  </div>
                                 </li>
-                                <li className="rc-list__item">
-                                  <em className="bingo rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    immer genug Nahrung für Ihr Tier Zuhause
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>
+                                      immer genug Nahrung für Ihr Tier Zuhause
+                                    </a>
+                                  </div>
                                 </li>
-                                <li className="rc-list__item">
-                                  <em className="bingo rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    keine Mindestlaufzeit oder Kündigungsfrist
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>
+                                      keine Mindestlaufzeit oder Kündigungsfrist
+                                    </a>
+                                  </div>
                                 </li>
-                                <li className="rc-list__item">
-                                  <em className="bingo rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    flexibel anpassbar
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>flexibel anpassbar</a>
+                                  </div>
                                 </li>
-                                <li className="rc-list__item">
-                                  <em className="bingo rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    kostenloser Versand
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>kostenloser Versand</a>
+                                  </div>
                                 </li>
-                                <li className="rc-list__item">
-                                  <em className="bingo rc-margin-right--xs"></em>
-                                  <a style={{ marginLeft: '10px' }}>
-                                    schnelle Lieferung innerhalb von 1-3
-                                    Werktagen
-                                  </a>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a>
+                                      schnelle Lieferung innerhalb von 1-3
+                                      Werktagen
+                                    </a>
+                                  </div>
                                 </li>
                               </ul>
                             </div>

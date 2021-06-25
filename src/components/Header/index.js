@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
 import {
-  getParaByName,
   getDeviceType,
   generateOptions,
   getDictionary,
@@ -34,6 +33,7 @@ import {
 } from '@/utils/utils';
 import { getNavigation } from '@/api/hub';
 import queryNavigation from './mock/navigation';
+import { funcUrl } from '@/lib/url-utils';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -116,14 +116,8 @@ class Header extends React.Component {
     window.addEventListener('scroll', (e) => this.handleScroll(e));
 
     const { location, clinicStore } = this.props;
-    let clinciRecoCode = getParaByName(
-      window.location.search || (location ? location.search : ''),
-      'code'
-    );
-    let linkClinicId = getParaByName(
-      window.location.search || (location ? location.search : ''),
-      'clinic'
-    );
+    let clinciRecoCode = funcUrl({ name: 'code' });
+    let linkClinicId = funcUrl({ name: 'clinic' });
     let linkClinicBusId = ''; //推荐者业务Id
     let linkClinicName = '';
     // 指定clinic/recommendation code链接进入，设置default clinic

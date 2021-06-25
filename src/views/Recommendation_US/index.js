@@ -1,17 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import BannerTip from '@/components/BannerTip';
-import noPic from '@/assets/images/noPic.png';
 import ImageMagnifier from '@/components/ImageMagnifierForUS';
 import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
-import GoodsDetailTabs from '@/components/GoodsDetailTabs';
-import { formatMoney, getDeviceType, getParaByName } from '@/utils/utils';
+import { formatMoney, getDeviceType } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import {
@@ -20,14 +18,8 @@ import {
   getRecommendationList_token
 } from '@/api/recommendation';
 import { getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
-import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
-import cloneDeep from 'lodash/cloneDeep';
-import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
 import Modal from '../Recommendation_FR/components/Modal';
 import {
   setSeoConfig,
@@ -37,7 +29,6 @@ import {
 import { Helmet } from 'react-helmet';
 import {
   GARecommendationProduct,
-  GABuyNow,
   GABreederRecoPromoCodeCTA,
   GABreederRecoSeeInCart,
   GABigBreederAddToCar
@@ -136,24 +127,19 @@ class Recommendation extends React.Component {
     this.helpContentText = {
       title: this.props.intl.messages['recommendation.helpContentText.title'],
       des: this.props.intl.messages['recommendation.helpContentText.des'],
-      emailTitle: this.props.intl.messages[
-        'recommendation.helpContentText.emailTitle'
-      ],
-      emailDes: this.props.intl.messages[
-        'recommendation.helpContentText.emailDes'
-      ],
-      emailLink: this.props.intl.messages[
-        'recommendation.helpContentText.emailLink'
-      ], //俄罗斯是其他的链接
-      phoneTitle: this.props.intl.messages[
-        'recommendation.helpContentText.phoneTitle'
-      ],
+      emailTitle:
+        this.props.intl.messages['recommendation.helpContentText.emailTitle'],
+      emailDes:
+        this.props.intl.messages['recommendation.helpContentText.emailDes'],
+      emailLink:
+        this.props.intl.messages['recommendation.helpContentText.emailLink'], //俄罗斯是其他的链接
+      phoneTitle:
+        this.props.intl.messages['recommendation.helpContentText.phoneTitle'],
       phone: this.props.intl.messages['recommendation.helpContentText.phone'],
       email: this.props.intl.messages['recommendation.helpContentText.email'],
       phoneDes1: `<strong>${this.props.intl.messages['recommendation.helpContentText.phoneDes1']}</strong>`,
-      phoneDes2: this.props.intl.messages[
-        'recommendation.helpContentText.phoneDes2'
-      ]
+      phoneDes2:
+        this.props.intl.messages['recommendation.helpContentText.phoneDes2']
     };
   }
 
@@ -182,10 +168,10 @@ class Recommendation extends React.Component {
     // let token = paramArr[paramArr.length - 1].split('=')[1];
     let { search } = this.props.history.location;
     search = search && decodeURIComponent(search);
-    let token = getParaByName(search, 'token');
-    let promotionCode = getParaByName(search, 'coupon');
+    let token = funcUrl({ name: 'token' });
+    let promotionCode = funcUrl({ name: 'coupon' });
     let promotionCodeText = promotionCode?.toUpperCase();
-    let prescription = getParaByName(search, 'prescription');
+    let prescription = funcUrl({ name: 'prescription' });
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then((res) => {
@@ -450,12 +436,8 @@ class Recommendation extends React.Component {
     });
   };
   checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     for (let i = 0; i < productList.length; i++) {
       if (
         productList[i].recommendationNumber > productList[i].goodsInfo.stock
@@ -484,12 +466,8 @@ class Recommendation extends React.Component {
     );
   }
   async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     GABigBreederAddToCar(productList);
     // console.log(outOfStockProducts, inStockProducts, '...1')
     // return
@@ -523,8 +501,8 @@ class Recommendation extends React.Component {
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
-            recommendationInfos: this.props.clinicStore
-              .linkClinicRecommendationInfos,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
@@ -553,8 +531,8 @@ class Recommendation extends React.Component {
             currentUnitPrice: p.goodsInfo.marketPrice,
             goodsInfoFlag: 0,
             periodTypeId: null,
-            recommendationInfos: this.props.clinicStore
-              .linkClinicRecommendationInfos,
+            recommendationInfos:
+              this.props.clinicStore.linkClinicRecommendationInfos,
             // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
@@ -606,12 +584,8 @@ class Recommendation extends React.Component {
       localItemRoyal.set('okta-redirectUrl', '/prescription');
     }
     this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
+    let { productList, outOfStockProducts, inStockProducts, modalList } =
+      this.state;
     let totalPrice;
     inStockProducts.map((el) => {
       console.log(el, 'instock');
@@ -698,12 +672,8 @@ class Recommendation extends React.Component {
   };
   async hanldeClickSubmit() {
     const { checkoutStore, loginStore, history, clinicStore } = this.props;
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
+    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } =
+      this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -845,8 +815,7 @@ class Recommendation extends React.Component {
     this.props.history.push('/cart');
   };
   tabChange(productList, index) {
-    let { search } = this.props.history.location;
-    let promotionCode = getParaByName(search, 'coupon');
+    let promotionCode = funcUrl({ name: 'coupon' });
     this.setState({ activeIndex: index });
     const currentProduct = productList.filter((item, i) => i == index && item);
     GARecommendationProduct(
@@ -1401,12 +1370,10 @@ class Recommendation extends React.Component {
                                           <FormattedMessage
                                             id="pirceRange"
                                             values={{
-                                              fromPrice: formatMoney(
-                                                MinMarketPrice
-                                              ),
-                                              toPrice: formatMoney(
-                                                MaxMarketPrice
-                                              )
+                                              fromPrice:
+                                                formatMoney(MinMarketPrice),
+                                              toPrice:
+                                                formatMoney(MaxMarketPrice)
                                             }}
                                           />
                                         </span>
@@ -1414,12 +1381,10 @@ class Recommendation extends React.Component {
                                           <FormattedMessage
                                             id="pirceRange"
                                             values={{
-                                              fromPrice: formatMoney(
-                                                MinMarketPrice
-                                              ),
-                                              toPrice: formatMoney(
-                                                MaxMarketPrice
-                                              )
+                                              fromPrice:
+                                                formatMoney(MinMarketPrice),
+                                              toPrice:
+                                                formatMoney(MaxMarketPrice)
                                             }}
                                           />
                                         </span>

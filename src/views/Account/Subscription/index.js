@@ -14,15 +14,10 @@ import { getSubList } from '@/api/subscription';
 import {
   getDictionary,
   getDeviceType,
-  getFrequencyDict,
   setSeoConfig,
-  getParaByName,
-  getFormatDate,
   getClubLogo
 } from '@/utils/utils';
-import subscriptionIcon from './images/subscription.png';
-import cancelIcon from './images/cancel.png';
-import autoshipIcon from './images/autoship.png';
+import { funcUrl } from '@/lib/url-utils';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
@@ -35,7 +30,6 @@ import nutrition from '../../../components/GoodsDetailTabs/image/pictonutrition@
 import gifticon from '../../../components/GoodsDetailTabs/image/pictogifts@4x.png';
 import spetadviser from '../../../components/GoodsDetailTabs/image/pictospetadviser@4x.png';
 import shippingicon from '../../../components/GoodsDetailTabs/image/pictoshipping@4x.png';
-import phoneicon from '../../../components/GoodsDetailTabs/image/phoneicon@4x.png';
 import landingBanner from '../../../components/GoodsDetailTabs/image/landing-banner.jpg';
 import iconsix from '../../../components/GoodsDetailTabs/image/iconsix.png';
 import auto from '../../../components/GoodsDetailTabs/image/auto@2x.png';
@@ -192,10 +186,9 @@ class Subscription extends React.Component {
         console.log(this.state.testNumber, 'testNumber');
       }, 1000);
     }
-    let search = this.props.location.search;
-    let subscriptionId = search && getParaByName(search, 'subscriptionId');
-    let updateLifeStage = search && getParaByName(search, 'updateLifeStage');
-    let needBindPet = search && getParaByName(search, 'needBindPet');
+    let subscriptionId = funcUrl({ name: 'subscriptionId' });
+    let updateLifeStage = funcUrl({ name: 'updateLifeStage' });
+    let needBindPet = funcUrl({ search: 'needBindPet' });
     if (subscriptionId) {
       let res = await getSubList({ subscribeId: subscriptionId });
       console.info('res.contextres.contextres.context');
@@ -323,14 +316,8 @@ class Subscription extends React.Component {
   };
 
   getPageBox = (isGift) => {
-    let {
-      isMobile,
-      subList,
-      loading,
-      errMsg,
-      currentPage,
-      totalPage
-    } = this.state;
+    let { isMobile, subList, loading, errMsg, currentPage, totalPage } =
+      this.state;
     let subscription = 'subscription';
 
     return (

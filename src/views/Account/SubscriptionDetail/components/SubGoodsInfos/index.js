@@ -36,36 +36,44 @@ const SubGoodsInfos = ({
       showErrMsg(err.message);
     }
   };
-  const minusOrPlusQuantity = (el, isPlus) => {
+  const minusQuantity = (el) => {
     // 非激活状态需要暂停操作
     if (subDetail.subscribeStatus !== '0') {
       return;
     }
-    if (
-      el.subscribeNum > 1 ||
-      el.subscribeNum < window.__.env.REACT_APP_LIMITED_NUM
-    ) {
-      isPlus ? el.subscribeNum++ : el.subscribeNum--;
+    if (el.subscribeNum > 1) {
+      el.subscribeNum = el.subscribeNum - 1;
       setState({
         subDetail,
         isDataChange: true
       });
     } else {
-      let errMsg = isPlus ? (
+      showErrMsg(<FormattedMessage id="cart.errorInfo" />);
+    }
+  };
+  const plusQuantity = (el) => {
+    // 非激活状态需要暂停操作
+    if (subDetail.subscribeStatus !== '0') {
+      return;
+    }
+    if (el.subscribeNum < window.__.env.REACT_APP_LIMITED_NUM) {
+      el.subscribeNum = el.subscribeNum + 1;
+      setState({
+        subDetail,
+        isDataChange: true
+      });
+    } else {
+      showErrMsg(
         <FormattedMessage
           id="cart.errorMaxInfo"
           values={{
-            val: window.__.env.REACT_APP_LIMITED_NUM
+            val: process.env.REACT_APP_LIMITED_NUM
           }}
         />
-      ) : (
-        <FormattedMessage id="cart.errorInfo" />
       );
-
-      showErrMsg(errMsg);
     }
   };
-  const changeQuantity = () => {
+  const changeQuantity = (e, el, index) => {
     if (subDetail.subscribeStatus !== '0') {
       return;
     }
@@ -202,7 +210,7 @@ const SubGoodsInfos = ({
                       className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                       style={{ marginLeft: '-8px' }}
                       onClick={() => {
-                        minusOrPlusQuantity(el, false);
+                        minusQuantity(el);
                       }}
                     />
                     <input
@@ -213,14 +221,14 @@ const SubGoodsInfos = ({
                       max="899"
                       maxLength="5"
                       onChange={(e) => {
-                        changeQuantity();
+                        changeQuantity(e, el, index);
                       }}
                       value={el.subscribeNum}
                     />
                     <span
                       className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                       onClick={() => {
-                        minusOrPlusQuantity(el, true);
+                        plusQuantity(el);
                       }}
                     />
                     <span
@@ -349,7 +357,7 @@ const SubGoodsInfos = ({
                                 }`}
                                 style={{ marginLeft: '-8px' }}
                                 onClick={() => {
-                                  minusOrPlusQuantity(el, false);
+                                  minusQuantity(el);
                                 }}
                               />
                               <input
@@ -360,7 +368,7 @@ const SubGoodsInfos = ({
                                 max="899"
                                 maxLength="5"
                                 onChange={(e) => {
-                                  changeQuantity(e);
+                                  changeQuantity(e, el, index);
                                 }}
                                 value={el.subscribeNum}
                               />
@@ -369,7 +377,7 @@ const SubGoodsInfos = ({
                                   isActive && !isGift ? '' : 'disabled'
                                 }`}
                                 onClick={() => {
-                                  minusOrPlusQuantity(el, true);
+                                  plusQuantity(el);
                                 }}
                               />
                               <span

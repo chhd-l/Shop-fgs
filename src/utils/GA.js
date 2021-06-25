@@ -559,3 +559,35 @@ export const GABigBreederAddToCar = (products) => {
     pdpAddToCartCtA: { 0: 'One Shot', 1: 'Subscription', 2: 'Club' }[buyWay]
   });
 };
+
+export const GAInstantSearchFieldClick = () => {
+  dataLayer.push({
+    event: 'instantSearchFieldClick'
+  });
+};
+
+export const GAInstantSearchResultDisplay = ({
+  query,
+  productResultNum,
+  contentResultNum
+}) => {
+  dataLayer.push({
+    event: 'instantSearchResultDisplay',
+    instantSearchResultDisplay: {
+      query, //Query as written by the user
+      productResultsDisplayed: productResultNum, //Number of product results displayed on the box
+      contentResultsDisplayed: contentResultNum //Number of content results displayed on the box
+    }
+  });
+};
+
+export const GAInstantSearchResultClick = ({ type, name, position }) => {
+  dataLayer.push({
+    event: 'instantSearchResultClick',
+    instantSearchResultClick: {
+      type, //'Product' or 'Content' depending on the type of result clicked
+      name, //Link name, as written on the list
+      position //Position of the article in the product or content list
+    }
+  });
+};

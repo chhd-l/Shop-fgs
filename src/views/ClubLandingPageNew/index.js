@@ -23,6 +23,14 @@ import CommentCarouselNew from '../../components/CommentCarouselNew';
 import GetMoreAd from './Components/GetMoreAd';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
+import ruhowitworknew1 from './Components/HowItWorksNew/image/ruhowitworksnew1.png';
+import ruhowitworknew2 from './Components/HowItWorksNew/image/ruhowitworksnew2.png';
+import ruhowitworknew3 from './Components/HowItWorksNew/image/ruhowitworksnew3.png';
+import ruhowitworknew4 from './Components/HowItWorksNew/image/ruhowitworksnew4.png';
+import ruhowitworknewmobile1 from './Components/HowItWorksNew/image/ruhowitworksmobile1.png';
+import ruhowitworknewmobile2 from './Components/HowItWorksNew/image/ruhowitworksmobile2.png';
+import ruhowitworknewmobile3 from './Components/HowItWorksNew/image/ruhowitworksmobile3.png';
+import ruhowitworknewmobile4 from './Components/HowItWorksNew/image/ruhowitworksmobile4.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -40,6 +48,37 @@ function Divider() {
     </div>
   );
 }
+
+//Ru Image
+const RuhowitworksnewLists = [
+  {
+    HowitworksStep: ruhowitworknew1
+  },
+  {
+    HowitworksStep: ruhowitworknew2
+  },
+  {
+    HowitworksStep: ruhowitworknew3
+  },
+  {
+    HowitworksStep: ruhowitworknew4
+  }
+];
+
+const RuhowitworksnewListmobiles = [
+  {
+    HowitworksStep: ruhowitworknewmobile1
+  },
+  {
+    HowitworksStep: ruhowitworknewmobile2
+  },
+  {
+    HowitworksStep: ruhowitworknewmobile3
+  },
+  {
+    HowitworksStep: ruhowitworknewmobile4
+  }
+];
 
 class ClubLandingPageNew extends React.Component {
   constructor(props) {
@@ -260,7 +299,7 @@ class ClubLandingPageNew extends React.Component {
           </div>
           <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
 
-          <HowItWorksNew />
+          <HowItWorksNew RuhowitworksnewList={RuhowitworksnewLists} RuhowitworksnewListmobile={RuhowitworksnewListmobiles}/>
 
           <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
           <div style={{ backgroundColor: '#D0D0D0' }}>

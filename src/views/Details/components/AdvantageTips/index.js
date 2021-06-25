@@ -8,7 +8,10 @@ import shippmentHome from '@/assets/images/home/shippment@2x.png';
 
 const AdvantageTips = ({ secondIconvisible = true }) => {
   return (
-    <div className="rc-full-width advantage-tips">
+    <div
+      className="rc-full-width advantage-tips"
+      data-tms="Product description"
+    >
       <div className="experience-component experience-assets-centeredIconList">
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
           <div className="rc-sm-down">

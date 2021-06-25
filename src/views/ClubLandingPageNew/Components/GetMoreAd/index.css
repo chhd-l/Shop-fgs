@@ -5,6 +5,11 @@
   .widthsmall {
     width: 80vw;
     margin-left: 7vw;
+    height: 41vh;
+  }
+  .dewidthsmall {
+    width: 80vw;
+    margin-left: 7vw;
     height: 39vh;
   }
   .marginleftLogo {
@@ -35,7 +40,7 @@
   .margintop3vh {
     margin-top: 5vh;
   }
-  .getmorebutton{
+  .getmorebutton {
     margin-top: 4vh;
   }
 }
@@ -46,6 +51,9 @@
   }
   .widthsmall {
     height: 60vh;
+  }
+  .dewidthsmall {
+    height: 45vh;
   }
   .text21vw {
     width: 21vw;
@@ -62,7 +70,7 @@
   .getmore30vh {
     height: 30vh;
   }
-  .getmore83vh{
+  .getmore83vh {
     height: 83vh;
   }
 }

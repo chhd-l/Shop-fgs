@@ -29,7 +29,7 @@ export default class RelateProductCarousel extends Component {
               <PLPCover
                 className="ml-2 mr-2"
                 item={{ ...item }}
-                key={item.id}
+                key={index}
                 showBorder={!isMobilePhone}
                 link={{
                   pathname: item

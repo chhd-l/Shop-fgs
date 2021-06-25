@@ -109,10 +109,10 @@ class AddressList extends React.Component {
       validationAddress: null // 建议地址
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
+    this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -1000,7 +1000,7 @@ class AddressList extends React.Component {
    * 2 确认地址信息，并返回到封面
    * 3 ★ 俄罗斯需要根据地址先计算运费
    */
-  handleSave = async () => {
+  handleSave = async ({ isThrowError = true } = {}) => {
     try {
       const { isValid, addOrEdit, deliveryAddress } = this.state;
       if (!isValid || !addOrEdit) {
@@ -1021,7 +1021,7 @@ class AddressList extends React.Component {
       });
       await this.getListValidationData(res, true);
     } catch (err) {
-      throw new Error();
+      if (isThrowError) throw new Error();
     }
   };
   // 选择地址
@@ -1070,11 +1070,8 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const {
-      deliveryAddress,
-      selectListValidationOption,
-      validationAddress
-    } = this.state;
+    const { deliveryAddress, selectListValidationOption, validationAddress } =
+      this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1445,7 +1442,9 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
-                    onClick={this.handleSave}
+                    onClick={this.handleSave.bind(this, {
+                      isThrowError: false
+                    })}
                     disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />
@@ -1468,7 +1467,9 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
-                    onClick={this.handleSave}
+                    onClick={this.handleSave.bind(this, {
+                      isThrowError: false
+                    })}
                     disabled={isValid && formAddressValid ? false : true}
                   >
                     <FormattedMessage id="save" />

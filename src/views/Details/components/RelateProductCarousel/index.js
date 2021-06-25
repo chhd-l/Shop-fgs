@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RelateProductCarousel from '@/components/RelateProductCarousel';
+import { getGoodsRelation } from '@/api/details';
+
 const isHub = window.__.env.REACT_APP_HUB == '1';
 interface Props {
   id: string;

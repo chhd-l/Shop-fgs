@@ -176,23 +176,37 @@ class ClubLandingPageDeVet extends React.Component {
                             Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <li className="rc-list__item">
-                              <em className="petCrew rc-margin-right--xs"></em>
-                              Verbesserung der Lebensqualität der Tiere
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="petCrew rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                Verbesserung der Lebensqualität der Tiere
+                              </div>
                             </li>
-                            <li className="rc-list__item">
-                              <em className="petCrew rc-margin-right--xs"></em>
-                              Unterstützung von Tieren mit fütterungsbedingten
-                              Erkrankungen
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="petCrew rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                Unterstützung von Tieren mit fütterungsbedingten
+                                Erkrankungen
+                              </div>
                             </li>
-                            <li className="rc-list__item">
-                              <em className="petCrew rc-margin-right--xs"></em>
-                              Beeinflussung des Wachstums von Katzen- und
-                              Hundewelpen
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="petCrew rc-margin-right--xs"></em>
+                              </div>
+                              <div>
+                                Beeinflussung des Wachstums von Katzen- und
+                                Hundewelpen
+                              </div>
                             </li>
-                            <li className="rc-list__item">
-                              <em className="petCrew rc-margin-right--xs"></em>
-                              Beitrag zum Management von Erkrankungen
+                            <li className="rc-list__item flex">
+                              <div>
+                                <em className="petCrew rc-margin-right--xs"></em>
+                              </div>
+                              <div>Beitrag zum Management von Erkrankungen</div>
                             </li>
                           </ul>
                           <br />
@@ -319,7 +333,7 @@ class ClubLandingPageDeVet extends React.Component {
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div className=" rc-match-heights text-center text-md-left">
-                  <div className="DeCenter col-lg-3 align-self-center">
+                  <div className="DeCenter  align-self-center">
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       Unsere Produkte für verschiedene Schwerpunkte der
                       Tiergesundheit

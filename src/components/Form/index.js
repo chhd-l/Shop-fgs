@@ -838,6 +838,8 @@ class Form extends React.Component {
       },
       () => {
         this.updateDataToProps(this.state.caninForm);
+        // 验证数据
+        this.validvalidationData(key, data.value);
       }
     );
   }

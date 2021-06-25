@@ -25,14 +25,12 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import Slider from 'react-slick';
 import {
   getDeviceType,
-  getParaByName,
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
-import goodsDetailTabs from './modules/goodsDetailTab.json';
+import { funcUrl } from '@/lib/url-utils';
 import { sitePurchase } from '@/api/cart';
-import foodPic from './img/food_pic.png';
 import foodDispenserPic from './img/food_dispenser_pic.png';
 import foodPic2 from './img/step2_food.png';
 import LazyLoad from 'react-lazyload';
@@ -1238,13 +1236,12 @@ class SmartFeederSubscription extends Component {
     return this.props.loginStore.isLogin;
   }
   getUrlParam = () => {
-    const { search } = this.props.history.location;
-    const utmSource = getParaByName(search, 'utm_source');
-    const utmMedium = getParaByName(search, 'utm_medium');
-    const utmCampaign = getParaByName(search, 'utm_campaign');
-    const prefixFn = getParaByName(search, 'prefn1');
-    const prefixBreed = getParaByName(search, 'prefv1');
-    const planId = getParaByName(search, 'planId');
+    const utmSource = funcUrl({ name: 'utm_source' });
+    const utmMedium = funcUrl({ name: 'utm_medium' });
+    const utmCampaign = funcUrl({ name: 'utm_campaign' });
+    const prefixFn = funcUrl({ name: 'prefn1' });
+    const prefixBreed = funcUrl({ name: 'prefv1' });
+    const planId = funcUrl({ name: 'planId' });
     this.setState({ planId }, () => {
       this.getStep1List();
     });
@@ -1800,13 +1797,8 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const {
-      headerHide,
-      stepName,
-      checkOutErrMsg,
-      goodsDetailTab,
-      enableFlag
-    } = this.state;
+    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
+      this.state;
     let stepCom = null;
     return (
       <div>

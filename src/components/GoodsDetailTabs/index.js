@@ -28,6 +28,7 @@ import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
+import discountnewtr from './image/discountnewtr.png';
 import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
@@ -38,6 +39,31 @@ import benefitsonecat from './image/benefitsonecat.png';
 import benefitstwocat from './image/benefitstwocat.png';
 import clubru from '../../views/ClubLandingPageNew/Components/LongBanner/image/Clubru.png';
 import clublogo from '../../views/ClubLandingPageNew/Components/LongBanner/image/clublogo.png';
+import ruhowitworknew1 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew1.png';
+import ruhowitworknew2 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew2.png';
+import ruhowitworknew3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew3.png';
+import ruhowitworknew4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew4.png';
+import ruhowitworknewmobile1 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile1.png';
+import ruhowitworknewmobile2 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile2.png';
+import ruhowitworknewmobile3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile3.png';
+import ruhowitworknewmobile4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile4.png';
+
+import ruhowitworksnewdog1 from './HowitWorksimage/ruhowitworksnewdog1.png';
+import ruhowitworksnewdog2 from './HowitWorksimage/ruhowitworksnewdog2.png';
+import ruhowitworksnewdog3 from './HowitWorksimage/ruhowitworksnewdog3.png';
+import ruhowitworksnewdog4 from './HowitWorksimage/ruhowitworksnewdog4.png';
+import ruhowitworksnewcat1 from './HowitWorksimage/ruhowitworksnewcat1.png';
+import ruhowitworksnewcat2 from './HowitWorksimage/ruhowitworksnewcat2.png';
+import ruhowitworksnewcat3 from './HowitWorksimage/ruhowitworksnewcat3.png';
+import ruhowitworksnewcat4 from './HowitWorksimage/ruhowitworksnewcat4.png';
+import ruhowitworknewmobilecat1 from './HowitWorksimage/ruhowitworknewmobilecat1.png';
+import ruhowitworknewmobilecat2 from './HowitWorksimage/ruhowitworknewmobilecat2.png';
+import ruhowitworknewmobilecat3 from './HowitWorksimage/ruhowitworknewmobilecat3.png';
+import ruhowitworknewmobilecat4 from './HowitWorksimage/ruhowitworknewmobilecat4.png';
+import ruhowitworknewmobiledog1 from './HowitWorksimage/ruhowitworknewmobiledog1.png';
+import ruhowitworknewmobiledog2 from './HowitWorksimage/ruhowitworknewmobiledog2.png';
+import ruhowitworknewmobiledog3 from './HowitWorksimage/ruhowitworknewmobiledog3.png';
+import ruhowitworknewmobiledog4 from './HowitWorksimage/ruhowitworknewmobiledog4.png';
 
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
@@ -97,7 +123,7 @@ let clubListDataNew = [
   },
   {
     text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon2'} />,
-    img: clubiconnew2,
+    img: window.__.env.REACT_APP_COUNTRY == 'tr' ? discountnewtr : clubiconnew2,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {
@@ -215,6 +241,61 @@ const GoodsDetailTabs = function (props) {
   const LogoShows = {
     logo: <></>
   };
+  //Ru Image
+  const RuhowitworksnewLists = [
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat1
+          : ruhowitworksnewdog1
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat2
+          : ruhowitworksnewdog2
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat3
+          : ruhowitworksnewdog3
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworksnewcat4
+          : ruhowitworksnewdog4
+    }
+  ];
+
+  const RuhowitworksnewListmobiles = [
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat1
+          : ruhowitworknewmobiledog1
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat2
+          : ruhowitworknewmobiledog2
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat3
+          : ruhowitworknewmobiledog3
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? ruhowitworknewmobilecat4
+          : ruhowitworknewmobiledog4
+    }
+  ];
+
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
@@ -704,7 +785,10 @@ const GoodsDetailTabs = function (props) {
                           </div>
                         </div>
                       </div>
-                      <HowItWorksNew />
+                      <HowItWorksNew
+                        RuhowitworksnewList={RuhowitworksnewLists}
+                        RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                      />
                     </>
                   ) : null}
                 </p>
@@ -719,6 +803,7 @@ const GoodsDetailTabs = function (props) {
       id="GoodsDetailTabs"
       className="rc-max-width--xl rc-padding-x--sm"
       style={{ position: 'relative' }}
+      data-tms="Product description"
     >
       <div
         id="j-details-for-club"
@@ -916,7 +1001,10 @@ const GoodsDetailTabs = function (props) {
                         </div>
                       </div>
                     </div>
-                    <HowItWorksNew />
+                    <HowItWorksNew
+                      RuhowitworksnewList={RuhowitworksnewLists}
+                      RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                    />
                   </div>
                 ) : null}
               </div>

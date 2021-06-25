@@ -1,5 +1,6 @@
 import React from 'react';
-import { getParaByName, setSeoConfig } from '@/utils/utils';
+import { setSeoConfig } from '@/utils/utils';
+import { funcUrl } from '@/lib/url-utils';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -26,11 +27,7 @@ class CancelEmail extends React.Component {
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
-    const consumerAccount = getParaByName(
-      window.location.search ||
-        (this.props.location ? this.props.location.search : ''),
-      'consumerAccount'
-    );
+    const consumerAccount = funcUrl({ name: 'consumerAccount' });
     this.setState({
       consumerAccount: consumerAccount
     });
