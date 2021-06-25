@@ -96,10 +96,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: '/us',
-    REACT_APP_RC_ASSETS_PREFIX: '/assets/',
-
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
@@ -121,7 +117,7 @@ const env = {
     REACT_APP_BASEURL: 'https://shopsit.royalcanin.com/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
@@ -129,10 +125,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/us/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
@@ -155,7 +147,7 @@ const env = {
     REACT_APP_BASEURL: 'https://shopuat.royalcanin.com/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
@@ -163,10 +155,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/us/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
@@ -198,40 +186,32 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/us/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
-
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
   production: {
     // #okta
-    REACT_APP_ACCESS_PATH: ' https://shop.royalcanin.com/',
-    REACT_APP_CLIENT_ID: ' 0oamkkuay3Bdq8tHc416',
-    REACT_APP_ISSUER: ' https://signin.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL: ' https://shop.royalcanin.com/implicit/callback',
-    REACT_APP_RegisterPrefix: ' https://welcome.royalcanin.com/?redirect_uri=',
-    REACT_APP_RegisterCallback: ' https://shop.royalcanin.com',
-    REACT_APP_FaceBook_IDP: ' 0oa75jv7oSeLBnnkt416',
-    REACT_APP_Google_IDP: ' 0oa75klujN7PkgedM416',
+    REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
+    REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
+    REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
+    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
+    REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
+    REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
+    REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
 
     // #接口配置
-    REACT_APP_BASEURL: ' https://shop.royalcanin.com/api',
+    REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: ' prd',
+    REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
-      ' https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
+      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: ' /',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: ' https://d2cde.azureedge.net/prod/us/',
-    REACT_APP_RC_ASSETS_PREFIX: ' https://d2cde.azureedge.net/prod/',
+    REACT_APP_HOMEPAGE: '/',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'production'
