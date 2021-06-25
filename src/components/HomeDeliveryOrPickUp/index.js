@@ -57,7 +57,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       // this.props.updateConfirmBtnDisabled(false);
     });
 
-    let sitem = sessionItemRoyal.get('rc_homeDeliveryAndPickup') || null;
+    let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
     // 初始化
     if (sitem) {
       sitem = JSON.parse(sitem);
@@ -127,7 +127,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               },
               () => {
                 sessionItemRoyal.set(
-                  'rc_homeDeliveryAndPickup',
+                  'rc-homeDeliveryAndPickup',
                   JSON.stringify(item)
                 );
               }
@@ -161,7 +161,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         selectedItem: Object.assign({}, sitem)
       },
       () => {
-        sessionItemRoyal.set('rc_homeDeliveryAndPickup', JSON.stringify(sitem));
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(sitem));
         this.setItemStatus(val);
       }
     );
@@ -169,6 +169,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   // 设置状态
   setItemStatus = (val) => {
     const { selectedItem } = this.state;
+    console.log('666 setItemStatus: ', val);
     if (val == 'homeDelivery') {
       this.props.updateDeliveryOrPickup(1);
       this.props.updateConfirmBtnDisabled(false);
@@ -214,7 +215,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       <>
         {hdpuLoading ? <Loading /> : null}
         <div
-          className="row rc_form_box"
+          className="row rc_form_box rc_pickup_box"
           style={{ display: isMobile ? 'block' : 'flex' }}
         >
           <div className="col-md-7">

@@ -55,6 +55,7 @@ class AddressList extends React.Component {
     super(props);
     this.state = {
       listSaveAddressNumber: 0,
+      confirmBtnDisabled: false,
       deliveryOrPickUpFlag: false,
       isDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
       deliveryAddress: {

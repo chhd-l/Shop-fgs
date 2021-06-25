@@ -46,7 +46,9 @@ class VisitorAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDeliveryOrPickUp: false, // 用来标记是否是 pick up
+      confirmBtnDisabled: false,
+      deliveryOrPickUpFlag: false,
+      isDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
       visitorData: null,
       form: this.props.initData,
       unConfirmedForm: '', //未确认时 但验证成功时的表单数据
@@ -78,7 +80,9 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
     });
-    // console.log('★ ----------------- VisitorAddress');
+
+    // 设置home delivery状态
+    this.setRuDeliveryOrPickUp();
   }
   //props发生变化时触发
   componentWillReceiveProps(props) {
@@ -94,6 +98,38 @@ class VisitorAddress extends React.Component {
   get curPanelKey() {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
+  // 设置home delivery状态
+  setRuDeliveryOrPickUp() {
+    let deliveryOrPickUp = 0;
+    let btndisabled = false;
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      deliveryOrPickUp = 0; // both not
+      btndisabled = true;
+      this.setState({
+        deliveryOrPickUpFlag: true
+      });
+    } else {
+      deliveryOrPickUp = 1; // home delivery
+      btndisabled = false;
+    }
+    this.setState({
+      isDeliveryOrPickUp: deliveryOrPickUp,
+      confirmBtnDisabled: btndisabled
+    });
+  }
+  // 修改按钮状态
+  updateConfirmBtnDisabled = (flag) => {
+    this.setState({
+      confirmBtnDisabled: flag
+    });
+  };
+  // 更新 isDeliveryOrPickUp
+  updateDeliveryOrPickup = (num) => {
+    console.log('666 updateDeliveryOrPickup: ', num);
+    this.setState({
+      isDeliveryOrPickUp: num
+    });
+  };
   validData = async ({ data }) => {
     console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
     try {
@@ -416,9 +452,9 @@ class VisitorAddress extends React.Component {
 
   render() {
     const { panelStatus } = this;
-
     const { showConfirmBtn } = this.props;
     const {
+      deliveryOrPickUpFlag,
       isDeliveryOrPickUp,
       form,
       isValid,
@@ -456,10 +492,21 @@ class VisitorAddress extends React.Component {
             {_title}
           </div>
         )}
+
         {!panelStatus.isPrepare ? (
           panelStatus.isEdit ? (
             <fieldset className="shipping-address-block rc-fieldset">
-              {_editForm}
+              {/* 俄罗斯 pickup */}
+              {deliveryOrPickUpFlag && (
+                <HomeDeliveryOrPickUp
+                  updateDeliveryOrPickup={this.updateDeliveryOrPickup}
+                  updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
+                  deliveryOrPickUp={isDeliveryOrPickUp}
+                  intlMessages={this.props.intlMessages}
+                />
+              )}
+
+              {isDeliveryOrPickUp == 1 && <>{_editForm}</>}
 
               {showConfirmBtn && (
                 <div className="d-flex justify-content-end mb-2">
