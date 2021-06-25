@@ -1495,11 +1495,6 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
