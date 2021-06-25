@@ -853,7 +853,8 @@ class List extends React.Component {
         goodsNo,
         goodsName,
         goodsAttributesValueRelVOAllList,
-        goodsCateName
+        goodsCateName,
+        goodsImg
       } = item;
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
@@ -876,7 +877,8 @@ class List extends React.Component {
         technology: cateName?.[2] || '',
         brand: 'Royal Canin',
         breed,
-        sizeCategory
+        sizeCategory,
+        imageURL: goodsImg
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -913,7 +915,8 @@ class List extends React.Component {
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName,
-        goodsNo
+        goodsNo,
+        goodsImg
       } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const breed = (goodsAttributesValueRelVOAllList || [])
@@ -938,7 +941,8 @@ class List extends React.Component {
         SKU,
         technology: cateName?.[2] || '',
         brand: 'Royal Canin',
-        breed
+        breed,
+        imageURL: goodsImg
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -1510,11 +1514,10 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix =
-            `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-              /\/$/,
-              ''
-            );
+          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+            /\/$/,
+            ''
+          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
