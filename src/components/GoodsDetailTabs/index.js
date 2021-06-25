@@ -28,6 +28,7 @@ import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
 import auto from './image/auto@2x.png';
 import clubiconnew1 from './image/clubiconnew1.png';
 import clubiconnew2 from './image/clubiconnew2.png';
+import discountnewtr from './image/discountnewtr.png';
 import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
 import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
@@ -122,7 +123,7 @@ let clubListDataNew = [
   },
   {
     text: <FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon2'} />,
-    img: clubiconnew2,
+    img: window.__.env.REACT_APP_COUNTRY == 'tr' ? discountnewtr : clubiconnew2,
     alt: 'CLUB BENEFITS DISCOUNT'
   },
   {

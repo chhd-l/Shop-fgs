@@ -202,10 +202,12 @@ const PetForms = ({
   };
   const inputBreed = async (e) => {
     let showBreedList = false;
+    setNewPetForm('breedName', e.target.value);
     if (e.target.value !== '') {
       showBreedList = true;
+    } else {
+      return;
     }
-    setNewPetForm('breedName', e.target.value);
     setShowBreedList(showBreedList);
     setBreedListLoading(true);
     setBreedList([]);
@@ -532,6 +534,7 @@ const PetForms = ({
     sensitivityLists = specialNeeds;
   }
   console.log(petForm.imgUrl, 'petForm.imgUrl');
+  console.info('breedList', breedList);
   return (
     <div
       className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"

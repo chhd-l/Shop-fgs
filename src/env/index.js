@@ -68,6 +68,9 @@ countryKey =
 // countryKey = pathnameToCountryEnv[pathnameKey || '/us'];
 
 switch (location.host) {
+  case 'shopuat.466920.com':
+    envKey = 'development';
+    break;
   case 'shopsit.royalcanin.com':
     envKey = 'shopsit';
     break;
