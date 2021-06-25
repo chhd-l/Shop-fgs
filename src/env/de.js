@@ -98,11 +98,7 @@ const env_de = {
       ' a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/de',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: '/de',
-    REACT_APP_RC_ASSETS_PREFIX: '/assets/'
+    REACT_APP_HOMEPAGE: '/de'
   },
   shopsit: {
     // #okta
@@ -129,7 +125,7 @@ const env_de = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
 
     // #Adyen
     REACT_APP_AdyenOriginKEY:
@@ -143,11 +139,7 @@ const env_de = {
       'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/de',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/de/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/de'
   },
   shopuat: {
     // #okta
@@ -181,18 +173,14 @@ const env_de = {
     REACT_APP_Adyen3DSUrl: 'https://shopuat.royalcanin.com',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/de',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/de/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/de'
   },
   shopstg: {
     // #okta
@@ -229,11 +217,7 @@ const env_de = {
     REACT_APP_HUB_GA: '1',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/de',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/de/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/de'
   },
   production: {
     // #okta
@@ -263,11 +247,7 @@ const env_de = {
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'a78ac3fc-256e-4f7a-a2db-f4b6972214bf',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/de/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/'
+    REACT_APP_HOMEPAGE: '/'
   },
   productionWww: {
     // #okta
@@ -298,11 +278,7 @@ const env_de = {
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'a78ac3fc-256e-4f7a-a2db-f4b6972214bf',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/de/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/'
+    REACT_APP_HOMEPAGE: '/'
   }
 };
 

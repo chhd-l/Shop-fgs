@@ -662,8 +662,8 @@ class Details extends React.Component {
   };
   showPrescriberCodeBeforeAddCart = () => {
     if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
-      const { clinicStore } = this.props;
-      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+      const { clinicId, clinicName } = this.props.clinicStore;
+      if (!(clinicId && clinicName)) {
         this.setState({ showPrescriberCodeModal: true });
       }
     }
