@@ -117,7 +117,7 @@ const env = {
     REACT_APP_BASEURL: 'https://shopsit.royalcanin.com/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
@@ -147,7 +147,7 @@ const env = {
     REACT_APP_BASEURL: 'https://shopuat.royalcanin.com/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:

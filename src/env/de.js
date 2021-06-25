@@ -125,7 +125,7 @@ const env_de = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
 
     // #Adyen
     REACT_APP_AdyenOriginKEY:
@@ -173,7 +173,7 @@ const env_de = {
     REACT_APP_Adyen3DSUrl: 'https://shopuat.royalcanin.com',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:

@@ -112,7 +112,7 @@ const env_fr = {
     REACT_APP_SUCCESSFUL_URL: 'https://shopsit.royalcanin.com/fr',
     REACT_APP_Adyen3DSUrl: 'https://shopsit.royalcanin.com',
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
@@ -144,7 +144,7 @@ const env_fr = {
     REACT_APP_Adyen3DSUrl: 'https://shopuat.royalcanin.com/fr',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -171,7 +171,7 @@ const env_fr = {
     REACT_APP_BASEURL: 'https://uatwedding.royalcanin.com/fr/shop/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #Adyen
     REACT_APP_AdyenOriginKEY:

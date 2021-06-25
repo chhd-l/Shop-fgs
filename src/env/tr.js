@@ -127,7 +127,7 @@ const env = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -164,7 +164,7 @@ const env = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -364,7 +364,7 @@ const env = {
     REACT_APP_BASEURL: 'https://uatwedding.royalcanin.com/tr/shop/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #payu
     REACT_APP_PaymentENV: 'test',

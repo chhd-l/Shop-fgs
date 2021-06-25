@@ -1510,10 +1510,11 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
+          const urlPrefix =
+            `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+              /\/$/,
+              ''
+            );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1647,7 +1648,11 @@ class List extends React.Component {
   onSortChange = (data) => {
     // 在筛选的时候不让他刷新页面
     this.setState(
-      { selectedSortParam: data, currentPage: 1, initingList: true },
+      {
+        selectedSortParam: data,
+        // currentPage: 1,
+        initingList: true
+      },
       () => this.getProductList()
     );
   };
