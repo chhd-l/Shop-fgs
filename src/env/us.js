@@ -96,10 +96,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: '/us',
-    REACT_APP_RC_ASSETS_PREFIX: '/assets/',
-
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
@@ -129,10 +125,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/us/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
@@ -164,10 +156,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/us/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
-
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
@@ -198,10 +186,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/us',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/us/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
-
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
   },
@@ -228,10 +212,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: ' /',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: ' https://d2cde.azureedge.net/prod/us/',
-    REACT_APP_RC_ASSETS_PREFIX: ' https://d2cde.azureedge.net/prod/',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'production'

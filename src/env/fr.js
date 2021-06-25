@@ -88,10 +88,7 @@ const env_fr = {
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/fr',
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: '/fr',
-    REACT_APP_RC_ASSETS_PREFIX: '/assets/'
+    REACT_APP_HOMEPAGE: '/fr'
   },
   shopsit: {
     // #okta
@@ -120,10 +117,7 @@ const env_fr = {
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/fr',
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/fr'
   },
   shopuat: {
     // #okta
@@ -157,11 +151,7 @@ const env_fr = {
       'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/fr',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/fr'
   },
   uatwedding: {
     // #okta
@@ -202,10 +192,6 @@ const env_fr = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     // #根节点自定义样式名
     REACT_APP_ROOT_CLS: 'ui-custom-hub',
@@ -267,11 +253,7 @@ const env_fr = {
       'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/fr',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/fr'
   },
   stgwedding: {
     // #okta
@@ -312,10 +294,6 @@ const env_fr = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     // #根节点自定义样式名
     REACT_APP_ROOT_CLS: 'ui-custom-hub',
@@ -376,11 +354,7 @@ const env_fr = {
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b8c1c839-ea27-4a17-8ffb-0c9f8ef918b5',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/'
+    REACT_APP_HOMEPAGE: '/'
   },
   productionHub: {
     // #okta
@@ -413,10 +387,6 @@ const env_fr = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/fr/shop',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/fr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/',
 
     // #HUB_GA
     REACT_APP_HUB_GA: '1',
