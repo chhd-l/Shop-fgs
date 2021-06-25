@@ -44,6 +44,7 @@ const LoginButton = (props) => {
 
   useEffect(() => {
     setIsGetUserInfoDown(false);
+    console.log("OKTA authState:", authState)
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);

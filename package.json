@@ -81,6 +81,7 @@
     "react-dom": "^16.13.1",
     "react-intl": "5.6.8",
     "react-lazyload": "^3.1.0",
+    "react-loadable": "^5.5.0",
     "react-scripts": "^3.4.0",
     "react-select": "^4.3.0",
     "react-slick": "^0.26.1",
@@ -106,10 +107,8 @@
   "scripts": {
     "test": "node scripts/test.js",
     "start:shopstg_core": "dotenv -e .env.development.local -e ./env/core/.env.shopstg -e ./env/core/.env node scripts/start.js",
-    
     "start:shopsit_ca": "dotenv -e .env.development.local -e ./env/ca/.env.shopsit -e ./env/ca/.env node scripts/start.js",
     "start:shopstg_ca": "dotenv -e .env.development.local -e ./env/ca/.env.shopstg -e ./env/ca/.env node scripts/start.js",
-
     "start:mx": "dotenv -e .env.development.local -e ./env/mx/.env.development -e ./env/mx/.env node scripts/start.js",
     "start:shopuat_mx": "dotenv -e .env.development.local -e ./env/mx/.env.shopuat -e ./env/mx/.env node scripts/start.js",
     "start:shopuat_de": "dotenv -e .env.development.local -e ./env/de/.env.shopuat -e ./env/de/.env node scripts/start.js",
@@ -189,9 +188,7 @@
     "build:uatwedding_tr": "dotenv -e ./env/tr/.env.uatwedding -e ./env/tr/.env node scripts/build.js",
     "build:prod_tr": "dotenv -e ./env/tr/.env.production -e ./env/tr/.env node scripts/build.js",
     "build:prod_tr_hub": "dotenv -e ./env/tr/.env.production.hub -e ./env/tr/.env node scripts/build.js",
-
     "build": "node scripts/build.js",
-
     "analyze": "cross-env NODE_ENV=production npm_config_report=true npm run build:stg_fr",
     "pub:dev_mx": "npm run build && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@124.71.151.9:/data/nginx/html_mx && rm -rf build_tmp",
     "pub:dev_de": "npm run build:de && rm -rf build_tmp && cp -r build build_tmp && rm -rf build_tmp/royal && scp -P 22 -r build_tmp/* root@124.71.151.9:/data/nginx/html_de && rm -rf build_tmp",

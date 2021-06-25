@@ -55,13 +55,6 @@ class RegisterRequired extends Component {
     };
   }
   async componentDidMount() {
-    // const state = this.props.location.state
-    const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
-    if (!fromLoginPage) {
-      //从登录页进来就在LoginButton组件里执行init方法(因为没登录，必须登录过后得到octa token才能执行获取consent的接口)
-      this.init();
-    }
-    sessionItemRoyal.remove('fromLoginPage');
     //定义变量获取屏幕视口宽度
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
@@ -280,60 +273,6 @@ class RegisterRequired extends Component {
           setTrConsentModal(addEventListenerArr[i].modal, true);
         });
     }
-  }
-  async componentDidMount() {
-    // const state = this.props.location.state
-    const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
-    if (!fromLoginPage) {
-      //从登录页进来就在LoginButton组件里执行init方法(因为没登录，必须登录过后得到octa token才能执行获取consent的接口)
-      this.init();
-    }
-    sessionItemRoyal.remove('fromLoginPage');
-    //定义变量获取屏幕视口宽度
-    var windowWidth = document.body.clientWidth;
-    if (windowWidth < 640) {
-      this.setState({
-        width: '300px',
-        zoom: '120%',
-        fontZoom: '100%'
-      });
-    }
-    if (windowWidth >= 640) {
-      this.setState({
-        width: '500px',
-        zoom: '150%',
-        fontZoom: '120%'
-      });
-    }
-    document.getElementById('wrap').addEventListener('click', (e) => {
-      if (e.target.localName === 'font') {
-        let keyWords = e.target.innerText;
-        let index = Number(
-          e.target.parentNode.parentNode.parentNode.parentNode.parentNode
-            .parentNode.parentNode.id
-        );
-        let arr = this.state.list[index].detailList.filter((item) => {
-          return item.contentTitle === keyWords;
-        });
-
-        let tempArr = [...this.state.list];
-        tempArr[index].innerHtml = tempArr[index].innerHtml
-          ? ''
-          : arr[0]
-          ? arr[0].contentBody
-          : '';
-
-        this.setState({ list: tempArr });
-      }
-    });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-  }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
   }
   render() {
     const { errMsg } = this.state;

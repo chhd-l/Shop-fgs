@@ -213,7 +213,7 @@ const PetForms = ({
     setBreedList([]);
     getDict({
       type: isCat ? 'catBreed' : 'dogBreed',
-      name: e.target.value,
+      keywords: e.target.value,
       delFlag: 0,
       storeId: window.__.env.REACT_APP_STOREID
     })
