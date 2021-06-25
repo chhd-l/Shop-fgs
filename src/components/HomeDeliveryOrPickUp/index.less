@@ -4,9 +4,10 @@ input:-webkit-autofill {
 }
 
 .rc_form_box {
-  &.rc_pickup_box{
-    margin-bottom:1rem;
+  &.rc_pickup_box {
+    margin-bottom: 1rem;
   }
+
   .rc_row_line {
     display: flex;
     flex-wrap: wrap;
@@ -83,6 +84,10 @@ input:-webkit-autofill {
 
 #kaktusMap {
   display: none;
+}
+
+.pickup_box {
+  display: block;
 }
 
 // PC端地图
@@ -164,6 +169,7 @@ input:-webkit-autofill {
 
 .pickup_map_box_relative {
   display: block !important;
+  z-index: 1 !important;
 
   #kaktusMap {
     display: block !important;

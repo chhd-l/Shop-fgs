@@ -39,6 +39,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       pickUpBoxPosition: '',
       homeAndPickup: [],
       pickupCity: '',
+      clinlcInfo: [], // 诊所信息
       selectedItem: null // 记录选择的内容
     };
   }
@@ -54,6 +55,14 @@ class HomeDeliveryOrPickUp extends React.Component {
     document.addEventListener('kaktusEvent', (event) => {
       this.resetPara();
       console.log('666 map event detail: ', event.detail);
+      this.setState(
+        {
+          clinlcInfo: event?.detail?.content || null
+        },
+        () => {
+          console.log('666 clinlcInfo: ', this.state.clinlcInfo);
+        }
+      );
       // this.props.updateConfirmBtnDisabled(false);
     });
 
@@ -74,7 +83,9 @@ class HomeDeliveryOrPickUp extends React.Component {
           pickupCity: sitem.city.city
         },
         () => {
-          this.setItemStatus(stype);
+          setTimeout(() => {
+            this.setItemStatus(stype);
+          }, 1000);
         }
       );
     }
@@ -102,9 +113,27 @@ class HomeDeliveryOrPickUp extends React.Component {
             pickUpBoxPosition: ''
           },
           () => {
+            // 加一条测试数据
+            let testPickup = {
+              codPrice: 0,
+              contractNumber: 'LOGSIS',
+              courier: 'LOGSIS',
+              courierCode: 'LOGSIS',
+              deliveryCode: '6f410205-005c-47d1-b9a9-0295c6b52100',
+              deliveryPrice: 550,
+              dlvPrice: null,
+              fioCyrillic: false,
+              insurancePrice: 0,
+              maxDeliveryTime: 4,
+              minDeliveryTime: 2,
+              price: 550,
+              product: null,
+              type: 'PVZ'
+            };
             // type: 'COURIER'=> home delivery、'PVZ'=> pickup
             let obj = res.context.tariffs;
             let hdpu = [];
+            obj.push(testPickup); // 测试数据
             obj.forEach((v, i) => {
               let type = v.type;
               if (type == 'COURIER' || type == 'PVZ') {
@@ -169,7 +198,6 @@ class HomeDeliveryOrPickUp extends React.Component {
   // 设置状态
   setItemStatus = (val) => {
     const { selectedItem } = this.state;
-    console.log('666 setItemStatus: ', val);
     if (val == 'homeDelivery') {
       this.props.updateDeliveryOrPickup(1);
       this.props.updateConfirmBtnDisabled(false);
@@ -181,26 +209,27 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState({
         hdpuLoading: true
       });
-      // 打开地图
-      window.kaktusMap.openWidget({
-        // city_from: 'Москва',
-        // city_to: 'Санкт-Петербург',
-        city_from: selectedItem.city.city,
-        city_to: selectedItem.city.city,
-        dimensions: {
-          height: 10,
-          width: 10,
-          depth: 10
-        },
-        weight: 600
-      });
-      setTimeout(() => {
-        this.setState({
-          pickUpBoxPosition: 'relative',
-          hdpuLoading: false
-        });
-      }, 3000);
       this.props.updateDeliveryOrPickup(2);
+      this.props.updateConfirmBtnDisabled(true);
+      setTimeout(() => {
+        // 打开地图
+        window.kaktusMap.openWidget({
+          city_from: selectedItem.city.city,
+          city_to: selectedItem.city.city,
+          dimensions: {
+            height: 10,
+            width: 10,
+            depth: 10
+          },
+          weight: 600
+        });
+        setTimeout(() => {
+          this.setState({
+            pickUpBoxPosition: 'relative',
+            hdpuLoading: false
+          });
+        }, 3000);
+      }, 2000);
     }
   };
   render() {
@@ -298,38 +327,34 @@ class HomeDeliveryOrPickUp extends React.Component {
                   </div>
                 </>
               ))}
-
             {/* end */}
-
-            {/* pickUp delivery */}
-            {/* <div className="rc_radio_box rc-full-width rc-input--full-width">
-              <div className="rc-input rc-input--inline">
-                <input
-                  className="rc-input__radio"
-                  value="Pick up delivery"
-                  id="pickUpDelivery"
-                  type="radio"
-                  name="homeDeliveryOrPickUp"
-                  onChange={this.handleRadioChange}
-                />
-                <label
-                  className="rc-input__label--inline"
-                  htmlFor="pickUpDelivery"
-                >
-                  <FormattedMessage id="payment.pickupDelivery" />
-                </label>
-                <div className="delivery_date_price">200 Rub</div>
-              </div>
-              <div className="need_delivery_date">From 1 to 3 working days</div>
-            </div> */}
           </div>
         </div>
 
-        {this.props.deliveryOrPickUp == 2 && (
+        <div
+          className={`pickup_box ${
+            this.props.deliveryOrPickUp == 2 ? '' : 'hidden'
+          }`}
+        >
           <div className={`pickup_map_box pickup_map_box_${pickUpBoxPosition}`}>
             <div id="kaktusMap"></div>
           </div>
-        )}
+          <div className="pickup_infos">
+            <div className="info_tit">
+              <div className="tit_left">СДЭК</div>
+              <div className="tit_right">{formatMoney(55)}</div>
+            </div>
+            <div className="infos"></div>
+            <div className="info_btn_box">
+              <button className="rc-btn rc-btn--sm rc-btn--two mr-0">
+                <FormattedMessage id="payment.moreDetails" />
+              </button>
+              <button className="rc-btn rc-btn--sm rc-btn--one">
+                <FormattedMessage id="edit" />
+              </button>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

@@ -730,6 +730,8 @@ const ru_RU = {
 
   'payment.fillCityOfDelivery': 'заполнять город поставки',
 
+  'payment.moreDetails': 'Подробнее',
+
   // 星期
   'payment.Monday': 'Понедельник',
   'payment.Tuesday': 'Вторник',

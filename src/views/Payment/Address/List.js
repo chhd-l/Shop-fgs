@@ -1270,7 +1270,6 @@ class AddressList extends React.Component {
       </>
     );
   };
-
   // 处理要显示的字段
   setAddressFields = (data) => {
     // 获取本地存储的需要显示的地址字段
@@ -1574,12 +1573,14 @@ class AddressList extends React.Component {
 
           {/* 俄罗斯 pickup */}
           {deliveryOrPickUpFlag && (
-            <HomeDeliveryOrPickUp
-              updateDeliveryOrPickup={this.updateDeliveryOrPickup}
-              updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
-              deliveryOrPickUp={isDeliveryOrPickUp}
-              intlMessages={this.props.intlMessages}
-            />
+            <>
+              <HomeDeliveryOrPickUp
+                updateDeliveryOrPickup={this.updateDeliveryOrPickup}
+                updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
+                deliveryOrPickUp={isDeliveryOrPickUp}
+                intlMessages={this.props.intlMessages}
+              />
+            </>
           )}
 
           <div
