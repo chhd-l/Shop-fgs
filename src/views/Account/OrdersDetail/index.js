@@ -1586,7 +1586,8 @@ class AccountOrders extends React.Component {
                                       ) : null}
 
                                       {/* 运费折扣 */}
-                                      {details?.maxDeliveryTime != null &&
+                                      {!details.consignee.timeSlot &&
+                                      details?.maxDeliveryTime != null &&
                                       details?.minDeliveryTime != null ? (
                                         <p className="mb-0 od_mb_yf">
                                           {details.minDeliveryTime ===
@@ -1617,7 +1618,7 @@ class AccountOrders extends React.Component {
                                       )}
 
                                       {/* time slot */}
-                                      {details.consignee?.timeSlot && (
+                                      {details.consignee.timeSlot && (
                                         <p className="mb-0 od_mb_timeSlot">
                                           {details.consignee.timeSlot}
                                         </p>

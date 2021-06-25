@@ -65,7 +65,8 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     goodsName,
     goodsInfos,
     goodsNo,
-    goodsAttributesValueRelList
+    goodsAttributesValueRelList,
+    goodsImg
   } = item;
   const { clinicStore, selectPrice } = pdpScreenLoadData;
   const cateName = goodsCateName?.split('/') || '';
@@ -99,7 +100,8 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     technology: cateName?.[2] || '',
     brand: 'Royal Canin',
     size,
-    breed
+    breed,
+    imageURL: goodsImg
   };
   const product = filterObjectValue(GAProductsInfo);
   if (window.dataLayer) {
