@@ -210,31 +210,31 @@ const env = {
   },
   production: {
     // #okta
-    REACT_APP_ACCESS_PATH: ' https://shop.royalcanin.com/',
-    REACT_APP_CLIENT_ID: ' 0oamkkuay3Bdq8tHc416',
-    REACT_APP_ISSUER: ' https://signin.royalcanin.com/oauth2/default',
-    REACT_APP_RedirectURL: ' https://shop.royalcanin.com/implicit/callback',
-    REACT_APP_RegisterPrefix: ' https://welcome.royalcanin.com/?redirect_uri=',
-    REACT_APP_RegisterCallback: ' https://shop.royalcanin.com',
-    REACT_APP_FaceBook_IDP: ' 0oa75jv7oSeLBnnkt416',
-    REACT_APP_Google_IDP: ' 0oa75klujN7PkgedM416',
+    REACT_APP_ACCESS_PATH: 'https://shop.royalcanin.com/',
+    REACT_APP_CLIENT_ID: '0oamkkuay3Bdq8tHc416',
+    REACT_APP_ISSUER: 'https://signin.royalcanin.com/oauth2/default',
+    REACT_APP_RedirectURL: 'https://shop.royalcanin.com/implicit/callback',
+    REACT_APP_RegisterPrefix: 'https://welcome.royalcanin.com/?redirect_uri=',
+    REACT_APP_RegisterCallback: 'https://shop.royalcanin.com',
+    REACT_APP_FaceBook_IDP: '0oa75jv7oSeLBnnkt416',
+    REACT_APP_Google_IDP: '0oa75klujN7PkgedM416',
 
     // #接口配置
-    REACT_APP_BASEURL: ' https://shop.royalcanin.com/api',
+    REACT_APP_BASEURL: 'https://shop.royalcanin.com/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: ' prd',
+    REACT_APP_GA_ENV: 'prd',
 
     // #onetrust
     REACT_APP_ONTRUST_SRC:
-      ' https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
+      'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be.js',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: ' /',
+    REACT_APP_HOMEPAGE: '/',
 
     // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: ' https://d2cde.azureedge.net/prod/us/',
-    REACT_APP_RC_ASSETS_PREFIX: ' https://d2cde.azureedge.net/prod/',
+    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/us/',
+    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'production'
@@ -295,57 +295,57 @@ const env = {
   },
   uatwedding: {
     // #okta
-    REACT_APP_ACCESS_PATH: ' https://uatwedding.royalcanin.com/tr/shop',
-    REACT_APP_CLIENT_ID: ' 0oa1dlbj1dsOIbOLu0x7',
-    REACT_APP_ISSUER: ' https://accountpreview.royalcanin.com/oauth2/default',
+    REACT_APP_ACCESS_PATH: 'https://uatwedding.royalcanin.com/tr/shop',
+    REACT_APP_CLIENT_ID: '0oa1dlbj1dsOIbOLu0x7',
+    REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
-      ' https://uatwedding.royalcanin.com/tr/shop/implicit/callback',
+      'https://uatwedding.royalcanin.com/tr/shop/implicit/callback',
     REACT_APP_RegisterPrefix:
-      ' https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
+      'https://prd-weu1-rc-df-ciam-app-webapp-stg.cloud-effem.com/?redirect_uri=',
     REACT_APP_RegisterCallback:
-      ' https://uatwedding.royalcanin.com/tr/shop?origin=register',
-    REACT_APP_FaceBook_IDP: ' 0oarsmtlhd1q9NyPb0x6',
-    REACT_APP_Google_IDP: ' 0oarsoyvckBINudT70x6',
+      'https://uatwedding.royalcanin.com/tr/shop?origin=register',
+    REACT_APP_FaceBook_IDP: '0oarsmtlhd1q9NyPb0x6',
+    REACT_APP_Google_IDP: '0oarsoyvckBINudT70x6',
 
     // #接口配置
-    REACT_APP_BASEURL: ' https://uatwedding.royalcanin.com/tr/shop/api',
+    REACT_APP_BASEURL: 'https://uatwedding.royalcanin.com/tr/shop/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: ' stg',
+    REACT_APP_GA_ENV: 'stg',
 
     // #payu
-    REACT_APP_PaymentENV: ' test',
-    REACT_APP_PaymentKEY_MEMBER: ' f2346509-9c34-4299-8c07-9719dc4574e9',
-    REACT_APP_PaymentAPPID_MEMBER: ' com.razorfish.dev_ru_ms',
-    REACT_APP_PaymentKEY_VISITOR: ' f2346509-9c34-4299-8c07-9719dc4574e9',
-    REACT_APP_PaymentAPPID_VISITOR: ' com.razorfish.dev_ru_ms',
+    REACT_APP_PaymentENV: 'test',
+    REACT_APP_PaymentKEY_MEMBER: 'f2346509-9c34-4299-8c07-9719dc4574e9',
+    REACT_APP_PaymentAPPID_MEMBER: 'com.razorfish.dev_ru_ms',
+    REACT_APP_PaymentKEY_VISITOR: 'f2346509-9c34-4299-8c07-9719dc4574e9',
+    REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_ru_ms',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      ' 493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
+      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: ' /tr/shop',
+    REACT_APP_HOMEPAGE: '/tr/shop',
 
     // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: ' https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: ' https://fgs-cdn.azureedge.net/cdn/',
+    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
+    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
-    REACT_APP_HUB_URLPREFIX: ' https://uatwedding.royalcanin.com/tr',
+    REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/tr',
 
     // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: ' https://uatwedding.royalcanin.com/tr/shop',
+    REACT_APP_SUCCESSFUL_URL: 'https://uatwedding.royalcanin.com/tr/shop',
 
     // #delete接口前缀
-    REACT_APP_HUB_APIURL: ' https://uatwedding.royalcanin.com/tr/api',
+    REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/tr/api',
 
     // #根节点自定义样式名
-    REACT_APP_ROOT_CLS: ' ui-custom-hub',
+    REACT_APP_ROOT_CLS: 'ui-custom-hub',
 
-    REACT_APP_HUB: ' 1',
+    REACT_APP_HUB: '1',
 
     // #HUB_GA
-    REACT_APP_HUB_GA: ' 1'
+    REACT_APP_HUB_GA: '1'
   }
 };
 
