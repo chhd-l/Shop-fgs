@@ -182,14 +182,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -295,14 +289,8 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
-    let {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo,
-      form
-    } = this.state;
+    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
+      this.state;
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem.subscriptionStatus && form.buyWay > 0) {
@@ -755,13 +743,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,

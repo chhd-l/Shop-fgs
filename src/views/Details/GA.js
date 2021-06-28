@@ -2,11 +2,8 @@ import { loadJS, filterObjectValue } from '@/utils/utils';
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const {
-    currentSubscriptionStatus,
-    currentSubscriptionPrice,
-    skuPromotions
-  } = data;
+  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
+    data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
