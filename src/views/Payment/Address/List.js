@@ -8,24 +8,28 @@ import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import {
   getAddressBykeyWord,
   addressValidation,
-  getDeliveryDateAndTimeSlot
+  getDeliveryDateAndTimeSlot,
+  getPickupCityList,
+  getPickupCityInfo
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
+import SearchSelection from '@/components/SearchSelection';
 import {
   getDictionary,
   validData,
   matchNamefromDict,
-  transTime
+  formatMoney,
+  getDeviceType
 } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from '@/components/Form';
-import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import AddressPreview from './Preview';
 import './list.less';
 
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 /**
@@ -108,7 +112,19 @@ class AddressList extends React.Component {
       listValidationModalVisible: false, // 地址校验查询开关
       selectListValidationOption: 'suggestedAddress',
       wrongAddressMsg: null,
-      validationAddress: null // 建议地址
+      validationAddress: null, // 建议地址
+
+      // ********* pick up
+      isMapOpen: false, // 标记地图是否打开过
+      pickUpBtnLoading: false,
+      showPickup: true,
+      showPickupDetail: false,
+      showPickupDetailDialog: false,
+      pickUpBoxPosition: '',
+      homeAndPickup: [],
+      pickupCity: '',
+      clinlcInfo: [], // 诊所信息
+      selectedItem: null // 记录选择的内容
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -120,6 +136,18 @@ class AddressList extends React.Component {
   }
   async componentDidMount() {
     const { deliveryAddress } = this.state;
+
+    // 初始化地图控件。必须在完全绘制页面后调用。
+    document.addEventListener('DOMContentLoaded', (e) => {
+      kaktusMap({
+        domain: 'shop4995727',
+        host: '//app.kak2c.ru'
+      });
+    });
+    // 地图控件点击事件
+    document.addEventListener('kaktusEvent', (event) => {
+      console.log('666 map event detail: ', event.detail);
+    });
 
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
@@ -156,38 +184,6 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.isDeliverAddress ? 'deliveryAddr' : 'billingAddr';
   }
-  // 设置home delivery状态
-  setRuDeliveryOrPickUp() {
-    let deliveryOrPickUp = 0;
-    let btndisabled = false;
-    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-      deliveryOrPickUp = 0; // both not
-      btndisabled = true;
-      this.setState({
-        deliveryOrPickUpFlag: true
-      });
-    } else {
-      deliveryOrPickUp = 1; // home delivery
-      btndisabled = false;
-    }
-    this.setState({
-      isDeliveryOrPickUp: deliveryOrPickUp,
-      confirmBtnDisabled: btndisabled
-    });
-  }
-  // 修改按钮状态
-  updateConfirmBtnDisabled = (flag) => {
-    this.setState({
-      confirmBtnDisabled: flag
-    });
-  };
-  // 更新 isDeliveryOrPickUp
-  updateDeliveryOrPickup = (num) => {
-    // console.log('666 updateDeliveryOrPickup: ', num);
-    this.setState({
-      isDeliveryOrPickUp: num
-    });
-  };
   // 对应的国际化字符串
   getIntlMsg = (str) => {
     return this.props.intlMessages[str];
@@ -1286,6 +1282,220 @@ class AddressList extends React.Component {
     }
     return farr.join(',');
   };
+
+  // ************ pick up
+  // 设置home delivery状态
+  setRuDeliveryOrPickUp() {
+    let deliveryOrPickUp = 0;
+    let btndisabled = false;
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      deliveryOrPickUp = 0; // both not
+      btndisabled = true;
+      this.setState({
+        deliveryOrPickUpFlag: true
+      });
+
+      let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+      // 初始化
+      if (sitem) {
+        sitem = JSON.parse(sitem);
+        let stype = '';
+        sitem?.homeAndPickup.forEach((v, i) => {
+          if (v.selected) {
+            stype = v.type;
+          }
+        });
+        this.setState(
+          {
+            selectedItem: sitem,
+            homeAndPickup: sitem.homeAndPickup,
+            pickupCity: sitem.city.city
+          },
+          () => {
+            setTimeout(() => {
+              this.setItemStatus(stype);
+            }, 1000);
+          }
+        );
+      }
+    } else {
+      deliveryOrPickUp = 1; // home delivery
+      btndisabled = false;
+    }
+    this.setState({
+      isDeliveryOrPickUp: deliveryOrPickUp,
+      confirmBtnDisabled: btndisabled
+    });
+  }
+  // 修改按钮状态
+  updateConfirmBtnDisabled = (flag) => {
+    this.setState({
+      confirmBtnDisabled: flag
+    });
+  };
+  // 更新 isDeliveryOrPickUp
+  updateDeliveryOrPickup = (num) => {
+    this.setState({
+      isDeliveryOrPickUp: num
+    });
+  };
+  // 搜索下拉选择
+  handlePickupCitySelectChange = async (data) => {
+    let res = null;
+    this.setState({
+      loading: true
+    });
+    try {
+      res = await getPickupCityInfo(data);
+      if (res.context?.tariffs) {
+        // 先重置参数
+        this.updateDeliveryOrPickup(0);
+        this.setState(
+          {
+            homeAndPickup: [],
+            pickUpBoxPosition: ''
+          },
+          () => {
+            // 加一条测试数据
+            let testPickup = {
+              codPrice: 0,
+              contractNumber: 'LOGSIS',
+              courier: 'LOGSIS',
+              courierCode: 'LOGSIS',
+              deliveryCode: '6f410205-005c-47d1-b9a9-0295c6b52100',
+              deliveryPrice: 550,
+              dlvPrice: null,
+              fioCyrillic: false,
+              insurancePrice: 0,
+              maxDeliveryTime: 4,
+              minDeliveryTime: 2,
+              price: 550,
+              product: null,
+              type: 'PVZ'
+            };
+            // type: 'COURIER'=> home delivery、'PVZ'=> pickup
+            let obj = res.context.tariffs;
+            let hdpu = [];
+            obj.push(testPickup); // 测试数据
+            obj.forEach((v, i) => {
+              let type = v.type;
+              if (type == 'COURIER' || type == 'PVZ') {
+                type == 'COURIER'
+                  ? (v.type = 'homeDelivery')
+                  : (v.type = 'pickup');
+                hdpu.push(v);
+              }
+            });
+            let item = {
+              city: data,
+              homeAndPickup: hdpu
+            };
+
+            this.setState(
+              {
+                pickupCity: data.city,
+                homeAndPickup: hdpu,
+                selectedItem: Object.assign({}, item)
+              },
+              () => {
+                sessionItemRoyal.set(
+                  'rc-homeDeliveryAndPickup',
+                  JSON.stringify(item)
+                );
+              }
+            );
+          }
+        );
+      }
+    } catch (err) {
+      console.warn(err);
+    } finally {
+      this.setState({
+        loading: false
+      });
+    }
+  };
+  // 单选按钮选择
+  handleRadioChange = (e) => {
+    const { selectedItem } = this.state;
+    let val = e.currentTarget?.value;
+
+    let sitem = Object.assign({}, selectedItem);
+    sitem?.homeAndPickup.forEach((v, i) => {
+      if (v.type == val) {
+        v['selected'] = true;
+      } else {
+        v['selected'] = false;
+      }
+    });
+    this.setState(
+      {
+        selectedItem: Object.assign({}, sitem)
+      },
+      () => {
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(sitem));
+        this.setItemStatus(val);
+      }
+    );
+  };
+  // 设置状态
+  setItemStatus = (val) => {
+    const { isMapOpen } = this.state;
+    if (val == 'homeDelivery') {
+      this.updateDeliveryOrPickup(1);
+      this.updateConfirmBtnDisabled(false);
+      this.setState({
+        loading: false,
+        showPickup: false
+      });
+    } else if (val == 'pickup') {
+      if (!isMapOpen) {
+        this.openPickupMap();
+        this.setState({
+          isMapOpen: true
+        });
+        setTimeout(() => {
+          this.setState({
+            pickUpBoxPosition: 'relative'
+          });
+        }, 2000);
+      }
+      this.setState({
+        showPickup: true
+      });
+      this.updateDeliveryOrPickup(2);
+      this.updateConfirmBtnDisabled(true);
+    }
+  };
+  // 打开地图
+  openPickupMap = () => {
+    const { selectedItem } = this.state;
+    // 打开地图
+    window.kaktusMap.openWidget({
+      city_from: selectedItem.city.city,
+      city_to: selectedItem.city.city,
+      dimensions: {
+        height: 10,
+        width: 10,
+        depth: 10
+      },
+      weight: 600
+    });
+  };
+  // 编辑pickup
+  editPickup = () => {
+    this.setState({
+      showPickupDetail: false,
+      showPickup: true
+    });
+  };
+  // 显示pickup详细
+  showPickupDetailDialog = () => {
+    this.setState({
+      showPickupDetail: false,
+      showPickupDetailDialog: true
+    });
+  };
   render() {
     const { panelStatus } = this;
     const { showOperateBtn } = this.props;
@@ -1305,7 +1515,14 @@ class AddressList extends React.Component {
       selectedId,
       validationLoading,
       listValidationModalVisible,
-      selectListValidationOption
+      selectListValidationOption,
+
+      // ****** pick up
+      pickUpBoxPosition,
+      showPickup,
+      showPickupDetail,
+      pickupCity,
+      homeAndPickup
     } = this.state;
 
     const _list = addressList.map((item, i) => (
@@ -1571,17 +1788,152 @@ class AddressList extends React.Component {
             </span>
           </aside>
 
-          {/* 俄罗斯 pickup */}
+          {/* 俄罗斯 pickup 相关 begin */}
           {deliveryOrPickUpFlag && (
             <>
-              <HomeDeliveryOrPickUp
-                updateDeliveryOrPickup={this.updateDeliveryOrPickup}
-                updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
-                deliveryOrPickUp={isDeliveryOrPickUp}
-                intlMessages={this.props.intlMessages}
-              />
+              <div
+                className="row rc_form_box rc_pickup_box"
+                style={{ display: isMobile ? 'block' : 'flex' }}
+              >
+                <div className="col-md-7">
+                  <div className="form-group rc-full-width rc-input--full-width">
+                    <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                      <SearchSelection
+                        queryList={async ({ inputVal }) => {
+                          let res = await getPickupCityList({
+                            keyword: inputVal
+                          });
+                          let robj = (
+                            (res?.context &&
+                              res?.context?.pickUpQueryCityDTOs) ||
+                            []
+                          ).map((ele) =>
+                            Object.assign(ele, { name: ele.city })
+                          );
+                          return robj;
+                        }}
+                        selectedItemChange={(data) =>
+                          this.handlePickupCitySelectChange(data)
+                        }
+                        key={pickupCity}
+                        defaultValue={pickupCity}
+                        value={pickupCity}
+                        freeText={false}
+                        name="pickupCity"
+                        placeholder={
+                          this.props.intlMessages['payment.fillCityOfDelivery']
+                        }
+                        customStyle={true}
+                        isLoadingList={false}
+                        isBottomPaging={true}
+                      />
+                    </span>
+                  </div>
+
+                  {/* begin */}
+                  {homeAndPickup.length > 0 &&
+                    homeAndPickup.map((item, index) => (
+                      <>
+                        <div className="rc_radio_box rc-full-width rc-input--full-width">
+                          <div className="rc-input rc-input--inline">
+                            <input
+                              className="rc-input__radio"
+                              value={item.type}
+                              id={item.type}
+                              checked={item.selected}
+                              type="radio"
+                              name="homeDeliveryOrPickUp"
+                              onChange={this.handleRadioChange}
+                            />
+                            <label
+                              className="rc-input__label--inline"
+                              htmlFor={item.type}
+                            >
+                              {item.type == 'homeDelivery' ? (
+                                <FormattedMessage id="payment.homeDelivery" />
+                              ) : (
+                                <FormattedMessage id="payment.pickupDelivery" />
+                              )}
+                            </label>
+                            <div className="delivery_date_price">
+                              {formatMoney(item.deliveryPrice)}
+                            </div>
+                          </div>
+                          <div className="need_delivery_date">
+                            {item.minDeliveryTime == item.maxDeliveryTime ? (
+                              <FormattedMessage
+                                id="payment.deliveryDate2"
+                                values={{
+                                  val: item.minDeliveryTime
+                                }}
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id="payment.deliveryDate"
+                                values={{
+                                  min: item.minDeliveryTime,
+                                  max: item.maxDeliveryTime
+                                }}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    ))}
+                  {/* end */}
+                </div>
+              </div>
+
+              <div className="pickup_box">
+                {/* 地图 */}
+                <div
+                  className={`pickup_map_box pickup_map_box_${pickUpBoxPosition} ${
+                    showPickup ? '' : 'hidden'
+                  }`}
+                >
+                  <div id="kaktusMap"></div>
+                </div>
+
+                {/* 显示地图上选择的信息 */}
+                <div
+                  className={`pickup_infos ${showPickupDetail ? '' : 'hidden'}`}
+                >
+                  {/* <div className="pickup_infos"> */}
+                  <div className="info_tit">
+                    <div className="tit_left">СДЭК</div>
+                    <div className="tit_right">{formatMoney(55)}</div>
+                  </div>
+                  <div className="infos">
+                    <div className="panel_address">
+                      Проектируемый пр-д №3723, вл. 12
+                    </div>
+                    <div className="panel_worktime">
+                      Пн-Пт 09:00-21:00, Сб-Вс 10:00-21:00
+                    </div>
+                  </div>
+                  <div className="info_btn_box">
+                    <button
+                      className="rc-btn rc-btn--sm rc-btn--two mr-0"
+                      onClick={this.showPickupDetailDialog}
+                    >
+                      <FormattedMessage id="payment.moreDetails" />
+                    </button>
+                    <button
+                      className="rc-btn rc-btn--sm rc-btn--one"
+                      onClick={this.editPickup}
+                    >
+                      <FormattedMessage id="edit" />
+                    </button>
+                  </div>
+                </div>
+                {/* pickup详细 */}
+                {/* <div className="">
+
+                </div> */}
+              </div>
             </>
           )}
+          {/* 俄罗斯 pickup 相关 end */}
 
           <div
             className={`${!addOrEdit ? 'addr-container' : ''} ${

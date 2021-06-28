@@ -6,7 +6,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
-import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
+// import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { dynamicLoadCss, loadJS } from '@/utils/utils';
 
 import './index.less';
@@ -151,7 +151,7 @@ class Test extends React.Component {
         <br />
         <br />
         <br />
-        <HomeDeliveryOrPickUp />
+        {/* <HomeDeliveryOrPickUp /> */}
         <br />
         <h1>0513</h1>
         <br />

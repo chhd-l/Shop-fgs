@@ -211,25 +211,25 @@ class HomeDeliveryOrPickUp extends React.Component {
       });
       this.props.updateDeliveryOrPickup(2);
       this.props.updateConfirmBtnDisabled(true);
+      // setTimeout(() => {
+      // 打开地图
+      window.kaktusMap.openWidget({
+        city_from: selectedItem.city.city,
+        city_to: selectedItem.city.city,
+        dimensions: {
+          height: 10,
+          width: 10,
+          depth: 10
+        },
+        weight: 600
+      });
       setTimeout(() => {
-        // 打开地图
-        window.kaktusMap.openWidget({
-          city_from: selectedItem.city.city,
-          city_to: selectedItem.city.city,
-          dimensions: {
-            height: 10,
-            width: 10,
-            depth: 10
-          },
-          weight: 600
+        this.setState({
+          pickUpBoxPosition: 'relative',
+          hdpuLoading: false
         });
-        setTimeout(() => {
-          this.setState({
-            pickUpBoxPosition: 'relative',
-            hdpuLoading: false
-          });
-        }, 3000);
       }, 2000);
+      // }, 2000);
     }
   };
   render() {
@@ -331,11 +331,12 @@ class HomeDeliveryOrPickUp extends React.Component {
           </div>
         </div>
 
-        <div
+        {/* <div
           className={`pickup_box ${
             this.props.deliveryOrPickUp == 2 ? '' : 'hidden'
           }`}
-        >
+        > */}
+        <div className={`pickup_box`}>
           <div className={`pickup_map_box pickup_map_box_${pickUpBoxPosition}`}>
             <div id="kaktusMap"></div>
           </div>
