@@ -2,8 +2,11 @@ import { loadJS, filterObjectValue } from '@/utils/utils';
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
-    data;
+  const {
+    currentSubscriptionStatus,
+    currentSubscriptionPrice,
+    skuPromotions
+  } = data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
@@ -130,9 +133,18 @@ const HubGaPdpBuyFromRetailer = () => {
   });
 };
 
+//选择商品规格
+const GAPdpSizeChange = (size) => {
+  dataLayer.push({
+    event: 'pdpSizeChange',
+    pdpSizeChangeNewSize: size //Same wording as displayed on the site, with units depending on the country (oz, grams, lb…)
+  });
+};
+
 export {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
   hubGAAToCar,
-  HubGaPdpBuyFromRetailer
+  HubGaPdpBuyFromRetailer,
+  GAPdpSizeChange
 };

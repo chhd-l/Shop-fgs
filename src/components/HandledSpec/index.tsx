@@ -4,6 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
 import Selection from '@/components/Selection/index.js';
 import { PropTypes } from 'mobx-react';
+import {
+  GAPdpSizeChange
+} from '../../views/Details/GA';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
@@ -146,6 +149,7 @@ const HandledSpec = ({
     const goodSize = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.detailName;
+    GAPdpSizeChange(goodSize)
     const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
       ?.goodsInfoBarcode;
     updatedPriceOrCode(barcode);

@@ -53,7 +53,8 @@ import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
   hubGAAToCar,
-  HubGaPdpBuyFromRetailer
+  HubGaPdpBuyFromRetailer,
+  GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 

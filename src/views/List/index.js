@@ -44,11 +44,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -1950,7 +1949,6 @@ class List extends React.Component {
                   </div>
                   <div
                     className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
-                    data-tms="Pagination"
                   >
                     {!loading && (
                       <>
@@ -2043,6 +2041,7 @@ class List extends React.Component {
                         <div
                           className="grid-footer rc-full-width"
                           style={{ marginTop: '0.5rem' }}
+                          data-tms="Pagination"
                         >
                           <Pagination
                             loading={this.state.loading}
