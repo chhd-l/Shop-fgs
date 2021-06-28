@@ -138,8 +138,7 @@ const LoginButton = (props) => {
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
-                  alert('Get JWT Token:', e.message)
-                  console.log(e);
+                  console.log('Get JWT Token Failed:', e);
                   loginStore.changeLoginModal(false);
                 });
             } else {
@@ -149,7 +148,7 @@ const LoginButton = (props) => {
           }
         })
         .catch((e) => {
-          alert('Get OKTA User:', e.message)
+          console.log('Get OKTA User Failed:', e);
           loginStore.changeLoginModal(false);
         });
     }
