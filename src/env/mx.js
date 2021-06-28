@@ -106,11 +106,7 @@ const env_mx = {
       'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/mx',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: '/mx',
-    REACT_APP_RC_ASSETS_PREFIX: '/assets/'
+    REACT_APP_HOMEPAGE: '/mx'
   },
   shopsit: {
     // #okta
@@ -151,11 +147,7 @@ const env_mx = {
       'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/mx',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/mx/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/mx'
   },
   shopuat: {
     // #okta
@@ -196,16 +188,12 @@ const env_mx = {
       'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/mx',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/mx/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/mx'
   },
   shopstg: {
     // #okta
     REACT_APP_ACCESS_PATH: 'https://shopstg.royalcanin.com/mx/',
-    REACT_APP_CLIENT_ID: ' 0oannemxw9bawuRAT0x6',
+    REACT_APP_CLIENT_ID: '0oannemxw9bawuRAT0x6',
     REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
       'https://shopstg.royalcanin.com/mx/implicit/callback',
@@ -241,11 +229,7 @@ const env_mx = {
       'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/mx',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/mx/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/mx'
   },
   production: {
     // #okta
@@ -282,11 +266,7 @@ const env_mx = {
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: 'b31ead2c-51fc-4be0-b4e7-83a1d5c0218d',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/mx/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/'
+    REACT_APP_HOMEPAGE: '/'
   }
 };
 

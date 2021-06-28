@@ -26,10 +26,7 @@ const ENV_LOCAL = {
   // #本地一律不设置二级子目录访问页面
   REACT_APP_HOMEPAGE: '/',
 
-  GENERATE_SOURCEMAP: 'true',
-
-  REACT_APP_ASSETS_PREFIX: '/',
-  REACT_APP_RC_ASSETS_PREFIX: '/'
+  GENERATE_SOURCEMAP: 'true'
 };
 
 export default ENV_LOCAL;

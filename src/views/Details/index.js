@@ -662,8 +662,8 @@ class Details extends React.Component {
   };
   showPrescriberCodeBeforeAddCart = () => {
     if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
-      const { clinicStore } = this.props;
-      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+      const { clinicId, clinicName } = this.props.clinicStore;
+      if (!(clinicId && clinicName)) {
         this.setState({ showPrescriberCodeModal: true });
       }
     }
@@ -991,12 +991,13 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
-              <PrescriberCodeModal
-                visible={this.state.showPrescriberCodeModal}
-                close={this.closePrescriberCodeModal}
-              />
-            )}
+            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL &&
+              this.state.showPrescriberCodeModal && (
+                <PrescriberCodeModal
+                  visible={this.state.showPrescriberCodeModal}
+                  close={this.closePrescriberCodeModal}
+                />
+              )}
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">

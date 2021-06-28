@@ -44,6 +44,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -853,7 +858,8 @@ class List extends React.Component {
         goodsNo,
         goodsName,
         goodsAttributesValueRelVOAllList,
-        goodsCateName
+        goodsCateName,
+        goodsImg
       } = item;
       const breed = (goodsAttributesValueRelVOAllList || [])
         .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
@@ -876,7 +882,8 @@ class List extends React.Component {
         technology: cateName?.[2] || '',
         brand: 'Royal Canin',
         breed,
-        sizeCategory
+        sizeCategory,
+        imageURL: goodsImg
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -913,7 +920,8 @@ class List extends React.Component {
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName,
-        goodsNo
+        goodsNo,
+        goodsImg
       } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const breed = (goodsAttributesValueRelVOAllList || [])
@@ -938,7 +946,8 @@ class List extends React.Component {
         SKU,
         technology: cateName?.[2] || '',
         brand: 'Royal Canin',
-        breed
+        breed,
+        imageURL: goodsImg
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -1316,7 +1325,6 @@ class List extends React.Component {
       filterList,
       searchForm,
       defaultFilterSearchForm,
-      actionFromFilter,
       sourceParam
     } = this.state;
     this.setState({ loading: true });
@@ -1366,28 +1374,6 @@ class List extends React.Component {
       }
       return pItem;
     });
-    let urlPreVal = '';
-    let pathname = '';
-    goodsAttributesValueRelVOList
-      .concat(goodsFilterRelList)
-      .slice(0, 1)
-      .map((item, i) => {
-        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${
-          i + 1
-        }=${item.attributeValues.join('|')}`;
-        return item;
-      });
-
-    // 点击filter，触发局部刷新或整页面刷新
-    if (!initingList && actionFromFilter) {
-      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-      // history.push({
-      //   pathname,
-      //   state: {
-      //     filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
-      //   }
-      // });
-    }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -1412,8 +1398,7 @@ class List extends React.Component {
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      storeCateIds:
-        this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
+      storeCateIds,
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -1510,10 +1495,6 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1647,7 +1628,11 @@ class List extends React.Component {
   onSortChange = (data) => {
     // 在筛选的时候不让他刷新页面
     this.setState(
-      { selectedSortParam: data, currentPage: 1, initingList: true },
+      {
+        selectedSortParam: data,
+        // currentPage: 1,
+        initingList: true
+      },
       () => this.getProductList()
     );
   };

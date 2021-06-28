@@ -44,6 +44,7 @@ const LoginButton = (props) => {
 
   useEffect(() => {
     setIsGetUserInfoDown(false);
+    console.log("OKTA authState:", authState)
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
@@ -137,7 +138,7 @@ const LoginButton = (props) => {
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
-                  console.log(e);
+                  console.log('Get JWT Token Failed:', e);
                   loginStore.changeLoginModal(false);
                 });
             } else {
@@ -146,7 +147,8 @@ const LoginButton = (props) => {
             }
           }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log('Get OKTA User Failed:', e);
           loginStore.changeLoginModal(false);
         });
     }

@@ -317,7 +317,10 @@ const GoodsDetailTabs = function (props) {
         getSpeciesId(goodsDetailSpace) == '1' ? benefitsonecat : benefitsonedog,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
-          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle1.new" />
+          <FormattedMessage
+            id="ClubLP.LongBanner.SubscriptionTitle1.new"
+            values={{ val1: <br /> }}
+          />
         </a>
       )
     },
@@ -334,7 +337,10 @@ const GoodsDetailTabs = function (props) {
       SubscriptionImg: benefitsthree,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
-          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle3.new" />
+          <FormattedMessage
+            id="ClubLP.LongBanner.SubscriptionTitle3.new"
+            values={{ val: <br /> }}
+          />
         </a>
       )
     }
