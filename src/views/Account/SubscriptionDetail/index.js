@@ -296,10 +296,9 @@ class SubscriptionDetail extends React.Component {
       funcUrl({ name: 'needBindPet' }) ||
       this.props.location.state?.needBindPet;
     this.getDetail(() => {
-      // 需要在异步的setstate之后执行
-      let goodsInfo = [...this.state.subDetail.goodsInfo];
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
+      let goodsInfo = [...this.state.subDetail.goodsInfo];
       // 非激活状态就不展示
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
       goodsInfo?.length == 1 &&
@@ -457,6 +456,18 @@ class SubscriptionDetail extends React.Component {
             subDetail.subscribeStatus === '1' //subscribeStatus为2的时候不能操作按钮
         },
         () => {
+          if (!this.state.subDetail.petsLifeStageFlag) {
+            this.setState({
+              triggerShowChangeProduct: Object.assign(
+                {},
+                this.state.triggerShowChangeProduct,
+                {
+                  // isShowModal: false,
+                  showBox: false // 只有一个商品的情况下都需要添加被动更换商品
+                }
+              )
+            });
+          }
           fn && fn(subDetail);
         }
       );
