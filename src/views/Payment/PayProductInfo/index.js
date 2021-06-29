@@ -943,7 +943,7 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
             <div className="col-6 end-lines text-right">
-              <span className="grand-total-sum">
+              <span className="grand-total-sum qhx">
                 {/* 是否登录 */}
                 {!this.isLogin && window.__.env.REACT_APP_COUNTRY == 'us' ? (
                   <>
@@ -965,7 +965,7 @@ class PayProductInfo extends React.Component {
                         <strong>{subtractionSign}</strong>
                       </>
                     ) : (
-                      <>{formatMoney(this.tradePrice)}1</>
+                      <>{formatMoney(this.tradePrice)}</>
                     )}
                   </>
                 ) : (
