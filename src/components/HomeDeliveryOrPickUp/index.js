@@ -16,6 +16,7 @@ import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { getPickupCityList, getPickupCityInfo } from '@/api';
+import IMask from 'imask';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
@@ -38,6 +39,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickup: true,
       showPickupDetail: false,
       showPickupDetailDialog: false,
+      showPickupForm: false,
       pickUpBtnLoading: false,
       homeAndPickup: [],
       pickupCity: '',
@@ -46,22 +48,29 @@ class HomeDeliveryOrPickUp extends React.Component {
     };
   }
   componentDidMount() {
-    // // 地图控件点击事件
-    // document.addEventListener('kaktusEvent', (event) => {
-    //   console.log('666 map event detail: ', event.detail);
-    //   this.setState(
-    //     {
-    //       clinlcInfo: event?.detail?.content || null
-    //     },
-    //     () => {
-    //       console.log('666 clinlcInfo: ', this.state.clinlcInfo);
-    //     }
-    //   );
-    //   // this.props.updateConfirmBtnDisabled(false);
-    // });
-    window.addEventListener('message', function (e) {
-      console.log('666 获取子级B页面返回值: ', e.date);
-      // console.log(e.data);
+    // 监听iframe的传值
+    window.addEventListener('message', (e) => {
+      if (e?.data?.type == 'get_delivery_point') {
+        console.log('666 监听iframe的传值: ', e);
+        let obj = e.data.content;
+        this.setState(
+          {
+            clinlcInfo: obj || null
+          },
+          () => {
+            console.log('666 clinlcInfo: ', this.state.clinlcInfo);
+            this.setState({
+              showPickupDetail: true,
+              showPickup: false
+            });
+            this.props.updateConfirmBtnDisabled(false);
+          }
+        );
+      }
+      if (e?.data?.loading == 'succ') {
+        // iframe加载完毕后执行
+        this.sendMsgToIframe();
+      }
     });
 
     let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
@@ -81,13 +90,20 @@ class HomeDeliveryOrPickUp extends React.Component {
           pickupCity: sitem.city.city
         },
         () => {
-          setTimeout(() => {
-            this.setItemStatus(stype);
-          }, 1000);
+          this.setItemStatus(stype);
+          this.setRuPhoneNumberReg();
         }
       );
     }
   }
+  // 设置手机号输入限制
+  setRuPhoneNumberReg = () => {
+    let element = document.getElementById('phoneNumberShipping');
+    let maskOptions = {
+      mask: [{ mask: '+{7} (000) 000-00-00' }]
+    };
+    let pval = IMask(element, maskOptions);
+  };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
     let res = null;
@@ -179,28 +195,67 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.props.updateDeliveryOrPickup(2);
       this.props.updateConfirmBtnDisabled(true);
+      this.sendMsgToIframe();
     }
     this.setState({
       showPickup: flag
     });
   };
+  // 向iframe发送数据
+  sendMsgToIframe = () => {
+    const { pickupCity } = this.state;
+    // iframe加载完成后才能向子域发送数据
+    let childFrameObj = document.getElementById('pickupIframe');
+    childFrameObj.contentWindow.postMessage({ city: pickupCity }, '*');
+  };
   // 编辑pickup
   editPickup = () => {
+    const { clinlcInfo } = this.state;
+    if (clinlcInfo) {
+      this.sendMsgToIframe();
+    }
     this.setState({
+      showPickupForm: false,
       showPickupDetail: false,
       showPickup: true
     });
+    this.props.updateConfirmBtnDisabled(true);
   };
   // 显示pickup详细
   showPickupDetailDialog = () => {
     this.setState({
-      showPickupDetailDialog: true
+      showPickupForm: false,
+      showPickupDetailDialog: true,
+      showPickupDetail: false
     });
   };
-  // 隐藏pickup详细
+  // 隐藏pickup详细弹框
   hidePickupDetailDialog = () => {
     this.setState({
-      showPickupDetailDialog: false
+      showPickupForm: true,
+      showPickupDetailDialog: false,
+      showPickupDetail: true
+    });
+  };
+  // 文本框输入改变
+  inputChange = (e) => {
+    const { caninForm } = this.state;
+    const target = e.target;
+    let tvalue = target.type === 'checkbox' ? target.checked : target.value;
+    const tname = target.name;
+    caninForm[tname] = tvalue;
+    this.setState({ caninForm }, () => {});
+  };
+  // 文本框失去焦点
+  inputBlur = (e) => {
+    const { caninForm } = this.state;
+    const target = e?.target;
+    const tname = target?.name;
+    const tvalue =
+      target?.type === 'checkbox' ? target?.checked : target?.value;
+    caninForm[tname] = tvalue;
+    this.setState({ caninForm }, () => {
+      // 验证数据
     });
   };
   render() {
@@ -209,10 +264,11 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickup,
       showPickupDetail,
       showPickupDetailDialog,
+      showPickupForm,
       pickupCity,
-      homeAndPickup
+      homeAndPickup,
+      clinlcInfo
     } = this.state;
-
     return (
       <>
         {hdpuLoading ? <Loading /> : null}
@@ -304,15 +360,20 @@ class HomeDeliveryOrPickUp extends React.Component {
           </div>
         </div>
 
-        {/* <div
+        <div
           className={`pickup_box ${
             this.props.deliveryOrPickUp == 2 ? '' : 'hidden'
           }`}
-        > */}
-        <div className="pickup_box">
-          <div className={`pickup_map_box ${showPickup ? '' : 'hidden'}`}>
+        >
+          {/* 地图 */}
+          <div
+            className={`pickup_map_box ${
+              showPickup ? (isMobile ? 'block' : 'flex') : 'hidden'
+            }`}
+          >
             <iframe
               src={'/pickupmap'}
+              id="pickupIframe"
               className="pickup_iframe"
               style={{ width: '100%', height: '100%' }}
               width="100%"
@@ -321,66 +382,155 @@ class HomeDeliveryOrPickUp extends React.Component {
               frameBorder="0"
             />
           </div>
-          {/* 显示地图上选择的信息 */}
-          <div className={`pickup_infos ${showPickupDetail ? '' : 'hidden'}`}>
-            {/* <div className="pickup_infos"> */}
-            <div className="info_tit">
-              <div className="tit_left">СДЭК</div>
-              <div className="tit_right">{formatMoney(55)}</div>
-            </div>
-            <div className="infos">
-              <div className="panel_address">
-                Проектируемый пр-д №3723, вл. 12
+
+          {/* 显示地图上选择的点信息 */}
+          {showPickupDetail && clinlcInfo && (
+            <div className="pickup_infos">
+              <div className="info_tit">
+                <div className="tit_left">{clinlcInfo.courier}</div>
+                <div className="tit_right">{formatMoney(clinlcInfo.price)}</div>
               </div>
-              <div className="panel_worktime">
-                Пн-Пт 09:00-21:00, Сб-Вс 10:00-21:00
+              <div className="infos">
+                <div className="panel_address">
+                  {clinlcInfo.address?.fullAddress}
+                </div>
+                <div className="panel_worktime">{clinlcInfo.workTime}</div>
+              </div>
+              <div className="info_btn_box">
+                <button
+                  className="rc-btn rc-btn--sm rc-btn--two mr-0"
+                  onClick={this.showPickupDetailDialog}
+                >
+                  <FormattedMessage id="payment.moreDetails" />
+                </button>
+                <button
+                  className="rc-btn rc-btn--sm rc-btn--one"
+                  onClick={this.editPickup}
+                >
+                  <FormattedMessage id="edit" />
+                </button>
               </div>
             </div>
-            <div className="info_btn_box">
-              <button
-                className="rc-btn rc-btn--sm rc-btn--two mr-0"
-                onClick={this.showPickupDetailDialog}
-              >
-                <FormattedMessage id="payment.moreDetails" />
-              </button>
-              <button
-                className="rc-btn rc-btn--sm rc-btn--one"
-                onClick={this.editPickup}
-              >
-                <FormattedMessage id="edit" />
-              </button>
-            </div>
-          </div>
+          )}
 
           {/* pickup详细 */}
-          <div
-            className={`pickup_detail_dialog ${
-              showPickupDetailDialog ? '' : 'hidden'
-            }`}
-          >
-            <div className="pk_detail_box">
-              <span
-                className="pk_btn_close"
-                onClick={this.hidePickupDetailDialog}
-              ></span>
-              <div className="pk_tit_box">
-                <div className="pk_detail_title">СДЭК (MSK123)</div>
-                <div className="pk_detail_price">110 ₽</div>
+          {showPickupDetailDialog && clinlcInfo && (
+            <div className="pickup_detail_dialog">
+              <div className="pk_detail_box">
+                <span
+                  className="pk_btn_close"
+                  onClick={this.hidePickupDetailDialog}
+                ></span>
+                <div className="pk_tit_box">
+                  <div className="pk_detail_title">
+                    {clinlcInfo.courier} ({clinlcInfo.code})
+                  </div>
+                  <div className="pk_detail_price">
+                    {formatMoney(clinlcInfo.price)}
+                  </div>
+                </div>
+                <div className="pk_detail_address pk_addandtime">
+                  {clinlcInfo.address?.fullAddress}
+                </div>
+                <div className="pk_detail_worktime pk_addandtime">
+                  {clinlcInfo.workTime}
+                </div>
+                <div className="pk_detail_dop_title">
+                  Дополнительная информация
+                </div>
+                <div className="pk_detail_description">
+                  {clinlcInfo.description}
+                </div>
               </div>
-              <div className="pk_detail_address pk_addandtime">
-                пос.Малаховка, Касимовское шоссе, 3б литера О
+            </div>
+          )}
+
+          {/* 表单 */}
+          <div className={`row rc_form_box ${showPickupForm ? '' : 'hidden'}`}>
+            <div className="col-md-7">
+              <div className="form-group required">
+                <label
+                  className="form-control-label"
+                  htmlFor="firstNameShipping"
+                >
+                  <FormattedMessage id="payment.firstName" />
+                </label>
+                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                  <input
+                    className="rc-input__control firstNameShipping"
+                    id="firstNameShipping"
+                    type="text"
+                    value=""
+                    onChange={this.inputChange}
+                    onBlur={this.inputBlur}
+                    name="firstName"
+                    maxLength="200"
+                  />
+                  <label className="rc-input__label" htmlFor="id-text1" />
+                </span>
               </div>
-              <div className="pk_detail_worktime pk_addandtime">
-                Пн-Пт 10:00-19:00
+            </div>
+            <div className="col-md-7">
+              <div className="form-group required">
+                <label
+                  className="form-control-label"
+                  htmlFor="lastNameShipping"
+                >
+                  <FormattedMessage id="payment.lastName" />
+                </label>
+                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                  <input
+                    className="rc-input__control lastNameShipping"
+                    id="lastNameShipping"
+                    type="text"
+                    onChange={this.inputChange}
+                    onBlur={this.inputBlur}
+                    name="lastName"
+                    maxLength="200"
+                  />
+                  <label className="rc-input__label" htmlFor="id-text1" />
+                </span>
               </div>
-              <div className="pk_detail_dop_title">
-                Дополнительная информация
+            </div>
+            <div className="col-md-7">
+              <div className="form-group required">
+                <label className="form-control-label" for="phoneNumberShipping">
+                  <FormattedMessage id="payment.phoneNumber" />
+                </label>
+                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                  <input
+                    className="rc-input__control phoneNumberShipping"
+                    id="phoneNumberShipping"
+                    type="text"
+                    onChange={this.inputChange}
+                    onBlur={this.inputBlur}
+                    name="phoneNumber"
+                    maxlength="18"
+                  />
+                  <label className="rc-input__label" for="id-text1"></label>
+                </span>
+                <span className="ui-lighter">
+                  <FormattedMessage id="examplePhone" />
+                </span>
               </div>
-              <div className="pk_detail_description">
-                Ориентир Малаховское кладбище, остановка Опытный завод, автобусы
-                325,37,40,313,327,328,332,369,369м,376,376б,939, маршрутки
-                44к,57. От остановки пройти направо 100м, свернуть во дворы идти
-                вдоль дома.
+            </div>
+            <div className="col-md-12 ">
+              <div className="form-group ">
+                <label className="form-control-label" for="commentShipping">
+                  <FormattedMessage id="payment.comment" />
+                </label>
+                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+                  <textarea
+                    className="rc_input_textarea"
+                    placeholder={`${this.props.intlMessages['payment.comment']}`}
+                    id="commentShipping"
+                    name="comment"
+                    onChange={this.inputChange}
+                    onBlur={this.inputBlur}
+                    maxlength="500"
+                  ></textarea>
+                  <label className="rc-input__label" for="id-text1"></label>
+                </span>
               </div>
             </div>
           </div>

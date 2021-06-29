@@ -7,7 +7,8 @@ class PickupMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapLoading: true
+      mapLoading: true,
+      city: ''
     };
   }
   componentDidMount() {
@@ -18,29 +19,44 @@ class PickupMap extends React.Component {
         host: '//app.kak2c.ru'
       });
     });
-
     // 地图控件点击事件
-    document.addEventListener('kaktusEvent', (event) => {
-      console.log('666 传递给父页面: ', event.detail);
-      // 传递给父页面
-      window.parent.postMessage(event.detail, '*');
+    document.addEventListener('kaktusEvent', (e) => {
+      try {
+        // 传递给父页面
+        window.parent.postMessage(e.detail, '*');
+      } catch (error) {
+        console.log('error >>: ', error);
+      }
     });
 
     window.addEventListener('load', () => {
-      this.setState(
-        {
-          mapLoading: false
+      this.setState({
+        mapLoading: false
+      });
+      this.sendMsgLoadComplete();
+
+      // 接收父组件发来的数据
+      window.addEventListener(
+        'message',
+        (e) => {
+          if (e?.data?.city) {
+            let pkcity = e.data.city;
+            this.setState({
+              city: pkcity
+            });
+            this.openKaktusWidget(pkcity);
+          }
         },
-        () => {
-          this.openKaktusWidget();
-        }
+        false
       );
     });
   }
-  openKaktusWidget = () => {
+  // 打开地图
+  openKaktusWidget = (city) => {
+    console.log('666 ', city);
     window.kaktusMap.openWidget({
       city_from: 'Москва',
-      city_to: 'Москва',
+      city_to: city,
       dimensions: {
         height: 10,
         width: 10,
@@ -48,6 +64,14 @@ class PickupMap extends React.Component {
       },
       weight: 600
     });
+  };
+  // 页面加载完成后向父级发送数据
+  sendMsgLoadComplete = () => {
+    try {
+      window.parent.postMessage({ loading: 'succ' }, '*');
+    } catch (error) {
+      console.log('error >>: ', error);
+    }
   };
   render() {
     const { mapLoading } = this.state;
