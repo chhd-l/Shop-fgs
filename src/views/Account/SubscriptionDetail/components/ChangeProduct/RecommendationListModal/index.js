@@ -43,17 +43,28 @@ const RecommendationListModal = ({ intl }) => {
       let res = await findPetProductForClub({ petsId, apiTree: 'club_V2' });
       let mainProduct = res.context.mainProduct;
       let otherProducts = res.context.otherProducts;
+      let currentItems =
+        (currentGoodsItems?.length ? currentGoodsItems : els) || []; // 存在setCurrentGoodsItems异步还没赋值成功造成currentGoodsItems没值
       if (mainProduct) {
-        let theSameProduct = currentGoodsItems.find(
+        let theSameProduct = currentItems.find(
           (el) => mainProduct?.spuCode == el?.spuNo
         );
         if (theSameProduct?.spuNo) {
           // 如果主商品有同样的spu，需要直接不展示所有推荐商品
-          setProductDetail({});
+          // setProductDetail({});
+          setState({
+            triggerShowChangeProduct: Object.assign(
+              {},
+              triggerShowChangeProduct,
+              {
+                showBox: false
+              }
+            )
+          });
           cb && cb({});
           return;
         }
-        let currentSpus = currentGoodsItems?.map((el) => el.spuNo);
+        let currentSpus = currentItems?.map((el) => el.spuNo);
         let newOtherProducts =
           otherProducts?.filter((item) => !currentSpus.includes(item.spuNo)) ||
           [];
@@ -118,8 +129,8 @@ const RecommendationListModal = ({ intl }) => {
       queryProductList(goodsInfo, ({ newProductDetail }) => {
         // 查详情
         let id =
-          productDetail.mainProduct?.spuCode ||
-          newProductDetail.mainProduct?.spuCode;
+          productDetail?.mainProduct?.spuCode ||
+          newProductDetail?.mainProduct?.spuCode;
         if (id) {
           queryProductDetails({
             id,
