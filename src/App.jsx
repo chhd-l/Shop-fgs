@@ -39,6 +39,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
 import Test from '@/views/Test';
+import PickupMap from '@/views/PickupMap';
 import List from '@/views/List';
 import Login from '@/views/Login';
 // import Details from '@/views/Details';
@@ -245,6 +246,7 @@ const App = () => {
                   component={OktaLogoutPage}
                 />
                 <Route exact path={'/home/'} component={Home} />
+                <Route exact path={'/pickupmap'} component={PickupMap} />
                 <Route exact path={'/test/'} component={Test} />
                 <Route
                   exact

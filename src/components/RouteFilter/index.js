@@ -206,16 +206,18 @@ class RouteFilter extends Component {
     //     id: 'global-script'
     //   });
     // }
-
     if (
       window.__.env.REACT_APP_MARS_FOOTER &&
       !/^\/implicit\/callback|^\/required|^\/refuge|^\/okta-login-page|^\/okta-logout-page/.test(
         pathname
       )
     ) {
-      loadJS({
-        url: window.__.env.REACT_APP_MARS_FOOTER
-      });
+      // 特殊页面，不加
+      if (pathname != '/pickupmap') {
+        loadJS({
+          url: window.__.env.REACT_APP_MARS_FOOTER
+        });
+      }
     }
   }
   //判断consent接口是否存在必填项

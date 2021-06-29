@@ -35,8 +35,10 @@ class HomeDeliveryOrPickUp extends React.Component {
     super(props);
     this.state = {
       hdpuLoading: false,
+      showPickup: true,
+      showPickupDetail: false,
+      showPickupDetailDialog: false,
       pickUpBtnLoading: false,
-      pickUpBoxPosition: '',
       homeAndPickup: [],
       pickupCity: '',
       clinlcInfo: [], // 诊所信息
@@ -44,26 +46,22 @@ class HomeDeliveryOrPickUp extends React.Component {
     };
   }
   componentDidMount() {
-    // 初始化地图控件。必须在完全绘制页面后调用。
-    document.addEventListener('DOMContentLoaded', (e) => {
-      kaktusMap({
-        domain: 'shop4995727',
-        host: '//app.kak2c.ru'
-      });
-    });
-    // 地图控件点击事件
-    document.addEventListener('kaktusEvent', (event) => {
-      this.resetPara();
-      console.log('666 map event detail: ', event.detail);
-      this.setState(
-        {
-          clinlcInfo: event?.detail?.content || null
-        },
-        () => {
-          console.log('666 clinlcInfo: ', this.state.clinlcInfo);
-        }
-      );
-      // this.props.updateConfirmBtnDisabled(false);
+    // // 地图控件点击事件
+    // document.addEventListener('kaktusEvent', (event) => {
+    //   console.log('666 map event detail: ', event.detail);
+    //   this.setState(
+    //     {
+    //       clinlcInfo: event?.detail?.content || null
+    //     },
+    //     () => {
+    //       console.log('666 clinlcInfo: ', this.state.clinlcInfo);
+    //     }
+    //   );
+    //   // this.props.updateConfirmBtnDisabled(false);
+    // });
+    window.addEventListener('message', function (e) {
+      console.log('666 获取子级B页面返回值: ', e.date);
+      // console.log(e.data);
     });
 
     let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
@@ -90,12 +88,6 @@ class HomeDeliveryOrPickUp extends React.Component {
       );
     }
   }
-  // 重置地图父盒子定位
-  resetPara = () => {
-    this.setState({
-      pickUpBoxPosition: ''
-    });
-  };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
     let res = null;
@@ -109,31 +101,12 @@ class HomeDeliveryOrPickUp extends React.Component {
         this.props.updateDeliveryOrPickup(0);
         this.setState(
           {
-            homeAndPickup: [],
-            pickUpBoxPosition: ''
+            homeAndPickup: []
           },
           () => {
-            // 加一条测试数据
-            let testPickup = {
-              codPrice: 0,
-              contractNumber: 'LOGSIS',
-              courier: 'LOGSIS',
-              courierCode: 'LOGSIS',
-              deliveryCode: '6f410205-005c-47d1-b9a9-0295c6b52100',
-              deliveryPrice: 550,
-              dlvPrice: null,
-              fioCyrillic: false,
-              insurancePrice: 0,
-              maxDeliveryTime: 4,
-              minDeliveryTime: 2,
-              price: 550,
-              product: null,
-              type: 'PVZ'
-            };
             // type: 'COURIER'=> home delivery、'PVZ'=> pickup
             let obj = res.context.tariffs;
             let hdpu = [];
-            obj.push(testPickup); // 测试数据
             obj.forEach((v, i) => {
               let type = v.type;
               if (type == 'COURIER' || type == 'PVZ') {
@@ -197,45 +170,45 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 设置状态
   setItemStatus = (val) => {
-    const { selectedItem } = this.state;
+    let flag = false;
     if (val == 'homeDelivery') {
+      flag = false;
       this.props.updateDeliveryOrPickup(1);
       this.props.updateConfirmBtnDisabled(false);
-      this.setState({
-        pickUpBoxPosition: '',
-        hdpuLoading: false
-      });
     } else if (val == 'pickup') {
-      this.setState({
-        hdpuLoading: true
-      });
+      flag = true;
       this.props.updateDeliveryOrPickup(2);
       this.props.updateConfirmBtnDisabled(true);
-      // setTimeout(() => {
-      // 打开地图
-      window.kaktusMap.openWidget({
-        city_from: selectedItem.city.city,
-        city_to: selectedItem.city.city,
-        dimensions: {
-          height: 10,
-          width: 10,
-          depth: 10
-        },
-        weight: 600
-      });
-      setTimeout(() => {
-        this.setState({
-          pickUpBoxPosition: 'relative',
-          hdpuLoading: false
-        });
-      }, 2000);
-      // }, 2000);
     }
+    this.setState({
+      showPickup: flag
+    });
+  };
+  // 编辑pickup
+  editPickup = () => {
+    this.setState({
+      showPickupDetail: false,
+      showPickup: true
+    });
+  };
+  // 显示pickup详细
+  showPickupDetailDialog = () => {
+    this.setState({
+      showPickupDetailDialog: true
+    });
+  };
+  // 隐藏pickup详细
+  hidePickupDetailDialog = () => {
+    this.setState({
+      showPickupDetailDialog: false
+    });
   };
   render() {
     const {
       hdpuLoading,
-      pickUpBoxPosition,
+      showPickup,
+      showPickupDetail,
+      showPickupDetailDialog,
       pickupCity,
       homeAndPickup
     } = this.state;
@@ -336,23 +309,79 @@ class HomeDeliveryOrPickUp extends React.Component {
             this.props.deliveryOrPickUp == 2 ? '' : 'hidden'
           }`}
         > */}
-        <div className={`pickup_box`}>
-          <div className={`pickup_map_box pickup_map_box_${pickUpBoxPosition}`}>
-            <div id="kaktusMap"></div>
+        <div className="pickup_box">
+          <div className={`pickup_map_box ${showPickup ? '' : 'hidden'}`}>
+            <iframe
+              src={'/pickupmap'}
+              className="pickup_iframe"
+              style={{ width: '100%', height: '100%' }}
+              width="100%"
+              height="100%"
+              scrolling="no"
+              frameBorder="0"
+            />
           </div>
-          <div className="pickup_infos">
+          {/* 显示地图上选择的信息 */}
+          <div className={`pickup_infos ${showPickupDetail ? '' : 'hidden'}`}>
+            {/* <div className="pickup_infos"> */}
             <div className="info_tit">
               <div className="tit_left">СДЭК</div>
               <div className="tit_right">{formatMoney(55)}</div>
             </div>
-            <div className="infos"></div>
+            <div className="infos">
+              <div className="panel_address">
+                Проектируемый пр-д №3723, вл. 12
+              </div>
+              <div className="panel_worktime">
+                Пн-Пт 09:00-21:00, Сб-Вс 10:00-21:00
+              </div>
+            </div>
             <div className="info_btn_box">
-              <button className="rc-btn rc-btn--sm rc-btn--two mr-0">
+              <button
+                className="rc-btn rc-btn--sm rc-btn--two mr-0"
+                onClick={this.showPickupDetailDialog}
+              >
                 <FormattedMessage id="payment.moreDetails" />
               </button>
-              <button className="rc-btn rc-btn--sm rc-btn--one">
+              <button
+                className="rc-btn rc-btn--sm rc-btn--one"
+                onClick={this.editPickup}
+              >
                 <FormattedMessage id="edit" />
               </button>
+            </div>
+          </div>
+
+          {/* pickup详细 */}
+          <div
+            className={`pickup_detail_dialog ${
+              showPickupDetailDialog ? '' : 'hidden'
+            }`}
+          >
+            <div className="pk_detail_box">
+              <span
+                className="pk_btn_close"
+                onClick={this.hidePickupDetailDialog}
+              ></span>
+              <div className="pk_tit_box">
+                <div className="pk_detail_title">СДЭК (MSK123)</div>
+                <div className="pk_detail_price">110 ₽</div>
+              </div>
+              <div className="pk_detail_address pk_addandtime">
+                пос.Малаховка, Касимовское шоссе, 3б литера О
+              </div>
+              <div className="pk_detail_worktime pk_addandtime">
+                Пн-Пт 10:00-19:00
+              </div>
+              <div className="pk_detail_dop_title">
+                Дополнительная информация
+              </div>
+              <div className="pk_detail_description">
+                Ориентир Малаховское кладбище, остановка Опытный завод, автобусы
+                325,37,40,313,327,328,332,369,369м,376,376б,939, маршрутки
+                44к,57. От остановки пройти направо 100м, свернуть во дворы идти
+                вдоль дома.
+              </div>
             </div>
           </div>
         </div>

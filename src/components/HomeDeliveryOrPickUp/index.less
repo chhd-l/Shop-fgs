@@ -72,7 +72,6 @@ input:-webkit-autofill {
       }
     }
 
-
     .need_delivery_date {
       display: block;
       margin-left: 2rem;
@@ -82,103 +81,93 @@ input:-webkit-autofill {
 
 }
 
-// #kaktusMap {
-//   display: none;
-// }
+.pickup_box {
+  position: relative;
 
-// .pickup_box {
-//   display: block;
-// }
+  .pickup_iframe {
+    overflow: hidden;
+  }
 
-// // PC端地图
-// .pickup_map_box {
-//   display: block;
-//   width: 490px;
-//   // width: 100%;
-//   height: 505px;
-//   // display: none;
-//   margin-bottom: 1.5rem !important;
 
-//   #kaktusMap {
-//     // width: 100%;
-//     width: 490px;
-//     height: 505px;
-//     // display: none;
-//     display: block !important;
+  .pickup_infos {
+    background-color: #fbfbfb;
+    padding: 1rem;
 
-//     .css-1xuqurl {
-//       background: none;
+    .info_tit {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 500;
+    }
 
-//       .css-e4xzu {
-//         box-shadow: none;
-//         // max-width: 100%;
-//         padding: 0;
+    .infos {
+      color: #ababab;
+      padding: 1rem 0;
+    }
 
-//         .modals-wrapper {
-//           height: 505px !important;
+    .info_btn_box {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 
-//           .ymaps-2-1-78-controls__control {
-//             display: none !important;
-//           }
+  .pickup_detail_dialog {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #FFF;
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    font-size: 15px;
 
-//           .ymaps-2-1-78-copyrights-pane {
-//             display: none !important;
-//           }
-//         }
-//       }
+    .pk_detail_box {
+      padding: 4rem;
 
-//       .close-button {
-//         display: none;
-//       }
+      .pk_btn_close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        width: 19px;
+        height: 19px;
+        background-size: contain;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAABwUlEQVQ4jaWUz4vOURSHn3doRrOZhUaa8Ny5jWxmskAWWCg/alYoCWWjWNixUfIXCGHDxkZSauR3VpidWaHIkNH5B5SyU9O18J36+nrft3den7qbc+557rmf7rmot9RUSuF/lrpZvT8APAOep5TG6FMppU3AI+DaEv2Y+lYd7aOzpC7knPeWUqgnTqlz6sgyYGPqfM75wFKsueGcOqsO9wAbVd+px+vxgboXEXEZeA3MpJQGu3g2AjwFbkbE3XquVUppV3AVWA8ciYjFRm4YeAE8iYhLzdqBZqDSWeAHcDul1KrBBoEHwGw7WEdgRBTgNDAE3KhgK4B7wOeIuNihkfZXbnQ0A3wAxoBF4GR14PKBFXQY+AR8B7Y1PW2qk4d1XQA+Ar/4Y0NXreyWzDmfB3YA08Aq4FVK6WdE3OlY1Onhjo+Pn1Hf1CdHXaPOqwc71bUN5pxPqO/V1W0mZJ36Vd3XEzDnfKjqYm2XsZtQv6k7uwLV/eqCuqGHWZ6qoFvaAtVdaqgbl/HbbK+uP/kXUN1awab6+A93q1/UiVIKLXUSeAwcjYi5Ht7lP0opTQNXgD0t9TrwMCJe9gOrQQ8DQ78Bk00qH1xy2KoAAAAASUVORK5CYII=);
+        background-repeat: no-repeat;
+        cursor: pointer;
+        z-index: 2;
+      }
+    }
 
-//       // .map-top-panel {
-//       //   display: none;
-//       // }
+    .pk_tit_box {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      padding: 1.5rem 0;
+      font-size: 16px;
+    }
+  }
 
-//       .css-9zp9gv {
-//         .map-bottom-panel {
-//           .map-bottom-panel-buttons {
-//             button {
-//               border-radius: 30px;
-//               border-color: #e2001a;
+  .pk_addandtime {
+    color: #7b7b7b;
+    margin-bottom: 0.5rem;
+  }
 
-//               &.secondary {
-//                 background-color: #fff;
-//                 color: #e2001a;
-//               }
+  .pk_detail_dop_title {
+    font-weight: 600;
+    margin-top: 2rem;
+    padding: 2rem 0;
+    font-size: 16px;
+  }
 
-//               &.primary {
-//                 background-color: #e2001a;
-//                 color: #fff;
-//               }
-//             }
-//           }
-//         }
+  .pk_detail_description {
+    word-break: break-all;
+    color: #7b7b7b;
+    line-height: 25px;
+    max-height: 300px;
+    overflow: auto;
+  }
+}
 
-//         .map-bottom-panel-address {
-//           color: #b0b0b0;
-//         }
-
-//         .map-bottom-panel-worktime {
-//           color: #b0b0b0;
-//         }
-//       }
-
-//     }
-//   }
-// }
-
-// .pickup_map_box_relative {
-//   display: block !important;
-
-//   #kaktusMap {
-//     display: block !important;
-
-//     .css-1xuqurl {
-//       position: relative !important;
-//     }
-//   }
-// }
 
 @media (max-width: 960px) {
   .rc_form_box {
