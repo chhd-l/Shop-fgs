@@ -735,6 +735,7 @@ export default class PLPCover extends React.Component {
           ) : null
         }
         // onClick={this.hanldeItemClick.bind(this, item, i)}
+        onClick={this.props.onClick}
         item={item}
         GAListParam={GAListParam}
         breadListByDeco={breadListByDeco}
@@ -777,6 +778,7 @@ export default class PLPCover extends React.Component {
             ) : null
           }
           // onClick={this.hanldeItemClick.bind(this, item, i)}
+          onClick={this.props.onClick}
           item={item}
           GAListParam={GAListParam}
           breadListByDeco={breadListByDeco}

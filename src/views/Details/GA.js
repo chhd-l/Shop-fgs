@@ -1,4 +1,11 @@
 import { loadJS, filterObjectValue } from '@/utils/utils';
+import { getSpecies } from '@/utils/GA';
+
+const filterAttrValue = (list, keyWords) => {
+  return (list || [])
+    .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
+    .map((item) => item?.goodsAttributeValue);
+};
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
@@ -77,27 +84,40 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
       .filter((item) => item.selected)
       .map((selectItem) => selectItem.specText)
       .toString();
-  const breed =
-    goodsAttributesValueRelList.length &&
-    goodsAttributesValueRelList
-      .filter(
-        (attr) =>
-          attr.goodsAttributeName &&
-          attr.goodsAttributeName.toLowerCase() == 'breeds'
-      )
-      .map((item) => item.goodsAttributeValue);
-  const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+  // const breed =
+  //   goodsAttributesValueRelList.length &&
+  //   goodsAttributesValueRelList
+  //     .filter(
+  //       (attr) =>
+  //         attr.goodsAttributeName &&
+  //         attr.goodsAttributeName.toLowerCase() == 'breeds'
+  //     )
+  //     .map((item) => item.goodsAttributeValue);
+  const breed = filterAttrValue(goodsAttributesValueRelList, 'breeds');
+  const spezies = filterAttrValue(goodsAttributesValueRelList, 'spezies');
+  const range = filterAttrValue(
+    goodsAttributesValueRelList,
+    'range'
+  ).toString();
+  const technology = filterAttrValue(
+    goodsAttributesValueRelList,
+    'technology'
+  ).toString();
+  // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+  const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+
   const recommendationID = clinicStore?.linkClinicId || '';
 
   const GAProductsInfo = {
     price: selectPrice || minMarketPrice,
-    specie,
-    range: cateName?.[1] || '',
+    specie:
+      window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : getSpecies(item),
+    range,
     name: goodsName,
     mainItemCode: goodsNo,
     SKU,
     recommendationID,
-    technology: cateName?.[2] || '',
+    technology,
     brand: 'Royal Canin',
     size,
     breed,
