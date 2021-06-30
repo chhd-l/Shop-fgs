@@ -323,7 +323,7 @@ class Details extends React.Component {
     });
   }
 
-  updatedPriceOrCode = (barcode, selectPrice) => {
+  updatedPriceOrCode = ({ barcode, selectPrice, clickEvent }) => {
     const { clinicStore } = this.props;
     const {
       currentSubscriptionStatus,
@@ -342,8 +342,11 @@ class Details extends React.Component {
     // cc.js加载
     this.loadWidgetIdBtn(barcode);
 
-    //hubGa初始化页面埋点
-    hubGAProductDetailPageView(details, pdpScreenLoadData);
+    //hubGa初始化页面埋点,不是点击的事件才调用
+    if (!clickEvent) {
+      hubGAProductDetailPageView(details, pdpScreenLoadData);
+    }
+
     this.setState({
       barcode
     });
