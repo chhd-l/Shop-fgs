@@ -233,7 +233,12 @@ class Header extends React.Component {
                 break;
             }
           } else if (item.interaction === 1) {
-            tmpHref = { pathname: item.navigationLink, target: item.target };
+            // 以http/https开头的，解析为内部路由跳转
+            if (item.navigationLink.test(/^https?:\/\//)) {
+              tmpLink = { pathname: item.navigationLink, target: item.target };
+            } else {
+              tmpHref = { pathname: item.navigationLink, target: item.target };
+            }
           }
           item.link = tmpLink;
           item.href = tmpHref;
