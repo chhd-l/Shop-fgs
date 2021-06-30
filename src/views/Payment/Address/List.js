@@ -44,6 +44,7 @@ class AddressList extends React.Component {
     visible: true,
     type: 'delivery',
     intlMessages: null,
+    isCurrentBuyWaySubscription: false, // 是否有订阅商品
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
     saveAddressNumber: 0, // 保存Delivery地址次数
@@ -60,6 +61,7 @@ class AddressList extends React.Component {
     super(props);
     this.state = {
       listSaveAddressNumber: 0,
+      defaultCity: '', // 默认地址中的城市
       confirmBtnDisabled: false,
       deliveryOrPickUpFlag: false,
       isDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
@@ -255,6 +257,12 @@ class AddressList extends React.Component {
       const defaultAddressItem = find(addressList, (ele) => {
         return ele.isDefaltAddress === 1;
       });
+      // 设置默认城市
+      if (defaultAddressItem) {
+        this.setState({
+          defaultCity: defaultAddressItem.city
+        });
+      }
 
       let tmpId =
         selectedId ||
@@ -1581,6 +1589,14 @@ class AddressList extends React.Component {
           {deliveryOrPickUpFlag && (
             <>
               <HomeDeliveryOrPickUp
+                key={
+                  this.props.isCurrentBuyWaySubscription ||
+                  this.state.defaultCity
+                }
+                defaultCity={this.state.defaultCity}
+                isCurrentBuyWaySubscription={
+                  this.props.isCurrentBuyWaySubscription
+                }
                 updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                 updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
                 deliveryOrPickUp={isDeliveryOrPickUp}

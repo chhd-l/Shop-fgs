@@ -2038,6 +2038,7 @@ class Payment extends React.Component {
               id="1"
               type="delivery"
               intlMessages={this.props.intl.messages}
+              isCurrentBuyWaySubscription={this.isCurrentBuyWaySubscription}
               showDeliveryDateTimeSlot={true}
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}

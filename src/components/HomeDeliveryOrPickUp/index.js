@@ -27,6 +27,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 class HomeDeliveryOrPickUp extends React.Component {
   static defaultProps = {
     isLogin: false,
+    isCurrentBuyWaySubscription: false, // 是否有订阅商品
+    defaultCity: '',
     deliveryOrPickUp: 0,
     intlMessages: '',
     updateDeliveryOrPickup: () => {},
@@ -47,34 +49,48 @@ class HomeDeliveryOrPickUp extends React.Component {
       selectedItem: null // 记录选择的内容
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     // 监听iframe的传值
     window.addEventListener('message', (e) => {
+      // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
-        console.log('666 监听iframe的传值: ', e);
+        // console.log('666 监听iframe的传值: ', e);
         let obj = e.data.content;
         this.setState(
           {
             clinlcInfo: obj || null
           },
           () => {
-            console.log('666 clinlcInfo: ', this.state.clinlcInfo);
+            // console.log('666 clinlcInfo: ', this.state.clinlcInfo);
+            let sitem =
+              sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+            if (sitem) {
+              sitem = JSON.parse(sitem);
+              sitem['pickup'] = obj;
+              sessionItemRoyal.set(
+                'rc-homeDeliveryAndPickup',
+                JSON.stringify(sitem)
+              );
+            }
             this.setState({
+              selectedItem: sitem,
               showPickupDetail: true,
+              showPickupForm: true,
               showPickup: false
             });
             this.props.updateConfirmBtnDisabled(false);
           }
         );
       }
+
+      // iframe加载完毕后返回
       if (e?.data?.loading == 'succ') {
-        // iframe加载完毕后执行
         this.sendMsgToIframe();
       }
     });
 
+    // 初始化数据，本地存储有数据（当前会话未结束）
     let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-    // 初始化
     if (sitem) {
       sitem = JSON.parse(sitem);
       let stype = '';
@@ -94,6 +110,16 @@ class HomeDeliveryOrPickUp extends React.Component {
           this.setRuPhoneNumberReg();
         }
       );
+    } else {
+      // 如果地址列表中存在默认地址，根据默认地址中的city查询
+      if (this.props.defaultCity) {
+        let city = this.props.defaultCity;
+        let res = await getPickupCityList({ keyword: city });
+        let robj = res?.context?.pickUpQueryCityDTOs || [];
+        if (robj) {
+          this.handlePickupCitySelectChange(robj[0]);
+        }
+      }
     }
   }
   // 设置手机号输入限制
@@ -111,6 +137,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       hdpuLoading: true
     });
     try {
+      // 根据不同的城市信息查询
       res = await getPickupCityInfo(data);
       if (res.context?.tariffs) {
         // 先重置参数
@@ -125,10 +152,14 @@ class HomeDeliveryOrPickUp extends React.Component {
             let hdpu = [];
             obj.forEach((v, i) => {
               let type = v.type;
-              if (type == 'COURIER' || type == 'PVZ') {
-                type == 'COURIER'
-                  ? (v.type = 'homeDelivery')
-                  : (v.type = 'pickup');
+              if (type == 'COURIER') {
+                v.selected = true;
+                v.type = 'homeDelivery';
+                hdpu.push(v);
+              }
+              // 有订阅商品时不显示pickup
+              if (type == 'PVZ' && !this.props.isCurrentBuyWaySubscription) {
+                v.type = 'pickup';
                 hdpu.push(v);
               }
             });
@@ -144,6 +175,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 selectedItem: Object.assign({}, item)
               },
               () => {
+                this.setItemStatus('homeDelivery');
                 sessionItemRoyal.set(
                   'rc-homeDeliveryAndPickup',
                   JSON.stringify(item)
