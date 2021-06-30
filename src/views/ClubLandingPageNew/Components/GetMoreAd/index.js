@@ -31,7 +31,11 @@ const GetMoreAd = () => {
                     style={{
                       boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE'
                     }}
-                    className="widthsmall margintop10vh"
+                    className={`${
+                      window.__.env.REACT_APP_COUNTRY == 'tr'
+                        ? 'dewidthsmall margintoppx'
+                        : 'widthsmall margintoppx'
+                    }`}
                   >
                     <div
                       style={{
@@ -160,7 +164,7 @@ const GetMoreAd = () => {
                       </div>
 
                       <div
-                        className="mobileflex getmore30vh getmore47vh"
+                        className="mobileflex getmore30vh "
                         style={{
                           display: 'flex',
                           justifyContent: 'space-between'
@@ -260,7 +264,7 @@ const GetMoreAd = () => {
                         ariaLabel="Links to product finder"
                       >
                         <button
-                          className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs getmorebutton "
+                          className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs "
                           style={{ padding: '10px 90px' }}
                         >
                           <FormattedMessage id="ClubLP.GetMoreAd.button" />
