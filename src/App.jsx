@@ -33,7 +33,6 @@ import { Provider } from 'mobx-react';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
 
-import RegisterRequired from '@/views/Login/RegisterRequired';
 import demo from '@/views/demo';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
@@ -135,9 +134,12 @@ import ClubLandingPageNew from './views/ClubLandingPageNew';
 import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
 import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
 import ClubLandingPage from './views/ClubLandingPage';
+// import RegisterRequired  from '@/views/Login/RegisterRequired'
 
 import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
+import Loadable from 'react-loadable';
+import Loading from '@/components/Loading';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -191,13 +193,18 @@ const LoginCallback = (props) => {
       } else {
         await oktaAuth.handleLoginRedirect();
       }
-      sessionItemRoyal.set('fromLoginPage', true);
+      console.log(authState)
       props && props.history.push('/required');
     }
   }, [oktaAuth, authStateReady]);
 
   return <div />;
 };
+
+const RegisterRequired = Loadable({
+  loader: () => import('@/views/Login/RegisterRequired'),
+  loading: Loading
+});
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
@@ -468,15 +475,7 @@ const App = () => {
                   exact
                   component={ProductReview}
                 />
-                {/* <Route path="/required" exact component={RegisterRequired} /> */}
                 <Route path="/required" exact component={RegisterRequired} />
-                {/* <Route
-                  exact
-                  path="/required"
-                  render={(props) =>
-                    token ? <required {...props} /> : <Redirect to="/home" />
-                  }
-                /> */}
 
                 <Route
                   path="/conoce-mas-de-evet"

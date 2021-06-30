@@ -209,7 +209,8 @@ class AccountOrders extends React.Component {
             canDownInvoice:
               ['fr'].includes(window.__.env.REACT_APP_COUNTRY) &&
               (tradeState.deliverStatus === 'SHIPPED' ||
-                tradeState.deliverStatus === 'DELIVERED')
+                tradeState.deliverStatus === 'DELIVERED') &&
+              tradeState.invoiceState === 1
           });
         });
         if (this.state.initing) {
@@ -924,7 +925,7 @@ class AccountOrders extends React.Component {
                                         <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
                                       </div>
                                     )}
-                                    {order.subscribeId && !isGift ? (
+                                    {/* {order.subscribeId && !isGift ? (
                                       <div className="col-12 text-right rc-md-up">
                                         <Link
                                           to={`/account/subscription/order/detail/${order.subscribeId}`}
@@ -940,7 +941,7 @@ class AccountOrders extends React.Component {
                                           </span>
                                         </Link>
                                       </div>
-                                    ) : null}
+                                    ) : null} */}
                                   </div>
                                 </div>
                               );

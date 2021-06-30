@@ -1376,9 +1376,9 @@ const ru_RU = {
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашего питомца',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
-    'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашей собаки',
+    'ПРЕИМУЩЕСТВА РАЦИОНОВ ROYAL CANIN®{val} КЛУБ СПЕЦИАЛЬНО ДЛЯ ВАШЕЙ СОБАКИ',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
-    'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашей кошки',
+    'ПРЕИМУЩЕСТВА РАЦИОНОВ ROYAL CANIN®{val} КЛУБ СПЕЦИАЛЬНО ДЛЯ ВАШЕЙ КОШКИ',
   'ClubLP.LongBanner.SubscriptionTitle1': 'Научно обоснованное {val} питание',
   'ClubLP.LongBanner.SubscriptionContent1':
     '50 лет экспертизы в создании {val} здоровых рационов',
@@ -1388,11 +1388,11 @@ const ru_RU = {
     'Высококачественные ингредиенты,{val1} подобранные с учетом индивидуальных{val2} потребностей питомца',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Оптимальный размер {val}порции',
   'ClubLP.LongBanner.SubscriptionTitle1.new':
-    'Программа питания, созданная для поддержания здоровья на протяжении всей жизни',
+    'Программа питания, созданная {val1} для поддержания здоровья на протяжении всей жизни',
   'ClubLP.LongBanner.SubscriptionTitle2.new':
     'Рационы, адаптированные для Вашего питомца',
   'ClubLP.LongBanner.SubscriptionTitle3.new':
-    'Рекомендации по нормам кормления для выбора оптимальной порции',
+    'Рекомендации по нормам кормления для  выбора {val} оптимальной порции',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Рекомендации по нормам кормления {val}для выбора оптимальной порции',
   'ClubLP.Advantage.title': 'ЗДОРОВЬЕ КАЖДОГО ПИТОМЦА УНИКАЛЬНО',

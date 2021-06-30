@@ -99,10 +99,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: '/tr',
-    REACT_APP_RC_ASSETS_PREFIX: '/assets/',
-
     // #支付成功跳转的地址
     REACT_APP_SUCCESSFUL_URL: 'https://shopuat.466920.com/tr'
   },
@@ -131,7 +127,7 @@ const env = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'sit',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -141,11 +137,7 @@ const env = {
     REACT_APP_SUCCESSFUL_URL: 'https://shopsit.royalcanin.com/tr',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/tr',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/'
+    REACT_APP_HOMEPAGE: '/tr'
   },
   shopuat: {
     // #okta
@@ -172,7 +164,7 @@ const env = {
     REACT_APP_PaymentAPPID_VISITOR: 'com.razorfish.dev_mexico',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -180,10 +172,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     // #支付成功跳转的地址
     REACT_APP_SUCCESSFUL_URL: 'https://shopuat.royalcanin.com/tr'
@@ -222,10 +210,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
-
     // #支付成功跳转的地址
     REACT_APP_SUCCESSFUL_URL: 'https://shopstg.royalcanin.com/tr'
   },
@@ -262,10 +246,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/',
-
     // #HUB_GA
     REACT_APP_HUB_GA: '1'
   },
@@ -299,10 +279,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://d2cde.azureedge.net/prod/',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/tr/api',
@@ -354,10 +330,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
 
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
-
     REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/tr',
 
     // #支付成功跳转的地址
@@ -392,7 +364,7 @@ const env = {
     REACT_APP_BASEURL: 'https://uatwedding.royalcanin.com/tr/shop/api',
 
     // #GA环境配置
-    REACT_APP_GA_ENV: 'stg',
+    REACT_APP_GA_ENV: 'uat',
 
     // #payu
     REACT_APP_PaymentENV: 'test',
@@ -407,10 +379,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr/shop',
-
-    // #static/design language文件放置位置
-    REACT_APP_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/tr/',
-    REACT_APP_RC_ASSETS_PREFIX: 'https://fgs-cdn.azureedge.net/cdn/',
 
     REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/tr',
 

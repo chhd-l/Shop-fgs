@@ -53,7 +53,8 @@ import {
   setGoogleProductStructuredDataMarkup,
   hubGAProductDetailPageView,
   hubGAAToCar,
-  HubGaPdpBuyFromRetailer
+  HubGaPdpBuyFromRetailer,
+  GAPdpSizeChange
 } from './GA';
 import PrescriberCodeModal from '../ClubLandingPageNew/Components/DeStoreCode/Modal';
 
@@ -182,8 +183,14 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const { details, quantity, instockStatus, initing, loading, form } =
-      this.state;
+    const {
+      details,
+      quantity,
+      instockStatus,
+      initing,
+      loading,
+      form
+    } = this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -289,11 +296,17 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
-    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
-      this.state;
+    let {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo,
+      form
+    } = this.state;
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (!selectedSpecItem.subscriptionStatus && form.buyWay > 0) {
+    if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
       form.buyWay = -1;
     }
     this.setState(Object.assign({ details, form }, data), () => {
@@ -310,7 +323,7 @@ class Details extends React.Component {
     });
   }
 
-  updatedPriceOrCode = (barcode, selectPrice) => {
+  updatedPriceOrCode = ({ barcode, selectPrice, clickEvent }) => {
     const { clinicStore } = this.props;
     const {
       currentSubscriptionStatus,
@@ -329,8 +342,11 @@ class Details extends React.Component {
     // cc.js加载
     this.loadWidgetIdBtn(barcode);
 
-    //hubGa初始化页面埋点
-    hubGAProductDetailPageView(details, pdpScreenLoadData);
+    //hubGa初始化页面埋点,不是点击的事件才调用
+    if (!clickEvent) {
+      hubGAProductDetailPageView(details, pdpScreenLoadData);
+    }
+
     this.setState({
       barcode
     });
@@ -472,6 +488,23 @@ class Details extends React.Component {
               images
             },
             async () => {
+              // 不可销售，并且展示在前台的商品，获取envCode,去请求cc.js
+              const { goods, goodsInfos } = res.context;
+              const notSaleGoods =
+                window.__.env.REACT_APP_HUB === '1' &&
+                !goods.saleableFlag &&
+                goods.displayFlag;
+              const goodsInfoBarcode = goodsInfos?.[0]?.goodsInfoBarcode;
+              if (notSaleGoods) {
+                let barcode = goodsInfoBarcode
+                  ? goodsInfoBarcode
+                  : '3182550751148'; //暂时临时填充一个code,因为没有值，按钮将不会显示;
+                this.setState({
+                  barcode
+                });
+                this.loadWidgetIdBtn(barcode);
+              }
+
               //启用BazaarVoice时，在PDP页面add schema.org markup
               if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
                 //设置延时获取BazaarVoice dom节点
@@ -551,7 +584,6 @@ class Details extends React.Component {
   }
   loadWidgetIdBtn(barcode) {
     const { goodsType } = this.state;
-
     const widgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID;
     const vetWidgetId = window.__.env.REACT_APP_HUBPAGE_RETAILER_WIDGETID_VET;
     const id = goodsType === 3 ? vetWidgetId : widgetId;
@@ -634,8 +666,8 @@ class Details extends React.Component {
   };
   showPrescriberCodeBeforeAddCart = () => {
     if (!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL) {
-      const { clinicStore } = this.props;
-      if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+      const { clinicId, clinicName } = this.props.clinicStore;
+      if (!(clinicId && clinicName)) {
         this.setState({ showPrescriberCodeModal: true });
       }
     }
@@ -727,8 +759,13 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const { currentUnitPrice, quantity, form, details, questionParams } =
-        this.state;
+      const {
+        currentUnitPrice,
+        quantity,
+        form,
+        details,
+        questionParams
+      } = this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -958,12 +995,13 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL && (
-              <PrescriberCodeModal
-                visible={this.state.showPrescriberCodeModal}
-                close={this.closePrescriberCodeModal}
-              />
-            )}
+            {!!+window.__.env.REACT_APP_SHOWPRESCRIBERCODEMODAL &&
+              this.state.showPrescriberCodeModal && (
+                <PrescriberCodeModal
+                  visible={this.state.showPrescriberCodeModal}
+                  close={this.closePrescriberCodeModal}
+                />
+              )}
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">

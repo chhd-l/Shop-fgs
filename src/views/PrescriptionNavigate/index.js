@@ -220,13 +220,6 @@ class Prescription extends React.Component {
       }
     });
   };
-  handleConfirm = (item) => {
-    const { setSelectClinicId, setSelectClinicName } = this.props.clinicStore;
-    setSelectClinicId(item.id);
-    setSelectClinicName(item.prescriberName);
-    localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
-    this.props.history.push('/checkout');
-  };
   getSonMess(center) {
     this.setState({
       currentSelectClinic: {

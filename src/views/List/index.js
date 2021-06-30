@@ -34,6 +34,7 @@ import {
   filterObjectValue
 } from '@/utils/utils';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
+import { getSpecies } from '@/utils/GA';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -44,6 +45,16 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
+
+const filterAttrValue = (list, keyWords) => {
+  return (list || [])
+    .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
+    .map((item) => item?.goodsAttributeValue);
+};
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -853,30 +864,40 @@ class List extends React.Component {
         goodsNo,
         goodsName,
         goodsAttributesValueRelVOAllList,
-        goodsCateName
+        goodsCateName,
+        goodsImg
       } = item;
-      const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
-        .map((item) => item.goodsAttributeValue);
-      const spezies = (goodsAttributesValueRelVOAllList || [])
-        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
-        .map((item) => item.goodsAttributeValue);
+      const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+      const spezies = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'spezies'
+      );
+      const range = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'range'
+      ).toString();
+      const technology = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'technology'
+      ).toString();
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';//这个方法有时候数据没有breed，判断不了
       const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
-
-      const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie: window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
-        range: cateName?.[1] || '',
+        specie:
+          window.__.env.REACT_APP_COUNTRY == 'de'
+            ? deSpecie
+            : getSpecies(goodsCate),
+        range,
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        technology: cateName?.[2] || '',
+        technology,
         brand: 'Royal Canin',
         breed,
-        sizeCategory
+        sizeCategory,
+        imageURL: goodsImg
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -913,32 +934,40 @@ class List extends React.Component {
         goodsName,
         goodsAttributesValueRelVOAllList,
         goodsCateName,
-        goodsNo
+        goodsNo,
+        goodsImg
       } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter(
-          (attr) =>
-            attr.goodsAttributeName &&
-            attr.goodsAttributeName.toLowerCase() == 'breeds'
-        )
-        .map((item) => item.goodsAttributeValue);
-      const spezies = (goodsAttributesValueRelVOAllList || [])
-        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
-        .map((item) => item.goodsAttributeValue);
-      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+      const spezies = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'spezies'
+      );
+      const range = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'range'
+      ).toString();
+      const technology = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'technology'
+      ).toString();
+      // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
-      const cateName = goodsCateName?.split('/');
+
       let productItem = {
         price: fromPrice,
-        specie: window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
-        range: cateName?.[1] || '',
+        specie:
+          window.__.env.REACT_APP_COUNTRY == 'de'
+            ? deSpecie
+            : getSpecies(goodsCate),
+        range,
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        technology: cateName?.[2] || '',
+        technology,
         brand: 'Royal Canin',
-        breed
+        breed,
+        imageURL: goodsImg
       };
       let res = filterObjectValue(productItem);
       return res;
@@ -1316,7 +1345,6 @@ class List extends React.Component {
       filterList,
       searchForm,
       defaultFilterSearchForm,
-      actionFromFilter,
       sourceParam
     } = this.state;
     this.setState({ loading: true });
@@ -1366,28 +1394,6 @@ class List extends React.Component {
       }
       return pItem;
     });
-    let urlPreVal = '';
-    let pathname = '';
-    goodsAttributesValueRelVOList
-      .concat(goodsFilterRelList)
-      .slice(0, 1)
-      .map((item, i) => {
-        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${
-          i + 1
-        }=${item.attributeValues.join('|')}`;
-        return item;
-      });
-
-    // 点击filter，触发局部刷新或整页面刷新
-    if (!initingList && actionFromFilter) {
-      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-      // history.push({
-      //   pathname,
-      //   state: {
-      //     filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
-      //   }
-      // });
-    }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -1412,8 +1418,7 @@ class List extends React.Component {
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      storeCateIds:
-        this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
+      storeCateIds,
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -1510,10 +1515,6 @@ class List extends React.Component {
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
           }
-          const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-            /\/$/,
-            ''
-          );
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1647,7 +1648,11 @@ class List extends React.Component {
   onSortChange = (data) => {
     // 在筛选的时候不让他刷新页面
     this.setState(
-      { selectedSortParam: data, currentPage: 1, initingList: true },
+      {
+        selectedSortParam: data,
+        // currentPage: 1,
+        initingList: true
+      },
       () => this.getProductList()
     );
   };
@@ -1965,7 +1970,6 @@ class List extends React.Component {
                   </div>
                   <div
                     className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
-                    data-tms="Pagination"
                   >
                     {!loading && (
                       <>
@@ -2050,6 +2054,11 @@ class List extends React.Component {
                                       headingTag={
                                         this.state.seoConfig.headingTag
                                       }
+                                      onClick={this.hanldeItemClick.bind(
+                                        this,
+                                        item,
+                                        i
+                                      )}
                                     />
                                   </div>
                                 );
@@ -2058,6 +2067,7 @@ class List extends React.Component {
                         <div
                           className="grid-footer rc-full-width"
                           style={{ marginTop: '0.5rem' }}
+                          data-tms="Pagination"
                         >
                           <Pagination
                             loading={this.state.loading}

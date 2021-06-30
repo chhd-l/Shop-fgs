@@ -68,6 +68,9 @@ countryKey =
 // countryKey = pathnameToCountryEnv[pathnameKey || '/us'];
 
 switch (location.host) {
+  case 'shopuat.466920.com':
+    envKey = 'development';
+    break;
   case 'shopsit.royalcanin.com':
     envKey = 'shopsit';
     break;
@@ -99,6 +102,10 @@ switch (location.host) {
     countryKey = 'ENV_DE';
     envKey = 'production';
     break;
+  case 'www.shop.royalcanin.de':
+    countryKey = 'ENV_DE';
+    envKey = 'productionWww';
+    break;
   case 'shop.royalcanin.fr':
     countryKey = 'ENV_FR';
     envKey = 'production';
@@ -128,14 +135,14 @@ const ENV = ALL_ENV[countryKey][envKey];
 const BASE_ENV = ALL_ENV[countryKey]['base'];
 
 let envVal = {
-  env: Object.assign(ENV, BASE_ENV, GLOBAL_ENV)
+  env: Object.assign(BASE_ENV, ENV, GLOBAL_ENV)
 };
 
 if (process.env.NODE_ENV === 'development') {
   const ENV = ALL_ENV[countryKey][envKey];
   const BASE_ENV = ALL_ENV[countryKey]['base'];
   envVal = {
-    env: Object.assign(ENV, BASE_ENV, ENV_LOCAL, GLOBAL_ENV)
+    env: Object.assign(BASE_ENV, ENV, ENV_LOCAL, GLOBAL_ENV)
   };
 }
 

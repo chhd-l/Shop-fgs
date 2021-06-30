@@ -137,9 +137,6 @@
   .detextalignright {
     text-align: right;
   }
-  .dewithsmall {
-    height: 65vh;
-  }
   .dehowit01 {
     width: 25vw;
     margin-left: 2.5vw;
@@ -195,7 +192,7 @@
     margin-top: 10vh;
   }
   .dedeskmargintop10vh {
-    margin-top: 7.1vh;
+    align-self: center;
   }
 }
 

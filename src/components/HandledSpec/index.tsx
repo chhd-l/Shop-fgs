@@ -4,6 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
 import Selection from '@/components/Selection/index.js';
 import { PropTypes } from 'mobx-react';
+import {
+  GAPdpSizeChange
+} from '../../views/Details/GA';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
@@ -37,7 +40,7 @@ const HandledSpec = ({
       goodsInfos.find((item: any) => item.packSize === selectGoodSize)
         ?.goodsInfoBarcode || goodsInfos?.[0]?.goodsInfoBarcode;
     const barcode = goodsInfoBarcode ? goodsInfoBarcode : '12'; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
-    updatedPriceOrCode(barcode, selectPrice);
+    updatedPriceOrCode({barcode, selectPrice});
   };
 
   const matchGoods = () => {
@@ -146,9 +149,10 @@ const HandledSpec = ({
     const goodSize = goodsSpecs.map((item: any) =>
       item.chidren.find((good: any) => good.specDetailId === sdId)
     )?.[0]?.detailName;
+    GAPdpSizeChange(goodSize)
     const barcode = goodsInfos.find((item: any) => item.packSize === goodSize)
       ?.goodsInfoBarcode;
-    updatedPriceOrCode(barcode);
+    updatedPriceOrCode({barcode,clickEvent:true});
     matchGoods();
   };
 

@@ -43,7 +43,8 @@ const DetailHeader = ({
             {details.goodsSubtitle}
           </h2>
         </div>
-        {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
+        {(window.__.env.REACT_APP_COUNTRY === 'de' ||
+          window.__.env.REACT_APP_COUNTRY === 'mx') && (
           <div className="stars">
             <div className="rc-card__price flex-inline">
               <div
@@ -93,7 +94,8 @@ const DetailHeader = ({
             {details.goodsSubtitle}
           </h2>
         </div>
-        {!!+window.__.env.REACT_APP_PDP_RATING_VISIBLE && (
+        {(window.__.env.REACT_APP_COUNTRY === 'de' ||
+          window.__.env.REACT_APP_COUNTRY === 'mx') && (
           <div className="stars text-nowrap">
             <div className="rc-card__price flex-inline">
               <div

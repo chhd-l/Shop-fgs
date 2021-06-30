@@ -641,20 +641,25 @@ class Confirmation extends React.Component {
             this.setState({ operateSuccessModalVisible: false });
           }}
         />
-        <OxxoModal
-          visible={this.state.oxxoModalShow}
-          oxxoPayUrl={this.state.oxxoPayUrl}
-          close={() => {
-            this.setState({ oxxoModalShow: false });
-          }}
-        />
-        <AdyenOxxoModal
-          visible={this.state.oxxoModalShow}
-          action={this.state.adyenOxxoAction}
-          close={() => {
-            this.setState({ oxxoModalShow: false });
-          }}
-        />
+        {this.state.oxxoPayUrl && (
+          <OxxoModal
+            visible={this.state.oxxoModalShow}
+            oxxoPayUrl={this.state.oxxoPayUrl}
+            close={() => {
+              this.setState({ oxxoModalShow: false });
+            }}
+          />
+        )}
+
+        {this.state.adyenOxxoAction && (
+          <AdyenOxxoModal
+            visible={this.state.oxxoModalShow}
+            action={this.state.adyenOxxoAction}
+            close={() => {
+              this.setState({ oxxoModalShow: false });
+            }}
+          />
+        )}
       </div>
     );
   }

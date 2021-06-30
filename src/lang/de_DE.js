@@ -557,6 +557,7 @@ const de_DE = {
   menu: 'Menü',
   miniBasket: 'Minikorb',
   'mixed Breed': 'gemischte Rasse',
+  'Mixed Breed': 'Gemischte Rasse',
   MMYY: 'MM / JJ',
   modalCancelAllContent:
     'Sind Sie sicher, dass Sie alle folgenden Lieferungen stornieren möchten?',

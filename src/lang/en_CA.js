@@ -660,6 +660,7 @@ const en_US = {
   menu: 'Menu',
   miniBasket: 'Mini basket',
   'mixed Breed': 'mixed Breed',
+  'Mixed Breed': 'Mixed Breed',
   MMYY: 'MM/YY',
   modalCancelAllContent:
     'Are you sure you want to cancel all future shipments?',

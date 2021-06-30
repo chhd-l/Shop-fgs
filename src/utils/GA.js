@@ -37,7 +37,7 @@ export const getDeSpecies = (item) => {
 //species属性
 const getSpecies = (item) => {
   if (window.__.env.REACT_APP_COUNTRY == 'de') {
-    return getDeSpecies(item)[0] == 'Hund' ? 'Dog' : 'Cat';
+    return getDeSpecies(item)?.[0] == 'Hund' ? 'Dog' : 'Cat';
   } else {
     return (
       {
@@ -65,7 +65,7 @@ const getSpecies = (item) => {
 //SpeciesId属性
 const getSpeciesId = (item) => {
   if (window.__.env.REACT_APP_COUNTRY == 'de') {
-    return getDeSpecies(item)[0] == 'Hund' ? '2' : '1';
+    return getDeSpecies(item)?.[0] == 'Hund' ? '2' : '1';
   } else {
     return (
       {
@@ -591,3 +591,5 @@ export const GAInstantSearchResultClick = ({ type, name, position }) => {
     }
   });
 };
+
+export { getSpecies };

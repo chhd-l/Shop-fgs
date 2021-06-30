@@ -965,7 +965,7 @@ class PayProductInfo extends React.Component {
                         <strong>{subtractionSign}</strong>
                       </>
                     ) : (
-                      <>{formatMoney(this.tradePrice)}1</>
+                      <>{formatMoney(this.tradePrice)}</>
                     )}
                   </>
                 ) : (

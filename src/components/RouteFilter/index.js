@@ -177,14 +177,6 @@ class RouteFilter extends Component {
     //   history.push(sessionItemRoyal.get('okta-redirectUrl'))
     //   sessionItemRoyal.remove('okta-redirectUrl')
     // }
-    if (
-      //游客+从url输入required ===>直接跳回首页
-      !localItemRoyal.get('rc-token') &&
-      pathname.indexOf('/required') !== -1 &&
-      sessionItemRoyal.get('fromLoginPage') !== 'true'
-    ) {
-      history.push('/home');
-    }
 
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');

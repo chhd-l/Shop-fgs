@@ -494,6 +494,7 @@ const es_ES = {
   menu: 'menú',
   miniBasket: 'Mini Cesta',
   'mixed Breed': 'raza Mixta',
+  'Mixed Breed': 'Raza Mixta',
   MMYY: 'MM/AA',
   modalCancelAllContent:
     '¿Está seguro de que desea cancelar todas las entregas siguientes?',

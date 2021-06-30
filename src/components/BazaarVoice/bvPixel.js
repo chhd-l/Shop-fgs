@@ -26,8 +26,8 @@ export function transactionPixel(details) {
     // discount: String(details.tradePrice.promotionDiscountPrice.toFixed(2)),
     email: details.consignee.email,
     locale: 'en_US',
-    nickname: details.consignee.name
-    // userId: details.consignee.id
+    nickname: details.consignee.name,
+    userId: details.consignee.id
   };
   loadJS({
     code: `window.bvCallback = function (BV) {
