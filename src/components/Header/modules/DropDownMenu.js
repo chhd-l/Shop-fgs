@@ -20,9 +20,8 @@ export default class DropDownMenu extends React.Component {
     super(props);
     this.state = { currentDesc: null };
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
-      this
-    );
+    this.handleNavChildrenMouseOver =
+      this.handleNavChildrenMouseOver.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
     this.hubGA = window.__.env.REACT_APP_HUB_GA == '1';
   }
@@ -198,7 +197,7 @@ export default class DropDownMenu extends React.Component {
               ))}
           </ul>
         </div>
-        {descObj ? (
+        {descObj && Object.keys(descObj).length > 0 ? (
           <div className={`content-asset`}>
             <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
               <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
