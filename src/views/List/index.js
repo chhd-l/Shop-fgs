@@ -34,6 +34,7 @@ import {
   filterObjectValue
 } from '@/utils/utils';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
+import { getSpecies } from '@/utils/GA';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -48,6 +49,12 @@ const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`
   /\/$/,
   ''
 );
+
+const filterAttrValue = (list, keyWords) => {
+  return (list || [])
+    .filter((attr) => attr?.goodsAttributeName?.toLowerCase() == keyWords)
+    .map((item) => item?.goodsAttributeValue);
+};
 
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
@@ -860,25 +867,33 @@ class List extends React.Component {
         goodsCateName,
         goodsImg
       } = item;
-      const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'breeds')
-        .map((item) => item.goodsAttributeValue);
-      const spezies = (goodsAttributesValueRelVOAllList || [])
-        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
-        .map((item) => item.goodsAttributeValue);
+      const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+      const spezies = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'spezies'
+      );
+      const range = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'range'
+      ).toString();
+      const technology = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'technology'
+      ).toString();
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';//这个方法有时候数据没有breed，判断不了
       const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
-
-      const cateName = goodsCateName?.split('/');
       let productItem = {
         price: fromPrice,
-        specie: window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
-        range: cateName?.[1] || '',
+        specie:
+          window.__.env.REACT_APP_COUNTRY == 'de'
+            ? deSpecie
+            : getSpecies(goodsCate),
+        range,
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        technology: cateName?.[2] || '',
+        technology,
         brand: 'Royal Canin',
         breed,
         sizeCategory,
@@ -923,27 +938,33 @@ class List extends React.Component {
         goodsImg
       } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
-      const breed = (goodsAttributesValueRelVOAllList || [])
-        .filter(
-          (attr) =>
-            attr.goodsAttributeName &&
-            attr.goodsAttributeName.toLowerCase() == 'breeds'
-        )
-        .map((item) => item.goodsAttributeValue);
-      const spezies = (goodsAttributesValueRelVOAllList || [])
-        .filter((attr) => attr.goodsAttributeName?.toLowerCase() == 'spezies')
-        .map((item) => item.goodsAttributeValue);
-      const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
+      const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
+      const spezies = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'spezies'
+      );
+      const range = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'range'
+      ).toString();
+      const technology = filterAttrValue(
+        goodsAttributesValueRelVOAllList,
+        'technology'
+      ).toString();
+      // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
       const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
-      const cateName = goodsCateName?.split('/');
+
       let productItem = {
         price: fromPrice,
-        specie: window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : specie,
-        range: cateName?.[1] || '',
+        specie:
+          window.__.env.REACT_APP_COUNTRY == 'de'
+            ? deSpecie
+            : getSpecies(goodsCate),
+        range,
         name: goodsName,
         mainItemCode: goodsNo,
         SKU,
-        technology: cateName?.[2] || '',
+        technology,
         brand: 'Royal Canin',
         breed,
         imageURL: goodsImg
@@ -2033,6 +2054,11 @@ class List extends React.Component {
                                       headingTag={
                                         this.state.seoConfig.headingTag
                                       }
+                                      onClick={this.hanldeItemClick.bind(
+                                        this,
+                                        item,
+                                        i
+                                      )}
                                     />
                                   </div>
                                 );
