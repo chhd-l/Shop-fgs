@@ -530,6 +530,23 @@ class Help extends React.Component {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
+      let res = await getProductPetConfig({
+        goodsInfos: inStockProducts.map((el) => {
+          el.goodsInfo.buyCount = el.recommendationNumber;
+          return el.goodsInfo;
+        })
+      });
+      let handledData = inStockProducts.map((el, i) => {
+        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+        el.sizeList = el.goodsInfo.goods.sizeList;
+        return el;
+      });
+      let AuditData = handledData.filter((el) => el.auditCatFlag);
+      checkoutStore.setAuditData(AuditData);
+      let autoAuditFlag = res.context.autoAuditFlag;
+      checkoutStore.setPetFlag(res.context.petFlag);
+      checkoutStore.setAutoAuditFlag(autoAuditFlag);
       const url = await distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
         checkoutStore,

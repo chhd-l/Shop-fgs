@@ -102,6 +102,10 @@ switch (location.host) {
     countryKey = 'ENV_DE';
     envKey = 'production';
     break;
+  case 'www.shop.royalcanin.de':
+    countryKey = 'ENV_DE';
+    envKey = 'productionWww';
+    break;
   case 'shop.royalcanin.fr':
     countryKey = 'ENV_FR';
     envKey = 'production';
