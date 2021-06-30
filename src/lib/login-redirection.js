@@ -32,7 +32,9 @@ const loginRedirection = async ({
       el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
       return el;
     });
-    checkoutStore.setLoginCartData(handledData);
+    isLogin
+      ? checkoutStore.setLoginCartData(handledData)
+      : checkoutStore.setCartData(handledData);
     let AuditData = handledData.filter((el) => el.auditCatFlag);
     checkoutStore.setAuditData(AuditData);
     autoAuditFlag = res.context.autoAuditFlag;

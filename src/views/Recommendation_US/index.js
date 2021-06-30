@@ -658,6 +658,7 @@ class Recommendation extends React.Component {
         });
         // let handledData = res.context.goodsInfos;
         let AuditData = handledData.filter((el) => el.auditCatFlag);
+        checkoutStore.setCartData(handledData);
         checkoutStore.setAuditData(AuditData);
         let autoAuditFlag = res.context.autoAuditFlag;
         checkoutStore.setPetFlag(res.context.petFlag);
@@ -738,6 +739,9 @@ class Recommendation extends React.Component {
       });
       // let handledData = res.context.goodsInfos;
       let AuditData = handledData.filter((el) => el.auditCatFlag);
+      loginStore.isLogin
+        ? checkoutStore.setLoginCartData(handledData)
+        : checkoutStore.setCartData(handledData);
       checkoutStore.setAuditData(AuditData);
       let autoAuditFlag = res.context.autoAuditFlag;
       checkoutStore.setPetFlag(res.context.petFlag);
