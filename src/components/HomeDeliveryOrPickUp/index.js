@@ -14,13 +14,15 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { validData, formatMoney, getDeviceType } from '@/utils/utils';
 import { getPickupCityList, getPickupCityInfo } from '@/api';
 import IMask from 'imask';
+import locales from '@/lang';
 import './index.less';
 
 const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const CURRENT_LANGFILE = locales;
 @inject('configStore')
 @injectIntl
 @observer
@@ -32,7 +34,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     deliveryOrPickUp: 0,
     intlMessages: '',
     updateDeliveryOrPickup: () => {},
-    updateConfirmBtnDisabled: () => {}
+    updateConfirmBtnDisabled: () => {},
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -43,10 +46,44 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickupDetailDialog: false,
       showPickupForm: false,
       pickUpBtnLoading: false,
-      homeAndPickup: [],
       pickupCity: '',
-      clinlcInfo: [], // 诊所信息
-      selectedItem: null // 记录选择的内容
+      courierInfo: [], // 快递公司信息
+      selectedItem: null, // 记录选择的内容
+      pickupForm: {
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        comment: '',
+        address1: '',
+        city: '',
+        pickupCode: '', // 快递公司code
+        deliverWay: 1, // 1: EXPRESS, 2: PICKUP
+        formRule: [
+          {
+            regExp: /\S/,
+            errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
+            key: 'firstName',
+            require: true
+          },
+          {
+            regExp: /\S/,
+            errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
+            key: 'lastName',
+            require: true
+          },
+          {
+            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
+            key: 'phoneNumber',
+            require: true
+          }
+        ]
+      },
+      pickupErrMsgs: {
+        firstName: '',
+        lastName: '',
+        phoneNumber: ''
+      }
     };
   }
   async componentDidMount() {
@@ -54,14 +91,17 @@ class HomeDeliveryOrPickUp extends React.Component {
     window.addEventListener('message', (e) => {
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
+        const { pickupForm } = this.state;
         // console.log('666 监听iframe的传值: ', e);
         let obj = e.data.content;
+        pickupForm['pickupCode'] = obj?.code || [];
+        pickupForm['city'] = obj?.address?.city || [];
+        pickupForm['address1'] = obj?.address?.fullAddress || [];
         this.setState(
           {
-            clinlcInfo: obj || null
+            courierInfo: obj || null
           },
           () => {
-            // console.log('666 clinlcInfo: ', this.state.clinlcInfo);
             let sitem =
               sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
             if (sitem) {
@@ -78,7 +118,6 @@ class HomeDeliveryOrPickUp extends React.Component {
               showPickupForm: true,
               showPickup: false
             });
-            this.props.updateConfirmBtnDisabled(false);
           }
         );
       }
@@ -102,7 +141,6 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState(
         {
           selectedItem: sitem,
-          homeAndPickup: sitem.homeAndPickup,
           pickupCity: sitem.city.city
         },
         () => {
@@ -132,6 +170,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
+    const { selectedItem } = this.state;
     let res = null;
     this.setState({
       hdpuLoading: true
@@ -142,9 +181,11 @@ class HomeDeliveryOrPickUp extends React.Component {
       if (res.context?.tariffs) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
+        let selitem = Object.assign({}, selectedItem);
+        selitem.homeAndPickup = [];
         this.setState(
           {
-            homeAndPickup: []
+            selectedItem: Object.assign({}, selitem)
           },
           () => {
             // type: 'COURIER'=> home delivery、'PVZ'=> pickup
@@ -171,7 +212,6 @@ class HomeDeliveryOrPickUp extends React.Component {
             this.setState(
               {
                 pickupCity: data.city,
-                homeAndPickup: hdpu,
                 selectedItem: Object.assign({}, item)
               },
               () => {
@@ -218,6 +258,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 设置状态
   setItemStatus = (val) => {
+    const { pickupForm } = this.state;
     let flag = false;
     if (val == 'homeDelivery') {
       flag = false;
@@ -229,9 +270,16 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.props.updateConfirmBtnDisabled(true);
       this.sendMsgToIframe();
     }
-    this.setState({
-      showPickup: flag
-    });
+    pickupForm['deliverWay'] = flag ? 2 : 1; // 1: EXPRESS, 2: PICKUP
+    this.setState(
+      {
+        showPickup: flag,
+        pickupForm
+      },
+      () => {
+        this.props.updateData(this.state.pickupForm);
+      }
+    );
   };
   // 向iframe发送数据
   sendMsgToIframe = () => {
@@ -242,8 +290,8 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 编辑pickup
   editPickup = () => {
-    const { clinlcInfo } = this.state;
-    if (clinlcInfo) {
+    const { courierInfo } = this.state;
+    if (courierInfo) {
       this.sendMsgToIframe();
     }
     this.setState({
@@ -269,26 +317,115 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickupDetail: true
     });
   };
+  // pickup表单验证
+  pickupValidvalidat = async (tname, tvalue) => {
+    const { pickupForm, pickupErrMsgs } = this.state;
+    let targetRule = pickupForm.formRule.filter((e) => e.key === tname);
+    try {
+      await validData(targetRule, { [tname]: tvalue });
+      this.setState({
+        pickupErrMsgs: Object.assign({}, pickupErrMsgs, {
+          [tname]: ''
+        })
+      });
+      this.validFormAllPickupData();
+    } catch (err) {
+      this.props.updateConfirmBtnDisabled(true);
+      this.setState({
+        pickupErrMsgs: Object.assign({}, pickupErrMsgs, {
+          [tname]: err.message
+        })
+      });
+    }
+  };
+  // 验证表单所有数据
+  validFormAllPickupData = async () => {
+    const { pickupForm } = this.state;
+    try {
+      await validData(pickupForm.formRule, pickupForm);
+      this.props.updateConfirmBtnDisabled(false);
+      this.props.updateData(pickupForm);
+    } catch {
+      this.props.updateConfirmBtnDisabled(true);
+    }
+  };
   // 文本框输入改变
   inputChange = (e) => {
-    const { caninForm } = this.state;
-    const target = e.target;
-    let tvalue = target.type === 'checkbox' ? target.checked : target.value;
-    const tname = target.name;
-    caninForm[tname] = tvalue;
-    this.setState({ caninForm }, () => {});
+    const { pickupForm } = this.state;
+    const target = e?.target;
+    const tname = target?.name;
+    let tvalue = target?.value;
+    pickupForm[tname] = tvalue;
+    this.setState({ pickupForm }, () => {
+      this.pickupValidvalidat(tname, tvalue); // 验证数据
+    });
   };
   // 文本框失去焦点
   inputBlur = (e) => {
-    const { caninForm } = this.state;
+    const { pickupForm } = this.state;
     const target = e?.target;
     const tname = target?.name;
-    const tvalue =
-      target?.type === 'checkbox' ? target?.checked : target?.value;
-    caninForm[tname] = tvalue;
-    this.setState({ caninForm }, () => {
-      // 验证数据
+    const tvalue = target?.value;
+    pickupForm[tname] = tvalue;
+    this.setState({ pickupForm }, () => {
+      this.pickupValidvalidat(tname, tvalue); // 验证数据
     });
+  };
+  // 文本框
+  inputJSX = (key) => {
+    const { pickupForm, pickupErrMsgs } = this.state;
+    let flag = 1;
+    key == 'comment' ? (flag = 0) : (flag = 1);
+    let item = {
+      fieldKey: key,
+      filedType: 'text',
+      maxLength: 200,
+      requiredFlag: flag
+    };
+    return (
+      <>
+        <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+          {key == 'comment' ? (
+            <>
+              <textarea
+                className="rc_input_textarea"
+                placeholder={`${this.props.intl.messages['payment.comment']}`}
+                id={`${item.fieldKey}Shipping`}
+                value={pickupForm[item.fieldKey]}
+                onChange={(e) => this.inputChange(e)}
+                onBlur={this.inputBlur}
+                name={item.fieldKey}
+                maxLength={item.maxLength}
+              ></textarea>
+            </>
+          ) : (
+            <>
+              <input
+                className={`rc-input__control ${item.fieldKey}Shipping`}
+                id={`${item.fieldKey}Shipping`}
+                type={item.filedType}
+                value={pickupForm[item.fieldKey]}
+                onChange={(e) => this.inputChange(e)}
+                onBlur={this.inputBlur}
+                name={item.fieldKey}
+                maxLength={item.maxLength}
+              />
+            </>
+          )}
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+        {/* 输入电话号码提示 */}
+        {item.fieldKey == 'phoneNumber' && (
+          <span className="ui-lighter">
+            <FormattedMessage id="examplePhone" />
+          </span>
+        )}
+        {/* 输入提示 */}
+        {pickupErrMsgs[item.fieldKey] && item.requiredFlag == 1 ? (
+          <div className="text-danger-2">{pickupErrMsgs[item.fieldKey]}</div>
+        ) : null}
+      </>
+    );
   };
   render() {
     const {
@@ -298,8 +435,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickupDetailDialog,
       showPickupForm,
       pickupCity,
-      homeAndPickup,
-      clinlcInfo
+      selectedItem,
+      courierInfo
     } = this.state;
     return (
       <>
@@ -339,8 +476,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
 
             {/* begin */}
-            {homeAndPickup.length > 0 &&
-              homeAndPickup.map((item, index) => (
+            {selectedItem?.homeAndPickup.length > 0 &&
+              selectedItem?.homeAndPickup.map((item, index) => (
                 <>
                   <div className="rc_radio_box rc-full-width rc-input--full-width">
                     <div className="rc-input rc-input--inline">
@@ -416,17 +553,19 @@ class HomeDeliveryOrPickUp extends React.Component {
           </div>
 
           {/* 显示地图上选择的点信息 */}
-          {showPickupDetail && clinlcInfo && (
+          {showPickupDetail && courierInfo && (
             <div className="pickup_infos">
               <div className="info_tit">
-                <div className="tit_left">{clinlcInfo.courier}</div>
-                <div className="tit_right">{formatMoney(clinlcInfo.price)}</div>
+                <div className="tit_left">{courierInfo.courier}</div>
+                <div className="tit_right">
+                  {formatMoney(courierInfo.price)}
+                </div>
               </div>
               <div className="infos">
                 <div className="panel_address">
-                  {clinlcInfo.address?.fullAddress}
+                  {courierInfo.address?.fullAddress}
                 </div>
-                <div className="panel_worktime">{clinlcInfo.workTime}</div>
+                <div className="panel_worktime">{courierInfo.workTime}</div>
               </div>
               <div className="info_btn_box">
                 <button
@@ -446,7 +585,7 @@ class HomeDeliveryOrPickUp extends React.Component {
           )}
 
           {/* pickup详细 */}
-          {showPickupDetailDialog && clinlcInfo && (
+          {showPickupDetailDialog && courierInfo && (
             <div className="pickup_detail_dialog">
               <div className="pk_detail_box">
                 <span
@@ -455,30 +594,34 @@ class HomeDeliveryOrPickUp extends React.Component {
                 ></span>
                 <div className="pk_tit_box">
                   <div className="pk_detail_title">
-                    {clinlcInfo.courier} ({clinlcInfo.code})
+                    {courierInfo.courier} ({courierInfo.code})
                   </div>
                   <div className="pk_detail_price">
-                    {formatMoney(clinlcInfo.price)}
+                    {formatMoney(courierInfo.price)}
                   </div>
                 </div>
                 <div className="pk_detail_address pk_addandtime">
-                  {clinlcInfo.address?.fullAddress}
+                  {courierInfo.address?.fullAddress}
                 </div>
                 <div className="pk_detail_worktime pk_addandtime">
-                  {clinlcInfo.workTime}
+                  {courierInfo.workTime}
                 </div>
                 <div className="pk_detail_dop_title">
                   Дополнительная информация
                 </div>
                 <div className="pk_detail_description">
-                  {clinlcInfo.description}
+                  {courierInfo.description}
                 </div>
               </div>
             </div>
           )}
 
           {/* 表单 */}
-          <div className={`row rc_form_box ${showPickupForm ? '' : 'hidden'}`}>
+          <div
+            className={`row rc_form_box ${
+              showPickupForm ? (isMobile ? 'block' : 'flex') : 'hidden'
+            }`}
+          >
             <div className="col-md-7">
               <div className="form-group required">
                 <label
@@ -487,19 +630,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 >
                   <FormattedMessage id="payment.firstName" />
                 </label>
-                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-                  <input
-                    className="rc-input__control firstNameShipping"
-                    id="firstNameShipping"
-                    type="text"
-                    value=""
-                    onChange={this.inputChange}
-                    onBlur={this.inputBlur}
-                    name="firstName"
-                    maxLength="200"
-                  />
-                  <label className="rc-input__label" htmlFor="id-text1" />
-                </span>
+                {this.inputJSX('firstName')}
               </div>
             </div>
             <div className="col-md-7">
@@ -510,18 +641,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 >
                   <FormattedMessage id="payment.lastName" />
                 </label>
-                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-                  <input
-                    className="rc-input__control lastNameShipping"
-                    id="lastNameShipping"
-                    type="text"
-                    onChange={this.inputChange}
-                    onBlur={this.inputBlur}
-                    name="lastName"
-                    maxLength="200"
-                  />
-                  <label className="rc-input__label" htmlFor="id-text1" />
-                </span>
+                {this.inputJSX('lastName')}
               </div>
             </div>
             <div className="col-md-7">
@@ -529,21 +649,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 <label className="form-control-label" for="phoneNumberShipping">
                   <FormattedMessage id="payment.phoneNumber" />
                 </label>
-                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-                  <input
-                    className="rc-input__control phoneNumberShipping"
-                    id="phoneNumberShipping"
-                    type="text"
-                    onChange={this.inputChange}
-                    onBlur={this.inputBlur}
-                    name="phoneNumber"
-                    maxlength="18"
-                  />
-                  <label className="rc-input__label" for="id-text1"></label>
-                </span>
-                <span className="ui-lighter">
-                  <FormattedMessage id="examplePhone" />
-                </span>
+                {this.inputJSX('phoneNumber')}
               </div>
             </div>
             <div className="col-md-12 ">
@@ -551,18 +657,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 <label className="form-control-label" for="commentShipping">
                   <FormattedMessage id="payment.comment" />
                 </label>
-                <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
-                  <textarea
-                    className="rc_input_textarea"
-                    placeholder={`${this.props.intlMessages['payment.comment']}`}
-                    id="commentShipping"
-                    name="comment"
-                    onChange={this.inputChange}
-                    onBlur={this.inputBlur}
-                    maxlength="500"
-                  ></textarea>
-                  <label className="rc-input__label" for="id-text1"></label>
-                </span>
+                {this.inputJSX('comment')}
               </div>
             </div>
           </div>

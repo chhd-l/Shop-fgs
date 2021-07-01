@@ -64,7 +64,8 @@ class AddressList extends React.Component {
       defaultCity: '', // 默认地址中的城市
       confirmBtnDisabled: false,
       deliveryOrPickUpFlag: false,
-      isDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
+      selectDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
+      pickupFormData: [], // pickup 表单数据
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -92,7 +93,7 @@ class AddressList extends React.Component {
         deliveryDate: null,
         timeSlot: null,
         receiveType: null, //  HOME 、 PICKUP
-        pickUpCode: null, // 地图选择后得到的编码
+        pickupCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         email: ''
       },
@@ -365,7 +366,6 @@ class AddressList extends React.Component {
       });
     }
   }
-
   // 判断 delivery date和time slot是否过期
   deliveryDateStaleDateOrNot = async (data) => {
     let flag = true;
@@ -471,16 +471,11 @@ class AddressList extends React.Component {
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    // console.log(
-    //   '666 process.env.REACT_APP_COUNTRY: ',
-    //   process.env.REACT_APP_COUNTRY
-    // );
     if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+      // 判断 deliveryDate、timeSlot 是否过期
       this.setState({ btnConfirmLoading: true });
       let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
-      // console.log('666 --> ', yesOrNot);
       this.setState({ btnConfirmLoading: false });
-      // 判断 deliveryDate 是否过期
       if (!yesOrNot) {
         return;
       }
@@ -488,7 +483,6 @@ class AddressList extends React.Component {
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
-    // console.log('666 wrongAddressMsg: ', wrongAddressMsg);
     let dfarr = laddf.settings;
     dfarr = (dfarr || []).filter(
       (item) => item.enableFlag == 1 && item.requiredFlag == 1
@@ -743,7 +737,7 @@ class AddressList extends React.Component {
       paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
     }
     this.setState({
-      isDeliveryOrPickUp: 0,
+      selectDeliveryOrPickUp: 0,
       deliveryOrPickUpFlag: false
     });
   }
@@ -1161,7 +1155,7 @@ class AddressList extends React.Component {
   }
   titleJSXForEdit() {
     const { titleVisible } = this.props;
-    const { addOrEdit, isDeliveryOrPickUp } = this.state;
+    const { addOrEdit, selectDeliveryOrPickUp } = this.state;
     return (
       <>
         <h5 className={`mb-0 text-nowrap red`}>
@@ -1172,7 +1166,7 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>
-        {isDeliveryOrPickUp == 1 && (
+        {selectDeliveryOrPickUp == 1 && (
           <p
             className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
               addOrEdit ? 'hidden' : ''
@@ -1268,7 +1262,7 @@ class AddressList extends React.Component {
     return farr.join(',');
   };
 
-  // ************ pick up
+  // ************ pick up 相关
   // 设置home delivery状态
   setRuDeliveryOrPickUp() {
     let deliveryOrPickUp = 0;
@@ -1284,7 +1278,7 @@ class AddressList extends React.Component {
       btndisabled = false;
     }
     this.setState({
-      isDeliveryOrPickUp: deliveryOrPickUp,
+      selectDeliveryOrPickUp: deliveryOrPickUp,
       confirmBtnDisabled: btndisabled
     });
   }
@@ -1294,11 +1288,42 @@ class AddressList extends React.Component {
       confirmBtnDisabled: flag
     });
   };
-  // 更新 isDeliveryOrPickUp
+  // 更新pickup数据
+  updatePickupData = (data) => {
+    console.log('666 updatePickupData: ', data);
+    this.setState({
+      pickupFormData: data
+    });
+  };
+  // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
     this.setState({
-      isDeliveryOrPickUp: num
+      selectDeliveryOrPickUp: num
     });
+  };
+  // 确认 pickup
+  clickConfirmPickup = () => {
+    const { deliveryAddress, pickupFormData } = this.state;
+    this.setState({ btnConfirmLoading: true });
+    let deliveryAdd = Object.assign({}, deliveryAddress, {
+      firstName: pickupFormData.firstName,
+      lastName: pickupFormData.lastName,
+      comment: pickupFormData.comment,
+      address1: pickupFormData.address1,
+      city: pickupFormData.city,
+      pickupCode: pickupFormData.pickupCode, // 快递公司code
+      deliverWay: pickupFormData.deliverWay, // 1: EXPRESS, 2: PICKUP
+      deliveryDate: '',
+      timeSlot: '',
+      consigneeNumber: pickupFormData.phoneNumber,
+      isDefaltAddress: 0
+    });
+    console.log('666 list deliveryAdd: ', deliveryAdd);
+    // let res = await editAddress(deliveryAdd);
+    // console.log('666 list 修改地址: ', res);
+    // if (res) {
+    //   this.setState({ btnConfirmLoading: false });
+    // }
   };
   render() {
     const { panelStatus } = this;
@@ -1306,7 +1331,7 @@ class AddressList extends React.Component {
     const {
       deliveryOrPickUpFlag,
       confirmBtnDisabled,
-      isDeliveryOrPickUp,
+      selectDeliveryOrPickUp,
       isValid,
       formAddressValid,
       deliveryAddress,
@@ -1319,7 +1344,7 @@ class AddressList extends React.Component {
       selectedId,
       validationLoading,
       listValidationModalVisible,
-      selectListValidationOption
+      pickupFormData
     } = this.state;
 
     const _list = addressList.map((item, i) => (
@@ -1599,7 +1624,8 @@ class AddressList extends React.Component {
                 }
                 updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                 updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
-                deliveryOrPickUp={isDeliveryOrPickUp}
+                updateData={this.updatePickupData}
+                deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
               />
             </>
@@ -1622,7 +1648,7 @@ class AddressList extends React.Component {
                     {!addOrEdit ? (
                       addressList.length ? (
                         <>
-                          {isDeliveryOrPickUp == 1 && (
+                          {selectDeliveryOrPickUp == 1 && (
                             <>
                               {/* 地址列表 */}
                               <div className="addr-container-scroll">
@@ -1644,7 +1670,11 @@ class AddressList extends React.Component {
                                     : ''
                                 }`}
                                 disabled={confirmBtnDisabled}
-                                onClick={this.clickConfirmAddressPanel}
+                                onClick={
+                                  pickupFormData?.deliverWay == 2
+                                    ? this.clickConfirmPickup
+                                    : this.clickConfirmAddressPanel
+                                }
                               >
                                 <FormattedMessage id="yes2" />
                               </button>

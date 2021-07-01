@@ -596,7 +596,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        // console.log('609 caninForm:', this.state.caninForm);
+        console.log('666 caninForm:', this.state.caninForm);
       }
     );
     return array;
