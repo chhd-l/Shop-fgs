@@ -1064,11 +1064,11 @@ const de_DE = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'subscription.pause': 'pause',
+  'subscription.pause': 'Pausieren',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'subscription.restart': 'redémarrage',
+  'subscription.restart': 'Neu starten',
   //Smart feeder subscription
   'smartFeederSubscription.selectAnotherProduct':
     'sélectionnez un autre produit',
