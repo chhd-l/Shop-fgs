@@ -33,7 +33,7 @@ const GetMoreAd = () => {
                     }}
                     className={`${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
-                        ? 'dewidthsmall margintoppx'
+                        ? 'trwithsmall margintoppx'
                         : 'widthsmall margintoppx'
                     }`}
                   >
@@ -75,7 +75,7 @@ const GetMoreAd = () => {
                       </div>
                     </div>
 
-                    <div style={{ height: '30vh' }}>
+                    <div style={{ height: '135px' }}>
                       <div className="rc-column">
                         <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
