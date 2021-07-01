@@ -135,6 +135,10 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      authorizationCode: '',
+      subscriptionID: '',
+      cyberBtnLoading: false,
+      cyberCardType: '',
       saveAddressNumber: 0, // 保存Delivery地址次数
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
@@ -292,6 +296,65 @@ class Payment extends React.Component {
       this
     );
   }
+  //cyber查询卡类型
+  queryCyberCardType = async (params) => {
+    try {
+      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+        params
+      );
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+  getCyberParams() {
+    const { isLogin } = this;
+    const {
+      paymentStore: { currentCardTypeInfo }
+    } = this.props;
+    const { tid, billingAddress } = this.state;
+    let cyberPaymentParam = {};
+    let cyberParams = {};
+    const {
+      cardholderName,
+      cardNumber,
+      expirationMonth,
+      expirationYear,
+      securityCode
+    } = this.state.cyberPaymentForm;
+    let newBillingAddress = Object.assign({}, this.state.billingAddress);
+    if (tid && tid != null) {
+      newBillingAddress = orderDetails?.invoice;
+      newBillingAddress.phoneNumber = orderDetails?.invoice?.phone;
+    }
+    cyberPaymentParam.cardholderName = cardholderName;
+    cyberPaymentParam.cardNumber = cardNumber;
+    cyberPaymentParam.securityCode = securityCode;
+    cyberPaymentParam.expirationMonth = expirationMonth;
+    cyberPaymentParam.expirationYear = expirationYear;
+    cyberPaymentParam.firstName = newBillingAddress.firstName;
+    cyberPaymentParam.lastName = newBillingAddress.lastName;
+    cyberPaymentParam.address1 = newBillingAddress.address1;
+    cyberPaymentParam.address2 = newBillingAddress.address2;
+    cyberPaymentParam.country = 'us';
+    cyberPaymentParam.state = newBillingAddress.province;
+    cyberPaymentParam.city = newBillingAddress.city;
+    cyberPaymentParam.zipCode = newBillingAddress.postCode;
+    cyberPaymentParam.phone = newBillingAddress.phoneNumber;
+    cyberPaymentParam.email = isLogin
+      ? tid
+        ? orderDetails?.invoice?.email || ''
+        : billingAddress.email || ''
+      : this.state.guestEmail;
+    cyberParams = Object.assign({}, cyberPaymentParam, {
+      cardType: null,
+      cardTypeValue: null,
+      paymentVendor: currentCardTypeInfo?.cardType
+    });
+    return cyberParams;
+  }
   componentWillMount() {
     isHubGA && this.getPetVal();
   }
@@ -418,7 +481,46 @@ class Payment extends React.Component {
   /**
    * init panel prepare/edit/complete status
    */
-  sendCyberPaymentForm = (cyberPaymentForm) => {
+  sendCyberPaymentForm = async (cyberPaymentForm) => {
+    //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---start---
+    let {
+      paymentStore: { currentCardTypeInfo }
+    } = this.props;
+    let {
+      cardholderName,
+      cardNumber,
+      expirationMonth,
+      expirationYear,
+      securityCode
+    } = cyberPaymentForm;
+    let currentCardLength = currentCardTypeInfo?.cardLength || 19;
+    let securityCodeLength = currentCardTypeInfo?.cvvLength || 3;
+
+    if (
+      cardholderName &&
+      expirationMonth &&
+      expirationYear &&
+      cardNumber.length == currentCardLength &&
+      securityCode.length == securityCodeLength
+    ) {
+      let cyberParams = this.getCyberParams();
+
+      if (Object.keys(cyberParams).length > 0) {
+        try {
+          this.setState({ cyberBtnLoading: true });
+          const res = await this.queryCyberCardType(cyberParams);
+          let authorizationCode = res.context.requestToken;
+          let subscriptionID = res.context.subscriptionID;
+          let cyberCardType = res.context.cardType;
+          this.setState({ authorizationCode, subscriptionID, cyberCardType });
+        } catch (err) {
+          console.log(222, err.message);
+        } finally {
+          this.setState({ cyberBtnLoading: false });
+        }
+      }
+    }
+    //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
   };
   initPanelStatus() {
@@ -2266,6 +2368,8 @@ class Payment extends React.Component {
       cyberParams = Object.assign({}, cyberPaymentParam, {
         cardType: currentCardTypeInfo.cardType,
         cardTypeValue: currentCardTypeInfo.cardTypeValue,
+        authorizationCode: this.state.authorizationCode,
+        subscriptionID: this.state.subscriptionID,
         paymentVendor: currentCardTypeInfo.cardType
       });
     }
@@ -2927,6 +3031,8 @@ class Payment extends React.Component {
                     reInputCVVBtn={reInputCVVBtn}
                     isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
                     sendCyberPaymentForm={this.sendCyberPaymentForm}
+                    cyberCardType={this.state.cyberCardType}
+                    cyberBtnLoading={this.state.cyberBtnLoading}
                     ref={this.cyberRef}
                   />
                 </>

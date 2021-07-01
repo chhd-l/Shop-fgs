@@ -18,4 +18,11 @@ const cyberFormTitle = {
   secureCode: 'cyber.form.secureCode2'
 };
 
-export { cardTypeImg, cyberFormTitle };
+const cyberCardTypeToValue = {
+  '001': 'Visa',
+  '002': 'Mastercard',
+  '003': 'Amex',
+  '004': 'Discover'
+};
+
+export { cardTypeImg, cyberFormTitle, cyberCardTypeToValue };

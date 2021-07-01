@@ -30,6 +30,7 @@ const api = {
   //CYBER
   usPaymentInfo: `/${window.__.env.REACT_APP_STOREID}/us-pay-payment-info`, //CYBER绑卡
   usGuestPaymentInfo: `/${window.__.env.REACT_APP_STOREID}/us-guest-pay-payment-info`, //CYBER游客绑卡
+  usPayCardSubscription: `/${window.__.env.REACT_APP_STOREID}/us-pay-card-subscription`, //CYBER查询卡类型
 
   installments: '/payment-method/installments'
 };
@@ -47,6 +48,14 @@ export function usPaymentInfo(parameter) {
 export function usGuestPaymentInfo(parameter) {
   return axios({
     url: api.usGuestPaymentInfo,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function usPayCardSubscription(parameter) {
+  return axios({
+    url: api.usPayCardSubscription,
     method: 'post',
     data: parameter
   });
