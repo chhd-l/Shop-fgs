@@ -42,7 +42,8 @@ const funcUrl = ({
   search = window.location.search.substr(1)
 } = {}) => {
   var baseUrl = type == undefined ? pathname + '?' : '';
-  var query = search ? decodeURIComponent(search) : '';
+  // var query = search ? decodeURIComponent(search) : '';
+  var query = search;
   // 如果没有传参,就返回 search 值 不包含问号
   if (name == undefined) {
     return query;
