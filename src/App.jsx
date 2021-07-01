@@ -192,7 +192,7 @@ const LoginCallback = (props) => {
       } else {
         await oktaAuth.handleLoginRedirect();
       }
-      console.log(authState)
+      console.log(authState);
       props && props.history.push('/required');
     }
   }, [oktaAuth, authStateReady]);
@@ -732,9 +732,17 @@ const App = () => {
                       console.log(redirectUrl);
 
                       // PDP文件重定向end
-
                       if (redirectUrl) {
-                        return <Redirect to={redirectUrl} />;
+                        return (
+                          <Redirect
+                            to={{
+                              pathname: redirectUrl,
+                              search: props?.location?.search || '',
+                              state: props?.location?.state
+                            }}
+                            {...props}
+                          />
+                        );
                       } else {
                         return (
                           <Details key={props.match.params.id} {...props} />
@@ -760,7 +768,16 @@ const App = () => {
 
                       // 除去PDP页面文件重定向end
                       if (redirectUrl) {
-                        return <Redirect to={redirectUrl} />;
+                        return (
+                          <Redirect
+                            to={{
+                              pathname: redirectUrl,
+                              search: props?.location?.search || '',
+                              state: props?.location?.state
+                            }}
+                            {...props}
+                          />
+                        );
                       } else {
                         return (
                           <List
