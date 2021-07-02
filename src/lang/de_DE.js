@@ -1169,7 +1169,7 @@ const de_DE = {
   'subscription.promotionTip':
     'Speichern Sie {val} bei Ihrem ersten Abonnement',
   'subscription.promotionTip2':
-    'Schließen Sie im Bezahlprozess ein Abonnement ab, um dieses Produkt regelmäßig neu zu erhalten.',
+    'Schließen Sie eine regelmäßige Lieferung ab, um dieses Produkt in einem gewünschten Zeitraum immer neu zu erhalten. Die regelmäßige Lieferung enthält keine Mindestlaufzeit oder Kündigungsfrist.',
   'subscription.promotionTip3':
     'Schließen Sie im Bezahlprozess ein Abonnement ab, um dieses Produkt regelmäßig neu zu erhalten.',
   'subscription.receiveDate': 'Nächstes Empfangsdatum',
