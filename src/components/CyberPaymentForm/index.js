@@ -2,8 +2,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import Selection from '@/components/Selection';
-import { usPaymentInfo } from '@/api/payment';
-import { usGuestPaymentInfo } from '@/api/payment';
+import {
+  usGuestPaymentInfo,
+  usPaymentInfo,
+  usPayCardSubscription
+} from '@/api/payment';
 
 const monthList = [
   { name: 'month', value: '' },
@@ -87,6 +90,17 @@ class CyberPaymentForm extends React.Component {
   usPaymentInfoEvent = async (params) => {
     try {
       const res = await usPaymentInfo(params);
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  //查询卡类型
+  queryCyberCardTypeEvent = async (params) => {
+    try {
+      const res = await usPayCardSubscription(params);
       return new Promise((resolve) => {
         resolve(res);
       });

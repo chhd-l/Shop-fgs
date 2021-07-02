@@ -1,7 +1,7 @@
 import React from 'react';
 import CyberPaymentForm from '@/components/CyberPaymentForm';
 import CyberCardList from './list';
-import { cyberFormTitle } from '@/utils/constant/cyber';
+import { cyberFormTitle, cyberCardTypeToValue } from '@/utils/constant/cyber';
 import { inject, observer } from 'mobx-react';
 import { ADDRESS_RULE } from './constant/utils';
 import { validData } from '@/utils/utils';
@@ -21,8 +21,21 @@ class CyberPayment extends React.Component {
     updateSelectedCardInfo: () => {},
     reInputCVVBtn: () => {},
     isShowCyberBindCardBtn: '',
-    sendCyberPaymentForm: () => {}
+    sendCyberPaymentForm: () => {},
+    cyberCardType: '001',
+    cyberBtnLoading: false
   };
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (
+      nextProps.cyberCardType &&
+      nextProps.cyberCardType !== this.state.cardTypeVal
+    ) {
+      this.setState({
+        cardTypeVal: cyberCardTypeToValue[nextProps.cyberCardType]
+      });
+    }
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +70,19 @@ class CyberPayment extends React.Component {
   }
   //切换卡
   handleCardTypeChange = (e) => {
+    //切换卡时，清空变量start
+    let cyberPaymentForm = this.state.cyberPaymentForm;
+    cyberPaymentForm = Object.assign({}, cyberPaymentForm, {
+      cardholderName: '',
+      cardNumber: '',
+      expirationMonth: '',
+      expirationYear: '',
+      securityCode: ''
+    });
+    //切换卡时，清空变量end
+    this.setState({
+      cyberPaymentForm
+    });
     this.setState({ cardTypeVal: e.target.value }, () => {
       this.onCardTypeValChange();
     });
@@ -276,7 +302,8 @@ class CyberPayment extends React.Component {
             />
             {this.props.payConfirmBtn({
               disabled: validForCyberPayment() || this.props.validForBilling,
-              loading: this.props.saveBillingLoading
+              loading:
+                this.props.saveBillingLoading || this.props.cyberBtnLoading
             })}
           </>
         ) : (
