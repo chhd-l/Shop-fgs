@@ -3,3 +3,4 @@ FROM nginx:1.18.0
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY build/ /usr/share/nginx/html
 COPY seo/ /usr/share/nginx/html/
+RUN ls /usr/share/nginx/html/
