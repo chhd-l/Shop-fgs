@@ -239,7 +239,6 @@ class AccountOrders extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    console.log(!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX);
     this.setState(
       {
         orderNumber: this.props.match.params.orderNumber
