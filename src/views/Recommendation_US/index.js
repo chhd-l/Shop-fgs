@@ -389,7 +389,6 @@ class Recommendation extends React.Component {
           this.props.clinicStore.setLinkClinicId(
             res.context?.id || res.context.prescriberId
           );
-          // this.props.clinicStore.setLinkClinicBusId(res.context.prescriberId);
           this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         }
         this.props.clinicStore.setAuditAuthority(false);
@@ -434,7 +433,6 @@ class Recommendation extends React.Component {
       this.props.clinicStore.setLinkClinicId(
         res.context?.id || res.context?.prescriberId
       );
-      // this.props.clinicStore.setLinkClinicBusId(res.context?.prescriberId);
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
       let locationPath = res.context?.location;
       this.setState({ locationPath });
@@ -516,7 +514,6 @@ class Recommendation extends React.Component {
                 ?.recommendationId || this.props.clinicStore.linkClinicId,
             recommendationInfos: this.props.clinicStore
               .linkClinicRecommendationInfos,
-            // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationName:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -546,7 +543,6 @@ class Recommendation extends React.Component {
             periodTypeId: null,
             recommendationInfos: this.props.clinicStore
               .linkClinicRecommendationInfos,
-            // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
             recommendationId:
               this.props.clinicStore.linkClinicRecommendationInfos
                 ?.recommendationId || this.props.clinicStore.linkClinicId,

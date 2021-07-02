@@ -1064,11 +1064,11 @@ const de_DE = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'subscription.pause': 'pause',
+  'subscription.pause': 'Pausieren',
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
-  'subscription.restart': 'redémarrage',
+  'subscription.restart': 'Neu starten',
   //Smart feeder subscription
   'smartFeederSubscription.selectAnotherProduct':
     'sélectionnez un autre produit',
@@ -1379,7 +1379,11 @@ const de_DE = {
   'deLandingPage.prescriberCode.tip6':
     ' Fragen Sie bei unseren teilnehmenden Tierärzt*innen.',
   'deLandingPage.prescriberCode.navigateBtn': 'Tierarztpraxen anzeigen',
-  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!'
+  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!',
+  'firstOrderWelcomeBox.title':
+    'Ich möchte eine <strong>gratis Willkommens-Box</strong> für mein Tier zu meiner Bestellung erhalten.',
+  'firstOrderWelcomeBox.yes': 'Ja',
+  'firstOrderWelcomeBox.no': 'Nein'
 };
 
 export default de_DE;

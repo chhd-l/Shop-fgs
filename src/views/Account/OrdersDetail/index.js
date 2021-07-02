@@ -15,7 +15,8 @@ import {
   getDictionary,
   getFormatDate,
   matchNamefromDict,
-  filterOrderId
+  filterOrderId,
+  getClubLogo
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -223,7 +224,11 @@ class AccountOrders extends React.Component {
       logisticsList: [],
       activeTabIdx: 0,
       showLogisticsDetail: false,
-      curLogisticInfo: null
+      curLogisticInfo: null,
+      welcomeGiftLists: [
+        { giftName: 'Gift name', num: 1 },
+        { giftName: 'Gift name', num: 1 }
+      ] //first-order welcome box gifts
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -1068,7 +1073,8 @@ class AccountOrders extends React.Component {
       normalProgressList,
       cancelProgressList,
       showLogisticsDetail,
-      curLogisticInfo
+      curLogisticInfo,
+      welcomeGiftLists
     } = this.state;
 
     let newDeliveryDate = '';
@@ -1357,6 +1363,56 @@ class AccountOrders extends React.Component {
                                   ))}
                                 </div>
                               </div>
+                              {/*新增first order welcome box gift content*/}
+                              {!!+window.__.env
+                                .REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
+                              welcomeGiftLists.length > 0 ? (
+                                <div className="order__listing text-left">
+                                  <div className="order-list-container">
+                                    {welcomeGiftLists.map((item, i) => (
+                                      <div
+                                        className="border-bottom pl-2 pr-2 pt-3 pb-3"
+                                        key={i}
+                                      >
+                                        <div
+                                          className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
+                                        >
+                                          <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
+                                            <LazyLoad style={{ width: '100%' }}>
+                                              <img
+                                                className="order-details-img-fluid w-100"
+                                                src={getClubLogo()}
+                                                alt=""
+                                                title=""
+                                              />
+                                            </LazyLoad>
+                                          </div>
+                                          <div className="col-8 col-md-3">
+                                            <span
+                                              className="medium ui-text-overflow-line2 text-break color-444"
+                                              title={item.giftName}
+                                            >
+                                              {item.giftName}
+                                            </span>
+                                          </div>
+                                          <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
+                                            <FormattedMessage
+                                              id="xProduct"
+                                              values={{ val: item.num }}
+                                            />
+                                          </div>
+                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up font-weight-normal">
+                                            {formatMoney(0)}
+                                          </div>
+                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                            {formatMoney(0)}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : null}
                               <div className="pt-2 pb-2 pl-md-4 pr-md-4">
                                 <div className="row mt-2 text-left">
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">

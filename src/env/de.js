@@ -65,6 +65,9 @@ const env_de = {
     // #显示PrescriberCodeModal
     REACT_APP_SHOWPRESCRIBERCODEMODAL: '1',
 
+    // #是否启用First Order Welcome Box功能
+    REACT_APP_SHOW_CHECKOUT_WELCOMEBOX: '0',
+
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-DE-Site/de_DE/Search-Show'
   },
