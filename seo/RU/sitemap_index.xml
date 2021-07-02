@@ -313,25 +313,25 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/dogs/?prefn1=ages&prefv1=Adulte|Sénior</loc>
+        <loc>https://www.royalcanin.com/ru/shop/dogs/?prefn1=ages&amp;prefv1=Adulte|Sénior</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)</loc>
+        <loc>https://www.royalcanin.com/ru/shop/cats/?prefn1=ages&amp;prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois</loc>
+        <loc>https://www.royalcanin.com/ru/shop/dogs/?prefn1=ages&amp;prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)</loc>
+        <loc>https://www.royalcanin.com/ru/shop/cats/?prefn1=ages&amp;prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -475,7 +475,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-2526</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-2526</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -493,7 +493,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/maxi-starter-mother-&-babydog-2994</loc>
+        <loc>https://www.royalcanin.com/ru/shop/maxi-starter-mother-&amp;-babydog-2994</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -835,7 +835,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-2544</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-2544</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -913,7 +913,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-(мусс)-4098</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-(мусс)-4098</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1111,7 +1111,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/medium-starter-mother-&-babydog-2993</loc>
+        <loc>https://www.royalcanin.com/ru/shop/medium-starter-mother-&amp;-babydog-2993</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1225,7 +1225,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&-babydog-2990</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&amp;-babydog-2990</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1339,7 +1339,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/giant-starter-mother-&-babydog-2996</loc>
+        <loc>https://www.royalcanin.com/ru/shop/giant-starter-mother-&amp;-babydog-2996</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1561,7 +1561,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/skin-&-coat-1323</loc>
+        <loc>https://www.royalcanin.com/ru/shop/skin-&amp;-coat-1323</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1831,7 +1831,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/skin-&-coat-(в-соусе)-4092</loc>
+        <loc>https://www.royalcanin.com/ru/shop/skin-&amp;-coat-(в-соусе)-4092</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2023,7 +2023,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/skin-&-coat-13230040R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/skin-&amp;-coat-13230040R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2155,13 +2155,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25260040P0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25260040P0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25260040R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25260040R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2221,13 +2221,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-25440040P0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-25440040P0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-25440040R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-25440040R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2479,7 +2479,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&-babydog-29900100R1</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&amp;-babydog-29900100R1</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -2857,7 +2857,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/skin-&-coat-(в-соусе)-40920008A0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/skin-&amp;-coat-(в-соусе)-40920008A0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -3091,7 +3091,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/skin-&-coat-13230150R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/skin-&amp;-coat-13230150R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -3535,19 +3535,19 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25260200F0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25260200F0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25260200P0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25260200P0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25260200R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25260200R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -3613,13 +3613,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-25440200P0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-25440200P0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-25440200R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-25440200R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -3781,7 +3781,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-(мусс)-40980019A0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-(мусс)-40980019A0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -3877,7 +3877,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&-babydog-29900300R2</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&amp;-babydog-29900300R2</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -4189,7 +4189,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/skin-&-coat-13230350R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/skin-&amp;-coat-13230350R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -4255,19 +4255,19 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/medium-starter-mother-&-babydog-29930400R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/medium-starter-mother-&amp;-babydog-29930400R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/maxi-starter-mother-&-babydog-29940400R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/maxi-starter-mother-&amp;-babydog-29940400R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/giant-starter-mother-&-babydog-29960400R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/giant-starter-mother-&amp;-babydog-29960400R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -4399,13 +4399,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-25440400P0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-25440400P0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mother-&-babycat-25440400R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mother-&amp;-babycat-25440400R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -4663,7 +4663,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&-babydog-29900850R1</loc>
+        <loc>https://www.royalcanin.com/ru/shop/mini-starter-mother-&amp;-babydog-29900850R1</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -4789,19 +4789,19 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25261000F0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25261000F0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25261000P0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25261000P0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/hair-&-skin-care-25261000R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/hair-&amp;-skin-care-25261000R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -4933,7 +4933,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/medium-starter-mother-&-babydog-29931200R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/medium-starter-mother-&amp;-babydog-29931200R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -5047,13 +5047,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/maxi-starter-mother-&-babydog-29941500R1</loc>
+        <loc>https://www.royalcanin.com/ru/shop/maxi-starter-mother-&amp;-babydog-29941500R1</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/ru/shop/giant-starter-mother-&-babydog-29961500R0</loc>
+        <loc>https://www.royalcanin.com/ru/shop/giant-starter-mother-&amp;-babydog-29961500R0</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>

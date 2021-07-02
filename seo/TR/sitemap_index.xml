@@ -313,25 +313,25 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/tr/shop/dogs/?prefn1=ages&prefv1=Adulte|Sénior</loc>
+        <loc>https://www.royalcanin.com/tr/shop/dogs/?prefn1=ages&amp;prefv1=Adulte|Sénior</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/tr/shop/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)</loc>
+        <loc>https://www.royalcanin.com/tr/shop/cats/?prefn1=ages&amp;prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/tr/shop/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois</loc>
+        <loc>https://www.royalcanin.com/tr/shop/dogs/?prefn1=ages&amp;prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/tr/shop/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)</loc>
+        <loc>https://www.royalcanin.com/tr/shop/cats/?prefn1=ages&amp;prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -1363,7 +1363,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.royalcanin.com/tr/shop/skin-&-coat-4092</loc>
+        <loc>https://www.royalcanin.com/tr/shop/skin-&amp;-coat-4092</loc>
         <lastmod>2021-01-20T03:27:56+00:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
