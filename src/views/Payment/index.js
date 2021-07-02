@@ -79,6 +79,7 @@ import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
+import { isNewAccount } from '@/api/user';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -280,7 +281,9 @@ class Payment extends React.Component {
         cityFias: '',
         settlementFias: '',
         postalCode: ''
-      } // 俄罗斯计算运费DuData对象，purchases接口用
+      }, // 俄罗斯计算运费DuData对象，purchases接口用
+      welcomeBoxValue: 'yes', //first order welcome box value:yes/no
+      isFirstOrder: false //是否是第一次下单
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -361,6 +364,12 @@ class Payment extends React.Component {
   async componentDidMount() {
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
+      //判断是否是第一次下单
+      isNewAccount().then((res) => {
+        if (res.context == 0) {
+          this.setState({ isFirstOrder: true });
+        }
+      });
       this.queryList();
     }
 
@@ -1544,6 +1553,12 @@ class Payment extends React.Component {
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail
+      // welcomeBoxValue:
+      //   !!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
+      //   this.isLogin &&
+      //   this.state.isFirstOrder
+      //     ? this.state.welcomeBoxValue
+      //     : 'no' //first order welcome box
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -3690,6 +3705,9 @@ class Payment extends React.Component {
                 <span className="rc-icon rc-down--xs rc-iconography" />
               }
               isCheckOut={true}
+              welcomeBoxChange={(value) => {
+                this.setState({ welcomeBoxValue: value });
+              }}
             />
           </div>
 

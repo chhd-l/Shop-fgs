@@ -9,6 +9,7 @@ import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
+import WelcomeBox from '../WelcomeBox';
 const guid = uuidv4();
 let isGACheckoutLock = false;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -35,7 +36,10 @@ class PayProductInfo extends React.Component {
     guestEmail: '',
     isGuestCart: false,
     isCheckOut: false,
-    deliveryAddress: []
+    deliveryAddress: [],
+    welcomeBoxValue: 'yes', //first order welcome box value:yes/no
+    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
+    isFirstOrder: false //是否是第一次下单
   };
   constructor(props) {
     super(props);
@@ -514,6 +518,17 @@ class PayProductInfo extends React.Component {
             <div className="checkout--padding">
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
+              {/*新增First Order Welcome Box*/}
+              {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
+                this.isLogin &&
+                this.props.isFirstOrder && (
+                  <WelcomeBox
+                    checkedValue={this.props.welcomeBoxValue}
+                    welcomeBoxChange={(value) => {
+                      this.props.welcomeBoxChange(value);
+                    }}
+                  />
+                )}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
                 <span
@@ -849,7 +864,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 ) : null}
 
-                {/* 
+                {/*
                   customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
                   enterPriceType 买入价格开关 0：含税，1：不含税
                 */}

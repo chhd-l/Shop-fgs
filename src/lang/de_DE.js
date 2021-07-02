@@ -1379,7 +1379,11 @@ const de_DE = {
   'deLandingPage.prescriberCode.tip6':
     ' Fragen Sie bei unseren teilnehmenden Tierärzt*innen.',
   'deLandingPage.prescriberCode.navigateBtn': 'Tierarztpraxen anzeigen',
-  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!'
+  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!',
+  'firstOrderWelcomeBox.title':
+    'Ich möchte eine <strong>gratis Willkommens-Box</strong> für mein Tier zu meiner Bestellung erhalten.',
+  'firstOrderWelcomeBox.yes': 'Ja',
+  'firstOrderWelcomeBox.no': 'Nein'
 };
 
 export default de_DE;
