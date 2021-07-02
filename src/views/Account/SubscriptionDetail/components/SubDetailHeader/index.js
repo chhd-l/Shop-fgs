@@ -6,6 +6,7 @@ import LinkPet from './LinkPet';
 import { filterOrderId, getClubLogo } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 export const SubDetailHeaderContext = createContext();
 import { getDictionary } from '@/utils/utils';
 const StatusText = ({ subDetail }) => {
