@@ -1134,7 +1134,12 @@ class Details extends React.Component {
                         ) : (
                           <div>
                             <div className="align-left flex rc-margin-bottom--xs">
-                              <InstockStatusComp status={instockStatus} />
+                              <p className="rc-margin-right--xs">
+                                <InstockStatusComp status={instockStatus} />
+                              </p>
+                              {Ru && selectedSpecItem ? (
+                                <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
+                              ) : null}
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (
