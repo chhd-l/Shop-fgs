@@ -1533,10 +1533,6 @@ class Payment extends React.Component {
       email: creditCardInfo?.email || deliveryAddress?.email,
       line1: deliveryAddress?.address1,
       line2: deliveryAddress?.address2,
-      //推荐者信息下放到商品行
-      // recommendationId: clinicStore.linkClinicId,
-      // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-      // recommendationName: clinicStore.linkClinicName,
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
@@ -1571,10 +1567,6 @@ class Payment extends React.Component {
     //   email: creditCardInfo?.email || deliveryAddress?.email,
     //   line1: deliveryAddress?.address1,
     //   line2: deliveryAddress?.address2,
-    //   //推荐者信息下放到商品行
-    //   // recommendationId: clinicStore.linkClinicId,
-    //   // recommendationPrimaryKeyId: clinicStore.linkClinicBusId,
-    //   // recommendationName: clinicStore.linkClinicName,
     //   //审核者信息放订单行
     //   clinicsId: clinicStore.selectClinicId,
     //   clinicsName: clinicStore.selectClinicName,

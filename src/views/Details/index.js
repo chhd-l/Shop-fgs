@@ -729,7 +729,6 @@ class Details extends React.Component {
         petsType: currentSelectedSize.petsType,
         questionParams,
         recommendationId: this.props.clinicStore.linkClinicId,
-        // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
         recommendationName: this.props.clinicStore.linkClinicName
       };
       if (buyWay) {
@@ -774,7 +773,6 @@ class Details extends React.Component {
         quantity,
         questionParams,
         recommendationId: this.props.clinicStore.linkClinicId,
-        // recommendationPrimaryKeyId: this.props.clinicStore.linkClinicBusId,
         recommendationName: this.props.clinicStore.linkClinicName
       });
       //requestJson是shelter和breeder产品的参数，有就加上
