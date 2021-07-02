@@ -7,6 +7,7 @@ import BazaarVoiceRatingSummary from '@/components/BazaarVoice/ratingSummary';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const createMarkup = (text: 'string') => ({ __html: text });
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+
 interface Props {
   checkOutErrMsg: string;
   goodHeading: string;
@@ -37,6 +38,9 @@ const DetailHeader = ({
     <div className="detailHeader mt-3">
       <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
       <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
+      {Ru && selectedSpecItem ? (
+        <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
+      ) : null}
       <div className="desAndStars">
         <div className="des">
           <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>

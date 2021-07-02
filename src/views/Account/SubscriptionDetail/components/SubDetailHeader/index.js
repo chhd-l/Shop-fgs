@@ -144,14 +144,25 @@ const SubDetailHeader = ({
                 </div>
                 <Link
                   className="rc-md-down rc-margin-y--sm"
+                  onClick={() => {
+                    sessionItemRoyal.set(
+                      'rc-subdetailInfo',
+                      JSON.stringify({
+                        isFromSubscriptionDetail:
+                          subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                        isFromSubscriptionDetail: true,
+                        subscribeId: subDetail.subscribeId
+                      })
+                    );
+                  }}
                   to={{
-                    pathname: `/account/pets/petForm/${subDetail.petsId}`,
-                    state: {
-                      isFromSubscriptionDetail:
-                        subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
-                      isFromSubscriptionDetail: true,
-                      subscribeId: subDetail.subscribeId
-                    }
+                    pathname: `/account/pets/petForm/${subDetail.petsId}`
+                    // state: {
+                    //   isFromSubscriptionDetail:
+                    //     subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                    //   isFromSubscriptionDetail: true,
+                    //   subscribeId: subDetail.subscribeId
+                    // }
                   }}
                 >
                   <div className="rc-styled-link">
@@ -177,15 +188,26 @@ const SubDetailHeader = ({
                   </div>
                   <div className="rc-padding-right--md">
                     <Link
+                      onClick={() => {
+                        sessionItemRoyal.set(
+                          'rc-subdetailInfo',
+                          JSON.stringify({
+                            isFromSubscriptionDetail:
+                              subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                            isFromSubscriptionDetail: true,
+                            subscribeId: subDetail.subscribeId
+                          })
+                        );
+                      }}
                       className="rc-md-up"
                       to={{
-                        pathname: `/account/pets/petForm/${subDetail.petsId}`,
-                        state: {
-                          isFromSubscriptionDetail:
-                            subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
-                          isFromSubscriptionDetail: true,
-                          subscribeId: subDetail.subscribeId
-                        }
+                        pathname: `/account/pets/petForm/${subDetail.petsId}`
+                        // state: {
+                        //   isFromSubscriptionDetail:
+                        //     subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                        //   isFromSubscriptionDetail: true,
+                        //   subscribeId: subDetail.subscribeId
+                        // }
                       }}
                     >
                       <div className="rc-styled-link">

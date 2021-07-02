@@ -53,6 +53,9 @@ podTemplate(label: label, cloud: 'kubernetes',
                     sh "npm --version"
                     sh "npm install"
                     sh "npm run build:${TARGET_BUILD}"
+                    //nginx配置增加一行proxy_pass http://rendertron;
+                    sh 'sed \'/\\/render\\/https:\\/\\/www.royalcanin.com\\/\\$1 break;/a\\\\t\\tproxy_pass http://rendertron;\'  nginx.conf '
+                    
                 }
         }
         stage('Docker build'){

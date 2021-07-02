@@ -1012,6 +1012,7 @@ class Details extends React.Component {
                       <DetailHeader
                         checkOutErrMsg={checkOutErrMsg}
                         goodHeading={goodHeading}
+                        selectedSpecItem={selectedSpecItem}
                         details={details}
                         productRate={productRate}
                         replyNum={replyNum}
@@ -1104,6 +1105,7 @@ class Details extends React.Component {
                             <DetailHeader
                               checkOutErrMsg={checkOutErrMsg}
                               goodHeading={goodHeading}
+                              selectedSpecItem={selectedSpecItem}
                               details={details}
                               productRate={productRate}
                               replyNum={replyNum}
