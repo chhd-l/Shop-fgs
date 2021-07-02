@@ -721,6 +721,9 @@ const ru_RU = {
   'payment.shippingDiscount': 'Скидка на доставку',
   'payment.deliveryFee': 'Стоимость доставки',
 
+  'payment.editDeliveryDateAndTime':
+    'Нажмите Редактировать чтобы изменить день и время доставки',
+
   'payment.tomorrow': 'завтра',
 
   'payment.homeDelivery': 'доставлять товары на дом',

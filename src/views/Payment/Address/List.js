@@ -1416,6 +1416,13 @@ class AddressList extends React.Component {
                   {item.timeSlot}
                 </>
               ) : null}
+              {item.selected &&
+              item.timeSlot &&
+              this.props.saveAddressNumber < 2 ? (
+                <span style={{ display: 'block' }}>
+                  <FormattedMessage id="payment.editDeliveryDateAndTime" />
+                </span>
+              ) : null}
             </p>
           </div>
           <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">
@@ -1614,10 +1621,7 @@ class AddressList extends React.Component {
           {deliveryOrPickUpFlag && (
             <>
               <HomeDeliveryOrPickUp
-                key={
-                  this.props.isCurrentBuyWaySubscription ||
-                  this.state.defaultCity
-                }
+                key={this.state.defaultCity}
                 defaultCity={this.state.defaultCity}
                 isCurrentBuyWaySubscription={
                   this.props.isCurrentBuyWaySubscription

@@ -388,6 +388,12 @@ class Form extends React.Component {
           } else if (this.props.personalData) {
             // persnalData不需要展示comment
             narr = narr.filter((item) => item.fieldKey != 'comment');
+            if (window.__.env.REACT_APP_COUNTRY == 'us') {
+              // 美国个人中心不显示：firstName、lastName
+              narr = narr.filter((e, i) => {
+                return e.fieldKey == 'firstName' || e.fieldKey == 'lastName';
+              });
+            }
           }
 
           // 格式化表单json
