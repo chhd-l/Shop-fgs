@@ -491,7 +491,7 @@ const PetForms = ({
             let params = {
               subscribeId,
               petsId,
-              createPetsLifeStageFlag: true // 新增宠物，link sub需要弹出yellow box
+              createPetsLifeStageFlag: 1 // 新增宠物，link sub需要弹出yellow box
             };
             try {
               await changeSubscriptionDetailPets(params);
