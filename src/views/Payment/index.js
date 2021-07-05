@@ -1560,7 +1560,8 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    // console.log('★★★★★★ 1548 封装下单参数: ', param);
+    console.log('666 ★ 封装下单参数: ', param);
+
     // let param = {
     //   zipcode: deliveryAddress?.postCode,
     //   phone: creditCardInfo?.phoneNumber,

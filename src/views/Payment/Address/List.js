@@ -1084,7 +1084,6 @@ class AddressList extends React.Component {
     this.props.updateValidationStaus(true);
     // 不校验地址，进入下一步
     await this.handleSavePromise();
-    // this.clickConfirmAddressPanel();
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
@@ -1328,23 +1327,35 @@ class AddressList extends React.Component {
       timeSlot: '',
       isDefaltAddress: 0
     });
-    console.log('666 list deliveryAdd: ', deliveryAdd);
-    const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress;
-    let res = await tmpPromise(deliveryAdd);
-    if (res.context.deliveryAddressId) {
-      this.setState({
-        selectedId: res.context.deliveryAddressId
-      });
-    }
-    this.isDeliverAddress && this.scrollToTitle();
-    await this.queryAddressList();
+    let addres = await getAddressList();
+    let pickupAddress = addres.context.filter((e) => {
+      return e.receiveType == 'PICK_UP';
+    });
+    const tmpPromise = pickupAddress.length ? editAddress : saveAddress;
+    pickupAddress.length
+      ? (deliveryAdd.deliveryAddressId = pickupAddress[0].deliveryAddressId)
+      : '';
+    console.log('666 ★ 111  deliveryAdd: ', deliveryAdd);
+    console.log('666 ★ 222  pickupAddress: ', pickupAddress);
+    console.log('666 ★ 333  tmpPromise: ', tmpPromise);
+
+    // let res = await tmpPromise(deliveryAdd);
+    // console.log('666 ★ 444  res: ', res);
+    // if (res.context.deliveryAddressId) {
+    //   this.setState({
+    //     selectedId: res.context.deliveryAddressId
+    //   });
+    // }
+    this.scrollToTitle();
+    // await this.queryAddressList();
+    // console.log('666 ★ 555  ');
     this.showSuccessMsg();
     this.setState({
       addOrEdit: false,
       btnConfirmLoading: false
     });
 
-    this.clickConfirmAddressPanel();
+    // this.confirmToNextPanel();
   };
   render() {
     const { panelStatus } = this;
