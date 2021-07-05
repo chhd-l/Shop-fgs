@@ -534,7 +534,7 @@ class Payment extends React.Component {
           let cyberCardType = res.context.cardType;
           this.setState({ authorizationCode, subscriptionID, cyberCardType });
         } catch (err) {
-          console.log(222, err.message);
+          console.log('cyber获取卡类型失败', err.message);
         } finally {
           this.setState({ cyberBtnLoading: false });
         }
