@@ -134,7 +134,9 @@ class AddressList extends React.Component {
       let addressList = res.context;
       //不显示billing address
       if (hideBillingAddr) {
-        addressList = res.context.filter((item) => item.type === 'DELIVERY');
+        addressList = res.context.filter((item) => {
+          return item.type === 'DELIVERY' && item.receiveType != 'PICK_UP';
+        });
       }
 
       this.setState({

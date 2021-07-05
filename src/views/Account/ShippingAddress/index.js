@@ -89,7 +89,9 @@ class ShippingAddress extends React.Component {
     this.setState({ listLoading: true });
     try {
       let res = await getAddressList();
-      let addressList = res.context;
+      let addressList = res.context.filter((item) => {
+        return item.receiveType != 'PICK_UP';
+      });
       let total = addressList.length;
       // let cityRes = await queryCityNameById({
       //   id: addressList.map((ele) => ele.cityId)
