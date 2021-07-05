@@ -213,14 +213,17 @@ class PersonalDataEditForm extends React.Component {
   // 保存数据
   handleSave = () => {
     // 地址验证
-    this.setState({
-      validationLoading: true
-    });
-    setTimeout(() => {
-      this.setState({
-        validationModalVisible: true
-      });
-    }, 800);
+    // this.setState({
+    //   validationLoading: true
+    // });
+    // setTimeout(() => {
+    //   this.setState({
+    //     validationModalVisible: true
+    //   });
+    // }, 800);
+
+    // 不校验地址，进入下一步
+    this.showNextPanel();
   };
   // 显示下一步操作
   showNextPanel = async () => {
