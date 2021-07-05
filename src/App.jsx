@@ -154,6 +154,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import DateFnsLocaleFr from 'date-fns/locale/fr';
 import DateFnsLocaleES from 'date-fns/locale/es';
 import DateFnsLocaleDE from 'date-fns/locale/de';
+import DedicatedLandingPage from './views/DedicatedLandingPage';
 
 if (window.__.env.REACT_APP_COUNTRY === 'fr') {
   registerLocale('fr', DateFnsLocaleFr);
@@ -540,6 +541,10 @@ const App = () => {
                       ? ClubLandingPageDeVet
                       : Exception
                   }
+                />
+                <Route path="/dedicatedlandingpage"
+                exact
+                component={DedicatedLandingPage}
                 />
                 <Route
                   path="/general-conditions"

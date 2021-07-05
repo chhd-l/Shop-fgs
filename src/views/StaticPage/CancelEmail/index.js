@@ -28,11 +28,14 @@ class CancelEmail extends React.Component {
       this.setState({ seoConfig: res });
     });
     const consumerAccount = funcUrl({ name: 'consumerAccount' });
+    const storeId = funcUrl({ name: 'storeId' });
     this.setState({
       consumerAccount: consumerAccount
     });
-    const res = await cancelEmailBind({ consumerAccount: consumerAccount });
-    console.log(res);
+    const res = await cancelEmailBind({
+      consumerAccount: consumerAccount,
+      storeId
+    });
   }
 
   render() {

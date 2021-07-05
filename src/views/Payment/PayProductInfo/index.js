@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import WelcomeBox from '../WelcomeBox';
+import { isNewAccount } from '@/api/user';
 const guid = uuidv4();
 let isGACheckoutLock = false;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -37,9 +38,7 @@ class PayProductInfo extends React.Component {
     isGuestCart: false,
     isCheckOut: false,
     deliveryAddress: [],
-    welcomeBoxValue: 'yes', //first order welcome box value:yes/no
-    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
-    isFirstOrder: false //是否是第一次下单
+    welcomeBoxChange: () => {} //welcomeBoxValue值改变事件
   };
   constructor(props) {
     super(props);
@@ -51,7 +50,9 @@ class PayProductInfo extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      frequencyList: []
+      frequencyList: [],
+      welcomeBoxValue: 'yes', //first order welcome box value:yes/no,default:yes
+      isFirstOrder: false //是否是第一次下单
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -178,9 +179,14 @@ class PayProductInfo extends React.Component {
     }
   }
   async componentDidMount() {
-    // console.log(1111, !sessionItemRoyal.get('rc-iframe-from-storepotal'));
-    // console.log(2222, this.props.operateBtnVisible);
-
+    if (this.isLogin) {
+      //判断该会员是否是第一次下单
+      isNewAccount().then((res) => {
+        if (res.context == 0) {
+          this.setState({ isFirstOrder: true });
+        }
+      });
+    }
     this.refs.applyButtton.click();
     let productList;
     if (this.props.data.length) {
@@ -497,7 +503,9 @@ class PayProductInfo extends React.Component {
       productList,
       discount,
       needHideProductList,
-      isShowValidCode
+      isShowValidCode,
+      welcomeBoxValue,
+      isFirstOrder
     } = this.state;
     const { checkoutStore } = this.props;
     const { installMentParam } = checkoutStore;
@@ -521,9 +529,9 @@ class PayProductInfo extends React.Component {
               {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
                 this.isLogin &&
-                this.props.isFirstOrder && (
+                isFirstOrder && (
                   <WelcomeBox
-                    checkedValue={this.props.welcomeBoxValue}
+                    checkedValue={welcomeBoxValue}
                     welcomeBoxChange={(value) => {
                       this.props.welcomeBoxChange(value);
                     }}
