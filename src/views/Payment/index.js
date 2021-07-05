@@ -1554,7 +1554,7 @@ class Payment extends React.Component {
       //   this.isLogin &&
       //   this.state.isFirstOrder
       //     ? this.state.welcomeBoxValue
-      //     : 'no' //first order welcome box
+      //     : 'no' //first order welcome box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -1634,7 +1634,6 @@ class Payment extends React.Component {
           recommenderName,
           referenceId,
           recommendationId: recommendationId || ele.recommendationId || '', // 优先去取recommendationInfos里面的recommendationId
-          // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
@@ -1673,7 +1672,6 @@ class Payment extends React.Component {
           recommenderName,
           referenceId,
           recommendationId: recommendationId || ele.recommendationId || '',
-          // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
@@ -1710,7 +1708,6 @@ class Payment extends React.Component {
           recommenderName,
           referenceId,
           recommendationId: recommendationId || ele.recommendationId || '',
-          // recommendationPrimaryKeyId: ele.recommendationPrimaryKeyId || '',
           recommendationName: recommendationName || ele.recommendationName || ''
         };
       });
@@ -1755,7 +1752,6 @@ class Payment extends React.Component {
             recommenderName,
             referenceId,
             recommendationId: recommendationId || g.recommendationId || '',
-            // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
             recommendationName: recommendationName || g.recommendationName || ''
           };
         });
@@ -1822,7 +1818,6 @@ class Payment extends React.Component {
             recommenderName,
             referenceId,
             recommendationId: recommendationId || g.recommendationId || '',
-            // recommendationPrimaryKeyId: g.recommendationPrimaryKeyId || '',
             recommendationName: recommendationName || g.recommendationName || ''
           };
         });

@@ -518,7 +518,7 @@ class PayProductInfo extends React.Component {
             <div className="checkout--padding">
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
-              {/*新增First Order Welcome Box*/}
+              {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
                 this.isLogin &&
                 this.props.isFirstOrder && (
