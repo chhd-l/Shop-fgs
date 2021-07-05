@@ -5,7 +5,8 @@ import Selection from '@/components/Selection';
 import {
   usGuestPaymentInfo,
   usPaymentInfo,
-  usPayCardSubscription
+  usPayCardSubscription,
+  usGuestPayCardSubscription
 } from '@/api/payment';
 
 const monthList = [
@@ -97,10 +98,22 @@ class CyberPaymentForm extends React.Component {
       throw new Error(err.message);
     }
   };
-  //查询卡类型
+  //查询卡类型-会员
   queryCyberCardTypeEvent = async (params) => {
     try {
       const res = await usPayCardSubscription(params);
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
+  // //查询卡类型-游客
+  queryGuestCyberCardTypeEvent = async (params) => {
+    try {
+      const res = await usGuestPayCardSubscription(params);
       return new Promise((resolve) => {
         resolve(res);
       });
