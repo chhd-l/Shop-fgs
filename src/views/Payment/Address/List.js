@@ -92,7 +92,7 @@ class AddressList extends React.Component {
         maxDeliveryTime: 0,
         deliveryDate: null,
         timeSlot: null,
-        receiveType: null, //  HOME 、 PICKUP
+        receiveType: null, // HOME_DELIVERY , PICK_UP
         pickupCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         email: ''
@@ -252,9 +252,13 @@ class AddressList extends React.Component {
     try {
       this.setState({ loading: true });
       let res = await getAddressList();
-      let addressList = res.context.filter(
-        (ele) => ele.type === this.props.type.toUpperCase()
-      );
+      let addressList = res.context.filter((ele) => {
+        return (
+          ele.type === this.props.type.toUpperCase() &&
+          ele.receiveType != 'PICK_UP'
+        );
+      });
+
       const defaultAddressItem = find(addressList, (ele) => {
         return ele.isDefaltAddress === 1;
       });
@@ -1080,7 +1084,6 @@ class AddressList extends React.Component {
     this.props.updateValidationStaus(true);
     // 不校验地址，进入下一步
     await this.handleSavePromise();
-    // this.clickConfirmAddressPanel();
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
@@ -1302,28 +1305,57 @@ class AddressList extends React.Component {
     });
   };
   // 确认 pickup
-  clickConfirmPickup = () => {
+  clickConfirmPickup = async () => {
     const { deliveryAddress, pickupFormData } = this.state;
     this.setState({ btnConfirmLoading: true });
+    let receiveType = pickupFormData.receiveType;
     let deliveryAdd = Object.assign({}, deliveryAddress, {
       firstName: pickupFormData.firstName,
       lastName: pickupFormData.lastName,
-      comment: pickupFormData.comment,
+      consigneeNumber: pickupFormData.phoneNumber,
+      consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
       address1: pickupFormData.address1,
+      deliveryAddress: pickupFormData.address1,
       city: pickupFormData.city,
+      comment: pickupFormData.comment,
       pickupCode: pickupFormData.pickupCode, // 快递公司code
-      deliverWay: pickupFormData.deliverWay, // 1: EXPRESS, 2: PICKUP
+      workTime: pickupFormData.workTime, // 快递公司上班时间
+      receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
+      deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+      type: 'DELIVERY',
       deliveryDate: '',
       timeSlot: '',
-      consigneeNumber: pickupFormData.phoneNumber,
       isDefaltAddress: 0
     });
-    console.log('666 list deliveryAdd: ', deliveryAdd);
-    // let res = await editAddress(deliveryAdd);
-    // console.log('666 list 修改地址: ', res);
-    // if (res) {
-    //   this.setState({ btnConfirmLoading: false });
+    let addres = await getAddressList();
+    let pickupAddress = addres.context.filter((e) => {
+      return e.receiveType == 'PICK_UP';
+    });
+    const tmpPromise = pickupAddress.length ? editAddress : saveAddress;
+    pickupAddress.length
+      ? (deliveryAdd.deliveryAddressId = pickupAddress[0].deliveryAddressId)
+      : '';
+    console.log('666 ★ 111  deliveryAdd: ', deliveryAdd);
+    console.log('666 ★ 222  pickupAddress: ', pickupAddress);
+    console.log('666 ★ 333  tmpPromise: ', tmpPromise);
+
+    // let res = await tmpPromise(deliveryAdd);
+    // console.log('666 ★ 444  res: ', res);
+    // if (res.context.deliveryAddressId) {
+    //   this.setState({
+    //     selectedId: res.context.deliveryAddressId
+    //   });
     // }
+    this.scrollToTitle();
+    // await this.queryAddressList();
+    // console.log('666 ★ 555  ');
+    this.showSuccessMsg();
+    this.setState({
+      addOrEdit: false,
+      btnConfirmLoading: false
+    });
+
+    // this.confirmToNextPanel();
   };
   render() {
     const { panelStatus } = this;
@@ -1675,7 +1707,7 @@ class AddressList extends React.Component {
                                 }`}
                                 disabled={confirmBtnDisabled}
                                 onClick={
-                                  pickupFormData?.deliverWay == 2
+                                  pickupFormData?.receiveType == 'PICK_UP'
                                     ? this.clickConfirmPickup
                                     : this.clickConfirmAddressPanel
                                 }

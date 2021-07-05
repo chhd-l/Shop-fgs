@@ -175,9 +175,12 @@ class AddressList extends React.Component {
     this.setState({ loading: true });
     try {
       let res = await getAddressList();
-      let addressList = res.context.filter(
-        (ele) => ele.type === this.props.type.toUpperCase()
-      );
+      let addressList = res.context.filter((ele) => {
+        return (
+          ele.type === this.props.type.toUpperCase() &&
+          ele.receiveType != 'PICK_UP'
+        );
+      });
 
       let tmpId;
       const defaultAddressItem = find(
@@ -785,7 +788,9 @@ class AddressList extends React.Component {
     showLoading && this.setState({ listLoading: true });
     try {
       let res = await getAddressList();
-      let addressList = res.context;
+      let addressList = res.context.filter((item) => {
+        return item.receiveType != 'PICK_UP';
+      });
       this.setState({
         addressList,
         listLoading: false

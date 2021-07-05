@@ -1062,6 +1062,7 @@ class Form extends React.Component {
             minDeliveryTime: 1
           };
         }
+
         // 赋值查询到的地址信息
         caninForm.calculation = calculation;
         caninForm.minDeliveryTime = calculation.minDeliveryTime;
@@ -1075,6 +1076,7 @@ class Form extends React.Component {
             }
           },
           () => {
+            // console.log('666 ★ DuData地址搜索选择 caninForm: ',this.state.caninForm)
             // 控制按钮状态
             this.props.getFormAddressValidFlag(true);
             // purchases接口计算运费

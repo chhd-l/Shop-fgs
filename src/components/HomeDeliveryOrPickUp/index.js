@@ -57,7 +57,8 @@ class HomeDeliveryOrPickUp extends React.Component {
         address1: '',
         city: '',
         pickupCode: '', // 快递公司code
-        deliverWay: 1, // 1: EXPRESS, 2: PICKUP
+        workTime: '', // 快递公司上班时间
+        receiveType: 'HOME_DELIVERY', // HOME_DELIVERY , PICK_UP
         formRule: [
           {
             regExp: /\S/,
@@ -97,11 +98,14 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm['pickupCode'] = obj?.code || [];
         pickupForm['city'] = obj?.address?.city || [];
         pickupForm['address1'] = obj?.address?.fullAddress || [];
+        pickupForm['workTime'] = obj?.workTime || [];
         this.setState(
           {
-            courierInfo: obj || null
+            courierInfo: obj || null,
+            pickupForm
           },
           () => {
+            console.log('666 ★ pickupForm: ', pickupForm);
             let sitem =
               sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
             if (sitem) {
@@ -134,7 +138,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     if (
       (this.props.defaultCity && !sitem) ||
-      sitem.isSubscription != this.props.isCurrentBuyWaySubscription
+      sitem?.isSubscription != this.props.isCurrentBuyWaySubscription
     ) {
       let city = this.props.defaultCity;
       let res = await getPickupCityList({ keyword: city });
@@ -289,7 +293,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.props.updateConfirmBtnDisabled(true);
       this.sendMsgToIframe();
     }
-    pickupForm['deliverWay'] = flag ? 2 : 1; // 1: EXPRESS, 2: PICKUP
+    pickupForm['receiveType'] = flag ? 'PICK_UP' : 'HOME_DELIVERY';
     this.setState(
       {
         showPickup: flag,
