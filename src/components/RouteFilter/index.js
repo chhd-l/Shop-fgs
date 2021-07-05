@@ -7,6 +7,7 @@ import { findUserConsentList } from '@/api/consent';
 import { toJS } from 'mobx';
 import { PDP_Regex } from '@/utils/constant';
 import { withOktaAuth } from '@okta/okta-react';
+import { authToken } from '@/api/login';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -139,7 +140,12 @@ class RouteFilter extends Component {
       //   sessionItemRoyal.set('is-from-product-finder', '1');
       // }
     }
+    console.log(checkoutStore, this.isLogin, 'checkoutStore');
+    if (localItemRoyal.get('rc-token') && this.isLogin) {
+      authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
+    }
 
+    // authToken()
     if (pathname === '/product-finder') {
       sessionItemRoyal.remove('product-finder-edit-order');
       sessionItemRoyal.remove('pf-result');
