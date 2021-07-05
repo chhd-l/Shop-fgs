@@ -157,6 +157,7 @@ class CyberPaymentForm extends React.Component {
       errMsgObj,
       cyberFormTitle,
       paymentStore: { currentCardTypeInfo }
+      //currentCardTypeInfo.cardTypeValue ==>001
     } = this.props;
     return (
       <div className="form-group required">
@@ -172,7 +173,8 @@ class CyberPaymentForm extends React.Component {
             onChange={this.props.handleInputChange}
             onBlur={this.props.inputBlur}
             name="cardNumber"
-            maxLength={currentCardTypeInfo?.cardLength || 19}
+            //maxLength={currentCardTypeInfo?.cardLength || 19}
+            maxLength={19}
             placeholder=""
           />
           <label className="rc-input__label" htmlFor="cardNumber" />
@@ -270,7 +272,8 @@ class CyberPaymentForm extends React.Component {
             onChange={this.props.handleInputChange}
             onBlur={this.props.inputBlur}
             name="securityCode"
-            maxLength={currentCardTypeInfo?.cvvLength || 3}
+            //maxLength={currentCardTypeInfo?.cvvLength || 3}
+            maxLength={4}
           />
           <label className="rc-input__label" htmlFor="securityCode" />
         </span>

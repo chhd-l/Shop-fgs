@@ -23,18 +23,39 @@ class CyberPayment extends React.Component {
     isShowCyberBindCardBtn: '',
     sendCyberPaymentForm: () => {},
     cyberCardType: '001',
-    cyberBtnLoading: false
+    cyberBtnLoading: false,
+    cyberPaymentForm: {}
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
     if (
       nextProps.cyberCardType &&
-      nextProps.cyberCardType !== this.state.cardTypeVal
+      nextProps.cyberCardType !== this.state.cardTypeVal &&
+      //必须要以下五个值都有值的时候更新cardTypeVal
+      nextProps.cyberPaymentForm.cardNumber &&
+      nextProps.cyberPaymentForm.cardholderName &&
+      nextProps.cyberPaymentForm.expirationMonth &&
+      nextProps.cyberPaymentForm.expirationYear &&
+      nextProps.cyberPaymentForm.securityCode
     ) {
-      this.setState({
-        cardTypeVal: cyberCardTypeToValue[nextProps.cyberCardType]
-      });
+      this.setState(
+        {
+          cardTypeVal: cyberCardTypeToValue[nextProps.cyberCardType]
+        },
+        () => {
+          console.log(1111, this.state.cardTypeVal);
+          this.onCardTypeValChange();
+        }
+      );
     }
+  }
+  onCardTypeValChange() {
+    const { paymentStore } = this.props;
+    paymentStore.setCurrentCardTypeInfo(
+      paymentStore.supportPaymentMethods.filter(
+        (s) => s.cardType === this.state.cardTypeVal
+      )[0] || null
+    );
   }
   constructor(props) {
     super(props);
@@ -239,16 +260,11 @@ class CyberPayment extends React.Component {
       });
       if (Object.keys(errMsgObj).length > 0) {
         isValidForCyberPayment = false;
+      } else if (this.props.isCurrentBuyWaySubscription) {
+        //订阅商品
+        isValidForCyberPayment = isCheckSaveCard ? true : false;
       } else {
-        if (this.props.isCurrentBuyWaySubscription) {
-          if (isCheckSaveCard) {
-            isValidForCyberPayment = true; //有订阅商品，必须勾上保存卡checkbox框
-          } else {
-            isValidForCyberPayment = false;
-          }
-        } else {
-          isValidForCyberPayment = true;
-        }
+        isValidForCyberPayment = true;
       }
       return !isValidForCyberPayment;
     };

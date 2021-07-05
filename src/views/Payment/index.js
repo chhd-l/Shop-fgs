@@ -508,15 +508,16 @@ class Payment extends React.Component {
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-    let currentCardLength = currentCardTypeInfo?.cardLength || 19;
-    let securityCodeLength = currentCardTypeInfo?.cvvLength || 3;
+
+    //let currentCardLength = currentCardTypeInfo?.cardLength || 19;
+    //let securityCodeLength = currentCardTypeInfo?.cvvLength || 3;
 
     if (
       cardholderName &&
       expirationMonth &&
       expirationYear &&
-      cardNumber.length == currentCardLength &&
-      securityCode.length == securityCodeLength
+      cardNumber.length >= 18 &&
+      securityCode.length >= 3
     ) {
       let cyberParams = this.getCyberParams();
 
@@ -536,6 +537,7 @@ class Payment extends React.Component {
           this.setState({ authorizationCode, subscriptionID, cyberCardType });
         } catch (err) {
           console.log('cyber获取卡类型失败', err.message);
+          this.showErrorMsg(err.message);
         } finally {
           this.setState({ cyberBtnLoading: false });
         }
@@ -3052,6 +3054,7 @@ class Payment extends React.Component {
                     isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
                     sendCyberPaymentForm={this.sendCyberPaymentForm}
                     cyberCardType={this.state.cyberCardType}
+                    cyberPaymentForm={this.state.cyberPaymentForm}
                     cyberBtnLoading={this.state.cyberBtnLoading}
                     ref={this.cyberRef}
                   />
