@@ -296,7 +296,7 @@ class Payment extends React.Component {
       this
     );
   }
-  //cyber查询卡类型
+  //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
       const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
@@ -309,6 +309,20 @@ class Payment extends React.Component {
       throw new Error(e.message);
     }
   };
+  //cyber查询卡类型-游客
+  queryGuestCyberCardType = async (params) => {
+    try {
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
   getCyberParams() {
     const { isLogin } = this;
     const {
@@ -359,6 +373,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
@@ -508,13 +523,19 @@ class Payment extends React.Component {
       if (Object.keys(cyberParams).length > 0) {
         try {
           this.setState({ cyberBtnLoading: true });
-          const res = await this.queryCyberCardType(cyberParams);
+          let res = {};
+          if (this.isLogin) {
+            res = await this.queryCyberCardType(cyberParams);
+          } else {
+            res = await this.queryGuestCyberCardType(cyberParams);
+          }
+
           let authorizationCode = res.context.requestToken;
           let subscriptionID = res.context.subscriptionID;
           let cyberCardType = res.context.cardType;
           this.setState({ authorizationCode, subscriptionID, cyberCardType });
         } catch (err) {
-          console.log(222, err.message);
+          console.log('cyber获取卡类型失败', err.message);
         } finally {
           this.setState({ cyberBtnLoading: false });
         }

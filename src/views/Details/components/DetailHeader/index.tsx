@@ -38,9 +38,6 @@ const DetailHeader = ({
     <div className="detailHeader mt-3">
       <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
       <div dangerouslySetInnerHTML={{ __html: goodHeading }} />
-      {Ru && selectedSpecItem ? (
-        <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
-      ) : null}
       <div className="desAndStars">
         <div className="des">
           <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
@@ -89,9 +86,6 @@ const DetailHeader = ({
         !!details.goodsNo && (
           <BazaarVoiceRatingSummary productId={details.goodsNo} />
         )}
-      {Ru && selectedSpecItem ? (
-        <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
-      ) : null}
       <div className="desAndStars rc-margin-bottom--xs d-flex flex-wrap flex-md-nowrap justify-content-between">
         <div className="des">
           <h2 className="text-break mb-1 mt-2" style={{ fontSize: '1.17rem' }}>
