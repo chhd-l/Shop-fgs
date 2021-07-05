@@ -15,7 +15,8 @@ const api = {
   // forgetPassword:'/base/forgetPassword',
   // modifyPassword:'/base/modifyPassword',
   modifyPassword: '/base/modify-pass',
-  logout: '/logout'
+  logout: '/logout',
+  authToken: `/${window.__.env.REACT_APP_STOREID}/token/expired`
 };
 
 export default api;
@@ -81,6 +82,14 @@ export function forgetPassword(parameter) {
   parameter.customerAccount = base64.encode(parameter.customerAccount);
   return axios({
     url: api.forgetPassword,
+    method: 'post',
+    data: parameter
+  });
+}
+export function authToken(parameter) {
+  console.log(parameter, 'parameter');
+  return axios({
+    url: api.authToken,
     method: 'post',
     data: parameter
   });
