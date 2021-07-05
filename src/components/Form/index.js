@@ -389,7 +389,7 @@ class Form extends React.Component {
             // persnalData不需要展示comment
             narr = narr.filter((item) => item.fieldKey != 'comment');
             if (window.__.env.REACT_APP_COUNTRY == 'us') {
-              // 美国个人中心不显示：firstName、lastName
+              // 美国个人中心只展示：firstName、lastName
               narr = narr.filter((e, i) => {
                 return e.fieldKey == 'firstName' || e.fieldKey == 'lastName';
               });
@@ -474,6 +474,37 @@ class Form extends React.Component {
       },
       defaultObj
     );
+    // My Contact Information
+    // let birthDay = Object.assign(
+    //   {
+    //     id: 99999998,
+    //     sequence: 99999998,
+    //     fieldKey: 'account.birthDate',
+    //     fieldName: 'birthDate',
+    //     inputFreeTextFlag: 0,
+    //     inputSearchBoxFlag: 0,
+    //     inputDropDownBoxFlag: 0
+    //   },
+    //   defaultObj
+    // );
+    // let email = Object.assign(
+    //   {
+    //     id: 99999997,
+    //     sequence: 99999997,
+    //     fieldKey: 'Email',
+    //     fieldName: 'email',
+    //     inputFreeTextFlag: 1,
+    //     inputSearchBoxFlag: 0,
+    //     inputDropDownBoxFlag: 0,
+    //     disabled: true,
+    //   },
+    //   defaultObj
+    // );
+    // if (this.props.personalData) {
+    //   array.push(birthDay);
+    //   array.push(email);
+    // }
+
     // delivery date
     let deliveryDateObj = Object.assign(
       {
@@ -602,7 +633,7 @@ class Form extends React.Component {
         caninForm: Object.assign(caninForm, cfdata)
       },
       () => {
-        console.log('666 caninForm:', this.state.caninForm);
+        // console.log('666 caninForm:', this.state.caninForm);
       }
     );
     return array;
@@ -1186,6 +1217,7 @@ class Form extends React.Component {
             onChange={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
+            disabled={item?.disabled ? true : false}
             maxLength={item.maxLength}
           />
           <label className="rc-input__label" htmlFor="id-text1" />
@@ -1280,9 +1312,12 @@ class Form extends React.Component {
   // birthData onchange
   onDateChange(date) {
     const { caninForm } = this.state;
-    caninForm['birthdate'] = date ? format(date, 'yyyy/MM/dd') : '';
+    let newdate = format(date, 'yyyy/MM/dd');
+    caninForm['birthdate'] = date ? newdate : '';
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
+      // 验证数据
+      this.validvalidationData('birthdate', newdate);
     });
   }
   // email and birthData
