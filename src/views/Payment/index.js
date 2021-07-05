@@ -373,6 +373,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
