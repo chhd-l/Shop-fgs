@@ -35,6 +35,8 @@ import {
 } from '@/utils/utils';
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
+import bottomDescJson from './bottomDesc.json';
+import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -45,10 +47,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -208,13 +211,14 @@ function ListItemForDefault(props) {
   );
 }
 
-function ProductFinderAd({
-  isRetailProducts,
-  isVetProducts,
-  retailProductLink,
-  vetProductLink,
-  isDogPage
-}) {
+function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
+  // 当前种类，spt和retail类型相互链接
+  // 如: current is the dog spt, then the bottom desc link to the dog retail
+  // 如: current is the dog retail, then the bottom desc link to the dog spt
+  const key = `${isDogPage ? 'dog' : 'cat'}-${
+    isRetailProducts ? 'vet' : 'retail'
+  }`;
+  const descObj = bottomDescJson[key];
   return (
     {
       fr: (
@@ -246,19 +250,14 @@ function ProductFinderAd({
               </div>
             </div>
           )}
-
-          {isRetailProducts ? (
+          {descObj ? (
             <div className="row align-items-center">
               <div className="col-12 col-md-6">
                 <LazyLoad style={{ width: '100%', height: '100%' }}>
                   <img
                     style={{ width: '100%' }}
-                    src={
-                      isDogPage
-                        ? `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-dog-retail.jpg`
-                        : `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/product-finder/product-finder-recomend-retail-cat@2x.jpeg`
-                    }
-                    alt="product finder recomend retail cat"
+                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img${descObj.img}`}
+                    alt={descObj.alt}
                   />
                 </LazyLoad>
               </div>
@@ -267,55 +266,11 @@ function ProductFinderAd({
                   className="rc-gamma rc-padding--none"
                   style={{ fontSize: '2em', fontWight: 'border' }}
                 >
-                  <FormattedMessage id="plp.retail.cat.title" />
+                  {descObj.title}
                 </p>
-                <p>
-                  <FormattedMessage
-                    id={
-                      isDogPage
-                        ? 'plp.retail.dog.detail'
-                        : 'plp.retail.cat.detail'
-                    }
-                  />
-                </p>
-                <Link to={`${vetProductLink}`} className="rc-btn rc-btn--two">
+                <p>{descObj.desc}</p>
+                <Link to={descObj.link} className="rc-btn rc-btn--two">
                   <FormattedMessage id="plp.retail.cat.button" />
-                </Link>
-              </div>
-            </div>
-          ) : null}
-
-          {isVetProducts ? (
-            <div className="row align-items-center">
-              <div className="col-12 col-md-6">
-                <LazyLoad
-                  style={{
-                    width: '100%',
-                    height: '100%'
-                  }}
-                >
-                  <img
-                    style={{ width: '100%' }}
-                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/hub-pack-shot-cat-vet.jpg`}
-                    alt="product finder recomend vet cat"
-                  />
-                </LazyLoad>
-              </div>
-              <div className="col-12 col-md-6">
-                <p
-                  className="rc-gamma rc-padding--none"
-                  style={{ fontSize: '2em', fontWight: 'border' }}
-                >
-                  <FormattedMessage id="plp.vet.cat.title" />
-                </p>
-                <p>
-                  <FormattedMessage id="plp.vet.cat.detail" />
-                </p>
-                <Link
-                  to={`${retailProductLink}`}
-                  className="rc-btn rc-btn--two"
-                >
-                  <FormattedMessage id="plp.vet.cat.button" />
                 </Link>
               </div>
             </div>
@@ -336,8 +291,6 @@ class List extends React.Component {
     const isRetailProducts =
       isHub && location.pathname.includes('retail-products');
     const isVetProducts = isHub && location.pathname.includes('vet-products');
-    const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail-products`;
-    const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet-products`;
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -387,8 +340,6 @@ class List extends React.Component {
       isDogPage: isDog,
       isRetailProducts,
       isVetProducts,
-      retailProductLink,
-      vetProductLink,
       canonicalLink: { cur: '', prev: '', next: '' },
       listLazyLoadSection: 1,
       prefv1: '',
@@ -1459,37 +1410,6 @@ class List extends React.Component {
         if (esGoodsPage && esGoodsPage.content.length) {
           let goodsContent = esGoodsPage.content;
           goodsContent = goodsContent.map((ele) => {
-            //hub商品图片下方展示的属性
-            const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
-              )
-              .map((t) => t.goodsAttributeValueEn);
-            const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
-              )
-              .map((t) => t.goodsAttributeValue);
-            const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) =>
-                  item?.goodsAttributeName?.toLowerCase() == 'technology'
-              )
-              .map((t) => t.goodsAttributeValueEn);
-            const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-            const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-            const breed = breedValue
-              ? breedValue.toLowerCase() === 'cat'
-                ? 'Для кошек'
-                : 'Для собак'
-              : ''; //俄罗斯定制，嗐！
-            const ruAttrs = breed
-              ? [breed, ...technologyAttr]
-              : [...technologyAttr];
-            const technologyOrBreedsAttr =
-              isHub && window.__.env.REACT_APP_COUNTRY === 'ru'
-                ? ruAttrs.join(',')
-                : attrs;
             const taggingVOList = (ele.taggingVOList || []).filter(
               (t) => t.displayStatus
             );
@@ -1505,7 +1425,7 @@ class List extends React.Component {
               taggingForImage: taggingVOList.filter(
                 (e) => e.taggingType === 'Image' && e.showPage?.includes('PLP')
               )[0],
-              technologyOrBreedsAttr,
+              technologyOrBreedsAttr: getTechnologyOrBreedsAttr(ele),
               fromPrice: ele.fromPrice,
               toPrice: ele.toPrice
             });
