@@ -1549,7 +1549,7 @@ class Payment extends React.Component {
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail
-      // welcomeBoxValue:
+      // saveWelcomeBox:
       //   !!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
       //   this.isLogin &&
       //   this.state.isFirstOrder
