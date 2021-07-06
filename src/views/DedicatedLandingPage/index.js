@@ -127,23 +127,21 @@ class DedicatedLandingPage extends React.Component {
     const showKitten = this.state.showKitten;
 
     return (
-      <div
-        style={
-          showKitten
-            ? { background: '#eceaea', opacity: '.80', zIndex: '10' }
-            : {}
-        }
-      >
+      <div>
         <div
           className={'modal'}
-          style={{
-            width: '100vw',
-            height: '300vh',
-            position: 'absolute',
-            display: 'block',
-            background: '#000',
-            opacity: '0.80'
-          }}
+          style={
+            showKitten
+              ? {
+                  width: '100vw',
+                  height: '300vh',
+                  position: 'absolute',
+                  display: 'block',
+                  background: '#000',
+                  opacity: '0.80'
+                }
+              : {}
+          }
         ></div>
         {!Ru ? (
           <Helmet>
@@ -200,12 +198,12 @@ class DedicatedLandingPage extends React.Component {
                                 ajoutez-le à votre panier
                               </li>
                             </ul>
-                            <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
+                            <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
                               <button
                                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                                 style={{
-                                  paddingLeft: '5vw',
-                                  paddingRight: '5vw'
+                                  paddingLeft: '80px',
+                                  paddingRight: '80px'
                                 }}
                                 onClick={() => this.changeShowKitten()}
                               >
