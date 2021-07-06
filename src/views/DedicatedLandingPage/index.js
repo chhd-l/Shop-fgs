@@ -14,6 +14,8 @@ import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
 import kittencute from './img/kittencute.png';
+import kittenimgone from './img/kittenimgone.png';
+import kittenimgtwo from './img/kittenimgtwo.png';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
@@ -24,6 +26,8 @@ const loginStore = stores.loginStore;
 const pageLink = window.location.href;
 const deviceType = getDeviceType();
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
+
+let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 @inject('configStore')
 @observer
@@ -39,7 +43,8 @@ class DedicatedLandingPage extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      searchEvent: {}
+      searchEvent: {},
+      showKitten: false
     };
   }
 
@@ -67,6 +72,12 @@ class DedicatedLandingPage extends React.Component {
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event
+    });
+  };
+
+  changeShowKitten = () => {
+    this.setState({
+      showKitten: !this.state.showKitten
     });
   };
   render() {
@@ -115,8 +126,25 @@ class DedicatedLandingPage extends React.Component {
       return null;
     }
     const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
+    const showKitten = this.state.showKitten;
+
     return (
       <div>
+        <div
+          className={'modal'}
+          style={
+            showKitten
+              ? {
+                  width: '100vw',
+                  height: '300vh',
+                  position: 'absolute',
+                  display: 'block',
+                  background: '#000',
+                  opacity: '0.80'
+                }
+              : {}
+          }
+        ></div>
         {!Ru ? (
           <Helmet>
             <link rel="canonical" href={pageLink} />
@@ -172,18 +200,17 @@ class DedicatedLandingPage extends React.Component {
                                 ajoutez-le à votre panier
                               </li>
                             </ul>
-                            <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
-                              <Link to="/cats">
-                                <button
-                                  className="rc-btn rc-btn--one  rc-margin-bottom--xs"
-                                  style={{
-                                    paddingLeft: '5vw',
-                                    paddingRight: '5vw'
-                                  }}
-                                >
-                                  J’en profite
-                                </button>
-                              </Link>
+                            <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
+                              <button
+                                className="rc-btn rc-btn--one  rc-margin-bottom--xs"
+                                style={{
+                                  paddingLeft: '80px',
+                                  paddingRight: '80px'
+                                }}
+                                onClick={() => this.changeShowKitten()}
+                              >
+                                J’en profite
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -202,6 +229,207 @@ class DedicatedLandingPage extends React.Component {
               </div>
             </div>
           </div>
+          {isMobile ? (
+            <div
+              style={{
+                display: showKitten ? 'block' : 'none',
+                position: 'absolute',
+                top: '25%',
+                left: '50%',
+                transform: 'translate(-50%,0%)',
+                opacity: '100',
+                zIndex: '1100'
+              }}
+            >
+              <article className="rc-card rc-card--a">
+                <div className="rc-card__body">
+                  <div
+                    className="flex "
+                    style={{ justifyContent: 'flex-end' }}
+                    onClick={() => this.changeShowKitten()}
+                  >
+                    <span
+                      className="rc-icon rc-close rc-iconography"
+                      style={{ width: '15px' }}
+                    ></span>
+                  </div>
+                  <header style={{ marginBottom: '25px' }}>
+                    <h1
+                      className="rc-card__title rc-delta text-center "
+                      style={{ fontSize: '26px' }}
+                    >
+                      Sélectionnez votre kit
+                    </h1>
+                  </header>
+                  <div
+                    className="flex "
+                    style={{ justifyContent: 'space-evenly' }}
+                  >
+                    <div style={{ marginRight: '5px' }}>
+                      <p className="text-center" style={{ color: '#E2001A' }}>
+                        Moins de 4 mois
+                      </p>
+                      <article className="rc-card rc-card--a">
+                        <picture className="rc-card__image">
+                          <img
+                            src={kittenimgone}
+                            alt="Kitten and puppy playing with ball"
+                          />
+                        </picture>
+                        <div style={{ marginBottom: '5px' }}>
+                          <header>
+                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                              - 1 sac de croquette Mother & BabyCat
+                            </p>
+                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                              - 1 boite de mousse Mother & BabyCat
+                            </p>
+                          </header>
+                        </div>
+                      </article>
+                    </div>
+                    <div style={{ marginLeft: '5px' }}>
+                      <p className="text-center" style={{ color: '#E2001A' }}>
+                        Plus de 4 mois
+                      </p>
+                      <article className="rc-card rc-card--a">
+                        <picture className="rc-card__image">
+                          <img
+                            src={kittenimgtwo}
+                            alt="Kitten and puppy playing with ball"
+                          />
+                        </picture>
+                        <div style={{ marginBottom: '5px' }}>
+                          <header>
+                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                              - 1 sac de croquette Kitten{' '}
+                            </p>
+                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                              - 1 sachet de nutrition fraicheur Kitten
+                            </p>
+                          </header>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E3E3E3',
+                    paddingTop: '15px',
+                    paddingBottom: '15px'
+                  }}
+                  className="text-center"
+                >
+                  <button className="rc-btn rc-btn--one">
+                    Ajouter et voir mon panier
+                  </button>
+                </div>
+              </article>
+            </div>
+          ) : (
+            <div
+              className="rc-layout-container rc-news-article-card--sidebar-present "
+              style={{
+                display: showKitten ? 'block' : 'none',
+                position: 'absolute',
+                top: '25%',
+                left: '50%',
+                transform: 'translate(-50%,0%)',
+                opacity: '100',
+                zIndex: '1100'
+              }}
+            >
+              <div className="rc-column " style={{ width: '950px' }}>
+                <article className="rc-card rc-card--a">
+                  <div className="rc-card__body">
+                    <div
+                      className="flex "
+                      style={{ justifyContent: 'flex-end' }}
+                      onClick={() => this.changeShowKitten()}
+                    >
+                      <span
+                        className="rc-icon rc-close rc-iconography"
+                        style={{ width: '15px' }}
+                      ></span>
+                    </div>
+                    <header style={{ marginBottom: '25px' }}>
+                      <h1
+                        className="rc-card__title rc-delta text-center "
+                        style={{ fontSize: '26px' }}
+                      >
+                        Sélectionnez votre kit
+                      </h1>
+                    </header>
+                    <div
+                      className="flex "
+                      style={{ justifyContent: 'space-evenly' }}
+                    >
+                      <div style={{ marginRight: '5px' }}>
+                        <p className="text-center" style={{ color: '#E2001A' }}>
+                          Moins de 4 mois
+                        </p>
+                        <article className="rc-card rc-card--a">
+                          <picture className="rc-card__image">
+                            <img
+                              src={kittenimgone}
+                              alt="Kitten and puppy playing with ball"
+                            />
+                          </picture>
+                          <div style={{ marginBottom: '5px' }}>
+                            <header>
+                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                - 1 sac de croquette Mother & BabyCat
+                              </p>
+                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                - 1 boite de mousse Mother & BabyCat
+                              </p>
+                            </header>
+                          </div>
+                        </article>
+                      </div>
+                      <div style={{ marginLeft: '5px' }}>
+                        <p className="text-center" style={{ color: '#E2001A' }}>
+                          Plus de 4 mois
+                        </p>
+                        <article className="rc-card rc-card--a">
+                          <picture className="rc-card__image">
+                            <img
+                              src={kittenimgtwo}
+                              alt="Kitten and puppy playing with ball"
+                            />
+                          </picture>
+                          <div style={{ marginBottom: '5px' }}>
+                            <header>
+                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                - 1 sac de croquette Kitten{' '}
+                              </p>
+                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                - 1 sachet de nutrition fraicheur Kitten
+                              </p>
+                            </header>
+                          </div>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E3E3E3',
+                      paddingTop: '15px',
+                      paddingBottom: '15px'
+                    }}
+                    className="text-center"
+                  >
+                    <button className="rc-btn rc-btn--one">
+                      Ajouter et voir mon panier
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </div>
+          )}
+
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
