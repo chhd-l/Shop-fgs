@@ -104,6 +104,7 @@ class AddressList extends React.Component {
       btnConfirmLoading: false,
       addOrEdit: false,
       addressList: [],
+      pickupAddress: [],
       countryList: [],
       foledMore: true,
       successTipVisible: false,
@@ -1307,55 +1308,103 @@ class AddressList extends React.Component {
   // 确认 pickup
   clickConfirmPickup = async () => {
     const { deliveryAddress, pickupFormData } = this.state;
-    this.setState({ btnConfirmLoading: true });
-    let receiveType = pickupFormData.receiveType;
-    let deliveryAdd = Object.assign({}, deliveryAddress, {
-      firstName: pickupFormData.firstName,
-      lastName: pickupFormData.lastName,
-      consigneeNumber: pickupFormData.phoneNumber,
-      consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
-      address1: pickupFormData.address1,
-      deliveryAddress: pickupFormData.address1,
-      city: pickupFormData.city,
-      comment: pickupFormData.comment,
-      pickupCode: pickupFormData.pickupCode, // 快递公司code
-      workTime: pickupFormData.workTime, // 快递公司上班时间
-      receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
-      deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
-      type: 'DELIVERY',
-      deliveryDate: '',
-      timeSlot: '',
-      isDefaltAddress: 0
-    });
-    let addres = await getAddressList();
-    let pickupAddress = addres.context.filter((e) => {
-      return e.receiveType == 'PICK_UP';
-    });
-    const tmpPromise = pickupAddress.length ? editAddress : saveAddress;
-    pickupAddress.length
-      ? (deliveryAdd.deliveryAddressId = pickupAddress[0].deliveryAddressId)
-      : '';
-    console.log('666 ★ 111  deliveryAdd: ', deliveryAdd);
-    console.log('666 ★ 222  pickupAddress: ', pickupAddress);
-    console.log('666 ★ 333  tmpPromise: ', tmpPromise);
-
-    // let res = await tmpPromise(deliveryAdd);
-    // console.log('666 ★ 444  res: ', res);
-    // if (res.context.deliveryAddressId) {
-    //   this.setState({
-    //     selectedId: res.context.deliveryAddressId
-    //   });
-    // }
-    this.scrollToTitle();
-    // await this.queryAddressList();
-    // console.log('666 ★ 555  ');
-    this.showSuccessMsg();
     this.setState({
-      addOrEdit: false,
-      btnConfirmLoading: false
+      btnConfirmLoading: true,
+      saveLoading: true
     });
+    try {
+      let receiveType = pickupFormData.receiveType;
+      let deliveryAdd = Object.assign({}, deliveryAddress, {
+        firstName: pickupFormData.firstName,
+        lastName: pickupFormData.lastName,
+        consigneeNumber: pickupFormData.phoneNumber,
+        consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        address1: pickupFormData.address1,
+        deliveryAddress: pickupFormData.address1,
+        city: pickupFormData.city,
+        comment: pickupFormData.comment,
+        pickupCode: pickupFormData.pickupCode, // 快递公司code
+        workTime: pickupFormData.workTime, // 快递公司上班时间
+        receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
+        deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+        type: 'DELIVERY',
+        deliveryDate: '',
+        timeSlot: '',
+        isDefaltAddress: 0
+      });
+      // 查询地址列表，筛选 pickup 地址
+      let addres = await getAddressList();
+      let pkup = addres.context.filter((e) => {
+        return e.receiveType == 'PICK_UP';
+      });
+      // 判断是否存在有 pickup 地址
+      const tmpPromise = pkup.length ? editAddress : saveAddress;
+      if (pkup.length) {
+        deliveryAdd.deliveryAddressId = pkup[0].deliveryAddressId;
+        deliveryAdd.customerId = pkup[0].customerId;
+      }
+      // console.log('666 ★ 111  deliveryAdd: ', deliveryAdd);
+      // console.log('666 ★ 222  pkup: ', pkup);
+      // console.log('666 ★ 333  tmpPromise: ', tmpPromise);
 
-    // this.confirmToNextPanel();
+      let res = await tmpPromise(deliveryAdd);
+      if (res.context?.deliveryAddressId) {
+        let selectedId = res.context.deliveryAddressId;
+        this.setState({
+          selectedId: selectedId
+        });
+
+        // 查询修改pickup地址后的列表，pickupAddress 传给 Preview.js
+        let newList = await getAddressList();
+        let newPickup = newList.context.filter((e) => {
+          return e.receiveType == 'PICK_UP';
+        });
+        this.setState(
+          {
+            pickupAddress: newPickup[0]
+          },
+          () => {
+            // 收起 panel
+            const { paymentStore } = this.props;
+            if (this.curPanelKey === 'deliveryAddr') {
+              paymentStore.setStsToCompleted({ key: 'billingAddr' });
+            }
+            // 下一个最近的未complete的panel
+            const nextConfirmPanel = searchNextConfirmPanel({
+              list: toJS(paymentStore.panelStatus),
+              curKey: this.curPanelKey
+            });
+            paymentStore.setStsToCompleted({
+              key: this.curPanelKey,
+              isFirstLoad: false
+            });
+            const isReadyPrev = isPrevReady({
+              list: toJS(paymentStore.panelStatus),
+              curKey: this.curPanelKey
+            });
+            isReadyPrev &&
+              paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+            this.setState({
+              addOrEdit: false,
+              selectDeliveryOrPickUp: 0,
+              deliveryOrPickUpFlag: false
+            });
+
+            this.scrollToTitle();
+            this.showSuccessMsg();
+          }
+        );
+      }
+    } catch (err) {
+      this.setState({
+        saveErrorMsg: err.message
+      });
+    } finally {
+      this.setState({
+        btnConfirmLoading: false,
+        saveLoading: false
+      });
+    }
   };
   render() {
     const { panelStatus } = this;
@@ -1376,7 +1425,8 @@ class AddressList extends React.Component {
       selectedId,
       validationLoading,
       listValidationModalVisible,
-      pickupFormData
+      pickupFormData,
+      pickupAddress
     } = this.state;
 
     const _list = addressList.map((item, i) => (
@@ -1727,9 +1777,11 @@ class AddressList extends React.Component {
                 ) : panelStatus.isCompleted ? (
                   <AddressPreview
                     form={
-                      addressList.filter(
-                        (a) => a.deliveryAddressId === selectedId
-                      )[0] || null
+                      pickupFormData?.receiveType == 'PICK_UP'
+                        ? addressList.filter(
+                            (a) => a.deliveryAddressId === selectedId
+                          )[0] || null
+                        : pickupAddress || null
                     }
                   />
                 ) : null}

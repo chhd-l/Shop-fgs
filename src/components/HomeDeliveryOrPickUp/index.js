@@ -105,7 +105,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             pickupForm
           },
           () => {
-            console.log('666 ★ pickupForm: ', pickupForm);
+            // console.log('666 ★ pickupForm: ', pickupForm);
             let sitem =
               sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
             if (sitem) {
