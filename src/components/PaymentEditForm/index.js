@@ -358,53 +358,6 @@ class PaymentEditForm extends React.Component {
       throw new Error(err.message);
     }
   };
-  getCyberParams = () => {
-    const {
-      paymentStore: { currentCardTypeInfo }
-    } = this.props;
-    let { paymentForm } = this.state;
-
-    let params = Object.assign({}, paymentForm, {
-      cardType: null,
-      cardTypeValue: null,
-      paymentVendor: currentCardTypeInfo.cardType
-    });
-
-    return params;
-  };
-  sendCyberPaymentForm = async () => {
-    return;
-    let cyberParams = this.getCyberParams();
-    const { cardNumber, securityCode } = cyberParams;
-
-    if (
-      this.isAllFinish() &&
-      cardNumber.length >= 18 &&
-      securityCode.length >= 3
-    ) {
-      if (Object.keys(cyberParams).length > 0) {
-        try {
-          this.setState({ cyberBtnLoading: true });
-          let res = {};
-          res = await this.queryCyberCardType(cyberParams);
-
-          let authorizationCode = res.context.requestToken;
-          let subscriptionID = res.context.subscriptionID;
-          let cyberCardType = res.context.cardType;
-          this.setState({
-            authorizationCode,
-            subscriptionID,
-            cardTypeVal: cyberCardTypeToValue[cyberCardType]
-          });
-        } catch (err) {
-          this.showErrorMsg(err.message);
-        } finally {
-          this.setState({ cyberBtnLoading: false });
-        }
-      }
-    }
-    //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
-  };
   //input输入事件
   handleInputChange = (e) => {
     const target = e.target;
@@ -417,9 +370,7 @@ class PaymentEditForm extends React.Component {
     }
     paymentForm[name] = value;
 
-    this.setState({ paymentForm }, () => {
-      this.sendCyberPaymentForm();
-    });
+    this.setState({ paymentForm });
     this.inputBlur(e);
   };
   inputBlur = async (e) => {
@@ -456,7 +407,6 @@ class PaymentEditForm extends React.Component {
     let obj = Object.assign({}, errMsgObj, { [name]: '' }); //选择有值了，就清空没填提示
     this.setState({ paymentForm, errMsgObj: obj }, () => {
       console.log(paymentForm, '--------handleSelectedItemChange');
-      this.sendCyberPaymentForm();
     });
   };
   //selct city特殊处理
