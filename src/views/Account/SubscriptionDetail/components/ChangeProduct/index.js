@@ -113,7 +113,7 @@ const ChangeProduct = () => {
       return;
     }
     setState({ productListLoading: true });
-    // getDetailsBySpuNo('MKT00006')
+    // getDetailsBySpuNo('2554')
     getDetailsBySpuNo(id)
       .then((res) => {
         productDetailsInit(res, cb);
