@@ -3049,6 +3049,7 @@ class Payment extends React.Component {
                     cyberCardType={this.state.cyberCardType}
                     cyberPaymentForm={this.state.cyberPaymentForm}
                     cyberBtnLoading={this.state.cyberBtnLoading}
+                    showErrorMsg={this.showErrorMsg}
                     ref={this.cyberRef}
                   />
                 </>
