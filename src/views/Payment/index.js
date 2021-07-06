@@ -499,18 +499,12 @@ class Payment extends React.Component {
   sendCyberPaymentForm = async (cyberPaymentForm) => {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---start---
     let {
-      paymentStore: { currentCardTypeInfo }
-    } = this.props;
-    let {
       cardholderName,
       cardNumber,
       expirationMonth,
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-
-    //let currentCardLength = currentCardTypeInfo?.cardLength || 19;
-    //let securityCodeLength = currentCardTypeInfo?.cvvLength || 3;
 
     if (
       cardholderName &&
@@ -536,7 +530,6 @@ class Payment extends React.Component {
           let cyberCardType = res.context.cardType;
           this.setState({ authorizationCode, subscriptionID, cyberCardType });
         } catch (err) {
-          console.log('cyber获取卡类型失败', err.message);
           this.showErrorMsg(err.message);
         } finally {
           this.setState({ cyberBtnLoading: false });
