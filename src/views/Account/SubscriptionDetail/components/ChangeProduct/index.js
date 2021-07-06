@@ -14,8 +14,12 @@ import { getFrequencyDict } from '@/utils/utils';
 const ChangeProduct = () => {
   const { configStore } = useLocalStore(() => stores);
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
-  const { setState, subDetail, isShowClub, triggerShowChangeProduct } =
-    SubDetailHeaderValue;
+  const {
+    setState,
+    subDetail,
+    isShowClub,
+    triggerShowChangeProduct
+  } = SubDetailHeaderValue;
   const [showModalArr, setShowModalArr] = useState([false, false, false]);
   const [errMsg, setErrMsg] = useState('');
   const [currentGoodsItems, setCurrentGoodsItems] = useState([]);
@@ -31,8 +35,11 @@ const ChangeProduct = () => {
   const [goodsDetails, setGoodsDetails] = useState({});
   const [mainProductDetails, setMainProductDetails] = useState(null); //推荐主商品的详情数据
   const [details, setDetails] = useState({});
-  const [recommendationVisibleLoading, setRecommendationVisibleLoading] =
-    useState(true);
+  const [renderDetailAgin, setRenderDetailAgin] = useState(true);
+  const [
+    recommendationVisibleLoading,
+    setRecommendationVisibleLoading
+  ] = useState(true);
   const [form, setForm] = useState({
     buyWay: 1, //0 - once/ 1 - frequency
     frequencyVal: '',
@@ -77,7 +84,7 @@ const ChangeProduct = () => {
           ''
       });
       setForm(newForm);
-      let newDetails = Object.assign({}, details, res.context.goods, {
+      let newDetails = Object.assign({}, res.context.goods, {
         promotions: res.context.goods?.promotions?.toLowerCase(),
         goodsInfos: res.context.goodsInfos,
         // sizeList: [],
@@ -92,6 +99,9 @@ const ChangeProduct = () => {
       console.info('.....', err);
     }
   };
+  useEffect(() => {
+    setRenderDetailAgin(!renderDetailAgin); // box和弹窗goodsno一致的时候，规格筛选不能重新渲染，强制变化后渲染
+  }, [details]);
 
   const queryProductDetails = async ({ id, cb, mainProductDetails }) => {
     if (mainProductDetails) {
@@ -133,6 +143,7 @@ const ChangeProduct = () => {
   };
   const propsObj = {
     goodsDetails,
+    renderDetailAgin,
     details,
     showProdutctDetail,
     setDetails,
