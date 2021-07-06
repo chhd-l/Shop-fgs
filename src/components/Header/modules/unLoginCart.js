@@ -1,12 +1,10 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import LazyLoad from 'react-lazyload';
 import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict,
   getDeviceType
 } from '@/utils/utils';
 import FrequencyMatch from '@/components/FrequencyMatch';
@@ -16,7 +14,7 @@ import { inject, observer } from 'mobx-react';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
-const sessionItemRoyal = window.__.sessionItemRoyal;
+
 const localItemRoyal = window.__.localItemRoyal;
 import { toJS } from 'mobx';
 @injectIntl
@@ -118,6 +116,7 @@ class UnloginCart extends React.Component {
       }
     } catch (err) {
       this.props.headerCartStore.setErrMsg(err.message);
+      throw new Error(err);
     } finally {
       this.setState({ checkoutLoading: false });
     }
@@ -258,9 +257,16 @@ class UnloginCart extends React.Component {
                 </div>
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                   <LoginButton
-                    beforeLoginCallback={async () =>
-                      this.handleCheckout({ type: 'buyNow', needLogin: true })
-                    }
+                    beforeLoginCallback={async () => {
+                      try {
+                        await this.handleCheckout({
+                          type: 'buyNow',
+                          needLogin: true
+                        });
+                      } catch (err) {
+                        throw new Error(err);
+                      }
+                    }}
                     btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${
                       this.state.checkoutLoading ? 'ui-btn-loading' : ''
                     }`}

@@ -489,10 +489,9 @@ class PaymentEditForm extends React.Component {
       paymentForm.postCode = validationAddress.postalCode;
 
       paymentForm.province = validationAddress.provinceCode;
-      paymentForm.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : paymentForm.provinceId;
+      paymentForm.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : paymentForm.provinceId;
 
       // 地址校验返回参数
       paymentForm.validationResult = validationAddress.validationResult;

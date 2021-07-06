@@ -295,7 +295,30 @@ class Details extends React.Component {
     });
   }
 
+  getPdpScreenLoadData = () => {
+    const { clinicStore } = this.props;
+    let {
+      details,
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
+    } = this.state;
+
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore
+      //selectPrice
+    };
+
+    hubGAProductDetailPageView(details, pdpScreenLoadData);
+  };
+
   matchGoods(data, sizeList) {
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
+    this.getPdpScreenLoadData();
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
     let {
       instockStatus,
       details,
@@ -304,6 +327,7 @@ class Details extends React.Component {
       goodsNo,
       form
     } = this.state;
+
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
