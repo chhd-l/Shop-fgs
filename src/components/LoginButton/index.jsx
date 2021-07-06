@@ -154,7 +154,8 @@ const LoginButton = (props) => {
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
-  const login = async ({ beforeLoginCallback, callbackUrl, history }) => {
+  const login = async () => {
+    const { beforeLoginCallback, callbackUrl, history } = props;
     // if (window.__.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
