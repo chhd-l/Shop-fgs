@@ -295,15 +295,10 @@ class Details extends React.Component {
     });
   }
 
-  matchGoods(data, sizeList) {
+  getPdpScreenLoadData = () => {
     const { clinicStore } = this.props;
     let {
-      instockStatus,
       details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo,
-      form,
       currentSubscriptionStatus,
       currentSubscriptionPrice,
       skuPromotions
@@ -317,8 +312,21 @@ class Details extends React.Component {
       //selectPrice
     };
 
-    //bungdle没有规格的商品，也要调用GA
     hubGAProductDetailPageView(details, pdpScreenLoadData);
+  };
+
+  matchGoods(data, sizeList) {
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
+    this.getPdpScreenLoadData();
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
+    let {
+      instockStatus,
+      details,
+      spuImages,
+      goodsDetailTab,
+      goodsNo,
+      form
+    } = this.state;
 
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
