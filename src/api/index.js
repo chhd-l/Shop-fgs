@@ -157,7 +157,7 @@ export function cancelEmailBind(parameter) {
   return axios({
     url: `${api.cancelEmail}`,
     method: 'put',
-    params: parameter
+    data: parameter
   });
 }
 
