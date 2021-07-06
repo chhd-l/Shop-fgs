@@ -2,7 +2,7 @@ import RedirectUrlJSON_fr from '../fr';
 import RedirectUrlJSON_ru from '../ru';
 import RedirectUrlJSON_tr from '../tr';
 import fgsJSON_fr from '../fr/fgs';
-import temp_hub_fr from '../fr/temp_hub';
+import tempHubFrRedirect from '../fr/temp_hub';
 
 let New_RedirectUrlJSON_fr = { ...RedirectUrlJSON_fr };
 
@@ -20,10 +20,11 @@ if (
   window.__.env.REACT_APP_COUNTRY == 'fr' &&
   window.__.env.REACT_APP_HUB == 1
 ) {
+  // cancel redirection, instead of canonical tag
   //说明是法国hub环境,加上hub环境需要加上的跳转链接
-  for (let item of temp_hub_fr.RECORDS) {
-    New_RedirectUrlJSON_fr.RECORDS.push(item);
-  }
+  // for (let item of tempHubFrRedirect.RECORDS) {
+  //   New_RedirectUrlJSON_fr.RECORDS.push(item);
+  // }
 }
 
 const redirectFun = () => {
@@ -48,4 +49,4 @@ const redirectFun = () => {
   return RedirectUrlObj;
 };
 
-export { redirectFun };
+export { redirectFun, tempHubFrRedirect };

@@ -37,6 +37,7 @@ import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
+import { tempHubFrRedirect } from '@/redirect/utils';
 
 import Help from './components/Help';
 
@@ -67,7 +68,6 @@ const isHub = window.__.env.REACT_APP_HUB == '1';
 const Fr = window.__.env.REACT_APP_COUNTRY === 'fr';
 const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
 const Tr = window.__.env.REACT_APP_COUNTRY === 'tr';
-// const pageLink = window.location.href;
 
 @inject(
   'checkoutStore',
@@ -134,7 +134,7 @@ class Details extends React.Component {
       breadCrumbs: [],
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
-      pageLink: '',
+      pageLink: window.location.href,
       purchaseTypeDict: [],
       barcode: '',
       descContent: '',
@@ -170,7 +170,8 @@ class Details extends React.Component {
     this.setState(
       {
         id: this.props.match.params.id,
-        goodsNo: goodsSpuNo || ''
+        goodsNo: goodsSpuNo || '',
+        pageLink: this.redirectCanonicalLink({ pageLink: this.state.pageLink })
       },
       () => this.queryDetails()
     );
@@ -183,14 +184,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -217,6 +212,22 @@ class Details extends React.Component {
     let bundle = goodsType && goodsType === 2;
 
     return !loading && !bundle && isHub && !Ru && !exclusiveFlag && !trSpt;
+  }
+
+  redirectCanonicalLink({ pageLink }) {
+    let ret;
+    const {
+      location: { pathname }
+    } = this.props;
+    const redirectUrl = (tempHubFrRedirect?.RECORDS || []).filter(
+      (t) => t.shortUrl === pathname
+    )[0]?.redirectUrl;
+    if (redirectUrl) {
+      ret = pageLink.split('/');
+      ret.splice(ret.length - 1, 1, redirectUrl.replace(/^\/?/gi, ''));
+      ret = ret.join('/');
+    }
+    return ret ? ret : pageLink;
   }
 
   setDefaultPurchaseType({ id }) {
@@ -296,14 +307,12 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
-    let {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo,
-      form
-    } = this.state;
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
+    this.getPdpScreenLoadData();
+    //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
+    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
+      this.state;
+
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
@@ -368,7 +377,10 @@ class Details extends React.Component {
   };
 
   async queryDetails() {
-    const { configStore, checkoutStore } = this.props;
+    const {
+      configStore,
+      location: { pathname }
+    } = this.props;
     const { id, goodsNo } = this.state;
     let requestName;
     let param;
@@ -410,8 +422,9 @@ class Details extends React.Component {
             (t) => t.displayStatus
           );
           let pageLink = window.location.href.split('-');
-          pageLink.splice(pageLink.length - 1, 1);
-          pageLink = pageLink.concat(goodsRes.goodsNo).join('-');
+          pageLink.splice(pageLink.length - 1, 1, goodsRes.goodsNo);
+          pageLink = pageLink.join('-');
+
           this.setState(
             {
               purchaseTypeDict: purchaseTypeDictRes,
@@ -447,7 +460,7 @@ class Details extends React.Component {
               }),
               spuImages: images,
               breadCrumbs: [{ name: goodsRes.goodsName }],
-              pageLink,
+              pageLink: this.redirectCanonicalLink({ pageLink }),
               goodsType: goods.goodsType,
               exclusiveFlag: goods.exclusiveFlag
             },
@@ -758,13 +771,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -962,7 +970,6 @@ class Details extends React.Component {
         <GA_Comp details={details} />
         <SeoConfig
           errMsg={errMsg}
-          pageLink={pageLink}
           goodsId={goodsId}
           pageLink={pageLink}
           setHeadingTag={(headingTag) => {
