@@ -43,7 +43,6 @@ class CyberPayment extends React.Component {
           cardTypeVal: cyberCardTypeToValue[nextProps.cyberCardType]
         },
         () => {
-          console.log(1111, this.state.cardTypeVal);
           this.onCardTypeValChange();
         }
       );
