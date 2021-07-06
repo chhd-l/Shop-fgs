@@ -36,6 +36,7 @@ import {
 import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
 import bottomDescJson from './bottomDesc.json';
+import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -1409,37 +1410,6 @@ class List extends React.Component {
         if (esGoodsPage && esGoodsPage.content.length) {
           let goodsContent = esGoodsPage.content;
           goodsContent = goodsContent.map((ele) => {
-            //hub商品图片下方展示的属性
-            const breedsAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
-              )
-              .map((t) => t.goodsAttributeValueEn);
-            const breedsValueAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) => item?.goodsAttributeName?.toLowerCase() == 'breeds'
-              )
-              .map((t) => t.goodsAttributeValue);
-            const technologyAttr = (ele.goodsAttributesValueRelVOAllList || [])
-              .filter(
-                (item) =>
-                  item?.goodsAttributeName?.toLowerCase() == 'technology'
-              )
-              .map((t) => t.goodsAttributeValueEn);
-            const attrs = breedsAttr.concat(technologyAttr).join(','); //需要排序因此不能一起写；
-            const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
-            const breed = breedValue
-              ? breedValue.toLowerCase() === 'cat'
-                ? 'Для кошек'
-                : 'Для собак'
-              : ''; //俄罗斯定制，嗐！
-            const ruAttrs = breed
-              ? [breed, ...technologyAttr]
-              : [...technologyAttr];
-            const technologyOrBreedsAttr =
-              isHub && window.__.env.REACT_APP_COUNTRY === 'ru'
-                ? ruAttrs.join(',')
-                : attrs;
             const taggingVOList = (ele.taggingVOList || []).filter(
               (t) => t.displayStatus
             );
@@ -1455,7 +1425,7 @@ class List extends React.Component {
               taggingForImage: taggingVOList.filter(
                 (e) => e.taggingType === 'Image' && e.showPage?.includes('PLP')
               )[0],
-              technologyOrBreedsAttr,
+              technologyOrBreedsAttr: getTechnologyOrBreedsAttr(ele),
               fromPrice: ele.fromPrice,
               toPrice: ele.toPrice
             });
