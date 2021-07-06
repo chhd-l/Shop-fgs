@@ -94,7 +94,36 @@ class AddressPreview extends React.Component {
 
     return form ? (
       <div className="children-nomargin">
-        {/* {JSON.stringify(form)} */}
+        {form.receiveType == 'PICK_UP' ? <></> : <></>}
+        <p className="preview_pickup_title"></p>
+        <p className="preview_pickup_address">{form.address1}</p>
+        <p className="preview_pickup_worktime">{form.workTime}</p>
+        {/* 是否存在运费 */}
+        {form?.calculation?.deliveryPrice &&
+          form?.calculation?.minDeliveryTime && (
+            <>
+              <p className="preview_delivery_date">
+                {form?.calculation?.minDeliveryTime ==
+                form?.calculation?.maxDeliveryTime ? (
+                  <FormattedMessage
+                    id="payment.deliveryDate2"
+                    values={{
+                      val: form?.calculation?.minDeliveryTime
+                    }}
+                  />
+                ) : (
+                  <FormattedMessage
+                    id="payment.deliveryDate"
+                    values={{
+                      min: form?.calculation?.minDeliveryTime,
+                      max: form?.calculation?.maxDeliveryTime
+                    }}
+                  />
+                )}
+              </p>
+            </>
+          )}
+        ————————————————————————————————————————————————————————————————
         <p className={`${boldName ? 'medium' : ''}`}>
           {form.firstName + ' ' + form.lastName}
         </p>
@@ -102,7 +131,6 @@ class AddressPreview extends React.Component {
         {localAddressForm['address2'] && form.address2 && (
           <p>{form.address2}</p>
         )}
-
         {/* 俄罗斯计算运费 */}
         {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
           <>

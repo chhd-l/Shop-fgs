@@ -1343,9 +1343,6 @@ class AddressList extends React.Component {
         deliveryAdd.deliveryAddressId = pkup[0].deliveryAddressId;
         deliveryAdd.customerId = pkup[0].customerId;
       }
-      // console.log('666 ★ 111  deliveryAdd: ', deliveryAdd);
-      // console.log('666 ★ 222  pkup: ', pkup);
-      // console.log('666 ★ 333  tmpPromise: ', tmpPromise);
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
@@ -1354,16 +1351,13 @@ class AddressList extends React.Component {
           selectedId: selectedId
         });
 
-        // 查询修改pickup地址后的列表，pickupAddress 传给 Preview.js
-        let newList = await getAddressList();
-        let newPickup = newList.context.filter((e) => {
-          return e.receiveType == 'PICK_UP';
-        });
         this.setState(
           {
-            pickupAddress: newPickup[0]
+            pickupAddress: pickupFormData
           },
           () => {
+            console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+            console.log('666 ★★★  pickupAddress: ', this.state.pickupAddress);
             // 收起 panel
             const { paymentStore } = this.props;
             if (this.curPanelKey === 'deliveryAddr') {
@@ -1775,15 +1769,18 @@ class AddressList extends React.Component {
                     {_form}
                   </>
                 ) : panelStatus.isCompleted ? (
-                  <AddressPreview
-                    form={
-                      pickupFormData?.receiveType == 'PICK_UP'
-                        ? addressList.filter(
-                            (a) => a.deliveryAddressId === selectedId
-                          )[0] || null
-                        : pickupAddress || null
-                    }
-                  />
+                  <>
+                    <AddressPreview
+                      key={this.state.pickupAddress}
+                      form={
+                        pickupFormData?.receiveType == 'PICK_UP'
+                          ? pickupAddress || null
+                          : addressList.filter(
+                              (a) => a.deliveryAddressId === selectedId
+                            )[0] || null
+                      }
+                    />
+                  </>
                 ) : null}
               </>
             )}

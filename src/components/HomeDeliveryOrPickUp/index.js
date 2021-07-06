@@ -99,6 +99,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm['city'] = obj?.address?.city || [];
         pickupForm['address1'] = obj?.address?.fullAddress || [];
         pickupForm['workTime'] = obj?.workTime || [];
+        pickupForm['pickup'] = obj || [];
         this.setState(
           {
             courierInfo: obj || null,
@@ -171,10 +172,10 @@ class HomeDeliveryOrPickUp extends React.Component {
         },
         () => {
           this.setItemStatus(stype);
-          this.setRuPhoneNumberReg();
         }
       );
     }
+    this.setRuPhoneNumberReg();
   }
   // 设置手机号输入限制
   setRuPhoneNumberReg = () => {
@@ -260,7 +261,6 @@ class HomeDeliveryOrPickUp extends React.Component {
   handleRadioChange = (e) => {
     const { selectedItem } = this.state;
     let val = e.currentTarget?.value;
-
     let sitem = Object.assign({}, selectedItem);
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
@@ -281,18 +281,26 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 设置状态
   setItemStatus = (val) => {
-    const { pickupForm } = this.state;
+    const { pickupForm, selectedItem } = this.state;
+    // 处理选择结果
+    let pickupItem = null;
+    let sitem = Object.assign({}, selectedItem);
+    sitem?.homeAndPickup.forEach((v, i) => {
+      if (v.type == val) {
+        v.type == 'pickup' ? (pickupItem = v) : null;
+      }
+    });
+    pickupForm['item'] = pickupItem;
+
     let flag = false;
     if (val == 'homeDelivery') {
       flag = false;
-      this.props.updateDeliveryOrPickup(1);
-      this.props.updateConfirmBtnDisabled(false);
     } else if (val == 'pickup') {
       flag = true;
-      this.props.updateDeliveryOrPickup(2);
-      this.props.updateConfirmBtnDisabled(true);
       this.sendMsgToIframe();
     }
+    this.props.updateDeliveryOrPickup(flag ? 2 : 1);
+    this.props.updateConfirmBtnDisabled(flag);
     pickupForm['receiveType'] = flag ? 'PICK_UP' : 'HOME_DELIVERY';
     this.setState(
       {
