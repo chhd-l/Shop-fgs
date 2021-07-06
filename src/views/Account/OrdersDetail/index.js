@@ -225,10 +225,7 @@ class AccountOrders extends React.Component {
       activeTabIdx: 0,
       showLogisticsDetail: false,
       curLogisticInfo: null,
-      welcomeGiftLists: [
-        { giftName: 'Gift name', num: 1 },
-        { giftName: 'Gift name', num: 1 }
-      ] //first-order welcome box gifts
+      welcomeGiftLists: [] //first-order welcome box gifts
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
@@ -275,6 +272,12 @@ class AccountOrders extends React.Component {
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
+        this.setState({
+          welcomeGiftLists: resContext?.TradeVO?.welcomeBoxList || [
+            { skuName: 'Gift name', quantity: 1, price: 0 },
+            { skuName: 'Gift name', quantity: 1, price: 0 }
+          ]
+        });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
         let currentProgerssIndex = -1;
@@ -1390,22 +1393,22 @@ class AccountOrders extends React.Component {
                                           <div className="col-8 col-md-3">
                                             <span
                                               className="medium ui-text-overflow-line2 text-break color-444"
-                                              title={item.giftName}
+                                              title={item.skuName}
                                             >
-                                              {item.giftName}
+                                              {item.skuName}
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
                                             <FormattedMessage
                                               id="xProduct"
-                                              values={{ val: item.num }}
+                                              values={{ val: item.quantity }}
                                             />
                                           </div>
                                           <div className="col-6 col-md-3 text-right text-md-left rc-md-up font-weight-normal">
-                                            {formatMoney(0)}
+                                            {formatMoney(item.price)}
                                           </div>
                                           <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
-                                            {formatMoney(0)}
+                                            {formatMoney(item.price)}
                                           </div>
                                         </div>
                                       </div>
