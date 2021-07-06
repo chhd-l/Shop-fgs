@@ -25,6 +25,7 @@ const ChooseSKU = ({ intl }) => {
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
   const {
+    renderDetailAgin,
     details,
     setDetails,
     showModal,
@@ -259,6 +260,7 @@ const ChooseSKU = ({ intl }) => {
             <div className="specAndQuantity rc-margin-bottom--xs ">
               {details.goodsInfos && (
                 <HandledSpec
+                  renderAgin={renderDetailAgin}
                   details={details}
                   setState={setState}
                   updatedSku={matchGoods}
