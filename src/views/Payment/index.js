@@ -2676,10 +2676,9 @@ class Payment extends React.Component {
       billingAddress.postCode = validationAddress.postalCode;
 
       billingAddress.province = validationAddress.provinceCode;
-      billingAddress.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : billingAddress.provinceId;
+      billingAddress.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : billingAddress.provinceId;
 
       // 地址校验返回参数
       billingAddress.validationResult = validationAddress.validationResult;
