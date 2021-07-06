@@ -296,14 +296,30 @@ class Details extends React.Component {
   }
 
   matchGoods(data, sizeList) {
+    const { clinicStore } = this.props;
     let {
       instockStatus,
       details,
       spuImages,
       goodsDetailTab,
       goodsNo,
-      form
+      form,
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
     } = this.state;
+
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore
+      //selectPrice
+    };
+
+    //bungdle没有规格的商品，也要调用GA
+    hubGAProductDetailPageView(details, pdpScreenLoadData);
+
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (!selectedSpecItem?.subscriptionStatus && form.buyWay > 0) {
