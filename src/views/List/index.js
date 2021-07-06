@@ -47,11 +47,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -365,13 +364,11 @@ class List extends React.Component {
     const keywordsSearch = decodeURI(funcUrl({ name: 'q' }) || '');
     if (
       keywordsSearch &&
-      dataLayer &&
-      dataLayer[0] &&
-      dataLayer[0].page &&
-      dataLayer[0].page.type
+      window.dataLayer &&
+      window.dataLayer[0] &&
+      window.dataLayer[0].page &&
+      window.dataLayer[0].page.type
     ) {
-      //表示从搜索来的
-      // dataLayer[0].page.type = 'Search Results';
     }
     this.setState(
       {
