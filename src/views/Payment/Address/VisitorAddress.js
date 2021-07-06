@@ -379,10 +379,9 @@ class VisitorAddress extends React.Component {
       form.postCode = validationAddress.postalCode;
 
       form.province = validationAddress.provinceCode;
-      form.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : form.provinceId;
+      form.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : form.provinceId;
 
       // 地址校验返回参数
       form.validationResult = validationAddress.validationResult;

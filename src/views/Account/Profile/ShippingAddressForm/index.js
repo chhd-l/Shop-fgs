@@ -184,10 +184,9 @@ class ShippingAddressFrom extends React.Component {
       addressForm.postCode = validationAddress.postalCode;
 
       addressForm.province = validationAddress.provinceCode;
-      addressForm.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : addressForm.provinceId;
+      addressForm.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : addressForm.provinceId;
 
       // 地址校验返回参数
       addressForm.validationResult = validationAddress.validationResult;
