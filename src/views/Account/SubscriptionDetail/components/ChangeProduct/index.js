@@ -101,7 +101,7 @@ const ChangeProduct = () => {
   };
   useEffect(() => {
     setRenderDetailAgin(!renderDetailAgin); // box和弹窗goodsno一致的时候，规格筛选不能重新渲染，强制变化后渲染
-  }, [details]);
+  }, [goodsDetails]); // 获取详情数据后重置
 
   const queryProductDetails = async ({ id, cb, mainProductDetails }) => {
     if (mainProductDetails) {
