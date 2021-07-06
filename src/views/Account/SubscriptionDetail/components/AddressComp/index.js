@@ -574,10 +574,9 @@ class AddressList extends React.Component {
       deliveryAddress.postCode = validationAddress.postalCode;
 
       deliveryAddress.province = validationAddress.provinceCode;
-      deliveryAddress.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : deliveryAddress.provinceId;
+      deliveryAddress.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : deliveryAddress.provinceId;
 
       // 地址校验返回参数
       deliveryAddress.validationResult = validationAddress.validationResult;

@@ -111,8 +111,9 @@ class AddressList extends React.Component {
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.timer = null;
-    this.confirmListValidationAddress =
-      this.confirmListValidationAddress.bind(this);
+    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
+      this
+    );
     this.editFormRef = React.createRef();
   }
   async componentDidMount() {
@@ -1070,8 +1071,11 @@ class AddressList extends React.Component {
   };
   // 点击地址验证确认按钮
   confirmListValidationAddress = () => {
-    const { deliveryAddress, selectListValidationOption, validationAddress } =
-      this.state;
+    const {
+      deliveryAddress,
+      selectListValidationOption,
+      validationAddress
+    } = this.state;
     this.setState({
       listBtnLoading: true
     });
@@ -1082,10 +1086,9 @@ class AddressList extends React.Component {
       deliveryAddress.postCode = validationAddress.postalCode;
 
       deliveryAddress.province = validationAddress.provinceCode;
-      deliveryAddress.provinceId =
-        validationAddress.provinceId && validationAddress.provinceId != null
-          ? validationAddress.provinceId
-          : deliveryAddress.provinceId;
+      deliveryAddress.provinceId = validationAddress.provinceId
+        ? validationAddress.provinceId
+        : deliveryAddress.provinceId;
 
       // 地址校验返回参数
       deliveryAddress.validationResult = validationAddress.validationResult;
