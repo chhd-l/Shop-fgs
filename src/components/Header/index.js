@@ -116,7 +116,7 @@ class Header extends React.Component {
     window.addEventListener('scroll', (e) => this.handleScroll(e));
 
     const { location, clinicStore } = this.props;
-    let clinciRecoCode = funcUrl({ name: 'code' });
+    let clinicRecoCode = funcUrl({ name: 'code' });
     let linkClinicId = funcUrl({ name: 'clinic' });
     let linkClinicName = '';
     // 指定clinic/recommendation code链接进入，设置default clinic
@@ -126,9 +126,9 @@ class Header extends React.Component {
         location.pathname.includes('/list') ||
         location.pathname.includes('/details'))
     ) {
-      if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
+      if (clinicRecoCode && clinicStore.clinicRecoCode !== clinicRecoCode) {
         const res = await getPrescriberByEncryptCode({
-          encryptCode: clinciRecoCode,
+          encryptCode: clinicRecoCode,
           storeId: window.__.env.REACT_APP_STOREID
         });
         if (
@@ -140,7 +140,7 @@ class Header extends React.Component {
           linkClinicName = res.context.prescriberVo[0].prescriberName;
         }
         if (linkClinicId && linkClinicName) {
-          clinicStore.setClinicRecoCode(clinciRecoCode);
+          clinicStore.setClinicRecoCode(clinicRecoCode);
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
         }
@@ -176,7 +176,7 @@ class Header extends React.Component {
           : '',
       shopId: window.__.env.REACT_APP_STOREID,
       page:
-        clinciRecoCode || linkClinicId
+        clinicRecoCode || linkClinicId
           ? '5'
           : {
               '/': '1',
