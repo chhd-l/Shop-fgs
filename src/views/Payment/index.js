@@ -281,7 +281,7 @@ class Payment extends React.Component {
         settlementFias: '',
         postalCode: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
-      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、第一次下单 3、不是学生购student promotion 50% discount
+      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);

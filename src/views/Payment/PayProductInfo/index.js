@@ -51,8 +51,8 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      isFirstOrder: false, //是否是第一次下单
-      isStudentPurchase: false //是否是student promotion 50% discount
+      isFirstOrder: false, //是否是首单
+      isStudentPurchase: false //是否填写了学生购student promotion 50% discount
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -526,7 +526,7 @@ class PayProductInfo extends React.Component {
             <div className="checkout--padding">
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
-              {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、没有学生购student promotion 50% discount*/}
+              {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
               this.isLogin &&
               isFirstOrder &&
