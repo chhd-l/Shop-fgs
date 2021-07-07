@@ -306,6 +306,26 @@ class Details extends React.Component {
     });
   }
 
+  getPdpScreenLoadData = () => {
+    const { clinicStore } = this.props;
+    let {
+      details,
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions
+    } = this.state;
+
+    const pdpScreenLoadData = {
+      currentSubscriptionStatus,
+      currentSubscriptionPrice,
+      skuPromotions,
+      clinicStore
+      //selectPrice
+    };
+
+    hubGAProductDetailPageView(details, pdpScreenLoadData);
+  };
+
   matchGoods(data, sizeList) {
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
     this.getPdpScreenLoadData();
@@ -1017,6 +1037,7 @@ class Details extends React.Component {
                       <DetailHeader
                         checkOutErrMsg={checkOutErrMsg}
                         goodHeading={goodHeading}
+                        selectedSpecItem={selectedSpecItem}
                         details={details}
                         productRate={productRate}
                         replyNum={replyNum}
@@ -1054,7 +1075,8 @@ class Details extends React.Component {
                                     'fr',
                                     'ru',
                                     'tr',
-                                    'us'
+                                    'us',
+                                    'mx'
                                   ]) ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
@@ -1109,6 +1131,7 @@ class Details extends React.Component {
                             <DetailHeader
                               checkOutErrMsg={checkOutErrMsg}
                               goodHeading={goodHeading}
+                              selectedSpecItem={selectedSpecItem}
                               details={details}
                               productRate={productRate}
                               replyNum={replyNum}
@@ -1137,7 +1160,12 @@ class Details extends React.Component {
                         ) : (
                           <div>
                             <div className="align-left flex rc-margin-bottom--xs">
-                              <InstockStatusComp status={instockStatus} />
+                              <p className="rc-margin-right--xs">
+                                <InstockStatusComp status={instockStatus} />
+                              </p>
+                              {Ru && selectedSpecItem ? (
+                                <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
+                              ) : null}
                             </div>
                             {details.promotions &&
                             details.promotions.includes('club') ? (

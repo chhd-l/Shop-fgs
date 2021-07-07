@@ -30,7 +30,8 @@ const api = {
   //CYBER
   usPaymentInfo: `/${window.__.env.REACT_APP_STOREID}/us-pay-payment-info`, //CYBER绑卡
   usGuestPaymentInfo: `/${window.__.env.REACT_APP_STOREID}/us-guest-pay-payment-info`, //CYBER游客绑卡
-  usPayCardSubscription: `/${window.__.env.REACT_APP_STOREID}/us-pay-card-subscription`, //CYBER查询卡类型
+  usPayCardSubscription: `/${window.__.env.REACT_APP_STOREID}/us-pay-card-subscription`, //CYBER查询卡类型-会员
+  usGuestPayCardSubscription: `/${window.__.env.REACT_APP_STOREID}/us-guest-pay-card-subscription`, //CYBER查询卡类型-游客
 
   installments: '/payment-method/installments'
 };
@@ -61,6 +62,14 @@ export function usPayCardSubscription(parameter) {
   });
 }
 
+export function usGuestPayCardSubscription(parameter) {
+  return axios({
+    url: api.usGuestPayCardSubscription,
+    method: 'post',
+    data: parameter
+  });
+}
+
 export function postVisitorRegisterAndLogin(parameter) {
   return axios({
     url: api.visitorRegisterAndLogin,
@@ -79,10 +88,11 @@ export function batchAdd(parameter) {
 
 export function confirmAndCommit(parameter) {
   return axios({
-    url:
-      window.__.env.REACT_APP_GA_COUNTRY == 'us'
-        ? api.confirmAndCommitUs
-        : api.confirmAndCommit,
+    // url:
+    //   window.__.env.REACT_APP_COUNTRY == 'us'
+    //     ? api.confirmAndCommitUs
+    //     : api.confirmAndCommit,
+    url: api.confirmAndCommit,
     method: 'post',
     data: parameter
   });
@@ -114,10 +124,11 @@ export function deleteCard(para) {
 
 export function customerCommitAndPay(parameter) {
   return axios({
-    url:
-      window.__.env.REACT_APP_GA_COUNTRY == 'us'
-        ? api.customerCommitAndPayUs
-        : api.customerCommitAndPay,
+    // url:
+    //   window.__.env.REACT_APP_COUNTRY == 'us'
+    //     ? api.customerCommitAndPayUs
+    //     : api.customerCommitAndPay,
+    url: api.customerCommitAndPay,
     method: 'post',
     data: parameter
   });
@@ -125,10 +136,11 @@ export function customerCommitAndPay(parameter) {
 
 export function customerCommitAndPayMix(parameter) {
   return axios({
-    url:
-      window.__.env.REACT_APP_GA_COUNTRY == 'us'
-        ? api.customerCommitAndPayMixUs
-        : api.customerCommitAndPayMix,
+    // url:
+    //   window.__.env.REACT_APP_COUNTRY == 'us'
+    //     ? api.customerCommitAndPayMixUs
+    //     : api.customerCommitAndPayMix,
+    url: api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
   });
@@ -136,7 +148,8 @@ export function customerCommitAndPayMix(parameter) {
 
 export function rePay(parameter) {
   return axios({
-    url: window.__.env.REACT_APP_GA_COUNTRY == 'us' ? api.rePayUs : api.rePay,
+    // url: window.__.env.REACT_APP_COUNTRY == 'us' ? api.rePayUs : api.rePay,
+    url: api.rePay,
     method: 'post',
     data: parameter
   });

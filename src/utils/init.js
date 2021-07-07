@@ -59,5 +59,5 @@ if (window.__.env.REACT_APP_COUNTRY === 'RU') {
 
 if (window.__.env.REACT_APP_HUB === '1') {
   let dom = document.querySelector('#root');
-  dom.className += window.__.env.REACT_APP_ROOT_CLS;
+  dom.className += ` ${window.__.env.REACT_APP_ROOT_CLS}`;
 }

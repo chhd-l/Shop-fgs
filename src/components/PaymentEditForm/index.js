@@ -4,18 +4,22 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
-import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { getDictionary, validData } from '@/utils/utils';
 import axios from 'axios';
 import LazyLoad from 'react-lazyload';
 import CyberPaymentForm from '@/components/CyberPaymentForm';
 import CyberBillingAddress from '@/components/CyberBillingAddress';
 import { getProvincesList } from '@/api/index';
-import { usPaymentInfo } from '@/api/payment';
+import {
+  usPaymentInfo,
+  usPayCardSubscription,
+  addOrUpdatePaymentMethod
+} from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
+import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 
 @inject('loginStore')
 @injectIntl
@@ -29,6 +33,9 @@ class PaymentEditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      authorizationCode: '',
+      subscriptionID: '',
+      cyberBtnLoading: false,
       errorMsg: '',
       saveLoading: false,
       creditCardInfoForm: {
@@ -340,6 +347,17 @@ class PaymentEditForm extends React.Component {
     this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
     this.toTop();
   };
+  //查询卡类型-会员
+  queryCyberCardType = async (params) => {
+    try {
+      const res = await usPayCardSubscription(params);
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
   //input输入事件
   handleInputChange = (e) => {
     const target = e.target;
@@ -454,6 +472,7 @@ class PaymentEditForm extends React.Component {
       this.showNextPanel();
     }
   };
+
   // 确认选择地址,切换到下一个最近的未complete的panel
   async confirmValidationAddress() {
     const {
@@ -462,6 +481,7 @@ class PaymentEditForm extends React.Component {
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
     let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
     this.setState({ btnLoading: true });
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
       paymentForm.city = validationAddress.city;
@@ -476,19 +496,43 @@ class PaymentEditForm extends React.Component {
 
       // 地址校验返回参数
       paymentForm.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, paymentForm);
     } else {
-      this.setState({
-        paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldPaymentForm));
     }
+    this.setState({
+      paymentForm: Object.assign({}, theform)
+    });
 
-    let params = Object.assign({}, paymentForm, {
-      cardType: currentCardTypeInfo.cardType,
-      cardTypeValue: currentCardTypeInfo.cardTypeValue,
+    let subscriptionParams = Object.assign({}, paymentForm, {
+      //cardType: currentCardTypeInfo.cardType,
+      cardType: null,
+      //cardTypeValue: currentCardTypeInfo.cardTypeValue,
+      cardTypeValue: null,
       paymentVendor: currentCardTypeInfo.cardType
     });
 
     try {
+      let res = await this.queryCyberCardType(subscriptionParams);
+      let authorizationCode = res.context.requestToken;
+      let subscriptionID = res.context.subscriptionID;
+      let cyberCardType = res.context.cardType;
+      this.setState(
+        { cardTypeVal: cyberCardTypeToValue[cyberCardType] },
+        () => {
+          this.props.onCardTypeValChange({
+            cardTypeVal: this.state.cardTypeVal
+          });
+        }
+      );
+
+      let params = Object.assign({}, paymentForm, {
+        cardType: cyberCardTypeToValue[cyberCardType],
+        cardTypeValue: cyberCardType,
+        authorizationCode: authorizationCode,
+        subscriptionID: subscriptionID,
+        paymentVendor: cyberCardTypeToValue[cyberCardType]
+      });
       await usPaymentInfo(params);
       this.handleCancel();
       // this.props.refreshList(res.message);
@@ -614,10 +658,15 @@ class PaymentEditForm extends React.Component {
       };
       let newPaymentForm = Object.assign({}, data, paymentFormObj);
 
-      this.setState({
-        isValidForm: true,
-        paymentForm: newPaymentForm
-      });
+      this.setState(
+        {
+          isValidForm: true,
+          paymentForm: newPaymentForm
+        },
+        () => {
+          this.sendCyberPaymentForm();
+        }
+      );
     } catch (err) {
       console.log(' err msg: ', err);
     }
@@ -967,7 +1016,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >
@@ -1139,7 +1189,10 @@ class PaymentEditForm extends React.Component {
               <div className="col-sm-3"></div>
               <div className="col-sm-3">
                 <button
-                  className="rc-btn rc-btn--one"
+                  //className="rc-btn rc-btn--one"
+                  className={`rc-btn rc-btn--one ${
+                    this.state.cyberBtnLoading ? 'ui-btn-loading' : ''
+                  }`}
                   style={{ width: '200px' }}
                   onClick={this.handleCyberSave}
                   disabled={this.isAllFinish() ? false : true}

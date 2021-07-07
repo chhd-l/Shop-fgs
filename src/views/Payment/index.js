@@ -79,7 +79,6 @@ import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
-import { isNewAccount } from '@/api/user';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -282,8 +281,7 @@ class Payment extends React.Component {
         settlementFias: '',
         postalCode: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
-      welcomeBoxValue: 'yes', //first order welcome box value:yes/no
-      isFirstOrder: false //是否是第一次下单
+      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -299,7 +297,7 @@ class Payment extends React.Component {
       this
     );
   }
-  //cyber查询卡类型
+  //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
       const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
@@ -312,6 +310,20 @@ class Payment extends React.Component {
       throw new Error(e.message);
     }
   };
+  //cyber查询卡类型-游客
+  queryGuestCyberCardType = async (params) => {
+    try {
+      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+        params
+      );
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
   getCyberParams() {
     const { isLogin } = this;
     const {
@@ -362,14 +374,9 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
-      //判断是否是第一次下单
-      isNewAccount().then((res) => {
-        if (res.context == 0) {
-          this.setState({ isFirstOrder: true });
-        }
-      });
       this.queryList();
     }
 
@@ -493,37 +500,38 @@ class Payment extends React.Component {
   sendCyberPaymentForm = async (cyberPaymentForm) => {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---start---
     let {
-      paymentStore: { currentCardTypeInfo }
-    } = this.props;
-    let {
       cardholderName,
       cardNumber,
       expirationMonth,
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-    let currentCardLength = currentCardTypeInfo?.cardLength || 19;
-    let securityCodeLength = currentCardTypeInfo?.cvvLength || 3;
 
     if (
       cardholderName &&
       expirationMonth &&
       expirationYear &&
-      cardNumber.length == currentCardLength &&
-      securityCode.length == securityCodeLength
+      cardNumber.length >= 18 &&
+      securityCode.length >= 3
     ) {
       let cyberParams = this.getCyberParams();
 
       if (Object.keys(cyberParams).length > 0) {
         try {
           this.setState({ cyberBtnLoading: true });
-          const res = await this.queryCyberCardType(cyberParams);
+          let res = {};
+          if (this.isLogin) {
+            res = await this.queryCyberCardType(cyberParams);
+          } else {
+            res = await this.queryGuestCyberCardType(cyberParams);
+          }
+
           let authorizationCode = res.context.requestToken;
           let subscriptionID = res.context.subscriptionID;
           let cyberCardType = res.context.cardType;
           this.setState({ authorizationCode, subscriptionID, cyberCardType });
         } catch (err) {
-          console.log(222, err.message);
+          this.showErrorMsg(err.message);
         } finally {
           this.setState({ cyberBtnLoading: false });
         }
@@ -1548,13 +1556,8 @@ class Payment extends React.Component {
       maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
-      guestEmail
-      // saveWelcomeBox:
-      //   !!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-      //   this.isLogin &&
-      //   this.state.isFirstOrder
-      //     ? this.state.welcomeBoxValue
-      //     : 'no' //first order welcome box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）
+      guestEmail,
+      selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -2658,6 +2661,7 @@ class Payment extends React.Component {
       btnLoading: true
     });
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
       billingAddress.city = validationAddress.city;
@@ -2670,28 +2674,34 @@ class Payment extends React.Component {
 
       // 地址校验返回参数
       billingAddress.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, billingAddress);
     } else {
-      this.setState({
-        billingAddress: JSON.parse(JSON.stringify(oldForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldForm));
     }
-    // console.log('------ 确认选择地址');
-    // 调用保存 billingAddress 方法
-    if (
-      !billingChecked &&
-      isLogin &&
-      this.loginBillingAddrRef &&
-      this.loginBillingAddrRef.current
-    ) {
-      // console.log('★------ 调用保存 billingAddress 方法');
-      await this.loginBillingAddrRef.current.handleSavePromise();
-    }
-    // 隐藏地址校验弹框
-    this.setState({
-      validationModalVisible: false
-    });
-    // billing  进入下一步
-    this.cvvConfirmNextPanel();
+    this.setState(
+      {
+        billingAddress: Object.assign({}, theform)
+      },
+      async () => {
+        // console.log('------ 确认选择地址');
+        // 调用保存 billingAddress 方法
+        if (
+          !billingChecked &&
+          isLogin &&
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current
+        ) {
+          // console.log('★------ 调用保存 billingAddress 方法');
+          await this.loginBillingAddrRef.current.handleSavePromise();
+        }
+        // 隐藏地址校验弹框
+        this.setState({
+          validationModalVisible: false
+        });
+        // billing  进入下一步
+        this.cvvConfirmNextPanel();
+      }
+    );
   };
 
   // 编辑
@@ -2810,6 +2820,8 @@ class Payment extends React.Component {
         </div>
       );
     };
+
+    console.log('666 ---- ★ deliveryAddress: ', this.state.deliveryAddress);
 
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
@@ -3034,7 +3046,9 @@ class Payment extends React.Component {
                     isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
                     sendCyberPaymentForm={this.sendCyberPaymentForm}
                     cyberCardType={this.state.cyberCardType}
+                    cyberPaymentForm={this.state.cyberPaymentForm}
                     cyberBtnLoading={this.state.cyberBtnLoading}
+                    showErrorMsg={this.showErrorMsg}
                     ref={this.cyberRef}
                   />
                 </>
@@ -3646,6 +3660,9 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
+                    welcomeBoxChange={(value) => {
+                      this.setState({ welcomeBoxValue: value });
+                    }}
                   />
                 )}
 

@@ -51,8 +51,8 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      welcomeBoxValue: 'yes', //first order welcome box value:yes/no,default:yes
-      isFirstOrder: false //是否是第一次下单
+      isFirstOrder: false, //是否是首单
+      isStudentPurchase: false //是否填写了学生购student promotion 50% discount
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -504,8 +504,8 @@ class PayProductInfo extends React.Component {
       discount,
       needHideProductList,
       isShowValidCode,
-      welcomeBoxValue,
-      isFirstOrder
+      isFirstOrder,
+      isStudentPurchase
     } = this.state;
     const { checkoutStore } = this.props;
     const { installMentParam } = checkoutStore;
@@ -526,17 +526,17 @@ class PayProductInfo extends React.Component {
             <div className="checkout--padding">
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
-              {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）*/}
+              {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-                this.isLogin &&
-                isFirstOrder && (
-                  <WelcomeBox
-                    checkedValue={welcomeBoxValue}
-                    welcomeBoxChange={(value) => {
-                      this.props.welcomeBoxChange(value);
-                    }}
-                  />
-                )}
+              this.isLogin &&
+              isFirstOrder &&
+              !isStudentPurchase ? (
+                <WelcomeBox
+                  welcomeBoxChange={(value) => {
+                    this.props.welcomeBoxChange(value);
+                  }}
+                />
+              ) : null}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
                 <span
@@ -613,11 +613,19 @@ class PayProductInfo extends React.Component {
                           this.props.sendPromotionCode(
                             this.state.promotionInputValue
                           );
+                          this.setState({
+                            isStudentPurchase:
+                              result.context.promotionDiscount === '50%'
+                          });
+                          if (result.context.promotionDiscount === '50%') {
+                            this.props.welcomeBoxChange('no');
+                          }
                         } else {
                           this.setState({
                             isShowValidCode: true
                           });
                           this.props.sendPromotionCode('');
+                          this.setState({ isStudentPurchase: false });
                           setTimeout(() => {
                             this.setState({
                               isShowValidCode: false
@@ -728,10 +736,11 @@ class PayProductInfo extends React.Component {
                                 discount: [],
                                 isShowValidCode: false,
                                 lastPromotionInputValue: '',
-                                promotionInputValue: ''
+                                promotionInputValue: '',
+                                isStudentPurchase: false
                               });
                             }}
-                          ></span>
+                          />
                         </p>
                       </div>
                     </div>

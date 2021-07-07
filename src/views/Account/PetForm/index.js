@@ -15,6 +15,8 @@ import LazyLoad from 'react-lazyload';
 import PetForms from './components/PetForms';
 import { petsById, getRecommendProducts } from '@/api/pet';
 import Loading from '@/components/Loading';
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 import {
   getDictionary,
   getDeviceType,
@@ -75,6 +77,10 @@ class PetForm extends React.Component {
       this.setState({ seoConfig: res });
     });
     let datePickerDom = document.querySelector('.receiveDate');
+    let subdetailInfo = await sessionItemRoyal.get('rc-subdetailInfo');
+    this.props.location.state = subdetailInfo && JSON.parse(subdetailInfo);
+    sessionItemRoyal.remove('rc-subdetailInfo');
+    console.info(sessionItemRoyal.get('rc-subdetailInfo'));
     // datePickerDom.disabled = true;
     datePickerDom.placeholder = datePickerConfig.format.toUpperCase();
     console.log(this.props, 'props');

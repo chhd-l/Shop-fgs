@@ -16,7 +16,7 @@ ReactDOM.render(
   </React.StrictMode>,*/
   document.getElementById('root')
 );
-console.log('★★★★★★★★★ 当前国家： ', window.__.env.REACT_APP_GA_COUNTRY);
+console.log('★★★★★★★★★ 当前国家： ', window.__.env.REACT_APP_COUNTRY);
 console.log('★★★★★★★★★ 当前环境： ', window.__.env.REACT_APP_GA_ENV);
 // console.log('★★★★★★★★★ base url： ',window.__.env.REACT_APP_BASEURL);
 // If you want your app to work offline and load faster, you can change

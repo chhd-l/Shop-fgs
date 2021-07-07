@@ -1,13 +1,11 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict,
   getDeviceType
 } from '@/utils/utils';
 import { toJS } from 'mobx';
@@ -17,7 +15,6 @@ import './index.css';
 import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const localItemRoyal = window.__.localItemRoyal;
 @injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer

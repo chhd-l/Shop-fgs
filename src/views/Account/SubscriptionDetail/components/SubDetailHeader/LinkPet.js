@@ -12,6 +12,7 @@ import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import { getPetList } from '@/api/pet';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 import { changeSubscriptionDetailPets } from '@/api/subscription';
 const LinkPet = ({
   triggerShowAddNewPet,
@@ -22,6 +23,7 @@ const LinkPet = ({
   petType,
   history
 }) => {
+  console.info('.....................petType', petType);
   const { loginStore } = useLocalStore(() => stores);
   const { userInfo } = loginStore;
   const [petList, setPetList] = useState([]);
@@ -137,13 +139,23 @@ const LinkPet = ({
               </div>
             ))}
             <Link
+              onClick={() => {
+                sessionItemRoyal.set(
+                  'rc-subdetailInfo',
+                  JSON.stringify({
+                    isFromSubscriptionDetail: subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                    petsType: petType,
+                    subscribeId: subDetail.subscribeId
+                  })
+                );
+              }}
               to={{
-                pathname: `/account/pets/petForm`,
-                state: {
-                  isFromSubscriptionDetail: subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
-                  petsType: petType,
-                  subscribeId: subDetail.subscribeId
-                }
+                pathname: `/account/pets/petForm`
+                // state: {
+                //   isFromSubscriptionDetail: subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                //   petsType: petType,
+                //   subscribeId: subDetail.subscribeId
+                // }
               }}
             >
               <div

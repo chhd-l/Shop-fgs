@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { getDeviceType } from '@/utils/utils';
 import PLPCover from '@/components/PLPCover';
 import { settings } from './config';
+import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
 
 const isMobilePhone = getDeviceType() === 'H5';
 import './index.less';
@@ -18,13 +19,20 @@ export default class RelateProductCarousel extends Component {
   };
   render() {
     const { goodsList } = this.props;
+    const handledList = goodsList.map((ele) => {
+      return {
+        ...ele,
+        technologyOrBreedsAttr:
+          ele.technologyOrBreedsAttr || getTechnologyOrBreedsAttr(ele)
+      };
+    });
     return (
       <div className="responsive-carousel">
         <h2>
           <FormattedMessage id="recommandedForyou" />
         </h2>
         <Slider {...settings}>
-          {goodsList.map((item, index) => {
+          {handledList.map((item, index) => {
             return (
               <PLPCover
                 className="ml-2 mr-2"

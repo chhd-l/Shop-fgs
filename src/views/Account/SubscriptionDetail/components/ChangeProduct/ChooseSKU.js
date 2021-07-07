@@ -25,6 +25,7 @@ const ChooseSKU = ({ intl }) => {
     triggerShowChangeProduct
   } = SubDetailHeaderValue;
   const {
+    renderDetailAgin,
     details,
     setDetails,
     showModal,
@@ -35,9 +36,8 @@ const ChooseSKU = ({ intl }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
-    null
-  );
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
+    useState(null);
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
@@ -259,6 +259,7 @@ const ChooseSKU = ({ intl }) => {
             <div className="specAndQuantity rc-margin-bottom--xs ">
               {details.goodsInfos && (
                 <HandledSpec
+                  renderAgin={renderDetailAgin}
                   details={details}
                   setState={setState}
                   updatedSku={matchGoods}

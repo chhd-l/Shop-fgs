@@ -190,6 +190,7 @@ class PersonalDataEditForm extends React.Component {
   confirmValidationAddress() {
     const { form, selectValidationOption, validationAddress } = this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.city = validationAddress.city;
@@ -202,12 +203,19 @@ class PersonalDataEditForm extends React.Component {
 
       // 地址校验返回参数
       form.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, form);
     } else {
-      this.setState({
-        form: JSON.parse(JSON.stringify(oldForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldForm));
     }
-    this.showNextPanel();
+    this.setState(
+      {
+        form: Object.assign({}, theform)
+      },
+      () => {
+        // 下一步
+        this.showNextPanel();
+      }
+    );
   }
   // 保存数据
   handleSave = () => {

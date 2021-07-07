@@ -1,13 +1,12 @@
 /*
  * Created By ZuoQin On 2021/07/02
- * First order Welcome Box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）
+ * First order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
  */
 import React from 'react';
 import { injectIntl } from 'react-intl';
 
 @injectIntl
 class InfosPreview extends React.Component {
-  static defaultProps = { checkedValue: 'yes', welcomeBoxChange: () => {} }; //默认选中值
   constructor(props) {
     super(props);
     this.state = {
@@ -21,11 +20,11 @@ class InfosPreview extends React.Component {
           value: 'no'
         }
       ],
-      checkedBox: ''
+      checkedBox: 'yes'
     };
   }
   componentDidMount() {
-    this.setState({ checkedBox: this.props.checkedValue });
+    this.props.welcomeBoxChange(this.state.checkedBox);
   }
   welcomeBoxCheckedChange = (e, value) => {
     this.setState({ checkedBox: value });
