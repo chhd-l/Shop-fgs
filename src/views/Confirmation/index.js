@@ -443,6 +443,7 @@ class Confirmation extends React.Component {
           history={this.props.history}
           match={this.props.match}
           showNav={false}
+          showUserBox={false}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           {/* <BannerTip /> */}
