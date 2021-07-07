@@ -282,9 +282,7 @@ class Payment extends React.Component {
         settlementFias: '',
         postalCode: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
-      welcomeBoxValue: 'yes', //first order welcome box value:yes/no
-      isFirstOrder: false, //是否是第一次下单
-      isStudentPurchase: false //是否是student promotion 50% discount
+      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、第一次下单 3、不是学生购student promotion 50% discount
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -380,12 +378,6 @@ class Payment extends React.Component {
     console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
-      //判断是否是第一次下单
-      isNewAccount().then((res) => {
-        if (res.context == 0) {
-          this.setState({ isFirstOrder: true });
-        }
-      });
       this.queryList();
     }
 
@@ -1565,13 +1557,8 @@ class Payment extends React.Component {
       maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
-      guestEmail
-      // saveWelcomeBox:
-      //   !!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-      //   this.isLogin &&
-      //   this.state.isFirstOrder&&!this.state.isStudentPurchase
-      //     ? this.state.welcomeBoxValue
-      //     : 'no' //first order welcome box:1、会员 2、第一次下单 3、不是学生购student promotion 50% discount
+      guestEmail,
+      saveWelcomeBox: this.state.welcomeBoxValue //first order welcome box
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -1987,11 +1974,6 @@ class Payment extends React.Component {
   savePromotionCode = (promotionCode) => {
     this.setState({
       promotionCode
-    });
-  };
-  saveIsStudentPurchase = (isStudentPurchase) => {
-    this.setState({
-      isStudentPurchase
     });
   };
   handlePaymentTypeChange = (e) => {
@@ -3679,6 +3661,9 @@ class Payment extends React.Component {
                     guestEmail={guestEmail}
                     isCheckOut={true}
                     deliveryAddress={deliveryAddress}
+                    welcomeBoxChange={(value) => {
+                      this.setState({ welcomeBoxValue: value });
+                    }}
                   />
                 )}
 
@@ -3728,7 +3713,6 @@ class Payment extends React.Component {
               welcomeBoxChange={(value) => {
                 this.setState({ welcomeBoxValue: value });
               }}
-              sendIsStudentPurchase={this.saveIsStudentPurchase}
             />
           </div>
 
