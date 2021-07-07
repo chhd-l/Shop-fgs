@@ -1303,8 +1303,7 @@ const tr_TR = {
     'Evcil hayvanlarınızın ihtiyaçlarına uygun profesyonel beslenme önerileri',
   'ClubLP.SubscriptionBenefitsNew.button': 'Başlayın',
   'ClubLP.NewHowItWorks.title': 'ABONELİK HİZMETİ NASIL ÇALIŞIR?',
-  'ClubLP.NewJoinUs.title':
-    'EVCİL HAYVANINIZLA TANIŞALIM! / EVCİL HAYVANINIZI ANLATIN!',
+  'ClubLP.NewJoinUs.title': 'EVCİL HAYVANINIZLA TANIŞALIM! ',
   'ClubLP.NewJoinUs.content': 'Onun için en uygun mamayı bulalım. ',
   'ClubLP.NewJoinUs.button': 'Başlayın',
   'ClubLP.OurCustomers.title': 'Müşteri görüşleri',

@@ -55,9 +55,9 @@ const RecommendationList = ({ productDetail }) => {
                 <img
                   src={
                     productDetail.mainProduct?.goodsImg ||
-                    productDetail.mainProduct?.goodsInfos.sort(
+                    productDetail.mainProduct?.goodsInfos?.sort(
                       (a, b) => a.marketPrice - b.marketPrice
-                    )[0].goodsInfoImg
+                    )[0]?.goodsInfoImg
                   }
                   className="p-img"
                   alt={productDetail.mainProduct?.goodsName}
@@ -142,9 +142,9 @@ const RecommendationList = ({ productDetail }) => {
                     <img
                       src={
                         ele.goodsImg ||
-                        ele.goodsInfos.sort(
+                        ele.goodsInfos?.sort(
                           (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg
+                        )[0]?.goodsInfoImg
                       }
                       style={{ maxHeight: '12rem', margin: '0 auto' }}
                       className="p-img"

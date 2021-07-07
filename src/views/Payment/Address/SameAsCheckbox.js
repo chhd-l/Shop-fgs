@@ -64,7 +64,7 @@ class SameAsCheckbox extends React.Component {
             <FormattedMessage id="biliingAddressSameAs" />
           </label>
         </div>
-        {window.__.env.REACT_APP_GA_COUNTRY == 'us' ? null : (
+        {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
           <div className="normalDelivery fit-mobile-normalDelivery">
             <span>
               <FormattedMessage id="payment.normalDelivery2" />

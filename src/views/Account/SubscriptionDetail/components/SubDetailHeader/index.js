@@ -6,6 +6,7 @@ import LinkPet from './LinkPet';
 import { filterOrderId, getClubLogo } from '@/utils/utils';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 export const SubDetailHeaderContext = createContext();
 import { getDictionary } from '@/utils/utils';
 const StatusText = ({ subDetail }) => {
@@ -144,14 +145,25 @@ const SubDetailHeader = ({
                 </div>
                 <Link
                   className="rc-md-down rc-margin-y--sm"
+                  onClick={() => {
+                    sessionItemRoyal.set(
+                      'rc-subdetailInfo',
+                      JSON.stringify({
+                        isFromSubscriptionDetail:
+                          subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                        isFromSubscriptionDetail: true,
+                        subscribeId: subDetail.subscribeId
+                      })
+                    );
+                  }}
                   to={{
-                    pathname: `/account/pets/petForm/${subDetail.petsId}`,
-                    state: {
-                      isFromSubscriptionDetail:
-                        subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
-                      isFromSubscriptionDetail: true,
-                      subscribeId: subDetail.subscribeId
-                    }
+                    pathname: `/account/pets/petForm/${subDetail.petsId}`
+                    // state: {
+                    //   isFromSubscriptionDetail:
+                    //     subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                    //   isFromSubscriptionDetail: true,
+                    //   subscribeId: subDetail.subscribeId
+                    // }
                   }}
                 >
                   <div className="rc-styled-link">
@@ -177,15 +189,26 @@ const SubDetailHeader = ({
                   </div>
                   <div className="rc-padding-right--md">
                     <Link
+                      onClick={() => {
+                        sessionItemRoyal.set(
+                          'rc-subdetailInfo',
+                          JSON.stringify({
+                            isFromSubscriptionDetail:
+                              subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                            isFromSubscriptionDetail: true,
+                            subscribeId: subDetail.subscribeId
+                          })
+                        );
+                      }}
                       className="rc-md-up"
                       to={{
-                        pathname: `/account/pets/petForm/${subDetail.petsId}`,
-                        state: {
-                          isFromSubscriptionDetail:
-                            subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
-                          isFromSubscriptionDetail: true,
-                          subscribeId: subDetail.subscribeId
-                        }
+                        pathname: `/account/pets/petForm/${subDetail.petsId}`
+                        // state: {
+                        //   isFromSubscriptionDetail:
+                        //     subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                        //   isFromSubscriptionDetail: true,
+                        //   subscribeId: subDetail.subscribeId
+                        // }
                       }}
                     >
                       <div className="rc-styled-link">

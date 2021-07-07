@@ -50,7 +50,10 @@
     display: none;
   }
   .widthsmall {
-    height: 60vh;
+    height: 400px;
+  }
+  .trwithsmall {
+    height: 300px;
   }
   .dewidthsmall {
     height: 45vh;
@@ -62,15 +65,12 @@
     margin-top: 10vh;
   }
   .margintop10vh {
-    margin-top: 10vh;
+    margin-top: 40px;
+  }
+  .margintoppx {
+    margin-top: 60px;
   }
   .margintop15vh {
-    margin-top: 15vh;
-  }
-  .getmore30vh {
-    height: 30vh;
-  }
-  .getmore83vh {
-    height: 83vh;
+    margin-top: 25px;
   }
 }

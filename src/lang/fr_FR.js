@@ -121,7 +121,7 @@ const fr_FR = {
   adyenPayNow: 'KlarnaPayNow',
   age: 'Âge',
   all: 'Tout',
-  allOrders: 'Tous les ordres',
+  allOrders: 'Toutes les commandes',
   amount: 'Quantité',
   andThe: 'et le',
   anonymous: 'Anonyme',
@@ -1082,7 +1082,7 @@ const fr_FR = {
   single: 'Achat unique',
   singlePurchase: 'Achat unique',
   Size: 'Taille',
-  skip: 'Sauter',
+  skip: 'Sauter la prochaine livraison',
   skiped: 'Ignoré',
   //view product details
   'smartFeederSubscription.backToProduct': 'retourner au produit',

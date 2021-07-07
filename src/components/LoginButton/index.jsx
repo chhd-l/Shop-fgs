@@ -44,7 +44,7 @@ const LoginButton = (props) => {
 
   useEffect(() => {
     setIsGetUserInfoDown(false);
-    console.log("OKTA authState:", authState)
+    console.log('OKTA authState:', authState);
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
@@ -155,6 +155,7 @@ const LoginButton = (props) => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
+    const { beforeLoginCallback, callbackUrl, history } = props;
     // if (window.__.env.REACT_APP_COUNTRY == 'us' && isLimitLogin()) {// 美国4/17的美国中部时间早8点到晚4点不能登录账户
     //   return loginStore.changeLimitLoginModal(true)
     // }
@@ -162,19 +163,12 @@ const LoginButton = (props) => {
       sessionItemRoyal.remove('rc-token-lose');
       localItemRoyal.set(
         'okta-redirectUrl',
-        props.history &&
-          props.history.location.pathname + props.history.location.search
+        history?.location.pathname + history?.location.search
       );
 
-      console.log(
-        props.history &&
-          props.history.location.pathname + props.history.location.search,
-        'aaaa'
-      );
-      // debugger
-      props.beforeLoginCallback && (await props.beforeLoginCallback());
+      beforeLoginCallback && (await beforeLoginCallback());
       oktaAuth.signInWithRedirect(
-        props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE
+        callbackUrl || window.__.env.REACT_APP_HOMEPAGE
       );
     } catch (err) {
       console.log(err);

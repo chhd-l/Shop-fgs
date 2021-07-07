@@ -490,7 +490,8 @@ const PetForms = ({
             // 从subdetail过来新增宠物的需要单独linksub
             let params = {
               subscribeId,
-              petsId
+              petsId,
+              createPetsLifeStageFlag: 1 // 新增宠物，link sub需要弹出yellow box
             };
             try {
               await changeSubscriptionDetailPets(params);

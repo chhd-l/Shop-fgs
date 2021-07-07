@@ -53,6 +53,8 @@ podTemplate(label: label, cloud: 'kubernetes',
                     sh "npm --version"
                     sh "npm install"
                     sh "npm run build:${TARGET_BUILD}"
+
+                    
                 }
         }
         stage('Docker build'){

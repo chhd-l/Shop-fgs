@@ -283,7 +283,8 @@ class Payment extends React.Component {
         postalCode: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
       welcomeBoxValue: 'yes', //first order welcome box value:yes/no
-      isFirstOrder: false //是否是第一次下单
+      isFirstOrder: false, //是否是第一次下单
+      isStudentPurchase: false //是否是student promotion 50% discount
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -295,16 +296,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
-  //cyber查询卡类型
+  //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -312,6 +313,21 @@ class Payment extends React.Component {
       throw new Error(e.message);
     }
   };
+  //cyber查询卡类型-游客
+  queryGuestCyberCardType = async (params) => {
+    try {
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
   getCyberParams() {
     const { isLogin } = this;
     const {
@@ -362,6 +378,7 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
+    console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       //判断是否是第一次下单
@@ -493,37 +510,38 @@ class Payment extends React.Component {
   sendCyberPaymentForm = async (cyberPaymentForm) => {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---start---
     let {
-      paymentStore: { currentCardTypeInfo }
-    } = this.props;
-    let {
       cardholderName,
       cardNumber,
       expirationMonth,
       expirationYear,
       securityCode
     } = cyberPaymentForm;
-    let currentCardLength = currentCardTypeInfo?.cardLength || 19;
-    let securityCodeLength = currentCardTypeInfo?.cvvLength || 3;
 
     if (
       cardholderName &&
       expirationMonth &&
       expirationYear &&
-      cardNumber.length == currentCardLength &&
-      securityCode.length == securityCodeLength
+      cardNumber.length >= 18 &&
+      securityCode.length >= 3
     ) {
       let cyberParams = this.getCyberParams();
 
       if (Object.keys(cyberParams).length > 0) {
         try {
           this.setState({ cyberBtnLoading: true });
-          const res = await this.queryCyberCardType(cyberParams);
+          let res = {};
+          if (this.isLogin) {
+            res = await this.queryCyberCardType(cyberParams);
+          } else {
+            res = await this.queryGuestCyberCardType(cyberParams);
+          }
+
           let authorizationCode = res.context.requestToken;
           let subscriptionID = res.context.subscriptionID;
           let cyberCardType = res.context.cardType;
           this.setState({ authorizationCode, subscriptionID, cyberCardType });
         } catch (err) {
-          console.log(222, err.message);
+          this.showErrorMsg(err.message);
         } finally {
           this.setState({ cyberBtnLoading: false });
         }
@@ -1552,9 +1570,9 @@ class Payment extends React.Component {
       // saveWelcomeBox:
       //   !!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
       //   this.isLogin &&
-      //   this.state.isFirstOrder
+      //   this.state.isFirstOrder&&!this.state.isStudentPurchase
       //     ? this.state.welcomeBoxValue
-      //     : 'no' //first order welcome box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）
+      //     : 'no' //first order welcome box:1、会员 2、第一次下单 3、不是学生购student promotion 50% discount
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
@@ -1970,6 +1988,11 @@ class Payment extends React.Component {
   savePromotionCode = (promotionCode) => {
     this.setState({
       promotionCode
+    });
+  };
+  saveIsStudentPurchase = (isStudentPurchase) => {
+    this.setState({
+      isStudentPurchase
     });
   };
   handlePaymentTypeChange = (e) => {
@@ -2418,9 +2441,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2432,9 +2456,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3041,7 +3066,9 @@ class Payment extends React.Component {
                     isShowCyberBindCardBtn={this.state.isShowCyberBindCardBtn}
                     sendCyberPaymentForm={this.sendCyberPaymentForm}
                     cyberCardType={this.state.cyberCardType}
+                    cyberPaymentForm={this.state.cyberPaymentForm}
                     cyberBtnLoading={this.state.cyberBtnLoading}
+                    showErrorMsg={this.showErrorMsg}
                     ref={this.cyberRef}
                   />
                 </>
@@ -3179,9 +3206,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3702,6 +3728,7 @@ class Payment extends React.Component {
               welcomeBoxChange={(value) => {
                 this.setState({ welcomeBoxValue: value });
               }}
+              sendIsStudentPurchase={this.saveIsStudentPurchase}
             />
           </div>
 

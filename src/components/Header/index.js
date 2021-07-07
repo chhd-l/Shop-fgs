@@ -63,6 +63,7 @@ class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
     showUserIcon: false,
+    showUserBox: true,
     showNav: true,
     showLoginBtn: true,
     bannerTipShowBtn: true, //是否展示固定的banbertip的按钮
@@ -654,12 +655,14 @@ class Header extends React.Component {
                     )}
                   </>
                 ) : null}
-                <UserJSX
-                  showCart={showCart}
-                  showCenter={showCenter}
-                  {...this.props}
-                  self={this}
-                />
+                {this.props.showUserBox && (
+                  <UserJSX
+                    showCart={showCart}
+                    showCenter={showCenter}
+                    {...this.props}
+                    self={this}
+                  />
+                )}
               </li>
             </ul>
           </nav>
