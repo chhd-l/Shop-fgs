@@ -178,6 +178,7 @@ class ShippingAddressFrom extends React.Component {
       validationAddress
     } = this.state;
     let oldAddressForm = JSON.parse(JSON.stringify(addressForm));
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       addressForm.address1 = validationAddress.address1;
       addressForm.city = validationAddress.city;
@@ -190,12 +191,18 @@ class ShippingAddressFrom extends React.Component {
 
       // 地址校验返回参数
       addressForm.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, addressForm);
     } else {
-      this.setState({
-        addressForm: JSON.parse(JSON.stringify(oldAddressForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldAddressForm));
     }
-    this.showNextPanel();
+    this.setState(
+      {
+        addressForm: Object.assign({}, theform)
+      },
+      () => {
+        this.showNextPanel();
+      }
+    );
   }
   // 保存
   handleSave = () => {

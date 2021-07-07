@@ -2658,6 +2658,7 @@ class Payment extends React.Component {
       btnLoading: true
     });
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
       billingAddress.city = validationAddress.city;
@@ -2670,28 +2671,34 @@ class Payment extends React.Component {
 
       // 地址校验返回参数
       billingAddress.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, billingAddress);
     } else {
-      this.setState({
-        billingAddress: JSON.parse(JSON.stringify(oldForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldForm));
     }
-    // console.log('------ 确认选择地址');
-    // 调用保存 billingAddress 方法
-    if (
-      !billingChecked &&
-      isLogin &&
-      this.loginBillingAddrRef &&
-      this.loginBillingAddrRef.current
-    ) {
-      // console.log('★------ 调用保存 billingAddress 方法');
-      await this.loginBillingAddrRef.current.handleSavePromise();
-    }
-    // 隐藏地址校验弹框
-    this.setState({
-      validationModalVisible: false
-    });
-    // billing  进入下一步
-    this.cvvConfirmNextPanel();
+    this.setState(
+      {
+        billingAddress: Object.assign({}, theform)
+      },
+      async () => {
+        // console.log('------ 确认选择地址');
+        // 调用保存 billingAddress 方法
+        if (
+          !billingChecked &&
+          isLogin &&
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current
+        ) {
+          // console.log('★------ 调用保存 billingAddress 方法');
+          await this.loginBillingAddrRef.current.handleSavePromise();
+        }
+        // 隐藏地址校验弹框
+        this.setState({
+          validationModalVisible: false
+        });
+        // billing  进入下一步
+        this.cvvConfirmNextPanel();
+      }
+    );
   };
 
   // 编辑
