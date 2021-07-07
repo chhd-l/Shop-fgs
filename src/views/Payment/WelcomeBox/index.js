@@ -7,7 +7,6 @@ import { injectIntl } from 'react-intl';
 
 @injectIntl
 class InfosPreview extends React.Component {
-  static defaultProps = { checkedValue: 'yes', welcomeBoxChange: () => {} }; //默认选中值
   constructor(props) {
     super(props);
     this.state = {
@@ -21,11 +20,11 @@ class InfosPreview extends React.Component {
           value: 'no'
         }
       ],
-      checkedBox: ''
+      checkedBox: 'yes'
     };
   }
   componentDidMount() {
-    this.setState({ checkedBox: this.props.checkedValue });
+    this.props.welcomeBoxChange(this.state.checkedBox);
   }
   welcomeBoxCheckedChange = (e, value) => {
     this.setState({ checkedBox: value });

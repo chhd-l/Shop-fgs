@@ -38,8 +38,7 @@ class PayProductInfo extends React.Component {
     isGuestCart: false,
     isCheckOut: false,
     deliveryAddress: [],
-    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
-    sendIsStudentPurchase: () => {} //向上传是否是学生购
+    welcomeBoxChange: () => {} //welcomeBoxValue值改变事件
   };
   constructor(props) {
     super(props);
@@ -52,7 +51,6 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      welcomeBoxValue: 'yes', //first order welcome box value:yes/no,default:yes
       isFirstOrder: false, //是否是第一次下单
       isStudentPurchase: false //是否是student promotion 50% discount
     };
@@ -506,7 +504,6 @@ class PayProductInfo extends React.Component {
       discount,
       needHideProductList,
       isShowValidCode,
-      welcomeBoxValue,
       isFirstOrder,
       isStudentPurchase
     } = this.state;
@@ -531,16 +528,15 @@ class PayProductInfo extends React.Component {
               {!needHideProductList && List}
               {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、没有学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-                this.isLogin &&
-                isFirstOrder &&
-                !isStudentPurchase && (
-                  <WelcomeBox
-                    checkedValue={welcomeBoxValue}
-                    welcomeBoxChange={(value) => {
-                      this.props.welcomeBoxChange(value);
-                    }}
-                  />
-                )}
+              this.isLogin &&
+              isFirstOrder &&
+              !isStudentPurchase ? (
+                <WelcomeBox
+                  welcomeBoxChange={(value) => {
+                    this.props.welcomeBoxChange(value);
+                  }}
+                />
+              ) : null}
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
                 <span
@@ -621,16 +617,15 @@ class PayProductInfo extends React.Component {
                             isStudentPurchase:
                               result.context.promotionDiscount === '50%'
                           });
-                          this.props.sendIsStudentPurchase(
-                            result.context.promotionSubType === '8'
-                          );
+                          if (result.context.promotionDiscount === '50%') {
+                            this.props.welcomeBoxChange('no');
+                          }
                         } else {
                           this.setState({
                             isShowValidCode: true
                           });
                           this.props.sendPromotionCode('');
                           this.setState({ isStudentPurchase: false });
-                          this.props.sendIsStudentPurchase(false);
                           setTimeout(() => {
                             this.setState({
                               isShowValidCode: false
@@ -737,7 +732,6 @@ class PayProductInfo extends React.Component {
                               }
                               discount.pop();
                               this.props.sendPromotionCode('');
-                              this.props.sendIsStudentPurchase(false);
                               this.setState({
                                 discount: [],
                                 isShowValidCode: false,
