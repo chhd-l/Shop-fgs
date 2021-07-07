@@ -1557,8 +1557,8 @@ class Payment extends React.Component {
       maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
-      guestEmail
-      // saveWelcomeBox:this.state.welcomeBoxValue
+      guestEmail,
+      saveWelcomeBox: this.state.welcomeBoxValue //first order welcome box
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
