@@ -153,8 +153,8 @@ class Form extends React.Component {
     if (window.__.env.REACT_APP_COUNTRY == 'ru') {
       this.getAddressListByKeyWord(initData.address1);
     }
-    // console.log('112 -------------★ EditForm initData: ', initData);
-    // console.log('113-------------★ EditForm caninForm: ', caninForm);
+    // console.log('666  ★ EditForm initData: ', initData);
+    // console.log('666 ---- ★ EditForm caninForm: ', caninForm);
     this.setState(
       {
         caninForm: Object.assign(caninForm, initData)
