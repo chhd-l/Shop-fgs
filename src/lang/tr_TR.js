@@ -138,7 +138,7 @@ const tr_TR = {
   'cart.errorMaxCate': 'Alışveriş sepeti {val} öğeyi aşamaz',
   'cart.errorMaxInfo': "Sayı {val}'u geçemez",
   'cart.errorAllProductNumLimit': '{val} sipariş sayısı sınırlıdır.',
-  'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
+  'cart.fullPrice': '',
   'cart.miniCartTitle':
     'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün',
