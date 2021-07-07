@@ -426,6 +426,7 @@ class UnLoginCart extends React.Component {
     } catch (e) {
       console.log(e);
       this.showErrMsg(e.message);
+      throw new Error(e);
     } finally {
       this.setState({ checkoutLoading: false });
     }
@@ -1046,9 +1047,13 @@ class UnLoginCart extends React.Component {
         <div className="rc-padding-y--xs rc-column">
           {this.totalNum > 0 ? (
             <LoginButton
-              beforeLoginCallback={async () =>
-                this.handleCheckout({ needLogin: true })
-              }
+              beforeLoginCallback={async () => {
+                try {
+                  await this.handleCheckout({ needLogin: true });
+                } catch (err) {
+                  throw new Error(err);
+                }
+              }}
               btnClass={`${this.btnStatus ? '' : 'rc-btn-solid-disabled'} ${
                 checkoutLoading ? 'ui-btn-loading' : ''
               } rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width`}
@@ -1105,12 +1110,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (

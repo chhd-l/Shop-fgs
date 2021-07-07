@@ -481,6 +481,7 @@ class PaymentEditForm extends React.Component {
     let { paymentForm, selectValidationOption, validationAddress } = this.state;
     let oldPaymentForm = JSON.parse(JSON.stringify(paymentForm));
     this.setState({ btnLoading: true });
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       paymentForm.address1 = validationAddress.address1;
       paymentForm.city = validationAddress.city;
@@ -495,11 +496,13 @@ class PaymentEditForm extends React.Component {
 
       // 地址校验返回参数
       paymentForm.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, paymentForm);
     } else {
-      this.setState({
-        paymentForm: JSON.parse(JSON.stringify(oldPaymentForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldPaymentForm));
     }
+    this.setState({
+      paymentForm: theform
+    });
 
     let subscriptionParams = Object.assign({}, paymentForm, {
       //cardType: currentCardTypeInfo.cardType,

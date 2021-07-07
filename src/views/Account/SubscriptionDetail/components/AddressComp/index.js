@@ -568,6 +568,7 @@ class AddressList extends React.Component {
       validationAddress
     } = this.state;
     let oldDeliveryAddress = JSON.parse(JSON.stringify(deliveryAddress));
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       deliveryAddress.address1 = validationAddress.address1;
       deliveryAddress.city = validationAddress.city;
@@ -580,12 +581,18 @@ class AddressList extends React.Component {
 
       // 地址校验返回参数
       deliveryAddress.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, deliveryAddress);
     } else {
-      this.setState({
-        deliveryAddress: JSON.parse(JSON.stringify(oldDeliveryAddress))
-      });
+      theform = JSON.parse(JSON.stringify(oldDeliveryAddress));
     }
-    this.showNextPanel();
+    this.setState(
+      {
+        deliveryAddress: Object.assign({}, theform)
+      },
+      () => {
+        this.showNextPanel();
+      }
+    );
   }
   // 下一步
   async showNextPanel() {
