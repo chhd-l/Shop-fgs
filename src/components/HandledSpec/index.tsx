@@ -10,12 +10,14 @@ import {
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 interface Props {
+  renderAgin?: boolean;
   details: any;
   updatedSku: Function;
   updatedPriceOrCode: Function;
 }
 
 const HandledSpec = ({
+  renderAgin,
   details,
   updatedSku,
   updatedPriceOrCode = () => {}
@@ -232,7 +234,7 @@ const HandledSpec = ({
       goodsInfos[0].selected = true;
     }
     setSizeList(goodsInfos);
-  }, [details.goodsNo]);
+  }, [details.goodsNo,renderAgin]);
   useEffect(() => {
     (async () => {
       if (sizeList.length) {

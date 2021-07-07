@@ -77,7 +77,7 @@ service.interceptors.response.use(
         // localItemRoyal.get('rc-token') &&
         response.status === 200 &&
         response.data &&
-        response.data.code === 'K-000002'
+        (response.data.code === 'K-000002' || response.data.code === 'E-000049')
       ) {
         sessionItemRoyal.set('rc-token-lose', 1);
         window.location.href = window.__.env.REACT_APP_HOMEPAGE;

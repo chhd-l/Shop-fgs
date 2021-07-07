@@ -70,11 +70,10 @@ const AutoshipBuyMethod = ({
                   }}
                 >
                   i
-                </span>
-                <ConfirmTooltip
+                  <ConfirmTooltip
                   arrowStyle={{ left: '50%' }}
                   containerStyle={{
-                    transform: 'translate(-33%, 110%)'
+                    transform: 'translate(-50%, 110%)'
                   }}
                   display={toolTipVisible}
                   cancelBtnVisible={false}
@@ -84,6 +83,8 @@ const AutoshipBuyMethod = ({
                   }}
                   content={<FormattedMessage id="subscription.promotionTip2" />}
                 />
+                </span>
+                
               </span>
             </label>
           </div>
