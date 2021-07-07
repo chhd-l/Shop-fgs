@@ -2822,6 +2822,8 @@ class Payment extends React.Component {
       );
     };
 
+    console.log('666 ---- ★ deliveryAddress: ', this.state.deliveryAddress);
+
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}

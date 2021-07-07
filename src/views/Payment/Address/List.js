@@ -66,6 +66,7 @@ class AddressList extends React.Component {
       deliveryOrPickUpFlag: false,
       selectDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
       pickupFormData: [], // pickup 表单数据
+      pickupAddress: [],
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -104,7 +105,6 @@ class AddressList extends React.Component {
       btnConfirmLoading: false,
       addOrEdit: false,
       addressList: [],
-      pickupAddress: [],
       countryList: [],
       foledMore: true,
       successTipVisible: false,
@@ -792,6 +792,10 @@ class AddressList extends React.Component {
       street: '',
       house: '',
       housing: '',
+      deliveryDate: '',
+      deliveryDateId: 0,
+      timeSlot: '',
+      timeSlotId: 0,
       isDefalt: false
     };
 
@@ -1300,7 +1304,7 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 updatePickupData: ', data);
+    // console.log('666 updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -1363,7 +1367,12 @@ class AddressList extends React.Component {
           },
           () => {
             console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
-            console.log('666 ★★★  pickupAddress: ', this.state.pickupAddress);
+            console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
+
+            // pickup 相关信息传到 Payment
+            deliveryAdd['pickup'] = pickupFormData.pickup;
+            this.props.updateData(deliveryAdd);
+
             // 收起 panel
             const { paymentStore } = this.props;
             if (this.curPanelKey === 'deliveryAddr') {
