@@ -38,7 +38,8 @@ class PayProductInfo extends React.Component {
     isGuestCart: false,
     isCheckOut: false,
     deliveryAddress: [],
-    welcomeBoxChange: () => {} //welcomeBoxValue值改变事件
+    welcomeBoxChange: () => {}, //welcomeBoxValue值改变事件
+    sendIsStudentPurchase: () => {} //向上传是否是学生购
   };
   constructor(props) {
     super(props);
@@ -52,7 +53,8 @@ class PayProductInfo extends React.Component {
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
       welcomeBoxValue: 'yes', //first order welcome box value:yes/no,default:yes
-      isFirstOrder: false //是否是第一次下单
+      isFirstOrder: false, //是否是第一次下单
+      isStudentPurchase: false //是否是student promotion 50% discount
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -505,7 +507,8 @@ class PayProductInfo extends React.Component {
       needHideProductList,
       isShowValidCode,
       welcomeBoxValue,
-      isFirstOrder
+      isFirstOrder,
+      isStudentPurchase
     } = this.state;
     const { checkoutStore } = this.props;
     const { installMentParam } = checkoutStore;
@@ -526,10 +529,11 @@ class PayProductInfo extends React.Component {
             <div className="checkout--padding">
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
-              {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、学生购student promotion 50% discount（未定）*/}
+              {/*新增First Order Welcome Box:1、会员 2、第一次下单 3、没有学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
                 this.isLogin &&
-                isFirstOrder && (
+                isFirstOrder &&
+                !isStudentPurchase && (
                   <WelcomeBox
                     checkedValue={welcomeBoxValue}
                     welcomeBoxChange={(value) => {
@@ -613,11 +617,20 @@ class PayProductInfo extends React.Component {
                           this.props.sendPromotionCode(
                             this.state.promotionInputValue
                           );
+                          this.setState({
+                            isStudentPurchase:
+                              result.context.promotionDiscount === '50%'
+                          });
+                          this.props.sendIsStudentPurchase(
+                            result.context.promotionSubType === '8'
+                          );
                         } else {
                           this.setState({
                             isShowValidCode: true
                           });
                           this.props.sendPromotionCode('');
+                          this.setState({ isStudentPurchase: false });
+                          this.props.sendIsStudentPurchase(false);
                           setTimeout(() => {
                             this.setState({
                               isShowValidCode: false
@@ -724,14 +737,16 @@ class PayProductInfo extends React.Component {
                               }
                               discount.pop();
                               this.props.sendPromotionCode('');
+                              this.props.sendIsStudentPurchase(false);
                               this.setState({
                                 discount: [],
                                 isShowValidCode: false,
                                 lastPromotionInputValue: '',
-                                promotionInputValue: ''
+                                promotionInputValue: '',
+                                isStudentPurchase: false
                               });
                             }}
-                          ></span>
+                          />
                         </p>
                       </div>
                     </div>
