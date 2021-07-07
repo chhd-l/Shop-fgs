@@ -2108,14 +2108,20 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
+    // console.log('666 -- Payment updateDeliveryAddrData: ', data);
     this.setState({
       deliveryAddress: data
     });
     if (this.state.billingChecked) {
-      this.setState({
-        billingAddress: data
-      });
+      this.setState(
+        {
+          billingAddress: data
+        },
+        () => {
+          // console.log('666 -- Payment billingChecked: ', this.state.billingChecked);
+          // console.log('666 -- Payment billingAddress: ', this.state.billingAddress);
+        }
+      );
     }
   };
 
@@ -2237,7 +2243,7 @@ class Payment extends React.Component {
         {billingChecked ? (
           <div className="ml-custom mr-custom">
             {this.renderAddrPreview({
-              form: billingAddress,
+              form: this.state.billingAddress,
               titleVisible: false,
               boldName: true
             })}
@@ -2670,6 +2676,7 @@ class Payment extends React.Component {
       btnLoading: true
     });
     let oldForm = JSON.parse(JSON.stringify(billingAddress));
+    let theform = [];
     if (selectValidationOption == 'suggestedAddress') {
       billingAddress.address1 = validationAddress.address1;
       billingAddress.city = validationAddress.city;
@@ -2682,28 +2689,34 @@ class Payment extends React.Component {
 
       // 地址校验返回参数
       billingAddress.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, billingAddress);
     } else {
-      this.setState({
-        billingAddress: JSON.parse(JSON.stringify(oldForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldForm));
     }
-    // console.log('------ 确认选择地址');
-    // 调用保存 billingAddress 方法
-    if (
-      !billingChecked &&
-      isLogin &&
-      this.loginBillingAddrRef &&
-      this.loginBillingAddrRef.current
-    ) {
-      // console.log('★------ 调用保存 billingAddress 方法');
-      await this.loginBillingAddrRef.current.handleSavePromise();
-    }
-    // 隐藏地址校验弹框
-    this.setState({
-      validationModalVisible: false
-    });
-    // billing  进入下一步
-    this.cvvConfirmNextPanel();
+    this.setState(
+      {
+        billingAddress: Object.assign({}, theform)
+      },
+      async () => {
+        // console.log('------ 确认选择地址');
+        // 调用保存 billingAddress 方法
+        if (
+          !billingChecked &&
+          isLogin &&
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current
+        ) {
+          // console.log('★------ 调用保存 billingAddress 方法');
+          await this.loginBillingAddrRef.current.handleSavePromise();
+        }
+        // 隐藏地址校验弹框
+        this.setState({
+          validationModalVisible: false
+        });
+        // billing  进入下一步
+        this.cvvConfirmNextPanel();
+      }
+    );
   };
 
   // 编辑
@@ -2798,7 +2811,9 @@ class Payment extends React.Component {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <button
-            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            className={`rc_btn_payment_confirm rc-btn rc-btn--one ${
+              loading ? 'ui-btn-loading' : ''
+            }`}
             disabled={disabled}
             onClick={this.clickConfirmPaymentPanel}
           >
@@ -2809,11 +2824,12 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      // console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_cvv">
           <button
-            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            className={`rc_btn_payment_cvv rc-btn rc-btn--one ${
+              loading ? 'ui-btn-loading' : ''
+            }`}
             disabled={disabled}
             onClick={this.clickReInputCvvConfirm}
           >
@@ -3071,6 +3087,7 @@ class Payment extends React.Component {
           </p>
         )}
         <AddressPreview
+          key={form}
           boldName={boldName}
           form={form}
           isLogin={this.isLogin}
@@ -3161,7 +3178,7 @@ class Payment extends React.Component {
         <div className="row">
           {ret}
           {!tid && !hideBillingAddr && (
-            <div className="col-12 col-md-6 mt-2 mt-md-0">
+            <div className="col-12 col-md-6 mt-2 mt-md-0 visitor_address_preview">
               {this.renderAddrPreview({
                 form,
                 titleVisible: true,

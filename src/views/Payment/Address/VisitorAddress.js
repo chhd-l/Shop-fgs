@@ -337,6 +337,7 @@ class VisitorAddress extends React.Component {
     this.setState({
       visitorBtnLoading: true
     });
+    let theform = [];
     if (selectVisitorValidationOption == 'suggestedAddress') {
       form.address1 = validationAddress.address1;
       form.city = validationAddress.city;
@@ -349,19 +350,25 @@ class VisitorAddress extends React.Component {
 
       // 地址校验返回参数
       form.validationResult = validationAddress.validationResult;
+      theform = Object.assign({}, form);
     } else {
-      this.setState({
-        form: JSON.parse(JSON.stringify(oldForm))
-      });
+      theform = JSON.parse(JSON.stringify(oldForm));
     }
-    // payment 时提交 billing address
-    if (this.props.isDeliveryOrBilling == 'billing') {
-      // billing
-      this.props.setPaymentToCompleted(this.props.isDeliveryOrBilling);
-    } else {
-      // delivery  进入下一步
-      this.showNextPanel();
-    }
+    this.setState(
+      {
+        form: Object.assign({}, theform)
+      },
+      () => {
+        // payment 时提交 billing address
+        if (this.props.isDeliveryOrBilling == 'billing') {
+          // billing
+          this.props.setPaymentToCompleted(this.props.isDeliveryOrBilling);
+        } else {
+          // delivery  进入下一步
+          this.showNextPanel();
+        }
+      }
+    );
   }
   // 下一个最近的未complete的panel
   showNextPanel = () => {
