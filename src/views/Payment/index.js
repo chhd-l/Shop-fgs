@@ -79,7 +79,6 @@ import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
-import { isNewAccount } from '@/api/user';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
