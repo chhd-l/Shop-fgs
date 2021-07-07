@@ -1558,7 +1558,7 @@ class Payment extends React.Component {
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail,
-      saveWelcomeBox: this.state.welcomeBoxValue //first order welcome box
+      selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {
