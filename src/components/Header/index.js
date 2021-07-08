@@ -141,9 +141,9 @@ class Header extends React.Component {
           linkClinicName = res.context.prescriberVo[0].prescriberName;
         }
         if (linkClinicId && linkClinicName) {
-          clinicStore.setClinicRecoCode(clinicRecoCode);
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
+          clinicStore.setLinkClinicCode(clinicRecoCode);
         }
       } else if (linkClinicId && location.pathname === '/') {
         // 根据prescriberId查询Clinic详情(查询id)
@@ -161,6 +161,7 @@ class Header extends React.Component {
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
+          clinicStore.setLinkClinicCode(res.context?.recommendtionCode || '');
           clinicStore.setAuditAuthority(res.context.auditAuthority);
         }
       }

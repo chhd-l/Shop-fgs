@@ -8,23 +8,26 @@ class ClinicStore {
   @observable linkClinicRecommendationInfos =
     localItemRoyal.get(`rc-clinic-recommendationInfos`) || '';
   @observable linkClinicName = localItemRoyal.get(`rc-clinic-name-link`) || '';
+  @observable linkClinicCode = localItemRoyal.get(`rc-clinic-code-link`) || ''; //recommendationCode
 
   //用户自己选择的诊所信息
   @observable selectClinicId = localItemRoyal.get(`rc-clinic-id-select`) || '';
   @observable selectClinicName =
     localItemRoyal.get(`rc-clinic-name-select`) || '';
+  @observable selectClinicCode =
+    localItemRoyal.get(`rc-clinic-code-select`) || ''; //recommendationCode
 
   //my account页面的默认clinic信息，通过登录接口获取后存入localStorage
   @observable defaultClinicId =
     localItemRoyal.get(`rc-clinic-id-default`) || '';
   @observable defaultClinicName =
     localItemRoyal.get(`rc-clinic-name-default`) || '';
+  @observable defaultClinicCode =
+    localItemRoyal.get(`rc-clinic-code-default`) || ''; //recommendationCode
 
   // 店铺是否能作为审核者
   @observable linkedAuditAuthorityFlag =
     localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) || '';
-
-  @observable clinicRecoCode = localItemRoyal.get(`rc-clinic-reco-code`) || '';
 
   @computed get clinicId() {
     return this.selectClinicId || this.linkClinicId || this.defaultClinicId;
@@ -43,7 +46,6 @@ class ClinicStore {
     this.linkedAuditAuthorityFlag = data;
     localItemRoyal.set(`rc-linkedAuditAuthorityFlag`, data);
   }
-
   @action.bound
   removeAuditAuthority(data) {
     this.linkedAuditAuthorityFlag = '';
@@ -56,9 +58,9 @@ class ClinicStore {
     localItemRoyal.set(`rc-clinic-id-link`, data);
   }
   @action.bound
-  setLinkClinicRecommendationInfos(data) {
-    this.linkClinicRecommendationInfos = data;
-    localItemRoyal.set(`rc-clinic-recommendationInfos`, data);
+  removeLinkClinicId() {
+    this.linkClinicId = '';
+    localItemRoyal.remove(`rc-clinic-id-link`);
   }
 
   @action.bound
@@ -66,22 +68,31 @@ class ClinicStore {
     this.linkClinicName = data;
     localItemRoyal.set(`rc-clinic-name-link`, data);
   }
+  @action.bound
+  removeLinkClinicName() {
+    this.linkClinicName = '';
+    localItemRoyal.remove(`rc-clinic-name-link`);
+  }
+  @action.bound
+  setLinkClinicCode(data) {
+    this.linkClinicCode = data;
+    localItemRoyal.set(`rc-clinic-code-link`, data);
+  }
+  @action.bound
+  removeLinkClinicCode() {
+    this.linkClinicCode = '';
+    localItemRoyal.remove(`rc-clinic-code-link`);
+  }
 
   @action.bound
-  removeLinkClinicId() {
-    this.linkClinicId = '';
-    localItemRoyal.remove(`rc-clinic-id-link`);
+  setLinkClinicRecommendationInfos(data) {
+    this.linkClinicRecommendationInfos = data;
+    localItemRoyal.set(`rc-clinic-recommendationInfos`, data);
   }
   @action.bound
   removeLinkClinicRecommendationInfos() {
     this.linkClinicRecommendationInfos = '';
     localItemRoyal.remove(`rc-clinic-recommendationInfos`);
-  }
-
-  @action.bound
-  removeLinkClinicName() {
-    this.linkClinicName = '';
-    localItemRoyal.remove(`rc-clinic-name-link`);
   }
 
   @action.bound
@@ -97,6 +108,12 @@ class ClinicStore {
   }
 
   @action.bound
+  setSelectClinicCode(data) {
+    this.selectClinicCode = data;
+    localItemRoyal.set(`rc-clinic-code-select`, data);
+  }
+
+  @action.bound
   setDefaultClinicId(data) {
     this.defaultClinicId = data;
     localItemRoyal.set(`rc-clinic-id-default`, data);
@@ -109,9 +126,9 @@ class ClinicStore {
   }
 
   @action.bound
-  setClinicRecoCode(data) {
-    this.clinicRecoCode = data;
-    localItemRoyal.set(`rc-clinic-reco-code`, data);
+  setDefaultClinicCode(data) {
+    this.defaultClinicCode = data;
+    localItemRoyal.set(`rc-clinic-code-default`, data);
   }
 }
 export default ClinicStore;
