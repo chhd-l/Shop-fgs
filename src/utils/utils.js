@@ -457,13 +457,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   clinicStore,
   isLogin = false
 }) {
-  const {
-    autoAuditFlag,
-    AuditData = [],
-    loginCartData,
-    cartData
-  } = checkoutStore;
-  console.log(toJS(AuditData), 'sas');
+  const { loginCartData, cartData } = checkoutStore;
   //1、先判断商品是否含VET商品（store Portal商品类型的Need Prescriber是否打开）
   const productData = isLogin ? loginCartData : cartData;
   const needPrescriber =
@@ -473,15 +467,13 @@ export async function distributeLinktoPrecriberOrPaymentPage({
     //并且下单时不传审核者信息,但是推荐者信息要回传回去
     localItemRoyal.remove(`rc-clinic-id-select`);
     localItemRoyal.remove(`rc-clinic-name-select`);
+    localItemRoyal.remove(`rc-clinic-code-select`);
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
     return '/checkout';
   }
   //2、判断是否是通过推荐链接购买
   // 通过推荐链接，指定clinic/recommendation code/recommendation id/recommendation token进入
-  if (
-    localItemRoyal.get(`rc-clinic-id-link`) &&
-    localItemRoyal.get(`rc-clinic-name-link`)
-  ) {
+  if (clinicStore.linkClinicId && clinicStore.linkClinicName) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
     if (
       !(
@@ -493,6 +485,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
       clinicStore.setSelectClinicName(
         localItemRoyal.get(`rc-clinic-name-link`)
       );
+      clinicStore.setSelectClinicCode(clinicStore.linkClinicCode);
     }
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';
@@ -516,6 +509,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
       clinicStore.setSelectClinicName(
         localItemRoyal.get(`rc-clinic-name-default`)
       );
+      clinicStore.setSelectClinicCode(clinicStore.defaultClinicCode);
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';
     }
