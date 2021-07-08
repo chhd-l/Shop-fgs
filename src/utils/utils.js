@@ -475,16 +475,9 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   // 通过推荐链接，指定clinic/recommendation code/recommendation id/recommendation token进入
   if (clinicStore.linkClinicId && clinicStore.linkClinicName) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
-    if (
-      !(
-        localItemRoyal.get(`rc-clinic-id-select`) &&
-        localItemRoyal.get(`rc-clinic-name-select`)
-      )
-    ) {
-      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
-      clinicStore.setSelectClinicName(
-        localItemRoyal.get(`rc-clinic-name-link`)
-      );
+    if (!(configStore.selectClinicId && configStore.selectClinicName)) {
+      clinicStore.setSelectClinicId(configStore.linkClinicId);
+      clinicStore.setSelectClinicName(clinicStore.linkClinicName);
       clinicStore.setSelectClinicCode(clinicStore.linkClinicCode);
     }
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
@@ -493,22 +486,14 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   //3、正常购买流程判断
   //3.1没有开启mandatory且浏览器有缓存直接进入并且在页面上方显示prescriber信息
   if (!configStore.isShowPrescriberModal) {
-    if (
-      localItemRoyal.get(`rc-clinic-id-select`) &&
-      localItemRoyal.get(`rc-clinic-name-select`)
-    ) {
+    if (configStore.selectClinicId && configStore.selectClinicName) {
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';
     }
-    if (
-      localItemRoyal.get(`rc-clinic-id-default`) &&
-      localItemRoyal.get(`rc-clinic-name-default`)
-    ) {
+    if (configStore.defaultClinicId && configStore.defaultClinicName) {
       //没有缓存但是my account 有默认clinic
-      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-default`));
-      clinicStore.setSelectClinicName(
-        localItemRoyal.get(`rc-clinic-name-default`)
-      );
+      clinicStore.setSelectClinicId(configStore.defaultClinicId);
+      clinicStore.setSelectClinicName(configStore.defaultClinicName);
       clinicStore.setSelectClinicCode(clinicStore.defaultClinicCode);
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';
