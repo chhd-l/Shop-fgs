@@ -52,35 +52,30 @@ class ClinicStore {
     localItemRoyal.remove(`rc-linkedAuditAuthorityFlag`);
   }
 
+  //linkClinicInfo赋值
   @action.bound
   setLinkClinicId(data) {
     this.linkClinicId = data;
     localItemRoyal.set(`rc-clinic-id-link`, data);
   }
   @action.bound
-  removeLinkClinicId() {
-    this.linkClinicId = '';
-    localItemRoyal.remove(`rc-clinic-id-link`);
-  }
-
-  @action.bound
   setLinkClinicName(data) {
     this.linkClinicName = data;
     localItemRoyal.set(`rc-clinic-name-link`, data);
-  }
-  @action.bound
-  removeLinkClinicName() {
-    this.linkClinicName = '';
-    localItemRoyal.remove(`rc-clinic-name-link`);
   }
   @action.bound
   setLinkClinicCode(data) {
     this.linkClinicCode = data;
     localItemRoyal.set(`rc-clinic-code-link`, data);
   }
+  //清除推荐者linkClinic缓存
   @action.bound
-  removeLinkClinicCode() {
+  removeLinkClinicInfo() {
+    this.linkClinicId = '';
+    this.linkClinicName = '';
     this.linkClinicCode = '';
+    localItemRoyal.remove(`rc-clinic-id-link`);
+    localItemRoyal.remove(`rc-clinic-name-link`);
     localItemRoyal.remove(`rc-clinic-code-link`);
   }
 
@@ -95,40 +90,56 @@ class ClinicStore {
     localItemRoyal.remove(`rc-clinic-recommendationInfos`);
   }
 
+  //selectClinicInfo赋值
   @action.bound
   setSelectClinicId(data) {
     this.selectClinicId = data;
     localItemRoyal.set(`rc-clinic-id-select`, data);
   }
-
   @action.bound
   setSelectClinicName(data) {
     this.selectClinicName = data;
     localItemRoyal.set(`rc-clinic-name-select`, data);
   }
-
   @action.bound
   setSelectClinicCode(data) {
     this.selectClinicCode = data;
     localItemRoyal.set(`rc-clinic-code-select`, data);
   }
+  @action.bound
+  removeSelectClinicInfo() {
+    this.selectClinicId = '';
+    this.selectClinicName = '';
+    this.selectClinicCode = '';
+    localItemRoyal.remove(`rc-clinic-id-select`);
+    localItemRoyal.remove(`rc-clinic-name-select`);
+    localItemRoyal.remove(`rc-clinic-code-select`);
+  }
 
+  //defaultClinicInfo赋值
   @action.bound
   setDefaultClinicId(data) {
     this.defaultClinicId = data;
     localItemRoyal.set(`rc-clinic-id-default`, data);
   }
-
   @action.bound
   setDefaultClinicName(data) {
     this.defaultClinicName = data;
     localItemRoyal.set(`rc-clinic-name-default`, data);
   }
-
   @action.bound
   setDefaultClinicCode(data) {
     this.defaultClinicCode = data;
     localItemRoyal.set(`rc-clinic-code-default`, data);
+  }
+  @action.bound
+  removeDefaultClinicInfo() {
+    this.defaultClinicId = '';
+    this.defaultClinicName = '';
+    this.defaultClinicCode = '';
+    localItemRoyal.remove(`rc-clinic-id-default`);
+    localItemRoyal.remove(`rc-clinic-name-default`);
+    localItemRoyal.remove(`rc-clinic-code-default`);
   }
 }
 export default ClinicStore;

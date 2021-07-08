@@ -1342,9 +1342,8 @@ class Payment extends React.Component {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         //支付成功清除推荐者信息
-        this.props.clinicStore.removeLinkClinicId();
+        this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
-        this.props.clinicStore.removeLinkClinicName();
 
         // 跳转 confirmation
         this.props.history.push('/confirmation');
