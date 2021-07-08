@@ -452,7 +452,7 @@ async function getGoodsSeo(goodsId) {
 // 分发跳转prescriber/payment页面
 // 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
 export async function distributeLinktoPrecriberOrPaymentPage({
-  configStore = {},
+  configStore,
   checkoutStore,
   clinicStore,
   isLogin = false
@@ -465,7 +465,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   if (!needPrescriber) {
     //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息
     //并且下单时不传审核者信息,但是推荐者信息要回传回去
-    configStore.removeSelectClinicInfo();
+    clinicStore.removeSelectClinicInfo();
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
     return '/checkout';
   }
@@ -473,8 +473,8 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   // 通过推荐链接，指定clinic/recommendation code/recommendation id/recommendation token进入
   if (clinicStore.linkClinicId && clinicStore.linkClinicName) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
-    if (!(configStore.selectClinicId && configStore.selectClinicName)) {
-      clinicStore.setSelectClinicId(configStore.linkClinicId);
+    if (!(clinicStore.selectClinicId && clinicStore.selectClinicName)) {
+      clinicStore.setSelectClinicId(clinicStore.linkClinicId);
       clinicStore.setSelectClinicName(clinicStore.linkClinicName);
       clinicStore.setSelectClinicCode(clinicStore.linkClinicCode);
     }
@@ -484,14 +484,14 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   //3、正常购买流程判断
   //3.1没有开启mandatory且浏览器有缓存直接进入并且在页面上方显示prescriber信息
   if (!configStore.isShowPrescriberModal) {
-    if (configStore.selectClinicId && configStore.selectClinicName) {
+    if (clinicStore.selectClinicId && clinicStore.selectClinicName) {
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';
     }
-    if (configStore.defaultClinicId && configStore.defaultClinicName) {
+    if (clinicStore.defaultClinicId && clinicStore.defaultClinicName) {
       //没有缓存但是my account 有默认clinic
-      clinicStore.setSelectClinicId(configStore.defaultClinicId);
-      clinicStore.setSelectClinicName(configStore.defaultClinicName);
+      clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
+      clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
       clinicStore.setSelectClinicCode(clinicStore.defaultClinicCode);
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';

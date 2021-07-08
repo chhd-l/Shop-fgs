@@ -15,7 +15,11 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
 import { validData, formatMoney, getDeviceType } from '@/utils/utils';
-import { getPickupCityList, getPickupCityInfo } from '@/api';
+import {
+  getPickupCityList,
+  getPickupCityInfo,
+  dimensionsByPackage
+} from '@/api/payment';
 import IMask from 'imask';
 import locales from '@/lang';
 import './index.less';
@@ -156,6 +160,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         if (v.selected) {
           stype = tp;
         }
+
         // 有订阅商品时不显示pickup
         if (
           (tp == 'pickup' && !this.props.isCurrentBuyWaySubscription) ||
@@ -187,15 +192,47 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
+    const { isLogin } = this.props;
     const { selectedItem } = this.state;
     let res = null;
     this.setState({
       hdpuLoading: true
     });
     try {
+      let goodsInfoDetails = [];
+      // 取到购物车里面的 goodsInfoId、购买的sku数量
+      if (isLogin) {
+        let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
+        cartData.forEach((e) => {
+          goodsInfoDetails.push({
+            goodsInfoId: e.goodsInfoId,
+            quantity: e.buyCount
+          });
+        });
+      } else {
+        let cartData = this.props.cartData.filter((el) =>
+          el.sizeList.filter((sl) => sl.selected)
+        );
+        cartData.forEach((e) => {
+          goodsInfoDetails.push({
+            goodsInfoId: e.sizeList[0].goodsInfoId,
+            quantity: e.quantity
+          });
+        });
+      }
+      // 合并包裹
+      let ckg = await dimensionsByPackage({
+        goodsInfoDetails: goodsInfoDetails
+      });
+      if (ckg.context?.dimensions) {
+        let ckgobj = ckg.context;
+        data['dimensions'] = ckgobj.dimensions;
+        data['weight'] = ckgobj.weight;
+      }
+
       // 根据不同的城市信息查询
       res = await getPickupCityInfo(data);
-      if (res.context?.tariffs) {
+      if (res.context?.tariffs && ckg.context?.dimensions) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
         let selitem = Object.assign({}, selectedItem);

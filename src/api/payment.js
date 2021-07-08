@@ -33,7 +33,11 @@ const api = {
   usPayCardSubscription: `/${window.__.env.REACT_APP_STOREID}/us-pay-card-subscription`, //CYBER查询卡类型-会员
   usGuestPayCardSubscription: `/${window.__.env.REACT_APP_STOREID}/us-guest-pay-card-subscription`, //CYBER查询卡类型-游客
 
-  installments: '/payment-method/installments'
+  installments: '/payment-method/installments',
+
+  getPickupCityList: '/pick-up/queryCity',
+  getPickupCityInfo: '/pick-up/queryCityFee',
+  dimensionsByPackage: '/pick-up/dimensionsByPackage' // 合并包裹
 };
 
 export default api;
@@ -233,6 +237,29 @@ export function Adyen3DSResultParam() {
 export function queryIsSupportInstallMents(parameter) {
   return axios({
     url: api.installments,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function getPickupCityList(parameter) {
+  return axios({
+    url: `${api.getPickupCityList}?keyword=${parameter.keyword}`,
+    method: 'get'
+  });
+}
+
+export function getPickupCityInfo(parameter) {
+  return axios({
+    url: `${api.getPickupCityInfo}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function dimensionsByPackage(parameter) {
+  return axios({
+    url: api.dimensionsByPackage,
     method: 'post',
     data: parameter
   });
