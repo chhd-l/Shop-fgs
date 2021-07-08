@@ -40,7 +40,7 @@ if (
 
 dynamicLoadCss(window.__.env.REACT_APP_ONTRUST_STYLE);
 
-if (window.__.env.REACT_APP_COUNTRY === 'RU') {
+if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   !(function (t) {
     (window.PetStoryWC = window.PetStoryWC || {}),
       (window.PetStoryWC.id = t.id || 'ps-widget-' + new Date().getTime());
