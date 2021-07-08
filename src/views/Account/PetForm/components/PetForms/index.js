@@ -5,6 +5,7 @@ import stores from '@/store';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
+import MultipleSelect from '@/components/MultipleSelect';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import DatePicker from 'react-datepicker';
@@ -649,6 +650,15 @@ const PetForms = ({
               key={petForm.sensitivity}
             />
           </div>
+          {/* <div className="form-group col-lg-6 pull-left required">
+            <label
+              className="form-control-label rc-full-width"
+              htmlFor={sensitivityLable}
+            >
+              <FormattedMessage id={sensitivityLable} />
+            </label>
+            <MultipleSelect/>
+          </div> */}
           {/* {console.info(
             '!(petForm.isPurebred == 1)',
             !(petForm.isPurebred == 1)
