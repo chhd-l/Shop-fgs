@@ -41,6 +41,7 @@ class PrescriberCode extends React.Component {
       const { clinicStore } = this.props;
       clinicStore.setSelectClinicId(prescriberVo[0].id);
       clinicStore.setSelectClinicName(prescriberVo[0].prescriberName);
+      clinicStore.setSelectClinicCode(this.state.keywords);
       this.setState({ showSuccessPanel: true, errMsg: '' });
     } else {
       this.setState({

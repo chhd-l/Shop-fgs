@@ -23,7 +23,7 @@
 @media (min-width: 639.98px) {
   .clubmobile {
     height: 975px;
-    background-image: url('./image/Bitmap@4x.png');
+    background-image: url('./image/Bitmap.jpg');
     background-size: cover;
     overflow: hidden;
     display: flex;

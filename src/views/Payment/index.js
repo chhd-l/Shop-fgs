@@ -79,7 +79,6 @@ import { getProductPetConfig } from '@/api/payment';
 import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
-import { isNewAccount } from '@/api/user';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -282,7 +281,7 @@ class Payment extends React.Component {
         settlementFias: '',
         postalCode: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
-      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、第一次下单 3、不是学生购student promotion 50% discount
+      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -1347,9 +1346,8 @@ class Payment extends React.Component {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         //支付成功清除推荐者信息
-        this.props.clinicStore.removeLinkClinicId();
+        this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
-        this.props.clinicStore.removeLinkClinicName();
 
         // 跳转 confirmation
         this.props.history.push('/confirmation');
@@ -1549,6 +1547,8 @@ class Payment extends React.Component {
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
+      //下单增加recommendationCode字段
+      recommendationCode: clinicStore.selectClinicCode,
       storeId: window.__.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -1562,7 +1562,7 @@ class Payment extends React.Component {
       minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
       promotionCode,
       guestEmail,
-      saveWelcomeBox: this.state.welcomeBoxValue //first order welcome box
+      selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
     });
     let tokenObj = JSON.parse(localStorage.getItem('okta-token-storage'));
     if (tokenObj && tokenObj.accessToken) {

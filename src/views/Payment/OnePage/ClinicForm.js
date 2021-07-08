@@ -31,7 +31,8 @@ class ClinicForm extends React.Component {
     this.state = {
       form: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        clinicCode: ''
       },
       toolTipVisible: false,
       isEdit: false,
@@ -42,14 +43,16 @@ class ClinicForm extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const { clinicStore, paymentStore } = this.props;
+    const { clinicStore } = this.props;
     const nName = clinicStore.selectClinicName;
     const nId = clinicStore.selectClinicId;
+    const nCode = clinicStore.selectClinicCode;
     if (nName && nId) {
       this.setState({
         form: Object.assign(this.state.form, {
           clinicName: nName,
-          clinicId: nId
+          clinicId: nId,
+          clinicCode: nCode
         })
       });
     }
@@ -95,6 +98,7 @@ class ClinicForm extends React.Component {
     const { form } = this.state;
     form.clinicName = data.prescriberName;
     form.clinicId = data.id;
+    form.clinicCode = data.recommendationCode || '';
     this.setState({
       form: form,
       tempPrescriberData: null
@@ -128,6 +132,7 @@ class ClinicForm extends React.Component {
     }
     this.props.clinicStore.setSelectClinicId(form.clinicId);
     this.props.clinicStore.setSelectClinicName(form.clinicName);
+    this.props.clinicStore.setSelectClinicCode(form.clinicCode);
     this.updatePanelStatus({ setToCompleted: true });
     this.setState({
       isEdit: false
@@ -217,7 +222,10 @@ class ClinicForm extends React.Component {
                     (res.context && res.context.prescriberVo) ||
                     []
                   ).map((ele) =>
-                    Object.assign(ele, { name: ele.prescriberName })
+                    Object.assign(ele, {
+                      name: ele.prescriberName,
+                      recommendationCode: inputVal
+                    })
                   );
                   let temp = null;
                   if (resobj) {

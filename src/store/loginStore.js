@@ -36,6 +36,11 @@ class LoginStore {
     stores.clinicStore.setDefaultClinicName(
       data.defaultClinics ? data.defaultClinics.clinicsName : ''
     );
+    stores.clinicStore.setDefaultClinicCode(
+      data.defaultClinics && data.defaultClinics.recommendationCode
+        ? data.defaultClinics.recommendationCode
+        : ''
+    );
     localItemRoyal.set('rc-userinfo', data);
   }
   @action.bound

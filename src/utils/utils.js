@@ -457,13 +457,7 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   clinicStore,
   isLogin = false
 }) {
-  const {
-    autoAuditFlag,
-    AuditData = [],
-    loginCartData,
-    cartData
-  } = checkoutStore;
-  console.log(toJS(AuditData), 'sas');
+  const { loginCartData, cartData } = checkoutStore;
   //1、先判断商品是否含VET商品（store Portal商品类型的Need Prescriber是否打开）
   const productData = isLogin ? loginCartData : cartData;
   const needPrescriber =
@@ -471,28 +465,18 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   if (!needPrescriber) {
     //如果商品全都是SPT或者都不need prescriber,直接进入checkout页面并且不显示prescriber信息
     //并且下单时不传审核者信息,但是推荐者信息要回传回去
-    localItemRoyal.remove(`rc-clinic-id-select`);
-    localItemRoyal.remove(`rc-clinic-name-select`);
+    configStore.removeSelectClinicInfo();
     localItemRoyal.set('checkOutNeedShowPrescriber', 'false');
     return '/checkout';
   }
   //2、判断是否是通过推荐链接购买
   // 通过推荐链接，指定clinic/recommendation code/recommendation id/recommendation token进入
-  if (
-    localItemRoyal.get(`rc-clinic-id-link`) &&
-    localItemRoyal.get(`rc-clinic-name-link`)
-  ) {
+  if (clinicStore.linkClinicId && clinicStore.linkClinicName) {
     //直接进入checkout页面并且在checkout页面上方显示prescriber信息
-    if (
-      !(
-        localItemRoyal.get(`rc-clinic-id-select`) &&
-        localItemRoyal.get(`rc-clinic-name-select`)
-      )
-    ) {
-      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-link`));
-      clinicStore.setSelectClinicName(
-        localItemRoyal.get(`rc-clinic-name-link`)
-      );
+    if (!(configStore.selectClinicId && configStore.selectClinicName)) {
+      clinicStore.setSelectClinicId(configStore.linkClinicId);
+      clinicStore.setSelectClinicName(clinicStore.linkClinicName);
+      clinicStore.setSelectClinicCode(clinicStore.linkClinicCode);
     }
     localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
     return '/checkout';
@@ -500,22 +484,15 @@ export async function distributeLinktoPrecriberOrPaymentPage({
   //3、正常购买流程判断
   //3.1没有开启mandatory且浏览器有缓存直接进入并且在页面上方显示prescriber信息
   if (!configStore.isShowPrescriberModal) {
-    if (
-      localItemRoyal.get(`rc-clinic-id-select`) &&
-      localItemRoyal.get(`rc-clinic-name-select`)
-    ) {
+    if (configStore.selectClinicId && configStore.selectClinicName) {
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';
     }
-    if (
-      localItemRoyal.get(`rc-clinic-id-default`) &&
-      localItemRoyal.get(`rc-clinic-name-default`)
-    ) {
+    if (configStore.defaultClinicId && configStore.defaultClinicName) {
       //没有缓存但是my account 有默认clinic
-      clinicStore.setSelectClinicId(localItemRoyal.get(`rc-clinic-id-default`));
-      clinicStore.setSelectClinicName(
-        localItemRoyal.get(`rc-clinic-name-default`)
-      );
+      clinicStore.setSelectClinicId(configStore.defaultClinicId);
+      clinicStore.setSelectClinicName(configStore.defaultClinicName);
+      clinicStore.setSelectClinicCode(clinicStore.defaultClinicCode);
       localItemRoyal.set('checkOutNeedShowPrescriber', 'true');
       return '/checkout';
     }
