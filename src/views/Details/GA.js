@@ -94,7 +94,10 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
   //     )
   //     .map((item) => item.goodsAttributeValue);
   const breed = filterAttrValue(goodsAttributesValueRelList, 'breeds');
-  const spezies = filterAttrValue(goodsAttributesValueRelList, 'spezies');
+  const specie = filterAttrValue(
+    goodsAttributesValueRelList,
+    'species'
+  ).toString();
   const range = filterAttrValue(
     goodsAttributesValueRelList,
     'range'
@@ -104,14 +107,13 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     'technology'
   ).toString();
   // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
-  const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+  // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
 
   const recommendationID = clinicStore?.linkClinicId || '';
 
   const GAProductsInfo = {
     price: selectPrice || minMarketPrice,
-    specie:
-      window.__.env.REACT_APP_COUNTRY == 'de' ? deSpecie : getSpecies(item),
+    specie,
     range,
     name: goodsName,
     mainItemCode: goodsNo,

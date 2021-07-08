@@ -47,11 +47,10 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix =
-  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-    /\/$/,
-    ''
-  );
+const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+  /\/$/,
+  ''
+);
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -817,10 +816,14 @@ class List extends React.Component {
         goodsImg
       } = item;
       const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
-      const spezies = filterAttrValue(
+      // const spezies = filterAttrValue(
+      //   goodsAttributesValueRelVOAllList,
+      //   'spezies'
+      // );
+      const specie = filterAttrValue(
         goodsAttributesValueRelVOAllList,
-        'spezies'
-      );
+        'species'
+      ).toString();
       const range = filterAttrValue(
         goodsAttributesValueRelVOAllList,
         'range'
@@ -831,13 +834,10 @@ class List extends React.Component {
       ).toString();
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';//这个方法有时候数据没有breed，判断不了
-      const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+      // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
       let productItem = {
         price: fromPrice,
-        specie:
-          window.__.env.REACT_APP_COUNTRY == 'de'
-            ? deSpecie
-            : getSpecies(goodsCate),
+        specie,
         range,
         name: goodsName,
         mainItemCode: goodsNo,
@@ -888,10 +888,14 @@ class List extends React.Component {
       } = item;
       const SKU = goodsInfos?.[0]?.goodsInfoNo || '';
       const breed = filterAttrValue(goodsAttributesValueRelVOAllList, 'breeds');
-      const spezies = filterAttrValue(
+      // const spezies = filterAttrValue(
+      //   goodsAttributesValueRelVOAllList,
+      //   'spezies'
+      // );
+      const specie = filterAttrValue(
         goodsAttributesValueRelVOAllList,
-        'spezies'
-      );
+        'species'
+      ).toString();
       const range = filterAttrValue(
         goodsAttributesValueRelVOAllList,
         'range'
@@ -901,14 +905,11 @@ class List extends React.Component {
         'technology'
       ).toString();
       // const specie = breed.toString().indexOf('Cat') > -1 ? 'Cat' : 'Dog';
-      const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
+      // const deSpecie = spezies.includes('Hund') ? 'Dog' : 'Cat'; //德国用来判断是猫咪还是狗狗
 
       let productItem = {
         price: fromPrice,
-        specie:
-          window.__.env.REACT_APP_COUNTRY == 'de'
-            ? deSpecie
-            : getSpecies(goodsCate),
+        specie,
         range,
         name: goodsName,
         mainItemCode: goodsNo,
