@@ -730,12 +730,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
-          this.setState(
-            {
-              paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
-            },
-            () => this.onPaymentTypeValChange()
-          );
+          this.initPaymentTypeVal();
         }
       );
     } catch (e) {
@@ -744,6 +739,15 @@ class Payment extends React.Component {
       });
     }
   };
+  initPaymentTypeVal(val) {
+    //默认第一个,如没有支付方式,就不初始化方法
+    this.setState(
+      {
+        paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
+      },
+      () => this.onPaymentTypeValChange()
+    );
+  }
   onPaymentTypeValChange() {
     const supportPaymentMethods =
       this.state.payWayNameArr.filter(
@@ -2099,10 +2103,25 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
-    this.setState({
-      deliveryAddress: data
-    });
+    this.setState(
+      {
+        deliveryAddress: data
+      },
+      () => {
+        let newPayWayName = [...this.state.payWayNameArr];
+        let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
+        if (pmd) {
+          let pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+          newPayWayName = newPayWayName.filter(
+            (e) => e.code == pickupPayMethods
+          );
+
+          this.setState({ payWayNameArr: [...newPayWayName] }, () => {
+            this.initPaymentTypeVal();
+          });
+        }
+      }
+    );
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
@@ -2758,6 +2777,7 @@ class Payment extends React.Component {
       payWayNameArr,
       cyberPaymentForm,
       cardTypeVal,
+      deliveryAddress,
       tid
     } = this.state;
 
@@ -2821,8 +2841,6 @@ class Payment extends React.Component {
         </div>
       );
     };
-
-    console.log('666 ---- ★ deliveryAddress: ', this.state.deliveryAddress);
 
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>

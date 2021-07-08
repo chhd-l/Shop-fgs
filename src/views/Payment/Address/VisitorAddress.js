@@ -46,9 +46,13 @@ class VisitorAddress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      defaultCity: '', // 默认地址中的城市
       confirmBtnDisabled: false,
       deliveryOrPickUpFlag: false,
-      isDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
+      selectDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
+      pickupFormData: [], // pickup 表单数据
+      pickupAddress: [],
+
       visitorData: null,
       form: this.props.initData,
       unConfirmedForm: '', //未确认时 但验证成功时的表单数据
@@ -98,38 +102,6 @@ class VisitorAddress extends React.Component {
   get curPanelKey() {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
-  // 设置home delivery状态
-  setRuDeliveryOrPickUp() {
-    let deliveryOrPickUp = 0;
-    let btndisabled = false;
-    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-      deliveryOrPickUp = 0; // both not
-      btndisabled = true;
-      this.setState({
-        deliveryOrPickUpFlag: true
-      });
-    } else {
-      deliveryOrPickUp = 1; // home delivery
-      btndisabled = false;
-    }
-    this.setState({
-      isDeliveryOrPickUp: deliveryOrPickUp,
-      confirmBtnDisabled: btndisabled
-    });
-  }
-  // 修改按钮状态
-  updateConfirmBtnDisabled = (flag) => {
-    this.setState({
-      confirmBtnDisabled: flag
-    });
-  };
-  // 更新 isDeliveryOrPickUp
-  updateDeliveryOrPickup = (num) => {
-    console.log('666 updateDeliveryOrPickup: ', num);
-    this.setState({
-      isDeliveryOrPickUp: num
-    });
-  };
   validData = async ({ data }) => {
     console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
     try {
@@ -244,12 +216,9 @@ class VisitorAddress extends React.Component {
         return;
       }
     }
-    this.setState({ form: unConfirmedForm }); //qhx 只有在确认后才赋值给form字段
-    // console.log('★ ----- 游客确认 isValidationModal:', isValidationModal);
-    // console.log('★ ----- 游客确认 validationAddress:', validationAddress);
-    // console.log('★ ----- 游客确认 form:', this.state.unConfirmedForm);
-    // 地址验证
-    // visitorValidationModalVisible - 控制是否查询数据
+    // qhx 只有在确认后才赋值给form字段
+    this.setState({ form: unConfirmedForm });
+    // 地址验证 visitorValidationModalVisible - 控制是否查询数据
     if (isValidationModal) {
       this.setState({
         visitorValidationLoading: true
@@ -340,7 +309,6 @@ class VisitorAddress extends React.Component {
       </>
     );
   };
-
   // 选择地址
   chooseVisitorValidationAddress = (e) => {
     this.setState({
@@ -443,7 +411,6 @@ class VisitorAddress extends React.Component {
       }
     );
   };
-
   // 重置参数，在Payment确认地址时调用
   resetVisitorAddressState() {
     const { form } = this.state;
@@ -456,18 +423,147 @@ class VisitorAddress extends React.Component {
     this.props.updateData(form);
   }
 
+  // ************ pick up 相关
+  // 设置home delivery状态
+  setRuDeliveryOrPickUp() {
+    let deliveryOrPickUp = 0;
+    let btndisabled = false;
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      deliveryOrPickUp = 0; // both not
+      btndisabled = true;
+      this.setState({
+        deliveryOrPickUpFlag: true
+      });
+    } else {
+      deliveryOrPickUp = 1; // home delivery
+      btndisabled = false;
+    }
+    this.setState({
+      selectDeliveryOrPickUp: deliveryOrPickUp,
+      confirmBtnDisabled: btndisabled
+    });
+  }
+  // 修改按钮状态
+  updateConfirmBtnDisabled = (flag) => {
+    console.log('666 flag: ', flag);
+    this.setState({
+      confirmBtnDisabled: flag
+    });
+  };
+  // 更新 selectDeliveryOrPickUp
+  updateDeliveryOrPickup = (num) => {
+    console.log('666 updateDeliveryOrPickup: ', num);
+    this.setState({
+      selectDeliveryOrPickUp: num
+    });
+  };
+  // 更新pickup数据
+  updatePickupData = (data) => {
+    // console.log('666 updatePickupData: ', data);
+    this.setState({
+      pickupFormData: data
+    });
+  };
+  // 确认 pickup
+  clickConfirmPickup = async () => {
+    const { paymentStore } = this.props;
+    const { form, pickupFormData, billingChecked } = this.state;
+    // console.log('666 updatePickupData: ', data);
+    this.setState({
+      btnConfirmLoading: true
+    });
+    try {
+      let receiveType = pickupFormData.receiveType;
+
+      let tempAddress = Object.keys(form).reduce((pre, cur) => {
+        return Object.assign(pre, { [cur]: '' });
+      }, {});
+      let deliveryAdd = Object.assign({}, tempAddress, {
+        firstName: pickupFormData.firstName,
+        lastName: pickupFormData.lastName,
+        consigneeNumber: pickupFormData.phoneNumber,
+        consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
+        address1: pickupFormData.address1,
+        deliveryAddress: pickupFormData.address1,
+        city: pickupFormData.city,
+        comment: pickupFormData.comment,
+        pickupCode: pickupFormData.pickupCode, // 快递公司code
+        workTime: pickupFormData.workTime, // 快递公司上班时间
+        receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
+        deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+        type: 'DELIVERY',
+        country: form.country,
+        countryId: form.countryId,
+        isDefaltAddress: 0
+      });
+
+      this.setState(
+        {
+          pickupAddress: pickupFormData
+        },
+        () => {
+          console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+          console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
+
+          // pickup 相关信息传到 Payment
+          deliveryAdd['pickup'] = pickupFormData.pickup;
+
+          this.props.updateValidationStaus(true);
+          this.props.updateData(deliveryAdd);
+
+          this.setState({
+            selectDeliveryOrPickUp: 0,
+            deliveryOrPickUpFlag: false
+          });
+
+          const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
+          paymentStore.setStsToCompleted({ key: this.curPanelKey });
+          if (isDeliveryAddr) {
+            billingChecked &&
+              paymentStore.setStsToCompleted({ key: 'billingAddr' });
+            paymentStore.setDefaultCardDataFromAddr(form);
+          }
+
+          // 下一个最近的未complete的panel
+          const nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(paymentStore.panelStatus),
+            curKey: this.curPanelKey
+          });
+          paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+          if (isDeliveryAddr) {
+            this.props.calculateFreight(this.state.form);
+            setTimeout(() => {
+              scrollPaymentPanelIntoView();
+            });
+          }
+        }
+      );
+    } catch (err) {
+      this.setState({
+        saveErrorMsg: err.message
+      });
+    } finally {
+      this.setState({
+        btnConfirmLoading: false
+      });
+    }
+  };
+
   render() {
     const { panelStatus } = this;
     const { showConfirmBtn } = this.props;
     const {
       deliveryOrPickUpFlag,
-      isDeliveryOrPickUp,
+      selectDeliveryOrPickUp,
       form,
       isValid,
       formAddressValid,
       visitorValidationLoading,
       visitorValidationModalVisible,
-      selectVisitorValidationOption
+      selectVisitorValidationOption,
+      confirmBtnDisabled,
+      pickupFormData,
+      pickupAddress
     } = this.state;
 
     // console.log(234, form);
@@ -505,31 +601,54 @@ class VisitorAddress extends React.Component {
               {/* 俄罗斯 pickup */}
               {deliveryOrPickUpFlag && (
                 <HomeDeliveryOrPickUp
+                  key={this.state.defaultCity}
+                  defaultCity={this.state.defaultCity}
                   updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                   updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
-                  deliveryOrPickUp={isDeliveryOrPickUp}
+                  updateData={this.updatePickupData}
+                  deliveryOrPickUp={selectDeliveryOrPickUp}
                   intlMessages={this.props.intlMessages}
                 />
               )}
 
-              {isDeliveryOrPickUp == 1 && <>{_editForm}</>}
+              {selectDeliveryOrPickUp == 1 && <>{_editForm}</>}
 
               {showConfirmBtn && (
                 <div className="d-flex justify-content-end mb-2">
-                  <button
-                    className={`rc-btn rc-btn--one rc-btn--sm ${
-                      this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    onClick={this.handleClickConfirm}
-                    disabled={isValid && formAddressValid ? false : true}
-                  >
-                    <FormattedMessage id="clinic.confirm3" />
-                  </button>
+                  {pickupFormData?.receiveType == 'PICK_UP' ? (
+                    <button
+                      className={`rc-btn rc-btn--one rc-btn--sm ${
+                        this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                      }`}
+                      disabled={confirmBtnDisabled}
+                      onClick={this.clickConfirmPickup}
+                    >
+                      <FormattedMessage id="clinic.confirm3" />
+                    </button>
+                  ) : (
+                    <button
+                      className={`rc-btn rc-btn--one rc-btn--sm ${
+                        this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                      }`}
+                      disabled={isValid && formAddressValid ? false : true}
+                      onClick={this.handleClickConfirm}
+                    >
+                      <FormattedMessage id="clinic.confirm3" />
+                    </button>
+                  )}
                 </div>
               )}
             </fieldset>
           ) : panelStatus.isCompleted ? (
-            <AddressPreview form={form} isLogin={false} />
+            <AddressPreview
+              key={this.state.pickupAddress}
+              form={
+                pickupFormData?.receiveType == 'PICK_UP'
+                  ? pickupAddress || null
+                  : form
+              }
+              isLogin={false}
+            />
           ) : null
         ) : null}
 
