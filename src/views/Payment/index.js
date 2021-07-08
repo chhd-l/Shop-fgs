@@ -1544,6 +1544,8 @@ class Payment extends React.Component {
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
+      //下单增加recommendationCode字段
+      recommendationCode: clinicStore.selectClinicCode,
       storeId: window.__.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
