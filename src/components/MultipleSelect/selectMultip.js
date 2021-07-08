@@ -2,7 +2,6 @@
   selectMultip = {
     register: function () {
       console.log(document.querySelectorAll('select[data-multip]'), 55555);
-      debugger;
       //大致思路是：为下拉选创建一个隐藏的子选项，每次单选之后将单选的值追加到隐藏的子选项中，并将子选项选中显示即可
       //全局查找所有标记multip的select
       document.querySelectorAll('select[data-multip]').forEach(function (e) {
@@ -39,7 +38,6 @@
   };
 
   function render(e) {
-    debugger;
     console.log(e, 'eee');
     e.param = {
       arr: [],

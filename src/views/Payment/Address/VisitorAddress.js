@@ -84,7 +84,6 @@ class VisitorAddress extends React.Component {
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
     });
-
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   }
@@ -103,7 +102,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
-    console.log('83--------- ★★★★★★ VisitorAddress validData: ', data);
+    console.log('666  ★ VisitorAddress validData: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
@@ -608,6 +607,7 @@ class VisitorAddress extends React.Component {
                   updateData={this.updatePickupData}
                   deliveryOrPickUp={selectDeliveryOrPickUp}
                   intlMessages={this.props.intlMessages}
+                  cartData={this.props.cartData}
                 />
               )}
 
