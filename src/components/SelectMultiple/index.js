@@ -2,6 +2,7 @@ import React from 'react';
 import findIndex from 'lodash/findIndex';
 import './index.less';
 
+let selectedArray = [];
 export default class Selection extends React.Component {
   static defaultProps = {
     optionList: [],
@@ -20,11 +21,10 @@ export default class Selection extends React.Component {
       optionsVisible: false,
       selectedItem: {
         name: '',
-        value:
-          (this.props.selectedItemData && this.props.selectedItemData.value) ||
-          '',
+        value: this.props.selectedItemData?.value || '',
         id: -1
       },
+      selectArray: [],
       hoveredIdx: -1,
       dataList: [],
       noResultsFound: false
@@ -40,16 +40,23 @@ export default class Selection extends React.Component {
       optionsVisible: false
     });
   };
-  handleClickOption(value, item) {
-    console.log(value, item, 'value,item');
+  handleClickOption(val, item) {
+    let selectedArr = this.state.selectArray;
+    const isExist = selectedArr?.filter((item) => item.value == val);
+    const UniqueItem = selectedArr?.filter((item) => item.value != val);
+    if (isExist.length) {
+      selectedArr = [].concat(UniqueItem);
+    } else {
+      selectedArr.push(item);
+    }
     this.setState(
       {
-        selectedItem: { value, ...item },
-        optionsVisible: false
+        selectedItem: { val, ...item },
+        optionsVisible: false,
+        selectArray: selectedArr
       },
       () => {
-        console.log(this.state.selectedItem, 'selectedItemselectedItem');
-        this.props.selectedItemChange(this.state.selectedItem);
+        this.props.selectedItemChange(this.state.selectArray);
       }
     );
   }
@@ -60,21 +67,24 @@ export default class Selection extends React.Component {
   }
   toggleShowOptions = (e) => {
     const { selectedItem } = this.state;
-    if (this.props.disabled) {
+    const { selectedItemData, disabled, optionList } = this.props;
+    const selectedValues = selectedItemData?.value?.split(',');
+    const selectArray = optionList.filter((item) =>
+      selectedValues.find((sel) => sel == item.value)
+    );
+    if (disabled) {
       return;
     }
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible
-        ? findIndex(
-            this.props.optionList,
-            (o) => o.value + '' === selectedItem.value + ''
-          )
+        ? findIndex(optionList, (o) => o.value + '' === selectedItem.value + '')
         : -1
     }));
     this.setState(
       {
-        dataList: this.props.optionList
+        dataList: optionList,
+        selectArray
       },
       () => {
         if (this.searchRef) {
@@ -132,9 +142,10 @@ export default class Selection extends React.Component {
       hoveredIdx,
       optionsVisible
     } = this.state;
-    // this.setState({
-    //   dataList: optionList
-    // });
+    const selectedValues = this.props.selectedItemData?.value?.split(',');
+    const innerChooseVal = selectedValues
+      ?.filter((item) => optionList?.find((el) => el.value == item))
+      ?.toString();
     return (
       <div
         onBlur={this.onBlurHandler}
@@ -173,13 +184,14 @@ export default class Selection extends React.Component {
                 {
                   console.info('selectedItem', selectedItem)
                 } */}
-                {optionList.filter(
+                {/* {optionList.filter(
                   (ele) => ele.value + '' === selectedItem.value + ''
                 ).length
                   ? optionList.filter(
                       (ele) => ele.value + '' === selectedItem.value + ''
                     )[0].name
-                  : this.props.placeholder}
+                  : this.props.placeholder} */}
+                {innerChooseVal}
                 &nbsp;
               </div>
             </div>
@@ -226,7 +238,9 @@ export default class Selection extends React.Component {
                 ) : (
                   <div
                     className={`choices__item choices__item--choice choices__item--selectable ${
-                      hoveredIdx === i ? 'is-highlighted' : ''
+                      selectedValues.find((sel) => sel == item.value)
+                        ? 'is-highlighted'
+                        : ''
                     } ${item.disabled ? 'disabled_item' : ''}`}
                     role="option"
                     aria-selected="false"

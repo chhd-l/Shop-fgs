@@ -21,11 +21,13 @@ class ClinicEditForm extends React.Component {
       errorMsg: '',
       form: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        recommendationCode: ''
       },
       oldForm: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        recommendationCode: ''
       },
       isValid: false
     };
@@ -35,11 +37,13 @@ class ClinicEditForm extends React.Component {
     const { data } = this.props;
     let form = {
       clinicName: data.clinicName,
-      clinicId: data.clinicId
+      clinicId: data.clinicId,
+      recommendationCode: data.recommendationCode || ''
     };
     let oldForm = {
       clinicName: data.clinicName,
-      clinicId: data.clinicId
+      clinicId: data.clinicId,
+      recommendationCode: data.recommendationCode || ''
     };
     this.setState({
       form: form,
@@ -52,11 +56,13 @@ class ClinicEditForm extends React.Component {
       const { data } = nextProps;
       let form = {
         clinicName: data.clinicName,
-        clinicId: data.clinicId
+        clinicId: data.clinicId,
+        recommendationCode: data.recommendationCode || ''
       };
       let oldForm = {
         clinicName: data.clinicName,
-        clinicId: data.clinicId
+        clinicId: data.clinicId,
+        recommendationCode: data.recommendationCode || ''
       };
       this.setState({
         form,
@@ -78,7 +84,8 @@ class ClinicEditForm extends React.Component {
         Object.assign({}, this.props.originData, {
           defaultClinics: {
             clinicsId: form.clinicId,
-            clinicsName: form.clinicName
+            clinicsName: form.clinicName,
+            recommendationCode: form.recommendationCode || ''
           },
           oktaToken: oktaToken
         })
@@ -87,7 +94,8 @@ class ClinicEditForm extends React.Component {
       this.props.updateData(this.state.form);
       let oldForm = {
         clinicId: form.clinicId,
-        clinicName: form.clinicName
+        clinicName: form.clinicName,
+        recommendationCode: form.recommendationCode || ''
       };
       this.setState({
         // successTipVisible: true,
@@ -112,7 +120,8 @@ class ClinicEditForm extends React.Component {
       const { oldForm } = this.state;
       let form = {
         clinicId: oldForm.clinicId,
-        clinicName: oldForm.clinicName
+        clinicName: oldForm.clinicName,
+        recommendationCode: oldForm.recommendationCode || ''
       };
       this.setState({
         form,
@@ -124,7 +133,8 @@ class ClinicEditForm extends React.Component {
     const { oldForm } = this.state;
     let form = {
       clinicName: oldForm.clinicName,
-      clinicId: oldForm.clinicId
+      clinicId: oldForm.clinicId,
+      recommendationCode: oldForm.recommendationCode || ''
     };
     this.setState({
       form
@@ -135,6 +145,7 @@ class ClinicEditForm extends React.Component {
     const { form } = this.state;
     form.clinicName = data.prescriberName;
     form.clinicId = data.id;
+    form.recommendationCode = data.recommendationCode || '';
     this.setState({ form: form, isValid: !!form.clinicName });
   };
   handleClickEditBtn = () => {
@@ -256,11 +267,12 @@ class ClinicEditForm extends React.Component {
                         storeId: window.__.env.REACT_APP_STOREID,
                         code: inputVal
                       }));
-                  return (
-                    (res.context && res.context.prescriberVo) ||
-                    []
-                  ).map((ele) =>
-                    Object.assign(ele, { name: ele.prescriberName })
+                  return ((res.context && res.context.prescriberVo) || []).map(
+                    (ele) =>
+                      Object.assign(ele, {
+                        name: ele.prescriberName,
+                        recommendationCode: inputVal
+                      })
                   );
                 }}
                 selectedItemChange={this.handleSelectedItemChange}
