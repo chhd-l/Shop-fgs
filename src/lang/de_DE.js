@@ -1383,7 +1383,8 @@ const de_DE = {
   'firstOrderWelcomeBox.title':
     'Ich möchte eine <strong>gratis Willkommens-Box</strong> für mein Tier zu meiner Bestellung erhalten.',
   'firstOrderWelcomeBox.yes': 'Ja',
-  'firstOrderWelcomeBox.no': 'Nein'
+  'firstOrderWelcomeBox.no': 'Nein',
+  'account.clinicTitle2': 'Meine Standardklinik'
 };
 
 export default de_DE;
