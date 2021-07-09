@@ -39,6 +39,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     intlMessages: '',
     updateDeliveryOrPickup: () => {},
     updateConfirmBtnDisabled: () => {},
+    calculateFreight: () => {},
     updateData: () => {}
   };
   constructor(props) {
@@ -110,7 +111,6 @@ class HomeDeliveryOrPickUp extends React.Component {
             pickupForm
           },
           () => {
-            // console.log('666 ★ pickupForm: ', pickupForm);
             let sitem =
               sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
             if (sitem) {
@@ -148,12 +148,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     let city = this.props.defaultCity;
 
-    console.log(
-      '666 ★ --> isCurrentBuyWaySubscription: ',
-      this.props.isCurrentBuyWaySubscription
-    );
-    console.log('666 ★ --> defaultCity: ', city);
-    console.log('666 ★ --> sitem: ', sitem);
+    // console.log('666 ★ --> defaultCity: ', city);
+    // console.log('666 ★ --> sitem: ', sitem);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     if (
@@ -351,7 +347,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       }
     });
     pickupForm['item'] = pickupItem;
-
+    pickupForm['city'] = sitem?.city?.city || [];
     let flag = false;
     if (val == 'homeDelivery') {
       flag = false;
@@ -359,6 +355,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
+
     // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
@@ -370,9 +367,9 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
-        if (sitem?.homeAndPickup.length == 1) {
-        }
+        console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
+        this.props.calculateFreight(this.state.pickupForm);
       }
     );
   };

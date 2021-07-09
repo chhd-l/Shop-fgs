@@ -295,6 +295,7 @@ class CheckoutStore {
     minimunAmountPrice,
     isThrowErr,
     address1,
+    deliverWay,
     ruShippingDTO
   } = {}) {
     try {
@@ -340,6 +341,7 @@ class CheckoutStore {
         customerAccount: email,
         guestEmail: email,
         address1,
+        deliverWay,
         ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
@@ -459,6 +461,7 @@ class CheckoutStore {
     minimunAmountPrice,
     isThrowErr = false,
     address1,
+    deliverWay,
     ruShippingDTO
   } = {}) {
     try {
@@ -497,6 +500,7 @@ class CheckoutStore {
         postalCode: taxFeeData.postalCode,
         customerAccount: taxFeeData.customerAccount,
         address1,
+        deliverWay,
         ruShippingDTO // DuData地址对象，俄罗斯计算运费用
       });
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);

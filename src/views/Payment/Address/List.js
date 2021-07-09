@@ -1728,6 +1728,7 @@ class AddressList extends React.Component {
                 deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
                 cartData={this.props.cartData}
+                calculateFreight={this.calculateFreight}
               />
             </>
           )}
