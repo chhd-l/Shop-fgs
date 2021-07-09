@@ -47,6 +47,7 @@ import { v4 as uuidv4 } from 'uuid';
 import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import GiftList from '../components/GiftList/index.tsx';
 
 const guid = uuidv4();
 import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
@@ -173,6 +174,9 @@ class LoginCart extends React.Component {
   componentWillUnmount() {}
   get loginCartData() {
     return this.props.checkoutStore.loginCartData;
+  }
+  get giftList() {
+    return this.props.checkoutStore.giftList || [];
   }
   get checkoutStore() {
     return this.props.checkoutStore;
@@ -1587,6 +1591,11 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         <div id="product-cards-container">{List}</div>
+                        <div id="product-cards-container">
+                          {this.giftList.map((el) => (
+                            <GiftList pitem={el} />
+                          ))}
+                        </div>
                       </div>
                       <div className="rc-column totals cart__total pt-0">
                         <div className="rc-padding-bottom--xs">

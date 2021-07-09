@@ -42,6 +42,8 @@ class CheckoutStore {
 
   @observable installMentParam = null; // 分期参数
 
+  @observable giftList = localItemRoyal.get('rc-giftList') || [];
+
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
 
@@ -171,6 +173,12 @@ class CheckoutStore {
     this.loginCartData = data;
     localItemRoyal.set('rc-cart-data-login', data);
   }
+  @action.bound
+  setGiftList(data) {
+    console.log(data, 'data1234');
+    this.giftList = data;
+    localItemRoyal.set('rc-giftList', data);
+  }
 
   @action.bound
   removeLoginCartData() {
@@ -207,6 +215,7 @@ class CheckoutStore {
     });
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
+    this.setGiftList(purchasesRes.giftList);
     let newPromotionCode = purchasesRes.promotionDesc || '';
     this.setPromotionCode(newPromotionCode);
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
@@ -337,6 +346,7 @@ class CheckoutStore {
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
       purchasesRes = purchasesRes.context;
+      this.setGiftList(purchasesRes.giftList);
       let newPromotionCode = purchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
       this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
@@ -493,6 +503,7 @@ class CheckoutStore {
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
+      this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
       let goodsList = siteMiniPurchasesRes.goodsList;

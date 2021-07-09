@@ -43,6 +43,7 @@ import ClubGiftBanner from '../components/ClubGiftBanner';
 import RelateProductCarousel from '@/components/RelateProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import GiftList from '../components/GiftList/index.tsx';
 
 const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -161,6 +162,9 @@ class UnLoginCart extends React.Component {
   }
   get unLoginCartData() {
     return this.props.checkoutStore.cartData;
+  }
+  get giftList() {
+    return this.props.checkoutStore.giftList || [];
   }
   // 可购买状态
   get btnStatus() {
@@ -1110,8 +1114,12 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1633,6 +1641,11 @@ class UnLoginCart extends React.Component {
                       </h5>
                     </div>
                     <div id="product-cards-container">{List}</div>
+                    <div id="product-cards-container">
+                      {this.giftList.map((el) => (
+                        <GiftList pitem={el} />
+                      ))}
+                    </div>
                   </div>
                   <div className="rc-column totals cart__total pt-0">
                     <div className="rc-padding-bottom--xs">

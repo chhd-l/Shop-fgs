@@ -17,6 +17,7 @@ import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_di
 
 const localItemRoyal = window.__.localItemRoyal;
 import { toJS } from 'mobx';
+import GiftList from './GiftList.tsx';
 @injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
@@ -42,6 +43,9 @@ class UnloginCart extends React.Component {
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter((ele) => ele.selected);
+  }
+  get giftList() {
+    return this.props.checkoutStore.giftList || [];
   }
   get totalNum() {
     return this.selectedCartData.reduce((pre, cur) => {
@@ -163,7 +167,9 @@ class UnloginCart extends React.Component {
         >
           <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
           {this.totalNum > 0 ? (
-            <span className="minicart-quantity">{this.totalNum}</span>
+            <span className="minicart-quantity">
+              {this.totalNum + this.giftList.length}
+            </span>
           ) : (
             ''
           )}
@@ -496,6 +502,9 @@ class UnloginCart extends React.Component {
                         </div>
                       </div>
                     </div>
+                  ))}
+                  {this.giftList.map((el) => (
+                    <GiftList data={el} />
                   ))}
                 </div>
               </div>
