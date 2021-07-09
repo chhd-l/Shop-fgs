@@ -175,9 +175,8 @@ class CheckoutStore {
   }
   @action.bound
   setGiftList(data) {
-    console.log(data, 'data1234');
     this.giftList = data;
-    localItemRoyal.set('rc-giftList', data);
+    localItemRoyal.set('rc-giftList', data || []);
   }
 
   @action.bound
