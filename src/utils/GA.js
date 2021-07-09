@@ -25,11 +25,12 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
   );
 };
 
-export const getDeSpecies = (item) => {
+export const getOtherSpecies = (item, attribute) => {
   const { goodsAttributesValueRelVOList } = item;
   return (goodsAttributesValueRelVOList || [])
     .filter(
-      (attr) => attr.goodsAttributeName && attr.goodsAttributeName == 'SPEZIES'
+      (attr) =>
+        attr?.goodsAttributeName?.toLowerCase() == attribute?.toLowerCase()
     )
     .map((item) => item.goodsAttributeValue);
 };
@@ -37,7 +38,9 @@ export const getDeSpecies = (item) => {
 //species属性
 const getSpecies = (item) => {
   if (window.__.env.REACT_APP_COUNTRY == 'de') {
-    return getDeSpecies(item)?.[0] == 'Hund' ? 'Dog' : 'Cat';
+    return getOtherSpecies(item, 'SPEZIES')?.[0] == 'Hund' ? 'Dog' : 'Cat';
+  } else if (window.__.env.REACT_APP_COUNTRY == 'mx') {
+    return getOtherSpecies(item, 'Species')?.[0];
   } else {
     return (
       {
@@ -65,7 +68,9 @@ const getSpecies = (item) => {
 //SpeciesId属性
 const getSpeciesId = (item) => {
   if (window.__.env.REACT_APP_COUNTRY == 'de') {
-    return getDeSpecies(item)?.[0] == 'Hund' ? '2' : '1';
+    return getOtherSpecies(item, 'SPEZIES')?.[0] == 'Hund' ? '2' : '1';
+  } else if (window.__.env.REACT_APP_COUNTRY == 'mx') {
+    return getOtherSpecies(item, 'Species')?.[0] == 'Cat' ? '1' : '2';
   } else {
     return (
       {
@@ -247,6 +252,7 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
 //init 会员(cart+checkout都使用)
 export const GAInitLogin = ({ productList, frequencyList, props }) => {
+  console.log(111, productList);
   let promotionInfo = getPromotionInfo();
   if (!isHubGA) return;
   const calculatedWeeks = getComputedWeeks(frequencyList);
