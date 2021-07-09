@@ -35,8 +35,8 @@ const api = {
 
   installments: '/payment-method/installments',
 
-  getPickupCityList: '/pick-up/queryCity',
-  getPickupCityInfo: '/pick-up/queryCityFee',
+  pickupQueryCity: '/pick-up/queryCity',
+  pickupQueryCityFee: '/pick-up/queryCityFee',
   dimensionsByPackage: '/pick-up/dimensionsByPackage' // 合并包裹
 };
 
@@ -242,16 +242,16 @@ export function queryIsSupportInstallMents(parameter) {
   });
 }
 
-export function getPickupCityList(parameter) {
+export function pickupQueryCity(parameter) {
   return axios({
-    url: `${api.getPickupCityList}?keyword=${parameter.keyword}`,
+    url: `${api.pickupQueryCity}?keyword=${parameter.keyword}`,
     method: 'get'
   });
 }
 
-export function getPickupCityInfo(parameter) {
+export function pickupQueryCityFee(parameter) {
   return axios({
-    url: `${api.getPickupCityInfo}`,
+    url: `${api.pickupQueryCityFee}`,
     method: 'post',
     data: parameter
   });

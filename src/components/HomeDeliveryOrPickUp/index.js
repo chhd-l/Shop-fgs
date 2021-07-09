@@ -16,8 +16,8 @@ import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
 import { validData, formatMoney, getDeviceType } from '@/utils/utils';
 import {
-  getPickupCityList,
-  getPickupCityInfo,
+  pickupQueryCity,
+  pickupQueryCityFee,
   dimensionsByPackage
 } from '@/api/payment';
 import IMask from 'imask';
@@ -121,12 +121,17 @@ class HomeDeliveryOrPickUp extends React.Component {
                 JSON.stringify(sitem)
               );
             }
-            this.setState({
-              selectedItem: sitem,
-              showPickupDetail: true,
-              showPickupForm: true,
-              showPickup: false
-            });
+            this.setState(
+              {
+                selectedItem: sitem,
+                showPickupDetail: true,
+                showPickupForm: true,
+                showPickup: false
+              },
+              () => {
+                this.setRuPhoneNumberReg();
+              }
+            );
           }
         );
       }
@@ -141,26 +146,38 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
+    let city = this.props.defaultCity;
+
+    console.log(
+      '666 ★ --> isCurrentBuyWaySubscription: ',
+      this.props.isCurrentBuyWaySubscription
+    );
+    console.log('666 ★ --> defaultCity: ', city);
+    console.log('666 ★ --> sitem: ', sitem);
+
+    // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     if (
-      (this.props.defaultCity && !sitem) ||
-      sitem?.isSubscription != this.props.isCurrentBuyWaySubscription
+      (city && !sitem) ||
+      (sitem && sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)
     ) {
-      let city = this.props.defaultCity;
-      let res = await getPickupCityList({ keyword: city });
+      // 没有默认城市但是有缓存
+      city ? (city = city) : (city = sitem?.city?.city);
+      let res = await pickupQueryCity({ keyword: city });
       let robj = res?.context?.pickUpQueryCityDTOs || [];
       if (robj) {
         this.handlePickupCitySelectChange(robj[0]);
       }
-    } else {
+    } else if (sitem?.homeAndPickup.length) {
       // 初始化数据，本地存储有数据（当前会话未结束）
       let stype = '';
       let newobj = [];
+      let isSelectedItem = false; // 是否有选中项
       sitem?.homeAndPickup.forEach((v, i) => {
         let tp = v.type;
         if (v.selected) {
           stype = tp;
+          isSelectedItem = true;
         }
-
         // 有订阅商品时不显示pickup
         if (
           (tp == 'pickup' && !this.props.isCurrentBuyWaySubscription) ||
@@ -176,11 +193,12 @@ class HomeDeliveryOrPickUp extends React.Component {
           pickupCity: sitem.city.city
         },
         () => {
-          this.setItemStatus(stype);
+          if (isSelectedItem) {
+            this.setItemStatus(stype);
+          }
         }
       );
     }
-    this.setRuPhoneNumberReg();
   }
   // 设置手机号输入限制
   setRuPhoneNumberReg = () => {
@@ -231,7 +249,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       }
 
       // 根据不同的城市信息查询
-      res = await getPickupCityInfo(data);
+      res = await pickupQueryCityFee(data);
       if (res.context?.tariffs && ckg.context?.dimensions) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
@@ -255,10 +273,15 @@ class HomeDeliveryOrPickUp extends React.Component {
                 v.type = 'homeDelivery';
                 hdpu.push(v);
               }
-              // 没有订阅商品时才显示pickup
-              if (type == 'PVZ' && !this.props.isCurrentBuyWaySubscription) {
-                v.type = 'pickup';
-                hdpu.push(v);
+              if (type == 'PVZ') {
+                if (this.props.isCurrentBuyWaySubscription) {
+                  // 有订阅商品时不显示pickup
+                  v.selected = false;
+                } else {
+                  // 没有订阅商品时才显示pickup
+                  v.type = 'pickup';
+                  hdpu.push(v);
+                }
               }
             });
             let item = {
@@ -336,7 +359,9 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
+    // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
+    // 设置按钮状态
     this.props.updateConfirmBtnDisabled(flag);
     pickupForm['receiveType'] = flag ? 'PICK_UP' : 'HOME_DELIVERY';
     this.setState(
@@ -345,6 +370,8 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
+        if (sitem?.homeAndPickup.length == 1) {
+        }
         this.props.updateData(this.state.pickupForm);
       }
     );
@@ -518,7 +545,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
                 <SearchSelection
                   queryList={async ({ inputVal }) => {
-                    let res = await getPickupCityList({ keyword: inputVal });
+                    let res = await pickupQueryCity({ keyword: inputVal });
                     let robj = (
                       (res?.context && res?.context?.pickUpQueryCityDTOs) ||
                       []
@@ -686,7 +713,7 @@ class HomeDeliveryOrPickUp extends React.Component {
 
           {/* 表单 */}
           <div
-            className={`row rc_form_box ${
+            className={`row rc_form_box rc_pickup_form ${
               showPickupForm ? (isMobile ? 'block' : 'flex') : 'hidden'
             }`}
           >

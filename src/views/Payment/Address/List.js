@@ -1299,6 +1299,7 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
+    // console.log('666  更新 selectDeliveryOrPickUp');
     this.setState({
       selectDeliveryOrPickUp: num
     });
@@ -1712,7 +1713,10 @@ class AddressList extends React.Component {
           {deliveryOrPickUpFlag && (
             <>
               <HomeDeliveryOrPickUp
-                key={this.state.defaultCity}
+                key={
+                  this.state.defaultCity ||
+                  this.props.isCurrentBuyWaySubscription
+                }
                 isLogin={true}
                 defaultCity={this.state.defaultCity}
                 isCurrentBuyWaySubscription={
