@@ -219,11 +219,13 @@ class ClubLandingPageDe extends React.Component {
                               haben.
                             </li>
                             <li className="rc-list__item">
-                              Damit wir sichergehen können, dass Ihrem
-                              Nahrungskauf eine tierärztliche Empfehlung
-                              vorausgeht, benötigen Sie einen individuellen
-                              Empfehlungscode Ihrer Tierarztpraxis um eine
-                              Bestellung in unserem Shop aufzugeben.
+                              Damit wir sicherstellen können, dass ihr Haustier
+                              die Nahrung erhält, die es benötigt, benötigen Sie
+                              einen individuellen Empfehlungscode Ihrer
+                              Tierarztpraxis, der bescheinigt, dass sie eine
+                              Empfehlung erhalten haben. Mit diesem
+                              Empfehlungscode können Sie dann eine Bestellung in
+                              unserem Online-Shop aufgeben.
                             </li>
                           </ul>
                           <br />
@@ -275,11 +277,17 @@ class ClubLandingPageDe extends React.Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                       >
                         <p>
-                          Besuchen Sie Ihre Tierarztpraxis und erhalten Sie eine
-                          Nahrungsempfehlung zur Behandlung eines besonderen
-                          Bedürfnisses Ihrer Katze oder Ihres Hundes. Diese
-                          händigt Ihnen einen individuellen Empfehlungscode aus.
-                          Hier finden Sie teilnehmende Tierarztpraxen.
+                          Besuchen Sie Ihre Tierarztpraxis, um sich beraten zu
+                          lassen und eine Nahrungsempfehlung speziell für die
+                          besonderen Bedürfnisses Ihrer Katze oder Ihres Hundes
+                          zu erhalten. Ihre Praxis händigt Ihnen einen
+                          individuellen Empfehlungscode aus.
+                          <Link to="/vet-diets">
+                            <a style={{ textDecoration: 'underline' }}>
+                              Unter diesem Link finden Sie teilnehmende
+                              Tierarztpraxen.
+                            </a>
+                          </Link>
                         </p>
                       </div>
                     </div>
@@ -345,7 +353,8 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <p>
                           Suchen Sie die empfohlene Nahrung Ihrer Tierarztpraxis
-                          im Shop heraus und legen Sie diese in Ihren Warenkorb.
+                          im Shop heraus und legen Sie diese in der gewünschten
+                          Größe in Ihren Warenkorb.
                         </p>
                       </div>
                     </div>
@@ -360,9 +369,9 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <p className="detextalignright">
                           Wählen Sie Ihre gewünschte Zahlungsmethode aus und
-                          schließen Sie Ihre ROYAL CANIN® Bestellung ab. Sie
-                          erhalten Ihre bestellte Nahrung innerhalb von 1-3
-                          Werktagen nach Hause versandt.
+                          schließen Sie Ihre ROYAL CANIN® Bestellung ab. Ihre
+                          bestellte Nahrung wird Ihnen in der Regel innerhalb
+                          von 1-3 Werktagen nach Hause geliefert.
                         </p>
                       </div>
                       <div
@@ -640,16 +649,15 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <div style={{ width: '30vw' }}>
                           <p style={{ color: '#E2001A', fontWeight: 'bolder' }}>
-                            Auswahl aus dem gesamten VET Diäten Sortiment von
-                            ROYAL CANIN®
+                            Auswahl aus dem tierärztlichen Sortiment von ROYAL
+                            CANIN®
                           </p>
                           <p>
                             ROYAL CANIN® bietet ein umfangreiches Programm an
-                            Diät-Nahrungen an, die speziell auf die tierärztlich
+                            Nahrungen an, die speziell auf die tierärztlich
                             festgestellten besonderen Bedürfnisse von Katzen und
                             Hunden abgestimmt sind. Finden Sie in unserem Shop
-                            die ganze Auswahl aus unserem Sortiment für
-                            Tierarztpraxen.
+                            die ganze Auswahl aus unserem Sortiment.
                           </p>
                         </div>
                         <div
@@ -732,7 +740,7 @@ class ClubLandingPageDe extends React.Component {
                             Bestellungen im ROYAL CANIN® Shop sind frei von
                             Versandkosten oder Mindestbestellmengen. Dazu
                             liefern wir Ihre bestellte Nahrung bei Lagerbestand
-                            innerhalb von 1-3 Werktagen!
+                            in der Regel innerhalb von 1-3 Werktagen!
                           </p>
                         </div>
                       </div>
@@ -774,13 +782,15 @@ class ClubLandingPageDe extends React.Component {
                       <div className=" col-12 col-lg-7">
                         <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text">
-                            Haben Sie Fragen zu den VET Diäten von ROYAL CANIN®?
+                            Haben Sie Fragen zu den tierärztlichen Nahrungen von
+                            ROYAL CANIN®?
                           </h2>
                           <p>
                             <span>
                               Unser erfahrenes Service-Team steht Ihnen gerne
-                              mit Rat und Tat zur Seite. Rufen Sie uns einfach
-                              an oder schreiben Sie uns eine E-Mail.
+                              mit Rat und Tat zur Seite. Wir freuen uns auf
+                              Ihren Anruf oder eine E-Mail von Ihnen. Unseren
+                              Kundenservice erreichen Sie
                             </span>
                           </p>
                           <div className="flex deflexcolumn">

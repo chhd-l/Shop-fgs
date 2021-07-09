@@ -172,7 +172,7 @@ class ClubLandingPageDeVet extends React.Component {
                               color: '#E2001A'
                             }}
                           >
-                            Die richtige Ernährung ist eine wesentliche
+                            Eine maßgeschneiderte Ernährung ist eine wesentliche
                             Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -227,16 +227,16 @@ class ClubLandingPageDeVet extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <span>
-                      Die tierärztlichen Diätnahrungen <br /> von ROYAL CANIN®
+                      Die tierärztlichen Nahrungen <br /> von ROYAL CANIN®
                     </span>
                   </h4>
                   <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
                     <p>
                       <span>
                         <p>
-                          Seit 1968 erforscht ROYAL CANIN® die besonderen
-                          Ernährungsbedürfnisse von Katzen und Hunden bis ins
-                          kleinste Detail. Denn schon kleinste
+                          Seit 1968 widmet sich ROYAL CANIN® den besonderen
+                          Ernährungsbedürfnissen von Katzen und Hunden bis ins
+                          kleinste Detail. Denn schon kleine
                           Nährstoffunterschiede in der Nahrung können einen
                           großen Unterschied für das Wohlbefinden Ihres
                           Haustieres bedeuten. Das gilt natürlich um so mehr,
@@ -335,8 +335,7 @@ class ClubLandingPageDeVet extends React.Component {
                 <div className=" rc-match-heights text-center text-md-left">
                   <div className="DeCenter  align-self-center">
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
-                      Unsere Produkte für verschiedene Schwerpunkte der
-                      Tiergesundheit
+                      Produkte für verschiedene Schwerpunkte der Tiergesundheit
                     </h2>
                   </div>
                   <div className="DeCenter col-lg-9">
