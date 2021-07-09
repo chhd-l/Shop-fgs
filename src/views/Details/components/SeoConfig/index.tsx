@@ -17,16 +17,18 @@ const SeoConfig = ({errMsg, goodsId, pageLink, setHeadingTag}: Props) => {
     headingTag: 'h1'
   })
   useEffect(() => {
-    setSeoConfig({
-      goodsId: goodsId,
-      categoryId: '',
-      pageName: 'Product Detail Page'
-    }).then((res) => {
-      setSeoConfigInfo(res)
-      setHeadingTag(res.headingTag)
-    });
+    if (goodsId) {
+      setSeoConfig({
+        goodsId: goodsId,
+        categoryId: '',
+        pageName: 'Product Detail Page'
+      }).then((res) => {
+        setSeoConfigInfo(res)
+        setHeadingTag(res.headingTag)
+      });
+    }
   }, [goodsId])
-  
+
   return (
     <div>
       <Helmet>
