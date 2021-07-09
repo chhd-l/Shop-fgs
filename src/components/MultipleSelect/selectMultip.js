@@ -1,7 +1,6 @@
 (function () {
   selectMultip = {
     register: function () {
-      console.log(document.querySelectorAll('select[data-multip]'), 55555);
       //大致思路是：为下拉选创建一个隐藏的子选项，每次单选之后将单选的值追加到隐藏的子选项中，并将子选项选中显示即可
       //全局查找所有标记multip的select
       document.querySelectorAll('select[data-multip]').forEach(function (e) {
@@ -9,6 +8,7 @@
       });
     },
     reload: function (id, data, setData) {
+      // var htm = '<option disabled selected value style="height:0"></option>';
       var htm = '';
       for (var i = 0; i < data.length; i++) {
         htm +=
@@ -23,22 +23,23 @@
       var type = Object.prototype.toString.call(str);
       switch (type) {
         case '[object String]':
-          document.getElementById(id).val = str;
+          if (document.getElementById(id)) {
+            document.getElementById(id).value = str;
+          }
           break;
         case '[object Array]':
-          document.getElementById(id).val = str.toString();
+          document.getElementById(id).value = str.toString();
           break;
         default:
           break;
       }
     },
     getVal: function (id) {
-      return document.getElementById(id).val;
+      return document.getElementById(id).value;
     }
   };
 
   function render(e) {
-    console.log(e, 'eee');
     e.param = {
       arr: [],
       valarr: [],
