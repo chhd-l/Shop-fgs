@@ -1713,6 +1713,7 @@ class AddressList extends React.Component {
             <>
               <HomeDeliveryOrPickUp
                 key={this.state.defaultCity}
+                isLogin={true}
                 defaultCity={this.state.defaultCity}
                 isCurrentBuyWaySubscription={
                   this.props.isCurrentBuyWaySubscription
