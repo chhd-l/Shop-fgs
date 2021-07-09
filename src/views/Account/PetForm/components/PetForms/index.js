@@ -6,6 +6,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
 import MultipleSelect from '@/components/MultipleSelect';
+import SelectMultiple from '@/components/SelectMultiple';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import DatePicker from 'react-datepicker';
@@ -293,6 +294,10 @@ const PetForms = ({
     setState({
       selectedSpecialNeeds
     });
+  };
+  const multipleSelSpecialNeedsOptionsChange = (data) => {
+    let selValues = data?.map((item) => item.value)?.toString();
+    setNewPetForm('sensitivity', selValues);
   };
   const sizeOptionsChange = (data) => {
     let newpetForm = Object.assign({}, petForm, {
@@ -641,14 +646,26 @@ const PetForms = ({
             >
               <FormattedMessage id={sensitivityLable} />
             </label>
-            <Selection
-              optionList={sensitivityLists}
-              selectedItemChange={(el) => specialNeedsOptionsChange(el)}
-              selectedItemData={{
-                value: petForm.sensitivity
-              }}
-              key={petForm.sensitivity}
-            />
+            {window.__.env.REACT_APP_COUNTRY == 'us' ? (
+              <SelectMultiple
+                optionList={sensitivityLists}
+                selectedItemChange={(el) =>
+                  multipleSelSpecialNeedsOptionsChange(el)
+                }
+                selectedItemData={{
+                  value: petForm.sensitivity
+                }}
+              />
+            ) : (
+              <Selection
+                optionList={sensitivityLists}
+                selectedItemChange={(el) => specialNeedsOptionsChange(el)}
+                selectedItemData={{
+                  value: petForm.sensitivity
+                }}
+                key={petForm.sensitivity}
+              />
+            )}
           </div>
           {/* <div className="form-group col-lg-6 pull-left required">
             <label
