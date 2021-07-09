@@ -8,9 +8,7 @@ import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import {
   getAddressBykeyWord,
   addressValidation,
-  getDeliveryDateAndTimeSlot,
-  getPickupCityList,
-  getPickupCityInfo
+  getDeliveryDateAndTimeSlot
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import SearchSelection from '@/components/SearchSelection';
@@ -142,9 +140,6 @@ class AddressList extends React.Component {
         deliveryAddress: Object.assign(this.state.deliveryAddress, cfm)
       });
     });
-
-    // 查询 city list
-    // this.getAllCityList();
 
     this.queryAddressList({ init: true });
 
@@ -1302,6 +1297,12 @@ class AddressList extends React.Component {
       confirmBtnDisabled: flag
     });
   };
+  // 更新 selectDeliveryOrPickUp
+  updateDeliveryOrPickup = (num) => {
+    this.setState({
+      selectDeliveryOrPickUp: num
+    });
+  };
   // 更新pickup数据
   updatePickupData = (data) => {
     // console.log('666 updatePickupData: ', data);
@@ -1309,22 +1310,20 @@ class AddressList extends React.Component {
       pickupFormData: data
     });
   };
-  // 更新 selectDeliveryOrPickUp
-  updateDeliveryOrPickup = (num) => {
-    this.setState({
-      selectDeliveryOrPickUp: num
-    });
-  };
   // 确认 pickup
   clickConfirmPickup = async () => {
     const { deliveryAddress, pickupFormData } = this.state;
     this.setState({
       btnConfirmLoading: true,
-      saveLoading: true
+      loading: true
     });
     try {
       let receiveType = pickupFormData.receiveType;
-      let deliveryAdd = Object.assign({}, deliveryAddress, {
+
+      let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
+        return Object.assign(pre, { [cur]: '' });
+      }, {});
+      let deliveryAdd = Object.assign({}, tempAddress, {
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
         consigneeNumber: pickupFormData.phoneNumber,
@@ -1338,10 +1337,11 @@ class AddressList extends React.Component {
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
         deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
         type: 'DELIVERY',
-        deliveryDate: '',
-        timeSlot: '',
+        country: deliveryAddress.country,
+        countryId: deliveryAddress.countryId,
         isDefaltAddress: 0
       });
+
       // 查询地址列表，筛选 pickup 地址
       let addres = await getAddressList();
       let pkup = addres.context.filter((e) => {
@@ -1411,7 +1411,7 @@ class AddressList extends React.Component {
     } finally {
       this.setState({
         btnConfirmLoading: false,
-        saveLoading: false
+        loading: false
       });
     }
   };
@@ -1722,6 +1722,7 @@ class AddressList extends React.Component {
                 updateData={this.updatePickupData}
                 deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
+                cartData={this.props.cartData}
               />
             </>
           )}

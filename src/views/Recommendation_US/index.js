@@ -390,6 +390,9 @@ class Recommendation extends React.Component {
             res.context?.id || res.context.prescriberId
           );
           this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+          this.props.clinicStore.setLinkClinicCode(
+            res.context.recommendationCode || ''
+          );
         }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
@@ -434,6 +437,9 @@ class Recommendation extends React.Component {
         res.context?.id || res.context?.prescriberId
       );
       this.props.clinicStore.setLinkClinicName(res.context?.prescriberName);
+      this.props.clinicStore.setLinkClinicCode(
+        res.context?.recommendationCode || ''
+      );
       let locationPath = res.context?.location;
       this.setState({ locationPath });
     });

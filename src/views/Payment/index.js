@@ -50,7 +50,8 @@ import {
   rePay,
   customerCommitAndPayMix,
   getWays,
-  getPaymentMethod
+  getPaymentMethod,
+  dimensionsByPackage
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { batchAddPets } from '@/api/pet';
@@ -374,7 +375,6 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
-    console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
@@ -730,12 +730,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
-          this.setState(
-            {
-              paymentTypeVal: payWayNameArr[0]?.paymentTypeVal || ''
-            },
-            () => this.onPaymentTypeValChange()
-          );
+          this.initPaymentTypeVal();
         }
       );
     } catch (e) {
@@ -744,6 +739,15 @@ class Payment extends React.Component {
       });
     }
   };
+  initPaymentTypeVal(val) {
+    //默认第一个,如没有支付方式,就不初始化方法
+    this.setState(
+      {
+        paymentTypeVal: val || this.state.payWayNameArr[0]?.paymentTypeVal || ''
+      },
+      () => this.onPaymentTypeValChange()
+    );
+  }
   onPaymentTypeValChange() {
     const supportPaymentMethods =
       this.state.payWayNameArr.filter(
@@ -1342,9 +1346,8 @@ class Payment extends React.Component {
         // 清除掉计算运费相关参数
         localItemRoyal.remove('rc-calculation-param');
         //支付成功清除推荐者信息
-        this.props.clinicStore.removeLinkClinicId();
+        this.props.clinicStore.removeLinkClinicInfo();
         this.props.clinicStore.removeLinkClinicRecommendationInfos();
-        this.props.clinicStore.removeLinkClinicName();
 
         // 跳转 confirmation
         this.props.history.push('/confirmation');
@@ -1544,6 +1547,8 @@ class Payment extends React.Component {
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
+      //下单增加recommendationCode字段
+      recommendationCode: clinicStore.selectClinicCode,
       storeId: window.__.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -2098,10 +2103,25 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('1900 -- Payment updateDeliveryAddrData: ', data);
-    this.setState({
-      deliveryAddress: data
-    });
+    this.setState(
+      {
+        deliveryAddress: data
+      },
+      () => {
+        let newPayWayName = [...this.state.payWayNameArr];
+        let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
+        if (pmd) {
+          let pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+          newPayWayName = newPayWayName.filter(
+            (e) => e.code == pickupPayMethods
+          );
+
+          this.setState({ payWayNameArr: [...newPayWayName] }, () => {
+            this.initPaymentTypeVal();
+          });
+        }
+      }
+    );
     if (this.state.billingChecked) {
       this.setState({
         billingAddress: data
@@ -2156,6 +2176,7 @@ class Payment extends React.Component {
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
+              cartData={this.computedCartData}
             />
           ) : (
             <VisitorAddress
@@ -2171,6 +2192,7 @@ class Payment extends React.Component {
               updateValidationStaus={this.updateValidationStaus}
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
+              cartData={this.computedCartData}
             />
           )}
         </div>
@@ -2757,6 +2779,7 @@ class Payment extends React.Component {
       payWayNameArr,
       cyberPaymentForm,
       cardTypeVal,
+      deliveryAddress,
       tid
     } = this.state;
 
@@ -2820,8 +2843,6 @@ class Payment extends React.Component {
         </div>
       );
     };
-
-    console.log('666 ---- ★ deliveryAddress: ', this.state.deliveryAddress);
 
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
