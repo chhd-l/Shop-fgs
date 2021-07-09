@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import WelcomeBox from '../WelcomeBox';
-import { isNewAccount } from '@/api/user';
+import { isFirstOrder } from '@/api/user';
 const guid = uuidv4();
 let isGACheckoutLock = false;
 const isHubGA = window.__.env.REACT_APP_HUB_GA;
@@ -181,7 +181,7 @@ class PayProductInfo extends React.Component {
   async componentDidMount() {
     if (this.isLogin) {
       //判断该会员是否是第一次下单
-      isNewAccount().then((res) => {
+      isFirstOrder().then((res) => {
         if (res.context == 0) {
           this.setState({ isFirstOrder: true });
         }

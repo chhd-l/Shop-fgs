@@ -19,6 +19,10 @@ export default {
     lat: 55.45,
     lng: 37.35
   },
+  core: {
+    lat: 55.45,
+    lng: 37.35
+  },
   tr: {
     lat: 39.57,
     lng: 32.54

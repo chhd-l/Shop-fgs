@@ -13,6 +13,7 @@ import { inject, observer } from 'mobx-react';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 import foodDispenserPic from '../../../views/SmartFeederSubscription/img/food_dispenser_pic.png';
+import GiftList from './GiftList.tsx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @injectIntl
@@ -50,6 +51,9 @@ class LoginCart extends React.Component {
   }
   get cartData() {
     return this.props.checkoutStore.loginCartData.slice();
+  }
+  get giftList() {
+    return this.props.checkoutStore.giftList || [];
   }
   get totalNum() {
     return this.cartData.reduce((prev, cur) => {
@@ -153,7 +157,9 @@ class LoginCart extends React.Component {
         >
           <em className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
           {totalNum > 0 ? (
-            <span className="minicart-quantity">{totalNum}</span>
+            <span className="minicart-quantity">
+              {totalNum + this.giftList.length}
+            </span>
           ) : (
             ''
           )}
@@ -457,6 +463,9 @@ class LoginCart extends React.Component {
                       </div>
                     ))
                   )}
+                  {this.giftList.map((el) => (
+                    <GiftList data={el} />
+                  ))}
                 </div>
               </div>
             </div>

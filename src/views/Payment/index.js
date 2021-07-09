@@ -50,7 +50,8 @@ import {
   rePay,
   customerCommitAndPayMix,
   getWays,
-  getPaymentMethod
+  getPaymentMethod,
+  dimensionsByPackage
 } from '@/api/payment';
 import { getOrderDetails } from '@/api/order';
 import { batchAddPets } from '@/api/pet';
@@ -374,7 +375,6 @@ class Payment extends React.Component {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
-    console.log('cyber');
     await this.props.configStore.getSystemFormConfig();
     if (this.isLogin) {
       this.queryList();
@@ -1548,7 +1548,7 @@ class Payment extends React.Component {
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
       //下单增加recommendationCode字段
-      recommendationCode: clinicStore.selectClinicCode,
+      clinicsCode: clinicStore.selectClinicCode,
       storeId: window.__.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -2176,6 +2176,7 @@ class Payment extends React.Component {
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
+              cartData={this.computedCartData}
             />
           ) : (
             <VisitorAddress
@@ -2191,6 +2192,7 @@ class Payment extends React.Component {
               updateValidationStaus={this.updateValidationStaus}
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
+              cartData={this.computedCartData}
             />
           )}
         </div>

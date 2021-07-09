@@ -1,60 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './selectMultip';
 import './index.less';
 
-class MultipleSelect extends React.Component {
-  static defaultProps = {
-    customStyle: false,
-    inputCustomStyle: false, //input框是否要全长
-    customCls: '',
-    isBottomPaging: false, // 滑倒底部翻页
-    isLoadingList: true, // 是否显示loading
-    freeText: false,
-    name: ''
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      optionList: [],
-      optionPanelVisible: false,
-      form: {
-        value: this.props.defaultValue,
-        pageNum: 0
-      },
-      loadingList: false,
-      placeholder: this.props.placeholder,
-      searchForNoResult: true
-    };
-  }
-
-  componentDidMount() {
+const MultipleSelect = (props) => {
+  useEffect(() => {
     selectMultip.register();
-  }
+  }, []);
+  useEffect(() => {
+    let data = [];
+    for (let i = 0; i < props.optionList.length; i++) {
+      let obj = {};
+      obj.value = props.optionList[i].value;
+      obj.text = props.optionList[i].name;
+      data.push(obj);
+    }
+    selectMultip.reload(props.id, data);
+    console.log(props.id, 'props.id');
+    // selectMultip.setVal(props.id, "Weight Loss Support,Calming & Stress Support eee")
+  }, [props.optionList]);
 
-  render() {
-    const { optionList, form } = this.state;
-    return (
-      <div className="multiple-select-container">
-        <select
-          id="22"
-          data-multip
-          style={{ width: '180px', height: '30px', marginLeft: '200px' }}
-        >
-          <option value="">---请选择---</option>
-          <option value="1">薯片</option>
-          <option value="2">大豆油</option>
-          <option value="3">花生</option>
-        </select>
-        <span
-          className={`iconfont font-weight-bold icon-arrow ${
-            false ? 'active' : ''
-          }`}
-        >
-          &#xe6fa;
-        </span>
-      </div>
-    );
-  }
-}
+  const { id } = props;
+
+  return (
+    <div className="multiple-select-container">
+      <select id={id} data-multip></select>
+      <span
+        className={`iconfont font-weight-bold icon-arrow ${
+          false ? 'active' : ''
+        }`}
+      >
+        &#xe6fa;
+      </span>
+    </div>
+  );
+};
 
 export default MultipleSelect;

@@ -8,9 +8,7 @@ import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import {
   getAddressBykeyWord,
   addressValidation,
-  getDeliveryDateAndTimeSlot,
-  getPickupCityList,
-  getPickupCityInfo
+  getDeliveryDateAndTimeSlot
 } from '@/api';
 import { shippingCalculation } from '@/api/cart';
 import SearchSelection from '@/components/SearchSelection';
@@ -1715,6 +1713,7 @@ class AddressList extends React.Component {
             <>
               <HomeDeliveryOrPickUp
                 key={this.state.defaultCity}
+                isLogin={true}
                 defaultCity={this.state.defaultCity}
                 isCurrentBuyWaySubscription={
                   this.props.isCurrentBuyWaySubscription
@@ -1724,6 +1723,7 @@ class AddressList extends React.Component {
                 updateData={this.updatePickupData}
                 deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
+                cartData={this.props.cartData}
               />
             </>
           )}

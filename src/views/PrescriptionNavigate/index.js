@@ -57,9 +57,10 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
 @observer
 class Prescription extends React.Component {
   constructor(props) {
-    const lang = window.__.env.REACT_APP_COUNTRY;
-    const lat = initLocation[lang].lat;
-    const lng = initLocation[lang].lng;
+    const lang = window.__.env.REACT_APP_COUNTRY || 'mx';
+    const initLocationData = initLocation[lang] || initLocation['mx'];
+    const lat = initLocationData.lat;
+    const lng = initLocationData.lng;
     super(props);
     this.state = {
       type: 'perscription',

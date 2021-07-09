@@ -1,0 +1,67 @@
+.choices {
+  &.disabled:after {
+    display: none;
+  }
+
+  .icon-arrow {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transition: all 0.3s ease-in-out;
+
+    &.active {
+      transform: translateY(-50%) rotate(90deg);
+    }
+  }
+
+  .icon.iconfont {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ec001a;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .choices__item.disabled_item {
+    background: #eee;
+    opacity: .4;
+    cursor: no-drop;
+  }
+}
+
+.choices[data-type*='select-one'] .choices__inner {
+  padding: 0.9em 2rem 0.9em 0 !important;
+}
+.choices[data-type*='select-wider'] .choices__inner {
+  padding: 0.9em 2rem 0.9em 0 !important;
+}
+
+// .choices .choices__inner {
+//   padding: 0.9em 2rem 0.9em 0 !important;
+// }
+
+.rc-select .choices::after {
+  display: none !important;
+}
+
+.choices__list--dropdown {
+  .selection_choices_input {
+    display: block;
+    width: 100%;
+    padding: .625rem;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    margin: 0;
+  }
+}
+#Selection {
+  height: 100%;
+  .choices__inner {
+    height: 100%;
+  }
+}
