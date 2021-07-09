@@ -184,6 +184,7 @@ class Prescription extends React.Component {
   async getPrescription(params) {
     this.setState({ loading: true });
     const res = await getPrescription(params);
+    //const res = mockResult
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
     this.setState({
       currentClinicArr: res.context.content,

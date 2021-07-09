@@ -6,7 +6,8 @@ class GoogleMap extends React.Component {
     super(props);
     this.state = {
       // key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
-      key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc',
+      //key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc',//真实的
+      key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM', //qhx申请的
       center: this.props.center,
       zoom: this.props.zoom
     };
@@ -20,10 +21,8 @@ class GoogleMap extends React.Component {
         zoom: nextProps.zoom
       },
       () => {
-        console.log(1111);
-        console.log(this.state.center);
-        console.log(this.state.zoom);
-        console.log(1111);
+        console.log('center', this.state.center);
+        console.log('zoom', this.state.zoom);
       }
     );
   }
