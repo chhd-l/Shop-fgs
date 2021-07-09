@@ -363,10 +363,10 @@ export async function setSeoConfig(
     cateSeo = {},
     pageSeo = {},
     siteSeo = {};
-  if (obj.goodsId) {
-    goodsSeo = await getGoodsSeo(obj.goodsId);
-  } else if (obj.categoryId) {
-    cateSeo = await getCateSeo(obj.categoryId);
+  if (obj.goodsId && obj.pageName) {
+    goodsSeo = await getGoodsSeo(obj.goodsId, obj.pageName);
+  } else if (obj.categoryId && obj.pageName) {
+    cateSeo = await getCateSeo(obj.categoryId, obj.pageName);
   } else if (obj.pageName) {
     pageSeo = await getPageSeo(obj.pageName);
   } else if (!sessionStorage.getItem('seoInfo')) {
@@ -424,10 +424,11 @@ async function getPageSeo(pageName) {
     return {};
   }
 }
-async function getCateSeo(categoryId) {
+async function getCateSeo(categoryId, pageName) {
   try {
     const res = await getSeoConfig({
       type: 2,
+      pageName,
       storeCateId: categoryId,
       storeId: window.__.env.REACT_APP_STOREID
     });
@@ -436,11 +437,12 @@ async function getCateSeo(categoryId) {
     return {};
   }
 }
-async function getGoodsSeo(goodsId) {
+async function getGoodsSeo(goodsId, pageName) {
   try {
     const res = await getSeoConfig({
       type: 1,
-      goodsId: goodsId,
+      goodsId,
+      pageName,
       storeId: window.__.env.REACT_APP_STOREID
     });
     return res.context.seoSettingVO;
