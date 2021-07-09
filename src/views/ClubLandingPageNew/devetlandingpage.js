@@ -307,7 +307,7 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                       <div>
                         <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                          Unser Diätnahrungssortiment
+                          Unser Sortiment
                         </h4>
                       </div>
                       <div className="flex justify-content-center">

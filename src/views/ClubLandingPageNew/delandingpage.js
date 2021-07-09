@@ -205,7 +205,7 @@ class ClubLandingPageDe extends React.Component {
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <div className="rc-alpha inherit-fontsize detextcenter">
-                              Die VET Diäten von ROYAL CANIN®
+                              Die tierärztlichen Nahrungen von ROYAL CANIN®
                             </div>
                             <li className="rc-list__item">
                               Seit 1968 erforscht ROYAL CANIN® die besonderen
@@ -478,8 +478,8 @@ class ClubLandingPageDe extends React.Component {
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
-                                      schnelle Lieferung innerhalb von 1-3
-                                      Werktagen​
+                                      schnelle Lieferung in der Regel innerhalb
+                                      von 1-3 Werktagen
                                     </a>
                                   </div>
                                 </li>
@@ -612,8 +612,8 @@ class ClubLandingPageDe extends React.Component {
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
-                                      schnelle Lieferung innerhalb von 1-3
-                                      Werktagen
+                                      schnelle Lieferung in der Regel innerhalb
+                                      von 1-3 Werktagen
                                     </a>
                                   </div>
                                 </li>
