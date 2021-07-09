@@ -41,18 +41,19 @@ export default class Selection extends React.Component {
     });
   };
   handleClickOption(val, item) {
-    const isExist = selectedArray?.filter((item) => item.value == val);
-    const UniqueItem = selectedArray?.filter((item) => item.value != val);
+    let selectedArr = this.state.selectArray;
+    const isExist = selectedArr?.filter((item) => item.value == val);
+    const UniqueItem = selectedArr?.filter((item) => item.value != val);
     if (isExist.length) {
-      selectedArray = [].concat(UniqueItem);
+      selectedArr = [].concat(UniqueItem);
     } else {
-      selectedArray.push(item);
+      selectedArr.push(item);
     }
     this.setState(
       {
         selectedItem: { val, ...item },
         optionsVisible: false,
-        selectArray: selectedArray
+        selectArray: selectedArr
       },
       () => {
         this.props.selectedItemChange(this.state.selectArray);
@@ -66,21 +67,24 @@ export default class Selection extends React.Component {
   }
   toggleShowOptions = (e) => {
     const { selectedItem } = this.state;
-    if (this.props.disabled) {
+    const { selectedItemData, disabled, optionList } = this.props;
+    const selectedValues = selectedItemData?.value?.split(',');
+    const selectArray = optionList.filter((item) =>
+      selectedValues.find((sel) => sel == item.value)
+    );
+    if (disabled) {
       return;
     }
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible
-        ? findIndex(
-            this.props.optionList,
-            (o) => o.value + '' === selectedItem.value + ''
-          )
+        ? findIndex(optionList, (o) => o.value + '' === selectedItem.value + '')
         : -1
     }));
     this.setState(
       {
-        dataList: this.props.optionList
+        dataList: optionList,
+        selectArray
       },
       () => {
         if (this.searchRef) {
