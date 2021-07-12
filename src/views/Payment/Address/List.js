@@ -1788,7 +1788,7 @@ class AddressList extends React.Component {
                       )
                     ) : null}
 
-                    {_form}
+                    {selectDeliveryOrPickUp == 1 && _form}
                   </>
                 ) : panelStatus.isCompleted ? (
                   <>
