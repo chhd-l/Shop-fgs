@@ -148,12 +148,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
 
-    console.log('666 ★ --> defaultCity: ', defaultCity);
-    console.log('666 ★ --> isSubscription: ', sitem.isSubscription);
-    console.log(
-      '666 ★ --> isCurrentBuyWaySubscription: ',
-      this.props.isCurrentBuyWaySubscription
-    );
+    // console.log('666 ★ --> defaultCity: ', defaultCity);
+    // console.log('666 ★ --> isSubscription: ', sitem.isSubscription);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     // if ((defaultCity && !sitem) || (sitem && sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)) {
@@ -368,6 +364,11 @@ class HomeDeliveryOrPickUp extends React.Component {
     let flag = false;
     if (val == 'homeDelivery') {
       flag = false;
+      this.setState({
+        showPickupForm: false,
+        showPickupDetailDialog: false,
+        showPickupDetail: false
+      });
     } else if (val == 'pickup') {
       flag = true;
       this.sendMsgToIframe();
