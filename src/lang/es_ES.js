@@ -302,6 +302,9 @@ const es_ES = {
   'details.theSize': 'El presentación',
   'details.unitPrice': 'Precio unitario',
   'details.youCanSave': 'Puedes ahorrar',
+  'detail.contextp1': 'Lo siento, no podemos encontrar ningún producto!',
+  'detail.contextp2':
+    'Tenga en cuenta que este producto puede haber sido suspendido',
   dogs: 'PERROS',
   dogs2: 'Perros',
   dogs3: 'Perro',

@@ -186,14 +186,8 @@ class Details extends React.Component {
     return this.props.checkoutStore;
   }
   get btnStatus() {
-    const {
-      details,
-      quantity,
-      instockStatus,
-      initing,
-      loading,
-      form
-    } = this.state;
+    const { details, quantity, instockStatus, initing, loading, form } =
+      this.state;
     let addedFlag = 1;
     if (details.sizeList.length) {
       addedFlag = details.sizeList.filter((el) => el.selected)[0]?.addedFlag;
@@ -338,14 +332,8 @@ class Details extends React.Component {
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
     this.getPdpScreenLoadData();
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
-    let {
-      instockStatus,
-      details,
-      spuImages,
-      goodsDetailTab,
-      goodsNo,
-      form
-    } = this.state;
+    let { instockStatus, details, spuImages, goodsDetailTab, goodsNo, form } =
+      this.state;
 
     details.sizeList = sizeList;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
@@ -810,13 +798,8 @@ class Details extends React.Component {
     try {
       this.setState({ addToCartLoading: true });
       const { checkoutStore } = this.props;
-      const {
-        currentUnitPrice,
-        quantity,
-        form,
-        details,
-        questionParams
-      } = this.state;
+      const { currentUnitPrice, quantity, form, details, questionParams } =
+        this.state;
       hubGAAToCar(quantity, form);
       let cartItem = Object.assign({}, details, {
         selected: true,
@@ -1036,10 +1019,10 @@ class Details extends React.Component {
               className="contextp1"
               style={{ color: 'red', fontSize: '25px', fontWeight: 'bold' }}
             >
-              Sorry We Couldn't Find Any Products!
+              <FormattedMessage id="detail.contextp1" />
             </p>
             <p style={{ paddingBottom: '7%' }}>
-              Please note this product may have been discontinued
+              <FormattedMessage id="detail.contextp2" />
             </p>
           </div>
         ) : errMsg ? (

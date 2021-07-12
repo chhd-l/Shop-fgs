@@ -118,7 +118,7 @@ class AccountProfile extends React.Component {
       if (context.defaultClinics) {
         prescriberName = context.defaultClinics.clinicsName;
         prescriberId = context.defaultClinics.clinicsId;
-        recommendationCode = context.defaultClinics.recommendationCode;
+        recommendationCode = context.defaultClinics.recommendationCode || '';
       }
 
       let mydata = {
