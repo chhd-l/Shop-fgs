@@ -180,7 +180,7 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>
+                              <div style={{ fontWeight: 'bolder' }}>
                                 Verbesserung der Lebensqualität der Tiere
                               </div>
                             </li>
@@ -188,7 +188,7 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>
+                              <div style={{ fontWeight: 'bolder' }}>
                                 Unterstützung von Tieren mit fütterungsbedingten
                                 Erkrankungen
                               </div>
@@ -197,7 +197,7 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>
+                              <div style={{ fontWeight: 'bolder' }}>
                                 Beeinflussung des Wachstums von Katzen- und
                                 Hundewelpen
                               </div>
@@ -206,13 +206,25 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>Beitrag zum Management von Erkrankungen</div>
+                              <div style={{ fontWeight: 'bolder' }}>
+                                Beitrag zum Management von Erkrankungen
+                                <sup>1,2</sup>
+                              </div>
                             </li>
                           </ul>
                           <br />
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className=" rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                    <p style={{ fontSize: '12px' }}>
+                      <sup>1</sup>American Animal Hospital Association (AAHA)
+                    </p>
+                    <p style={{ fontSize: '12px' }}>
+                      <sup>2</sup>World Small Animal Veterinary Association
+                      (WSAVA)
+                    </p>
                   </div>
                 </div>
               </div>
