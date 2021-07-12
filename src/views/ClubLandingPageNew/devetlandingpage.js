@@ -241,10 +241,13 @@ class ClubLandingPageDeVet extends React.Component {
                           großen Unterschied für das Wohlbefinden Ihres
                           Haustieres bedeuten. Das gilt natürlich um so mehr,
                           wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund
-                          ein besonderes Bedürfnis festgestellt haben. Gerade
-                          dann kann eine maßgeschneiderte Ernährung helfen, die
-                          Gesundheit Ihres Haustieres zu unterstützen und zu
-                          erhalten.
+                          ein{' '}
+                          <a style={{ fontWeight: 'bolder' }}>
+                            besonderes Bedürfnis
+                          </a>{' '}
+                          festgestellt haben. Gerade dann kann eine
+                          maßgeschneiderte Ernährung helfen, die Gesundheit
+                          Ihres Haustieres zu unterstützen und zu erhalten.
                         </p>
                         <p>
                           ROYAL CANIN® bietet deshalb ein umfangreiches Programm
