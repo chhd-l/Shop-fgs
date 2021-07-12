@@ -5,7 +5,6 @@ import stores from '@/store';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
-import MultipleSelect from '@/components/MultipleSelect';
 import SelectMultiple from '@/components/SelectMultiple';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -295,9 +294,15 @@ const PetForms = ({
       selectedSpecialNeeds
     });
   };
-  const multipleSelSpecialNeedsOptionsChange = (data) => {
-    let selValues = data?.map((item) => item.value)?.toString();
-    setNewPetForm('sensitivity', selValues);
+  const multipleSelSpecialNeedsOptionsChange = (data, selectedItem) => {
+    // 选择No Special Needs的时候仅可单选，反之多选。
+    if (selectedItem?.value == 'No Special Needs') {
+      setNewPetForm('sensitivity', 'No Special Needs');
+    } else {
+      let selArr = data?.filter((item) => item?.value !== 'No Special Needs');
+      let selValues = selArr?.map((item) => item.value)?.toString();
+      setNewPetForm('sensitivity', selValues);
+    }
   };
   const sizeOptionsChange = (data) => {
     let newpetForm = Object.assign({}, petForm, {
@@ -649,8 +654,8 @@ const PetForms = ({
             {window.__.env.REACT_APP_COUNTRY == 'us' ? (
               <SelectMultiple
                 optionList={sensitivityLists}
-                selectedItemChange={(el) =>
-                  multipleSelSpecialNeedsOptionsChange(el)
+                selectedItemChange={(el, selectedItem) =>
+                  multipleSelSpecialNeedsOptionsChange(el, selectedItem)
                 }
                 selectedItemData={{
                   value: petForm.sensitivity

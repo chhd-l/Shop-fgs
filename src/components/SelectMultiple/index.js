@@ -41,6 +41,7 @@ export default class Selection extends React.Component {
     });
   };
   handleClickOption(val, item) {
+    console.log(val, item, 'itemitme');
     let selectedArr = this.state.selectArray;
     const isExist = selectedArr?.filter((item) => item.value == val);
     const UniqueItem = selectedArr?.filter((item) => item.value != val);
@@ -56,7 +57,7 @@ export default class Selection extends React.Component {
         selectArray: selectedArr
       },
       () => {
-        this.props.selectedItemChange(this.state.selectArray);
+        this.props.selectedItemChange(this.state.selectArray, item);
       }
     );
   }
@@ -173,24 +174,6 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {/* {
-                  console.info('optionList.filter', optionList.filter(
-                    (ele) => ele.value + '' === selectedItem.value + ''
-                  ))
-                }
-                {
-                  console.info('optionList', optionList)
-                }
-                {
-                  console.info('selectedItem', selectedItem)
-                } */}
-                {/* {optionList.filter(
-                  (ele) => ele.value + '' === selectedItem.value + ''
-                ).length
-                  ? optionList.filter(
-                      (ele) => ele.value + '' === selectedItem.value + ''
-                    )[0].name
-                  : this.props.placeholder} */}
                 {innerChooseVal}
                 &nbsp;
               </div>
