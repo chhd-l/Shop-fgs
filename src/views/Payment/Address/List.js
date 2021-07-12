@@ -1299,7 +1299,7 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    // console.log('666  更新 selectDeliveryOrPickUp');
+    console.log('666  更新 selectDeliveryOrPickUp: ', num);
     this.setState({
       selectDeliveryOrPickUp: num
     });

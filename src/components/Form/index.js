@@ -101,7 +101,11 @@ class Form extends React.Component {
         receiveType: 'HOME_DELIVERY', //  HOME_DELIVERY、PICK_UP ********************** 选择deliveryDate或者pickup时
         pickUpCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
-        formRule: [] // form表单校验规则
+        formRule: [], // form表单校验规则
+        provinceIdStr: '', // pickup计算价格使用
+        cityIdStr: '', // pickup计算价格使用
+        areaIdStr: '', // pickup计算价格使用
+        settlementIdStr: '' // pickup计算价格使用
       },
       addressSettings: [],
       formList: [],
@@ -1035,6 +1039,12 @@ class Form extends React.Component {
       caninForm.housing = data.block;
       caninForm.entrance = data.entrance;
       caninForm.apartment = data.flat;
+
+      // 这里的Id都是DuData返回的字符串
+      caninForm.provinceIdStr = data.provinceId;
+      caninForm.cityIdStr = data.cityId;
+      caninForm.areaIdStr = data.areaId;
+      caninForm.settlementIdStr = data.settlementId;
 
       // 赋值查询到的地址信息
       caninForm.DuData = data;

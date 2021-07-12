@@ -2079,7 +2079,7 @@ class Payment extends React.Component {
 
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
-    console.log('666 param: ', param);
+    // console.log('666 param: ', param);
     try {
       // 获取税额
       if (this.isLogin) {
