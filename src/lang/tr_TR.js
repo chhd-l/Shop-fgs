@@ -294,6 +294,8 @@ const tr_TR = {
   'details.youCanSave': 'Kurtarabilirsin',
   'details.buyFromRetailer': 'Yerel satıcı bul',
   'detail.subscriptionBuyTip': 'Taahhüt vermeden abone olun',
+  'detail.contextp1': 'Üzgünüm Herhangi bir ürün bulamadık!',
+  'detail.contextp2': 'Lütfen şu ürün kesilmiş olabilir',
   'Club subscription': 'Club Aboneliği',
   saveExtra: '{val} Kazan',
   dogs: 'KÖPEK',

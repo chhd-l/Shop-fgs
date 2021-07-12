@@ -354,6 +354,9 @@ const ru_RU = {
   'details.unitPrice': 'Цена за единицу',
   'details.youCanSave': 'Можно сэкономить',
   'details.buyFromRetailer': 'Купить в розничном магазине',
+  'detail.contextp1': 'Извините, мы не можем найти продукт!',
+  'detail.contextp2':
+    'обратите внимание, что данная продукция может быть остановлена',
   dogs: 'СОБАКИ',
   dogs2: 'Собаки',
   dogs3: 'Собаки',

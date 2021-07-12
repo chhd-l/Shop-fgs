@@ -326,6 +326,9 @@ const de_DE = {
   'details.theSize': 'Die Größe',
   'details.unitPrice': 'Stückpreis',
   'details.youCanSave': 'Du kannst speichern',
+  'detail.contextp1': 'Leider konnten wir keine Produkte finden!',
+  'detail.contextp2':
+    'Bitte beachten Sie, dass dieses Produkt möglicherweise abgesetzt wurde',
   Dog: 'Hund',
   dogs: 'HUNDE',
   dogs2: 'Hunde',
