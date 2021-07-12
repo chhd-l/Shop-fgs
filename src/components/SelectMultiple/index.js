@@ -41,7 +41,6 @@ export default class Selection extends React.Component {
     });
   };
   handleClickOption(val, item) {
-    console.log(val, item, 'itemitme');
     let selectedArr = this.state.selectArray;
     const isExist = selectedArr?.filter((item) => item.value == val);
     const UniqueItem = selectedArr?.filter((item) => item.value != val);

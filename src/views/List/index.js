@@ -565,11 +565,11 @@ class List extends React.Component {
       let theme;
       let type;
       let specieId;
-      if (this.state.isDogPage) {
+      if (pathname.includes('dog')) {
         theme = 'Dog';
         type = 'Product Catalogue';
         specieId = 2;
-      } else if (!this.state.isDogPage) {
+      } else if (pathname.includes('cat')) {
         theme = 'Cat';
         type = 'Product Catalogue';
         specieId = 1;
