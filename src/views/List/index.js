@@ -1677,7 +1677,10 @@ class List extends React.Component {
             name="description"
             content={this.state.prefv1 ? filterSeoDesc : metaDescriptionSeo}
           />
-          <meta name="keywords" content={filterSeoWords} />
+          <meta
+            name="keywords"
+            content={this.state.prefv1 ? filterSeoWords : metaKeywords}
+          />
         </Helmet>
         <Header
           showMiniIcons={true}
