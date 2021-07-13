@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "7.9.0",
     "@babel/plugin-proposal-decorators": "^7.10.1",
+    "@googlemaps/markerclustererplus": "^1.2.0",
     "@okta/okta-auth-js": "^4.8.0",
     "@okta/okta-react": "^5.0.0",
     "@svgr/webpack": "4.3.3",
