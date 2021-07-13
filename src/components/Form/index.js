@@ -102,6 +102,7 @@ class Form extends React.Component {
         pickUpCode: null, // 地图选择后得到的编码
         DuData: null, // 俄罗斯DuData
         formRule: [], // form表单校验规则
+        workTime: '', // pickup workTime
         provinceIdStr: '', // pickup计算价格使用
         cityIdStr: '', // pickup计算价格使用
         areaIdStr: '', // pickup计算价格使用
@@ -1022,7 +1023,7 @@ class Form extends React.Component {
 
   // DuData地址搜索选择 1
   handleAddressInputChange = async (data) => {
-    // console.log('666 DuData地址搜索选择 data: ', data);
+    console.log('666 DuData地址搜索选择 data: ', data);
     const { caninForm } = this.state;
     this.setState({
       address1Data: data
@@ -1200,7 +1201,7 @@ class Form extends React.Component {
           searchInputChange={this.getSearchInputChange}
           key={caninForm[item.fieldKey]}
           defaultValue={caninForm[item.fieldKey]}
-          value={caninForm[item.fieldKey]}
+          value={caninForm[item.fieldKey] || ''}
           freeText={item.inputFreeTextFlag == 1 ? true : false}
           name={item.fieldKey}
           placeholder={
@@ -1225,7 +1226,7 @@ class Form extends React.Component {
             className={`rc-input__control ${item.fieldKey}Shipping`}
             id={`${item.fieldKey}Shipping`}
             type={item.filedType}
-            value={caninForm[item.fieldKey]}
+            value={caninForm[item.fieldKey] || ''}
             onChange={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
@@ -1247,7 +1248,7 @@ class Form extends React.Component {
             className="rc_input_textarea"
             placeholder={`${this.props.intl.messages['payment.comment']}`}
             id={`${item.fieldKey}Shipping`}
-            value={caninForm[item.fieldKey]}
+            value={caninForm[item.fieldKey] || ''}
             onChange={(e) => this.inputChange(e)}
             onBlur={this.inputBlur}
             name={item.fieldKey}
@@ -1351,7 +1352,7 @@ class Form extends React.Component {
                 data-name="profile_personalInfo"
                 alt="birthday E-mail"
                 name="email"
-                value={caninForm.email}
+                value={caninForm.email || ''}
                 maxLength="50"
                 disabled
               />
