@@ -275,12 +275,13 @@ class Payment extends React.Component {
       isShowValidationModal: true, // 是否显示验证弹框
       billingAddressAddOrEdit: false, // billingAddress编辑或者添加地址
       validationAddress: [], // 校验地址
-      ruShippingDTO: {
-        regionFias: '',
-        areaFias: '',
-        cityFias: '',
-        settlementFias: '',
-        postalCode: ''
+      shippingFeeAddress: {
+        provinceIdStr: '',
+        areaIdStr: '',
+        cityIdStr: '',
+        settlementIdStr: '',
+        postalCode: '',
+        address1: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
       welcomeBoxValue: 'no' //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
     };
@@ -480,7 +481,7 @@ class Payment extends React.Component {
   }
   // 更新delivery address保存次数
   updateSaveAddressNumber = async (number) => {
-    console.log('666 更新delivery address保存次数: ', number);
+    // console.log('666 更新delivery address保存次数: ', number);
     this.setState({
       saveAddressNumber: number
     });
@@ -1559,8 +1560,12 @@ class Payment extends React.Component {
       petsId: '',
       deliveryAddressId: deliveryAddress?.addressId,
       billAddressId: billingAddress?.addressId,
-      maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
-      minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
+      maxDeliveryTime:
+        calculationParam?.calculation?.maxDeliveryTime ||
+        deliveryAddress.maxDeliveryTime,
+      minDeliveryTime:
+        calculationParam?.calculation?.minDeliveryTime ||
+        deliveryAddress.minDeliveryTime,
       promotionCode,
       guestEmail,
       selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
@@ -1571,9 +1576,9 @@ class Payment extends React.Component {
     }
     console.log('666 ★ 封装下单参数: ', param);
 
-    // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+    // 1: HOMEDELIVERY , 2: PICKUP
     if (deliveryAddress.receiveType == 'HOME_DELIVERY') {
-      param.deliverWay = 2;
+      param.deliverWay = 1;
     }
 
     if (payosdata) {
@@ -2036,22 +2041,31 @@ class Payment extends React.Component {
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
     console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
-    const { ruShippingDTO, guestEmail } = this.state;
+    const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
 
-    var dudata = data?.DuData;
-    if (dudata) {
-      ruShippingDTO.regionFias = dudata?.provinceId;
-      ruShippingDTO.areaFias = dudata?.areaId;
-      ruShippingDTO.cityFias = dudata?.cityId;
-      ruShippingDTO.settlementFias = dudata?.settlementId;
-      ruShippingDTO.postalCode = dudata?.postCode;
-      this.setState({
-        ruShippingDTO
-      });
-      // 把查询运费折扣相关参数存到本地
-      localItemRoyal.set('rc-calculation-param', data);
+    if (data?.DuData) {
+      let dudata = data?.DuData;
+      shippingFeeAddress.provinceIdStr = dudata?.provinceId;
+      shippingFeeAddress.areaIdStr = dudata?.areaId;
+      shippingFeeAddress.cityIdStr = dudata?.cityId;
+      shippingFeeAddress.settlementIdStr = dudata?.settlementId;
+      shippingFeeAddress.postalCode = dudata?.postCode;
+      shippingFeeAddress.address1 = data?.address1;
+    } else {
+      shippingFeeAddress.provinceIdStr = data.provinceIdStr;
+      shippingFeeAddress.areaIdStr = data.areaIdStr;
+      shippingFeeAddress.cityIdStr = data.cityIdStr;
+      shippingFeeAddress.settlementIdStr = data.settlementIdStr;
+      shippingFeeAddress.postalCode = data.postalCode;
+      shippingFeeAddress.address1 = data.address1;
     }
+    this.setState({
+      shippingFeeAddress
+    });
+    // 把查询运费折扣相关参数存到本地
+    localItemRoyal.set('rc-calculation-param', data);
+
     param = {
       promotionCode: this.state.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
@@ -2063,19 +2077,18 @@ class Payment extends React.Component {
         postalCode: data?.postCode,
         customerAccount: guestEmail
       },
-      address1: data?.address1,
-      ruShippingDTO: ruShippingDTO
+      shippingFeeAddress: shippingFeeAddress
     };
     if (this.isLogin) {
       param.subscriptionFlag = false;
     }
 
-    // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+    // 1: HOMEDELIVERY , 2: PICKUP
     if (data.receiveType == 'HOME_DELIVERY' || !data.receiveType) {
-      param.deliverWay = 2;
+      param.deliverWay = 1;
     }
     if (data.receiveType == 'PICK_UP') {
-      param.deliverWay = 3;
+      param.deliverWay = 2;
     }
 
     // PayProductInfo 组件中用到的参数
@@ -2093,18 +2106,23 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    // console.log('666 ★★ -- data: ', data);
     this.setState(
       {
         deliveryAddress: data
       },
       () => {
         let newPayWayName = [...this.state.payWayNameArr];
+        // pickup 支付方式处理：
+        // 1、cod: cash & card，则shop展示cod和卡支付
+        // 2、cod: cash 或 card，则shop展示cod和卡支付
+        // 3、无返回，则shop展示卡支付
         let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
         if (pmd) {
           let pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
-          newPayWayName = newPayWayName.filter(
-            (e) => e.code == pickupPayMethods
-          );
+          newPayWayName = newPayWayName.filter((e) => {
+            return e.code !== 'cod' || e.code == pickupPayMethods;
+          });
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
             this.initPaymentTypeVal();
@@ -2184,6 +2202,7 @@ class Payment extends React.Component {
               isDeliveryOrBilling="delivery"
               initData={deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
+              saveAddressNumber={this.state.saveAddressNumber}
               guestEmail={guestEmail}
               updateValidationStaus={this.updateValidationStaus}
               updateData={this.updateDeliveryAddrData}
@@ -2844,7 +2863,7 @@ class Payment extends React.Component {
         </div>
       );
     };
-
+    console.log('6666 payWayNameArr: ', payWayNameArr);
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
@@ -3279,8 +3298,7 @@ class Payment extends React.Component {
           postalCode: deliveryAddress.postCode,
           customerAccount: guestEmail
         },
-        address1: deliveryAddress?.address1,
-        ruShippingDTO: this.state.ruShippingDTO
+        shippingFeeAddress: this.state.shippingFeeAddress
       });
     });
   };

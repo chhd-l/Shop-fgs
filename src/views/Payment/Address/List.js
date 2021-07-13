@@ -64,6 +64,7 @@ class AddressList extends React.Component {
       deliveryOrPickUpFlag: false,
       selectDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
       pickupFormData: [], // pickup 表单数据
+      pickupEditNumber: 0, // pickup 编辑次数，用来判断当前是否编辑过
       pickupAddress: [],
       deliveryAddress: {
         firstName: '',
@@ -352,8 +353,6 @@ class AddressList extends React.Component {
           selectedId: tmpId
         },
         () => {
-          // this.updateSelectedData();
-          // this.confirmToNextPanel({ init });
           this.setState({
             loading: false
           });
@@ -540,8 +539,11 @@ class AddressList extends React.Component {
       }
     } else {
       this.props.updateData(tmpObj);
-      if (this.props.type == 'delivery') {
-        this.props.calculateFreight(tmpObj);
+      if (
+        this.props.type == 'delivery' &&
+        window.__.env.REACT_APP_COUNTRY == 'ru'
+      ) {
+        this.calculateFreight(tmpObj);
       }
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
@@ -570,7 +572,7 @@ class AddressList extends React.Component {
   // 根据address1查询地址信息，再根据查到的信息计算运费
   getAddressListByKeyWord = async (obj) => {
     const { addressList } = this.state;
-    // console.log('183 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
+    // console.log('666 ★★ -------------- 根据address1查询地址信息 obj: ', obj);
     try {
       let address1 = obj.address1;
       let res = await getAddressBykeyWord({ keyword: address1 });
@@ -578,11 +580,7 @@ class AddressList extends React.Component {
         // 根据地址获取到的地址列表匹配当前选中的地址
         let addls = res.context.addressList;
         let dladdress = Object.assign({}, obj);
-        // addls.forEach((item) => {
-        //   if (item.unrestrictedValue == address1) {
-        //     dladdress.DuData = item;
-        //   }
-        // });
+
         dladdress.DuData = addls[0];
 
         if (dladdress.DuData) {
@@ -613,7 +611,7 @@ class AddressList extends React.Component {
               () => {
                 this.props.updateData(this.state.deliveryAddress);
                 // purchases接口计算运费
-                this.props.calculateFreight(this.state.deliveryAddress);
+                this.calculateFreight(this.state.deliveryAddress);
                 this.isDeliverAddress &&
                   this.props.paymentStore.setDefaultCardDataFromAddr(
                     this.state.deliveryAddress
@@ -650,7 +648,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
-    // console.log('214 ★★ -------------- 计算运费 obj: ', obj);
+    console.log('666 ★★ -------------- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -674,7 +672,7 @@ class AddressList extends React.Component {
                 deliveryAddress: newaddr
               },
               () => {
-                this.props.calculateFreight(this.state.deliveryAddress);
+                this.calculateFreight(this.state.deliveryAddress);
                 this.isDeliverAddress &&
                   this.props.paymentStore.setDefaultCardDataFromAddr(
                     this.state.deliveryAddress
@@ -1299,14 +1297,20 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    console.log('666  更新 selectDeliveryOrPickUp: ', num);
     this.setState({
       selectDeliveryOrPickUp: num
     });
   };
+  // 更新 pickup编辑次数
+  updatePickupEditNumber = (num) => {
+    console.log('666  更新 pickupEditNumber: ', num);
+    this.setState({
+      pickupEditNumber: num
+    });
+  };
   // 更新pickup数据
   updatePickupData = (data) => {
-    // console.log('666 updatePickupData: ', data);
+    console.log('666 updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -1324,6 +1328,8 @@ class AddressList extends React.Component {
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
         return Object.assign(pre, { [cur]: '' });
       }, {});
+      console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+      let pkaddr = pickupFormData?.pickup?.address;
       let deliveryAdd = Object.assign({}, tempAddress, {
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
@@ -1336,13 +1342,21 @@ class AddressList extends React.Component {
         pickupCode: pickupFormData.pickupCode, // 快递公司code
         workTime: pickupFormData.workTime, // 快递公司上班时间
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
-        deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+        deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
         type: 'DELIVERY',
         country: deliveryAddress.country,
         countryId: deliveryAddress.countryId,
-        isDefaltAddress: 0
+        isDefaltAddress: 0,
+        minDeliveryTime: pickupFormData.minDeliveryTime,
+        maxDeliveryTime: pickupFormData.maxDeliveryTime,
+        workTime: pickupFormData.workTime,
+        provinceIdStr: pkaddr?.regionFias,
+        cityIdStr: pkaddr?.cityFias,
+        areaIdStr: pkaddr?.areaFias,
+        settlementIdStr: pkaddr?.settlementFias,
+        postalCode: pkaddr?.zip
       });
-
+      debugger;
       // 查询地址列表，筛选 pickup 地址
       let addres = await getAddressList();
       let pkup = addres.context.filter((e) => {
@@ -1367,12 +1381,12 @@ class AddressList extends React.Component {
             pickupAddress: pickupFormData
           },
           () => {
-            console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
             console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
             // pickup 相关信息传到 Payment
             deliveryAdd['pickup'] = pickupFormData.pickup;
             this.props.updateData(deliveryAdd);
+            this.calculateFreight(deliveryAdd);
 
             // 收起 panel
             const { paymentStore } = this.props;
@@ -1436,7 +1450,8 @@ class AddressList extends React.Component {
       validationLoading,
       listValidationModalVisible,
       pickupFormData,
-      pickupAddress
+      pickupAddress,
+      pickupEditNumber
     } = this.state;
 
     const _list = addressList.map((item, i) => (
@@ -1723,12 +1738,14 @@ class AddressList extends React.Component {
                   this.props.isCurrentBuyWaySubscription
                 }
                 updateDeliveryOrPickup={this.updateDeliveryOrPickup}
+                updatePickupEditNumber={this.updatePickupEditNumber}
                 updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
                 updateData={this.updatePickupData}
                 deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
                 cartData={this.props.cartData}
                 calculateFreight={this.calculateFreight}
+                pickupEditNumber={pickupEditNumber}
               />
             </>
           )}

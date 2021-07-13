@@ -51,6 +51,7 @@ class VisitorAddress extends React.Component {
       deliveryOrPickUpFlag: false,
       selectDeliveryOrPickUp: 0, // 0：pickup和delivery home都没有，1：home delivery，2：pickup
       pickupFormData: [], // pickup 表单数据
+      pickupEditNumber: 0, // pickup 编辑次数，用来判断当前是否编辑过
       pickupAddress: [],
 
       visitorData: null,
@@ -402,7 +403,7 @@ class VisitorAddress extends React.Component {
         });
         paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
         if (isDeliveryAddr) {
-          this.props.calculateFreight(this.state.form);
+          this.calculateFreight(this.state.form);
           setTimeout(() => {
             scrollPaymentPanelIntoView();
           });
@@ -451,9 +452,15 @@ class VisitorAddress extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    console.log('666 updateDeliveryOrPickup: ', num);
     this.setState({
       selectDeliveryOrPickUp: num
+    });
+  };
+  // 更新 pickup编辑次数
+  updatePickupEditNumber = (num) => {
+    console.log('666  更新 pickupEditNumber: ', num);
+    this.setState({
+      pickupEditNumber: num
     });
   };
   // 更新pickup数据
@@ -477,6 +484,7 @@ class VisitorAddress extends React.Component {
       let tempAddress = Object.keys(form).reduce((pre, cur) => {
         return Object.assign(pre, { [cur]: '' });
       }, {});
+      let pkaddr = pickupFormData?.pickup?.address;
       let deliveryAdd = Object.assign({}, tempAddress, {
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
@@ -489,11 +497,18 @@ class VisitorAddress extends React.Component {
         pickupCode: pickupFormData.pickupCode, // 快递公司code
         workTime: pickupFormData.workTime, // 快递公司上班时间
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
-        deliverWay: receiveType == 'HOME_DELIVERY' ? 2 : 3, // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+        deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
         type: 'DELIVERY',
         country: form.country,
         countryId: form.countryId,
-        isDefaltAddress: 0
+        minDeliveryTime: pickupFormData.minDeliveryTime,
+        maxDeliveryTime: pickupFormData.maxDeliveryTime,
+        workTime: pickupFormData.workTime,
+        provinceIdStr: pkaddr?.regionFias,
+        cityIdStr: pkaddr?.cityFias,
+        areaIdStr: pkaddr?.areaFias,
+        settlementIdStr: pkaddr?.settlementFias,
+        postalCode: pkaddr?.zip
       });
 
       this.setState(
@@ -509,6 +524,7 @@ class VisitorAddress extends React.Component {
 
           this.props.updateValidationStaus(true);
           this.props.updateData(deliveryAdd);
+          this.calculateFreight(deliveryAdd);
 
           this.setState({
             selectDeliveryOrPickUp: 0,
@@ -530,7 +546,7 @@ class VisitorAddress extends React.Component {
           });
           paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
           if (isDeliveryAddr) {
-            this.props.calculateFreight(this.state.form);
+            this.calculateFreight(this.state.form);
             setTimeout(() => {
               scrollPaymentPanelIntoView();
             });
@@ -562,7 +578,8 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption,
       confirmBtnDisabled,
       pickupFormData,
-      pickupAddress
+      pickupAddress,
+      pickupEditNumber
     } = this.state;
 
     // console.log(234, form);
@@ -604,12 +621,14 @@ class VisitorAddress extends React.Component {
                   isLogin={false}
                   defaultCity={this.state.defaultCity}
                   updateDeliveryOrPickup={this.updateDeliveryOrPickup}
+                  updatePickupEditNumber={this.updatePickupEditNumber}
                   updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
                   updateData={this.updatePickupData}
                   deliveryOrPickUp={selectDeliveryOrPickUp}
                   intlMessages={this.props.intlMessages}
                   cartData={this.props.cartData}
                   calculateFreight={this.calculateFreight}
+                  pickupEditNumber={pickupEditNumber}
                 />
               )}
 

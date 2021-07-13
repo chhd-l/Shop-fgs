@@ -37,7 +37,9 @@ class HomeDeliveryOrPickUp extends React.Component {
     defaultCity: '',
     deliveryOrPickUp: 0,
     intlMessages: '',
+    pickupEditNumber: 0,
     updateDeliveryOrPickup: () => {},
+    updatePickupEditNumber: () => {},
     updateConfirmBtnDisabled: () => {},
     calculateFreight: () => {},
     updateData: () => {}
@@ -51,6 +53,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickupDetailDialog: false,
       showPickupForm: false,
       pickUpBtnLoading: false,
+      searchNoResult: false,
       pickupCity: '',
       courierInfo: [], // 快递公司信息
       selectedItem: null, // 记录选择的内容
@@ -148,12 +151,19 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
 
-    // console.log('666 ★ --> defaultCity: ', defaultCity);
-    // console.log('666 ★ --> isSubscription: ', sitem.isSubscription);
+    // console.log('666 ★★ --> defaultCity: ', defaultCity);
+    // console.log('666 ★★ --> sitem: ', sitem);
+    // console.log('666 ★★ --> isSubscription: ', this.props.isCurrentBuyWaySubscription);
+    // console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
-    // if ((defaultCity && !sitem) || (sitem && sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)) {
-    if (defaultCity) {
+    let pickupEditNumber = this.props.pickupEditNumber;
+    if (
+      (defaultCity && !sitem) ||
+      (pickupEditNumber > 0 &&
+        sitem &&
+        sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)
+    ) {
       // 没有默认城市但是有缓存
       defaultCity
         ? (defaultCity = defaultCity)
@@ -162,40 +172,43 @@ class HomeDeliveryOrPickUp extends React.Component {
       let robj = res?.context?.pickUpQueryCityDTOs || [];
       if (robj) {
         this.handlePickupCitySelectChange(robj[0]);
+      } else {
+        this.setState({
+          searchNoResult: true
+        });
       }
+    } else if (sitem?.homeAndPickup.length && pickupEditNumber > 0) {
+      // 初始化数据，本地存储有数据（当前会话未结束）
+      let stype = '';
+      let newobj = [];
+      let isSelectedItem = false; // 是否有选中项
+      sitem?.homeAndPickup.forEach((v, i) => {
+        let tp = v.type;
+        if (v.selected) {
+          stype = tp;
+          isSelectedItem = true;
+        }
+        // 有订阅商品时不显示pickup
+        if (
+          (tp == 'pickup' && !this.props.isCurrentBuyWaySubscription) ||
+          tp == 'homeDelivery'
+        ) {
+          newobj.push(v);
+        }
+      });
+      sitem.homeAndPickup = newobj;
+      this.setState(
+        {
+          selectedItem: sitem,
+          pickupCity: sitem.city.city
+        },
+        () => {
+          if (isSelectedItem) {
+            this.setItemStatus(stype);
+          }
+        }
+      );
     }
-    // else if (sitem?.homeAndPickup.length) {
-    //   // 初始化数据，本地存储有数据（当前会话未结束）
-    //   let stype = '';
-    //   let newobj = [];
-    //   let isSelectedItem = false; // 是否有选中项
-    //   sitem?.homeAndPickup.forEach((v, i) => {
-    //     let tp = v.type;
-    //     if (v.selected) {
-    //       stype = tp;
-    //       isSelectedItem = true;
-    //     }
-    //     // 有订阅商品时不显示pickup
-    //     if (
-    //       (tp == 'pickup' && !this.props.isCurrentBuyWaySubscription) ||
-    //       tp == 'homeDelivery'
-    //     ) {
-    //       newobj.push(v);
-    //     }
-    //   });
-    //   sitem.homeAndPickup = newobj;
-    //   this.setState(
-    //     {
-    //       selectedItem: sitem,
-    //       pickupCity: sitem.city.city
-    //     },
-    //     () => {
-    //       if (isSelectedItem) {
-    //         this.setItemStatus(stype);
-    //       }
-    //     }
-    //   );
-    // }
   }
   // 设置手机号输入限制
   setRuPhoneNumberReg = () => {
@@ -207,13 +220,18 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
-    const { isLogin } = this.props;
+    const { isLogin, pickupEditNumber } = this.props;
     const { selectedItem } = this.state;
     let res = null;
     this.setState({
-      hdpuLoading: true
+      hdpuLoading: true,
+      searchNoResult: false
     });
     try {
+      // 更新pickup编辑次数
+      let pknum = Number(pickupEditNumber) + 1;
+      this.props.updatePickupEditNumber(pknum);
+
       let goodsInfoDetails = [];
       // 取到购物车里面的 goodsInfoId、购买的sku数量
       if (isLogin) {
@@ -268,7 +286,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             // 有订阅商品的时只展示且默认选择 homeDelivery
             if (isSubscription && obj.length == 1 && obj[0].type == 'PVZ') {
               this.setState({
-                pickupCity: ''
+                pickupCity: '',
+                searchNoResult: true
               });
               return;
             }
@@ -356,11 +375,15 @@ class HomeDeliveryOrPickUp extends React.Component {
     let sitem = Object.assign({}, selectedItem);
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
+        // 选中 pickup
         v.type == 'pickup' ? (pickupItem = v) : null;
       }
     });
-    pickupForm['item'] = pickupItem;
     pickupForm['city'] = sitem?.city?.city || [];
+    pickupForm['item'] = pickupItem;
+    pickupForm['maxDeliveryTime'] = pickupItem?.maxDeliveryTime || 0;
+    pickupForm['minDeliveryTime'] = pickupItem?.minDeliveryTime || 0;
+
     let flag = false;
     if (val == 'homeDelivery') {
       flag = false;
@@ -385,7 +408,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
-        console.log('666 ★ pickupForm: ', pickupForm);
+        // console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
         this.props.calculateFreight(this.state.pickupForm);
       }
@@ -501,7 +524,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 className="rc_input_textarea"
                 placeholder={`${this.props.intl.messages['payment.comment']}`}
                 id={`${item.fieldKey}Shipping`}
-                value={pickupForm[item.fieldKey]}
+                value={pickupForm[item.fieldKey] || ''}
                 onChange={(e) => this.inputChange(e)}
                 onBlur={this.inputBlur}
                 name={item.fieldKey}
@@ -514,7 +537,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 className={`rc-input__control ${item.fieldKey}Shipping`}
                 id={`${item.fieldKey}Shipping`}
                 type={item.filedType}
-                value={pickupForm[item.fieldKey]}
+                value={pickupForm[item.fieldKey] || ''}
                 onChange={(e) => this.inputChange(e)}
                 onBlur={this.inputBlur}
                 name={item.fieldKey}
@@ -546,7 +569,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       showPickupForm,
       pickupCity,
       selectedItem,
-      courierInfo
+      courierInfo,
+      searchNoResult
     } = this.state;
     return (
       <>
@@ -572,7 +596,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                   }
                   key={pickupCity}
                   defaultValue={pickupCity}
-                  value={pickupCity}
+                  value={pickupCity || ''}
                   freeText={false}
                   name="pickupCity"
                   placeholder={
@@ -583,6 +607,11 @@ class HomeDeliveryOrPickUp extends React.Component {
                   isBottomPaging={true}
                 />
               </span>
+              {searchNoResult && (
+                <div className="text-danger-2" style={{ paddingTop: '.5rem' }}>
+                  <FormattedMessage id="payment.pickupNoRusult" />
+                </div>
+              )}
             </div>
 
             {/* begin */}
@@ -593,7 +622,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                     <div className="rc-input rc-input--inline">
                       <input
                         className="rc-input__radio"
-                        value={item.type}
+                        value={item.type || ''}
                         id={item.type}
                         checked={item.selected}
                         type="radio"

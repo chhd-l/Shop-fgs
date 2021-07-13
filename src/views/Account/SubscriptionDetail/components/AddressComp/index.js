@@ -134,12 +134,13 @@ class AddressList extends React.Component {
       validationModalVisible: false, // 地址校验查询开关
       selectValidationOption: 'suggestedAddress',
       itemIdx: '',
-      ruShippingDTO: {
-        regionFias: '',
-        areaFias: '',
-        cityFias: '',
-        settlementFias: '',
-        postalCode: ''
+      shippingFeeAddress: {
+        provinceIdStr: '',
+        areaIdStr: '',
+        cityIdStr: '',
+        settlementIdStr: '',
+        postalCode: '',
+        address1: ''
       } // 俄罗斯计算运费DuData对象，purchases接口用
     };
     this.timer = null;
@@ -426,22 +427,31 @@ class AddressList extends React.Component {
     //   '310 ★★ -- SubscriptionDetail 计算税额、运费、运费折扣: ',
     //   data
     // );
-    const { ruShippingDTO } = this.state;
+    const { shippingFeeAddress } = this.state;
     let param = {};
 
-    var dudata = data?.DuData;
-    if (dudata) {
-      ruShippingDTO.regionFias = dudata?.provinceId;
-      ruShippingDTO.areaFias = dudata?.areaId;
-      ruShippingDTO.cityFias = dudata?.cityId;
-      ruShippingDTO.settlementFias = dudata?.settlementId;
-      ruShippingDTO.postalCode = dudata?.postCode;
-      this.setState({
-        ruShippingDTO
-      });
-      // 把查询运费折扣相关参数存到本地
-      localItemRoyal.set('rc-calculation-param', data);
+    if (data?.DuData) {
+      let dudata = data?.DuData;
+      shippingFeeAddress.provinceIdStr = dudata?.provinceId;
+      shippingFeeAddress.areaIdStr = dudata?.areaId;
+      shippingFeeAddress.cityIdStr = dudata?.cityId;
+      shippingFeeAddress.settlementIdStr = dudata?.settlementId;
+      shippingFeeAddress.postalCode = dudata?.postCode;
+      shippingFeeAddress.address1 = data?.address1;
+    } else {
+      shippingFeeAddress.provinceIdStr = data.provinceIdStr;
+      shippingFeeAddress.areaIdStr = data.areaIdStr;
+      shippingFeeAddress.cityIdStr = data.cityIdStr;
+      shippingFeeAddress.settlementIdStr = data.settlementIdStr;
+      shippingFeeAddress.postalCode = data.postalCode;
+      shippingFeeAddress.address1 = data.address1;
     }
+    this.setState({
+      shippingFeeAddress
+    });
+    // 把查询运费折扣相关参数存到本地
+    localItemRoyal.set('rc-calculation-param', data);
+
     let stateNo = data?.stateNo || '';
     param = {
       promotionCode: '',
@@ -455,8 +465,7 @@ class AddressList extends React.Component {
         postalCode: data?.postCode,
         customerAccount: this.props.customerAccount
       },
-      address1: data?.address1,
-      ruShippingDTO: ruShippingDTO
+      shippingFeeAddress: shippingFeeAddress
     };
     if (this.props.tradeItems) {
       let tradeItems = this.props.tradeItems;
