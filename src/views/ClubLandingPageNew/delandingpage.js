@@ -205,7 +205,7 @@ class ClubLandingPageDe extends React.Component {
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                             <div className="rc-alpha inherit-fontsize detextcenter">
-                              Die VET Diäten von ROYAL CANIN®
+                              Die tierärztlichen Nahrungen von ROYAL CANIN®
                             </div>
                             <li className="rc-list__item">
                               Seit 1968 erforscht ROYAL CANIN® die besonderen
@@ -215,15 +215,25 @@ class ClubLandingPageDe extends React.Component {
                               großen Unterschied für das Wohlbefinden Ihres
                               Haustieres bedeuten. Das gilt natürlich um so
                               mehr, wenn Tierärzt*innen bei Ihrer Katze oder
-                              Ihrem Hund ein besonderes Bedürfnis festgestellt
-                              haben.
+                              Ihrem Hund ein{' '}
+                              <a style={{ fontWeight: 'bolder' }}>
+                                besonderes Bedürfnis
+                              </a>{' '}
+                              festgestellt haben.
                             </li>
                             <li className="rc-list__item">
-                              Damit wir sichergehen können, dass Ihrem
-                              Nahrungskauf eine tierärztliche Empfehlung
-                              vorausgeht, benötigen Sie einen individuellen
-                              Empfehlungscode Ihrer Tierarztpraxis um eine
-                              Bestellung in unserem Shop aufzugeben.
+                              Damit wir sicherstellen können, dass ihr Haustier
+                              die Nahrung erhält, die es benötigt, benötigen Sie
+                              einen{' '}
+                              <a style={{ fontWeight: 'bolder' }}>
+                                {' '}
+                                individuellen Empfehlungscode Ihrer
+                                Tierarztpraxis
+                              </a>
+                              , der bescheinigt, dass sie eine Empfehlung
+                              erhalten haben. Mit diesem Empfehlungscode können
+                              Sie dann eine Bestellung in unserem Online-Shop
+                              aufgeben.
                             </li>
                           </ul>
                           <br />
@@ -275,11 +285,23 @@ class ClubLandingPageDe extends React.Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                       >
                         <p>
-                          Besuchen Sie Ihre Tierarztpraxis und erhalten Sie eine
-                          Nahrungsempfehlung zur Behandlung eines besonderen
-                          Bedürfnisses Ihrer Katze oder Ihres Hundes. Diese
-                          händigt Ihnen einen individuellen Empfehlungscode aus.
-                          Hier finden Sie teilnehmende Tierarztpraxen.
+                          <a style={{ fontWeight: 'bolder' }}>
+                            Besuchen Sie Ihre Tierarztpraxis
+                          </a>
+                          , um sich beraten zu lassen und eine
+                          Nahrungsempfehlung speziell für die besonderen
+                          Bedürfnisses Ihrer Katze oder Ihres Hundes zu
+                          erhalten. Ihre Praxis händigt Ihnen einen
+                          <a style={{ fontWeight: 'bolder' }}>
+                            individuellen EmpfehlungscodeZ
+                          </a>{' '}
+                          aus.
+                          <Link to="/vet-diets">
+                            <a style={{ textDecoration: 'underline' }}>
+                              Unter diesem Link finden Sie teilnehmende
+                              Tierarztpraxen.
+                            </a>
+                          </Link>
                         </p>
                       </div>
                     </div>
@@ -293,8 +315,12 @@ class ClubLandingPageDe extends React.Component {
                         className="desktop30vw orderthree"
                       >
                         <p className="detextalignright">
-                          Geben Sie Ihren individuellen Empfehlungscode unten
-                          auf dieser Seite ein.
+                          Geben Sie Ihren individuellen Empfehlungscode{' '}
+                          <a style={{ fontWeight: 'bolder' }}>
+                            {' '}
+                            unten auf dieser Seite
+                          </a>{' '}
+                          ein.
                         </p>
                       </div>
                       <div
@@ -345,7 +371,8 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <p>
                           Suchen Sie die empfohlene Nahrung Ihrer Tierarztpraxis
-                          im Shop heraus und legen Sie diese in Ihren Warenkorb.
+                          im Shop heraus und legen Sie diese in der gewünschten
+                          Größe in Ihren Warenkorb.
                         </p>
                       </div>
                     </div>
@@ -360,9 +387,13 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <p className="detextalignright">
                           Wählen Sie Ihre gewünschte Zahlungsmethode aus und
-                          schließen Sie Ihre ROYAL CANIN® Bestellung ab. Sie
-                          erhalten Ihre bestellte Nahrung innerhalb von 1-3
-                          Werktagen nach Hause versandt.
+                          schließen Sie Ihre ROYAL CANIN® Bestellung ab. Ihre
+                          bestellte Nahrung wird Ihnen in der Regel{' '}
+                          <a style={{ fontWeight: 'bolder' }}>
+                            {' '}
+                            innerhalb von 1-3 Werktagen{' '}
+                          </a>{' '}
+                          nach Hause geliefert.
                         </p>
                       </div>
                       <div
@@ -460,7 +491,9 @@ class ClubLandingPageDe extends React.Component {
                                     <em className="bingoWhite rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
-                                    <a>kostenloser Versand ​</a>
+                                    <a style={{ fontWeight: 'bolder' }}>
+                                      kostenloser Versand{' '}
+                                    </a>
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
@@ -469,8 +502,10 @@ class ClubLandingPageDe extends React.Component {
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
-                                      schnelle Lieferung innerhalb von 1-3
-                                      Werktagen​
+                                      <a style={{ fontWeight: 'bolder' }}>
+                                        schnelle Lieferung
+                                      </a>{' '}
+                                      in der Regel innerhalb von 1-3 Werktagen
                                     </a>
                                   </div>
                                 </li>
@@ -558,16 +593,13 @@ class ClubLandingPageDe extends React.Component {
                                     <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
-                                    <a>10% Rabatt auf Ihre Bestellungen</a>
-                                  </div>
-                                </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
-                                  </div>
-                                  <div style={{ marginLeft: '10px' }}>
                                     <a>
-                                      immer genug Nahrung für Ihr Tier Zuhause
+                                      {' '}
+                                      <a style={{ fontWeight: 'bolder' }}>
+                                        {' '}
+                                        10% Rabatt{' '}
+                                      </a>
+                                      auf Ihre Bestellungen
                                     </a>
                                   </div>
                                 </li>
@@ -577,6 +609,20 @@ class ClubLandingPageDe extends React.Component {
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
+                                      immer{' '}
+                                      <a style={{ fontWeight: 'bolder' }}>
+                                        genug Nahrung{' '}
+                                      </a>{' '}
+                                      für Ihr Tier Zuhause
+                                    </a>
+                                  </div>
+                                </li>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div style={{ marginLeft: '10px' }}>
+                                    <a style={{ fontWeight: 'bolder' }}>
                                       keine Mindestlaufzeit oder Kündigungsfrist
                                     </a>
                                   </div>
@@ -586,7 +632,9 @@ class ClubLandingPageDe extends React.Component {
                                     <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
-                                    <a>flexibel anpassbar</a>
+                                    <a style={{ fontWeight: 'bolder' }}>
+                                      flexibel anpassbar
+                                    </a>
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
@@ -594,7 +642,9 @@ class ClubLandingPageDe extends React.Component {
                                     <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
-                                    <a>kostenloser Versand</a>
+                                    <a style={{ fontWeight: 'bolder' }}>
+                                      kostenloser Versand
+                                    </a>
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
@@ -603,8 +653,10 @@ class ClubLandingPageDe extends React.Component {
                                   </div>
                                   <div style={{ marginLeft: '10px' }}>
                                     <a>
-                                      schnelle Lieferung innerhalb von 1-3
-                                      Werktagen
+                                      <a style={{ fontWeight: 'bolder' }}>
+                                        schnelle Lieferung{' '}
+                                      </a>
+                                      in der Regel innerhalb von 1-3 Werktagen
                                     </a>
                                   </div>
                                 </li>
@@ -640,16 +692,23 @@ class ClubLandingPageDe extends React.Component {
                       >
                         <div style={{ width: '30vw' }}>
                           <p style={{ color: '#E2001A', fontWeight: 'bolder' }}>
-                            Auswahl aus dem gesamten VET Diäten Sortiment von
-                            ROYAL CANIN®
+                            Auswahl aus dem tierärztlichen Sortiment von ROYAL
+                            CANIN®
                           </p>
                           <p>
                             ROYAL CANIN® bietet ein umfangreiches Programm an
-                            Diät-Nahrungen an, die speziell auf die tierärztlich
-                            festgestellten besonderen Bedürfnisse von Katzen und
-                            Hunden abgestimmt sind. Finden Sie in unserem Shop
-                            die ganze Auswahl aus unserem Sortiment für
-                            Tierarztpraxen.
+                            Nahrungen an, die speziell auf die
+                            <a style={{ fontWeight: 'bolder' }}>
+                              {' '}
+                              tierärztlich festgestellten besonderen Bedürfnisse
+                            </a>{' '}
+                            von Katzen und Hunden abgestimmt sind. Finden Sie in
+                            unserem Shop die{' '}
+                            <a style={{ fontWeight: 'bolder' }}>
+                              {' '}
+                              ganze Auswahl aus unserem Sortiment
+                            </a>
+                            .
                           </p>
                         </div>
                         <div
@@ -696,8 +755,11 @@ class ClubLandingPageDe extends React.Component {
                           </p>
                           <p>
                             Profitieren Sie von unserem flexiblen Angebot der
-                            regelmäßigen Lieferung und sparen Sie 10% auf alle
-                            Ihre Bestellungen!
+                            regelmäßigen Lieferung und{' '}
+                            <a style={{ fontWeight: 'bolder' }}>
+                              sparen Sie 10%
+                            </a>{' '}
+                            auf alle Ihre Bestellungen!
                           </p>
                         </div>
                         <div
@@ -729,10 +791,17 @@ class ClubLandingPageDe extends React.Component {
                             Schneller und kostenloser Versand
                           </p>
                           <p>
-                            Bestellungen im ROYAL CANIN® Shop sind frei von
-                            Versandkosten oder Mindestbestellmengen. Dazu
-                            liefern wir Ihre bestellte Nahrung bei Lagerbestand
-                            innerhalb von 1-3 Werktagen!
+                            Bestellungen im ROYAL CANIN® Shop sind{' '}
+                            <a style={{ fontWeight: 'bolder' }}>
+                              {' '}
+                              frei von Versandkosten
+                            </a>{' '}
+                            oder Mindestbestellmengen. Dazu liefern wir Ihre
+                            bestellte Nahrung bei Lagerbestand in der Regel{' '}
+                            <a style={{ fontWeight: 'bolder' }}>
+                              innerhalb von 1-3 Werktagen
+                            </a>
+                            !
                           </p>
                         </div>
                       </div>
@@ -774,13 +843,15 @@ class ClubLandingPageDe extends React.Component {
                       <div className=" col-12 col-lg-7">
                         <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text">
-                            Haben Sie Fragen zu den VET Diäten von ROYAL CANIN®?
+                            Haben Sie Fragen zu den tierärztlichen Nahrungen von
+                            ROYAL CANIN®?
                           </h2>
                           <p>
                             <span>
                               Unser erfahrenes Service-Team steht Ihnen gerne
-                              mit Rat und Tat zur Seite. Rufen Sie uns einfach
-                              an oder schreiben Sie uns eine E-Mail.
+                              mit Rat und Tat zur Seite. Wir freuen uns auf
+                              Ihren Anruf oder eine E-Mail von Ihnen. Unseren
+                              Kundenservice erreichen Sie
                             </span>
                           </p>
                           <div className="flex deflexcolumn">
