@@ -7,25 +7,19 @@ class GoogleMap extends React.Component {
     super(props);
     this.state = {
       // key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
-      //key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc',//真实的
-      key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM', //qhx申请的
-      center: this.props.center,
-      zoom: this.props.zoom,
-      clinicArr: this.props.clinicArr
+      //key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc',//线上key
+      key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
     };
     this.mapRef = React.createRef();
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({
-      center: nextProps.center,
-      zoom: nextProps.zoom,
-      clinicArr: nextProps.clinicArr
-    });
-  }
-
+  static defaultProps = {
+    center: '',
+    zoom: '',
+    clinicArr: ''
+  };
   handleApiLoaded = (map, maps) => {
     // use map and maps objects
-    let locations = this.state.clinicArr
+    let locations = this.props.clinicArr
       .filter((e) => e.latitude && e.longitude)
       .map((item) => {
         return {
@@ -48,7 +42,7 @@ class GoogleMap extends React.Component {
   };
 
   render(h) {
-    const { center, zoom } = this.state;
+    const { center, zoom } = this.props;
     return (
       <GoogleMapReact
         ref={this.mapRef}
