@@ -434,7 +434,7 @@ const de_DE = {
   'header.carouselInfo1':
     'Unterstützen Sie die Gesundheit Ihres Haustieres mit der richtigen Nahrungslösung.',
   'header.carouselInfo2':
-    'Wählen Sie das passende Produkt aus dem ROYAL CANIN® Vet Portfolio',
+    'Wählen die das passende Produkt aus den tierärztlichen Nahrungen von ROYAL CANIN®',
   'header.carouselInfo3': 'Tierernährung',
   'header.carouselInfo4': 'Persönlicher Berater',
   'header.carouselInfo5': 'KOSTENLOSE tierärztliche Untersuchungen',
@@ -470,7 +470,7 @@ const de_DE = {
   here2: 'Service-Team',
   home: 'Übersicht',
   'home.convenientTip1':
-    'Finden Sie die passende Nahrung für Ihr Tier aus dem VET Portfolio von ROYAL CANIN®',
+    'Finden Sie die passende Nahrung für Ihr Tier aus den tierärztlichen Nahrungen von ROYAL CANIN®',
   'home.convenientTip2':
     'Schließen Sie eine regelmäßige Lieferung ab, um immer genug Nahrung für Ihr Tier vorrätig zu haben',
   'home.convenientTip3': 'Schneller und kostenloser Versand',
@@ -1371,7 +1371,7 @@ const de_DE = {
   'deLandingPage.prescriberCode.tip2':
     '{val}. So können wir sicherstellen, dass Ihrem Produktkauf',
   'deLandingPage.prescriberCode.tip3':
-    'eine fachgerechte Empfehlung vorausgeht.',
+    'eine fachgerechte Ernährungsberatung und Empfehlung vorausgeht.',
   'deLandingPage.prescriberCode.tip4':
     'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
   dePrescriberCodeTxt: 'z B.XYZ1234',

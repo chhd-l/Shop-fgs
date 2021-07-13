@@ -294,16 +294,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -314,9 +314,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -2112,9 +2113,15 @@ class Payment extends React.Component {
       }
     );
     if (this.state.billingChecked) {
-      this.setState({
-        billingAddress: data
-      });
+      this.setState(
+        {
+          billingAddress: data
+        },
+        () => {
+          // console.log('666 -- Payment billingChecked: ', this.state.billingChecked);
+          // console.log('666 -- Payment billingAddress: ', this.state.billingAddress);
+        }
+      );
     }
   };
 
@@ -2239,7 +2246,7 @@ class Payment extends React.Component {
         {billingChecked ? (
           <div className="ml-custom mr-custom">
             {this.renderAddrPreview({
-              form: billingAddress,
+              form: this.state.billingAddress,
               titleVisible: false,
               boldName: true
             })}
@@ -2432,9 +2439,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2446,9 +2454,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2808,7 +2817,9 @@ class Payment extends React.Component {
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_confirm">
           <button
-            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            className={`rc_btn_payment_confirm rc-btn rc-btn--one ${
+              loading ? 'ui-btn-loading' : ''
+            }`}
             disabled={disabled}
             onClick={this.clickConfirmPaymentPanel}
           >
@@ -2819,11 +2830,12 @@ class Payment extends React.Component {
     };
 
     const reInputCVVBtn = ({ disabled, loading = false }) => {
-      // console.log('2263 CVV Btn: ', disabled);
       return (
         <div className="d-flex justify-content-end mt-3 rc_btn_payment_cvv">
           <button
-            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            className={`rc_btn_payment_cvv rc-btn rc-btn--one ${
+              loading ? 'ui-btn-loading' : ''
+            }`}
             disabled={disabled}
             onClick={this.clickReInputCvvConfirm}
           >
@@ -3081,6 +3093,7 @@ class Payment extends React.Component {
           </p>
         )}
         <AddressPreview
+          key={form}
           boldName={boldName}
           form={form}
           isLogin={this.isLogin}
@@ -3171,7 +3184,7 @@ class Payment extends React.Component {
         <div className="row">
           {ret}
           {!tid && !hideBillingAddr && (
-            <div className="col-12 col-md-6 mt-2 mt-md-0">
+            <div className="col-12 col-md-6 mt-2 mt-md-0 visitor_address_preview">
               {this.renderAddrPreview({
                 form,
                 titleVisible: true,
@@ -3196,9 +3209,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
