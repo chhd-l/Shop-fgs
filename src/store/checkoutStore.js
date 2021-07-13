@@ -175,7 +175,6 @@ class CheckoutStore {
   }
   @action.bound
   setGiftList(data) {
-    console.log(data, 'data1234');
     this.giftList = data;
     localItemRoyal.set('rc-giftList', data);
   }
@@ -369,7 +368,11 @@ class CheckoutStore {
         !purchasesRes.promotionFlag ||
         purchasesRes.couponCodeFlag
       ) {
-        if (purchasesRes.couponCodeFlag && !purchasesRes.couponCodeDiscount) {
+        if (
+          purchasesRes.couponCodeFlag &&
+          !purchasesRes.couponCodeDiscount &&
+          !purchasesRes.freeShippingDiscountPrice
+        ) {
           this.setCouponCodeFitFlag(false);
         } else {
           this.setCouponCodeFitFlag(true);
@@ -586,7 +589,8 @@ class CheckoutStore {
       ) {
         if (
           sitePurchasesRes.couponCodeFlag &&
-          !sitePurchasesRes.couponCodeDiscount
+          !sitePurchasesRes.couponCodeDiscount &&
+          !sitePurchasesRes.freeShippingDiscountPrice
         ) {
           this.setCouponCodeFitFlag(false);
         } else {

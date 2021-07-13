@@ -4,7 +4,6 @@ import { formatMoney } from '@/utils/utils';
 import React from 'react';
 import { toJS } from 'mobx';
 const GiftList = ({data}) => {
-  console.log(data, 'data123')
   return (
     <div
       className="minicart__product"
@@ -59,7 +58,7 @@ const GiftList = ({data}) => {
                       </div>
                       <b
                         className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
-                        style={{ color: '#666' }}
+                        style={{ color: '#666', textDecoration: 'line-through' }}
                       >
                         {formatMoney(data.salePrice * data.buyCount)}
                       </b>
