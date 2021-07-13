@@ -73,7 +73,8 @@ class AccountProfile extends React.Component {
       },
       clinicData: {
         clinicName: '',
-        clinicId: ''
+        clinicId: '',
+        recommendationCode: ''
       },
       originData: null, // 提交接口时，保留未修改参数用
       loading: true,
@@ -111,11 +112,13 @@ class AccountProfile extends React.Component {
       this.setState({ loading: false });
       let prescriberName;
       let prescriberId;
+      let recommendationCode;
       const context = res.context;
       this.props.loginStore.setUserInfo(context);
       if (context.defaultClinics) {
         prescriberName = context.defaultClinics.clinicsName;
         prescriberId = context.defaultClinics.clinicsId;
+        recommendationCode = context.defaultClinics.recommendationCode || '';
       }
 
       let mydata = {
@@ -162,7 +165,8 @@ class AccountProfile extends React.Component {
         },
         clinicData: {
           clinicName: prescriberName,
-          clinicId: prescriberId
+          clinicId: prescriberId,
+          recommendationCode: recommendationCode
         }
       });
     } catch (err) {

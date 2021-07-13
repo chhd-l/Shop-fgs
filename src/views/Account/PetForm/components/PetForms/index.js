@@ -5,7 +5,7 @@ import stores from '@/store';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import Selection from '@/components/Selection';
-import MultipleSelect from '@/components/MultipleSelect';
+import SelectMultiple from '@/components/SelectMultiple';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import DatePicker from 'react-datepicker';
@@ -89,13 +89,13 @@ const PetForms = ({
   showErrorMsg
 }) => {
   const Us = window.__.env.REACT_APP_COUNTRY == 'us';
-  const RuTr =
+  const RuTrFr =
     window.__.env.REACT_APP_COUNTRY == 'ru' ||
-    window.__.env.REACT_APP_COUNTRY == 'tr';
-  const notUsDeFr =
+    window.__.env.REACT_APP_COUNTRY == 'tr' ||
+    window.__.env.REACT_APP_COUNTRY == 'fr';
+  const notUsDe =
     window.__.env.REACT_APP_COUNTRY !== 'us' &&
-    window.__.env.REACT_APP_COUNTRY !== 'de' &&
-    window.__.env.REACT_APP_COUNTRY !== 'fr';
+    window.__.env.REACT_APP_COUNTRY !== 'de';
   const isMobile = getDeviceType() !== 'PC';
   const { enterCatBreed, enterDogBreed } = intl.messages;
   const isInputDisabled =
@@ -294,6 +294,16 @@ const PetForms = ({
       selectedSpecialNeeds
     });
   };
+  const multipleSelSpecialNeedsOptionsChange = (data, selectedItem) => {
+    // 选择No Special Needs的时候仅可单选，反之多选。
+    if (selectedItem?.value == 'No Special Needs') {
+      setNewPetForm('sensitivity', 'No Special Needs');
+    } else {
+      let selArr = data?.filter((item) => item?.value !== 'No Special Needs');
+      let selValues = selArr?.map((item) => item.value)?.toString();
+      setNewPetForm('sensitivity', selValues);
+    }
+  };
   const sizeOptionsChange = (data) => {
     let newpetForm = Object.assign({}, petForm, {
       weight: data.value,
@@ -384,8 +394,8 @@ const PetForms = ({
       showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
       return;
     }
-    if (notUsDeFr) {
-      if (!petForm.activity || (!petForm.lifestyle && isCat && RuTr)) {
+    if (notUsDe) {
+      if (!petForm.activity || (!petForm.lifestyle && isCat && RuTrFr)) {
         showErrorMsg(intl.messages.pleasecompleteTheRequiredItem);
         return;
       }
@@ -528,7 +538,7 @@ const PetForms = ({
   let isChoosePetType = isCat !== null;
   let sensitivityLists = specialNeedsOptions;
   let sensitivityLable = 'Special Need';
-  if (RuTr) {
+  if (RuTrFr) {
     sensitivityLists = sensitivityList;
     sensitivityLable = 'Sensitivity';
   }
@@ -641,14 +651,26 @@ const PetForms = ({
             >
               <FormattedMessage id={sensitivityLable} />
             </label>
-            <Selection
-              optionList={sensitivityLists}
-              selectedItemChange={(el) => specialNeedsOptionsChange(el)}
-              selectedItemData={{
-                value: petForm.sensitivity
-              }}
-              key={petForm.sensitivity}
-            />
+            {window.__.env.REACT_APP_COUNTRY == 'us' ? (
+              <SelectMultiple
+                optionList={sensitivityLists}
+                selectedItemChange={(el, selectedItem) =>
+                  multipleSelSpecialNeedsOptionsChange(el, selectedItem)
+                }
+                selectedItemData={{
+                  value: petForm.sensitivity
+                }}
+              />
+            ) : (
+              <Selection
+                optionList={sensitivityLists}
+                selectedItemChange={(el) => specialNeedsOptionsChange(el)}
+                selectedItemData={{
+                  value: petForm.sensitivity
+                }}
+                key={petForm.sensitivity}
+              />
+            )}
           </div>
           {/* <div className="form-group col-lg-6 pull-left required">
             <label
@@ -745,9 +767,9 @@ const PetForms = ({
               </span>
             </div>
           )}
-          {notUsDeFr ? (
+          {notUsDe ? (
             <>
-              {RuTr && isCat ? (
+              {RuTrFr && isCat ? (
                 <div className="form-group col-lg-6 pull-left required">
                   <label
                     className="form-control-label rc-full-width"

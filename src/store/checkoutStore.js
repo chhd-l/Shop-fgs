@@ -176,7 +176,7 @@ class CheckoutStore {
   @action.bound
   setGiftList(data) {
     this.giftList = data;
-    localItemRoyal.set('rc-giftList', data);
+    localItemRoyal.set('rc-giftList', data || []);
   }
 
   @action.bound
@@ -295,7 +295,9 @@ class CheckoutStore {
     minimunAmountPrice,
     isThrowErr,
     address1,
-    ruShippingDTO
+    ruShippingDTO,
+    deliverWay,
+    shippingFeeAddress
   } = {}) {
     try {
       let recommend_data = null;
@@ -340,7 +342,9 @@ class CheckoutStore {
         customerAccount: email,
         guestEmail: email,
         address1,
-        ruShippingDTO // DuData地址对象，俄罗斯计算运费用
+        ruShippingDTO, // DuData地址对象，俄罗斯计算运费用
+        deliverWay,
+        shippingFeeAddress
       });
       // console.log('★ 305 ----- checkoutStore 获取总价: ', purchasesRes);
       let backCode = purchasesRes.code;
@@ -463,7 +467,9 @@ class CheckoutStore {
     minimunAmountPrice,
     isThrowErr = false,
     address1,
-    ruShippingDTO
+    ruShippingDTO,
+    deliverWay,
+    shippingFeeAddress
   } = {}) {
     try {
       this.changeLoadingCartData(true);
@@ -501,7 +507,9 @@ class CheckoutStore {
         postalCode: taxFeeData.postalCode,
         customerAccount: taxFeeData.customerAccount,
         address1,
-        ruShippingDTO // DuData地址对象，俄罗斯计算运费用
+        ruShippingDTO, // DuData地址对象，俄罗斯计算运费用
+        deliverWay,
+        shippingFeeAddress
       });
       // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;

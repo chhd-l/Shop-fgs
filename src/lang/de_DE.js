@@ -326,6 +326,9 @@ const de_DE = {
   'details.theSize': 'Die Größe',
   'details.unitPrice': 'Stückpreis',
   'details.youCanSave': 'Du kannst speichern',
+  'detail.contextp1': 'Leider konnten wir keine Produkte finden!',
+  'detail.contextp2':
+    'Bitte beachten Sie, dass dieses Produkt möglicherweise abgesetzt wurde',
   Dog: 'Hund',
   dogs: 'HUNDE',
   dogs2: 'Hunde',
@@ -1383,7 +1386,8 @@ const de_DE = {
   'firstOrderWelcomeBox.title':
     'Ich möchte eine <strong>gratis Willkommens-Box</strong> für mein Tier zu meiner Bestellung erhalten.',
   'firstOrderWelcomeBox.yes': 'Ja',
-  'firstOrderWelcomeBox.no': 'Nein'
+  'firstOrderWelcomeBox.no': 'Nein',
+  'account.clinicTitle2': 'Meine Standardklinik'
 };
 
 export default de_DE;

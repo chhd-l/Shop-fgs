@@ -1893,3 +1893,26 @@ p {
   transform: scale(0.7) !important;
   margin-right: 0.3em !important;
 }
+.context-null {
+  height: auto;
+  width: auto;
+  text-align: center;
+}
+.context-null div {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 15% 0% 5% 0%;
+}
+@media only screen and (max-width: 600px) {
+  .context-null {
+    padding: 37% 0% 20% 0%;
+    height: 100%;
+  }
+  .context-null div {
+    width: 50%;
+    height: 100%;
+  }
+  .contextp1 {
+    margin-top: 1%;
+  }
+}

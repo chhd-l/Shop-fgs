@@ -38,6 +38,7 @@ import { sitePurchase } from '@/api/cart';
 import RelateProductCarousel from './components/RelateProductCarousel';
 import BuyFromRetailerBtn from './components/BuyFromRetailerBtn';
 import { tempHubFrRedirect } from '@/redirect/utils';
+import svg from './details.svg';
 
 import Help from './components/Help';
 
@@ -142,7 +143,8 @@ class Details extends React.Component {
       questionParams: undefined,
       defaultPurchaseType: 0,
       headingTag: 'h1',
-      showPrescriberCodeModal: false //是否打开de PrescriberCodeModal
+      showPrescriberCodeModal: false, //是否打开de PrescriberCodeModal
+      showErrorTip: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -435,8 +437,13 @@ class Details extends React.Component {
         const res = resList[0];
         const frequencyDictRes = resList[1];
         const purchaseTypeDictRes = resList[2];
-        const goodsRes = res && res.context && res.context.goods;
-        const backgroundSpace = res.context.goods.cateId;
+        const goodsRes = res?.context?.goods;
+        const backgroundSpace = res.context?.goods?.cateId;
+        const contextResult = res.context;
+        if (!contextResult) {
+          this.setState({ showErrorTip: true });
+          return;
+        }
         // 获取club与autoship字典
         if (res && res.context && goodsRes) {
           this.setState({
@@ -993,6 +1000,7 @@ class Details extends React.Component {
         title="${details.goodsName}">
         ${details.goodsName}
       </${headingTag || 'h1'}>`;
+    //
     return (
       <div id="Details">
         <button
@@ -1019,7 +1027,22 @@ class Details extends React.Component {
           history={history}
           match={match}
         />
-        {errMsg ? (
+        {this.state.showErrorTip ? (
+          <div className="context-null">
+            <div>
+              <img src={svg} />
+            </div>
+            <p
+              className="contextp1"
+              style={{ color: 'red', fontSize: '25px', fontWeight: 'bold' }}
+            >
+              <FormattedMessage id="detail.contextp1" />
+            </p>
+            <p style={{ paddingBottom: '7%' }}>
+              <FormattedMessage id="detail.contextp2" />
+            </p>
+          </div>
+        ) : errMsg ? (
           <main className="rc-content--fixed-header">
             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">

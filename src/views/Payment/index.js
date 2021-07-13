@@ -1547,8 +1547,8 @@ class Payment extends React.Component {
       //审核者信息放订单行
       clinicsId: clinicStore.selectClinicId,
       clinicsName: clinicStore.selectClinicName,
-      //下单增加recommendationCode字段
-      recommendationCode: clinicStore.selectClinicCode,
+      //下单增加recommendationCode(clinicsCode)字段
+      clinicsCode: clinicStore.selectClinicCode,
       storeId: window.__.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -1570,29 +1570,10 @@ class Payment extends React.Component {
     }
     console.log('666 ★ 封装下单参数: ', param);
 
-    // let param = {
-    //   zipcode: deliveryAddress?.postCode,
-    //   phone: creditCardInfo?.phoneNumber,
-    //   email: creditCardInfo?.email || deliveryAddress?.email,
-    //   line1: deliveryAddress?.address1,
-    //   line2: deliveryAddress?.address2,
-    //   //审核者信息放订单行
-    //   clinicsId: clinicStore.selectClinicId,
-    //   clinicsName: clinicStore.selectClinicName,
-    //   storeId: window.__.env.REACT_APP_STOREID,
-    //   tradeItems: [], // once order products
-    //   subTradeItems: [], // subscription order products
-    //   tradeMarketingList: [],
-    //   payAccountName: creditCardInfo?.cardOwner,
-    //   payPhoneNumber: creditCardInfo?.phoneNumber,
-    //   petsId: '',
-    //   deliveryAddressId: deliveryAddress?.addressId,
-    //   billAddressId: billingAddress?.addressId,
-    //   maxDeliveryTime: calculationParam?.calculation?.maxDeliveryTime,
-    //   minDeliveryTime: calculationParam?.calculation?.minDeliveryTime,
-    //   promotionCode,
-    //   guestEmail
-    // };
+    // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+    if (deliveryAddress.receiveType == 'HOME_DELIVERY') {
+      param.deliverWay = 2;
+    }
 
     if (payosdata) {
       param = Object.assign(param, {
@@ -2053,7 +2034,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    // console.log('1851 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
+    console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
     const { ruShippingDTO, guestEmail } = this.state;
     let param = {};
 
@@ -2086,6 +2067,14 @@ class Payment extends React.Component {
     };
     if (this.isLogin) {
       param.subscriptionFlag = false;
+    }
+
+    // 1: EXPRESS, 2: HOMEDELIVERY , 3: PICKUP
+    if (data.receiveType == 'HOME_DELIVERY' || !data.receiveType) {
+      param.deliverWay = 2;
+    }
+    if (data.receiveType == 'PICK_UP') {
+      param.deliverWay = 3;
     }
 
     // PayProductInfo 组件中用到的参数

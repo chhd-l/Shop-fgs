@@ -601,6 +601,7 @@ class VisitorAddress extends React.Component {
               {deliveryOrPickUpFlag && (
                 <HomeDeliveryOrPickUp
                   key={this.state.defaultCity}
+                  isLogin={false}
                   defaultCity={this.state.defaultCity}
                   updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                   updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
@@ -608,6 +609,7 @@ class VisitorAddress extends React.Component {
                   deliveryOrPickUp={selectDeliveryOrPickUp}
                   intlMessages={this.props.intlMessages}
                   cartData={this.props.cartData}
+                  calculateFreight={this.calculateFreight}
                 />
               )}
 

@@ -328,6 +328,8 @@ const fr_FR = {
   'details.buyFromRetailer': 'Acheter via un revendeur',
   'details.buyFromRetailerTip': 'Les prix peuvent varier selon les revendeurs',
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
+  'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
+  'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',

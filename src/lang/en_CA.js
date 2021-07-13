@@ -448,6 +448,8 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
+  'detail.contextp1': "Sorry We Couldn't Find Any Products!",
+  'detail.contextp2': 'Please note this product may have been discontinued',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',

@@ -161,7 +161,7 @@ class Header extends React.Component {
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
-          clinicStore.setLinkClinicCode(res.context?.recommendtionCode || '');
+          clinicStore.setLinkClinicCode(res.context?.recommendationCode || '');
           clinicStore.setAuditAuthority(res.context.auditAuthority);
         }
       }
