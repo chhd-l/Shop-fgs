@@ -658,15 +658,10 @@ class PaymentEditForm extends React.Component {
       };
       let newPaymentForm = Object.assign({}, data, paymentFormObj);
 
-      this.setState(
-        {
-          isValidForm: true,
-          paymentForm: newPaymentForm
-        },
-        () => {
-          this.sendCyberPaymentForm();
-        }
-      );
+      this.setState({
+        isValidForm: true,
+        paymentForm: newPaymentForm
+      });
     } catch (err) {
       console.log(' err msg: ', err);
     }

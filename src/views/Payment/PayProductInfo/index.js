@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import WelcomeBox from '../WelcomeBox';
+import { isNewAccount } from '@/api/user';
+import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 const guid = uuidv4();
 let isGACheckoutLock = false;
@@ -247,6 +249,9 @@ class PayProductInfo extends React.Component {
   }
   get promotionVOList() {
     return this.props.checkoutStore.promotionVOList;
+  }
+  get giftList() {
+    return this.props.checkoutStore.giftList || [];
   }
   getProducts(plist) {
     const List = plist.map((el, i) => {
@@ -526,6 +531,9 @@ class PayProductInfo extends React.Component {
             <div className="checkout--padding">
               {/* <div style={{ padding: '1.25rem 0' }}> */}
               {!needHideProductList && List}
+              {this.giftList.map((el) => (
+                <GiftList pitem={el} />
+              ))}
               {/*新增First Order Welcome Box:1、会员 2、首单 3、未填写学生购student promotion 50% discount*/}
               {!!+window.__.env.REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
               this.isLogin &&

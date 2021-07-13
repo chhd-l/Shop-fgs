@@ -99,6 +99,23 @@ class Confirmation extends React.Component {
     });
     this.setState({ isAllOneShootGoods });
   };
+
+  windowExit = () => {
+    if (navigator.userAgent.indexOf('MSIE') > 0) {
+      window.opener = null;
+      window.close();
+    } else if (
+      navigator.userAgent.indexOf('Firefox') != -1 ||
+      navigator.userAgent.indexOf('Chrome') != -1
+    ) {
+      window.location.href = 'about:blank';
+      window.close();
+    } else {
+      window.opener = null;
+      window.open('', '_self', '');
+      window.close();
+    }
+  };
   componentWillMount() {
     this.getPetVal();
   }
@@ -116,6 +133,12 @@ class Confirmation extends React.Component {
       if (this.state.oxxoPayUrl || this.state.adyenOxxoAction) {
         //payOxxo和adyenOxxo都会显示Modal
         this.setState({ modalShow: false, oxxoModalShow: true });
+      }
+    }, 3000);
+
+    setTimeout(() => {
+      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
+        this.windowExit();
       }
     }, 3000);
 

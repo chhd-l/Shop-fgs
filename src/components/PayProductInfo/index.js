@@ -305,7 +305,9 @@ class PayProductInfo extends React.Component {
   }
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { details } = this.props;
-    let List = details ? this.getProductList(details.tradeItems) : null;
+    let List = details
+      ? this.getProductList(details.tradeItems.concat(details.gifts))
+      : null;
     return (
       <div
         className={`product-summary__inner ${className}`}

@@ -185,6 +185,7 @@ class Prescription extends React.Component {
   async getPrescription(params) {
     this.setState({ loading: true });
     const res = await getPrescription(params);
+    //const res = mockResult
     let totalPage = Math.ceil(res.context.total / this.state.params.pageSize);
     this.setState({
       currentClinicArr: res.context.content,
@@ -197,6 +198,7 @@ class Prescription extends React.Component {
       storeId: window.__.env.REACT_APP_STOREID
     };
     const res = await getAllPrescription(params);
+
     let clinicArr = res.context.prescriberVo;
     //过滤掉经纬度非数字值
     clinicArr = clinicArr.filter((item) => {
@@ -513,6 +515,8 @@ class Prescription extends React.Component {
                   zoom={this.state.zoom}
                   flags={flags}
                   key={this.state.mapKey}
+                  //新增
+                  clinicArr={this.state.clinicArr}
                 />
               </div>
             </div>

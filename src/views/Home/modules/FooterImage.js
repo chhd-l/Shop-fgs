@@ -152,7 +152,7 @@ class FooterImage extends React.Component {
           </div>
           <div className="rc-column rc-double-width">
             <h6 className="rc-zeta pb-4" style={{ fontWeight: 'bold' }}>
-              Das ROYAL CANIN® VET Portfolio
+              Die tierärztlichen Nahrungen von ROYAL CANIN®
             </h6>
             <p
               className="rc-intro p-2"
