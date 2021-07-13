@@ -1219,97 +1219,102 @@ class AccountOrders extends React.Component {
                             <div className="col-12 table-body rounded mt-md-3 mb-2 pl-0 pr-0">
                               <div className="order__listing text-left">
                                 <div className="order-list-container">
-                                  {details.tradeItems.map((item, i) => (
-                                    <div
-                                      className="border-bottom pl-2 pr-2 pt-3 pb-3"
-                                      key={i}
-                                    >
+                                  {details.tradeItems
+                                    .concat(details.gifts)
+                                    .map((item, i) => (
                                       <div
-                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
+                                        className="border-bottom pl-2 pr-2 pt-3 pb-3"
+                                        key={i}
                                       >
-                                        <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad style={{ width: '100%' }}>
-                                            <img
-                                              className="order-details-img-fluid w-100"
-                                              src={item.pic || IMG_DEFAULT}
-                                              alt={item.spuName}
-                                              title={item.spuName}
-                                            />
-                                          </LazyLoad>
-                                        </div>
-                                        <div className="col-8 col-md-3">
-                                          <span className="">
-                                            <span
-                                              className="medium ui-text-overflow-line2 text-break color-444"
-                                              title={item.spuName}
-                                            >
-                                              {item.spuName}
-                                            </span>
-                                            <span className="ui-text-overflow-line2">
-                                              <span className="rc-md-up">
-                                                {item.specDetails}
+                                        <div
+                                          className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
+                                        >
+                                          <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
+                                            <LazyLoad style={{ width: '100%' }}>
+                                              <img
+                                                className="order-details-img-fluid w-100"
+                                                src={item.pic || IMG_DEFAULT}
+                                                alt={item.spuName}
+                                                title={item.spuName}
+                                              />
+                                            </LazyLoad>
+                                          </div>
+                                          <div className="col-8 col-md-3">
+                                            <span className="">
+                                              <span
+                                                className="medium ui-text-overflow-line2 text-break color-444"
+                                                title={item.spuName}
+                                              >
+                                                {item.spuName}
                                               </span>
-                                              <span className="rc-md-down">
-                                                <FormattedMessage
-                                                  id="quantityText"
-                                                  values={{
-                                                    specText: item.specDetails,
-                                                    buyCount: item.num
-                                                  }}
-                                                />
-                                              </span>
-                                            </span>
-                                            {item.subscriptionSourceList
-                                              ?.length ? (
-                                              <span>
-                                                <span
-                                                  className="iconfont mr-2"
-                                                  style={{ color: '#ec001a' }}
-                                                >
-                                                  &#xe675;
+                                              <span className="ui-text-overflow-line2">
+                                                <span className="rc-md-up">
+                                                  {item.specDetails}
                                                 </span>
-                                                <FormattedMessage id="subscription.numberFirstWordUpperCase" />
-                                                {item.subscriptionSourceList.map(
-                                                  (el) => (
-                                                    <p className="ui-text-overflow-line1">
-                                                      <Link
-                                                        to={`/account/subscription/order/detail/${el.subscribeId}`}
-                                                        className="rc-styled-link medium mb-0"
-                                                      >
-                                                        {filterOrderId({
-                                                          orderNo:
-                                                            el.subscribeId,
-                                                          orderNoForOMS: this
-                                                            .state
-                                                            .orderNumberForOMS
-                                                        })}
-                                                      </Link>
-                                                    </p>
+                                                <span className="rc-md-down">
+                                                  <FormattedMessage
+                                                    id="quantityText"
+                                                    values={{
+                                                      specText:
+                                                        item.specDetails,
+                                                      buyCount: item.num
+                                                    }}
+                                                  />
+                                                </span>
+                                              </span>
+                                              {item.subscriptionSourceList
+                                                ?.length ? (
+                                                <span>
+                                                  <span
+                                                    className="iconfont mr-2"
+                                                    style={{ color: '#ec001a' }}
+                                                  >
+                                                    &#xe675;
+                                                  </span>
+                                                  <FormattedMessage id="subscription.numberFirstWordUpperCase" />
+                                                  {item.subscriptionSourceList.map(
+                                                    (el) => (
+                                                      <p className="ui-text-overflow-line1">
+                                                        <Link
+                                                          to={`/account/subscription/order/detail/${el.subscribeId}`}
+                                                          className="rc-styled-link medium mb-0"
+                                                        >
+                                                          {filterOrderId({
+                                                            orderNo:
+                                                              el.subscribeId,
+                                                            orderNoForOMS: this
+                                                              .state
+                                                              .orderNumberForOMS
+                                                          })}
+                                                        </Link>
+                                                      </p>
+                                                    )
+                                                  )}
+                                                </span>
+                                              ) : null}
+                                              <span className="rc-md-down">
+                                                {details.subscriptionResponseVO &&
+                                                item.subscriptionStatus ? (
+                                                  <>
+                                                    <span className="red font-weight-normal">
+                                                      {formatMoney(
+                                                        item.subscriptionPrice
+                                                      )}
+                                                    </span>
+
+                                                    <span className="text-line-through ml-2">
+                                                      {formatMoney(
+                                                        item.originalPrice
+                                                      )}
+                                                    </span>
+                                                  </>
+                                                ) : (
+                                                  formatMoney(
+                                                    item.originalPrice
                                                   )
                                                 )}
                                               </span>
-                                            ) : null}
-                                            <span className="rc-md-down">
-                                              {details.subscriptionResponseVO &&
-                                              item.subscriptionStatus ? (
-                                                <>
-                                                  <span className="red font-weight-normal">
-                                                    {formatMoney(
-                                                      item.subscriptionPrice
-                                                    )}
-                                                  </span>
-
-                                                  <span className="text-line-through ml-2">
-                                                    {formatMoney(
-                                                      item.originalPrice
-                                                    )}
-                                                  </span>
-                                                </>
-                                              ) : (
-                                                formatMoney(item.originalPrice)
-                                              )}
-                                            </span>
-                                            {/* {details.subscriptionResponseVO &&
+                                              {/* {details.subscriptionResponseVO &&
                                               item.subscriptionStatus && (
                                                 <>
                                                   <br />
@@ -1322,48 +1327,48 @@ class AccountOrders extends React.Component {
                                                   <FormattedMessage id="details.Subscription" />
                                                 </>
                                               )} */}
-                                          </span>
-                                        </div>
-                                        <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                          <FormattedMessage
-                                            id="xProduct"
-                                            values={{ val: item.num }}
-                                          />
-                                        </div>
-                                        <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
-                                          {details.subscriptionResponseVO &&
-                                          item.subscriptionStatus ? (
-                                            <>
-                                              <span className="red font-weight-normal">
-                                                {formatMoney(
-                                                  item.subscriptionPrice
-                                                )}
-                                              </span>
+                                            </span>
+                                          </div>
+                                          <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
+                                            <FormattedMessage
+                                              id="xProduct"
+                                              values={{ val: item.num }}
+                                            />
+                                          </div>
+                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                            {details.subscriptionResponseVO &&
+                                            item.subscriptionStatus ? (
+                                              <>
+                                                <span className="red font-weight-normal">
+                                                  {formatMoney(
+                                                    item.subscriptionPrice
+                                                  )}
+                                                </span>
 
-                                              <span className="text-line-through ml-2">
-                                                {formatMoney(
-                                                  item.originalPrice
+                                                <span className="text-line-through ml-2">
+                                                  {formatMoney(
+                                                    item.originalPrice
+                                                  )}
+                                                </span>
+                                              </>
+                                            ) : (
+                                              formatMoney(item.originalPrice)
+                                            )}
+                                          </div>
+                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                            {details.subscriptionResponseVO &&
+                                            item.subscriptionStatus
+                                              ? formatMoney(
+                                                  item.subscriptionPrice *
+                                                    item.num
+                                                )
+                                              : formatMoney(
+                                                  item.originalPrice * item.num
                                                 )}
-                                              </span>
-                                            </>
-                                          ) : (
-                                            formatMoney(item.originalPrice)
-                                          )}
-                                        </div>
-                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
-                                          {details.subscriptionResponseVO &&
-                                          item.subscriptionStatus
-                                            ? formatMoney(
-                                                item.subscriptionPrice *
-                                                  item.num
-                                              )
-                                            : formatMoney(
-                                                item.originalPrice * item.num
-                                              )}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  ))}
+                                    ))}
                                 </div>
                               </div>
                               {/*新增first order welcome box gift content*/}
