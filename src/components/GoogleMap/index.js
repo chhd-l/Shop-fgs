@@ -1,76 +1,47 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import GoogleMapReact from 'google-map-react';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 import { injectIntl } from 'react-intl';
-
-const localItemRoyal = window.__.localItemRoyal;
-
-const do22 = () => {
-  alert(123);
-};
+import findIndex from 'lodash/findIndex';
 
 @injectIntl
-@inject('clinicStore')
-@observer
 class GoogleMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
-      key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc' //线上key
-      //key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
+      //key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc' //线上key
+      key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
     };
     this.mapRef = React.createRef();
   }
   static defaultProps = {
     center: '',
     zoom: '',
-    clinicArr: ''
-  };
-
-  handleConfirm = (item) => {
-    const { setSelectClinicId, setSelectClinicName } = this.props.clinicStore;
-    setSelectClinicId(item.id);
-    setSelectClinicName(item.prescriberName);
-    localItemRoyal.set('checkOutNeedShowPrescriber', 'true'); //在checkout页面显示prescriber信息
-    this.props.history.push('/checkout');
-  };
-
-  handleNavigate = (item) => {
-    let url =
-      'https://www.google.com/maps?saddr=My Location&daddr=' +
-      item.latitude +
-      ',' +
-      item.longitude;
-    let link = document.createElement('a');
-    link.style.display = 'none';
-    link.href = url;
-    link.target = '_blank';
-    link.rel = 'nofollow';
-    document.body.appendChild(link);
-    link.click();
+    clinicArr: '',
+    currentSelectClinic: {}
   };
 
   handleApiLoaded = (map, maps) => {
+    var _this = this;
     // use map and maps objects
     let locations = this.props.clinicArr
       .filter((e) => e.latitude && e.longitude)
       .map((item) => {
         return {
+          id: item.id,
           lat: +item.latitude,
           lng: +item.longitude,
-          jump: do22,
           prescriberName: item.prescriberName || '',
           location: item.location || '',
           phoneOrEmail:
             item.preferredChannel == 'phone' ? item.phone : item.email,
           clinicVet: this.props.intl.messages['clinic.vet'],
+          type: item.type != 'customer' ? 'confirm' : 'navigate',
           btnValue:
             item.type != 'customer'
               ? this.props.intl.messages['clinic.confirm']
               : this.props.intl.messages['clinic.navigate']
-          //func:  item.type != 'customer' ? this.handleConfirm : this.handleNavigate
         };
       });
 
@@ -109,27 +80,31 @@ class GoogleMap extends React.Component {
 
         obj.markerClickFunction = function (pic, latlng) {
           return function (e) {
-            e.cancelBubble = true;
-            e.returnValue = false;
-            if (e.stopPropagation) {
-              e.stopPropagation();
-              e.preventDefault();
+            if (e) {
+              e.cancelBubble = true;
+              e.returnValue = false;
+              if (e.stopPropagation) {
+                e.stopPropagation();
+                e.preventDefault();
+              }
             }
 
             var infoHtml = `
             <div style="display: block; z-index: 1;">
               <div class="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style="display: block;">
               <div class="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style="margin-bottom: 0px;  ">
-                <p>${pic.clinicVet}</p>
+                <p id='clinicVet'>${pic.clinicVet}</p>
                 <h4 class="rc-card__title rc-delta click-btn map-flag-title">${
                   pic.prescriberName
                 }</h4>
                 <div class="map-flag-address">${pic.location}</div>
                 <div class="map-flag-phone">${pic.phoneOrEmail || ''}</div>
                 <div class="rc-button-link-group rc-padding-right--md--desktop" style="margin-top: 1rem;">
-                <button id="infoWindowBtn" class="rc-btn rc-btn--one rc-btn--sm">${
-                  pic.btnValue
-                }</button></div>
+                <a class="rc-btn rc-btn--one rc-btn--sm" href="${
+                  window.__.env.REACT_APP_ACCESS_PATH
+                }makerHandle?type=${pic.type}&id=${pic.id}&prescriberName=${
+              pic.prescriberName
+            }&lat=${pic.lat}&lng=${pic.lng}">${pic.btnValue}</a></div>
                 </div>
               </div>
             </div>
@@ -151,10 +126,24 @@ class GoogleMap extends React.Component {
 
     obj.showMarkers();
 
-    new MarkerClusterer(obj.map, obj.markers, {
+    obj.markerClusterer = new MarkerClusterer(obj.map, obj.markers, {
       imagePath:
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     });
+
+    let clinicArrIndex = findIndex(
+      _this.props.clinicArr.filter((e) => e.latitude && e.longitude),
+      (ele) => ele.id == _this.props.currentSelectClinic.id
+    );
+    if (clinicArrIndex != -1) {
+      obj.markerClickFunction(
+        obj.pics[clinicArrIndex],
+        new maps.LatLng(
+          obj.pics[clinicArrIndex].lat,
+          obj.pics[clinicArrIndex].lng
+        )
+      )();
+    }
 
     // const markers = locations.map((location, i) => {
     //   return new maps.Marker({
@@ -172,16 +161,18 @@ class GoogleMap extends React.Component {
   render(h) {
     const { center, zoom } = this.props;
     return (
-      <GoogleMapReact
-        ref={this.mapRef}
-        bootstrapURLKeys={{ key: this.state.key }}
-        defaultCenter={center}
-        defaultZoom={zoom}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded(map, maps)}
-      >
-        {/* {this.props.flags} */}
-      </GoogleMapReact>
+      <>
+        <GoogleMapReact
+          ref={this.mapRef}
+          bootstrapURLKeys={{ key: this.state.key }}
+          defaultCenter={center}
+          defaultZoom={zoom}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded(map, maps)}
+        >
+          {/* {this.props.flags} */}
+        </GoogleMapReact>
+      </>
     );
   }
 }
