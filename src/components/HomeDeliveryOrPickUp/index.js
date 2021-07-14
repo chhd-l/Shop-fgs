@@ -215,11 +215,11 @@ class HomeDeliveryOrPickUp extends React.Component {
   }
   // 设置手机号输入限制
   setRuPhoneNumberReg = () => {
-    let element = document.getElementById('phoneNumberShipping');
-    let maskOptions = {
+    let telnum = document.getElementById('phoneNumberShipping');
+    let telOptions = {
       mask: [{ mask: '+{7} (000) 000-00-00' }]
     };
-    let pval = IMask(element, maskOptions);
+    let telpval = IMask(telnum, telOptions);
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
