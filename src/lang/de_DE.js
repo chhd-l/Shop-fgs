@@ -1350,7 +1350,7 @@ const de_DE = {
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
   'welcome.contactUS': 'Kontaktieren Sie uns',
-  paused: 'Pause',
+  paused: 'Pausieren',
   'searchNoResult.title': 'Tut uns leid',
   'searchNoResult.content1': 'Wir konnten keine passenden Produkte finden',
   'searchNoResult.content2':
