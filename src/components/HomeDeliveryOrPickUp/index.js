@@ -215,7 +215,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   }
   // 设置手机号输入限制
   setPickupTelNumberReg = () => {
-    let telnum = document.getElementById('phoneNumberShipping');
+    let telnum = document.getElementById('phoneNumberShippingPickup');
     let telOptions = {
       mask: [{ mask: '+{7} (000) 000-00-00' }]
     };
@@ -526,7 +526,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               <textarea
                 className="rc_input_textarea"
                 placeholder={`${this.props.intl.messages['payment.comment']}`}
-                id={`${item.fieldKey}Shipping`}
+                id={`${item.fieldKey}ShippingPickup`}
                 value={pickupForm[item.fieldKey] || ''}
                 onChange={(e) => this.inputChange(e)}
                 onBlur={this.inputBlur}
@@ -538,7 +538,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             <>
               <input
                 className={`rc-input__control ${item.fieldKey}Shipping`}
-                id={`${item.fieldKey}Shipping`}
+                id={`${item.fieldKey}ShippingPickup`}
                 type={item.filedType}
                 value={pickupForm[item.fieldKey] || ''}
                 onChange={(e) => this.inputChange(e)}
