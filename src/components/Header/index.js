@@ -40,6 +40,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+const isFromStorePortal = sessionItemRoyal.get('rc-iframe-from-storepotal');
+
 function HeaderContainer({ isScroll, children }) {
   return isScroll ? (
     <header className={`rc-header`} data-js-header-scroll>
@@ -624,7 +626,9 @@ class Header extends React.Component {
             </DistributeHubLinkOrATag>
             <ul
               className={`rc-list rc-list--blank rc-list--align rc-header__right ${
-                this.props.showLoginBtn ? 'rc-list--inline' : 'rc-hidden'
+                this.props.showLoginBtn && !isFromStorePortal
+                  ? 'rc-list--inline'
+                  : 'rc-hidden'
               }`}
               role="menubar"
             >
