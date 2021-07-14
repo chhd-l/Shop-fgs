@@ -132,7 +132,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 showPickup: false
               },
               () => {
-                this.setRuPhoneNumberReg();
+                this.setPickupTelNumberReg();
               }
             );
           }
@@ -214,7 +214,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     }
   }
   // 设置手机号输入限制
-  setRuPhoneNumberReg = () => {
+  setPickupTelNumberReg = () => {
     let telnum = document.getElementById('phoneNumberShipping');
     let telOptions = {
       mask: [{ mask: '+{7} (000) 000-00-00' }]
