@@ -1328,7 +1328,7 @@ class AddressList extends React.Component {
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
         return Object.assign(pre, { [cur]: '' });
       }, {});
-      console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+      // console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
       let pkaddr = pickupFormData?.pickup?.address;
       let deliveryAdd = Object.assign({}, tempAddress, {
         firstName: pickupFormData.firstName,
@@ -1356,7 +1356,6 @@ class AddressList extends React.Component {
         settlementIdStr: pkaddr?.settlementFias,
         postalCode: pkaddr?.zip
       });
-      debugger;
       // 查询地址列表，筛选 pickup 地址
       let addres = await getAddressList();
       let pkup = addres.context.filter((e) => {
@@ -1381,7 +1380,7 @@ class AddressList extends React.Component {
             pickupAddress: pickupFormData
           },
           () => {
-            console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
+            // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
             // pickup 相关信息传到 Payment
             deliveryAdd['pickup'] = pickupFormData.pickup;
