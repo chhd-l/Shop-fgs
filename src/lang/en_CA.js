@@ -1283,7 +1283,7 @@ const en_US = {
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   securePaymentProcessing: 'Secure payment processing',
-  'cart.autoshipSavedtip': 'Autoship ile {discount} tasarruf ettiniz',
+  'cart.autoshipSavedtip': 'You saved {discount} with Autoship',
   'payment.returnToCardList': 'Return to card list',
   'payment.codTip': 'I want to pay by cash or card upon receipt',
   'payment.codConfirmTip': 'Payment upon receipt',
