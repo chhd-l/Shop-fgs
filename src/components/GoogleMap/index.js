@@ -97,11 +97,11 @@ class GoogleMap extends React.Component {
                 <div class="map-flag-address">${pic.location}</div>
                 <div class="map-flag-phone">${pic.phoneOrEmail || ''}</div>
                 <div class="rc-button-link-group rc-padding-right--md--desktop" style="margin-top: 1rem;">
-                <a class="rc-btn rc-btn--one rc-btn--sm" href="http://localhost:3000/makerHandle?type=${
-                  pic.type
-                }&id=${pic.id}&prescriberName=${pic.prescriberName}&lat=${
-              pic.lat
-            }&lng=${pic.lng}">${pic.btnValue}</a></div>
+                <a class="rc-btn rc-btn--one rc-btn--sm" href="${
+                  window.__.env.REACT_APP_ACCESS_PATH
+                }makerHandle?type=${pic.type}&id=${pic.id}&prescriberName=${
+              pic.prescriberName
+            }&lat=${pic.lat}&lng=${pic.lng}">${pic.btnValue}</a></div>
                 </div>
               </div>
             </div>
