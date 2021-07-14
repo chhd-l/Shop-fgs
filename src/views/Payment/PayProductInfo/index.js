@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import WelcomeBox from '../WelcomeBox';
-import { isNewAccount } from '@/api/user';
 import GiftList from '../GiftList/index.tsx';
 import { isFirstOrder } from '@/api/user';
 const guid = uuidv4();
