@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 import { injectIntl } from 'react-intl';
+import findIndex from 'lodash/findIndex';
 
 @injectIntl
 class GoogleMap extends React.Component {
@@ -17,10 +18,12 @@ class GoogleMap extends React.Component {
   static defaultProps = {
     center: '',
     zoom: '',
-    clinicArr: ''
+    clinicArr: '',
+    currentSelectClinic: {}
   };
 
   handleApiLoaded = (map, maps) => {
+    var _this = this;
     // use map and maps objects
     let locations = this.props.clinicArr
       .filter((e) => e.latitude && e.longitude)
@@ -53,8 +56,6 @@ class GoogleMap extends React.Component {
     obj.map = map;
     obj.pics = locations;
 
-    console.log(obj.pics);
-
     obj.infoWindow = new maps.InfoWindow();
 
     obj.showMarkers = function () {
@@ -79,11 +80,13 @@ class GoogleMap extends React.Component {
 
         obj.markerClickFunction = function (pic, latlng) {
           return function (e) {
-            e.cancelBubble = true;
-            e.returnValue = false;
-            if (e.stopPropagation) {
-              e.stopPropagation();
-              e.preventDefault();
+            if (e) {
+              e.cancelBubble = true;
+              e.returnValue = false;
+              if (e.stopPropagation) {
+                e.stopPropagation();
+                e.preventDefault();
+              }
             }
 
             var infoHtml = `
@@ -123,10 +126,24 @@ class GoogleMap extends React.Component {
 
     obj.showMarkers();
 
-    new MarkerClusterer(obj.map, obj.markers, {
+    obj.markerClusterer = new MarkerClusterer(obj.map, obj.markers, {
       imagePath:
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     });
+
+    let clinicArrIndex = findIndex(
+      _this.props.clinicArr.filter((e) => e.latitude && e.longitude),
+      (ele) => ele.id == _this.props.currentSelectClinic.id
+    );
+    if (clinicArrIndex != -1) {
+      obj.markerClickFunction(
+        obj.pics[clinicArrIndex],
+        new maps.LatLng(
+          obj.pics[clinicArrIndex].lat,
+          obj.pics[clinicArrIndex].lng
+        )
+      )();
+    }
 
     // const markers = locations.map((location, i) => {
     //   return new maps.Marker({

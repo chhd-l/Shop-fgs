@@ -101,7 +101,8 @@ class Prescription extends React.Component {
       },
       currentSelectClinic: {
         lat: 0,
-        lng: 0
+        lng: 0,
+        id: ''
       },
       loading: true,
       modalShow: false //是否显示询问绑定prescriber弹框
@@ -265,7 +266,8 @@ class Prescription extends React.Component {
       },
       currentSelectClinic: {
         lat: +item.latitude,
-        lng: +item.longitude
+        lng: +item.longitude,
+        id: +item.id
       }
     });
     this.mapFlag(item.prescriberName);
@@ -516,6 +518,7 @@ class Prescription extends React.Component {
                   key={this.state.mapKey}
                   //新增
                   clinicArr={this.state.clinicArr}
+                  currentSelectClinic={this.state.currentSelectClinic}
                 />
               </div>
             </div>
