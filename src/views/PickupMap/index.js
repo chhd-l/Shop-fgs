@@ -55,7 +55,7 @@ class PickupMap extends React.Component {
   openKaktusWidget = (city) => {
     console.log('666 打开地图city: ', city);
     window.kaktusMap.openWidget({
-      city_from: 'Москва',
+      city_from: city,
       city_to: city,
       dimensions: {
         height: 10,
