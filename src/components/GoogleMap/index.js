@@ -10,8 +10,8 @@ class GoogleMap extends React.Component {
     super(props);
     this.state = {
       // key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
-      //key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc' //线上key
-      key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
+      key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc' //线上key
+      //key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
     };
     this.mapRef = React.createRef();
   }
