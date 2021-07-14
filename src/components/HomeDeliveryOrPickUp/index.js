@@ -151,10 +151,13 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
 
-    // console.log('666 ★★ --> defaultCity: ', defaultCity);
-    // console.log('666 ★★ --> sitem: ', sitem);
-    // console.log('666 ★★ --> isSubscription: ', this.props.isCurrentBuyWaySubscription);
-    // console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
+    console.log('666 ★★ --> defaultCity: ', defaultCity);
+    console.log('666 ★★ --> sitem: ', sitem);
+    console.log(
+      '666 ★★ --> isSubscription: ',
+      this.props.isCurrentBuyWaySubscription
+    );
+    console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
