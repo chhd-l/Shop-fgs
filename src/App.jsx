@@ -50,6 +50,7 @@ import Adyen3DSFail from '@/views/Payment/modules/Adyen3DSFail';
 import PayResult from '@/views/Payment/modules/PayResult';
 import Payu3dsPayResult from '@/views/Payment/modules/Payu3dsPayResult';
 import Prescription from '@/views/Prescription';
+import MakerHandle from '@/components/GoogleMap/makerHandle';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import FAQ from '@/views/FAQ';
 import Widerrufsbelehrung from '@/views/Widerrufsbelehrung';
@@ -298,6 +299,7 @@ const App = () => {
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/demo" component={demo} />
                 <Route exact path="/prescription" component={Prescription} />
+                <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
                   exact
                   path="/prescriptionNavigate"
