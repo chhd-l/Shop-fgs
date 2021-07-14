@@ -19,6 +19,7 @@ import stores from '@/store';
 const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
+const clinicStore = stores.clinicStore;
 
 const LogoutButton = (props) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -72,6 +73,7 @@ const LogoutButton = (props) => {
       localItemRoyal.remove('rc-userinfo');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
+      clinicStore.removeDefaultClinicInfo();
       // await logout(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
       await logout(window.__.env.REACT_APP_HOMEPAGE);
     } catch (err) {
