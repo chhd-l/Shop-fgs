@@ -789,6 +789,7 @@ class Payment extends React.Component {
       this.setState({
         orderDetails: resContext
       });
+      // console.log('666 查询订单详细：',resContext)
 
       // 获取本地存储的计算运费折扣
       const calculationParam =
@@ -1093,7 +1094,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      // console.log('1028: ', parameters);
+      console.log('666 获取参数: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -1561,10 +1562,10 @@ class Payment extends React.Component {
       billAddressId: billingAddress?.addressId,
       maxDeliveryTime:
         calculationParam?.calculation?.maxDeliveryTime ||
-        deliveryAddress.maxDeliveryTime,
+        deliveryAddress?.maxDeliveryTime,
       minDeliveryTime:
         calculationParam?.calculation?.minDeliveryTime ||
-        deliveryAddress.minDeliveryTime,
+        deliveryAddress?.minDeliveryTime,
       promotionCode,
       guestEmail,
       selectWelcomeBoxFlag: this.state.welcomeBoxValue === 'yes' //first order welcome box
@@ -1573,10 +1574,10 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    console.log('666 ★ 封装下单参数: ', param);
+    // console.log('666 ★ 封装下单参数: ', param);
 
     // 1: HOMEDELIVERY , 2: PICKUP
-    if (deliveryAddress.receiveType == 'HOME_DELIVERY') {
+    if (deliveryAddress?.receiveType == 'HOME_DELIVERY') {
       param.deliverWay = 1;
     }
 
@@ -2083,10 +2084,10 @@ class Payment extends React.Component {
     }
 
     // 1: HOMEDELIVERY , 2: PICKUP
-    if (data.receiveType == 'HOME_DELIVERY' || !data.receiveType) {
+    if (data?.receiveType == 'HOME_DELIVERY' || !data?.receiveType) {
       param.deliverWay = 1;
     }
-    if (data.receiveType == 'PICK_UP') {
+    if (data?.receiveType == 'PICK_UP') {
       param.deliverWay = 2;
     }
 
@@ -2105,7 +2106,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 ★★ -- data: ', data);
+    console.log('666 ★★ -- data: ', data);
     this.setState(
       {
         deliveryAddress: data
@@ -3316,8 +3317,6 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
-    // console.log('★★★★★★ clickPay: ', this.state.billingAddress);
-    console.log('★★★★★★ clickPay: ', this.state.deliveryAddress);
     this.initCommonPay({
       type: paymentTypeVal
     });
