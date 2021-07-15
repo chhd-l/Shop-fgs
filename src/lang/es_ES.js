@@ -707,6 +707,11 @@ const es_ES = {
   'pet.deletePet': 'Eliminar perfil de mascota',
   'pet.petListTitle':
     'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
+  'New Pet': 'Nueva mascota',
+  'Choose your pet type': 'Elija su tipo de mascota',
+  'Your Pet is a…': 'Tu mascota es una ...',
+  Dog: 'Perro',
+  Cat: 'Gato',
   petFemale: 'Mujer',
   petMale: 'Masculino',
   isPurebredDog: 'Perro de pura raza',
