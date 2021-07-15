@@ -110,7 +110,7 @@ const env_mx = {
   },
   shopsit: {
     // #okta
-    REACT_APP_ACCESS_PATH: 'https://shopsit.royalcanin.com/mx',
+    REACT_APP_ACCESS_PATH: 'https://shopsit.royalcanin.com/mx/',
     REACT_APP_CLIENT_ID: '0oannemxw9bawuRAT0x6',
     REACT_APP_ISSUER: 'https://accountpreview.royalcanin.com/oauth2/default',
     REACT_APP_RedirectURL:
