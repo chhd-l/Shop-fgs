@@ -151,14 +151,6 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
 
-    // console.log('666 ★★ --> defaultCity: ', defaultCity);
-    // console.log('666 ★★ --> sitem: ', sitem);
-    // console.log(
-    //   '666 ★★ --> isSubscription: ',
-    //   this.props.isCurrentBuyWaySubscription
-    // );
-    // console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
-
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -302,8 +294,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             obj.forEach((v, i) => {
               let type = v.type;
               if (type == 'COURIER') {
-                // 如果有 订阅商品 则默认选中 homeDelivery
-                isSubscription ? (v.selected = true) : '';
+                // 如果有订阅商品或者只有homeDelivery, 则默认选中 homeDelivery
+                isSubscription || obj.length == 1 ? (v.selected = true) : '';
                 v.type = 'homeDelivery';
                 hdpu.push(v);
               }
@@ -335,7 +327,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                   JSON.stringify(item)
                 );
                 // 有订阅商品的时只展示且默认选择 homeDelivery
-                if (isSubscription) {
+                if (isSubscription || obj.length == 1) {
                   this.setItemStatus('homeDelivery');
                 }
               }
