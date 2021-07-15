@@ -622,9 +622,9 @@ class PayProductInfo extends React.Component {
                           );
                           this.setState({
                             isStudentPurchase:
-                              result.context.promotionSubType === '8'
+                              result.context.promotionSubType === 8
                           });
-                          if (result.context.promotionSubType === '8') {
+                          if (result.context.promotionSubType === 8) {
                             this.props.welcomeBoxChange('no');
                           }
                         } else {
