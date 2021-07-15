@@ -273,10 +273,7 @@ class AccountOrders extends React.Component {
       .then(async (res) => {
         let resContext = res.context;
         this.setState({
-          welcomeGiftLists: resContext?.TradeVO?.welcomeBoxList || [
-            { skuName: 'Gift name', quantity: 1, price: 0 },
-            { skuName: 'Gift name', quantity: 1, price: 0 }
-          ]
+          welcomeGiftLists: resContext?.subscriptionPlanGiftList || []
         });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
@@ -1398,9 +1395,9 @@ class AccountOrders extends React.Component {
                                           <div className="col-8 col-md-3">
                                             <span
                                               className="medium ui-text-overflow-line2 text-break color-444"
-                                              title={item.skuName}
+                                              title={item.goodsInfoName}
                                             >
-                                              {item.skuName}
+                                              {item.goodsInfoName}
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
@@ -1410,10 +1407,10 @@ class AccountOrders extends React.Component {
                                             />
                                           </div>
                                           <div className="col-6 col-md-3 text-right text-md-left rc-md-up font-weight-normal">
-                                            {formatMoney(item.price)}
+                                            {formatMoney(item.marketPrice)}
                                           </div>
                                           <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
-                                            {formatMoney(item.price)}
+                                            {formatMoney(item.marketPrice)}
                                           </div>
                                         </div>
                                       </div>

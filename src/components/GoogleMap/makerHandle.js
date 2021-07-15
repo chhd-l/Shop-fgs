@@ -21,7 +21,7 @@ class MakerHandle extends Component {
     if (type == 'confirm') {
       this.handleConfirm(id, prescriberName);
     } else {
-      this.handleNavigate(lat, lbn);
+      this.handleNavigate(lat, lng);
     }
   }
 
