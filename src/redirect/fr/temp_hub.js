@@ -302,6 +302,14 @@ export default {
 
     { shortUrl: '/mini-relax-care-1224', redirectUrl: '/mini-relax-care-BC17' },
 
-    { shortUrl: '/mini-sterilised-3185', redirectUrl: '/mini-sterilised-BC18' }
+    { shortUrl: '/mini-sterilised-3185', redirectUrl: '/mini-sterilised-BC18' },
+    {
+      shortUrl: '/starter-mother-&-babydog-mini-2990',
+      redirectUrl: '/starter-mother-&-babydog-mini-BM01'
+    },
+    {
+      shortUrl: '/mini-puppy-3000',
+      redirectUrl: '/mini-puppy-BM02'
+    }
   ]
 };
