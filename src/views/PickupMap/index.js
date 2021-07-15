@@ -19,6 +19,7 @@ class PickupMap extends React.Component {
         host: '//app.kak2c.ru'
       });
     });
+
     // 地图控件点击事件
     document.addEventListener('kaktusEvent', (e) => {
       try {
@@ -29,22 +30,31 @@ class PickupMap extends React.Component {
       }
     });
 
+    // 页面加载完后打开地图
     window.addEventListener('load', () => {
       this.setState({
         mapLoading: false
       });
       this.sendMsgLoadComplete();
 
-      // 接收父组件发来的数据
+      // 接收父页面发来的数据
       window.addEventListener(
         'message',
         (e) => {
-          if (e?.data?.city) {
-            let pkcity = e.data.city;
-            this.setState({
-              city: pkcity
-            });
-            this.openKaktusWidget(pkcity);
+          // console.log('666 ★ 接收父页面发来的数据: ', e.data);
+          if (e?.data?.msg) {
+            let msg = e.data.msg;
+            if (msg == 'clearMap') {
+              // 关闭地图，避免下次打开地图数据异常
+              if (document.getElementsByClassName('close-button')[0]) {
+                document.getElementsByClassName('close-button')[0].click();
+              }
+            } else {
+              this.setState({
+                city: msg
+              });
+              this.openKaktusWidget(msg);
+            }
           }
         },
         false
@@ -53,7 +63,7 @@ class PickupMap extends React.Component {
   }
   // 打开地图
   openKaktusWidget = (city) => {
-    console.log('666 打开地图city: ', city);
+    // console.log('666 ★★★ 打开地图city: ', city);
     window.kaktusMap.openWidget({
       city_from: 'Москва',
       city_to: city,
