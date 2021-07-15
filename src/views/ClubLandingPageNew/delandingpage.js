@@ -291,9 +291,9 @@ class ClubLandingPageDe extends React.Component {
                           , um sich beraten zu lassen und eine
                           Nahrungsempfehlung speziell für die besonderen
                           Bedürfnisses Ihrer Katze oder Ihres Hundes zu
-                          erhalten. Ihre Praxis händigt Ihnen einen
+                          erhalten. Ihre Praxis händigt Ihnen einen{' '}
                           <a style={{ fontWeight: 'bolder' }}>
-                            individuellen EmpfehlungscodeZ
+                            individuellen Empfehlungscode
                           </a>{' '}
                           aus.
                           <Link to="/vet-diets">
