@@ -159,9 +159,6 @@ class HomeDeliveryOrPickUp extends React.Component {
         sitem &&
         sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)
     ) {
-      this.setState({
-        searchNoResult: false
-      });
       // 没有默认城市但是有缓存
       defaultCity
         ? (defaultCity = defaultCity)
@@ -338,6 +335,12 @@ class HomeDeliveryOrPickUp extends React.Component {
           }
         );
       } else {
+        // 先清空数组
+        let selitem = Object.assign({}, selectedItem);
+        selitem.homeAndPickup = [];
+        this.setState({
+          selectedItem: Object.assign({}, selitem)
+        });
         this.setState({
           searchNoResult: true
         });
