@@ -10,8 +10,8 @@ class GoogleMap extends React.Component {
     super(props);
     this.state = {
       // key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
-      key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc' //线上key
-      //key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
+      //key: 'AIzaSyBLH2Eqd_rGKwq6jvPMMw4mkokSr4kATqc' //线上key
+      key: 'AIzaSyDEeI1tcGjL2CddJsenJxeUR0P5uxkentM' //测试key
     };
     this.mapRef = React.createRef();
   }
@@ -100,9 +100,10 @@ class GoogleMap extends React.Component {
                 <div class="map-flag-address">${pic.location}</div>
                 <div class="map-flag-phone">${pic.phoneOrEmail || ''}</div>
                 <div class="rc-button-link-group rc-padding-right--md--desktop" style="margin-top: 1rem;">
-                <a class="rc-btn rc-btn--one rc-btn--sm" href="${
-                  window.__.env.REACT_APP_ACCESS_PATH
-                }makerHandle?type=${pic.type}&id=${pic.id}&prescriberName=${
+                <a class="rc-btn rc-btn--one rc-btn--sm" href="${window.__.env.REACT_APP_HOMEPAGE.replace(
+                  /\/$/gi,
+                  ''
+                )}makerHandle?type=${pic.type}&id=${pic.id}&prescriberName=${
               pic.prescriberName
             }&lat=${pic.lat}&lng=${pic.lng}">${pic.btnValue}</a></div>
                 </div>
