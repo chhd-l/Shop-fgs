@@ -159,6 +159,9 @@ class HomeDeliveryOrPickUp extends React.Component {
         sitem &&
         sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)
     ) {
+      this.setState({
+        searchNoResult: false
+      });
       // 没有默认城市但是有缓存
       defaultCity
         ? (defaultCity = defaultCity)
