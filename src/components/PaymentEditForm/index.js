@@ -964,7 +964,7 @@ class PaymentEditForm extends React.Component {
                   </div>
                 ) : null}
                 {needPhone ? (
-                  <div className="col-sm-6">
+                  <div className="col-sm-6 payment_method_phone_number">
                     <div className="form-group required">
                       <label
                         className="form-control-label"
@@ -1011,8 +1011,7 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault =
-                        !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >

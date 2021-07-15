@@ -151,13 +151,13 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
 
-    console.log('666 ★★ --> defaultCity: ', defaultCity);
-    console.log('666 ★★ --> sitem: ', sitem);
-    console.log(
-      '666 ★★ --> isSubscription: ',
-      this.props.isCurrentBuyWaySubscription
-    );
-    console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
+    // console.log('666 ★★ --> defaultCity: ', defaultCity);
+    // console.log('666 ★★ --> sitem: ', sitem);
+    // console.log(
+    //   '666 ★★ --> isSubscription: ',
+    //   this.props.isCurrentBuyWaySubscription
+    // );
+    // console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
@@ -231,6 +231,9 @@ class HomeDeliveryOrPickUp extends React.Component {
       searchNoResult: false
     });
     try {
+      // 向子域发送数据
+      this.sendMsgToIframe('close');
+
       // 更新pickup编辑次数
       let pknum = Number(pickupEditNumber) + 1;
       this.props.updatePickupEditNumber(pknum);
@@ -268,7 +271,7 @@ class HomeDeliveryOrPickUp extends React.Component {
 
       // 根据不同的城市信息查询
       res = await pickupQueryCityFee(data);
-      if (res.context?.tariffs && ckg.context?.dimensions) {
+      if (res.context?.tariffs.length && ckg.context?.dimensions) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
 
@@ -339,6 +342,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             );
           }
         );
+      } else {
+        this.setState({
+          searchNoResult: true
+        });
       }
     } catch (err) {
       console.warn(err);
@@ -418,11 +425,23 @@ class HomeDeliveryOrPickUp extends React.Component {
     );
   };
   // 向iframe发送数据
-  sendMsgToIframe = () => {
+  sendMsgToIframe = (str) => {
     const { pickupCity } = this.state;
     // iframe加载完成后才能向子域发送数据
     let childFrameObj = document.getElementById('pickupIframe');
-    childFrameObj.contentWindow.postMessage({ city: pickupCity }, '*');
+    let msg = '';
+    switch (str) {
+      case 'city':
+        msg = pickupCity;
+        break;
+      case 'close':
+        msg = 'clearMap';
+        break;
+      default:
+        msg = pickupCity;
+        break;
+    }
+    childFrameObj.contentWindow.postMessage({ msg: msg }, '*');
   };
   // 编辑pickup
   editPickup = () => {

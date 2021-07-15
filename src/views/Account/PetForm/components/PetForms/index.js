@@ -735,7 +735,8 @@ const PetForms = ({
                   value={petForm.breedName}
                   onChange={inputBreed}
                   style={{
-                    height: '48px'
+                    height: '48px',
+                    fontWeight: '300'
                   }}
                   disabled={isInputDisabled ? 'disabled' : null}
                 />
@@ -753,7 +754,7 @@ const PetForms = ({
                     <option
                       value={item.value}
                       key={item.id}
-                      className={`pl-2 pr-1 ui-cursor-pointer ${
+                      className={`pl-2 pr-1 optionStyle ui-cursor-pointer ${
                         i !== breedList.length - 1 ? 'border-bottom' : ''
                       }`}
                       onClick={() => selectedBreed(item)}

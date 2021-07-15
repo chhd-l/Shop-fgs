@@ -1094,7 +1094,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      console.log('666 获取参数: ', parameters);
+      // console.log('666 获取参数: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -2040,7 +2040,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
+    // console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
 
@@ -2106,7 +2106,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    console.log('666 ★★ -- data: ', data);
+    // console.log('666 ★★ -- data: ', data);
     this.setState(
       {
         deliveryAddress: data

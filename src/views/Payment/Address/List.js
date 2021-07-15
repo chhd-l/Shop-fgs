@@ -648,7 +648,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
-    console.log('666 ★★ -------------- 计算运费 obj: ', obj);
+    // console.log('666 ★★ -------------- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -1303,14 +1303,14 @@ class AddressList extends React.Component {
   };
   // 更新 pickup编辑次数
   updatePickupEditNumber = (num) => {
-    console.log('666  更新 pickupEditNumber: ', num);
+    // console.log('666  更新 pickupEditNumber: ', num);
     this.setState({
       pickupEditNumber: num
     });
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 updatePickupData: ', data);
+    // console.log('666 updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
