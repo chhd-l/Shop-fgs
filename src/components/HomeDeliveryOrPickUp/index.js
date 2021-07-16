@@ -341,6 +341,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         this.setState({
           selectedItem: Object.assign({}, selitem)
         });
+        this.props.updateDeliveryOrPickup(0);
         this.setState({
           searchNoResult: true
         });
