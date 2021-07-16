@@ -150,19 +150,12 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
-
-    // console.log('666 ★★ --> defaultCity: ', defaultCity);
-    // console.log('666 ★★ --> sitem: ', sitem);
-    // console.log(
-    //   '666 ★★ --> isSubscription: ',
-    //   this.props.isCurrentBuyWaySubscription
-    // );
-    // console.log('666 ★★ --> pickupEditNumber: ', this.props.pickupEditNumber);
-
+    console.log('666 this.props.defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
       (defaultCity && !sitem) ||
+      (defaultCity && pickupEditNumber == 0) ||
       (pickupEditNumber > 0 &&
         sitem &&
         sitem?.isSubscription != this.props.isCurrentBuyWaySubscription)
@@ -302,8 +295,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             obj.forEach((v, i) => {
               let type = v.type;
               if (type == 'COURIER') {
-                // 如果有 订阅商品 则默认选中 homeDelivery
-                isSubscription ? (v.selected = true) : '';
+                // 如果有订阅商品或者只有homeDelivery, 则默认选中 homeDelivery
+                isSubscription || obj.length == 1 ? (v.selected = true) : '';
                 v.type = 'homeDelivery';
                 hdpu.push(v);
               }
@@ -335,7 +328,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                   JSON.stringify(item)
                 );
                 // 有订阅商品的时只展示且默认选择 homeDelivery
-                if (isSubscription) {
+                if (isSubscription || obj.length == 1) {
                   this.setItemStatus('homeDelivery');
                 }
               }
@@ -343,6 +336,13 @@ class HomeDeliveryOrPickUp extends React.Component {
           }
         );
       } else {
+        // 先清空数组
+        let selitem = Object.assign({}, selectedItem);
+        selitem.homeAndPickup = [];
+        this.setState({
+          selectedItem: Object.assign({}, selitem)
+        });
+        this.props.updateDeliveryOrPickup(0);
         this.setState({
           searchNoResult: true
         });
