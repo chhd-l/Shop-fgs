@@ -6,8 +6,13 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
 import './index.less';
-import { saveAddress, getAddressById, editAddress } from '@/api/address';
-import { queryCityNameById, getProvincesList } from '@/api';
+import {
+  saveAddress,
+  getAddressById,
+  editAddress,
+  queryCityNameById,
+  getProvincesList
+} from '@/api/address';
 import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';

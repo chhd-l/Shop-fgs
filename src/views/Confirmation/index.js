@@ -13,7 +13,7 @@ import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
-import { queryCityNameById } from '@/api';
+import { queryCityNameById } from '@/api/address';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
 import { setSeoConfig } from '@/utils/utils';

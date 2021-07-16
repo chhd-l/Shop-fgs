@@ -20,7 +20,7 @@ import {
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
-import { queryCityNameById } from '@/api';
+import { queryCityNameById } from '@/api/address';
 import {
   getOrderDetails,
   cancelOrder,

@@ -13,7 +13,7 @@ import {
   deleteAddress,
   getAddressById
 } from '@/api/address';
-import { queryCityNameById } from '@/api';
+import { queryCityNameById } from '@/api/address';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Skeleton from 'react-skeleton-loader';

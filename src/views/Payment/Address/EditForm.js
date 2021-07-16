@@ -5,7 +5,7 @@ import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getProvincesList } from '@/api/index';
+import { getProvincesList } from '@/api/address';
 
 /**
  * add/edit address form - member/visitor

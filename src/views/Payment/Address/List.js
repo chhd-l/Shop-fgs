@@ -4,12 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
-import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import {
+  getAddressList,
+  saveAddress,
   getAddressBykeyWord,
-  addressValidation,
-  getDeliveryDateAndTimeSlot
-} from '@/api';
+  getDeliveryDateAndTimeSlot,
+  editAddress
+} from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import SearchSelection from '@/components/SearchSelection';
 import {
@@ -219,28 +220,6 @@ class AddressList extends React.Component {
       daystr = weekday;
     }
     return daystr + ', ' + ymd[2] + ' ' + month;
-  };
-  // 查询 city list
-  getAllCityList = async () => {
-    try {
-      const res = await getCityList();
-      if (res?.context?.systemCityVO) {
-        let starr = [];
-        let obj = res.context.systemCityVO;
-        obj.forEach((item) => {
-          let res = {
-            cityId: item.id,
-            city: item.cityName
-          };
-          starr.push(res);
-        });
-        this.setState({
-          cityList: Object.assign(obj, starr)
-        });
-      }
-    } catch (err) {
-      console.warn(err);
-    }
   };
   // 查询地址列表
   async queryAddressList({ init = false } = {}) {

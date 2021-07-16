@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
 import SearchSelection from '@/components/SearchSelection';
-import { queryCityByName } from '@/api';
+import { queryCityByName } from '@/api/address';
 
 @injectIntl
 class CitySearchSelection extends React.Component {

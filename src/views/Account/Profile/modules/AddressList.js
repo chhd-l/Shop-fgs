@@ -7,7 +7,7 @@ import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
 import { getAddressList, deleteAddress, setDefaltAddress } from '@/api/address';
-import { queryCityNameById } from '@/api';
+import { queryCityNameById } from '@/api/address';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';

@@ -4,7 +4,7 @@ import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
-import { getProvincesList } from '@/api';
+import { getProvincesList } from '@/api/address';
 
 export default class AddressForm extends React.Component {
   constructor(props) {

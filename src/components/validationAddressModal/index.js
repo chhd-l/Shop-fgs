@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { addressValidation } from '@/api/index';
+import { addressValidation } from '@/api/address';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;

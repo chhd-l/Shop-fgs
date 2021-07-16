@@ -1,10 +1,6 @@
 import { action, observable, computed } from 'mobx';
-import {
-  getConfig,
-  getSystemConfig,
-  getAddressSetting,
-  getPrescriberSettingInfo
-} from '@/api';
+import { getConfig, getPrescriberSettingInfo } from '@/api';
+import { getAddressSetting, getSystemConfig } from '@/api/address';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {

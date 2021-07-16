@@ -1,5 +1,5 @@
 import { action, observable, computed, toJS } from 'mobx';
-import { addressValidation } from '@/api';
+import { addressValidation } from '@/api/address';
 
 class addressStore {
   @observable modalVisible = false;

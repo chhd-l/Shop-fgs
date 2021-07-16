@@ -7,11 +7,7 @@ import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { validData, transTime } from '@/utils/utils';
-import {
-  getAddressBykeyWord,
-  addressValidation,
-  getDeliveryDateAndTimeSlot
-} from '@/api/index';
+import { getAddressBykeyWord, getDeliveryDateAndTimeSlot } from '@/api/address';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView

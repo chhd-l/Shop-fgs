@@ -9,7 +9,7 @@ import axios from 'axios';
 import LazyLoad from 'react-lazyload';
 import CyberPaymentForm from '@/components/CyberPaymentForm';
 import CyberBillingAddress from '@/components/CyberBillingAddress';
-import { getProvincesList } from '@/api/index';
+import { getProvincesList } from '@/api/address';
 import {
   usPaymentInfo,
   usPayCardSubscription,

@@ -29,14 +29,12 @@ import DatePicker from 'react-datepicker';
 import { daysInWeek, format } from 'date-fns';
 import Loading from '@/components/Loading';
 import {
-  getSystemConfig,
-  getAddressSetting,
-  getProvincesList,
   getRegionByCityId,
+  getProvincesList,
   getAddressBykeyWord,
   getCityList,
   getDeliveryDateAndTimeSlot
-} from '@/api';
+} from '@/api/address';
 import { shippingCalculation } from '@/api/cart';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
