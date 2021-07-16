@@ -42,7 +42,7 @@ function CardItem(props) {
     >
       <div
         className="position-absolute d-flex align-items-center"
-        style={{ right: '2%', top: '2%', zIndex: 9 }}
+        style={{ right: '2%', top: '2%', zIndex: 8 }}
       >
         {props.operateBtnJSX}
       </div>

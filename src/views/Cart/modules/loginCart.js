@@ -108,68 +108,74 @@ class LoginCart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
-    if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
-      this.setState({ circleLoading: true });
-    }
-
-    setSeoConfig({
-      pageName: 'Cart page'
-    }).then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    this.setState(
-      {
-        promotionInputValue: this.props.checkoutStore.promotionCode
-      },
-      () => {
-        setTimeout(() => {
-          document.getElementById('promotionApply') &&
-            document.getElementById('promotionApply').click();
-        });
+    try {
+      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
+        this.setState({ circleLoading: true });
       }
-    );
-    this.getGoodsIdArr();
 
-    await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res,
-        form: Object.assign(this.state.form, {
-          frequencyVal: res[0]?.valueEn || '',
-          frequencyName: res[0]?.name || '',
-          frequencyId: res[0]?.id || ''
-        })
+      setSeoConfig({
+        pageName: 'Cart page'
+      }).then((res) => {
+        this.setState({ seoConfig: res });
       });
-    });
-
-    // 合并购物车(登录后合并非登录态的购物车数据)
-    const unloginCartData = this.checkoutStore.cartData;
-    if (unloginCartData.length) {
-      await mergeUnloginCartData();
-      await this.checkoutStore.updateLoginCart();
-    }
-
-    if (isHubGA) {
-      GAInitLogin({
-        productList: this.props.checkoutStore.loginCartData,
-        frequencyList: this.state.frequencyList,
-        props: this.props
-      });
-      GACartScreenLoad();
-    }
-    this.setData({ initPage: true });
-
-    //给代客下单用 start
-    if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
-      let timer = null;
-      timer = setInterval(async () => {
-        if (this.props.checkoutStore.loginCartData.length) {
-          clearInterval(timer);
-          await this.updateCartCache();
-          this.handleCheckout();
+      this.setState(
+        {
+          promotionInputValue: this.props.checkoutStore.promotionCode
+        },
+        () => {
+          setTimeout(() => {
+            document.getElementById('promotionApply') &&
+              document.getElementById('promotionApply').click();
+          });
         }
-      }, 1000);
+      );
+      this.getGoodsIdArr();
+
+      await getFrequencyDict().then((res) => {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: res[0]?.valueEn || '',
+            frequencyName: res[0]?.name || '',
+            frequencyId: res[0]?.id || ''
+          })
+        });
+      });
+
+      // 合并购物车(登录后合并非登录态的购物车数据)
+      const unloginCartData = this.checkoutStore.cartData;
+      if (unloginCartData.length) {
+        await mergeUnloginCartData();
+        await this.checkoutStore.updateLoginCart();
+      }
+
+      if (isHubGA) {
+        GAInitLogin({
+          productList: this.props.checkoutStore.loginCartData,
+          frequencyList: this.state.frequencyList,
+          props: this.props
+        });
+        GACartScreenLoad();
+      }
+      this.setData({ initPage: true });
+
+      //给代客下单用 start
+      if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
+        console.log(222);
+        let timer = null;
+        timer = setInterval(async () => {
+          if (this.props.checkoutStore.loginCartData.length) {
+            console.log(333);
+            clearInterval(timer);
+            await this.updateCartCache();
+            this.handleCheckout();
+          }
+        }, 1000);
+      }
+      //给代客下单用 end
+    } catch (err) {
+      console.log(666);
     }
-    //给代客下单用 end
   }
   componentWillUnmount() {}
   get loginCartData() {
@@ -267,6 +273,7 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   async updateCartCache({ callback, isThrowErr = false } = {}) {
+    console.log(444);
     try {
       this.setState({ checkoutLoading: true });
       await this.checkoutStore.updateLoginCart({
@@ -278,6 +285,7 @@ class LoginCart extends React.Component {
     } catch (err) {
       if (isThrowErr) {
         console.log(err);
+        console.log(555);
         throw new Error(err.message);
       }
     } finally {

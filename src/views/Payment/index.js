@@ -2106,7 +2106,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 ★★ -- data: ', data);
+    // console.log('666 ★★ -- updateDeliveryAddrData data: ', data);
     this.setState(
       {
         deliveryAddress: data
