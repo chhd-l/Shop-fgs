@@ -18,31 +18,28 @@ import {
   Switch,
   useHistory
 } from 'react-router-dom';
-import ENV_CONFIG from './env/index';
 import { Security, useOktaAuth } from '@okta/okta-react';
+import { IntlProvider } from 'react-intl';
+import { Provider } from 'mobx-react';
+import Loadable from 'react-loadable';
 
-import config from './config';
-
+import './env';
+import oktaConfig from './oktaConfig';
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
 import locales from '@/lang';
-
 import '@/utils/global';
-import { IntlProvider } from 'react-intl';
-import { Provider } from 'mobx-react';
 import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
+import { redirectFun } from '@/redirect/utils';
+import '@/utils/init';
 
-import demo from '@/views/demo';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
-import Test from '@/views/Test';
 import PickupMap from '@/views/PickupMap';
 import List from '@/views/List';
-import Login from '@/views/Login';
-// import Details from '@/views/Details';
-import Details from '@/views/Details/index.js';
+import Details from '@/views/Details';
 import Cart from '@/views/Cart';
 import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
@@ -59,21 +56,15 @@ import AccountProfile from '@/views/Account/Profile';
 import AccountPets from '@/views/Account/Pet';
 import AccountOrders from '@/views/Account/Orders';
 import AccountOrdersDetail from '@/views/Account/OrdersDetail';
-import AccountOrdersAfterSale from '@/views/Account/OrdersAfterSale';
-import AccountOrdersAfterSaleSuccess from '@/views/Account/OrdersAfterSaleSuccess';
-import AccountOrdersAfterSaleDetail from '@/views/Account/OrdersAfterSaleDetail';
 import AccountSubscription from '@/views/Account/Subscription';
 import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
-import AccountPetForm from '@/views/Account/PetForm/index.js';
-import OktaLoginPage from '@/views/OktaLoginPage/index.js';
-import OktaLogoutPage from '@/views/OktaLogoutPage/index.js';
-// import AccountPetForm from '@/views/Account/PetForm/index.js';
+import AccountPetForm from '@/views/Account/PetForm';
+import OktaLoginPage from '@/views/OktaLoginPage';
+import OktaLogoutPage from '@/views/OktaLogoutPage';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
 // import AccountRefunds from "@/views/Account/Refunds";
 
-import AccountReturnOrder from '@/views/Account/ReturnOrder';
-import ForgetPassword from '@/views/ForgetPassword';
 import Recommendation from '@/views/Recommendation';
 import Recommendation_FR from '@/views/Recommendation_FR';
 import Recommendation_US from '@/views/Recommendation_US';
@@ -97,7 +88,6 @@ import TermsConditionsTr from './views/StaticPage/TermsAndConditions/TR_index';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import DE_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/DE_index.js';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
-import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_index.js';
 import TR_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/TR_index.js';
 import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.js';
 import generalConditions from '@/views/StaticPage/GeneralConditions';
@@ -125,48 +115,24 @@ import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
 import welcome from '@/views/Register/welcome.js';
 import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
-import smartFeederSubscription from '@/views/SmartFeederSubscription';
+// import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
-import Felin from '@/views/Felin';
-import FelinRecommendation from '@/views/FelinRecommendation';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
-import VetLandingPage from './views/ClubLandingPage/vetlandingpage';
-import ClubLandingPageNew from './views/ClubLandingPageNew';
-import ClubLandingPageDe from './views/ClubLandingPageNew/delandingpage';
-import ClubLandingPageDeVet from './views/ClubLandingPageNew/devetlandingpage';
-import ClubLandingPage from './views/ClubLandingPage';
-// import RegisterRequired  from '@/views/Login/RegisterRequired'
-
-import { redirectFun } from '@/redirect/utils';
-import '@/utils/init';
-import Loadable from 'react-loadable';
+import VetLandingPage from '@/views/ClubLandingPage/vetlandingpage';
+import ClubLandingPageNew from '@/views/ClubLandingPageNew';
+import ClubLandingPageDe from '@/views/ClubLandingPageNew/delandingpage';
+import ClubLandingPageDeVet from '@/views/ClubLandingPageNew/devetlandingpage';
+import ClubLandingPage from '@/views/ClubLandingPage';
 import Loading from '@/components/Loading';
+import DedicatedLandingPage from '@/views/DedicatedLandingPage';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const token = localItemRoyal.get('rc-token');
 
 Date.prototype.addHours = function (h) {
   this.setHours(this.getHours() + h);
   return this;
 };
-
-import { registerLocale, setDefaultLocale } from 'react-datepicker';
-import DateFnsLocaleFr from 'date-fns/locale/fr';
-import DateFnsLocaleES from 'date-fns/locale/es';
-import DateFnsLocaleDE from 'date-fns/locale/de';
-import DedicatedLandingPage from './views/DedicatedLandingPage';
-
-if (window.__.env.REACT_APP_COUNTRY === 'fr') {
-  registerLocale('fr', DateFnsLocaleFr);
-  setDefaultLocale('fr');
-} else if (window.__.env.REACT_APP_COUNTRY === 'de') {
-  registerLocale('de', DateFnsLocaleDE);
-  setDefaultLocale('de');
-} else if (window.__.env.REACT_APP_COUNTRY === 'mx') {
-  registerLocale('es', DateFnsLocaleES);
-  setDefaultLocale('es');
-}
 
 // 处理storepotal通过嵌入iframe，引入shop页面时，带入token的情况
 const tokenFromUrl = window.location.search
@@ -208,6 +174,11 @@ const RegisterRequired = Loadable({
   loading: Loading
 });
 
+const Test = Loadable({
+  loader: () => import('@/views/Test'),
+  loading: Loading
+});
+
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();
   oktaAuth.signInWithRedirect(window.__.env.REACT_APP_HOMEPAGE);
@@ -236,7 +207,7 @@ const App = () => {
         >
           <ScrollToTop>
             <Security
-              oktaAuth={config}
+              oktaAuth={oktaConfig}
               // onAuthRequired={customAuthHandler}
               restoreOriginalUri={restoreOriginalUri}
             >
@@ -267,14 +238,7 @@ const App = () => {
                   path={'/implicit/login'}
                   render={() => <ImplicitLogin />}
                 />
-                {/* <Route exact path="/login" component={Login} /> */}
-                <Route
-                  exact
-                  path="/login"
-                  render={(props) =>
-                    token ? <Redirect to="/account/" /> : <Login {...props} />
-                  }
-                />
+
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route exact path="/cart" component={Cart} />
                 <Route
@@ -297,7 +261,6 @@ const App = () => {
                   component={KittenNutrition}
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
-                <Route exact path="/demo" component={demo} />
                 <Route exact path="/prescription" component={Prescription} />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
@@ -345,7 +308,6 @@ const App = () => {
                   exact
                   path="/club-subscriptionbyebye"
                   render={(props) => {
-                    let tmpComponent;
                     switch (window.__.env.REACT_APP_COUNTRY) {
                       case 'ru':
                       case 'tr':
@@ -444,11 +406,6 @@ const App = () => {
                   component={AccountPetList}
                 />
                 <Route
-                  path="/account/return-order"
-                  exact
-                  component={AccountReturnOrder}
-                />
-                <Route
                   path="/account/subscription"
                   exact
                   component={AccountSubscription}
@@ -458,21 +415,7 @@ const App = () => {
                   exact
                   component={AccountSubscriptionDetail}
                 />
-                <Route
-                  path="/account/orders-aftersale/:orderNumber"
-                  exact
-                  component={AccountOrdersAfterSale}
-                />
-                <Route
-                  path="/account/orders-aftersale/success/:returnNumber"
-                  exact
-                  component={AccountOrdersAfterSaleSuccess}
-                />
-                <Route
-                  path="/account/return-order-detail/:returnNumber"
-                  exact
-                  component={AccountOrdersAfterSaleDetail}
-                />
+
                 <Route
                   path="/account/productReview/:tid"
                   exact
@@ -544,9 +487,10 @@ const App = () => {
                       : Exception
                   }
                 />
-                <Route path="/dedicatedlandingpage"
-                exact
-                component={DedicatedLandingPage}
+                <Route
+                  path="/dedicatedlandingpage"
+                  exact
+                  component={DedicatedLandingPage}
                 />
                 <Route
                   path="/general-conditions"
@@ -579,10 +523,6 @@ const App = () => {
                   path="/promotion-refuge"
                   component={PromotionRefuge}
                 />
-
-                {/* <Route path="/Values-ru" exact component={RU_Values} />
-                <Route path="/Values-us" exact component={US_Values} />
-                <Route path="/Values" exact component={FR_Values} /> */}
                 <Route
                   exact
                   path="/Values"
@@ -618,11 +558,7 @@ const App = () => {
                   exact
                   component={ShipmentConditions}
                 />
-                <Route
-                  exact
-                  path="/forgetPassword"
-                  component={ForgetPassword}
-                />
+
                 <Route path="/404" component={Exception} />
                 <Route path="/403" component={Page403} />
                 <Route path="/500" component={Page500} />
@@ -634,16 +570,11 @@ const App = () => {
                 <Route path="/register" component={register} />
                 <Route path="/welcome/:id" component={welcome} />
 
-                <Route
+                {/* <Route
                   path="/smart-feeder-subscription"
                   component={smartFeederSubscription}
-                />
-
-                {/* <Route
-                  path="/FelinRecommendation/:id"
-                  component={FelinRecommendation}
                 /> */}
-                {/* <Route path="/latelier/felin" component={Felin} /> */}
+
                 {/* 特殊处理匹配PLP/PDP页面 */}
                 <Route
                   exact
@@ -663,7 +594,6 @@ const App = () => {
 
                 <Route
                   exact
-                  // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
                   path={window.__.env.REACT_APP_SEARCH_LINK}
                   render={(props) => {
                     if (props.location?.state?.noresult) {
@@ -738,8 +668,6 @@ const App = () => {
 
                       redirectUrl = specailPlpUrlMapping[pathname + search];
 
-                      console.log(redirectUrl);
-
                       // PDP文件重定向end
                       if (redirectUrl) {
                         return (
@@ -764,16 +692,7 @@ const App = () => {
                       };
 
                       let redirectUrl = '';
-                      // if (pathname.split('.html').length > 1) {
-                      //   redirectUrl = pathname.split('.html')[0];
-                      // } else if (specailPlpUrlMapping[pathname + search]) {
-                      //   redirectUrl = specailPlpUrlMapping[pathname + search];
-                      // }
                       redirectUrl = specailPlpUrlMapping[pathname + search];
-
-                      console.log(pathname);
-                      console.log(redirectUrl);
-                      // debugger
 
                       // 除去PDP页面文件重定向end
                       if (redirectUrl) {
