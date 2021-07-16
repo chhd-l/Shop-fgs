@@ -59,8 +59,6 @@ const env = {
     // #PDP RATING SETTING
     REACT_APP_PDP_RATING_VISIBLE: 0,
 
-    REACT_APP_DOMAIN: '/ru/shop',
-
     // #是否显示billing addr(account页)
     REACT_APP_HIDE_ACCOUNT_BILLING_ADDR: 1,
     // #是否显示billing addr(checkout页)

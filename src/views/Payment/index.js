@@ -2040,7 +2040,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
+    // console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
 
@@ -2106,7 +2106,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 ★★ -- data: ', data);
+    // console.log('666 ★★ -- updateDeliveryAddrData data: ', data);
     this.setState(
       {
         deliveryAddress: data

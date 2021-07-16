@@ -841,7 +841,6 @@ class AddressList extends React.Component {
         isValid: false
       });
       await validData(data.formRule, data); // 数据验证
-
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
@@ -1658,6 +1657,7 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
+
     return (
       <>
         {this.props.children}
@@ -1728,6 +1728,7 @@ class AddressList extends React.Component {
           )}
           {/* 俄罗斯 pickup 相关 end */}
 
+          {/* 编辑地址 */}
           <div
             className={`${!addOrEdit ? 'addr-container' : ''} ${
               loading ? 'pt-3 pb-3' : ''
@@ -1780,6 +1781,23 @@ class AddressList extends React.Component {
                       ) : (
                         <FormattedMessage id="order.noDataTip" />
                       )
+                    ) : null}
+
+                    {/* 新用户没有地址的时候，用来确认pickup地址 */}
+                    {this.isDeliverAddress &&
+                    !addressList.length &&
+                    selectDeliveryOrPickUp == 2 ? (
+                      <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
+                        <button
+                          className={`rc-btn rc-btn--one rc_btn_list_confirm ${
+                            this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                          }`}
+                          disabled={confirmBtnDisabled}
+                          onClick={this.clickConfirmPickup}
+                        >
+                          <FormattedMessage id="yes2" />
+                        </button>
+                      </div>
                     ) : null}
 
                     {selectDeliveryOrPickUp == 1 && _form}

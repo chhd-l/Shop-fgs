@@ -81,7 +81,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp:
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -150,7 +151,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
-    console.log('666 this.props.defaultCity: ', this.props.defaultCity);
+    // console.log('666 this.props.defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -424,7 +425,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
-        console.log('666 ★ pickupForm: ', pickupForm);
+        // console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
         this.props.calculateFreight(this.state.pickupForm);
       }
@@ -813,7 +814,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             <div className="col-md-7">
               <div className="form-group required">
-                <label className="form-control-label" for="phoneNumberShipping">
+                <label
+                  className="form-control-label"
+                  htmlFor="phoneNumberShipping"
+                >
                   <FormattedMessage id="payment.phoneNumber" />
                 </label>
                 {this.inputJSX('phoneNumber')}
@@ -821,7 +825,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             <div className="col-md-12 ">
               <div className="form-group ">
-                <label className="form-control-label" for="commentShipping">
+                <label className="form-control-label" htmlFor="commentShipping">
                   <FormattedMessage id="payment.comment" />
                 </label>
                 {this.inputJSX('comment')}
