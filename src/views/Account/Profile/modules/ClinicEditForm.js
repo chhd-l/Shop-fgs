@@ -8,7 +8,7 @@ import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
 import { withOktaAuth } from '@okta/okta-react';
 
-@inject('configStore')
+@inject('configStore', 'clinicStore')
 @injectIntl
 @observer
 class ClinicEditForm extends React.Component {
@@ -92,6 +92,17 @@ class ClinicEditForm extends React.Component {
       );
 
       this.props.updateData(this.state.form);
+      //根据prescriber最新原则，更新账户里面的clinic信息也要更新缓存的clinic信息
+      if (
+        (form.recommendationCode !== this.state.oldForm.recommendationCode &&
+          window.__.env.REACT_APP_COUNTRY === 'de') ||
+        (form.clinicId !== this.state.oldForm.clinicId &&
+          window.__.env.REACT_APP_COUNTRY !== 'de')
+      ) {
+        this.props.clinicStore.setSelectClinicId(form.clinicId);
+        this.props.clinicStore.setSelectClinicName(form.clinicName);
+        this.props.clinicStore.setSelectClinicCode(form.recommendationCode);
+      }
       let oldForm = {
         clinicId: form.clinicId,
         clinicName: form.clinicName,

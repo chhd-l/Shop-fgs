@@ -412,7 +412,7 @@ class VisitorAddress extends React.Component {
   // 重置参数，在Payment确认地址时调用
   resetVisitorAddressState() {
     const { form } = this.state;
-    console.log('------ 重置参数，在Payment确认地址时调用');
+    // console.log('------ 重置参数，在Payment确认地址时调用');
     this.setState({
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
@@ -443,7 +443,7 @@ class VisitorAddress extends React.Component {
   }
   // 修改按钮状态
   updateConfirmBtnDisabled = (flag) => {
-    console.log('666 flag: ', flag);
+    // console.log('666 flag: ', flag);
     this.setState({
       confirmBtnDisabled: flag
     });
@@ -456,7 +456,7 @@ class VisitorAddress extends React.Component {
   };
   // 更新 pickup编辑次数
   updatePickupEditNumber = (num) => {
-    console.log('666  更新 pickupEditNumber: ', num);
+    // console.log('666  更新 pickupEditNumber: ', num);
     this.setState({
       pickupEditNumber: num
     });
@@ -472,7 +472,6 @@ class VisitorAddress extends React.Component {
   clickConfirmPickup = async () => {
     const { paymentStore } = this.props;
     const { form, pickupFormData, billingChecked } = this.state;
-    // console.log('666 updatePickupData: ', data);
     this.setState({
       btnConfirmLoading: true
     });
