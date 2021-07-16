@@ -68,6 +68,7 @@ class GoogleMap extends React.Component {
       for (var i = 0; i < locations.length; i++) {
         var latLng = new maps.LatLng(obj.pics[i].lat, obj.pics[i].lng);
 
+        //点位图标图片大小
         var imageUrl =
           'http://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=' +
           'FFFFFF,FF0000,000000&ext=.png';
@@ -89,6 +90,7 @@ class GoogleMap extends React.Component {
               }
             }
 
+            //infoHtml里面不易监听事件，所有用a标签href跳转传值去另外页面执行事件
             var infoHtml = `
             <div style="display: block; z-index: 1;">
               <div class="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style="display: block;">
@@ -111,10 +113,10 @@ class GoogleMap extends React.Component {
             </div>
             `;
 
-            obj.infoWindow.setContent(infoHtml);
-            obj.infoWindow.setPosition(latlng);
-            obj.infoWindow.setOptions({ maxWidth: 260 });
-            obj.infoWindow.open(obj.map);
+            obj.infoWindow.setContent(infoHtml); //小窗口内容
+            obj.infoWindow.setPosition(latlng); //小窗口位置
+            obj.infoWindow.setOptions({ maxWidth: 260 }); //小窗口宽度
+            obj.infoWindow.open(obj.map); //打开小窗口
           };
         };
 
@@ -137,6 +139,7 @@ class GoogleMap extends React.Component {
       (ele) => ele.id == _this.props.currentSelectClinic.id
     );
     if (clinicArrIndex != -1) {
+      //点击左侧list诊所，右边地图弹出诊所小窗口
       obj.markerClickFunction(
         obj.pics[clinicArrIndex],
         new maps.LatLng(
@@ -145,18 +148,6 @@ class GoogleMap extends React.Component {
         )
       )();
     }
-
-    // const markers = locations.map((location, i) => {
-    //   return new maps.Marker({
-    //     position: location,
-    //     label: ''
-    //   });
-    // });
-
-    // new MarkerClusterer(map, markers, {
-    //   imagePath:
-    //     'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-    // });
   };
 
   render(h) {
