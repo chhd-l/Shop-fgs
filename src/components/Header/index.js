@@ -295,13 +295,15 @@ class Header extends React.Component {
    * token过期时，主动登出
    */
   handleLogout = async () => {
-    const { loginStore, checkoutStore, oktaAuth } = this.props;
+    const { loginStore, checkoutStore, oktaAuth, clinicStore } = this.props;
     try {
       sessionItemRoyal.remove('rc-token-lose');
       loginStore.changeLoginModal(true);
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
+      clinicStore.removeDefaultClinicInfo();
+      clinicStore.removeSelectClinicInfo();
       await oktaAuth.signOut({
         postLogoutRedirectUri:
           window.location.origin + window.__.env.REACT_APP_HOMEPAGE
@@ -428,11 +430,11 @@ class Header extends React.Component {
     localItemRoyal.set('loginType', 'login');
   }
   clickLogoff() {
-    const { loginStore, checkoutStore, history } = this.props;
+    const { loginStore, checkoutStore, history, clinicStore } = this.props;
     localItemRoyal.remove('rc-token');
-    sessionItemRoyal.remove(`rc-clinic-name-default`);
-    sessionItemRoyal.remove(`rc-clinic-id-default`);
     loginStore.removeUserInfo();
+    clinicStore.removeDefaultClinicInfo();
+    clinicStore.removeSelectClinicInfo();
     checkoutStore.removeLoginCartData();
     loginStore.changeIsLogin(false);
     history.push('/home');
