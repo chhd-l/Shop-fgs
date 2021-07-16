@@ -237,23 +237,17 @@ class RegisterRequired extends Component {
       this.setState({
         list
       });
-
-      if (requiredList.length > 0) {
-        //这个判断 关乎闪现，不要删
-        this.setState({
-          styleObj: { display: 'block' },
-          isLoading: false,
-          circleLoading: false
-        });
-      }
     } catch (err) {
       this.setState({
-        styleObj: { display: 'block' },
-        isLoading: false,
-        circleLoading: false,
         errMsg: err.message
       });
     } finally {
+      //这个判断 关乎闪现，不要删
+      this.setState({
+        styleObj: { display: 'block' },
+        isLoading: false,
+        circleLoading: false
+      });
     }
   };
   componentDidUpdate() {

@@ -74,6 +74,7 @@ const LogoutButton = (props) => {
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       clinicStore.removeDefaultClinicInfo();
+      clinicStore.removeSelectClinicInfo();
       // await logout(props.callbackUrl || window.__.env.REACT_APP_HOMEPAGE);
       await logout(window.__.env.REACT_APP_HOMEPAGE);
     } catch (err) {
