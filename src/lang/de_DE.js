@@ -1277,6 +1277,7 @@ const de_DE = {
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
+  giftList: 'Geschenkaktion',
   'payment.shippingDiscount': 'Lieferung von Waren',
   'orderStatus.COMPLETED': 'abgeschlossen',
   'payment.cardInfoErr':
