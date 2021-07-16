@@ -150,7 +150,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
-    console.log('666 this.props.defaultCity: ', this.props.defaultCity);
+    // console.log('666 this.props.defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -424,7 +424,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
-        console.log('666 ★ pickupForm: ', pickupForm);
+        // console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
         this.props.calculateFreight(this.state.pickupForm);
       }
