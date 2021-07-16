@@ -55,7 +55,9 @@ const GiftList = ({ pitem }) => {
               </div>
             </div>
             {/* <p className="text-right red mb-0">Gift Promotion</p> */}
-            <p className="text-right red mb-0" id='giftList'></p>
+            <p className="text-right red mb-0" >
+              <FormattedMessage id='giftList'/>
+            </p>
           </div>
         </div>
       </div>
