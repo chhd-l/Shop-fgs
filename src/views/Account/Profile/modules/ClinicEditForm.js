@@ -175,6 +175,7 @@ class ClinicEditForm extends React.Component {
   };
   render() {
     const { editFormVisible, form, errorMsg } = this.state;
+    const { prescriberSelectTyped } = this.props.configStore;
     const curPageAtCover = !editFormVisible;
     return (
       <div className={classNames({ border: curPageAtCover })}>
@@ -268,8 +269,7 @@ class ClinicEditForm extends React.Component {
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
               <SearchSelection
                 queryList={async ({ inputVal }) => {
-                  const res = await (this.props.configStore
-                    .prescriberSelectTyped === 0
+                  const res = await (prescriberSelectTyped === 0
                     ? getPrescriberByKeyWord({
                         storeId: window.__.env.REACT_APP_STOREID,
                         keyWord: inputVal
@@ -282,7 +282,8 @@ class ClinicEditForm extends React.Component {
                     (ele) =>
                       Object.assign(ele, {
                         name: ele.prescriberName,
-                        recommendationCode: inputVal
+                        recommendationCode:
+                          prescriberSelectTyped === 0 ? '' : inputVal
                       })
                   );
                 }}
