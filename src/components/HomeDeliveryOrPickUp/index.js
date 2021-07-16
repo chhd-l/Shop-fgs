@@ -217,7 +217,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
     const { isLogin, pickupEditNumber } = this.props;
-    const { selectedItem } = this.state;
+    const { selectedItem, pickupForm } = this.state;
     let res = null;
     this.setState({
       hdpuLoading: true,
@@ -277,8 +277,14 @@ class HomeDeliveryOrPickUp extends React.Component {
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);
         selitem.homeAndPickup = [];
+
+        pickupForm['provinceIdStr'] = data.regionFias;
+        pickupForm['areaIdStr'] = data.areaFias;
+        pickupForm['cityIdStr'] = data.cityFias;
+        pickupForm['settlementIdStr'] = data.settlementFias;
         this.setState(
           {
+            pickupForm,
             selectedItem: Object.assign({}, selitem)
           },
           () => {
@@ -418,7 +424,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
-        // console.log('666 ★ pickupForm: ', pickupForm);
+        console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
         this.props.calculateFreight(this.state.pickupForm);
       }

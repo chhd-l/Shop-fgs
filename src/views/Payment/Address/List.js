@@ -1346,6 +1346,7 @@ class AddressList extends React.Component {
         deliveryAdd.deliveryAddressId = pkup[0].deliveryAddressId;
         deliveryAdd.customerId = pkup[0].customerId;
       }
+      console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
@@ -1359,8 +1360,6 @@ class AddressList extends React.Component {
             pickupAddress: pickupFormData
           },
           () => {
-            // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
-
             // pickup 相关信息传到 Payment
             deliveryAdd['pickup'] = pickupFormData.pickup;
             this.props.updateData(deliveryAdd);
