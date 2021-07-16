@@ -91,7 +91,11 @@ class CheckoutStore {
     return this?.cartPrice?.promotionDiscount || '';
   }
   @computed get promotionVOList() {
-    return this?.cartPrice?.promotionVOList || [];
+    let list = [];
+    if (this?.cartPrice?.promotionVOList) {
+      list = this?.cartPrice?.promotionVOList.filter((el) => el.discountPrice);
+    }
+    return list;
   }
 
   @action.bound
