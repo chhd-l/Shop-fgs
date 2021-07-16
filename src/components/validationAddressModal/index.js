@@ -175,7 +175,7 @@ class ValidationAddressModal extends React.Component {
                         />
                         <label
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
-                          for="originalAddress"
+                          htmlFor="originalAddress"
                         >
                           <strong>Original Address</strong>
                           <br />
@@ -248,7 +248,7 @@ class ValidationAddressModal extends React.Component {
                         />
                         <label
                           className="rc-input__label--inline rc-margin-bottom--none text-left"
-                          for="suggestedAddress"
+                          htmlFor="suggestedAddress"
                         >
                           <strong>Suggested Address</strong>
                           <br />

@@ -81,7 +81,8 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp:
+              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -813,7 +814,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             <div className="col-md-7">
               <div className="form-group required">
-                <label className="form-control-label" for="phoneNumberShipping">
+                <label
+                  className="form-control-label"
+                  htmlFor="phoneNumberShipping"
+                >
                   <FormattedMessage id="payment.phoneNumber" />
                 </label>
                 {this.inputJSX('phoneNumber')}
@@ -821,7 +825,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             <div className="col-md-12 ">
               <div className="form-group ">
-                <label className="form-control-label" for="commentShipping">
+                <label className="form-control-label" htmlFor="commentShipping">
                   <FormattedMessage id="payment.comment" />
                 </label>
                 {this.inputJSX('comment')}

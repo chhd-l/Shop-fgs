@@ -619,13 +619,8 @@ export default class Felin extends React.Component {
   }
 
   updateButtonState() {
-    let {
-      step,
-      selectedTimeObj,
-      consentChecked1,
-      selectedDate,
-      felinType
-    } = this.state;
+    let { step, selectedTimeObj, consentChecked1, selectedDate, felinType } =
+      this.state;
     console.log(step, this.state.errMsgObj, consentChecked1, 'hahaha');
     if (step === 1 && selectedTimeObj.value && selectedDate) {
       this.setState({ nextBtnEnable: true });
@@ -1460,8 +1455,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked1: !this.state
-                                        .consentChecked1
+                                      consentChecked1:
+                                        !this.state.consentChecked1
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1471,7 +1466,7 @@ export default class Felin extends React.Component {
                               />
                               <label
                                 className="rc-input__label--inline consent"
-                                for="id-checkbox-consent-1"
+                                htmlFor="id-checkbox-consent-1"
                               >
                                 Les données personnelles, que vous renseignez
                                 sont traitées aux fins de confirmer et assurer
@@ -1509,8 +1504,8 @@ export default class Felin extends React.Component {
                                 onClick={() => {
                                   this.setState(
                                     {
-                                      consentChecked2: !this.state
-                                        .consentChecked2
+                                      consentChecked2:
+                                        !this.state.consentChecked2
                                     },
                                     () => {
                                       this.updateButtonState();
@@ -1520,7 +1515,7 @@ export default class Felin extends React.Component {
                               />
                               <label
                                 className="rc-input__label--inline consent"
-                                for="id-checkbox-consent-2"
+                                htmlFor="id-checkbox-consent-2"
                               >
                                 J'accepte de recevoir des communications
                                 marketing de la part de Royal Canin dans le

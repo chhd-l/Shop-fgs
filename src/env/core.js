@@ -181,7 +181,6 @@ const env_fr = {
     REACT_APP_SUCCESSFUL_URL: 'https://uatwedding.royalcanin.com/core/shop',
     // #REACT_APP_Adyen3DSUrl: 'https://shopstg.royalcanin.com',
     REACT_APP_Adyen3DSUrl: 'https://uatwedding.royalcanin.com/core/shop',
-    REACT_APP_DOMAIN: '/core/shop',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -283,7 +282,6 @@ const env_fr = {
     REACT_APP_SUCCESSFUL_URL: 'https://stgwedding.royalcanin.com/core/shop',
     // #REACT_APP_Adyen3DSUrl: 'https://shopstg.royalcanin.com',
     REACT_APP_Adyen3DSUrl: 'https://stgwedding.royalcanin.com/core/shop',
-    REACT_APP_DOMAIN: '/core/shop',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -378,7 +376,6 @@ const env_fr = {
     REACT_APP_Adyen_ENV: 'live',
     REACT_APP_SUCCESSFUL_URL: 'https://www.royalcanin.com/core/shop',
     REACT_APP_Adyen3DSUrl: 'https://www.royalcanin.com/core/shop',
-    REACT_APP_DOMAIN: '/core/shop',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
