@@ -123,6 +123,7 @@ class VisitorAddress extends React.Component {
   };
   // 接收form表单输入
   updateDeliveryAddress = (data) => {
+    console.log('666 updateDeliveryAddress: ', data);
     this.setState(
       {
         visitorData: data
@@ -463,7 +464,7 @@ class VisitorAddress extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    // console.log('666 updatePickupData: ', data);
+    console.log('666 updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -486,6 +487,7 @@ class VisitorAddress extends React.Component {
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
         consigneeNumber: pickupFormData.phoneNumber,
+        phoneNumber: pickupFormData.phoneNumber,
         consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
         address1: pickupFormData.address1,
         deliveryAddress: pickupFormData.address1,
@@ -513,8 +515,8 @@ class VisitorAddress extends React.Component {
           pickupAddress: pickupFormData
         },
         () => {
-          console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
-          console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
+          // console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+          // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
           // pickup 相关信息传到 Payment
           deliveryAdd['pickup'] = pickupFormData.pickup;
