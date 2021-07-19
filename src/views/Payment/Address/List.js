@@ -335,6 +335,7 @@ class AddressList extends React.Component {
           this.setState({
             loading: false
           });
+          // this.calculateFreight(tmpObj);
         }
       );
     } catch (err) {
@@ -350,8 +351,8 @@ class AddressList extends React.Component {
     // 提示重新选择
     let errMsg = this.getIntlMsg('payment.reselectTimeSlot');
 
-    let deliveryDate = data.deliveryDate; // deliveryDate 日期
-    let timeSlot = data.timeSlot;
+    let deliveryDate = data?.deliveryDate; // deliveryDate 日期
+    let timeSlot = data?.timeSlot;
     // console.log('666  ----->  deliveryDate: ', deliveryDate);
     // console.log('666  ----->  timeSlot: ', timeSlot);
 
@@ -440,24 +441,23 @@ class AddressList extends React.Component {
     }
     return flag;
   };
-  /**
-   * 会员确认地址列表信息，并展示封面
-   */
+  // 会员确认地址列表信息，并展示封面
   clickConfirmAddressPanel = async () => {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-      // 判断 deliveryDate、timeSlot 是否过期
-      this.setState({ btnConfirmLoading: true });
-      let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
-      this.setState({ btnConfirmLoading: false });
-      if (!yesOrNot) {
-        return;
-      }
-    }
+    // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
+    // if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+    //   // 判断 deliveryDate、timeSlot 是否过期
+    //   this.setState({ btnConfirmLoading: true });
+    //   let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
+    //   this.setState({ btnConfirmLoading: false });
+    //   if (!yesOrNot) {
+    //     return;
+    //   }
+    // }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
@@ -859,6 +859,17 @@ class AddressList extends React.Component {
   calculateFreight = (data) => {
     this.props.calculateFreight(data);
   };
+
+  // 根据传过来的地址信息或者默认地址计算运费
+  recalculateFreight = (data) => {
+    const { addressList, selectedId } = this.state;
+    let obj = data;
+    if (addressList.length && data.receiveType == 'HOME_DELIVERY') {
+      obj = find(addressList, (ele) => ele.deliveryAddressId === selectedId);
+    }
+    this.props.calculateFreight(obj);
+  };
+
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
     // console.log('address1地址校验flag : ', flag);
@@ -1000,12 +1011,15 @@ class AddressList extends React.Component {
       if (!isValid || !addOrEdit) {
         return false;
       }
-      if (deliveryAddress?.deliveryDate) {
-        // 判断 deliveryDate 是否过期
-        if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
-          return;
-        }
-      }
+
+      // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
+      // if (deliveryAddress?.deliveryDate) {
+      //   // 判断 deliveryDate 是否过期
+      //   if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
+      //     return;
+      //   }
+      // }
+
       // 地址验证
       this.setState({
         saveLoading: true
@@ -1721,7 +1735,7 @@ class AddressList extends React.Component {
                 deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
                 cartData={this.props.cartData}
-                calculateFreight={this.calculateFreight}
+                calculateFreight={this.recalculateFreight}
                 pickupEditNumber={pickupEditNumber}
               />
             </>
