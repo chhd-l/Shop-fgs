@@ -1574,7 +1574,7 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    // console.log('666 ★ 封装下单参数: ', param);
+    console.log('666 ★ 封装下单参数: ', param);
 
     // 1: HOMEDELIVERY , 2: PICKUP
     if (deliveryAddress?.receiveType == 'HOME_DELIVERY') {
@@ -2040,7 +2040,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    console.log('666 ★★ -- Payment 计算: ', data);
+    // console.log('666 ★★ -- Payment 计算: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
 
@@ -2130,7 +2130,7 @@ class Payment extends React.Component {
         }
       }
     );
-    if (this.state.billingChecked) {
+    if (this.state.billingChecked || data?.receiveType == 'PICK_UP') {
       this.setState(
         {
           billingAddress: data

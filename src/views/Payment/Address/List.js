@@ -1289,8 +1289,15 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
+    const { addOrEdit, addressList } = this.state;
+    console.log('666 ----- 更新 selectDeliveryOrPickUp: ', num);
+    console.log('666 ----- addOrEdit: ', addOrEdit);
+    console.log('666 ----- addressList: ', addressList);
+    let flag = null;
+    !addressList.length && num == 1 ? (flag = true) : (flag = false);
     this.setState({
-      selectDeliveryOrPickUp: num
+      selectDeliveryOrPickUp: num,
+      addOrEdit: flag
     });
   };
   // 更新 pickup编辑次数
@@ -1363,7 +1370,9 @@ class AddressList extends React.Component {
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
-        let selectedId = res.context.deliveryAddressId;
+        let deliveryAddressId = res.context.deliveryAddressId;
+        let selectedId = deliveryAddressId;
+        deliveryAdd.deliveryAddressId = deliveryAddressId;
         this.setState({
           selectedId: selectedId
         });
@@ -1792,7 +1801,7 @@ class AddressList extends React.Component {
                             </div>
                           )}
                         </>
-                      ) : (
+                      ) : deliveryOrPickUpFlag ? null : (
                         <FormattedMessage id="order.noDataTip" />
                       )
                     ) : null}
