@@ -295,16 +295,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -315,9 +315,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -1040,31 +1041,18 @@ class Payment extends React.Component {
       };
       await actions[type]();
 
-      const successUrlFun = (type) => {
-        const defaultUrl = '',
-          Adyen3DSUrl = window.__.env.REACT_APP_Adyen3DSUrl,
-          payResultUrl = window.__.env.REACT_APP_SUCCESSFUL_URL + '/PayResult',
-          payu3dsResultUrl =
-            window.__.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
-        return (
-          {
-            adyenCard: Adyen3DSUrl,
-            adyenKlarnaPayLater: payResultUrl,
-            adyenKlarnaPayNow: payResultUrl,
-            directEbanking: payResultUrl,
-            payUCreditCardRU: payu3dsResultUrl,
-            payUCreditCardTU: payu3dsResultUrl
-          }[type] || defaultUrl
-        );
-      };
-      let successUrl = successUrlFun(type);
-
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
-        successUrl,
+        /**
+         * redirectUrl & successUrl
+         * 1. handle callback through successUrl(which is included /api, it used nginx to intercep api router, and then redirect to related shop page) -> adyenCard
+         * 2. /PayResult, handle callback at this router -> adyenKlarnaPayLater/adyenKlarnaPayNow/directEbanking
+         * 3. /Payu3dsPayResult, handle callback at this router -> payUCreditCardRU/payUCreditCardTU
+         */
+        successUrl: window.__.env.REACT_APP_BASEURL, // /api
+        redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
         deliveryAddressId: this.state.deliveryAddress?.addressId,
         billAddressId: this.state.billingAddress?.addressId,
-        domainName: window.__.env.REACT_APP_DOMAIN || '',
         phone
       });
       return finalParam;
@@ -2458,9 +2446,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2472,9 +2461,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -3225,9 +3215,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
