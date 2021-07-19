@@ -380,7 +380,7 @@ const es_ES = {
     'y doy mi consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza',
   goods: 'Productos',
   goToCart: 'Ir al carrito de compras',
-  guestCheckout: 'Pagar como invitada',
+  guestCheckout: 'pagar como invitado',
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.carouselInfo1':
     'Mantén la salud de tu mascota con una nutrición a la medida.',
