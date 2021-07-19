@@ -21,7 +21,7 @@ import {
 import { Security, useOktaAuth } from '@okta/okta-react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
-import Loadable from 'react-loadable';
+import loadable from '@/lib/loadable-component';
 
 import './env';
 import oktaConfig from './oktaConfig';
@@ -43,9 +43,6 @@ import Details from '@/views/Details';
 import Cart from '@/views/Cart';
 import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
-import Adyen3DSFail from '@/views/Payment/modules/Adyen3DSFail';
-import PayResult from '@/views/Payment/modules/PayResult';
-import Payu3dsPayResult from '@/views/Payment/modules/Payu3dsPayResult';
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
@@ -169,15 +166,23 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
-const RegisterRequired = Loadable({
-  loader: () => import('@/views/Login/RegisterRequired'),
-  loading: Loading
-});
+// const Home = loadable(() => import('@/views/Home'));
 
-const Test = Loadable({
-  loader: () => import('@/views/Test'),
-  loading: Loading
-});
+const Adyen3DSFail = loadable(() =>
+  import('@/views/Payment/modules/Adyen3DSFail')
+);
+
+const PayResult = loadable(() => import('@/views/Payment/modules/PayResult'));
+
+const Payu3dsPayResult = loadable(() =>
+  import('@/views/Payment/modules/Payu3dsPayResult')
+);
+
+const RegisterRequired = loadable(() =>
+  import('@/views/Login/RegisterRequired')
+);
+
+const Test = loadable(() => import('@/views/Test'));
 
 const ImplicitLogin = () => {
   const { oktaAuth } = useOktaAuth();

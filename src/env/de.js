@@ -90,8 +90,6 @@ const env_de = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LjQ2NjkyMC5jb20.q77RJ2MW5gIA3cRvKrL_ExnY97Lq7YQmKm_rwXdUZSE',
     REACT_APP_Adyen_ENV: 'test',
-    REACT_APP_SUCCESSFUL_URL: 'https://shopuat.466920.com/de',
-    REACT_APP_Adyen3DSUrl: 'https://shopuat.466920.com',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'dev',
@@ -134,8 +132,6 @@ const env_de = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc2l0LnJveWFsY2FuaW4uY29t.dFwiVP07vLuJ0MRkzioYExlX4hnaBQnETquTzkjX49g',
     REACT_APP_Adyen_ENV: 'test',
-    REACT_APP_SUCCESSFUL_URL: 'https://shopsit.royalcanin.com/de',
-    REACT_APP_Adyen3DSUrl: 'https://shopsit.royalcanin.com',
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
@@ -172,8 +168,6 @@ const env_de = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wdWF0LnJveWFsY2FuaW4uY29t.ACjjK1gDH6I6S1VqifJ1ifQlI9uZradDIClbzmdEuDQ',
     REACT_APP_Adyen_ENV: 'test',
-    REACT_APP_SUCCESSFUL_URL: 'https://shopuat.royalcanin.com/de',
-    REACT_APP_Adyen3DSUrl: 'https://shopuat.royalcanin.com',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'uat',
@@ -206,8 +200,6 @@ const env_de = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ',
     REACT_APP_Adyen_ENV: 'test',
-    REACT_APP_SUCCESSFUL_URL: 'https://shopstg.royalcanin.com/de',
-    REACT_APP_Adyen3DSUrl: 'https://shopstg.royalcanin.com',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'stg',
@@ -240,8 +232,6 @@ const env_de = {
     REACT_APP_AdyenOriginKEY:
       'pub.v2.4116105963663555.aHR0cHM6Ly9zaG9wLnJveWFsY2FuaW4uZGU.3BMa6HlRkpsM4ZMIgm7yJ5M30W8rL3Ccu8ns6K5GVQ8',
     REACT_APP_Adyen_ENV: 'live',
-    REACT_APP_SUCCESSFUL_URL: 'https://shop.royalcanin.de',
-    REACT_APP_Adyen3DSUrl: 'https://shop.royalcanin.de',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
@@ -271,8 +261,6 @@ const env_de = {
       'pub.v2.4116105963663555.aHR0cDovL3d3dy5yb3lhbGNhbmluLmNvbQ.O6vgqj5rS3bHzGVTI6PUpzWt9UpulJAIAyhC7BaSPmA',
 
     REACT_APP_Adyen_ENV: 'live',
-    REACT_APP_SUCCESSFUL_URL: 'https://www.shop.royalcanin.de',
-    REACT_APP_Adyen3DSUrl: 'https://www.shop.royalcanin.de',
 
     // #GA环境配置
     REACT_APP_GA_ENV: 'prd',
