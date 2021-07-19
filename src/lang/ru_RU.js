@@ -1167,6 +1167,7 @@ const ru_RU = {
   saveExtraMoney: 'Сэкономьте {val} на этой подписке',
   'subscription.pause': 'Приостановлена',
   signInAndRegisterNow: 'Войти / Зарегистрироваться сейчас',
+  giftList: 'акция подарков',
   startEnd: 'к',
   'bindPrescriber.modal.title':
     'Есть ли у вас рекомендация от ветеринарного врача?',

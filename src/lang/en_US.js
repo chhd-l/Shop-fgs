@@ -261,6 +261,7 @@ const en_US = {
   'minicart.totalProduct': '{val} item(s)',
   'cart.totalProduct_nounit': 'You have {val} in your cart',
   'cart.yourShoppingCart': 'Your shopping cart',
+  giftList: 'gift promotion',
   catNutrition: 'Cat nutrition',
   cats: 'CATS',
   cats2: 'Cats',

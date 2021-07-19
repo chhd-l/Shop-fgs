@@ -1115,6 +1115,7 @@ const es_ES = {
   switchProductTip2: 'based on',
   'switchProductTip.his': 'his',
   'switchProductTip.her': 'her',
+  giftList: 'gift promotion',
   switchProductTip3: 'pet profile',
   'subscription.chooseOption': 'Please choose your options',
   'clubListData.tip1': 'tailored and evolving premium nutrition',

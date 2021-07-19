@@ -1190,6 +1190,7 @@ const fr_FR = {
   clubSubscribe: 'S‘abonner',
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
   subscription: 'Abonnements',
+  giftList: 'promotion de cadeaux',
   'subscription.ad.list1':
     'Ajoutez les produits nutritionnels {val1} {val2} {val3} dans votre panier.',
   'subscription.ad.list2':
