@@ -91,14 +91,7 @@ const env = {
     REACT_APP_GA_ENV: 'dev',
 
     // #onetrust
-    REACT_APP_ONTRUST_DOMAIN_SCRIPT:
-      '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
-
-    // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/tr',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopuat.466920.com/tr'
+    REACT_APP_ONTRUST_DOMAIN_SCRIPT: '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test'
   },
   shopsit: {
     // #okta
@@ -130,9 +123,6 @@ const env = {
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopsit.royalcanin.com/tr',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/tr'
@@ -169,10 +159,7 @@ const env = {
       '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/tr',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopuat.royalcanin.com/tr'
+    REACT_APP_HOMEPAGE: '/tr'
   },
   shopstg: {
     // #okta
@@ -206,10 +193,7 @@ const env = {
       '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/tr',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopstg.royalcanin.com/tr'
+    REACT_APP_HOMEPAGE: '/tr'
   },
   production: {
     // #okta
@@ -237,9 +221,6 @@ const env = {
 
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT: '493fcc19-7d1b-4628-bb7f-4b66c21c5927',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shop.royalcanin.com.tr',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
@@ -282,9 +263,6 @@ const env = {
     REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/tr/api',
 
     REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/tr',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://www.royalcanin.com/tr/shop',
 
     // #根节点自定义样式名
     REACT_APP_ROOT_CLS: 'ui-custom-hub',
@@ -329,9 +307,6 @@ const env = {
     REACT_APP_HOMEPAGE: '/tr/shop',
 
     REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/tr',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://stgwedding.royalcanin.com/tr/shop',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/tr/api',
@@ -379,9 +354,6 @@ const env = {
     REACT_APP_HOMEPAGE: '/tr/shop',
 
     REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/tr',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://uatwedding.royalcanin.com/tr/shop',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/tr/api',

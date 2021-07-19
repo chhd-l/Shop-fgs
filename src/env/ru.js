@@ -101,10 +101,7 @@ const env = {
       '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/ru',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopuat.466920.com/ru'
+    REACT_APP_HOMEPAGE: '/ru'
   },
   shopsit: {
     // #okta
@@ -136,9 +133,6 @@ const env = {
     // #onetrust
     REACT_APP_ONTRUST_DOMAIN_SCRIPT:
       '493fcc19-7d1b-4628-bb7f-4b66c21c5927-test',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopsit.royalcanin.com/ru',
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ru'
@@ -211,9 +205,6 @@ const env = {
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/ru',
 
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://shopstg.royalcanin.com/ru',
-
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
       'https://prd-weu1-rc-df-myaccount-app-webapp-stg.cloud-effem.com/ru-ru/manager/settings'
@@ -247,9 +238,6 @@ const env = {
 
     // #设置二级子目录访问页面
     REACT_APP_HOMEPAGE: '/',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://www.royalcanin.com/ru/shop',
 
     // #删除账户
     REACT_APP_DELETE_My_ACCOUNT_URL:
@@ -293,9 +281,6 @@ const env = {
     REACT_APP_HUB_APIURL: 'https://www.royalcanin.com/ru/api',
 
     REACT_APP_HUB_URLPREFIX: 'https://www.royalcanin.com/ru',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://www.royalcanin.com/ru/shop',
 
     // #根节点自定义样式名
     REACT_APP_ROOT_CLS: 'ui-custom-hub',
@@ -349,9 +334,6 @@ const env = {
     REACT_APP_HOMEPAGE: '/ru/shop',
 
     REACT_APP_HUB_URLPREFIX: 'https://stgwedding.royalcanin.com/ru',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://stgwedding.royalcanin.com/ru/shop',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://stgwedding.royalcanin.com/ru/api',
@@ -408,9 +390,6 @@ const env = {
     REACT_APP_HOMEPAGE: '/ru/shop',
 
     REACT_APP_HUB_URLPREFIX: 'https://uatwedding.royalcanin.com/ru',
-
-    // #支付成功跳转的地址
-    REACT_APP_SUCCESSFUL_URL: 'https://uatwedding.royalcanin.com/ru/shop',
 
     // #delete接口前缀
     REACT_APP_HUB_APIURL: 'https://uatwedding.royalcanin.com/ru/api',

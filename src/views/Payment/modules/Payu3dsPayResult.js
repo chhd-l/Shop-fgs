@@ -28,6 +28,7 @@ class Payu3dsResult extends Component {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
+      console.log(err);
       const { history } = this.props;
       if (this.isLogin) {
         sessionItemRoyal.set('rc-tid', err.context.businessId);
