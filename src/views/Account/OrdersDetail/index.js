@@ -1406,7 +1406,7 @@ class AccountOrders extends React.Component {
                                               values={{ val: item.quantity }}
                                             />
                                           </div>
-                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up font-weight-normal">
+                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
                                             {formatMoney(item.marketPrice)}
                                           </div>
                                           <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
