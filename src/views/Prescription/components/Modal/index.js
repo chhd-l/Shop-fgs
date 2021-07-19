@@ -42,7 +42,7 @@ export default class Modal extends React.Component {
           <div
             className="modal-dialog mt-0 mb-0"
             role="document"
-            style={{ top: '50%', transform: 'translateY(-50%)' }}
+            style={{ top: '30%', transform: 'translateY(-50%)' }}
           >
             <div className="modal-content prescriber-modal-content mt-0">
               <div className="prescriber-modal-header">
