@@ -31,67 +31,13 @@
 
   <base href="/" />
   <link id="royal-canin" rel="stylesheet" type="text/css" href="./royal/royal-canin.min.css" />
+  <!-- <link id="royal-canin" rel="stylesheet" type="text/css" href="./royal/royal-canin.css" /> -->
 
-  <!--限制启用了BazaarVoice ratings&reviews才能add BV Loader-->
-  <!-- <script type="text/javascript">
-    if ('<%= process.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS %>' == '1') {
-      var bazaarVoiceEnv = '<%= process.env.REACT_APP_BAZAARVOICE_ENV %>';
-      var e = document.createElement('script');
-      e.setAttribute('type', 'text/javascript');
-      e.setAttribute(
-        'src',
-        'https://apps.bazaarvoice.com/deployments/royal-canin/main_site/' +
-        bazaarVoiceEnv +
-        '/en_US/bv.js'
-      );
-      document.getElementsByTagName('head')[0].appendChild(e);
-    }
-  </script> -->
-
-  <!-- Cookies Consent Notice, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
-  <!-- <script src="<%= process.env.REACT_APP_ONTRUST_SRC %>" data-document-language="true" type="text/javascript"
-    charset="UTF-8" data-domain-script="<%= process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT %>"></script> -->
-  <!-- <script type="text/javascript">function OptanonWrapper() { }</script> -->
-  <!-- End Cookies Consent Notice -->
-
-  <!-- <script type="text/javascript">
-    if ('<%= process.env.REACT_APP_LANG %>' == 'fr' || '<%= process.env.REACT_APP_LANG %>' == 'de') {
-      function OptanonWrapper() {
-        setTimeout(function () {
-          Optanon.Close();
-        }, 30000);
-      }
-    }
-  </script> -->
-
-  <!-- Global RC script, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
-  <!-- <script type="text/javascript" src="https://rcdfcdn.mars.com/consent-management/global-script.js"
-    id="global-script"></script> -->
-  <!-- End Global RC script -->
-
-  <!-- <script src="https://www.googleoptimize.com/optimize.js?id=OPT-K6SFSDH" type="text/plain"
-    class="optanon-category-2"></script> -->
-
+  
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
   <script type="text/javascript" src="./royal/royal-canin.min.js" id="js-royal-canin"></script>
+  <!-- <script type="text/javascript" src="./royal/royal-canin.js" id="js-royal-canin"></script> -->
   <script src="https://at.alicdn.com/t/font_1982813_v930s5bhumt.js"></script>
-
-  <!-- <script crossorigin src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-router-dom@5.1.2/umd/react-router-dom.min.js"></script> -->
-  <!-- seo is not searched -->
-  <!-- <script>
-    if (
-      '<%= process.env.REACT_APP_COUNTRY %>' == 'US' ||
-      '<%= process.env.NODE_ENV %>' !== 'production'
-    ) {
-      var metaTag = document.createElement('meta');
-      metaTag.name = 'robots';
-      metaTag.content = 'noindex';
-      document.getElementsByTagName('head')[0].appendChild(metaTag);
-    }
-
-  </script> -->
   <script>
     if (typeof Object.assign != 'function') {
       Object.assign = function (target) {
@@ -116,8 +62,6 @@
     }
 
   </script>
-  <!-- OneTrust Cookies Consent Notice (Production Standard, shop.royalcanin.mx, es-MX) end -->
-  <!-- <link type="text/css" rel="stylesheet" href="<%= process.env.REACT_APP_ONTRUST_STYLE %>" /> -->
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" />
 </head>
@@ -127,6 +71,7 @@
   <noscript></noscript>
 
   <div id="root"></div>
+  <!-- <div class="rc-list rc-filters"></div> -->
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
