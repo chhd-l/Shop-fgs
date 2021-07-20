@@ -236,7 +236,7 @@ class FooterHub extends React.Component {
             ) : null}
 
             {/* LocalMarketSettings */}
-            {cur_contactInfo ? (
+            {cur_contactInfo && ContactUsUrl ? (
               <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
                 {cur_contactInfo && (
                   <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
