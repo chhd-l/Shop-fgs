@@ -138,11 +138,10 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   <script>
-    if (window.location.pathname == '/pickupmap') {
-      // console.log('666 pathname: ', window.location.pathname);
+    let ptarr = (window.location.pathname).split('/');;
+    if (ptarr.indexOf("pickupmap") > 0) {
       document.body.style.overflow = 'hidden';
     }
-
   </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
