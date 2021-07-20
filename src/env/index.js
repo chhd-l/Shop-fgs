@@ -126,7 +126,6 @@ switch (location.host) {
 }
 
 if (location.host.includes('localhost')) {
-  console.log(process);
   countryKey = process.env.REACT_APP_ENV_COUNTRY;
   envKey = process.env.REACT_APP_ENV_CONFIG;
 }
