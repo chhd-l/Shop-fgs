@@ -42,7 +42,7 @@ class FooterHub extends React.Component {
     widget && widget.scrollIntoView();
   };
   render() {
-    const { footerInfo } = this.state;
+    const { footerInfo, cur_contactInfo } = this.state;
     const { isLogin, history } = this.props;
     if (Object.keys(footerInfo).length == 0) return null;
     const { LocalMarketSettings, MenuGroups, MenuInfoItems, MenuItems } =
@@ -236,26 +236,28 @@ class FooterHub extends React.Component {
             ) : null}
 
             {/* LocalMarketSettings */}
-            <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
-              {this.state.cur_contactInfo && (
-                <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
-                  <a
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
-                    role="menuitem"
-                    href={`tel:${ContactPhone}`}
-                  >
-                    {ContactPhone}
-                  </a>
-                  <a
-                    className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
-                    role="menuitem"
-                    href={ContactUsUrl.Url}
-                  >
-                    {ContactUsUrl.Text}
-                  </a>
-                </div>
-              )}
-            </div>
+            {cur_contactInfo ? (
+              <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
+                {cur_contactInfo && (
+                  <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
+                    <a
+                      className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
+                      role="menuitem"
+                      href={`tel:${ContactPhone}`}
+                    >
+                      {ContactPhone}
+                    </a>
+                    <a
+                      className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
+                      role="menuitem"
+                      href={ContactUsUrl.Url}
+                    >
+                      {ContactUsUrl.Text}
+                    </a>
+                  </div>
+                )}
+              </div>
+            ) : null}
             {/* 底部横向链接 */}
             <MarsFooterMap />
           </div>
