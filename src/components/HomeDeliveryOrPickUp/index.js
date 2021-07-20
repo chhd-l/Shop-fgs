@@ -81,8 +81,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp:
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -151,6 +150,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
+    console.log('666 -----> defaultCity : ', defaultCity);
     // console.log('666 this.props.defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
@@ -217,7 +217,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
-    const { isLogin, pickupEditNumber } = this.props;
+    const { isLogin, pickupEditNumber, defaultCity } = this.props;
     const { selectedItem, pickupForm } = this.state;
     let res = null;
     this.setState({
@@ -323,7 +323,6 @@ class HomeDeliveryOrPickUp extends React.Component {
               homeAndPickup: hdpu,
               isSubscription: isSubscription
             };
-
             this.setState(
               {
                 pickupCity: data.city,
@@ -335,7 +334,10 @@ class HomeDeliveryOrPickUp extends React.Component {
                   JSON.stringify(item)
                 );
                 // 有订阅商品的时只展示且默认选择 homeDelivery
-                if (isSubscription || obj.length == 1) {
+                if (
+                  isSubscription ||
+                  (obj.length == 1 && obj[0].type != 'pickup')
+                ) {
                   this.setItemStatus('homeDelivery');
                 }
               }
@@ -343,6 +345,15 @@ class HomeDeliveryOrPickUp extends React.Component {
           }
         );
       } else {
+        if (pickupEditNumber == 0 && defaultCity) {
+          this.setState({
+            pickupCity: defaultCity
+          });
+        } else {
+          this.setState({
+            pickupCity: ''
+          });
+        }
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);
         selitem.homeAndPickup = [];
@@ -425,7 +436,6 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupForm
       },
       () => {
-        // console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
         this.props.calculateFreight(this.state.pickupForm);
       }
