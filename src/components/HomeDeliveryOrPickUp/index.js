@@ -719,7 +719,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             }`}
           >
             <iframe
-              src={'/pickupmap'}
+              src={
+                window.__.env.REACT_APP_HOMEPAGE.replace(/\/$/gi, '') +
+                '/pickupmap'
+              }
               id="pickupIframe"
               className="pickup_iframe"
               style={{ width: '100%', height: '100%' }}
