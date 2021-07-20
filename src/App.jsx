@@ -36,11 +36,17 @@ import '@/utils/init';
 
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
-import Home from '@/views/Home';
+// import Home from '@/views/Home';
+const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
+
 import PickupMap from '@/views/PickupMap';
-import List from '@/views/List';
+// import List from '@/views/List';
+const List = loadable(() => import('@/views/List'));
 import Details from '@/views/Details';
+// const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
 import Cart from '@/views/Cart';
+// const Cart = loadable(() => import('@/views/Cart'));
+
 import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
 import Prescription from '@/views/Prescription';
@@ -165,8 +171,6 @@ const LoginCallback = (props) => {
 
   return <div />;
 };
-
-// const Home = loadable(() => import('@/views/Home'));
 
 const Adyen3DSFail = loadable(() =>
   import('@/views/Payment/modules/Adyen3DSFail')

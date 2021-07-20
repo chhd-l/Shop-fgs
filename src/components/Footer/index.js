@@ -6,14 +6,13 @@ import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
-import './index.css';
-import LoginButton from '@/components/LoginButton';
 import FooterHub from './footer_hub';
 import { withRouter } from 'react-router-dom';
+import { getDeviceType } from '@/utils/utils';
+import './index.css';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const cur_menubar = menubar[window.__.env.REACT_APP_COUNTRY] || [];
 const cur_contactInfo = contactInfo[window.__.env.REACT_APP_COUNTRY] || null;
 @inject('configStore', 'loginStore')
@@ -23,40 +22,44 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      a: 1
+      activeIdx: -1
     };
   }
-  async componentDidMount() {
-    this.props.configStore.queryConfig();
+  componentDidMount() {
+    const {
+      configStore,
+      intl: { messages }
+    } = this.props;
+    configStore.queryConfig();
 
-    this.props.configStore.getPrescriberSettingInfo(); //查询prescriber setting信息
+    configStore.getPrescriberSettingInfo(); //查询prescriber setting信息
 
-    this.props.configStore.getSystemFormConfig(); // 查询address form表单配置开关
+    configStore.getSystemFormConfig(); // 查询address form表单配置开关
 
     // 地址错误提示信息
     localItemRoyal.set(
       'rc-wrongAddressMsg',
       JSON.stringify({
-        title: this.props.intl.messages['payment.pleaseInput'],
-        wrongAddress: this.props.intl.messages['payment.wrongAddress'],
-        streets: this.props.intl.messages['payment.streets'],
-        postCode: this.props.intl.messages['payment.postCode'],
-        house: this.props.intl.messages['payment.house'],
-        city: this.props.intl.messages['payment.city'],
-        districtCode: this.props.intl.messages['payment.province'],
-        settlement: this.props.intl.messages['payment.settlement'],
-        address1: this.props.intl.messages['payment.address1'],
-        address2: this.props.intl.messages['payment.address2'],
-        apartment: this.props.intl.messages['payment.apartment'],
-        comment: this.props.intl.messages['payment.comment'],
-        country: this.props.intl.messages['payment.country'],
-        entrance: this.props.intl.messages['payment.entrance'],
-        firstName: this.props.intl.messages['payment.firstName'],
-        lastName: this.props.intl.messages['payment.lastName'],
-        phoneNumber: this.props.intl.messages['payment.phoneNumber'],
-        consigneeNumber: this.props.intl.messages['payment.phoneNumber'],
-        area: this.props.intl.messages['payment.region'],
-        province: this.props.intl.messages['payment.state']
+        title: messages['payment.pleaseInput'],
+        wrongAddress: messages['payment.wrongAddress'],
+        streets: messages['payment.streets'],
+        postCode: messages['payment.postCode'],
+        house: messages['payment.house'],
+        city: messages['payment.city'],
+        districtCode: messages['payment.province'],
+        settlement: messages['payment.settlement'],
+        address1: messages['payment.address1'],
+        address2: messages['payment.address2'],
+        apartment: messages['payment.apartment'],
+        comment: messages['payment.comment'],
+        country: messages['payment.country'],
+        entrance: messages['payment.entrance'],
+        firstName: messages['payment.firstName'],
+        lastName: messages['payment.lastName'],
+        phoneNumber: messages['payment.phoneNumber'],
+        consigneeNumber: messages['payment.phoneNumber'],
+        area: messages['payment.region'],
+        province: messages['payment.state']
       })
     );
   }
@@ -67,7 +70,18 @@ class Footer extends React.Component {
     const widget = document.querySelector('#page-top');
     widget && widget.scrollIntoView();
   };
+  toggleExpand = (index) => {
+    this.setState(
+      (cur) => ({
+        activeIdx: cur.activeIdx === index ? -1 : index
+      }),
+      () => {
+        console.log(this.state.activeIdx);
+      }
+    );
+  };
   footerInfo = () => {
+    const { activeIdx } = this.state;
     return (
       <footer
         className="rc-bg-colour--interface-dark"
@@ -106,18 +120,29 @@ class Footer extends React.Component {
                           key={index}
                         >
                           <h3
-                            className="rc-list__header"
+                            className={`rc-list__header ${
+                              activeIdx === index ? 'rc-icon--rotate' : ''
+                            }`}
                             role="menuitem"
                             data-toggle={`nav-footer-list-${index}`}
+                            aria-haspopup={isMobile ? 'true' : 'false'}
+                            aria-selected={
+                              activeIdx === index && isMobile ? 'true' : 'false'
+                            }
                             id={`nav-footer-${index}`}
+                            onClick={() => this.toggleExpand(index)}
                           >
                             <FormattedMessage id={item[0].titleId} />
                           </h3>
                           <ul
-                            className="rc-list rc-list--blank rc-list--align"
+                            className={`rc-list rc-list--blank rc-list--align overflow-hidden`}
                             role="menu"
                             id={`nav-footer-list-${index}`}
                             aria-labelledby={`nav-footer-${index}`}
+                            style={{
+                              maxHeight:
+                                activeIdx === index || !isMobile ? 'initial' : 0
+                            }}
                           >
                             {item[0].list.map((listItem, i) => {
                               return (
