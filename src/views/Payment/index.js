@@ -373,7 +373,7 @@ class Payment extends React.Component {
     });
     return cyberParams;
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {

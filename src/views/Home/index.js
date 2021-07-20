@@ -11,8 +11,7 @@ import FooterImage from './modules/FooterImage';
 import SalesCategory from './modules/SalesCategory';
 import HubSalesCategory from '@/components/HubSalesCategory';
 import { salesCategoryFilterRule } from '@/components/HubSalesCategory/utils';
-import { Ads } from './ad';
-import { TopAds } from './ad';
+import { TopAds, Ads } from './ad';
 import { Advantage } from './advantage';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
@@ -468,7 +467,7 @@ class Home extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     if (localItemRoyal.get('login-again')) {
       loginStore.changeLoginModal(true);
       var callOktaCallBack = getOktaCallBackUrl(
