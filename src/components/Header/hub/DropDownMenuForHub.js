@@ -3,6 +3,7 @@ import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
 import PromotionPanel from '../hub/PromotionPanel';
 import LazyLoad from 'react-lazyload';
+import cn from 'classnames';
 
 /**
  * 渲染二级菜单
@@ -81,9 +82,10 @@ export default class DropDownMenuForHub extends React.Component {
     let lists = [];
     // 全部为MenuItem时，四个为一列
     if (item.MenuItems.every((ele) => ele.Type === 'MenuItem')) {
-      for (let i = 0; i < item.MenuItems.length; i += 4) {
-        menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
-      }
+      menuItemListGroupedByStep.push(item.MenuItems);
+      // for (let i = 0; i < item.MenuItems.length; i += 4) {
+      //   menuItemListGroupedByStep.push(item.MenuItems.slice(i, i + 4));
+      // }
     } else {
       // 排列这两个的顺序
       const menuItemList = item.MenuItems.filter(
@@ -108,37 +110,34 @@ export default class DropDownMenuForHub extends React.Component {
 
     return (
       <div
-        className={`dropdown-nav d-flex justify-content-center align-items-start bg-white pt-4 pb-4 border-top ${
-          activeTopParentId === item.id ? 'show' : ''
-        } dropdown-nav__${item.id} nav-type__${item.Type}`}
+        className={cn(
+          'dropdown-nav d-flex justify-content-center1 align-items-start bg-white pt-4 pb-4 border-top',
+          {
+            show: activeTopParentId === item.id,
+            'flex-wrap': menuItemListGroupedByStep.length > 0
+          },
+          `dropdown-nav__${item.id} nav-type__${item.Type}`
+        )}
         aria-hidden={activeTopParentId === item.id}
         // onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
         // onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
         {menuItemListGroupedByStep.length > 0 &&
-          menuItemListGroupedByStep.map((gItem, gIdx) => (
-            <div
-              className={`pl-4 pr-4 ${
-                menuItemListGroupedByStep > 6
-                  ? 'd-flex flex-wrap nav-two-column'
-                  : 'nav-column'
-              }`}
-              key={gIdx}
-            >
-              {gItem.map((cItem) => (
-                <a
-                  href={cItem.Link.Url}
-                  className="medium mb-2 ui-cursor-pointer btn-link"
-                  key={cItem.id}
-                  style={{ display: 'block' }}
-                  onClick={this.handleClickNavItem.bind(this, { item, cItem })}
-                >
-                  {cItem.Link.Text}
-                </a>
-              ))}
-            </div>
-          ))}
+          menuItemListGroupedByStep.map((gItem, gIdx) =>
+            gItem.map((cItem) => (
+              <a
+                href={cItem.Link.Url}
+                className="medium mb-2 ui-cursor-pointer btn-link pl-4 pr-4 nav-column"
+                key={cItem.id}
+                style={{ display: 'block' }}
+                onClick={this.handleClickNavItem.bind(this, { item, cItem })}
+                key={gIdx}
+              >
+                {cItem.Link.Text}
+              </a>
+            ))
+          )}
 
         {lists.map((list, i) => (
           <React.Fragment key={i}>
@@ -251,12 +250,8 @@ export default class DropDownMenuForHub extends React.Component {
     );
   };
   render() {
-    const {
-      headerNavigationList,
-      activeTopParentId,
-      showNav,
-      showLoginBtn
-    } = this.props;
+    const { headerNavigationList, activeTopParentId, showNav, showLoginBtn } =
+      this.props;
     return (
       <>
         {showNav ? (
