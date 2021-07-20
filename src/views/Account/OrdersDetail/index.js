@@ -1379,7 +1379,11 @@ class AccountOrders extends React.Component {
                                           <LazyLoad style={{ width: '100%' }}>
                                             <img
                                               className="order-details-img-fluid w-100"
-                                              src={getClubLogo()}
+                                              src={
+                                                item.goodsInfoImg ||
+                                                item.pic ||
+                                                getClubLogo()
+                                              }
                                               alt=""
                                               title=""
                                             />
@@ -1391,6 +1395,20 @@ class AccountOrders extends React.Component {
                                             title={item.goodsInfoName}
                                           >
                                             {item.goodsInfoName}
+                                          </span>
+                                          <span className="ui-text-overflow-line2">
+                                            <span className="rc-md-down">
+                                              <FormattedMessage
+                                                id="quantityText"
+                                                values={{
+                                                  specText: '',
+                                                  buyCount: item.quantity
+                                                }}
+                                              />
+                                            </span>
+                                          </span>
+                                          <span className="rc-md-down">
+                                            {formatMoney(item.marketPrice)}
                                           </span>
                                         </div>
                                         <div className="col-6 col-md-2 text-right text-md-left rc-md-up">

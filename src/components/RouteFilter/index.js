@@ -140,7 +140,6 @@ class RouteFilter extends Component {
       //   sessionItemRoyal.set('is-from-product-finder', '1');
       // }
     }
-    console.log(checkoutStore, this.isLogin, 'checkoutStore');
     if (localItemRoyal.get('rc-token') && this.isLogin) {
       authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
     }

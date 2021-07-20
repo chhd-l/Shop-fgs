@@ -3,7 +3,6 @@
 //  />
 import React, { useEffect, useState } from 'react';
 import { getFrequencyDict, matchNamefromDict } from '@/utils/utils';
-console.info('.....FrequencyMatch');
 const FrequencyMatch = (props) => {
   const [frequencyList, setFrequencyList] = useState([]);
   useEffect(() => {
