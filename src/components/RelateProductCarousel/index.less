@@ -1,27 +1,23 @@
-.responsive-carousel{
+.responsive-carousel {
   margin-bottom: 20px;
-  @media (min-width: 769px){
-    .slick-slider{
+  @media (min-width: 769px) {
+    .slick-slider {
       width: 1200px;
       margin: 0 auto;
     }
-    .goods{
-      width: 95%!important;
-    }
-    .slick-dots{
-      // position: absolute;
-      // bottom: -10%!important;
+    .goods {
+      width: 95% !important;
     }
   }
 
-  h2{
+  h2 {
     text-align: center;
-    color: rgb(236,0,26);
+    color: rgb(236, 0, 26);
     height: 50px;
     line-height: 50px;
     font-size: 1.4rem;
   }
-  .goods{
+  .goods {
     border: 1px solid #e5e5e5;
     height: 460px;
     .product-item-flag-image2 {
@@ -31,16 +27,16 @@
       height: 3.5rem;
       z-index: 3;
     }
-    >img{
+    > img {
       max-width: 50%;
       max-height: 100%;
       width: 150px;
       height: auto;
       margin: auto;
     }
-    .Name{
+    .Name {
       font-size: 20px;
-      color: #E6311B;
+      color: #e6311b;
       margin-top: 20px;
       text-align: center;
       height: 80px;
@@ -49,7 +45,7 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
     }
-    .Subtitle{
+    .Subtitle {
       padding: 20px 10px 0;
       font-size: 14px;
       text-align: center;
@@ -58,13 +54,13 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
     }
-    .marketPrice{
+    .marketPrice {
       margin-top: 20px;
       text-align: center;
       font-size: 16px;
-      color:#323232;
+      color: #323232;
     }
-    .subscriptionPrice{
+    .subscriptionPrice {
       display: flex;
       justify-content: center;
       font-size: 16px;
@@ -73,18 +69,14 @@
     }
   }
 }
-.slick-dots{
-  position: static;
+.slick-dots {
+  position: relative !important;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-@media (max-width: 769px){
-  .goods{
-    border: 0 none!important;
-  }
-  .slick-dots{
-    // position: absolute;
-    // bottom: -45px!important;
-    width: 220px;
-    transform: translate(40%,0);
+@media (max-width: 769px) {
+  .goods {
+    border: 0 none !important;
   }
 }

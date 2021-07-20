@@ -274,7 +274,7 @@ function ListItemForDefault(props) {
     </article>
   ) : (
     <article
-      className={`rc-card rc-card--product overflow-hidden ${className} ${
+      className={`rc-card11 rc-card--product overflow-hidden ${className} ${
         showBorder ? 'border border-d7d7d7' : ''
       }`}
       style={{ minHeight: '120px' }}
