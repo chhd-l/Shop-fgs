@@ -276,6 +276,8 @@ class AddressList extends React.Component {
 
       const tmpObj =
         find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
+
+      // 查询银行卡列表
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
@@ -524,8 +526,7 @@ class AddressList extends React.Component {
       ) {
         this.calculateFreight(tmpObj);
       }
-      this.isDeliverAddress &&
-        this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+      // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
     }
   }
   // 处理地址信息，拼装errMsg
@@ -591,10 +592,10 @@ class AddressList extends React.Component {
                 this.props.updateData(this.state.deliveryAddress);
                 // purchases接口计算运费
                 this.calculateFreight(this.state.deliveryAddress);
-                this.isDeliverAddress &&
-                  this.props.paymentStore.setDefaultCardDataFromAddr(
-                    this.state.deliveryAddress
-                  );
+
+                // 查询银行卡列表
+                // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(this.state.deliveryAddress);
+
                 this.confirmToNextPanel();
                 this.setState({
                   validationLoading: false
@@ -652,10 +653,10 @@ class AddressList extends React.Component {
               },
               () => {
                 this.calculateFreight(this.state.deliveryAddress);
-                this.isDeliverAddress &&
-                  this.props.paymentStore.setDefaultCardDataFromAddr(
-                    this.state.deliveryAddress
-                  );
+
+                // 查询银行卡列表
+                // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(this.state.deliveryAddress);
+
                 this.confirmToNextPanel();
                 this.setState({
                   validationLoading: false
