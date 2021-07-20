@@ -419,7 +419,7 @@ class AddressList extends React.Component {
     // 已过期（俄罗斯时间）
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
-      console.log('666  ----->  今天或者更早');
+      // console.log('666  ----->  今天或者更早');
       this.showErrMsg(errMsg);
       flag = false;
     } else {
@@ -433,7 +433,7 @@ class AddressList extends React.Component {
         ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
         : (cutOffTime = 1600);
       if (dldate == today + 1 && nowTime > cutOffTime) {
-        console.log('666  ----->  明天');
+        // console.log('666  ----->  明天');
         this.showErrMsg(errMsg);
         flag = false;
       }
@@ -1290,9 +1290,9 @@ class AddressList extends React.Component {
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
     const { addOrEdit, addressList } = this.state;
-    console.log('666 ----- 更新 selectDeliveryOrPickUp: ', num);
-    console.log('666 ----- addOrEdit: ', addOrEdit);
-    console.log('666 ----- addressList: ', addressList);
+    // console.log('666 ----- 更新 selectDeliveryOrPickUp: ', num);
+    // console.log('666 ----- addOrEdit: ', addOrEdit);
+    // console.log('666 ----- addressList: ', addressList);
     let flag = null;
     !addressList.length && num == 1 ? (flag = true) : (flag = false);
     this.setState({
@@ -1366,7 +1366,7 @@ class AddressList extends React.Component {
         deliveryAdd.deliveryAddressId = pkup[0].deliveryAddressId;
         deliveryAdd.customerId = pkup[0].customerId;
       }
-      console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
+      // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
