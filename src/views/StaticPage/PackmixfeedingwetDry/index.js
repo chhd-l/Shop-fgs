@@ -133,7 +133,7 @@ class Packfeed extends React.Component {
                   {list1.map((item, index) => {
                     return (
                       <article
-                        className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
+                        className="rc-card1 rc-card--b1 align-self-stretch tns-item tns-slide-active"
                         id="tns2-item1"
                         key={index}
                       >
@@ -233,7 +233,7 @@ class Packfeed extends React.Component {
                   {list2.map((item, index) => {
                     return (
                       <article
-                        className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
+                        className="rc-card1 rc-card--b1 align-self-stretch tns-item tns-slide-active"
                         id="tns1-item2"
                         key={index}
                       >

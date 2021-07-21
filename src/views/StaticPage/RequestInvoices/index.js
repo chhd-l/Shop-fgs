@@ -40,6 +40,7 @@ class RequestInvoices extends React.Component {
           showMiniIcons={true}
           showUserIcon={true}
           match={this.props.match}
+          {...this.props}
         />
         <div className="RequestInvoices">
           <h1>

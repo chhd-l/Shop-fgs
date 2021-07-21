@@ -48,13 +48,16 @@ class Page500 extends React.Component {
           />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <LazyLoad>
-          <img
-            src={logo}
-            style={{ width: '150px', margin: '80px auto 1.25rem' }}
-            alt="logo icon"
-          />
-        </LazyLoad>
+        <div className="text-center">
+          <LazyLoad>
+            <img
+              src={logo}
+              style={{ width: '150px', margin: '80px auto 1.25rem' }}
+              alt="logo icon"
+            />
+          </LazyLoad>
+        </div>
+
         <div>
           <div className="container">
             <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
