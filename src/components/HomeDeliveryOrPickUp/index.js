@@ -47,7 +47,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hdpuLoading: false,
+      pickLoading: false,
       showPickup: true,
       showPickupDetail: false,
       showPickupDetailDialog: false,
@@ -164,7 +164,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       // 没有默认城市但是有缓存
       defaultCity
         ? (defaultCity = defaultCity)
-        : (defaultCity = sitem?.city?.city);
+        : (defaultCity = sitem?.cityData?.city);
       let res = await pickupQueryCity({ keyword: defaultCity });
       let robj = res?.context?.pickUpQueryCityDTOs || [];
       if (robj) {
@@ -197,7 +197,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState(
         {
           selectedItem: sitem,
-          pickupCity: sitem.city.city
+          pickupCity: sitem.cityData.city
         },
         () => {
           if (isSelectedItem) {
@@ -221,7 +221,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { selectedItem, pickupForm } = this.state;
     let res = null;
     this.setState({
-      hdpuLoading: true,
+      pickLoading: true,
       searchNoResult: false
     });
     try {
@@ -319,7 +319,7 @@ class HomeDeliveryOrPickUp extends React.Component {
               }
             });
             let item = {
-              city: data,
+              cityData: data,
               homeAndPickup: hdpu,
               isSubscription: isSubscription
             };
@@ -369,7 +369,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       console.warn(err);
     } finally {
       this.setState({
-        hdpuLoading: false
+        pickLoading: false
       });
     }
   };
@@ -378,6 +378,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { selectedItem } = this.state;
     let val = e.currentTarget?.value;
     let sitem = Object.assign({}, selectedItem);
+
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
         v['selected'] = true;
@@ -397,7 +398,9 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 设置状态
   setItemStatus = (val) => {
+    const { pickupEditNumber } = this.props;
     const { pickupForm, selectedItem } = this.state;
+    this.setState({ pickLoading: true });
     // 处理选择结果
     let pickupItem = null;
     let sitem = Object.assign({}, selectedItem);
@@ -407,10 +410,6 @@ class HomeDeliveryOrPickUp extends React.Component {
         v.type == 'pickup' ? (pickupItem = v) : null;
       }
     });
-    pickupForm['city'] = sitem?.city?.city || [];
-    pickupForm['item'] = pickupItem;
-    pickupForm['maxDeliveryTime'] = pickupItem?.maxDeliveryTime || 0;
-    pickupForm['minDeliveryTime'] = pickupItem?.minDeliveryTime || 0;
 
     let flag = false;
     if (val == 'homeDelivery') {
@@ -429,11 +428,29 @@ class HomeDeliveryOrPickUp extends React.Component {
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
     this.props.updateConfirmBtnDisabled(flag);
-    pickupForm['receiveType'] = flag ? 'PICK_UP' : 'HOME_DELIVERY';
+
+    let pkobj = {
+      city: sitem?.cityData?.city || [],
+      item: pickupItem,
+      maxDeliveryTime: pickupItem?.maxDeliveryTime || 0,
+      minDeliveryTime: pickupItem?.minDeliveryTime || 0,
+      receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
+    };
+    // 再次编辑地址的时候，从缓存中取city数据
+    if (pickupEditNumber > 0) {
+      let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+      sobj = JSON.parse(sobj);
+      let cityData = sobj?.cityData;
+      pkobj['provinceIdStr'] = cityData?.regionFias;
+      pkobj['areaIdStr'] = cityData?.areaFias;
+      pkobj['cityIdStr'] = cityData?.cityFias;
+      pkobj['settlementIdStr'] = cityData?.settlementFias;
+    }
     this.setState(
       {
         showPickup: flag,
-        pickupForm
+        pickLoading: false,
+        pickupForm: Object.assign(pickupForm, pkobj)
       },
       () => {
         this.props.updateData(this.state.pickupForm);
@@ -601,7 +618,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   render() {
     const {
-      hdpuLoading,
+      pickLoading,
       showPickup,
       showPickupDetail,
       showPickupDetailDialog,
@@ -613,7 +630,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     } = this.state;
     return (
       <>
-        {hdpuLoading ? <Loading /> : null}
+        {pickLoading && <Loading />}
+
         <div
           className="row rc_form_box rc_pickup_box"
           style={{ display: isMobile ? 'block' : 'flex' }}
