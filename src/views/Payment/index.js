@@ -2030,7 +2030,9 @@ class Payment extends React.Component {
     // console.log('666 ★★ -- Payment 计算: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
-
+    this.setState({
+      loading: true
+    });
     if (data?.DuData) {
       let dudata = data?.DuData;
       shippingFeeAddress.provinceIdStr = dudata?.provinceId;
@@ -2090,6 +2092,10 @@ class Payment extends React.Component {
       }
     } catch (err) {
       console.warn(err);
+    } finally {
+      this.setState({
+        loading: false
+      });
     }
   };
   updateDeliveryAddrData = (data) => {

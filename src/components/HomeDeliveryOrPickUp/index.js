@@ -47,7 +47,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hdpuLoading: false,
+      pickLoading: false,
       showPickup: true,
       showPickupDetail: false,
       showPickupDetailDialog: false,
@@ -221,7 +221,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { selectedItem, pickupForm } = this.state;
     let res = null;
     this.setState({
-      hdpuLoading: true,
+      pickLoading: true,
       searchNoResult: false
     });
     try {
@@ -369,7 +369,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       console.warn(err);
     } finally {
       this.setState({
-        hdpuLoading: false
+        pickLoading: false
       });
     }
   };
@@ -378,6 +378,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { selectedItem } = this.state;
     let val = e.currentTarget?.value;
     let sitem = Object.assign({}, selectedItem);
+
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
         v['selected'] = true;
@@ -601,7 +602,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   render() {
     const {
-      hdpuLoading,
+      pickLoading,
       showPickup,
       showPickupDetail,
       showPickupDetailDialog,
@@ -613,7 +614,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     } = this.state;
     return (
       <>
-        {hdpuLoading ? <Loading /> : null}
+        {pickLoading && <Loading />}
+
         <div
           className="row rc_form_box rc_pickup_box"
           style={{ display: isMobile ? 'block' : 'flex' }}
