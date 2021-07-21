@@ -331,7 +331,7 @@ class PayProductInfo extends React.Component {
                 </span>
               </div>
 
-              <div className="product-summary__recap__content">
+              <div className="product-summary__recap__content confirmation_info">
                 <div
                   className="checkout--padding"
                   style={{ padding: '0 1.25rem 1.25rem' }}

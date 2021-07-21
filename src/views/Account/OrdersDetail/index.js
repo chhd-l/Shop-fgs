@@ -1366,58 +1366,68 @@ class AccountOrders extends React.Component {
                                         </div>
                                       </div>
                                     ))}
-                                </div>
-                              </div>
-                              {/*新增first order welcome box gift content*/}
-                              {!!+window.__.env
-                                .REACT_APP_SHOW_CHECKOUT_WELCOMEBOX &&
-                              welcomeGiftLists.length > 0 ? (
-                                <div className="order__listing text-left">
-                                  <div className="order-list-container">
-                                    {welcomeGiftLists.map((item, i) => (
+                                  {/*welcome box gifts*/}
+                                  {welcomeGiftLists.map((item, i) => (
+                                    <div
+                                      className="border-bottom pl-2 pr-2 pt-3 pb-3"
+                                      key={i}
+                                    >
                                       <div
-                                        className="border-bottom pl-2 pr-2 pt-3 pb-3"
-                                        key={i}
+                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
                                       >
-                                        <div
-                                          className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0`}
-                                        >
-                                          <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                            <LazyLoad style={{ width: '100%' }}>
-                                              <img
-                                                className="order-details-img-fluid w-100"
-                                                src={getClubLogo()}
-                                                alt=""
-                                                title=""
-                                              />
-                                            </LazyLoad>
-                                          </div>
-                                          <div className="col-8 col-md-3">
-                                            <span
-                                              className="medium ui-text-overflow-line2 text-break color-444"
-                                              title={item.goodsInfoName}
-                                            >
-                                              {item.goodsInfoName}
-                                            </span>
-                                          </div>
-                                          <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                            <FormattedMessage
-                                              id="xProduct"
-                                              values={{ val: item.quantity }}
+                                        <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
+                                          <LazyLoad style={{ width: '100%' }}>
+                                            <img
+                                              className="order-details-img-fluid w-100"
+                                              src={
+                                                item.goodsInfoImg ||
+                                                item.pic ||
+                                                getClubLogo()
+                                              }
+                                              alt=""
+                                              title=""
                                             />
-                                          </div>
-                                          <div className="col-6 col-md-3 text-right text-md-left rc-md-up font-weight-normal">
+                                          </LazyLoad>
+                                        </div>
+                                        <div className="col-8 col-md-3">
+                                          <span
+                                            className="medium ui-text-overflow-line2 text-break color-444"
+                                            title={item.goodsInfoName}
+                                          >
+                                            {item.goodsInfoName}
+                                          </span>
+                                          <span className="ui-text-overflow-line2">
+                                            <span className="rc-md-down">
+                                              <FormattedMessage
+                                                id="quantityText"
+                                                values={{
+                                                  specText: '',
+                                                  buyCount: item.quantity
+                                                }}
+                                              />
+                                            </span>
+                                          </span>
+                                          <span className="rc-md-down">
                                             {formatMoney(item.marketPrice)}
-                                          </div>
-                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
-                                            {formatMoney(item.marketPrice)}
-                                          </div>
+                                          </span>
+                                        </div>
+                                        <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
+                                          <FormattedMessage
+                                            id="xProduct"
+                                            values={{ val: item.quantity }}
+                                          />
+                                        </div>
+                                        <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                          {formatMoney(item.marketPrice)}
+                                        </div>
+                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                          {formatMoney(item.marketPrice)}
                                         </div>
                                       </div>
-                                    ))}
-                                  </div>
+                                    </div>
+                                  ))}
                                 </div>
-                              ) : null}
+                              </div>
                               <div className="pt-2 pb-2 pl-md-4 pr-md-4">
                                 <div className="row mt-2 text-left">
                                   <div className="col-2 col-md-7 mb-2 rc-md-up">

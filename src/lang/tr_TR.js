@@ -1255,7 +1255,7 @@ const tr_TR = {
   'cancelEmail.content':
     'Royal Canin online mağazamızın pazarlama amacıyla gönderilen e-mail listesinden <{val}> aboneliğinizi başarıyla iptal ettiniz.',
   searchShow: 'Arama Sonuçları',
-
+  giftList: 'hediye promosyon',
   //NewLandingpageClub
   'ClubLP.discount.content': '%5 İndirim&Ücretsiz Kargo',
   'ClubLP.LongBanner.title':

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
-import LazyLoad from 'react-lazyload';
 import cancelIcon from '../../images/cancel.png';
 import { SubGoodsInfosContext } from './index';
 import { myAccountActionPushEvent } from '@/utils/GA';
@@ -104,17 +103,15 @@ const ButtonBox = () => {
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <div style={{ display: 'inline-block', marginBottom: '10px' }}>
-          <LazyLoad>
-            <img
-              style={{
-                display: 'inline-block',
-                width: '1.25rem',
-                marginRight: '5px'
-              }}
-              alt="cancle icon"
-              src={cancelIcon}
-            />
-          </LazyLoad>
+          <img
+            style={{
+              display: 'inline-block',
+              width: '1.25rem',
+              marginRight: '5px'
+            }}
+            alt="cancle icon"
+            src={cancelIcon}
+          />
           <a
             className="rc-styled-link"
             href="#/"

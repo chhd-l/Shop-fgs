@@ -144,7 +144,8 @@ class Details extends React.Component {
       defaultPurchaseType: 0,
       headingTag: 'h1',
       showPrescriberCodeModal: false, //是否打开de PrescriberCodeModal
-      showErrorTip: false
+      showErrorTip: false,
+      modalMobileCartSuccessVisible: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -155,7 +156,7 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    const { pathname, state } = this.props.location;
+    const { pathname } = this.props.location;
     let timer = setInterval(() => {
       if (document.querySelector('#mars-footer-panel')) {
         document
@@ -399,10 +400,7 @@ class Details extends React.Component {
   };
 
   async queryDetails() {
-    const {
-      configStore,
-      location: { pathname }
-    } = this.props;
+    const { configStore } = this.props;
     const { id, goodsNo } = this.state;
     let requestName;
     let param;
@@ -780,9 +778,8 @@ class Details extends React.Component {
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
-      if (isMobile) {
-        this.refs.mobileSuccessModalButton.click();
-      } else {
+      this.setState({ modalMobileCartSuccessVisible: true });
+      if (!isMobile) {
         headerCartStore.show();
         setTimeout(() => {
           headerCartStore.hide();
@@ -818,9 +815,9 @@ class Details extends React.Component {
         valid: this.btnStatus,
         cartItemList: [cartItem],
         currentUnitPrice,
-        mobileSuccessModalButton: this.refs.mobileSuccessModalButton,
         isMobile
       });
+      this.setState({ modalMobileCartSuccessVisible: true });
     } catch (err) {
       this.showCheckoutErrMsg(err.message);
     } finally {
@@ -986,14 +983,6 @@ class Details extends React.Component {
     //
     return (
       <div id="Details">
-        <button
-          ref="mobileSuccessModalButton"
-          className="rc-btn rc-btn--one"
-          data-modal-trigger="modal-mobile-cart-confirm"
-          style={{ position: 'absolute', visibility: 'hidden' }}
-        >
-          Open standard modal
-        </button>
         <GA_Comp details={details} />
         <SeoConfig
           errMsg={errMsg}
@@ -1360,7 +1349,14 @@ class Details extends React.Component {
             ) : null}
             <RelateProductCarousel id={goodsId} />
 
-            <AddCartSuccessMobile target="modal-mobile-cart-confirm" />
+            {isMobile ? (
+              <AddCartSuccessMobile
+                visible={this.state.modalMobileCartSuccessVisible}
+                closeModal={() => {
+                  this.setState({ modalMobileCartSuccessVisible: false });
+                }}
+              />
+            ) : null}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

@@ -372,7 +372,7 @@ class Payment extends React.Component {
     });
     return cyberParams;
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     isHubGA && this.getPetVal();
   }
   async componentDidMount() {
@@ -1040,31 +1040,18 @@ class Payment extends React.Component {
       };
       await actions[type]();
 
-      const successUrlFun = (type) => {
-        const defaultUrl = '',
-          Adyen3DSUrl = window.__.env.REACT_APP_Adyen3DSUrl,
-          payResultUrl = window.__.env.REACT_APP_SUCCESSFUL_URL + '/PayResult',
-          payu3dsResultUrl =
-            window.__.env.REACT_APP_SUCCESSFUL_URL + '/Payu3dsPayResult';
-        return (
-          {
-            adyenCard: Adyen3DSUrl,
-            adyenKlarnaPayLater: payResultUrl,
-            adyenKlarnaPayNow: payResultUrl,
-            directEbanking: payResultUrl,
-            payUCreditCardRU: payu3dsResultUrl,
-            payUCreditCardTU: payu3dsResultUrl
-          }[type] || defaultUrl
-        );
-      };
-      let successUrl = successUrlFun(type);
-
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
-        successUrl,
+        /**
+         * redirectUrl & successUrl
+         * 1. handle callback through successUrl(which is included /api, it used nginx to intercep api router, and then redirect to related shop page) -> adyenCard
+         * 2. /PayResult, handle callback at this router -> adyenKlarnaPayLater/adyenKlarnaPayNow/directEbanking
+         * 3. /Payu3dsPayResult, handle callback at this router -> payUCreditCardRU/payUCreditCardTU
+         */
+        successUrl: window.__.env.REACT_APP_BASEURL, // /api
+        redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
         deliveryAddressId: this.state.deliveryAddress?.addressId,
         billAddressId: this.state.billingAddress?.addressId,
-        domainName: window.__.env.REACT_APP_DOMAIN || '',
         phone
       });
       return finalParam;
@@ -1574,7 +1561,7 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    // console.log('666 ★ 封装下单参数: ', param);
+    console.log('666 ★ 封装下单参数: ', param);
 
     // 1: HOMEDELIVERY , 2: PICKUP
     if (deliveryAddress?.receiveType == 'HOME_DELIVERY') {
@@ -2040,10 +2027,12 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    // console.log('666 ★★ -- Payment 计算税额、运费、运费折扣: ', data);
+    // console.log('666 ★★ -- Payment 计算: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
-
+    // this.setState({
+    //   loading: true
+    // });
     if (data?.DuData) {
       let dudata = data?.DuData;
       shippingFeeAddress.provinceIdStr = dudata?.provinceId;
@@ -2053,12 +2042,12 @@ class Payment extends React.Component {
       shippingFeeAddress.postalCode = dudata?.postCode;
       shippingFeeAddress.address1 = data?.address1;
     } else {
-      shippingFeeAddress.provinceIdStr = data.provinceIdStr;
-      shippingFeeAddress.areaIdStr = data.areaIdStr;
-      shippingFeeAddress.cityIdStr = data.cityIdStr;
-      shippingFeeAddress.settlementIdStr = data.settlementIdStr;
-      shippingFeeAddress.postalCode = data.postalCode;
-      shippingFeeAddress.address1 = data.address1;
+      shippingFeeAddress.provinceIdStr = data?.provinceIdStr;
+      shippingFeeAddress.areaIdStr = data?.areaIdStr;
+      shippingFeeAddress.cityIdStr = data?.cityIdStr;
+      shippingFeeAddress.settlementIdStr = data?.settlementIdStr;
+      shippingFeeAddress.postalCode = data?.postalCode;
+      shippingFeeAddress.address1 = data?.address1;
     }
     this.setState({
       shippingFeeAddress
@@ -2103,10 +2092,14 @@ class Payment extends React.Component {
       }
     } catch (err) {
       console.warn(err);
+    } finally {
+      // this.setState({
+      //   loading: false
+      // });
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 ★★ -- data: ', data);
+    // console.log('666 ★★ -- updateDeliveryAddrData data: ', data);
     this.setState(
       {
         deliveryAddress: data
@@ -2130,7 +2123,7 @@ class Payment extends React.Component {
         }
       }
     );
-    if (this.state.billingChecked) {
+    if (this.state.billingChecked || data?.receiveType == 'PICK_UP') {
       this.setState(
         {
           billingAddress: data

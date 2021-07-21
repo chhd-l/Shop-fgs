@@ -65,7 +65,10 @@ const GiftList = ({data}) => {
                     </div>
                   </div>
                 </div>
-                <p className="text-right red mb-0">Gift Promotion</p>
+                {/* <p className="text-right red mb-0">Gift Promotion</p> */}
+                <p className="text-right red mb-0">
+                  <FormattedMessage id='giftList'/>
+                </p>
               </div>
             </div>
             <div className="item-options" />

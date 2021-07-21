@@ -1142,7 +1142,8 @@ const de_DE = {
   'subscription.banner.title':
     'Schließen Sie jetzt Ihre regelmäßige Lieferung ab!',
   'subscription.BillingAddress': 'Rechnungsadresse',
-  'subscription.cancelAll': 'Alle stornieren',
+  // 'subscription.cancelAll': 'Alle stornieren',
+  'subscription.cancelAll': 'Stornieren',
   'subscription.change': 'Ändern',
   'subscription.chooseSubscription': 'Abonnement wählen',
   'subscription.date': 'Abonnementdatum',
@@ -1276,6 +1277,7 @@ const de_DE = {
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   BacktoSavedPayments: 'Zurück zu gespeicherte Zahlungen',
+  giftList: 'Geschenkaktion',
   'payment.shippingDiscount': 'Lieferung von Waren',
   'orderStatus.COMPLETED': 'abgeschlossen',
   'payment.cardInfoErr':
@@ -1289,7 +1291,8 @@ const de_DE = {
   'bindPrescriber.modal.no': 'Нет, перейти к покупке',
   'bindPrescriber.modal.yes': 'Да, выбрать клинику',
   'bindPrescriber.modal.or': 'или',
-  'subscription.viewDetails': 'Im Detail sehen',
+  // 'subscription.viewDetails': 'Im Detail sehen',
+  'subscription.viewDetails': 'Details',
   Expire: ' ',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
   'subscription.dailyRation': 'your daily ration',
@@ -1350,7 +1353,8 @@ const de_DE = {
   'welcome.cASupplyChainTransparencyAct': 'CA Supply Chain Transparency Act',
   'welcome.modernSlaveryAct': 'Modern Slavery Act',
   'welcome.contactUS': 'Kontaktieren Sie uns',
-  paused: 'Pausieren',
+  // paused: 'Pausieren',
+  paused: 'Pausiert',
   'searchNoResult.title': 'Tut uns leid',
   'searchNoResult.content1': 'Wir konnten keine passenden Produkte finden',
   'searchNoResult.content2':

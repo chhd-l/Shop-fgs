@@ -116,7 +116,7 @@ class Confirmation extends React.Component {
       window.close();
     }
   };
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getPetVal();
   }
   get userInfo() {

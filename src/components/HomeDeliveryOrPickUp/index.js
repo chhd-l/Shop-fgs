@@ -47,7 +47,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hdpuLoading: false,
+      pickLoading: false,
       showPickup: true,
       showPickupDetail: false,
       showPickupDetailDialog: false,
@@ -150,7 +150,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
-    console.log('666 this.props.defaultCity: ', this.props.defaultCity);
+    console.log('666 -----> defaultCity : ', defaultCity);
+    // console.log('666 this.props.defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -163,7 +164,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       // 没有默认城市但是有缓存
       defaultCity
         ? (defaultCity = defaultCity)
-        : (defaultCity = sitem?.city?.city);
+        : (defaultCity = sitem?.cityData?.city);
       let res = await pickupQueryCity({ keyword: defaultCity });
       let robj = res?.context?.pickUpQueryCityDTOs || [];
       if (robj) {
@@ -196,7 +197,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState(
         {
           selectedItem: sitem,
-          pickupCity: sitem.city.city
+          pickupCity: sitem.cityData.city
         },
         () => {
           if (isSelectedItem) {
@@ -216,11 +217,11 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
-    const { isLogin, pickupEditNumber } = this.props;
-    const { selectedItem } = this.state;
+    const { isLogin, pickupEditNumber, defaultCity } = this.props;
+    const { selectedItem, pickupForm } = this.state;
     let res = null;
     this.setState({
-      hdpuLoading: true,
+      pickLoading: true,
       searchNoResult: false
     });
     try {
@@ -277,8 +278,14 @@ class HomeDeliveryOrPickUp extends React.Component {
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);
         selitem.homeAndPickup = [];
+
+        pickupForm['provinceIdStr'] = data.regionFias;
+        pickupForm['areaIdStr'] = data.areaFias;
+        pickupForm['cityIdStr'] = data.cityFias;
+        pickupForm['settlementIdStr'] = data.settlementFias;
         this.setState(
           {
+            pickupForm,
             selectedItem: Object.assign({}, selitem)
           },
           () => {
@@ -312,11 +319,10 @@ class HomeDeliveryOrPickUp extends React.Component {
               }
             });
             let item = {
-              city: data,
+              cityData: data,
               homeAndPickup: hdpu,
               isSubscription: isSubscription
             };
-
             this.setState(
               {
                 pickupCity: data.city,
@@ -328,7 +334,10 @@ class HomeDeliveryOrPickUp extends React.Component {
                   JSON.stringify(item)
                 );
                 // 有订阅商品的时只展示且默认选择 homeDelivery
-                if (isSubscription || obj.length == 1) {
+                if (
+                  isSubscription ||
+                  (obj.length == 1 && obj[0].type != 'pickup')
+                ) {
                   this.setItemStatus('homeDelivery');
                 }
               }
@@ -336,6 +345,15 @@ class HomeDeliveryOrPickUp extends React.Component {
           }
         );
       } else {
+        if (pickupEditNumber == 0 && defaultCity) {
+          this.setState({
+            pickupCity: defaultCity
+          });
+        } else {
+          this.setState({
+            pickupCity: ''
+          });
+        }
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);
         selitem.homeAndPickup = [];
@@ -351,7 +369,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       console.warn(err);
     } finally {
       this.setState({
-        hdpuLoading: false
+        pickLoading: false
       });
     }
   };
@@ -360,6 +378,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     const { selectedItem } = this.state;
     let val = e.currentTarget?.value;
     let sitem = Object.assign({}, selectedItem);
+
     sitem?.homeAndPickup.forEach((v, i) => {
       if (v.type == val) {
         v['selected'] = true;
@@ -379,7 +398,9 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 设置状态
   setItemStatus = (val) => {
+    const { pickupEditNumber } = this.props;
     const { pickupForm, selectedItem } = this.state;
+    this.setState({ pickLoading: true });
     // 处理选择结果
     let pickupItem = null;
     let sitem = Object.assign({}, selectedItem);
@@ -389,10 +410,6 @@ class HomeDeliveryOrPickUp extends React.Component {
         v.type == 'pickup' ? (pickupItem = v) : null;
       }
     });
-    pickupForm['city'] = sitem?.city?.city || [];
-    pickupForm['item'] = pickupItem;
-    pickupForm['maxDeliveryTime'] = pickupItem?.maxDeliveryTime || 0;
-    pickupForm['minDeliveryTime'] = pickupItem?.minDeliveryTime || 0;
 
     let flag = false;
     if (val == 'homeDelivery') {
@@ -411,14 +428,31 @@ class HomeDeliveryOrPickUp extends React.Component {
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
     this.props.updateConfirmBtnDisabled(flag);
-    pickupForm['receiveType'] = flag ? 'PICK_UP' : 'HOME_DELIVERY';
+
+    let pkobj = {
+      city: sitem?.cityData?.city || [],
+      item: pickupItem,
+      maxDeliveryTime: pickupItem?.maxDeliveryTime || 0,
+      minDeliveryTime: pickupItem?.minDeliveryTime || 0,
+      receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
+    };
+    // 再次编辑地址的时候，从缓存中取city数据
+    if (pickupEditNumber > 0) {
+      let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+      sobj = JSON.parse(sobj);
+      let cityData = sobj?.cityData;
+      pkobj['provinceIdStr'] = cityData?.regionFias;
+      pkobj['areaIdStr'] = cityData?.areaFias;
+      pkobj['cityIdStr'] = cityData?.cityFias;
+      pkobj['settlementIdStr'] = cityData?.settlementFias;
+    }
     this.setState(
       {
         showPickup: flag,
-        pickupForm
+        pickLoading: false,
+        pickupForm: Object.assign(pickupForm, pkobj)
       },
       () => {
-        // console.log('666 ★ pickupForm: ', pickupForm);
         this.props.updateData(this.state.pickupForm);
         this.props.calculateFreight(this.state.pickupForm);
       }
@@ -584,7 +618,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   render() {
     const {
-      hdpuLoading,
+      pickLoading,
       showPickup,
       showPickupDetail,
       showPickupDetailDialog,
@@ -596,7 +630,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     } = this.state;
     return (
       <>
-        {hdpuLoading ? <Loading /> : null}
+        {pickLoading && <Loading />}
+
         <div
           className="row rc_form_box rc_pickup_box"
           style={{ display: isMobile ? 'block' : 'flex' }}
@@ -702,7 +737,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             }`}
           >
             <iframe
-              src={'/pickupmap'}
+              src={
+                window.__.env.REACT_APP_HOMEPAGE.replace(/\/$/gi, '') +
+                '/pickupmap'
+              }
               id="pickupIframe"
               className="pickup_iframe"
               style={{ width: '100%', height: '100%' }}
@@ -807,7 +845,10 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             <div className="col-md-7">
               <div className="form-group required">
-                <label className="form-control-label" for="phoneNumberShipping">
+                <label
+                  className="form-control-label"
+                  htmlFor="phoneNumberShipping"
+                >
                   <FormattedMessage id="payment.phoneNumber" />
                 </label>
                 {this.inputJSX('phoneNumber')}
@@ -815,7 +856,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             <div className="col-md-12 ">
               <div className="form-group ">
-                <label className="form-control-label" for="commentShipping">
+                <label className="form-control-label" htmlFor="commentShipping">
                   <FormattedMessage id="payment.comment" />
                 </label>
                 {this.inputJSX('comment')}

@@ -276,6 +276,8 @@ class AddressList extends React.Component {
 
       const tmpObj =
         find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
+
+      // 查询银行卡列表
       this.isDeliverAddress &&
         this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
@@ -335,6 +337,7 @@ class AddressList extends React.Component {
           this.setState({
             loading: false
           });
+          // this.calculateFreight(tmpObj);
         }
       );
     } catch (err) {
@@ -350,8 +353,8 @@ class AddressList extends React.Component {
     // 提示重新选择
     let errMsg = this.getIntlMsg('payment.reselectTimeSlot');
 
-    let deliveryDate = data.deliveryDate; // deliveryDate 日期
-    let timeSlot = data.timeSlot;
+    let deliveryDate = data?.deliveryDate; // deliveryDate 日期
+    let timeSlot = data?.timeSlot;
     // console.log('666  ----->  deliveryDate: ', deliveryDate);
     // console.log('666  ----->  timeSlot: ', timeSlot);
 
@@ -418,7 +421,7 @@ class AddressList extends React.Component {
     // 已过期（俄罗斯时间）
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
-      console.log('666  ----->  今天或者更早');
+      // console.log('666  ----->  今天或者更早');
       this.showErrMsg(errMsg);
       flag = false;
     } else {
@@ -432,7 +435,7 @@ class AddressList extends React.Component {
         ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
         : (cutOffTime = 1600);
       if (dldate == today + 1 && nowTime > cutOffTime) {
-        console.log('666  ----->  明天');
+        // console.log('666  ----->  明天');
         this.showErrMsg(errMsg);
         flag = false;
       }
@@ -440,24 +443,23 @@ class AddressList extends React.Component {
     }
     return flag;
   };
-  /**
-   * 会员确认地址列表信息，并展示封面
-   */
+  // 会员确认地址列表信息，并展示封面
   clickConfirmAddressPanel = async () => {
     const { selectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
 
-    if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-      // 判断 deliveryDate、timeSlot 是否过期
-      this.setState({ btnConfirmLoading: true });
-      let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
-      this.setState({ btnConfirmLoading: false });
-      if (!yesOrNot) {
-        return;
-      }
-    }
+    // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
+    // if (window.__.env.REACT_APP_COUNTRY == 'ru') {
+    //   // 判断 deliveryDate、timeSlot 是否过期
+    //   this.setState({ btnConfirmLoading: true });
+    //   let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
+    //   this.setState({ btnConfirmLoading: false });
+    //   if (!yesOrNot) {
+    //     return;
+    //   }
+    // }
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
@@ -524,8 +526,7 @@ class AddressList extends React.Component {
       ) {
         this.calculateFreight(tmpObj);
       }
-      this.isDeliverAddress &&
-        this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+      // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
     }
   }
   // 处理地址信息，拼装errMsg
@@ -591,10 +592,10 @@ class AddressList extends React.Component {
                 this.props.updateData(this.state.deliveryAddress);
                 // purchases接口计算运费
                 this.calculateFreight(this.state.deliveryAddress);
-                this.isDeliverAddress &&
-                  this.props.paymentStore.setDefaultCardDataFromAddr(
-                    this.state.deliveryAddress
-                  );
+
+                // 查询银行卡列表
+                // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(this.state.deliveryAddress);
+
                 this.confirmToNextPanel();
                 this.setState({
                   validationLoading: false
@@ -652,10 +653,10 @@ class AddressList extends React.Component {
               },
               () => {
                 this.calculateFreight(this.state.deliveryAddress);
-                this.isDeliverAddress &&
-                  this.props.paymentStore.setDefaultCardDataFromAddr(
-                    this.state.deliveryAddress
-                  );
+
+                // 查询银行卡列表
+                // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(this.state.deliveryAddress);
+
                 this.confirmToNextPanel();
                 this.setState({
                   validationLoading: false
@@ -841,7 +842,6 @@ class AddressList extends React.Component {
         isValid: false
       });
       await validData(data.formRule, data); // 数据验证
-
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
         // 设置按钮状态
         this.props.updateFormValidStatus(this.state.isValid);
@@ -860,6 +860,17 @@ class AddressList extends React.Component {
   calculateFreight = (data) => {
     this.props.calculateFreight(data);
   };
+
+  // 根据传过来的地址信息或者默认地址计算运费
+  recalculateFreight = (data) => {
+    const { addressList, selectedId } = this.state;
+    let obj = data;
+    if (addressList.length && data.receiveType == 'HOME_DELIVERY') {
+      obj = find(addressList, (ele) => ele.deliveryAddressId === selectedId);
+    }
+    this.props.calculateFreight(obj);
+  };
+
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
     // console.log('address1地址校验flag : ', flag);
@@ -1001,12 +1012,15 @@ class AddressList extends React.Component {
       if (!isValid || !addOrEdit) {
         return false;
       }
-      if (deliveryAddress?.deliveryDate) {
-        // 判断 deliveryDate 是否过期
-        if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
-          return;
-        }
-      }
+
+      // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
+      // if (deliveryAddress?.deliveryDate) {
+      //   // 判断 deliveryDate 是否过期
+      //   if (!this.deliveryDateStaleDateOrNot(deliveryAddress)) {
+      //     return;
+      //   }
+      // }
+
       // 地址验证
       this.setState({
         saveLoading: true
@@ -1276,8 +1290,15 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
+    const { addOrEdit, addressList } = this.state;
+    // console.log('666 ----- 更新 selectDeliveryOrPickUp: ', num);
+    // console.log('666 ----- addOrEdit: ', addOrEdit);
+    // console.log('666 ----- addressList: ', addressList);
+    let flag = null;
+    !addressList.length && num == 1 ? (flag = true) : (flag = false);
     this.setState({
-      selectDeliveryOrPickUp: num
+      selectDeliveryOrPickUp: num,
+      addOrEdit: flag
     });
   };
   // 更新 pickup编辑次数
@@ -1346,10 +1367,13 @@ class AddressList extends React.Component {
         deliveryAdd.deliveryAddressId = pkup[0].deliveryAddressId;
         deliveryAdd.customerId = pkup[0].customerId;
       }
+      // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
-        let selectedId = res.context.deliveryAddressId;
+        let deliveryAddressId = res.context.deliveryAddressId;
+        let selectedId = deliveryAddressId;
+        deliveryAdd.deliveryAddressId = deliveryAddressId;
         this.setState({
           selectedId: selectedId
         });
@@ -1359,8 +1383,6 @@ class AddressList extends React.Component {
             pickupAddress: pickupFormData
           },
           () => {
-            // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
-
             // pickup 相关信息传到 Payment
             deliveryAdd['pickup'] = pickupFormData.pickup;
             this.props.updateData(deliveryAdd);
@@ -1659,6 +1681,7 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
+
     return (
       <>
         {this.props.children}
@@ -1722,13 +1745,14 @@ class AddressList extends React.Component {
                 deliveryOrPickUp={selectDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
                 cartData={this.props.cartData}
-                calculateFreight={this.calculateFreight}
+                calculateFreight={this.recalculateFreight}
                 pickupEditNumber={pickupEditNumber}
               />
             </>
           )}
           {/* 俄罗斯 pickup 相关 end */}
 
+          {/* 编辑地址 */}
           <div
             className={`${!addOrEdit ? 'addr-container' : ''} ${
               loading ? 'pt-3 pb-3' : ''
@@ -1778,9 +1802,26 @@ class AddressList extends React.Component {
                             </div>
                           )}
                         </>
-                      ) : (
+                      ) : deliveryOrPickUpFlag ? null : (
                         <FormattedMessage id="order.noDataTip" />
                       )
+                    ) : null}
+
+                    {/* 新用户没有地址的时候，用来确认pickup地址 */}
+                    {this.isDeliverAddress &&
+                    !addressList.length &&
+                    selectDeliveryOrPickUp == 2 ? (
+                      <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
+                        <button
+                          className={`rc-btn rc-btn--one rc_btn_list_confirm ${
+                            this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                          }`}
+                          disabled={confirmBtnDisabled}
+                          onClick={this.clickConfirmPickup}
+                        >
+                          <FormattedMessage id="yes2" />
+                        </button>
+                      </div>
                     ) : null}
 
                     {selectDeliveryOrPickUp == 1 && _form}

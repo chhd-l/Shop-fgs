@@ -54,7 +54,10 @@ const GiftList = ({ pitem }) => {
                 <span>{formatMoney(pitem.buyCount * pitem.salePrice)}</span>
               </div>
             </div>
-            <p className="text-right red mb-0">Gift Promotion</p>
+            {/* <p className="text-right red mb-0">Gift Promotion</p> */}
+            <p className="text-right red mb-0" >
+              <FormattedMessage id='giftList'/>
+            </p>
           </div>
         </div>
       </div>

@@ -42,14 +42,12 @@ class FooterHub extends React.Component {
     widget && widget.scrollIntoView();
   };
   render() {
-    if (Object.keys(this.state.footerInfo).length == 0) return null;
+    const { footerInfo, cur_contactInfo } = this.state;
     const { isLogin, history } = this.props;
-    const {
-      LocalMarketSettings: { ContactUsUrl, ContactPhone },
-      MenuGroups,
-      MenuInfoItems,
-      MenuItems
-    } = this.state.footerInfo;
+    if (Object.keys(footerInfo).length == 0) return null;
+    const { LocalMarketSettings, MenuGroups, MenuInfoItems, MenuItems } =
+      footerInfo;
+    const { ContactUsUrl, ContactPhone } = LocalMarketSettings || {};
 
     return (
       <>
@@ -62,7 +60,7 @@ class FooterHub extends React.Component {
             {/* MenuItems PC     */}
             <div className="rc-md-up rc-layout-container rc-two-column rc-padding-x--xs--desktop">
               <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-                {MenuItems.map((item, i) => (
+                {(MenuItems || []).map((item, i) => (
                   <React.Fragment key={i}>
                     {item.Icon === 'user' && !isLogin ? (
                       <Link
@@ -108,7 +106,7 @@ class FooterHub extends React.Component {
             </div>
             <div className="rc-divider rc-md-up" />
             {/* MenuGroups */}
-            {MenuGroups.length > 0 ? (
+            {MenuGroups && MenuGroups.length > 0 ? (
               <div className="rc-layout-container rc-one-column rc-padding-x--xs">
                 <div className="rc-column rc-padding-x--xs">
                   <nav
@@ -172,7 +170,7 @@ class FooterHub extends React.Component {
             {/* MenuItems Mobile */}
             <div className="rc-md-down rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
               <div className="rc-column rc-padding-bottom--none">
-                {MenuItems.map((item, i) => (
+                {(MenuItems || []).map((item, i) => (
                   <React.Fragment key={i}>
                     {item.Icon === 'user' && !isLogin ? (
                       <div>
@@ -224,37 +222,42 @@ class FooterHub extends React.Component {
               </div>
             </div>
             {/*MenuInfoItems */}
-            <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
-              <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
-                <p className="rc-espilon rc-text--inverse">
-                  {MenuInfoItems[0].Title}
-                </p>
-                <div className="rc-text--inverse">
-                  <p>{MenuInfoItems[0].Content}</p>
+            {MenuInfoItems && MenuInfoItems[0] ? (
+              <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
+                <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
+                  <p className="rc-espilon rc-text--inverse">
+                    {MenuInfoItems[0]?.Title}
+                  </p>
+                  <div className="rc-text--inverse">
+                    <p>{MenuInfoItems[0]?.Content}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : null}
+
             {/* LocalMarketSettings */}
-            <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
-              {this.state.cur_contactInfo && (
-                <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
-                  <a
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
-                    role="menuitem"
-                    href={`tel:${ContactPhone}`}
-                  >
-                    {ContactPhone}
-                  </a>
-                  <a
-                    className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
-                    role="menuitem"
-                    href={ContactUsUrl.Url}
-                  >
-                    {ContactUsUrl.Text}
-                  </a>
-                </div>
-              )}
-            </div>
+            {cur_contactInfo && ContactUsUrl ? (
+              <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
+                {cur_contactInfo && (
+                  <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile">
+                    <a
+                      className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
+                      role="menuitem"
+                      href={`tel:${ContactPhone}`}
+                    >
+                      {ContactPhone}
+                    </a>
+                    <a
+                      className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3 text-white"
+                      role="menuitem"
+                      href={ContactUsUrl.Url}
+                    >
+                      {ContactUsUrl.Text}
+                    </a>
+                  </div>
+                )}
+              </div>
+            ) : null}
             {/* 底部横向链接 */}
             <MarsFooterMap />
           </div>

@@ -137,7 +137,7 @@ class FAQ extends React.Component {
             <div className="rc-bg-colour--brand3">
               <div>
                 <div className="rc-padding-y--md rc-md-down" />
-                <div className="rc-one-column">
+                <div className="rc-one-column rc-padding-x--md--mobile">
                   <div>
                     <div className="rc-max-width--md text-center rc-margin-y--md">
                       <h1
@@ -205,7 +205,7 @@ class FAQ extends React.Component {
                   <dl
                     data-toggle-group=""
                     data-toggle-effect="rc-expand--vertical"
-                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
                     // className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
                   >
                     <div className="experience-region experience-questions">

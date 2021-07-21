@@ -237,6 +237,7 @@ const en_US = {
   cardCvvIsInvalid: 'your card cvv is invalid',
   cardNumber: 'Card Number',
   cardNumberIsInvalid: 'your card number is invalid',
+  giftList: 'gift promotion',
   'cart.catDiet': 'Shop Cat formulas',
   'cart.deletInfo': 'Delete product?',
   'cart.delivery': 'Shipping',

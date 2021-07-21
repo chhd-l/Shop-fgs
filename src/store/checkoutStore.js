@@ -91,7 +91,11 @@ class CheckoutStore {
     return this?.cartPrice?.promotionDiscount || '';
   }
   @computed get promotionVOList() {
-    return this?.cartPrice?.promotionVOList || [];
+    let list = [];
+    if (this?.cartPrice?.promotionVOList) {
+      list = this?.cartPrice?.promotionVOList.filter((el) => el.discountPrice);
+    }
+    return list;
   }
 
   @action.bound
@@ -672,7 +676,6 @@ class CheckoutStore {
     valid,
     cartItemList,
     currentUnitPrice = 0,
-    mobileSuccessModalButton,
     isMobile
   }) {
     if (valid) {
@@ -741,9 +744,7 @@ class CheckoutStore {
           );
         }
         await this.updateUnloginCart({ cartData: cartDataCopy });
-        if (isMobile) {
-          mobileSuccessModalButton.click();
-        } else {
+        if (!isMobile) {
           stores.headerCartStore.show();
           clearTimeout(this.timer);
           this.timer = setTimeout(() => {
