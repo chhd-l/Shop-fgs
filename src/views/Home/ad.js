@@ -35,14 +35,14 @@ export function Ads() {
                         />
                         <source
                           media="(min-width: 769px)"
-                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR.jpg`}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
                         />
                         <img
                           className="w-100 lazyloaded"
                           alt="Large Gamme De Produits Royal Canin"
                           title="Large Gamme De Produits Royal Canin"
                           // src={BannerFRLg}
-                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR.jpg`}
+                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR@2x.jpg`}
                         />
                       </picture>
                     </Link>
