@@ -6,7 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import vetdeimage from './deimage/Product-composition-dog.png';
+import vetdeimage from './deimage/Product-composition.png';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
@@ -291,9 +291,9 @@ class ClubLandingPageDe extends React.Component {
                           , um sich beraten zu lassen und eine
                           Nahrungsempfehlung speziell für die besonderen
                           Bedürfnisses Ihrer Katze oder Ihres Hundes zu
-                          erhalten. Ihre Praxis händigt Ihnen einen
+                          erhalten. Ihre Praxis händigt Ihnen einen{' '}
                           <a style={{ fontWeight: 'bolder' }}>
-                            individuellen EmpfehlungscodeZ
+                            individuellen Empfehlungscode
                           </a>{' '}
                           aus.
                           <Link to="/vet-diets">
