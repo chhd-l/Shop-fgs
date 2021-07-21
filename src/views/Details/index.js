@@ -1349,12 +1349,14 @@ class Details extends React.Component {
             ) : null}
             <RelateProductCarousel id={goodsId} />
 
-            <AddCartSuccessMobile
-              visible={this.state.modalMobileCartSuccessVisible}
-              closeModal={() => {
-                this.setState({ modalMobileCartSuccessVisible: false });
-              }}
-            />
+            {isMobile ? (
+              <AddCartSuccessMobile
+                visible={this.state.modalMobileCartSuccessVisible}
+                closeModal={() => {
+                  this.setState({ modalMobileCartSuccessVisible: false });
+                }}
+              />
+            ) : null}
 
             {/* 最下方跳转更多板块 rita说现在hub 又不要了 暂时注释吧*/}
             {/* <More/> */}

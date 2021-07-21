@@ -23994,7 +23994,7 @@ html:not(.ie10):not(.ie11):not(.edge15) .rc-card-grid.rc-card-grid--fixed {
 html:not(.rc-loaded--final) .rc-filters__form .rc-list__content,
 html:not(.rc-loaded--final) .goodsdetailtabs-item-mobile .rc-list__content,
 html:not(.rc-loaded--final) .rc-header__nav .rc-list__content,
-html:not(.rc-loaded--final) body .rc-modal {
+html:not(.rc-loaded--final) body .rc-modal:not(.rc-hidden) {
   display: block !important;
 }
 html:not(.rc-loaded--final) .rc-header__nav .rc-list__content.hidden {

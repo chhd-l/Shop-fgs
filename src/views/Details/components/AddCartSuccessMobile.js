@@ -6,7 +6,7 @@ import cn from 'classnames';
 
 const AddCartSuccessMobile = ({ visible, closeModal }) => {
   return (
-    <div className="rc-md-down">
+    <>
       <aside role="modal" className={cn('rc-modal', { 'rc-hidden': !visible })}>
         <div className="rc-modal__container">
           <header className="rc-modal__header">
@@ -71,7 +71,7 @@ const AddCartSuccessMobile = ({ visible, closeModal }) => {
         className={cn('rc-shade', { 'rc-hidden': !visible })}
         onClick={closeModal}
       />
-    </div>
+    </>
   );
 };
 export default AddCartSuccessMobile;
