@@ -145,7 +145,7 @@ class Details extends React.Component {
       headingTag: 'h1',
       showPrescriberCodeModal: false, //是否打开de PrescriberCodeModal
       showErrorTip: false,
-      modalMobileCartSuccessVisible: true
+      modalMobileCartSuccessVisible: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
