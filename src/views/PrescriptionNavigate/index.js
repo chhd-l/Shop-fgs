@@ -34,18 +34,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
             alt="map default marker"
             src={meImg}
             draggable="false"
-            style={{
-              position: 'absolute',
-              left: '0px',
-              top: '0px',
-              width: '1.5rem',
-              height: '1.5rem',
-              userSelect: 'none',
-              border: '0px',
-              padding: '0px',
-              margin: '0px',
-              maxWidth: 'none'
-            }}
+            className="map-default-marker"
           />
         </LazyLoad>
       </div>
@@ -77,7 +66,6 @@ class Prescription extends React.Component {
       mapKey: 0,
       me: {
         id: 1001,
-
         title: 'me',
         type: 'customer'
       },
