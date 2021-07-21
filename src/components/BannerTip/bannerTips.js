@@ -8,6 +8,7 @@ import { accountCallBack, mktCallBack } from '@/api/home.js';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const localItemRoyal = window.__.localItemRoyal;
+const isLogin = !!localItemRoyal.get('rc-token');
 
 function Container({ children }) {
   return isMobile ? (
@@ -111,7 +112,7 @@ const bannerTips = () => {
   }
 
   useEffect(() => {
-    if (window.__.env.REACT_APP_COUNTRY === 'de') {
+    if (window.__.env.REACT_APP_COUNTRY === 'de' && isLogin) {
       const timeId = ShowMKTMessage();
       return () => {
         clearTimeout(timeId);
