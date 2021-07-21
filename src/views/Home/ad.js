@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import BannerFRLg from '@/assets/images/home/Banner-FR-lg@2x.png';
-import BannerFRMd from '@/assets/images/home/Banner-mob-FR-md@2x.png';
-import BannerFRSm from '@/assets/images/home/Banner-mob-sm-FR@2x.png';
 
 function Divider() {
   return (
@@ -30,21 +27,22 @@ export function Ads() {
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
                           media="(max-width: 640px)"
-                          srcSet={BannerFRSm}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
                         />
                         <source
                           media="(min-width: 640px) and (max-width: 769px)"
-                          srcSet={BannerFRMd}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR_md.jpg`}
                         />
                         <source
                           media="(min-width: 769px)"
-                          srcSet={BannerFRLg}
+                          srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR.jpg`}
                         />
                         <img
                           className="w-100 lazyloaded"
                           alt="Large Gamme De Produits Royal Canin"
                           title="Large Gamme De Produits Royal Canin"
-                          src={BannerFRLg}
+                          // src={BannerFRLg}
+                          src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/banner_shop_FR.jpg`}
                         />
                       </picture>
                     </Link>
