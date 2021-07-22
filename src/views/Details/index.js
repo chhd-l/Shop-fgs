@@ -337,7 +337,6 @@ class Details extends React.Component {
 
   matchGoods(data, sizeList) {
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA start
-    this.getPdpScreenLoadData();
     //pdpScreenLoad bungdle没有规格的商品，也要调用GA end
     let {
       instockStatus,
@@ -365,6 +364,11 @@ class Details extends React.Component {
         })
       );
     });
+
+    // bundle商品的ga初始化填充
+    if (!details.goodsSpecs) {
+      this.getPdpScreenLoadData();
+    }
   }
 
   updatedPriceOrCode = ({ barcode, selectPrice, clickEvent }) => {
