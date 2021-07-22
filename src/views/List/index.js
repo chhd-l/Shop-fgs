@@ -1711,13 +1711,15 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <LazyLoad style={{ width: '100%' }}>
-                    <img
-                      src={titleData.img}
-                      className="mx-auto"
-                      alt="titleData image"
-                    />
-                  </LazyLoad>
+                  {titleData.img ? (
+                    <LazyLoad style={{ width: '100%' }}>
+                      <img
+                        src={titleData.img}
+                        className="mx-auto"
+                        alt="titleData image"
+                      />
+                    </LazyLoad>
+                  ) : null}
                 </div>
               </div>
             </div>
