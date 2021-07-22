@@ -110,6 +110,7 @@ class AddressList extends React.Component {
       successTipVisible: false,
       saveErrorMsg: '',
       selectedId: '',
+      homeDeliverySelectedId: '',
       isValid: false,
       formAddressValid: false,
       listBtnLoading: false,
@@ -312,7 +313,6 @@ class AddressList extends React.Component {
             }
             // 修改地址
             editaddObj = await editAddress(v);
-            // console.log('666  length: ', addressList.length + '  ' + i);
             // if (addressList.length == i + 1) {
             //   this.setState({
             //     loading: false
@@ -331,7 +331,8 @@ class AddressList extends React.Component {
         {
           addressList,
           addOrEdit: !addressList.length,
-          selectedId: tmpId
+          selectedId: tmpId,
+          homeDeliverySelectedId: tmpId
         },
         () => {
           this.setState({
@@ -355,8 +356,6 @@ class AddressList extends React.Component {
 
     let deliveryDate = data?.deliveryDate; // deliveryDate 日期
     let timeSlot = data?.timeSlot;
-    // console.log('666  ----->  deliveryDate: ', deliveryDate);
-    // console.log('666  ----->  timeSlot: ', timeSlot);
 
     // 20210616
     let dldate = '';
@@ -416,12 +415,9 @@ class AddressList extends React.Component {
     // 当天16点前下单，明天配送；过了16点，后天配送。
     // 判断当前时间段，如果是当天过了16点提示重新选择。
 
-    // console.log('666  ----->  localTime: ' + localTime[0] + ' ' + localTime[1]);
-    // console.log('666  ----->  dldate: ' + dldate);
     // 已过期（俄罗斯时间）
     // 当天或者当天之前的时间算已过期时间
     if (today >= dldate) {
-      // console.log('666  ----->  今天或者更早');
       this.showErrMsg(errMsg);
       flag = false;
     } else {
@@ -429,13 +425,11 @@ class AddressList extends React.Component {
       // 明天配送的情况（当前下单时间没有超过 16 点）
       // 如果选择的时间是明天，判断当前时间是否超过16点，超过16点提示重选
       let nowTime = Number(todayHour + '' + todayMinutes);
-      // console.log('666  ----->  nowTime: ', nowTime);
       let ctt = cutOffTime.split(':');
       cutOffTime
         ? (cutOffTime = Number(ctt[0] + '' + ctt[1]))
         : (cutOffTime = 1600);
       if (dldate == today + 1 && nowTime > cutOffTime) {
-        // console.log('666  ----->  明天');
         this.showErrMsg(errMsg);
         flag = false;
       }
@@ -445,10 +439,15 @@ class AddressList extends React.Component {
   };
   // 会员确认地址列表信息，并展示封面
   clickConfirmAddressPanel = async () => {
-    const { selectedId, addressList, wrongAddressMsg } = this.state;
+    const { homeDeliverySelectedId, addressList, wrongAddressMsg } = this.state;
     const tmpObj =
-      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
-    // console.log('666 ★★ ---- 处理选择的地址数据 tmpObj: ', tmpObj);
+      find(
+        addressList,
+        (ele) => ele.deliveryAddressId === homeDeliverySelectedId
+      ) || null;
+    this.setState({
+      selectedId: homeDeliverySelectedId
+    });
 
     // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
     // if (window.__.env.REACT_APP_COUNTRY == 'ru') {
@@ -502,9 +501,17 @@ class AddressList extends React.Component {
   };
   // 处理选择的地址数据
   updateSelectedData(str) {
-    const { selectedId, addressList, wrongAddressMsg } = this.state;
+    const {
+      selectedId,
+      homeDeliverySelectedId,
+      addressList,
+      wrongAddressMsg
+    } = this.state;
     const tmpObj =
-      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+      find(
+        addressList,
+        (ele) => ele.deliveryAddressId === homeDeliverySelectedId
+      ) || null;
     // 俄罗斯DuData
     if (window.__.env.REACT_APP_COUNTRY == 'ru' && str == 'confirm') {
       // 判断地址完整性
@@ -729,7 +736,8 @@ class AddressList extends React.Component {
     this.setState(
       {
         addressList: addressList,
-        selectedId: addressList[idx].deliveryAddressId
+        selectedId: addressList[idx].deliveryAddressId,
+        homeDeliverySelectedId: addressList[idx].deliveryAddressId
       },
       () => {
         this.updateSelectedData();
@@ -863,10 +871,13 @@ class AddressList extends React.Component {
 
   // 根据传过来的地址信息或者默认地址计算运费
   recalculateFreight = (data) => {
-    const { addressList, selectedId } = this.state;
+    const { addressList, selectedId, homeDeliverySelectedId } = this.state;
     let obj = data;
     if (addressList.length && data.receiveType == 'HOME_DELIVERY') {
-      obj = find(addressList, (ele) => ele.deliveryAddressId === selectedId);
+      obj = find(
+        addressList,
+        (ele) => ele.deliveryAddressId === homeDeliverySelectedId
+      );
     }
     this.props.calculateFreight(obj);
   };
@@ -931,49 +942,14 @@ class AddressList extends React.Component {
         type: this.props.type.toUpperCase(),
         isValidated: deliveryAddress.validationResult
       });
-      // let params = {
-      //   address1: deliveryAddress.address1,
-      //   address2: deliveryAddress.address2,
-      //   areaId: deliveryAddress.areaId,
-      //   firstName: deliveryAddress.firstName,
-      //   lastName: deliveryAddress.lastName,
-      //   countryId: deliveryAddress.countryId,
-      //   country: deliveryAddress.country,
-      //   cityId: deliveryAddress.cityId,
-      //   city: deliveryAddress.city,
-      //   consigneeName: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-      //   consigneeNumber: deliveryAddress.phoneNumber,
-      //   customerId: originData ? originData.customerId : '',
-      //   deliveryAddress: deliveryAddress.address1 + ' ' + deliveryAddress.address2,
-      //   deliveryAddressId: originData ? originData.deliveryAddressId : '',
-      //   isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-      //   postCode: deliveryAddress.postCode,
-      //   rfc: deliveryAddress.rfc,
-      //   email: deliveryAddress.email,
-      //   comment: deliveryAddress?.comment,
-
-      //   region: deliveryAddress.province, // DuData相关参数
-      //   area: deliveryAddress.area,
-      //   settlement: deliveryAddress.settlement,
-      //   street: deliveryAddress.street || '',
-      //   house: deliveryAddress.house || '',
-      //   housing: deliveryAddress.housing || '',
-      //   entrance: deliveryAddress.entrance || '',
-      //   apartment: deliveryAddress.apartment || '',
-
-      //   deliveryDate: deliveryAddress.deliveryDate || '',
-      //   timeSlot: deliveryAddress.timeSlot || '',
-      //   receiveType: deliveryAddress.receiveType || '',
-
-      //   type: this.props.type.toUpperCase()
-      // };
 
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
       if (res.context.deliveryAddressId) {
         this.setState({
-          selectedId: res.context.deliveryAddressId
+          selectedId: res.context.deliveryAddressId,
+          homeDeliverySelectedId: res.context.deliveryAddressId
         });
       }
       this.isDeliverAddress && this.scrollToTitle();
@@ -1291,9 +1267,6 @@ class AddressList extends React.Component {
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
     const { addOrEdit, addressList } = this.state;
-    // console.log('666 ----- 更新 selectDeliveryOrPickUp: ', num);
-    // console.log('666 ----- addOrEdit: ', addOrEdit);
-    // console.log('666 ----- addressList: ', addressList);
     let flag = null;
     !addressList.length && num == 1 ? (flag = true) : (flag = false);
     this.setState({
