@@ -141,7 +141,11 @@ class RouteFilter extends Component {
       // }
     }
     console.log(checkoutStore, this.isLogin, 'checkoutStore');
-    if (localItemRoyal.get('rc-token') && this.isLogin) {
+    if (
+      localItemRoyal.get('rc-token') &&
+      !sessionStorage.get('rc-token-lose') &&
+      this.isLogin
+    ) {
       authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
     }
 
