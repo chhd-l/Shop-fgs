@@ -1,7 +1,13 @@
 @media (max-width: 639.98px) {
   .clubdesktop {
     height: 1609px;
-    background-image: url('./image/CLUBmobbackground@4x.png');
+    background-image: url('./image/CLUBmobbackground@4x.jpg');
+    overflow: hidden;
+    background-size: cover;
+  }
+  .clubdesktopru {
+    height: 1709px;
+    background-image: url('./image/CLUBmobbackgroundru@4x.jpg');
     overflow: hidden;
     background-size: cover;
   }
@@ -18,12 +24,23 @@
     transform: translateX(0.4vw);
     text-align: center;
   }
+  .runewmargin {
+    margin-top: 300px;
+  }
 }
 
 @media (min-width: 639.98px) {
   .clubmobile {
     height: 975px;
-    background-image: url('./image/Bitmap@4x.png');
+    background-image: url('./image/Bitmap.jpg');
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .clubmobileru {
+    height: 975px;
+    background-image: url('./image/Bitmapru.jpg');
     background-size: cover;
     overflow: hidden;
     display: flex;

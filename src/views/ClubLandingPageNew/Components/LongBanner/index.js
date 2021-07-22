@@ -85,7 +85,13 @@ const SubscriptionItems = [
 const LongBanner = () => {
   return (
     <>
-      <div className="clubdesktop clubmobile">
+      <div
+        className={`${
+          window.__.env.REACT_APP_COUNTRY == 'ru'
+            ? 'clubdesktopru clubmobileru'
+            : 'clubdesktop clubmobile'
+        }`}
+      >
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">

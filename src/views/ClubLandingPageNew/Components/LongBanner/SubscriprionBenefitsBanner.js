@@ -6,12 +6,22 @@ import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree.png';
 import './index.css';
 
-const SubscriptionBenefitsBanner = ({ SubscriptionItem, Subtitle,LogoShow }) => {
+const SubscriptionBenefitsBanner = ({
+  SubscriptionItem,
+  Subtitle,
+  LogoShow
+}) => {
   return (
     <div className="row rc-margin-x--none">
       <div className="rc-full-width">
         <div className="experience-component experience-assets-contentBlock margintopmobile">
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile ">
+          <div
+            className={`${
+              window.__.env.REACT_APP_COUNTRY == 'ru'
+                ? 'runewmargin rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile'
+                : 'rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile '
+            }`}
+          >
             <div style={{ backgroundColor: '#ffffff' }}>
               <div
                 className="flex "

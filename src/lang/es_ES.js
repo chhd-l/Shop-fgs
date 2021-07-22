@@ -380,7 +380,7 @@ const es_ES = {
     'y doy mi consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza',
   goods: 'Productos',
   goToCart: 'Ir al carrito de compras',
-  guestCheckout: 'Pagar como invitada',
+  guestCheckout: 'pagar como invitado',
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.carouselInfo1':
     'Mantén la salud de tu mascota con una nutrición a la medida.',
@@ -411,8 +411,7 @@ const es_ES = {
     'Nuestro personal de servicio al cliente es profesional y entusiasmado.',
   'help.tip2':
     'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 18h.',
-  'help.tip3':
-    'Le responderemos en un máximo de 12 horas" to "Le responderemos en un máximo de 2 días',
+  'help.tip3': 'Le responderemos en un máximo de 2 días',
   'help.tip4': 'Pueden responder cualquier problema en cualquier momento.',
   here: 'aquí',
   home: 'Hogar',

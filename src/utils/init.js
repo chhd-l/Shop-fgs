@@ -17,8 +17,8 @@ if (window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS === '1') {
 }
 
 if (
-  window.__.env.REACT_APP_COUNTRY === 'FR' ||
-  window.__.env.REACT_APP_COUNTRY === 'DE'
+  window.__.env.REACT_APP_COUNTRY === 'fr' ||
+  window.__.env.REACT_APP_COUNTRY === 'de'
 ) {
   window.OptanonWrapper = () => {
     setTimeout(function () {
@@ -29,7 +29,7 @@ if (
 
 // seo is not searched
 if (
-  window.__.env.REACT_APP_COUNTRY === 'US' ||
+  window.__.env.REACT_APP_COUNTRY === 'us' ||
   process.env.NODE_ENV !== 'production'
 ) {
   var metaTag = document.createElement('meta');
@@ -40,7 +40,7 @@ if (
 
 dynamicLoadCss(window.__.env.REACT_APP_ONTRUST_STYLE);
 
-if (window.__.env.REACT_APP_COUNTRY === 'RU') {
+if (window.__.env.REACT_APP_COUNTRY === 'ru') {
   !(function (t) {
     (window.PetStoryWC = window.PetStoryWC || {}),
       (window.PetStoryWC.id = t.id || 'ps-widget-' + new Date().getTime());

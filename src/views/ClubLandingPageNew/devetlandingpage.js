@@ -10,7 +10,7 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import vetdeimage from './deimage/Product-composition-dog.png';
+import vetdeimage from './deimage/Product-composition.png';
 import decat from './deimage/delangdingpagecat.png';
 import dedog from './deimage/delangdingpagedog.png';
 import decat1 from './deimage/decat1.png';
@@ -172,7 +172,7 @@ class ClubLandingPageDeVet extends React.Component {
                               color: '#E2001A'
                             }}
                           >
-                            Die richtige Ernährung ist eine wesentliche
+                            Eine maßgeschneiderte Ernährung ist eine wesentliche
                             Grundlage für Tiergesundheit
                           </p>
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -180,7 +180,7 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>
+                              <div style={{ fontWeight: 'bolder' }}>
                                 Verbesserung der Lebensqualität der Tiere
                               </div>
                             </li>
@@ -188,7 +188,7 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>
+                              <div style={{ fontWeight: 'bolder' }}>
                                 Unterstützung von Tieren mit fütterungsbedingten
                                 Erkrankungen
                               </div>
@@ -197,7 +197,7 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>
+                              <div style={{ fontWeight: 'bolder' }}>
                                 Beeinflussung des Wachstums von Katzen- und
                                 Hundewelpen
                               </div>
@@ -206,13 +206,25 @@ class ClubLandingPageDeVet extends React.Component {
                               <div>
                                 <em className="petCrew rc-margin-right--xs"></em>
                               </div>
-                              <div>Beitrag zum Management von Erkrankungen</div>
+                              <div style={{ fontWeight: 'bolder' }}>
+                                Beitrag zum Management von Erkrankungen
+                                <sup>1,2</sup>
+                              </div>
                             </li>
                           </ul>
                           <br />
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className=" rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                    <p style={{ fontSize: '12px' }}>
+                      <sup>1</sup>American Animal Hospital Association (AAHA)
+                    </p>
+                    <p style={{ fontSize: '12px' }}>
+                      <sup>2</sup>World Small Animal Veterinary Association
+                      (WSAVA)
+                    </p>
                   </div>
                 </div>
               </div>
@@ -227,24 +239,27 @@ class ClubLandingPageDeVet extends React.Component {
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <span>
-                      Die tierärztlichen Diätnahrungen <br /> von ROYAL CANIN®
+                      Die tierärztlichen Nahrungen <br /> von ROYAL CANIN®
                     </span>
                   </h4>
                   <div className="rc-intro inherit-fontsize text-center contact_options__subheading">
                     <p>
                       <span>
                         <p>
-                          Seit 1968 erforscht ROYAL CANIN® die besonderen
-                          Ernährungsbedürfnisse von Katzen und Hunden bis ins
-                          kleinste Detail. Denn schon kleinste
+                          Seit 1968 widmet sich ROYAL CANIN® den besonderen
+                          Ernährungsbedürfnissen von Katzen und Hunden bis ins
+                          kleinste Detail. Denn schon kleine
                           Nährstoffunterschiede in der Nahrung können einen
                           großen Unterschied für das Wohlbefinden Ihres
                           Haustieres bedeuten. Das gilt natürlich um so mehr,
                           wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund
-                          ein besonderes Bedürfnis festgestellt haben. Gerade
-                          dann kann eine maßgeschneiderte Ernährung helfen, die
-                          Gesundheit Ihres Haustieres zu unterstützen und zu
-                          erhalten.
+                          ein{' '}
+                          <a style={{ fontWeight: 'bolder' }}>
+                            besonderes Bedürfnis
+                          </a>{' '}
+                          festgestellt haben. Gerade dann kann eine
+                          maßgeschneiderte Ernährung helfen, die Gesundheit
+                          Ihres Haustieres zu unterstützen und zu erhalten.
                         </p>
                         <p>
                           ROYAL CANIN® bietet deshalb ein umfangreiches Programm
@@ -307,7 +322,7 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-center">
                       <div>
                         <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                          Unser Diätnahrungssortiment
+                          Unser Sortiment
                         </h4>
                       </div>
                       <div className="flex justify-content-center">
@@ -335,8 +350,7 @@ class ClubLandingPageDeVet extends React.Component {
                 <div className=" rc-match-heights text-center text-md-left">
                   <div className="DeCenter  align-self-center">
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
-                      Unsere Produkte für verschiedene Schwerpunkte der
-                      Tiergesundheit
+                      Produkte für verschiedene Schwerpunkte der Tiergesundheit
                     </h2>
                   </div>
                   <div className="DeCenter col-lg-9">

@@ -21150,7 +21150,6 @@ header .popover {
   text-align: center;
   line-height: 1.0625rem;
   cursor: pointer;
-  text-transform: lowercase;
 }
 
 .rc-tooltip p {

@@ -284,7 +284,7 @@ class PetForm extends React.Component {
       });
     } else {
       getRecommendProducts(params).then((res) => {
-        let result = res.context;
+        let result = res.context.context;
         if (result.otherProducts) {
           let recommendData = result.otherProducts;
           recommendData.unshift(result.mainProduct);
