@@ -1368,7 +1368,7 @@ const ru_RU = {
   'ClubLP.LongBanner.content': 'От 258 руб. за заказ',
   'ClubLP.LongBanner.button': 'Вступить в КЛУБ',
   'ClubLP.LongBanner.content2':
-    '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. Цена {val} указана без учета скидок и стоимости доставки.',
+    '* Цена на продукт Киттен 0,3кг в официальном интернет-магазине. Цена указана без учета скидок и стоимости доставки.',
   'ClubLP.LongBanner.SubscriptionTitle':
     'Преимущества рационов ROYAL CANIN®{val} КЛУБ специально для вашего питомца',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
@@ -1411,7 +1411,7 @@ const ru_RU = {
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'Приветственный подарок, подарки каждые 3 месяца участия в программе',
   'ClubLP.SubscriptionBenefitsNew.icon5':
-    'Персонализированные образовательные рассылки',
+    'Персонализи-Рованные образовательные рассылки',
   'ClubLP.SubscriptionBenefitsNew.icon6':
     'Бесплатные онлайн-консультации нутрициолога в {val}',
   'ClubLP.SubscriptionBenefitsNew.button': 'Вступить в КЛУБ',
