@@ -24,15 +24,18 @@ import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 import question from '@/assets/images/home/question@2x.png';
 import CommentCarousel from '../../components/CommentCarousel';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
-
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const deviceType = getDeviceType();
+const isMobile = getDeviceType() === 'H5'||getDeviceType()==='Pad';
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
@@ -45,7 +48,64 @@ function Divider() {
   );
 }
 
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--next iconfont font-weight-bold icon-direction ui-cursor-pointer`}
+      style={{
+        ...style,
+        right: '3%',
+        zIndex: 1,
+        top: '50%',
+        position: 'absolute',
+        transform: 'translateY(-50%)'
+      }}
+      onClick={onClick}
+    >
+      &#xe6f9;
+    </div>
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev iconfont font-weight-bold icon-direction ui-cursor-pointer`}
+      style={{
+        ...style,
+        left: '3%',
+        zIndex: 1,
+        top: '50%',
+        position: 'absolute',
+        transform: 'translateY(-50%)'
+      }}
+      onClick={onClick}
+    >
+      &#xe6fa;
+    </div>
+  );
+}
+
 function HealthNutrition() {
+  const settings ={
+    className: 'slider variable-width',
+     dots: true,
+     infinite: true,
+    // centerMode: true,
+    slidesToShow: 1,
+    // slidesToScroll: 1,
+    // infinite: false,
+    // variableWidth: true,
+    speed:500,
+    autoplay:true,
+    onLazyLoad:true,
+    accessibility:true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
   return (
     {
       us: (
@@ -54,117 +114,113 @@ function HealthNutrition() {
             <div className="row d-flex align-items-center">
               <div className="col-12 col-lg-4">
                 <div className="experience-component experience-layouts-minicarousel">
-                  <div className="rc-margin-bottom--sm--mobile mini-carousel">
-                    <div
-                      data-js-carousel=""
-                      className="rc-carousel js-mini-carousel"
-                    >
-                      <div className="rc-hero rc-hero__layout--3">
-                        <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
-                          <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                            <Link to="/dogs" title="SHOP DOG">
-                              <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                                <p>Canine Breed-Specific Nutrition</p>
-                              </div>
-                              <p className="rc-body">
-                                Find your dog's unique formula
-                              </p>
-                            </Link>
-                            <Link
-                              to="/dogs"
-                              className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
-                              data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
-                              title="SHOP DOG"
-                            >
-                              SHOP DOG
-                            </Link>
-                          </div>
+                  <Slider {...settings}>
+                    <div className="rc-hero rc-hero__layout--3">
+                      <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
+                        <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
                           <Link to="/dogs" title="SHOP DOG">
-                            <div className="rc-hero__section rc-hero__section--img">
-                              <LazyLoad height={200}>
-                                <picture data-rc-feature-objectfillpolyfill-setup="true">
-                                  <source
-                                    media="(max-width: 640px)"
-                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
-                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
-                                  />
-                                  <source
-                                    media="(min-width: 640px) and (max-width: 1439px)"
-                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
-                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
-                                  />
-                                  <source
-                                    media="(min-width: 1439px)"
-                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
-                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
-                                  />
-                                  <img
-                                    className="w-100 ls-is-cached lazyloaded"
-                                    data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
-                                    alt="Royal Canin specific dog food for every breed"
-                                    title="Royal Canin specific dog food for every breed"
-                                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
-                                  />
-                                </picture>
-                              </LazyLoad>
+                            <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
+                              <p>Canine Breed-Specific Nutrition</p>
                             </div>
+                            <p className="rc-body">
+                              Find your dog's unique formula
+                            </p>
+                          </Link>
+                          <Link
+                            to="/dogs"
+                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
+                            data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
+                            title="SHOP DOG"
+                          >
+                            SHOP DOG
                           </Link>
                         </div>
-                      </div>
-                      <div className="rc-hero rc-hero__layout--3">
-                        <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
-                          <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                            <Link to="/cats" title="SHOP CAT">
-                              <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                                <p>Feline Breed-Specific Nutrition</p>
-                              </div>
-                              <p className="rc-body">
-                                Find your cat's unique formula
-                              </p>
-                            </Link>
-                            <Link
-                              to="/cats"
-                              className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
-                              data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
-                              title="SHOP CAT"
-                            >
-                              SHOP CAT
-                            </Link>
+                        <Link to="/dogs" title="SHOP DOG">
+                          <div className="rc-hero__section rc-hero__section--img">
+                            <LazyLoad height={200}>
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <source
+                                  media="(max-width: 640px)"
+                                  data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
+                                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner12.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner11.jpg 2x`}
+                                />
+                                <source
+                                  media="(min-width: 640px) and (max-width: 1439px)"
+                                  data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
+                                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner13.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner14.jpg 2x`}
+                                />
+                                <source
+                                  media="(min-width: 1439px)"
+                                  data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
+                                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner15.jpg 2x`}
+                                />
+                                <img
+                                  className="w-100 ls-is-cached lazyloaded"
+                                  data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
+                                  alt="Royal Canin specific dog food for every breed"
+                                  title="Royal Canin specific dog food for every breed"
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner1.jpg`}
+                                />
+                              </picture>
+                            </LazyLoad>
                           </div>
-                          <Link to="/cats" title="SHOP CAT">
-                            <div className="rc-hero__section rc-hero__section--img">
-                              <LazyLoad height={200}>
-                                <picture data-rc-feature-objectfillpolyfill-setup="true">
-                                  <source
-                                    media="(max-width: 640px)"
-                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
-                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
-                                  />
-                                  <source
-                                    media="(min-width: 640px) and (max-width: 1439px)"
-                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
-                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
-                                  />
-                                  <source
-                                    media="(min-width: 1439px)"
-                                    data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
-                                    srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
-                                  />
-                                  <img
-                                    className="w-100 ls-is-cached lazyloaded"
-                                    data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
-                                    alt="Royal Canin specific cat food for every breed"
-                                    title="Royal Canin specific cat food for every breed"
-                                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
-                                  />
-                                </picture>
-                              </LazyLoad>
-                            </div>
-                          </Link>
-                        </div>
+                        </Link>
                       </div>
                     </div>
-                  </div>
+                    <div className="rc-hero rc-hero__layout--3">
+                      <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
+                        <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                          <Link to="/cats" title="SHOP CAT">
+                            <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
+                              <p>Feline Breed-Specific Nutrition</p>
+                            </div>
+                            <p className="rc-body">
+                              Find your cat's unique formula
+                            </p>
+                          </Link>
+                          <Link
+                            to="/cats"
+                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
+                            data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
+                            title="SHOP CAT"
+                          >
+                            SHOP CAT
+                          </Link>
+                        </div>
+                        <Link to="/cats" title="SHOP CAT">
+                          <div className="rc-hero__section rc-hero__section--img">
+                            <LazyLoad height={200}>
+                              <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                <source
+                                  media="(max-width: 640px)"
+                                  data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
+                                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner21jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner22.jpg 2x`}
+                                />
+                                <source
+                                  media="(min-width: 640px) and (max-width: 1439px)"
+                                  data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
+                                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner23.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner24.jpg 2x`}
+                                />
+                                <source
+                                  media="(min-width: 1439px)"
+                                  data-srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
+                                  srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner25.jpg 2x`}
+                                />
+                                <img
+                                  className="w-100 ls-is-cached lazyloaded"
+                                  data-src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
+                                  alt="Royal Canin specific cat food for every breed"
+                                  title="Royal Canin specific cat food for every breed"
+                                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/minibanner2.jpg`}
+                                />
+                              </picture>
+                            </LazyLoad>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  </Slider>
+
                 </div>
               </div>
               <div className="col-12 col-lg-8">
@@ -240,119 +296,123 @@ function HealthNutrition() {
 }
 
 function Share() {
+
+  const settingsShare ={
+    className: 'slider variable-width',
+    dots: true,
+    infinite: true,
+    slidesToShow: isMobile?1:4,
+    speed:500,
+    autoplay:true,
+    onLazyLoad:true,
+    accessibility:true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
   return (
     {
       us: (
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
-              <div className="experience-component experience-layouts-cardcarousel">
+              <div className={"carousel-home-share pb-5"}>
                 <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                   <h3 className="rc-beta">Share With Us #RoyalCanin</h3>
                 </div>
-                <div
-                  data-js-carousel=""
-                  data-rc-cards="true"
-                  data-rows="4"
-                  data-rc-prev="prev"
-                  data-rc-next="next"
-                  className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel carousel-home-share"
-                >
-                  <div className="rc-carousel__card-gal">
-                    <div className="rc-padding-x--xs">
-                      <div
-                        className="rc-full-width"
-                        // href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 lazyloaded"
-                                alt="Royal Canin Dog Products on Social Media"
-                                title="Royal Canin Dog Products on Social Media"
-                                srcset={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg,  ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg 2x`}
-                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg`}
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </div>
-                    </div>
-                    <div className="rc-padding-x--xs">
-                      <div
-                        className="rc-full-width"
-                        // href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 lazyloaded"
-                                alt="Royal Canin Cat Products on Social Media"
-                                title="Royal Canin Cat Products on Social Media"
-                                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
-                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </div>
-                    </div>
-                    <div className="rc-padding-x--xs">
-                      <div
-                        className="rc-full-width"
-                        // href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 lazyloaded"
-                                alt="Royal Canin Dog Products on Social Media"
-                                title="Royal Canin Dog Products on Social Media"
-                                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg 2x`}
-                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg`}
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </div>
-                    </div>
-                    <div className="rc-padding-x--xs">
-                      <div
-                        className="rc-full-width"
-                        // href="https://www.instagram.com/royalcaninus/"
-                      >
-                        <article className="rc-card rc-card--b rc-border--none">
-                          <picture
-                            className="rc-card__image"
-                            data-rc-feature-objectfillpolyfill-setup="true"
-                          >
-                            <LazyLoad height={200}>
-                              <img
-                                className="w-100 ls-is-cached lazyloaded"
-                                alt="Royal Canin Cat Products on Social Media"
-                                title="Royal Canin Cat Products on Social Media"
-                                srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg 2x`}
-                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
-                              />
-                            </LazyLoad>
-                          </picture>
-                        </article>
-                      </div>
+                <Slider {...settingsShare}>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{width: '100%'}}>
+                            <img
+                              className="w-100 lazyloaded"
+                              alt="Royal Canin Dog Products on Social Media"
+                              title="Royal Canin Dog Products on Social Media"
+                              srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg,  ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL11.jpg 2x`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL1.jpg`}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
                     </div>
                   </div>
-                </div>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{width: '100%'}}>
+                            <img
+                              className="w-100 lazyloaded"
+                              alt="Royal Canin Cat Products on Social Media"
+                              title="Royal Canin Cat Products on Social Media"
+                              srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL21.jpg 2x`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL2.jpg`}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
+                    </div>
+                  </div>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{width: '100%'}}>
+                            <img
+                              className="w-100 lazyloaded"
+                              alt="Royal Canin Dog Products on Social Media"
+                              title="Royal Canin Dog Products on Social Media"
+                              srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL31.jpg 2x`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL3.jpg`}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
+                    </div>
+                  </div>
+                  <div className="rc-padding-x--xs">
+                    <div
+                      className="rc-full-width"
+                      // href="https://www.instagram.com/royalcaninus/"
+                    >
+                      <article className="rc-card rc-card--b rc-border--none">
+                        <picture
+                          className="rc-card__image"
+                          data-rc-feature-objectfillpolyfill-setup="true"
+                        >
+                          <LazyLoad height={200} style={{width: '100%'}}>
+                            <img
+                              className="w-100 ls-is-cached lazyloaded"
+                              alt="Royal Canin Cat Products on Social Media"
+                              title="Royal Canin Cat Products on Social Media"
+                              srcSet={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL41.jpg 2x`}
+                              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/SOCIAL4.jpg`}
+                            />
+                          </LazyLoad>
+                        </picture>
+                      </article>
+                    </div>
+                  </div>
+                </Slider>
               </div>
             </div>
           </div>
@@ -391,8 +451,8 @@ function AdvantageTips() {
           <div className="rc-sm-down">
             <div
               style={{
-                maxWidth: deviceType !== 'PC' ? '100%' : '',
-                padding: deviceType !== 'PC' ? '0' : ''
+                maxWidth: isMobile ? '100%' : '',
+                padding: isMobile ? '0' : ''
               }}
               className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center"
             >
@@ -494,6 +554,7 @@ class Home extends React.Component {
     });
   };
   render() {
+
     const { history, match, location } = this.props;
 
     const event = {
