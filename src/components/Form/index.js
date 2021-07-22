@@ -349,7 +349,7 @@ class Form extends React.Component {
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
       case 'mx':
-        phoneReg = [{ mask: '+(52) 000 000 00' }];
+        phoneReg = [{ mask: '+(52) 000 000 0000' }];
         break;
       case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];
@@ -534,7 +534,7 @@ class Form extends React.Component {
             regExp = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
           } else if (window.__.env.REACT_APP_COUNTRY == 'mx') {
             // 墨西哥
-            regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{2}$/;
+            regExp = /^\+\([5][2]\)[\s\-][0-9]{3}[\s\-][0-9]{3}[\s\-][0-9]{4}$/;
           } else if (window.__.env.REACT_APP_COUNTRY == 'ru') {
             // 俄罗斯
             regExp = /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
