@@ -400,7 +400,7 @@ class PayOs extends React.Component {
 
     return (
       <>
-        <div className="card payment-form Card-border rounded rc-border-colour--interface">
+        <div className="card payment-form Card-border rounded rc-border-colour--interface border-0">
           <div className="card-body rc-padding--none">
             <form
               method="POST"
