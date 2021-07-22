@@ -1,16 +1,27 @@
+.one-time-purchase-box {
+  box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
+  padding: 1.5rem 1rem;
+}
+
+.club-program-box {
+  box-shadow: 0vh 0vh 0.3vh 0.1vh #ed001a;
+  padding: 1.5rem 1rem;
+}
+
 @media (max-width: 639.98px) {
   .flexColumn {
     flex-direction: column;
   }
   .widthsmall {
-    width: 80vw;
-    margin-left: 7vw;
-    height: 41vh;
+    /* width: 80vw; */
+    /* margin-left: 7vw; */
+    /* height: 41vh; */
+    margin-bottom: 1rem;
   }
   .dewidthsmall {
-    width: 80vw;
-    margin-left: 7vw;
-    height: 39vh;
+    /* width: 80vw; */
+    /* margin-left: 7vw; */
+    /* height: 39vh; */
   }
   .marginleftLogo {
     margin-left: 3vw;
@@ -28,7 +39,7 @@
   }
   .mobileflex {
     flex-direction: column;
-    margin-left: 9vw;
+    margin-left: 4vw;
     width: 80vw;
   }
   .paddingbottom0 {

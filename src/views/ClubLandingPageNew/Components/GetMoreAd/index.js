@@ -28,28 +28,14 @@ const GetMoreAd = () => {
                   className="flexColumn"
                 >
                   <div
-                    style={{
-                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #DCDCDE'
-                    }}
                     className={`${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? 'trwithsmall margintoppx'
                         : 'widthsmall margintoppx'
-                    }`}
+                    } one-time-purchase-box`}
                   >
-                    <div
-                      style={{
-                        marginRight: '5vh'
-                      }}
-                      className="margintop15vh"
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          marginLeft: '5vw'
-                        }}
-                        className="margintop10vh margintop3vh"
-                      >
+                    <div className="margintop15vh">
+                      <div className="flex justify-content-center">
                         <div>
                           <LazyLoad>
                             <img
@@ -65,7 +51,13 @@ const GetMoreAd = () => {
                             transform: 'translateY(-10px)'
                           }}
                         >
-                          <p style={{ fontSize: '28px', fontWeight: 'bolder' }}>
+                          <p
+                            style={{
+                              fontSize: '1.56rem',
+                              fontWeight: 'bolder',
+                              marginBottom: '0'
+                            }}
+                          >
                             <FormattedMessage
                               id="ClubLP.GetMoreAd.subtitle1"
                               values={{ val: <br /> }}
@@ -104,26 +96,10 @@ const GetMoreAd = () => {
                       </div>
                     </div>
                   </div>
-                  <div
-                    style={{
-                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #ed001a'
-                    }}
-                    className="getmore83vh"
-                  >
+                  <div className="getmore83vh club-program-box">
                     <div>
-                      <div
-                        style={{
-                          height: '15vh',
-                          marginRight: '5vh'
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            marginLeft: '10vw',
-                            marginTop: '5vh'
-                          }}
-                        >
+                      <div>
+                        <div className="flex justify-content-center">
                           <div>
                             <LazyLoad>
                               {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
@@ -149,7 +125,7 @@ const GetMoreAd = () => {
                           >
                             <p
                               style={{
-                                fontSize: '28px',
+                                fontSize: '1.56rem',
                                 fontWeight: 'bolder',
                                 color: '#E2001A'
                               }}
@@ -178,9 +154,9 @@ const GetMoreAd = () => {
                                   <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                  <a>
-                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
-                                  </a>
+                                  {/* <a> */}
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip1" />
+                                  {/* </a> */}
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
@@ -188,9 +164,9 @@ const GetMoreAd = () => {
                                   <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                  <a>
-                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
-                                  </a>
+                                  {/* <a> */}
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip2" />
+                                  {/* </a> */}
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
@@ -198,9 +174,9 @@ const GetMoreAd = () => {
                                   <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                  <a>
-                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
-                                  </a>
+                                  {/* <a> */}
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip3" />
+                                  {/* </a> */}
                                 </div>
                               </li>
                               <li className="rc-list__item flex">
@@ -208,9 +184,9 @@ const GetMoreAd = () => {
                                   <em className="bingo rc-margin-right--xs"></em>
                                 </div>
                                 <div style={{ marginLeft: '10px' }}>
-                                  <a>
-                                    <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
-                                  </a>
+                                  {/* <a> */}
+                                  <FormattedMessage id="ClubLP.GetMoreAd.Club.tip4" />
+                                  {/* </a> */}
                                 </div>
                               </li>
                             </ul>
