@@ -676,7 +676,6 @@ class CheckoutStore {
     valid,
     cartItemList,
     currentUnitPrice = 0,
-    mobileSuccessModalButton,
     isMobile
   }) {
     if (valid) {
@@ -745,9 +744,7 @@ class CheckoutStore {
           );
         }
         await this.updateUnloginCart({ cartData: cartDataCopy });
-        if (isMobile) {
-          mobileSuccessModalButton.click();
-        } else {
+        if (!isMobile) {
           stores.headerCartStore.show();
           clearTimeout(this.timer);
           this.timer = setTimeout(() => {

@@ -140,11 +140,13 @@ class RouteFilter extends Component {
       //   sessionItemRoyal.set('is-from-product-finder', '1');
       // }
     }
-    if (localItemRoyal.get('rc-token') && this.isLogin) {
+    if (
+      localItemRoyal.get('rc-token') &&
+      !sessionItemRoyal.get('rc-token-lose') &&
+      this.isLogin
+    ) {
       authToken({ token: `Bearer ${localItemRoyal.get('rc-token')}` });
     }
-
-    // authToken()
     if (pathname === '/product-finder') {
       sessionItemRoyal.remove('product-finder-edit-order');
       sessionItemRoyal.remove('pf-result');

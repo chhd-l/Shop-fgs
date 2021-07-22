@@ -45,8 +45,12 @@ class FooterHub extends React.Component {
     const { footerInfo, cur_contactInfo } = this.state;
     const { isLogin, history } = this.props;
     if (Object.keys(footerInfo).length == 0) return null;
-    const { LocalMarketSettings, MenuGroups, MenuInfoItems, MenuItems } =
-      footerInfo;
+    const {
+      LocalMarketSettings,
+      MenuGroups,
+      MenuInfoItems,
+      MenuItems
+    } = footerInfo;
     const { ContactUsUrl, ContactPhone } = LocalMarketSettings || {};
 
     return (

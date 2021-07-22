@@ -1,6 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import Loading from '@/components/Loading';
+// import Loading from '@/components/Loading';
+import cn from 'classnames';
 
 /**
  * Load components on demand
@@ -12,7 +13,13 @@ export default (loader, preloadClassName) => {
   return Loadable({
     loader,
     loading: () => {
-      return <Loading preloadClassName={preloadClassName} />;
+      return (
+        <div
+          className={cn('rc-card rc-list rc-icon rc-img', preloadClassName)}
+          style={{ display: 'none' }}
+        />
+      );
+      // return <Loading preloadClassName={preloadClassName} />;
     }
   });
 };

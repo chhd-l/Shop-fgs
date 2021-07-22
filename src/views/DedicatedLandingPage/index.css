@@ -70,6 +70,15 @@
   .ui-pop .btn-cheat {
     height: 1.2rem;
   }
+  .kittycenter {
+    text-align: center;
+  }
+  .kittyflexdirection {
+    flex-direction: column;
+  }
+  .kitty80 {
+    width: 80vw;
+  }
 }
 .DeCenter {
   margin: 0 auto;
