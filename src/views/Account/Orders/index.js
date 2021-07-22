@@ -170,8 +170,11 @@ class AccountOrders extends React.Component {
       .then((res) => {
         let tmpList = Array.from(res.context.content, (ele) => {
           const tradeState = ele.tradeState;
+          console.log('orderCategory:', ele.orderCategory);
+          // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
           return Object.assign(ele, {
             canPayNow:
+              ele.orderCategory !== 'RECURRENT_AUTOSHIP' &&
               tradeState.flowState === 'INIT' &&
               tradeState.auditState === 'NON_CHECKED' &&
               tradeState.payState === 'NOT_PAID' &&

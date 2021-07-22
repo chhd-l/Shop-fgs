@@ -392,6 +392,8 @@ class AccountOrders extends React.Component {
         //   cityRes,
         //   resContext.invoice.cityId
         // );
+        console.log('orderCategory:', resContext.orderCategory);
+        // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
         this.setState({
           details: resContext,
           loading: false,
@@ -403,6 +405,7 @@ class AccountOrders extends React.Component {
           subNumber: resContext?.subscriptionResponseVO?.subscribeId,
           orderNumberForOMS: resContext?.tradeOms?.orderNo,
           canPayNow:
+            resContext.orderCategory !== 'RECURRENT_AUTOSHIP' &&
             tradeState.flowState === 'INIT' &&
             tradeState.auditState === 'NON_CHECKED' &&
             tradeState.payState === 'NOT_PAID' &&
