@@ -96,7 +96,7 @@ const LongBanner = () => {
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
               <div
-                className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile"
                 style={{ marginBottom: '0px' }}
               >
                 <div
@@ -138,18 +138,16 @@ const LongBanner = () => {
                   <p
                     style={{
                       color: '#ffffff',
-                      marginBottom: '0px'
+                      marginTop: '0.8rem',
+                      lineHeight: '1.3rem'
                     }}
                     className={`longbannerwidth266 ${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? `trmarginleft10vw`
-                        : null
+                        : ''
                     }`}
                   >
-                    <FormattedMessage
-                      id="ClubLP.LongBanner.content2"
-                      values={{ val: <br /> }}
-                    />
+                    <FormattedMessage id="ClubLP.LongBanner.content2" />
                   </p>
                 </div>
               </div>
