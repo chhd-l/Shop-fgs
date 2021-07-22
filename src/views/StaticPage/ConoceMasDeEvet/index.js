@@ -8,6 +8,7 @@ import Loading from '@/components/Loading';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 const pageLink = window.location.href;
 

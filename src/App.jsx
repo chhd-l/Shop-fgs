@@ -36,18 +36,19 @@ import '@/utils/init';
 
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
-import Home from '@/views/Home';
+const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
+
 import PickupMap from '@/views/PickupMap';
-import List from '@/views/List';
-import Details from '@/views/Details';
-import Cart from '@/views/Cart';
-import Payment from '@/views/Payment';
-import Confirmation from '@/views/Confirmation';
+const List = loadable(() => import('@/views/List'));
+const Details = loadable(() => import('@/views/Details'), 'rc-carousel');
+const Cart = loadable(() => import('@/views/Cart'));
+const Payment = loadable(() => import('@/views/Payment'));
+const Confirmation = loadable(() => import('@/views/Confirmation'));
 import Prescription from '@/views/Prescription';
 import MakerHandle from '@/components/GoogleMap/makerHandle';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
-import FAQ from '@/views/FAQ';
-import Widerrufsbelehrung from '@/views/Widerrufsbelehrung';
+const FAQ = loadable(() => import('@/views/FAQ'));
+const Widerrufsbelehrung = loadable(() => import('@/views/Widerrufsbelehrung'));
 import AccountHome from '@/views/Account/Home';
 import AccountProfile from '@/views/Account/Profile';
 import AccountPets from '@/views/Account/Pet';
@@ -69,59 +70,119 @@ import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
-import TermUse from '@/views/StaticPage/TermUse';
-import TermsAndConditions from '@/views/StaticPage/TermUse/TermsAndConditions';
-import PrivacyPolicy from '@/views/StaticPage/PrivacyPolicy';
-import Exception from '@/views/StaticPage/Exception';
-import Page403 from '@/views/StaticPage/403';
-import Page500 from '@/views/StaticPage/500';
-import Mentionslegales from '@/views/StaticPage/Mentionslegales';
-import Help from '@/views/StaticPage/Help';
-import ContactUs from '@/views/StaticPage/ContactUs';
-import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
-import TermsConditions from '@/views/StaticPage/TermsAndConditions';
-import TermsConditionsUs from './views/StaticPage/TermsAndConditions/US_index';
-import TermsConditionsTr from './views/StaticPage/TermsAndConditions/TR_index';
-import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
-import DE_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/DE_index.js';
-import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
-import TR_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/TR_index.js';
-import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.js';
-import generalConditions from '@/views/StaticPage/GeneralConditions';
-import Tailorednutrition from '@/views/StaticPage/Tailorednutrition/index';
-import US_Tailorednutrition from '@/views/StaticPage/Tailorednutrition/US_index';
-import OnlineStore from '@/views/StaticPage/OnlineStore/index';
-import QualitySafety from '@/views/StaticPage/QualitySafety/index';
-import US_QualitySafety from '@/views/StaticPage/QualitySafety/US_index';
-import SearchShow from '@/views/StaticPage/SearchShow/index';
-import AboutUs from '@/views/StaticPage/AboutUs/index.js';
-import AboutUsDe from '@/views/StaticPage/AboutUs/de-index';
+const TermUse = loadable(() => import('@/views/StaticPage/TermUse'));
+const TermsAndConditions = loadable(() =>
+  import('@/views/StaticPage/TermUse/TermsAndConditions')
+);
+const PrivacyPolicy = loadable(() =>
+  import('@/views/StaticPage/PrivacyPolicy')
+);
+const Exception = loadable(() => import('@/views/StaticPage/Exception'));
+const Page403 = loadable(() => import('@/views/StaticPage/403'));
+const Page500 = loadable(() => import('@/views/StaticPage/500'));
+const Mentionslegales = loadable(() =>
+  import('@/views/StaticPage/Mentionslegales')
+);
+const Help = loadable(() => import('@/views/StaticPage/Help'));
+const ContactUs = loadable(() => import('@/views/StaticPage/ContactUs'));
+// const Packfeed = loadable(() => import('@/views/StaticPage/PackmixfeedingwetDry'), 'rc-carousel'); // todo slide
+import Packfeed from '@/views/StaticPage/PackmixfeedingwetDry';
+const TermsConditions = loadable(() =>
+  import('@/views/StaticPage/TermsAndConditions')
+);
+const TermsConditionsUs = loadable(() =>
+  import('@/views/StaticPage/TermsAndConditions/US_index')
+);
+const TermsConditionsTr = loadable(() =>
+  import('@/views/StaticPage/TermsAndConditions/TR_index')
+);
+const SubscriptionLanding = loadable(() =>
+  import('@/views/StaticPage/SubscriptionLanding')
+);
+const DE_SubscriptionLanding = loadable(() =>
+  import('@/views/StaticPage/SubscriptionLanding/DE_index.js')
+);
+const US_SubscriptionLanding = loadable(() =>
+  import('@/views/StaticPage/SubscriptionLanding/US_index.js')
+);
+const TR_SubscriptionLanding = loadable(() =>
+  import('@/views/StaticPage/SubscriptionLanding/TR_index.js')
+);
+const TR_GeneralConditions = loadable(() =>
+  import('@/views/StaticPage/GeneralConditions/TR_index.js')
+);
+const generalConditions = loadable(() =>
+  import('@/views/StaticPage/GeneralConditions')
+);
+const Tailorednutrition = loadable(() =>
+  import('@/views/StaticPage/Tailorednutrition')
+);
+const US_Tailorednutrition = loadable(() =>
+  import('@/views/StaticPage/Tailorednutrition/US_index')
+);
+const OnlineStore = loadable(() => import('@/views/StaticPage/OnlineStore'));
+// import OnlineStore from '@/views/StaticPage/OnlineStore';
+const QualitySafety = loadable(() =>
+  import('@/views/StaticPage/QualitySafety')
+);
+const US_QualitySafety = loadable(() =>
+  import('@/views/StaticPage/QualitySafety/US_index')
+);
+import SearchShow from '@/views/StaticPage/SearchShow';
+const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs/index.js'));
+const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
+// const CatNutrition = loadable(
+//   () => import('@/views/StaticPage/CatNutrition'),
+//   'rc-carousel'
+// ); // todo slide
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
-import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
-import PromotionRefuge from '@/views/StaticPage/PromotionRefuge/index.js';
+const CadeauCoussinChat = loadable(() =>
+  import('@/views/StaticPage/CadeauCoussinChat')
+);
+import PromotionRefuge from '@/views/StaticPage/PromotionRefuge';
+// const PromotionRefuge = loadable(() => import('@/views/StaticPage/PromotionRefuge')); // todo slide
 import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
-import RU_Values from '@/views/StaticPage/Values/RU_index.js';
-import US_Values from '@/views/StaticPage/Values/US_index.js';
-import FR_Values from '@/views/StaticPage/Values/FR_index.js';
-import Values from '@/views/StaticPage/Values/index.js';
-import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
-import RequestInvoices from '@/views/StaticPage/RequestInvoices';
-import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
-import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
-import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
+
+const RU_Values = loadable(() => import('@/views/StaticPage/Values/RU_index'));
+const US_Values = loadable(() => import('@/views/StaticPage/Values/US_index'));
+const FR_Values = loadable(() => import('@/views/StaticPage/Values/FR_index'));
+const Values = loadable(() => import('@/views/StaticPage/Values'));
+
+const ShipmentConditions = loadable(() =>
+  import('@/views/StaticPage/ShipmentConditions')
+);
+const RequestInvoices = loadable(() =>
+  import('@/views/StaticPage/RequestInvoices')
+);
+const ConoceMasDeEvet = loadable(() =>
+  import('@/views/StaticPage/ConoceMasDeEvet')
+);
+const Consent1TR = loadable(() =>
+  import('@/views/StaticPage/tr/Consent/Consent1')
+);
+const Consent2TR = loadable(() =>
+  import('@/views/StaticPage/tr/Consent/Consent2')
+);
 import register from '@/views/Register';
 import welcome from '@/views/Register/welcome.js';
-import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
+import KittenNutrition from '@/views/StaticPage/kitten-nutrition'; // todo silde
 // import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import CancelEmail from '@/views/StaticPage/CancelEmail';
-import VetLandingPage from '@/views/ClubLandingPage/vetlandingpage';
-import ClubLandingPageNew from '@/views/ClubLandingPageNew';
-import ClubLandingPageDe from '@/views/ClubLandingPageNew/delandingpage';
-import ClubLandingPageDeVet from '@/views/ClubLandingPageNew/devetlandingpage';
-import ClubLandingPage from '@/views/ClubLandingPage';
-import Loading from '@/components/Loading';
-import DedicatedLandingPage from '@/views/DedicatedLandingPage';
+const VetLandingPage = loadable(() =>
+  import('@/views/ClubLandingPage/vetlandingpage')
+);
+const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
+const ClubLandingPageDe = loadable(() =>
+  import('@/views/ClubLandingPageNew/delandingpage')
+);
+const ClubLandingPageDeVet = loadable(() =>
+  import('@/views/ClubLandingPageNew/devetlandingpage')
+);
+const ClubLandingPage = loadable(() => import('@/views/ClubLandingPage'));
+const DedicatedLandingPage = loadable(() =>
+  import('@/views/DedicatedLandingPage')
+);
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -165,8 +226,6 @@ const LoginCallback = (props) => {
 
   return <div />;
 };
-
-// const Home = loadable(() => import('@/views/Home'));
 
 const Adyen3DSFail = loadable(() =>
   import('@/views/Payment/modules/Adyen3DSFail')

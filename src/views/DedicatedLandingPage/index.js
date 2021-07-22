@@ -44,7 +44,8 @@ class DedicatedLandingPage extends React.Component {
         metaDescription: 'Royal canin'
       },
       searchEvent: {},
-      showKitten: false
+      showKitten: false,
+      selectLine: true
     };
   }
 
@@ -80,6 +81,12 @@ class DedicatedLandingPage extends React.Component {
       showKitten: !this.state.showKitten
     });
   };
+  changeSetLine = () => {
+    this.setState({
+      selectLine: !this.state.selectLine
+    });
+  };
+
   render() {
     const { history, match, location } = this.props;
 
@@ -127,6 +134,7 @@ class DedicatedLandingPage extends React.Component {
     }
     const Ru = window.__.env.REACT_APP_COUNTRY === 'ru';
     const showKitten = this.state.showKitten;
+    const selectLine = this.state.selectLine;
 
     return (
       <div>
@@ -181,9 +189,9 @@ class DedicatedLandingPage extends React.Component {
                 <div className="experience-component experience-assets-pawListBlock">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                     <div className="rc-max-width--lg rc-padding-y--sm">
-                      <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                      <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                         <div className="rc-column">
-                          <div className="rc-padding-y--lg--mobile rc-full-width">
+                          <div className="rc-full-width">
                             <h2 className="rc-beta ">
                               Recevez votre kit chaton gratuit pour vous
                               féliciter de votre adoption !
@@ -200,7 +208,7 @@ class DedicatedLandingPage extends React.Component {
                                 ajoutez-le à votre panier
                               </li>
                             </ul>
-                            <div className=" rc-btn-group m-0 rc-column rc-padding-x--none">
+                            <div className=" rc-btn-group m-0 rc-column rc-padding-x--none kittycenter">
                               <button
                                 className="rc-btn rc-btn--one  rc-margin-bottom--xs"
                                 style={{
@@ -240,6 +248,7 @@ class DedicatedLandingPage extends React.Component {
                 opacity: '100',
                 zIndex: '1100'
               }}
+              className="kitty80"
             >
               <article className="rc-card rc-card--a">
                 <div className="rc-card__body">
@@ -262,7 +271,7 @@ class DedicatedLandingPage extends React.Component {
                     </h1>
                   </header>
                   <div
-                    className="flex "
+                    className="flex flex-md-column kittyflexdirection"
                     style={{ justifyContent: 'space-evenly' }}
                   >
                     <div style={{ marginRight: '5px' }}>
@@ -369,7 +378,15 @@ class DedicatedLandingPage extends React.Component {
                         <p className="text-center" style={{ color: '#E2001A' }}>
                           Moins de 4 mois
                         </p>
-                        <article className="rc-card rc-card--a">
+                        <article
+                          className="rc-card rc-card--a"
+                          onClick={() => this.changeSetLine()}
+                          style={
+                            selectLine
+                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                              : null
+                          }
+                        >
                           <picture className="rc-card__image">
                             <img
                               src={kittenimgone}
@@ -392,7 +409,15 @@ class DedicatedLandingPage extends React.Component {
                         <p className="text-center" style={{ color: '#E2001A' }}>
                           Plus de 4 mois
                         </p>
-                        <article className="rc-card rc-card--a">
+                        <article
+                          className="rc-card rc-card--a"
+                          onClick={() => this.changeSetLine()}
+                          style={
+                            selectLine
+                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                              : null
+                          }
+                        >
                           <picture className="rc-card__image">
                             <img
                               src={kittenimgtwo}

@@ -10,7 +10,7 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 import stores from '@/store';
-import vetdeimage from './deimage/Product-composition-dog.png';
+import vetdeimage from './deimage/Product-composition.png';
 import decat from './deimage/delangdingpagecat.png';
 import dedog from './deimage/delangdingpagedog.png';
 import decat1 from './deimage/decat1.png';

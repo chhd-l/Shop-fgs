@@ -283,6 +283,7 @@ const en_US = {
     'If you want to use this credit card, please enter CVV and click the Apply button',
   clickHere: 'Click here',
   clickHere2: 'Here',
+  here2: 'here',
   'clinic.cancel': 'Cancel',
   'clinic.clinic': 'clinic',
   'clinic.clinicTip': 'Which clinic has provided prescription for you？',

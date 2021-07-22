@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 class Loading extends React.Component {
   static defaultProps = {
@@ -6,7 +7,8 @@ class Loading extends React.Component {
     bgColor: 'rgba(0,0,0,.25)',
     customCls: '',
     customStyle: {},
-    opacity: 0.5
+    opacity: 0.5,
+    preloadClassName: ''
   };
   render() {
     const {
@@ -15,7 +17,8 @@ class Loading extends React.Component {
       bgColor,
       customStyle,
       customCls,
-      opacity
+      opacity,
+      preloadClassName
     } = this.props;
     return (
       <div
@@ -53,6 +56,10 @@ class Loading extends React.Component {
           <div className="rc-loader__spinner" />
           <div className="rc-loader__background" />
         </div>
+        <div
+          className={cn('rc-card rc-list rc-icon rc-img', preloadClassName)}
+          style={{ display: 'none' }}
+        />
       </div>
     );
   }
