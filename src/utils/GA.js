@@ -26,8 +26,8 @@ const getSubscriptionAttr = (goodsInfoFlag) => {
 };
 
 export const getOtherSpecies = (item, attribute) => {
-  const { goodsAttributesValueRelVOList } = item;
-  return (goodsAttributesValueRelVOList || [])
+  const { goodsAttributesValueRelVOList, goodsAttributesValueRelList } = item;
+  return (goodsAttributesValueRelVOList || goodsAttributesValueRelList || [])
     .filter(
       (attr) =>
         attr?.goodsAttributeName?.toLowerCase() == attribute?.toLowerCase()
