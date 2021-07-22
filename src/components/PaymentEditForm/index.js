@@ -131,7 +131,7 @@ class PaymentEditForm extends React.Component {
         phoneReg = [{ mask: '+{7} (000) 000-00-00' }];
         break;
       case 'mx':
-        phoneReg = [{ mask: '+(52) 000 000 00' }];
+        phoneReg = [{ mask: '+(52) 000 000 0000' }];
         break;
       case 'tr':
         phoneReg = [{ mask: '{0} (000) 000-00-00' }];

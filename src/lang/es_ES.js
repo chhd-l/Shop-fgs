@@ -324,7 +324,7 @@ const es_ES = {
   estimatedTax: 'Importe estimado del impuesto',
   every: 'Cada',
   example: 'Ejemplo',
-  examplePhone: '+(52) 559 801 65',
+  examplePhone: '+(52) 559 801 6543',
   examplePostCode: '02860',
   expirationDateIsInvalid: 'la fecha de vencimiento de su tarjeta no es válida',
   'faq.frequentQuestions': 'Preguntas frecuentes',
