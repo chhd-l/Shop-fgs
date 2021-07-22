@@ -29,13 +29,13 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import question from '@/assets/images/home/question@2x.png';
-import CommentCarousel from '../../components/CommentCarousel';
+// import CommentCarousel from '../../components/CommentCarousel';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 const pageLink = window.location.href;
-const isMobile = getDeviceType() === 'H5'||getDeviceType()==='Pad';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-draw.jpg`;
 function Divider() {
   return (
@@ -89,21 +89,21 @@ function SamplePrevArrow(props) {
 }
 
 function HealthNutrition() {
-  const settings ={
+  const settings = {
     className: 'slider variable-width',
-     dots: true,
-     infinite: true,
+    dots: true,
+    infinite: true,
     // centerMode: true,
     slidesToShow: 1,
     // slidesToScroll: 1,
     // infinite: false,
     // variableWidth: true,
-    speed:500,
-    autoplay:true,
-    onLazyLoad:true,
-    accessibility:true,
+    speed: 500,
+    autoplay: true,
+    onLazyLoad: true,
+    accessibility: true,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    prevArrow: <SamplePrevArrow />
   };
 
   return (
@@ -220,7 +220,6 @@ function HealthNutrition() {
                       </div>
                     </div>
                   </Slider>
-
                 </div>
               </div>
               <div className="col-12 col-lg-8">
@@ -296,18 +295,17 @@ function HealthNutrition() {
 }
 
 function Share() {
-
-  const settingsShare ={
+  const settingsShare = {
     className: 'slider variable-width',
     dots: true,
     infinite: true,
-    slidesToShow: isMobile?1:4,
-    speed:500,
-    autoplay:true,
-    onLazyLoad:true,
-    accessibility:true,
+    slidesToShow: isMobile ? 1 : 4,
+    speed: 500,
+    autoplay: true,
+    onLazyLoad: true,
+    accessibility: true,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    prevArrow: <SamplePrevArrow />
   };
   return (
     {
@@ -315,7 +313,7 @@ function Share() {
         <div className="experience-component experience-layouts-1column">
           <div className="row rc-margin-x--none">
             <div className="rc-full-width">
-              <div className={"carousel-home-share pb-5"}>
+              <div className={'carousel-home-share pb-5'}>
                 <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                   <h3 className="rc-beta">Share With Us #RoyalCanin</h3>
                 </div>
@@ -330,7 +328,7 @@ function Share() {
                           className="rc-card__image"
                           data-rc-feature-objectfillpolyfill-setup="true"
                         >
-                          <LazyLoad height={200} style={{width: '100%'}}>
+                          <LazyLoad height={200} style={{ width: '100%' }}>
                             <img
                               className="w-100 lazyloaded"
                               alt="Royal Canin Dog Products on Social Media"
@@ -353,7 +351,7 @@ function Share() {
                           className="rc-card__image"
                           data-rc-feature-objectfillpolyfill-setup="true"
                         >
-                          <LazyLoad height={200} style={{width: '100%'}}>
+                          <LazyLoad height={200} style={{ width: '100%' }}>
                             <img
                               className="w-100 lazyloaded"
                               alt="Royal Canin Cat Products on Social Media"
@@ -376,7 +374,7 @@ function Share() {
                           className="rc-card__image"
                           data-rc-feature-objectfillpolyfill-setup="true"
                         >
-                          <LazyLoad height={200} style={{width: '100%'}}>
+                          <LazyLoad height={200} style={{ width: '100%' }}>
                             <img
                               className="w-100 lazyloaded"
                               alt="Royal Canin Dog Products on Social Media"
@@ -399,7 +397,7 @@ function Share() {
                           className="rc-card__image"
                           data-rc-feature-objectfillpolyfill-setup="true"
                         >
-                          <LazyLoad height={200} style={{width: '100%'}}>
+                          <LazyLoad height={200} style={{ width: '100%' }}>
                             <img
                               className="w-100 ls-is-cached lazyloaded"
                               alt="Royal Canin Cat Products on Social Media"
@@ -554,7 +552,6 @@ class Home extends React.Component {
     });
   };
   render() {
-
     const { history, match, location } = this.props;
 
     const event = {

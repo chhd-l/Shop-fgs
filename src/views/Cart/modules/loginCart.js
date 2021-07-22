@@ -44,7 +44,7 @@ import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
 import { v4 as uuidv4 } from 'uuid';
-import RelateProductCarousel from '@/components/RelateProductCarousel';
+import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
@@ -1691,7 +1691,7 @@ class LoginCart extends React.Component {
             )}
           </div>
           {this.state.relatedGoodsList.length > 0 ? (
-            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
+            <ProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

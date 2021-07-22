@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import RelateProductCarousel from '@/components/RelateProductCarousel';
+import ProductCarousel from '@/components/ProductCarousel';
 import { getGoodsRelation } from '@/api/details';
-import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
 interface Props {
   id: string;
 }
@@ -31,7 +30,7 @@ const HandledRelateProductCarousel = ({ id }: Props) => {
     }
   }, [id]);
   return relatedGoodsList.length > 0 ? (
-    <RelateProductCarousel goodsList={relatedGoodsList} />
+    <ProductCarousel goodsList={relatedGoodsList} />
   ) : null;
 };
 export default HandledRelateProductCarousel;

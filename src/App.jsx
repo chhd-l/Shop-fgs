@@ -85,8 +85,9 @@ const Mentionslegales = loadable(() =>
 );
 const Help = loadable(() => import('@/views/StaticPage/Help'));
 const ContactUs = loadable(() => import('@/views/StaticPage/ContactUs'));
-// const Packfeed = loadable(() => import('@/views/StaticPage/PackmixfeedingwetDry'), 'rc-carousel'); // todo slide
-import Packfeed from '@/views/StaticPage/PackmixfeedingwetDry';
+const Packfeed = loadable(() =>
+  import('@/views/StaticPage/PackmixfeedingwetDry')
+);
 const TermsConditions = loadable(() =>
   import('@/views/StaticPage/TermsAndConditions')
 );
@@ -129,13 +130,9 @@ const US_QualitySafety = loadable(() =>
   import('@/views/StaticPage/QualitySafety/US_index')
 );
 import SearchShow from '@/views/StaticPage/SearchShow';
-const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs/index.js'));
+const AboutUs = loadable(() => import('@/views/StaticPage/AboutUs'));
 const AboutUsDe = loadable(() => import('@/views/StaticPage/AboutUs/de-index'));
-// const CatNutrition = loadable(
-//   () => import('@/views/StaticPage/CatNutrition'),
-//   'rc-carousel'
-// ); // todo slide
-import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
+const CatNutrition = loadable(() => import('@/views/StaticPage/CatNutrition'));
 const CadeauCoussinChat = loadable(() =>
   import('@/views/StaticPage/CadeauCoussinChat')
 );
@@ -165,7 +162,9 @@ const Consent2TR = loadable(() =>
 );
 import register from '@/views/Register';
 import welcome from '@/views/Register/welcome.js';
-import KittenNutrition from '@/views/StaticPage/kitten-nutrition'; // todo silde
+const KittenNutrition = loadable(() =>
+  import('@/views/StaticPage/kitten-nutrition')
+);
 // import smartFeederSubscription from '@/views/SmartFeederSubscription';
 import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
 import CancelEmail from '@/views/StaticPage/CancelEmail';

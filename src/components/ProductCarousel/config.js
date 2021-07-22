@@ -15,7 +15,7 @@ function SampleNextArrow(props) {
       }}
       onClick={onClick}
     >
-      &#xe6f9;
+      <span className="iconjiantouyou1 iconfont rc-text-colour--text font-weight-bold ui-cursor-pointer" />
     </div>
   );
 }
@@ -24,7 +24,7 @@ function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
-      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev iconfont font-weight-bold icon-direction ui-cursor-pointer`}
+      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev icon-direction ui-cursor-pointer`}
       style={{
         ...style,
         left: '-5%',
@@ -35,27 +35,32 @@ function SamplePrevArrow(props) {
       }}
       onClick={onClick}
     >
-      &#xe6fa;
+      <span className="iconjiantouzuo1 iconfont rc-text-colour--text font-weight-bold ui-cursor-pointer" />
     </div>
   );
 }
 
 export const settings = {
   dots: true,
-  infinite: false,
+  // infinite: true,
   speed: 500,
   slidesToShow: 4,
   slidesToScroll: 4,
   initialSlide: 0,
+  // lazyLoad: true,
+  adaptiveHeight: true,
+  rows: 1,
+  // fade: true,
   nextArrow: <SampleNextArrow />,
   prevArrow: <SamplePrevArrow />,
+  // centerMode: true,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
         slidesToShow: 3,
         slidesToScroll: 3,
-        infinite: true,
+        // infinite: true,
         dots: true
       }
     },

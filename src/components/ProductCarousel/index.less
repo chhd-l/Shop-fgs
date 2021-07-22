@@ -1,5 +1,15 @@
 .responsive-carousel {
   margin-bottom: 20px;
+  .slick-track {
+    // display: flex;
+    height: 100%;
+  }
+  .slick-slide {
+    > * {
+      height: 100%;
+    }
+    // float: none;
+  }
   @media (min-width: 769px) {
     .slick-slider {
       width: 1200px;
@@ -10,7 +20,7 @@
     }
   }
 
-  h2 {
+  .related-prodout-title {
     text-align: center;
     color: rgb(236, 0, 26);
     height: 50px;
@@ -73,6 +83,7 @@
   position: relative !important;
   left: 50%;
   transform: translateX(-50%);
+  bottom: 0;
 }
 
 @media (max-width: 769px) {

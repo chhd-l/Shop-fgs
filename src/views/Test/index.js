@@ -6,7 +6,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import IMask from 'imask';
 import Select from 'react-select';
-import PickUp from '@/components/PickUp';
+// import PickUp from '@/components/PickUp';
 import { dynamicLoadCss, loadJS } from '@/utils/utils';
 
 import './index.less';

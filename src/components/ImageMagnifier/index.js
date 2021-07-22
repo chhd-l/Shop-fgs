@@ -363,14 +363,8 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    let {
-      images,
-      video,
-      taggingForText,
-      taggingForImage,
-      spuImages
-    } = this.props;
-    console.log(images, 'images');
+    let { images, video, taggingForText, taggingForImage, spuImages } =
+      this.props;
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {

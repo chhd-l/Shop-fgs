@@ -1,43 +1,46 @@
 const list1 = [
   {
-    imageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/Mini-Puppy-1-bis.jpg`,
-    imgUrl1: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/2013-reproduction-pro-packshots-babycat-milk-w150.jpg`,
-    imgUrl2: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/2013-reproduction-pro-packshots-babycat-milk-w300.jpg 2x`,
-    linkUrl: '/babycat-milk-2553',
-    title: 'Babycat milk',
+    goodsImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/2013-reproduction-pro-packshots-babycat-milk-w150.jpg`,
+    goodsImgSrcSet: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/2013-reproduction-pro-packshots-babycat-milk-w150.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/2013-reproduction-pro-packshots-babycat-milk-w300.jpg 2x`,
+    mainItemCode: '2553',
+    goodsName: 'Babycat milk',
     price: '',
     marketPrice: '21.00',
-    subTitle: 'De la naissance au sevrage - Lait 1er âge pour Chatons'
+    fromPrice: '21.00',
+    goodsNewSubtitle: 'De la naissance au sevrage - Lait 1er âge pour Chatons'
   },
   {
-    imageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-puppy-medium-shn17.jpg`,
-    imgUrl1: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/babycat-ru-fhn17-packshot-w150.jpg`,
-    imgUrl2: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/babycat-ru-fhn17-packshot-w300.jpg 2x`,
-    linkUrl: '/mother-babycat-2544',
-    title: 'Mother & Babycat',
+    goodsImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/babycat-ru-fhn17-packshot-w150.jpg`,
+    goodsImgSrcSet: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/babycat-ru-fhn17-packshot-w150.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/babycat-ru-fhn17-packshot-w300.jpg 2x`,
+    mainItemCode: '2544',
+    goodsName: 'Mother & Babycat',
     price: '44.99',
+    toPrice: '44.99',
     marketPrice: '25.99',
-    subTitle: 'Chattes en gestation/lactation et chaton de 1 à 4 mois'
+    fromPrice: '25.99',
+    goodsNewSubtitle: 'Chattes en gestation/lactation et chaton de 1 à 4 mois'
   },
   {
-    imageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-puppy-maxi-shn17.jpg`,
-    imgUrl1: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/16-kitten-ns-b1-w150.jpg`,
-    imgUrl2: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/16-kitten-ns-b1-w300.jpg 2x`,
-    linkUrl: '/kitten-2522',
-    title: 'Kitten',
+    goodsImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/16-kitten-ns-b1-w150.jpg`,
+    goodsImgSrcSet: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/16-kitten-ns-b1-w150.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/16-kitten-ns-b1-w300.jpg 2x`,
+    mainItemCode: '2522',
+    goodsName: 'Kitten',
     price: '84.99',
+    toPrice: '84.99',
     marketPrice: '24.99',
-    subTitle: 'Chaton jusqu’à 12 mois'
+    fromPrice: '24.99',
+    goodsNewSubtitle: 'Chaton jusqu’à 12 mois'
   },
   {
-    imageUrl: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-med-ad-shn17.jpg`,
-    imgUrl1: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/fbn2016-packshot-maine-coon-kitten-w150.jpg`,
-    imgUrl2: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/fbn2016-packshot-maine-coon-kitten-w300.jpg 2x`,
-    linkUrl: '/chaton-maine-coon--2558',
-    title: 'Chaton Maine Coon ',
+    goodsImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/fbn2016-packshot-maine-coon-kitten-w150.jpg`,
+    goodsImgSrcSet: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/fbn2016-packshot-maine-coon-kitten-w150.jpg, ${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/fbn2016-packshot-maine-coon-kitten-w300.jpg 2x`,
+    mainItemCode: '2558',
+    goodsName: 'Chaton Maine Coon ',
     price: '95.99',
+    toPrice: '95.99',
     marketPrice: '29.99',
-    subTitle: 'Maine Coon chaton - jusqu’à 15 mois'
+    fromPrice: '29.99',
+    goodsNewSubtitle: 'Maine Coon chaton - jusqu’à 15 mois'
   }
 ];
 

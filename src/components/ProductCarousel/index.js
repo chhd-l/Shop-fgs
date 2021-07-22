@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { FormattedMessage } from 'react-intl';
 import { getDeviceType } from '@/utils/utils';
 import PLPCover from '@/components/PLPCover';
@@ -10,12 +12,17 @@ const isMobilePhone = getDeviceType() === 'H5';
 import './index.less';
 
 /**
- * 关联产品轮播组件
- * {Array} - goodsList 关联产品列表
+ * 产品轮播组件
+ * {Array} - goodsList 产品列表
  */
-export default class RelateProductCarousel extends Component {
+export default class ProductCarousel extends Component {
   static defaultProps = {
-    goodsList: []
+    goodsList: [],
+    title: (
+      <h2 className="related-prodout-title">
+        <FormattedMessage id="recommandedForyou" />
+      </h2>
+    )
   };
   render() {
     const { goodsList } = this.props;
@@ -28,9 +35,7 @@ export default class RelateProductCarousel extends Component {
     });
     return (
       <div className="responsive-carousel">
-        <h2>
-          <FormattedMessage id="recommandedForyou" />
-        </h2>
+        {this.props.title}
         <Slider {...settings}>
           {handledList.map((item, index) => {
             return (
@@ -48,11 +53,6 @@ export default class RelateProductCarousel extends Component {
                         .replace('/', '')}-${item.mainItemCode}`
                     : ''
                 }}
-                // isDogPage={isDogPage}
-                // sourceParam={this.state.sourceParam}
-                // GAListParam={GAListParam}
-                // breadListByDeco={breadListByDeco}
-                // headingTag={this.state.seoConfig.headingTag}
               />
             );
           })}

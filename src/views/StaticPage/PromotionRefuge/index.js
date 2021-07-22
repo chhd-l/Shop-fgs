@@ -4,33 +4,13 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject, observer } from 'mobx-react';
-import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
+import ProductCarousel from '@/components/ProductCarousel';
 import { list1, list2, list3, list4 } from './goods';
 import { Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class PromotionRefuge extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sourceParam: ''
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      sourceParam: this.props.location.search
-    });
-  }
-
   render(h) {
     const event = {
       page: {
@@ -42,6 +22,7 @@ class PromotionRefuge extends React.Component {
         type: 'Other'
       }
     };
+    const { sourceParam } = this.props.location.search;
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
@@ -142,15 +123,15 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Choisissez l’aliment le plus adapté à votre chaton
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list1}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2 px-md-0">
+                          <ProductCarousel
+                            goodsList={list1}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Choisissez l’aliment le plus adapté à votre
+                                chaton
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -165,15 +146,14 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco ">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Les besoins spécifiques de votre chat
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list2}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2">
+                          <ProductCarousel
+                            goodsList={list2}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Les besoins spécifiques de votre chat
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -188,15 +168,16 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Choisissez l’aliment le plus adapté à votre chien
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list3}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2">
+                          <div className="rc-margin-bottom--sm rc-padding--none"></div>
+                          <ProductCarousel
+                            goodsList={list3}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Choisissez l’aliment le plus adapté à votre
+                                chien
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
@@ -211,15 +192,14 @@ class PromotionRefuge extends React.Component {
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
                       <div className="product-reco">
-                        <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Les besoins spécifiques de votre chien
-                            </h4>
-                          </div>
-                          <Carouselem
-                            list={list4}
-                            sourceParam={this.state.sourceParam}
+                        <div className="rc-max-width--lg px-2">
+                          <ProductCarousel
+                            goodsList={list4}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Les besoins spécifiques de votre chien
+                              </h4>
+                            }
                           />
                         </div>
                       </div>
