@@ -4,21 +4,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import CATSPng from './images/CATS2@2x.jpg';
 import catAndPhone from './images/catAndPhone.png';
-import { IMG_DEFAULT } from '@/utils/constant';
-import videoPng from './images/video.png';
-import expertisePng from './images/expertise.png';
-import qualityPng from './images/quality.png';
-import partnershipPng from './images/partnership.png';
-import { getList } from '@/api/list';
 import mockData from './mock.json';
-import { formatMoney } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import './index.less';
-import Slider from 'react-slick';
-// import Rate from '@/components/Rate';
+import ProductCarousel from '@/components/ProductCarousel';
 import Help from '../../SmartFeederSubscription/modules/Help';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
@@ -32,9 +24,12 @@ class ShelterPrescription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: mockData.data,
+      list: mockData.data.map((ele) =>
+        Object.assign(ele, {
+          goodsImg: `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${ele.goodsImg}`
+        })
+      ),
       defalutList: Array(8).fill({}),
-      // list: [{}]
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -77,125 +72,20 @@ class ShelterPrescription extends React.Component {
     }
   };
   componentDidMount() {
+    const { clinicStore } = this.props;
     setSeoConfig({
       pageName: 'Shelter landing page'
     }).then((res) => {
       this.setState({ seoConfig: res });
     });
 
-    let clinicId = funcUrl({ name: 'shelterID' });
-    this.props.clinicStore.setLinkClinicId(clinicId);
-    this.props.clinicStore.setLinkClinicName('');
-    this.props.clinicStore.setAuditAuthority(false);
-    // this.getDefaultList();
+    const clinicId = funcUrl({ name: 'shelterID' });
+    clinicStore.setLinkClinicId(clinicId);
+    clinicStore.setLinkClinicName('');
+    clinicStore.setAuditAuthority(false);
   }
-  getDefaultList() {
-    let goodsIds = [
-      '2c91808577d2c0dd0177d2ca8161016c',
-      '2c91808577d2c0dd0177d2ca61580097',
-      '2c918085768f3a4101768f3f464b0084',
-      '2c918085768f3a4101768f3f053e0071',
-      '2c91808577417a280177419f2c790000',
-      '2c918085768f3a4101768f3f73c10093',
-      '2c918085781fb64701781feace710003'
-    ];
-    // try {
-    // //   res = await getList({ goodsIds });
-    // // } catch (err) {
-    // //   res = mockData;
-    // }
-    let res = mockData;
-    let list = res.data;
-    this.setState({ list });
-    console.info('.....', list);
-  }
-  getListItem = (idx) => {
-    let item = this.state.list[idx] || {};
-    return (
-      <Link
-        target="_blank"
-        to={{
-          pathname: item
-            ? `/${
-                item.name
-                  ? item.name
-                      .toLowerCase()
-                      .split(' ')
-                      .join('-')
-                      .replace('/', '')
-                  : ''
-              }-${item.goodsNo}`
-            : ''
-        }}
-      >
-        {/* <Link to="/"> */}
-        <a className="rc-card__link rc-card--product">
-          <article className="rc-card rc-card--b rc-outline-light slik-list-article">
-            <picture className="rc-card__image">
-              <img
-                className="m-auto"
-                style={{ maxHeight: '150px', maxWidth: '150px' }}
-                alt={item.name}
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/recommendation/${item.goodsImg}`}
-              />
-            </picture>
-            <div className="rc-card__body">
-              <header>
-                <h3
-                  className="ui-text-overflow-line2 rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
-                  // style={{ height: '64px' }}
-                >
-                  {item.name}
-                </h3>
-              </header>
-              <div
-                className="ui-text-overflow-line2"
-                // style={{ height: '48px' }}
-              >
-                {item.goodsSubtitle}
-              </div>
-              {/* <div className="rc-btn-group">
-                <Rate def={2} disabled={true} marginSize="smallRate" />
-                <span
-                  className="comments rc-margin-left--xs rc-text-colour--text"
-                  style={{ marginTop: '3px' }}
-                >
-                  (12)
-                </span>
-              </div> */}
-              {item.upperPrice ? (
-                <div>from</div>
-              ) : (
-                <div style={{ color: '#fff' }}>from</div>
-              )}
-              <div className="price-item">{formatMoney(item.lowPrice)}</div>
-            </div>
-          </article>
-        </a>
-        {Boolean(window.__.env.REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW) && (
-          <span className="warning_blank">Opens a new window</span>
-        )}
-      </Link>
-    );
-  };
   render() {
     const { match, history, location } = this.props;
-    let slideWidth = (document.body.clientWidth - 48) / 1.5;
-    const settings = {
-      className: 'slider variable-width',
-      // dots: true,
-      // infinite: true,
-      // centerMode: true,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      infinite: false,
-      variableWidth: true
-    };
-    const settingsPC = {
-      dots: true,
-      slidesToShow: 4,
-      slidesToScroll: 4
-    };
     return (
       <div className="shelter-prescription">
         <Helmet>
@@ -306,54 +196,14 @@ class ShelterPrescription extends React.Component {
           </div>
           <div id="selectProduct" className="select-position"></div>
           <div className="rc-padding-top--md rc-padding-x--xl--desktop">
-            <h2 className="rc-gamma rc-text--center rc-margin-bottom--md">
-              Select your product from recommendations
-            </h2>
-            <div className=" rc-md-up">
-              {/* <Slider {...settingsPC}>
-                {this.state.defalutList.map((item, idx) => (
-                  <div className={`swiper-slide`} key={idx}>
-                    <div
-                      style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
-                    >
-                      {this.getListItem(item)}
-                    </div>
-                  </div>
-                ))}
-              </Slider> */}
-              <div
-                className="rc-carousel rc-carousel--cards rc-match-heights"
-                data-js-carousel=""
-                data-rc-cards="true"
-              >
-                <div className="rc-carousel__card-gal product-list">
-                  {this.state.defalutList.map((item, idx) => (
-                    <div className="for-last-hidden">
-                      {this.getListItem(idx)}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="rc-md-down rc-padding-x--lg">
-              <Slider {...settings}>
-                {this.state.list.map((item, idx) => (
-                  <div
-                    style={{
-                      width: slideWidth
-                    }}
-                    className={`swiper-slide`}
-                    key={idx}
-                  >
-                    <div
-                      style={{ padding: '0 0.5rem', boxSizing: 'border-box' }}
-                    >
-                      {this.getListItem(idx)}
-                    </div>
-                  </div>
-                ))}
-              </Slider>
-            </div>
+            <ProductCarousel
+              goodsList={this.state.list}
+              title={
+                <h2 className="rc-gamma rc-text--center rc-margin-bottom--md">
+                  Select your product from recommendations
+                </h2>
+              }
+            />
           </div>
           <div className="rc-padding-top--lg text-center">
             <Help
@@ -366,13 +216,13 @@ class ShelterPrescription extends React.Component {
             <div
               className="rc-border-bottom rc-border-colour--brand4"
               style={{ borderBottomWidth: '4px' }}
-            ></div>
+            />
           </div>
           <div className="experience-component experience-assets-divider">
             <div
               className="rc-border-bottom rc-border-colour--brand4"
               style={{ borderBottomWidth: '4px' }}
-            ></div>
+            />
           </div>
           <div className="rc-max-width--md text-center section-why text-center">
             <div className="rc-max-width--md text-center rc-margin-y--md">

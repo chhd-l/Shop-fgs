@@ -166,7 +166,9 @@ const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
 // import smartFeederSubscription from '@/views/SmartFeederSubscription';
-import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
+const ShelterPrescription = loadable(() =>
+  import('@/views/StaticPage/ShelterPrescription')
+);
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
