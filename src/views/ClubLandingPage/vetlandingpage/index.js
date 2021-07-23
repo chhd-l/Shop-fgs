@@ -4,10 +4,6 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import cat from './images/cat.jpg';
-import dog from './images/dog.jpg';
-import { inject, observer } from 'mobx-react';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
@@ -34,10 +30,6 @@ function Divider() {
   );
 }
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class VetLandingPage extends React.Component {
   constructor(props) {
     super(props);
@@ -46,8 +38,7 @@ class VetLandingPage extends React.Component {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
-      },
-      intl: this.props.intl.messages
+      }
     };
   }
 
@@ -97,14 +88,13 @@ class VetLandingPage extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          {/* {window.__.env.REACT_APP_COUNTRY == 'fr' ? null: <BannerTip />} */}
           <br />
           <BreadCrumbs />
           <div className="storefront-page">
             <nav
               className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs rc-margin-top--xs "
               data-progress-setup="true"
-            ></nav>
+            />
             <div className="experience-region experience-main">
               {/* <div className="experience-component experience-layouts-1column">
                 <div className="row rc-margin-x--none">

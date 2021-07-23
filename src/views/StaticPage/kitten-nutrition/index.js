@@ -4,27 +4,13 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject, observer } from 'mobx-react';
-import Carouselem from '@/components/Carouselem';
+import ProductCarousel from '@/components/ProductCarousel';
 import LazyLoad from 'react-lazyload';
 import { list1 } from './goods';
 import { Link } from 'react-router-dom';
-const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class PromotionRefuge extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {}
-
-  render(h) {
+  render() {
     const event = {
       page: {
         error: 'none',
@@ -97,13 +83,15 @@ class PromotionRefuge extends React.Component {
                     <div className="content-asset">
                       <div className="product-reco">
                         <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Choisissez l'aliment ROYAL CANIN® le plus adapté à
-                              votre chaton
-                            </h4>
-                          </div>
-                          <Carouselem list={list1} />
+                          <ProductCarousel
+                            goodsList={list1}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Choisissez l'aliment ROYAL CANIN® le plus adapté
+                                à votre chaton
+                              </h4>
+                            }
+                          />
                         </div>
                       </div>
                     </div>
@@ -234,7 +222,7 @@ class PromotionRefuge extends React.Component {
                                 alt="Les aliments Royal Canin pour chatons"
                                 title="Les aliments Royal Canin pour chatons"
                                 src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dwdac1b4fd/Breed-Cats-&-Dogs/KITTEN 5A.jpg?sw=622&sfrm=png"
-                              ></img>
+                              />
                             </picture>
                           </div>
                           <div className="col-12 col-lg-6">

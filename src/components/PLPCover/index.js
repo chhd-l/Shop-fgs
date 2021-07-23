@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import InlineRatings from '@/components/BazaarVoice/inlineRatings';
+import './index.less';
 
 const isMobilePhone = getDeviceType() === 'H5';
 const retailDog =
@@ -155,6 +156,7 @@ function ListItemH5ForGlobalStyle(props) {
                           IMG_DEFAULT
                         : ''
                     }
+                    srcSet={item?.goodsImgSrcSet || ''}
                     alt={item.goodsName}
                     title={item.goodsName}
                     className="ImgFitScreen"
@@ -320,7 +322,7 @@ function ListItemForDefault(props) {
                         )[0].goodsInfoImg ||
                         IMG_DEFAULT
                       }
-                      // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
+                      srcSet={item?.goodsImgSrcSet || ''}
                       alt={`${item.goodsName} product image`}
                       title={item.goodsName}
                       className="ImgFitScreen "
@@ -653,7 +655,7 @@ function ListItemBody({ item, headingTag, configStore }) {
     </>
   );
   return (
-    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start pl-0 pr-0 pc-product-card">
+    <div className="rc-card__body rc-padding-top--none justify-content-start pl-0 pr-0 pc-product-card">
       {window.__.env.REACT_APP_PLP_STYLE === 'layout-global' ? (
         <>
           <div className="height-product-tile-plpOnly pl-4 pr-4">

@@ -29,7 +29,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns-tz';
 import Banner_Cat from './images/banner_Cat.jpg';
 import Banner_Dog from './images/banner_Dog.jpg';
-import RelateProductCarousel from '@/components/RelateProductCarousel';
+import ProductCarousel from '@/components/ProductCarousel';
 import { findPetProductForClub } from '@/api/subscription';
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -473,7 +473,7 @@ class PetForm extends React.Component {
             ) : null}
             <div>
               {this.state.recommendData.length && isChoosePetType ? (
-                <RelateProductCarousel
+                <ProductCarousel
                   location={this.props.location}
                   history={this.props.history}
                   goodsList={

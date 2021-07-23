@@ -40,7 +40,7 @@ import SubscriptionSelection from '../components/SubscriptionSelection';
 import OneOffSelection from '../components/OneOffSelection';
 import ClubSelection from '../components/ClubSelection';
 import ClubGiftBanner from '../components/ClubGiftBanner';
-import RelateProductCarousel from '@/components/RelateProductCarousel';
+import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
@@ -1728,7 +1728,7 @@ class UnLoginCart extends React.Component {
             )}
           </div>
           {this.state.relatedGoodsList.length > 0 ? (
-            <RelateProductCarousel goodsList={this.state.relatedGoodsList} />
+            <ProductCarousel goodsList={this.state.relatedGoodsList} />
           ) : null}
           <Footer />
         </main>

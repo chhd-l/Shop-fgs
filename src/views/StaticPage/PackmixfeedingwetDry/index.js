@@ -15,24 +15,13 @@ import imagedog from './images/dog-autoship.png';
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { list1, list2 } from './goods';
+import ProductCarousel from '@/components/ProductCarousel';
 
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-function formatMoney(price) {
-  if (price.indexOf('.') > -1) {
-    return price.replace('.', ',');
-  }
-  return price;
-}
-
 class Packfeed extends React.Component {
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {}
-
   render(h) {
     const event = {
       page: {
@@ -99,203 +88,32 @@ class Packfeed extends React.Component {
             </div>
           </div>
           <div className="rc-max-width--lg rc-padding-x--lg--mobile">
-            <div className="rc-margin-bottom--sm rc-padding--none">
-              <h4 className="rc-gamma text-center">
-                Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre
-                chat
-              </h4>
-            </div>
-            {/* <section
-            style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
-          >
-            <h2
-              style={{
-                color: '#E2001A',
-                marginTop: '40px'
-              }}
-            >
-              Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chat
-            </h2>
-            <br />
-          </section> */}
-
             {/*//轮播图图图图图图图突突突*/}
-            <div style={{ margin: '0 auto' }}>
-              <div
-                className="rc-carousel rc-carousel--cards rc-match-heights"
-                data-js-carousel=""
-                data-rc-cards="true"
-                data-rows="6"
-                data-rc-prev="prev"
-                data-rc-next="next"
-              >
-                <div className="rc-carousel__card-gal">
-                  {list1.map((item, index) => {
-                    return (
-                      <article
-                        className="rc-card1 rc-card--b1 align-self-stretch tns-item tns-slide-active"
-                        id="tns2-item1"
-                        key={index}
-                      >
-                        <Link
-                          to={`${item.linkUrl}`}
-                          className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
-                        >
-                          {/* <Link key={index} to={item.linkUrl}> */}
-                          <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
-                            <div className="row h-100">
-                              <picture
-                                className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
-                                data-rc-feature-objectfillpolyfill-setup="true"
-                              >
-                                <LazyLoad style={{ width: '100%' }}>
-                                  <img
-                                    className="m-auto lazyloaded"
-                                    alt={item.title}
-                                    title={item.title}
-                                    src={item.imageUrl}
-                                    alt="alt text"
-                                  />
-                                </LazyLoad>
-                              </picture>
-                              <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
-                                <header>
-                                  <h3
-                                    style={{ lineHeight: '2rem' }}
-                                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                </header>
-                                <div className="Product-Key-words"></div>
-                                <div className="rc-card__price rc-margin-top--xs">
-                                  <span>
-                                    <span>
-                                      <span className="sales">
-                                        <span
-                                          className="value text-black"
-                                          content={item.price}
-                                        >
-                                          {formatMoney(item.price)} €
-                                        </span>
-                                      </span>
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="rc-card__meta text-center col-12">
-                                {item.subTitle}
-                              </div>
-                            </div>
-                          </article>
-                          {/* </Link> */}
-                        </Link>
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+            <ProductCarousel
+              goodsList={list1}
+              title={
+                <h4 className="rc-gamma text-center">
+                  Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre
+                  chat
+                </h4>
+              }
+            />
           </div>
 
           {/*轮播停止*/}
           <br />
           <br />
           <div className="rc-max-width--lg rc-padding-x--lg--mobile">
-            <div className="rc-margin-bottom--sm rc-padding--none">
-              <h4 className="rc-gamma text-center">
-                Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre
-                chien
-              </h4>
-            </div>
-            {/* <section
-            style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
-          >
-            <h2
-              style={{
-                color: '#E2001A',
-              }}
-            >
-              Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chien
-            </h2>
-          </section> */}
             {/*//轮播图图图*/}
-            <div style={{ margin: '0 auto' }}>
-              <div
-                className="rc-carousel rc-carousel--cards rc-match-heights"
-                data-js-carousel=""
-                data-rc-cards="true"
-                data-rows="6"
-                data-rc-prev="prev"
-                data-rc-next="next"
-              >
-                <div className="rc-carousel__card-gal">
-                  {list2.map((item, index) => {
-                    return (
-                      <article
-                        className="rc-card1 rc-card--b1 align-self-stretch tns-item tns-slide-active"
-                        id="tns1-item2"
-                        key={index}
-                      >
-                        <Link
-                          to={`${item.linkUrl}`}
-                          data-pid={index}
-                          target=""
-                          className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
-                        >
-                          <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
-                            <div className="row h-100">
-                              <picture
-                                className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
-                                data-rc-feature-objectfillpolyfill-setup="true"
-                              >
-                                <LazyLoad style={{ width: '100%' }}>
-                                  <img
-                                    className="m-auto lazyloaded"
-                                    alt={item.title}
-                                    title={item.title}
-                                    src={item.imageUrl}
-                                    alt="alt text"
-                                  />
-                                </LazyLoad>
-                              </picture>
-                              <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
-                                <header>
-                                  <h3
-                                    style={{ lineHeight: '2rem' }}
-                                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                </header>
-                                <div className="Product-Key-words"></div>
-                                <div className="rc-card__price rc-margin-top--xs">
-                                  <span>
-                                    <span>
-                                      <span className="sales">
-                                        <span
-                                          className="value text-black"
-                                          content={item.price}
-                                        >
-                                          {item.price} €
-                                        </span>
-                                      </span>
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="rc-card__meta text-center col-12">
-                                {item.subTitle}
-                              </div>
-                            </div>
-                          </article>
-                        </Link>
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+            <ProductCarousel
+              goodsList={list2}
+              title={
+                <h4 className="rc-gamma text-center">
+                  Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre
+                  chien
+                </h4>
+              }
+            />
           </div>
 
           <div className="experience-component experience-layouts-1column">

@@ -370,7 +370,6 @@ class ImageMagnifier extends Component {
       taggingForImage,
       spuImages
     } = this.props;
-    console.log(images, 'images');
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {

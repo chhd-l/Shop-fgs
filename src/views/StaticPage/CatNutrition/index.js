@@ -4,9 +4,7 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject, observer } from 'mobx-react';
-import Carouselem from '@/components/Carouselem';
+import ProductCarousel from '@/components/ProductCarousel';
 import './index.css';
 import LazyLoad from 'react-lazyload';
 import { list1 } from './goods';
@@ -14,10 +12,6 @@ import { Link } from 'react-router-dom';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class CatNutrition extends React.Component {
   constructor(props) {
     super(props);
@@ -108,12 +102,14 @@ class CatNutrition extends React.Component {
                     <div className="content-asset">
                       <div className="product-reco">
                         <div className="rc-max-width--lg">
-                          <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">
-                              Nos meilleures ventes
-                            </h4>
-                          </div>
-                          <Carouselem list={list1} />
+                          <ProductCarousel
+                            goodsList={list1}
+                            title={
+                              <h4 className="rc-gamma text-center">
+                                Nos meilleures ventes
+                              </h4>
+                            }
+                          />
                         </div>
                       </div>
                     </div>

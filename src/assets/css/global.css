@@ -19967,6 +19967,7 @@ button.rc-btn.tooltip-btn {
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
+    padding-bottom: 0.625rem;
   }
 }
 
