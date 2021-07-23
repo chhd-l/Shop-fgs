@@ -179,7 +179,6 @@ const ClubLandingPageDe = loadable(() =>
 const ClubLandingPageDeVet = loadable(() =>
   import('@/views/ClubLandingPageNew/devetlandingpage')
 );
-const ClubLandingPage = loadable(() => import('@/views/ClubLandingPage'));
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
 );
@@ -367,19 +366,6 @@ const App = () => {
                       ? TermsConditions
                       : TermsConditionsUs
                   }
-                />
-                <Route
-                  exact
-                  path="/club-subscriptionbyebye"
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'ru':
-                      case 'tr':
-                        return <ClubLandingPage {...props} />;
-                      default:
-                        return <Exception {...props} />;
-                    }
-                  }}
                 />
                 <Route
                   exact
