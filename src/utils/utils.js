@@ -226,6 +226,7 @@ export function loadJS({
   id
 }) {
   var script = document.createElement('script');
+
   if (className) {
     script.className = className;
   }
