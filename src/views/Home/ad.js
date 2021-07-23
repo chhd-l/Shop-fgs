@@ -23,7 +23,7 @@ export function Ads() {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
-                    <Link to="/cats/retail-products?prefn1=Technology&prefv1=Bouch%C3%A9es-en-sauce-ou-en-gel%C3%A9e">
+                    <Link to="/dogs/retail-products?prefn1=Technology&prefv1=Aliment-humide">
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
                           media="(max-width: 640px)"
