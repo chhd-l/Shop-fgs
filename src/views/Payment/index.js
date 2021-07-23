@@ -866,7 +866,6 @@ class Payment extends React.Component {
     if (selectedCardInfo && selectedCardInfo.paymentToken) {
       try {
         // 获取token，避免传给接口明文cvv
-        // console.log(selectedCardInfo, 'selectedCardInfo');
         this.startLoading();
         let cvvResult = await new Promise((resolve) => {
           window.POS.tokenize(
@@ -3139,6 +3138,9 @@ class Payment extends React.Component {
     if (selectedCardInfo) {
       paymentMethod = selectedCardInfo;
     }
+
+    console.log('666 -->>>>> paymentMethod: ', paymentMethod);
+
     let lastFourDeco;
     let brandDeco;
     let holderNameDeco;
@@ -3188,6 +3190,7 @@ class Payment extends React.Component {
         ret = <div className="col-12 col-md-6">{email}</div>;
         break;
     }
+
     return (
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
