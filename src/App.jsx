@@ -171,7 +171,8 @@ import CancelEmail from '@/views/StaticPage/CancelEmail';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
-const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
+import ClubLandingPageNew from '@/views/ClubLandingPageNew';
+// const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')
 );
