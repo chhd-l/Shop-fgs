@@ -278,9 +278,8 @@ class AddressList extends React.Component {
       const tmpObj =
         find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
 
-      // 查询银行卡列表
-      this.isDeliverAddress &&
-        this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+      // queryAddressList 查询银行卡列表
+      // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
       let editaddObj = [];
