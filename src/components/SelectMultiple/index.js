@@ -52,7 +52,7 @@ export default class Selection extends React.Component {
     this.setState(
       {
         selectedItem: { val, ...item },
-        optionsVisible: false,
+        // optionsVisible: false,
         selectArray: selectedArr
       },
       () => {
@@ -134,7 +134,7 @@ export default class Selection extends React.Component {
     e.stopPropagation();
   };
   render() {
-    const { optionList, customStyleType, wider } = this.props;
+    const { optionList, customStyleType, wider, placeholder } = this.props;
     const {
       dataList,
       selectedItem,
@@ -145,7 +145,7 @@ export default class Selection extends React.Component {
     const selectedValues = this.props.selectedItemData?.value?.split(',');
     const innerChooseVal = selectedValues
       ?.filter((item) => optionList?.find((el) => el.value == item))
-      ?.toString();
+      .join(', ');
     return (
       <div
         onBlur={this.onBlurHandler}
@@ -170,11 +170,12 @@ export default class Selection extends React.Component {
           >
             <div className="choices__list choices__list--single d-flex justify-content-center align-items-center">
               <div
-                className="choices__item choices__item--selectable"
+                className="choices__item choices__item--selectable choices__item--selectable-input"
+                contenteditable="true"
+                placeholder={placeholder}
                 aria-selected="true"
               >
                 {innerChooseVal}
-                &nbsp;
               </div>
             </div>
           </div>

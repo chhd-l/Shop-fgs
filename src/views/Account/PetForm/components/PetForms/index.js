@@ -654,6 +654,7 @@ const PetForms = ({
             {window.__.env.REACT_APP_COUNTRY == 'us' ? (
               <SelectMultiple
                 optionList={sensitivityLists}
+                placeholder="Select one or more needs"
                 selectedItemChange={(el, selectedItem) =>
                   multipleSelSpecialNeedsOptionsChange(el, selectedItem)
                 }
