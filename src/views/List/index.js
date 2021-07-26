@@ -857,13 +857,15 @@ class List extends React.Component {
     });
 
     type !== 'pageChange' &&
-      dataLayer.push({
-        event: 'plpScreenLoad',
-        plpScreenLoad: {
-          nbResults: totalElements,
-          userRequest: keywords || ''
-        }
-      });
+      setTimeout(() => {
+        dataLayer.push({
+          event: 'plpScreenLoad',
+          plpScreenLoad: {
+            nbResults: totalElements,
+            userRequest: keywords || ''
+          }
+        });
+      }, 3000);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
