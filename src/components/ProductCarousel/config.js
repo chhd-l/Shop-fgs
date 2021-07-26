@@ -48,7 +48,7 @@ export const settings = {
   slidesToScroll: 4,
   initialSlide: 0,
   // lazyLoad: true,
-  adaptiveHeight: true,
+  // adaptiveHeight: true,
   rows: 1,
   // fade: true,
   nextArrow: <SampleNextArrow />,
