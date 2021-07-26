@@ -1172,7 +1172,11 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>{' '}
-        <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
+        <p
+          onClick={this.handleClickEdit}
+          className="rc-styled-link mb-1"
+          style={{ cursor: 'pointer' }}
+        >
           <FormattedMessage id="edit" />
         </p>
       </>

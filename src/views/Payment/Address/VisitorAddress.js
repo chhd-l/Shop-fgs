@@ -301,7 +301,11 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
+        <p
+          onClick={this.handleClickEdit}
+          className="rc-styled-link mb-1"
+          style={{ cursor: 'pointer' }}
+        >
           <FormattedMessage id="edit" />
         </p>
       </>
