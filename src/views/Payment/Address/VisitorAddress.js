@@ -31,6 +31,7 @@ class VisitorAddress extends React.Component {
     showDeliveryDateTimeSlot: false,
     initData: null,
     titleVisible: true,
+    deliveryOrPickUp: 0,
     showConfirmBtn: true,
     isValidationModal: true, // 是否显示验证弹框
     updateFormValidStatus: () => {},
@@ -454,9 +455,14 @@ class VisitorAddress extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    this.setState({
-      selectDeliveryOrPickUp: num
-    });
+    this.setState(
+      {
+        selectDeliveryOrPickUp: num
+      },
+      () => {
+        this.props.paymentUpdateDeliveryOrPickup(num);
+      }
+    );
   };
   // 更新 pickup编辑次数
   updatePickupEditNumber = (num) => {
@@ -615,7 +621,7 @@ class VisitorAddress extends React.Component {
           panelStatus.isEdit ? (
             <fieldset className="shipping-address-block rc-fieldset">
               {/* 俄罗斯 pickup */}
-              {deliveryOrPickUpFlag && (
+              {deliveryOrPickUpFlag && !panelStatus.isCompleted ? (
                 <HomeDeliveryOrPickUp
                   key={this.state.defaultCity}
                   isLogin={false}
@@ -630,7 +636,7 @@ class VisitorAddress extends React.Component {
                   calculateFreight={this.calculateFreight}
                   pickupEditNumber={pickupEditNumber}
                 />
-              )}
+              ) : null}
 
               {selectDeliveryOrPickUp == 1 && <>{_editForm}</>}
 
