@@ -171,7 +171,11 @@ class ClinicForm extends React.Component {
               &#xe68c;
             </span>
           </h5>
-          <p onClick={this.gotoPrescriptionPage} className="rc-styled-link">
+          <p
+            onClick={this.gotoPrescriptionPage}
+            className="rc-styled-link"
+            style={{ cursor: 'pointer' }}
+          >
             <FormattedMessage id="edit" />
           </p>
         </div>
@@ -203,7 +207,7 @@ class ClinicForm extends React.Component {
             <p
               onClick={this.handleClickEdit}
               className="rc-styled-link mb-1"
-              style={{ whiteSpace: 'nowrap' }}
+              style={{ whiteSpace: 'nowrap', cursor: 'pointer' }}
             >
               <FormattedMessage id="edit" />
             </p>

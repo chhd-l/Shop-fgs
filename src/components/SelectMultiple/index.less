@@ -36,7 +36,8 @@
 
 .choices__inner {
   max-width: 27rem;
-  padding: .8em 1.6rem .7em 0 !important;
+  height: 64px !important;
+  padding: .8em 1.6rem 0 0 !important;
 }
 
 .choices[data-type*='select-one'] .choices__inner {
@@ -69,4 +70,17 @@
   .choices__inner {
     height: 100%;
   }
+}
+
+.choices__item--selectable-input{
+  height: 40px !important;
+  line-height: 40px;
+  &:focus-visible {
+    outline: none;
+  }
+}
+.choices__item--selectable-input:empty::before{
+  // color:lightgrey;
+  color:'#495057';
+  content:attr(placeholder);
 }
