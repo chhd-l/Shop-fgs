@@ -504,6 +504,7 @@ class VisitorAddress extends React.Component {
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
         workTime: pickupFormData.workTime,
         provinceIdStr: pkaddr?.regionFias,
+        province: pkaddr?.region,
         cityIdStr: pkaddr?.cityFias,
         areaIdStr: pkaddr?.areaFias,
         settlementIdStr: pkaddr?.settlementFias,
