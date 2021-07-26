@@ -114,7 +114,7 @@ class VisitorAddress extends React.Component {
       });
       this.props.updateData(data);
     } catch (err) {
-      console.log(' err msg: ', err);
+      // console.log(' err msg: ', err);
       this.setState({ isValid: false, visitorValidationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
@@ -199,6 +199,7 @@ class VisitorAddress extends React.Component {
   handleClickConfirm = async () => {
     const { isValid, unConfirmedForm } = this.state;
     const { isValidationModal } = this.props;
+    // console.log('666 游客确认 type： ', this.props.type);
     if (!isValid) {
       return false;
     }
@@ -251,7 +252,6 @@ class VisitorAddress extends React.Component {
       key: this.curPanelKey,
       hideOthers: true
     });
-    this.props.updateValidationStaus(true);
     // 设置home delivery状态
     this.setRuDeliveryOrPickUp();
   };
@@ -651,7 +651,7 @@ class VisitorAddress extends React.Component {
                   ) : (
                     <>
                       <button
-                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                        className={`rc-btn rc-btn--one rc-btn--sm visitor_address_confirm ${
                           this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
                         }`}
                         disabled={isValid && formAddressValid ? false : true}

@@ -1560,7 +1560,7 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    console.log('666 ★ 封装下单参数: ', param);
+    // console.log('666 ★ 封装下单参数: ', param);
 
     // 1: HOMEDELIVERY , 2: PICKUP
     if (deliveryAddress?.receiveType == 'HOME_DELIVERY') {
@@ -2144,6 +2144,7 @@ class Payment extends React.Component {
   };
   // 抓取异常信息
   catchAddOrEditAddressErrorMessage = (msg) => {
+    // console.log('666 ★★ 抓取异常：',msg)
     this.showErrorMsg(msg);
   };
 
@@ -2197,6 +2198,7 @@ class Payment extends React.Component {
               saveAddressNumber={this.state.saveAddressNumber}
               guestEmail={guestEmail}
               updateValidationStaus={this.updateValidationStaus}
+              catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
@@ -2304,6 +2306,7 @@ class Payment extends React.Component {
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
+                catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               />
             )}
           </>
@@ -2522,11 +2525,9 @@ class Payment extends React.Component {
           this.unLoginBillingAddrRef.current
         ) {
           // 游客确认
-          this.unLoginBillingAddrRef.current.handleClickConfirm();
+          await this.unLoginBillingAddrRef.current.handleClickConfirm();
         }
       }
-
-      // console.log('★ ----------------- 游客和会员绑卡后执行');
       this.setPaymentToCompleted();
     } catch (e) {
       this.showErrorMsg(e.message);
@@ -2618,13 +2619,13 @@ class Payment extends React.Component {
   };
   // 点击按钮后进入下一步
   setPaymentToCompleted = () => {
-    // console.log('★ --- setPaymentToCompleted 跳过验证，下一步 ');
     this.cvvConfirmNextPanel();
   };
   // 已绑卡 下一步
   cvvConfirmNextPanel = async () => {
     const { isLogin } = this;
     const { paymentStore } = this.props;
+    console.log('666 ★ --- cvvConfirmNextPanel 跳过验证，下一步 ');
     // 清空 VisitorAddress 参数 && !billingChecked
     if (
       !isLogin &&
@@ -3138,8 +3139,6 @@ class Payment extends React.Component {
     if (selectedCardInfo) {
       paymentMethod = selectedCardInfo;
     }
-
-    console.log('666 -->>>>> paymentMethod: ', paymentMethod);
 
     let lastFourDeco;
     let brandDeco;
