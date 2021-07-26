@@ -40,6 +40,7 @@ const list1 = [
     price: '40.99',
     marketPrice: '',
     fromPrice: '40.99',
+    miMarketPrice: '40.99',
     goodsNewSubtitle: 'Chat stérilisé de plus de 7 ans - Tendance à quémander'
   }
 ];

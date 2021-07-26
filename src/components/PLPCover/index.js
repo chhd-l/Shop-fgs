@@ -616,7 +616,7 @@ const PriceItemShow = ({ item, configStore }) => {
 };
 function ListItemBody({ item, headingTag, configStore }) {
   const goodHeading = `<${headingTag ? headingTag : 'h2'}
-      class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center pl-4 pr-4"
+      class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item?.goodsName}">
       ${item?.goodsName}
   </${headingTag ? headingTag : 'h2'}>`;
