@@ -1304,7 +1304,7 @@ class AddressList extends React.Component {
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
         return Object.assign(pre, { [cur]: '' });
       }, {});
-      // console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+      console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
       let pkaddr = pickupFormData?.pickup?.address;
       let deliveryAdd = Object.assign({}, tempAddress, {
         firstName: pickupFormData.firstName,
@@ -1326,6 +1326,7 @@ class AddressList extends React.Component {
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
         workTime: pickupFormData.workTime,
+        province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
         cityIdStr: pkaddr?.cityFias,
         areaIdStr: pkaddr?.areaFias,

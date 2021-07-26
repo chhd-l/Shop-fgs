@@ -3413,7 +3413,7 @@ class Payment extends React.Component {
         </h5>
         <p
           onClick={this.handleClickPaymentPanelEdit}
-          className="rc-styled-link mb-1"
+          className="rc-styled-link mb-1 edit_payment_method"
           style={{ cursor: 'pointer' }}
         >
           <FormattedMessage id="edit" />
