@@ -124,23 +124,6 @@ class GoogleTagManager extends React.Component {
     let ecEvents = hubGA ? hubEcommerceEvents : ecommerceEvents;
 
     loadJS({
-      code: `window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(${JSON.stringify(filterObjectValueDeep(addEvents))});`
-    });
-
-    if (
-      Object.keys(ecommerceEvents).length > 0 ||
-      Object.keys(hubEcommerceEvents).length > 0
-    ) {
-      loadJS({
-        code: `window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(${JSON.stringify(
-        filterObjectValueDeep(ecEvents)
-      )});`
-      });
-    }
-
-    loadJS({
       url: `https://rcdfcdn.mars.com/consent-management/global-script.js`,
       id: 'global-script'
     });
@@ -151,19 +134,36 @@ class GoogleTagManager extends React.Component {
       className: 'optanon-category-2'
     });
 
-    //   if (!hubGA) {
-    //     loadJS({
-    //       code: `(function(w,d,s,l,i){w[l] = w[l] || [];
+    // loadJS({
+    //   code: `(function(w,d,s,l,i){w[l] = w[l] || [];
     //     w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
     //     var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
     //     j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
     //     ;
     //     f.parentNode.insertBefore(j,f);
     // })(window,document,'script','dataLayer','${window.__.env.REACT_APP_GA_GTMID}');`,
-    //       className: 'optanon-category-2',
-    //       type: 'text/plain'
-    //     });
-    //   }
+    //   className: 'optanon-category-2',
+    //   type: 'text/plain'
+    // });
+
+    loadJS({
+      code: `window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(${JSON.stringify(
+          filterObjectValueDeep(addEvents)
+        )});`
+    });
+
+    if (
+      Object.keys(ecommerceEvents).length > 0 ||
+      Object.keys(hubEcommerceEvents).length > 0
+    ) {
+      loadJS({
+        code: `window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(${JSON.stringify(
+            filterObjectValueDeep(ecEvents)
+          )});`
+      });
+    }
   }
 }
 

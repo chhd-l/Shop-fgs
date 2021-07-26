@@ -166,19 +166,21 @@ const KittenNutrition = loadable(() =>
   import('@/views/StaticPage/kitten-nutrition')
 );
 // import smartFeederSubscription from '@/views/SmartFeederSubscription';
-import ShelterPrescription from '@/views/StaticPage/ShelterPrescription';
+const ShelterPrescription = loadable(() =>
+  import('@/views/StaticPage/ShelterPrescription')
+);
 import CancelEmail from '@/views/StaticPage/CancelEmail';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
-const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
+import ClubLandingPageNew from '@/views/ClubLandingPageNew';
+// const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')
 );
 const ClubLandingPageDeVet = loadable(() =>
   import('@/views/ClubLandingPageNew/devetlandingpage')
 );
-const ClubLandingPage = loadable(() => import('@/views/ClubLandingPage'));
 const DedicatedLandingPage = loadable(() =>
   import('@/views/DedicatedLandingPage')
 );
@@ -366,19 +368,6 @@ const App = () => {
                       ? TermsConditions
                       : TermsConditionsUs
                   }
-                />
-                <Route
-                  exact
-                  path="/club-subscriptionbyebye"
-                  render={(props) => {
-                    switch (window.__.env.REACT_APP_COUNTRY) {
-                      case 'ru':
-                      case 'tr':
-                        return <ClubLandingPage {...props} />;
-                      default:
-                        return <Exception {...props} />;
-                    }
-                  }}
                 />
                 <Route
                   exact

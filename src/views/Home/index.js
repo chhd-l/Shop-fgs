@@ -29,7 +29,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import question from '@/assets/images/home/question@2x.png';
-// import CommentCarousel from '../../components/CommentCarousel';
 import HelpComponents from '../../components/HelpComponents/HelpComponents';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
