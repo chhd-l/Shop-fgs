@@ -230,21 +230,26 @@ class LoginCart extends React.Component {
   }
   // 可购买状态
   get btnStatus() {
-    return true;
     const { productList } = this.state;
     let autoShipFlag = false,
-      clubFlag = false;
+      clubFlag = false,
+      numFlag = true;
+    var reg = /^[0-9]+.?[0-9]*/;
     productList.map((el) => {
-      if (el.goods.promotions && el.goods.promotions.includes('club')) {
-        clubFlag = true;
-      } else if (
-        el.goods.promotions &&
-        el.goods.promotions.includes('autoship')
-      ) {
-        autoShipFlag = true;
+      if (!reg.test(el.buyCount)) {
+        numFlag = false;
       }
+      if (el.buyCount)
+        if (el.goods.promotions && el.goods.promotions.includes('club')) {
+          clubFlag = true;
+        } else if (
+          el.goods.promotions &&
+          el.goods.promotions.includes('autoship')
+        ) {
+          autoShipFlag = true;
+        }
     });
-    return !(clubFlag && autoShipFlag);
+    return !(clubFlag && autoShipFlag) && numFlag;
   }
   get promotionVOList() {
     return this.props.checkoutStore.promotionVOList;

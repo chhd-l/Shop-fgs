@@ -168,19 +168,22 @@ class UnLoginCart extends React.Component {
   }
   // 可购买状态
   get btnStatus() {
-    return true;
     const { productList } = this.state;
     let autoShipFlag = false,
-      clubFlag = false;
+      clubFlag = false,
+      numFlag = true;
+    var reg = /^[0-9]+.?[0-9]*/;
     productList.map((el) => {
+      if (!reg.test(el.buyCount)) {
+        numFlag = false;
+      }
       if (el.promotions && el.promotions.includes('club')) {
         clubFlag = true;
       } else if (el.promotions && el.promotions.includes('autoship')) {
         autoShipFlag = true;
       }
     });
-
-    return !(clubFlag && autoShipFlag);
+    return !(clubFlag && autoShipFlag) && numFlag;
   }
   getGoodsIdArr = () => {
     let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);
