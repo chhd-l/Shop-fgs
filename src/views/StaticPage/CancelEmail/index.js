@@ -32,10 +32,15 @@ class CancelEmail extends React.Component {
     this.setState({
       consumerAccount: consumerAccount
     });
-    const res = await cancelEmailBind({
-      consumerAccount: consumerAccount,
-      storeId
-    });
+    try {
+      const res = await cancelEmailBind({
+        consumerAccount: consumerAccount,
+        storeId
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {

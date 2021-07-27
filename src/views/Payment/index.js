@@ -140,6 +140,7 @@ class Payment extends React.Component {
       subscriptionID: '',
       cyberBtnLoading: false,
       cyberCardType: '',
+      deliveryOrPickUp: 0,
       saveAddressNumber: 0, // 保存Delivery地址次数
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
@@ -2152,6 +2153,14 @@ class Payment extends React.Component {
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
   };
+
+  paymentUpdateDeliveryOrPickup = (num) => {
+    // console.log('666  更新 deliveryOrPickUp: ', num);
+    this.setState({
+      deliveryOrPickUp: num
+    });
+  };
+
   /**
    * 渲染address panel
    */
@@ -2178,6 +2187,8 @@ class Payment extends React.Component {
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
               saveAddressNumber={this.state.saveAddressNumber}
+              paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
+              deliveryOrPickUp={this.state.deliveryOrPickUp}
               updateSaveAddressNumber={(e) => this.updateSaveAddressNumber(e)}
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
@@ -2196,6 +2207,8 @@ class Payment extends React.Component {
               initData={deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
               saveAddressNumber={this.state.saveAddressNumber}
+              paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
+              deliveryOrPickUp={this.state.deliveryOrPickUp}
               guestEmail={guestEmail}
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
@@ -2625,7 +2638,7 @@ class Payment extends React.Component {
   cvvConfirmNextPanel = async () => {
     const { isLogin } = this;
     const { paymentStore } = this.props;
-    console.log('666 ★ --- cvvConfirmNextPanel 跳过验证，下一步 ');
+    // console.log('666 ★ --- cvvConfirmNextPanel 跳过验证，下一步 ');
     // 清空 VisitorAddress 参数 && !billingChecked
     if (
       !isLogin &&
@@ -2750,6 +2763,8 @@ class Payment extends React.Component {
       hideOthers: true
     });
     this.payUCreditCardRef?.current?.handleClickEditBtn();
+
+    this.paymentUpdateDeliveryOrPickup(0); // 隐藏pickup和delivery home
 
     if (!billingChecked) {
       paymentStore.setStsToEdit({

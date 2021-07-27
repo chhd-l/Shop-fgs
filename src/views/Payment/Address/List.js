@@ -46,6 +46,7 @@ class AddressList extends React.Component {
     isCurrentBuyWaySubscription: false, // 是否有订阅商品
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
+    deliveryOrPickUp: 0,
     saveAddressNumber: 0, // 保存Delivery地址次数
     updateSaveAddressNumber: () => {},
     titleVisible: true,
@@ -1269,13 +1270,18 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    const { addOrEdit, addressList } = this.state;
+    const { addressList } = this.state;
     let flag = null;
     !addressList.length && num == 1 ? (flag = true) : (flag = false);
-    this.setState({
-      selectDeliveryOrPickUp: num,
-      addOrEdit: flag
-    });
+    this.setState(
+      {
+        selectDeliveryOrPickUp: num,
+        addOrEdit: flag
+      },
+      () => {
+        this.props.paymentUpdateDeliveryOrPickup(num);
+      }
+    );
   };
   // 更新 pickup编辑次数
   updatePickupEditNumber = (num) => {
@@ -1304,7 +1310,7 @@ class AddressList extends React.Component {
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
         return Object.assign(pre, { [cur]: '' });
       }, {});
-      console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
+      // console.log('666 ★★★  pickupFormData: ', this.state.pickupFormData);
       let pkaddr = pickupFormData?.pickup?.address;
       let deliveryAdd = Object.assign({}, tempAddress, {
         firstName: pickupFormData.firstName,
@@ -1703,7 +1709,7 @@ class AddressList extends React.Component {
           </aside>
 
           {/* 俄罗斯 pickup 相关 begin */}
-          {deliveryOrPickUpFlag && (
+          {deliveryOrPickUpFlag && !panelStatus.isCompleted ? (
             <>
               <HomeDeliveryOrPickUp
                 key={
@@ -1726,7 +1732,7 @@ class AddressList extends React.Component {
                 pickupEditNumber={pickupEditNumber}
               />
             </>
-          )}
+          ) : null}
           {/* 俄罗斯 pickup 相关 end */}
 
           {/* 编辑地址 */}

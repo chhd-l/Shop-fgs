@@ -130,10 +130,12 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     dataLayer.push({
       products: [product]
     });
-    dataLayer.push({
-      event: 'pdpScreenLoad',
-      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
-    });
+    setTimeout(() => {
+      dataLayer.push({
+        event: 'pdpScreenLoad',
+        pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
+      });
+    }, 5000);
   }
 };
 
