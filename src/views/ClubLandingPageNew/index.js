@@ -104,7 +104,7 @@ class ClubLandingPageNew extends React.Component {
       localItemRoyal.remove('login-again');
       window.location.href = callOktaCallBack;
     } // Cross-store login
-    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
+    setSeoConfig({ pageName: 'club subscription landing' }).then((res) => {
       this.setState({ seoConfig: res });
     });
     if (localItemRoyal.get('logout-redirect-url')) {
@@ -286,7 +286,6 @@ class ClubLandingPageNew extends React.Component {
                               src={goldenfood}
                             />
                           </LazyLoad>
-
                         </div>
                       </div>
                     </div>
@@ -302,7 +301,10 @@ class ClubLandingPageNew extends React.Component {
           </div>
           <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
 
-          <HowItWorksNew RuhowitworksnewList={RuhowitworksnewLists} RuhowitworksnewListmobile={RuhowitworksnewListmobiles}/>
+          <HowItWorksNew
+            RuhowitworksnewList={RuhowitworksnewLists}
+            RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+          />
 
           <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />
           <div style={{ backgroundColor: '#D0D0D0' }}>
