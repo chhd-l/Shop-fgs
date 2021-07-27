@@ -487,6 +487,9 @@ const PetForms = ({
     }
     try {
       let res = await action(param);
+      setState({
+        loading: false
+      });
       let isLinkedSub = subList.find((el) => el.petsId);
       let isLinkedSubLength = subList.filter((el) => el.petsId)?.length;
       let petsIdLinkedSub = isLinkedSub?.petsId;
@@ -505,7 +508,13 @@ const PetForms = ({
               createPetsLifeStageFlag: 1 // 新增宠物，link sub需要弹出yellow box
             };
             try {
+              setState({
+                loading: true
+              });
               await changeSubscriptionDetailPets(params);
+              setState({
+                loading: false
+              });
               // 有链接sub的，编辑宠物需要弹提示框
               if (isFromSubscriptionDetail) {
                 isEditAlertNew = true;
@@ -513,6 +522,9 @@ const PetForms = ({
                 // setState({ isEditAlert: true });
               }
             } catch (err) {
+              setState({
+                loading: false
+              });
               showErrorMsg(err.message);
             }
           }
