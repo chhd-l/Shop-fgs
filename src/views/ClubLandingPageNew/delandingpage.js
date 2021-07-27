@@ -27,7 +27,7 @@ import number2 from './deimage/number2.png';
 import number3 from './deimage/number3.png';
 import number4 from './deimage/number4.png';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
+import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.webp';
 import logoad from './Components/GetMoreAd/image/logoad.png';
 import logoclubad from './Components/GetMoreAd/image/CLUBLOGOSUBSCIPTION@4x.png';
 import online1 from './deimage/onlinepic1.png';

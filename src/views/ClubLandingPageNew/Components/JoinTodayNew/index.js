@@ -3,7 +3,7 @@ import LazyLoad from 'react-lazyload';
 import joinusnewlogo from './image/joinusnewlogo.png';
 import rulogo from '../../image/CLUB_logoRU@2x.png';
 import joinusnewright from './image/joinusnewright.png';
-import joinusnewru from './image/joinusnewrightru.png';
+import joinusnewru from './image/joinusnewrightru2.png';
 import joinusnewtr from './image/joinusnewrighttr.png';
 import './index.css';
 import { FormattedMessage } from 'react-intl';

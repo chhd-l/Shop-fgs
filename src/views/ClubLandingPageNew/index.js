@@ -15,14 +15,14 @@ import { Helmet } from 'react-helmet';
 import stores from '@/store';
 
 import LongBanner from './Components/LongBanner/index';
-import goldenfood from './image/goldenfood.png';
+import goldenfood from './image/goldenfood.webp';
 import SubsriptionBenefitsNew from './SubscriptionBenefitsNew';
 import HowItWorksNew from './Components/HowItWorksNew';
 import JoinTodayNew from './Components/JoinTodayNew';
 import CommentCarouselNew from '../../components/CommentCarouselNew';
 import GetMoreAd from './Components/GetMoreAd';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
+import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.webp';
 import ruhowitworknew1 from './Components/HowItWorksNew/image/ruhowitworksnew1.png';
 import ruhowitworknew2 from './Components/HowItWorksNew/image/ruhowitworksnew2.png';
 import ruhowitworknew3 from './Components/HowItWorksNew/image/ruhowitworksnew3.png';
@@ -279,11 +279,14 @@ class ClubLandingPageNew extends React.Component {
                       </div>
                       <div className="rc-column">
                         <div className="lazyload-wrapper">
-                          <img
-                            alt="With the Subscription, they will always have what they need"
-                            className="w-100 lazyloaded"
-                            src={goldenfood}
-                          />
+                          <LazyLoad>
+                            <img
+                              alt="With the Subscription, they will always have what they need"
+                              className="w-100 lazyloaded"
+                              src={goldenfood}
+                            />
+                          </LazyLoad>
+
                         </div>
                       </div>
                     </div>
@@ -328,15 +331,17 @@ class ClubLandingPageNew extends React.Component {
                       ></a>
                       <div className="row align-items-md-center">
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                          <picture data-rc-feature-objectfillpolyfill-setup="true">
-                            <img
-                              className="w-100 lazyloaded"
-                              data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
-                              alt="Yorkshire dog pic - Our Values"
-                              title="Yorkshire dog pic - Our Values"
-                              src={vetru}
-                            />
-                          </picture>
+                          <LazyLoad>
+                            <picture data-rc-feature-objectfillpolyfill-setup="true">
+                              <img
+                                className="w-100 lazyloaded"
+                                data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw231c60b5/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622"
+                                alt="Yorkshire dog pic - Our Values"
+                                title="Yorkshire dog pic - Our Values"
+                                src={vetru}
+                              />
+                            </picture>
+                          </LazyLoad>
                         </div>
                         <div className=" col-12 col-lg-6">
                           <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">

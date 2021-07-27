@@ -5,11 +5,12 @@ import CommentTwo from './img/CommentOne.png';
 import CommentThree from './img/CommentTwo.png';
 import CommentFour from './img/CommentFour.png';
 import { FormattedMessage } from 'react-intl';
-import newtrcommentone from './img/FeedbackImage1.png';
-import newtrcommenttwo from './img/CommentFour.png';
-import newtrcommentthree from './img/CommentOne.png';
+import newtrcommentone from './img/FeedbackImage1.webp';
+import newtrcommenttwo from './img/CommentFour.webp';
+import newtrcommentthree from './img/CommentOne.webp';
 import newtrcommentFour from './img/FeedbackImage4.jpeg';
 
+import LazyLoad from 'react-lazyload';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -88,64 +89,72 @@ const CommentCarouselNew = () => {
                 <div className="rc-carousel__card-gal px-2">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img
-                        src={newtrcommentone}
-                        alt="alt text"
-                        style={{
-                          borderRadius: '50%',
-                          width: '50%',
-                          marginTop: '30px',
-                          marginBottom: '30px'
-                        }}
-                      />
+                      <LazyLoad>
+                        <img
+                          src={newtrcommentone}
+                          alt="alt text"
+                          style={{
+                            borderRadius: '50%',
+                            width: '50%',
+                            marginTop: '30px',
+                            marginBottom: '30px'
+                          }}
+                        />
+                      </LazyLoad>
                     </picture>
                   </article>
                 </div>
                 <div className="rc-carousel__card-gal px-2">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img
-                        src={newtrcommenttwo}
-                        alt="alt text"
-                        style={{
-                          borderRadius: '50%',
-                          width: '50%',
-                          marginTop: '30px',
-                          marginBottom: '30px'
-                        }}
-                      />
+                      <LazyLoad>
+                        <img
+                          src={newtrcommenttwo}
+                          alt="alt text"
+                          style={{
+                            borderRadius: '50%',
+                            width: '50%',
+                            marginTop: '30px',
+                            marginBottom: '30px'
+                          }}
+                        />
+                      </LazyLoad>
                     </picture>
                   </article>
                 </div>
                 <div className="rc-carousel__card-gal px-2">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img
-                        src={newtrcommentthree}
-                        alt="alt text"
-                        style={{
-                          borderRadius: '50%',
-                          width: '50%',
-                          marginTop: '30px',
-                          marginBottom: '30px'
-                        }}
-                      />
+                      <LazyLoad>
+                        <img
+                          src={newtrcommentthree}
+                          alt="alt text"
+                          style={{
+                            borderRadius: '50%',
+                            width: '50%',
+                            marginTop: '30px',
+                            marginBottom: '30px'
+                          }}
+                        />
+                      </LazyLoad>
                     </picture>
                   </article>
                 </div>
                 <div className="rc-carousel__card-gal px-2">
                   <article className="rc-card rc-card--b">
                     <picture className="rc-card__image">
-                      <img
-                        src={newtrcommentFour}
-                        alt="alt text"
-                        style={{
-                          borderRadius: '50%',
-                          width: '50%',
-                          marginTop: '30px',
-                          marginBottom: '30px'
-                        }}
-                      />
+                      <LazyLoad>
+                        <img
+                          src={newtrcommentFour}
+                          alt="alt text"
+                          style={{
+                            borderRadius: '50%',
+                            width: '50%',
+                            marginTop: '30px',
+                            marginBottom: '30px'
+                          }}
+                        />
+                      </LazyLoad>
                     </picture>
                   </article>
                 </div>
