@@ -33,10 +33,15 @@ export default class ProductCarousel extends Component {
           ele.technologyOrBreedsAttr || getTechnologyOrBreedsAttr(ele)
       };
     });
+
+    const tmpSetting = Object.assign(settings, {
+      // 解决一个产品时，若adaptiveHeight设置为false，会显示两行的bug
+      adaptiveHeight: handledList.length > 1 ? false : true
+    });
     return (
       <div className="responsive-carousel">
         {this.props.title}
-        <Slider {...settings}>
+        <Slider {...tmpSetting}>
           {handledList.map((item, index) => {
             return (
               <PLPCover
