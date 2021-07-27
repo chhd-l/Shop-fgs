@@ -157,7 +157,10 @@ class Confirmation extends React.Component {
           },
           () => {
             this.getIsAllOneShootGoods();
-            orderConfirmationPushEvent(this.state.details);
+            setTimeout(() => {
+              orderConfirmationPushEvent(this.state.details);
+            }, 3000);
+
             //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
             if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               transactionPixel(this.state.details);
