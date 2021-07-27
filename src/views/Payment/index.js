@@ -2111,7 +2111,7 @@ class Payment extends React.Component {
         // 2、cod: cash 或 card，则shop展示cod和卡支付
         // 3、无返回，则shop展示卡支付
         let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
-        if (pmd) {
+        if (pmd.length) {
           let pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
           newPayWayName = newPayWayName.filter((e) => {
             return e.code !== 'cod' || e.code == pickupPayMethods;
