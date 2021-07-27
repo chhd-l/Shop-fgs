@@ -234,7 +234,7 @@ class LoginCart extends React.Component {
     let autoShipFlag = false,
       clubFlag = false,
       numFlag = true;
-    var reg = /^[0-9]+.?[0-9]*/;
+    var reg = /^[0-9]*/;
     productList.map((el) => {
       if (!reg.test(el.buyCount)) {
         numFlag = false;
