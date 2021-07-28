@@ -708,7 +708,6 @@ class Payment extends React.Component {
         };
       }
       let payWayNameArr = [];
-
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -732,6 +731,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
+          console.log('666 payWay payWayNameArr: ', payWayNameArr);
           this.initPaymentTypeVal();
         }
       );
