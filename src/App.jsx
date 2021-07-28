@@ -174,13 +174,10 @@ import PreciseCatNutrition from './views/PreciseCatNutrition';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
-<<<<<<< HEAD
-import ClubLandingPageNew from '@/views/ClubLandingPageNew';
-import PreciseRecommendation from './views/PreciseRecommendation';
-// const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
-=======
 const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
->>>>>>> b46171b08eb807ef81045392feed079b5d44c5a8
+const PreciseRecommendation = loadable(() => import('@/views/PreciseRecommendation'));
+// import PreciseRecommendation from './views/PreciseRecommendation';
+// const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')
 );
