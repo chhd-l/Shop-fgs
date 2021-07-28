@@ -427,7 +427,6 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
-
     // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态

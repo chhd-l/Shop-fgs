@@ -205,13 +205,16 @@ class Recommendation extends React.Component {
           // 法国区分stp和breeder
           this.setState({ isSPT: true });
         }
-        GARecommendationProduct(
-          currentShowProduct,
-          1,
-          this.state.frequencyList,
-          promotionCode,
-          this.state.activeIndex
-        );
+        setTimeout(() => {
+          GARecommendationProduct(
+            currentShowProduct,
+            1,
+            this.state.frequencyList,
+            promotionCode,
+            this.state.activeIndex
+          );
+        }, 3000);
+
         if (curScrollTop) {
           window.scrollTo({
             top: curScrollTop,
