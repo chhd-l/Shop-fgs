@@ -2115,9 +2115,14 @@ class Payment extends React.Component {
         if (pmd?.length) {
           pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
         } else {
-          newPayWayName = newPayWayName.filter((e) => {
-            return e.code !== 'cod';
-          });
+          let potalValetOrder =
+            sessionItemRoyal.get('rc-iframe-from-storepotal') || null;
+          console.log('666 potalValetOrder: ', potalValetOrder);
+          if (!potalValetOrder) {
+            newPayWayName = newPayWayName.filter((e) => {
+              return e.code !== 'cod';
+            });
+          }
         }
         console.log('666 pickupPayMethods: ', pickupPayMethods);
         console.log('666 newPayWayName: ', newPayWayName);
