@@ -170,7 +170,7 @@ class Test extends React.Component {
         className="rc-content--fixed-header rc-bg-colour--brand4"
         style={{ padding: '30px' }}
       >
-        <br />
+        {/* <br />
         <button
           onClick={() => {
             this.loadMap();
@@ -180,7 +180,7 @@ class Test extends React.Component {
         </button>
         <div className="pickup_map_box">
           <div id="kaktusMap" style={{ display: 'block' }}></div>
-        </div>
+        </div> */}
         <br />
         <br />
         <br />
