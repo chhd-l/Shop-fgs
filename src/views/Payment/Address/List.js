@@ -1612,6 +1612,7 @@ class AddressList extends React.Component {
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
                       </span>{' '}
@@ -1636,6 +1637,7 @@ class AddressList extends React.Component {
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
                       </span>{' '}
