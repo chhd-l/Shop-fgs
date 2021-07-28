@@ -124,7 +124,10 @@ class Confirmation extends React.Component {
   }
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
-    dataLayer.push(GA_product);
+    setTimeout(() => {
+      dataLayer.push(GA_product);
+    }, 3000);
+
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -157,9 +160,7 @@ class Confirmation extends React.Component {
           },
           () => {
             this.getIsAllOneShootGoods();
-            setTimeout(() => {
-              orderConfirmationPushEvent(this.state.details);
-            }, 3000);
+            orderConfirmationPushEvent(this.state.details);
 
             //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
             if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {

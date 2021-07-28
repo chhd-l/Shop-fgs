@@ -134,10 +134,13 @@ export const getComputedWeeks = (frequencyList) => {
 //myAccountScreen
 export const myAccountPushEvent = (myAccountScreenName) => {
   if (!isHubGA) return;
-  dataLayer.push({
-    event: 'myAccountScreen',
-    myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
-  });
+  setTimeout(() => {
+    dataLayer.push({
+      event: 'myAccountScreen',
+      myAccountScreenName //Values : 'Overview', 'Personal information', 'Pets', 'Orders & Subscriptions', 'Payment & Addresses', 'Security', 'Data & Settings'
+    });
+  }, 5000);
+
   // console.log(myAccountScreenName)
   // debugger
 };
@@ -168,10 +171,11 @@ export const faqClickDataLayerPushEvent = ({ item, clickType }) => {
 
 //cartScreenLoad
 export const GACartScreenLoad = () => {
-  if (!isHubGA) return;
-  dataLayer.push({
-    event: 'cartScreenLoad'
-  });
+  setTimeout(() => {
+    dataLayer.push({
+      event: 'cartScreenLoad'
+    });
+  }, 5000);
 };
 
 //init 游客(cart+checkout都使用)
@@ -244,9 +248,11 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
     arr.push(obj);
   }
-  dataLayer.push({
-    products: arr
-  });
+  setTimeout(() => {
+    dataLayer.push({
+      products: arr
+    });
+  }, 5000);
   props.checkoutStore.saveGAProduct({ products: arr });
 };
 
@@ -322,9 +328,12 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
 
     arr.push(obj);
   }
-  dataLayer.push({
-    products: arr
-  });
+  setTimeout(() => {
+    dataLayer.push({
+      products: arr
+    });
+  }, 5000);
+
   props.checkoutStore.saveGAProduct({ products: arr });
 };
 
@@ -411,14 +420,18 @@ export const GARecommendationProduct = (
     return res;
   });
   type === 1 &&
-    dataLayer.unshift({
-      products
-    });
+    setTimeout(() => {
+      dataLayer.unshift({
+        products
+      });
+    }, 5000);
   type === 2 &&
-    dataLayer.push({
-      event: 'breederRecoTabClick',
-      breederRecoTabClickProduct: products
-    });
+    setTimeout(() => {
+      dataLayer.push({
+        event: 'breederRecoTabClick',
+        breederRecoTabClickProduct: products
+      });
+    }, 5000);
 };
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
@@ -464,13 +477,15 @@ export const doGetGAVal = (props) => {
 //checkout step
 export const checkoutDataLayerPushEvent = ({ name, options }) => {
   if (!isHubGA) return;
-  dataLayer.push({
-    event: 'checkoutStep',
-    checkoutStep: {
-      name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
-      options //'Guest checkout', 'New account', 'Existing account'
-    }
-  });
+  setTimeout(() => {
+    dataLayer.push({
+      event: 'checkoutStep',
+      checkoutStep: {
+        name, //Following values possible : 'Email', 'Delivery', 'Payment', 'Confirmation'
+        options //'Guest checkout', 'New account', 'Existing account'
+      }
+    });
+  }, 5000);
 };
 
 //Order confirmation
@@ -489,7 +504,9 @@ export const orderConfirmationPushEvent = (details) => {
       shippingMode: details.clinicsId || clinic ? 'Clinic' : 'Standard Delivery'
     })
   };
-  dataLayer.push(obj);
+  setTimeout(() => {
+    dataLayer.push(obj);
+  }, 3000);
 };
 
 //product finder  productFinderScreen:{name}

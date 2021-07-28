@@ -149,14 +149,13 @@ class LoginCart extends React.Component {
         await this.checkoutStore.updateLoginCart();
       }
 
-      if (isHubGA) {
-        GAInitLogin({
-          productList: this.props.checkoutStore.loginCartData,
-          frequencyList: this.state.frequencyList,
-          props: this.props
-        });
-        GACartScreenLoad();
-      }
+      GACartScreenLoad();
+      GAInitLogin({
+        productList: this.props.checkoutStore.loginCartData,
+        frequencyList: this.state.frequencyList,
+        props: this.props
+      });
+
       this.setData({ initPage: true });
 
       //给代客下单用 start
