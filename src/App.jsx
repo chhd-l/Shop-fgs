@@ -170,12 +170,17 @@ const ShelterPrescription = loadable(() =>
   import('@/views/StaticPage/ShelterPrescription')
 );
 import CancelEmail from '@/views/StaticPage/CancelEmail';
+import PreciseCatNutrition from './views/PreciseCatNutrition';
 const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
+<<<<<<< HEAD
 import ClubLandingPageNew from '@/views/ClubLandingPageNew';
 import PreciseRecommendation from './views/PreciseRecommendation';
 // const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
+=======
+const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
+>>>>>>> b46171b08eb807ef81045392feed079b5d44c5a8
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')
 );
@@ -330,6 +335,7 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
+                <Route exact path="/preciseCatNutrition" component={PreciseCatNutrition} />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
                   exact
