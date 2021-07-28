@@ -1455,6 +1455,17 @@ const en_US = {
   'clinic.vetClinicsTip1':
     'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
   'clinic.vetClinicsTip2': 'Contact us',
+  'preciseNutrition.call.content':
+    'Monday to Friday from 8:30am to 7pm and on Saturdays from 9am to 1pm',
+  'preciseNutrition.call.number': '0800 415 161',
+  // 'preciseNutrition.faq.content':'You can check our ',
+  'preciseNutrition.Top.title':
+    '* Offer not accumulated with the 10% discount on product subscriptions',
+  'preciseNutrition.Address.title': 'Address',
+  'preciseNutrition.Address.firstLine':
+    'Service Consommateur Royal Canin France',
+  'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
+  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
   dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
 };
 export default en_US;

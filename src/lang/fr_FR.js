@@ -1707,6 +1707,17 @@ const fr_FR = {
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',
   'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
   'ClubLP.Help.faq.content':
-    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée."
+    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
+  'preciseNutrition.call.content':
+    'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
+  'preciseNutrition.call.number': '0800 415 161',
+  // 'preciseNutrition.faq.content':'You can check our ',
+  'preciseNutrition.Top.title':
+    '* Offre non cumulable avec la remise de 10% sur les abonnements produits',
+  'preciseNutrition.Address.title': 'Adresse',
+  'preciseNutrition.Address.firstLine':
+    'Service Consommateur Royal Canin France',
+  'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
+  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES'
 };
 export default fr_FR;

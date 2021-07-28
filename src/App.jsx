@@ -174,6 +174,7 @@ const VetLandingPage = loadable(() =>
   import('@/views/ClubLandingPage/vetlandingpage')
 );
 import ClubLandingPageNew from '@/views/ClubLandingPageNew';
+import PreciseRecommendation from './views/PreciseRecommendation';
 // const ClubLandingPageNew = loadable(() => import('@/views/ClubLandingPageNew'));
 const ClubLandingPageDe = loadable(() =>
   import('@/views/ClubLandingPageNew/delandingpage')
@@ -303,6 +304,8 @@ const App = () => {
                   path={'/implicit/login'}
                   render={() => <ImplicitLogin />}
                 />
+
+                <Route exact path="/precise-cat-nutrition-recommendation" component={PreciseRecommendation} />
 
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route exact path="/cart" component={Cart} />
