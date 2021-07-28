@@ -124,9 +124,7 @@ class Confirmation extends React.Component {
   }
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
-    setTimeout(() => {
-      dataLayer.push(GA_product);
-    }, 3000);
+    dataLayer.push(GA_product);
 
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });

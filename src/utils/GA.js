@@ -248,11 +248,9 @@ export const GAInitUnLogin = ({ productList, frequencyList, props }) => {
 
     arr.push(obj);
   }
-  setTimeout(() => {
-    dataLayer.push({
-      products: arr
-    });
-  }, 5000);
+  dataLayer.push({
+    products: arr
+  });
   props.checkoutStore.saveGAProduct({ products: arr });
 };
 
@@ -328,11 +326,9 @@ export const GAInitLogin = ({ productList, frequencyList, props }) => {
 
     arr.push(obj);
   }
-  setTimeout(() => {
-    dataLayer.push({
-      products: arr
-    });
-  }, 5000);
+  dataLayer.push({
+    products: arr
+  });
 
   props.checkoutStore.saveGAProduct({ products: arr });
 };
@@ -420,18 +416,14 @@ export const GARecommendationProduct = (
     return res;
   });
   type === 1 &&
-    setTimeout(() => {
-      dataLayer.unshift({
-        products
-      });
-    }, 5000);
+    dataLayer.unshift({
+      products
+    });
   type === 2 &&
-    setTimeout(() => {
-      dataLayer.push({
-        event: 'breederRecoTabClick',
-        breederRecoTabClickProduct: products
-      });
-    }, 5000);
+    dataLayer.push({
+      event: 'breederRecoTabClick',
+      breederRecoTabClickProduct: products
+    });
 };
 //GA pet 全局获取
 export const doGetGAVal = (props) => {
