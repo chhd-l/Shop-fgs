@@ -215,6 +215,25 @@ class HomeDeliveryOrPickUp extends React.Component {
     };
     let telpval = IMask(telnum, telOptions);
   };
+  // 判断输入city是否有返回值
+  handlePickupQueryCity = async (city, data) => {
+    const { selectedItem, pickupCity } = this.state;
+    let flag = false;
+    data?.length ? (flag = false) : (flag = true);
+    if (flag) {
+      this.props.updateDeliveryOrPickup(0);
+      this.setState({
+        pickupCity: city,
+        selectedItem: Object.assign(selectedItem, {
+          cityData: [],
+          homeAndPickup: []
+        })
+      });
+    }
+    this.setState({
+      searchNoResult: flag
+    });
+  };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
     const { isLogin, pickupEditNumber, defaultCity } = this.props;
@@ -649,6 +668,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                       (res?.context && res?.context?.pickUpQueryCityDTOs) ||
                       []
                     ).map((ele) => Object.assign(ele, { name: ele.city }));
+                    // this.handlePickupQueryCity(inputVal, robj);
                     return robj;
                   }}
                   selectedItemChange={(data) =>
