@@ -238,17 +238,16 @@ class LoginCart extends React.Component {
       if (!reg.test(el.buyCount)) {
         numFlag = false;
       }
-      if (el.buyCount)
-        if (el.goods.promotions && el.goods.promotions.includes('club')) {
-          clubFlag = true;
-        } else if (
-          el.goods.promotions &&
-          el.goods.promotions.includes('autoship')
-        ) {
-          autoShipFlag = true;
-        }
+      // if (el.goods.promotions && el.goods.promotions.includes('club')) {
+      //   clubFlag = true;
+      // } else if (
+      //   el.goods.promotions &&
+      //   el.goods.promotions.includes('autoship')
+      // ) {
+      //   autoShipFlag = true;
+      // }
     });
-    return !(clubFlag && autoShipFlag) && numFlag;
+    return numFlag;
   }
   get promotionVOList() {
     return this.props.checkoutStore.promotionVOList;
