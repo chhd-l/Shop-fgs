@@ -49,7 +49,10 @@ export default class Modal extends React.Component {
             role="document"
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
-            <div className="modal-content mt-0">
+            <div
+              className="modal-content mt-0"
+              style={{ position: 'relative' }}
+            >
               {this.props.headerVisible && (
                 <div className="modal-header delete-confirmation-header">
                   <h4 className="modal-title" id="removeProductLineItemModal">
