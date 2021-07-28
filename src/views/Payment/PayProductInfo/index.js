@@ -199,6 +199,7 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
+    // productList.map(el=>{el.goodsInfoFlag=3})
     this.setState(
       Object.assign({
         productList: productList || []
@@ -320,7 +321,8 @@ class PayProductInfo extends React.Component {
     return List;
   }
   isSubscription(el) {
-    return el.goodsInfoFlag;
+    // goodsInfoFlag =3作为indv 不需要展示划线价格
+    return el.goodsInfoFlag && el.goodsInfoFlag != 3;
   }
   handleClickProName(item) {
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
@@ -415,7 +417,7 @@ class PayProductInfo extends React.Component {
                     </span>
                   </div>
                 </div>
-                {el.goodsInfoFlag ? (
+                {this.isSubscription(el) ? (
                   <div>
                     <span
                       className="iconfont font-weight-bold green"
@@ -493,8 +495,10 @@ class PayProductInfo extends React.Component {
             />
           )}
         </span>
+        {/* goodsInfoFlag为3的时候是indv需要隐藏edit按钮 */}
         {!localItemRoyal.get('rc-iframe-from-storepotal') &&
-        this.props.operateBtnVisible ? (
+        this.props.operateBtnVisible &&
+        productList[0]?.goodsInfoFlag != 3 ? (
           <Link to="/cart" className="product-summary__cartlink rc-styled-link">
             <FormattedMessage id="edit2" />
           </Link>
@@ -524,7 +528,7 @@ class PayProductInfo extends React.Component {
         style={{ ...style }}
         id={id}
       >
-        <div className="product-summary__recap mt-0 mb-0">
+        <div className="product-summary__recap mt-0 mb-0 222">
           {this.getTotalItems()}
           <div className="product-summary__recap__content">
             <div className="checkout--padding">
@@ -584,16 +588,18 @@ class PayProductInfo extends React.Component {
                         this.setState({
                           isClickApply: true,
                           isShowValidCode: false,
-                          lastPromotionInputValue: this.state
-                            .promotionInputValue
+                          lastPromotionInputValue:
+                            this.state.promotionInputValue
                         });
                         // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
                         let purchasesPara =
                           localItemRoyal.get('rc-payment-purchases-param') ||
                           {};
-                        purchasesPara.promotionCode = this.state.promotionInputValue;
+                        purchasesPara.promotionCode =
+                          this.state.promotionInputValue;
                         purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
+                        purchasesPara.address1 =
+                          this.props.deliveryAddress?.address1;
                         console.log('------- ', purchasesPara);
                         if (!this.isLogin) {
                           purchasesPara.guestEmail = this.props.guestEmail;

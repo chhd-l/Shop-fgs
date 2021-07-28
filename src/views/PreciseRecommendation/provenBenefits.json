@@ -1,0 +1,25 @@
+[
+  {
+    "IND1001": {
+      "recoSentence": "IND1001RecoSentence",
+      "provenBenefits": [
+        {
+          "title": "indivIND1001Title1",
+          "des": "indivIND1001Des1",
+          "img": "indivIND1001img1"
+        },
+        {
+          "title": "indivIND1001Title2",
+          "des": "indivIND1001Des2",
+          "img": "indivIND1001img2"
+        }
+      ],
+      "productComposition": {
+        "composition": "indivIND1001Composition",
+        "additives": "indivIND1001Additives",
+        "analyticalConsitituentsDes": ["indivIND1001ProteinVal", "indivIND1001FatContentVal", "indivIND1001CrudeAshVal", "indivIND1001CrudeCellulosenVal"],
+        "analyticalConsitituentsTitle": ["Protein", "Fat content", "Crude ash", "Crude cellulose"]
+      }
+    }
+  }
+]
