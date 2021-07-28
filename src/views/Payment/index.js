@@ -2099,7 +2099,6 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 ★★ -- updateDeliveryAddrData data: ', data);
     this.setState(
       {
         deliveryAddress: data
@@ -2112,16 +2111,20 @@ class Payment extends React.Component {
         // 3、无返回，则shop展示卡支付
         let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
         console.log('666 pmd: ', pmd);
+        let pickupPayMethods = null;
         if (pmd?.length) {
-          let pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+          pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+        } else {
           newPayWayName = newPayWayName.filter((e) => {
-            return e.code !== 'cod' || e.code == pickupPayMethods;
-          });
-
-          this.setState({ payWayNameArr: [...newPayWayName] }, () => {
-            this.initPaymentTypeVal();
+            return e.code !== 'cod';
           });
         }
+        console.log('666 pickupPayMethods: ', pickupPayMethods);
+        console.log('666 newPayWayName: ', newPayWayName);
+
+        this.setState({ payWayNameArr: [...newPayWayName] }, () => {
+          this.initPaymentTypeVal();
+        });
       }
     );
     if (this.state.billingChecked || data?.receiveType == 'PICK_UP') {
