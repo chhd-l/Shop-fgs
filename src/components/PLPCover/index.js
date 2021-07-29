@@ -23,6 +23,7 @@ function ListItemH5ForGlobalStyle(props) {
     isDogPage,
     link,
     showBorder,
+    targetType,
     className
   } = props;
 
@@ -117,6 +118,7 @@ function ListItemH5ForGlobalStyle(props) {
       <div className="h-100">
         <Link
           className="ui-cursor-pointer-pure"
+          target={targetType}
           to={
             link || {
               pathname: item
@@ -194,6 +196,7 @@ function ListItemForDefault(props) {
     isDogPage,
     link,
     showBorder,
+    targetType,
     className
   } = props;
   return item && item.productFinder ? (
@@ -276,7 +279,7 @@ function ListItemForDefault(props) {
     </article>
   ) : (
     <article
-      className={`rc-card11 rc-card--product overflow-hidden ${className} ${
+      className={`rc-card rc-card--product overflow-hidden ${className} ${
         showBorder ? 'border border-d7d7d7' : ''
       }`}
       style={{ minHeight: '120px' }}
@@ -286,6 +289,7 @@ function ListItemForDefault(props) {
       <div className="fullHeight">
         <Link
           className="ui-cursor-pointer-pure"
+          target={targetType}
           to={
             link || {
               pathname: item
@@ -688,7 +692,8 @@ function ListItemBody({ item, headingTag, configStore }) {
 @inject('configStore')
 export default class PLPCover extends React.Component {
   static defaultProps = {
-    showBorder: true
+    showBorder: true,
+    targetType: '_self'
   };
   render() {
     const {
@@ -706,6 +711,7 @@ export default class PLPCover extends React.Component {
       isMobilePhone ? (
       <ListItemH5ForGlobalStyle
         showBorder={showBorder}
+        targetType={this.props.targetType}
         sourceParam={sourceParam}
         isDogPage={isDogPage}
         className={className}
@@ -741,9 +747,11 @@ export default class PLPCover extends React.Component {
         item={item}
         GAListParam={GAListParam}
         breadListByDeco={breadListByDeco}
+        target={this.props.targetType}
         link={link}
       >
         <ListItemBodyH5ForGlobalStyle
+          targetType={this.props.targetType}
           item={item}
           configStore={this.props.configStore}
         />
@@ -753,6 +761,7 @@ export default class PLPCover extends React.Component {
         {/* <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen"> */}
         <ListItemForDefault
           className={className}
+          targetType={this.props.targetType}
           showBorder={showBorder}
           sourceParam={sourceParam}
           isDogPage={isDogPage}
@@ -784,6 +793,7 @@ export default class PLPCover extends React.Component {
           item={item}
           GAListParam={GAListParam}
           breadListByDeco={breadListByDeco}
+          target={this.props.targetType}
           link={link}
         >
           <ListItemBody

@@ -1343,7 +1343,7 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  prevShipmentOn: 'Новая доставка',
+  prevShipmentOn: 'Новая заявка',
   nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
