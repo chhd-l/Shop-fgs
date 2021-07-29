@@ -1,11 +1,11 @@
 import axios from '@/utils/request';
 
 const api = {
-  getAddressList: '/customer/addrs',
-  addressInfo: '/customer/addressInfo',
-  setDefaltAddress: '/customer/addr/default',
-  saveAddress: '/customer/addr',
-  getAddressById: '/customer/address/',
+  getAddressList: '/customer/addrs', // 查询地址列表
+  addressInfo: '/customer/addressInfo', // 修改地址信息
+  setDefaltAddress: '/customer/addr/default', // 设置默认地址
+  saveAddress: '/customer/addr', // 新增地址
+  getAddressById: '/customer/address/', // 根据 addressId 查询地址信息
   getSystemConfig: '/system/config', // 查询地址字段配置
   addressSetting: '/addressDisplaySetting/queryByStoreId', // 查询文本框设置
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
