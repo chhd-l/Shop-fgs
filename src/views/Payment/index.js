@@ -2110,32 +2110,33 @@ class Payment extends React.Component {
       () => {
         let newPayWayName =
           JSON.parse(sessionItemRoyal.get('rc-payWayNameArr')) || null;
-        console.log('666 111 newPayWayName: ', newPayWayName);
-        // pickup 支付方式处理：
-        // 1、cod: cash & card，则shop展示cod和卡支付
-        // 2、cod: cash 或 card，则shop展示cod和卡支付
-        // 3、无返回，则shop展示卡支付
-        let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
-        // console.log('666 receiveType: ', data.receiveType);
-        console.log('666 pmd: ', pmd);
-        let pickupPayMethods = null;
-        if (pmd?.length) {
-          pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
-        } else {
-          // 是否是代客购买
-          // let potalValetOrder = sessionItemRoyal.get('rc-iframe-from-storepotal') || null;
-          // if (!potalValetOrder && data.receiveType == 'PICK_UP') {
-          if (data.receiveType == 'PICK_UP') {
-            // 如果pickup没有cod的时候过滤掉cod
-            newPayWayName = newPayWayName.filter((e) => {
-              return e.code !== 'cod';
-            });
+        if (newPayWayName) {
+          // pickup 支付方式处理：
+          // 1、cod: cash & card，则shop展示cod和卡支付
+          // 2、cod: cash 或 card，则shop展示cod和卡支付
+          // 3、无返回，则shop展示卡支付
+          let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
+          // console.log('666 receiveType: ', data.receiveType);
+          console.log('666 pmd: ', pmd);
+          let pickupPayMethods = null;
+          if (pmd?.length) {
+            pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+          } else {
+            // 是否是代客购买
+            // let potalValetOrder = sessionItemRoyal.get('rc-iframe-from-storepotal') || null;
+            // if (!potalValetOrder && data.receiveType == 'PICK_UP') {
+            if (data.receiveType == 'PICK_UP') {
+              // 如果pickup没有cod的时候过滤掉cod
+              newPayWayName = newPayWayName.filter((e) => {
+                return e.code !== 'cod';
+              });
+            }
           }
-        }
 
-        this.setState({ payWayNameArr: [...newPayWayName] }, () => {
-          this.initPaymentTypeVal();
-        });
+          this.setState({ payWayNameArr: [...newPayWayName] }, () => {
+            this.initPaymentTypeVal();
+          });
+        }
       }
     );
     if (this.state.billingChecked || data?.receiveType == 'PICK_UP') {
