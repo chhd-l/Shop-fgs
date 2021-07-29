@@ -1711,13 +1711,34 @@ const fr_FR = {
   'preciseNutrition.call.content':
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
-  // 'preciseNutrition.faq.content':'You can check our ',
+  'preciseNutrition.faq.content':
+    'Vous pouvez consulter notre {val} voir si votre question a déjà reçu une réponse',
   'preciseNutrition.Top.title':
     '* Offre non cumulable avec la remise de 10% sur les abonnements produits',
   'preciseNutrition.Address.title': 'Adresse',
   'preciseNutrition.Address.firstLine':
     'Service Consommateur Royal Canin France',
   'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
-  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES'
+  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
+  'preciseNutrition.commitment.title': 'NOTRE ENGAGEMENT DURABLE',
+  'preciseNutrition.commitment.content1':
+    'Chez Royal canin, nous travaillons à réduire notre impact environnemental pour garder notre planète en bonne santé.',
+  'preciseNutrition.commitment.content2':
+    "Pour cette raison, votre produit sera fabriqué à la main en France et l'emballage que vous recevrez avec votre commande a été optimisé pour réduire son empreinte carbone et il a été réalisé avec des matériaux certifiés FSC, avec la garantie que le papier et le carton proviennent de sources recyclables et le bois de forêts bien gérées.",
+  'preciseNutrition.commitment.content3':
+    "Même si l'emballage est compostable, il ne doit pas être jeté dans la nature. Veuillez suivre la recommandation et le jeter dans la bonne poubelle. ",
+  'preciseNutrition.Below.title':
+    'UN PACK DE BIENVENUE POUR PRENDRE SOIN DE [NOM DU CHAT]',
+  'preciseNutrition.Below.content':
+    'Lors de votre première livraison, vous recevrez un pack de bienvenue exclusif qui comprend tout ce dont vous avez besoin pour bien nourrir et prendre soin de [nom du chat].',
+  'preciseNutrition.Below.list': 'Ce pack premium comprendra :',
+  'preciseNutrition.Below.list1':
+    "L'alimentation mensuelle adaptée de votre chat",
+  'preciseNutrition.Below.list2':
+    'Une échelle de pondération pour fournir la portion quotidienne exacte',
+  'preciseNutrition.Below.list3':
+    'Une tasse à mesurer pour le rendre facile et précis',
+  'preciseNutrition.Below.list4':
+    'Et bien sûr toutes les instructions dans votre lettre de bienvenue'
 };
 export default fr_FR;

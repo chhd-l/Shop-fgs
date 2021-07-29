@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -7,7 +7,10 @@ import Footer from '@/components/Footer';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-
+import './index.css';
+import LazyLoad from 'react-lazyload';
+import DetailsDisplay from './DetailsDisplay';
+import ProductSpecialities from './ProductSpecialities';
 const pageLink = window.location.href;
 
 class PreciseRecommendation extends React.Component {
@@ -42,7 +45,7 @@ class PreciseRecommendation extends React.Component {
       faq: {
         desc: (
           <FormattedMessage
-            id="ClubLP.Help.faq.content"
+            id="preciseNutrition.faq.content"
             values={{
               val: ru ? (
                 <DistributeHubLinkOrATag
@@ -51,7 +54,8 @@ class PreciseRecommendation extends React.Component {
                 >
                   <a
                     style={{
-                      textDecoration: 'underline'
+                      textDecoration: 'underline',
+                      color: '#E2001A'
                     }}
                   >
                     часто задаваемые вопросы:
@@ -64,7 +68,8 @@ class PreciseRecommendation extends React.Component {
                 >
                   <a
                     style={{
-                      textDecoration: 'underline'
+                      textDecoration: 'underline',
+                      color: '#E2001A'
                     }}
                   >
                     Sıkça Sorulan Sorular
@@ -77,7 +82,8 @@ class PreciseRecommendation extends React.Component {
                 >
                   <a
                     style={{
-                      textDecoration: 'underline'
+                      textDecoration: 'underline',
+                      color: '#E2001A'
                     }}
                   >
                     FAQ pour
@@ -132,6 +138,178 @@ class PreciseRecommendation extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
+          <ProductSpecialities />
+          <DetailsDisplay />
+
+          <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
+          <div style={{ backgroundColor: '#eee' }}>
+            <div
+              className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+              style={{ marginTop: '0' }}
+            >
+              <div
+                className="rc-bg-colour--brand3"
+                id="benefits-box"
+                style={{ padding: '1px 0' }}
+              >
+                <div className="rc-full-width">
+                  <div>
+                    <div className="experience-component experience-assets-importContentAsset">
+                      <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                        <div className="content-asset">
+                          <div
+                            className="rc-column row rc-max-width--lg rc-match-heights rc-padding-y--sm flexwrapJoin"
+                            style={{
+                              margin: '0',
+                              padding: '0',
+                              display: 'flex',
+                              flexWrap: 'wrap'
+                            }}
+                          >
+                            <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1">
+                              <div className="rc-column rc-padding--none">
+                                <h4
+                                  className="rc-beta text-left"
+                                  style={{ fontWeight: '550' }}
+                                >
+                                  <FormattedMessage id="preciseNutrition.Below.title" />
+                                </h4>
+                                <div className="text-left pr-5">
+                                  <FormattedMessage id="preciseNutrition.Below.content" />
+                                </div>
+                                <div className="mb-3">
+                                  <FormattedMessage id="preciseNutrition.Below.list" />
+                                </div>
+                                <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                                  <li className="rc-list__item pl-0 flex">
+                                    <div>
+                                      <em className="bingo rc-margin-right--xs mr-3"></em>
+                                    </div>
+                                    <div className="font-weight-normal">
+                                      <FormattedMessage id="preciseNutrition.Below.list1" />
+                                    </div>
+                                  </li>
+                                  <li className="rc-list__item pl-0 flex">
+                                    <div>
+                                      <em className="bingo rc-margin-right--xs mr-3"></em>
+                                    </div>
+                                    <div className="font-weight-normal">
+                                      <FormattedMessage id="preciseNutrition.Below.list2" />
+                                    </div>
+                                  </li>
+                                  <li className="rc-list__item pl-0 flex">
+                                    <div>
+                                      <em className="bingo rc-margin-right--xs mr-3"></em>
+                                    </div>
+                                    <div className="font-weight-normal">
+                                      <FormattedMessage id="preciseNutrition.Below.list3" />
+                                    </div>
+                                  </li>
+                                  <li className="rc-list__item pl-0 flex">
+                                    <div>
+                                      <em className="bingo rc-margin-right--xs mr-3"></em>
+                                    </div>
+                                    <div className="font-weight-normal">
+                                      <FormattedMessage id="preciseNutrition.Below.list4" />
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1">
+                              <div className="rc-column rc-padding--none">
+                                <LazyLoad>
+                                  <img
+                                    className="w-100"
+                                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
+                                  />
+                                </LazyLoad>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
+
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-layouts-cardcarousel">
+                  <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
+                    <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                      <div className="rc-padding-x--xl">
+                        <div>
+                          <h4
+                            className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                            style={{ fontWeight: '550' }}
+                          >
+                            <FormattedMessage id="preciseNutrition.commitment.title" />
+                          </h4>
+                        </div>
+                        <div className="d-flex justify-content-center bottom-content__icon-list text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                          <div className="rc-card--product mx-3">
+                            <LazyLoad>
+                              <img
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-1.png`}
+                              />
+                            </LazyLoad>
+                          </div>
+                          <div className="rc-card--product mx-3">
+                            <LazyLoad>
+                              <img
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-2.png`}
+                              />
+                            </LazyLoad>
+                          </div>
+                          <div className="rc-card--product mx-3">
+                            <LazyLoad>
+                              <img
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-3.png`}
+                              />
+                            </LazyLoad>
+                          </div>
+                          <div className="rc-card--product mx-3">
+                            <LazyLoad>
+                              <img
+                                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-4.png`}
+                              />
+                            </LazyLoad>
+                          </div>
+                        </div>
+                        <p>
+                          <span>
+                            <FormattedMessage id="preciseNutrition.commitment.content1" />
+                          </span>
+                        </p>
+                        <p>
+                          <FormattedMessage id="preciseNutrition.commitment.content2" />
+                        </p>
+                        <p>
+                          <FormattedMessage id="preciseNutrition.commitment.content3" />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="rc-border-bottom rc-border-colour--brand4"
+            style={{ borderBottomWidth: '4px' }}
+          ></div>
+          <div
+            className="rc-border-bottom rc-border-colour--brand4"
+            style={{ borderBottomWidth: '4px' }}
+          ></div>
+
           <HelpComponentsNew
             firstText={firstText}
             list={list}
