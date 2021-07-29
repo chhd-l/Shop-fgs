@@ -527,10 +527,7 @@ class AddressList extends React.Component {
       }
     } else {
       this.props.updateData(tmpObj);
-      if (
-        this.props.type == 'delivery' &&
-        window.__.env.REACT_APP_COUNTRY == 'ru'
-      ) {
+      if (this.props.type == 'delivery') {
         this.calculateFreight(tmpObj);
       }
       // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
@@ -1615,6 +1612,7 @@ class AddressList extends React.Component {
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
                       </span>{' '}
@@ -1639,6 +1637,7 @@ class AddressList extends React.Component {
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
                       </span>{' '}

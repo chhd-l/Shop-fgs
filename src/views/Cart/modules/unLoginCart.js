@@ -177,13 +177,13 @@ class UnLoginCart extends React.Component {
       if (!reg.test(el.buyCount)) {
         numFlag = false;
       }
-      if (el.promotions && el.promotions.includes('club')) {
-        clubFlag = true;
-      } else if (el.promotions && el.promotions.includes('autoship')) {
-        autoShipFlag = true;
-      }
+      // if (el.promotions && el.promotions.includes('club')) {
+      //   clubFlag = true;
+      // } else if (el.promotions && el.promotions.includes('autoship')) {
+      //   autoShipFlag = true;
+      // }
     });
-    return !(clubFlag && autoShipFlag) && numFlag;
+    return numFlag;
   }
   getGoodsIdArr = () => {
     let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);

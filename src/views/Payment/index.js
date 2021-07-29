@@ -708,7 +708,6 @@ class Payment extends React.Component {
         };
       }
       let payWayNameArr = [];
-
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -732,6 +731,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
+          console.log('666 payWay payWayNameArr: ', payWayNameArr);
           this.initPaymentTypeVal();
         }
       );
@@ -2115,9 +2115,14 @@ class Payment extends React.Component {
         if (pmd?.length) {
           pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
         } else {
-          newPayWayName = newPayWayName.filter((e) => {
-            return e.code !== 'cod';
-          });
+          let potalValetOrder =
+            sessionItemRoyal.get('rc-iframe-from-storepotal') || null;
+          console.log('666 potalValetOrder: ', potalValetOrder);
+          if (!potalValetOrder) {
+            newPayWayName = newPayWayName.filter((e) => {
+              return e.code !== 'cod';
+            });
+          }
         }
         console.log('666 pickupPayMethods: ', pickupPayMethods);
         console.log('666 newPayWayName: ', newPayWayName);
