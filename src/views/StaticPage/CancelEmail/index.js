@@ -19,41 +19,41 @@ class CancelEmail extends React.Component {
         metaKeywords: 'Royal canin',
         metaDescription: 'Royal canin'
       },
-      consumerAccount: ''
+      consumerAccount: '',
+      errMessage: ''
     };
   }
 
   async componentDidMount() {
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    const consumerAccount = funcUrl({ name: 'consumerAccount' });
-    const storeId = funcUrl({ name: 'storeId' });
-    this.setState({
-      consumerAccount: consumerAccount
-    });
     try {
+      setSeoConfig().then((res) => {
+        this.setState({ seoConfig: res });
+      });
+      const consumerAccount = funcUrl({ name: 'consumerAccount' });
+      const storeId = funcUrl({ name: 'storeId' });
       const res = await cancelEmailBind({
         consumerAccount: consumerAccount,
         storeId
       });
+      this.setState({
+        consumerAccount: consumerAccount
+      });
       console.log(res);
     } catch (err) {
-      console.log(err);
+      console.log('err', err);
+      this.setState({ errMessage: err.message });
     }
   }
 
   render() {
+    const { seoConfig, errMessage, consumerAccount } = this.state;
     return (
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
-          <title>{this.state.seoConfig.title}</title>
-          <meta
-            name="description"
-            content={this.state.seoConfig.metaDescription}
-          />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <title>{seoConfig.title}</title>
+          <meta name="description" content={seoConfig.metaDescription} />
+          <meta name="keywords" content={seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -64,12 +64,16 @@ class CancelEmail extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <div className="p-md-2rem cancel-email-main">
-            <p>
-              <FormattedMessage
-                id="cancelEmail.content"
-                values={{ val: this.state.consumerAccount }}
-              />
-            </p>
+            {!errMessage && consumerAccount ? (
+              <p>
+                <FormattedMessage
+                  id="cancelEmail.content"
+                  values={{ val: consumerAccount }}
+                />
+              </p>
+            ) : (
+              <p>{errMessage}</p>
+            )}
           </div>
           <Footer />
         </main>
