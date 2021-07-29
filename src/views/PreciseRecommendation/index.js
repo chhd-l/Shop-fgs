@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-
+import Banner from './components/Banner';
 const pageLink = window.location.href;
 
 class PreciseRecommendation extends React.Component {
@@ -132,6 +132,7 @@ class PreciseRecommendation extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
+          <Banner />
           <HelpComponentsNew
             firstText={firstText}
             list={list}
