@@ -37,6 +37,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const pageLink = window.location.href;
+let isIndv = false;
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -886,13 +887,15 @@ class AccountOrders extends React.Component {
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {item.spuName}
                                             </span>
-                                            <FormattedMessage
-                                              id="order.quantityText"
-                                              values={{
-                                                specText: item.specDetails,
-                                                buyCount: item.num
-                                              }}
-                                            />
+                                            {!isIndv && (
+                                              <FormattedMessage
+                                                id="order.quantityText"
+                                                values={{
+                                                  specText: item.specDetails,
+                                                  buyCount: item.num
+                                                }}
+                                              />
+                                            )}
                                           </div>
                                           {item.subscriptionPlanId ? (
                                             <div className="align-items-center d-flex">

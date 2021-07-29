@@ -11,6 +11,8 @@ import './index.css';
 import LazyLoad from 'react-lazyload';
 import DetailsDisplay from './DetailsDisplay';
 import ProductSpecialities from './ProductSpecialities';
+import Banner from './components/Banner';
+
 const pageLink = window.location.href;
 
 class PreciseRecommendation extends React.Component {
@@ -138,6 +140,7 @@ class PreciseRecommendation extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
+          <Banner />
           <ProductSpecialities />
           <DetailsDisplay />
 

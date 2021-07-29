@@ -10,11 +10,13 @@ const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {
     setState,
+    isIndv,
     isActive,
     onDateChange,
     getMinDate,
     isGift
   } = SubGoodsInfosValue;
+
   switch (el.goodsInfoFlag) {
     case 0:
       el.promotions = 'one-off';
@@ -29,31 +31,59 @@ const ChangeSelection = ({ el }) => {
   return (
     <>
       <div className="rc-card-content">
-        <div
-          className="rc-card__meta order-Id text-left"
-          style={{
-            marginTop: '.625rem',
-            display: 'inline-block',
-            marginLeft: '.625rem',
-            fontSize: '1.25rem'
-          }}
-        >
-          {el.promotions && (
-            <FrequencySelection
-              frequencyType={el.promotions}
-              currentFrequencyId={el.periodTypeId}
-              handleConfirm={(data) => {
-                if (el.periodTypeId !== data.id) {
-                  el.periodTypeId = data.id;
-                  // el.periodTypeValue = data.valueEn;
-                  setState({ isDataChange: true });
-                }
+        {isIndv ? (
+          <>
+            <strong
+              style={{
+                display: 'inline-block',
+                width: '50%',
+                marginTop: '.625rem',
+                float: 'left'
               }}
-              className="col-md-12"
-              disabled={!isActive || isGift}
-            />
-          )}
-        </div>
+            >
+              <FormattedMessage id="subscription.frequency" />:
+            </strong>
+            <div
+              className="rc-card__meta order-Id text-left"
+              style={{
+                marginTop: '.625rem',
+                display: 'inline-block',
+                paddingLeft: '.625rem',
+                fontSize: '1.25rem',
+                width: '50%',
+                float: 'left'
+              }}
+            >
+              30 daily rations Delivered every month
+            </div>
+          </>
+        ) : (
+          <div
+            className="rc-card__meta order-Id text-left"
+            style={{
+              marginTop: '.625rem',
+              display: 'inline-block',
+              marginLeft: '.625rem',
+              fontSize: '1.25rem'
+            }}
+          >
+            {el.promotions && (
+              <FrequencySelection
+                frequencyType={el.promotions}
+                currentFrequencyId={el.periodTypeId}
+                handleConfirm={(data) => {
+                  if (el.periodTypeId !== data.id) {
+                    el.periodTypeId = data.id;
+                    // el.periodTypeValue = data.valueEn;
+                    setState({ isDataChange: true });
+                  }
+                }}
+                className="col-md-12"
+                disabled={!isActive || isGift}
+              />
+            )}
+          </div>
+        )}
       </div>
       <div className="rc-card-content">
         <strong
