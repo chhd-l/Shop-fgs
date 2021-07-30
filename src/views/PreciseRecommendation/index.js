@@ -155,6 +155,10 @@ class PreciseRecommendation extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <Banner productInfo={this.state.productInfo} />
+          <div
+            className="rc-border-bottom rc-border-colour--brand4"
+            style={{ borderBottomWidth: '8px' }}
+          ></div>
           <ProductSpecialities />
           <DetailsDisplay />
 
@@ -166,7 +170,7 @@ class PreciseRecommendation extends React.Component {
             >
               <div
                 className="rc-bg-colour--brand3"
-                id="benefits-box"
+                // id="benefits-box"
                 style={{ padding: '1px 0' }}
               >
                 <div className="rc-full-width">
@@ -320,11 +324,7 @@ class PreciseRecommendation extends React.Component {
 
           <div
             className="rc-border-bottom rc-border-colour--brand4"
-            style={{ borderBottomWidth: '4px' }}
-          ></div>
-          <div
-            className="rc-border-bottom rc-border-colour--brand4"
-            style={{ borderBottomWidth: '4px' }}
+            style={{ borderBottomWidth: '8px' }}
           ></div>
 
           <HelpComponentsNew
