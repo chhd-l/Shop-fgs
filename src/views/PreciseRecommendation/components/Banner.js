@@ -9,7 +9,7 @@ const bannerList = [
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const Banner = () => {
+const Banner = ({ productInfo }) => {
   return (
     <section>
       <div>
@@ -164,25 +164,22 @@ const Banner = () => {
           />
         </div>
         <div className="rc-column">
-          <div className="d-flex">
-            <div className="rc-padding-right--xs" style={{ width: '78px' }}>
-              <img
-                // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/image5.png`}
-              />
+          {productInfo.provenBenefits?.map((item) => (
+            <div className="d-flex">
+              <div className="rc-padding-right--xs" style={{ width: '78px' }}>
+                <img
+                  // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
+                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${item.img}`}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <strong style={{ fontSize: '20px' }}>{item.title}</strong>
+                <p style={{ fontSize: '18px', lineHeight: '24px' }}>
+                  {item.des}
+                </p>
+              </div>
             </div>
-            <div style={{ flex: 1 }}>
-              <strong style={{ fontSize: '20px' }}>
-                Stool odour reduction
-              </strong>
-              <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                A lack of exercise may lead to a slower intestinal transit and
-                smelly stools. Cette nourriture contains highly digestible
-                protein (L.I.P.*) and helps reduce the quantity and odour of
-                stools.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

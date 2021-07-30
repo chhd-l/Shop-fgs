@@ -104,6 +104,17 @@ const fr_FR = {
   'account.weight': "Quel est le poids d'un chien adulte de votre race {val}?",
   'account.welcome': 'Bienvenue dans la famille ROYAL CANIN®!',
   'account.yes': 'Oui',
+  'ind.IND1001.des1':
+    "Combinaison optimale de fibres pour favorises la sensation de satiété.Teneur adaptée en protéines pour aider au maintien de la masse musculaire et d'un poids plus sain.Nutrition savoureuse permettant de réguler la faim, conçue pour aider votre chat à rester en forme.",
+  'ind.IND1001.img1': 'image7.png',
+  'ind.IND1001.title2': 'ENRICHI EN L-CARNITINE',
+  'ind.IND1001.des2':
+    'Contient de la L-carnitine, favorisant un métabolisme sain des lipides.',
+  'ind.IND1001.img2': 'image10.png',
+  'ind.IND1001.title3': 'SANTÉ URINAIRE',
+  'ind.IND1001.des3':
+    'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
+  'ind.IND1001.img3': 'image9.png',
   active: 'Actif',
   addANewAddress: 'Ajouter une nouvelle adresse',
   addANewPaymentMethod: 'Ajouter un nouveau mode de paiement',
