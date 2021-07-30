@@ -22,6 +22,7 @@ const NextDelivery = ({
   modalList,
   intl
 }) => {
+  const isIndv = subDetail.subscriptionType?.toLowerCase().includes('indv');
   const isActive = subDetail.subscribeStatus === '0';
   const { configStore } = useLocalStore(() => stores);
   const [promotionInputValue, setPromotionInputValue] = ''; //输入的促销码
@@ -211,7 +212,8 @@ const NextDelivery = ({
                   <div
                     style={{
                       width: '200px',
-                      paddingTop: '30px'
+                      paddingTop: '30px',
+                      display: `${isIndv ? 'none' : 'block'}`
                     }}
                   >
                     <h5

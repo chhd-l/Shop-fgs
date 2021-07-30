@@ -68,7 +68,7 @@ class Recommendation extends React.Component {
       showCur: -1,
       isSPT: false,
       frequencyList: '',
-      isNoMoreProduct: false,
+      isNoMoreProduct: '', //页面error的时候的翻译id
       promotionCode: '',
       promotionCodeText: '',
       prescriptionJson: '',
@@ -360,7 +360,9 @@ class Recommendation extends React.Component {
         });
         // 只展示上架商品
         if (!filterProducts.length) {
-          this.setState({ isNoMoreProduct: true });
+          this.setState({
+            isNoMoreProduct: 'recommendation.noMoreRecommendation'
+          });
         }
         this.setState(
           {
@@ -1269,7 +1271,7 @@ class Recommendation extends React.Component {
               className="rc-max-width--xl"
               style={{ fontSize: '2.5rem', textAlign: 'center' }}
             >
-              <FormattedMessage id="recommendation.noMoreRecommendation" />
+              <FormattedMessage id={this.state.isNoMoreProduct} />
             </div>
           ) : (
             <div

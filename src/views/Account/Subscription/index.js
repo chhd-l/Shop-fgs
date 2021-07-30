@@ -24,6 +24,7 @@ import { Helmet } from 'react-helmet';
 import { myAccountPushEvent } from '@/utils/GA';
 import AutoshipItem from './components/AutoshipItem';
 import ClubItem from './components/ClubItem';
+import IndvItem from './components/IndvItem';
 
 import './index.css';
 import nutrition from '../../../components/GoodsDetailTabs/image/pictonutrition@4x.png';
@@ -368,6 +369,15 @@ class Subscription extends React.Component {
                 {subList.map((subItem, i) => {
                   let subItemComp = null;
                   if (subItem.subscriptionType === 'Club') {
+                    // if (subItem.subscriptionType === 'Indv') {
+                    subItemComp = (
+                      <IndvItem
+                        history={this.props.history}
+                        subItem={subItem}
+                        idx={i}
+                      />
+                    );
+                  } else if (subItem.subscriptionType === 'Club') {
                     subItemComp = (
                       <ClubItem
                         history={this.props.history}

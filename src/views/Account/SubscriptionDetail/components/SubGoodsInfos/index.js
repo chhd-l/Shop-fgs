@@ -27,6 +27,7 @@ const SubGoodsInfos = ({
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const isActive = subDetail.subscribeStatus === '0';
+  const isIndv = subDetail.subscriptionType?.toLowerCase().includes('indv');
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   //订阅数量更改
   const onQtyChange = async () => {
@@ -122,7 +123,8 @@ const SubGoodsInfos = ({
     isDataChange,
     productListLoading,
     getDetail,
-    showErrMsg
+    showErrMsg,
+    isIndv
   };
   return (
     // true?null:
@@ -196,7 +198,7 @@ const SubGoodsInfos = ({
                         marginBottom: '8px'
                       }}
                     >
-                      {el.specText}
+                      {!isIndv && el.specText}
                     </p>
                     ..........
                     {isShowClub && !!subDetail.petsId && (
@@ -347,13 +349,15 @@ const SubGoodsInfos = ({
                               marginBottom: '8px'
                             }}
                           >
-                            {el.specText}
+                            {!isIndv && el.specText}
                           </p>
                           <div>
                             <div>
                               <span
                                 className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                  isActive && !isGift ? '' : 'disabled'
+                                  isActive && !isGift && !isIndv
+                                    ? ''
+                                    : 'disabled'
                                 }`}
                                 style={{ marginLeft: '-8px' }}
                                 onClick={() => {
@@ -374,7 +378,9 @@ const SubGoodsInfos = ({
                               />
                               <span
                                 className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                  isActive && !isGift ? '' : 'disabled'
+                                  isActive && !isGift && !isIndv
+                                    ? ''
+                                    : 'disabled'
                                 }`}
                                 onClick={() => {
                                   plusQuantity(el);
@@ -405,24 +411,26 @@ const SubGoodsInfos = ({
                                   el.subscribePrice * el.subscribeNum
                                 )}
                               </span>
-                              <span
-                                className="price"
-                                style={{
-                                  display: 'inline-block',
-                                  fontSize: '1.25rem',
-                                  fontWeight: '400',
-                                  textDecoration: 'line-through',
-                                  verticalAlign: 'middle',
-                                  marginLeft: '8px',
-                                  height: '.6875rem',
-                                  color: '#aaa',
-                                  fontSize: '.875rem'
-                                }}
-                              >
-                                {formatMoney(
-                                  el.originalPrice * el.subscribeNum
-                                )}
-                              </span>
+                              {!isIndv && (
+                                <span
+                                  className="price"
+                                  style={{
+                                    display: 'inline-block',
+                                    fontSize: '1.25rem',
+                                    fontWeight: '400',
+                                    textDecoration: 'line-through',
+                                    verticalAlign: 'middle',
+                                    marginLeft: '8px',
+                                    height: '.6875rem',
+                                    color: '#aaa',
+                                    fontSize: '.875rem'
+                                  }}
+                                >
+                                  {formatMoney(
+                                    el.originalPrice * el.subscribeNum
+                                  )}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -439,27 +447,33 @@ const SubGoodsInfos = ({
                               width: '100px',
                               paddingTop: '10px'
                             }}
-                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 ${
-                              productListLoading ? 'ui-btn-loading' : ''
-                            }`}
-                            onClick={() => {
-                              setState({
-                                triggerShowChangeProduct: Object.assign(
-                                  {},
-                                  triggerShowChangeProduct,
-                                  {
-                                    show: true,
-                                    firstShow:
-                                      !triggerShowChangeProduct.firstShow,
-                                    goodsInfo: [el],
-                                    isShowModal: true
-                                  }
-                                )
-                              });
-                            }}
+                            className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
                             // onClick={() => showChangeProduct([el])}
                           >
-                            <FormattedMessage id="subscriptionDetail.changeProduct" />
+                            {/* indv不会展示该按钮 */}
+                            {!isIndv ? (
+                              <span
+                                className={`${
+                                  productListLoading ? 'ui-btn-loading' : ''
+                                }`}
+                                onClick={() => {
+                                  setState({
+                                    triggerShowChangeProduct: Object.assign(
+                                      {},
+                                      triggerShowChangeProduct,
+                                      {
+                                        show: true,
+                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        goodsInfo: [el],
+                                        isShowModal: true
+                                      }
+                                    )
+                                  });
+                                }}
+                              >
+                                <FormattedMessage id="subscriptionDetail.changeProduct" />
+                              </span>
+                            ) : null}
                           </span>
                           <div
                             style={{

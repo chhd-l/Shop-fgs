@@ -8,9 +8,84 @@ import './index.css';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
+const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+
+const defaultFirst = {
+  content: ''
+};
+const defaultList = {
+  phone: {
+    title: <FormattedMessage id="ClubLP.Help.call.title" />,
+    desc: <FormattedMessage id="ClubLP.Help.call.content" />,
+    btnText: <FormattedMessage id="ClubLP.Help.call.number" />
+  },
+  email: {
+    title: <FormattedMessage id="ClubLP.Help.email.title" />,
+    desc: <FormattedMessage id="ClubLP.Help.email.content" />,
+    btnText: <FormattedMessage id="ClubLP.Help.email.title" />
+  },
+  faq: {
+    desc: (
+      <FormattedMessage
+        id="ClubLP.Help.faq.content"
+        values={{
+          val: ru ? (
+            <DistributeHubLinkOrATag
+              href={'/about-us/faqs'}
+              ariaLabel="Links to faq"
+            >
+              <a
+                style={{
+                  textDecoration: 'underline'
+                }}
+              >
+                часто задаваемые вопросы:
+              </a>
+            </DistributeHubLinkOrATag>
+          ) : tr ? (
+            <DistributeHubLinkOrATag
+              href={'/about-us/faqs'}
+              ariaLabel="Links to faq"
+            >
+              <a
+                style={{
+                  textDecoration: 'underline'
+                }}
+              >
+                Sıkça Sorulan Sorular
+              </a>
+            </DistributeHubLinkOrATag>
+          ) : (
+            <DistributeHubLinkOrATag
+              href={'/about-us/faqs'}
+              ariaLabel="Links to faq"
+            >
+              <a
+                style={{
+                  textDecoration: 'underline'
+                }}
+              >
+                FAQ pour
+              </a>
+            </DistributeHubLinkOrATag>
+          )
+        }}
+      />
+    )
+  }
+};
+const defaultLast = {
+  title: '',
+  fline: '',
+  sline: '',
+  tline: ''
+};
+
 const HelpComponentsNew = (props) => {
-  const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
-  const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+  const { list = defaultList } = props;
+  const { lastText = defaultLast } = props;
+  const { firstText = defaultFirst } = props;
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -18,6 +93,7 @@ const HelpComponentsNew = (props) => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                <p className="mt-5 mb-5 pb-4">{firstText.content}</p>
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="ClubLP.Help.title" />
@@ -41,10 +117,12 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <b style={{ color: '#E2001A' }}>
-                                    <FormattedMessage id="ClubLP.Help.call.title" />
+                                    {list.phone.title}
+                                    {/*<FormattedMessage id="ClubLP.Help.call.title" />*/}
                                   </b>
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.call.content" />
+                                    {list.phone.desc}
+                                    {/*<FormattedMessage id="ClubLP.Help.call.content" />*/}
                                   </p>
                                   <div className="rc-margin-top--xs">
                                     <p
@@ -52,7 +130,8 @@ const HelpComponentsNew = (props) => {
                                       className="rc-numeric rc-md-up"
                                     >
                                       <a style={{ color: '#E2001A' }}>
-                                        <FormattedMessage id="ClubLP.Help.call.number" />
+                                        {list.phone.btnText}
+                                        {/*<FormattedMessage id="ClubLP.Help.call.number" />*/}
                                       </a>
                                     </p>
                                   </div>
@@ -88,10 +167,12 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
                                   <b style={{ color: '#E2001A' }}>
-                                    <FormattedMessage id="ClubLP.Help.email.title" />
+                                    {list.email.title}
+                                    {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                   </b>
                                   <p>
-                                    <FormattedMessage id="ClubLP.Help.email.content" />
+                                    {list.email.desc}
+                                    {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
                                   </p>
                                   {tr || ru ? (
                                     <DistributeHubLinkOrATag
@@ -101,7 +182,8 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        <FormattedMessage id="ClubLP.Help.email.address" />
+                                        {list.email.btnText}
+                                        {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
                                       </p>
                                     </DistributeHubLinkOrATag>
                                   ) : (
@@ -109,7 +191,8 @@ const HelpComponentsNew = (props) => {
                                       <p
                                         style={{ textDecoration: 'underline' }}
                                       >
-                                        <FormattedMessage id="ClubLP.Help.email.title" />
+                                        {list.email.btnText}
+                                        {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                       </p>
                                     </Link>
                                   )}
@@ -137,51 +220,52 @@ const HelpComponentsNew = (props) => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    <FormattedMessage
-                                      id="ClubLP.Help.faq.content"
-                                      values={{
-                                        val: ru ? (
-                                          <DistributeHubLinkOrATag
-                                            href={'/about-us/faqs'}
-                                            ariaLabel="Links to faq"
-                                          >
-                                            <a
-                                              style={{
-                                                textDecoration: 'underline'
-                                              }}
-                                            >
-                                              часто задаваемые вопросы:
-                                            </a>
-                                          </DistributeHubLinkOrATag>
-                                        ) : tr ? (
-                                          <DistributeHubLinkOrATag
-                                            href={'/about-us/faqs'}
-                                            ariaLabel="Links to faq"
-                                          >
-                                            <a
-                                              style={{
-                                                textDecoration: 'underline'
-                                              }}
-                                            >
-                                              Sıkça Sorulan Sorular
-                                            </a>
-                                          </DistributeHubLinkOrATag>
-                                        ) : (
-                                          <DistributeHubLinkOrATag
-                                            href={'/about-us/faqs'}
-                                            ariaLabel="Links to faq"
-                                          >
-                                            <a
-                                              style={{
-                                                textDecoration: 'underline'
-                                              }}
-                                            >
-                                              FAQ pour
-                                            </a>
-                                          </DistributeHubLinkOrATag>
-                                        )
-                                      }}
-                                    />
+                                    {list.faq.desc}
+                                    {/*<FormattedMessage*/}
+                                    {/*  id="ClubLP.Help.faq.content"*/}
+                                    {/*  values={{*/}
+                                    {/*    val: ru ? (*/}
+                                    {/*      <DistributeHubLinkOrATag*/}
+                                    {/*        href={'/about-us/faqs'}*/}
+                                    {/*        ariaLabel="Links to faq"*/}
+                                    {/*      >*/}
+                                    {/*        <a*/}
+                                    {/*          style={{*/}
+                                    {/*            textDecoration: 'underline'*/}
+                                    {/*          }}*/}
+                                    {/*        >*/}
+                                    {/*          часто задаваемые вопросы:*/}
+                                    {/*        </a>*/}
+                                    {/*      </DistributeHubLinkOrATag>*/}
+                                    {/*    ) : tr ? (*/}
+                                    {/*      <DistributeHubLinkOrATag*/}
+                                    {/*        href={'/about-us/faqs'}*/}
+                                    {/*        ariaLabel="Links to faq"*/}
+                                    {/*      >*/}
+                                    {/*        <a*/}
+                                    {/*          style={{*/}
+                                    {/*            textDecoration: 'underline'*/}
+                                    {/*          }}*/}
+                                    {/*        >*/}
+                                    {/*          Sıkça Sorulan Sorular*/}
+                                    {/*        </a>*/}
+                                    {/*      </DistributeHubLinkOrATag>*/}
+                                    {/*    ) : (*/}
+                                    {/*      <DistributeHubLinkOrATag*/}
+                                    {/*        href={'/about-us/faqs'}*/}
+                                    {/*        ariaLabel="Links to faq"*/}
+                                    {/*      >*/}
+                                    {/*        <a*/}
+                                    {/*          style={{*/}
+                                    {/*            textDecoration: 'underline'*/}
+                                    {/*          }}*/}
+                                    {/*        >*/}
+                                    {/*          FAQ pour*/}
+                                    {/*        </a>*/}
+                                    {/*      </DistributeHubLinkOrATag>*/}
+                                    {/*    )*/}
+                                    {/*  }}*/}
+                                    {/*/>*/}
                                   </p>
 
                                   <div className="rc-margin-top--xs">
@@ -221,6 +305,28 @@ const HelpComponentsNew = (props) => {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                  <div>
+                    <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                      {/*<FormattedMessage id="ClubLP.Help.title" />*/}
+                      {lastText.title}
+                    </h4>
+                  </div>
+                  <p>
+                    <span>
+                      {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
+                      {lastText.fline}
+                    </span>
+                  </p>
+                  <p>
+                    {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
+                    {lastText.sline}
+                  </p>
+                  <p>
+                    {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
+                    {lastText.tline}
+                  </p>
                 </div>
               </div>
             </div>

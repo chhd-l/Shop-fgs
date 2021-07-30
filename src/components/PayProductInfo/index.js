@@ -314,7 +314,7 @@ class PayProductInfo extends React.Component {
         style={{ ...style }}
         id={id}
       >
-        <div className="product-summary__recap mt-0 mb-0">
+        <div className="product-summary__recap mt-0 mb-0  111">
           {details ? (
             <>
               <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">

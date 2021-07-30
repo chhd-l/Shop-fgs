@@ -1455,6 +1455,68 @@ const en_US = {
   'clinic.vetClinicsTip1':
     'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
   'clinic.vetClinicsTip2': 'Contact us',
+  'preciseNutrition.call.content':
+    'Monday to Friday from 8:30am to 7pm and on Saturdays from 9am to 1pm',
+  'preciseNutrition.call.number': '0800 415 161',
+  'preciseNutrition.faq.content':
+    'You can check our FAQ section to see if your question has already been answered ',
+  'preciseNutrition.Top.title':
+    '* Offer not accumulated with the 10% discount on product subscriptions',
+  'preciseNutrition.Address.title': 'Address',
+  'preciseNutrition.Address.firstLine':
+    'Service Consommateur Royal Canin France',
+  'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
+  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
+  'preciseNutrition.commitment.title': 'OUR SUSTAINABILITY COMMITMENT',
+  'preciseNutrition.commitment.content1':
+    'At Royal canin, we work to reduce our environmental impact to keep our planet healthy.',
+  'preciseNutrition.commitment.content2':
+    'For this reason, your product will be handmade in France and the packaging you will receive with your order has been optimized to reduce its carbon print and it was produced with FSC certified materials, with the guarantee that the paper and cardboard come from recyclable sources and the wood from well managed forests.',
+  'preciseNutrition.commitment.content3':
+    'Even if the packaging is compostable, it should not be throw in the nature. Please follow the recommendation and throw it in the right bin. ',
+  'preciseNutrition.Below.title':
+    "A WELCOME PACK TO BEST TAKE CARE OF  [CAT'S NAME]",
+  'preciseNutrition.Below.content':
+    'On your first delivery you will receive an exclusive welcome pack that includes everything you need to properly feed & take care of [cat’s name].',
+  'preciseNutrition.Below.list': 'This premium pack will include :',
+  'preciseNutrition.Below.list1': 'Your cat’s adapted monthly diet',
+  'preciseNutrition.Below.list2':
+    'A weighting scale to provide the exact daily portion',
+  'preciseNutrition.Below.list3': 'A measuring cup to make it easy & precise',
+  'preciseNutrition.Below.list4':
+    'And of course all instructions in your welcome letter',
+  'preciseNutrition.Details.title':
+    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
+  'preciseNutrition.Details.lititle1': 'INGREDIENTS',
+  'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
+  'preciseNutrition.Details.contitle1': 'COMPOSITION',
+  'preciseNutrition.Details.contitle2': 'ADDITIVES (PER KG)',
+  'preciseNutrition.Details.content1':
+    'Dehydrated poultry protein, rice, wheat, maize, vegetable protein isolate*, animal fats, hydrolysed animal proteins, wheat flour, vegetable fibres, beet pulp, yeasts and parts thereof, soya oil, minerals, fructo-oligo-saccharides, fish oil, psyllium husks and seeds (0.5%)',
+  'preciseNutrition.Details.content2':
+    'Nutritional additives: Vitamin A: 13500 IU, Vitamin D3: 700 IU, E1 (Iron): 42 mg, E2 (Iodine): 4.2 mg, E4 (Copper): 13 mg, E5 (Manganese): 55 mg, E6 (Zinc): 164 mg, E8 (Selenium): 0.09 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants.',
+  'preciseNutrition.Details.content2.span':
+    '*L.I.P. : protein selected for its very high assimilation.',
+  'preciseNutrition.Details.content3.1':
+    'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
+  'preciseNutrition.Details.content3.2':
+    'Thus, European regulations requires manufacturers to quantify the quantities of PROTEIN, FAT, RAW CELLULOSE and RAW ASHES',
+  'preciseNutrition.Details.content4': '',
+  'preciseNutrition.Details.link': 'Learn more',
+  'preciseNutrition.Details.lastText1':
+    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
+  'preciseNutrition.Details.lastText2':
+    'To be stored in a cool, dry place.  Water should be available at all times',
+  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
+  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
+  'preciseNutrition.Product.list.title2': '2.Texture and density',
+  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
+  'preciseNutrition.Product.list.content1':
+    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
+  'preciseNutrition.Product.list.content2':
+    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
+  'preciseNutrition.Product.list.content3':
+    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
   dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
 };
 export default en_US;
