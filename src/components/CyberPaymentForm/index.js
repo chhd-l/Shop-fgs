@@ -264,11 +264,7 @@ class CyberPaymentForm extends React.Component {
           <label className="form-control-label" htmlFor="month">
             <FormattedMessage id="cyber.form.secureCode" />
           </label>
-          <span
-            className="rc-input rc-input--full-width"
-            input-setup="true"
-            style={{ marginTop: '20px' }}
-          >
+          <span className="rc-input rc-input--full-width" input-setup="true">
             <input
               type="securityCode"
               className="rc-input__control"
