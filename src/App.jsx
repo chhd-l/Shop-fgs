@@ -332,7 +332,7 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
-                <Route exact path="/preciseCatNutrition" component={PreciseCatNutrition} />
+                <Route exact path="/precise-cat-nutrition" component={PreciseCatNutrition} />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
                   exact
