@@ -1,0 +1,103 @@
+/* @media (max-width: 640px) {
+  #adyenOxxoModal {
+    width: 90% !important;
+  }
+} */
+@media (max-width: 640px) and (min-width: 960px) {
+  #adyenOxxoModal {
+    width: 40% !important;
+  }
+}
+#adyenOxxoModal .print {
+  background-color: #ec001a;
+  border-color: #ec001a;
+  padding: 2px 35px;
+  color: #fff;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+#adyenOxxoModal .printPanel {
+  text-align: center;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+#adyenOxxoModal .modal-footer a {
+  color: #ec001a;
+  font-size: 1.125rem;
+}
+
+@media (max-width: 640px) {
+  #adyenOxxoModal {
+    top: 5% !important;
+  }
+  #mainBody {
+    max-height: 70vh !important;
+    min-height: 70vh !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 960px) {
+  #adyenOxxoModal {
+    top: 45% !important;
+  }
+  #mainBody {
+    max-height: 65vh !important;
+    min-height: 65vh !important;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1200px) {
+  #adyenOxxoModal {
+    top: 30% !important;
+  }
+  #mainBody {
+    max-height: 50vh !important;
+    min-height: 50vh !important;
+  }
+}
+@media (min-width: 1200px) {
+  #adyenOxxoModal {
+    width: 20%;
+    top: 5% !important;
+  }
+  #mainBody {
+    max-height: 80vh !important;
+    min-height: 80vh !important;
+  }
+}
+
+#oxxo-container .adyen-checkout__voucher-result__code__barcode {
+  margin-left: -16px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+#oxxo-container .adyen-checkout__voucher-result__actions {
+  padding-left: 0;
+}
+
+#oxxo-container .adyen-checkout__voucher-result__details {
+  padding-left: 0;
+}
+#oxxo-container .adyen-checkout__voucher-result__details__value {
+  padding-left: 10px;
+}
+#oxxo-container .adyen-checkout__voucher-result__actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0;
+}
+#oxxo-container .adyen-checkout__button__icon {
+  display: none;
+}
+
+#oxxo-container
+  .adyen-checkout__voucher-result__actions
+  .adyen-checkout__voucher-result__actions__item:nth-of-type(2)
+  .adyen-checkout__button__text {
+  padding: 5px 10px;
+  color: #000;
+  font-weight: 500;
+}
