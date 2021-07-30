@@ -115,6 +115,20 @@ const fr_FR = {
   'ind.IND1001.des3':
     'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
   'ind.IND1001.img3': 'image9.png',
+  'ind.composition': 'COMPOSITION',
+  'ind.additives': 'ADDITIFS (au kg)',
+  'ind.IND1001.Composition':
+    'protéines de volaille déshydratées, fibres végétales, isolat de protéines végétales*, maïs, hydrolysat de protéines animales, gluten de maïs, farine de maïs, riz, blé, graisses animales, sels minéraux, pulpe de betterave, levures et composants de levures, huile de poisson, téguments et graines de psyllium, huile de soja. ',
+  'ind.IND1001.Additives':
+    ' Additifs nutritionnels : Vitamine A : 21000 UI, Vitamine D3 : 800 UI, Fer(3b103) : 30 mg, Iode(3b201, 3b202) : 3 mg, Cuivre(3b405, 3b406) : 9 mg, Manganèse(3b502, 3b504) : 39 mg, Zinc(3b603, 3b605, 3b606) : 128 mg, Sélénium(3b801, 3b811, 3b812) : 0,06 mg, L-carnitine : 200 mg - Conservateurs - Antioxygènes. ',
+  'ind.protein': 'Protéine',
+  'ind.fatContent': 'Teneur en matières grasses',
+  'ind.crudeAsh': 'Cendres brutes',
+  'ind.crudeCellulose': 'Cellulose brute',
+  'ind.IND1001.proteinVal': '36,0 % ',
+  'ind.IND1001.fatContentVal': '10,0 % ',
+  'ind.IND1001.crudeAshVal': '7,5 % ',
+  'ind.IND1001.crudeCellulosenVal': '10,4 %',
   active: 'Actif',
   addANewAddress: 'Ajouter une nouvelle adresse',
   addANewPaymentMethod: 'Ajouter un nouveau mode de paiement',

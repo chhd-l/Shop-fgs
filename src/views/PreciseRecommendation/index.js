@@ -20,7 +20,7 @@ class PreciseRecommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productInfo: {},
+      productInfo: productList['IND1001'],
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -160,7 +160,7 @@ class PreciseRecommendation extends React.Component {
             style={{ borderBottomWidth: '8px' }}
           ></div>
           <ProductSpecialities />
-          <DetailsDisplay />
+          <DetailsDisplay productInfo={this.state.productInfo} />
 
           <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
           <div style={{ backgroundColor: '#eee' }}>
