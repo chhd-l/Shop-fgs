@@ -12,7 +12,8 @@ export default class Selection extends React.Component {
     choicesInput: false,
     emptyFirstItem: '',
     selectedItemData: null,
-    customCls: ''
+    customCls: '',
+    hasBorder: false
   };
   constructor(props) {
     super(props);
@@ -33,6 +34,7 @@ export default class Selection extends React.Component {
     this.searchRef = React.createRef();
   }
   componentDidMount() {
+    console.log(this.props);
     this.searchRef?.current && this.searchRef?.current?.focus();
   }
   hideOptions = () => {
@@ -144,7 +146,7 @@ export default class Selection extends React.Component {
           id="Selection"
           className={`choices ${optionsVisible ? 'is-open' : ''} ${
             this.props.disabled ? 'disabled' : ''
-          }`}
+          } ${this.props.hasBorder ? 'has-border' : ''}`}
           role="listbox"
           tabIndex="1"
           data-type={customStyleType || (wider ? 'select-wider' : '')}
