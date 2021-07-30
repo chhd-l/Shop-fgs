@@ -543,6 +543,7 @@ class UnLoginCart extends React.Component {
     const product = productList[currentProductIdx];
     item.confirmTooltipVisible = false;
     productList.splice(currentProductIdx, 1);
+    debugger;
     this.setState(
       {
         productList
@@ -568,6 +569,7 @@ class UnLoginCart extends React.Component {
         minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
       callback && callback();
+      this.getGoodsIdArr(); //删除相关商品
       this.setState({ checkoutLoading: false });
       //增加数量 重新埋点 start
       !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
