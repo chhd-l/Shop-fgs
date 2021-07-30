@@ -425,9 +425,8 @@ const tr_TR = {
   'home.convenientTip3': 'Evcil hayvan uzmanları ile iletişimde olun',
   'home.convenientTip4': 'Otomatik gönderimle evinizde mama bitmesin',
   'home.convenientTitle': 'Neden Royal Canin?',
-  'home.note1':
-    'Evcil hayvanlarımızın sağlığı için hizmet vermeye devam ediyoruz.',
-  'home.note2': 'Tüm siparişlerinizde Ücretsiz kargo ve Hızlı teslimat.',
+  'home.note1': '125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
+  'home.note2': '',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
   'home.point1': 'Güvenli ödeme',
