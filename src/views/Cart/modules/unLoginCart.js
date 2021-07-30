@@ -437,7 +437,7 @@ class UnLoginCart extends React.Component {
     }
   }
   amountChanger(item, e) {
-    this.handleAmountChange({ val: e.target.value, item });
+    this.handleAmountChange({ val: +e.target.value, item });
   }
   handleAmountChange({ val, item }) {
     let err;
@@ -461,8 +461,8 @@ class UnLoginCart extends React.Component {
       }
 
       // 单个产品总数量不能超过限制
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > +window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = +window.__.env.REACT_APP_LIMITED_NUM;
         err = (
           <FormattedMessage
             id="cart.errorMaxInfo"
