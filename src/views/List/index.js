@@ -1066,6 +1066,12 @@ class List extends React.Component {
           }
         }
 
+        const isSpecialNeedFilter =
+          !isHub &&
+          !this.state.isDogPage &&
+          filters.find((ft) => ft.attributeName === 'Specific needs');
+        console.log('xxxx', filters);
+
         this.setState(
           {
             sortList,
