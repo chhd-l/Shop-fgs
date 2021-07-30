@@ -104,6 +104,9 @@ const fr_FR = {
   'account.weight': "Quel est le poids d'un chien adulte de votre race {val}?",
   'account.welcome': 'Bienvenue dans la famille ROYAL CANIN®!',
   'account.yes': 'Oui',
+  'ind.composition': 'COMPOSITION',
+  'ind.additives': 'ADDITIFS (au kg)',
+  // 'ind.protein':'', "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose
   'ind.IND1001.des1':
     "Combinaison optimale de fibres pour favorises la sensation de satiété.Teneur adaptée en protéines pour aider au maintien de la masse musculaire et d'un poids plus sain.Nutrition savoureuse permettant de réguler la faim, conçue pour aider votre chat à rester en forme.",
   'ind.IND1001.img1': 'image7.png',
@@ -115,6 +118,114 @@ const fr_FR = {
   'ind.IND1001.des3':
     'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
   'ind.IND1001.img3': 'image9.png',
+  'ind.IND1005.Composition':
+    ' protéines de volaille déshydratées, fibres végétales, isolat de protéines végétales*, maïs, hydrolysat de protéines animales, gluten de maïs, farine de maïs, riz, blé, graisses animales, sels minéraux, pulpe de betterave, levures et composants de levures, huile de poisson, téguments et graines de psyllium, huile de soja. ',
+  'ind.IND1005.Additives':
+    'Additifs nutritionnels : Vitamine A : 21000 UI, Vitamine D3 : 800 UI, Fer(3b103) : 30 mg, Iode(3b201, 3b202) : 3 mg, Cuivre(3b405, 3b406) : 9 mg, Manganèse(3b502, 3b504) : 39 mg, Zinc(3b603, 3b605, 3b606) : 128 mg, Sélénium(3b801, 3b811, 3b812) : 0,06 mg, L-carnitine : 200 mg - Conservateurs - Antioxygènes. ',
+
+  'ind.IND1002.title1': 'RÉGULATION DE LA SATIÉTÉ',
+  'ind.IND1002.des1':
+    'Contribue à réduire la sensation de faim grâce à un mélange spécifique de fibres pour aider à satisfaire l’appétit des chats qui ont tendance à quémander de la nourriture entre les repas.',
+  'ind.IND1002.img1': 'image11.png',
+  'ind.IND1002.title2':
+    'GESTION DU POIDS DE FORME : aide à limiter le risque de poids excessive.',
+  'ind.IND1002.des2':
+    'Les chats qui quémandent ont tendance à prendre du poids. Cette formule est conçue avec une teneur modérée en matières grasses et un contenu énergétique précis pour aider votre chat à rester en forme. ',
+  'ind.IND1002.img2': 'image12.png',
+  'ind.IND1002.title3': 'ENRICHI EN L-CARNITINE',
+  'ind.IND1002.des3':
+    'Contient de la L-carnitine, favorisant un métabolisme sain des lipides.',
+  'ind.IND1002.img3': 'image10.png',
+  'ind.IND1002.title4': 'SANTé URINAIRE',
+  'ind.IND1002.des4':
+    'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
+  'ind.IND1002.img4': 'image9.png',
+
+  'ind.IND1003.title1': 'TENEUR MODÉRÉE EN CALORIES',
+  'ind.IND1003.des1':
+    "Teneur modérée en calories adaptée à la faible activité des chats d'intérieur.",
+  'ind.IND1003.img1': 'image7.png',
+  'ind.IND1003.title2': 'RÉDUCTION DES BOULES DE POILS',
+  'ind.IND1003.des2':
+    "Aide à stimuler l'élimination des poils ingérés grâce à des fibres spécifiques, notamment du psyllium.",
+  'ind.IND1003.img2': 'image6.png',
+  'ind.IND1003.title3': 'RÉDUCTION DES ODEURS DE SELLES',
+  'ind.IND1003.des3':
+    'Contient des protéines hautement digestibles (L.I.P.)* et aide à réduire le volume et les odeurs des selles. {val} *L.I.P. : protéines sélectionnées pour leur très haute digestibilité',
+  'ind.IND1003.img3': 'image5.png',
+  'ind.IND1003.title4': 'SANTé URINAIRE',
+  'ind.IND1003.des4':
+    'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
+  'ind.IND1003.img4': 'image4.png',
+
+  'ind.IND1004.title1': 'RÉDUCTION DE BOULES DE POILS ',
+  'ind.IND1004.des1':
+    'Aide à stimuler le transit intestinal et l’élimination naturelle des poils ingérés grâce à des fibres spécifiques, notamment du psyllium.',
+  'ind.IND1004.img1': 'image6.png',
+  'ind.IND1004.title2': 'RÉDUCTION DES ODEURS DE SELLES',
+  'ind.IND1004.des2':
+    'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
+  'ind.IND1004.img2': 'image5.png',
+  'ind.IND1004.title3': 'SANTÉ DE LA PEAU ET DU PELAGE',
+  'ind.IND1004.des3':
+    'Contient des nutriments spécifiques, dont des acides EPA et DHA, pour aider à maintenir la santé de la peau et la brillance du pelage.',
+  'ind.IND1004.img3': 'image13.png',
+  'ind.IND1004.title4': 'SANTÉ URINAIRE',
+  'ind.IND1004.des4':
+    'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
+  'ind.IND1004.img4': 'image9.png',
+
+  'ind.IND1005.title1': 'COMPLEXE VITALITÉ',
+  'ind.IND1005.des1':
+    'Enrichi en nutriments spécifiques dont des polyphénols de thé vert, de la vitamine C et des acides gras EPA et DHA.',
+  'ind.IND1005.img1': 'image14.png',
+  'ind.IND1005.title2': 'RÉDUCTION DES ODEURS DE SELLES',
+  'ind.IND1005.des2':
+    'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
+  'ind.IND1005.img2': 'image5.png',
+  'ind.IND1005.title3': 'SANTÉ RÉNALE',
+  'ind.IND1005.des3':
+    'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore adapté.',
+  'ind.IND1005.img3': 'image15.png',
+  'ind.IND1005.title4': 'SANTÉ URINAIRE',
+  'ind.IND1005.des4':
+    'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
+  'ind.IND1005.img4': 'image9.png',
+
+  'ind.IND1006.title1': 'STIMULATION DE L’APPÉTIT',
+  'ind.IND1006.des1':
+    'Aide à stimuler l’appétit des chats seniors grâce à une croquette très appétente à double texture, facile à mâcher.',
+  'ind.IND1006.img1': 'image16.png',
+  'ind.IND1006.title2': 'AIDE À BIEN VIELLIR',
+  'ind.IND1006.des2':
+    'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} *France, brevet n° EP1146870',
+  'ind.IND1006.img2': 'image17.png',
+  'ind.IND1006.title3': 'SANTÉ RÉNALE',
+  'ind.IND1006.des3':
+    'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore modéré.',
+  'ind.IND1006.img3': 'image15.png',
+  'ind.IND1006.title4': 'SANTÉ URINAIRE',
+  'ind.IND1006.des4':
+    'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
+  'ind.IND1006.img4': 'image9.png',
+
+  'ind.IND1007.title1': 'MAINTIEN DU POIDS DE FORME',
+  'ind.IND1007.des1':
+    'Contient un niveau modéré de matières grasses pour aider à maintenir le poids de forme.',
+  'ind.IND1007.img1': 'image12.png',
+  'ind.IND1007.title2': 'AIDE À BIEN VIELLIR',
+  'ind.IND1007.des2':
+    'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} *France, brevet n° EP1146870',
+  'ind.IND1007.img2': 'image17.png',
+  'ind.IND1007.title3': 'SANTÉ RÉNALE',
+  'ind.IND1007.des3':
+    'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore modéré.',
+  'ind.IND1007.img3': 'image15.png',
+  'ind.IND1007.title4': 'SANTÉ URINAIRE',
+  'ind.IND1007.des4':
+    'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
+  'ind.IND1007.img4': 'image9.png',
+
   active: 'Actif',
   addANewAddress: 'Ajouter une nouvelle adresse',
   addANewPaymentMethod: 'Ajouter un nouveau mode de paiement',
@@ -1750,6 +1861,38 @@ const fr_FR = {
   'preciseNutrition.Below.list3':
     'Une tasse à mesurer pour le rendre facile et précis',
   'preciseNutrition.Below.list4':
-    'Et bien sûr toutes les instructions dans votre lettre de bienvenue'
+    'Et bien sûr toutes les instructions dans votre lettre de bienvenue',
+  'preciseNutrition.Details.title':
+    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
+  'preciseNutrition.Details.lititle1': 'INGREDIENTS',
+  'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
+  'preciseNutrition.Details.contitle1': 'COMPOSITION',
+  'preciseNutrition.Details.contitle2': 'ADDITIVES (PER KG)',
+  'preciseNutrition.Details.content1':
+    'Dehydrated poultry protein, rice, wheat, maize, vegetable protein isolate*, animal fats, hydrolysed animal proteins, wheat flour, vegetable fibres, beet pulp, yeasts and parts thereof, soya oil, minerals, fructo-oligo-saccharides, fish oil, psyllium husks and seeds (0.5%)',
+  'preciseNutrition.Details.content2':
+    'Nutritional additives: Vitamin A: 13500 IU, Vitamin D3: 700 IU, E1 (Iron): 42 mg, E2 (Iodine): 4.2 mg, E4 (Copper): 13 mg, E5 (Manganese): 55 mg, E6 (Zinc): 164 mg, E8 (Selenium): 0.09 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants.',
+  'preciseNutrition.Details.content2.span':
+    '*L.I.P. : protein selected for its very high assimilation.',
+  'preciseNutrition.Details.content3.1':
+    'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
+  'preciseNutrition.Details.content3.2':
+    'Thus, European regulations requires manufacturers to quantify the quantities of PROTEIN, FAT, RAW CELLULOSE and RAW ASHES',
+  'preciseNutrition.Details.content4': '',
+  'preciseNutrition.Details.link': 'Learn more',
+  'preciseNutrition.Details.lastText1':
+    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
+  'preciseNutrition.Details.lastText2':
+    'To be stored in a cool, dry place.  Water should be available at all times',
+  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
+  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
+  'preciseNutrition.Product.list.title2': '2.Texture and density',
+  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
+  'preciseNutrition.Product.list.content1':
+    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
+  'preciseNutrition.Product.list.content2':
+    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
+  'preciseNutrition.Product.list.content3':
+    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.'
 };
 export default fr_FR;

@@ -47,7 +47,7 @@ class DetailsDisplay extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm pt-0 rc-padding--none--mobile rc-margin-bottom--sm rc-margin-y--sm--mobile content-block rc-max-width--lg">
-                        <div className="row align-items-md-center mx-0 rc-margin-x--none--mobile">
+                        <div className="row col-12 align-items-md-center mx-0 rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
                               className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
@@ -60,7 +60,6 @@ class DetailsDisplay extends React.Component {
                                 <br />
                                 <FormattedMessage id="preciseNutrition.Details.content1" />
                               </p>
-                              <br />
                             </div>
                           </div>
                           <div className="col-12 col-md-6 align-items-center order-2  orderJoin1 rc-padding-right--none--desktop  rc-padding--none--mobile">
@@ -114,7 +113,7 @@ class DetailsDisplay extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm pt-0 rc-padding--none--mobile rc-margin-y--sm--mobile content-block rc-max-width--lg">
-                        <div className="row align-items-md-center mx-0  rc-margin-x--none--mobile">
+                        <div className="row col-12 align-items-md-center mx-0  rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile">
                               <p>
