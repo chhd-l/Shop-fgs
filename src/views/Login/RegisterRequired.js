@@ -155,7 +155,6 @@ class RegisterRequired extends Component {
         this.showAlert('isShowRequired', 2000);
       }
     } catch (err) {
-      console.log(err.message);
     } finally {
       this.setState({
         circleLoading: false
@@ -244,7 +243,7 @@ class RegisterRequired extends Component {
     } finally {
       //这个判断 关乎闪现，不要删
       this.setState({
-        styleObj: { display: 'block' },
+        styleObj: { display: 'none' },
         isLoading: false,
         circleLoading: false
       });
