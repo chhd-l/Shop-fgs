@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "22064139",
+      "name": "female",
+      "font_class": "female1",
+      "unicode": "e9ac",
+      "unicode_decimal": 59820
+    },
+    {
+      "icon_id": "22115847",
+      "name": "male",
+      "font_class": "male2",
+      "unicode": "e9ea",
+      "unicode_decimal": 59882
+    },
+    {
+      "icon_id": "6924604",
+      "name": "info",
+      "font_class": "info",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
       "icon_id": "18592546",
       "name": "play",
       "font_class": "play",

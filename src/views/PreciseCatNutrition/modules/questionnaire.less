@@ -1,0 +1,60 @@
+.questionnaire-form{
+  .question-title{
+    color: #666;
+    font-size: 14px;
+    padding: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    .iconfont-box{
+      padding-left: 5px;
+      position: relative;
+      .iconinfo{
+        font-size: 18px;
+        color: #666;
+      }
+      .question-tips{
+
+      }
+    }
+  }
+  .questionnaire-form-content{
+    max-height: 580px;
+    overflow-y: scroll;
+    padding: 0 20px 0 2px;
+    @media (max-width: 769px) {
+      padding: 2px;
+      max-height: available;
+      overflow-y: visible;
+    }
+    .questionnaire-form-item{
+      padding-bottom: 10px;
+    }
+  }
+}
+
+.questionnaire-form-content::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+
+.questionnaire-form-content::-webkit-scrollbar-corner {
+  background: #f6f6f6;
+}
+
+.questionnaire-form-content::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  box-shadow: inset 0 0 8px #999;
+  -webkit-box-shadow: inset 0 0 8px #999;
+  background: #999;
+  border-radius: 4px;
+  height: 136px;
+}
+
+.questionnaire-form-content::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 8px #fff;
+  -webkit-box-shadow: inset 0 0 8px #fff;
+  background: #fff;
+  border-radius: 4px;
+}
