@@ -11,7 +11,7 @@ import { getAllStep } from './api';
 
 import Veterinarian from './modules/Veterinarian/Veterinarian';
 
-export default function PreciseCatNutrition() {
+export default function AboutPet() {
   const [stepList, setStepList] = useState([]);
   const [step, setStep] = useState(1);
   const [result, setResult] = useState(0);

@@ -1,6 +1,6 @@
 import React from 'react';
 // import SubscriptionBenefitsBanner from './SubscriprionBenefitsBanner';
-import '../index.css';
+import '../index.less';
 import { FormattedMessage } from 'react-intl';
 import benefitsone from '../images/picto_right-diet.png';
 import benefitstwo from '../images/picto_individualize-ration.png';
@@ -90,47 +90,44 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const LongBanner = () => {
   return (
     <>
-      <div className='top pb-5'>
-        <div className='row rc-margin-x--none'>
-          <div className='rc-full-width'>
-            <div className='experience-component experience-assets-contentBlock'>
-              <div className='rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile'>
-                <div className='rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile'
-                     style={{ marginBottom: '0px', textAlign: 'center' }}>
-                  <h1 style={{fontWeight:700}}>
-                    GIVE YOUR CAT THE MOST PRECISE DIET
-                    & PORTION FOR A HEALTHY WEIGHT !
-                    {/*<FormattedMessage*/}
+      <div className="top pb-5">
+        <div className="row rc-margin-x--none">
+          <div className="rc-full-width">
+            <div className="experience-component experience-assets-contentBlock">
+              <div className="rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile">
+                <div
+                  className="rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                  style={{ marginBottom: '0px', textAlign: 'center' }}
+                >
+                  <h1 style={{ fontWeight: 700 }}>
+                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
+                    WEIGHT !{/*<FormattedMessage*/}
                     {/*  id="ClubLP.LongBanner.title"*/}
                     {/*  values={{ val1: <br />, val2: <br /> }}*/}
                     {/*></FormattedMessage>*/}
                   </h1>
                   <p style={{ fontSize: '0.6em', color: '#555555' }}>
-                          average price
-                          {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
-                        </p>
-                        <strong style={{ color: '#000000' }}>
-                          0,90€ / day
-                        </strong>
-                        <p style={{ color: '#555555' }}>
-                          25,50€ / month
-                        </p>
-                        <DistributeHubLinkOrATag
-                          href={'/product-finder'}
-                          ariaLabel='Links to product finder'
-                        >
-                          <button
-                            style={{
-                              padding: '0',
-                              paddingLeft: '80px',
-                              paddingRight: '80px'
-                            }}
-                            className='rc-btn rc-btn--one '
-                          >
-                            Subscribe now
-                            {/*<FormattedMessage id="ClubLP.LongBanner.button" />*/}
-                          </button>
-                        </DistributeHubLinkOrATag>
+                    average price
+                    {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
+                  </p>
+                  <strong style={{ color: '#000000' }}>0,90€ / day</strong>
+                  <p style={{ color: '#555555' }}>25,50€ / month</p>
+                  <DistributeHubLinkOrATag
+                    href={'/product-finder'}
+                    ariaLabel="Links to product finder"
+                  >
+                    <button
+                      style={{
+                        padding: '0',
+                        paddingLeft: '80px',
+                        paddingRight: '80px'
+                      }}
+                      className="rc-btn rc-btn--one "
+                    >
+                      Subscribe now
+                      {/*<FormattedMessage id="ClubLP.LongBanner.button" />*/}
+                    </button>
+                  </DistributeHubLinkOrATag>
                   {/*<div className='d-flex' style={{flexDirection:'row'}}>*/}
                   {/*  <img src={topCat} />*/}
                   {/*  <div style={{display:'flex',flexDirection:'column'}}>*/}
@@ -166,7 +163,6 @@ const LongBanner = () => {
                   {/*    src={topCatEat}*/}
                   {/*  />*/}
                   {/*</div>*/}
-
                 </div>
               </div>
             </div>
@@ -197,33 +193,44 @@ const LongBanner = () => {
         {/*</div>*/}
 
         <div
-          className='rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block'
-          style={{ marginTop: (isMobile?'220px':'0'), boxShadow: 'darkgrey 10px 10px 30px 5px' }}>
-          <div className='col mx-0 d-flex justify-content-between align-items-end align-content-center relative'>
+          className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+          style={{
+            marginTop: isMobile ? '220px' : '0',
+            boxShadow: 'darkgrey 10px 10px 30px 5px'
+          }}
+        >
+          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative">
             <img
-              style={(isMobile ?
-                  { width: '80%', position: 'absolute',left: '0%'}:
-                  { width: '45%', position: 'absolute', left: ' -8%', top: -350 }
-              )}
+              style={
+                isMobile
+                  ? { width: '80%', position: 'absolute', left: '0%' }
+                  : {
+                      width: '45%',
+                      position: 'absolute',
+                      left: ' -8%',
+                      top: -350
+                    }
+              }
               src={topCat}
             />
             <img
-              style={(isMobile ?
-                  { width: '60%', position: 'absolute',right:"0%"}:
-                  { width: '35%',position:'absolute',top:-240,right:"-5%"}
-              )}
+              style={
+                isMobile
+                  ? { width: '60%', position: 'absolute', right: '0%' }
+                  : {
+                      width: '35%',
+                      position: 'absolute',
+                      top: -240,
+                      right: '-5%'
+                    }
+              }
               src={topCatEat}
             />
           </div>
-          <div
-            className="rc-bg-colour--brand3"
-            id="benefits-box"
-          >
+          <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4
-                  className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
-                >
+                <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                   YOUR CAT'S BENEFITS
                 </h4>
 
@@ -231,7 +238,9 @@ const LongBanner = () => {
                   <div className="row mx-0 justify-content-between rc-text-align-center">
                     <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
                           <LazyLoad height={200}>
                             <img
                               className="value-proposition__img lazyloaded"
@@ -240,9 +249,12 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong className="rc-margin-bottom--none demarginleft"   style={{fontSize:14,fontWeight: '700'}}>
-                            The right diet adapted to support
-                            your cat's optimal weight
+                          <strong
+                            className="rc-margin-bottom--none demarginleft"
+                            style={{ fontSize: 14, fontWeight: '700' }}
+                          >
+                            The right diet adapted to support your cat's optimal
+                            weight
                             {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
                           </strong>
                         </div>
@@ -250,7 +262,9 @@ const LongBanner = () => {
                     </div>
                     <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
                           <LazyLoad height={200}>
                             <img
                               className="value-proposition__img lazyloaded"
@@ -259,9 +273,12 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong className="rc-margin-bottom--none demarginleft" style={{fontSize:14,fontWeight:'700'}}>
-                            Individualize ration calculated for
-                            your cat's unique characteristics.
+                          <strong
+                            className="rc-margin-bottom--none demarginleft"
+                            style={{ fontSize: 14, fontWeight: '700' }}
+                          >
+                            Individualize ration calculated for your cat's
+                            unique characteristics.
                             {/*<FormattedMessage*/}
                             {/*  id={'ClubLP.SubscriptionBenefitsNew.icon2'}*/}
                             {/*/>*/}
@@ -271,7 +288,9 @@ const LongBanner = () => {
                     </div>
                     <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
                           <LazyLoad height={200}>
                             <img
                               className="value-proposition__img lazyl oaded"
@@ -280,9 +299,12 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong className="rc-margin-bottom--none demarginleft" style={{fontSize:14,fontWeight: '700'}}>
-                            High quality nutrients chosen for
-                            their high nutritonal value
+                          <strong
+                            className="rc-margin-bottom--none demarginleft"
+                            style={{ fontSize: 14, fontWeight: '700' }}
+                          >
+                            High quality nutrients chosen for their high
+                            nutritonal value
                             {/*<FormattedMessage*/}
                             {/*  id={'ClubLP.SubscriptionBenefitsNew.icon3'}*/}
                             {/*/>*/}

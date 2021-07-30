@@ -4,7 +4,7 @@ import emailImgNew from '../images/email icon@2x.png';
 import faqImgNew from '../images/FAQ icon@2x.png';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
-import '../index.css';
+import '../index.less';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,8 @@ const HelpComponents = () => {
                 </div>
                 <p>
                   <span>
-                    Our team is available to answer your questions and ensure you have the best possible experience.
+                    Our team is available to answer your questions and ensure
+                    you have the best possible experience.
                     {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                   </span>
                 </p>
@@ -46,7 +47,8 @@ const HelpComponents = () => {
                                     Call us
                                   </b>
                                   <p>
-                                    Monday to Friday from 8:30amto 7pm and on Saturdays from9am to 1pm
+                                    Monday to Friday from 8:30amto 7pm and on
+                                    Saturdays from9am to 1pm
                                     {/*<FormattedMessage id="ClubLP.Help.call.content" />*/}
                                   </p>
                                   <div className="rc-margin-top--xs">
@@ -94,18 +96,15 @@ const HelpComponents = () => {
                                     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                   </b>
                                   <p>
-                                    We'll do our best to get back
-                                    to you as fast as possible
-                                    : and within 12 hours
+                                    We'll do our best to get back to you as fast
+                                    as possible : and within 12 hours
                                     {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
                                   </p>
                                   <DistributeHubLinkOrATag
                                     href={'/contact-us'}
                                     ariaLabel="Links to contact us"
                                   >
-                                    <p
-                                      style={{ textDecoration: 'underline' }}
-                                    >
+                                    <p style={{ textDecoration: 'underline' }}>
                                       Send US an Email
                                       {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
                                     </p>
@@ -153,70 +152,68 @@ const HelpComponents = () => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p>
-                                    Send US an Email
-                                    You can check our &nbsp;
-                                        <DistributeHubLinkOrATag
-                                          href={'/about-us/faqs'}
-                                          ariaLabel="Links to faq"
-                                        >
-                                          <a
-                                            style={{
-                                              textDecoration: 'underline',
-                                              color: '#E2001A'
-                                            }}
-                                          >
-                                            FAQ section
-                                          </a>
-                                        </DistributeHubLinkOrATag>
-                                    &nbsp; to see if your
-                                    question has already been
-                                    answered
+                                    Send US an Email You can check our &nbsp;
+                                    <DistributeHubLinkOrATag
+                                      href={'/about-us/faqs'}
+                                      ariaLabel="Links to faq"
+                                    >
+                                      <a
+                                        style={{
+                                          textDecoration: 'underline',
+                                          color: '#E2001A'
+                                        }}
+                                      >
+                                        FAQ section
+                                      </a>
+                                    </DistributeHubLinkOrATag>
+                                    &nbsp; to see if your question has already
+                                    been answered
                                   </p>
-                                    {/*<FormattedMessage*/}
-                                    {/*  id="ClubLP.Help.faq.content"*/}
-                                    {/*  values={{*/}
-                                    {/*    val: ru ? (*/}
-                                    {/*      <DistributeHubLinkOrATag*/}
-                                    {/*        href={'/about-us/faqs'}*/}
-                                    {/*        ariaLabel="Links to faq"*/}
-                                    {/*      >*/}
-                                    {/*        <a*/}
-                                    {/*          style={{*/}
-                                    {/*            textDecoration: 'underline'*/}
-                                    {/*          }}*/}
-                                    {/*        >*/}
-                                    {/*          часто задаваемые вопросы:*/}
-                                    {/*        </a>*/}
-                                    {/*      </DistributeHubLinkOrATag>*/}
-                                    {/*    ) : tr ? (*/}
-                                    {/*      <DistributeHubLinkOrATag*/}
-                                    {/*        href={'/about-us/faqs'}*/}
-                                    {/*        ariaLabel="Links to faq"*/}
-                                    {/*      >*/}
-                                    {/*        <a*/}
-                                    {/*          style={{*/}
-                                    {/*            textDecoration: 'underline'*/}
-                                    {/*          }}*/}
-                                    {/*        >*/}
-                                    {/*          Sıkça Sorulan Sorular*/}
-                                    {/*        </a>*/}
-                                    {/*      </DistributeHubLinkOrATag>*/}
-                                    {/*    ) : (*/}
-                                    {/*      <DistributeHubLinkOrATag*/}
-                                    {/*        href={'/about-us/faqs'}*/}
-                                    {/*        ariaLabel="Links to faq"*/}
-                                    {/*      >*/}
-                                    {/*        <a*/}
-                                    {/*          style={{*/}
-                                    {/*            textDecoration: 'underline'*/}
-                                    {/*          }}*/}
-                                    {/*        >*/}
-                                    {/*          FAQ pour*/}
-                                    {/*        </a>*/}
-                                    {/*      </DistributeHubLinkOrATag>*/}
-                                    {/*    )*/}
-                                    {/*  }}*/}
-                                    {/*/>*/}
+                                  {/*<FormattedMessage*/}
+                                  {/*  id="ClubLP.Help.faq.content"*/}
+                                  {/*  values={{*/}
+                                  {/*    val: ru ? (*/}
+                                  {/*      <DistributeHubLinkOrATag*/}
+                                  {/*        href={'/about-us/faqs'}*/}
+                                  {/*        ariaLabel="Links to faq"*/}
+                                  {/*      >*/}
+                                  {/*        <a*/}
+                                  {/*          style={{*/}
+                                  {/*            textDecoration: 'underline'*/}
+                                  {/*          }}*/}
+                                  {/*        >*/}
+                                  {/*          часто задаваемые вопросы:*/}
+                                  {/*        </a>*/}
+                                  {/*      </DistributeHubLinkOrATag>*/}
+                                  {/*    ) : tr ? (*/}
+                                  {/*      <DistributeHubLinkOrATag*/}
+                                  {/*        href={'/about-us/faqs'}*/}
+                                  {/*        ariaLabel="Links to faq"*/}
+                                  {/*      >*/}
+                                  {/*        <a*/}
+                                  {/*          style={{*/}
+                                  {/*            textDecoration: 'underline'*/}
+                                  {/*          }}*/}
+                                  {/*        >*/}
+                                  {/*          Sıkça Sorulan Sorular*/}
+                                  {/*        </a>*/}
+                                  {/*      </DistributeHubLinkOrATag>*/}
+                                  {/*    ) : (*/}
+                                  {/*      <DistributeHubLinkOrATag*/}
+                                  {/*        href={'/about-us/faqs'}*/}
+                                  {/*        ariaLabel="Links to faq"*/}
+                                  {/*      >*/}
+                                  {/*        <a*/}
+                                  {/*          style={{*/}
+                                  {/*            textDecoration: 'underline'*/}
+                                  {/*          }}*/}
+                                  {/*        >*/}
+                                  {/*          FAQ pour*/}
+                                  {/*        </a>*/}
+                                  {/*      </DistributeHubLinkOrATag>*/}
+                                  {/*    )*/}
+                                  {/*  }}*/}
+                                  {/*/>*/}
                                   <div className="rc-margin-top--xs">
                                     <p
                                       style={{ color: '#00BCA3' }}
