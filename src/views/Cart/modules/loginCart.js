@@ -409,6 +409,7 @@ class LoginCart extends React.Component {
     this.setState({ checkoutLoading: true });
     await deleteItemFromBackendCart(param);
     await this.updateCartCache();
+    this.getGoodsIdArr();
   }
   handleCheckout = async () => {
     if (!this.btnStatus) {

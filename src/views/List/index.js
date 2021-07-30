@@ -215,7 +215,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
   // 如: current is the dog spt, then the bottom desc link to the dog retail
   // 如: current is the dog retail, then the bottom desc link to the dog spt
   const key = `${isDogPage ? 'dog' : 'cat'}-${
-    isRetailProducts ? 'vet' : 'retail'
+    isRetailProducts ? 'retail' : 'vet'
   }`;
   const descObj = bottomDescJson[key];
   return (
