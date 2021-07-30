@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType } from '@/utils/utils';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import './Banner.less';
 const bannerList = [
   { img: 'secure_payment', text: 'Secure<br/>payment' },
@@ -9,7 +10,7 @@ const bannerList = [
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const Banner = ({ productInfo }) => {
+const Banner = ({ productInfo, intl }) => {
   return (
     <section>
       <div>
@@ -169,13 +170,17 @@ const Banner = ({ productInfo }) => {
               <div className="rc-padding-right--xs" style={{ width: '78px' }}>
                 <img
                   // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
-                  src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${item.img}`}
+                  src={`${
+                    window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+                  }/img/CatNutrition/${intl.messages[item.img]}`}
                 />
               </div>
               <div style={{ flex: 1 }}>
-                <strong style={{ fontSize: '20px' }}>{item.title}</strong>
+                <strong style={{ fontSize: '20px' }}>
+                  <FormattedMessage id={item.title} />{' '}
+                </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  {item.des}
+                  <FormattedMessage id={item.des} />
                 </p>
               </div>
             </div>
@@ -185,4 +190,4 @@ const Banner = ({ productInfo }) => {
     </section>
   );
 };
-export default Banner;
+export default injectIntl(Banner);
