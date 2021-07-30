@@ -12,13 +12,15 @@ import LazyLoad from 'react-lazyload';
 import DetailsDisplay from './DetailsDisplay';
 import ProductSpecialities from './ProductSpecialities';
 import Banner from './components/Banner';
-
+import productList from './productList.json';
+console.info('productList', productList);
 const pageLink = window.location.href;
 
 class PreciseRecommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      productInfo: {},
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -26,6 +28,18 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
+  componentDidMount = () => {
+    const id = 'IND1001';
+    let productInfo = Object.assign(
+      {},
+      this.state.productInfo,
+      productList[id]
+    );
+    console.info(productList[id]);
+    this.setState({
+      productInfo
+    });
+  };
 
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
@@ -140,7 +154,7 @@ class PreciseRecommendation extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          <Banner />
+          <Banner productInfo={this.state.productInfo} />
           <ProductSpecialities />
           <DetailsDisplay />
 
