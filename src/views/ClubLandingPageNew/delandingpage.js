@@ -443,7 +443,7 @@ class ClubLandingPageDe extends React.Component {
                     </div>
                     <div
                       style={{ display: 'flex', justifyContent: 'center' }}
-                      className="flexColumn"
+                      className="deflexcolumn"
                     >
                       <div
                         style={{
@@ -938,7 +938,7 @@ class ClubLandingPageDe extends React.Component {
                                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                     <div
                                       className="w-100 "
-                                      style={{ marginTop: '1.5rem' }}
+                                      style={{ marginTop: '2rem' }}
                                     >
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per E-Mail
@@ -946,7 +946,7 @@ class ClubLandingPageDe extends React.Component {
                                       <p style={{ marginBottom: '35px' }}>
                                         <a
                                           href={this.state.mailAddress}
-                                          className="rc-styled-link defontsize24px"
+                                          className="rc-styled-link defontsize24px demargintop15px"
                                           style={{ color: '#E2001A' }}
                                         >
                                           service.de@royalcanin.com
