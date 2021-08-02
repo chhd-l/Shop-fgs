@@ -7,8 +7,9 @@ import introTBRHNC from '../images/Intro to Breed Health Nutrition Course.png';
 import subscribe from '../images/Subscribe.png';
 import stayIC from '../images/stay in control.png';
 import group from '../images/Group 25.png';
-import picto_welcome_pack from '../images/picto_welcome-pack.png';
-const HowItWorks = () => {
+
+import { getDeviceType } from '../../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const HowItWorks = () => {
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -24,7 +25,7 @@ const HowItWorks = () => {
               <div className="value-proposition__container">
                 <div className="row mx-0 justify-content-between">
                   {/*<div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">*/}
-                  <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack1 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
@@ -39,7 +40,8 @@ const HowItWorks = () => {
                           {/*  className="m-auto w-auto lazyloaded"*/}
                           {/*  src={temp}/>*/}
 
-                          <div style={{ height: 100 ,margin: 10}} className='rc-margin--sm'>
+                          <div style={isMobile?  { margin: 10}: { height: 100 ,margin: 10}
+                                                            } className='rc-margin--sm'>
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={introTBRHNC}
@@ -48,38 +50,15 @@ const HowItWorks = () => {
                         </LazyLoad>
                       </div>
                       <div className="text-center">
-                        <a>
+                        <h7>
                           Tell us about your cat and help us shape the perfect
                           recipe for him
-                          {/*<FormattedMessage*/}
-                          {/*  id="subscription.ad.list1"*/}
-                          {/*  values={{*/}
-                          {/*    val1: <br />,*/}
-                          {/*    val2: (*/}
-                          {/*      <strong>*/}
-                          {/*        répondant aux besoins de votre animal*/}
-                          {/*      </strong>*/}
-                          {/*    ),*/}
-                          {/*    val3: <br />*/}
-                          {/*  }}*/}
-                          {/*/>*/}
-                        </a>
+                        </h7>
                       </div>
+                      {isMobile?  <br/>:null}
                     </div>
-                    {/*<div style={{content: '',*/}
-                    {/*  width: 0,*/}
-                    {/*  height: 0,*/}
-                    {/*  position: 'absolute',*/}
-                    {/*  left: 3,*/}
-                    {/*  top: -45,*/}
-                    {/*  borderTop: "solid 45px transparent",*/}
-                    {/*  borderRight: 'solid 45px white',*/}
-                    {/*  borderBottom: 'solid 45px transparent'*/}
-                    {/*}}>*/}
-
-                    {/*</div>*/}
                   </div>
-                  <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack2 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
@@ -90,7 +69,7 @@ const HowItWorks = () => {
                           2
                         </div>
                         <LazyLoad>
-                          <div style={{ height: 100 ,margin: 10}} className='rc-margin--sm'>
+                          <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={subscribe}
@@ -102,23 +81,11 @@ const HowItWorks = () => {
                         <h7>
                           Subscribe and receive every month your cat's
                           personalized food
-                          {/*<FormattedMessage*/}
-                          {/*  id="subscription.ad.list1"*/}
-                          {/*  values={{*/}
-                          {/*    val1: <br />,*/}
-                          {/*    val2: (*/}
-                          {/*      <strong>*/}
-                          {/*        répondant aux besoins de votre animal*/}
-                          {/*      </strong>*/}
-                          {/*    ),*/}
-                          {/*    val3: <br />*/}
-                          {/*  }}*/}
-                          {/*/>*/}
                         </h7>
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack2 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
@@ -129,7 +96,7 @@ const HowItWorks = () => {
                           3
                         </div>
                         <LazyLoad>
-                          <div style={{ height: 100 ,margin: 10}} className='rc-margin--sm'>
+                          <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
                           <img
                               className="m-auto w-auto lazyloaded"
                               src={stayIC}
@@ -140,23 +107,11 @@ const HowItWorks = () => {
                       <div style={{ height: 72 }} className="text-center">
                         <h7>
                           Stay in control; pause. move or skip your deliveries
-                          {/*<FormattedMessage*/}
-                          {/*  id="subscription.ad.list1"*/}
-                          {/*  values={{*/}
-                          {/*    val1: <br />,*/}
-                          {/*    val2: (*/}
-                          {/*      <strong>*/}
-                          {/*        répondant aux besoins de votre animal*/}
-                          {/*      </strong>*/}
-                          {/*    ),*/}
-                          {/*    val3: <br />*/}
-                          {/*  }}*/}
-                          {/*/>*/}
                         </h7>
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                  <div className="borderBack3 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                     <div
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
@@ -167,7 +122,7 @@ const HowItWorks = () => {
                           4
                         </div>
                         <LazyLoad>
-                          <div style={{ height: 100 ,margin: 10}} className='rc-margin--sm'>
+                          <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
                           <img
                               className="m-auto w-auto lazyloaded"
                               src={group}

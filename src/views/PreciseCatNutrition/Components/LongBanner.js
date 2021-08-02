@@ -17,100 +17,29 @@ import picto_welcome_pack from '../images/picto_welcome-pack.png';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-
-// const SubTitles = {
-//   title: (
-//     <FormattedMessage
-//       id="ClubLP.LongBanner.SubscriptionTitle"
-//       values={{ val: isMobile ? <></> : <br /> }}
-//     />
-//   )
-// };
-// const LogoShows = {
-//   logo: (
-//     <img
-//       style={{ width: '100px' }}
-//       src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
-//     />
-//   )
-// };
-// const SubscriptionItems = [
-//   {
-//     SubscriptionImg: benefitsone,
-//     SubscriptionTitle: (
-//       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
-//         <FormattedMessage
-//           id="ClubLP.LongBanner.SubscriptionTitle1"
-//           values={{ val: <br /> }}
-//         />
-//       </a>
-//     ),
-//     SubscriptionContent: (
-//       <FormattedMessage
-//         id="ClubLP.LongBanner.SubscriptionContent1"
-//         values={{ val: <br /> }}
-//       />
-//     )
-//   },
-//   {
-//     SubscriptionImg: benefitstwo,
-//     SubscriptionTitle: (
-//       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
-//         <FormattedMessage
-//           id="ClubLP.LongBanner.SubscriptionTitle2"
-//           values={{ val: <br /> }}
-//         />
-//       </a>
-//     ),
-//     SubscriptionContent: (
-//       <FormattedMessage
-//         id="ClubLP.LongBanner.SubscriptionContent2"
-//         values={{ val1: <br />, val2: <br /> }}
-//       />
-//     )
-//   },
-//   {
-//     SubscriptionImg: benefitsthree,
-//     SubscriptionTitle: (
-//       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
-//         <FormattedMessage
-//           id="ClubLP.LongBanner.SubscriptionTitle3"
-//           values={{ val: <br /> }}
-//         />
-//       </a>
-//     ),
-//     SubscriptionContent: (
-//       <FormattedMessage
-//         id="ClubLP.LongBanner.SubscriptionContent3"
-//         values={{ val: <br /> }}
-//       />
-//     )
-//   }
-// ];
-const  scrollToAnchor = (anchorName) => {
-  console.log('%#$#$$#@');
-  if (anchorName) {
-    console.log('8765454'+anchorName);
-    let anchorElement = document.getElementById(anchorName.current);
-    console.log(anchorElement)
-    if(anchorElement) { anchorElement.scrollIntoView(); }
+const   toScroll = (anchorName) => {
+  let anchorElement = document.getElementById(anchorName);
+  // 如果对应id的锚点存在，就跳转到锚点
+  if (anchorElement) {
+    anchorElement.scrollIntoView({ behavior: 'smooth' });
   }
-}
+};
 
 const LongBanner = () => {
 
   return (
     <>
-      <div className="top pb-5">
+      <div className="top pb-4">
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
-              <div className="rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile">
+              <div className='rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile'>
                 <div
-                  className="rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
-                  style={{ marginBottom: '0px', textAlign: 'center' ,zIndex:10}}
+                  className='rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile'
+                  style={{ marginBottom: '0px', textAlign: 'center', zIndex: 10 }}
                 >
-                  <h1 style={{ fontWeight: 700 ,fontSize:'1.6rem'}}>
+                  <h1 style={isMobile ? { fontWeight: 700, fontSize: '1.6rem' } :
+                    { fontWeight: 700, fontSize: '4.6rem' }}>
                     GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
                     WEIGHT !{/*<FormattedMessage*/}
                     {/*  id="ClubLP.LongBanner.title"*/}
@@ -124,7 +53,7 @@ const LongBanner = () => {
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
                   <a
-                    onClick={()=>scrollToAnchor('aboutPet')}
+                    onClick={()=>toScroll('aboutPet')}
                   >
                     <button
                       style={{
