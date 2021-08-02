@@ -28,18 +28,6 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  // componentDidMount(){
-  //   const id = 'IND1007';
-  //   let productInfo = Object.assign(
-  //     {},
-  //     this.state.productInfo,
-  //     productList[id]
-  //   );
-  //   console.info(productList[id]);
-  //   this.setState({
-  //     productInfo
-  //   });
-  // }
 
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
@@ -241,7 +229,7 @@ class PreciseRecommendation extends React.Component {
                               <div className="rc-column rc-padding--none">
                                 <LazyLoad>
                                   <img
-                                    className="w-100"
+                                    className="w-auto"
                                     src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
                                   />
                                 </LazyLoad>

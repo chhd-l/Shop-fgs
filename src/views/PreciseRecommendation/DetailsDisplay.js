@@ -1,9 +1,9 @@
 // import { Modal } from 'bootstrap';
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import Modal from '@/components/Modal';
-import kittenimgone from '../DedicatedLandingPage/img/kittenimgone.png';
-import kittenimgtwo from '../DedicatedLandingPage/img/kittenimgtwo.png';
+import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
+
+let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 class DetailsDisplay extends React.Component {
   constructor(props) {
@@ -14,28 +14,11 @@ class DetailsDisplay extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // this.handleClick=this.handleClick.bind(this)
-
   handleClick = () => {
     this.setState({
       modalShow: !this.state.modalShow
     });
   };
-
-  // handleClick(){
-  //   return (
-  //
-  //       <Modal
-  //         visible={true}
-  //         type="fullscreen"
-  //         visible={true}
-  //         footerVisible={false}
-  //         confirmBtnText={<div>shdiadopwqd</div>}
-  //       >
-  //         <div>tanchuang</div>
-  //       </Modal>
-  //   );
-  // }
 
   render() {
     const { productComposition } = this.props.productInfo;
@@ -146,9 +129,6 @@ class DetailsDisplay extends React.Component {
                                     id={productComposition.additives}
                                   />
                                 </p>
-                                {/* <span style={{ fontWeight: '550' }}>
-                                  <FormattedMessage id="preciseNutrition.Details.content2.span" />
-                                </span> */}
                               </p>
                             </div>
                           </div>
@@ -166,7 +146,7 @@ class DetailsDisplay extends React.Component {
                       <div className="rc-max-width--lg text-center">
                         <div className="rc-gamma rc-margin-top--md--mobile heading-block-content">
                           <h4
-                            className="text-center"
+                            className="text-center rc-margin-bottom--sm"
                             style={{
                               fontWeight: '550',
                               color: 'rgb(102, 102, 102)'
@@ -188,7 +168,7 @@ class DetailsDisplay extends React.Component {
                         <div className="row rc-full-width mx-0  rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
-                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
+                              className="text-center text-lg-left rc-padding-x--md--mobile rc-padding-y--md--mobile"
                               style={{ height: '100%' }}
                             >
                               <p>
@@ -227,7 +207,7 @@ class DetailsDisplay extends React.Component {
                                     <FormattedMessage
                                       id={
                                         productComposition
-                                          .analyticalConsitituentsDes[idx]
+                                          .analyticalConsitituentsDes[idx + 5]
                                       }
                                     />
                                   </div>
@@ -249,7 +229,7 @@ class DetailsDisplay extends React.Component {
                       <div className="rc-max-width--lg text-left rc-margin-y--none rc-padding-x--sm--desktop">
                         <a
                           type="button"
-                          className="rc-padding-x--sm--desktop hidden-sm-down"
+                          className="mb-3 hidden-sm-down"
                           style={{
                             fontWeight: '550',
                             textDecoration: 'underline'
@@ -258,18 +238,28 @@ class DetailsDisplay extends React.Component {
                         >
                           <FormattedMessage id="preciseNutrition.Details.link" />
                         </a>
-                        <p
-                          className="rc-padding-x--sm heading-block-content"
-                          style={{ color: 'rgb(102, 102, 102)' }}
-                        >
-                          <sapn>
-                            <FormattedMessage id="preciseNutrition.Details.lastText1" />
-                          </sapn>
-                          <br />
-                          <span>
-                            <FormattedMessage id="preciseNutrition.Details.lastText2" />
-                          </span>
-                        </p>
+                        {isMobile ? (
+                          <p
+                            className="heading-block-content rc-padding-x--md"
+                            style={{ color: 'rgb(102, 102, 102)' }}
+                          >
+                            <div>
+                              <FormattedMessage id="preciseNutrition.Details.lastText3" />
+                            </div>
+                          </p>
+                        ) : (
+                          <p
+                            className="heading-block-content"
+                            style={{ color: 'rgb(102, 102, 102)' }}
+                          >
+                            <div>
+                              <FormattedMessage id="preciseNutrition.Details.lastText1" />
+                            </div>
+                            <div>
+                              <FormattedMessage id="preciseNutrition.Details.lastText2" />
+                            </div>
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -290,10 +280,13 @@ class DetailsDisplay extends React.Component {
               >
                 <div className="rc-column " style={{ width: '950px' }}>
                   <article className="rc-card rc-card--a">
-                    <div className="rc-card__body">
+                    <div
+                      className="rc-full-width"
+                      style={{ padding: '20px 40px 50px 0px' }}
+                    >
                       <div
                         className="flex "
-                        style={{ justifyContent: 'flex-end', fontSize: '20px' }}
+                        style={{ justifyContent: 'flex-end' }}
                         onClick={() => this.handleClick()}
                       >
                         <span
@@ -302,7 +295,54 @@ class DetailsDisplay extends React.Component {
                         ></span>
                       </div>
                       <div>
-                        <h1>shidabdadl</h1>
+                        <div className="row col-12 my-2 px-1">
+                          <div className="col-md-1 px-2 text-right">1.</div>
+                          <div className="col-md-11 px-0">
+                            The quantity of protein does not in any way allow us
+                            to judge the quality of the food; in fact, some
+                            proteins are much more digestible than others (i.e.
+                            assimilable and usable by the body) and their
+                            composition in amino acids (22 in number) can be
+                            very different; however, some amino acids are said
+                            to be "essential" and must be provided by the food.
+                          </div>
+                        </div>
+                        <div className="row col-12 my-2 px-1">
+                          <div className="col-md-1 px-2 text-right">2.</div>
+                          <div className="col-md-11 px-0">
+                            The quantity of protein does not in any way allow us
+                            to judge the quality of the food; in fact, some
+                            proteins are much more digestible than others (i.e.
+                            assimilable and usable by the body) and their
+                            composition in amino acids (22 in number) can be
+                            very different; however, some amino acids are said
+                            to be "essential" and must be provided by the food.
+                          </div>
+                        </div>
+                        <div className="row col-12 my-2 px-1">
+                          <div className="col-md-1 px-2 text-right">3.</div>
+                          <div className="col-md-11 px-0">
+                            The quantity of protein does not in any way allow us
+                            to judge the quality of the food; in fact, some
+                            proteins are much more digestible than others (i.e.
+                            assimilable and usable by the body) and their
+                            composition in amino acids (22 in number) can be
+                            very different; however, some amino acids are said
+                            to be "essential" and must be provided by the food.
+                          </div>
+                        </div>
+                        <div className="row col-12 my-2 px-1">
+                          <div className="col-md-1 px-2 text-right">4.</div>
+                          <div className="col-md-11 px-0">
+                            The quantity of protein does not in any way allow us
+                            to judge the quality of the food; in fact, some
+                            proteins are much more digestible than others (i.e.
+                            assimilable and usable by the body) and their
+                            composition in amino acids (22 in number) can be
+                            very different; however, some amino acids are said
+                            to be "essential" and must be provided by the food.
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </article>
