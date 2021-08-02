@@ -96,7 +96,9 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                     {loginStore.isLogin ? (
                       <button
                         onClick={handleBuyNow}
-                        className="rc-btn rc-btn--one rc-btn--sm"
+                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                          productInfo?.goodsInfo?.stock > 0 ? '' : 'disabled'
+                        }`}
                         style={{ width: '200px' }}
                       >
                         buy now
