@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { useLocalStore } from 'mobx-react';
+import stores from '@/store';
+import { sitePurchase } from '@/api/cart';
+import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 const bannerList = [
   { img: 'secure_payment', text: 'Secure<br/>payment' },
@@ -10,7 +14,32 @@ const bannerList = [
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const Banner = ({ productInfo, intl }) => {
+const Banner = ({ productInfo, intl, questionParams }) => {
+  const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
+    () => stores
+  );
+
+  const handleBuyNow = async () => {
+    let params = Object.assign({}, productInfo, {
+      goodsInfoFlag: 3,
+      questionParams
+    });
+    try {
+      await sitePurchase(params);
+      sessionItemRoyal.set('recommend_product', JSON.stringify([params]));
+      this.props.history.push('/checkout');
+      // await this.props.checkoutStore.updateLoginCart({delFlag:1});
+      // const url = await distributeLinktoPrecriberOrPaymentPage({
+      //   configStore,
+      //   checkoutStore,
+      //   clinicStore,
+      //   isLogin: loginStore.isLogin
+      // });
+      // this.props.history.push(url);
+    } catch (err) {
+      console.info('err', err);
+    }
+  };
   return (
     <section>
       <div>
@@ -64,12 +93,28 @@ const Banner = ({ productInfo, intl }) => {
                     <div style={{ color: '#008900', fontSize: '24px' }}>
                       -25% on first order
                     </div>
-                    <button
-                      className="rc-btn rc-btn--one rc-btn--sm"
-                      style={{ width: '200px' }}
-                    >
-                      buy now
-                    </button>
+                    {loginStore.isLogin ? (
+                      <button
+                        onClick={handleBuyNow}
+                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                          productInfo?.goodsInfo?.stock > 0 ? '' : 'disabled'
+                        }`}
+                        style={{ width: '200px' }}
+                      >
+                        buy now
+                      </button>
+                    ) : (
+                      <LoginButton
+                        className="rc-btn rc-btn--two"
+                        // btnStyle={{ margin: '5px 0', width: '100%' }}
+                        // history={this.props.history}
+                        beforeLoginCallback={async () => {
+                          // sessionItemRoyal.set('from-felin', true);
+                        }}
+                      >
+                        buy now
+                      </LoginButton>
+                    )}
                   </div>
                 </div>
               </div>
