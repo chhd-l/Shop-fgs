@@ -1704,6 +1704,11 @@ const fr_FR = {
     'Nous ferons le maximum pour vous répondre le plus rapidement possible, dans les 12 heures. ',
   'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
   'ClubLP.Help.faq.content':
-    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée."
+    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 export default fr_FR;

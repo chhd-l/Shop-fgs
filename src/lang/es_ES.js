@@ -1134,6 +1134,11 @@ const es_ES = {
   'subscription.club': 'club',
   searchShow: 'Resultados de la búsqueda',
   'account.yes': 'Sí',
-  'account.no': 'No'
+  'account.no': 'No',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 export default es_ES;

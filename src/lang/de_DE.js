@@ -1379,7 +1379,12 @@ const de_DE = {
   'deLandingPage.prescriberCode.tip6':
     ' Fragen Sie bei unseren teilnehmenden Tierärzt*innen.',
   'deLandingPage.prescriberCode.navigateBtn': 'Tierarztpraxen anzeigen',
-  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!'
+  'deLandingPage.prescriberCode.successTip': 'Code-Eingabe erfolgreich!',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 
 export default de_DE;

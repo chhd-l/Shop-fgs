@@ -1069,8 +1069,21 @@ class List extends React.Component {
         const isSpecialNeedFilter =
           !isHub &&
           !this.state.isDogPage &&
-          filters.find((ft) => ft.attributeName === 'Specific needs');
-        console.log('xxxx', filters);
+          window.__.env.REACT_APP_COUNTRY === 'fr' &&
+          (
+            (filters.find((ft) => ft.attributeName === 'Specific needs') || {})
+              .attributeValues || []
+          ).filter(
+            (attr) =>
+              attr === 'Boules de poils_Cat' ||
+              attr === 'Tendency to beg for food_Cat'
+          ).length > 0;
+
+        if (isSpecialNeedFilter || this.state.isRetailProducts) {
+          this.pageSize = 8;
+        } else {
+          this.pageSize = 12;
+        }
 
         this.setState(
           {
@@ -1102,7 +1115,8 @@ class List extends React.Component {
                 (targetRouter && targetRouter.pageImg) ||
                 (targetRouter && targetRouter.cateImgForList)
             },
-            breadList
+            breadList,
+            isSpecialNeedFilter
           },
           () => {
             this.getProductList();
@@ -1437,6 +1451,12 @@ class List extends React.Component {
 
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
+          } else if (this.state.isSpecialNeedFilter) {
+            goodsContent.splice(
+              goodsContent.length >= 4 ? 4 : goodsContent.length,
+              0,
+              { specificNeedCheck: true }
+            );
           }
           loadJS({
             code: JSON.stringify({
