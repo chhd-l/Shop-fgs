@@ -10,13 +10,10 @@ class DetailsDisplay extends React.Component {
   render() {
     const { productComposition } = this.props.productInfo;
     const { intl } = this.props;
-    let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
-      0,
-      5
-    );
-    let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
-      5
-    );
+    let productComposition1 =
+      productComposition.analyticalConsitituentsTitle.slice(0, 5);
+    let productComposition2 =
+      productComposition.analyticalConsitituentsTitle.slice(5);
     return (
       <div className="experience-component experience-layouts-1column">
         <div className="row rc-margin-x--none">
@@ -154,7 +151,7 @@ class DetailsDisplay extends React.Component {
                           </div>
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
                             <div
-                              className="text-center row col-12  text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
+                              className="row col-12  text-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile mx-0"
                               style={{
                                 backgroundColor: '#eee',
                                 height: '100%'
