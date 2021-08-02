@@ -26,7 +26,6 @@ const   toScroll = (anchorName) => {
 };
 
 const LongBanner = () => {
-
   return (
     <>
       <div className="top pb-4">
@@ -154,19 +153,19 @@ const LongBanner = () => {
           style={{
             marginTop: isMobile ? '220px' : '0',
             boxShadow: 'darkgrey 10px 150px 230px 100px',
-            width:(isMobile?'90%':'100')
+            width: isMobile ? '90%' : '100'
           }}
         >
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative">
             <img
               style={
                 isMobile
-                  ? { width: '80%', position: 'absolute', left: '0%'}
+                  ? { width: '80%', position: 'absolute', left: '0%' }
                   : {
                       width: '45%',
                       position: 'absolute',
                       left: ' -8%',
-                      top: -350,
+                      top: -350
                     }
               }
               src={topCat}
@@ -179,31 +178,34 @@ const LongBanner = () => {
                       width: '35%',
                       position: 'absolute',
                       top: -240,
-                      right: '-5%',
+                      right: '-5%'
                     }
               }
               src={topCatEat}
             />
-            <div className='howItWorkNum'
-                 style={
-                   isMobile
-                     ? {width: 90,
-                       height: 90,
-                       position: 'absolute',
-                       top: -220,
-                       right: '0%',
-                       zIndex: 2
-                   }
-                     : {
-                       width: 105,
-                       height: 105,
-                       position: 'absolute',
-                       top: -240,
-                       right: '0%',
-                       zIndex: 2
-                     }
-                 }>
-              <h3 style={{marginTop:21,marginBottom:0}}>-25%</h3>
+            <div
+              className="howItWorkNum"
+              style={
+                isMobile
+                  ? {
+                      width: 90,
+                      height: 90,
+                      position: 'absolute',
+                      top: -220,
+                      right: '0%',
+                      zIndex: 2
+                    }
+                  : {
+                      width: 105,
+                      height: 105,
+                      position: 'absolute',
+                      top: -240,
+                      right: '0%',
+                      zIndex: 2
+                    }
+              }
+            >
+              <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
               <h6> on first order </h6>
             </div>
           </div>

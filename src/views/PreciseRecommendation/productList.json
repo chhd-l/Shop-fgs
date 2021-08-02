@@ -204,12 +204,12 @@
       "analyticalConsitituentsDes": [
         "ind.IND1006.proteinVal",
         "ind.IND1006.fatContentVal",
-        "ind.IND1007.crudeAshVal",
-        "ind.IND1007.crudeFibreVal",
-        "ind.IND1007.PhosphorusVal",
+        "ind.IND1006.crudeAshVal",
+        "ind.IND1006.crudeFibreVal",
+        "ind.IND1006.PhosphorusVal",
         "ind.IND1006.PerVal",
-        "ind.IND1007.OmegaVal",
-        "ind.IND1007.LycopeneVal"
+        "ind.IND1006.OmegaVal",
+        "ind.IND1006.LycopeneVal"
       ],
       "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.Per", "ind.Omega", "ind.Lycopene"]
     }

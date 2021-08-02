@@ -16,9 +16,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
         <div className="rc-full-width">
           <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
-              <h2
-                className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha"
-              >
+              <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha">
                 HOW IT WORKS
                 {/*<FormattedMessage id="ClubLP.NewHowItWorks.title" />*/}
               </h2>
@@ -30,11 +28,14 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
                       <div
-                        style={{ display: 'flex', justifyContent: 'center' ,flexDirection:'column',alignItems:'center'}}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                          alignItems: 'center'
+                        }}
                       >
-                        <div className='howItWorkNum'>
-                          1
-                        </div>
+                        <div className="howItWorkNum">1</div>
                         <LazyLoad>
                           {/*<img*/}
                           {/*  className="m-auto w-auto lazyloaded"*/}
@@ -42,6 +43,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
 
                           <div style={isMobile?  { margin: 10}: { height: 100 ,margin: 10}
                                                             } className='rc-margin--sm'>
+
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={introTBRHNC}
@@ -63,11 +65,14 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
                       <div
-                        style={{ display: 'flex', justifyContent: 'center' ,flexDirection:'column',alignItems:'center'}}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                          alignItems: 'center'
+                        }}
                       >
-                        <div className='howItWorkNum'>
-                          2
-                        </div>
+                        <div className="howItWorkNum">2</div>
                         <LazyLoad>
                           <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
                             <img
@@ -90,11 +95,14 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
                       <div
-                        style={{ display: 'flex', justifyContent: 'center' ,flexDirection:'column',alignItems:'center'}}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                          alignItems: 'center'
+                        }}
                       >
-                        <div className='howItWorkNum'>
-                          3
-                        </div>
+                        <div className="howItWorkNum">3</div>
                         <LazyLoad>
                           <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
                           <img
@@ -116,11 +124,14 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
                     >
                       <div
-                        style={{ display: 'flex', justifyContent: 'center' ,flexDirection:'column',alignItems:'center'}}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          flexDirection: 'column',
+                          alignItems: 'center'
+                        }}
                       >
-                        <div className='howItWorkNum'>
-                          4
-                        </div>
+                        <div className="howItWorkNum">4</div>
                         <LazyLoad>
                           <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
                           <img

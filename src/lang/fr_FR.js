@@ -1966,6 +1966,8 @@ const fr_FR = {
     'How to use : Batch number, factory registration number and best before date : see information on packaging.',
   'preciseNutrition.Details.lastText2':
     'To be stored in a cool, dry place.  Water should be available at all times',
+  'preciseNutrition.Details.lastText3':
+    'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
   'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
   'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
   'preciseNutrition.Product.list.title2': '2.Texture and density',

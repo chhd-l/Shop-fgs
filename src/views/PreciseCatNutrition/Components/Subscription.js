@@ -31,8 +31,11 @@ const subscription = () => {
   return (
     <div
       className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
-      style={{ marginTop: '0', boxShadow: 'darkgrey 10px 10px 30px 5px',width:(isMobile?'90%':'100')}}
-
+      style={{
+        marginTop: '0',
+        boxShadow: 'darkgrey 10px 10px 30px 5px',
+        width: isMobile ? '90%' : '100'
+      }}
     >
       <div
         className="rc-bg-colour--brand3"
@@ -41,9 +44,7 @@ const subscription = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h2
-              className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile dt"
-            >
+            <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile dt">
               A SUBSCRIPTION TO SIMPLIFY YOUR LIFE
               {/*<FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />*/}
             </h2>
@@ -61,9 +62,12 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none demarginleft" style={{fontSize:14}} style={{fontSize:14}}>
-                        Automatic & flexible delivery
-                        at door every month
+                      <p
+                        className="rc-margin-bottom--none demarginleft"
+                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14 }}
+                      >
+                        Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
                       </p>
                     </div>

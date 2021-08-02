@@ -73,11 +73,11 @@ const HelpComponents = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="rc-column rc-content-v-middle" >
-                                <LazyLoad style={{flexDirection:'column'}}>
+                              <div className="rc-column rc-content-v-middle">
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
-                                    style={{ width: '25vw'}}
+                                    style={{ width: '25vw' }}
                                     src={callImgNew}
                                     title="By telephone"
                                   />
@@ -134,7 +134,7 @@ const HelpComponents = () => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad style={{flexDirection:'column'}}>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
@@ -233,7 +233,7 @@ const HelpComponents = () => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad style={{flexDirection:'column'}}>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}

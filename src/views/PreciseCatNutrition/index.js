@@ -83,9 +83,10 @@ class PreciseCatNutrition extends React.Component {
     // 如果对应id的锚点存在，就跳转到锚点
     if (anchorElement) {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
+    }
+    ;
+  }
   render() {
     const { history, match, location } = this.props;
 
@@ -168,7 +169,9 @@ class PreciseCatNutrition extends React.Component {
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
-                            <h2 className='font-weight-bold'>THAT HEAlTH IS NOT ONE SIZE FITS ALL</h2>
+                            <h2 className="font-weight-bold">
+                              THAT HEAlTH IS NOT ONE SIZE FITS ALL
+                            </h2>
                           </div>
                         </div>
                         {/*<h2> DID you KNOW?  THAT HEAlTH IS NOT ONE SIZE FITS ALL </h2>*/}
@@ -285,7 +288,7 @@ class PreciseCatNutrition extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg rc-padding-x--lg text-center rc-margin-top--md">
                         <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                          <h2 className='font-weight-bold'>
+                          <h2 className="font-weight-bold">
                             {' '}
                             AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}
                           </h2>
@@ -407,7 +410,7 @@ class PreciseCatNutrition extends React.Component {
 
                 <HowItWorks />
               </div>
-              <br/>
+              <br />
 
               <div className={'preciseCatNutritionTop'} id='aboutPet'>
                 <div className="row rc-margin-x--none">
