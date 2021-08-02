@@ -15,12 +15,19 @@ import gifticonnew from '../../ClubLandingPageNew/image/pictosgiftsnew@4x.png';
 import phoneicon from '../../ClubLandingPageNew/image/phoneicon@4x.png';
 import iconsix from '../../ClubLandingPageNew/image/iconsix.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
+import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
+import { getDeviceType } from '../../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const subscription = () => {
   return (
     <div
       className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
-      style={{ marginTop: '0', boxShadow: 'darkgrey 10px 10px 30px 5px' }}
+      style={{
+        marginTop: '0',
+        boxShadow: 'darkgrey 10px 10px 30px 5px',
+        width: isMobile ? '90%' : '100'
+      }}
     >
       <div
         className="rc-bg-colour--brand3"
@@ -29,7 +36,7 @@ const subscription = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h2 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile dt">
+            <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile dt">
               A SUBSCRIPTION TO SIMPLIFY YOUR LIFE
               {/*<FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />*/}
             </h2>
@@ -47,14 +54,14 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <a
+                      <p
                         className="rc-margin-bottom--none demarginleft"
                         style={{ fontSize: 14 }}
                         style={{ fontSize: 14 }}
                       >
                         Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
-                      </a>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -165,7 +172,7 @@ const subscription = () => {
               ariaLabel="Links to product finder"
             >
               <button
-                className="rc-btn rc-btn--one"
+                className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                 style={{ paddingLeft: '90px', paddingRight: '90px' }}
               >
                 Get started

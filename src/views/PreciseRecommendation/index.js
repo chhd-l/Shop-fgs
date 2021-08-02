@@ -342,6 +342,7 @@ class PreciseRecommendation extends React.Component {
             list={list}
             lastText={lastText}
           />
+
           <Footer />
         </main>
       </div>

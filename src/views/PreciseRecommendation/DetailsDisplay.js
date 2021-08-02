@@ -1,21 +1,71 @@
 // import { Modal } from 'bootstrap';
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import Modal from '@/components/Modal';
+import kittenimgone from '../DedicatedLandingPage/img/kittenimgone.png';
+import kittenimgtwo from '../DedicatedLandingPage/img/kittenimgtwo.png';
 
 class DetailsDisplay extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modelShow: false
+    };
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  // this.handleClick=this.handleClick.bind(this)
+
+  handleClick = () => {
+    this.setState({
+      modalShow: !this.state.modalShow
+    });
+  };
+
+  // handleClick(){
+  //   return (
+  //
+  //       <Modal
+  //         visible={true}
+  //         type="fullscreen"
+  //         visible={true}
+  //         footerVisible={false}
+  //         confirmBtnText={<div>shdiadopwqd</div>}
+  //       >
+  //         <div>tanchuang</div>
+  //       </Modal>
+  //   );
+  // }
 
   render() {
     const { productComposition } = this.props.productInfo;
     const { intl } = this.props;
-    let productComposition1 =
-      productComposition.analyticalConsitituentsTitle.slice(0, 5);
-    let productComposition2 =
-      productComposition.analyticalConsitituentsTitle.slice(5);
+    const modalShow = this.state.modalShow;
+
+    let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
+      0,
+      5
+    );
+    let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
+      5
+    );
     return (
       <div className="experience-component experience-layouts-1column">
+        <div
+          className={'modal'}
+          style={
+            modalShow
+              ? {
+                  width: '100vw',
+                  height: '780vh',
+                  position: 'absolute',
+                  display: 'block',
+                  background: '#000',
+                  opacity: '0.80'
+                }
+              : {}
+          }
+        ></div>
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-region experience-main rc-padding-y--lg">
@@ -151,7 +201,7 @@ class DetailsDisplay extends React.Component {
                           </div>
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
                             <div
-                              className="row col-12  text-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile mx-0"
+                              className="row col-12 mx-0 text-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
                               style={{
                                 backgroundColor: '#eee',
                                 height: '100%'
@@ -198,11 +248,13 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-left rc-margin-y--none rc-padding-x--sm--desktop">
                         <a
+                          type="button"
                           className="rc-padding-x--sm--desktop hidden-sm-down"
                           style={{
                             fontWeight: '550',
                             textDecoration: 'underline'
                           }}
+                          onClick={() => this.handleClick()}
                         >
                           <FormattedMessage id="preciseNutrition.Details.link" />
                         </a>
@@ -221,6 +273,39 @@ class DetailsDisplay extends React.Component {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <div
+                className="rc-layout-container rc-news-article-card--sidebar-present "
+                style={{
+                  display: modalShow ? 'block' : 'none',
+                  position: 'absolute',
+                  top: '300%',
+                  left: '50%',
+                  transform: 'translate(-50%,0%)',
+                  opacity: '100',
+                  zIndex: '1100'
+                }}
+              >
+                <div className="rc-column " style={{ width: '950px' }}>
+                  <article className="rc-card rc-card--a">
+                    <div className="rc-card__body">
+                      <div
+                        className="flex "
+                        style={{ justifyContent: 'flex-end', fontSize: '20px' }}
+                        onClick={() => this.handleClick()}
+                      >
+                        <span
+                          className="rc-icon rc-close rc-iconography"
+                          style={{ width: '15px' }}
+                        ></span>
+                      </div>
+                      <div>
+                        <h1>shidabdadl</h1>
+                      </div>
+                    </div>
+                  </article>
                 </div>
               </div>
             </div>
