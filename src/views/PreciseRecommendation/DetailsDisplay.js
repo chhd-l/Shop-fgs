@@ -40,6 +40,8 @@ class DetailsDisplay extends React.Component {
   render() {
     const { productComposition } = this.props.productInfo;
     const { intl } = this.props;
+    const modalShow = this.state.modalShow;
+
     let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
       0,
       5
@@ -47,8 +49,6 @@ class DetailsDisplay extends React.Component {
     let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
       5
     );
-    const modalShow = this.state.modalShow;
-
     return (
       <div className="experience-component experience-layouts-1column">
         <div

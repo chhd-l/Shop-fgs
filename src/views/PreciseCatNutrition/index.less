@@ -34,6 +34,7 @@
         }
       }
       .questionnaire-image-title{
+        font-weight: bold;
         font-size: 34px;
         color: #e2001a;
         @media (max-width: 769px) {
@@ -64,10 +65,30 @@
     }
   }
 }
+.howItWorkBorder{
+  border: 2px solid #cccccc;
+  padding:10px;
+  flex-direction: column;
+}
 
+.howItWorkNum{
+  border-radius: 50%;
+  background-color: #E2001A;
+  color: white;
+  width:45px;
+  height:45px;
+  text-align: center;
+  line-height:45px;
+}
 @media (max-width: 639.98px) {
+  .ui-pop .img-container {
+    width: 80%;
+  }
+  .mobileHelp {
+    display: flex;
+    flex-direction: column;
+  }
   .preciseCatNutritionTop {
-    height: 1609px;
     background: linear-gradient(white, black);
     overflow: hidden;
     background-size: cover;
