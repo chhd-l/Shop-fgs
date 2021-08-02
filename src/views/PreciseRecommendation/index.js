@@ -20,7 +20,7 @@ class PreciseRecommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productInfo: {},
+      productInfo: productList['IND1007'],
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -28,18 +28,18 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  componentDidMount = () => {
-    const id = 'IND1001';
-    let productInfo = Object.assign(
-      {},
-      this.state.productInfo,
-      productList[id]
-    );
-    console.info(productList[id]);
-    this.setState({
-      productInfo
-    });
-  };
+  // componentDidMount(){
+  //   const id = 'IND1007';
+  //   let productInfo = Object.assign(
+  //     {},
+  //     this.state.productInfo,
+  //     productList[id]
+  //   );
+  //   console.info(productList[id]);
+  //   this.setState({
+  //     productInfo
+  //   });
+  // }
 
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
@@ -160,7 +160,7 @@ class PreciseRecommendation extends React.Component {
             style={{ borderBottomWidth: '8px' }}
           ></div>
           <ProductSpecialities />
-          <DetailsDisplay />
+          <DetailsDisplay productInfo={this.state.productInfo} />
 
           <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
           <div style={{ backgroundColor: '#eee' }}>

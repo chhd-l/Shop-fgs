@@ -65,7 +65,7 @@ const Banner = ({ productInfo, intl }) => {
                       -25% on first order
                     </div>
                     <button
-                      class="rc-btn rc-btn--one rc-btn--sm"
+                      className="rc-btn rc-btn--one rc-btn--sm"
                       style={{ width: '200px' }}
                     >
                       buy now
@@ -110,7 +110,7 @@ const Banner = ({ productInfo, intl }) => {
             Free shipment cost
           </div>
           <button
-            class="rc-btn rc-btn--one rc-btn--sm"
+            className="rc-btn rc-btn--one rc-btn--sm"
             style={{ width: '200px' }}
           >
             buy now

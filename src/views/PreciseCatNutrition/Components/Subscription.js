@@ -2,11 +2,11 @@ import React from 'react';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from '../../ClubLandingPageNew/image/pictosshippingnew@4x.png';
 import { FormattedMessage } from 'react-intl';
-import picto_delivery from '../images/picto_delivery.png'
-import picto_advisor from '../images/picto_advisor.png'
-import picto_welcome_pack from '../images/picto_welcome-pack.png'
-import picto_loyalty_program from '../images/picto_loyalty-program.png'
-import picto_advice from '../images/picto_advice.png'
+import picto_delivery from '../images/picto_delivery.png';
+import picto_advisor from '../images/picto_advisor.png';
+import picto_welcome_pack from '../images/picto_welcome-pack.png';
+import picto_loyalty_program from '../images/picto_loyalty-program.png';
+import picto_advice from '../images/picto_advice.png';
 
 import discountnewtr from '../../ClubLandingPageNew/image/discountnewtr.png';
 import discountnew from '../../ClubLandingPageNew/image/discountnew@4x.png';
@@ -19,11 +19,12 @@ import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
 import { getDeviceType } from '../../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const subscription = () =>{
-  return(
+const subscription = () => {
+  return (
     <div
       className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
       style={{ marginTop: '0', boxShadow: 'darkgrey 10px 10px 30px 5px',width:(isMobile?'90%':'100')}}
+
     >
       <div
         className="rc-bg-colour--brand3"
@@ -72,9 +73,11 @@ const subscription = () =>{
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none demarginleft" style={{fontSize:14}}>
-                        A personal pet advisor
-                        available for you
+                      <p
+                        className="rc-margin-bottom--none demarginleft"
+                        style={{ fontSize: 14 }}
+                      >
+                        A personal pet advisor available for you
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon2'}*/}
                         {/*/>*/}
@@ -94,9 +97,11 @@ const subscription = () =>{
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none demarginleft" style={{fontSize:14}}>
-                        A welcome pack with a scale
-                        & all materials to properly
+                      <p
+                        className="rc-margin-bottom--none demarginleft"
+                        style={{ fontSize: 14 }}
+                      >
+                        A welcome pack with a scale & all materials to properly
                         feed your pet
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon3'}*/}
@@ -117,9 +122,11 @@ const subscription = () =>{
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none demarginleft" style={{fontSize:14}}>
-                        Enjoy a loyalty program with
-                        exclusive gift to stimulate
+                      <p
+                        className="rc-margin-bottom--none demarginleft"
+                        style={{ fontSize: 14 }}
+                      >
+                        Enjoy a loyalty program with exclusive gift to stimulate
                         your pet
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon4'}*/}
@@ -140,9 +147,11 @@ const subscription = () =>{
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none demarginleft" style={{fontSize:14}}>
-                        Tailored professional advice
-                        & tips
+                      <p
+                        className="rc-margin-bottom--none demarginleft"
+                        style={{ fontSize: 14 }}
+                      >
+                        Tailored professional advice & tips
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon5'}*/}
                         {/*/>*/}
@@ -175,4 +184,3 @@ const subscription = () =>{
   );
 };
 export default subscription;
-

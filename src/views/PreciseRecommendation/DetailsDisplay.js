@@ -1,6 +1,6 @@
 // import { Modal } from 'bootstrap';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 class DetailsDisplay extends React.Component {
   constructor(props) {
@@ -8,6 +8,12 @@ class DetailsDisplay extends React.Component {
   }
 
   render() {
+    const { productComposition } = this.props.productInfo;
+    const { intl } = this.props;
+    let productComposition1 =
+      productComposition.analyticalConsitituentsTitle.slice(0, 5);
+    let productComposition2 =
+      productComposition.analyticalConsitituentsTitle.slice(5);
     return (
       <div className="experience-component experience-layouts-1column">
         <div className="row rc-margin-x--none">
@@ -47,37 +53,52 @@ class DetailsDisplay extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm pt-0 rc-padding--none--mobile rc-margin-bottom--sm rc-margin-y--sm--mobile content-block rc-max-width--lg">
-                        <div className="row align-items-md-center mx-0 rc-margin-x--none--mobile">
+                        <div className="row mx-0 rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
                               className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
-                              style={{ backgroundColor: '#eee' }}
+                              style={{
+                                backgroundColor: '#eee',
+                                height: '100%'
+                              }}
                             >
                               <p>
-                                <span style={{ fontWeight: '550' }}>
-                                  <FormattedMessage id="preciseNutrition.Details.contitle1" />
-                                </span>
-                                <br />
-                                <FormattedMessage id="preciseNutrition.Details.content1" />
+                                <div style={{ fontWeight: '550' }}>
+                                  <FormattedMessage
+                                    id={productComposition.compositionTitle}
+                                  />
+                                </div>
+                                <p>
+                                  <FormattedMessage
+                                    id={productComposition.compositionDes}
+                                  />
+                                </p>
                               </p>
-                              <br />
                             </div>
                           </div>
                           <div className="col-12 col-md-6 align-items-center order-2  orderJoin1 rc-padding-right--none--desktop  rc-padding--none--mobile">
                             <div
                               className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
-                              style={{ backgroundColor: '#eee' }}
+                              style={{
+                                backgroundColor: '#eee',
+                                height: '100%'
+                              }}
                             >
                               <p>
-                                <span style={{ fontWeight: '550' }}>
-                                  <FormattedMessage id="preciseNutrition.Details.contitle2" />
-                                </span>
-                                <br />
-                                <FormattedMessage id="preciseNutrition.Details.content2" />
-                                <br />
-                                <span style={{ fontWeight: '550' }}>
+                                <div style={{ fontWeight: '550' }}>
+                                  <FormattedMessage
+                                    id={productComposition.additivesTitle}
+                                  />
+                                </div>
+
+                                <p>
+                                  <FormattedMessage
+                                    id={productComposition.additives}
+                                  />
+                                </p>
+                                {/* <span style={{ fontWeight: '550' }}>
                                   <FormattedMessage id="preciseNutrition.Details.content2.span" />
-                                </span>
+                                </span> */}
                               </p>
                             </div>
                           </div>
@@ -114,9 +135,12 @@ class DetailsDisplay extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm pt-0 rc-padding--none--mobile rc-margin-y--sm--mobile content-block rc-max-width--lg">
-                        <div className="row align-items-md-center mx-0  rc-margin-x--none--mobile">
+                        <div className="row rc-full-width mx-0  rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
-                            <div className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile">
+                            <div
+                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
+                              style={{ height: '100%' }}
+                            >
                               <p>
                                 <FormattedMessage id="preciseNutrition.Details.content3.1" />
                               </p>
@@ -127,10 +151,38 @@ class DetailsDisplay extends React.Component {
                           </div>
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
                             <div
-                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
-                              style={{ backgroundColor: '#eee' }}
+                              className="row col-12  text-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile mx-0"
+                              style={{
+                                backgroundColor: '#eee',
+                                height: '100%'
+                              }}
                             >
-                              <p></p>
+                              <div className="col-md-6 col-12 px-0">
+                                {productComposition1?.map((el, idx) => (
+                                  <div>
+                                    <FormattedMessage id={el} />:{' '}
+                                    <FormattedMessage
+                                      id={
+                                        productComposition
+                                          .analyticalConsitituentsDes[idx]
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="col-md-6 col-12 px-0">
+                                {productComposition2?.map((el, idx) => (
+                                  <div>
+                                    <FormattedMessage id={el} />:{' '}
+                                    <FormattedMessage
+                                      id={
+                                        productComposition
+                                          .analyticalConsitituentsDes[idx]
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -179,4 +231,4 @@ class DetailsDisplay extends React.Component {
   }
 }
 
-export default DetailsDisplay;
+export default injectIntl(DetailsDisplay);
