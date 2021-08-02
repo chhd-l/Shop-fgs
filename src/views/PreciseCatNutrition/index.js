@@ -78,6 +78,13 @@ class PreciseCatNutrition extends React.Component {
     });
   };
 
+  scrollToAnchor = (anchorName) => {
+    if (anchorName) {
+      let anchorElement = document.getElementById(anchorName);
+      if(anchorElement) { anchorElement.scrollIntoView(); }
+    }
+  }
+
   render() {
     const { history, match, location } = this.props;
 
@@ -143,11 +150,13 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                         <div className={'row'}>
-                          <div className={'col-12 col-md-4 text-md-right'}>
-                            <h2>DID you KNOW?</h2>
+                          <div className={'col-12 col-md-4 text-md-right relative'}>
+                            {/*<h2> DID </h2>*/}
+                            {/*<div style={{backgroundColor:'wheat',color:'red'}}> you </div>*/}
+                            {/*<h2 className='font-weight-bold'>  KNOW?</h2>*/}
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
-                            <h2>THAT HEAlTH IS NOT ONE SIZE FITS ALL</h2>
+                            <h2 className='font-weight-bold'>THAT HEAlTH IS NOT ONE SIZE FITS ALL</h2>
                           </div>
                         </div>
                         {/*<h2> DID you KNOW?  THAT HEAlTH IS NOT ONE SIZE FITS ALL </h2>*/}
@@ -226,15 +235,24 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                               </ul>
                               <div className="rc-padding-x--none detextcenter">
-                                <DistributeHubLinkOrATag
-                                  href={'/product-finder'}
-                                  ariaLabel="Links to product finder"
+                                <a
+                                  onClick={()=>this.scrollToAnchor('aboutPet')}
                                 >
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
                                     <a>try it now</a>
                                   </button>
-                                </DistributeHubLinkOrATag>
+                                </a>
+                                {/*<DistributeHubLinkOrATag*/}
+                                {/*  // href={'/product-finder'}*/}
+                                {/*  onClick={()=>this.scrollToAnchor('aboutPet')}*/}
+                                {/*  ariaLabel="Links to product finder"*/}
+                                {/*>*/}
+                                {/*  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">*/}
+                                {/*    /!*<FormattedMessage id="ClubLP.Advantage.button" />*!/*/}
+                                {/*    <a>try it now</a>*/}
+                                {/*  </button>*/}
+                                {/*</DistributeHubLinkOrATag>*/}
                               </div>
                             </div>
                           </div>
@@ -255,7 +273,7 @@ class PreciseCatNutrition extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg rc-padding-x--lg text-center rc-margin-top--md">
                         <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                          <h2>
+                          <h2 className='font-weight-bold'>
                             {' '}
                             AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}
                           </h2>
@@ -380,6 +398,7 @@ class PreciseCatNutrition extends React.Component {
 
                 <HowItWorks />
               </div>
+              <br/>
 
               <div className={'preciseCatNutritionTop'}>
                 <div className="row rc-margin-x--none">
@@ -425,7 +444,7 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                       <div className="rc-max-width--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                         <div>
-                          <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                          <h4 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                             Address
                             {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                           </h4>

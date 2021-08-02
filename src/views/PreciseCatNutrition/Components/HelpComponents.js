@@ -17,7 +17,7 @@ const HelpComponents = () => {
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
-                  <h2 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                  <h2 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     We're here to help
                     {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                   </h2>
@@ -34,9 +34,9 @@ const HelpComponents = () => {
                   You can reach us through the following options:
                 </p>
                 <div className="experience-component experience-layouts-1to2columnRatio">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                     <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
-                      <div className="rc-padding--none flex justify-content-center margin-auto mobilehelp">
+                      <div className="rc-padding--none flex justify-content-center margin-auto mobileHelp">
                         <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                           <div className="rc-border-all rc-border-colour--interface fullHeight">
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
@@ -64,7 +64,7 @@ const HelpComponents = () => {
                                   </div>
                                   <div className="rc-margin-top--xs">
                                     <p
-                                      style={{ color: '#00BCA3' }}
+                                      style={{ color: '#E2001A' }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
                                       0800 415 161
@@ -73,11 +73,11 @@ const HelpComponents = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                              <div className="rc-column rc-content-v-middle" >
+                                <LazyLoad style={{flexDirection:'column'}}>
                                   <img
                                     className="align-self-center "
-                                    style={{ width: '25vw' }}
+                                    style={{ width: '25vw'}}
                                     src={callImgNew}
                                     title="By telephone"
                                   />
@@ -134,7 +134,7 @@ const HelpComponents = () => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{flexDirection:'column'}}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
@@ -233,7 +233,7 @@ const HelpComponents = () => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{flexDirection:'column'}}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
