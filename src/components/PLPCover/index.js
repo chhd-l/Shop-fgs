@@ -9,6 +9,7 @@ import { getDeviceType, formatMoney } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import InlineRatings from '@/components/BazaarVoice/inlineRatings';
 import './index.less';
+import catSpecImg from '@/assets/images/cats-spec.png';
 
 const isMobilePhone = getDeviceType() === 'H5';
 const retailDog =
@@ -98,6 +99,72 @@ function ListItemH5ForGlobalStyle(props) {
                         alt="Retail Products"
                       />
                     )}
+                  </div>
+                </div>
+              </picture>
+            </div>
+          </article>
+        </span>
+      </div>
+    </article>
+  ) : item.specificNeedCheck ? (
+    <article
+      className="rc-card--product overflow-hidden"
+      style={{ minHeight: '120px' }}
+    >
+      <div className="fullHeight">
+        <span className="ui-cursor-pointer-pure">
+          <article className="rc-card--a  margin-top--5">
+            <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start d-flex flex-wrap">
+              <div className="height-product-tile-plpOnly margin-top-mobile-20">
+                <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
+                  <FormattedMessage id="plp.retail.cat.filter.specneed.title" />
+                </h3>
+              </div>
+              <div>
+                <div
+                  className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
+                  style={{ zIndex: 2 }}
+                >
+                  <FormattedMessage
+                    id="plp.retail.cat.filter.specneed.tip.mobile"
+                    values={{
+                      val: <br />
+                    }}
+                  />
+                </div>
+                <DistributeHubLinkOrATag
+                  href="/precise-cat-nutrition"
+                  to="/precise-cat-nutrition"
+                >
+                  <button
+                    className="rc-btn rc-btn--two margin-top-mobile-20"
+                    style={{ marginTop: '1.1875rem' }}
+                  >
+                    <FormattedMessage id="plp.retail.cat.filter.specneed.learnmore" />
+                  </button>
+                </DistributeHubLinkOrATag>
+              </div>
+              <picture className="rc-card__image" style={{ flex: 1 }}>
+                <div className="rc-padding-bottom--xs justify-content-center ">
+                  <div
+                    className="lazyload-wrapper"
+                    style={{
+                      width: '100%',
+                      height: '100%'
+                    }}
+                  >
+                    <img
+                      src={catSpecImg}
+                      className=" pt-3 "
+                      style={{
+                        maxHeight: '100%',
+                        width: '100%',
+                        height: 'auto',
+                        margin: 'auto'
+                      }}
+                      alt="Retail Products"
+                    />
                   </div>
                 </div>
               </picture>
@@ -266,6 +333,81 @@ function ListItemForDefault(props) {
                     style={{
                       maxHeight: '100%',
                       width: isDogPage ? '175px' : '150px',
+                      height: 'auto',
+                      margin: 'auto'
+                    }}
+                  />
+                </div>
+              </div>
+            </picture>
+          </article>
+        </span>
+      </div>
+    </article>
+  ) : item.specificNeedCheck ? (
+    <article
+      className="rc-card--product overflow-hidden"
+      style={{ minHeight: '120px' }}
+    >
+      <div className="fullHeight">
+        <span className="ui-cursor-pointer-pure">
+          <article className="rc-card--a rc-text--center text-center">
+            <div className="pb-0 justify-content-start rc-padding-top--md">
+              <div className="height-product-tile-plpOnly">
+                <FormattedMessage id="plp.retail.cat.filter.specneed.title">
+                  {(txt) => (
+                    <h3
+                      className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
+                      title={txt}
+                      style={{ fontSize: '1.225rem' }}
+                    >
+                      {txt}
+                    </h3>
+                  )}
+                </FormattedMessage>
+              </div>
+              <div
+                className=" text-center rc-padding-top--xs"
+                style={{ fontSize: 'large' }}
+              >
+                <FormattedMessage
+                  id="plp.retail.cat.filter.specneed.tip"
+                  values={{
+                    val: <br />
+                  }}
+                />
+              </div>
+              <div style={{ margin: '0 auto' }}>
+                <DistributeHubLinkOrATag
+                  href="/precise-cat-nutrition"
+                  to="/precise-cat-nutrition"
+                >
+                  <button
+                    className="rc-btn rc-btn--two "
+                    style={{ marginTop: '1.1875rem' }}
+                  >
+                    <FormattedMessage id="plp.retail.cat.filter.specneed.learnmore" />
+                  </button>
+                </DistributeHubLinkOrATag>
+              </div>
+            </div>
+            <picture className="rc-card__image">
+              <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
+                <div
+                  className="lazyload-wrapper"
+                  style={{
+                    width: '100%',
+                    height: '100%'
+                  }}
+                >
+                  <img
+                    src={catSpecImg}
+                    alt=""
+                    title=""
+                    className="ImgFitScreen pt-3"
+                    style={{
+                      maxHeight: '100%',
+                      width: '250px',
                       height: 'auto',
                       margin: 'auto'
                     }}

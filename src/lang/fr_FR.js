@@ -1912,6 +1912,13 @@ const fr_FR = {
   'ClubLP.Help.email.address': 'Envoyez-nous un e-mail',
   'ClubLP.Help.faq.content':
     "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'preciseNutrition.call.content':
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
