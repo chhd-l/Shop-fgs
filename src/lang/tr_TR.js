@@ -1340,6 +1340,8 @@ const tr_TR = {
     "Looking for a recipe to help your cat's optimal weight?",
   'plp.retail.cat.filter.specneed.tip':
     'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 export default tr_TR;
