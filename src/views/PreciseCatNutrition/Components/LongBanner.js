@@ -34,17 +34,23 @@ const LongBanner = () => {
             <div className="experience-component experience-assets-contentBlock">
               <div className='rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile'>
                 <div
-                  className='rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile'
+                  className='rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-padding-x--xl'
                   style={{ marginBottom: '0px', textAlign: 'center', zIndex: 10 }}
                 >
-                  <h1 style={isMobile ? { fontWeight: 700, fontSize: '1.6rem' } :
-                    { fontWeight: 700, fontSize: '4.6rem' }}>
-                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
-                    WEIGHT !{/*<FormattedMessage*/}
-                    {/*  id="ClubLP.LongBanner.title"*/}
-                    {/*  values={{ val1: <br />, val2: <br /> }}*/}
-                    {/*></FormattedMessage>*/}
-                  </h1>
+                  {
+                    isMobile?
+                      <h1  style={ { fontWeight: 700, fontSize: '1.4rem' }}>
+                        GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
+                        WEIGHT !
+                      </h1>
+                    :<h1 className={'rc-padding-x--xl'} style={{ fontWeight: 700, fontSize: '3rem' }}>
+                        GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
+                        WEIGHT !
+                      </h1>
+                  }
+
+
+
                   <p style={{ fontSize: '0.6em', color: '#555555' }}>
                     average price
                     {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
@@ -56,9 +62,7 @@ const LongBanner = () => {
                   >
                     <button
                       style={{
-                        padding: '0',
-                        paddingLeft: '80px',
-                        paddingRight: '80px'
+                        padding: '0 30px',
                       }}
                       className="rc-btn rc-btn--one "
                     >
