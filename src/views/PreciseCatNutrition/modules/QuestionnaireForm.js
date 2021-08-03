@@ -1,30 +1,185 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useImperativeHandle,
+  useState,
+  forwardRef,
+  useEffect
+} from 'react';
 import './questionnaire.less';
+import TextFiled from './TextFiled';
+import RadioButton from './RadioButton/RadioButton';
+import AgeInput from './AgeInput/AgeInput';
+import AnimalBreeds from './AnimalBreeds/AnimalBreeds';
+import QuestionnaireRadio from './QuestionnaireRadio';
+import AgeSelect from './AgeSelect/AgeSelect';
+import { FormattedMessage } from 'react-intl';
 export const FormContext = React.createContext({});
-export default function QuestionnaireForm({ components }) {
+function QuestionnaireForm(
+  { components, changeCanNext, step, perParams },
+  ref
+) {
   const [formData, setFormData] = useState({});
+  const [perStep, setPerStep] = useState(0); //上一步
+  useImperativeHandle(ref, () => ({
+    formData,
+    setPervFormData: (val) => {
+      setPervFormData(val);
+    }
+  }));
+  const handleQuestionConfigLogic = ({
+    metadataQuestionDisplayType,
+    defaultListData
+  }) => {
+    let tmpList = defaultListData;
+    let tmpPlaceHolderList = [];
+    switch (metadataQuestionDisplayType) {
+      case 'ageSelect':
+        tmpList = [
+          Array.from({ length: 26 }).map((item, i) => {
+            return {
+              label: <FormattedMessage id="xYears" values={{ val: i }} />,
+              key: (12 * i).toString()
+            };
+          }),
+          Array.from({ length: 12 }).map((item, i) => {
+            return {
+              label: <FormattedMessage id="xMonths" values={{ val: i }} />,
+              key: i.toString()
+            };
+          })
+        ];
+        tmpPlaceHolderList = [
+          <FormattedMessage id="year" />,
+          <FormattedMessage id="month" />
+        ];
+        break;
+      case 'weightSelect':
+        tmpList = [
+          Array.from({ length: 49 }).map((item, i) => {
+            return {
+              label: `${i + 1} Kg`,
+              key: i + 1
+            };
+          })
+        ];
+        tmpPlaceHolderList = [<FormattedMessage id="weight" />];
+        break;
+      default:
+        break;
+    }
+    let questionType =
+      {
+        singleSelect: 'radio',
+        ageSelect: 'select',
+        weightSelect: 'select',
+        breedSelect: 'search',
+        freeTextSkippable: 'text'
+      }[metadataQuestionDisplayType] || '';
+    return {
+      questionList: tmpList,
+      holderList: tmpPlaceHolderList,
+      questionType
+    };
+  };
+
+  const FormItem = (list) => {
+    return list.map((item) => {
+      switch (item.metadata.questionDisplayType) {
+        case 'freeTextSkippable':
+          return <TextFiled questionData={item} key={item.metadata.name} />;
+          break;
+        case 'weightSelect':
+          return (
+            <AgeSelect
+              config={{
+                list: handleQuestionConfigLogic({
+                  metadataQuestionDisplayType: 'weightSelect',
+                  defaultListData: []
+                }).questionList,
+                placeholderList: handleQuestionConfigLogic({
+                  metadataQuestionDisplayType: 'weightSelect',
+                  defaultListData: []
+                }).holderList
+              }}
+              questionData={item}
+            />
+          );
+          break;
+        case 'singleSelect':
+          return <RadioButton questionData={item} key={item.metadata.name} />;
+          break;
+        case 'ageSelect':
+          // return <AgeInput questionData={item} key={item.metadata.name}/>;
+          return (
+            <AgeSelect
+              config={{
+                list: handleQuestionConfigLogic({
+                  metadataQuestionDisplayType: 'ageSelect',
+                  defaultListData: []
+                }).questionList,
+                placeholderList: handleQuestionConfigLogic({
+                  metadataQuestionDisplayType: 'ageSelect',
+                  defaultListData: []
+                }).holderList
+              }}
+              questionData={item}
+            />
+          );
+          break;
+        case 'breedSelect':
+          return <AnimalBreeds questionData={item} key={item.metadata.name} />;
+          break;
+        case 'bcsSelect':
+          return (
+            <QuestionnaireRadio questionData={item} key={item.metadata.name} />
+          );
+          break;
+        default:
+          console.log('do nothing');
+      }
+    });
+  };
   /**
-   * 当form组件下的子组件 值改变 修改formData
+   * 点击下一步，重置formData的值
+   */
+  useEffect(() => {
+    if (step > perStep) {
+      setFormData({});
+      changeCanNext(true);
+    } else {
+      setFormData(perParams);
+      if (JSON.stringify(perParams) !== '{}') {
+        changeCanNext(false);
+      }
+    }
+    setPerStep(step);
+  }, [step]);
+  /**
+   * 当form组件下的子组件 值改变 修改formData,并判断是否可以进入下一步
    * @param id
    * @param data
    */
   const changeFormData = (id, data) => {
     formData[id] = data;
+    let canGoNext = false;
+    for (let k in formData) {
+      if (!formData[k]) canGoNext = true;
+    }
+    changeCanNext(canGoNext);
     setFormData(formData);
   };
   return (
     <FormContext.Provider
       value={{
-        changeFormData: changeFormData
+        changeFormData: changeFormData,
+        formData
       }}
     >
       <div className="questionnaire-form">
         <form>
           <div className="questionnaire-form-content">
-            {components.map((item, index) => (
-              <div className="questionnaire-form-item">
+            {FormItem(components).map((item, index) => (
+              <div className="questionnaire-form-item" key={index}>
                 {item}
-                <div></div>
               </div>
             ))}
           </div>
@@ -33,3 +188,4 @@ export default function QuestionnaireForm({ components }) {
     </FormContext.Provider>
   );
 }
+export default forwardRef(QuestionnaireForm);

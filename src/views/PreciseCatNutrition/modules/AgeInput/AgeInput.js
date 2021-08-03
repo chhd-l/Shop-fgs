@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './index.less';
 import Selection from '@/components/Selection';
 import { FormattedMessage } from 'react-intl';
+import { FormContext } from '../QuestionnaireForm';
 
 export default function InputNumber({ questionData }) {
   const [number, setNumber] = useState(1);
   const [maxNumber, setMaxNumber] = useState(11);
+
+  const [ageType, setAgeType] = useState('month');
+
+  const Context = useContext(FormContext);
+  /**
+   * 当选择或者输入变动同步到formdata
+   */
+  useEffect(() => {
+    let monthNumber = number;
+    if (ageType === 'year') {
+      monthNumber = monthNumber * 12;
+    }
+    Context.changeFormData(questionData.name, monthNumber);
+  }, [number, ageType]);
   /**
    * 校验数字正确性
    * @param number
@@ -46,7 +61,7 @@ export default function InputNumber({ questionData }) {
    * @param data
    */
   const handleSelectChange = (data) => {
-    console.log(data);
+    setAgeType(data.value);
     switch (data.value) {
       case 'year':
         setMaxNumber(25);

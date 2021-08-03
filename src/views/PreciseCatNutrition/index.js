@@ -381,7 +381,7 @@ class PreciseCatNutrition extends React.Component {
                 <HowItWorks />
               </div>
 
-              <div className={'preciseCatNutritionTop'}>
+              <div>
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">

@@ -1,15 +1,46 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import RadioAnswer from '../../../ProductFinder/modules/RadioAnswer';
 import SearchSelection from '../../../../components/SearchSelection';
+import { FormContext } from '../QuestionnaireForm';
 export default function AnimalBreeds({ questionData }) {
+  const [breed, setBreed] = useState('');
+  const [breedLabel, setBreedLabel] = useState('');
+  const Context = useContext(FormContext);
+
+  useEffect(() => {
+    if (Context.formData[questionData.name]) {
+      setBreed(Context.formData[questionData.name]);
+      let label = filterLabel(Context.formData[questionData.name])[0];
+      if (label) {
+        setBreedLabel(label.label);
+      }
+    } else {
+      setBreed('');
+    }
+  }, [questionData.name]);
+
   /**
    * 搜索选中回调
    * @param val
    */
   const handleSelectChange = (val) => {
-    console.log(val);
+    setBreed(val.key);
+    setBreedLabel(filterLabel(val.key)[0].label);
+    Context.changeFormData(questionData.name, val.key);
   };
+  const toggleCheckbox = (e) => {
+    e.persist();
+    setBreed(e.target.defaultValue);
+    Context.changeFormData(questionData.name, e.target.defaultValue);
+  };
+  const filterLabel = (val) => {
+    let array = questionData.possibleValues.filter((item) => {
+      return item.key === val;
+    });
+    return array;
+  };
+
   return (
     <>
       <div className="question-title">
@@ -23,7 +54,7 @@ export default function AnimalBreeds({ questionData }) {
               data-tooltip="bottom-tooltip"
             ></i>
             <div id="bottom-tooltip" className="rc-tooltip">
-              {questionData.metadata.description}
+              {questionData.metadata.description}xxx
             </div>
           </span>
         ) : (
@@ -45,14 +76,12 @@ export default function AnimalBreeds({ questionData }) {
                     .map((ele) => ({ ...ele, name: ele.label }));
                 }}
                 selectedItemChange={handleSelectChange}
-                // defaultValue={
-                //   form &&
-                //   form.key !== 'mixed_breed' &&
-                //   form.key !== 'undefined'
-                //     ? form.label
-                //     : ''
-                // }
-                // key={form && form.label}
+                defaultValue={
+                  breed !== 'mixed_breed' && breed !== 'undefined'
+                    ? breedLabel
+                    : ''
+                }
+                key={breed}
                 placeholder={txt}
                 customStyle={true}
                 isBottomPaging={false}
@@ -82,8 +111,8 @@ export default function AnimalBreeds({ questionData }) {
                 className="rc-input__checkbox"
                 value="mixed_breed"
                 key={1}
-                // checked={form && form.key === 'mixed_breed'}
-                // onChange={this.toggleCheckbox}
+                checked={breed === 'mixed_breed'}
+                onChange={toggleCheckbox}
               />
               <label
                 className="rc-input__label--inline text-break"
@@ -100,15 +129,15 @@ export default function AnimalBreeds({ questionData }) {
                 className="rc-input__checkbox"
                 value="undefined"
                 key={2}
-                // checked={form && form.key === 'undefined'}
-                // onChange={this.toggleCheckbox}
+                checked={breed === 'undefined'}
+                onChange={toggleCheckbox}
               />
               <label
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-unkown"
               >
                 {/*{unknownText}*/}
-                sadasd
+                unknown
               </label>
             </div>
           </div>
