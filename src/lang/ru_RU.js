@@ -1471,7 +1471,14 @@ const ru_RU = {
     'Посмотрите {val} возможно, на Ваш вопрос уже есть ответ',
   'clinic.vetClinicsTip1':
     'Не нашли клинику в списке? Напишите нам об этом {val}.',
-  'clinic.vetClinicsTip2': 'Написать'
+  'clinic.vetClinicsTip2': 'Написать',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 
 export default ru_RU;

@@ -1453,6 +1453,14 @@ const en_US = {
   'clinic.vetClinicsTip1':
     'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
   'clinic.vetClinicsTip2': 'Contact us',
-  dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
+  dePrescriberCodeErrMsg:
+    'The Code entered invalid.<br>Please try another code',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 export default en_US;
