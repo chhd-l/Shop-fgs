@@ -567,8 +567,8 @@ const ru_RU = {
   modalCancelAllContent: 'Вы уверены, что хотите удалить Вашу подписку?',
   modalCancelAllTitle: 'Удаление подписки?',
   modalChangeDateContent:
-    'Вы уверены, что хотите изменить дату следующей доставки?',
-  modalChangeDateTitle: 'Изменить дату доставки',
+    'Вы уверены, что хотите изменить дату следующей отгрузки?',
+  modalChangeDateTitle: 'Изменить дату отгрузки',
   modalOrderNowContent: 'Вы уверены, что хотите разместить этот заказ сейчас?',
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
