@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 import './index.css';
 import LazyLoad from 'react-lazyload';
+import { setSeoConfig } from '@/utils/utils';
 import DetailsDisplay from './DetailsDisplay';
 import ProductSpecialities from './ProductSpecialities';
 import Banner from './components/Banner';
@@ -34,6 +35,16 @@ class PreciseRecommendation extends React.Component {
         metaDescription: 'Royal canin'
       }
     };
+  }
+
+  componentDidMount() {
+    setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
+      this.setState({ seoConfig: res });
+    });
+  }
+
+  componentWillUnmount() {
+    // localItemRoyal.set('isRefresh', true);
   }
 
   render() {

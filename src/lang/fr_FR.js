@@ -1919,6 +1919,9 @@ const fr_FR = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.benefits.content':
+    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
   'preciseNutrition.call.content':
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
