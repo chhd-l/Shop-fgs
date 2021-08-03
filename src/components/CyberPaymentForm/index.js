@@ -259,37 +259,42 @@ class CyberPaymentForm extends React.Component {
       paymentStore: { currentCardTypeInfo }
     } = this.props;
     return (
-      <div className="form-group required">
-        <label className="form-control-label" htmlFor="month">
-          <FormattedMessage id="cyber.form.secureCode" />
-        </label>
-        <span className="rc-input rc-input--full-width" input-setup="true">
-          <input
-            type="securityCode"
-            className="rc-input__control"
-            id="securityCode"
-            value={form.securityCode}
-            onChange={this.props.handleInputChange}
-            onBlur={this.props.inputBlur}
-            name="securityCode"
-            //maxLength={currentCardTypeInfo?.cvvLength || 3}
-            maxLength={4}
-          />
-          <label className="rc-input__label" htmlFor="securityCode" />
-        </span>
-        {errMsgObj.securityCode && (
-          <div className="text-danger-2">
-            <FormattedMessage id="payment.errorInfo2" />
-          </div>
-        )}
-        {securityCodeTipsJSX}
-      </div>
+      <>
+        <div className="form-group required">
+          <label className="form-control-label" htmlFor="month">
+            <FormattedMessage id="cyber.form.secureCode" />
+          </label>
+          <span className="rc-input rc-input--full-width" input-setup="true">
+            <input
+              type="securityCode"
+              className="rc-input__control"
+              id="securityCode"
+              value={form.securityCode}
+              onChange={this.props.handleInputChange}
+              onBlur={this.props.inputBlur}
+              name="securityCode"
+              //maxLength={currentCardTypeInfo?.cvvLength || 3}
+              maxLength={4}
+            />
+            <label className="rc-input__label" htmlFor="securityCode" />
+          </span>
+          {errMsgObj.securityCode && (
+            <div className="text-danger-2">
+              <FormattedMessage id="payment.errorInfo2" />
+            </div>
+          )}
+          {securityCodeTipsJSX}
+        </div>
+      </>
     );
   };
 
   render() {
-    const { CyberSaveCardCheckboxJSX, billingJSX, backToSavedPaymentsJSX } =
-      this.props;
+    const {
+      CyberSaveCardCheckboxJSX,
+      billingJSX,
+      backToSavedPaymentsJSX
+    } = this.props;
     return (
       <div>
         {/* Name on Card */}

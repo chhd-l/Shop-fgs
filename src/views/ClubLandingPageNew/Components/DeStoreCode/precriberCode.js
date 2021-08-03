@@ -166,7 +166,10 @@ class PrescriberCode extends React.Component {
                           )}
                         </div>
                         <button
-                          style={{ width: isMobile ? '100%' : '' }}
+                          style={{
+                            width: isMobile ? '100%' : '',
+                            marginTop: '16px'
+                          }}
                           className="rc-btn rc-btn--one mobilemargin3vh"
                           onClick={this.searchPrescriberCode}
                         >
