@@ -72,7 +72,7 @@ class Pet extends React.Component {
     let customerId = this.userInfo && this.userInfo.customerId;
     let consumerAccount = this.userInfo && this.userInfo.consumerAccount;
     if (!customerId) {
-      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
+      // showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
       });

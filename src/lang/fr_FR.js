@@ -104,120 +104,121 @@ const fr_FR = {
   'account.weight': "Quel est le poids d'un chien adulte de votre race {val}?",
   'account.welcome': 'Bienvenue dans la famille ROYAL CANIN®!',
   'account.yes': 'Oui',
-  'ind.IND1001.des1':
+  'ind.IND10001.title1': ' ',
+  'ind.IND10001.des1':
     "Combinaison optimale de fibres pour favorises la sensation de satiété.Teneur adaptée en protéines pour aider au maintien de la masse musculaire et d'un poids plus sain.Nutrition savoureuse permettant de réguler la faim, conçue pour aider votre chat à rester en forme.",
-  'ind.IND1001.img1': 'image7.png',
-  'ind.IND1001.title2': 'ENRICHI EN L-CARNITINE',
-  'ind.IND1001.des2':
+  'ind.IND10001.img1': 'image7.png',
+  'ind.IND10001.title2': 'ENRICHI EN L-CARNITINE',
+  'ind.IND10001.des2':
     'Contient de la L-carnitine, favorisant un métabolisme sain des lipides.',
-  'ind.IND1001.img2': 'image10.png',
-  'ind.IND1001.title3': 'SANTÉ URINAIRE',
-  'ind.IND1001.des3':
+  'ind.IND10001.img2': 'image10.png',
+  'ind.IND10001.title3': 'SANTÉ URINAIRE',
+  'ind.IND10001.des3':
     'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
-  'ind.IND1001.img3': 'image9.png',
+  'ind.IND10001.img3': 'image9.png',
 
-  'ind.IND1002.title1': 'RÉGULATION DE LA SATIÉTÉ',
-  'ind.IND1002.des1':
+  'ind.IND10002.title1': 'RÉGULATION DE LA SATIÉTÉ',
+  'ind.IND10002.des1':
     'Contribue à réduire la sensation de faim grâce à un mélange spécifique de fibres pour aider à satisfaire l’appétit des chats qui ont tendance à quémander de la nourriture entre les repas.',
-  'ind.IND1002.img1': 'image11.png',
-  'ind.IND1002.title2':
+  'ind.IND10002.img1': 'image11.png',
+  'ind.IND10002.title2':
     'GESTION DU POIDS DE FORME : aide à limiter le risque de poids excessive.',
-  'ind.IND1002.des2':
+  'ind.IND10002.des2':
     'Les chats qui quémandent ont tendance à prendre du poids. Cette formule est conçue avec une teneur modérée en matières grasses et un contenu énergétique précis pour aider votre chat à rester en forme. ',
-  'ind.IND1002.img2': 'image12.png',
-  'ind.IND1002.title3': 'ENRICHI EN L-CARNITINE',
-  'ind.IND1002.des3':
+  'ind.IND10002.img2': 'image12.png',
+  'ind.IND10002.title3': 'ENRICHI EN L-CARNITINE',
+  'ind.IND10002.des3':
     'Contient de la L-carnitine, favorisant un métabolisme sain des lipides.',
-  'ind.IND1002.img3': 'image10.png',
-  'ind.IND1002.title4': 'SANTé URINAIRE',
-  'ind.IND1002.des4':
+  'ind.IND10002.img3': 'image10.png',
+  'ind.IND10002.title4': 'SANTé URINAIRE',
+  'ind.IND10002.des4':
     'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
-  'ind.IND1002.img4': 'image9.png',
+  'ind.IND10002.img4': 'image9.png',
 
-  'ind.IND1003.title1': 'TENEUR MODÉRÉE EN CALORIES',
-  'ind.IND1003.des1':
+  'ind.IND10003.title1': 'TENEUR MODÉRÉE EN CALORIES',
+  'ind.IND10003.des1':
     "Teneur modérée en calories adaptée à la faible activité des chats d'intérieur.",
-  'ind.IND1003.img1': 'image7.png',
-  'ind.IND1003.title2': 'RÉDUCTION DES BOULES DE POILS',
-  'ind.IND1003.des2':
+  'ind.IND10003.img1': 'image7.png',
+  'ind.IND10003.title2': 'RÉDUCTION DES BOULES DE POILS',
+  'ind.IND10003.des2':
     "Aide à stimuler l'élimination des poils ingérés grâce à des fibres spécifiques, notamment du psyllium.",
-  'ind.IND1003.img2': 'image6.png',
-  'ind.IND1003.title3': 'RÉDUCTION DES ODEURS DE SELLES',
-  'ind.IND1003.des3':
+  'ind.IND10003.img2': 'image6.png',
+  'ind.IND10003.title3': 'RÉDUCTION DES ODEURS DE SELLES',
+  'ind.IND10003.des3':
     'Contient des protéines hautement digestibles (L.I.P.)* et aide à réduire le volume et les odeurs des selles. {val} *L.I.P. : protéines sélectionnées pour leur très haute digestibilité',
-  'ind.IND1003.img3': 'image5.png',
-  'ind.IND1003.title4': 'SANTé URINAIRE',
-  'ind.IND1003.des4':
+  'ind.IND10003.img3': 'image5.png',
+  'ind.IND10003.title4': 'SANTé URINAIRE',
+  'ind.IND10003.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
-  'ind.IND1003.img4': 'image4.png',
+  'ind.IND10003.img4': 'image4.png',
 
-  'ind.IND1004.title1': 'RÉDUCTION DE BOULES DE POILS ',
-  'ind.IND1004.des1':
+  'ind.IND10004.title1': 'RÉDUCTION DE BOULES DE POILS ',
+  'ind.IND10004.des1':
     'Aide à stimuler le transit intestinal et l’élimination naturelle des poils ingérés grâce à des fibres spécifiques, notamment du psyllium.',
-  'ind.IND1004.img1': 'image6.png',
-  'ind.IND1004.title2': 'RÉDUCTION DES ODEURS DE SELLES',
-  'ind.IND1004.des2':
+  'ind.IND10004.img1': 'image6.png',
+  'ind.IND10004.title2': 'RÉDUCTION DES ODEURS DE SELLES',
+  'ind.IND10004.des2':
     'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
-  'ind.IND1004.img2': 'image5.png',
-  'ind.IND1004.title3': 'SANTÉ DE LA PEAU ET DU PELAGE',
-  'ind.IND1004.des3':
+  'ind.IND10004.img2': 'image5.png',
+  'ind.IND10004.title3': 'SANTÉ DE LA PEAU ET DU PELAGE',
+  'ind.IND10004.des3':
     'Contient des nutriments spécifiques, dont des acides EPA et DHA, pour aider à maintenir la santé de la peau et la brillance du pelage.',
-  'ind.IND1004.img3': 'image13.png',
-  'ind.IND1004.title4': 'SANTÉ URINAIRE',
-  'ind.IND1004.des4':
+  'ind.IND10004.img3': 'image13.png',
+  'ind.IND10004.title4': 'SANTÉ URINAIRE',
+  'ind.IND10004.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
-  'ind.IND1004.img4': 'image9.png',
+  'ind.IND10004.img4': 'image9.png',
 
-  'ind.IND1005.title1': 'COMPLEXE VITALITÉ',
-  'ind.IND1005.des1':
+  'ind.IND10005.title1': 'COMPLEXE VITALITÉ',
+  'ind.IND10005.des1':
     'Enrichi en nutriments spécifiques dont des polyphénols de thé vert, de la vitamine C et des acides gras EPA et DHA.',
-  'ind.IND1005.img1': 'image14.png',
-  'ind.IND1005.title2': 'RÉDUCTION DES ODEURS DE SELLES',
-  'ind.IND1005.des2':
+  'ind.IND10005.img1': 'image14.png',
+  'ind.IND10005.title2': 'RÉDUCTION DES ODEURS DE SELLES',
+  'ind.IND10005.des2':
     'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
-  'ind.IND1005.img2': 'image5.png',
-  'ind.IND1005.title3': 'SANTÉ RÉNALE',
-  'ind.IND1005.des3':
+  'ind.IND10005.img2': 'image5.png',
+  'ind.IND10005.title3': 'SANTÉ RÉNALE',
+  'ind.IND10005.des3':
     'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore adapté.',
-  'ind.IND1005.img3': 'image15.png',
-  'ind.IND1005.title4': 'SANTÉ URINAIRE',
-  'ind.IND1005.des4':
+  'ind.IND10005.img3': 'image15.png',
+  'ind.IND10005.title4': 'SANTÉ URINAIRE',
+  'ind.IND10005.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
-  'ind.IND1005.img4': 'image9.png',
+  'ind.IND10005.img4': 'image9.png',
 
-  'ind.IND1006.title1': 'STIMULATION DE L’APPÉTIT',
-  'ind.IND1006.des1':
+  'ind.IND10006.title1': 'STIMULATION DE L’APPÉTIT',
+  'ind.IND10006.des1':
     'Aide à stimuler l’appétit des chats seniors grâce à une croquette très appétente à double texture, facile à mâcher.',
-  'ind.IND1006.img1': 'image16.png',
-  'ind.IND1006.title2': 'AIDE À BIEN VIELLIR',
-  'ind.IND1006.des2':
+  'ind.IND10006.img1': 'image16.png',
+  'ind.IND10006.title2': 'AIDE À BIEN VIELLIR',
+  'ind.IND10006.des2':
     'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} *France, brevet n° EP1146870',
-  'ind.IND1006.img2': 'image17.png',
-  'ind.IND1006.title3': 'SANTÉ RÉNALE',
-  'ind.IND1006.des3':
+  'ind.IND10006.img2': 'image17.png',
+  'ind.IND10006.title3': 'SANTÉ RÉNALE',
+  'ind.IND10006.des3':
     'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore modéré.',
-  'ind.IND1006.img3': 'image15.png',
-  'ind.IND1006.title4': 'SANTÉ URINAIRE',
-  'ind.IND1006.des4':
+  'ind.IND10006.img3': 'image15.png',
+  'ind.IND10006.title4': 'SANTÉ URINAIRE',
+  'ind.IND10006.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
-  'ind.IND1006.img4': 'image9.png',
+  'ind.IND10006.img4': 'image9.png',
 
-  'ind.IND1007.title1': 'MAINTIEN DU POIDS DE FORME',
-  'ind.IND1007.des1':
+  'ind.IND10007.title1': 'MAINTIEN DU POIDS DE FORME',
+  'ind.IND10007.des1':
     'Contient un niveau modéré de matières grasses pour aider à maintenir le poids de forme.',
-  'ind.IND1007.img1': 'image12.png',
-  'ind.IND1007.title2': 'AIDE À BIEN VIELLIR',
-  'ind.IND1007.des2':
+  'ind.IND10007.img1': 'image12.png',
+  'ind.IND10007.title2': 'AIDE À BIEN VIELLIR',
+  'ind.IND10007.des2':
     'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} *France, brevet n° EP1146870',
-  'ind.IND1007.img2': 'image17.png',
-  'ind.IND1007.title3': 'SANTÉ RÉNALE',
-  'ind.IND1007.des3':
+  'ind.IND10007.img2': 'image17.png',
+  'ind.IND10007.title3': 'SANTÉ RÉNALE',
+  'ind.IND10007.des3':
     'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore modéré.',
-  'ind.IND1007.img3': 'image15.png',
-  'ind.IND1007.title4': 'SANTÉ URINAIRE',
-  'ind.IND1007.des4':
+  'ind.IND10007.img3': 'image15.png',
+  'ind.IND10007.title4': 'SANTÉ URINAIRE',
+  'ind.IND10007.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
-  'ind.IND1007.img4': 'image9.png',
+  'ind.IND10007.img4': 'image9.png',
 
   'ind.composition': 'COMPOSITION',
   'ind.additives': 'ADDITIFS (au kg)',
@@ -233,80 +234,80 @@ const fr_FR = {
   'ind.Omega': 'Acides gras oméga 3',
   'ind.Lycopene': 'Lycopène ',
 
-  'ind.IND1001.Composition':
+  'ind.IND10001.Composition':
     'protéines de volaille déshydratées, fibres végétales, isolat de protéines végétales*, maïs, hydrolysat de protéines animales, gluten de maïs, farine de maïs, riz, blé, graisses animales, sels minéraux, pulpe de betterave, levures et composants de levures, huile de poisson, téguments et graines de psyllium, huile de soja. ',
-  'ind.IND1001.Additives':
+  'ind.IND10001.Additives':
     ' Additifs nutritionnels : Vitamine A : 21000 UI, Vitamine D3 : 800 UI, Fer(3b103) : 30 mg, Iode(3b201, 3b202) : 3 mg, Cuivre(3b405, 3b406) : 9 mg, Manganèse(3b502, 3b504) : 39 mg, Zinc(3b603, 3b605, 3b606) : 128 mg, Sélénium(3b801, 3b811, 3b812) : 0,06 mg, L-carnitine : 200 mg - Conservateurs - Antioxygènes. ',
-  'ind.IND1001.proteinVal': '36,0 % ',
-  'ind.IND1001.fatContentVal': '10,0 % ',
-  'ind.IND1001.crudeAshVal': '7,5 % ',
-  'ind.IND1001.crudeFibreVal': '10,4 %',
+  'ind.IND10001.proteinVal': '36,0 % ',
+  'ind.IND10001.fatContentVal': '10,0 % ',
+  'ind.IND10001.crudeAshVal': '7,5 % ',
+  'ind.IND10001.crudeFibreVal': '10,4 %',
 
-  'ind.IND1002.Composition':
+  'ind.IND10002.Composition':
     'protéines de volaille déshydratées, fibres végétales, maïs, blé, gluten de blé*, gluten de maïs, hydrolysat de protéines animales, graisses animales, riz, pulpe de betterave, produits dérivés de levures, sels minéraux, huile de soja, huile de poisson, téguments et graines de psyllium, fructo-oligosaccharides.',
-  'ind.IND1002.Additives':
+  'ind.IND10002.Additives':
     'Additifs nutritionnels : Vitamine A : 19500 UI, Vitamine D3 : 700 UI, Fer(3b103) : 41 mg, Iode(3b201, 3b202) : 4,1 mg, Cuivre(3b405, 3b406) : 13 mg, Manganèse(3b502, 3b504) : 53 mg, Zinc(3b603, 3b605, 3b606) : 126 mg, Sélénium(3b801, 3b811, 3b812) : 0,07 mg - Additifs technologiques : Clinoptilolite d’origine sédimentaire : 10 g - Conservateurs - Antioxygènes.',
-  'ind.IND1002.proteinVal': '34,0 % ',
-  'ind.IND1002.fatContentVal': '12,0 % ',
-  'ind.IND1002.crudeAshVal': '8,0 % ',
-  'ind.IND1002.crudeFibreVal': '9,2 %',
-  'ind.IND1002.LcarnitineVal': '200 mg/kg',
+  'ind.IND10002.proteinVal': '34,0 % ',
+  'ind.IND10002.fatContentVal': '12,0 % ',
+  'ind.IND10002.crudeAshVal': '8,0 % ',
+  'ind.IND10002.crudeFibreVal': '9,2 %',
+  'ind.IND10002.LcarnitineVal': '200 mg/kg',
 
-  'ind.IND1003.Composition':
+  'ind.IND10003.Composition':
     'protéines de volaille déshydratées, riz, blé, maïs, isolat de protéines végétales*, graisses animales, hydrolysat de protéines animales, farine de blé, fibres végétales, pulpe de betterave, levures et composants de levures, huile de soja, sels minéraux, fructo-oligosaccharides, huile de poisson, téguments et graines de psyllium (0,5%). ',
-  'ind.IND1003.Additives':
+  'ind.IND10003.Additives':
     'Additifs nutritionnels : Vitamine A : 13500 UI, Vitamine D3 : 700 UI, E1 (Fer) : 42 mg, E2 (Iode) : 4,2 mg, E4 (Cuivre) : 13 mg, E5 (Manganèse) : 55 mg, E6 (Zinc) : 164 mg, E8 (Sélénium) : 0,09 mg - Additifs technologiques : Clinoptilolite d’origine sédimentaire : 10 g - Conservateurs - Antioxygènes. ',
-  'ind.IND1003.proteinVal': '27 % ',
-  'ind.IND1003.fatContentVal': '13 %',
-  'ind.IND1003.crudeAshVal': '7,3 %',
-  'ind.IND1003.crudeCellulosenVal': '4 %. ',
+  'ind.IND10003.proteinVal': '27 % ',
+  'ind.IND10003.fatContentVal': '13 %',
+  'ind.IND10003.crudeAshVal': '7,3 %',
+  'ind.IND10003.crudeCellulosenVal': '4 %. ',
 
-  'ind.IND1004.Composition':
+  'ind.IND10004.Composition':
     'protéines de volaille déshydratées, maïs, riz, isolat de protéines végétales*, blé, graisses animales, hydrolysat de protéines animales, farine de blé, fibres végétales, huile de soja, pulpe de betterave, sels minéraux, levures et composants de levures, huile de poisson, fructo-oligosaccharides, téguments et graines de psyllium (0,5%), huile de bourrache. ',
-  'ind.IND1004.Additives':
+  'ind.IND10004.Additives':
     'Additifs nutritionnels : Vitamine A : 22000 UI, Vitamine D3 : 800 UI, E1 (Fer) : 37 mg, E2 (Iode) : 3,7 mg, E4 (Cuivre) : 11 mg, E5 (Manganèse) : 48 mg, E6 (Zinc) : 145 mg, E8 (Sélénium) : 0,06 mg - Additifs technologiques : Clinoptilolite d’origine sédimentaire : 10 g - Conservateurs - Antioxygènes.',
-  'ind.IND1004.proteinVal': '30 % ',
-  'ind.IND1004.fatContentVal': '15 % ',
-  'ind.IND1004.crudeAshVal': '8,1 % ',
-  'ind.IND1004.crudeFibreVal': '4,1 %',
-  'ind.IND1004.EPADHAVal': '3,1 g/kg',
+  'ind.IND10004.proteinVal': '30 % ',
+  'ind.IND10004.fatContentVal': '15 % ',
+  'ind.IND10004.crudeAshVal': '8,1 % ',
+  'ind.IND10004.crudeFibreVal': '4,1 %',
+  'ind.IND10004.EPADHAVal': '3,1 g/kg',
 
-  'ind.IND1005.Composition':
+  'ind.IND10005.Composition':
     'maïs, protéines de volaille déshydratées, orge, farine de maïs, blé, isolat de protéines végétales*, graisses animales, gluten de maïs, hydrolysat de protéines animales, fibres végétales, pulpe de betterave, sels minéraux, huile de soja, levures et composants de levures, huile de poisson, fructo-oligosaccharides, téguments et graines de psyllium, hydrolysat de crustacé (source de glucosamine), extrait de rose d’inde (source de lutéine), hydrolysat de cartilage (source de chondroïtine). ',
-  'ind.IND1005.Additives':
+  'ind.IND10005.Additives':
     'Additifs nutritionnels : Vitamine A : 22500 UI, Vitamine D3 : 900 UI, Vitamine C : 290 UI, E1 (Fer) : 34 mg, E2 (Iode) : 3,4 mg, E4 (Cuivre) : 10 mg, E5 (Manganèse) : 44 mg, E6 (Zinc) : 131 mg, E8 (Sélénium) : 0,05 mg - Additifs technologiques : Clinoptilolite d’origine sédimentaire : 5 g - Additifs sensoriels : Extrait de thé (source de polyphénols) : 0,6 g - Additifs zootechniques : Chlorure d’ammonium : 5 g - Conservateurs - Antioxygènes. ',
-  'ind.IND1005.proteinVal': '27 %',
-  'ind.IND1005.fatContentVal': '13 % ',
-  'ind.IND1005.crudeAshVal': '6,9 % ',
-  'ind.IND1005.crudeFibreVal': '3,6 %',
-  'ind.IND1005.PhosphorusVal': '0,75 %',
-  'ind.IND1005.EPADHAVal': '3,8 g/kg',
+  'ind.IND10005.proteinVal': '27 %',
+  'ind.IND10005.fatContentVal': '13 % ',
+  'ind.IND10005.crudeAshVal': '6,9 % ',
+  'ind.IND10005.crudeFibreVal': '3,6 %',
+  'ind.IND10005.PhosphorusVal': '0,75 %',
+  'ind.IND10005.EPADHAVal': '3,8 g/kg',
 
-  'ind.IND1006.Composition':
+  'ind.IND10006.Composition':
     'isolat de protéines végétales*, farine de blé précuite, graisses animales, protéines de volaille déshydratées, riz, maïs, fibres végétales, hydrolysat de protéines animales, pulpe de chicorée, sels minéraux, huile de poisson, huile de soja, levures et composants de levures, tomate (source de lycopène), fructo-oligosaccharides, téguments et graines de psyllium, hydrolysat de levure (source de manno-oligosaccharides), hydrolysat de crustacé (source de glucosamine), huile de bourrache, extrait de rose d’inde (source de lutéine), hydrolysat de cartilage (source de chondroïtine). ',
-  'ind.IND1006.Additives':
+  'ind.IND10006.Additives':
     'Additifs nutritionnels : Vitamine A : 19000 UI, Vitamine D3 : 700 UI, E1 (Fer) : 37 mg, E2 (Iode) : 3,7 mg, E4 (Cuivre) : 11 mg, E5 (Manganèse) : 48 mg, E6 (Zinc) : 145 mg, E8 (Sélénium) : 0,06 mg - Additifs sensoriels : Extrait de thé (source de polyphénols) : 0,6 g - Conservateurs - Antioxygènes. ',
-  'ind.IND1006.proteinVal': '30 %',
-  'ind.IND1006.fatContentVal': '19 % ',
-  'ind.IND1006.crudeAshVal': '5,3 % ',
-  'ind.IND1006.crudeFibreVal': '4,4 %',
-  'ind.IND1006.PhosphorusVal': '0,6 %',
-  'ind.IND1006.PerVal': ' ',
-  'ind.IND1006.OmegaVal': '10,9 g',
-  'ind.IND1006.LycopeneVal': '8 mg',
+  'ind.IND10006.proteinVal': '30 %',
+  'ind.IND10006.fatContentVal': '19 % ',
+  'ind.IND10006.crudeAshVal': '5,3 % ',
+  'ind.IND10006.crudeFibreVal': '4,4 %',
+  'ind.IND10006.PhosphorusVal': '0,6 %',
+  'ind.IND10006.PerVal': ' ',
+  'ind.IND10006.OmegaVal': '10,9 g',
+  'ind.IND10006.LycopeneVal': '8 mg',
 
-  'ind.IND1007.Composition':
+  'ind.IND10007.Composition':
     'maïs, isolat de protéines végétales*, farine de maïs, protéines de volaille déshydratées, blé, gluten de maïs, graisses animales, fibres végétales, hydrolysat de protéines animales, pulpe de chicorée, sels minéraux, huile de poisson, huile de soja, levures et composants de levures, tomate (source de lycopène), fructo-oligosaccharides, téguments et graines de psyllium, hydrolysat de levure (source de manno-oligosaccharides), hydrolysat de crustacé (source de glucosamine), huile de bourrache, extrait de rose d’inde (source de lutéine), hydrolysat de cartilage (source de chondroïtine). ',
-  'ind.IND1007.Additives':
+  'ind.IND10007.Additives':
     'Additifs nutritionnels : Vitamine A : 19000 UI, Vitamine D3 : 700 UI, E1 (Fer) : 40 mg, E2 (Iode) : 4 mg, E4 (Cuivre) : 12 mg, E5 (Manganèse) : 52 mg, E6 (Zinc) : 154 mg, E8 (Sélénium) : 0,07 mg - Additifs sensoriels : Extrait de thé (source de polyphénols) : 0,6 g - Conservateurs - Antioxygènes. ',
-  'ind.IND1007.proteinVal': '30 %',
-  'ind.IND1007.fatContentVal': '15 % ',
-  'ind.IND1007.crudeAshVal': '5,4 % ',
-  'ind.IND1007.crudeFibreVal': '4,9 %',
-  'ind.IND1007.PhosphorusVal': '0,6 %',
-  'ind.IND1007.PerVal': ' ',
-  'ind.IND1007.OmegaVal': '10,9 g',
-  'ind.IND1007.LycopeneVal': '6,5 mg',
+  'ind.IND10007.proteinVal': '30 %',
+  'ind.IND10007.fatContentVal': '15 % ',
+  'ind.IND10007.crudeAshVal': '5,4 % ',
+  'ind.IND10007.crudeFibreVal': '4,9 %',
+  'ind.IND10007.PhosphorusVal': '0,6 %',
+  'ind.IND10007.PerVal': ' ',
+  'ind.IND10007.OmegaVal': '10,9 g',
+  'ind.IND10007.LycopeneVal': '6,5 mg',
 
   active: 'Actif',
   addANewAddress: 'Ajouter une nouvelle adresse',
@@ -1919,6 +1920,9 @@ const fr_FR = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.benefits.content':
+    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
   'preciseNutrition.call.content':
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
