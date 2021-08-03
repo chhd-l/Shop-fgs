@@ -24,8 +24,8 @@
       "additivesTitle": "ind.additives",
       "compositionDes": "ind.IND1001.Composition",
       "additives": "ind.IND1001.Additives",
-      "analyticalConsitituentsDes": ["ind.IND1001.proteinVal", "ind.IND1001.fatContentVal", "ind.IND1001.crudeAshVal", "ind.IND1001.crudeCellulosenVal"],
-      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+      "analyticalConsitituentsDes": ["ind.IND1001.proteinVal", "ind.IND1001.fatContentVal", "ind.IND1001.crudeAshVal", "ind.IND1001.crudeFibreVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre"]
     }
   },
   "IND1002": {
@@ -58,8 +58,8 @@
       "additivesTitle": "ind.additives",
       "compositionDes": "ind.IND1002.Composition",
       "additives": "ind.IND1002.Additives",
-      "analyticalConsitituentsDes": ["ind.IND1002.proteinVal", "ind.IND1002.fatContentVal", "ind.IND1002.crudeAshVal", "ind.IND1002.crudeCellulosenVal"],
-      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+      "analyticalConsitituentsDes": ["ind.IND1002.proteinVal", "ind.IND1002.fatContentVal", "ind.IND1002.crudeAshVal", "ind.IND1002.crudeFibreVal", "ind.IND1002.LcarnitineVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Lcarnitine"]
     }
   },
   "IND1003": {
@@ -126,8 +126,8 @@
       "additivesTitle": "ind.additives",
       "compositionDes": "ind.IND1004.Composition",
       "additives": "ind.IND1004.Additives",
-      "analyticalConsitituentsDes": ["ind.IND1004.proteinVal", "ind.IND1004.fatContentVal", "ind.IND1004.crudeAshVal", "ind.IND1004.crudeCellulosenVal"],
-      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+      "analyticalConsitituentsDes": ["ind.IND1004.proteinVal", "ind.IND1004.fatContentVal", "ind.IND1004.crudeAshVal", "ind.IND1004.crudeCellulosenVal", "ind.IND1004.EPADHAVal"],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose", "ind.EPADHA"]
     }
   },
   "IND1005": {
@@ -160,8 +160,15 @@
       "additivesTitle": "ind.additives",
       "compositionDes": "ind.IND1005.Composition",
       "additives": "ind.IND1005.Additives",
-      "analyticalConsitituentsDes": ["ind.IND1005.proteinVal", "ind.IND1005.fatContentVal", "ind.IND1005.crudeAshVal", "ind.IND1005.crudeCellulosenVal"],
-      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+      "analyticalConsitituentsDes": [
+        "ind.IND1005.proteinVal",
+        "ind.IND1005.fatContentVal",
+        "ind.IND1005.crudeAshVal",
+        "ind.IND1005.crudeFibreVal",
+        "ind.IND1005.PhosphorusVal",
+        "ind.IND1005.EPADHAVal"
+      ],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.EPADHA"]
     }
   },
   "IND1006": {
@@ -194,8 +201,17 @@
       "additivesTitle": "ind.additives",
       "compositionDes": "ind.IND1006.Composition",
       "additives": "ind.IND1006.Additives",
-      "analyticalConsitituentsDes": ["ind.IND1006.proteinVal", "ind.IND1006.fatContentVal", "ind.IND1006.crudeAshVal", "ind.IND1006.crudeCellulosenVal"],
-      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+      "analyticalConsitituentsDes": [
+        "ind.IND1006.proteinVal",
+        "ind.IND1006.fatContentVal",
+        "ind.IND1006.crudeAshVal",
+        "ind.IND1006.crudeFibreVal",
+        "ind.IND1006.PhosphorusVal",
+        "ind.IND1006.PerVal",
+        "ind.IND1006.OmegaVal",
+        "ind.IND1006.LycopeneVal"
+      ],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.Per", "ind.Omega", "ind.Lycopene"]
     }
   },
   "IND1007": {
@@ -228,8 +244,17 @@
       "additivesTitle": "ind.additives",
       "compositionDes": "ind.IND1007.Composition",
       "additives": "ind.IND1007.Additives",
-      "analyticalConsitituentsDes": ["ind.IND1007.proteinVal", "ind.IND1007.fatContentVal", "ind.IND1007.crudeAshVal", "ind.IND1007.crudeCellulosenVal"],
-      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeCellulose"]
+      "analyticalConsitituentsDes": [
+        "ind.IND1007.proteinVal",
+        "ind.IND1007.fatContentVal",
+        "ind.IND1007.crudeAshVal",
+        "ind.IND1007.crudeFibreVal",
+        "ind.IND1007.PhosphorusVal",
+        "ind.IND1007.PerVal",
+        "ind.IND1007.OmegaVal",
+        "ind.IND1007.LycopeneVal"
+      ],
+      "analyticalConsitituentsTitle": ["ind.protein", "ind.fatContent", "ind.crudeAsh", "ind.crudeFibre", "ind.Phosphorus", "ind.Per", "ind.Omega", "ind.Lycopene"]
     }
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './index.less';
+import DistributeHubLinkOrATag from '../../../../components/DistributeHubLinkOrATag';
 export default function Veterinarian({ getInit }) {
   let history = useHistory();
   return (
@@ -15,18 +16,21 @@ export default function Veterinarian({ getInit }) {
         receive an optimal nutritional solution according to its specific needs.
       </div>
       <div style={{ width: '100%', textAlign: 'center' }}>
-        <button
-          className="rc-btn rc-btn--one question-button"
-          type="submit"
-          onClick={() => {
-            history.push('/where-to-buy/find-a-vet');
-          }}
-        >
-          Find a vet
-        </button>
+        <DistributeHubLinkOrATag href={`/where-to-buy/find-a-vet`}>
+          <button
+            className="rc-btn rc-btn--one question-button"
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            Find a vet
+          </button>
+        </DistributeHubLinkOrATag>
+
         <div
           style={{ textAlign: 'center', marginTop: 20, cursor: 'pointer' }}
-          onClick={() => getInit()}
+          onClick={() => getInit(true)}
         >
           Start again
         </div>

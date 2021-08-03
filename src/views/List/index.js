@@ -215,7 +215,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
   // 如: current is the dog spt, then the bottom desc link to the dog retail
   // 如: current is the dog retail, then the bottom desc link to the dog spt
   const key = `${isDogPage ? 'dog' : 'cat'}-${
-    isRetailProducts ? 'vet' : 'retail'
+    isRetailProducts ? 'retail' : 'vet'
   }`;
   const descObj = bottomDescJson[key];
   return (
@@ -857,13 +857,15 @@ class List extends React.Component {
     });
 
     type !== 'pageChange' &&
-      dataLayer.push({
-        event: 'plpScreenLoad',
-        plpScreenLoad: {
-          nbResults: totalElements,
-          userRequest: keywords || ''
-        }
-      });
+      setTimeout(() => {
+        dataLayer.push({
+          event: 'plpScreenLoad',
+          plpScreenLoad: {
+            nbResults: totalElements,
+            userRequest: keywords || ''
+          }
+        });
+      }, 3000);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;
@@ -1068,6 +1070,25 @@ class List extends React.Component {
           }
         }
 
+        const isSpecialNeedFilter =
+          !isHub &&
+          !this.state.isDogPage &&
+          window.__.env.REACT_APP_COUNTRY === 'fr' &&
+          (
+            (filters.find((ft) => ft.attributeName === 'Specific needs') || {})
+              .attributeValues || []
+          ).filter(
+            (attr) =>
+              attr === 'Boules de poils_Cat' ||
+              attr === 'Tendency to beg for food_Cat'
+          ).length > 0;
+
+        if (isSpecialNeedFilter || this.state.isRetailProducts) {
+          this.pageSize = 8;
+        } else {
+          this.pageSize = 12;
+        }
+
         this.setState(
           {
             sortList,
@@ -1098,7 +1119,8 @@ class List extends React.Component {
                 (targetRouter && targetRouter.pageImg) ||
                 (targetRouter && targetRouter.cateImgForList)
             },
-            breadList
+            breadList,
+            isSpecialNeedFilter
           },
           () => {
             this.getProductList();
@@ -1433,6 +1455,12 @@ class List extends React.Component {
 
           if (this.state.isRetailProducts) {
             goodsContent.splice(4, 0, { productFinder: true });
+          } else if (this.state.isSpecialNeedFilter) {
+            goodsContent.splice(
+              goodsContent.length >= 4 ? 4 : goodsContent.length,
+              0,
+              { specificNeedCheck: true }
+            );
           }
           loadJS({
             code: JSON.stringify({

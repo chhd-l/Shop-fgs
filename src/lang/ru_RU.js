@@ -698,7 +698,7 @@ const ru_RU = {
   'payment.streets': 'Улица',
   'payment.house': 'Дом',
   'payment.province': 'провинция',
-  'payment.settlement': 'решение',
+  'payment.settlement': 'Населенный пункт',
   'payment.wrongAddress':
     'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" в разделе "Помощь"',
   'payment.postCode2': 'Почтовый Код',
@@ -1343,7 +1343,7 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  prevShipmentOn: 'Новая доставка',
+  prevShipmentOn: 'Новая заявка',
   nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
@@ -1471,7 +1471,14 @@ const ru_RU = {
     'Посмотрите {val} возможно, на Ваш вопрос уже есть ответ',
   'clinic.vetClinicsTip1':
     'Не нашли клинику в списке? Напишите нам об этом {val}.',
-  'clinic.vetClinicsTip2': 'Написать'
+  'clinic.vetClinicsTip2': 'Написать',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 
 export default ru_RU;

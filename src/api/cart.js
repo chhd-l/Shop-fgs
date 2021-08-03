@@ -75,6 +75,15 @@ export function deleteItemFromBackendCart(parameter) {
 }
 
 export function siteMiniPurchases(parameter) {
+  // delFlag在checkout页面和buynow查询的时候不能删除ind商品，需要删除该字段
+  if (location.pathname == '/checkout' || location.pathname == '/checkout/') {
+    parameter.delFlag = 1;
+  }
+  if (parameter.delFlag == 1) {
+    delete parameter.delFlag; //是否可以删除indiv产品的参数 delFlag ，可以不传，非空就可以删除indiv
+  } else {
+    parameter.delFlag = 2;
+  }
   return axios({
     url: `${api.siteMiniPurchases}`,
     // method: 'post',

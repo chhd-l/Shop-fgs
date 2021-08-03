@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { useLocalStore } from 'mobx-react';
+import stores from '@/store';
+import { sitePurchase } from '@/api/cart';
+import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 const bannerList = [
   { img: 'secure_payment', text: 'Secure<br/>payment' },
@@ -10,10 +14,38 @@ const bannerList = [
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const Banner = ({ productInfo, intl }) => {
+const Banner = ({ productInfo, intl, questionParams }) => {
+  const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
+    () => stores
+  );
+
+  const handleBuyNow = async () => {
+    let params = Object.assign({}, productInfo, {
+      goodsInfoFlag: 3,
+      questionParams
+    });
+    try {
+      await sitePurchase(params);
+      sessionItemRoyal.set('recommend_product', JSON.stringify([params]));
+      this.props.history.push('/checkout');
+      // await this.props.checkoutStore.updateLoginCart({delFlag:1});
+      // const url = await distributeLinktoPrecriberOrPaymentPage({
+      //   configStore,
+      //   checkoutStore,
+      //   clinicStore,
+      //   isLogin: loginStore.isLogin
+      // });
+      // this.props.history.push(url);
+    } catch (err) {
+      console.info('err', err);
+    }
+  };
   return (
     <section>
-      <div>
+      <div
+        className="rc-padding-top--md"
+        style={{ backgroundColor: '#f5f5f5' }}
+      >
         <div className="pc rc-md-up">
           <div
             className=" rc-padding-x--md rc-layout-container rc-five-column"
@@ -28,7 +60,7 @@ const Banner = ({ productInfo, intl }) => {
             <div className="rc-column rc-triple-width">
               <h2
                 className="rc-text-colour--brand1"
-                style={{ fontSize: '40px' }}
+                style={{ fontSize: '40px', textTransform: 'uppercase' }}
               >
                 #Name#’s adapted diet & portion
               </h2>
@@ -64,12 +96,28 @@ const Banner = ({ productInfo, intl }) => {
                     <div style={{ color: '#008900', fontSize: '24px' }}>
                       -25% on first order
                     </div>
-                    <button
-                      class="rc-btn rc-btn--one rc-btn--sm"
-                      style={{ width: '200px' }}
-                    >
-                      buy now
-                    </button>
+                    {loginStore.isLogin ? (
+                      <button
+                        onClick={handleBuyNow}
+                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                          productInfo?.goodsInfo?.stock > 0 ? '' : 'disabled'
+                        }`}
+                        style={{ width: '250px' }}
+                      >
+                        buy now
+                      </button>
+                    ) : (
+                      <LoginButton
+                        className="rc-btn rc-btn--two"
+                        // btnStyle={{ margin: '5px 0', width: '100%' }}
+                        // history={this.props.history}
+                        beforeLoginCallback={async () => {
+                          // sessionItemRoyal.set('from-felin', true);
+                        }}
+                      >
+                        buy now
+                      </LoginButton>
+                    )}
                   </div>
                 </div>
               </div>
@@ -77,7 +125,10 @@ const Banner = ({ productInfo, intl }) => {
           </div>
         </div>
         <div className="mobile rc-md-down rc-padding--md  text-center">
-          <h2 className="rc-text-colour--brand1" style={{ fontSize: '24px' }}>
+          <h2
+            className="rc-text-colour--brand1"
+            style={{ fontSize: '24px', textTransform: 'uppercase' }}
+          >
             #Name#’s adapted diet & portion
           </h2>
           <div
@@ -110,7 +161,7 @@ const Banner = ({ productInfo, intl }) => {
             Free shipment cost
           </div>
           <button
-            class="rc-btn rc-btn--one rc-btn--sm"
+            className="rc-btn rc-btn--one rc-btn--sm"
             style={{ width: '200px' }}
           >
             buy now
@@ -137,7 +188,7 @@ const Banner = ({ productInfo, intl }) => {
         </div>
       </div>
 
-      <div className="rc-max-width--xl m-auto rc-padding-x--md   rc-layout-container rc-two-column">
+      <div className="rc-max-width--xl m-auto rc-padding-x--md  rc-padding-top--lg rc-layout-container rc-two-column">
         <div className="rc-column">
           <h2
             className="rc-text-colour--brand1"
@@ -146,7 +197,7 @@ const Banner = ({ productInfo, intl }) => {
               textTransform: 'uppercase'
             }}
           >
-            Your cat’s diet proven benefits
+            <FormattedMessage id={'preciseNutrition.benefits.title'} />
           </h2>
           <p
             style={{
@@ -156,12 +207,11 @@ const Banner = ({ productInfo, intl }) => {
               maxWidth: '100%'
             }}
           >
-            We partner with pet experts – veterinarians, breeders, professional
-            groups and organisations – to ensure that our nutritional formulas
-            are precisely tailored to your pet’s needs.
+            <FormattedMessage id={'preciseNutrition.benefits.content'} />
           </p>
           <img
             src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
+            style={{ border: 'none' }}
           />
         </div>
         <div className="rc-column">
@@ -180,7 +230,7 @@ const Banner = ({ productInfo, intl }) => {
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} />
+                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
                 </p>
               </div>
             </div>

@@ -461,6 +461,7 @@ class CheckoutStore {
   @action
   async updateLoginCart({
     promotionCode,
+    delFlag = 2,
     subscriptionFlag = false,
     purchaseFlag,
     taxFeeData,
@@ -478,7 +479,7 @@ class CheckoutStore {
         promotionCode === undefined ? this.promotionCode : promotionCode;
 
       // 获取购物车列表
-      let siteMiniPurchasesRes = await siteMiniPurchases();
+      let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
       siteMiniPurchasesRes = siteMiniPurchasesRes.context;
 
       //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况

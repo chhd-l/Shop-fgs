@@ -17,89 +17,37 @@ import picto_welcome_pack from '../images/picto_welcome-pack.png';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-// const SubTitles = {
-//   title: (
-//     <FormattedMessage
-//       id="ClubLP.LongBanner.SubscriptionTitle"
-//       values={{ val: isMobile ? <></> : <br /> }}
-//     />
-//   )
-// };
-// const LogoShows = {
-//   logo: (
-//     <img
-//       style={{ width: '100px' }}
-//       src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
-//     />
-//   )
-// };
-// const SubscriptionItems = [
-//   {
-//     SubscriptionImg: benefitsone,
-//     SubscriptionTitle: (
-//       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
-//         <FormattedMessage
-//           id="ClubLP.LongBanner.SubscriptionTitle1"
-//           values={{ val: <br /> }}
-//         />
-//       </a>
-//     ),
-//     SubscriptionContent: (
-//       <FormattedMessage
-//         id="ClubLP.LongBanner.SubscriptionContent1"
-//         values={{ val: <br /> }}
-//       />
-//     )
-//   },
-//   {
-//     SubscriptionImg: benefitstwo,
-//     SubscriptionTitle: (
-//       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
-//         <FormattedMessage
-//           id="ClubLP.LongBanner.SubscriptionTitle2"
-//           values={{ val: <br /> }}
-//         />
-//       </a>
-//     ),
-//     SubscriptionContent: (
-//       <FormattedMessage
-//         id="ClubLP.LongBanner.SubscriptionContent2"
-//         values={{ val1: <br />, val2: <br /> }}
-//       />
-//     )
-//   },
-//   {
-//     SubscriptionImg: benefitsthree,
-//     SubscriptionTitle: (
-//       <a style={{ fontWeight: 'bold', fontSize: '18px' }}>
-//         <FormattedMessage
-//           id="ClubLP.LongBanner.SubscriptionTitle3"
-//           values={{ val: <br /> }}
-//         />
-//       </a>
-//     ),
-//     SubscriptionContent: (
-//       <FormattedMessage
-//         id="ClubLP.LongBanner.SubscriptionContent3"
-//         values={{ val: <br /> }}
-//       />
-//     )
-//   }
-// ];
+const toScroll = (anchorName) => {
+  let anchorElement = document.getElementById(anchorName);
+  // 如果对应id的锚点存在，就跳转到锚点
+  if (anchorElement) {
+    anchorElement.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 
 const LongBanner = () => {
   return (
     <>
-      <div className="top pb-5">
+      <div className="top pb-4">
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
               <div className="rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile">
                 <div
                   className="rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
-                  style={{ marginBottom: '0px', textAlign: 'center' }}
+                  style={{
+                    marginBottom: '0px',
+                    textAlign: 'center',
+                    zIndex: 10
+                  }}
                 >
-                  <h1 style={{ fontWeight: 700 }}>
+                  <h1
+                    style={
+                      isMobile
+                        ? { fontWeight: 700, fontSize: '1.6rem' }
+                        : { fontWeight: 700, fontSize: '4.6rem' }
+                    }
+                  >
                     GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
                     WEIGHT !{/*<FormattedMessage*/}
                     {/*  id="ClubLP.LongBanner.title"*/}
@@ -112,10 +60,7 @@ const LongBanner = () => {
                   </p>
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
-                  <DistributeHubLinkOrATag
-                    href={'/product-finder'}
-                    ariaLabel="Links to product finder"
-                  >
+                  <a onClick={() => toScroll('aboutPet')}>
                     <button
                       style={{
                         padding: '0',
@@ -127,7 +72,25 @@ const LongBanner = () => {
                       Subscribe now
                       {/*<FormattedMessage id="ClubLP.LongBanner.button" />*/}
                     </button>
-                  </DistributeHubLinkOrATag>
+                  </a>
+                  {/*<DistributeHubLinkOrATag*/}
+                  {/*  // href={'/product-finder'}*/}
+                  {/*  onClick={()=>this.scrollToAnchor('aboutPet')}*/}
+                  {/*  ariaLabel="Links to product finder"*/}
+                  {/*>*/}
+
+                  {/*  <button*/}
+                  {/*    style={{*/}
+                  {/*      padding: '0',*/}
+                  {/*      paddingLeft: '80px',*/}
+                  {/*      paddingRight: '80px'*/}
+                  {/*    }}*/}
+                  {/*    className="rc-btn rc-btn--one "*/}
+                  {/*  >*/}
+                  {/*    Subscribe now*/}
+                  {/*    /!*<FormattedMessage id="ClubLP.LongBanner.button" />*!/*/}
+                  {/*  </button>*/}
+                  {/*</DistributeHubLinkOrATag>*/}
                   {/*<div className='d-flex' style={{flexDirection:'row'}}>*/}
                   {/*  <img src={topCat} />*/}
                   {/*  <div style={{display:'flex',flexDirection:'column'}}>*/}
@@ -196,7 +159,8 @@ const LongBanner = () => {
           className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
           style={{
             marginTop: isMobile ? '220px' : '0',
-            boxShadow: 'darkgrey 10px 10px 30px 5px'
+            boxShadow: 'darkgrey 10px 150px 230px 100px',
+            width: isMobile ? '90%' : '100'
           }}
         >
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative">
@@ -226,11 +190,36 @@ const LongBanner = () => {
               }
               src={topCatEat}
             />
+            <div
+              className="howItWorkNum"
+              style={
+                isMobile
+                  ? {
+                      width: 90,
+                      height: 90,
+                      position: 'absolute',
+                      top: -220,
+                      right: '0%',
+                      zIndex: 2
+                    }
+                  : {
+                      width: 105,
+                      height: 105,
+                      position: 'absolute',
+                      top: -240,
+                      right: '0%',
+                      zIndex: 2
+                    }
+              }
+            >
+              <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
+              <h6> on first order </h6>
+            </div>
           </div>
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                   YOUR CAT'S BENEFITS
                 </h4>
 

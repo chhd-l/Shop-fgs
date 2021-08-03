@@ -14,17 +14,20 @@ import AgeSelect from './AgeSelect/AgeSelect';
 import { FormattedMessage } from 'react-intl';
 export const FormContext = React.createContext({});
 function QuestionnaireForm(
-  { components, changeCanNext, step, perParams },
+  { components, changeCanNext, step, defaultValue },
   ref
 ) {
-  const [formData, setFormData] = useState({});
-  const [perStep, setPerStep] = useState(0); //上一步
+  const [formData, setFormData] = useState({ ...defaultValue });
+  const [perStep, setPerStep] = useState(1); //上一步
   useImperativeHandle(ref, () => ({
     formData,
     setPervFormData: (val) => {
       setPervFormData(val);
     }
   }));
+  const setPervFormData = (val) => {
+    setFormData(val);
+  };
   const handleQuestionConfigLogic = ({
     metadataQuestionDisplayType,
     defaultListData
@@ -142,17 +145,9 @@ function QuestionnaireForm(
    * 点击下一步，重置formData的值
    */
   useEffect(() => {
-    if (step > perStep) {
-      setFormData({});
-      changeCanNext(true);
-    } else {
-      setFormData(perParams);
-      if (JSON.stringify(perParams) !== '{}') {
-        changeCanNext(false);
-      }
-    }
     setPerStep(step);
   }, [step]);
+
   /**
    * 当form组件下的子组件 值改变 修改formData,并判断是否可以进入下一步
    * @param id
@@ -164,6 +159,8 @@ function QuestionnaireForm(
     for (let k in formData) {
       if (!formData[k]) canGoNext = true;
     }
+    console.log(formData);
+    console.log(canGoNext);
     changeCanNext(canGoNext);
     setFormData(formData);
   };

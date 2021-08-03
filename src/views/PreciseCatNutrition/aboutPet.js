@@ -6,19 +6,23 @@ import { getAllStep, getNextStep } from './api';
 import Veterinarian from './modules/Veterinarian/Veterinarian';
 import Fgs from './modules/Veterinarian/fgs';
 import { FormattedMessage } from 'react-intl';
+import Skeleton from 'react-skeleton-loader';
 
 export default function AboutPet() {
   const childRef = useRef();
 
   const [stepList, setStepList] = useState([]); //当前题库
-  const [step, setStep] = useState(0); //当前步骤
+  const [step, setStep] = useState(1); //当前步骤
 
   const [perStep, setPerStep] = useState([]); //保存上一步输入的值，点击back时使用
+  const [defaultValue, setDefaultValue] = useState({}); //表单默认值
 
   const [steps, setSteps] = useState([]); //所有步骤请求集合
 
-  const [result, setResult] = useState('redirectToVet'); //返回结果判断去到那个页面
+  const [result, setResult] = useState(''); //返回结果判断去到那个页面
   const [canNext, setCanNext] = useState(true); //是否可以点击下一步
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getInit();
@@ -27,13 +31,18 @@ export default function AboutPet() {
   /**
    * 初始化加载5道题
    */
-  const getInit = async () => {
+  const getInit = async (isAgain = false) => {
+    setLoading(true);
     const result = await getAllStep();
     let newSort = sortAll(result.context.steps);
     setStepList(newSort);
-    setPerStep([]);
-    setStep(0);
-    // setResult('')
+    if (isAgain) {
+      setPerStep([]);
+      setDefaultValue({});
+    }
+    setStep(result.context.steps[0].metadata.step);
+    setResult('');
+    setLoading(false);
   };
   /**
    * 判断是否可以进入下一步
@@ -69,60 +78,57 @@ export default function AboutPet() {
     return array;
   };
 
-  const goNext = async (stepNumber) => {
-    let querySteps = [...steps];
-    let isHas = true;
-    steps.forEach((item, index) => {
-      if (item.stepNum === stepNumber) {
-        isHas = false;
-        querySteps[index] = {
-          stepNum: stepNumber,
-          questionParams: {
-            ...childRef.current.formData
-          }
-        };
-      }
-    });
-    if (isHas) {
-      querySteps.push({
-        stepNum: stepNumber,
+  const goNext = async () => {
+    setLoading(true);
+
+    let querySteps = [
+      ...steps,
+      {
+        stepNum: step,
         questionParams: {
           ...childRef.current.formData
         }
-      });
-    }
+      }
+    ];
     let result = await getNextStep({
       finderNumber: '',
       steps: querySteps
     });
     setSteps(querySteps);
     setPerStep(result.context.steps);
-    setStep(stepNumber);
+    setStep(result.context.currentStep.metadata.step);
     if (!result.context.isEndOfTree) {
       setStepList([result.context.currentStep]);
     } else {
       setResult(result.context.next);
     }
+    setDefaultValue({});
+    setLoading(false);
   };
 
-  const goBack = async (stepNumber) => {
+  const goBack = async () => {
+    setLoading(true);
     let querySteps = [...steps];
+    console.log(step);
     steps.forEach((item, index) => {
-      if (item.stepNum === stepNumber - 1) {
-        querySteps.splice(item, index);
+      if (item.stepNum === step) {
+        querySteps.splice(index, 1);
       }
     });
-    if (stepNumber > 1) {
+    if (step > 2) {
       let result = await getNextStep({
         finderNumber: '',
         steps: [...querySteps]
       });
+      setStepList([result.context.currentStep]);
+      setStep(result.context.currentStep.metadata.step);
     } else {
       getInit();
+      setStep(1);
     }
-    setStep(stepNumber - 1);
+    setDefaultValue(perStep[0].questionParams);
+    setLoading(false);
   };
-
   const showResult = () => {
     switch (result) {
       case '':
@@ -149,40 +155,52 @@ export default function AboutPet() {
           to get a precise nutritional recommendation.
         </div>
       </div>
-      <div>
-        <QuestionnaireForm
-          ref={childRef}
-          components={stepList}
-          step={step}
-          key={step}
-          perParams={perStep[0] ? perStep[0].questionParams : {}}
-          changeCanNext={changeCanNext}
-        />
-        <div style={{ textAlign: 'center' }}>
-          <button
-            className="rc-btn rc-btn--one question-button"
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              goNext(step + 1);
-            }}
-            disabled={canNext}
-          >
-            Next
-          </button>
-        </div>
-        {step > 0 ? (
-          <div
-            style={{ textAlign: 'center', marginTop: 20, cursor: 'pointer' }}
-            onClick={(e) => {
-              e.preventDefault();
-              goBack(step);
-            }}
-          >
-            <span>Back</span>
-          </div>
+      <div style={{ minWidth: 320 }}>
+        {loading ? (
+          <span className="mt-4">
+            <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />
+          </span>
         ) : (
-          ''
+          <>
+            <QuestionnaireForm
+              ref={childRef}
+              components={stepList}
+              step={step}
+              key={step}
+              defaultValue={defaultValue}
+              changeCanNext={changeCanNext}
+            />
+            <div style={{ textAlign: 'center' }}>
+              <button
+                className="rc-btn rc-btn--one question-button"
+                type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  goNext();
+                }}
+                disabled={canNext}
+              >
+                Next
+              </button>
+            </div>
+            {step > 1 ? (
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginTop: 20,
+                  cursor: 'pointer'
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goBack(step);
+                }}
+              >
+                <span>Back</span>
+              </div>
+            ) : (
+              ''
+            )}
+          </>
         )}
       </div>
     </>

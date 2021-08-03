@@ -6,6 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import shopbannerNew from './deimage/ShopBannerNEW.jpg';
 import vetdeimage from './deimage/Product-composition.png';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 import './index.css';
@@ -27,7 +28,7 @@ import number2 from './deimage/number2.png';
 import number3 from './deimage/number3.png';
 import number4 from './deimage/number4.png';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
-import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.png';
+import vetru from '../ClubLandingPage/vetlandingpage/images/VET@2x.webp';
 import logoad from './Components/GetMoreAd/image/logoad.png';
 import logoclubad from './Components/GetMoreAd/image/CLUBLOGOSUBSCIPTION@4x.png';
 import online1 from './deimage/onlinepic1.png';
@@ -204,7 +205,10 @@ class ClubLandingPageDe extends React.Component {
                       <div className="rc-column demobiletext">
                         <div className="rc-padding-y--lg--mobile rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                            <div className="rc-alpha inherit-fontsize detextcenter">
+                            <div
+                              className="rc-alpha inherit-fontsize detextcenter"
+                              style={{ fontSize: '2em' }}
+                            >
                               Die tierärztlichen Nahrungen von ROYAL CANIN®
                             </div>
                             <li className="rc-list__item">
@@ -230,7 +234,7 @@ class ClubLandingPageDe extends React.Component {
                                 individuellen Empfehlungscode Ihrer
                                 Tierarztpraxis
                               </a>
-                              , der bescheinigt, dass sie eine Empfehlung
+                              , der bescheinigt, dass Sie eine Empfehlung
                               erhalten haben. Mit diesem Empfehlungscode können
                               Sie dann eine Bestellung in unserem Online-Shop
                               aufgeben.
@@ -296,7 +300,7 @@ class ClubLandingPageDe extends React.Component {
                             individuellen Empfehlungscode
                           </a>{' '}
                           aus.
-                          <Link to="/vet-diets">
+                          <Link to="/prescriptionNavigate">
                             <a style={{ textDecoration: 'underline' }}>
                               Unter diesem Link finden Sie teilnehmende
                               Tierarztpraxen.
@@ -439,7 +443,7 @@ class ClubLandingPageDe extends React.Component {
                     </div>
                     <div
                       style={{ display: 'flex', justifyContent: 'center' }}
-                      className="flexColumn"
+                      className="deflexcolumn"
                     >
                       <div
                         style={{
@@ -830,17 +834,17 @@ class ClubLandingPageDe extends React.Component {
                       aria-hidden="true"
                     ></a>
                     <div className="row align-items-md-center">
-                      <div className=" col-12 col-lg-5 rc-padding-x--sm--desktop">
+                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                         <picture data-rc-feature-objectfillpolyfill-setup="true">
                           <img
-                            className="w-100 lazyloaded"
+                            className=" lazyloaded"
                             alt="Yorkshire dog pic - Our Values"
                             title="Yorkshire dog pic - Our Values"
-                            src={vetdeimage}
+                            src={shopbannerNew}
                           />
                         </picture>
                       </div>
-                      <div className=" col-12 col-lg-7">
+                      <div className=" col-12 col-lg-6">
                         <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text">
                             Haben Sie Fragen zu den tierärztlichen Nahrungen von
@@ -934,7 +938,7 @@ class ClubLandingPageDe extends React.Component {
                                   <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                     <div
                                       className="w-100 "
-                                      style={{ marginTop: '1.5rem' }}
+                                      style={{ marginTop: '2rem' }}
                                     >
                                       <p style={{ fontWeight: 'bolder' }}>
                                         per E-Mail
@@ -942,7 +946,7 @@ class ClubLandingPageDe extends React.Component {
                                       <p style={{ marginBottom: '35px' }}>
                                         <a
                                           href={this.state.mailAddress}
-                                          className="rc-styled-link defontsize24px"
+                                          className="rc-styled-link defontsize24px demargintop15px"
                                           style={{ color: '#E2001A' }}
                                         >
                                           service.de@royalcanin.com

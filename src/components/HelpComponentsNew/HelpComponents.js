@@ -137,16 +137,17 @@ const HelpComponentsNew = (props) => {
                                   </div>
                                   <div className="rc-margin-top--xs">
                                     <p
-                                      style={{ color: '#00BCA3' }}
+                                      style={{ color: '#E2001A' }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
-                                      <FormattedMessage id="ClubLP.Help.call.mobile.number" />
+                                      {/*<FormattedMessage id="ClubLP.Help.call.mobile.number" />*/}
+                                      {list.phone.btnText}
                                     </p>
                                   </div>
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
@@ -199,7 +200,7 @@ const HelpComponentsNew = (props) => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
@@ -207,7 +208,7 @@ const HelpComponentsNew = (props) => {
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt2'
                                     })}
-                                    title="By telephone"
+                                    title="By email"
                                   />
                                 </LazyLoad>
                               </div>
@@ -287,7 +288,7 @@ const HelpComponentsNew = (props) => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}

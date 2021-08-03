@@ -1,8 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import './index.less';
+import DistributeHubLinkOrATag from '../../../../components/DistributeHubLinkOrATag';
 export default function Fgs({ getInit }) {
-  let history = useHistory();
   return (
     <div className="Veterinarian">
       <img
@@ -15,18 +14,15 @@ export default function Fgs({ getInit }) {
         most adapted product for your cat from our complete range of formulas
       </div>
       <div style={{ width: '100%', textAlign: 'center' }}>
-        <button
-          className="rc-btn rc-btn--one question-button"
-          type="submit"
-          onClick={() => {
-            history.push('/product-finder');
-          }}
-        >
-          Discover
-        </button>
+        <DistributeHubLinkOrATag to="/product-finder">
+          <button className="rc-btn rc-btn--one question-button" type="submit">
+            Discover
+          </button>
+        </DistributeHubLinkOrATag>
+
         <div
           style={{ textAlign: 'center', marginTop: 20, cursor: 'pointer' }}
-          onClick={() => getInit()}
+          onClick={() => getInit(true)}
         >
           Start again
         </div>

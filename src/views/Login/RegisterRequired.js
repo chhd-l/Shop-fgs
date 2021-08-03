@@ -155,7 +155,6 @@ class RegisterRequired extends Component {
         this.showAlert('isShowRequired', 2000);
       }
     } catch (err) {
-      console.log(err.message);
     } finally {
       this.setState({
         circleLoading: false
@@ -234,19 +233,21 @@ class RegisterRequired extends Component {
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
 
+      if (requiredList.length > 0) {
+        this.setState({
+          //这个判断 关乎闪现，不要删
+          styleObj: { display: 'block' },
+          isLoading: false,
+          circleLoading: false
+        });
+      }
+
       this.setState({
         list
       });
     } catch (err) {
       this.setState({
         errMsg: err.message
-      });
-    } finally {
-      //这个判断 关乎闪现，不要删
-      this.setState({
-        styleObj: { display: 'block' },
-        isLoading: false,
-        circleLoading: false
       });
     }
   };

@@ -2,13 +2,14 @@ import React from 'react';
 import SubscriptionBenefitsBanner from './SubscriprionBenefitsBanner';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
-import benefitsone from './image/benefitsone.png';
-import benefitstwo from './image/benefitstwo.png';
-import benefitsthree from './image/benefitsthree.png';
+import benefitsone from './image/benefitsone2.png';
+import benefitstwo from './image/benefitstwo.webp';
+import benefitsthree from './image/benefitsthree2.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
 import { getDeviceType } from '../../../../utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -22,10 +23,12 @@ const SubTitles = {
 };
 const LogoShows = {
   logo: (
-    <img
-      style={{ width: '100px' }}
-      src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
-    />
+    <LazyLoad>
+      <img
+        style={{ width: '100px' }}
+        src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
+      />
+    </LazyLoad>
   )
 };
 const SubscriptionItems = [

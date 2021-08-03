@@ -46,6 +46,7 @@ class AddressList extends React.Component {
     isCurrentBuyWaySubscription: false, // 是否有订阅商品
     showDeliveryDateTimeSlot: false,
     showOperateBtn: true,
+    deliveryOrPickUp: 0,
     saveAddressNumber: 0, // 保存Delivery地址次数
     updateSaveAddressNumber: () => {},
     titleVisible: true,
@@ -526,10 +527,7 @@ class AddressList extends React.Component {
       }
     } else {
       this.props.updateData(tmpObj);
-      if (
-        this.props.type == 'delivery' &&
-        window.__.env.REACT_APP_COUNTRY == 'ru'
-      ) {
+      if (this.props.type == 'delivery') {
         this.calculateFreight(tmpObj);
       }
       // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
@@ -1172,7 +1170,11 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>{' '}
-        <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
+        <p
+          onClick={this.handleClickEdit}
+          className="rc-styled-link mb-1"
+          style={{ cursor: 'pointer' }}
+        >
           <FormattedMessage id="edit" />
         </p>
       </>
@@ -1265,13 +1267,18 @@ class AddressList extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    const { addOrEdit, addressList } = this.state;
+    const { addressList } = this.state;
     let flag = null;
     !addressList.length && num == 1 ? (flag = true) : (flag = false);
-    this.setState({
-      selectDeliveryOrPickUp: num,
-      addOrEdit: flag
-    });
+    this.setState(
+      {
+        selectDeliveryOrPickUp: num,
+        addOrEdit: flag
+      },
+      () => {
+        this.props.paymentUpdateDeliveryOrPickup(num);
+      }
+    );
   };
   // 更新 pickup编辑次数
   updatePickupEditNumber = (num) => {
@@ -1322,6 +1329,7 @@ class AddressList extends React.Component {
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
         workTime: pickupFormData.workTime,
+        province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
         cityIdStr: pkaddr?.cityFias,
         areaIdStr: pkaddr?.areaFias,
@@ -1604,6 +1612,7 @@ class AddressList extends React.Component {
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
                       </span>{' '}
@@ -1628,6 +1637,7 @@ class AddressList extends React.Component {
                       <span
                         className="rc-styled-link"
                         onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="cancel" />
                       </span>{' '}
@@ -1698,7 +1708,7 @@ class AddressList extends React.Component {
           </aside>
 
           {/* 俄罗斯 pickup 相关 begin */}
-          {deliveryOrPickUpFlag && (
+          {deliveryOrPickUpFlag && !panelStatus.isCompleted ? (
             <>
               <HomeDeliveryOrPickUp
                 key={
@@ -1721,7 +1731,7 @@ class AddressList extends React.Component {
                 pickupEditNumber={pickupEditNumber}
               />
             </>
-          )}
+          ) : null}
           {/* 俄罗斯 pickup 相关 end */}
 
           {/* 编辑地址 */}

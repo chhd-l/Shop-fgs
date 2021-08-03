@@ -202,6 +202,7 @@ class ShelterPrescription extends React.Component {
           <div id="selectProduct" className="select-position"></div>
           <div className="rc-padding-top--md rc-padding-x--xl--desktop">
             <ProductCarousel
+              targetType="_blank"
               goodsList={this.state.list}
               title={
                 <h2 className="rc-gamma rc-text--center rc-margin-bottom--md">

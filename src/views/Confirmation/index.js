@@ -125,6 +125,7 @@ class Confirmation extends React.Component {
   async componentDidMount() {
     const GA_product = localItemRoyal.get('rc-ga-product');
     dataLayer.push(GA_product);
+
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
     });
@@ -158,6 +159,7 @@ class Confirmation extends React.Component {
           () => {
             this.getIsAllOneShootGoods();
             orderConfirmationPushEvent(this.state.details);
+
             //启用BazaarVoice时，在checkout confirmation页面add BV transaction pixel
             if (!!+window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS) {
               transactionPixel(this.state.details);

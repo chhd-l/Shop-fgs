@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
-import benefitsone from './image/benefitsone.png';
+import benefitsone from './image/benefitsone2.png';
 import benefitstwo from './image/benefitstwo.png';
-import benefitsthree from './image/benefitsthree.png';
+import benefitsthree from './image/benefitsthree2.png';
 import './index.css';
 
 const SubscriptionBenefitsBanner = ({
@@ -48,7 +48,7 @@ const SubscriptionBenefitsBanner = ({
                         <img
                           className="w-90 lazyloaded"
                           src={items.SubscriptionImg}
-                          style={{ height: '150px' }}
+                          style={{ height: '150px', borderRadius: '50%' }}
                         />
                       </LazyLoad>
                       <h5 style={{ fontSize: '24px' }}>

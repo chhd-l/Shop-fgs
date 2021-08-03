@@ -425,9 +425,8 @@ const tr_TR = {
   'home.convenientTip3': 'Evcil hayvan uzmanları ile iletişimde olun',
   'home.convenientTip4': 'Otomatik gönderimle evinizde mama bitmesin',
   'home.convenientTitle': 'Neden Royal Canin?',
-  'home.note1':
-    'Evcil hayvanlarımızın sağlığı için hizmet vermeye devam ediyoruz.',
-  'home.note2': 'Tüm siparişlerinizde Ücretsiz kargo ve Hızlı teslimat.',
+  'home.note1': '125 TL ve üzeri alışverişlerinizde Ücretsiz Kargo fırsatı!',
+  'home.note2': '',
   'home.pageNotFound': 'Sayfa bulunamadı…',
   'home.pageNotFoundInfo': 'Üzgünüz, aradığınız sayfa mevcut değil.',
   'home.point1': 'Güvenli ödeme',
@@ -1337,6 +1336,13 @@ const tr_TR = {
     'Size 24 saat içinde dönüş yapmak için elimizden geleni yapacağız!',
   'ClubLP.Help.email.address': 'Bize e-posta gönderin!',
   'ClubLP.Help.faq.content':
-    'Sorunuz önceden cevaplanmış olabilir! {val} sayfamıza göz atmayı unutmayın!'
+    'Sorunuz önceden cevaplanmış olabilir! {val} sayfamıza göz atmayı unutmayın!',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 export default tr_TR;

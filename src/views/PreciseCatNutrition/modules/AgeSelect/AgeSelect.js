@@ -16,6 +16,7 @@ export default function AgeSelect({ config, questionData }) {
       ]);
     } else {
       setForm(Array(config.list.length).fill(-1));
+      Context.changeFormData(questionData.name, '');
     }
   }, [questionData.name]);
   const handleSelectChange = (data, idx) => {

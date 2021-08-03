@@ -17,6 +17,7 @@ export default function AnimalBreeds({ questionData }) {
       }
     } else {
       setBreed('');
+      Context.changeFormData(questionData.name, '');
     }
   }, [questionData.name]);
 

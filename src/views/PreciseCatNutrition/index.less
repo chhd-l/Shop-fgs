@@ -34,6 +34,7 @@
         }
       }
       .questionnaire-image-title{
+        //font-weight: bold;
         font-size: 34px;
         color: #e2001a;
         @media (max-width: 769px) {
@@ -64,10 +65,69 @@
     }
   }
 }
+.howItWorkBorder{
+  //border: 2px solid #cccccc;
+  padding:10px;
+  flex-direction: column;
+  //background-image:url('images/borderBG1.jpg');
+  //background-repeat: no-repeat ;
+}
 
+.borderBack1{
+  background-image:url('images/borderBG1.jpg');
+  background-repeat: no-repeat ;
+  background-size: 100%;
+}
+
+.borderBack2{
+  background-image:url('images/borderBG2.jpg');
+  background-repeat: no-repeat ;
+  background-size: 98% 98%;
+}
+
+.borderBack3{
+  background-image:url('images/borderBG3.jpg');
+  background-repeat: no-repeat ;
+  background-size: 100% 98%;
+}
+
+.howItWorkNum{
+  border-radius: 50%;
+  background-color: #E2001A;
+  color: white;
+  width:45px;
+  height:45px;
+  text-align: center;
+  line-height:45px;
+}
 @media (max-width: 639.98px) {
+
+  .borderBack1{
+    background-image:url('images/borderBG4.jpg');
+    background-repeat: no-repeat ;
+    background-size: 100% 100%;
+  }
+
+  .borderBack2{
+    background-image:url('images/borderBG5.jpg');
+    background-repeat: no-repeat ;
+    background-size: 100% 100%;
+  }
+
+  .borderBack3{
+    background-image:url('images/borderBG6.jpg');
+    background-repeat: no-repeat ;
+    background-size: 100% 100%;
+  }
+
+  .ui-pop .img-container {
+    width: 80%;
+  }
+  .mobileHelp {
+    display: flex;
+    flex-direction: column;
+  }
   .preciseCatNutritionTop {
-    height: 1609px;
     background: linear-gradient(white, black);
     overflow: hidden;
     background-size: cover;

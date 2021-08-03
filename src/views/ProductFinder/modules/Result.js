@@ -69,6 +69,7 @@ function QListAndPetJSX(props) {
                   <p
                     className="rc-styled-link mb-1 ml-2"
                     onClick={props.handleClickEditBtn.bind(this, ele)}
+                    style={{ cursor: 'pointer' }}
                   >
                     <FormattedMessage id="edit" />
                   </p>

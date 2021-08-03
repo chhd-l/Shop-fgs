@@ -278,13 +278,26 @@ class ClinicEditForm extends React.Component {
                         storeId: window.__.env.REACT_APP_STOREID,
                         code: inputVal
                       }));
-                  return ((res.context && res.context.prescriberVo) || []).map(
-                    (ele) =>
-                      Object.assign(ele, {
-                        name: ele.prescriberName,
-                        recommendationCode:
-                          prescriberSelectTyped === 0 ? '' : inputVal
-                      })
+                  const prescriber =
+                    (res.context && res.context.prescriberVo) || [];
+                  if (prescriber.length === 0 && prescriberSelectTyped === 1) {
+                    this.setState({
+                      errorMsg: this.props.intl.messages[
+                        'myAccount.dePrescriberCodeErrMsg'
+                      ]
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        errorMsg: ''
+                      });
+                    }, 3000);
+                  }
+                  return prescriber.map((ele) =>
+                    Object.assign(ele, {
+                      name: ele.prescriberName,
+                      recommendationCode:
+                        prescriberSelectTyped === 0 ? '' : inputVal
+                    })
                   );
                 }}
                 selectedItemChange={this.handleSelectedItemChange}

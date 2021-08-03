@@ -20,7 +20,14 @@ class PreciseRecommendation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productInfo: {},
+      questionParams: {
+        petsName: '',
+        petsSex: '',
+        sterilised: '',
+        petsBreed: '',
+        dateOfBirth: ''
+      },
+      productInfo: productList['IND1007'],
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -28,22 +35,11 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  componentDidMount = () => {
-    const id = 'IND1001';
-    let productInfo = Object.assign(
-      {},
-      this.state.productInfo,
-      productList[id]
-    );
-    console.info(productList[id]);
-    this.setState({
-      productInfo
-    });
-  };
 
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
     const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+    const us = window.__.env.REACT_APP_COUNTRY == 'us';
     const firstText = {
       content: <FormattedMessage id="preciseNutrition.Top.title" />
     };
@@ -71,7 +67,8 @@ class PreciseRecommendation extends React.Component {
                   <a
                     style={{
                       textDecoration: 'underline',
-                      color: '#E2001A'
+                      color: '#E2001A',
+                      fontWeight: '550'
                     }}
                   >
                     часто задаваемые вопросы:
@@ -85,10 +82,27 @@ class PreciseRecommendation extends React.Component {
                   <a
                     style={{
                       textDecoration: 'underline',
-                      color: '#E2001A'
+                      color: '#E2001A',
+                      fontWeight: '550'
                     }}
                   >
                     Sıkça Sorulan Sorular
+                  </a>
+                </DistributeHubLinkOrATag>
+              ) : us ? (
+                <DistributeHubLinkOrATag
+                  href={'/about-us/faqs'}
+                  ariaLabel="Links to faq"
+                >
+                  <a
+                    style={{
+                      textDecoration: 'underline',
+                      color: '#E2001A',
+                      fontWeight: '550'
+                    }}
+                  >
+                    <br />
+                    FAQ section
                   </a>
                 </DistributeHubLinkOrATag>
               ) : (
@@ -99,7 +113,8 @@ class PreciseRecommendation extends React.Component {
                   <a
                     style={{
                       textDecoration: 'underline',
-                      color: '#E2001A'
+                      color: '#E2001A',
+                      fontWeight: '550'
                     }}
                   >
                     FAQ pour
@@ -154,13 +169,16 @@ class PreciseRecommendation extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          <Banner productInfo={this.state.productInfo} />
+          <Banner
+            productInfo={this.state.productInfo}
+            questionParams={this.state.questionParams}
+          />
           <div
             className="rc-border-bottom rc-border-colour--brand4"
             style={{ borderBottomWidth: '8px' }}
           ></div>
           <ProductSpecialities />
-          <DetailsDisplay />
+          <DetailsDisplay productInfo={this.state.productInfo} />
 
           <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
           <div style={{ backgroundColor: '#eee' }}>
@@ -241,7 +259,7 @@ class PreciseRecommendation extends React.Component {
                               <div className="rc-column rc-padding--none">
                                 <LazyLoad>
                                   <img
-                                    className="w-100"
+                                    className="w-auto"
                                     src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
                                   />
                                 </LazyLoad>
@@ -264,7 +282,7 @@ class PreciseRecommendation extends React.Component {
                 <div className="experience-component experience-layouts-cardcarousel">
                   <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                      <div className="rc-padding-x--xl">
+                      <div className="rc-padding-x--xl rc-padding-x--sm--mobile">
                         <div>
                           <h4
                             className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
@@ -284,6 +302,7 @@ class PreciseRecommendation extends React.Component {
                           <div className="rc-card--product mx-3">
                             <LazyLoad>
                               <img
+                                // className="w-100"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-2.png`}
                               />
                             </LazyLoad>
@@ -291,13 +310,15 @@ class PreciseRecommendation extends React.Component {
                           <div className="rc-card--product mx-3">
                             <LazyLoad>
                               <img
+                                // className="w-100"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-3.png`}
                               />
                             </LazyLoad>
                           </div>
-                          <div className="rc-card--product mx-3">
+                          <div className="rc-card--product mx-3 pt-2">
                             <LazyLoad>
                               <img
+                                // className="w-100"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-4.png`}
                               />
                             </LazyLoad>
@@ -332,6 +353,7 @@ class PreciseRecommendation extends React.Component {
             list={list}
             lastText={lastText}
           />
+
           <Footer />
         </main>
       </div>

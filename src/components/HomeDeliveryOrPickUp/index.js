@@ -150,7 +150,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
     let defaultCity = this.props.defaultCity;
-    console.log('666 -----> defaultCity : ', defaultCity);
+    // console.log('666 -----> defaultCity : ', defaultCity);
     // console.log('666 this.props.defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
@@ -214,6 +214,25 @@ class HomeDeliveryOrPickUp extends React.Component {
       mask: [{ mask: '+{7} (000) 000-00-00' }]
     };
     let telpval = IMask(telnum, telOptions);
+  };
+  // 判断输入city是否有返回值
+  handlePickupQueryCity = async (city, data) => {
+    const { selectedItem, pickupCity } = this.state;
+    let flag = false;
+    data?.length ? (flag = false) : (flag = true);
+    if (flag) {
+      this.props.updateDeliveryOrPickup(0);
+      this.setState({
+        pickupCity: city,
+        selectedItem: Object.assign(selectedItem, {
+          cityData: [],
+          homeAndPickup: []
+        })
+      });
+    }
+    this.setState({
+      searchNoResult: flag
+    });
   };
   // 搜索下拉选择
   handlePickupCitySelectChange = async (data) => {
@@ -427,7 +446,6 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
-
     // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
@@ -650,6 +668,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                       (res?.context && res?.context?.pickUpQueryCityDTOs) ||
                       []
                     ).map((ele) => Object.assign(ele, { name: ele.city }));
+                    // this.handlePickupQueryCity(inputVal, robj);
                     return robj;
                   }}
                   selectedItemChange={(data) =>
