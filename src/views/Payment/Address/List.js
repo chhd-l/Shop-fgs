@@ -1438,7 +1438,7 @@ class AddressList extends React.Component {
       <div
         className={`rounded address-item ${
           item.selected ? 'selected' : 'border'
-        } ${foledMore && !item.selected ? 'hidden' : ''} ${
+        } ${foledMore && !item.selected ? 'address-item-none' : ''} ${
           !item.selected && i !== addressList.length - 1
             ? 'border-bottom-0'
             : ''
@@ -1446,55 +1446,14 @@ class AddressList extends React.Component {
         key={item.deliveryAddressId}
         onClick={(e) => this.selectAddress(e, i)}
       >
-        <div className="row align-items-center pt-3 pb-3 ml-2 mr-2">
-          <div className="d-flex align-items-center justify-content-center col-2 col-md-1 address-name pl-0 pr-0">
-            {item.selected ? (
-              <svg width="24" height="32">
-                <path
-                  d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
-                  fill="#E2001A"
-                  fillRule="evenodd"
-                />
-              </svg>
-            ) : (
-              <svg width="24" height="32">
-                <path
-                  d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
-                  fill="#c4c4c4"
-                  fillRule="evenodd"
-                />
-              </svg>
-            )}
-          </div>
+        <div className="row align-items-center pt-3 pb-3 ml-3 mr-3 align_items_wrap">
           <div
-            className="col-10 col-md-8 pl-1 pr-1"
-            style={{
-              wordBreak: 'keep-all'
-              // overflow: 'hidden',
-              // whiteSpace: 'nowrap',
-              // textOverflow: 'ellipsis'
-            }}
+            className="d-flex col-10 col-md-8 pl-1 pr-1"
+            style={{ flexDirection: 'column' }}
           >
-            <span>{[item.consigneeName, item.consigneeNumber].join(', ')}</span>
-            {item.isDefaltAddress === 1 ? (
-              <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
-                <FormattedMessage id="default" />
-              </span>
-            ) : null}
-            <br />
-            <p>
+            <span>{item.consigneeName}</span>
+            <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
               {this.setAddressFields(item)}
-              {/* {window.__.env.REACT_APP_COUNTRY == 'us' ? [
-                item.address1,
-                item.city,
-                item.province
-              ].join(', ')
-                : [
-                  matchNamefromDict(this.state.countryList, item.countryId),
-                  item.address1,
-                  item.city,
-                  localAddressForm['region'] && item.area,
-                ].join(', ')} */}
               {item.deliveryDate && item.timeSlot ? (
                 <>
                   <br />
@@ -1512,12 +1471,15 @@ class AddressList extends React.Component {
               ) : null}
             </p>
           </div>
-          <div className="col-12 col-md-3 mt-md-0 mt-1 text-right">
+          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right address_opt_btn">
             <span
-              className="addr-btn-edit border-left pl-2"
+              className="border-bottom"
               onClick={this.addOrEditAddress.bind(this, i)}
             >
               <FormattedMessage id="edit" />
+            </span>
+            <span className="select_this_address border-bottom">
+              <FormattedMessage id="selectThisAddress" />
             </span>
           </div>
         </div>

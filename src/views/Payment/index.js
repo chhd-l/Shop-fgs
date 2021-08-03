@@ -2140,15 +2140,9 @@ class Payment extends React.Component {
       }
     );
     if (this.state.billingChecked || data?.receiveType == 'PICK_UP') {
-      this.setState(
-        {
-          billingAddress: data
-        },
-        () => {
-          // console.log('666 -- Payment billingChecked: ', this.state.billingChecked);
-          // console.log('666 -- Payment billingAddress: ', this.state.billingAddress);
-        }
-      );
+      this.setState({
+        billingAddress: data
+      });
     }
   };
 

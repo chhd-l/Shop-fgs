@@ -44,7 +44,7 @@ const subscription = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile dt">
+            <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--lg--mobile dt">
               A SUBSCRIPTION TO SIMPLIFY YOUR LIFE
               {/*<FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />*/}
             </h2>
@@ -52,20 +52,19 @@ const subscription = () => {
               <div className="row mx-0 justify-content-between">
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <LazyLoad height={200}>
-                        <img
-                          className="value-proposition__img lazyloaded"
-                          style={{ width: '120px', height: '120px' }}
-                          src={picto_delivery}
-                        />
-                      </LazyLoad>
-                    </div>
-                    <div className=" value-proposition__text">
+                    {/*<div style={{ display: 'flex', justifyContent: 'center' }}>*/}
+                    {/*  <LazyLoad height={200}>*/}
+                    {/*    <img*/}
+                    {/*      className="value-proposition__img lazyloaded"*/}
+                    {/*      style={{ width: '120px', height: '120px' }}*/}
+                    {/*      src={picto_delivery}*/}
+                    {/*    />*/}
+                    {/*  </LazyLoad>*/}
+                    {/*</div>*/}
+                    <div className=" value-proposition__text subtitleBG1">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14 }}
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
@@ -75,19 +74,19 @@ const subscription = () => {
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <LazyLoad height={200}>
-                        <img
-                          className="value-proposition__img lazyloaded"
-                          style={{ width: '120px', height: '120px' }}
-                          src={picto_advisor}
-                        />
-                      </LazyLoad>
-                    </div>
-                    <div className=" value-proposition__text">
+                    {/*<div style={{ display: 'flex', justifyContent: 'center' }}>*/}
+                    {/*  <LazyLoad height={200}>*/}
+                    {/*    <img*/}
+                    {/*      className="value-proposition__img lazyloaded"*/}
+                    {/*      style={{ width: '120px', height: '120px' }}*/}
+                    {/*      src={picto_advisor}*/}
+                    {/*    />*/}
+                    {/*  </LazyLoad>*/}
+                    {/*</div>*/}
+                    <div className=" value-proposition__text subtitleBG2">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         A personal pet advisor available for you
                         {/*<FormattedMessage*/}
@@ -99,19 +98,19 @@ const subscription = () => {
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <LazyLoad height={200}>
-                        <img
-                          className="value-proposition__img lazyloaded"
-                          style={{ width: '120px', height: '120px' }}
-                          src={picto_welcome_pack}
-                        />
-                      </LazyLoad>
-                    </div>
-                    <div className=" value-proposition__text">
+                    {/*<div style={{ display: 'flex', justifyContent: 'center' }}>*/}
+                    {/*  <LazyLoad height={200}>*/}
+                    {/*    <img*/}
+                    {/*      className="value-proposition__img lazyloaded"*/}
+                    {/*      style={{ width: '120px', height: '120px' }}*/}
+                    {/*      src={picto_welcome_pack}*/}
+                    {/*    />*/}
+                    {/*  </LazyLoad>*/}
+                    {/*</div>*/}
+                    <div className=" value-proposition__text subtitleBG3">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         A welcome pack with a scale & all materials to properly
                         feed your pet
@@ -124,19 +123,19 @@ const subscription = () => {
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <LazyLoad height={200}>
-                        <img
-                          className="value-proposition__img lazyloaded"
-                          style={{ width: '120px', height: '120px' }}
-                          src={picto_loyalty_program}
-                        />
-                      </LazyLoad>
-                    </div>
-                    <div className=" value-proposition__text">
+                    {/*<div style={{ display: 'flex', justifyContent: 'center' }}>*/}
+                    {/*  <LazyLoad height={200}>*/}
+                    {/*    <img*/}
+                    {/*      className="value-proposition__img lazyloaded"*/}
+                    {/*      style={{ width: '120px', height: '120px' }}*/}
+                    {/*      src={picto_loyalty_program}*/}
+                    {/*    />*/}
+                    {/*  </LazyLoad>*/}
+                    {/*</div>*/}
+                    <div className=" value-proposition__text subtitleBG4">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         Enjoy a loyalty program with exclusive gift to stimulate
                         your pet
@@ -149,19 +148,19 @@ const subscription = () => {
                 </div>
                 <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                   <div className=" centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <LazyLoad height={200}>
-                        <img
-                          className="value-proposition__img lazyloaded"
-                          style={{ width: '120px', height: '120px' }}
-                          src={picto_advice}
-                        />
-                      </LazyLoad>
-                    </div>
-                    <div className=" value-proposition__text">
+                    {/*<div style={{ display: 'flex', justifyContent: 'center' }}>*/}
+                    {/*  <LazyLoad height={200}>*/}
+                    {/*    <img*/}
+                    {/*      className="value-proposition__img lazyloaded"*/}
+                    {/*      style={{ width: '120px', height: '120px' }}*/}
+                    {/*      src={picto_advice}*/}
+                    {/*    />*/}
+                    {/*  </LazyLoad>*/}
+                    {/*</div>*/}
+                    <div className=" value-proposition__text subtitleBG5">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         Tailored professional advice & tips
                         {/*<FormattedMessage*/}

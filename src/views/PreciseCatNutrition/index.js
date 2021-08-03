@@ -63,7 +63,7 @@ class PreciseCatNutrition extends React.Component {
   }
 
   componentDidMount() {
-    setSeoConfig().then((res) => {
+    setSeoConfig({ pageName: 'preciseCatNutrition' }).then((res) => {
       this.setState({ seoConfig: res });
     });
   }
@@ -189,7 +189,7 @@ class PreciseCatNutrition extends React.Component {
                                 }
                               >
                                 {' '}
-                                you{' '}
+                                You{' '}
                               </div>
                               <div
                                 style={{
@@ -321,7 +321,7 @@ class PreciseCatNutrition extends React.Component {
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-headingBlock">
-                      <div className="rc-max-width--lg rc-padding-x--lg text-center rc-margin-top--md">
+                      <div className="rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md">
                         <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                           <h2 className="font-weight-bold">
                             {' '}
@@ -329,7 +329,7 @@ class PreciseCatNutrition extends React.Component {
                           </h2>
                           {/*<FormattedMessage id="ClubLP.Advantage.title" />*/}
                         </div>
-                        <p>
+                        <p style={{ textAlign: 'left' }}>
                           <span>
                             Our subscription program is free from engagement and
                             will provide to your cat the most adapted diet for
@@ -337,7 +337,7 @@ class PreciseCatNutrition extends React.Component {
                             ideal portioning.
                           </span>
                         </p>
-                        <p>
+                        <p style={{ textAlign: 'left' }}>
                           This offer is the result of our brand purpose to
                           improve cat's health & wellbeing, thanks to:
                         </p>
@@ -463,7 +463,7 @@ class PreciseCatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                      <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
                         <p>
                           * Overweight can shorten an animal's life by up to 2
                           years. And it can increase the risk of diabetes,

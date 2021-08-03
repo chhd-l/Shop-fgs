@@ -362,6 +362,7 @@ const ru_RU = {
   dogs3: 'Собаки',
   download: 'Скачать',
   edit: 'Редактировать',
+  selectThisAddress: 'Select this address',
   edit2: 'Изменить',
   email: 'E-mail',
   emailAddress: 'Адрес электронной почты *',

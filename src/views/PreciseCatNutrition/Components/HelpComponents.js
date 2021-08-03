@@ -42,7 +42,12 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <b style={{ color: '#E2001A' }}>
+                                  <b
+                                    style={{
+                                      color: '#E2001A',
+                                      fontWeight: 500
+                                    }}
+                                  >
                                     {/*<FormattedMessage id="ClubLP.Help.call.title" />*/}
                                     Call us
                                   </b>
@@ -56,7 +61,12 @@ const HelpComponents = () => {
                                       style={{ color: '#00BCA3' }}
                                       className="rc-numeric rc-md-up"
                                     >
-                                      <a style={{ color: '#E2001A' }}>
+                                      <a
+                                        style={{
+                                          color: '#E2001A',
+                                          fontWeight: 500
+                                        }}
+                                      >
                                         {/*<FormattedMessage id="ClubLP.Help.call.number" />*/}
                                         0800 415 161
                                       </a>
@@ -64,7 +74,10 @@ const HelpComponents = () => {
                                   </div>
                                   <div className="rc-margin-top--xs">
                                     <p
-                                      style={{ color: '#E2001A' }}
+                                      style={{
+                                        color: '#E2001A',
+                                        fontWeight: 600
+                                      }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
                                       0800 415 161
@@ -91,7 +104,12 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b style={{ color: '#E2001A' }}>
+                                  <b
+                                    style={{
+                                      color: '#E2001A',
+                                      fontWeight: 600
+                                    }}
+                                  >
                                     Email us
                                     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                   </b>
@@ -101,10 +119,17 @@ const HelpComponents = () => {
                                     {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
                                   </p>
                                   <DistributeHubLinkOrATag
-                                    href={'/contact-us'}
+                                    href={
+                                      '/serviceclients.france@royalcanin.com'
+                                    }
                                     ariaLabel="Links to contact us"
                                   >
-                                    <p style={{ textDecoration: 'underline' }}>
+                                    <p
+                                      style={{
+                                        textDecoration: 'underline',
+                                        fontWeight: 400
+                                      }}
+                                    >
                                       Send US an Email
                                       {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
                                     </p>
@@ -159,7 +184,6 @@ const HelpComponents = () => {
                                     >
                                       <a
                                         style={{
-                                          textDecoration: 'underline',
                                           color: '#E2001A'
                                         }}
                                       >
