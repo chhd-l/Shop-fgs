@@ -89,7 +89,7 @@ class DetailsDisplay extends React.Component {
                         <div className="row mx-0 rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
-                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
+                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{
                                 backgroundColor: '#eee',
                                 height: '100%'
@@ -111,7 +111,7 @@ class DetailsDisplay extends React.Component {
                           </div>
                           <div className="col-12 col-md-6 align-items-center order-2  orderJoin1 rc-padding-right--none--desktop  rc-padding--none--mobile">
                             <div
-                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
+                              className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{
                                 backgroundColor: '#eee',
                                 height: '100%'
@@ -168,7 +168,7 @@ class DetailsDisplay extends React.Component {
                         <div className="row rc-full-width mx-0  rc-margin-x--none--mobile">
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-left--none--desktop rc-margin-bottom--sm--mobile rc-padding--none--mobile">
                             <div
-                              className="text-center text-lg-left rc-padding-x--md--mobile rc-padding-y--md--mobile"
+                              className="text-center text-lg-left rc-padding-x--sm--mobile rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{ height: '100%' }}
                             >
                               <p>
@@ -241,7 +241,10 @@ class DetailsDisplay extends React.Component {
                         {isMobile ? (
                           <p
                             className="heading-block-content rc-padding-x--md"
-                            style={{ color: 'rgb(102, 102, 102)' }}
+                            style={{
+                              color: 'rgb(102, 102, 102)',
+                              fontSize: '14px'
+                            }}
                           >
                             <div>
                               <FormattedMessage id="preciseNutrition.Details.lastText3" />
@@ -250,7 +253,10 @@ class DetailsDisplay extends React.Component {
                         ) : (
                           <p
                             className="heading-block-content"
-                            style={{ color: 'rgb(102, 102, 102)' }}
+                            style={{
+                              color: 'rgb(102, 102, 102)',
+                              fontSize: '14px'
+                            }}
                           >
                             <div>
                               <FormattedMessage id="preciseNutrition.Details.lastText1" />
@@ -298,49 +304,33 @@ class DetailsDisplay extends React.Component {
                         <div className="row col-12 my-2 px-1">
                           <div className="col-md-1 px-2 text-right">1.</div>
                           <div className="col-md-11 px-0">
-                            The quantity of protein does not in any way allow us
-                            to judge the quality of the food; in fact, some
-                            proteins are much more digestible than others (i.e.
-                            assimilable and usable by the body) and their
-                            composition in amino acids (22 in number) can be
-                            very different; however, some amino acids are said
-                            to be "essential" and must be provided by the food.
+                            <FormattedMessage
+                              id={'preciseNutrition.Details.list1'}
+                            />
                           </div>
                         </div>
                         <div className="row col-12 my-2 px-1">
                           <div className="col-md-1 px-2 text-right">2.</div>
                           <div className="col-md-11 px-0">
-                            The quantity of protein does not in any way allow us
-                            to judge the quality of the food; in fact, some
-                            proteins are much more digestible than others (i.e.
-                            assimilable and usable by the body) and their
-                            composition in amino acids (22 in number) can be
-                            very different; however, some amino acids are said
-                            to be "essential" and must be provided by the food.
+                            <FormattedMessage
+                              id={'preciseNutrition.Details.list2'}
+                            />
                           </div>
                         </div>
                         <div className="row col-12 my-2 px-1">
                           <div className="col-md-1 px-2 text-right">3.</div>
                           <div className="col-md-11 px-0">
-                            The quantity of protein does not in any way allow us
-                            to judge the quality of the food; in fact, some
-                            proteins are much more digestible than others (i.e.
-                            assimilable and usable by the body) and their
-                            composition in amino acids (22 in number) can be
-                            very different; however, some amino acids are said
-                            to be "essential" and must be provided by the food.
+                            <FormattedMessage
+                              id={'preciseNutrition.Details.list3'}
+                            />
                           </div>
                         </div>
                         <div className="row col-12 my-2 px-1">
                           <div className="col-md-1 px-2 text-right">4.</div>
                           <div className="col-md-11 px-0">
-                            The quantity of protein does not in any way allow us
-                            to judge the quality of the food; in fact, some
-                            proteins are much more digestible than others (i.e.
-                            assimilable and usable by the body) and their
-                            composition in amino acids (22 in number) can be
-                            very different; however, some amino acids are said
-                            to be "essential" and must be provided by the food.
+                            <FormattedMessage
+                              id={'preciseNutrition.Details.list4'}
+                            />
                           </div>
                         </div>
                       </div>

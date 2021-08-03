@@ -39,6 +39,7 @@ class PreciseRecommendation extends React.Component {
   render() {
     const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
     const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+    const us = window.__.env.REACT_APP_COUNTRY == 'us';
     const firstText = {
       content: <FormattedMessage id="preciseNutrition.Top.title" />
     };
@@ -66,7 +67,8 @@ class PreciseRecommendation extends React.Component {
                   <a
                     style={{
                       textDecoration: 'underline',
-                      color: '#E2001A'
+                      color: '#E2001A',
+                      fontWeight: '550'
                     }}
                   >
                     часто задаваемые вопросы:
@@ -80,10 +82,26 @@ class PreciseRecommendation extends React.Component {
                   <a
                     style={{
                       textDecoration: 'underline',
-                      color: '#E2001A'
+                      color: '#E2001A',
+                      fontWeight: '550'
                     }}
                   >
                     Sıkça Sorulan Sorular
+                  </a>
+                </DistributeHubLinkOrATag>
+              ) : us ? (
+                <DistributeHubLinkOrATag
+                  href={'/about-us/faqs'}
+                  ariaLabel="Links to faq"
+                >
+                  <a
+                    style={{
+                      textDecoration: 'underline',
+                      color: '#E2001A',
+                      fontWeight: '550'
+                    }}
+                  >
+                    FAQ section
                   </a>
                 </DistributeHubLinkOrATag>
               ) : (
@@ -94,7 +112,8 @@ class PreciseRecommendation extends React.Component {
                   <a
                     style={{
                       textDecoration: 'underline',
-                      color: '#E2001A'
+                      color: '#E2001A',
+                      fontWeight: '550'
                     }}
                   >
                     FAQ pour
@@ -262,7 +281,7 @@ class PreciseRecommendation extends React.Component {
                 <div className="experience-component experience-layouts-cardcarousel">
                   <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                      <div className="rc-padding-x--xl">
+                      <div className="rc-padding-x--xl rc-padding-x--sm--mobile">
                         <div>
                           <h4
                             className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
@@ -282,6 +301,7 @@ class PreciseRecommendation extends React.Component {
                           <div className="rc-card--product mx-3">
                             <LazyLoad>
                               <img
+                                // className="w-100"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-2.png`}
                               />
                             </LazyLoad>
@@ -289,13 +309,15 @@ class PreciseRecommendation extends React.Component {
                           <div className="rc-card--product mx-3">
                             <LazyLoad>
                               <img
+                                // className="w-100"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-3.png`}
                               />
                             </LazyLoad>
                           </div>
-                          <div className="rc-card--product mx-3">
+                          <div className="rc-card--product mx-3 pt-2">
                             <LazyLoad>
                               <img
+                                // className="w-100"
                                 src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Image%201-4.png`}
                               />
                             </LazyLoad>

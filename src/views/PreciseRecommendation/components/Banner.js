@@ -42,7 +42,10 @@ const Banner = ({ productInfo, intl, questionParams }) => {
   };
   return (
     <section>
-      <div>
+      <div
+        className="rc-padding-top--md"
+        style={{ backgroundColor: '#f5f5f5' }}
+      >
         <div className="pc rc-md-up">
           <div
             className=" rc-padding-x--md rc-layout-container rc-five-column"
@@ -57,7 +60,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
             <div className="rc-column rc-triple-width">
               <h2
                 className="rc-text-colour--brand1"
-                style={{ fontSize: '40px' }}
+                style={{ fontSize: '40px', textTransform: 'uppercase' }}
               >
                 #Name#’s adapted diet & portion
               </h2>
@@ -99,7 +102,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                         className={`rc-btn rc-btn--one rc-btn--sm ${
                           productInfo?.goodsInfo?.stock > 0 ? '' : 'disabled'
                         }`}
-                        style={{ width: '200px' }}
+                        style={{ width: '250px' }}
                       >
                         buy now
                       </button>
@@ -122,7 +125,10 @@ const Banner = ({ productInfo, intl, questionParams }) => {
           </div>
         </div>
         <div className="mobile rc-md-down rc-padding--md  text-center">
-          <h2 className="rc-text-colour--brand1" style={{ fontSize: '24px' }}>
+          <h2
+            className="rc-text-colour--brand1"
+            style={{ fontSize: '24px', textTransform: 'uppercase' }}
+          >
             #Name#’s adapted diet & portion
           </h2>
           <div
@@ -182,7 +188,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
         </div>
       </div>
 
-      <div className="rc-max-width--xl m-auto rc-padding-x--md   rc-layout-container rc-two-column">
+      <div className="rc-max-width--xl m-auto rc-padding-x--md  rc-padding-top--lg rc-layout-container rc-two-column">
         <div className="rc-column">
           <h2
             className="rc-text-colour--brand1"
@@ -191,7 +197,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
               textTransform: 'uppercase'
             }}
           >
-            Your cat’s diet proven benefits
+            <FormattedMessage id={'preciseNutrition.benefits.title'} />
           </h2>
           <p
             style={{
@@ -201,12 +207,11 @@ const Banner = ({ productInfo, intl, questionParams }) => {
               maxWidth: '100%'
             }}
           >
-            We partner with pet experts – veterinarians, breeders, professional
-            groups and organisations – to ensure that our nutritional formulas
-            are precisely tailored to your pet’s needs.
+            <FormattedMessage id={'preciseNutrition.benefits.content'} />
           </p>
           <img
             src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
+            style={{ border: 'none' }}
           />
         </div>
         <div className="rc-column">

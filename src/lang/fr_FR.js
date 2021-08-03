@@ -1916,7 +1916,7 @@ const fr_FR = {
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
   'preciseNutrition.faq.content':
-    'Vous pouvez consulter notre {val} voir si votre question a déjà reçu une réponse',
+    "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
   'preciseNutrition.Top.title':
     '* Offre non cumulable avec la remise de 10% sur les abonnements produits',
   'preciseNutrition.Address.title': 'Adresse',

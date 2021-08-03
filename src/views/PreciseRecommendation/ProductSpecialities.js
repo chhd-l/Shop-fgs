@@ -21,10 +21,10 @@ class ProductSpecialities extends React.Component {
 
                 <div className="row rc-margin-x--none d-flex">
                   <div className="col-12 col-lg-5 text-center text-lg-right order-1 order-lg-0">
-                    <span>
+                    <b className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.title1" />
-                    </span>
-                    <p>
+                    </b>
+                    <p className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.content1" />
                     </p>
                   </div>
@@ -40,10 +40,10 @@ class ProductSpecialities extends React.Component {
                   </div>
 
                   <div className="col-12 col-lg-5 text-center text-lg-left align-items-center order-2">
-                    <span>
+                    <b className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.title2" />
-                    </span>
-                    <p>
+                    </b>
+                    <p className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.content2" />
                     </p>
                   </div>
@@ -51,10 +51,10 @@ class ProductSpecialities extends React.Component {
 
                 <div className="d-flex align-items-center justify-content-center">
                   <div className="text-center col-12 col-lg-5">
-                    <span>
+                    <b className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.title3" />
-                    </span>
-                    <p>
+                    </b>
+                    <p className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.content3" />
                     </p>
                   </div>

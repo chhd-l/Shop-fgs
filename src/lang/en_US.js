@@ -1659,11 +1659,14 @@ const en_US = {
   'clinic.vetClinicsTip1':
     'You do not find the clinic at the origin of the prescription in the list? Do not hesitate to {val}.',
   'clinic.vetClinicsTip2': 'Contact us',
+  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.benefits.content':
+    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
   'preciseNutrition.call.content':
     'Monday to Friday from 8:30am to 7pm and on Saturdays from 9am to 1pm',
   'preciseNutrition.call.number': '0800 415 161',
   'preciseNutrition.faq.content':
-    'You can check our FAQ section to see if your question has already been answered ',
+    'You can check our {val} to see if your question has already been answered ',
   'preciseNutrition.Top.title':
     '* Offer not accumulated with the 10% discount on product subscriptions',
   'preciseNutrition.Address.title': 'Address',
@@ -1713,6 +1716,14 @@ const en_US = {
     'To be stored in a cool, dry place.  Water should be available at all times',
   'preciseNutrition.Details.lastText3':
     'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
+  'preciseNutrition.Details.list1':
+    'The quantity of protein does not in any way allow us to judge the quality of the food; in fact, some proteins are much more digestible than others (i.e. assimilable and usable by the body) and their composition in amino acids (22 in number) can be very different; however, some amino acids are said to be "essential" and must be provided by the food.',
+  'preciseNutrition.Details.list2':
+    'The amount of Fat is a good indicator of the energy provided by the food, as fat is the preferred "fuel" for dogs and cats, which are quite different from humans. Fat should be limited for sedentary, neutered or less active animals. ',
+  'preciseNutrition.Details.list3':
+    'The amount of cellulose or fiber is an indicator of the "satiating" power of the food. In addition to promoting good digestion and transit, fiber plays an important role in managing the animal\'s body weight.',
+  'preciseNutrition.Details.list4':
+    "Crude Ash reflects the amount of mineral matter (or minerals: Calcium, Phosphorus, Iron, Iodine, Potassium, Zinc, Copper...) contained in the food. All minerals are essential and vital for the proper functioning of the dog's or cat's body; as the animal ages, the intake of certain minerals must be reduced to limit the risk of urinary stones or, like phosphorus, to limit the risk of CKD (chronic kidney disease).",
   'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
   'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
   'preciseNutrition.Product.list.title2': '2.Texture and density',

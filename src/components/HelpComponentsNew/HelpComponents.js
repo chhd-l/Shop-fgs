@@ -146,7 +146,7 @@ const HelpComponentsNew = (props) => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
@@ -199,7 +199,7 @@ const HelpComponentsNew = (props) => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
@@ -207,7 +207,7 @@ const HelpComponentsNew = (props) => {
                                     alt={props.intl.formatMessage({
                                       id: 'club.wheretohelp.alt2'
                                     })}
-                                    title="By telephone"
+                                    title="By email"
                                   />
                                 </LazyLoad>
                               </div>
@@ -287,7 +287,7 @@ const HelpComponentsNew = (props) => {
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
-                                <LazyLoad>
+                                <LazyLoad style={{ flexDirection: 'column' }}>
                                   <img
                                     className="align-self-center "
                                     style={{ width: '25vw' }}
