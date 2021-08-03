@@ -233,7 +233,7 @@ class RegisterRequired extends Component {
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
 
-      if (list.length > 0) {
+      if (requiredList.length > 0) {
         this.setState({
           //这个判断 关乎闪现，不要删
           styleObj: { display: 'block' },
