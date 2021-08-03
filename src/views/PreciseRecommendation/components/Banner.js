@@ -230,7 +230,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} />
+                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
                 </p>
               </div>
             </div>

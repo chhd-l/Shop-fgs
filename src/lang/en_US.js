@@ -1696,19 +1696,10 @@ const en_US = {
     'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
   'preciseNutrition.Details.lititle1': 'INGREDIENTS',
   'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
-  'preciseNutrition.Details.contitle1': 'COMPOSITION',
-  'preciseNutrition.Details.contitle2': 'ADDITIVES (PER KG)',
-  'preciseNutrition.Details.content1':
-    'Dehydrated poultry protein, rice, wheat, maize, vegetable protein isolate*, animal fats, hydrolysed animal proteins, wheat flour, vegetable fibres, beet pulp, yeasts and parts thereof, soya oil, minerals, fructo-oligo-saccharides, fish oil, psyllium husks and seeds (0.5%)',
-  'preciseNutrition.Details.content2':
-    'Nutritional additives: Vitamin A: 13500 IU, Vitamin D3: 700 IU, E1 (Iron): 42 mg, E2 (Iodine): 4.2 mg, E4 (Copper): 13 mg, E5 (Manganese): 55 mg, E6 (Zinc): 164 mg, E8 (Selenium): 0.09 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants.',
-  'preciseNutrition.Details.content2.span':
-    '*L.I.P. : protein selected for its very high assimilation.',
   'preciseNutrition.Details.content3.1':
     'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
   'preciseNutrition.Details.content3.2':
     'Thus, European regulations requires manufacturers to quantify the quantities of PROTEIN, FAT, RAW CELLULOSE and RAW ASHES',
-  'preciseNutrition.Details.content4': '',
   'preciseNutrition.Details.link': 'Learn more',
   'preciseNutrition.Details.lastText1':
     'How to use : Batch number, factory registration number and best before date : see information on packaging.',

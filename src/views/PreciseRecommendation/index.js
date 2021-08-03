@@ -101,6 +101,7 @@ class PreciseRecommendation extends React.Component {
                       fontWeight: '550'
                     }}
                   >
+                    <br />
                     FAQ section
                   </a>
                 </DistributeHubLinkOrATag>
