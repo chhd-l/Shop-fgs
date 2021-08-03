@@ -21,17 +21,14 @@ class DetailsDisplay extends React.Component {
   };
 
   render() {
-    const { productComposition } = this.props.productInfo;
+    const { productComposition } = this.props.productShowInfo;
     const { intl } = this.props;
     const modalShow = this.state.modalShow;
 
-    let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
-      0,
-      5
-    );
-    let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
-      5
-    );
+    let productComposition1 =
+      productComposition.analyticalConsitituentsTitle.slice(0, 5);
+    let productComposition2 =
+      productComposition.analyticalConsitituentsTitle.slice(5);
     return (
       <div className="experience-component experience-layouts-1column">
         <div
@@ -41,7 +38,7 @@ class DetailsDisplay extends React.Component {
               ? {
                   width: '100vw',
                   height: '780vh',
-                  position: 'absolute',
+                  position: 'fixed',
                   display: 'block',
                   background: '#000',
                   opacity: '0.80'
@@ -276,9 +273,12 @@ class DetailsDisplay extends React.Component {
                 className="rc-layout-container rc-news-article-card--sidebar-present "
                 style={{
                   display: modalShow ? 'block' : 'none',
-                  position: 'absolute',
-                  top: '300%',
+                  position: 'fixed',
+                  top: '20%',
                   left: '50%',
+                  // position: 'relative',
+                  // top: '-90%',
+                  // left: '70%',
                   transform: 'translate(-50%,0%)',
                   opacity: '100',
                   zIndex: '1100'

@@ -27,7 +27,9 @@ const SubGoodsInfos = ({
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const isActive = subDetail.subscribeStatus === '0';
-  const isIndv = subDetail.subscriptionType?.toLowerCase().includes('indv');
+  const isIndv = subDetail.subscriptionType
+    ?.toLowerCase()
+    .includes('Individualization');
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   //订阅数量更改
   const onQtyChange = async () => {
@@ -463,7 +465,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

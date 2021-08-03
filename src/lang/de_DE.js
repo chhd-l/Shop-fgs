@@ -1393,7 +1393,14 @@ const de_DE = {
     'Ich möchte eine <strong>gratis Willkommens-Box</strong> für mein Tier zu meiner Bestellung erhalten.',
   'firstOrderWelcomeBox.yes': 'Ja',
   'firstOrderWelcomeBox.no': 'Nein',
-  'account.clinicTitle2': 'Meine Standardklinik'
+  'account.clinicTitle2': 'Meine Standardklinik',
+  'plp.retail.cat.filter.specneed.title':
+    "Looking for a recipe to help your cat's optimal weight?",
+  'plp.retail.cat.filter.specneed.tip':
+    'Discover the adapted recipe and the exact ration for your cat',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
 };
 
 export default de_DE;

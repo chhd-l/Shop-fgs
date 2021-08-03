@@ -29,6 +29,25 @@ let RCDrawPng = `${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/home/RC-d
 
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+const kittyData = [
+  {
+    kittenImg: kittenimgone,
+    kittenDescription: [
+      'sac de croquette Mother & BabyCat',
+      'boite de mousse Mother & BabyCat'
+    ],
+    dataCurrent: 1
+  },
+  {
+    kittenImg: kittenimgtwo,
+    kittenDescription: [
+      '1 sac de croquette Kitten',
+      '1 sachet de nutrition fraicheur Kitten123'
+    ],
+    dataCurrent: 2
+  }
+];
+
 @inject('configStore')
 @observer
 @injectIntl
@@ -45,7 +64,7 @@ class DedicatedLandingPage extends React.Component {
       },
       searchEvent: {},
       showKitten: false,
-      selectLine: true
+      selectLine: 0
     };
   }
 
@@ -81,9 +100,9 @@ class DedicatedLandingPage extends React.Component {
       showKitten: !this.state.showKitten
     });
   };
-  changeSetLine = () => {
+  changeSetLine = (dataCurrent) => {
     this.setState({
-      selectLine: !this.state.selectLine
+      selectLine: dataCurrent
     });
   };
 
@@ -274,52 +293,40 @@ class DedicatedLandingPage extends React.Component {
                     className="flex flex-md-column kittyflexdirection"
                     style={{ justifyContent: 'space-evenly' }}
                   >
-                    <div style={{ marginRight: '5px' }}>
-                      <p className="text-center" style={{ color: '#E2001A' }}>
-                        Moins de 4 mois
-                      </p>
-                      <article className="rc-card rc-card--a">
-                        <picture className="rc-card__image">
-                          <img
-                            src={kittenimgone}
-                            alt="Kitten and puppy playing with ball"
-                          />
-                        </picture>
-                        <div style={{ marginBottom: '5px' }}>
-                          <header>
-                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                              - 1 sac de croquette Mother & BabyCat
-                            </p>
-                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                              - 1 boite de mousse Mother & BabyCat
-                            </p>
-                          </header>
-                        </div>
-                      </article>
-                    </div>
-                    <div style={{ marginLeft: '5px' }}>
-                      <p className="text-center" style={{ color: '#E2001A' }}>
-                        Plus de 4 mois
-                      </p>
-                      <article className="rc-card rc-card--a">
-                        <picture className="rc-card__image">
-                          <img
-                            src={kittenimgtwo}
-                            alt="Kitten and puppy playing with ball"
-                          />
-                        </picture>
-                        <div style={{ marginBottom: '5px' }}>
-                          <header>
-                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                              - 1 sac de croquette Kitten{' '}
-                            </p>
-                            <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                              - 1 sachet de nutrition fraicheur Kitten
-                            </p>
-                          </header>
-                        </div>
-                      </article>
-                    </div>
+                    {kittyData.map((index) => (
+                      <div style={{ marginRight: '5px' }}>
+                        <p className="text-center" style={{ color: '#E2001A' }}>
+                          Moins de 4 mois
+                        </p>
+                        <article
+                          className="rc-card rc-card--a"
+                          onClick={() => this.changeSetLine(index.dataCurrent)}
+                          style={
+                            selectLine == index.dataCurrent
+                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                              : null
+                          }
+                        >
+                          <picture className="rc-card__image">
+                            <img
+                              src={index.kittenImg}
+                              alt="Kitten and puppy playing with ball"
+                            />
+                          </picture>
+                          <div style={{ marginBottom: '5px' }}>
+                            <header>
+                              {index.kittenDescription.map((index) => (
+                                <div>
+                                  <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                    - {index}
+                                  </p>
+                                </div>
+                              ))}
+                            </header>
+                          </div>
+                        </article>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div
@@ -374,68 +381,45 @@ class DedicatedLandingPage extends React.Component {
                       className="flex "
                       style={{ justifyContent: 'space-evenly' }}
                     >
-                      <div style={{ marginRight: '5px' }}>
-                        <p className="text-center" style={{ color: '#E2001A' }}>
-                          Moins de 4 mois
-                        </p>
-                        <article
-                          className="rc-card rc-card--a"
-                          onClick={() => this.changeSetLine()}
-                          style={
-                            selectLine
-                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
-                              : null
-                          }
-                        >
-                          <picture className="rc-card__image">
-                            <img
-                              src={kittenimgone}
-                              alt="Kitten and puppy playing with ball"
-                            />
-                          </picture>
-                          <div style={{ marginBottom: '5px' }}>
-                            <header>
-                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                - 1 sac de croquette Mother & BabyCat
-                              </p>
-                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                - 1 boite de mousse Mother & BabyCat
-                              </p>
-                            </header>
-                          </div>
-                        </article>
-                      </div>
-                      <div style={{ marginLeft: '5px' }}>
-                        <p className="text-center" style={{ color: '#E2001A' }}>
-                          Plus de 4 mois
-                        </p>
-                        <article
-                          className="rc-card rc-card--a"
-                          onClick={() => this.changeSetLine()}
-                          style={
-                            selectLine
-                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
-                              : null
-                          }
-                        >
-                          <picture className="rc-card__image">
-                            <img
-                              src={kittenimgtwo}
-                              alt="Kitten and puppy playing with ball"
-                            />
-                          </picture>
-                          <div style={{ marginBottom: '5px' }}>
-                            <header>
-                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                - 1 sac de croquette Kitten{' '}
-                              </p>
-                              <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                - 1 sachet de nutrition fraicheur Kitten
-                              </p>
-                            </header>
-                          </div>
-                        </article>
-                      </div>
+                      {kittyData.map((index) => (
+                        <div style={{ marginRight: '5px' }}>
+                          <p
+                            className="text-center"
+                            style={{ color: '#E2001A' }}
+                          >
+                            Moins de 4 mois
+                          </p>
+                          <article
+                            className="rc-card rc-card--a"
+                            onClick={() =>
+                              this.changeSetLine(index.dataCurrent)
+                            }
+                            style={
+                              selectLine == index.dataCurrent
+                                ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                                : null
+                            }
+                          >
+                            <picture className="rc-card__image">
+                              <img
+                                src={index.kittenImg}
+                                alt="Kitten and puppy playing with ball"
+                              />
+                            </picture>
+                            <div style={{ marginBottom: '5px' }}>
+                              <header>
+                                {index.kittenDescription.map((index) => (
+                                  <div>
+                                    <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                      - {index}
+                                    </p>
+                                  </div>
+                                ))}
+                              </header>
+                            </div>
+                          </article>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   <div
@@ -446,7 +430,10 @@ class DedicatedLandingPage extends React.Component {
                     }}
                     className="text-center"
                   >
-                    <button className="rc-btn rc-btn--one">
+                    <button
+                      className="rc-btn rc-btn--one"
+                      onClick={() => console.log(this.state.selectLine)}
+                    >
                       Ajouter et voir mon panier
                     </button>
                   </div>

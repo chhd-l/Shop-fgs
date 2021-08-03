@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getDeviceType } from '@/utils/utils';
+import { getDeviceType, formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useLocalStore } from 'mobx-react';
 import stores from '@/store';
@@ -14,15 +14,19 @@ const bannerList = [
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const Banner = ({ productInfo, intl, questionParams }) => {
+const Banner = ({ productShowInfo, intl, recommData }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
   );
 
   const handleBuyNow = async () => {
-    let params = Object.assign({}, productInfo, {
+    if (!recommData || !recommData.pet || !recommData.goodsInfo) {
+      console.info('err');
+      return;
+    }
+    let params = Object.assign({}, productShowInfo, {
       goodsInfoFlag: 3,
-      questionParams
+      questionParams: recommData.pet
     });
     try {
       await sitePurchase(params);
@@ -72,10 +76,14 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     Daily portion:{' '}
-                    <strong style={{ color: '#444' }}>40 g/day</strong>
+                    <strong style={{ color: '#444' }}>
+                      {recommData.weight} {recommData.weightUnit}/day
+                    </strong>
                     <br />
                     Total pack weight:{' '}
-                    <strong style={{ color: '#444' }}>1.5 kg</strong>
+                    <strong style={{ color: '#444' }}>
+                      {recommData.totalPackWeight}
+                    </strong>
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     Automatic shipment every 30 days <br />
@@ -85,9 +93,11 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                 <div className="rc-column rc-double-width">
                   <div className="rc-margin-bottom--sm">
                     <div style={{ color: '#444', fontSize: '40px' }}>
-                      € 1,33/day
+                      {formatMoney(recommData.dailyPrice)}/day
                     </div>
-                    <div style={{ color: '#444' }}>€ 39,90/month</div>
+                    <div style={{ color: '#444' }}>
+                      {formatMoney(recommData.totalprice)}/month
+                    </div>
                   </div>
                   <div
                     className="relative"
@@ -100,7 +110,9 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                       <button
                         onClick={handleBuyNow}
                         className={`rc-btn rc-btn--one rc-btn--sm ${
-                          productInfo?.goodsInfo?.stock > 0 ? '' : 'disabled'
+                          productShowInfo?.goodsInfo?.stock > 0
+                            ? ''
+                            : 'disabled'
                         }`}
                         style={{ width: '250px' }}
                       >
@@ -129,7 +141,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
             className="rc-text-colour--brand1"
             style={{ fontSize: '24px', textTransform: 'uppercase' }}
           >
-            #Name#’s adapted diet & portion
+            {recommData?.goodsInfo?.goodsInfoName}
           </h2>
           <div
             className="rc-margin-bottom--xs  text-left"
@@ -142,13 +154,23 @@ const Banner = ({ productInfo, intl, questionParams }) => {
             src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/product_img.png`}
           />
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
-            Daily portion: <strong style={{ color: '#444' }}>40 g/day</strong>
+            Daily portion:{' '}
+            <strong style={{ color: '#444' }}>
+              {recommData.weight} {recommData.weightUnit}/day
+            </strong>
             <br />
-            Total pack weight: <strong style={{ color: '#444' }}>1.5 kg</strong>
+            Total pack weight:{' '}
+            <strong style={{ color: '#444' }}>
+              {recommData.totalPackWeight}
+            </strong>
           </div>
           <div className="rc-margin-bottom--md">
-            <div style={{ color: '#444', fontSize: '40px' }}>€ 1,33/day</div>
-            <div style={{ color: '#444' }}>€ 39,90/month</div>
+            <div style={{ color: '#444', fontSize: '40px' }}>
+              {formatMoney(recommData.dailyPrice)}/day
+            </div>
+            <div style={{ color: '#444' }}>
+              {formatMoney(recommData.totalprice)}/month
+            </div>
           </div>
           <div
             className="rc-margin-bottom--xs"
@@ -215,7 +237,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
           />
         </div>
         <div className="rc-column">
-          {productInfo.provenBenefits?.map((item) => (
+          {productShowInfo.provenBenefits?.map((item) => (
             <div className="d-flex">
               <div className="rc-padding-right--xs" style={{ width: '78px' }}>
                 <img
@@ -230,7 +252,7 @@ const Banner = ({ productInfo, intl, questionParams }) => {
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} />
+                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
                 </p>
               </div>
             </div>

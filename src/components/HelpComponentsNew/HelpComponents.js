@@ -137,10 +137,11 @@ const HelpComponentsNew = (props) => {
                                   </div>
                                   <div className="rc-margin-top--xs">
                                     <p
-                                      style={{ color: '#00BCA3' }}
+                                      style={{ color: '#E2001A' }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
-                                      <FormattedMessage id="ClubLP.Help.call.mobile.number" />
+                                      {/*<FormattedMessage id="ClubLP.Help.call.mobile.number" />*/}
+                                      {list.phone.btnText}
                                     </p>
                                   </div>
                                 </div>
