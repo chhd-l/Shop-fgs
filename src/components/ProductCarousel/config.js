@@ -42,14 +42,13 @@ function SamplePrevArrow(props) {
 
 export const settings = {
   dots: true,
-  // infinite: true,
+  infinite: false,
   speed: 500,
   slidesToShow: 4,
   slidesToScroll: 4,
   initialSlide: 0,
   // lazyLoad: true,
-  adaptiveHeight: true,
-  rows: 1,
+  adaptiveHeight: false,
   // fade: true,
   nextArrow: <SampleNextArrow />,
   prevArrow: <SamplePrevArrow />,

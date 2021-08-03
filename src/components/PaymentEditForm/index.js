@@ -44,7 +44,8 @@ class PaymentEditForm extends React.Component {
         cardCvv: '',
         cardOwner: '',
         email: '',
-        phoneNumber: '+7 (',
+        // phoneNumber: '+7 (',
+        phoneNumber: '',
         phone: '',
         isDefault: 0,
         paymentToken: '',
@@ -1011,7 +1012,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >

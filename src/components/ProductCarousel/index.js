@@ -18,6 +18,7 @@ import './index.less';
 export default class ProductCarousel extends Component {
   static defaultProps = {
     goodsList: [],
+    targetType: '_self',
     title: (
       <h2 className="related-prodout-title">
         <FormattedMessage id="recommandedForyou" />
@@ -33,6 +34,7 @@ export default class ProductCarousel extends Component {
           ele.technologyOrBreedsAttr || getTechnologyOrBreedsAttr(ele)
       };
     });
+
     return (
       <div className="responsive-carousel">
         {this.props.title}
@@ -40,6 +42,7 @@ export default class ProductCarousel extends Component {
           {handledList.map((item, index) => {
             return (
               <PLPCover
+                targetType={this.props.targetType}
                 className="ml-2 mr-2"
                 item={{ ...item }}
                 key={index}

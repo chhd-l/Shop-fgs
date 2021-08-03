@@ -168,19 +168,22 @@ class UnLoginCart extends React.Component {
   }
   // 可购买状态
   get btnStatus() {
-    return true;
     const { productList } = this.state;
     let autoShipFlag = false,
-      clubFlag = false;
+      clubFlag = false,
+      numFlag = true;
+    var reg = /^[0-9]*/;
     productList.map((el) => {
-      if (el.promotions && el.promotions.includes('club')) {
-        clubFlag = true;
-      } else if (el.promotions && el.promotions.includes('autoship')) {
-        autoShipFlag = true;
+      if (!reg.test(el.buyCount)) {
+        numFlag = false;
       }
+      // if (el.promotions && el.promotions.includes('club')) {
+      //   clubFlag = true;
+      // } else if (el.promotions && el.promotions.includes('autoship')) {
+      //   autoShipFlag = true;
+      // }
     });
-
-    return !(clubFlag && autoShipFlag);
+    return numFlag;
   }
   getGoodsIdArr = () => {
     let goodsIdArr = this.unLoginCartData.map((item) => item.goodsId);
@@ -217,14 +220,12 @@ class UnLoginCart extends React.Component {
         });
       }
     );
-    if (isHubGA) {
-      GAInitUnLogin({
-        productList: this.props.checkoutStore.cartData,
-        frequencyList: this.state.frequencyList,
-        props: this.props
-      });
-      GACartScreenLoad();
-    }
+    GACartScreenLoad();
+    GAInitUnLogin({
+      productList: this.props.checkoutStore.cartData,
+      frequencyList: this.state.frequencyList,
+      props: this.props
+    });
     this.setCartData({ initPage: true });
   }
   GACheckUnLogin(productList) {
@@ -436,7 +437,7 @@ class UnLoginCart extends React.Component {
     }
   }
   amountChanger(item, e) {
-    this.handleAmountChange({ val: e.target.value, item });
+    this.handleAmountChange({ val: +e.target.value, item });
   }
   handleAmountChange({ val, item }) {
     let err;
@@ -460,8 +461,8 @@ class UnLoginCart extends React.Component {
       }
 
       // 单个产品总数量不能超过限制
-      if (tmp > window.__.env.REACT_APP_LIMITED_NUM) {
-        tmp = window.__.env.REACT_APP_LIMITED_NUM;
+      if (tmp > +window.__.env.REACT_APP_LIMITED_NUM) {
+        tmp = +window.__.env.REACT_APP_LIMITED_NUM;
         err = (
           <FormattedMessage
             id="cart.errorMaxInfo"
@@ -542,6 +543,7 @@ class UnLoginCart extends React.Component {
     const product = productList[currentProductIdx];
     item.confirmTooltipVisible = false;
     productList.splice(currentProductIdx, 1);
+    debugger;
     this.setState(
       {
         productList
@@ -567,6 +569,7 @@ class UnLoginCart extends React.Component {
         minimunAmountPrice: formatMoney(window.__.env.REACT_APP_MINIMUM_AMOUNT)
       });
       callback && callback();
+      this.getGoodsIdArr(); //删除相关商品
       this.setState({ checkoutLoading: false });
       //增加数量 重新埋点 start
       !isHubGA && this.GACheckUnLogin(this.props.checkoutStore.cartData);
@@ -1114,12 +1117,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (

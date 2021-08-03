@@ -569,7 +569,8 @@ class MemberCardList extends React.Component {
       needEmail,
       needPhone,
       isSupportInstallMent,
-      paymentStore: { supportPaymentMethods }
+      paymentStore: { supportPaymentMethods },
+      inited
     } = this.props;
     const {
       creditCardInfoForm,
@@ -673,7 +674,7 @@ class MemberCardList extends React.Component {
     return (
       <div id="PaymentComp" className={`loginCardBox`}>
         {/* 等payu组件加载完成，才显示 */}
-        {listLoading || !this.props.inited ? (
+        {listLoading || !inited ? (
           <div className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
           </div>
@@ -756,7 +757,7 @@ class MemberCardList extends React.Component {
         ) : null}
         {/* edit form */}
         <div
-          className={`credit-card-content ${isEdit ? '' : 'hidden'}`}
+          className={`credit-card-content ${isEdit && inited ? '' : 'hidden'}`}
           id="credit-card-content"
         >
           <div className={`credit-card-form`}>

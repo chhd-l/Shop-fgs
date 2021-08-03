@@ -506,6 +506,9 @@ const PetForms = ({
             };
             try {
               await changeSubscriptionDetailPets(params);
+              setState({
+                loading: false
+              });
               // 有链接sub的，编辑宠物需要弹提示框
               if (isFromSubscriptionDetail) {
                 isEditAlertNew = true;
@@ -513,6 +516,9 @@ const PetForms = ({
                 // setState({ isEditAlert: true });
               }
             } catch (err) {
+              setState({
+                loading: false
+              });
               showErrorMsg(err.message);
             }
           }
@@ -520,6 +526,9 @@ const PetForms = ({
       } else {
         // 有链接sub的，编辑宠物需要弹提示框
         if (petsIdLinkedSub && diffIndex > 0 && isLinkedSubLength == 1) {
+          setState({
+            loading: false
+          });
           isEditAlertNew = true;
           setIsEditAlert(true);
           // setState({ isEditAlert: true });
@@ -654,6 +663,7 @@ const PetForms = ({
             {window.__.env.REACT_APP_COUNTRY == 'us' ? (
               <SelectMultiple
                 optionList={sensitivityLists}
+                // placeholder="Select one or more needs"
                 selectedItemChange={(el, selectedItem) =>
                   multipleSelSpecialNeedsOptionsChange(el, selectedItem)
                 }

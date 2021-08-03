@@ -94,7 +94,7 @@ class ValidationAddressModal extends React.Component {
       // 是否地址验证保存本地
       localItemRoyal.set('rc-address-validation-flag', valaddFlag);
     } catch (err) {
-      console.log('addressValidation:' + err.message);
+      console.log('666 addressValidation:' + err.message);
       this.setState({
         modalVisible: false
       });

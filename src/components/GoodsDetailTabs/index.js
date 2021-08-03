@@ -31,7 +31,7 @@ import clubiconnew2 from './image/clubiconnew2.png';
 import discountnewtr from './image/discountnewtr.png';
 import clubiconnew3 from './image/clubiconnew3.png';
 import clubiconnew4 from './image/clubiconnew4.png';
-import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree.png';
+import benefitsthree from '../../views/ClubLandingPageNew/Components/LongBanner/image/benefitsthree2.png';
 
 import benefitsonedog from './image/benefitsonedog.png';
 import benefitstwodog from './image/benefitstwodog.png';
@@ -377,9 +377,8 @@ const GoodsDetailTabs = function (props) {
     );
 
     let packProducts = ['BP04', 'BP07', 'BP06', 'BP05', 'BP02', 'BP01', 'BP03'];
-    let goodsNo = location.pathname.split('-')[
-      location.pathname.split('-').length - 1
-    ];
+    let goodsNo =
+      location.pathname.split('-')[location.pathname.split('-').length - 1];
     tmpGoodsDescriptionDetailList = tmpGoodsDescriptionDetailList
       .map((g) => {
         let ret = g.content;
