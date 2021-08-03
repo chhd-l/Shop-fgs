@@ -38,7 +38,7 @@ class DetailsDisplay extends React.Component {
               ? {
                   width: '100vw',
                   height: '780vh',
-                  position: 'absolute',
+                  position: 'fixed',
                   display: 'block',
                   background: '#000',
                   opacity: '0.80'
@@ -273,9 +273,12 @@ class DetailsDisplay extends React.Component {
                 className="rc-layout-container rc-news-article-card--sidebar-present "
                 style={{
                   display: modalShow ? 'block' : 'none',
-                  position: 'absolute',
-                  top: '300%',
+                  position: 'fixed',
+                  top: '20%',
                   left: '50%',
+                  // position: 'relative',
+                  // top: '-90%',
+                  // left: '70%',
                   transform: 'translate(-50%,0%)',
                   opacity: '100',
                   zIndex: '1100'
