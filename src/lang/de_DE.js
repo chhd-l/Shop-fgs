@@ -1381,6 +1381,8 @@ const de_DE = {
   dePrescriberCodeTxt: 'z B.XYZ1234',
   dePrescriberCodeErrMsg:
     'Der eingegebene Code ist ungültig.<br>Bitte versuchen Sie es mit einem anderen Code',
+  'myAccount.dePrescriberCodeErrMsg':
+    'Der eingegebene Code ist ungültig.Bitte versuchen Sie es mit einem anderen Code',
   'deLandingPage.prescriberCode.searchBtn': 'Code speichern',
   'deLandingPage.prescriberCode.tip5': 'Sie haben noch keinen Empfehlungscode?',
   'deLandingPage.prescriberCode.tip6':

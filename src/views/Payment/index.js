@@ -140,6 +140,7 @@ class Payment extends React.Component {
       subscriptionID: '',
       cyberBtnLoading: false,
       cyberCardType: '',
+      deliveryOrPickUp: 0,
       saveAddressNumber: 0, // 保存Delivery地址次数
       adyenAction: {},
       promotionCode: this.props.checkoutStore.promotionCode || '',
@@ -295,16 +296,16 @@ class Payment extends React.Component {
     this.cyberCardRef = React.createRef();
     this.cyberCardListRef = React.createRef();
     this.cyberRef = React.createRef();
-    this.confirmListValidationAddress = this.confirmListValidationAddress.bind(
-      this
-    );
+    this.confirmListValidationAddress =
+      this.confirmListValidationAddress.bind(this);
   }
   //cyber查询卡类型-会员
   queryCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -315,9 +316,10 @@ class Payment extends React.Component {
   //cyber查询卡类型-游客
   queryGuestCyberCardType = async (params) => {
     try {
-      const res = await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
-        params
-      );
+      const res =
+        await this.cyberRef.current.cyberCardRef.current.queryGuestCyberCardTypeEvent(
+          params
+        );
       return new Promise((resolve) => {
         resolve(res);
       });
@@ -707,7 +709,6 @@ class Payment extends React.Component {
         };
       }
       let payWayNameArr = [];
-
       if (payWay.context) {
         // 筛选条件: 1.开关开启 2.订阅购买时, 排除不支持订阅的支付方式 3.cod时, 是否超过限制价格
         payWayNameArr = (payWay.context.payPspItemVOList || [])
@@ -731,6 +732,11 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
+          console.log('666 支付方式 payWayNameArr: ', payWayNameArr);
+          sessionItemRoyal.set(
+            'rc-payWayNameArr',
+            JSON.stringify(payWayNameArr)
+          );
           this.initPaymentTypeVal();
         }
       );
@@ -1560,7 +1566,7 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    console.log('666 ★ 封装下单参数: ', param);
+    // console.log('666 ★ 封装下单参数: ', param);
 
     // 1: HOMEDELIVERY , 2: PICKUP
     if (deliveryAddress?.receiveType == 'HOME_DELIVERY') {
@@ -2098,23 +2104,35 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
-    // console.log('666 ★★ -- updateDeliveryAddrData data: ', data);
     this.setState(
       {
         deliveryAddress: data
       },
       () => {
-        let newPayWayName = [...this.state.payWayNameArr];
-        // pickup 支付方式处理：
-        // 1、cod: cash & card，则shop展示cod和卡支付
-        // 2、cod: cash 或 card，则shop展示cod和卡支付
-        // 3、无返回，则shop展示卡支付
-        let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
-        if (pmd) {
-          let pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
-          newPayWayName = newPayWayName.filter((e) => {
-            return e.code !== 'cod' || e.code == pickupPayMethods;
-          });
+        let newPayWayName =
+          JSON.parse(sessionItemRoyal.get('rc-payWayNameArr')) || null;
+        if (newPayWayName) {
+          // pickup 支付方式处理：
+          // 1、cod: cash & card，则shop展示cod和卡支付
+          // 2、cod: cash 或 card，则shop展示cod和卡支付
+          // 3、无返回，则shop展示卡支付
+          let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
+          console.log('666 -- data: ', data);
+          console.log('666 -- pmd: ', pmd);
+          let pickupPayMethods = null;
+          if (pmd?.length) {
+            pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+          } else {
+            // 是否是代客购买
+            // let potalValetOrder = sessionItemRoyal.get('rc-iframe-from-storepotal') || null;
+            // if (!potalValetOrder && data.receiveType == 'PICK_UP') {
+            if (data?.receiveType == 'PICK_UP') {
+              // 如果pickup没有cod的时候过滤掉cod
+              newPayWayName = newPayWayName.filter((e) => {
+                return e.code !== 'cod';
+              });
+            }
+          }
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
             this.initPaymentTypeVal();
@@ -2144,6 +2162,7 @@ class Payment extends React.Component {
   };
   // 抓取异常信息
   catchAddOrEditAddressErrorMessage = (msg) => {
+    // console.log('666 ★★ 抓取异常：',msg)
     this.showErrorMsg(msg);
   };
 
@@ -2151,6 +2170,14 @@ class Payment extends React.Component {
   getIntlMsg = (str) => {
     return this.props.intl.messages[str];
   };
+
+  paymentUpdateDeliveryOrPickup = (num) => {
+    // console.log('666  更新 deliveryOrPickUp: ', num);
+    this.setState({
+      deliveryOrPickUp: num
+    });
+  };
+
   /**
    * 渲染address panel
    */
@@ -2177,6 +2204,8 @@ class Payment extends React.Component {
               isDeliveryOrBilling="delivery"
               isValidationModal={this.state.isShowValidationModal}
               saveAddressNumber={this.state.saveAddressNumber}
+              paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
+              deliveryOrPickUp={this.state.deliveryOrPickUp}
               updateSaveAddressNumber={(e) => this.updateSaveAddressNumber(e)}
               updateValidationStaus={this.updateValidationStaus}
               catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
@@ -2195,8 +2224,11 @@ class Payment extends React.Component {
               initData={deliveryAddress}
               isValidationModal={this.state.isShowValidationModal}
               saveAddressNumber={this.state.saveAddressNumber}
+              paymentUpdateDeliveryOrPickup={this.paymentUpdateDeliveryOrPickup}
+              deliveryOrPickUp={this.state.deliveryOrPickUp}
               guestEmail={guestEmail}
               updateValidationStaus={this.updateValidationStaus}
+              catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
@@ -2304,6 +2336,7 @@ class Payment extends React.Component {
                 updateFormValidStatus={this.updateValidStatus.bind(this, {
                   key: 'billingAddr'
                 })}
+                catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
               />
             )}
           </>
@@ -2450,9 +2483,10 @@ class Payment extends React.Component {
     const unLoginCyberSaveCard = async (params) => {
       // console.log('2080 params: ', params);
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usGuestPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2464,9 +2498,10 @@ class Payment extends React.Component {
     //cyber会员绑卡
     const loginCyberSaveCard = async (params) => {
       try {
-        const res = await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
-          params
-        );
+        const res =
+          await this.cyberRef.current.cyberCardRef.current.usPaymentInfoEvent(
+            params
+          );
         return new Promise((resolve) => {
           resolve(res);
         });
@@ -2522,11 +2557,9 @@ class Payment extends React.Component {
           this.unLoginBillingAddrRef.current
         ) {
           // 游客确认
-          this.unLoginBillingAddrRef.current.handleClickConfirm();
+          await this.unLoginBillingAddrRef.current.handleClickConfirm();
         }
       }
-
-      // console.log('★ ----------------- 游客和会员绑卡后执行');
       this.setPaymentToCompleted();
     } catch (e) {
       this.showErrorMsg(e.message);
@@ -2618,13 +2651,13 @@ class Payment extends React.Component {
   };
   // 点击按钮后进入下一步
   setPaymentToCompleted = () => {
-    // console.log('★ --- setPaymentToCompleted 跳过验证，下一步 ');
     this.cvvConfirmNextPanel();
   };
   // 已绑卡 下一步
   cvvConfirmNextPanel = async () => {
     const { isLogin } = this;
     const { paymentStore } = this.props;
+    // console.log('666 ★ --- cvvConfirmNextPanel 跳过验证，下一步 ');
     // 清空 VisitorAddress 参数 && !billingChecked
     if (
       !isLogin &&
@@ -2749,6 +2782,8 @@ class Payment extends React.Component {
       hideOthers: true
     });
     this.payUCreditCardRef?.current?.handleClickEditBtn();
+
+    this.paymentUpdateDeliveryOrPickup(0); // 隐藏pickup和delivery home
 
     if (!billingChecked) {
       paymentStore.setStsToEdit({
@@ -3139,8 +3174,6 @@ class Payment extends React.Component {
       paymentMethod = selectedCardInfo;
     }
 
-    console.log('666 -->>>>> paymentMethod: ', paymentMethod);
-
     let lastFourDeco;
     let brandDeco;
     let holderNameDeco;
@@ -3221,9 +3254,8 @@ class Payment extends React.Component {
   };
   petComfirm = (data) => {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[
-        this.state.currentProIndex
-      ].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm =
+        data;
     } else {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
@@ -3414,7 +3446,8 @@ class Payment extends React.Component {
         </h5>
         <p
           onClick={this.handleClickPaymentPanelEdit}
-          className="rc-styled-link mb-1"
+          className="rc-styled-link mb-1 edit_payment_method"
+          style={{ cursor: 'pointer' }}
         >
           <FormattedMessage id="edit" />
         </p>

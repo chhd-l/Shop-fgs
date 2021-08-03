@@ -698,7 +698,7 @@ const ru_RU = {
   'payment.streets': 'Улица',
   'payment.house': 'Дом',
   'payment.province': 'провинция',
-  'payment.settlement': 'решение',
+  'payment.settlement': 'Населенный пункт',
   'payment.wrongAddress':
     'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" в разделе "Помощь"',
   'payment.postCode2': 'Почтовый Код',
@@ -1343,7 +1343,7 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  prevShipmentOn: 'Новая доставка',
+  prevShipmentOn: 'Новая заявка',
   nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',

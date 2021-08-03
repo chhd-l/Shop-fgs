@@ -19,6 +19,14 @@ import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
 import { getDeviceType } from '../../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+const toScroll = (anchorName) => {
+  let anchorElement = document.getElementById(anchorName);
+  // 如果对应id的锚点存在，就跳转到锚点
+  if (anchorElement) {
+    anchorElement.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 const subscription = () => {
   return (
     <div
@@ -167,10 +175,7 @@ const subscription = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <DistributeHubLinkOrATag
-              href={'/product-finder'}
-              ariaLabel="Links to product finder"
-            >
+            <a  onClick={()=>toScroll('aboutPet')}>
               <button
                 className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                 style={{ paddingLeft: '90px', paddingRight: '90px' }}
@@ -180,7 +185,7 @@ const subscription = () => {
                 {/*  id={'ClubLP.SubscriptionBenefitsNew.button'}*/}
                 {/*/>*/}
               </button>
-            </DistributeHubLinkOrATag>
+            </a>
           </h4>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './OxxoModal.css';
+import './AdyenOxxoModal.css';
 import { FormattedMessage } from 'react-intl';
 import { loadJS } from '@/utils/utils';
 
@@ -16,8 +16,7 @@ export default class AdyenOxxoModal extends Component {
   };
   presentVoucher(action) {
     loadJS({
-      url:
-        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      url: 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
@@ -60,7 +59,7 @@ export default class AdyenOxxoModal extends Component {
           <div
             className="modal-dialog mt-0 mb-0"
             role="document"
-            id="oxxoModal"
+            id="adyenOxxoModal"
             style={{ top: '50%', transform: 'translateY(-50%)' }}
           >
             <div className="modal-content mt-0">

@@ -277,7 +277,7 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-column">
                       <div className="header-title">
                         <h1 className="rc-espilon">Für Katzen</h1>
-                        <img src={decat} />
+                        <img style={{ height: '100px' }} src={decat} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
@@ -293,7 +293,7 @@ class ClubLandingPageDeVet extends React.Component {
                     <div className="rc-column">
                       <div className="header-title">
                         <h1 className="rc-espilon">Für Hunde</h1>
-                        <img src={dedog} />
+                        <img style={{ height: '100px' }} src={dedog} />
                       </div>
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column ">

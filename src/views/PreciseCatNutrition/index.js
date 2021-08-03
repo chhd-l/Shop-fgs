@@ -78,15 +78,15 @@ class PreciseCatNutrition extends React.Component {
     });
   };
 
-  scrollToAnchor = (anchorName) => {
-    if (anchorName) {
-      let anchorElement = document.getElementById(anchorName);
-      if (anchorElement) {
-        anchorElement.scrollIntoView();
-      }
-    }
-  };
+  toScroll = (anchorName) => {
+    let anchorElement = document.getElementById(anchorName);
+    // 如果对应id的锚点存在，就跳转到锚点
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
 
+    }
+    ;
+  }
   render() {
     const { history, match, location } = this.props;
 
@@ -152,12 +152,21 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                         <div className={'row'}>
-                          <div
-                            className={'col-12 col-md-4 text-md-right relative'}
-                          >
-                            {/*<h2> DID </h2>*/}
-                            {/*<div style={{backgroundColor:'wheat',color:'red'}}> you </div>*/}
-                            {/*<h2 className='font-weight-bold'>  KNOW?</h2>*/}
+                          <div className={'col-12 col-md-4 text-md-right relative'} style={{ display: 'inline' }}>
+                            <h2 className='font-weight-bold'> DID
+                              <div style={
+                                isMobile ? { height: '60%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 163, top: 6, padding: 2, fontWeight: 500 }
+                                         : { height: '54%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 222, top: 7, padding: 2, fontWeight: 500 }}
+                              > you </div>
+                              <div style={{
+                                backgroundColor: '#E2001A',
+                                color: 'white',
+                                display: 'inline',
+                                padding: ' 0px 5px',
+                                margin: '0px 0px 0 15px'
+                              }}> KNOW?
+                              </div>
+                            </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
                             <h2 className="font-weight-bold">
@@ -242,9 +251,7 @@ class PreciseCatNutrition extends React.Component {
                               </ul>
                               <div className="rc-padding-x--none detextcenter">
                                 <a
-                                  onClick={() =>
-                                    this.scrollToAnchor('aboutPet')
-                                  }
+                                  onClick={()=>this.toScroll('aboutPet')}
                                 >
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
@@ -370,15 +377,12 @@ class PreciseCatNutrition extends React.Component {
                                 vet first.
                               </a>
                               <div className="rc-margin-y--sm rc-padding-x--none detextcenter">
-                                <DistributeHubLinkOrATag
-                                  href={'/product-finder'}
-                                  ariaLabel="Links to product finder"
-                                >
-                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                  <a  onClick={()=>this.toScroll('aboutPet')}>
+                                    <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
                                     Find your tailored food now
                                   </button>
-                                </DistributeHubLinkOrATag>
+                                  </a>
                               </div>
                             </div>
                           </div>
@@ -408,7 +412,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
               <br />
 
-              <div className={'preciseCatNutritionTop'}>
+              <div className={'preciseCatNutritionTop'} id='aboutPet'>
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">

@@ -14,7 +14,7 @@ import icon2 from '../../StaticPage/SubscriptionLanding/images/icon2.png';
 import icon3 from '../../StaticPage/SubscriptionLanding/images/icon3.png';
 import icon4 from '../../StaticPage/SubscriptionLanding/images/icon4.png';
 import HelpComponents from '../../../components/HelpComponents/HelpComponents';
-import vetimg from './images/VET@2x.png';
+import vetimg from './images/VET@2x.webp';
 
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;

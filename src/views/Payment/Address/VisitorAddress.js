@@ -31,6 +31,7 @@ class VisitorAddress extends React.Component {
     showDeliveryDateTimeSlot: false,
     initData: null,
     titleVisible: true,
+    deliveryOrPickUp: 0,
     showConfirmBtn: true,
     isValidationModal: true, // 是否显示验证弹框
     updateFormValidStatus: () => {},
@@ -71,9 +72,8 @@ class VisitorAddress extends React.Component {
       selectVisitorValidationOption: 'suggestedAddress',
       visitorBtnLoading: false
     };
-    this.confirmVisitorValidationAddress = this.confirmVisitorValidationAddress.bind(
-      this
-    );
+    this.confirmVisitorValidationAddress =
+      this.confirmVisitorValidationAddress.bind(this);
   }
   componentDidMount() {
     this.validData({
@@ -99,7 +99,6 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   validData = async ({ data }) => {
-    console.log('666  ★ VisitorAddress validData: ', data);
     try {
       // 如果有返回运费数据，则计算运费折扣并显示
       if (data?.calculationStatus) {
@@ -115,7 +114,7 @@ class VisitorAddress extends React.Component {
       });
       this.props.updateData(data);
     } catch (err) {
-      console.log(' err msg: ', err);
+      // console.log(' err msg: ', err);
       this.setState({ isValid: false, visitorValidationLoading: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
@@ -123,7 +122,6 @@ class VisitorAddress extends React.Component {
   };
   // 接收form表单输入
   updateDeliveryAddress = (data) => {
-    console.log('666 updateDeliveryAddress: ', data);
     this.setState(
       {
         visitorData: data
@@ -199,8 +197,9 @@ class VisitorAddress extends React.Component {
   };
   // 游客确认 Delivery address
   handleClickConfirm = async () => {
-    const { isValid, validationAddress, unConfirmedForm } = this.state;
+    const { isValid, unConfirmedForm } = this.state;
     const { isValidationModal } = this.props;
+    // console.log('666 游客确认 type： ', this.props.type);
     if (!isValid) {
       return false;
     }
@@ -302,7 +301,11 @@ class VisitorAddress extends React.Component {
           {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
+        <p
+          onClick={this.handleClickEdit}
+          className="rc-styled-link mb-1"
+          style={{ cursor: 'pointer' }}
+        >
           <FormattedMessage id="edit" />
         </p>
       </>
@@ -331,11 +334,8 @@ class VisitorAddress extends React.Component {
   };
   // 确认选择地址,切换到下一个最近的未complete的panel
   confirmVisitorValidationAddress() {
-    const {
-      form,
-      selectVisitorValidationOption,
-      validationAddress
-    } = this.state;
+    const { form, selectVisitorValidationOption, validationAddress } =
+      this.state;
     let oldForm = JSON.parse(JSON.stringify(form));
     this.setState({
       visitorBtnLoading: true
@@ -451,9 +451,14 @@ class VisitorAddress extends React.Component {
   };
   // 更新 selectDeliveryOrPickUp
   updateDeliveryOrPickup = (num) => {
-    this.setState({
-      selectDeliveryOrPickUp: num
-    });
+    this.setState(
+      {
+        selectDeliveryOrPickUp: num
+      },
+      () => {
+        this.props.paymentUpdateDeliveryOrPickup(num);
+      }
+    );
   };
   // 更新 pickup编辑次数
   updatePickupEditNumber = (num) => {
@@ -464,7 +469,6 @@ class VisitorAddress extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -503,6 +507,7 @@ class VisitorAddress extends React.Component {
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
         workTime: pickupFormData.workTime,
+        province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
         cityIdStr: pkaddr?.cityFias,
         areaIdStr: pkaddr?.areaFias,
@@ -613,7 +618,7 @@ class VisitorAddress extends React.Component {
           panelStatus.isEdit ? (
             <fieldset className="shipping-address-block rc-fieldset">
               {/* 俄罗斯 pickup */}
-              {deliveryOrPickUpFlag && (
+              {deliveryOrPickUpFlag && !panelStatus.isCompleted ? (
                 <HomeDeliveryOrPickUp
                   key={this.state.defaultCity}
                   isLogin={false}
@@ -628,32 +633,36 @@ class VisitorAddress extends React.Component {
                   calculateFreight={this.calculateFreight}
                   pickupEditNumber={pickupEditNumber}
                 />
-              )}
+              ) : null}
 
               {selectDeliveryOrPickUp == 1 && <>{_editForm}</>}
 
               {showConfirmBtn && (
                 <div className="d-flex justify-content-end mb-2">
                   {pickupFormData?.receiveType == 'PICK_UP' ? (
-                    <button
-                      className={`rc-btn rc-btn--one rc-btn--sm ${
-                        this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
-                      }`}
-                      disabled={confirmBtnDisabled}
-                      onClick={this.clickConfirmPickup}
-                    >
-                      <FormattedMessage id="clinic.confirm3" />
-                    </button>
+                    <>
+                      <button
+                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                          this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                        }`}
+                        disabled={confirmBtnDisabled}
+                        onClick={this.clickConfirmPickup}
+                      >
+                        <FormattedMessage id="clinic.confirm3" />
+                      </button>
+                    </>
                   ) : (
-                    <button
-                      className={`rc-btn rc-btn--one rc-btn--sm ${
-                        this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
-                      }`}
-                      disabled={isValid && formAddressValid ? false : true}
-                      onClick={this.handleClickConfirm}
-                    >
-                      <FormattedMessage id="clinic.confirm3" />
-                    </button>
+                    <>
+                      <button
+                        className={`rc-btn rc-btn--one rc-btn--sm visitor_address_confirm ${
+                          this.state.btnConfirmLoading ? 'ui-btn-loading' : ''
+                        }`}
+                        disabled={isValid && formAddressValid ? false : true}
+                        onClick={this.handleClickConfirm}
+                      >
+                        <FormattedMessage id="clinic.confirm3" />
+                      </button>
+                    </>
                   )}
                 </div>
               )}

@@ -47,10 +47,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -215,7 +216,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts, isDogPage }) {
   // 如: current is the dog spt, then the bottom desc link to the dog retail
   // 如: current is the dog retail, then the bottom desc link to the dog spt
   const key = `${isDogPage ? 'dog' : 'cat'}-${
-    isRetailProducts ? 'vet' : 'retail'
+    isRetailProducts ? 'retail' : 'vet'
   }`;
   const descObj = bottomDescJson[key];
   return (
@@ -857,13 +858,15 @@ class List extends React.Component {
     });
 
     type !== 'pageChange' &&
-      dataLayer.push({
-        event: 'plpScreenLoad',
-        plpScreenLoad: {
-          nbResults: totalElements,
-          userRequest: keywords || ''
-        }
-      });
+      setTimeout(() => {
+        dataLayer.push({
+          event: 'plpScreenLoad',
+          plpScreenLoad: {
+            nbResults: totalElements,
+            userRequest: keywords || ''
+          }
+        });
+      }, 3000);
 
     if (dataLayer[0] && dataLayer[0].search) {
       dataLayer[0].search.query = keywords;

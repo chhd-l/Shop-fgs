@@ -134,6 +134,10 @@
   .demarginleft {
     text-align: center;
   }
+  .demargintop15px {
+    margin-top: 15px;
+  }
+
   .detextalignright {
     text-align: right;
   }

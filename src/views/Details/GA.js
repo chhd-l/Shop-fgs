@@ -9,11 +9,8 @@ const filterAttrValue = (list, keyWords) => {
 
 // 判断购买方式
 const getPdpScreenLoadCTAs = (data) => {
-  const {
-    currentSubscriptionStatus,
-    currentSubscriptionPrice,
-    skuPromotions
-  } = data;
+  const { currentSubscriptionStatus, currentSubscriptionPrice, skuPromotions } =
+    data;
   let content = ['Single Purchase'];
   if (
     currentSubscriptionStatus &&
@@ -130,10 +127,12 @@ const hubGAProductDetailPageView = (item, pdpScreenLoadData) => {
     dataLayer.push({
       products: [product]
     });
-    dataLayer.push({
-      event: 'pdpScreenLoad',
-      pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
-    });
+    setTimeout(() => {
+      dataLayer.push({
+        event: 'pdpScreenLoad',
+        pdpScreenLoadCTAs: getPdpScreenLoadCTAs(pdpScreenLoadData)
+      });
+    }, 5000);
   }
 };
 
