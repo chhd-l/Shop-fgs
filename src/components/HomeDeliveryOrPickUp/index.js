@@ -7,8 +7,11 @@
  *
  * Description:
  * 1、目前只有俄罗斯选择自提地址时使用。
+ * 2、游客和没有地址的新用户UI一样。
+ * 3、有地址列表的用户直接展示homeDelivery和pickup
  *
  *********/
+
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -81,8 +84,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             require: true
           },
           {
-            regExp:
-              /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
+            regExp: /^(\+7|7|8)?[\s\-]?\(?[0-9][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/,
             errMsg: CURRENT_LANGFILE['payment.errorInfo2'],
             key: 'phoneNumber',
             require: true
@@ -655,11 +657,13 @@ class HomeDeliveryOrPickUp extends React.Component {
       <>
         {pickLoading && <Loading />}
 
+        {/* homeDelivery begin */}
         <div
           className="row rc_form_box rc_pickup_box"
           style={{ display: isMobile ? 'block' : 'flex' }}
         >
           <div className="col-md-7">
+            {/* 城市搜索 begin */}
             <div className="form-group rc-full-width rc-input--full-width">
               <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
                 <SearchSelection
@@ -694,8 +698,9 @@ class HomeDeliveryOrPickUp extends React.Component {
                 </div>
               )}
             </div>
+            {/* 城市搜索 end */}
 
-            {/* begin */}
+            {/* homeDelivery or pickup选择 begin */}
             {selectedItem?.homeAndPickup.length > 0 &&
               selectedItem?.homeAndPickup.map((item, index) => (
                 <>
@@ -745,10 +750,12 @@ class HomeDeliveryOrPickUp extends React.Component {
                   </div>
                 </>
               ))}
-            {/* end */}
+            {/* homeDelivery or pickup选择 end */}
           </div>
         </div>
+        {/* homeDelivery end */}
 
+        {/* pickup相关 begin */}
         <div
           className={`pickup_box ${
             this.props.deliveryOrPickUp == 2 ? '' : 'hidden'
@@ -888,6 +895,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
           </div>
         </div>
+        {/* pickup相关 end */}
       </>
     );
   }

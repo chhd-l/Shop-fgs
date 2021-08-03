@@ -1,7 +1,5 @@
 .payment-addressList {
   .addr-container-scroll {
-    max-height: 200px;
-    overflow-y: auto;
 
     &::-webkit-scrollbar {
       width: .625rem;
@@ -20,22 +18,41 @@
   }
 
   .address-item {
-    border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    border: 1px solid #FFF !important;
+    display: flex;
+    margin-bottom:10px;
+  }
+  .address-item.address-item-none{
+    display: none;
+  }
+
+  .address-item .align_items_wrap{
+    width:100%;
+    border-bottom: 1px solid #e5e5e5;
   }
 
   .address-item:hover,
   .address-item.selected {
-    background-color: #fff3f3;
+    border-bottom: 1px solid #FFF !important;
   }
 
   .address-item.selected {
-    border-color: rgba(255, 0, 0, 0.5);
+    border: 1px solid #53b053 !important;
+  }
+  
+  .address-item.selected .select_this_address{
+    display: none;
+  }
+
+  .address-item.selected .align_items_wrap{
+    width:100%;
+    border:none;
   }
 
   .address-item .addr-btn-edit {
-    /* display: none; */
     white-space: nowrap;
     position: relative;
     top: 1px;
@@ -66,6 +83,14 @@
   .address-item .address-name:hover,
   .address-item.selected .address-name {
     color: red;
+  }
+
+  .address-item .address_opt_btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 100%;
   }
 
   .addr-switch {
