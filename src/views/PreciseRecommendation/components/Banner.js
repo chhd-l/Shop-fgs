@@ -20,14 +20,25 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
   );
 
   const handleBuyNow = async () => {
-    if (!recommData || !recommData.pet || !recommData.goodsInfo) {
+    let { goodsInfo, pet } = recommData;
+    if (!pet || !goodsInfo) {
       console.info('err');
       return;
     }
-    let params = Object.assign({}, productShowInfo, {
-      goodsInfoFlag: 3,
-      questionParams: recommData.pet
-    });
+    let params = Object.assign(
+      {},
+      {
+        goodsInfoId: goodsInfo.goodsInfoId,
+        goodsNum: goodsInfo.buyCount,
+        periodTypeId: goodsInfo.periodTypeId,
+        // petsId: currentSelectedSize.petsId,
+        // petsType: currentSelectedSize.petsType,
+        // recommendationId: this.props.clinicStore.linkClinicId,
+        // recommendationName: this.props.clinicStore.linkClinicName,
+        goodsInfoFlag: 3,
+        questionParams: JSON.stringify(pet)
+      }
+    );
     try {
       await sitePurchase(params);
       sessionItemRoyal.set('recommend_product', JSON.stringify([params]));
@@ -57,26 +68,34 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
           >
             <div className="rc-column rc-double-width">
               <img
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/product_img.png`}
+                src={require('@/assets/images/preciseCatNutrition/productimg.png')}
+                // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
               />
             </div>
 
             <div className="rc-column rc-triple-width">
               <h2
                 className="rc-text-colour--brand1"
-                style={{ fontSize: '40px', textTransform: 'uppercase' }}
+                style={{
+                  fontSize: '40px',
+                  textTransform: 'uppercase',
+                  fontWeight: '700'
+                }}
               >
-                #Name#’s adapted diet & portion
+                {recommData?.goodsInfo?.goodsInfoName}
               </h2>
               <div className=" rc-layout-container rc-five-column rc-padding-top--md">
-                <div className="rc-column rc-triple-width">
+                <div
+                  className="rc-column rc-triple-width"
+                  style={{ maxWidth: '480px' }}
+                >
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     30 days of complete & balanced diet for
                     <br /> adult cat, Recommended diet to limit weight
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     Daily portion:{' '}
-                    <strong style={{ color: '#444' }}>
+                    <strong style={{ color: '#444', fontWeight: '600' }}>
                       {recommData.weight} {recommData.weightUnit}/day
                     </strong>
                     <br />
@@ -92,7 +111,13 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
                 </div>
                 <div className="rc-column rc-double-width">
                   <div className="rc-margin-bottom--sm">
-                    <div style={{ color: '#444', fontSize: '40px' }}>
+                    <div
+                      style={{
+                        color: '#444',
+                        fontSize: '40px',
+                        fontWeight: '600'
+                      }}
+                    >
                       {formatMoney(recommData.dailyPrice)}/day
                     </div>
                     <div style={{ color: '#444' }}>
@@ -103,24 +128,33 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
                     className="relative"
                     style={{ left: '-3rem', lineHeight: '1.2' }}
                   >
-                    <div style={{ color: '#008900', fontSize: '24px' }}>
-                      -25% on first order
+                    <div
+                      className="rc-margin-bottom--xs"
+                      style={{
+                        color: '#008900',
+                        fontSize: '24px',
+                        fontWeight: '600'
+                      }}
+                    >
+                      -25% on first order{' '}
+                      <span style={{ color: '#444', fontWeight: 300 }}>*</span>
                     </div>
                     {loginStore.isLogin ? (
                       <button
                         onClick={handleBuyNow}
-                        className={`rc-btn rc-btn--one rc-btn--sm ${
+                        className={`rc-btn rc-btn--one ${
                           productShowInfo?.goodsInfo?.stock > 0
                             ? ''
                             : 'disabled'
                         }`}
-                        style={{ width: '250px' }}
+                        style={{ width: '200px', padding: '10px' }}
                       >
                         buy now
                       </button>
                     ) : (
                       <LoginButton
-                        className="rc-btn rc-btn--two"
+                        btnStyle={{ width: '200px', padding: '10px' }}
+                        className={`rc-btn rc-btn--one rc-btn--sm`}
                         // btnStyle={{ margin: '5px 0', width: '100%' }}
                         // history={this.props.history}
                         beforeLoginCallback={async () => {
@@ -139,7 +173,11 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
         <div className="mobile rc-md-down rc-padding--md  text-center">
           <h2
             className="rc-text-colour--brand1"
-            style={{ fontSize: '24px', textTransform: 'uppercase' }}
+            style={{
+              fontSize: '24px',
+              textTransform: 'uppercase',
+              fontWeight: 600
+            }}
           >
             {recommData?.goodsInfo?.goodsInfoName}
           </h2>
@@ -151,11 +189,11 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
             to limit weight
           </div>
           <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/product_img.png`}
+            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
           />
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             Daily portion:{' '}
-            <strong style={{ color: '#444' }}>
+            <strong style={{ color: '#444', fontWeight: '600' }}>
               {recommData.weight} {recommData.weightUnit}/day
             </strong>
             <br />
@@ -165,7 +203,7 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
             </strong>
           </div>
           <div className="rc-margin-bottom--md">
-            <div style={{ color: '#444', fontSize: '40px' }}>
+            <div style={{ color: '#444', fontSize: '40px', fontWeight: '600' }}>
               {formatMoney(recommData.dailyPrice)}/day
             </div>
             <div style={{ color: '#444' }}>
@@ -174,37 +212,41 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
           </div>
           <div
             className="rc-margin-bottom--xs"
-            style={{ color: '#008900', fontSize: '24px' }}
+            style={{ color: '#008900', fontSize: '24px', fontWeight: 400 }}
           >
-            -25% on first order
+            -25% on first order{' '}
+            <span style={{ color: '#444', fontWeight: 300 }}>*</span>
           </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>
             Automatic shipment every 30 days <br />
             Free shipment cost
           </div>
-          <button
-            className="rc-btn rc-btn--one rc-btn--sm"
-            style={{ width: '200px' }}
-          >
-            buy now
-          </button>
+          <button className="rc-btn rc-btn--one">buy now</button>
         </div>
-        <div className="rc-layout-container rc-five-column">
-          <div className="rc-column rc-double-width"></div>
-          <div className="rc-column rc-triple-width">
-            <div
-              className=" row col-12 text-center"
-              style={{ maxWidth: '500px' }}
-            >
-              {bannerList.map((el) => (
-                <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
-                  <img
-                    className="m-auto"
-                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
-                  />
-                  <p dangerouslySetInnerHTML={{ __html: el.text }}></p>
-                </div>
-              ))}
+        <div>
+          <div
+            className="rc-layout-container rc-five-column"
+            style={{ marginTop: `${isMobile ? '0' : '-1rem'}` }}
+          >
+            <div className="rc-column rc-double-width"></div>
+            <div className="rc-column rc-triple-width">
+              <div
+                className=" row col-12 text-center"
+                style={{ maxWidth: '500px', padding: 0 }}
+              >
+                {bannerList.map((el) => (
+                  <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
+                    <img
+                      className="m-auto"
+                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
+                    />
+                    <p
+                      style={{ fontSize: '12px' }}
+                      dangerouslySetInnerHTML={{ __html: el.text }}
+                    ></p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -216,7 +258,8 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
             className="rc-text-colour--brand1"
             style={{
               fontSize: '32px',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
+              fontWeight: '600'
             }}
           >
             <FormattedMessage id={'preciseNutrition.benefits.title'} />
@@ -247,7 +290,7 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
                   }/img/CatNutrition/${intl.messages[item.img]}`}
                 />
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, paddingLeft: '8px' }}>
                 <strong style={{ fontSize: '20px' }}>
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
