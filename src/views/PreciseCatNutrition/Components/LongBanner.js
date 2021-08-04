@@ -62,7 +62,15 @@ const LongBanner = () => {
                   </p>
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
-                  <a onClick={() => toScroll('aboutPet')}>
+                  <a
+                    onClick={() => {
+                      toScroll('aboutPet');
+                      dataLayer.push({
+                        event: 'individualizationLandingClick',
+                        position: 'Top promotion' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
+                      });
+                    }}
+                  >
                     <button
                       style={{
                         padding: '0 30px'

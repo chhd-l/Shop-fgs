@@ -10,10 +10,15 @@ export default function AgeSelect({ config, questionData }) {
   useEffect(() => {
     if (Context.formData[questionData.name]) {
       let MonthNum = Context.formData[questionData.name];
-      setForm([
-        parseInt(MonthNum - (MonthNum % 12)).toString(),
-        (MonthNum % 12).toString()
-      ]);
+      if (questionData.name === 'age') {
+        setForm([
+          parseInt(MonthNum - (MonthNum % 12)).toString(),
+          (MonthNum % 12).toString()
+        ]);
+      }
+      if (questionData.name === 'weight') {
+        setForm([MonthNum]);
+      }
     } else {
       setForm(Array(config.list.length).fill(-1));
       Context.changeFormData(questionData.name, '');

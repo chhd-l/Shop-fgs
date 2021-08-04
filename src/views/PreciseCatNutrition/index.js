@@ -287,7 +287,15 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                               </ul>
                               <div className="rc-padding-x--none detextcenter">
-                                <a onClick={() => this.toScroll('aboutPet')}>
+                                <a
+                                  onClick={() => {
+                                    this.toScroll('aboutPet');
+                                    dataLayer.push({
+                                      event: 'individualizationLandingClick',
+                                      position: 'Did you know' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
+                                    });
+                                  }}
+                                >
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
                                     <a>try it now</a>
@@ -412,7 +420,11 @@ class PreciseCatNutrition extends React.Component {
                                 vet first.
                               </a>
                               <div className="rc-margin-y--sm rc-padding-x--none detextcenter">
-                                <a onClick={() => this.toScroll('aboutPet')}>
+                                <a
+                                  onClick={() => {
+                                    this.toScroll('aboutPet');
+                                  }}
+                                >
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
                                     Find your tailored food now

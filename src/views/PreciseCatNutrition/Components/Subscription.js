@@ -174,7 +174,15 @@ const subscription = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <a onClick={() => toScroll('aboutPet')}>
+            <a
+              onClick={() => {
+                toScroll('aboutPet');
+                dataLayer.push({
+                  event: 'individualizationLandingClick',
+                  position: 'Reinsurance' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
+                });
+              }}
+            >
               <button
                 className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                 style={{ paddingLeft: '90px', paddingRight: '90px' }}
