@@ -155,7 +155,7 @@ class PreciseCatNutrition extends React.Component {
                           <div className={'col-12 col-md-4 text-md-right relative'} style={{ display: 'inline' }}>
                             <h2 className='font-weight-bold'> DID
                               <div style={
-                                isMobile ? { height: '60%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 163, top: 6, padding: 2, fontWeight: 500 }
+                                isMobile ? { height: '60%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 163, top: 7, padding: 2, fontWeight: 500 }
                                          : { height: '54%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 222, top: 7, padding: 2, fontWeight: 500 }}
                               > You </div>
                               <div style={{

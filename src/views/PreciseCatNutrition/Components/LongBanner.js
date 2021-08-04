@@ -166,7 +166,7 @@ const LongBanner = () => {
                 isMobile
                   ? { width: '80%', position: 'absolute', left: '0%' }
                   : {
-                      width: '45%',
+                      width: '48%',
                       position: 'absolute',
                       left: ' -8%',
                       top: -350
