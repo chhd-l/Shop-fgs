@@ -254,8 +254,8 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
 
       <div className="rc-max-width--xl m-auto rc-padding-x--md  rc-padding-top--lg rc-layout-container rc-two-column">
         <div className="rc-column">
-          <h2
-            className="rc-text-colour--brand1"
+          <h4
+            className="rc-beta text-lg-left text-center"
             style={{
               fontSize: '32px',
               textTransform: 'uppercase',
@@ -263,8 +263,9 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
             }}
           >
             <FormattedMessage id={'preciseNutrition.benefits.title'} />
-          </h2>
+          </h4>
           <p
+            className=" text-lg-left text-center"
             style={{
               fontSize: '18px',
               lineHeight: '26px',
