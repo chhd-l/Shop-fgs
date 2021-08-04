@@ -1252,14 +1252,24 @@ class AccountOrders extends React.Component {
                                                   {item.specDetails}
                                                 </span>
                                                 <span className="rc-md-down">
-                                                  <FormattedMessage
-                                                    id="quantityText"
-                                                    values={{
-                                                      specText:
-                                                        item.specDetails,
-                                                      buyCount: item.num
-                                                    }}
-                                                  />
+                                                  {window.__.env
+                                                    .REACT_APP_COUNTRY ===
+                                                    'fr' &&
+                                                  item.promotions ===
+                                                    'Individual' ? (
+                                                    <span>
+                                                      {item.specDetails}
+                                                    </span>
+                                                  ) : (
+                                                    <FormattedMessage
+                                                      id="quantityText"
+                                                      values={{
+                                                        specText:
+                                                          item.specDetails,
+                                                        buyCount: item.num
+                                                      }}
+                                                    />
+                                                  )}
                                                 </span>
                                               </span>
                                               {item.subscriptionSourceList
@@ -1330,10 +1340,16 @@ class AccountOrders extends React.Component {
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                            <FormattedMessage
-                                              id="xProduct"
-                                              values={{ val: item.num }}
-                                            />
+                                            {!(
+                                              window.__.env
+                                                .REACT_APP_COUNTRY === 'fr' &&
+                                              item.promotions === 'Individual'
+                                            ) ? (
+                                              <FormattedMessage
+                                                id="xProduct"
+                                                values={{ val: item.num }}
+                                              />
+                                            ) : null}
                                           </div>
                                           <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
                                             {details.subscriptionResponseVO &&
@@ -1514,8 +1530,8 @@ class AccountOrders extends React.Component {
                                     enterPriceType 买入价格开关 0：含税，1：不含税
                                   */}
                                   {this.props.configStore
-                                    ?.customTaxSettingOpenFlag == 0 &&
-                                  this.props.configStore?.enterPriceType ==
+                                    ?.customTaxSettingOpenFlag === 0 &&
+                                  this.props.configStore?.enterPriceType ===
                                     1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
@@ -1898,13 +1914,18 @@ class AccountOrders extends React.Component {
                             <div className="font-weight-normal ui-text-overflow-line2">
                               {ele.itemName}
                             </div>
-                            <FormattedMessage
-                              id="quantityText"
-                              values={{
-                                specText: ele.specDetails,
-                                buyCount: ele.itemNum
-                              }}
-                            />
+                            {window.__.env.REACT_APP_COUNTRY === 'fr' &&
+                            item.promotions === 'Individual' ? (
+                              <div>{ele.specDetails}</div>
+                            ) : (
+                              <FormattedMessage
+                                id="quantityText"
+                                values={{
+                                  specText: ele.specDetails,
+                                  buyCount: ele.itemNum
+                                }}
+                              />
+                            )}
                           </div>
                         </div>
                       </div>

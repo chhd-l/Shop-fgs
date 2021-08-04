@@ -36,7 +36,7 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  async componentDidMount() {
+  async getProductInfo() {
     let res = {
       pet: {
         petsName: 'tiger',
@@ -77,7 +77,7 @@ class PreciseRecommendation extends React.Component {
         mockSpecIds: null,
         mockSpecDetailIds: null,
         specDetailRelIds: null,
-        buyCount: 0,
+        buyCount: 1,
         count: null,
         maxCount: null,
         intervalPriceIds: null,
@@ -264,6 +264,7 @@ class PreciseRecommendation extends React.Component {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    this.getProductInfo();
   }
 
   componentWillUnmount() {
