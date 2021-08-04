@@ -13,6 +13,27 @@ const bannerList = [
   { img: 'fast_shipment', text: '3 Days<br/> shipment' }
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const BannerFour = () => {
+  return (
+    <div
+      className=" row col-12 text-center  rc-margin-top--md"
+      style={{ maxWidth: '500px', padding: 0 }}
+    >
+      {bannerList.map((el) => (
+        <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
+          <img
+            className="m-auto"
+            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
+          />
+          <p
+            style={{ fontSize: '12px' }}
+            dangerouslySetInnerHTML={{ __html: el.text }}
+          ></p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const Banner = ({ productShowInfo, intl, recommData }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
@@ -68,6 +89,11 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
           >
             <div className="rc-column rc-double-width">
               <img
+                src={require('@/assets/images/preciseCatNutrition/productimg.png')}
+                // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
+              />
+              <img
+                style={{ width: '100px' }}
                 src={require('@/assets/images/preciseCatNutrition/productimg.png')}
                 // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
               />
@@ -167,6 +193,7 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
                   </div>
                 </div>
               </div>
+              <BannerFour />
             </div>
           </div>
         </div>
@@ -222,34 +249,19 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
             Free shipment cost
           </div>
           <button className="rc-btn rc-btn--one">buy now</button>
+          <BannerFour />
         </div>
-        <div>
+        {/* <div>
           <div
             className="rc-layout-container rc-five-column"
             style={{ marginTop: `${isMobile ? '0' : '-1rem'}` }}
           >
             <div className="rc-column rc-double-width"></div>
             <div className="rc-column rc-triple-width">
-              <div
-                className=" row col-12 text-center"
-                style={{ maxWidth: '500px', padding: 0 }}
-              >
-                {bannerList.map((el) => (
-                  <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
-                    <img
-                      className="m-auto"
-                      src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
-                    />
-                    <p
-                      style={{ fontSize: '12px' }}
-                      dangerouslySetInnerHTML={{ __html: el.text }}
-                    ></p>
-                  </div>
-                ))}
               </div>
-            </div>
           </div>
         </div>
+       */}
       </div>
 
       <div className="rc-max-width--xl m-auto rc-padding-x--md  rc-padding-top--lg rc-layout-container rc-two-column">
