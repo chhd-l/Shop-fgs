@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
+import { getDeviceType } from '../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 class ProductSpecialities extends React.Component {
   render() {
@@ -11,12 +13,9 @@ class ProductSpecialities extends React.Component {
             <div className="experience-component experience-assets-threeColumnContentBlock">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-top--lg--mobile three-column-content-block">
                 <div>
-                  <h4
-                    className="rc-beta text-center rc-padding-top--sm rc-margin-y--md rc-margin-bottom--lg--mobile"
-                    style={{ fontWeight: '550' }}
-                  >
+                  <h2 className="rc-beta font-weight-bold text-center rc-padding-top--sm rc-margin-y--md rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="preciseNutrition.Product.title" />
-                  </h4>
+                  </h2>
                 </div>
 
                 <div className="row rc-margin-x--none d-flex">
@@ -30,7 +29,14 @@ class ProductSpecialities extends React.Component {
                   </div>
 
                   <div className="col-12 col-lg-2 d-flex align-items-center order-0 order-lg-1 justify-content-center rc-margin-bottom--sm">
-                    <div className="image-container text-center">
+                    <div
+                      className="image-container text-center rc-column"
+                      style={{
+                        display: 'flex',
+                        justifyContent: isMobile ? 'center' : 'center',
+                        width: '100%'
+                      }}
+                    >
                       <LazyLoad>
                         <img
                           src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/kibble.png`}
