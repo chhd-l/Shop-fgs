@@ -150,8 +150,8 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                         <div className={'row'}>
-                          <div className={'col-12 col-md-4 text-md-right relative'} style={{ display: 'inline' }}>
-                            <h2 className='font-weight-bold'> DID
+                          <div className={'col-12 col-md-4 text-md-right relative'} style={{ display: 'inline', }}>
+                            <h2 style={{fontWeight:700}}> DID
                               <div style={
                                 isMobile ? { height: '60%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 163, top: 7, padding: 2, fontWeight: 500 }
                                          : { height: '54%', fontSize: 14, backgroundColor: 'white', color: '#E2001A', display: 'inline', borderRadius: '50%', position: 'absolute', left: 222, top: 7, padding: 2, fontWeight: 500 }}
@@ -160,8 +160,9 @@ class PreciseCatNutrition extends React.Component {
                                 backgroundColor: '#E2001A',
                                 color: 'white',
                                 display: 'inline',
-                                padding: ' 0px 5px',
-                                margin: '0px 0px 0 15px'
+                                padding: ' 5px 5px',
+                                margin: '0px 0px 0 20px',
+                                fontWeight:300
                               }}> KNOW?
                               </div>
                             </h2>
@@ -213,36 +214,29 @@ class PreciseCatNutrition extends React.Component {
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <p>
                                       Did you know that each cat have specific
                                       needs depending on their unique
                                       characteristic ?
-                                    </p>
-
                                     {/*<FormattedMessage id="ClubLP.Advantage.content1" />*/}
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <a>
                                       Their lifestage. breed, activity,
                                       conditions play a rôle in their
                                       nutritional needs, but also on the
                                       quantity they'should eat.
-                                    </a>
                                     {/*<FormattedMessage id="ClubLP.Advantage.content2" />*/}
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    <span>
                                       Therefore, having a complete & balanced
                                       diet is key to support their health. An
                                       inappropriated food and portion could lead
                                       to overweight or even obesity, impacting
                                       significantly your cat's wellbeing and
-                                      decreasing up to 2 years his lifespan*
-                                    </span>
+                                      decreasing up to 2 years his lifespan*.
                                     {/*<FormattedMessage id="ClubLP.Advantage.content3" />*/}
                                   </div>
                                 </li>
@@ -290,7 +284,7 @@ class PreciseCatNutrition extends React.Component {
                           </h2>
                           {/*<FormattedMessage id="ClubLP.Advantage.title" />*/}
                         </div>
-                        <p style={{ textAlign: 'left' }}>
+                        <p style={{ textAlign: 'left',padding:isMobile?'0 28px': null,fontSize:isMobile?'16px':null}}>
                           <span>
                             Our subscription program is free from engagement and
                             will provide to your cat the most adapted diet for
@@ -298,9 +292,11 @@ class PreciseCatNutrition extends React.Component {
                             ideal portioning.
                           </span>
                         </p>
-                        <p style={{ textAlign: 'left' }}>
-                          This offer is the result of our brand purpose to
-                          improve cat's health & wellbeing, thanks to:
+                        <p style={{ textAlign: 'left',padding:isMobile?'0 28px': null,fontSize:isMobile?'16px':null}}>
+                          <span>
+                            This offer is the result of our brand purpose to
+                            improve cat's health & wellbeing, thanks to:
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -315,8 +311,8 @@ class PreciseCatNutrition extends React.Component {
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--md  content-block rc-max-width--lg">
                         <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                           <div className="rc-column">
-                            <div className=" rc-full-width">
-                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                            <div className=" rc-full-width" style={{position:'relative'}}>
+                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon" >
                                 <li className="rc-list__item flex">
                                   <div>
                                     <em className="bingo rc-margin-right--xs"></em>
@@ -354,7 +350,7 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
-                                  <div>
+                                  <div >
                                     <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div>
@@ -372,7 +368,11 @@ class PreciseCatNutrition extends React.Component {
                                 obesity. 1n suchcase we recommend you to visit a
                                 vet first.
                               </a>
-                              <div className="rc-margin-y--sm rc-padding-x--none detextcenter">
+                              <div className="rc-margin-y--sm rc-padding-x--none detextcenter" style={isMobile?{
+                                position: "absolute",
+                                marginTop: '100%',
+                                marginLeft: '11%',
+                              }:null}>
                                 <a onClick={() => this.toScroll('aboutPet')}>
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
