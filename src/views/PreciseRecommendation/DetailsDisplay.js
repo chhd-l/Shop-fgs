@@ -58,10 +58,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-center rc-margin-y--md">
                         <div>
-                          <h4
-                            className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
-                            style={{ fontWeight: '550' }}
-                          >
+                          <h4 className="rc-beta font-weight-bold text-center rc-padding-x--sm--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                             <FormattedMessage id="preciseNutrition.Details.title" />
                           </h4>
                         </div>
@@ -181,7 +178,7 @@ class DetailsDisplay extends React.Component {
                           </div>
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
                             <div
-                              className="row col-12 mx-0 text-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile"
+                              className="row col-12 mx-0 text-left rc-padding-x--sm rc-padding-y--sm rc-padding-x--md--mobile rc-padding-y--md--mobile"
                               style={{
                                 backgroundColor: '#eee',
                                 height: '100%'

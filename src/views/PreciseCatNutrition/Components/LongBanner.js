@@ -3,7 +3,7 @@ import React from 'react';
 import '../index.less';
 import { FormattedMessage } from 'react-intl';
 import benefitsone from '../images/picto_right-diet.png';
-import benefitstwo from '../images/picto_individualize-ration.png';
+import benefitstwo from '../images/picto_individualize-ration2.png';
 import benefitsthree from '../images/picto_nutrients.png';
 import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
@@ -49,14 +49,14 @@ const LongBanner = () => {
                   ) : (
                     <h1
                       className={'rc-padding-x--xl'}
-                      style={{ fontWeight: 700, fontSize: '3rem' }}
+                      style={{ fontWeight: 700, fontSize: '2.5rem' }}
                     >
                       GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
                       HEALTHY WEIGHT !
                     </h1>
                   )}
 
-                  <p style={{ fontSize: '0.6em', color: '#555555' }}>
+                  <p style={{ fontSize: '0.6em', color: '#555555', margin: 0 }}>
                     average price
                     {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
                   </p>
@@ -177,7 +177,7 @@ const LongBanner = () => {
                 isMobile
                   ? { width: '80%', position: 'absolute', left: '0%' }
                   : {
-                      width: '45%',
+                      width: '48%',
                       position: 'absolute',
                       left: ' -8%',
                       top: -350
@@ -227,7 +227,7 @@ const LongBanner = () => {
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm">
                   YOUR CAT'S BENEFITS
                 </h4>
 
@@ -247,8 +247,12 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong
-                            className="rc-margin-bottom--none demarginleft"
-                            style={{ fontSize: 14, fontWeight: '700' }}
+                            className="rc-margin-bottom--none"
+                            style={
+                              isMobile
+                                ? { fontSize: 18, fontWeight: '700' }
+                                : { fontSize: 14, fontWeight: '700' }
+                            }
                           >
                             The right diet adapted to support your cat's optimal
                             weight
@@ -271,8 +275,12 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong
-                            className="rc-margin-bottom--none demarginleft"
-                            style={{ fontSize: 14, fontWeight: '700' }}
+                            className="rc-margin-bottom--none"
+                            style={
+                              isMobile
+                                ? { fontSize: 18, fontWeight: '700' }
+                                : { fontSize: 14, fontWeight: '700' }
+                            }
                           >
                             Individualize ration calculated for your cat's
                             unique characteristics.
@@ -297,8 +305,12 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong
-                            className="rc-margin-bottom--none demarginleft"
-                            style={{ fontSize: 14, fontWeight: '700' }}
+                            className="rc-margin-bottom--none"
+                            style={
+                              isMobile
+                                ? { fontSize: 18, fontWeight: '700' }
+                                : { fontSize: 14, fontWeight: '700' }
+                            }
                           >
                             High quality nutrients chosen for their high
                             nutritonal value
