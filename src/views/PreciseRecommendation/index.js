@@ -414,7 +414,7 @@ class PreciseRecommendation extends React.Component {
           <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
           <div style={{ backgroundColor: '#eee' }}>
             <div
-              className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+              className="rc-max-width--lg rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
               style={{ marginTop: '0' }}
             >
               <div
@@ -436,18 +436,18 @@ class PreciseRecommendation extends React.Component {
                               flexWrap: 'wrap'
                             }}
                           >
-                            <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1">
+                            <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
                               <div className="rc-column rc-padding--none">
                                 <h4
-                                  className="rc-beta text-left"
+                                  className="rc-beta text-lg-left text-center"
                                   style={{ fontWeight: '550' }}
                                 >
                                   <FormattedMessage id="preciseNutrition.Below.title" />
                                 </h4>
-                                <div className="text-left pr-5">
+                                <div className="text-lg-left text-center rc-padding-right--sm--desktop">
                                   <FormattedMessage id="preciseNutrition.Below.content" />
                                 </div>
-                                <div className="mb-3">
+                                <div className="text-lg-left text-center mb-3">
                                   <FormattedMessage id="preciseNutrition.Below.list" />
                                 </div>
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -486,11 +486,11 @@ class PreciseRecommendation extends React.Component {
                                 </ul>
                               </div>
                             </div>
-                            <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1">
-                              <div className="rc-column rc-padding--none">
+                            <div className="col-12 col-md-7 rc-padding-right--none order-1 order-md-0 orderJoin1">
+                              <div className="rc-column rc-padding--none text-right">
                                 <LazyLoad>
                                   <img
-                                    className="w-auto"
+                                    className="w-100"
                                     src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
                                   />
                                 </LazyLoad>
@@ -513,7 +513,7 @@ class PreciseRecommendation extends React.Component {
                 <div className="experience-component experience-layouts-cardcarousel">
                   <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                      <div className="rc-padding-x--xl rc-padding-x--sm--mobile">
+                      <div className="rc-padding-x--lg rc-padding-x--sm--mobile">
                         <div>
                           <h4
                             className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"

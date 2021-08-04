@@ -9,7 +9,7 @@ class ProductSpecialities extends React.Component {
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-threeColumnContentBlock">
-              <div className="rc-max-width--xl rc-padding-x--md rc-padding-x--md--mobile rc-margin-y--sm rc-margin-top--lg--mobile three-column-content-block">
+              <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-top--lg--mobile three-column-content-block">
                 <div>
                   <h4
                     className="rc-beta text-center rc-padding-top--sm rc-margin-y--md rc-margin-bottom--lg--mobile"
@@ -20,7 +20,7 @@ class ProductSpecialities extends React.Component {
                 </div>
 
                 <div className="row rc-margin-x--none d-flex">
-                  <div className="col-12 col-lg-5 text-center text-lg-right order-1 order-lg-0">
+                  <div className="col-12 col-lg-5 rc-padding-left--xl--desktop rc-padding-x--none--mobile text-center text-lg-right order-1 order-lg-0">
                     <b className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.title1" />
                     </b>
@@ -30,7 +30,7 @@ class ProductSpecialities extends React.Component {
                   </div>
 
                   <div className="col-12 col-lg-2 d-flex align-items-center order-0 order-lg-1 justify-content-center rc-margin-bottom--sm">
-                    <div className="image-container">
+                    <div className="image-container text-center">
                       <LazyLoad>
                         <img
                           src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/kibble.png`}
@@ -39,7 +39,7 @@ class ProductSpecialities extends React.Component {
                     </div>
                   </div>
 
-                  <div className="col-12 col-lg-5 text-center text-lg-left align-items-center order-2">
+                  <div className="col-12 col-lg-5 text-center rc-padding-right--xl--desktop rc-padding-x--none--mobile  text-lg-left align-items-center order-2">
                     <b className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.title2" />
                     </b>
@@ -50,7 +50,7 @@ class ProductSpecialities extends React.Component {
                 </div>
 
                 <div className="d-flex align-items-center justify-content-center">
-                  <div className="text-center col-12 col-lg-5">
+                  <div className="text-center col-12 col-lg-6 rc-padding-x--sm rc-padding-x--none--mobile">
                     <b className="font-18">
                       <FormattedMessage id="preciseNutrition.Product.list.title3" />
                     </b>
