@@ -6,6 +6,7 @@ import stores from '@/store';
 import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const bannerList = [
   { img: 'secure_payment', text: 'Secure<br/>payment' },
   { img: 'satisfie_or_reimbursed', text: 'Satisfied or<br/> reimbursed' },
@@ -35,13 +36,14 @@ const BannerFour = () => {
   );
 };
 
-const Banner = ({ productShowInfo, intl, recommData }) => {
+const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
   );
 
   const handleBuyNow = async () => {
     let { goodsInfo, pet } = recommData;
+    debugger;
     if (!pet || !goodsInfo) {
       console.info('err');
       return;
@@ -62,9 +64,11 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
     );
     try {
       await sitePurchase(params);
-      sessionItemRoyal.set('recommend_product', JSON.stringify([params]));
-      this.props.history.push('/checkout');
-      // await this.props.checkoutStore.updateLoginCart({delFlag:1});
+      let recommendProd = Object.assign({}, params, recommData, goodsInfo);
+      // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
+      await checkoutStore.updateLoginCart({ delFlag: 1 });
+      debugger;
+      history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
       //   checkoutStore,
