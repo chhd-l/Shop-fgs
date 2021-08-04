@@ -14,6 +14,9 @@ import DetailsDisplay from './DetailsDisplay';
 import ProductSpecialities from './ProductSpecialities';
 import Banner from './components/Banner';
 import productList from './productList.json';
+import { getDeviceType } from '../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+
 console.info('productList', productList);
 const pageLink = window.location.href;
 
@@ -33,7 +36,7 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  async componentDidMount() {
+  async getProductInfo() {
     let res = {
       pet: {
         petsName: 'tiger',
@@ -74,7 +77,7 @@ class PreciseRecommendation extends React.Component {
         mockSpecIds: null,
         mockSpecDetailIds: null,
         specDetailRelIds: null,
-        buyCount: 0,
+        buyCount: 1,
         count: null,
         maxCount: null,
         intervalPriceIds: null,
@@ -261,6 +264,7 @@ class PreciseRecommendation extends React.Component {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    this.getProductInfo();
   }
 
   componentWillUnmount() {
@@ -414,7 +418,7 @@ class PreciseRecommendation extends React.Component {
           <div style={{ height: '5vh', backgroundColor: '#eee' }}></div>
           <div style={{ backgroundColor: '#eee' }}>
             <div
-              className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+              className="rc-max-width--lg rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
               style={{ marginTop: '0' }}
             >
               <div
@@ -436,18 +440,15 @@ class PreciseRecommendation extends React.Component {
                               flexWrap: 'wrap'
                             }}
                           >
-                            <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1">
+                            <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
                               <div className="rc-column rc-padding--none">
-                                <h4
-                                  className="rc-beta text-left"
-                                  style={{ fontWeight: '550' }}
-                                >
+                                <h4 className="rc-beta font-weight-bold text-lg-left text-center">
                                   <FormattedMessage id="preciseNutrition.Below.title" />
                                 </h4>
-                                <div className="text-left pr-5">
+                                <div className="text-lg-left text-center rc-padding-right--sm--desktop">
                                   <FormattedMessage id="preciseNutrition.Below.content" />
                                 </div>
-                                <div className="mb-3">
+                                <div className="text-lg-left text-center mb-3">
                                   <FormattedMessage id="preciseNutrition.Below.list" />
                                 </div>
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -486,11 +487,20 @@ class PreciseRecommendation extends React.Component {
                                 </ul>
                               </div>
                             </div>
-                            <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1">
-                              <div className="rc-column rc-padding--none">
+                            <div className="col-12 col-md-7 rc-padding-right--none rc-padding-x--none order-1 order-md-0 orderJoin1">
+                              <div
+                                className="rc-column rc-padding--none text-right"
+                                style={{
+                                  display: 'flex',
+                                  justifyContent: isMobile
+                                    ? 'center'
+                                    : 'flex-end',
+                                  width: '100%'
+                                }}
+                              >
                                 <LazyLoad>
                                   <img
-                                    className="w-auto"
+                                    className="w-100 lazyloaded"
                                     src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/Group%206-1.png`}
                                   />
                                 </LazyLoad>
@@ -513,12 +523,9 @@ class PreciseRecommendation extends React.Component {
                 <div className="experience-component experience-layouts-cardcarousel">
                   <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                      <div className="rc-padding-x--xl rc-padding-x--sm--mobile">
+                      <div className="rc-padding-x--lg rc-padding-x--sm--mobile">
                         <div>
-                          <h4
-                            className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
-                            style={{ fontWeight: '550' }}
-                          >
+                          <h4 className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                             <FormattedMessage id="preciseNutrition.commitment.title" />
                           </h4>
                         </div>

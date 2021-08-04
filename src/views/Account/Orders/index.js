@@ -887,7 +887,11 @@ class AccountOrders extends React.Component {
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {item.spuName}
                                             </span>
-                                            {!isIndv && (
+                                            {window.__.env.REACT_APP_COUNTRY ===
+                                              'fr' &&
+                                            item.promotions === 'Individual' ? (
+                                              <span>{item.specDetails}</span>
+                                            ) : (
                                               <FormattedMessage
                                                 id="order.quantityText"
                                                 values={{
