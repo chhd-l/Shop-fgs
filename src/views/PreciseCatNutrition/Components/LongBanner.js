@@ -17,7 +17,7 @@ import picto_welcome_pack from '../images/picto_welcome-pack.png';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const   toScroll = (anchorName) => {
+const toScroll = (anchorName) => {
   let anchorElement = document.getElementById(anchorName);
   // 如果对应id的锚点存在，就跳转到锚点
   if (anchorElement) {
@@ -32,24 +32,29 @@ const LongBanner = () => {
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
-              <div className='rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile'>
+              <div className="rc-max-width--xl rc-margin-y--sm rc-margin-y--lg--mobile">
                 <div
-                  className='rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-padding-x--xl'
-                  style={{ marginBottom: '0px', textAlign: 'center', zIndex: 10 }}
+                  className="rc-beta rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-padding-x--xl"
+                  style={{
+                    marginBottom: '0px',
+                    textAlign: 'center',
+                    zIndex: 10
+                  }}
                 >
-                  {
-                    isMobile?
-                      <h1  style={ { fontWeight: 700, fontSize: '1.4rem' }}>
-                        GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
-                        WEIGHT !
-                      </h1>
-                    :<h1 className={'rc-padding-x--xl'} style={{ fontWeight: 700, fontSize: '3rem' }}>
-                        GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
-                        WEIGHT !
-                      </h1>
-                  }
-
-
+                  {isMobile ? (
+                    <h1 style={{ fontWeight: 700, fontSize: '1.4rem' }}>
+                      GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
+                      HEALTHY WEIGHT !
+                    </h1>
+                  ) : (
+                    <h1
+                      className={'rc-padding-x--xl'}
+                      style={{ fontWeight: 700, fontSize: '3rem' }}
+                    >
+                      GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
+                      HEALTHY WEIGHT !
+                    </h1>
+                  )}
 
                   <p style={{ fontSize: '0.6em', color: '#555555' }}>
                     average price
@@ -57,12 +62,10 @@ const LongBanner = () => {
                   </p>
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
-                  <a
-                    onClick={()=>toScroll('aboutPet')}
-                  >
+                  <a onClick={() => toScroll('aboutPet')}>
                     <button
                       style={{
-                        padding: '0 30px',
+                        padding: '0 30px'
                       }}
                       className="rc-btn rc-btn--one "
                     >

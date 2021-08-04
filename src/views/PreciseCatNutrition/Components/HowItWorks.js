@@ -9,7 +9,8 @@ import stayIC from '../images/stay in control.png';
 import group from '../images/Group 25.png';
 
 import { getDeviceType } from '../../../utils/utils';
-const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const HowItWorks = () => {
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const HowItWorks = () => {
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -24,9 +25,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                 <div className="row mx-0 justify-content-between">
                   {/*<div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">*/}
                   <div className="borderBack1 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                    <div
-                      className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
-                    >
+                    <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
                         style={{
                           display: 'flex',
@@ -41,9 +40,14 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                           {/*  className="m-auto w-auto lazyloaded"*/}
                           {/*  src={temp}/>*/}
 
-                          <div style={isMobile?  { margin: 10}: { height: 100 ,margin: 10}
-                                                            } className='rc-margin--sm'>
-
+                          <div
+                            style={
+                              isMobile
+                                ? { margin: 10 }
+                                : { height: 100, margin: 10 }
+                            }
+                            className="rc-margin--sm"
+                          >
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={introTBRHNC}
@@ -57,13 +61,11 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                           recipe for him
                         </h7>
                       </div>
-                      {isMobile?  <br/>:null}
+                      {isMobile ? <br /> : null}
                     </div>
                   </div>
                   <div className="borderBack2 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                    <div
-                      className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
-                    >
+                    <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
                         style={{
                           display: 'flex',
@@ -74,7 +76,14 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       >
                         <div className="howItWorkNum">2</div>
                         <LazyLoad>
-                          <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
+                          <div
+                            style={
+                              isMobile
+                                ? { margin: 10 }
+                                : { height: 100, margin: 10 }
+                            }
+                            className="rc-margin--sm"
+                          >
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={subscribe}
@@ -91,9 +100,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                     </div>
                   </div>
                   <div className="borderBack2 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                    <div
-                      className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
-                    >
+                    <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
                         style={{
                           display: 'flex',
@@ -104,8 +111,15 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       >
                         <div className="howItWorkNum">3</div>
                         <LazyLoad>
-                          <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
-                          <img
+                          <div
+                            style={
+                              isMobile
+                                ? { margin: 10 }
+                                : { height: 100, margin: 10 }
+                            }
+                            className="rc-margin--sm"
+                          >
+                            <img
                               className="m-auto w-auto lazyloaded"
                               src={stayIC}
                             />
@@ -120,9 +134,7 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                     </div>
                   </div>
                   <div className="borderBack3 col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-                    <div
-                      className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow"
-                    >
+                    <div className="howItWorkBorder centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
                       <div
                         style={{
                           display: 'flex',
@@ -133,8 +145,15 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';const How
                       >
                         <div className="howItWorkNum">4</div>
                         <LazyLoad>
-                          <div style={isMobile? { margin: 10}: { height: 100 ,margin: 10}} className='rc-margin--sm'>
-                          <img
+                          <div
+                            style={
+                              isMobile
+                                ? { margin: 10 }
+                                : { height: 100, margin: 10 }
+                            }
+                            className="rc-margin--sm"
+                          >
+                            <img
                               className="m-auto w-auto lazyloaded"
                               src={group}
                             />

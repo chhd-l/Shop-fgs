@@ -290,8 +290,11 @@ class CyberPaymentForm extends React.Component {
   };
 
   render() {
-    const { CyberSaveCardCheckboxJSX, billingJSX, backToSavedPaymentsJSX } =
-      this.props;
+    const {
+      CyberSaveCardCheckboxJSX,
+      billingJSX,
+      backToSavedPaymentsJSX
+    } = this.props;
     return (
       <div>
         {/* Name on Card */}

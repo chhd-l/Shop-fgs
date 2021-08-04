@@ -63,7 +63,7 @@ class PreciseCatNutrition extends React.Component {
   }
 
   componentDidMount() {
-    setSeoConfig({pageName: 'preciseCatNutrition'}).then((res) => {
+    setSeoConfig({ pageName: 'preciseCatNutrition' }).then((res) => {
       this.setState({ seoConfig: res });
     });
   }
@@ -83,10 +83,8 @@ class PreciseCatNutrition extends React.Component {
     // 如果对应id的锚点存在，就跳转到锚点
     if (anchorElement) {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
-
     }
-    ;
-  }
+  };
   render() {
     const { history, match, location } = this.props;
 
@@ -250,9 +248,7 @@ class PreciseCatNutrition extends React.Component {
                                 </li>
                               </ul>
                               <div className="rc-padding-x--none detextcenter">
-                                <a
-                                  onClick={()=>this.toScroll('aboutPet')}
-                                >
+                                <a onClick={() => this.toScroll('aboutPet')}>
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
                                     <a>try it now</a>
@@ -294,7 +290,7 @@ class PreciseCatNutrition extends React.Component {
                           </h2>
                           {/*<FormattedMessage id="ClubLP.Advantage.title" />*/}
                         </div>
-                        <p style={{textAlign:'left'}}>
+                        <p style={{ textAlign: 'left' }}>
                           <span>
                             Our subscription program is free from engagement and
                             will provide to your cat the most adapted diet for
@@ -302,7 +298,7 @@ class PreciseCatNutrition extends React.Component {
                             ideal portioning.
                           </span>
                         </p>
-                        <p style={{textAlign:'left'}}>
+                        <p style={{ textAlign: 'left' }}>
                           This offer is the result of our brand purpose to
                           improve cat's health & wellbeing, thanks to:
                         </p>
@@ -377,12 +373,12 @@ class PreciseCatNutrition extends React.Component {
                                 vet first.
                               </a>
                               <div className="rc-margin-y--sm rc-padding-x--none detextcenter">
-                                  <a  onClick={()=>this.toScroll('aboutPet')}>
-                                    <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                <a onClick={() => this.toScroll('aboutPet')}>
+                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
                                     {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
                                     Find your tailored food now
                                   </button>
-                                  </a>
+                                </a>
                               </div>
                             </div>
                           </div>
@@ -412,7 +408,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
               <br />
 
-              <div className={'preciseCatNutritionTop'} id='aboutPet'>
+              <div className={'preciseCatNutritionTop'} id="aboutPet">
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">

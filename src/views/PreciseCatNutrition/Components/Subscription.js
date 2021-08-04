@@ -64,7 +64,7 @@ const subscription = () => {
                     <div className=" value-proposition__text subtitleBG1">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14, marginTop:'75%'}}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
@@ -86,7 +86,7 @@ const subscription = () => {
                     <div className=" value-proposition__text subtitleBG2">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14, marginTop:'75%'}}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         A personal pet advisor available for you
                         {/*<FormattedMessage*/}
@@ -110,7 +110,7 @@ const subscription = () => {
                     <div className=" value-proposition__text subtitleBG3">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14, marginTop:'75%'}}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         A welcome pack with a scale & all materials to properly
                         feed your pet
@@ -135,7 +135,7 @@ const subscription = () => {
                     <div className=" value-proposition__text subtitleBG4">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14, marginTop:'75%'}}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         Enjoy a loyalty program with exclusive gift to stimulate
                         your pet
@@ -160,7 +160,7 @@ const subscription = () => {
                     <div className=" value-proposition__text subtitleBG5">
                       <p
                         className="rc-margin-bottom--none demarginleft"
-                        style={{ fontSize: 14, marginTop:'75%'}}
+                        style={{ fontSize: 14, marginTop: '75%' }}
                       >
                         Tailored professional advice & tips
                         {/*<FormattedMessage*/}
@@ -174,7 +174,7 @@ const subscription = () => {
             </div>
           </div>
           <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-            <a  onClick={()=>toScroll('aboutPet')}>
+            <a onClick={() => toScroll('aboutPet')}>
               <button
                 className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                 style={{ paddingLeft: '90px', paddingRight: '90px' }}

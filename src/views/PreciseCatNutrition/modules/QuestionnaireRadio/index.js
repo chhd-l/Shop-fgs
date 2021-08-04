@@ -1,18 +1,21 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './index.less';
 import { FormContext } from '../QuestionnaireForm';
 export default function QuestionnaireRadio({ questionData }) {
+  const [checked, setChecked] = useState('');
   const Context = useContext(FormContext);
   //初始化选中第一个
   useEffect(() => {
     Context.changeFormData(
-      questionData.id,
-      questionData.possibleValues?.[0].value
+      questionData.name,
+      questionData.possibleValues?.[0].key
     );
-  }, []);
+    setChecked(questionData.possibleValues?.[0].key);
+  }, [questionData.name]);
   const handleRadioChange = (val) => {
     console.log(val);
-    Context.changeFormData(questionData.id, val.value);
+    setChecked(val.key);
+    Context.changeFormData(questionData.name, val.key);
   };
   return (
     <div className="questionnaire-radio">
@@ -47,7 +50,7 @@ export default function QuestionnaireRadio({ questionData }) {
             value={i}
             // onChange={this.handleRadioChange.bind(this, ele)}
             onChange={() => handleRadioChange(ele)}
-            // checked={form && form.key === ele.key}
+            checked={checked === ele.key}
           />
 
           <label
