@@ -55,10 +55,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-center rc-margin-y--md">
                         <div>
-                          <h4
-                            className="rc-beta text-center rc-padding-x--sm--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
-                            style={{ fontWeight: '550' }}
-                          >
+                          <h4 className="rc-beta font-weight-bold text-center rc-padding-x--sm--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                             <FormattedMessage id="preciseNutrition.Details.title" />
                           </h4>
                         </div>
