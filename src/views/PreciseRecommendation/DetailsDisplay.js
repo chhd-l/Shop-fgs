@@ -184,7 +184,13 @@ class DetailsDisplay extends React.Component {
                                 height: '100%'
                               }}
                             >
-                              <div className="col-md-6 col-12 px-0">
+                              <div
+                                className={`${
+                                  productComposition2.length
+                                    ? 'col-md-6'
+                                    : 'col-md-12'
+                                }  col-12 px-0`}
+                              >
                                 {productComposition1?.map((el, idx) => (
                                   <div>
                                     <FormattedMessage id={el} />:{' '}
@@ -197,7 +203,13 @@ class DetailsDisplay extends React.Component {
                                   </div>
                                 ))}
                               </div>
-                              <div className="col-md-6 col-12 px-0">
+                              <div
+                                className={`${
+                                  productComposition2.length
+                                    ? 'col-md-6 col-12 px-0'
+                                    : ''
+                                }`}
+                              >
                                 {productComposition2?.map((el, idx) => (
                                   <div>
                                     <FormattedMessage id={el} />:{' '}
