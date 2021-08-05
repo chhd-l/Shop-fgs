@@ -3,8 +3,7 @@ const proxy = require('http-proxy-middleware');
 module.exports = function (app) {
   app.use(
     proxy('/api', {
-      // target: process.env.REACT_APP_BASEURL,
-      target: 'http://124.71.151.9:8090',
+      target: process.env.REACT_APP_BASEURL,
       secure: false,
       changeOrigin: true,
       pathRewrite: {

@@ -73,7 +73,7 @@ export default function AnimalBreeds({ questionData }) {
                 }}
                 selectedItemChange={handleSelectChange}
                 defaultValue={
-                  breed !== 'mixed_breed' && breed !== 'undefined'
+                  breed !== 'mixed_breed' && breed !== 'unknown'
                     ? breedLabel
                     : ''
                 }

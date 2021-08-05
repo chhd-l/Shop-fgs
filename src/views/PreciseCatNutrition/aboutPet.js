@@ -44,7 +44,7 @@ export default function AboutPet() {
       setDefaultValue({});
     }
     setStep(result.context.steps[0].metadata.step);
-    // setResult('');
+    setResult('');
     setLoading(false);
   };
   /**
