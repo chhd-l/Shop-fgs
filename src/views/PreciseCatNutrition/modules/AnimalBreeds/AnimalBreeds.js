@@ -48,14 +48,9 @@ export default function AnimalBreeds({ questionData }) {
         {questionData.metadata.label}
         {questionData.metadata.description ? (
           <span className="iconfont-box">
-            <i
-              className="iconfont iconinfo"
-              title="Bottom"
-              data-tooltip-placement="bottom"
-              data-tooltip="bottom-tooltip"
-            ></i>
-            <div id="bottom-tooltip" className="rc-tooltip">
-              {questionData.metadata.description}xxx
+            <i className="iconfont iconinfo"></i>
+            <div className="question-tooltip">
+              {questionData.metadata.description}
             </div>
           </span>
         ) : (
@@ -128,7 +123,7 @@ export default function AnimalBreeds({ questionData }) {
                 id="pf-checkbox-unkown"
                 type="checkbox"
                 className="rc-input__checkbox"
-                value="undefined"
+                value="unknown"
                 key={2}
                 checked={breed === 'undefined'}
                 onChange={toggleCheckbox}
@@ -138,7 +133,7 @@ export default function AnimalBreeds({ questionData }) {
                 htmlFor="pf-checkbox-unkown"
               >
                 {/*{unknownText}*/}
-                unknown
+                Unknown
               </label>
             </div>
           </div>

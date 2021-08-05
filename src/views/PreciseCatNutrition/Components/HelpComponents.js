@@ -51,7 +51,7 @@ const HelpComponents = () => {
                                     {/*<FormattedMessage id="ClubLP.Help.call.title" />*/}
                                     Call us
                                   </b>
-                                  <p>
+                                  <p style={{ marginBottom: 0 }}>
                                     Monday to Friday from 8:30amto 7pm and on
                                     Saturdays from9am to 1pm
                                     {/*<FormattedMessage id="ClubLP.Help.call.content" />*/}
@@ -76,7 +76,7 @@ const HelpComponents = () => {
                                     <p
                                       style={{
                                         color: '#E2001A',
-                                        fontWeight: 600
+                                        marginBottom: 0
                                       }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
@@ -113,7 +113,7 @@ const HelpComponents = () => {
                                     Email us
                                     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                   </b>
-                                  <p>
+                                  <p style={{ marginBottom: 0 }}>
                                     We'll do our best to get back to you as fast
                                     as possible : and within 12 hours
                                     {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
@@ -127,7 +127,8 @@ const HelpComponents = () => {
                                     <p
                                       style={{
                                         textDecoration: 'underline',
-                                        fontWeight: 400
+                                        fontWeight: 400,
+                                        marginBottom: 0
                                       }}
                                     >
                                       Send US an Email
@@ -176,7 +177,7 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <p>
+                                  <p style={{ marginBottom: 0 }}>
                                     Send US an Email You can check our &nbsp;
                                     <DistributeHubLinkOrATag
                                       href={'/about-us/faqs'}

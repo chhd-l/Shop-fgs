@@ -1,6 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.less';
 import { FormContext } from '../QuestionnaireForm';
+import radioImage from '../../../../assets/images/preciseCatNutrition/radio.png';
+import radioImage1 from '../../../../assets/images/preciseCatNutrition/radio1.png';
+import radioImage2 from '../../../../assets/images/preciseCatNutrition/radio2.png';
+
+let imgMap = {
+  3: radioImage1,
+  4: radioImage,
+  5: radioImage,
+  6: radioImage2,
+  7: radioImage2
+};
 export default function QuestionnaireRadio({ questionData }) {
   const [checked, setChecked] = useState('');
   const Context = useContext(FormContext);
@@ -8,14 +19,19 @@ export default function QuestionnaireRadio({ questionData }) {
   useEffect(() => {
     Context.changeFormData(
       questionData.name,
-      questionData.possibleValues?.[0].key
+      questionData.name === 'bcs'
+        ? parseInt(questionData.possibleValues?.[0].key)
+        : questionData.possibleValues?.[0].key
     );
     setChecked(questionData.possibleValues?.[0].key);
   }, [questionData.name]);
   const handleRadioChange = (val) => {
     console.log(val);
     setChecked(val.key);
-    Context.changeFormData(questionData.name, val.key);
+    Context.changeFormData(
+      questionData.name,
+      questionData.name === 'bcs' ? parseInt(val.key) : val.key
+    );
   };
   return (
     <div className="questionnaire-radio">
@@ -23,13 +39,8 @@ export default function QuestionnaireRadio({ questionData }) {
         {questionData.metadata.label}
         {questionData.metadata.description ? (
           <span className="iconfont-box">
-            <i
-              className="iconfont iconinfo"
-              title="Bottom"
-              data-tooltip-placement="bottom"
-              data-tooltip="bottom-tooltip"
-            ></i>
-            <div id="bottom-tooltip" className="rc-tooltip">
+            <i className="iconfont iconinfo"></i>
+            <div className="question-tooltip">
               {questionData.metadata.description}
             </div>
           </span>
@@ -59,7 +70,7 @@ export default function QuestionnaireRadio({ questionData }) {
           >
             <div className="label-box">
               <img
-                src={require('../../../../assets/images/preciseCatNutrition/radio.png')}
+                src={imgMap[ele.key]}
                 style={{ display: 'inline-block', paddingRight: 5 }}
               />
               <span>{ele.label}</span>

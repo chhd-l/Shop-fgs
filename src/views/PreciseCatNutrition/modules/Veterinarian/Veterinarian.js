@@ -29,10 +29,10 @@ export default function Veterinarian({ getInit }) {
         </DistributeHubLinkOrATag>
 
         <div
-          style={{ textAlign: 'center', marginTop: 20, cursor: 'pointer' }}
+          style={{ textAlign: 'center', marginTop: '20px' }}
           onClick={() => getInit(true)}
         >
-          Start again
+          <span className="back-btn">Start again</span>
         </div>
       </div>
     </div>

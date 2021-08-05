@@ -29,13 +29,8 @@ export default function RadioButton({ questionData, id }) {
         {questionData.metadata.label}
         {questionData.metadata.description ? (
           <span className="iconfont-box">
-            <i
-              className="iconfont iconinfo"
-              title="Bottom"
-              data-tooltip-placement="bottom"
-              data-tooltip="bottom-tooltip"
-            ></i>
-            <div id="bottom-tooltip" className="rc-tooltip">
+            <i className="iconfont iconinfo"></i>
+            <div className="question-tooltip">
               {questionData.metadata.description}
             </div>
           </span>
@@ -51,7 +46,8 @@ export default function RadioButton({ questionData, id }) {
               checked === item.key ? 'radio-button-wrapper-checked' : ''
             }`}
             style={{
-              height: questionData.name === 'petActivityCode' ? 76 : 44,
+              minHeight: 44,
+              height: questionData.name === 'petActivityCode' ? 76 : 'auto',
               flexDirection:
                 questionData.name === 'petActivityCode' ? 'column' : 'row'
             }}

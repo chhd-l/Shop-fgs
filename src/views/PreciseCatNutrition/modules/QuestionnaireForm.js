@@ -20,14 +20,11 @@ function QuestionnaireForm(
   const [formData, setFormData] = useState({ ...defaultValue });
   const [perStep, setPerStep] = useState(1); //上一步
   useImperativeHandle(ref, () => ({
-    formData,
-    setPervFormData: (val) => {
-      setPervFormData(val);
-    }
+    formData
   }));
-  const setPervFormData = (val) => {
-    setFormData(val);
-  };
+  useEffect(() => {
+    console.log('更新了嘛');
+  }, []);
   const handleQuestionConfigLogic = ({
     metadataQuestionDisplayType,
     defaultListData
