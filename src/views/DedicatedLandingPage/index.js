@@ -212,7 +212,7 @@ class DedicatedLandingPage extends React.Component {
                         <div className="rc-column">
                           <div className="rc-full-width">
                             <h2 className="rc-beta ">
-                              Recevez votre kit chaton gratuit pour vous
+                              Recevez votre kit chaton offert pour vous
                               féliciter de votre adoption !
                             </h2>
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
