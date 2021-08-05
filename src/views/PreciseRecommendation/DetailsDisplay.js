@@ -25,10 +25,13 @@ class DetailsDisplay extends React.Component {
     const { intl } = this.props;
     const modalShow = this.state.modalShow;
 
-    let productComposition1 =
-      productComposition.analyticalConsitituentsTitle.slice(0, 5);
-    let productComposition2 =
-      productComposition.analyticalConsitituentsTitle.slice(5);
+    let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
+      0,
+      5
+    );
+    let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
+      5
+    );
     return (
       <div className="experience-component experience-layouts-1column">
         <div
@@ -181,7 +184,13 @@ class DetailsDisplay extends React.Component {
                                 height: '100%'
                               }}
                             >
-                              <div className="col-md-6 col-12 px-0">
+                              <div
+                                className={`${
+                                  productComposition2.length
+                                    ? 'col-md-6'
+                                    : 'col-md-12'
+                                }  col-12 px-0`}
+                              >
                                 {productComposition1?.map((el, idx) => (
                                   <div>
                                     <FormattedMessage id={el} />:{' '}
@@ -194,7 +203,13 @@ class DetailsDisplay extends React.Component {
                                   </div>
                                 ))}
                               </div>
-                              <div className="col-md-6 col-12 px-0">
+                              <div
+                                className={`${
+                                  productComposition2.length
+                                    ? 'col-md-6 col-12 px-0'
+                                    : ''
+                                }`}
+                              >
                                 {productComposition2?.map((el, idx) => (
                                   <div>
                                     <FormattedMessage id={el} />:{' '}

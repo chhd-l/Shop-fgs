@@ -209,8 +209,8 @@ class PreciseRecommendation extends React.Component {
         goodsMeasureNum: null,
         goodsMeasureUnit: '',
         subscriptionDiscountPrice: null,
-        goodsInfoFlag: null,
-        periodTypeId: null,
+        goodsInfoFlag: 3,
+        periodTypeId: 3560,
         purchasePrice: null,
         goodsInfoType: null,
         goodsInfoBundleRels: [],
@@ -405,6 +405,7 @@ class PreciseRecommendation extends React.Component {
         />
         <main className={'rc-content--fixed-header'}>
           <Banner
+            history={this.props.history}
             productShowInfo={this.state.productShowInfo}
             recommData={this.state.recommData}
           />

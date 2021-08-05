@@ -132,7 +132,6 @@ export default class DropDownMenuForHub extends React.Component {
                 key={cItem.id}
                 style={{ display: 'block' }}
                 onClick={this.handleClickNavItem.bind(this, { item, cItem })}
-                key={gIdx}
               >
                 {cItem.Link.Text}
               </a>
@@ -250,12 +249,8 @@ export default class DropDownMenuForHub extends React.Component {
     );
   };
   render() {
-    const {
-      headerNavigationList,
-      activeTopParentId,
-      showNav,
-      showLoginBtn
-    } = this.props;
+    const { headerNavigationList, activeTopParentId, showNav, showLoginBtn } =
+      this.props;
     return (
       <>
         {showNav ? (

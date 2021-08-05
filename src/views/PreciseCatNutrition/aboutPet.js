@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
@@ -8,16 +9,18 @@ import Fgs from './modules/Veterinarian/fgs';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 export default function AboutPet() {
+  let history = useHistory();
+
   const childRef = useRef();
 
   const [stepList, setStepList] = useState([]); //当前题库
   const [step, setStep] = useState(1); //当前步骤
-
+  const [finderNumber, setFinderNumber] = useState('');
   const [perStep, setPerStep] = useState([]); //保存上一步输入的值，点击back时使用
   const [defaultValue, setDefaultValue] = useState({}); //表单默认值
-
-  const [steps, setSteps] = useState([]); //所有步骤请求集合
 
   const [result, setResult] = useState(''); //返回结果判断去到那个页面
   const [canNext, setCanNext] = useState(true); //是否可以点击下一步
@@ -80,26 +83,38 @@ export default function AboutPet() {
 
   const goNext = async () => {
     setLoading(true);
-
     let querySteps = [
-      ...steps,
+      ...perStep,
       {
-        stepNum: step,
+        stepNum: step.toString(),
         questionParams: {
           ...childRef.current.formData
         }
       }
     ];
     let result = await getNextStep({
-      finderNumber: '',
+      finderNumber: finderNumber,
       steps: querySteps
     });
-    setSteps(querySteps);
+    setFinderNumber(result.context.finderNumber);
     setPerStep(result.context.steps);
-    setStep(result.context.currentStep.metadata.step);
+    setStep(
+      result.context.currentSteps &&
+        result.context.currentSteps[0].metadata.step
+    );
+
     if (!result.context.isEndOfTree) {
-      setStepList([result.context.currentStep]);
+      setStepList(
+        result.context.currentSteps ? result.context.currentSteps : []
+      );
     } else {
+      if (result.context.next === 'printSPTProducts') {
+        //跳转页面用
+        sessionItemRoyal.set(
+          'nutrition-recommendation-filter',
+          result.context.filter
+        );
+      }
       setResult(result.context.next);
     }
     setDefaultValue({});
@@ -108,27 +123,30 @@ export default function AboutPet() {
 
   const goBack = async () => {
     setLoading(true);
-    let querySteps = [...steps];
-    console.log(step);
-    steps.forEach((item, index) => {
-      if (item.stepNum === step) {
+    let querySteps = [...perStep];
+    perStep.forEach((item, index) => {
+      if (item.stepNum == step - 1) {
         querySteps.splice(index, 1);
       }
     });
+    setDefaultValue(perStep[perStep.length - 1].questionParams);
     if (step > 2) {
       let result = await getNextStep({
-        finderNumber: '',
+        finderNumber: finderNumber,
         steps: [...querySteps]
       });
-      setStepList([result.context.currentStep]);
-      setStep(result.context.currentStep.metadata.step);
+      setFinderNumber(result.context.finderNumber);
+      setStepList(result.context.currentSteps);
+      setPerStep(result.context.steps);
+      setStep(result.context.currentSteps[0].metadata.step);
     } else {
       getInit();
-      setStep(1);
+      setPerStep([]);
     }
-    setDefaultValue(perStep[0].questionParams);
+
     setLoading(false);
   };
+
   const showResult = () => {
     switch (result) {
       case '':
@@ -140,9 +158,34 @@ export default function AboutPet() {
       case 'redirectToProductFinder':
         return <Fgs getInit={getInit} />;
         break;
+      case 'printSPTProducts':
+        history.push('/precise-cat-nutrition-recommendation');
+        break;
     }
   };
 
+  // const putDataLayer = (data)=>{
+  //   let resultObj = {
+  //     redirectToVet:'Vet',
+  //     redirectToProductFinder:'Product Finder',
+  //     printSPTProducts:'Recommendation',
+  //   }
+  //   let sterilized = {
+  //     true:'Yes',
+  //     false:'No'
+  //   }
+  //   let breed = {
+  //     true:'Yes',
+  //     false:'No'
+  //   }
+  //   dataLayer.push({
+  //     'event' : 'individualizationLandingFormClick',
+  //     'result' : resultObj[data.next] , //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
+  //     'breed' : 'Maine Coon', //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
+  //     'sterilized' : sterilized[data.filter.neutered], //Value can be 'Yes' or 'No'
+  //   });
+  //   console.log(dataLayer)
+  // }
   const Question = (
     <>
       <div className="questionnaire-image-box">
@@ -185,17 +228,13 @@ export default function AboutPet() {
             </div>
             {step > 1 ? (
               <div
-                style={{
-                  textAlign: 'center',
-                  marginTop: 20,
-                  cursor: 'pointer'
-                }}
+                style={{ textAlign: 'center', marginTop: '20px' }}
                 onClick={(e) => {
                   e.preventDefault();
                   goBack(step);
                 }}
               >
-                <span>Back</span>
+                <span className="back-btn">Back</span>
               </div>
             ) : (
               ''

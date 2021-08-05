@@ -212,7 +212,7 @@ class DedicatedLandingPage extends React.Component {
                         <div className="rc-column">
                           <div className="rc-full-width">
                             <h2 className="rc-beta ">
-                              Recevez votre kit chaton gratuit pour vous
+                              Recevez votre kit chaton offert pour vous
                               féliciter de votre adoption !
                             </h2>
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -293,8 +293,8 @@ class DedicatedLandingPage extends React.Component {
                     className="flex flex-md-column kittyflexdirection"
                     style={{ justifyContent: 'space-evenly' }}
                   >
-                    {kittyData.map((index) => (
-                      <div style={{ marginRight: '5px' }}>
+                    {kittyData.map((index, indexs) => (
+                      <div style={{ marginRight: '5px' }} key={indexs}>
                         <p className="text-center" style={{ color: '#E2001A' }}>
                           Moins de 4 mois
                         </p>
@@ -315,8 +315,8 @@ class DedicatedLandingPage extends React.Component {
                           </picture>
                           <div style={{ marginBottom: '5px' }}>
                             <header>
-                              {index.kittenDescription.map((index) => (
-                                <div>
+                              {index.kittenDescription.map((index, indexs) => (
+                                <div key={indexs}>
                                   <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
                                     - {index}
                                   </p>
@@ -381,8 +381,8 @@ class DedicatedLandingPage extends React.Component {
                       className="flex "
                       style={{ justifyContent: 'space-evenly' }}
                     >
-                      {kittyData.map((index) => (
-                        <div style={{ marginRight: '5px' }}>
+                      {kittyData.map((index, indexs) => (
+                        <div style={{ marginRight: '5px' }} key={indexs}>
                           <p
                             className="text-center"
                             style={{ color: '#E2001A' }}
@@ -408,13 +408,15 @@ class DedicatedLandingPage extends React.Component {
                             </picture>
                             <div style={{ marginBottom: '5px' }}>
                               <header>
-                                {index.kittenDescription.map((index) => (
-                                  <div>
-                                    <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                      - {index}
-                                    </p>
-                                  </div>
-                                ))}
+                                {index.kittenDescription.map(
+                                  (index, indexs) => (
+                                    <div key={indexs}>
+                                      <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
+                                        - {index}
+                                      </p>
+                                    </div>
+                                  )
+                                )}
                               </header>
                             </div>
                           </article>
@@ -465,7 +467,7 @@ class DedicatedLandingPage extends React.Component {
                           </LazyLoad>
                         </div>
 
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list1"
                             values={{
@@ -478,7 +480,7 @@ class DedicatedLandingPage extends React.Component {
                               val3: <br />
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -491,14 +493,14 @@ class DedicatedLandingPage extends React.Component {
                             ></img>
                           </LazyLoad>
                         </div>
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
                               val1: <strong>l'expédition automatique</strong>
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -512,7 +514,7 @@ class DedicatedLandingPage extends React.Component {
                           </LazyLoad>
                         </div>
 
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list3"
                             values={{
@@ -523,7 +525,7 @@ class DedicatedLandingPage extends React.Component {
                               )
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -534,14 +536,14 @@ class DedicatedLandingPage extends React.Component {
                             title="image four"
                           ></img>
                         </div>
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
                               val1: <strong>tout moment</strong>
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                     </div>
                   </div>
