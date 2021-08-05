@@ -37,6 +37,7 @@ const getTechnologyOrBreedsAttr = (product) => {
     'technology',
     'goodsAttributeValueEn'
   );
+  const technologyAttrs = technologyAttr.join(', ');
   const attrs = breedsAttr.concat(technologyAttr).join(', '); //需要排序因此不能一起写；
   const breedValue = breedsValueAttr?.[0]?.split('_')?.[1];
   const breed = breedValue
@@ -49,7 +50,12 @@ const getTechnologyOrBreedsAttr = (product) => {
     isHub && window.__.env.REACT_APP_COUNTRY === 'ru'
       ? ruAttrs.join(', ')
       : attrs;
-  return technologyOrBreedsAttr;
+  const goodsAttr =
+    window.__.env.REACT_APP_COUNTRY === 'fr'
+      ? technologyAttrs
+      : technologyOrBreedsAttr;
+
+  return goodsAttr;
 };
 
 export default getTechnologyOrBreedsAttr;

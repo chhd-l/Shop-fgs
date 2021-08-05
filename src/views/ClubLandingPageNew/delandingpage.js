@@ -834,17 +834,17 @@ class ClubLandingPageDe extends React.Component {
                       aria-hidden="true"
                     ></a>
                     <div className="row align-items-md-center">
-                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                      <div className=" col-12 col-lg-5 rc-padding-x--sm--desktop">
                         <picture data-rc-feature-objectfillpolyfill-setup="true">
                           <img
                             className=" lazyloaded"
                             alt="Yorkshire dog pic - Our Values"
                             title="Yorkshire dog pic - Our Values"
-                            src={shopbannerNew}
+                            src={vetdeimage}
                           />
                         </picture>
                       </div>
-                      <div className=" col-12 col-lg-6">
+                      <div className=" col-12 col-lg-7">
                         <div className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                           <h2 className="rc-beta markup-text">
                             Haben Sie Fragen zu den tierärztlichen Nahrungen von

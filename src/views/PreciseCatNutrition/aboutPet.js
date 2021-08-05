@@ -116,6 +116,7 @@ export default function AboutPet() {
         );
       }
       setResult(result.context.next);
+      putDataLayer(result.context);
     }
     setDefaultValue({});
     setLoading(false);
@@ -160,32 +161,37 @@ export default function AboutPet() {
         break;
       case 'printSPTProducts':
         history.push('/precise-cat-nutrition-recommendation');
+        return <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />;
         break;
     }
   };
 
-  // const putDataLayer = (data)=>{
-  //   let resultObj = {
-  //     redirectToVet:'Vet',
-  //     redirectToProductFinder:'Product Finder',
-  //     printSPTProducts:'Recommendation',
-  //   }
-  //   let sterilized = {
-  //     true:'Yes',
-  //     false:'No'
-  //   }
-  //   let breed = {
-  //     true:'Yes',
-  //     false:'No'
-  //   }
-  //   dataLayer.push({
-  //     'event' : 'individualizationLandingFormClick',
-  //     'result' : resultObj[data.next] , //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
-  //     'breed' : 'Maine Coon', //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
-  //     'sterilized' : sterilized[data.filter.neutered], //Value can be 'Yes' or 'No'
-  //   });
-  //   console.log(dataLayer)
-  // }
+  const putDataLayer = (data) => {
+    let filter = {};
+    data.steps.forEach((item) => {
+      filter = { ...filter, ...item.questionParams };
+    });
+    let resultObj = {
+      redirectToVet: 'Vet',
+      redirectToProductFinder: 'Product Finder',
+      printSPTProducts: 'Recommendation'
+    };
+    let sterilized = {
+      true: 'Yes',
+      false: 'No'
+    };
+    let breed = {
+      mixed_breed: 'Mixed',
+      unknown: 'Unknown'
+    };
+    dataLayer.push({
+      event: 'individualizationLandingFormClick',
+      result: resultObj[data.next], //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
+      breed: breed[filter.breed] ? breed[filter.breed] : filter.breed, //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
+      sterilized: sterilized[filter.neutered] //Value can be 'Yes' or 'No'
+    });
+    console.log(dataLayer);
+  };
   const Question = (
     <>
       <div className="questionnaire-image-box">

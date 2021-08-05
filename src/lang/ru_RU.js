@@ -568,8 +568,8 @@ const ru_RU = {
   modalCancelAllContent: 'Вы уверены, что хотите удалить Вашу подписку?',
   modalCancelAllTitle: 'Удаление подписки?',
   modalChangeDateContent:
-    'Вы уверены, что хотите изменить дату следующей доставки?',
-  modalChangeDateTitle: 'Изменить дату доставки',
+    'Вы уверены, что хотите изменить дату следующей отгрузки?',
+  modalChangeDateTitle: 'Изменить дату отгрузки',
   modalOrderNowContent: 'Вы уверены, что хотите разместить этот заказ сейчас?',
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
@@ -1344,7 +1344,7 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  prevShipmentOn: 'Новая заявка',
+  prevShipmentOn: 'Дата формирования заказа',
   nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',

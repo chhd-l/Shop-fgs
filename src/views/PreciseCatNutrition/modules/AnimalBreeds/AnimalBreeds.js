@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import RadioAnswer from '../../../ProductFinder/modules/RadioAnswer';
 import SearchSelection from '../../../../components/SearchSelection';
 import { FormContext } from '../QuestionnaireForm';
+
 export default function AnimalBreeds({ questionData }) {
   const [breed, setBreed] = useState('');
   const [breedLabel, setBreedLabel] = useState('');
@@ -73,7 +73,7 @@ export default function AnimalBreeds({ questionData }) {
                 }}
                 selectedItemChange={handleSelectChange}
                 defaultValue={
-                  breed !== 'mixed_breed' && breed !== 'undefined'
+                  breed !== 'mixed_breed' && breed !== 'unknown'
                     ? breedLabel
                     : ''
                 }
@@ -125,15 +125,15 @@ export default function AnimalBreeds({ questionData }) {
                 className="rc-input__checkbox"
                 value="unknown"
                 key={2}
-                checked={breed === 'undefined'}
+                checked={breed === 'unknown'}
                 onChange={toggleCheckbox}
               />
               <label
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-unkown"
               >
-                {/*{unknownText}*/}
-                Unknown
+                <FormattedMessage id="unkown" />
+                {/*Unknown*/}
               </label>
             </div>
           </div>

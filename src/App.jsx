@@ -546,7 +546,7 @@ const App = () => {
                   }
                 />
                 <Route
-                  path="/dedicatedlandingpage"
+                  path="/adoptant/:id"
                   exact
                   component={DedicatedLandingPage}
                 />
