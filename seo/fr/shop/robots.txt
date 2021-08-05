@@ -1,6 +1,5 @@
 The Robots.txt file controls accessibility to resources by search engine crawlers and is vital for efficient crawling by search engines.
 
-
 https://shop.royalcanin.fr/robots.txt 
 User-agent: *
 Disallow: *prefn2=*

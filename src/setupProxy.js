@@ -4,7 +4,6 @@ module.exports = function (app) {
   app.use(
     proxy('/api', {
       target: process.env.REACT_APP_BASEURL,
-      // target: 'http://124.71.151.9:8090',
       secure: false,
       changeOrigin: true,
       pathRewrite: {
