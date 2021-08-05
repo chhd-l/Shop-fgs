@@ -22,9 +22,6 @@ function QuestionnaireForm(
   useImperativeHandle(ref, () => ({
     formData
   }));
-  useEffect(() => {
-    console.log('更新了嘛');
-  }, []);
   const handleQuestionConfigLogic = ({
     metadataQuestionDisplayType,
     defaultListData
@@ -156,8 +153,6 @@ function QuestionnaireForm(
     for (let k in formData) {
       if (!formData[k]) canGoNext = true;
     }
-    console.log(formData);
-    console.log(canGoNext);
     changeCanNext(canGoNext);
     setFormData(formData);
   };

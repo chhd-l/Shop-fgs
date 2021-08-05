@@ -125,7 +125,7 @@ export default function AnimalBreeds({ questionData }) {
                 className="rc-input__checkbox"
                 value="unknown"
                 key={2}
-                checked={breed === 'undefined'}
+                checked={breed === 'unknown'}
                 onChange={toggleCheckbox}
               />
               <label
