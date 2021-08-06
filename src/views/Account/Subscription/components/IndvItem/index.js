@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import { getFormatDate, filterOrderId, getDeviceType } from '@/utils/utils';
-import subscriptionLogo from '@/assets/images/subscription_logo.jpg';
+import indvLogo from '@/assets/images/indv_log.jpg';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
@@ -50,8 +50,8 @@ const ClubItem = ({ subItem, history }) => {
                 }}
                 key={item.spuId}
                 src={item.goodsPic || IMG_DEFAULT}
-                alt={item.goodsName}
-                title={item.goodsName}
+                alt={`${item.petsName}'s personalized subscription`}
+                title={`${item.petsName}'s personalized subscription`}
               />
               {/* </LazyLoad> */}
               <span
@@ -71,7 +71,7 @@ const ClubItem = ({ subItem, history }) => {
                     marginBottom: '5px'
                   }}
                 >
-                  {item.goodsName}
+                  {`${item.petsName}'s personalized subscription`}
                 </p>
                 <p>
                   {item.specText} - {item.subscribeNum}{' '}
@@ -89,7 +89,7 @@ const ClubItem = ({ subItem, history }) => {
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         {/* <LazyLoad> */}
         <img
-          src={subscriptionLogo}
+          src={indvLogo}
           style={{
             width: '75px',
             display: 'inline-block',

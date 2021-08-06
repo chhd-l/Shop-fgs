@@ -317,14 +317,8 @@ class Subscription extends React.Component {
   };
 
   getPageBox = (isGift) => {
-    let {
-      isMobile,
-      subList,
-      loading,
-      errMsg,
-      currentPage,
-      totalPage
-    } = this.state;
+    let { isMobile, subList, loading, errMsg, currentPage, totalPage } =
+      this.state;
     let subscription = 'subscription';
 
     return (
@@ -368,8 +362,7 @@ class Subscription extends React.Component {
               <>
                 {subList.map((subItem, i) => {
                   let subItemComp = null;
-                  if (subItem.subscriptionType === 'Club') {
-                    // if (subItem.subscriptionType === 'Indv') {
+                  if (subItem.subscriptionType === 'Individualization') {
                     subItemComp = (
                       <IndvItem
                         history={this.props.history}

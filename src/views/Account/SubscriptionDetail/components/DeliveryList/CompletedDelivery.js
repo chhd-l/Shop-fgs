@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import dateIcon from '../../images/date.png';
 import { getDeviceType, getFormatDate, formatMoney } from '@/utils/utils';
-const CompletedDelivery = ({ i, isActive, el }) => {
+const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
-
+  const isIndv = subDetail.subscriptionType
+    ?.toLowerCase()
+    .includes('individualization');
   return (
     <div className="card-container" key={i}>
       <div className="card rc-margin-y--none ml-0">
@@ -220,28 +222,32 @@ const CompletedDelivery = ({ i, isActive, el }) => {
                               overflow: 'hidden'
                             }}
                           >
-                            <h5
-                              title={tradeItem.skuName}
-                              style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                overflowWrap: 'normal',
-                                fontSize: '.875rem',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {tradeItem.skuName}
-                            </h5>
-                            <p
-                              style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                marginBottom: '8px',
-                                fontSize: '.875rem'
-                              }}
-                            >
-                              {tradeItem.specDetails} x {tradeItem.num}
-                            </p>
+                            {!isIndv ? (
+                              <>
+                                <h5
+                                  title={tradeItem.skuName}
+                                  style={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    overflowWrap: 'normal',
+                                    fontSize: '.875rem',
+                                    whiteSpace: 'nowrap'
+                                  }}
+                                >
+                                  {tradeItem.skuName}
+                                </h5>
+                                <p
+                                  style={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    marginBottom: '8px',
+                                    fontSize: '.875rem'
+                                  }}
+                                >
+                                  {tradeItem.specDetails} x {tradeItem.num}
+                                </p>
+                              </>
+                            ) : null}
                           </div>
                         </>
                       );

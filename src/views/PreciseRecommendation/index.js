@@ -40,29 +40,29 @@ class PreciseRecommendation extends React.Component {
   }
   async getProductInfo() {
     let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
-    let params = JSON.stringify(paramsString);
-    // let params = {
-    //   "filters": {
-    //       "age": "50",
-    //       "neutered": true,
-    //       "breedCode": "mixed_breed",
-    //       "name": "sss",
-    //       "genderCode": "male",
-    //       "weight": "5",
-    //       "petActivityCode": "low",
-    //       "weightGain": "true",
-    //       "bcs": 3,
-    //       "lifestyle": "indoor"
-    //   }
-    // }
+    // let params = JSON.stringify(paramsString);
+    let params = {
+      filters: {
+        age: '50',
+        neutered: true,
+        breedCode: 'mixed_breed',
+        name: 'test' + Math.random(),
+        genderCode: 'male',
+        weight: '5',
+        petActivityCode: 'low',
+        weightGain: 'true',
+        bcs: 3,
+        lifestyle: 'indoor'
+      }
+    };
     let resObj = await getRecommendationInfo(params);
     let res = resObj.context;
-    // let ress =  {
-    //       "pet": {
+    // let res =  {
+    //       "customerPetsVo": {
     //           "age": "50",
     //           "neutered": true,
     //           "breedCode": "mixed_breed",
-    //           "name": "sss",
+    //           "name": "我说我要测试",
     //           "genderCode": "male",
     //           "weight": "5",
     //           "petActivityCode": "low",
@@ -103,7 +103,7 @@ class PreciseRecommendation extends React.Component {
     //           "mockSpecIds": null,
     //           "mockSpecDetailIds": null,
     //           "specDetailRelIds": null,
-    //           "buyCount": 1,
+    //           "buyCount": 500,
     //           "count": null,
     //           "maxCount": null,
     //           "intervalPriceIds": null,
@@ -285,12 +285,14 @@ class PreciseRecommendation extends React.Component {
       productShowInfo,
       recommData
     });
+    debugger;
   }
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    debugger;
     this.getProductInfo();
   }
 
