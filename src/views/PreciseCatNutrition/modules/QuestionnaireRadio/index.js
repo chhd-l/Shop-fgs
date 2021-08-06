@@ -17,13 +17,17 @@ export default function QuestionnaireRadio({ questionData }) {
   const Context = useContext(FormContext);
   //初始化选中第一个
   useEffect(() => {
-    Context.changeFormData(
-      questionData.name,
-      questionData.name === 'bcs'
-        ? parseInt(questionData.possibleValues?.[0].key)
-        : questionData.possibleValues?.[0].key
-    );
-    setChecked(questionData.possibleValues?.[0].key);
+    if (Context.formData[questionData.name]) {
+      setChecked(String(Context.formData[questionData.name]));
+    } else {
+      setChecked(questionData.possibleValues?.[0].key);
+      Context.changeFormData(
+        questionData.name,
+        questionData.name === 'bcs'
+          ? parseInt(questionData.possibleValues?.[0].key)
+          : questionData.possibleValues?.[0].key
+      );
+    }
   }, [questionData.name]);
   const handleRadioChange = (val) => {
     console.log(val);
