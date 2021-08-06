@@ -52,7 +52,7 @@ class PreciseRecommendation extends React.Component {
     if (!paramsString) {
       return;
     }
-    let filters = JSON.stringify(paramsString);
+    let filters = JSON.parse(paramsString);
     let params = { filters };
     // let params = {
     //   filters: {
@@ -79,8 +79,11 @@ class PreciseRecommendation extends React.Component {
         recommData
       });
     } catch (err) {
-      let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
-      location.href = url;
+      console.info('err', err);
+      if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+        let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+        location.href = url;
+      }
     }
   }
 
