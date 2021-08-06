@@ -32,8 +32,13 @@ export default function AnimalBreeds({ questionData }) {
   };
   const toggleCheckbox = (e) => {
     e.persist();
-    setBreed(e.target.defaultValue);
-    Context.changeFormData(questionData.name, e.target.defaultValue);
+    if (e.target.defaultValue === breed) {
+      setBreed('');
+      Context.changeFormData(questionData.name, '');
+    } else {
+      setBreed(e.target.defaultValue);
+      Context.changeFormData(questionData.name, e.target.defaultValue);
+    }
   };
   const filterLabel = (val) => {
     let array = questionData.possibleValues.filter((item) => {
