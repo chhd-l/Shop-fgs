@@ -16,6 +16,8 @@ import Banner from './components/Banner';
 import productList from './productList.json';
 import { getDeviceType } from '../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const sessionItemRoyal = window.__.sessionItemRoyal;
+import { getRecommendationInfo } from '@/api/productFinder';
 
 console.info('productList', productList);
 const pageLink = window.location.href;
@@ -37,233 +39,47 @@ class PreciseRecommendation extends React.Component {
     };
   }
   async getProductInfo() {
-    let res = {
-      pet: {
-        petsName: 'tiger',
-        petsSex: 'male',
-        sterilised: 'true',
-        petsBreed: 'donskoy',
-        dateOfBirth: '2017-06-03'
-      },
-      goodsInfo: {
-        goodsInfoId: 'ff8080817ac19c38017aec3dec6d0012',
-        goodsId: 'ff8080817ac19c38017aec3dec410011',
-        goodsInfoName: 'individualization',
-        goodsInfoNo: 'IND10001',
-        innerGoodsInfoNo: 'FR_IND10001',
-        goodsInfoImg: null,
-        goodsInfoBarcode: null,
-        stock: 999999999,
-        marketPrice: 0.0161,
-        supplyPrice: null,
-        retailPrice: null,
-        grouponPrice: null,
-        costPrice: null,
-        createTime: '2021-07-28 16:31:59.000',
-        updateTime: '2021-08-02 17:48:09.000',
-        addedTime: '2021-07-28 16:31:59.000',
-        delFlag: 0,
-        addedFlag: 1,
-        companyInfoId: 1053,
-        storeId: 123457909,
-        storeName: null,
-        customFlag: 0,
-        levelDiscountFlag: 0,
-        auditStatus: 1,
-        companyType: 0,
-        aloneFlag: false,
-        salePrice: null,
-        priceType: null,
-        mockSpecIds: null,
-        mockSpecDetailIds: null,
-        specDetailRelIds: null,
-        buyCount: 1,
-        count: null,
-        maxCount: null,
-        intervalPriceIds: null,
-        specText: null,
-        intervalMinPrice: null,
-        intervalMaxPrice: null,
-        validFlag: null,
-        cateId: 1134,
-        brandId: 400,
-        storeCateIds: null,
-        distributionCommission: null,
-        commissionRate: null,
-        distributionSalesCount: null,
-        distributionGoodsAudit: 0,
-        distributionGoodsAuditReason: null,
-        checked: false,
-        goodsStatus: 0,
-        goodsUnit: null,
-        marketingLabels: [],
-        grouponLabel: null,
-        couponLabels: [],
-        goodsCubage: null,
-        goodsWeight: null,
-        freightTempId: null,
-        saleType: 0,
-        allowPriceSet: null,
-        smallProgramCode: null,
-        joinDistributior: null,
-        goodsEvaluateNum: null,
-        goodsCollectNum: null,
-        goodsSalesNum: null,
-        goodsFavorableCommentNum: null,
-        enterPrisePrice: null,
-        enterPriseAuditState: null,
-        enterPriseGoodsAuditReason: null,
-        subscriptionStatus: 1,
-        subscriptionPrice: 0.0161,
-        linePrice: 0.0,
-        basePrice: null,
-        subscriptionBasePrice: null,
-        basePriceType: '',
-        goodsInfoWeight: 0e-10,
-        goodsInfoUnit: 'kg',
-        goods: {
-          goodsId: 'ff8080817ac19c38017aec3dec410011',
-          cateId: 1134,
-          brandId: 400,
-          brandName: null,
-          goodsName: 'individualization',
-          goodsSubtitle: null,
-          goodsNewSubtitle: null,
-          goodsDescription: null,
-          goodsDescriptionDetails: null,
-          goodsNo: 'IND1',
-          innerGoodsNo: 'FR_IND1',
-          goodsUnit: '',
-          goodsCateName: null,
-          goodsImg: null,
-          goodsWeight: 1.0,
-          marketPrice: null,
-          supplyPrice: null,
-          goodsType: 0,
-          costPrice: null,
-          createTime: '2021-07-28 16:31:59.000',
-          updateTime: '2021-08-02 17:48:09.000',
-          addedTime: '2021-07-28 16:31:59.000',
-          goodsSource: 1,
-          delFlag: 0,
-          addedFlag: 1,
-          moreSpecFlag: 1,
-          priceType: 2,
-          customFlag: 0,
-          levelDiscountFlag: 0,
-          companyInfoId: 1053,
-          supplierName: 'Royal Canin_France',
-          storeId: 123457909,
-          cateName: null,
-          submitTime: '2021-07-28 16:31:59.000',
-          auditStatus: 1,
-          auditReason: null,
-          goodsDetail: '',
-          goodsMobileDetail: null,
-          stock: null,
-          goodsInfoIds: null,
-          storeCateIds: null,
-          storeCateNames: null,
-          companyType: 0,
-          goodsCubage: 1.0,
-          freightTempId: 62,
-          freightTempName: null,
-          saleType: 0,
-          goodsVideo: '',
-          linePrice: null,
-          allowPriceSet: 0,
-          goodsEvaluateNum: 0,
-          goodsCollectNum: 0,
-          goodsSalesNum: 0,
-          goodsFavorableCommentNum: 0,
-          grouponForbiddenFlag: false,
-          subscriptionStatus: 1,
-          minMarketPrice: 0.0155,
-          minSubscriptionPrice: 0.0155,
-          avgEvaluate: null,
-          avgEvaluateScore: null,
-          baseSpec: null,
-          saleableFlag: 1,
-          displayFlag: 1,
-          weShareId: null,
-          weightValue: 'None',
-          goodsStoreCateNames: null,
-          productCategoryNames: null,
-          defaultPurchaseType: null,
-          defaultFrequencyId: null,
-          resource: 1,
-          promotions: 'individual',
-          goodsPillar: null,
-          exclusiveFlag: null,
-          wsEnergyCategory: null,
-          wsReferenceEnergyValue: null,
-          wsTechnologyCode: null,
-          wsDensity: null,
-          sourceCreateTime: null,
-          sourceUpdateTime: null
-        },
-        goodsPromotion: null,
-        description: null,
-        auditCatFlag: null,
-        prescriberFlag: null,
-        goodsMeasureNum: null,
-        goodsMeasureUnit: '',
-        subscriptionDiscountPrice: null,
-        goodsInfoFlag: 3,
-        periodTypeId: 3560,
-        purchasePrice: null,
-        goodsInfoType: null,
-        goodsInfoBundleRels: [],
-        recommendationId: null,
-        recommendationName: null,
-        recommendationSerialCode: null,
-        weShareScode: null,
-        packSize: '',
-        subscriptionPercentage: null,
-        maxStock: null,
-        subscriptionPlanId: null,
-        packageId: null,
-        subscriptionPlanPromotionFlag: null,
-        settingPrice: null,
-        virtualInventory: null,
-        virtualAlert: null,
-        marketingCode: null,
-        marketingName: null,
-        promotionDiscountPrice: null,
-        externalSku: null,
-        promotions: 'individual',
-        isOfflineStore: null,
-        petsId: null,
-        petsType: null,
-        questionParams: null,
-        referenceData: null,
-        depth: 0.0,
-        depthUnit: 'mm',
-        width: 0.0,
-        widthUnit: 'mm',
-        height: 0.0,
-        heightUnit: 'mm'
-      },
-      mainItem: '2524',
-      weight: '223',
-      weightUnit: 'g',
-      totalPackWeight: '',
-      dailyPrice: '',
-      totalprice: ''
-    };
-    let productId = res.goodsInfo.goodsInfoNo;
-    let productShowInfo = productList[productId];
-    let recommData = res;
-    this.setState({
-      productShowInfo,
-      recommData
-    });
+    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
+    if (!paramsString) {
+      return;
+    }
+    let filters = JSON.stringify(paramsString);
+    let params = { filters };
+    // let params = {
+    //   filters: {
+    //     age: '50',
+    //     neutered: true,
+    //     breedCode: 'mixed_breed',
+    //     name: 'test' + Math.random(),
+    //     genderCode: 'male',
+    //     weight: '5',
+    //     petActivityCode: 'low',
+    //     weightGain: 'true',
+    //     bcs: 3,
+    //     lifestyle: 'indoor'
+    //   }
+    // };
+    try {
+      let resObj = await getRecommendationInfo(params);
+      let res = resObj.context;
+      let productId = res.goodsInfo.goodsInfoNo;
+      let productShowInfo = productList[productId];
+      let recommData = res;
+      this.setState({
+        productShowInfo,
+        recommData
+      });
+    } catch (err) {
+      let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+      location.href = url;
+    }
   }
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    debugger;
     this.getProductInfo();
   }
 

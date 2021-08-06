@@ -5,7 +5,8 @@ const api = {
   nextStep: '/product/finder/nextStep',
   matchProducts: '/product/finder/products', // 根据问题，查询匹配产品
   nextStep_club: '/product/finder/club/nextStep',
-  matchProducts_club: '/product/finder/club/products'
+  matchProducts_club: '/product/finder/club/products',
+  getRecommendationInfo: '/individualization/recommendationProduct'
 };
 
 export default api;
@@ -49,6 +50,13 @@ export function matchProducts(parameter) {
   }
   return axios({
     url: `${url}`,
+    method: 'post',
+    data: parameter
+  });
+}
+export function getRecommendationInfo(parameter) {
+  return axios({
+    url: `${api.getRecommendationInfo}`,
     method: 'post',
     data: parameter
   });

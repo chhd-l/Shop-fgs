@@ -4,9 +4,7 @@ import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
 
-import Veterinarian from './modules/Veterinarian/Veterinarian';
-import Fgs from './modules/Veterinarian/fgs';
-import { FormattedMessage } from 'react-intl';
+import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -116,21 +114,19 @@ export default function AboutPet() {
         );
       }
       setResult(result.context.next);
+      putDataLayer(result.context);
     }
     setDefaultValue({});
     setLoading(false);
   };
 
   const goBack = async () => {
-    setLoading(true);
     let querySteps = [...perStep];
-    perStep.forEach((item, index) => {
-      if (item.stepNum == step - 1) {
-        querySteps.splice(index, 1);
-      }
-    });
+    querySteps.splice(querySteps.length - 1, 1);
+
     setDefaultValue(perStep[perStep.length - 1].questionParams);
     if (step > 2) {
+      setLoading(true);
       let result = await getNextStep({
         finderNumber: finderNumber,
         steps: [...querySteps]
@@ -139,12 +135,11 @@ export default function AboutPet() {
       setStepList(result.context.currentSteps);
       setPerStep(result.context.steps);
       setStep(result.context.currentSteps[0].metadata.step);
+      setLoading(false);
     } else {
       getInit();
       setPerStep([]);
     }
-
-    setLoading(false);
   };
 
   const showResult = () => {
@@ -153,39 +148,46 @@ export default function AboutPet() {
         return Question;
         break;
       case 'redirectToVet':
-        return <Veterinarian getInit={getInit} />;
+        return <ResultPage getInit={getInit} result="redirectToVet" />;
         break;
       case 'redirectToProductFinder':
-        return <Fgs getInit={getInit} />;
+        return (
+          <ResultPage getInit={getInit} result="redirectToProductFinder" />
+        );
         break;
       case 'printSPTProducts':
         history.push('/precise-cat-nutrition-recommendation');
+        return <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />;
         break;
     }
   };
 
-  // const putDataLayer = (data)=>{
-  //   let resultObj = {
-  //     redirectToVet:'Vet',
-  //     redirectToProductFinder:'Product Finder',
-  //     printSPTProducts:'Recommendation',
-  //   }
-  //   let sterilized = {
-  //     true:'Yes',
-  //     false:'No'
-  //   }
-  //   let breed = {
-  //     true:'Yes',
-  //     false:'No'
-  //   }
-  //   dataLayer.push({
-  //     'event' : 'individualizationLandingFormClick',
-  //     'result' : resultObj[data.next] , //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
-  //     'breed' : 'Maine Coon', //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
-  //     'sterilized' : sterilized[data.filter.neutered], //Value can be 'Yes' or 'No'
-  //   });
-  //   console.log(dataLayer)
-  // }
+  const putDataLayer = (data) => {
+    let filter = {};
+    data.steps.forEach((item) => {
+      filter = { ...filter, ...item.questionParams };
+    });
+    let resultObj = {
+      redirectToVet: 'Vet',
+      redirectToProductFinder: 'Product Finder',
+      printSPTProducts: 'Recommendation'
+    };
+    let sterilized = {
+      true: 'Yes',
+      false: 'No'
+    };
+    let breed = {
+      mixed_breed: 'Mixed',
+      unknown: 'Unknown'
+    };
+    dataLayer.push({
+      event: 'individualizationLandingFormClick',
+      result: resultObj[data.next], //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
+      breed: breed[filter.breed] ? breed[filter.breed] : filter.breed, //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
+      sterilized: sterilized[filter.neutered] //Value can be 'Yes' or 'No'
+    });
+    console.log(dataLayer);
+  };
   const Question = (
     <>
       <div className="questionnaire-image-box">

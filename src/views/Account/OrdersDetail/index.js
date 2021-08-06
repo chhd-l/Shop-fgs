@@ -16,7 +16,8 @@ import {
   getFormatDate,
   matchNamefromDict,
   filterOrderId,
-  getClubLogo
+  getClubLogo,
+  judgeIsIndividual
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -1245,18 +1246,16 @@ class AccountOrders extends React.Component {
                                                 className="medium ui-text-overflow-line2 text-break color-444"
                                                 title={item.spuName}
                                               >
-                                                {item.spuName}
+                                                {judgeIsIndividual(item)
+                                                  ? "Your pet's personalized subscription"
+                                                  : item.spuName}
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
                                                   {item.specDetails}
                                                 </span>
                                                 <span className="rc-md-down">
-                                                  {window.__.env
-                                                    .REACT_APP_COUNTRY ===
-                                                    'fr' &&
-                                                  item.promotions ===
-                                                    'Individual' ? (
+                                                  {judgeIsIndividual(item) ? (
                                                     <span>
                                                       {item.specDetails}
                                                     </span>
@@ -1340,11 +1339,7 @@ class AccountOrders extends React.Component {
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
-                                            {!(
-                                              window.__.env
-                                                .REACT_APP_COUNTRY === 'fr' &&
-                                              item.promotions === 'Individual'
-                                            ) ? (
+                                            {!judgeIsIndividual(item) ? (
                                               <FormattedMessage
                                                 id="xProduct"
                                                 values={{ val: item.num }}
@@ -1914,8 +1909,7 @@ class AccountOrders extends React.Component {
                             <div className="font-weight-normal ui-text-overflow-line2">
                               {ele.itemName}
                             </div>
-                            {window.__.env.REACT_APP_COUNTRY === 'fr' &&
-                            item.promotions === 'Individual' ? (
+                            {judgeIsIndividual(ele) ? (
                               <div>{ele.specDetails}</div>
                             ) : (
                               <FormattedMessage

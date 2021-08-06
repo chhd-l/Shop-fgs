@@ -27,9 +27,7 @@ const SubGoodsInfos = ({
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const isActive = subDetail.subscribeStatus === '0';
-  const isIndv = subDetail.subscriptionType
-    ?.toLowerCase()
-    .includes('Individualization');
+  const isIndv = subDetail.subscriptionType == 'Individualization';
   const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
   //订阅数量更改
   const onQtyChange = async () => {
@@ -77,7 +75,7 @@ const SubGoodsInfos = ({
     }
   };
   const changeQuantity = (e, el, index) => {
-    if (subDetail.subscribeStatus !== '0') {
+    if (subDetail.subscribeStatus !== '0' || isIndv) {
       return;
     }
     setState({
@@ -204,7 +202,9 @@ const SubGoodsInfos = ({
                     </p>
                     ..........
                     {isShowClub && !!subDetail.petsId && (
-                      <DailyRation rations={el.petsRation} />
+                      <DailyRation
+                        rations={isIndv ? el.subscribeNum : el.petsRation}
+                      />
                     )}
                   </div>
                 </div>
@@ -465,7 +465,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }
@@ -485,7 +486,9 @@ const SubGoodsInfos = ({
                               top: 0
                             }}
                           >
-                            <DailyRation rations={el.petsRation} />
+                            <DailyRation
+                              rations={isIndv ? el.subscribeNum : el.petsRation}
+                            />
                           </div>
                         </div>
                       )}

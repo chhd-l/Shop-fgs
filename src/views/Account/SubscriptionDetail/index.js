@@ -299,9 +299,11 @@ class SubscriptionDetail extends React.Component {
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];
+      let isIndv = this.state.subDetail.subscriptionType == 'Individualization';
       // 非激活状态就不展示
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
-      goodsInfo?.length == 1 &&
+      !isIndv &&
+        goodsInfo?.length == 1 &&
         this.state.subDetail.petsLifeStageFlag == 1 &&
         this.state.isNotInactive &&
         this.setState({
@@ -437,7 +439,6 @@ class SubscriptionDetail extends React.Component {
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
-      subDetail.subscriptionType = 'indv';
       this.setState(
         {
           petType: petsType,
@@ -653,7 +654,7 @@ class SubscriptionDetail extends React.Component {
     // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
-      subDetail.subscriptionType?.toLowerCase().includes('indv'); //indv的展示和club类似
+      subDetail.subscriptionType?.toLowerCase().includes('individualization'); //indv的展示和club类似
     // && window.__.env.REACT_APP_COUNTRY != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
       <div className="subscriptionDetail">

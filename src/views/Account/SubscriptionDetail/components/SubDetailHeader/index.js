@@ -150,7 +150,7 @@ const SubDetailHeader = ({
                       'rc-subdetailInfo',
                       JSON.stringify({
                         isFromSubscriptionDetail:
-                          subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                          subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示弹窗
                         isFromSubscriptionDetail: true,
                         subscribeId: subDetail.subscribeId
                       })
@@ -176,7 +176,9 @@ const SubDetailHeader = ({
                       className="rc-md-up"
                       style={{ color: '#e2001a', margin: 0 }}
                     >
-                      <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
+                      {subDetail.subscriptionType == 'club' ? (
+                        <FormattedMessage id="subscriptionDetail.clubFor" />
+                      ) : null}
                       {petsInfo?.petsName}
                     </h4>
                     <div>
