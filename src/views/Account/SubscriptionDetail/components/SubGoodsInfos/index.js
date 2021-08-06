@@ -152,7 +152,7 @@ const SubGoodsInfos = ({
                       alt={el.goodsName}
                     />
                     {/* </LazyLoad> */}
-                    {isShowClub && !!subDetail.petsId && (
+                    {isShowClub && !!subDetail.petsId && !isIndv && (
                       <span
                         className={`rc-styled-link ${
                           productListLoading ? 'ui-btn-loading' : ''
@@ -211,7 +211,9 @@ const SubGoodsInfos = ({
                 <div style={{ marginTop: '.9375rem' }}>
                   <div>
                     <span
-                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                      className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
+                        isActive && !isGift && !isIndv ? '' : 'disabled'
+                      }`}
                       style={{ marginLeft: '-8px' }}
                       onClick={() => {
                         minusQuantity(el);
@@ -230,7 +232,9 @@ const SubGoodsInfos = ({
                       value={el.subscribeNum}
                     />
                     <span
-                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                      className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus  ${
+                        isActive && !isGift && !isIndv ? '' : 'disabled'
+                      }`}
                       onClick={() => {
                         plusQuantity(el);
                       }}
