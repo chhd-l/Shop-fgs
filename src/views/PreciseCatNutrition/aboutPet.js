@@ -79,15 +79,29 @@ export default function AboutPet() {
     return array;
   };
 
+  const toBool = (string) => {
+    if (string === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  };
   const goNext = async () => {
     setLoading(true);
+    //改变字符串true false 为bool
+    let questionParams = { ...childRef.current.formData };
+    if (questionParams.neutered) {
+      questionParams.neutered = toBool(questionParams.neutered);
+    }
+    // if(questionParams.weightGain){
+    //   questionParams.weightGain = toBool(questionParams.neutered)
+    // }
+
     let querySteps = [
       ...perStep,
       {
         stepNum: step.toString(),
-        questionParams: {
-          ...childRef.current.formData
-        }
+        questionParams
       }
     ];
     let result = await getNextStep({
@@ -99,6 +113,7 @@ export default function AboutPet() {
     setPerStep(result.context.steps);
     setStep(
       result.context.currentSteps &&
+        result.context.currentSteps.length > 0 &&
         result.context.currentSteps[0].metadata.step
     );
 
@@ -135,7 +150,12 @@ export default function AboutPet() {
       setFinderNumber(result.context.finderNumber);
       setStepList(result.context.currentSteps);
       setPerStep(result.context.steps);
-      setStep(result.context.currentSteps[0].metadata.step);
+      setStep(
+        result.context.currentSteps &&
+          result.context.currentSteps.length > 0 &&
+          result.context.currentSteps[0].metadata.step
+      );
+      // setStep(result.context.currentSteps[0].metadata.step);
       setLoading(false);
     } else {
       getInit();
