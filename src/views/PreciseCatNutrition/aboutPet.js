@@ -94,6 +94,7 @@ export default function AboutPet() {
       finderNumber: finderNumber,
       steps: querySteps
     });
+    console.log(result);
     setFinderNumber(result.context.finderNumber);
     setPerStep(result.context.steps);
     setStep(
@@ -110,7 +111,7 @@ export default function AboutPet() {
         //跳转页面用
         sessionItemRoyal.set(
           'nutrition-recommendation-filter',
-          result.context.filter
+          result.context.filters ? JSON.stringify(result.context.filters) : ''
         );
       }
       setResult(result.context.next);
