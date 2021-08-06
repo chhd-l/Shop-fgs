@@ -18,7 +18,8 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  judgeIsIndividual
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
@@ -885,11 +886,11 @@ class AccountOrders extends React.Component {
                                           </div>
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
-                                              {item.spuName}
+                                              {judgeIsIndividual(item)
+                                                ? "Your pet's personalized subscription"
+                                                : item.spuName}
                                             </span>
-                                            {window.__.env.REACT_APP_COUNTRY ===
-                                              'fr' &&
-                                            item.promotions === 'individual' ? (
+                                            {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>
                                             ) : (
                                               <FormattedMessage
