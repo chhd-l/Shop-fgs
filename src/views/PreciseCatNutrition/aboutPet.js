@@ -123,15 +123,16 @@ export default function AboutPet() {
   };
 
   const goBack = async () => {
-    setLoading(true);
     let querySteps = [...perStep];
-    perStep.forEach((item, index) => {
-      if (item.stepNum == step - 1) {
-        querySteps.splice(index, 1);
-      }
-    });
+    querySteps.splice(querySteps.length - 1, 1);
+    // perStep.forEach((item, index) => {
+    //   if (item.stepNum == step - 1) {
+    //     querySteps.splice(index, 1);
+    //   }
+    // });
     setDefaultValue(perStep[perStep.length - 1].questionParams);
     if (step > 2) {
+      setLoading(true);
       let result = await getNextStep({
         finderNumber: finderNumber,
         steps: [...querySteps]
@@ -140,12 +141,11 @@ export default function AboutPet() {
       setStepList(result.context.currentSteps);
       setPerStep(result.context.steps);
       setStep(result.context.currentSteps[0].metadata.step);
+      setLoading(false);
     } else {
       getInit();
       setPerStep([]);
     }
-
-    setLoading(false);
   };
 
   const showResult = () => {
