@@ -4,9 +4,7 @@ import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
 
-import Veterinarian from './modules/Veterinarian/Veterinarian';
-import Fgs from './modules/Veterinarian/fgs';
-import { FormattedMessage } from 'react-intl';
+import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -125,11 +123,7 @@ export default function AboutPet() {
   const goBack = async () => {
     let querySteps = [...perStep];
     querySteps.splice(querySteps.length - 1, 1);
-    // perStep.forEach((item, index) => {
-    //   if (item.stepNum == step - 1) {
-    //     querySteps.splice(index, 1);
-    //   }
-    // });
+
     setDefaultValue(perStep[perStep.length - 1].questionParams);
     if (step > 2) {
       setLoading(true);
@@ -154,10 +148,12 @@ export default function AboutPet() {
         return Question;
         break;
       case 'redirectToVet':
-        return <Veterinarian getInit={getInit} />;
+        return <ResultPage getInit={getInit} result="redirectToVet" />;
         break;
       case 'redirectToProductFinder':
-        return <Fgs getInit={getInit} />;
+        return (
+          <ResultPage getInit={getInit} result="redirectToProductFinder" />
+        );
         break;
       case 'printSPTProducts':
         history.push('/precise-cat-nutrition-recommendation');
