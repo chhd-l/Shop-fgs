@@ -1256,7 +1256,7 @@ class AccountOrders extends React.Component {
                                                     .REACT_APP_COUNTRY ===
                                                     'fr' &&
                                                   item.promotions ===
-                                                    'Individual' ? (
+                                                    'individual' ? (
                                                     <span>
                                                       {item.specDetails}
                                                     </span>
@@ -1343,7 +1343,7 @@ class AccountOrders extends React.Component {
                                             {!(
                                               window.__.env
                                                 .REACT_APP_COUNTRY === 'fr' &&
-                                              item.promotions === 'Individual'
+                                              item.promotions === 'individual'
                                             ) ? (
                                               <FormattedMessage
                                                 id="xProduct"
@@ -1915,7 +1915,7 @@ class AccountOrders extends React.Component {
                               {ele.itemName}
                             </div>
                             {window.__.env.REACT_APP_COUNTRY === 'fr' &&
-                            item.promotions === 'Individual' ? (
+                            item.promotions === 'individual' ? (
                               <div>{ele.specDetails}</div>
                             ) : (
                               <FormattedMessage
