@@ -1,4 +1,5 @@
 import React from 'react';
+import Skeleton from '@/components/NormalSkeleton';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
@@ -20,6 +21,8 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
 import Help from '../StaticPage/SubscriptionLanding/Fr/help';
+import { getDetailsBySpuNo } from '@/api/details';
+import { sitePurchase } from '@/api/cart';
 
 const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
@@ -48,7 +51,7 @@ const kittyData = [
   }
 ];
 
-@inject('configStore')
+@inject('configStore', 'checkoutStore', 'loginStore', 'clinicStore')
 @observer
 @injectIntl
 class DedicatedLandingPage extends React.Component {
@@ -64,7 +67,12 @@ class DedicatedLandingPage extends React.Component {
       },
       searchEvent: {},
       showKitten: false,
-      selectLine: 0
+      selectLine: 0,
+      buttonLoading: false,
+      productList: [],
+      promotionCode: '',
+      listOne: [], // 商品数据1
+      listTwo: [] // 商品数据2
     };
   }
 
@@ -86,25 +94,129 @@ class DedicatedLandingPage extends React.Component {
       location.href = url;
     }
   }
+
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
+
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event
     });
   };
-
+  // 关闭 打开弹窗
   changeShowKitten = () => {
     this.setState({
-      showKitten: !this.state.showKitten
+      showKitten: !this.state.showKitten,
+      buttonLoading: false,
+      selectLine: 0
     });
   };
+  // 选中哪一项商品
   changeSetLine = (dataCurrent) => {
     this.setState({
       selectLine: dataCurrent
     });
   };
+
+  // 添加商品并跳转购物车
+  addCart = async () => {
+    if (this.state.selectLine === 0) {
+      return;
+    }
+    this.setState({
+      buttonLoading: true
+    });
+    // 获取优惠码
+    await Promise.all([getDetailsBySpuNo(2544), getDetailsBySpuNo(2522)]).then(
+      (resList) => {
+        this.setState({
+          promotionCode: this.props.match.params.id,
+          listOne: resList[0]?.context,
+          listTwo: resList[1]?.context
+        });
+        if (this.state.selectLine === 1) {
+          this.getProductList(1);
+        } else {
+          this.getProductList(2);
+        }
+      }
+    );
+  };
+  // 获取选中商品sku
+  getProductList = async (num) => {
+    let list = [];
+    if (num === 1) {
+      list = this.state.listOne.goodsInfos;
+    } else {
+      list = this.state.listTwo.goodsInfos;
+    }
+    let productList = {};
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].stock !== 0) {
+        productList = list[i];
+        break;
+      }
+    }
+    this.setState({
+      productList: [productList]
+    });
+
+    // 判断是否登陆
+    if (this.props.loginStore.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      this.hanldeUnloginAddToCart();
+    }
+  };
+
+  // 已登录
+  async hanldeLoginAddToCart() {
+    let { productList, promotionCode } = this.state;
+    console.log(productList);
+
+    let params = {
+      goodsInfoId: productList[0].goodsInfoId,
+      goodsNum: 1,
+      goodsCategory: '',
+      goodsInfoFlag: 0,
+      recommendationId:
+        this.props.clinicStore.linkClinicRecommendationInfos
+          ?.recommendationId || this.props.clinicStore.linkClinicId,
+      recommendationInfos: this.props.clinicStore.linkClinicRecommendationInfos,
+      recommendationName:
+        this.props.clinicStore.linkClinicRecommendationInfos
+          ?.recommendationName || this.props.clinicStore.linkClinicName
+    };
+    if (productList.length > 0) {
+      try {
+        await this.props.checkoutStore.setPromotionCode(promotionCode);
+        await sitePurchase({
+          goodsInfoId: productList[0].goodsInfoId,
+          goodsNum: 1,
+          goodsCategory: '',
+          goodsInfoFlag: 0,
+          recommendationId:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationId || this.props.clinicStore.linkClinicId,
+          recommendationInfos: this.props.clinicStore
+            .linkClinicRecommendationInfos,
+          recommendationName:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationName || this.props.clinicStore.linkClinicName
+        });
+        await this.props.checkoutStore.updateLoginCart();
+        this.setState({ buttonLoading: false, showKitten: false });
+      } catch (e) {
+        this.setState({ buttonLoading: false });
+      }
+    } else {
+      this.setState({ buttonLoading: false });
+    }
+  }
+
+  // 未登录
+  async hanldeUnloginAddToCart(products, path) {}
 
   render() {
     const { history, match, location } = this.props;
@@ -157,6 +269,7 @@ class DedicatedLandingPage extends React.Component {
 
     return (
       <div>
+        <Skeleton />
         <div
           className={'modal'}
           style={
@@ -433,8 +546,10 @@ class DedicatedLandingPage extends React.Component {
                     className="text-center"
                   >
                     <button
-                      className="rc-btn rc-btn--one"
-                      onClick={() => console.log(this.state.selectLine)}
+                      className={`rc-btn rc-btn--one ${
+                        this.state.buttonLoading ? 'ui-btn-loading' : ''
+                      }`}
+                      onClick={this.addCart}
                     >
                       Ajouter et voir mon panier
                     </button>

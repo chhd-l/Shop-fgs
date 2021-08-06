@@ -8,6 +8,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 import './index.css';
+import { funcUrl } from '@/lib/url-utils';
 import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
 import DetailsDisplay from './DetailsDisplay';
@@ -39,6 +40,14 @@ class PreciseRecommendation extends React.Component {
     };
   }
   async getProductInfo() {
+    let id = funcUrl({ name: 'id' });
+    if (id) {
+      let productShowInfo = productList[id];
+      this.setState({
+        productShowInfo
+      });
+      return;
+    }
     let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
     if (!paramsString) {
       return;
