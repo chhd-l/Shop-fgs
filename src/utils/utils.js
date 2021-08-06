@@ -938,3 +938,11 @@ export function bindSubmitParam(list) {
 
   return obj;
 }
+
+//判断是否是individual商品
+export function judgeIsIndividual(item) {
+  return (
+    window.__.env.REACT_APP_COUNTRY === 'fr' &&
+    (item.promotions || '').toLowerCase() === 'individual'
+  );
+}
