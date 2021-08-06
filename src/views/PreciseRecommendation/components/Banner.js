@@ -42,24 +42,26 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   );
 
   const handleBuyNow = async () => {
-    let { goodsInfo, pet } = recommData;
-    debugger;
-    if (!pet || !goodsInfo) {
+    let { goodsInfo, customerPetsVo } = recommData;
+    if (!customerPetsVo || !goodsInfo) {
       console.info('err');
       return;
     }
+    let petInfo = Object.assign({}, customerPetsVo, {
+      petType: 'cat'
+    });
     let params = Object.assign(
       {},
       {
         goodsInfoId: goodsInfo.goodsInfoId,
         goodsNum: goodsInfo.buyCount,
-        periodTypeId: goodsInfo.periodTypeId,
+        periodTypeId: goodsInfo.periodTypeId || 3560,
         // petsId: currentSelectedSize.petsId,
         // petsType: currentSelectedSize.petsType,
         // recommendationId: this.props.clinicStore.linkClinicId,
         // recommendationName: this.props.clinicStore.linkClinicName,
         goodsInfoFlag: 3,
-        questionParams: JSON.stringify(pet)
+        questionParams: JSON.stringify(petInfo)
       }
     );
     try {
@@ -222,6 +224,13 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           <img
             src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
           />
+          <div className="rc-margin-y--md">
+            <img
+              className="text-center m-auto "
+              style={{ width: '100px' }}
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
+            />
+          </div>
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             Daily portion:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
@@ -253,7 +262,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             Free shipment cost
           </div>
           <button className="rc-btn rc-btn--one">buy now</button>
-          <BannerFour />
+          <div className="rc-padding-x--xl">
+            <BannerFour />
+          </div>
         </div>
         {/* <div>
           <div

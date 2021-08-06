@@ -889,7 +889,7 @@ class AccountOrders extends React.Component {
                                             </span>
                                             {window.__.env.REACT_APP_COUNTRY ===
                                               'fr' &&
-                                            item.promotions === 'Individual' ? (
+                                            item.promotions === 'individual' ? (
                                               <span>{item.specDetails}</span>
                                             ) : (
                                               <FormattedMessage

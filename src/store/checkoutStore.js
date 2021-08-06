@@ -19,12 +19,22 @@ const nullTaxFeeData = {
   postalCode: '',
   customerAccount: ''
 };
+const getLoginData = (data) => {
+  // 登录情况下，有indv数据，直接到checkout页面下单
+  let cartData = data || localItemRoyal.get('rc-cart-data-login') || [];
+  let indvData = cartData.find((el) => el.goodsInfoFlag == 3);
+  if (indvData) {
+    cartData = [indvData];
+  }
+  console.info('cartData', cartData);
+  return cartData;
+};
 
 class CheckoutStore {
   @observable cartData = localItemRoyal.get('rc-cart-data') || [];
   @observable AuditData = localItemRoyal.get('rc-audit-data') || [];
   @observable autoAuditFlag = localItemRoyal.get('rc-autoAuditFlag') || false;
-  @observable petFlag = localItemRoyal.get('rc-petFlag') || false;
+  @observable petFlag = localItemRoyal.get('rc-petFlag') || false; // 商品列表
   @observable loginCartData = localItemRoyal.get('rc-cart-data-login') || []; // 商品列表
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
   @observable goodsMarketingMap =
@@ -46,7 +56,9 @@ class CheckoutStore {
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
-
+  // @computed get loginCartData(){
+  //  return getLoginData()
+  // }
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -174,8 +186,10 @@ class CheckoutStore {
 
   @action
   setLoginCartData(data) {
-    this.loginCartData = data;
-    localItemRoyal.set('rc-cart-data-login', data);
+    let datas = getLoginData(data);
+    this.loginCartData = datas;
+    console.info('datasdatas', datas);
+    localItemRoyal.set('rc-cart-data-login', datas);
   }
   @action.bound
   setGiftList(data) {
@@ -480,8 +494,11 @@ class CheckoutStore {
 
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
-      siteMiniPurchasesRes = siteMiniPurchasesRes.context;
-
+      // 兼容ind的参数传值
+      let newGoodsList = getLoginData(siteMiniPurchasesRes.context?.goodsList);
+      siteMiniPurchasesRes = Object.assign({}, siteMiniPurchasesRes, {
+        goodsList: newGoodsList
+      });
       //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
       // if (sessionItemRoyal.get('recommend_product')) {
       //   recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
@@ -492,6 +509,7 @@ class CheckoutStore {
       //   siteMiniPurchasesRes = recommend_data;
       // }
       // 获取总价
+      debugger;
       let sitePurchasesRes = await sitePurchases({
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
@@ -508,14 +526,14 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
-      // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
+      debugger;
+      console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
       this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
       let goodsList = siteMiniPurchasesRes.goodsList;
-
       for (let good of goodsList) {
         good.goodsInfoImg = good.goodsInfoImg
           ? good.goodsInfoImg
