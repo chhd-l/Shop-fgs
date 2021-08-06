@@ -509,7 +509,7 @@ class CheckoutStore {
       //   siteMiniPurchasesRes = recommend_data;
       // }
       // 获取总价
-      debugger;
+      // debugger;
       let sitePurchasesRes = await sitePurchases({
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
@@ -526,7 +526,7 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
-      debugger;
+      // debugger;
       console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
