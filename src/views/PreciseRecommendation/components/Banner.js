@@ -40,7 +40,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
   );
-
+  const [loading, setLoading] = useState(false);
   const handleBuyNow = async () => {
     let { goodsInfo, customerPetsVo } = recommData;
     if (!customerPetsVo || !goodsInfo) {
@@ -65,6 +65,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       }
     );
     try {
+      setLoading(true);
       await sitePurchase(params);
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
@@ -79,6 +80,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       // });
       // this.props.history.push(url);
     } catch (err) {
+      setLoading(false);
       console.info('err', err);
     }
   };
@@ -174,8 +176,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                     {loginStore.isLogin ? (
                       <button
                         onClick={handleBuyNow}
-                        className={`rc-btn rc-btn--one ${
-                          productShowInfo?.goodsInfo?.stock > 0
+                        className={`rc-btn rc-btn--one
+                        ${loading ? 'ui-btn-loading' : ''} ${
+                          productShowInfo?.goodsInfo?.stock <
+                          productShowInfo?.goodsInfo?.buyCount
                             ? ''
                             : 'disabled'
                         }`}
@@ -261,22 +265,23 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             Automatic shipment every 30 days <br />
             Free shipment cost
           </div>
-          <button className="rc-btn rc-btn--one">buy now</button>
+          <button
+            className="rc-btn rc-btn--one"
+            onClick={handleBuyNow}
+            className={`rc-btn rc-btn--one 
+          ${loading ? 'ui-btn-loading' : ''} ${
+              productShowInfo?.goodsInfo?.stock <
+              productShowInfo?.goodsInfo?.buyCount
+                ? ''
+                : 'disabled'
+            }`}
+          >
+            buy now
+          </button>
           <div className="rc-padding-x--xl">
             <BannerFour />
           </div>
         </div>
-        {/* <div>
-          <div
-            className="rc-layout-container rc-five-column"
-            style={{ marginTop: `${isMobile ? '0' : '-1rem'}` }}
-          >
-            <div className="rc-column rc-double-width"></div>
-            <div className="rc-column rc-triple-width">
-              </div>
-          </div>
-        </div>
-       */}
       </div>
 
       <div className="rc-max-width--xl m-auto rc-padding-x--md  rc-padding-top--lg rc-layout-container rc-two-column">
