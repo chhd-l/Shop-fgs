@@ -22,7 +22,7 @@ const HelpComponents = () => {
                     {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                   </h2>
                 </div>
-                <p style={{marginBottom: 0}}>
+                <p style={{ marginBottom: 0 }}>
                   <span>
                     Our team is available to answer your questions and ensure
                     you have the best possible experience.

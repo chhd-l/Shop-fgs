@@ -61,7 +61,9 @@ const LongBanner = () => {
                     {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
                   </p>
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
-                  <sup style={{    color: '#666666',fontSize: 16, top: '-1em'}}>[1]</sup>
+                  <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
+                    [1]
+                  </sup>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
                   <a
                     onClick={() => {
@@ -176,7 +178,13 @@ const LongBanner = () => {
             <img
               style={
                 isMobile
-                  ? { width: '80%', position: 'absolute', left: '0%',top: '-220px', zIndex: -100}
+                  ? {
+                      width: '80%',
+                      position: 'absolute',
+                      left: '0%',
+                      top: '-220px',
+                      zIndex: -100
+                    }
                   : {
                       width: '40%',
                       position: 'absolute',
@@ -189,7 +197,12 @@ const LongBanner = () => {
             <img
               style={
                 isMobile
-                  ? { width: '60%', position: 'absolute', right: '0%',top: '-158px' }
+                  ? {
+                      width: '60%',
+                      position: 'absolute',
+                      right: '0%',
+                      top: '-158px'
+                    }
                   : {
                       width: '35%',
                       position: 'absolute',
