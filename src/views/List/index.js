@@ -1079,7 +1079,7 @@ class List extends React.Component {
               .attributeValues || []
           ).filter(
             (attr) =>
-              attr === 'Boules de poils_Cat' ||
+              attr === 'Maintien du poids de forme_Dog' ||
               attr === 'Tendency to beg for food_Cat'
           ).length > 0;
 
