@@ -22,7 +22,7 @@ const HelpComponents = () => {
                     {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                   </h2>
                 </div>
-                <p>
+                <p style={{marginBottom: 0}}>
                   <span>
                     Our team is available to answer your questions and ensure
                     you have the best possible experience.
@@ -45,7 +45,7 @@ const HelpComponents = () => {
                                   <b
                                     style={{
                                       color: '#E2001A',
-                                      fontWeight: 500
+                                      fontWeight: 600
                                     }}
                                   >
                                     {/*<FormattedMessage id="ClubLP.Help.call.title" />*/}
@@ -115,7 +115,7 @@ const HelpComponents = () => {
                                   </b>
                                   <p style={{ marginBottom: 0 }}>
                                     We'll do our best to get back to you as fast
-                                    as possible : and within 12 hours
+                                    as possible and within 12 hours
                                     {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
                                   </p>
                                   <DistributeHubLinkOrATag
@@ -131,7 +131,7 @@ const HelpComponents = () => {
                                         marginBottom: 0
                                       }}
                                     >
-                                      Send US an Email
+                                      Send us an Email
                                       {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
                                     </p>
                                   </DistributeHubLinkOrATag>
