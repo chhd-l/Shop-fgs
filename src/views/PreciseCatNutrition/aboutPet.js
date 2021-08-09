@@ -93,10 +93,6 @@ export default function AboutPet() {
     if (questionParams.neutered) {
       questionParams.neutered = toBool(questionParams.neutered);
     }
-    // if(questionParams.weightGain){
-    //   questionParams.weightGain = toBool(questionParams.neutered)
-    // }
-
     let querySteps = [
       ...perStep,
       {
@@ -108,7 +104,7 @@ export default function AboutPet() {
       finderNumber: finderNumber,
       steps: querySteps
     });
-    console.log(result);
+
     setFinderNumber(result.context.finderNumber);
     setPerStep(result.context.steps);
     setStep(
@@ -118,9 +114,45 @@ export default function AboutPet() {
     );
 
     if (!result.context.isEndOfTree) {
-      setStepList(
-        result.context.currentSteps ? result.context.currentSteps : []
-      );
+      //返回答题 顺序处理
+      if (
+        result.context.currentSteps &&
+        result.context.currentSteps[0].metadata.step === 2
+      ) {
+        let array = [];
+        result.context.currentSteps.forEach((item) => {
+          switch (item.name) {
+            case 'weight':
+              array[0] = item;
+              break;
+            case 'weightGain':
+              array[2] = item;
+              break;
+            case 'petActivityCode':
+              array[1] = JSON.parse(JSON.stringify(item));
+              item.possibleValues.forEach((it) => {
+                switch (it.key) {
+                  case 'low':
+                    array[1].possibleValues[0] = it;
+                    break;
+                  case 'moderate':
+                    array[1].possibleValues[1] = it;
+                    break;
+                  case 'high':
+                    array[1].possibleValues[2] = it;
+                    break;
+                }
+              });
+              break;
+          }
+        });
+        console.log(array);
+        setStepList(array);
+      } else {
+        setStepList(
+          result.context.currentSteps ? result.context.currentSteps : []
+        );
+      }
     } else {
       if (result.context.next === 'printSPTProducts') {
         //跳转页面用

@@ -1,18 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './index.less';
+import '../QuestionnaireRadio/index.less';
 import { FormContext } from '../QuestionnaireForm';
-import radioImage from '../../../../assets/images/preciseCatNutrition/radio.png';
-import radioImage1 from '../../../../assets/images/preciseCatNutrition/radio1.png';
-import radioImage2 from '../../../../assets/images/preciseCatNutrition/radio2.png';
 
-let imgMap = {
-  3: radioImage1,
-  4: radioImage,
-  5: radioImage,
-  6: radioImage2,
-  7: radioImage2
-};
-export default function QuestionnaireRadio({ questionData }) {
+export default function RadioGroup({ questionData }) {
   const [checked, setChecked] = useState('');
   const Context = useContext(FormContext);
   //初始化选中第一个
@@ -67,13 +57,7 @@ export default function QuestionnaireRadio({ questionData }) {
             className="rc-input__label--inline"
             htmlFor={`pro-finder-answer-${i}`}
           >
-            <div className="label-box">
-              <img
-                src={imgMap[ele.key]}
-                style={{ display: 'inline-block', paddingRight: 5 }}
-              />
-              <span>{ele.label}</span>
-            </div>
+            <span>{ele.label}</span>
           </label>
         </div>
       ))}

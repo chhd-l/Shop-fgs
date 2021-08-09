@@ -37,26 +37,41 @@ export default function AgeSelect({ config, questionData }) {
     setForm(form);
   };
   return (
-    <div className="row">
-      {config.list.map((ele, i) => (
-        <span
-          className={`rc-select rc-full-width rc-input--full-width rc-select-processed col-6`}
-          key={i}
-        >
-          <Selection
-            optionList={ele.map((item) => ({
-              value: item.key,
-              name: item.label
-            }))}
-            selectedItemChange={(data) => handleSelectChange(data, i)}
-            selectedItemData={{
-              value: form[i]
-            }}
-            key={`${i}-${form}`}
-            placeholder={config.placeholderList[i]}
-          />
-        </span>
-      ))}
+    <div>
+      <div className="question-title">
+        {questionData.metadata.label}
+        {questionData.metadata.description ? (
+          <span className="iconfont-box">
+            <i className="iconfont iconinfo"></i>
+            <div className="question-tooltip">
+              {questionData.metadata.description}
+            </div>
+          </span>
+        ) : (
+          ''
+        )}
+      </div>
+      <div className="row" style={{ marginTop: '-8px' }}>
+        {config.list.map((ele, i) => (
+          <span
+            className={`rc-select rc-full-width rc-input--full-width rc-select-processed col-6`}
+            key={i}
+          >
+            <Selection
+              optionList={ele.map((item) => ({
+                value: item.key,
+                name: item.label
+              }))}
+              selectedItemChange={(data) => handleSelectChange(data, i)}
+              selectedItemData={{
+                value: form[i]
+              }}
+              key={`${i}-${form}`}
+              placeholder={config.placeholderList[i]}
+            />
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
