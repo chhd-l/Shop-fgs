@@ -72,7 +72,21 @@ class DedicatedLandingPage extends React.Component {
       productList: [],
       promotionCode: '',
       listOne: [], // 商品数据1
-      listTwo: [] // 商品数据2
+      listTwo: [], // 商品数据2
+      details: {
+        id: '',
+        goodsName: '',
+        goodsDescription: '',
+        sizeList: [],
+        images: [],
+        goodsSpecDetails: [],
+        goodsSpecs: [],
+        taggingForText: null,
+        taggingForImage: null,
+        fromPrice: 0,
+        toPrice: 0
+      },
+      unProductList: {}
     };
   }
 
@@ -146,20 +160,25 @@ class DedicatedLandingPage extends React.Component {
   // 获取选中商品sku
   getProductList = async (num) => {
     let list = [];
+    let unProductList = [];
     if (num === 1) {
       list = this.state.listOne.goodsInfos;
+      unProductList = this.state.listOne;
     } else {
       list = this.state.listTwo.goodsInfos;
+      unProductList = this.state.listTwo;
     }
     let productList = {};
     for (let i = 0; i < list.length; i++) {
       if (list[i].stock !== 0) {
+        list[i].selected = true;
         productList = list[i];
         break;
       }
     }
     this.setState({
-      productList: [productList]
+      productList: [productList],
+      unProductList
     });
 
     // 判断是否登陆
@@ -173,21 +192,6 @@ class DedicatedLandingPage extends React.Component {
   // 已登录
   async hanldeLoginAddToCart() {
     let { productList, promotionCode } = this.state;
-    console.log(productList);
-
-    let params = {
-      goodsInfoId: productList[0].goodsInfoId,
-      goodsNum: 1,
-      goodsCategory: '',
-      goodsInfoFlag: 0,
-      recommendationId:
-        this.props.clinicStore.linkClinicRecommendationInfos
-          ?.recommendationId || this.props.clinicStore.linkClinicId,
-      recommendationInfos: this.props.clinicStore.linkClinicRecommendationInfos,
-      recommendationName:
-        this.props.clinicStore.linkClinicRecommendationInfos
-          ?.recommendationName || this.props.clinicStore.linkClinicName
-    };
     if (productList.length > 0) {
       try {
         await this.props.checkoutStore.setPromotionCode(promotionCode);
@@ -207,6 +211,7 @@ class DedicatedLandingPage extends React.Component {
         });
         await this.props.checkoutStore.updateLoginCart();
         this.setState({ buttonLoading: false, showKitten: false });
+        this.props.history.push('/cart');
       } catch (e) {
         this.setState({ buttonLoading: false });
       }
@@ -214,9 +219,51 @@ class DedicatedLandingPage extends React.Component {
       this.setState({ buttonLoading: false });
     }
   }
-
+  get addCartBtnStatus() {
+    return this.state.productList.length > 0;
+  }
   // 未登录
-  async hanldeUnloginAddToCart(products, path) {}
+  async hanldeUnloginAddToCart(products) {
+    let { productList, unProductList, promotionCode } = this.state;
+    await this.props.checkoutStore.setPromotionCode(promotionCode);
+    let cartItem = Object.assign(
+      {},
+      { ...unProductList, ...unProductList.goods },
+      {
+        selected: true,
+        sizeList: unProductList.goodsInfos,
+        goodsInfo: { ...productList },
+        quantity: 1,
+        currentUnitPrice: productList[0]?.marketPrice,
+        goodsInfoFlag: 0,
+        periodTypeId: null,
+        recommendationInfos:
+          this.props.clinicStore.linkClinicRecommendationInfos,
+        recommendationId:
+          this.props.clinicStore.linkClinicRecommendationInfos
+            ?.recommendationId || this.props.clinicStore.linkClinicId,
+        recommendationName:
+          this.props.clinicStore.linkClinicRecommendationInfos
+            ?.recommendationName || this.props.clinicStore.linkClinicName,
+        taggingForTextAtCart: (unProductList.taggingList || []).filter(
+          (e) =>
+            e.taggingType === 'Text' &&
+            e.showPage?.includes('Shopping cart page')
+        )[0],
+        taggingForImageAtCart: (unProductList.taggingList || []).filter(
+          (e) =>
+            e.taggingType === 'Image' &&
+            e.showPage?.includes('Shopping cart page')
+        )[0]
+      }
+    );
+    await this.props.checkoutStore.hanldeUnloginAddToCart({
+      valid: this.addCartBtnStatus,
+      cartItemList: [cartItem]
+    });
+    this.setState({ buttonLoading: false, showKitten: false });
+    // this.props.history.push('/cart');
+  }
 
   render() {
     const { history, match, location } = this.props;
