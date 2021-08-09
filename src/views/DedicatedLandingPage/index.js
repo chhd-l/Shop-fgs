@@ -107,6 +107,7 @@ class DedicatedLandingPage extends React.Component {
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
+    this.setState({ promotionCode: this.props.match.params.id });
   }
 
   componentWillUnmount() {
@@ -135,33 +136,27 @@ class DedicatedLandingPage extends React.Component {
 
   // 添加商品并跳转购物车
   addCart = async () => {
-    if (this.state.selectLine === 0) {
-      return;
+    if (this.state.selectLine === 1) {
+      const { context } = await getDetailsBySpuNo(2544);
+      this.setState({
+        listOne: context,
+        buttonLoading: true
+      });
+      this.getProductList();
+    } else if (this.state.selectLine === 2) {
+      const { context } = await getDetailsBySpuNo(2522);
+      this.setState({
+        listTwo: context,
+        buttonLoading: true
+      });
+      this.getProductList();
     }
-    this.setState({
-      buttonLoading: true
-    });
-    // 获取优惠码
-    await Promise.all([getDetailsBySpuNo(2544), getDetailsBySpuNo(2522)]).then(
-      (resList) => {
-        this.setState({
-          promotionCode: this.props.match.params.id,
-          listOne: resList[0]?.context,
-          listTwo: resList[1]?.context
-        });
-        if (this.state.selectLine === 1) {
-          this.getProductList(1);
-        } else {
-          this.getProductList(2);
-        }
-      }
-    );
   };
   // 获取选中商品sku
-  getProductList = async (num) => {
+  getProductList = async () => {
     let list = [];
     let unProductList = [];
-    if (num === 1) {
+    if (this.state.selectLine === 1) {
       list = this.state.listOne.goodsInfos;
       unProductList = this.state.listOne;
     } else {
@@ -219,13 +214,34 @@ class DedicatedLandingPage extends React.Component {
       this.setState({ buttonLoading: false });
     }
   }
+
   get addCartBtnStatus() {
     return this.state.productList.length > 0;
   }
+
   // 未登录
-  async hanldeUnloginAddToCart(products) {
+  async hanldeUnloginAddToCart() {
     let { productList, unProductList, promotionCode } = this.state;
     await this.props.checkoutStore.setPromotionCode(promotionCode);
+    let specList = unProductList.goodsSpecs;
+    let specDetailList = unProductList.goodsSpecDetails;
+    if (specList) {
+      specList.map((sItem) => {
+        sItem.chidren = specDetailList.filter((sdItem, i) => {
+          return sdItem.specId === sItem.specId;
+        });
+        sItem.chidren.map((child) => {
+          if (
+            productList[0]?.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+          ) {
+            child.selected = true;
+          }
+          return child;
+        });
+        return sItem;
+      });
+    }
+
     let cartItem = Object.assign(
       {},
       { ...unProductList, ...unProductList.goods },
@@ -254,7 +270,8 @@ class DedicatedLandingPage extends React.Component {
           (e) =>
             e.taggingType === 'Image' &&
             e.showPage?.includes('Shopping cart page')
-        )[0]
+        )[0],
+        goodsSpecs: specList
       }
     );
     await this.props.checkoutStore.hanldeUnloginAddToCart({
@@ -262,7 +279,7 @@ class DedicatedLandingPage extends React.Component {
       cartItemList: [cartItem]
     });
     this.setState({ buttonLoading: false, showKitten: false });
-    // this.props.history.push('/cart');
+    this.props.history.push('/cart');
   }
 
   render() {
@@ -595,6 +612,10 @@ class DedicatedLandingPage extends React.Component {
                     <button
                       className={`rc-btn rc-btn--one ${
                         this.state.buttonLoading ? 'ui-btn-loading' : ''
+                      }  ${
+                        this.state.selectLine === 0
+                          ? 'rc-btn-solid-disabled'
+                          : ''
                       }`}
                       onClick={this.addCart}
                     >
