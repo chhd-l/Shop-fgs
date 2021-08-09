@@ -551,7 +551,7 @@ const de_DE = {
   loginFailed: 'Login fehlgeschlagen',
   logisticsCompany: 'Logistikunternehmen',
   logisticsRating: 'Logistikbewertung',
-  logisticsSingleNumber: 'Logistik einzelne Nummer',
+  logisticsSingleNumber: 'DPD Paketnummer',
   logOff: 'Ausloggen',
   mailAddress: 'E-Mail-Addresse',
   manage: 'Verwalten',
