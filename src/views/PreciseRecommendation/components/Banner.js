@@ -193,10 +193,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                         onClick={handleBuyNow}
                         className={`rc-btn rc-btn--one
                         ${loading ? 'ui-btn-loading' : ''} ${
-                          productShowInfo?.goodsInfo?.stock <
-                          productShowInfo?.goodsInfo?.buyCount
+                          recommData?.goodsInfo?.stock >=
+                          recommData?.goodsInfo?.buyCount
                             ? ''
-                            : 'disabled'
+                            : 'rc-btn-solid-disabled'
                         }`}
                         style={{ width: '200px', padding: '10px' }}
                       >
@@ -291,10 +291,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             onClick={handleBuyNow}
             className={`rc-btn rc-btn--one 
           ${loading ? 'ui-btn-loading' : ''} ${
-              productShowInfo?.goodsInfo?.stock <
-              productShowInfo?.goodsInfo?.buyCount
+              recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
                 ? ''
-                : 'disabled'
+                : 'rc-btn-solid-disabled'
             }`}
           >
             buy now

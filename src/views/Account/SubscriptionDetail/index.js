@@ -364,34 +364,8 @@ class SubscriptionDetail extends React.Component {
   }
   getGoodsRations = async (subDetail, isIndv) => {
     let petsId = subDetail.petsInfo?.petsId;
-    if (petsId) {
-      if (isIndv) {
-        subDetail.goodsInfo.map((item) => {
-          item.petsRation = item.subscribeNum / 30 + 'g/day';
-          return item;
-        });
-        return subDetail.goodsInfo;
-      }
-      let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
-      // get rations
-      let rationsParams = { petsId, spuNoList };
-      let rations = [];
-      try {
-        // 不能删除trycatch 该接口有问题会影响后续流程
-        let rationRes = await getRation(rationsParams);
-        rations = rationRes?.context?.rationResponseItems;
-        subDetail.goodsInfo?.forEach((el) => {
-          rations?.forEach((ration) => {
-            if (el.spuNo == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
-            }
-          });
-        });
-        return subDetail.goodsInfo;
-      } catch (err) {
-        console.log(err);
-      }
-    }
+
+    return subDetail.petsInfo;
   };
   getDetail = async (fn) => {
     try {
@@ -414,7 +388,6 @@ class SubscriptionDetail extends React.Component {
           }
           return item;
         }) || []; //防止商品被删报错
-      console.info('subDetail.goodsInfo', subDetail.goodsInfo);
       let isCat =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
         'Cat';
@@ -433,7 +406,36 @@ class SubscriptionDetail extends React.Component {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
-      subDetail.goodsInfo = await this.getGoodsRations(subDetail, isIndv);
+      let petsId = subDetail.petsInfo?.petsId;
+      if (petsId) {
+        if (isIndv) {
+          subDetail.goodsInfo.map((item) => {
+            item.petsRation = item.subscribeNum / 30 + 'g/day';
+            return item;
+          });
+        } else {
+          let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
+          // get rations
+          let rationsParams = { petsId, spuNoList };
+          let rations = [];
+          try {
+            // 不能删除trycatch 该接口有问题会影响后续流程
+            let rationRes = await getRation(rationsParams);
+            rations = rationRes?.context?.rationResponseItems;
+            subDetail.goodsInfo?.forEach((el) => {
+              rations?.forEach((ration) => {
+                if (el.spuNo == ration.mainItem) {
+                  el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+                }
+              });
+            });
+            return subDetail.goodsInfo;
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+      console.info('subDetail.goodsInfo', subDetail.goodsInfo);
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });
