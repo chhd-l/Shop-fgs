@@ -116,7 +116,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                   fontWeight: '700'
                 }}
               >
-                {recommData?.goodsInfo?.goodsInfoName}
+                {recommData?.customerPetsVo?.name}'s adapted diet & portion
+                {/* {recommData?.goodsInfo?.goodsInfoName} */}
               </h2>
               <div className=" rc-layout-container rc-five-column rc-padding-top--md">
                 <div
@@ -135,7 +136,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                     <br />
                     Total pack weight:{' '}
                     <strong style={{ color: '#444' }}>
-                      {recommData.totalPackWeight}
+                      {recommData.totalPackWeight} {recommData.weightUnit}/day
                     </strong>
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
@@ -220,7 +221,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               fontWeight: 600
             }}
           >
-            {recommData?.goodsInfo?.goodsInfoName}
+            {recommData?.customerPetsVo?.name}'s adapted diet & portion
+            {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div
             className="rc-margin-bottom--xs  text-left"
@@ -247,7 +249,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             <br />
             Total pack weight:{' '}
             <strong style={{ color: '#444' }}>
-              {recommData.totalPackWeight}
+              {recommData.totalPackWeight} {recommData.weightUnit}/day
             </strong>
           </div>
           <div className="rc-margin-bottom--md">
