@@ -57,7 +57,7 @@ const subscription = () => {
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
                       }}
                     >
                       <LazyLoad height={200}>
@@ -67,8 +67,8 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 text-md-left value-proposition__text pr-0 py-0">
-                      <p className="rc-margin-bottom--none  ">
+                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                      <p className="rc-margin-bottom--none" style={{ textAlign:isMobile?'left':'center'}}>
                         Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
                       </p>
@@ -92,9 +92,9 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 text-md-left value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p
-                        className="rc-margin-bottom--none  "
+                        className="rc-margin-bottom--none" style={{ textAlign:isMobile?'left':'center'}}
                         // // style={{ fontSize: 14}}
                       >
                         A personal pet advisor available for you
@@ -122,9 +122,9 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 text-md-left value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p
-                        className="rc-margin-bottom--none  "
+                        className="rc-margin-bottom--none" style={{ textAlign:isMobile?'left':'center'}}
                         // // style={{ fontSize: 14}}
                       >
                         A welcome pack with a scale & all materials to properly
@@ -153,8 +153,8 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 text-md-left value-proposition__text pr-0 py-0">
-                      <p className="rc-margin-bottom--none  ">
+                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                      <p className="rc-margin-bottom--none" style={{ textAlign:isMobile?'left':'center'}}>
                         Enjoy a loyalty program with exclusive gift to stimulate
                         your pet
                         {/*<FormattedMessage*/}
@@ -181,8 +181,8 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 text-md-left value-proposition__text pr-0 py-0">
-                      <p className="rc-margin-bottom--none  ">
+                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                      <p className="rc-margin-bottom--none" style={{ textAlign:isMobile?'left':'center'}}>
                         Tailored professional advice & tips
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon5'}*/}
