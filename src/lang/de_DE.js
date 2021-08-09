@@ -1379,9 +1379,9 @@ const de_DE = {
     'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
   dePrescriberCodeTxt: 'z B.XYZ1234',
   dePrescriberCodeErrMsg:
-    'Der eingegebene Code ist ungültig.<br>Bitte versuchen Sie es mit einem anderen Code',
+    'Der eingegebene Code ist ungültig.<br>Bitte kontrollieren Sie die Richtigkeit Ihrer Eingabe oder kontaktieren Sie Ihre Tierarztpraxis.',
   'myAccount.dePrescriberCodeErrMsg':
-    'Der eingegebene Code ist ungültig.Bitte versuchen Sie es mit einem anderen Code',
+    'Der eingegebene Code ist ungültig. Bitte kontrollieren Sie die Richtigkeit Ihrer Eingabe oder kontaktieren Sie Ihre Tierarztpraxis.',
   'deLandingPage.prescriberCode.searchBtn': 'Code speichern',
   'deLandingPage.prescriberCode.tip5': 'Sie haben noch keinen Empfehlungscode?',
   'deLandingPage.prescriberCode.tip6':
