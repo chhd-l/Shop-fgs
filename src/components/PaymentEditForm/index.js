@@ -13,7 +13,8 @@ import { getProvincesList } from '@/api/address';
 import {
   usPaymentInfo,
   usPayCardSubscription,
-  addOrUpdatePaymentMethod
+  addOrUpdatePaymentMethod,
+  addOrUpdatePaymentMethodRu
 } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
@@ -107,7 +108,9 @@ class PaymentEditForm extends React.Component {
       errMsgObj: {},
 
       cardTypeVal: this.props.defaultCardTypeVal || '',
-      btnLoading: false
+      btnLoading: false,
+
+      showPaymentMethodTipsRu: false
     };
   }
   get userInfo() {
@@ -281,6 +284,45 @@ class PaymentEditForm extends React.Component {
       );
       if (!res.data.vendor) {
         throw new Error(messages.supportCardTypeMismatch);
+      }
+
+      const isCountryRu = window.__.env.REACT_APP_COUNTRY === 'ru';
+
+      //  如果是俄罗斯需要走 3ds 绑卡流程
+      if (isCountryRu) {
+        this.setState({
+          showPaymentMethodTipsRu: true
+        });
+
+        const addCardRes = await addOrUpdatePaymentMethodRu({
+          paymentToken: res ? res.data.token : '',
+          binNumber: res ? res.data.bin_number : '',
+          cardType: res ? res.data.card_type : '',
+          customerId: this.userInfo ? this.userInfo.customerId : '',
+          email: creditCardInfoForm.email,
+          holderName: res ? res.data.holder_name : '',
+          isDefault: creditCardInfoForm.isDefault ? '1' : '0',
+          lastFourDigits: '5897',
+          paymentVendor: res ? res.data.vendor : '',
+          phone: creditCardInfoForm.phoneNumber || '',
+          storeId: window.__.env.REACT_APP_STOREID,
+          successUrl: `${window.location.origin}/PaymentMethod3dsResult`,
+          token: res ? res.data.token : '',
+          pspName: 'PAYU'
+        });
+
+        this.setState({
+          showPaymentMethodTipsRu: false
+        });
+
+        if (!addCardRes.context?.redirectUrl) {
+          window.location.href = addCardRes.context.redirectUrl;
+        } else {
+          this.handleCancel();
+          this.props.refreshList();
+        }
+
+        return;
       }
 
       await addOrUpdatePaymentMethod({
@@ -685,7 +727,8 @@ class PaymentEditForm extends React.Component {
       validationModalVisible,
       selectValidationOption,
       errMsgObj,
-      cardTypeVal
+      cardTypeVal,
+      showPaymentMethodTipsRu
     } = this.state;
     const { paymentType } = this.props;
 
@@ -1012,7 +1055,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >
@@ -1053,6 +1097,15 @@ class PaymentEditForm extends React.Component {
                   </button>
                 </div>
               </div>
+              {/* 俄罗斯3ds卡 绑定需要展示扣钱提示 */}
+              {showPaymentMethodTipsRu ? (
+                <div className="row">
+                  <div className="col-12 mt-2 red">
+                    Для проверки новой карты будет произведено списание и
+                    возврат суммы 12 руб
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         )}

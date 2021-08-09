@@ -241,6 +241,10 @@ const Payu3dsPayResult = loadable(() =>
   import('@/views/Payment/modules/Payu3dsPayResult')
 );
 
+const PaymentMethod3dsResult = loadable(() =>
+  import('@/views/Payment/modules/PaymentMethod3dsResult')
+);
+
 const RegisterRequired = loadable(() =>
   import('@/views/Login/RegisterRequired')
 );
@@ -324,6 +328,11 @@ const App = () => {
                   exact
                   path="/Payu3dsPayResult"
                   component={Payu3dsPayResult}
+                />
+                <Route
+                  exact
+                  path="/PaymentMethod3dsResult"
+                  component={PaymentMethod3dsResult}
                 />
                 <Route
                   exact
