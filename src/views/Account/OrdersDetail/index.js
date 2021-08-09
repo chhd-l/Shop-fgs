@@ -1396,7 +1396,10 @@ class AccountOrders extends React.Component {
                                               src={
                                                 item.goodsInfoImg ||
                                                 item.pic ||
-                                                getClubLogo()
+                                                getClubLogo({
+                                                  goodsInfoFlag:
+                                                    item.goodsInfoFlag
+                                                })
                                               }
                                               alt=""
                                               title=""

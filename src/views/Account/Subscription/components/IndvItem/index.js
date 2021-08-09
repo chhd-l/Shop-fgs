@@ -74,13 +74,13 @@ const ClubItem = ({ subItem, history }) => {
                   {`${item.petsName}'s personalized subscription`}
                 </p>
                 <p>
-                  {item.specText} - {item.subscribeNum}{' '}
+                  {item.subscribeNum / 1000 + 'kg'} - 1{' '}
                   <FormattedMessage id="units" />
                 </p>
                 <p>
-                  30 daily rations Delivered every month
-                  {/* <FormattedMessage id="subscription.frequency" />:{' '}
-                  <FrequencyMatch currentId={item.periodTypeId} /> */}
+                  {/* 30 daily rations Delivered every month */}
+                  <FormattedMessage id="subscription.frequency" />: 30 days
+                  {/* <FrequencyMatch currentId={item.periodTypeId} /> */}
                 </p>
               </span>
             </div>

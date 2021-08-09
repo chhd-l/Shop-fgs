@@ -15,6 +15,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { getDeviceType } from '../../utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
+import './index.less';
 import Subscription from './Components/Subscription';
 import HowItWorks from './Components/HowItWorks';
 import HelpComponents from './Components/HelpComponents';
@@ -158,35 +159,18 @@ class PreciseCatNutrition extends React.Component {
                               {' '}
                               DID
                               <div
-                                style={
-                                  isMobile
-                                    ? {
-                                        height: '60%',
-                                        fontSize: 14,
-                                        backgroundColor: 'white',
-                                        color: '#E2001A',
-                                        display: 'inline',
-                                        borderRadius: '50%',
-                                        position: 'absolute',
-                                        left: 163,
-                                        top: 7,
-                                        padding: 2,
-                                        fontWeight: 500
-                                      }
-                                    : {
-                                        height: '54%',
-                                        fontSize: 14,
-                                        backgroundColor: 'white',
-                                        color: '#E2001A',
-                                        display: 'inline',
-                                        borderRadius: '50%',
-                                        position: 'absolute',
-                                        left: 222,
-                                        top: 7,
-                                        padding: 2,
-                                        fontWeight: 500
-                                      }
-                                }
+                                className="titleRadius"
+                                style={{
+                                  fontSize: 14,
+                                  backgroundColor: 'white',
+                                  color: '#E2001A',
+                                  display: 'inline',
+                                  borderRadius: '50%',
+                                  position: 'absolute',
+                                  top: 7,
+                                  padding: 2,
+                                  fontWeight: 500
+                                }}
                               >
                                 {' '}
                                 You{' '}
@@ -492,8 +476,8 @@ class PreciseCatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
-                        <p>
+                      <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
+                        <p style={{ marginBottom: 0 }}>
                           * Overweight can shorten an animal's life by up to 2
                           years. And it can increase the risk of diabetes,
                           urinary tract diseases, arthritis and skin problems.
@@ -502,7 +486,7 @@ class PreciseCatNutrition extends React.Component {
                           Med 2018; 1-11
                         </p>
                         <p>
-                          1] This is just a figurative price but the
+                          [1] This is just a figurative price but the
                           subscription is only available for 30 days.
                         </p>
                       </div>
