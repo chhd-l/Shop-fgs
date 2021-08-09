@@ -89,7 +89,7 @@ const clubNoSubscription = function () {
       <div className="subscription-club-no-subscription">
         <img
           className="m-auto subscription-club-no-subscription-logo"
-          src={getClubLogo()}
+          src={getClubLogo({})}
           alt="club icon"
         />
         <p>

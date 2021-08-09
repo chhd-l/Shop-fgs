@@ -8,14 +8,8 @@ import dateIcon from '../../images/date.png';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const {
-    setState,
-    isIndv,
-    isActive,
-    onDateChange,
-    getMinDate,
-    isGift
-  } = SubGoodsInfosValue;
+  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
+    SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -30,7 +24,7 @@ const ChangeSelection = ({ el }) => {
   }
   return (
     <>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         {isIndv ? (
           <>
             <strong
@@ -54,7 +48,8 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              30 daily rations Delivered every month
+              30 days
+              {/* 30 daily rations Delivered every month */}
             </div>
           </>
         ) : (
@@ -85,7 +80,7 @@ const ChangeSelection = ({ el }) => {
           </div>
         )}
       </div>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         <strong
           style={{
             display: 'inline-block',
@@ -107,7 +102,7 @@ const ChangeSelection = ({ el }) => {
           {getFormatDate(el.createTime.split(' ')[0])}
         </div>
       </div>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         <strong
           style={{
             display: 'inline-block',

@@ -1166,8 +1166,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1291,9 +1291,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1396,7 +1396,10 @@ class AccountOrders extends React.Component {
                                               src={
                                                 item.goodsInfoImg ||
                                                 item.pic ||
-                                                getClubLogo()
+                                                getClubLogo({
+                                                  goodsInfoFlag:
+                                                    item.goodsInfoFlag
+                                                })
                                               }
                                               alt=""
                                               title=""

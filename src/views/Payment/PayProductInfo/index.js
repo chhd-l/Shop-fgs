@@ -283,7 +283,7 @@ class PayProductInfo extends React.Component {
                     el.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
                         alt="club logo"
                       />
                     ) : null}
@@ -379,7 +379,7 @@ class PayProductInfo extends React.Component {
                     el.goods.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
                         alt="club logo"
                       />
                     ) : null}
@@ -397,21 +397,22 @@ class PayProductInfo extends React.Component {
                         <FormattedMessage
                           id="quantityText"
                           values={{
-                            specText: el.specText,
-                            buyCount: el.buyCount
+                            specText:
+                              el.goodsInfoFlag == 3
+                                ? el.buyCount / 1000 + 'kg'
+                                : el.specText,
+                            buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
                         />
                       )}
                     </p>
                     {el.goodsInfoFlag ? (
                       <p className="mb-0">
+                        <FormattedMessage id="subscription.frequency" /> :{' '}
                         {el.goodsInfoFlag == 3 ? (
-                          '30 daily rations Delivered every month'
+                          '30 days'
                         ) : (
-                          <>
-                            <FormattedMessage id="subscription.frequency" /> :{' '}
-                            <FrequencyMatch currentId={el.periodTypeId} />
-                          </>
+                          <FrequencyMatch currentId={el.periodTypeId} />
                         )}
                       </p>
                     ) : null}
@@ -479,6 +480,8 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
+    debugger;
+    console.info('productList', productList);
     let quantityKeyName = 'quantity';
     if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
@@ -494,20 +497,26 @@ class PayProductInfo extends React.Component {
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
-                val: productList.reduce(
-                  (total, item) => total + item[quantityKeyName],
-                  0
-                )
+                val:
+                  productList[0]?.goodsInfoFlag == 3
+                    ? 1
+                    : productList.reduce(
+                        (total, item) => total + item[quantityKeyName],
+                        0
+                      )
               }}
             />
           ) : (
             <FormattedMessage
               id="payment.totalProduct"
               values={{
-                val: productList.reduce(
-                  (total, item) => total + item[quantityKeyName],
-                  0
-                )
+                val:
+                  productList[0]?.goodsInfoFlag == 3
+                    ? 1
+                    : productList.reduce(
+                        (total, item) => total + item[quantityKeyName],
+                        0
+                      )
               }}
             />
           )}

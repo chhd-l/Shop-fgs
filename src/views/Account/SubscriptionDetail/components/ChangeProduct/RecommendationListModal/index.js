@@ -10,12 +10,8 @@ const RecommendationListModal = ({ intl }) => {
   const [productDetail, setProductDetail] = useState({});
   const SubDetailHeaderValue = useContext(SubDetailHeaderContext);
   const ChangeProductValue = useContext(ChangeProductContext);
-  const {
-    triggerShowChangeProduct,
-    setState,
-    productListLoading,
-    subDetail
-  } = SubDetailHeaderValue;
+  const { triggerShowChangeProduct, setState, productListLoading, subDetail } =
+    SubDetailHeaderValue;
   const {
     setMainProductDetails,
     showModalArr,
@@ -178,7 +174,7 @@ const RecommendationListModal = ({ intl }) => {
             <img
               className="m-auto"
               style={{ maxWidth: '100px' }}
-              src={getClubLogo()}
+              src={getClubLogo({})}
               alt="club icon"
             />
             <p className="text-center red" style={{ fontSize: '1.5rem' }}>

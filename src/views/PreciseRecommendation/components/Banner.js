@@ -128,7 +128,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                   fontWeight: '700'
                 }}
               >
-                {recommData?.customerPetsVo?.name}'s adapted diet & portion
+                #{recommData?.customerPetsVo?.name}#'s adapted diet & portion
                 {/* {recommData?.goodsInfo?.goodsInfoName} */}
               </h2>
               <div className=" rc-layout-container rc-five-column rc-padding-top--md">
@@ -235,7 +235,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               fontWeight: 600
             }}
           >
-            {recommData?.customerPetsVo?.name}'s adapted diet & portion
+            #{recommData?.customerPetsVo?.name}#'s adapted diet & portion
             {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div
