@@ -7,7 +7,7 @@ import stores from '@/store';
 import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
-import productImg from '@/assets/images/preciseCatNutrition/productImg.png';
+import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const bannerList = [
