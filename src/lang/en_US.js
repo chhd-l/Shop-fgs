@@ -1705,6 +1705,8 @@ const en_US = {
     'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
   'preciseNutrition.Details.lititle1': 'INGREDIENTS',
   'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
+  'preciseNutrition.Details.des':
+    '*L.I.P. : protein selected for its very high assimilation',
   'preciseNutrition.Details.content3.1':
     'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
   'preciseNutrition.Details.content3.2':
