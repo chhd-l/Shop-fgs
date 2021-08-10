@@ -37,7 +37,7 @@ const RecommendationList = ({ productDetail }) => {
             <img
               className="m-auto"
               style={{ maxWidth: '200px' }}
-              src={getClubLogo()}
+              src={getClubLogo({})}
               alt="club icon"
             />
             <h4 className="red text-center mb-3 mt-3">

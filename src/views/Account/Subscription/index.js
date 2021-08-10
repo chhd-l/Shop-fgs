@@ -89,7 +89,7 @@ const clubNoSubscription = function () {
       <div className="subscription-club-no-subscription">
         <img
           className="m-auto subscription-club-no-subscription-logo"
-          src={getClubLogo()}
+          src={getClubLogo({})}
           alt="club icon"
         />
         <p>
@@ -317,8 +317,14 @@ class Subscription extends React.Component {
   };
 
   getPageBox = (isGift) => {
-    let { isMobile, subList, loading, errMsg, currentPage, totalPage } =
-      this.state;
+    let {
+      isMobile,
+      subList,
+      loading,
+      errMsg,
+      currentPage,
+      totalPage
+    } = this.state;
     let subscription = 'subscription';
 
     return (

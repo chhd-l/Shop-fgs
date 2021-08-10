@@ -160,7 +160,7 @@ const CompletedDelivery = ({ i, isActive, el, subDetail }) => {
                         style={{
                           width: '95px',
                           verticalAlign: 'middle',
-                          display: 'inline-block'
+                          display: `${isIndv ? 'none' : 'inline-block'}`
                         }}
                       >
                         <h5

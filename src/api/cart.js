@@ -76,7 +76,7 @@ export function deleteItemFromBackendCart(parameter) {
 
 export function siteMiniPurchases(parameter) {
   // delFlag在checkout页面和buynow查询的时候不能删除ind商品，需要删除该字段
-  if (location.pathname == '/checkout' || location.pathname == '/checkout/') {
+  if (location.pathname.includes('/checkout')) {
     parameter.delFlag = 1;
   }
   if (parameter.delFlag == 1) {

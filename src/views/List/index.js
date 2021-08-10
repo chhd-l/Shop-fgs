@@ -58,6 +58,20 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
+function bSort(arr) {
+  var len = arr.length;
+  for (var i = 0; i < len - 1; i++) {
+    for (var j = 0; j < len - 1 - i; j++) {
+      if (arr[j].sort > arr[j + 1].sort) {
+        var temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+}
+
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
   return item && item.productFinder ? (
@@ -1079,7 +1093,7 @@ class List extends React.Component {
               .attributeValues || []
           ).filter(
             (attr) =>
-              attr === 'Boules de poils_Cat' ||
+              attr === 'Maintien du poids de forme_Dog' ||
               attr === 'Tendency to beg for food_Cat'
           ).length > 0;
 
@@ -1162,13 +1176,13 @@ class List extends React.Component {
   handleFilterResData(res, customFilter) {
     const { baseSearchStr } = this.state;
     const { pathname, search } = this.props.history.location;
-    let tmpList = res
-      .filter((ele) => +ele.filterStatus)
-      .sort((a) => (a.filterType === '0' ? -1 : 1))
-      .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
-      .sort((a) =>
-        a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
-      );
+    // res只有默认的filter，没有自定义的filter了,并且sort在火狐浏览器有兼容问题，后端已排序，无需前端排序
+    let tmpList = res.filter((ele) => +ele.filterStatus);
+    //   .sort((a) => (a.filterType === '0' ? -1 : 1))
+    //   .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort: 1))
+    //   .sort((a) =>
+    //     a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
+    //   );
     let filterList = tmpList.concat(customFilter);
 
     // isVetProducts 暂时又要手动过滤掉'breeds'

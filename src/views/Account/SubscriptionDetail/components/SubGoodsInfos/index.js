@@ -152,7 +152,7 @@ const SubGoodsInfos = ({
                       alt={el.goodsName}
                     />
                     {/* </LazyLoad> */}
-                    {isShowClub && !!subDetail.petsId && (
+                    {isShowClub && !!subDetail.petsId && !isIndv && (
                       <span
                         className={`rc-styled-link ${
                           productListLoading ? 'ui-btn-loading' : ''
@@ -202,48 +202,52 @@ const SubGoodsInfos = ({
                     </p>
                     ..........
                     {isShowClub && !!subDetail.petsId && (
-                      <DailyRation
-                        rations={isIndv ? el.subscribeNum : el.petsRation}
-                      />
+                      <DailyRation rations={el.petsRation} />
                     )}
                   </div>
                 </div>
                 <div style={{ marginTop: '.9375rem' }}>
                   <div>
-                    <span
-                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                      style={{ marginLeft: '-8px' }}
-                      onClick={() => {
-                        minusQuantity(el);
-                      }}
-                    />
-                    <input
-                      className="rc-quantity__input 111"
-                      id="quantity"
-                      name="quantity"
-                      min="1"
-                      max="899"
-                      maxLength="5"
-                      onChange={(e) => {
-                        changeQuantity(e, el, index);
-                      }}
-                      value={el.subscribeNum}
-                    />
-                    <span
-                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                      onClick={() => {
-                        plusQuantity(el);
-                      }}
-                    />
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        fontSize: '1.375rem',
-                        lineHeight: '40px',
-                        verticalAlign: 'middle'
-                      }}
-                    >
-                      =
+                    <span style={{ display: isIndv ? 'none' : 'inline-block' }}>
+                      <span
+                        className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
+                          isActive && !isGift && !isIndv ? '' : 'disabled'
+                        }`}
+                        style={{ marginLeft: '-8px' }}
+                        onClick={() => {
+                          minusQuantity(el);
+                        }}
+                      />
+                      <input
+                        className="rc-quantity__input 111"
+                        id="quantity"
+                        name="quantity"
+                        min="1"
+                        max="899"
+                        maxLength="5"
+                        onChange={(e) => {
+                          changeQuantity(e, el, index);
+                        }}
+                        value={el.subscribeNum}
+                      />
+                      <span
+                        className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus  ${
+                          isActive && !isGift && !isIndv ? '' : 'disabled'
+                        }`}
+                        onClick={() => {
+                          plusQuantity(el);
+                        }}
+                      />
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          fontSize: '1.375rem',
+                          lineHeight: '40px',
+                          verticalAlign: 'middle'
+                        }}
+                      >
+                        =
+                      </span>
                     </span>
                     <span
                       className="price"
@@ -356,47 +360,53 @@ const SubGoodsInfos = ({
                           <div>
                             <div>
                               <span
-                                className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
-                                  isActive && !isGift && !isIndv
-                                    ? ''
-                                    : 'disabled'
-                                }`}
-                                style={{ marginLeft: '-8px' }}
-                                onClick={() => {
-                                  minusQuantity(el);
-                                }}
-                              />
-                              <input
-                                className="rc-quantity__input"
-                                id="quantity"
-                                name="quantity"
-                                min="1"
-                                max="899"
-                                maxLength="5"
-                                onChange={(e) => {
-                                  changeQuantity(e, el, index);
-                                }}
-                                value={el.subscribeNum}
-                              />
-                              <span
-                                className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
-                                  isActive && !isGift && !isIndv
-                                    ? ''
-                                    : 'disabled'
-                                }`}
-                                onClick={() => {
-                                  plusQuantity(el);
-                                }}
-                              />
-                              <span
                                 style={{
-                                  display: 'inline-block',
-                                  fontSize: '1.375rem',
-                                  lineHeight: '40px',
-                                  verticalAlign: 'middle'
+                                  display: isIndv ? 'none' : 'inline-block'
                                 }}
                               >
-                                =
+                                <span
+                                  className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
+                                    isActive && !isGift && !isIndv
+                                      ? ''
+                                      : 'disabled'
+                                  }`}
+                                  style={{ marginLeft: '-8px' }}
+                                  onClick={() => {
+                                    minusQuantity(el);
+                                  }}
+                                />
+                                <input
+                                  className="rc-quantity__input"
+                                  id="quantity"
+                                  name="quantity"
+                                  min="1"
+                                  max="899"
+                                  maxLength="5"
+                                  onChange={(e) => {
+                                    changeQuantity(e, el, index);
+                                  }}
+                                  value={el.subscribeNum}
+                                />
+                                <span
+                                  className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
+                                    isActive && !isGift && !isIndv
+                                      ? ''
+                                      : 'disabled'
+                                  }`}
+                                  onClick={() => {
+                                    plusQuantity(el);
+                                  }}
+                                />
+                                <span
+                                  style={{
+                                    display: 'inline-block',
+                                    fontSize: '1.375rem',
+                                    lineHeight: '40px',
+                                    verticalAlign: 'middle'
+                                  }}
+                                >
+                                  =
+                                </span>
                               </span>
                               <span
                                 className="price"
@@ -465,8 +475,7 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow:
-                                          !triggerShowChangeProduct.firstShow,
+                                        firstShow: !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }
@@ -486,9 +495,7 @@ const SubGoodsInfos = ({
                               top: 0
                             }}
                           >
-                            <DailyRation
-                              rations={isIndv ? el.subscribeNum : el.petsRation}
-                            />
+                            <DailyRation rations={el.petsRation} />
                           </div>
                         </div>
                       )}

@@ -79,38 +79,86 @@ export default function AboutPet() {
     return array;
   };
 
+  const toBool = (string) => {
+    if (string === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  };
   const goNext = async () => {
     setLoading(true);
+    //改变字符串true false 为bool
+    let questionParams = { ...childRef.current.formData };
+    if (questionParams.neutered) {
+      questionParams.neutered = toBool(questionParams.neutered);
+    }
     let querySteps = [
       ...perStep,
       {
         stepNum: step.toString(),
-        questionParams: {
-          ...childRef.current.formData
-        }
+        questionParams
       }
     ];
     let result = await getNextStep({
       finderNumber: finderNumber,
       steps: querySteps
     });
+
     setFinderNumber(result.context.finderNumber);
     setPerStep(result.context.steps);
     setStep(
       result.context.currentSteps &&
+        result.context.currentSteps.length > 0 &&
         result.context.currentSteps[0].metadata.step
     );
 
     if (!result.context.isEndOfTree) {
-      setStepList(
-        result.context.currentSteps ? result.context.currentSteps : []
-      );
+      //返回答题 顺序处理
+      if (
+        result.context.currentSteps &&
+        result.context.currentSteps[0].metadata.step === 2
+      ) {
+        let array = [];
+        result.context.currentSteps.forEach((item) => {
+          switch (item.name) {
+            case 'weight':
+              array[0] = item;
+              break;
+            case 'weightGain':
+              array[2] = item;
+              break;
+            case 'petActivityCode':
+              array[1] = JSON.parse(JSON.stringify(item));
+              item.possibleValues.forEach((it) => {
+                switch (it.key) {
+                  case 'low':
+                    array[1].possibleValues[0] = it;
+                    break;
+                  case 'moderate':
+                    array[1].possibleValues[1] = it;
+                    break;
+                  case 'high':
+                    array[1].possibleValues[2] = it;
+                    break;
+                }
+              });
+              break;
+          }
+        });
+        console.log(array);
+        setStepList(array);
+      } else {
+        setStepList(
+          result.context.currentSteps ? result.context.currentSteps : []
+        );
+      }
     } else {
       if (result.context.next === 'printSPTProducts') {
         //跳转页面用
         sessionItemRoyal.set(
           'nutrition-recommendation-filter',
-          result.context.filter
+          result.context.filters ? JSON.stringify(result.context.filters) : ''
         );
       }
       setResult(result.context.next);
@@ -134,7 +182,12 @@ export default function AboutPet() {
       setFinderNumber(result.context.finderNumber);
       setStepList(result.context.currentSteps);
       setPerStep(result.context.steps);
-      setStep(result.context.currentSteps[0].metadata.step);
+      setStep(
+        result.context.currentSteps &&
+          result.context.currentSteps.length > 0 &&
+          result.context.currentSteps[0].metadata.step
+      );
+      // setStep(result.context.currentSteps[0].metadata.step);
       setLoading(false);
     } else {
       getInit();

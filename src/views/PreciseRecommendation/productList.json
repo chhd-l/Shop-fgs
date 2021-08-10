@@ -79,6 +79,7 @@
       {
         "title": "ind.IND10003.title3",
         "des": "ind.IND10003.des3",
+        "italicSentence": "ind.IND10003.italicSentence3",
         "img": "ind.IND10003.img3"
       },
       {
@@ -183,7 +184,8 @@
       {
         "title": "ind.IND10006.title2",
         "des": "ind.IND10006.des2",
-        "img": "ind.IND10006.img2"
+        "img": "ind.IND10006.img2",
+        "italicSentence": "ind.IND10006.italicSentence2"
       },
       {
         "title": "ind.IND10006.title3",
@@ -226,6 +228,7 @@
       {
         "title": "ind.IND10007.title2",
         "des": "ind.IND10007.des2",
+        "italicSentence": "ind.IND10007.italicSentence2",
         "img": "ind.IND10007.img2"
       },
       {
