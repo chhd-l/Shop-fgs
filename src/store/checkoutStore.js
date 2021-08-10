@@ -700,6 +700,10 @@ class CheckoutStore {
     if (valid) {
       try {
         let cartDataCopy = cloneDeep(toJS(this.cartData).filter((el) => el));
+        let oldIndvIndex = cartDataCopy.findIndex(
+          (item) => item.goodsInfoFlag == 3
+        );
+        cartDataCopy.splice(oldIndvIndex, 1); //删除购物车已有的indv商品
         cartItemList.forEach((cartItem) => {
           const selectedGoodsInfo =
             find(cartItem.sizeList, (s) => s.selected) || cartItem.goodsInfo;
@@ -722,14 +726,19 @@ class CheckoutStore {
           });
           // 如果之前该商品(同spu 同sku)加入过购物车，则直接替换原信息
           if (historyItemIdx > -1) {
-            cartDataCopy.splice(historyItemIdx, 1, cartItem);
+            if (cartItem.goodsInfoFlag != 3) {
+              cartDataCopy.splice(historyItemIdx, 1, cartItem);
+            }
           } else {
             cartDataCopy.push(cartItem);
           }
 
           // 校验
-          // 1 单个产品数量限制
-          if (cartItem.quantity > +window.__.env.REACT_APP_LIMITED_NUM) {
+          // 1 单个产品数量限制  indv不需要限制数量
+          if (
+            cartItem.quantity > +window.__.env.REACT_APP_LIMITED_NUM &&
+            cartItem.goodsInfoFlag != 3
+          ) {
             throw new Error(
               CURRENT_LANGFILE['cart.errorMaxInfo'].replace(
                 /{.+}/,
@@ -738,7 +747,11 @@ class CheckoutStore {
             );
           }
         });
-
+        if (cartItemList[0].goodsInfoFlag == 3) {
+          //如果是indv商品，不需要校验下面的数量
+          await this.setCartData(cartDataCopy);
+          return;
+        }
         // 校验
         // 2 所有产品数量限制
         // 3 所有产品种类限制
