@@ -136,12 +136,16 @@ class DedicatedLandingPage extends React.Component {
 
   // 添加商品并跳转购物车
   addCart = async () => {
+    const { selectLine } = this.state;
+    if (selectLine === 0) {
+      return;
+    }
     this.setState({ buttonLoading: true });
-    if (this.state.selectLine === 1) {
+    if (selectLine === 1) {
       const { context } = await getDetailsBySpuNo(2544);
       this.setState({ listOne: context });
       this.getProductList();
-    } else if (this.state.selectLine === 2) {
+    } else if (selectLine === 2) {
       const { context } = await getDetailsBySpuNo(2522);
       this.setState({ listTwo: context });
       this.getProductList();
@@ -149,14 +153,15 @@ class DedicatedLandingPage extends React.Component {
   };
   // 获取选中商品sku
   getProductList = async () => {
+    const { selectLine, listOne, listTwo } = this.state;
     let list = [];
     let unProductList = [];
-    if (this.state.selectLine === 1) {
-      list = this.state.listOne.goodsInfos;
-      unProductList = this.state.listOne;
+    if (selectLine === 1) {
+      list = listOne.goodsInfos;
+      unProductList = listOne;
     } else {
-      list = this.state.listTwo.goodsInfos;
-      unProductList = this.state.listTwo;
+      list = listTwo.goodsInfos;
+      unProductList = listTwo;
     }
     let productList = {};
     for (let i = 0; i < list.length; i++) {
@@ -170,7 +175,6 @@ class DedicatedLandingPage extends React.Component {
       productList: [productList],
       unProductList
     });
-
     // 判断是否登陆
     if (this.props.loginStore.isLogin) {
       this.hanldeLoginAddToCart();
