@@ -7,6 +7,8 @@ import LazyLoad from 'react-lazyload';
 import '../index.less';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
+import { getDeviceType } from '../../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const HelpComponents = () => {
   return (
@@ -28,11 +30,13 @@ const HelpComponents = () => {
                     you have the best possible experience.
                     {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                   </span>
-                </p>
-                <p>
-                  {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
+                  {isMobile?null:<br/>}
                   You can reach us through the following options:
+
                 </p>
+                {/*<p>*/}
+                {/*  /!*<FormattedMessage id="ClubLP.Help.subtitle2" />*!/*/}
+                {/*</p>*/}
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                     <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
@@ -178,7 +182,8 @@ const HelpComponents = () => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p style={{ marginBottom: 0 }}>
-                                    Send US an Email You can check our &nbsp;
+                                    You can check our
+                                    <br />
                                     <DistributeHubLinkOrATag
                                       href={'/about-us/faqs'}
                                       ariaLabel="Links to faq"

@@ -172,53 +172,35 @@ const LongBanner = () => {
             width: isMobile ? '90%' : '100'
           }}
         >
-          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative">
-            <img
-              style={
-                isMobile
-                  ? { width: '80%', position: 'absolute', left: '0%',top: '-220px', zIndex: -100}
-                  : {
-                      width: '40%',
-                      position: 'absolute',
-                      left: ' -8%',
-                      top: -250
-                    }
-              }
+          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
+            <img className={'topCat'}
+                 style={isMobile ? { zIndex: -100 } : null}
               src={topCat}
             />
-            <img
-              style={
-                isMobile
-                  ? { width: '60%', position: 'absolute', right: '0%',top: '-158px' }
-                  : {
-                      width: '35%',
-                      position: 'absolute',
-                      top: -240,
-                      right: '-5%'
-                    }
-              }
+            <img className={'topCatEat'}
+              // style={
+              //   isMobile
+              //     ? { width: '60%', position: 'absolute', right: '0%',top: '-158px' }
+              //     : {
+              //         width: '35%',
+              //         position: 'absolute',
+              //         top: -240,
+              //         right: '-5%'
+              //       }
+              // }
               src={topCatEat}
             />
             <div
-              className="howItWorkNum"
-              style={
-                isMobile
-                  ? {
-                      width: 90,
-                      height: 90,
-                      position: 'absolute',
-                      top: -188,
-                      right: '0%',
-                      zIndex: 2
-                    }
-                  : {
-                      width: 105,
-                      height: 105,
-                      position: 'absolute',
-                      top: -240,
-                      right: '0%',
-                      zIndex: 2
-                    }
+              className="howItWorkNum2"
+              style={{
+                borderRadius: '50%',
+                backgroundColor: '#E2001A',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: 45,
+                position:'absolute',
+                zIndex:2,
+              }
               }
             >
               <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
