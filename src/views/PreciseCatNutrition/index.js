@@ -100,7 +100,6 @@ class PreciseCatNutrition extends React.Component {
               content={this.state.seoConfig.metaDescription}
             />
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-            <meta name="robots" content="noindex" />
           </Helmet>
           <GoogleTagManager
             additionalEvents={event}
@@ -151,10 +150,13 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-assets-headingBlock">
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                        <div className={'row'}>
+                        <div className={'row w-100'}>
                           <div
                             className={'col-12 col-md-4 text-md-right relative'}
-                            style={{ display: 'inline' }}
+                            style={{
+                              display: 'inline',
+                              marginBottom: isMobile ? 15 : null
+                            }}
                           >
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
@@ -300,7 +302,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            <Divider />
+            {isMobile ? null : <Divider />}
 
             <div className="experience-component experience-layouts-1column">
               <div className="experience-component experience-layouts-1column">
@@ -411,7 +413,7 @@ class PreciseCatNutrition extends React.Component {
                               </ul>
                               <a style={{ color: 'grey' }}>
                                 *this ofter is not adapted to cat ufering from
-                                obesity. 1n suchcase we recommend you to visit a
+                                obesity. In suchcase we recommend you to visit a
                                 vet first.
                               </a>
                               <div
@@ -510,7 +512,7 @@ class PreciseCatNutrition extends React.Component {
                             {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                           </h4>
                         </div>
-                        <p>
+                        <p style={{ marginBottom: 0 }}>
                           <span>
                             Service Consommateur Royal Canin France 650 avenue
                             de la petite Camargue

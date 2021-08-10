@@ -110,12 +110,20 @@ class Header extends React.Component {
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
     this.props.headerSearchStore.clear();
-
+    let { checkoutStore } = this.props;
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
       return false;
     }
-
+    // indv在未登录购物车的商品在刷新页面的时候均应该被删除
+    let indvIdex = checkoutStore.cartData?.findIndex(
+      (el) => el.goodsInfoFlag == 3
+    );
+    if (indvIdex > -1) {
+      let newCartData = checkoutStore.cartData?.splice(indvIdex, 1);
+      checkoutStore.setCartData(newCartData);
+    }
+    // this.props.checkoutStore.removeCartData()
     window.addEventListener('scroll', (e) => this.handleScroll(e));
 
     const { location, clinicStore } = this.props;

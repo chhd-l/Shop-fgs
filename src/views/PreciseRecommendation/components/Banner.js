@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
+import cloneDeep from 'lodash/cloneDeep';
 import stores from '@/store';
 import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
+import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const bannerList = [
@@ -23,10 +26,12 @@ const BannerFour = () => {
     >
       {bannerList.map((el) => (
         <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
-          <img
-            className="m-auto"
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
-          />
+          <LazyLoad>
+            <img
+              className="m-auto"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
+            />
+          </LazyLoad>
           <p
             style={{ fontSize: '12px' }}
             dangerouslySetInnerHTML={{ __html: el.text }}
@@ -43,16 +48,70 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   );
   const [totalWeight, setTotalWeight] = useState('');
   const [loading, setLoading] = useState(false);
+  const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
   useEffect(() => {
     if (!recommData.totalPackWeight) {
       return;
     }
+    let newAddCartBtnStatus =
+      recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
+    setAddCartBtnStatus(newAddCartBtnStatus);
     let newTotalWeight = recommData.totalPackWeight + 'kg';
     if (recommData?.weightUnit?.toLowerCase() == 'g') {
       newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
     }
     setTotalWeight(newTotalWeight);
   }, [recommData.totalPackWeight]);
+  const hanldeUnloginAddToCart = async () => {
+    let { goodsInfo, customerPetsVo } = recommData;
+    setLoading(true);
+    let petInfo = Object.assign({}, customerPetsVo, {
+      petType: 'cat'
+    });
+    try {
+      let cartItem = Object.assign(
+        goodsInfo,
+        { ...goodsInfo.goods },
+        { goodsInfo: goodsInfo.goods },
+        {
+          selected: true,
+          quantity: goodsInfo.buyCount,
+          currentUnitPrice: goodsInfo.marketPrice,
+          goodsInfoFlag: 3,
+          questionParams: JSON.stringify(petInfo),
+          periodTypeId: goodsInfo.periodTypeId || 3560,
+          recommendationInfos: clinicStore.linkClinicRecommendationInfos,
+          recommendationId:
+            clinicStore.linkClinicRecommendationInfos?.recommendationId ||
+            clinicStore.linkClinicId,
+          recommendationName:
+            clinicStore.linkClinicRecommendationInfos?.recommendationName ||
+            clinicStore.linkClinicName,
+          taggingForTextAtCart: (goodsInfo.taggingList || []).filter(
+            (e) =>
+              e.taggingType === 'Text' &&
+              e.showPage?.includes('Shopping cart page')
+          )[0],
+          taggingForImageAtCart: (goodsInfo.taggingList || []).filter(
+            (e) =>
+              e.taggingType === 'Image' &&
+              e.showPage?.includes('Shopping cart page')
+          )[0]
+        }
+      );
+      let sizeListItem = cloneDeep(cartItem);
+      sizeListItem.selected = true;
+      cartItem.sizeList = [sizeListItem];
+      let addCartData = {
+        valid: addCartBtnStatus,
+        cartItemList: [cartItem]
+      };
+      await checkoutStore.hanldeUnloginAddToCart(addCartData);
+      localItemRoyal.set('okta-redirectUrl', 'checkout');
+    } catch (err) {
+      console.info('errerr', err);
+    }
+  };
   const handleBuyNow = async () => {
     let { goodsInfo, customerPetsVo } = recommData;
     if (!customerPetsVo || !goodsInfo) {
@@ -68,10 +127,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
         goodsInfoId: goodsInfo.goodsInfoId,
         goodsNum: goodsInfo.buyCount,
         periodTypeId: goodsInfo.periodTypeId || 3560,
-        // petsId: currentSelectedSize.petsId,
-        // petsType: currentSelectedSize.petsType,
-        // recommendationId: this.props.clinicStore.linkClinicId,
-        // recommendationName: this.props.clinicStore.linkClinicName,
         goodsInfoFlag: 3,
         questionParams: JSON.stringify(petInfo)
       }
@@ -82,7 +137,6 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
       await checkoutStore.updateLoginCart({ delFlag: 1 });
-      debugger;
       history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
@@ -108,15 +162,19 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             style={{ fontSize: '20px' }}
           >
             <div className="rc-column rc-double-width">
-              <img
-                src={require('@/assets/images/preciseCatNutrition/productimg.png')}
-                // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-              />
-              <img
-                style={{ width: '100px' }}
-                src={require('@/assets/images/preciseCatNutrition/productimg.png')}
-                // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-              />
+              <LazyLoad>
+                <img
+                  src={productImg}
+                  // src={productImg}
+                />
+              </LazyLoad>
+              <LazyLoad>
+                <img
+                  style={{ width: '100px' }}
+                  src={productImg}
+                  // src={productImg}
+                />
+              </LazyLoad>
             </div>
 
             <div className="rc-column rc-triple-width">
@@ -128,17 +186,17 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                   fontWeight: '700'
                 }}
               >
-                #{recommData?.customerPetsVo?.name}#'s adapted diet & portion
+                {recommData?.customerPetsVo?.name}'s adapted diet & portion
                 {/* {recommData?.goodsInfo?.goodsInfoName} */}
               </h2>
               <div className=" rc-layout-container rc-five-column rc-padding-top--md">
                 <div
                   className="rc-column rc-triple-width"
-                  style={{ maxWidth: '480px' }}
+                  style={{ maxWidth: '450px' }}
                 >
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
-                    30 days of complete & balanced diet for
-                    <br /> adult cat, Recommended diet to limit weight
+                    30 days of complete & balanced diet for adult cat,
+                    <FormattedMessage id={productShowInfo.recoSentence} />
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     Daily portion:{' '}
@@ -203,17 +261,16 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                         buy now
                       </button>
                     ) : (
+                      // <button onClick={async()=>{
+                      //  await   hanldeUnloginAddToCart();
+                      // }}>test</button>
                       <LoginButton
                         btnStyle={{ width: '200px', padding: '10px' }}
                         className={`rc-btn rc-btn--one rc-btn--sm`}
                         // btnStyle={{ margin: '5px 0', width: '100%' }}
                         // history={this.props.history}
                         beforeLoginCallback={async () => {
-                          localItemRoyal.set(
-                            'okta-redirectUrl',
-                            'precise-cat-nutrition-recommendation'
-                          );
-                          // sessionItemRoyal.set('from-felin', true);
+                          await hanldeUnloginAddToCart();
                         }}
                       >
                         buy now
@@ -235,7 +292,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               fontWeight: 600
             }}
           >
-            #{recommData?.customerPetsVo?.name}#'s adapted diet & portion
+            {recommData?.customerPetsVo?.name}'s adapted diet & portion
             {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div
@@ -245,15 +302,18 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             30 days of complete & balanced diet for adult cat, Recommended diet
             to limit weight
           </div>
-          <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-          />
+          <LazyLoad>
+            <img src={productImg} />
+          </LazyLoad>
+
           <div className="rc-margin-y--md">
-            <img
-              className="text-center m-auto "
-              style={{ width: '100px' }}
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-            />
+            <LazyLoad>
+              <img
+                className="text-center m-auto "
+                style={{ width: '100px' }}
+                src={productImg}
+              />
+            </LazyLoad>
           </div>
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             Daily portion:{' '}
@@ -327,28 +387,40 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           >
             <FormattedMessage id={'preciseNutrition.benefits.content'} />
           </p>
-          <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
-            style={{ border: 'none' }}
-          />
+          <LazyLoad>
+            <img
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
+              style={{ border: 'none' }}
+            />
+          </LazyLoad>
         </div>
         <div className="rc-column">
           {productShowInfo.provenBenefits?.map((item) => (
             <div className="d-flex">
               <div className="rc-padding-right--xs" style={{ width: '78px' }}>
-                <img
-                  // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
-                  src={`${
-                    window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
-                  }/img/CatNutrition/${intl.messages[item.img]}`}
-                />
+                <LazyLoad>
+                  <img
+                    // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
+                    src={`${
+                      window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+                    }/img/CatNutrition/${intl.messages[item.img]}`}
+                  />
+                </LazyLoad>
               </div>
               <div style={{ flex: 1, paddingLeft: '8px' }}>
                 <strong style={{ fontSize: '20px' }}>
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
+                  <FormattedMessage
+                    id={item.des}
+                    values={{
+                      val: <br />,
+                      italicSentence: item.italicSentence ? (
+                        <i>{intl.messages[item.italicSentence]}</i>
+                      ) : null
+                    }}
+                  />
                 </p>
               </div>
             </div>

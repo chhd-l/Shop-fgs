@@ -93,7 +93,9 @@ export async function hanldePurchases(goodsInfoDTOList) {
  * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
  */
 export async function mergeUnloginCartData() {
-  const unloginCartData = checkoutStore.cartData;
+  let unloginCartData = checkoutStore.cartData;
+  unloginCartData = toJS(unloginCartData);
+  console.info('unloginCartData', unloginCartData);
   // 线下店orderSource埋点L_ATELIER_FELIN
   let orderSource = sessionItemRoyal.get('orderSource') || '';
   let params = {
