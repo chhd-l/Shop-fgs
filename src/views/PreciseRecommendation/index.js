@@ -242,7 +242,7 @@ class PreciseRecommendation extends React.Component {
           history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
-        {this.state.loading ? <Loading /> : null}
+        {this.state.loading ? <Loading bgColor={'#fff'} opacity={1} /> : null}
         <main className={'rc-content--fixed-header'}>
           <Banner
             history={this.props.history}
