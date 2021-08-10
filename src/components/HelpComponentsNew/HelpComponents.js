@@ -180,21 +180,21 @@ const HelpComponentsNew = (props) => {
                                       href={'/contact-us'}
                                       ariaLabel="Links to contact us"
                                     >
-                                      <p
+                                      <b
                                         style={{ textDecoration: 'underline' }}
                                       >
                                         {list.email.btnText}
                                         {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
-                                      </p>
+                                      </b>
                                     </DistributeHubLinkOrATag>
                                   ) : (
                                     <Link to="/help/contact">
-                                      <p
+                                      <b
                                         style={{ textDecoration: 'underline' }}
                                       >
                                         {list.email.btnText}
                                         {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
-                                      </p>
+                                      </b>
                                     </Link>
                                   )}
                                 </div>
