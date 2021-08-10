@@ -283,7 +283,7 @@ class PayProductInfo extends React.Component {
                     el.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
                         alt="club logo"
                       />
                     ) : null}
@@ -338,6 +338,11 @@ class PayProductInfo extends React.Component {
     );
   }
   getProductsForLogin(plist) {
+    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
+    let IndvPetInfo = {};
+    if (paramsString) {
+      IndvPetInfo = JSON.parse(paramsString);
+    }
     // 线下店数量展示和正常流程有区别
     let orderSource = sessionItemRoyal.get('orderSource');
     const List = plist.map((el, i) => {
@@ -358,17 +363,23 @@ class PayProductInfo extends React.Component {
                 <div className="item-title">
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
-                    title={el.goodsName || el.goods.goodsName}
+                    title={
+                      el?.goodsInfoFlag == 3
+                        ? `${IndvPetInfo?.name}'s personalized subscription`
+                        : el.goodsName || el.goods.goodsName
+                    }
                   >
-                    <span className="light">
-                      {el.goodsName || el.goods.goodsName}
+                    <span className="light 11111">
+                      {el?.goodsInfoFlag == 3
+                        ? `${IndvPetInfo?.name}'s personalized subscription`
+                        : el.goodsName || el.goods.goodsName}
                     </span>
                     {el?.goods?.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.goods.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
                         alt="club logo"
                       />
                     ) : null}
@@ -386,8 +397,11 @@ class PayProductInfo extends React.Component {
                         <FormattedMessage
                           id="quantityText"
                           values={{
-                            specText: el.specText,
-                            buyCount: el.buyCount
+                            specText:
+                              el.goodsInfoFlag == 3
+                                ? el.buyCount / 1000 + 'kg'
+                                : el.specText,
+                            buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
                         />
                       )}
@@ -395,7 +409,11 @@ class PayProductInfo extends React.Component {
                     {el.goodsInfoFlag ? (
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        <FrequencyMatch currentId={el.periodTypeId} />
+                        {el.goodsInfoFlag == 3 ? (
+                          '30 days'
+                        ) : (
+                          <FrequencyMatch currentId={el.periodTypeId} />
+                        )}
                       </p>
                     ) : null}
                   </div>
@@ -462,6 +480,8 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
+    debugger;
+    console.info('productList', productList);
     let quantityKeyName = 'quantity';
     if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
@@ -477,20 +497,26 @@ class PayProductInfo extends React.Component {
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
-                val: productList.reduce(
-                  (total, item) => total + item[quantityKeyName],
-                  0
-                )
+                val:
+                  productList[0]?.goodsInfoFlag == 3
+                    ? 1
+                    : productList.reduce(
+                        (total, item) => total + item[quantityKeyName],
+                        0
+                      )
               }}
             />
           ) : (
             <FormattedMessage
               id="payment.totalProduct"
               values={{
-                val: productList.reduce(
-                  (total, item) => total + item[quantityKeyName],
-                  0
-                )
+                val:
+                  productList[0]?.goodsInfoFlag == 3
+                    ? 1
+                    : productList.reduce(
+                        (total, item) => total + item[quantityKeyName],
+                        0
+                      )
               }}
             />
           )}

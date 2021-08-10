@@ -123,23 +123,30 @@ const SubDetailHeader = ({
       {isShowClub && isNotInactive && !isCantLinkPet ? (
         <>
           <img
-            src={getClubLogo()}
+            src={getClubLogo({ subscriptionType: subDetail.subscriptionType })}
             style={{ maxWidth: '100px' }}
             alt="club Icon"
           />
           <div className="d-flex align-items-center add-pet-btn-wrap">
             {subDetail.petsId ? (
               <React.Fragment>
-                <img
-                  style={{ marginLeft: '1rem', marginRight: '1rem' }}
-                  className="pet-img text-center rc-margin-y--sm"
-                  alt="pet img"
-                  src={
-                    (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
-                      ? petsInfo.petsImg
-                      : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
-                  }
-                />
+                {subDetail.subscriptionType == 'Individualization' ? (
+                  <div
+                    className="pet-img  text-center"
+                    style={{ margin: '0 1rem 0 2rem' }}
+                  ></div>
+                ) : (
+                  <img
+                    style={{ marginLeft: '1rem', marginRight: '1rem' }}
+                    className="pet-img text-center rc-margin-y--sm"
+                    alt="pet img"
+                    src={
+                      (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
+                        ? petsInfo.petsImg
+                        : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
+                    }
+                  />
+                )}
                 <div className="rc-md-down">
                   <StatusText subDetail={subDetail} />
                 </div>
@@ -182,7 +189,12 @@ const SubDetailHeader = ({
                       {petsInfo?.petsName}
                     </h4>
                     <div>
-                      <FormattedMessage id="age" />:
+                      {subDetail.subscriptionType == 'Individualization' ? (
+                        'Date of birth'
+                      ) : (
+                        <FormattedMessage id="age" />
+                      )}
+                      :
                       <strong>
                         {' '}
                         {getFormatDate(petsInfo?.birthOfPets || '')}
@@ -273,7 +285,9 @@ const SubDetailHeader = ({
           {subDetail.subscriptionType?.toLowerCase().includes('club') && (
             // window.__.env.REACT_APP_COUNTRY == 'ru' &&
             <img
-              src={getClubLogo()}
+              src={getClubLogo({
+                subscriptionType: subDetail.subscriptionType
+              })}
               style={{ maxWidth: '100px', marginRight: '10px' }}
               alt="club Icon"
             />

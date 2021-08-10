@@ -12,7 +12,7 @@ const GoodsDetails = () => {
         <img
           className="m-auto"
           style={{ maxWidth: '100px' }}
-          src={getClubLogo()}
+          src={getClubLogo({})}
           alt="club icon"
         />
         <div className="rc-layout-container rc-five-column">
