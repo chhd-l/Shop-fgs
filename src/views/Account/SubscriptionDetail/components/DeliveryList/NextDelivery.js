@@ -265,17 +265,23 @@ const NextDelivery = ({
                 }}
               >
                 <span className="red">
-                  {formatMoney(tradeItem.subscriptionPrice)}
+                  {formatMoney(
+                    isIndv
+                      ? el.tradePrice.goodsPrice
+                      : tradeItem.subscriptionPrice
+                  )}
                 </span>
-                <span
-                  style={{
-                    fontSize: '.75rem',
-                    textDecoration: 'line-through',
-                    marginLeft: '5px'
-                  }}
-                >
-                  {formatMoney(tradeItem.originalPrice)}
-                </span>
+                {isIndv ? null : (
+                  <span
+                    style={{
+                      fontSize: '.75rem',
+                      textDecoration: 'line-through',
+                      marginLeft: '5px'
+                    }}
+                  >
+                    {formatMoney(tradeItem.originalPrice)}
+                  </span>
+                )}
               </p>
             </div>
           </div>
