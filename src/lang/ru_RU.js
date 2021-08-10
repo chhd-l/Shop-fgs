@@ -1157,6 +1157,8 @@ const ru_RU = {
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
     'Сохранить этот способ оплаты как предпочтительный',
+  'payment.addCardTips':
+    'Для проверки новой карты будет произведено списание и возврат суммы 12 руб',
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
   subscribe: 'Добавить в корзину',
