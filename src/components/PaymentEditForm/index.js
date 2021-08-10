@@ -308,7 +308,7 @@ class PaymentEditForm extends React.Component {
           paymentVendor: res ? res.data.vendor : '',
           phone: creditCardInfoForm.phoneNumber || '',
           storeId: window.__.env.REACT_APP_STOREID,
-          // successUrl: `${window.location.origin}/PaymentMethod3dsResult`, // 接口需要重定向页面去授权
+          // 接口需要重定向页面去授权 目前是由后端拼地址 重定向地址：/PaymentMethod3dsResult
           redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
           token: res ? res.data.token : '',
           pspName: 'PAYU'
@@ -323,7 +323,7 @@ class PaymentEditForm extends React.Component {
           // 保存当前页面地址, 便于 /PaymentMethod3dsResult 页面授权成功后跳回本页面
           localItemRoyal.set(
             'paymentEditFormCurrentPage',
-            window.location.pathname
+            this.props.fromPath || '/account/subscription'
           );
 
           window.location.href = addCardRes.context.redirectUrl;
