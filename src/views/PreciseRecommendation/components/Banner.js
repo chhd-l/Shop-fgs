@@ -346,18 +346,33 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             Automatic shipment every 30 days <br />
             Free shipment cost
           </div>
-          <button
-            className="rc-btn rc-btn--one"
-            onClick={handleBuyNow}
-            className={`rc-btn rc-btn--one 
+          {loginStore.isLogin ? (
+            <button
+              className="rc-btn rc-btn--one"
+              onClick={handleBuyNow}
+              className={`rc-btn rc-btn--one 
           ${loading ? 'ui-btn-loading' : ''} ${
-              recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
-                ? ''
-                : 'rc-btn-solid-disabled'
-            }`}
-          >
-            buy now
-          </button>
+                recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
+                  ? ''
+                  : 'rc-btn-solid-disabled'
+              }`}
+            >
+              buy now
+            </button>
+          ) : (
+            <LoginButton
+              btnStyle={{ width: '200px', padding: '10px' }}
+              className={`rc-btn rc-btn--one rc-btn--sm`}
+              // btnStyle={{ margin: '5px 0', width: '100%' }}
+              // history={this.props.history}
+              beforeLoginCallback={async () => {
+                await hanldeUnloginAddToCart();
+              }}
+            >
+              buy now
+            </LoginButton>
+          )}
+
           <div className="rc-padding-x--xl">
             <BannerFour />
           </div>
