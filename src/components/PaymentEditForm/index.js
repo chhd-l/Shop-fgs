@@ -308,7 +308,8 @@ class PaymentEditForm extends React.Component {
           paymentVendor: res ? res.data.vendor : '',
           phone: creditCardInfoForm.phoneNumber || '',
           storeId: window.__.env.REACT_APP_STOREID,
-          successUrl: `${window.location.origin}/PaymentMethod3dsResult`, // 接口需要重定向页面去授权
+          // successUrl: `${window.location.origin}/PaymentMethod3dsResult`, // 接口需要重定向页面去授权
+          redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
           token: res ? res.data.token : '',
           pspName: 'PAYU'
         });
