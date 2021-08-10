@@ -24,7 +24,7 @@ const NextDelivery = ({
 }) => {
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
-    .includes('Individualization');
+    .includes('individualization');
   const isActive = subDetail.subscribeStatus === '0';
   const { configStore } = useLocalStore(() => stores);
   const [promotionInputValue, setPromotionInputValue] = ''; //输入的促销码

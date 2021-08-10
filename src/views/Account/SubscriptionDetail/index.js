@@ -299,9 +299,11 @@ class SubscriptionDetail extends React.Component {
       // 邮件展示需要绑定宠物
       needBindPet && this.setState({ triggerShowAddNewPet: true });
       let goodsInfo = [...this.state.subDetail.goodsInfo];
+      let isIndv = this.state.subDetail.subscriptionType == 'Individualization';
       // 非激活状态就不展示
       // 如果一进来就需要被动更换商品,删除以前所有商品  2个以上不用推荐  不是创建的时候就展示，需要第一次换粮邮件时才展示
-      goodsInfo?.length == 1 &&
+      !isIndv &&
+        goodsInfo?.length == 1 &&
         this.state.subDetail.petsLifeStageFlag == 1 &&
         this.state.isNotInactive &&
         this.setState({
@@ -360,6 +362,11 @@ class SubscriptionDetail extends React.Component {
       new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
     );
   }
+  getGoodsRations = async (subDetail, isIndv) => {
+    let petsId = subDetail.petsInfo?.petsId;
+
+    return subDetail.petsInfo;
+  };
   getDetail = async (fn) => {
     try {
       this.setState({ loading: true });
@@ -370,7 +377,17 @@ class SubscriptionDetail extends React.Component {
       let noStartYearOption = [];
       let completedYearOption = [];
       let petsType = '';
-      subDetail.goodsInfo = subDetail.goodsInfo || []; //防止商品被删报错
+      let isIndv = subDetail.subscriptionType == 'Individualization';
+      subDetail.goodsInfo =
+        subDetail.goodsInfo?.map((item) => {
+          if (isIndv) {
+            item.spuName = `${item.petsName}'s personalized subscription`;
+            item.specDetails = item.num / 1000 + 'kg';
+            item.num = 1;
+            item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
+          }
+          return item;
+        }) || []; //防止商品被删报错
       let isCat =
         subDetail.goodsInfo?.every((el) => el.goodsCategory?.match(/cat/i)) &&
         'Cat';
@@ -391,25 +408,34 @@ class SubscriptionDetail extends React.Component {
       );
       let petsId = subDetail.petsInfo?.petsId;
       if (petsId) {
-        let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
-        // get rations
-        let rationsParams = { petsId, spuNoList };
-        let rations = [];
-        try {
-          // 不能删除trycatch 该接口有问题会影响后续流程
-          let rationRes = await getRation(rationsParams);
-          rations = rationRes?.context?.rationResponseItems;
-          subDetail.goodsInfo?.forEach((el) => {
-            rations?.forEach((ration) => {
-              if (el.spuNo == ration.mainItem) {
-                el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
-              }
-            });
+        if (isIndv) {
+          subDetail.goodsInfo.map((item) => {
+            item.petsRation = item.subscribeNum / 30 + 'g/day';
+            return item;
           });
-        } catch (err) {
-          console.log(err);
+        } else {
+          let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
+          // get rations
+          let rationsParams = { petsId, spuNoList };
+          let rations = [];
+          try {
+            // 不能删除trycatch 该接口有问题会影响后续流程
+            let rationRes = await getRation(rationsParams);
+            rations = rationRes?.context?.rationResponseItems;
+            subDetail.goodsInfo?.forEach((el) => {
+              rations?.forEach((ration) => {
+                if (el.spuNo == ration.mainItem) {
+                  el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+                }
+              });
+            });
+            return subDetail.goodsInfo;
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
+      console.info('subDetail.goodsInfo', subDetail.goodsInfo);
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });
@@ -437,7 +463,6 @@ class SubscriptionDetail extends React.Component {
         subDetail.subscriptionPlanFullFlag === 0; //subscriptionPlanFullFlag判断food dispenser是否在有效期
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
-      subDetail.subscriptionType = 'indv';
       this.setState(
         {
           petType: petsType,
@@ -653,7 +678,7 @@ class SubscriptionDetail extends React.Component {
     // console.log(noStartYearOption, noStartYear, 'noStartYearOption----');
     let isShowClub =
       subDetail.subscriptionType?.toLowerCase().includes('club') ||
-      subDetail.subscriptionType?.toLowerCase().includes('indv'); //indv的展示和club类似
+      subDetail.subscriptionType?.toLowerCase().includes('individualization'); //indv的展示和club类似
     // && window.__.env.REACT_APP_COUNTRY != 'ru'; //ru的club展示不绑定宠物，和普通订阅一样
     return (
       <div className="subscriptionDetail">

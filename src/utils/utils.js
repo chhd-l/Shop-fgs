@@ -911,13 +911,18 @@ function isMatchedLang(langArr, lang) {
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
+import indvLogo from '@/assets/images/indv_log.jpg';
+
 import { el } from 'date-fns/locale';
-export function getClubLogo() {
+export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
+  let logo = Club_Logo;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    return Club_Logo_ru;
-  } else {
-    return Club_Logo;
+    logo = Club_Logo_ru;
   }
+  if (goodsInfoFlag == 3 || subscriptionType == 'Individualization') {
+    logo = indvLogo;
+  }
+  return logo;
 }
 
 export function bindSubmitParam(list) {
@@ -937,4 +942,12 @@ export function bindSubmitParam(list) {
     });
 
   return obj;
+}
+
+//判断是否是individual商品
+export function judgeIsIndividual(item) {
+  return (
+    window.__.env.REACT_APP_COUNTRY === 'fr' &&
+    (item.promotions || '').toLowerCase() === 'individual'
+  );
 }

@@ -32,7 +32,7 @@ const GiftList = ({ pitem }) => {
                 pitem.goods.promotions.includes('club') ? (
                   <img
                     className="clubLogo"
-                    src={getClubLogo()}
+                    src={getClubLogo({})}
                     alt="club logo"
                   />
                 ) : null} */}

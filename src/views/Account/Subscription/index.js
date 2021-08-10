@@ -89,7 +89,7 @@ const clubNoSubscription = function () {
       <div className="subscription-club-no-subscription">
         <img
           className="m-auto subscription-club-no-subscription-logo"
-          src={getClubLogo()}
+          src={getClubLogo({})}
           alt="club icon"
         />
         <p>
@@ -368,8 +368,7 @@ class Subscription extends React.Component {
               <>
                 {subList.map((subItem, i) => {
                   let subItemComp = null;
-                  if (subItem.subscriptionType === 'Club') {
-                    // if (subItem.subscriptionType === 'Indv') {
+                  if (subItem.subscriptionType === 'Individualization') {
                     subItemComp = (
                       <IndvItem
                         history={this.props.history}

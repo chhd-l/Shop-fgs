@@ -77,7 +77,7 @@ class GoogleTagManager extends React.Component {
     if (userInfo) {
       event.user = {
         authentificationStatus: 'authenticated',
-        email: sha256(userInfo.email),
+        email: userInfo.email && sha256(userInfo.email),
         id: userInfo.customerId,
         locale: userInfo.city,
         frequency: 'returning client',

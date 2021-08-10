@@ -121,7 +121,12 @@ const DeliveryList = ({
                   el.tradeState.createTime.split('-')[0] === completedYear.value
               )
               .map((el, i) => (
-                <CompletedDelivery el={el} isActive={isActive} i={i} />
+                <CompletedDelivery
+                  subDetail={subDetail}
+                  el={el}
+                  isActive={isActive}
+                  i={i}
+                />
               ))}
         </div>
       </div>

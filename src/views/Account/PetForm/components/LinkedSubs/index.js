@@ -135,7 +135,9 @@ const LinkedSubs = (props) => {
                   <div className="col-4 col-md-2 text-nowrap">
                     <LazyLoad>
                       <img
-                        src={getClubLogo()}
+                        src={getClubLogo({
+                          subscriptionType: subItem.subscriptionType
+                        })}
                         style={{
                           width: '75px',
                           display: 'inline-block',
