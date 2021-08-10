@@ -131,10 +131,9 @@ const SubDetailHeader = ({
             {subDetail.petsId ? (
               <React.Fragment>
                 {subDetail.subscriptionType == 'Individualization' ? (
-                  <div
-                    className="pet-img  text-center"
-                    style={{ margin: '0 1rem 0 2rem' }}
-                  ></div>
+                  <div className="rc-md-up">
+                    <div className="rc-margin-x--xs"></div>
+                  </div>
                 ) : (
                   <img
                     style={{ marginLeft: '1rem', marginRight: '1rem' }}
@@ -147,8 +146,15 @@ const SubDetailHeader = ({
                     }
                   />
                 )}
-                <div className="rc-md-down">
+
+                <div className="rc-md-down" style={{ marginRight: '0.625rem' }}>
                   <StatusText subDetail={subDetail} />
+                </div>
+                <div
+                  className="rc-md-down"
+                  style={{ color: 'rgb(226, 0, 26)' }}
+                >
+                  {petsInfo?.petsName}
                 </div>
                 <Link
                   className="rc-md-down rc-margin-y--sm"

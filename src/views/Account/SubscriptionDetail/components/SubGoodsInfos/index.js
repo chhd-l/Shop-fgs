@@ -200,7 +200,6 @@ const SubGoodsInfos = ({
                     >
                       {!isIndv && el.specText}
                     </p>
-                    ..........
                     {isShowClub && !!subDetail.petsId && (
                       <DailyRation rations={el.petsRation} />
                     )}
@@ -262,22 +261,24 @@ const SubGoodsInfos = ({
                     >
                       {formatMoney(el.subscribePrice * el.subscribeNum)}
                     </span>
-                    <span
-                      className="price"
-                      style={{
-                        display: 'inline-block',
-                        fontSize: '1.25rem',
-                        fontWeight: '400',
-                        textDecoration: 'line-through',
-                        verticalAlign: 'middle',
-                        marginLeft: '8px',
-                        height: '.6875rem',
-                        color: '#aaa',
-                        fontSize: '.875rem'
-                      }}
-                    >
-                      {formatMoney(el.originalPrice * el.subscribeNum)}
-                    </span>
+                    {!isIndv && (
+                      <span
+                        className="price"
+                        style={{
+                          display: 'inline-block',
+                          fontSize: '1.25rem',
+                          fontWeight: '400',
+                          textDecoration: 'line-through',
+                          verticalAlign: 'middle',
+                          marginLeft: '8px',
+                          height: '.6875rem',
+                          color: '#aaa',
+                          fontSize: '.875rem'
+                        }}
+                      >
+                        {formatMoney(el.originalPrice * el.subscribeNum)}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div
@@ -475,7 +476,8 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow: !triggerShowChangeProduct.firstShow,
+                                        firstShow:
+                                          !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }
