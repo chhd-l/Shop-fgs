@@ -136,19 +136,14 @@ class DedicatedLandingPage extends React.Component {
 
   // 添加商品并跳转购物车
   addCart = async () => {
+    this.setState({ buttonLoading: true });
     if (this.state.selectLine === 1) {
       const { context } = await getDetailsBySpuNo(2544);
-      this.setState({
-        listOne: context,
-        buttonLoading: true
-      });
+      this.setState({ listOne: context });
       this.getProductList();
     } else if (this.state.selectLine === 2) {
       const { context } = await getDetailsBySpuNo(2522);
-      this.setState({
-        listTwo: context,
-        buttonLoading: true
-      });
+      this.setState({ listTwo: context });
       this.getProductList();
     }
   };
@@ -514,7 +509,14 @@ class DedicatedLandingPage extends React.Component {
                   }}
                   className="text-center"
                 >
-                  <button className="rc-btn rc-btn--one">
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    }  ${
+                      this.state.selectLine === 0 ? 'rc-btn-solid-disabled' : ''
+                    }`}
+                    onClick={this.addCart}
+                  >
                     Ajouter et voir mon panier
                   </button>
                 </div>
