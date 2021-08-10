@@ -19,6 +19,7 @@ import { getDeviceType } from '../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 import { getRecommendationInfo } from '@/api/productFinder';
+import Loading from '@/components/Loading';
 
 console.info('productList', productList);
 const pageLink = window.location.href;
@@ -32,6 +33,7 @@ class PreciseRecommendation extends React.Component {
         // goodsInfo:{},
         // pet:{}
       },
+      loading: true,
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -44,12 +46,16 @@ class PreciseRecommendation extends React.Component {
     if (id) {
       let productShowInfo = productList[id];
       this.setState({
-        productShowInfo
+        productShowInfo,
+        loading: false
       });
       return;
     }
     let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
     if (!paramsString) {
+      this.setState({
+        loading: false
+      });
       return;
     }
     let filters = JSON.parse(paramsString);
@@ -76,10 +82,14 @@ class PreciseRecommendation extends React.Component {
       let recommData = res;
       this.setState({
         productShowInfo,
-        recommData
+        recommData,
+        loading: false
       });
     } catch (err) {
       console.info('err', err);
+      this.setState({
+        loading: false
+      });
       if (window.__.env.REACT_APP_HUB_URLPREFIX) {
         let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
         location.href = url;
@@ -217,6 +227,7 @@ class PreciseRecommendation extends React.Component {
             name="description"
             content={this.state.seoConfig.metaDescription}
           />
+          <meta name="robots" content="noindex" />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager
@@ -231,6 +242,7 @@ class PreciseRecommendation extends React.Component {
           history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
+        {this.state.loading ? <Loading /> : null}
         <main className={'rc-content--fixed-header'}>
           <Banner
             history={this.props.history}

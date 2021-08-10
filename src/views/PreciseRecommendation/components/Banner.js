@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import stores from '@/store';
 import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
+import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const bannerList = [
@@ -23,10 +25,12 @@ const BannerFour = () => {
     >
       {bannerList.map((el) => (
         <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
-          <img
-            className="m-auto"
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
-          />
+          <LazyLoad>
+            <img
+              className="m-auto"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
+            />
+          </LazyLoad>
           <p
             style={{ fontSize: '12px' }}
             dangerouslySetInnerHTML={{ __html: el.text }}
@@ -108,15 +112,19 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             style={{ fontSize: '20px' }}
           >
             <div className="rc-column rc-double-width">
-              <img
-                src={require('@/assets/images/preciseCatNutrition/productimg.png')}
-                // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-              />
-              <img
-                style={{ width: '100px' }}
-                src={require('@/assets/images/preciseCatNutrition/productimg.png')}
-                // src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-              />
+              <LazyLoad>
+                <img
+                  src={productImg}
+                  // src={productImg}
+                />
+              </LazyLoad>
+              <LazyLoad>
+                <img
+                  style={{ width: '100px' }}
+                  src={productImg}
+                  // src={productImg}
+                />
+              </LazyLoad>
             </div>
 
             <div className="rc-column rc-triple-width">
@@ -134,11 +142,11 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               <div className=" rc-layout-container rc-five-column rc-padding-top--md">
                 <div
                   className="rc-column rc-triple-width"
-                  style={{ maxWidth: '480px' }}
+                  style={{ maxWidth: '450px' }}
                 >
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
-                    30 days of complete & balanced diet for
-                    <br /> adult cat, Recommended diet to limit weight
+                    30 days of complete & balanced diet for adult cat,
+                    <FormattedMessage id={productShowInfo.recoSentence} />
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     Daily portion:{' '}
@@ -193,10 +201,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                         onClick={handleBuyNow}
                         className={`rc-btn rc-btn--one
                         ${loading ? 'ui-btn-loading' : ''} ${
-                          productShowInfo?.goodsInfo?.stock <
-                          productShowInfo?.goodsInfo?.buyCount
+                          recommData?.goodsInfo?.stock >=
+                          recommData?.goodsInfo?.buyCount
                             ? ''
-                            : 'disabled'
+                            : 'rc-btn-solid-disabled'
                         }`}
                         style={{ width: '200px', padding: '10px' }}
                       >
@@ -245,15 +253,18 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             30 days of complete & balanced diet for adult cat, Recommended diet
             to limit weight
           </div>
-          <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-          />
+          <LazyLoad>
+            <img src={productImg} />
+          </LazyLoad>
+
           <div className="rc-margin-y--md">
-            <img
-              className="text-center m-auto "
-              style={{ width: '100px' }}
-              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/productimg1.png`}
-            />
+            <LazyLoad>
+              <img
+                className="text-center m-auto "
+                style={{ width: '100px' }}
+                src={productImg}
+              />
+            </LazyLoad>
           </div>
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             Daily portion:{' '}
@@ -291,10 +302,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             onClick={handleBuyNow}
             className={`rc-btn rc-btn--one 
           ${loading ? 'ui-btn-loading' : ''} ${
-              productShowInfo?.goodsInfo?.stock <
-              productShowInfo?.goodsInfo?.buyCount
+              recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
                 ? ''
-                : 'disabled'
+                : 'rc-btn-solid-disabled'
             }`}
           >
             buy now
@@ -328,28 +338,40 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           >
             <FormattedMessage id={'preciseNutrition.benefits.content'} />
           </p>
-          <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
-            style={{ border: 'none' }}
-          />
+          <LazyLoad>
+            <img
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
+              style={{ border: 'none' }}
+            />
+          </LazyLoad>
         </div>
         <div className="rc-column">
           {productShowInfo.provenBenefits?.map((item) => (
             <div className="d-flex">
               <div className="rc-padding-right--xs" style={{ width: '78px' }}>
-                <img
-                  // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
-                  src={`${
-                    window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
-                  }/img/CatNutrition/${intl.messages[item.img]}`}
-                />
+                <LazyLoad>
+                  <img
+                    // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
+                    src={`${
+                      window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+                    }/img/CatNutrition/${intl.messages[item.img]}`}
+                  />
+                </LazyLoad>
               </div>
               <div style={{ flex: 1, paddingLeft: '8px' }}>
                 <strong style={{ fontSize: '20px' }}>
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
+                  <FormattedMessage
+                    id={item.des}
+                    values={{
+                      val: <br />,
+                      italicSentence: item.italicSentence ? (
+                        <i>{intl.messages[item.italicSentence]}</i>
+                      ) : null
+                    }}
+                  />
                 </p>
               </div>
             </div>

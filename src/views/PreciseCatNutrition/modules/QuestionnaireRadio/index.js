@@ -20,13 +20,8 @@ export default function QuestionnaireRadio({ questionData }) {
     if (Context.formData[questionData.name]) {
       setChecked(String(Context.formData[questionData.name]));
     } else {
-      setChecked(questionData.possibleValues?.[0].key);
-      Context.changeFormData(
-        questionData.name,
-        questionData.name === 'bcs'
-          ? parseInt(questionData.possibleValues?.[0].key)
-          : questionData.possibleValues?.[0].key
-      );
+      setChecked('');
+      Context.changeFormData(questionData.name, '');
     }
   }, [questionData.name]);
   const handleRadioChange = (val) => {

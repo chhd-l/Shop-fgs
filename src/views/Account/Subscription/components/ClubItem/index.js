@@ -92,7 +92,7 @@ const ClubItem = ({ subItem, history }) => {
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         {/* <LazyLoad> */}
         <img
-          src={getClubLogo()}
+          src={getClubLogo({ subscriptionType: item.subscriptionType })}
           style={{
             width: '75px',
             display: 'inline-block',

@@ -30,7 +30,7 @@ const ChangeSelection = ({ el }) => {
   }
   return (
     <>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         {isIndv ? (
           <>
             <strong
@@ -54,7 +54,8 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              30 daily rations Delivered every month
+              30 days
+              {/* 30 daily rations Delivered every month */}
             </div>
           </>
         ) : (
@@ -85,7 +86,7 @@ const ChangeSelection = ({ el }) => {
           </div>
         )}
       </div>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         <strong
           style={{
             display: 'inline-block',
@@ -107,7 +108,7 @@ const ChangeSelection = ({ el }) => {
           {getFormatDate(el.createTime.split(' ')[0])}
         </div>
       </div>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         <strong
           style={{
             display: 'inline-block',

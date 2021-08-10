@@ -106,7 +106,7 @@ class PayProductInfo extends React.Component {
                     item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: item.goodsInfoFlag })}
                         alt="club-logo"
                       />
                     ) : null}
@@ -141,7 +141,8 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="line-item-total-price text-nowrap">
                     {details.subscriptionResponseVO &&
-                    item.subscriptionStatus ? (
+                    item.subscriptionStatus &&
+                    item.goodsInfoFlag != 3 ? (
                       <>
                         <p className="text-line-through mb-0">
                           {formatMoney(item.splitPrice)}
@@ -322,10 +323,13 @@ class PayProductInfo extends React.Component {
                   <FormattedMessage
                     id="payment.totalProduct"
                     values={{
-                      val: details.tradeItems.reduce(
-                        (total, item) => total + item.num,
-                        0
-                      )
+                      val:
+                        details.tradeItems[0].goodsInfoFlag == 3
+                          ? 1
+                          : details.tradeItems.reduce(
+                              (total, item) => total + item.num,
+                              0
+                            )
                     }}
                   />
                 </span>
