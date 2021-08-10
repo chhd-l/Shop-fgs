@@ -5,6 +5,8 @@ import { sleep } from '@/utils/utils';
 import Loading from '@/components/Loading';
 import { inject, observer } from 'mobx-react';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @observer
 class PaymentMethod3dsResult extends Component {
@@ -16,6 +18,8 @@ class PaymentMethod3dsResult extends Component {
   }
   async UNSAFE_componentWillMount() {
     const { history } = this.props;
+    const redirectPage =
+      localItemRoyal.get('paymentEditFormCurrentPage') || '/';
 
     this.setState({
       circleLoading: true
@@ -24,8 +28,9 @@ class PaymentMethod3dsResult extends Component {
       const res = await payu3dsPaymentsDetails({
         ...transferToObject()
       });
+      console.log('payu3dsPaymentsDetails', res);
       if (res.context.status === 'Succeed') {
-        history.push('/account/information');
+        history.push(redirectPage);
       } else {
         history.push('/');
       }

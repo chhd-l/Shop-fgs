@@ -22,6 +22,8 @@ import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @injectIntl
 @observer
@@ -302,11 +304,11 @@ class PaymentEditForm extends React.Component {
           email: creditCardInfoForm.email,
           holderName: res ? res.data.holder_name : '',
           isDefault: creditCardInfoForm.isDefault ? '1' : '0',
-          lastFourDigits: '5897',
+          lastFourDigits: res ? res.data.last_4_digits : '',
           paymentVendor: res ? res.data.vendor : '',
           phone: creditCardInfoForm.phoneNumber || '',
           storeId: window.__.env.REACT_APP_STOREID,
-          successUrl: `${window.location.origin}/PaymentMethod3dsResult`,
+          successUrl: `${window.location.origin}/PaymentMethod3dsResult`, // 接口需要重定向页面去授权
           token: res ? res.data.token : '',
           pspName: 'PAYU'
         });
@@ -315,7 +317,14 @@ class PaymentEditForm extends React.Component {
           showPaymentMethodTipsRu: false
         });
 
-        if (!addCardRes.context?.redirectUrl) {
+        // 如果接口返回有重定向的链接就重定向到对应的验证页
+        if (addCardRes.context?.redirectUrl) {
+          // 保存当前页面地址, 便于 /PaymentMethod3dsResult 页面授权成功后跳回本页面
+          localItemRoyal.set(
+            'paymentEditFormCurrentPage',
+            window.location.pathname
+          );
+
           window.location.href = addCardRes.context.redirectUrl;
         } else {
           this.handleCancel();
@@ -1101,8 +1110,7 @@ class PaymentEditForm extends React.Component {
               {showPaymentMethodTipsRu ? (
                 <div className="row">
                   <div className="col-12 mt-2 red">
-                    Для проверки новой карты будет произведено списание и
-                    возврат суммы 12 руб
+                    <FormattedMessage id="payment.addCardTips" />
                   </div>
                 </div>
               ) : null}
