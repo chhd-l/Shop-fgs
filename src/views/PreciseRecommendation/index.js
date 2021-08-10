@@ -217,6 +217,7 @@ class PreciseRecommendation extends React.Component {
             name="description"
             content={this.state.seoConfig.metaDescription}
           />
+          <meta name="robots" content="noindex" />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager

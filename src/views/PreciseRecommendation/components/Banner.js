@@ -134,11 +134,11 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               <div className=" rc-layout-container rc-five-column rc-padding-top--md">
                 <div
                   className="rc-column rc-triple-width"
-                  style={{ maxWidth: '480px' }}
+                  style={{ maxWidth: '450px' }}
                 >
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
-                    30 days of complete & balanced diet for
-                    <br /> adult cat, Recommended diet to limit weight
+                    30 days of complete & balanced diet for adult cat,
+                    <FormattedMessage id={productShowInfo.recoSentence} />
                   </div>
                   <div className="margin-b-24" style={{ lineHeight: '24px' }}>
                     Daily portion:{' '}
@@ -348,7 +348,15 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
+                  <FormattedMessage
+                    id={item.des}
+                    values={{
+                      val: <br />,
+                      italicSentence: item.italicSentence ? (
+                        <i>{intl.messages[item.italicSentence]}</i>
+                      ) : null
+                    }}
+                  />
                 </p>
               </div>
             </div>

@@ -100,7 +100,6 @@ class PreciseCatNutrition extends React.Component {
               content={this.state.seoConfig.metaDescription}
             />
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
-            <meta name="robots" content="noindex" />
           </Helmet>
           <GoogleTagManager
             additionalEvents={event}
