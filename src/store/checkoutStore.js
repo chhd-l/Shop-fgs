@@ -66,42 +66,55 @@ class CheckoutStore {
     }
     return ret || 0;
   }
+
   @computed get totalMinusSubPrice() {
     return this?.cartPrice?.totalMinusSubPrice || 0;
   }
+
   @computed get totalPrice() {
     return this?.cartPrice?.totalPrice || 0;
   }
+
   @computed get taxFeePrice() {
     return this?.cartPrice?.taxFeePrice || 0;
   }
+
   @computed get freeShippingFlag() {
     return this?.cartPrice?.freeShippingFlag || 0;
   }
+
   @computed get freeShippingDiscountPrice() {
     return this?.cartPrice?.freeShippingDiscountPrice || 0;
   }
+
   @computed get discountPrice() {
     return this?.cartPrice?.discountPrice || 0;
   }
+
   @computed get subscriptionDiscountPrice() {
     return this?.cartPrice?.subscriptionDiscountPrice || 0;
   }
+
   @computed get promotionDiscountPrice() {
     return this?.cartPrice?.promotionDiscountPrice || 0;
   }
+
   @computed get deliveryPrice() {
     return this?.cartPrice?.deliveryPrice || 0;
   }
+
   @computed get subscriptionPrice() {
     return this?.cartPrice?.subscriptionPrice || 0;
   }
+
   @computed get promotionDesc() {
     return this?.cartPrice?.promotionDesc || '';
   }
+
   @computed get promotionDiscount() {
     return this?.cartPrice?.promotionDiscount || '';
   }
+
   @computed get promotionVOList() {
     let list = [];
     if (this?.cartPrice?.promotionVOList) {
@@ -121,11 +134,13 @@ class CheckoutStore {
     this.promotionCode = data;
     localItemRoyal.set('rc-promotionCode', data);
   }
+
   @action.bound
   removePromotionCode(data) {
     this.promotionCode = '';
     localItemRoyal.remove('rc-promotionCode');
   }
+
   // @action.bound
   // setclixRayPromotionCode(data) {
   //   this.clixRayPromotionCode = data;
@@ -142,6 +157,7 @@ class CheckoutStore {
     this.couponCodeFitFlag = data;
     localItemRoyal.set('rc-couponCodeFitFlag', data);
   }
+
   @action.bound
   removeCouponCodeFitFlag(data) {
     this.couponCodeFitFlag = false;
@@ -191,6 +207,7 @@ class CheckoutStore {
     console.info('datasdatas', datas);
     localItemRoyal.set('rc-cart-data-login', datas);
   }
+
   @action.bound
   setGiftList(data) {
     this.giftList = data;
@@ -684,6 +701,7 @@ class CheckoutStore {
   changeFromStorePortal(data) {
     this.isFromStorePortal = data;
   }
+
   /**
    * 游客加入购物车
    * @param {Boolean} valid - 按钮可点击状态
@@ -703,7 +721,7 @@ class CheckoutStore {
         let oldIndvIndex = cartDataCopy.findIndex(
           (item) => item.goodsInfoFlag == 3
         );
-        cartDataCopy.splice(oldIndvIndex, 1); //删除购物车已有的indv商品
+        oldIndvIndex > -1 && cartDataCopy.splice(oldIndvIndex, 1); //删除购物车已有的indv商品
         cartItemList.forEach((cartItem) => {
           const selectedGoodsInfo =
             find(cartItem.sizeList, (s) => s.selected) || cartItem.goodsInfo;
@@ -794,4 +812,5 @@ class CheckoutStore {
     this.installMentParam = data;
   }
 }
+
 export default CheckoutStore;
