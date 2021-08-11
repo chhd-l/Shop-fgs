@@ -43,7 +43,7 @@ class DetailsDisplay extends React.Component {
                   height: '780vh',
                   position: 'fixed',
                   display: 'block',
-                  background: '#000',
+                  background: '#9e9e9e',
                   opacity: '0.80'
                 }
               : {}
@@ -58,7 +58,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-center rc-margin-y--md">
                         <div>
-                          <h4 className="rc-beta font-weight-bold text-center rc-padding-x--sm--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                          <h4 className="rc-beta font-weight-bold text-center rc-padding-x--md--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontSize:isMobile?'18px':null}}>
                             <FormattedMessage id="preciseNutrition.Details.title" />
                           </h4>
                         </div>
@@ -88,7 +88,7 @@ class DetailsDisplay extends React.Component {
                             <div
                               className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{
-                                backgroundColor: '#eee',
+                                backgroundColor: '#f6f6f6',
                                 height: '100%'
                               }}
                             >
@@ -110,7 +110,7 @@ class DetailsDisplay extends React.Component {
                             <div
                               className="text-center text-lg-left rc-padding-x--sm rc-padding-y--sm rc-padding-y--md--mobile rc-padding-x--md--mobile"
                               style={{
-                                backgroundColor: '#eee',
+                                backgroundColor: '#f6f6f6',
                                 height: '100%'
                               }}
                             >
@@ -180,7 +180,7 @@ class DetailsDisplay extends React.Component {
                             <div
                               className="row col-12 mx-0 text-left rc-padding-x--sm rc-padding-y--sm rc-padding-x--md--mobile rc-padding-y--md--mobile"
                               style={{
-                                backgroundColor: '#eee',
+                                backgroundColor: '#f6f6f6',
                                 height: '100%'
                               }}
                             >

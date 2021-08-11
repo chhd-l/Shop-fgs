@@ -130,7 +130,7 @@ class PreciseRecommendation extends React.Component {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
-    debugger;
+    // debugger;
     this.getProductInfo();
   }
 
@@ -312,7 +312,7 @@ class PreciseRecommendation extends React.Component {
                           >
                             <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
                               <div className="rc-column rc-padding--none">
-                                <h4 className="rc-beta font-weight-bold text-lg-left text-center">
+                                <h4 className="rc-beta font-weight-bold text-lg-left text-center" style={{fontSize:isMobile?'18px':null}}>
                                   <FormattedMessage id="preciseNutrition.Below.title" />
                                 </h4>
                                 <div className="text-lg-left text-center rc-padding-right--sm--desktop">
@@ -395,7 +395,7 @@ class PreciseRecommendation extends React.Component {
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                       <div className="rc-padding-x--lg rc-padding-x--sm--mobile">
                         <div>
-                          <h4 className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                          <h4 className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontSize:isMobile?'18px':null}}>
                             <FormattedMessage id="preciseNutrition.commitment.title" />
                           </h4>
                         </div>
