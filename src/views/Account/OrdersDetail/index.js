@@ -1247,7 +1247,9 @@ class AccountOrders extends React.Component {
                                                 title={item.spuName}
                                               >
                                                 {judgeIsIndividual(item)
-                                                  ? "Your pet's personalized subscription"
+                                                  ? (item.petsName ||
+                                                      'Your pet') +
+                                                    "'s personalized subscription"
                                                   : item.spuName}
                                               </span>
                                               <span className="ui-text-overflow-line2">
