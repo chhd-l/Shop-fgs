@@ -480,7 +480,6 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
-    debugger;
     console.info('productList', productList);
     let quantityKeyName = 'quantity';
     if (this.isLogin || this.props.data.length) {
@@ -614,16 +613,18 @@ class PayProductInfo extends React.Component {
                         this.setState({
                           isClickApply: true,
                           isShowValidCode: false,
-                          lastPromotionInputValue: this.state
-                            .promotionInputValue
+                          lastPromotionInputValue:
+                            this.state.promotionInputValue
                         });
                         // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
                         let purchasesPara =
                           localItemRoyal.get('rc-payment-purchases-param') ||
                           {};
-                        purchasesPara.promotionCode = this.state.promotionInputValue;
+                        purchasesPara.promotionCode =
+                          this.state.promotionInputValue;
                         purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
+                        purchasesPara.address1 =
+                          this.props.deliveryAddress?.address1;
                         console.log('------- ', purchasesPara);
                         if (!this.isLogin) {
                           purchasesPara.guestEmail = this.props.guestEmail;
