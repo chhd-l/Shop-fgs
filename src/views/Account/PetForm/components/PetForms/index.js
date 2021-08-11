@@ -894,22 +894,20 @@ const PetForms = ({
                 </button>
                 <br />
                 {/* sourceType为0 和 individual的时候都是individual的，不能删除宠物*/}
-                {paramsId &&
-                  currentPetParam.sourceType != 0 &&
-                  currentPetParam.sourceType != 'individual' && (
-                    <span
-                      className="rc-styled-link"
-                      onClick={() => {
-                        handleDelPets(false);
-                      }}
-                    >
-                      <FormattedMessage id="pet.deletePet" />
-                    </span>
-                  )}
+                {paramsId && currentPetParam.sourceType != 'individual' && (
+                  <span
+                    className="rc-styled-link"
+                    onClick={() => {
+                      handleDelPets(false);
+                    }}
+                  >
+                    <FormattedMessage id="pet.deletePet" />
+                  </span>
+                )}
               </p>
             ) : (
               <p style={{ textAlign: 'right' }}>
-                {paramsId && (
+                {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
                     className="rc-styled-link"
                     onClick={() => {

@@ -5,6 +5,7 @@ import LazyLoad from 'react-lazyload';
 import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import dateIcon from '../../images/date.png';
+import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -54,7 +55,8 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              30 days
+              <FrequencyMatch currentId={el.periodTypeId} />
+              {/* 30 days */}
               {/* 30 daily rations Delivered every month */}
             </div>
           </>

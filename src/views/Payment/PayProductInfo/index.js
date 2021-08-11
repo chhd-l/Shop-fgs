@@ -409,11 +409,12 @@ class PayProductInfo extends React.Component {
                     {el.goodsInfoFlag ? (
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {el.goodsInfoFlag == 3 ? (
+                        <FrequencyMatch currentId={el.periodTypeId} />
+                        {/* {el.goodsInfoFlag == 3 ? (
                           '30 days'
                         ) : (
                           <FrequencyMatch currentId={el.periodTypeId} />
-                        )}
+                        )} */}
                       </p>
                     ) : null}
                   </div>
@@ -613,18 +614,16 @@ class PayProductInfo extends React.Component {
                         this.setState({
                           isClickApply: true,
                           isShowValidCode: false,
-                          lastPromotionInputValue:
-                            this.state.promotionInputValue
+                          lastPromotionInputValue: this.state
+                            .promotionInputValue
                         });
                         // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
                         let purchasesPara =
                           localItemRoyal.get('rc-payment-purchases-param') ||
                           {};
-                        purchasesPara.promotionCode =
-                          this.state.promotionInputValue;
+                        purchasesPara.promotionCode = this.state.promotionInputValue;
                         purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-                        purchasesPara.address1 =
-                          this.props.deliveryAddress?.address1;
+                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
                         console.log('------- ', purchasesPara);
                         if (!this.isLogin) {
                           purchasesPara.guestEmail = this.props.guestEmail;

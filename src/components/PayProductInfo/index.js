@@ -134,11 +134,12 @@ class PayProductInfo extends React.Component {
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {item.goodsInfoFlag === 3 ? (
+                        <FrequencyMatch currentId={item.periodTypeId} />
+                        {/* {item.goodsInfoFlag === 3 ? (
                           '30 days'
                         ) : (
                           <FrequencyMatch currentId={item.periodTypeId} />
-                        )}
+                        )} */}
                         <span
                           className="iconfont font-weight-bold green"
                           style={{ fontSize: '.8em' }}

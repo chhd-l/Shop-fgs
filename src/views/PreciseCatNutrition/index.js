@@ -22,6 +22,7 @@ import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
 
 import AboutPet from './aboutPet';
+import Loading from '@/components/Loading';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -53,6 +54,7 @@ class PreciseCatNutrition extends React.Component {
     super(props);
     this.state = {
       categoryList: [],
+      loading: true,
       categoryLoading: true,
       seoConfig: {
         title: 'Royal canin',
@@ -99,6 +101,7 @@ class PreciseCatNutrition extends React.Component {
               name="description"
               content={this.state.seoConfig.metaDescription}
             />
+            <meta name="robots" content="noindex" />
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <GoogleTagManager
@@ -113,6 +116,7 @@ class PreciseCatNutrition extends React.Component {
             history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
           />
+          {/*{this.state.loading ? <Loading /> : null}*/}
           <main className={'rc-content--fixed-header'}>
             <BannerTip />
             <div
