@@ -247,13 +247,11 @@ class Pet extends React.Component {
                               <div className="content">
                                 <h1 className="name red">
                                   {el.petsName}{' '}
-                                  <LazyLoad>
-                                    <img
-                                      style={{ width: '1.25rem' }}
-                                      src={!el.petsSex ? Male : Female}
-                                      alt="pet sex icon"
-                                    />
-                                  </LazyLoad>
+                                  <img
+                                    style={{ width: '1.25rem' }}
+                                    src={!el.petsSex ? Male : Female}
+                                    alt="pet sex icon"
+                                  />
                                 </h1>
                                 <div className="key">
                                   <span className="ui-text-overflow-line1">
