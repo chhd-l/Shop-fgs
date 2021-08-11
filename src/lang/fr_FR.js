@@ -1412,12 +1412,10 @@ const fr_FR = {
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
   subscription: 'Abonnements',
   giftList: 'promotion de cadeaux',
-  'subscription.ad.list1':
-    'Ajoutez les produits nutritionnels {val1} {val2} {val3} dans votre panier.',
-  'subscription.ad.list2':
-    'Sélectionnez {val1} et entrez votre mode de paiement.',
-  'subscription.ad.list3': '{val1} en fonction de votre calendrier.',
-  'subscription.ad.list4': 'Modifiez vos préférences à {val1}.',
+  'subscription.ad.list1': '{val1}',
+  'subscription.ad.list2': '{val1}',
+  'subscription.ad.list3': '{val1}',
+  'subscription.ad.list4': '{val1}',
   'subscription.ad.title': 'Comment cela fonctionne-t-il ?',
   'subscription.banner.subTitle':
     "Découvrez les meilleures options de nutrition pour votre animal et choisissez l'option Abonnement avant d'acheter.",
