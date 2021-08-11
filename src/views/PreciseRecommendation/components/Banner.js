@@ -132,6 +132,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       }
     );
     try {
+      dataLayer.push({
+        event: 'individualizationRecoAddToCart'
+      });
       setLoading(true);
       await sitePurchase(params);
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
