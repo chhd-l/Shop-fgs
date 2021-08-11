@@ -543,7 +543,6 @@ class UnLoginCart extends React.Component {
     const product = productList[currentProductIdx];
     item.confirmTooltipVisible = false;
     productList.splice(currentProductIdx, 1);
-    debugger;
     this.setState(
       {
         productList
@@ -1326,7 +1325,7 @@ class UnLoginCart extends React.Component {
             </div>
           ) : null}
 
-          {/* 
+          {/*
             customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
             enterPriceType 买入价格开关 0：含税，1：不含税
           */}

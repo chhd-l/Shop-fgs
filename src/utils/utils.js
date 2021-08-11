@@ -93,7 +93,9 @@ export async function hanldePurchases(goodsInfoDTOList) {
  * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
  */
 export async function mergeUnloginCartData() {
-  const unloginCartData = checkoutStore.cartData;
+  let unloginCartData = checkoutStore.cartData;
+  unloginCartData = toJS(unloginCartData);
+  console.info('unloginCartData', unloginCartData);
   // 线下店orderSource埋点L_ATELIER_FELIN
   let orderSource = sessionItemRoyal.get('orderSource') || '';
   let params = {
@@ -551,11 +553,19 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
     }
     return el;
   });
+  let indvFrequency = await Promise.all([
+    getDictionary({ type: 'Frequency_month_individual' }),
+    getDictionary({ type: 'Frequency_week_individual' }),
+    getDictionary({ type: 'Frequency_day_individual' })
+  ]);
+  indvFrequency = flatten(indvFrequency);
   let frequencyList = autoShipFrequency;
   if (!frequencyType) {
-    frequencyList = autoShipFrequency.concat(clubFrequency);
+    frequencyList = autoShipFrequency.concat(clubFrequency, indvFrequency);
   } else if (frequencyType === 'club') {
     frequencyList = clubFrequency;
+  } else if (frequencyType === 'individual') {
+    frequencyList = indvFrequency;
   }
   if (lang == 'de') {
     // 德国不存在club，并且只展示1-3个月的frequency
@@ -911,13 +921,18 @@ function isMatchedLang(langArr, lang) {
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
+import indvLogo from '@/assets/images/indv_log.jpg';
+
 import { el } from 'date-fns/locale';
-export function getClubLogo() {
+export function getClubLogo({ goodsInfoFlag, subscriptionType }) {
+  let logo = Club_Logo;
   if (window.__.env.REACT_APP_COUNTRY === 'ru') {
-    return Club_Logo_ru;
-  } else {
-    return Club_Logo;
+    logo = Club_Logo_ru;
   }
+  if (goodsInfoFlag == 3 || subscriptionType == 'Individualization') {
+    logo = indvLogo;
+  }
+  return logo;
 }
 
 export function bindSubmitParam(list) {

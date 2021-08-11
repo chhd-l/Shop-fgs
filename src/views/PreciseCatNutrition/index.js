@@ -15,12 +15,14 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { getDeviceType } from '../../utils/utils';
 import goldenfood from '../ClubLandingPageNew/image/goldenfood.png';
 import '../ClubLandingPageNew/index.css';
+import './index.less';
 import Subscription from './Components/Subscription';
 import HowItWorks from './Components/HowItWorks';
 import HelpComponents from './Components/HelpComponents';
 import LongBanner from './Components/LongBanner';
 
 import AboutPet from './aboutPet';
+import Loading from '@/components/Loading';
 
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
@@ -52,6 +54,7 @@ class PreciseCatNutrition extends React.Component {
     super(props);
     this.state = {
       categoryList: [],
+      loading: true,
       categoryLoading: true,
       seoConfig: {
         title: 'Royal canin',
@@ -98,6 +101,7 @@ class PreciseCatNutrition extends React.Component {
               name="description"
               content={this.state.seoConfig.metaDescription}
             />
+            <meta name="robots" content="noindex" />
             <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <GoogleTagManager
@@ -112,6 +116,7 @@ class PreciseCatNutrition extends React.Component {
             history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
           />
+          {/*{this.state.loading ? <Loading /> : null}*/}
           <main className={'rc-content--fixed-header'}>
             <BannerTip />
             <div
@@ -149,44 +154,30 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-assets-headingBlock">
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                        <div className={'row'}>
+                        <div className={'row w-100'}>
                           <div
                             className={'col-12 col-md-4 text-md-right relative'}
-                            style={{ display: 'inline' }}
+                            style={{
+                              display: 'inline',
+                              marginBottom: isMobile ? 15 : null
+                            }}
                           >
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
                               DID
                               <div
-                                style={
-                                  isMobile
-                                    ? {
-                                        height: '60%',
-                                        fontSize: 14,
-                                        backgroundColor: 'white',
-                                        color: '#E2001A',
-                                        display: 'inline',
-                                        borderRadius: '50%',
-                                        position: 'absolute',
-                                        left: 163,
-                                        top: 7,
-                                        padding: 2,
-                                        fontWeight: 500
-                                      }
-                                    : {
-                                        height: '54%',
-                                        fontSize: 14,
-                                        backgroundColor: 'white',
-                                        color: '#E2001A',
-                                        display: 'inline',
-                                        borderRadius: '50%',
-                                        position: 'absolute',
-                                        left: 222,
-                                        top: 7,
-                                        padding: 2,
-                                        fontWeight: 500
-                                      }
-                                }
+                                className="titleRadius"
+                                style={{
+                                  fontSize: 14,
+                                  backgroundColor: 'white',
+                                  color: '#E2001A',
+                                  display: 'inline',
+                                  borderRadius: '50%',
+                                  position: 'absolute',
+                                  top: 7,
+                                  padding: 2,
+                                  fontWeight: 500
+                                }}
                               >
                                 {' '}
                                 You{' '}
@@ -315,7 +306,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            <Divider />
+            {isMobile ? null : <Divider />}
 
             <div className="experience-component experience-layouts-1column">
               <div className="experience-component experience-layouts-1column">
@@ -426,7 +417,7 @@ class PreciseCatNutrition extends React.Component {
                               </ul>
                               <a style={{ color: 'grey' }}>
                                 *this ofter is not adapted to cat ufering from
-                                obesity. 1n suchcase we recommend you to visit a
+                                obesity. In suchcase we recommend you to visit a
                                 vet first.
                               </a>
                               <div
@@ -492,8 +483,8 @@ class PreciseCatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
-                        <p>
+                      <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
+                        <p style={{ marginBottom: 0 }}>
                           * Overweight can shorten an animal's life by up to 2
                           years. And it can increase the risk of diabetes,
                           urinary tract diseases, arthritis and skin problems.
@@ -502,7 +493,7 @@ class PreciseCatNutrition extends React.Component {
                           Med 2018; 1-11
                         </p>
                         <p>
-                          1] This is just a figurative price but the
+                          [1] This is just a figurative price but the
                           subscription is only available for 30 days.
                         </p>
                       </div>
@@ -525,7 +516,7 @@ class PreciseCatNutrition extends React.Component {
                             {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                           </h4>
                         </div>
-                        <p>
+                        <p style={{ marginBottom: 0 }}>
                           <span>
                             Service Consommateur Royal Canin France 650 avenue
                             de la petite Camargue

@@ -359,7 +359,7 @@ class Recommendation extends React.Component {
         });
         let promotionCode = res.context.promotionCode || '';
         let filterProducts = productLists.filter((el) => {
-          return el.goodsInfo.addedFlag;
+          return el.goodsInfo.addedFlag && el.goodsInfo.saleableFlag;
         });
         // 只展示上架商品
         if (!filterProducts.length) {

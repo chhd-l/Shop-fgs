@@ -221,7 +221,7 @@ function ListItemH5ForGlobalStyle(props) {
                         ? item.goodsImg ||
                           item.goodsInfos.sort(
                             (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
+                          )[0]?.goodsInfoImg ||
                           IMG_DEFAULT
                         : ''
                     }
@@ -465,7 +465,7 @@ function ListItemForDefault(props) {
                         item.goodsImg ||
                         item.goodsInfos.sort(
                           (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg ||
+                        )[0]?.goodsInfoImg ||
                         IMG_DEFAULT
                       }
                       srcSet={item?.goodsImgSrcSet || ''}

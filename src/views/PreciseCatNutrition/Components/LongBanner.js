@@ -61,6 +61,9 @@ const LongBanner = () => {
                     {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
                   </p>
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
+                  <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
+                    [1]
+                  </sup>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
                   <a
                     onClick={() => {
@@ -171,54 +174,24 @@ const LongBanner = () => {
             width: isMobile ? '90%' : '100'
           }}
         >
-          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative">
+          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
             <img
-              style={
-                isMobile
-                  ? { width: '80%', position: 'absolute', left: '0%' }
-                  : {
-                      width: '48%',
-                      position: 'absolute',
-                      left: ' -8%',
-                      top: -350
-                    }
-              }
+              className={'topCat'}
+              style={isMobile ? { zIndex: -100 } : null}
               src={topCat}
             />
-            <img
-              style={
-                isMobile
-                  ? { width: '60%', position: 'absolute', right: '0%' }
-                  : {
-                      width: '35%',
-                      position: 'absolute',
-                      top: -240,
-                      right: '-5%'
-                    }
-              }
-              src={topCatEat}
-            />
+            <img className={'topCatEat'} src={topCatEat} />
             <div
-              className="howItWorkNum"
-              style={
-                isMobile
-                  ? {
-                      width: 90,
-                      height: 90,
-                      position: 'absolute',
-                      top: -220,
-                      right: '0%',
-                      zIndex: 2
-                    }
-                  : {
-                      width: 105,
-                      height: 105,
-                      position: 'absolute',
-                      top: -240,
-                      right: '0%',
-                      zIndex: 2
-                    }
-              }
+              className="howItWorkNum2"
+              style={{
+                borderRadius: '50%',
+                backgroundColor: '#E2001A',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: 45,
+                position: 'absolute',
+                zIndex: 2
+              }}
             >
               <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
               <h6> on first order </h6>

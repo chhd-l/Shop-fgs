@@ -13,13 +13,16 @@ import { getProvincesList } from '@/api/address';
 import {
   usPaymentInfo,
   usPayCardSubscription,
-  addOrUpdatePaymentMethod
+  addOrUpdatePaymentMethod,
+  addOrUpdatePaymentMethodRu
 } from '@/api/payment';
 import Loading from '@/components/Loading';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import { ADDRESS_RULE } from './utils/constant';
 import IMask from 'imask';
 import { cyberCardTypeToValue } from '@/utils/constant/cyber';
+
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore')
 @injectIntl
@@ -281,6 +284,45 @@ class PaymentEditForm extends React.Component {
       );
       if (!res.data.vendor) {
         throw new Error(messages.supportCardTypeMismatch);
+      }
+
+      const isCountryRu = window.__.env.REACT_APP_COUNTRY === 'ru';
+
+      //  如果是俄罗斯需要走 3ds 绑卡流程
+      if (isCountryRu) {
+        const addCardRes = await addOrUpdatePaymentMethodRu({
+          paymentToken: res ? res.data.token : '',
+          binNumber: res ? res.data.bin_number : '',
+          cardType: res ? res.data.card_type : '',
+          customerId: this.userInfo ? this.userInfo.customerId : '',
+          email: creditCardInfoForm.email,
+          holderName: res ? res.data.holder_name : '',
+          isDefault: creditCardInfoForm.isDefault ? '1' : '0',
+          lastFourDigits: res ? res.data.last_4_digits : '',
+          paymentVendor: res ? res.data.vendor : '',
+          phone: creditCardInfoForm.phoneNumber || '',
+          storeId: window.__.env.REACT_APP_STOREID,
+          // 接口需要重定向页面去授权 目前是由后端拼地址 重定向地址：/PaymentMethod3dsResult
+          redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
+          token: res ? res.data.token : '',
+          pspName: 'PAYU'
+        });
+
+        // 如果接口返回有重定向的链接就重定向到对应的验证页
+        if (addCardRes.context?.redirectUrl) {
+          // 保存当前页面地址, 便于 /PaymentMethod3dsResult 页面授权成功后跳回本页面
+          localItemRoyal.set(
+            'paymentEditFormCurrentPage',
+            this.props.fromPath || '/account/subscription'
+          );
+
+          window.location.href = addCardRes.context.redirectUrl;
+        } else {
+          this.handleCancel();
+          this.props.refreshList();
+        }
+
+        return;
       }
 
       await addOrUpdatePaymentMethod({
@@ -689,6 +731,8 @@ class PaymentEditForm extends React.Component {
     } = this.state;
     const { paymentType } = this.props;
 
+    const showPaymentMethodTipsRu = window.__.env.REACT_APP_COUNTRY === 'ru';
+
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {supportPaymentMethods.map((el, idx) => (
@@ -1053,6 +1097,14 @@ class PaymentEditForm extends React.Component {
                   </button>
                 </div>
               </div>
+              {/* 俄罗斯3ds卡 绑定需要展示扣钱提示 */}
+              {showPaymentMethodTipsRu ? (
+                <div className="row">
+                  <div className="col-12 mt-2 red">
+                    <FormattedMessage id="payment.addCardTips" />
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         )}

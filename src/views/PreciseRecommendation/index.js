@@ -8,6 +8,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
 import './index.css';
+import { funcUrl } from '@/lib/url-utils';
 import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
 import DetailsDisplay from './DetailsDisplay';
@@ -18,6 +19,7 @@ import { getDeviceType } from '../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 import { getRecommendationInfo } from '@/api/productFinder';
+import Loading from '@/components/Loading';
 
 console.info('productList', productList);
 const pageLink = window.location.href;
@@ -31,6 +33,7 @@ class PreciseRecommendation extends React.Component {
         // goodsInfo:{},
         // pet:{}
       },
+      loading: true,
       seoConfig: {
         title: 'Royal canin',
         metaKeywords: 'Royal canin',
@@ -38,259 +41,96 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  async getProductInfo() {
-    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
-    let params = JSON.stringify(paramsString);
-    // let params = {
-    //   "filters": {
-    //       "age": "50",
-    //       "neutered": true,
-    //       "breedCode": "mixed_breed",
-    //       "name": "sss",
-    //       "genderCode": "male",
-    //       "weight": "5",
-    //       "petActivityCode": "low",
-    //       "weightGain": "true",
-    //       "bcs": 3,
-    //       "lifestyle": "indoor"
-    //   }
-    // }
-    let resObj = await getRecommendationInfo(params);
-    let res = resObj.context;
-    // let ress =  {
-    //       "pet": {
-    //           "age": "50",
-    //           "neutered": true,
-    //           "breedCode": "mixed_breed",
-    //           "name": "sss",
-    //           "genderCode": "male",
-    //           "weight": "5",
-    //           "petActivityCode": "low",
-    //           "weightGain": "true",
-    //           "bcs": 3,
-    //           "lifestyle": "indoor",
-    //           "dateOfBirth": "2017-06-05"
-    //       },
-    //       "goodsInfo": {
-    //           "goodsInfoId": "ff8080817ac19c38017aec3dec6d0012",
-    //           "goodsId": "ff8080817ac19c38017aec3dec410011",
-    //           "goodsInfoName": "individualization",
-    //           "goodsInfoNo": "IND10001",
-    //           "innerGoodsInfoNo": "FR_IND10001",
-    //           "goodsInfoImg": null,
-    //           "goodsInfoBarcode": null,
-    //           "stock": 999999999,
-    //           "marketPrice": 0.01610,
-    //           "supplyPrice": null,
-    //           "retailPrice": null,
-    //           "grouponPrice": null,
-    //           "costPrice": null,
-    //           "createTime": "2021-07-28 08:31:59.000",
-    //           "updateTime": "2021-08-05 08:10:01.000",
-    //           "addedTime": "2021-07-28 08:31:59.000",
-    //           "delFlag": 0,
-    //           "addedFlag": 1,
-    //           "companyInfoId": 1053,
-    //           "storeId": 123457909,
-    //           "storeName": null,
-    //           "customFlag": 0,
-    //           "levelDiscountFlag": 0,
-    //           "auditStatus": 1,
-    //           "companyType": 0,
-    //           "aloneFlag": false,
-    //           "salePrice": null,
-    //           "priceType": null,
-    //           "mockSpecIds": null,
-    //           "mockSpecDetailIds": null,
-    //           "specDetailRelIds": null,
-    //           "buyCount": 1,
-    //           "count": null,
-    //           "maxCount": null,
-    //           "intervalPriceIds": null,
-    //           "specText": null,
-    //           "intervalMinPrice": null,
-    //           "intervalMaxPrice": null,
-    //           "validFlag": null,
-    //           "cateId": 1134,
-    //           "brandId": 400,
-    //           "storeCateIds": null,
-    //           "distributionCommission": null,
-    //           "commissionRate": null,
-    //           "distributionSalesCount": null,
-    //           "distributionGoodsAudit": 0,
-    //           "distributionGoodsAuditReason": null,
-    //           "checked": false,
-    //           "goodsStatus": 0,
-    //           "goodsUnit": null,
-    //           "marketingLabels": [],
-    //           "grouponLabel": null,
-    //           "couponLabels": [],
-    //           "goodsCubage": null,
-    //           "goodsWeight": null,
-    //           "freightTempId": null,
-    //           "saleType": 0,
-    //           "allowPriceSet": null,
-    //           "smallProgramCode": null,
-    //           "joinDistributior": null,
-    //           "goodsEvaluateNum": null,
-    //           "goodsCollectNum": null,
-    //           "goodsSalesNum": null,
-    //           "goodsFavorableCommentNum": null,
-    //           "enterPrisePrice": null,
-    //           "enterPriseAuditState": null,
-    //           "enterPriseGoodsAuditReason": null,
-    //           "subscriptionStatus": 1,
-    //           "subscriptionPrice": 0.01610,
-    //           "linePrice": 0.00,
-    //           "basePrice": null,
-    //           "subscriptionBasePrice": null,
-    //           "basePriceType": "",
-    //           "goodsInfoWeight": 0E-10,
-    //           "goodsInfoUnit": "kg",
-    //           "goods": {
-    //               "goodsId": "ff8080817ac19c38017aec3dec410011",
-    //               "cateId": 1134,
-    //               "brandId": 400,
-    //               "brandName": null,
-    //               "goodsName": "individualization",
-    //               "goodsSubtitle": null,
-    //               "goodsNewSubtitle": null,
-    //               "goodsDescription": null,
-    //               "goodsDescriptionDetails": null,
-    //               "goodsNo": "IND1",
-    //               "innerGoodsNo": "FR_IND1",
-    //               "goodsUnit": "",
-    //               "goodsCateName": null,
-    //               "goodsImg": null,
-    //               "goodsWeight": 1.000,
-    //               "marketPrice": null,
-    //               "supplyPrice": null,
-    //               "goodsType": 0,
-    //               "costPrice": null,
-    //               "createTime": "2021-07-28 08:31:59.000",
-    //               "updateTime": "2021-08-05 08:10:01.000",
-    //               "addedTime": "2021-07-28 08:31:59.000",
-    //               "goodsSource": 1,
-    //               "delFlag": 0,
-    //               "addedFlag": 1,
-    //               "moreSpecFlag": 1,
-    //               "priceType": 2,
-    //               "customFlag": 0,
-    //               "levelDiscountFlag": 0,
-    //               "companyInfoId": 1053,
-    //               "supplierName": "Royal Canin_France",
-    //               "storeId": 123457909,
-    //               "cateName": null,
-    //               "submitTime": "2021-07-28 08:31:59.000",
-    //               "auditStatus": 1,
-    //               "auditReason": null,
-    //               "goodsDetail": "",
-    //               "goodsMobileDetail": null,
-    //               "stock": null,
-    //               "goodsInfoIds": null,
-    //               "storeCateIds": null,
-    //               "storeCateNames": null,
-    //               "companyType": 0,
-    //               "goodsCubage": 1.000000,
-    //               "freightTempId": 62,
-    //               "freightTempName": null,
-    //               "saleType": 0,
-    //               "goodsVideo": "",
-    //               "linePrice": null,
-    //               "allowPriceSet": 0,
-    //               "goodsEvaluateNum": 0,
-    //               "goodsCollectNum": 0,
-    //               "goodsSalesNum": 0,
-    //               "goodsFavorableCommentNum": 0,
-    //               "grouponForbiddenFlag": false,
-    //               "subscriptionStatus": 1,
-    //               "minMarketPrice": 0.0155,
-    //               "minSubscriptionPrice": 0.0155,
-    //               "avgEvaluate": null,
-    //               "avgEvaluateScore": null,
-    //               "baseSpec": null,
-    //               "saleableFlag": 1,
-    //               "displayFlag": 1,
-    //               "weShareId": null,
-    //               "weightValue": "None",
-    //               "goodsStoreCateNames": null,
-    //               "productCategoryNames": null,
-    //               "defaultPurchaseType": null,
-    //               "defaultFrequencyId": null,
-    //               "resource": 1,
-    //               "promotions": "individual",
-    //               "goodsPillar": null,
-    //               "exclusiveFlag": null,
-    //               "wsEnergyCategory": null,
-    //               "wsReferenceEnergyValue": null,
-    //               "wsTechnologyCode": null,
-    //               "wsDensity": null,
-    //               "sourceCreateTime": null,
-    //               "sourceUpdateTime": null
-    //           },
-    //           "goodsPromotion": null,
-    //           "description": null,
-    //           "auditCatFlag": null,
-    //           "prescriberFlag": null,
-    //           "goodsMeasureNum": null,
-    //           "goodsMeasureUnit": "",
-    //           "subscriptionDiscountPrice": null,
-    //           "goodsInfoFlag": null,
-    //           "periodTypeId": 3560,
-    //           "purchasePrice": null,
-    //           "goodsInfoType": 0,
-    //           "goodsInfoBundleRels": [],
-    //           "recommendationId": null,
-    //           "recommendationName": null,
-    //           "recommendationSerialCode": null,
-    //           "weShareScode": null,
-    //           "packSize": "",
-    //           "subscriptionPercentage": null,
-    //           "maxStock": null,
-    //           "subscriptionPlanId": null,
-    //           "packageId": null,
-    //           "subscriptionPlanPromotionFlag": null,
-    //           "settingPrice": null,
-    //           "virtualInventory": null,
-    //           "virtualAlert": null,
-    //           "marketingCode": null,
-    //           "marketingName": null,
-    //           "promotionDiscountPrice": null,
-    //           "externalSku": null,
-    //           "promotions": "individual",
-    //           "isOfflineStore": null,
-    //           "petsId": null,
-    //           "petsType": null,
-    //           "questionParams": null,
-    //           "referenceData": null,
-    //           "depth": 0.00,
-    //           "depthUnit": "mm",
-    //           "width": 0.00,
-    //           "widthUnit": "mm",
-    //           "height": 0.00,
-    //           "heightUnit": "mm"
-    //       },
-    //       "mainItem": "2524",
-    //       "weight": "40",
-    //       "weightUnit": "g",
-    //       "totalPackWeight": "1200",
-    //       "dailyPrice": "19.32000",
-    //       "totalPrice": "19.32000"
-    //   }
-
-    let productId = res.goodsInfo.goodsInfoNo;
-    let productShowInfo = productList[productId];
-    let recommData = res;
-    this.setState({
-      productShowInfo,
-      recommData
+  handleGA({ goodsInfo }) {
+    if (!goodsInfo) {
+      return;
+    }
+    let sku = goodsInfo.goodsInfoNo;
+    dataLayer.push({
+      products: [
+        {
+          price: goodsInfo.totalPrice, //Product Price, including discount if promo code activated for this product
+          specie: 'Cat', //'Cat' or 'Dog',
+          range: 'Size Health Nutrition', //?Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+          name: goodsInfo.goodsInfoName, //WeShare product name, always in English
+          mainItemCode: goodsInfo.goodsInfoNo, //Main item code
+          SKU: goodsInfo.goodsInfoNo, //product SKU
+          subscription: 'Individual', //'One Shot', 'Subscription', 'Club'
+          subscriptionFrequency: 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+          technology: 'Dry', //?'Dry', 'Wet', 'Pack'
+          brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+          size: '12x85g', //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
+          breed: ['Beagle', 'Boxer', 'Carlin'], //?All animal breeds associated with the product in an array
+          quantity: goodsInfo.buyCount, //?Number of products, only if already added to cart
+          sizeCategory: '', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+          promoCodeName: '', //Promo code name, only if promo activated
+          promoCodeAmount: '' //Promo code amount, only if promo activated
+        }
+      ]
     });
+  }
+  async getProductInfo() {
+    let id = funcUrl({ name: 'id' });
+    if (id) {
+      let productShowInfo = productList[id];
+      this.setState({
+        productShowInfo,
+        loading: false
+      });
+      return;
+    }
+    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
+    if (!paramsString) {
+      this.setState({
+        loading: false
+      });
+      return;
+    }
+    let filters = JSON.parse(paramsString);
+    let params = { filters };
+    // let params = {
+    //   filters: {
+    //     age: '50',
+    //     neutered: true,
+    //     breedCode: 'mixed_breed',
+    //     name: 'test' + Math.random(),
+    //     genderCode: 'male',
+    //     weight: '5',
+    //     petActivityCode: 'low',
+    //     weightGain: 'true',
+    //     bcs: 3,
+    //     lifestyle: 'indoor'
+    //   }
+    // };
+    try {
+      let resObj = await getRecommendationInfo(params);
+      let res = resObj.context;
+      let productId = res.goodsInfo.goodsInfoNo;
+      let productShowInfo = productList[productId];
+      let recommData = res;
+      this.setState({
+        productShowInfo,
+        recommData,
+        loading: false
+      });
+      this.handleGA(res);
+    } catch (err) {
+      console.info('err', err);
+      this.setState({
+        loading: false
+      });
+      if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+        let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+        location.href = url;
+      }
+    }
   }
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });
+    // debugger;
     this.getProductInfo();
   }
 
@@ -416,6 +256,7 @@ class PreciseRecommendation extends React.Component {
             name="description"
             content={this.state.seoConfig.metaDescription}
           />
+          <meta name="robots" content="noindex" />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <GoogleTagManager
@@ -430,6 +271,7 @@ class PreciseRecommendation extends React.Component {
           history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
+        {this.state.loading ? <Loading bgColor={'#fff'} opacity={1} /> : null}
         <main className={'rc-content--fixed-header'}>
           <Banner
             history={this.props.history}
@@ -470,7 +312,10 @@ class PreciseRecommendation extends React.Component {
                           >
                             <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
                               <div className="rc-column rc-padding--none">
-                                <h4 className="rc-beta font-weight-bold text-lg-left text-center">
+                                <h4
+                                  className="rc-beta font-weight-bold text-lg-left text-center"
+                                  style={{ fontSize: isMobile ? '18px' : null }}
+                                >
                                   <FormattedMessage id="preciseNutrition.Below.title" />
                                 </h4>
                                 <div className="text-lg-left text-center rc-padding-right--sm--desktop">
@@ -553,7 +398,10 @@ class PreciseRecommendation extends React.Component {
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                       <div className="rc-padding-x--lg rc-padding-x--sm--mobile">
                         <div>
-                          <h4 className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                          <h4
+                            className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                            style={{ fontSize: isMobile ? '18px' : null }}
+                          >
                             <FormattedMessage id="preciseNutrition.commitment.title" />
                           </h4>
                         </div>

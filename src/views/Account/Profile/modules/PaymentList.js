@@ -508,6 +508,7 @@ class PaymentList extends React.Component {
                     needPhone={this.props.needPhone}
                     paymentStore={this.props.paymentStore}
                     onCardTypeValChange={this.onCardTypeValChange}
+                    fromPath="/account/information"
                   />
                 )}
               </div>

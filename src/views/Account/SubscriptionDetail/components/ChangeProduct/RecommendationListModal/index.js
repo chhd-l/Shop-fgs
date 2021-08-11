@@ -178,7 +178,7 @@ const RecommendationListModal = ({ intl }) => {
             <img
               className="m-auto"
               style={{ maxWidth: '100px' }}
-              src={getClubLogo()}
+              src={getClubLogo({})}
               alt="club icon"
             />
             <p className="text-center red" style={{ fontSize: '1.5rem' }}>
