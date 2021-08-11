@@ -130,22 +130,22 @@ const SubDetailHeader = ({
           <div className="d-flex align-items-center add-pet-btn-wrap">
             {subDetail.petsId ? (
               <React.Fragment>
-                {subDetail.subscriptionType == 'Individualization' ? (
+                {/* {subDetail.subscriptionType == 'Individualization' ? (
                   <div className="rc-md-up">
                     <div className="rc-margin-x--xs"></div>
                   </div>
-                ) : (
-                  <img
-                    style={{ marginLeft: '1rem', marginRight: '1rem' }}
-                    className="pet-img text-center rc-margin-y--sm"
-                    alt="pet img"
-                    src={
-                      (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
-                        ? petsInfo.petsImg
-                        : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
-                    }
-                  />
-                )}
+                ) : ( */}
+                <img
+                  style={{ marginLeft: '1rem', marginRight: '1rem' }}
+                  className="pet-img text-center rc-margin-y--sm"
+                  alt="pet img"
+                  src={
+                    (petsInfo?.petsImg && petsInfo.petsImg.includes('https')
+                      ? petsInfo.petsImg
+                      : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
+                  }
+                />
+                {/* )} */}
 
                 <div className="rc-md-down" style={{ marginRight: '0.625rem' }}>
                   <StatusText subDetail={subDetail} />
