@@ -50,7 +50,9 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore;
   }
   get cartData() {
-    return this.props.checkoutStore.loginCartData.slice();
+    return this.props.checkoutStore.loginCartData
+      .slice()
+      ?.filter((el) => el.goodsInfoFlag != 3); //indv的商品需要被过滤掉
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];

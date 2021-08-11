@@ -7,6 +7,7 @@ export default function LifeStyle({ questionData, id }) {
   const [answerList, setAnswerList] = useState([]);
   const Context = useContext(FormContext);
 
+  //初始化选中第一个
   useEffect(() => {
     let array = [];
     questionData.possibleValues.forEach((item) => {
@@ -23,9 +24,6 @@ export default function LifeStyle({ questionData, id }) {
       }
     });
     setAnswerList(array);
-  }, []);
-  //初始化选中第一个
-  useEffect(() => {
     if (Context.formData[questionData.name]) {
       setChecked(Context.formData[questionData.name]);
       Context.changeFormData(
@@ -33,11 +31,14 @@ export default function LifeStyle({ questionData, id }) {
         Context.formData[questionData.name]
       );
     } else {
-      setChecked(questionData.possibleValues?.[0].key);
-      Context.changeFormData(
-        questionData.name,
-        questionData.possibleValues?.[0].key
-      );
+      setChecked(array?.[0].key);
+      Context.changeFormData(questionData.name, array?.[0].key);
+
+      // setChecked(questionData.possibleValues?.[0].key);
+      // Context.changeFormData(
+      //   questionData.name,
+      //   questionData.possibleValues?.[0].key
+      // );
     }
   }, [questionData.name]);
 

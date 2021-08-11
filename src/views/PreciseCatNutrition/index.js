@@ -154,10 +154,13 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-assets-headingBlock">
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                        <div className={'row w-100'} >
+                        <div className={'row w-100'}>
                           <div
                             className={'col-12 col-md-4 text-md-right relative'}
-                            style={{ display: 'inline',marginBottom:isMobile?15:null }}
+                            style={{
+                              display: 'inline',
+                              marginBottom: isMobile ? 15 : null
+                            }}
                           >
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
@@ -303,7 +306,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            {isMobile?null: <Divider />}
+            {isMobile ? null : <Divider />}
 
             <div className="experience-component experience-layouts-1column">
               <div className="experience-component experience-layouts-1column">
@@ -513,7 +516,7 @@ class PreciseCatNutrition extends React.Component {
                             {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                           </h4>
                         </div>
-                        <p style={{marginBottom:0}}>
+                        <p style={{ marginBottom: 0 }}>
                           <span>
                             Service Consommateur Royal Canin France 650 avenue
                             de la petite Camargue

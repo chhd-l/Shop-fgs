@@ -110,9 +110,7 @@ class PaymentEditForm extends React.Component {
       errMsgObj: {},
 
       cardTypeVal: this.props.defaultCardTypeVal || '',
-      btnLoading: false,
-
-      showPaymentMethodTipsRu: false
+      btnLoading: false
     };
   }
   get userInfo() {
@@ -292,10 +290,6 @@ class PaymentEditForm extends React.Component {
 
       //  如果是俄罗斯需要走 3ds 绑卡流程
       if (isCountryRu) {
-        this.setState({
-          showPaymentMethodTipsRu: true
-        });
-
         const addCardRes = await addOrUpdatePaymentMethodRu({
           paymentToken: res ? res.data.token : '',
           binNumber: res ? res.data.bin_number : '',
@@ -308,13 +302,10 @@ class PaymentEditForm extends React.Component {
           paymentVendor: res ? res.data.vendor : '',
           phone: creditCardInfoForm.phoneNumber || '',
           storeId: window.__.env.REACT_APP_STOREID,
-          successUrl: `${window.location.origin}/PaymentMethod3dsResult`, // 接口需要重定向页面去授权
+          // 接口需要重定向页面去授权 目前是由后端拼地址 重定向地址：/PaymentMethod3dsResult
+          redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
           token: res ? res.data.token : '',
           pspName: 'PAYU'
-        });
-
-        this.setState({
-          showPaymentMethodTipsRu: false
         });
 
         // 如果接口返回有重定向的链接就重定向到对应的验证页
@@ -322,7 +313,7 @@ class PaymentEditForm extends React.Component {
           // 保存当前页面地址, 便于 /PaymentMethod3dsResult 页面授权成功后跳回本页面
           localItemRoyal.set(
             'paymentEditFormCurrentPage',
-            window.location.pathname
+            this.props.fromPath || '/account/subscription'
           );
 
           window.location.href = addCardRes.context.redirectUrl;
@@ -736,10 +727,11 @@ class PaymentEditForm extends React.Component {
       validationModalVisible,
       selectValidationOption,
       errMsgObj,
-      cardTypeVal,
-      showPaymentMethodTipsRu
+      cardTypeVal
     } = this.state;
     const { paymentType } = this.props;
+
+    const showPaymentMethodTipsRu = window.__.env.REACT_APP_COUNTRY === 'ru';
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">

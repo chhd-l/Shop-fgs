@@ -41,6 +41,34 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
+  handleGA({ goodsInfo }) {
+    if (!goodsInfo) {
+      return;
+    }
+    let sku = goodsInfo.goodsInfoNo;
+    dataLayer.push({
+      products: [
+        {
+          price: goodsInfo.totalPrice, //Product Price, including discount if promo code activated for this product
+          specie: 'Cat', //'Cat' or 'Dog',
+          range: 'Size Health Nutrition', //?Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+          name: goodsInfo.goodsInfoName, //WeShare product name, always in English
+          mainItemCode: goodsInfo.goodsInfoNo, //Main item code
+          SKU: goodsInfo.goodsInfoNo, //product SKU
+          subscription: 'Individual', //'One Shot', 'Subscription', 'Club'
+          subscriptionFrequency: 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+          technology: 'Dry', //?'Dry', 'Wet', 'Pack'
+          brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+          size: '12x85g', //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
+          breed: ['Beagle', 'Boxer', 'Carlin'], //?All animal breeds associated with the product in an array
+          quantity: goodsInfo.buyCount, //?Number of products, only if already added to cart
+          sizeCategory: '', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+          promoCodeName: '', //Promo code name, only if promo activated
+          promoCodeAmount: '' //Promo code amount, only if promo activated
+        }
+      ]
+    });
+  }
   async getProductInfo() {
     let id = funcUrl({ name: 'id' });
     if (id) {
@@ -85,6 +113,7 @@ class PreciseRecommendation extends React.Component {
         recommData,
         loading: false
       });
+      this.handleGA(res);
     } catch (err) {
       console.info('err', err);
       this.setState({
@@ -242,7 +271,7 @@ class PreciseRecommendation extends React.Component {
           history={history}
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
-        {this.state.loading ? <Loading /> : null}
+        {this.state.loading ? <Loading bgColor={'#fff'} opacity={1} /> : null}
         <main className={'rc-content--fixed-header'}>
           <Banner
             history={this.props.history}

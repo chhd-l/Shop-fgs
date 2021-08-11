@@ -28,7 +28,7 @@ class PaymentMethod3dsResult extends Component {
       const res = await payu3dsPaymentsDetails({
         ...transferToObject()
       });
-      console.log('payu3dsPaymentsDetails', res);
+
       if (res.context.status === 'Succeed') {
         history.push(redirectPage);
       } else {

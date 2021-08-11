@@ -273,8 +273,23 @@ class AccountOrders extends React.Component {
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
+        let isIndv = false;
+        resContext.tradeItems?.forEach((el) => {
+          if (judgeIsIndividual(el)) {
+            el.spuName = `${el.petsName}'s personalized subscription`;
+            isIndv = true;
+          }
+        });
+        let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
+          (el) => {
+            if (isIndv) {
+              el.promotions = 'individual';
+            }
+            return el;
+          }
+        );
         this.setState({
-          welcomeGiftLists: resContext?.subscriptionPlanGiftList || []
+          welcomeGiftLists
         });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
@@ -1166,8 +1181,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1246,9 +1261,7 @@ class AccountOrders extends React.Component {
                                                 className="medium ui-text-overflow-line2 text-break color-444"
                                                 title={item.spuName}
                                               >
-                                                {judgeIsIndividual(item)
-                                                  ? "Your pet's personalized subscription"
-                                                  : item.spuName}
+                                                {item.spuName}
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
@@ -1293,9 +1306,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>
@@ -1306,19 +1319,23 @@ class AccountOrders extends React.Component {
                                               <span className="rc-md-down">
                                                 {details.subscriptionResponseVO &&
                                                 item.subscriptionStatus ? (
-                                                  <>
-                                                    <span className="red font-weight-normal">
-                                                      {formatMoney(
-                                                        item.subscriptionPrice
-                                                      )}
-                                                    </span>
+                                                  judgeIsIndividual(item) ? (
+                                                    ''
+                                                  ) : (
+                                                    <>
+                                                      <span className="red font-weight-normal">
+                                                        {formatMoney(
+                                                          item.subscriptionPrice
+                                                        )}
+                                                      </span>
 
-                                                    <span className="text-line-through ml-2">
-                                                      {formatMoney(
-                                                        item.originalPrice
-                                                      )}
-                                                    </span>
-                                                  </>
+                                                      <span className="text-line-through ml-2">
+                                                        {formatMoney(
+                                                          item.originalPrice
+                                                        )}
+                                                      </span>
+                                                    </>
+                                                  )
                                                 ) : (
                                                   formatMoney(
                                                     item.originalPrice
@@ -1338,7 +1355,6 @@ class AccountOrders extends React.Component {
                                                   <FormattedMessage id="details.Subscription" />
                                                 </>
                                               )} */}
-                                              301
                                             </span>
                                           </div>
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
@@ -1433,8 +1449,10 @@ class AccountOrders extends React.Component {
                                               />
                                             </span>
                                           </span>
-                                          <span className="rc-md-down">
-                                            {formatMoney(item.marketPrice)}
+                                          <span className="rc-md-down 1111">
+                                            {judgeIsIndividual(item)
+                                              ? ''
+                                              : formatMoney(item.marketPrice)}
                                           </span>
                                         </div>
                                         <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
@@ -1448,7 +1466,9 @@ class AccountOrders extends React.Component {
                                           />
                                         </div>
                                         <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
-                                          {formatMoney(item.marketPrice)}
+                                          {judgeIsIndividual(item)
+                                            ? ''
+                                            : formatMoney(item.marketPrice)}
                                         </div>
                                         <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
                                           {formatMoney(item.marketPrice)}

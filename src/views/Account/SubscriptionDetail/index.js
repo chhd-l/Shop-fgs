@@ -406,6 +406,11 @@ class SubscriptionDetail extends React.Component {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
+      subDetail.noStartTradeList.forEach((el) => {
+        el.tradeItems.forEach((item) => {
+          item.num = isIndv ? 1 : item.num;
+        });
+      });
       let petsId = subDetail.petsInfo?.petsId;
       if (petsId) {
         if (isIndv) {

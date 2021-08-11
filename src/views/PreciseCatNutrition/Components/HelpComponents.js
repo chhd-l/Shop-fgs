@@ -30,9 +30,8 @@ const HelpComponents = () => {
                     you have the best possible experience.
                     {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                   </span>
-                  {isMobile?null:<br/>}
+                  {isMobile ? null : <br />}
                   You can reach us through the following options:
-
                 </p>
                 {/*<p>*/}
                 {/*  /!*<FormattedMessage id="ClubLP.Help.subtitle2" />*!/*/}

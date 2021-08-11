@@ -175,13 +175,12 @@ const LongBanner = () => {
           }}
         >
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
-            <img className={'topCat'}
-                 style={isMobile ? { zIndex: -100 } : null}
+            <img
+              className={'topCat'}
+              style={isMobile ? { zIndex: -100 } : null}
               src={topCat}
             />
-            <img className={'topCatEat'}
-              src={topCatEat}
-            />
+            <img className={'topCatEat'} src={topCatEat} />
             <div
               className="howItWorkNum2"
               style={{
@@ -190,10 +189,9 @@ const LongBanner = () => {
                 color: 'white',
                 textAlign: 'center',
                 lineHeight: 45,
-                position:'absolute',
-                zIndex:2,
-              }
-              }
+                position: 'absolute',
+                zIndex: 2
+              }}
             >
               <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
               <h6> on first order </h6>
