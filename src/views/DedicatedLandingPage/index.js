@@ -19,7 +19,7 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
-import Help from '../StaticPage/SubscriptionLanding/Fr/help';
+import Help from './modules/help';
 import { getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
