@@ -110,9 +110,7 @@ class PaymentEditForm extends React.Component {
       errMsgObj: {},
 
       cardTypeVal: this.props.defaultCardTypeVal || '',
-      btnLoading: false,
-
-      showPaymentMethodTipsRu: false
+      btnLoading: false
     };
   }
   get userInfo() {
@@ -292,10 +290,6 @@ class PaymentEditForm extends React.Component {
 
       //  如果是俄罗斯需要走 3ds 绑卡流程
       if (isCountryRu) {
-        this.setState({
-          showPaymentMethodTipsRu: true
-        });
-
         const addCardRes = await addOrUpdatePaymentMethodRu({
           paymentToken: res ? res.data.token : '',
           binNumber: res ? res.data.bin_number : '',
@@ -312,10 +306,6 @@ class PaymentEditForm extends React.Component {
           redirectUrl: process.env.REACT_APP_3DS_REDIRECT_URL || '',
           token: res ? res.data.token : '',
           pspName: 'PAYU'
-        });
-
-        this.setState({
-          showPaymentMethodTipsRu: false
         });
 
         // 如果接口返回有重定向的链接就重定向到对应的验证页
@@ -737,10 +727,11 @@ class PaymentEditForm extends React.Component {
       validationModalVisible,
       selectValidationOption,
       errMsgObj,
-      cardTypeVal,
-      showPaymentMethodTipsRu
+      cardTypeVal
     } = this.state;
     const { paymentType } = this.props;
+
+    const showPaymentMethodTipsRu = window.__.env.REACT_APP_COUNTRY === 'ru';
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -1065,7 +1056,8 @@ class PaymentEditForm extends React.Component {
                   <div
                     className="rc-input w-100"
                     onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      creditCardInfoForm.isDefault =
+                        !creditCardInfoForm.isDefault;
                       this.setState({ creditCardInfoForm });
                     }}
                   >
