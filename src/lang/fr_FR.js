@@ -1162,7 +1162,7 @@ const fr_FR = {
   // 'recommendation.plusTitle':'',
   'recommendation.benefit': 'Bénéfices',
   'recommendation.noMoreRecommendation':
-    "Le produit n'est plus disponible ou non disponible à la vente",
+    'Produit recommandé temporairement en rupture de stock.{val}Nous vous invitons à vous reconnecter dès demain pour finaliser votre commande.{val}Veuillez nous excuser pour la gêne occasionnée.',
   'recommendation.plusContent':
     "Adopter un animal implique un certain nombre de devoirs et d’obligations morales pour subvenir à ses besoins, assurer sa santé, sa sécurité et son bien-être. En agissant en propriétaire responsable, vous contribuerez à construire jour après jour une relation unique avec votre animal afin de lui offrir ce qu’il y a de meilleur. Lui proposer l’aliment le plus adapté pour lui, c’est agir de façon responsable. Chez Royal Canin, nous plaçons les besoins nutritionnels de l'animal au cœur de notre démarche pour créer des solutions nutritionnelles précises et sur mesure.",
   'recommendation.plusImg': 'frplusImg.png',
