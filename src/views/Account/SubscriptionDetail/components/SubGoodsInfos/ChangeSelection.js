@@ -49,7 +49,7 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              <FrequencyMatch currentId={item.periodTypeId} />
+              <FrequencyMatch currentId={el.periodTypeId} />
               {/* 30 days */}
               {/* 30 daily rations Delivered every month */}
             </div>
