@@ -25,13 +25,10 @@ class DetailsDisplay extends React.Component {
     const { intl } = this.props;
     const modalShow = this.state.modalShow;
 
-    let productComposition1 = productComposition.analyticalConsitituentsTitle.slice(
-      0,
-      5
-    );
-    let productComposition2 = productComposition.analyticalConsitituentsTitle.slice(
-      5
-    );
+    let productComposition1 =
+      productComposition.analyticalConsitituentsTitle.slice(0, 5);
+    let productComposition2 =
+      productComposition.analyticalConsitituentsTitle.slice(5);
     return (
       <div className="experience-component experience-layouts-1column">
         <div
@@ -58,7 +55,10 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-center rc-margin-y--md">
                         <div>
-                          <h4 className="rc-beta font-weight-bold text-center rc-padding-x--md--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontSize:isMobile?'18px':null}}>
+                          <h4
+                            className="rc-beta font-weight-bold text-center rc-padding-x--md--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                            style={{ fontSize: isMobile ? '18px' : null }}
+                          >
                             <FormattedMessage id="preciseNutrition.Details.title" />
                           </h4>
                         </div>

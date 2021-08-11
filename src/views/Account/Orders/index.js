@@ -891,7 +891,11 @@ class AccountOrders extends React.Component {
                                           </div>
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
-                                              {item.spuName}
+                                              {judgeIsIndividual(item)
+                                                ? (item.petsName ||
+                                                    'Your pet') +
+                                                  "'s personalized subscription"
+                                                : item.spuName}
                                             </span>
                                             {judgeIsIndividual(item) ? (
                                               <span>{item.specDetails}</span>
