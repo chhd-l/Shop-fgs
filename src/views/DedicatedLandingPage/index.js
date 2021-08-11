@@ -252,8 +252,8 @@ class DedicatedLandingPage extends React.Component {
         currentUnitPrice: productList[0]?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
-        recommendationInfos:
-          this.props.clinicStore.linkClinicRecommendationInfos,
+        recommendationInfos: this.props.clinicStore
+          .linkClinicRecommendationInfos,
         recommendationId:
           this.props.clinicStore.linkClinicRecommendationInfos
             ?.recommendationId || this.props.clinicStore.linkClinicId,

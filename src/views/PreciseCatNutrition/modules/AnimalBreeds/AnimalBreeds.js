@@ -89,7 +89,7 @@ export default function AnimalBreeds({ questionData }) {
                 prefixIcon={
                   <button
                     className="rc-input__submit rc-input__submit--search mt-1"
-                    style={{ top: 0 }}
+                    style={{ top: 0, minWidth: '3rem', height: '3rem' }}
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();

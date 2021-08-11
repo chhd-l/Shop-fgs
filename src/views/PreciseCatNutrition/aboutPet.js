@@ -268,32 +268,34 @@ export default function AboutPet() {
               defaultValue={defaultValue}
               changeCanNext={changeCanNext}
             />
-            <div style={{ textAlign: 'center' }}>
-              <button
-                className="rc-btn rc-btn--one question-button"
-                type="submit"
-                onClick={(e) => {
-                  e.preventDefault();
-                  goNext();
-                }}
-                disabled={canNext}
-              >
-                Next
-              </button>
-            </div>
-            {step > 1 ? (
-              <div
-                style={{ textAlign: 'center', marginTop: '20px' }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  goBack(step);
-                }}
-              >
-                <span className="back-btn">Back</span>
+            <div className="button-box">
+              <div>
+                <button
+                  className="rc-btn rc-btn--one question-button"
+                  type="submit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goNext();
+                  }}
+                  disabled={canNext}
+                >
+                  Next
+                </button>
               </div>
-            ) : (
-              ''
-            )}
+              {step > 1 ? (
+                <div
+                  className="back-btn-box"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goBack(step);
+                  }}
+                >
+                  <span className="back-btn">Back</span>
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
           </>
         )}
       </div>

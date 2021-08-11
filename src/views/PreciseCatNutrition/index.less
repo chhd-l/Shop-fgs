@@ -144,6 +144,12 @@
       padding: 20px 15px;
       height: auto;
     }
+    .button-box{
+      margin-left: 40px;
+      @media (max-width: 769px) {
+        margin-left: 0;
+      }
+    }
     .questionnaire-image-box{
       display: flex;
       justify-content: center;
@@ -188,14 +194,23 @@
         margin:10px auto 0 ;
       }
     }
-    .back-btn{
+    .back-btn-box{
+      width: 190px;
+      margin-top: 20px;
       text-align: center;
-      cursor: pointer;
-      color: #444;
-      border-bottom: 1px solid #d7d7d7;
-      line-height: 24px;
-      padding: 6px 0;
+      @media (max-width: 769px) {
+        width: 100%;
+      }
+      .back-btn{
+        text-align: center;
+        cursor: pointer;
+        color: #444;
+        border-bottom: 1px solid #d7d7d7;
+        line-height: 24px;
+        padding: 6px 0;
+      }
     }
+
   }
 }
 .howItWorkBorder{

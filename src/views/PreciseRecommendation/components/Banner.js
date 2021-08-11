@@ -3,6 +3,7 @@ import { getDeviceType, formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
+import cloneDeep from 'lodash/cloneDeep';
 import stores from '@/store';
 import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
@@ -47,16 +48,70 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   );
   const [totalWeight, setTotalWeight] = useState('');
   const [loading, setLoading] = useState(false);
+  const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
   useEffect(() => {
     if (!recommData.totalPackWeight) {
       return;
     }
+    let newAddCartBtnStatus =
+      recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
+    setAddCartBtnStatus(newAddCartBtnStatus);
     let newTotalWeight = recommData.totalPackWeight + 'kg';
     if (recommData?.weightUnit?.toLowerCase() == 'g') {
       newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
     }
     setTotalWeight(newTotalWeight);
   }, [recommData.totalPackWeight]);
+  const hanldeUnloginAddToCart = async () => {
+    let { goodsInfo, customerPetsVo } = recommData;
+    setLoading(true);
+    let petInfo = Object.assign({}, customerPetsVo, {
+      petType: 'cat'
+    });
+    try {
+      let cartItem = Object.assign(
+        goodsInfo,
+        { ...goodsInfo.goods },
+        { goodsInfo: goodsInfo.goods },
+        {
+          selected: true,
+          quantity: goodsInfo.buyCount,
+          currentUnitPrice: goodsInfo.marketPrice,
+          goodsInfoFlag: 3,
+          questionParams: JSON.stringify(petInfo),
+          periodTypeId: goodsInfo.periodTypeId || 3560,
+          recommendationInfos: clinicStore.linkClinicRecommendationInfos,
+          recommendationId:
+            clinicStore.linkClinicRecommendationInfos?.recommendationId ||
+            clinicStore.linkClinicId,
+          recommendationName:
+            clinicStore.linkClinicRecommendationInfos?.recommendationName ||
+            clinicStore.linkClinicName,
+          taggingForTextAtCart: (goodsInfo.taggingList || []).filter(
+            (e) =>
+              e.taggingType === 'Text' &&
+              e.showPage?.includes('Shopping cart page')
+          )[0],
+          taggingForImageAtCart: (goodsInfo.taggingList || []).filter(
+            (e) =>
+              e.taggingType === 'Image' &&
+              e.showPage?.includes('Shopping cart page')
+          )[0]
+        }
+      );
+      let sizeListItem = cloneDeep(cartItem);
+      sizeListItem.selected = true;
+      cartItem.sizeList = [sizeListItem];
+      let addCartData = {
+        valid: addCartBtnStatus,
+        cartItemList: [cartItem]
+      };
+      await checkoutStore.hanldeUnloginAddToCart(addCartData);
+      localItemRoyal.set('okta-redirectUrl', 'checkout');
+    } catch (err) {
+      console.info('errerr', err);
+    }
+  };
   const handleBuyNow = async () => {
     let { goodsInfo, customerPetsVo } = recommData;
     if (!customerPetsVo || !goodsInfo) {
@@ -72,21 +127,19 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
         goodsInfoId: goodsInfo.goodsInfoId,
         goodsNum: goodsInfo.buyCount,
         periodTypeId: goodsInfo.periodTypeId || 3560,
-        // petsId: currentSelectedSize.petsId,
-        // petsType: currentSelectedSize.petsType,
-        // recommendationId: this.props.clinicStore.linkClinicId,
-        // recommendationName: this.props.clinicStore.linkClinicName,
         goodsInfoFlag: 3,
         questionParams: JSON.stringify(petInfo)
       }
     );
     try {
+      dataLayer.push({
+        event: 'individualizationRecoAddToCart'
+      });
       setLoading(true);
       await sitePurchase(params);
       let recommendProd = Object.assign({}, params, recommData, goodsInfo);
       // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
       await checkoutStore.updateLoginCart({ delFlag: 1 });
-      debugger;
       history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
@@ -211,17 +264,16 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                         buy now
                       </button>
                     ) : (
+                      // <button onClick={async()=>{
+                      //  await   hanldeUnloginAddToCart();
+                      // }}>test</button>
                       <LoginButton
                         btnStyle={{ width: '200px', padding: '10px' }}
                         className={`rc-btn rc-btn--one rc-btn--sm`}
                         // btnStyle={{ margin: '5px 0', width: '100%' }}
                         // history={this.props.history}
                         beforeLoginCallback={async () => {
-                          localItemRoyal.set(
-                            'okta-redirectUrl',
-                            'precise-cat-nutrition-recommendation'
-                          );
-                          // sessionItemRoyal.set('from-felin', true);
+                          await hanldeUnloginAddToCart();
                         }}
                       >
                         buy now
@@ -297,18 +349,33 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             Automatic shipment every 30 days <br />
             Free shipment cost
           </div>
-          <button
-            className="rc-btn rc-btn--one"
-            onClick={handleBuyNow}
-            className={`rc-btn rc-btn--one 
+          {loginStore.isLogin ? (
+            <button
+              className="rc-btn rc-btn--one"
+              onClick={handleBuyNow}
+              className={`rc-btn rc-btn--one 
           ${loading ? 'ui-btn-loading' : ''} ${
-              recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
-                ? ''
-                : 'rc-btn-solid-disabled'
-            }`}
-          >
-            buy now
-          </button>
+                recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
+                  ? ''
+                  : 'rc-btn-solid-disabled'
+              }`}
+            >
+              buy now
+            </button>
+          ) : (
+            <LoginButton
+              btnStyle={{ width: '200px', padding: '10px' }}
+              className={`rc-btn rc-btn--one rc-btn--sm`}
+              // btnStyle={{ margin: '5px 0', width: '100%' }}
+              // history={this.props.history}
+              beforeLoginCallback={async () => {
+                await hanldeUnloginAddToCart();
+              }}
+            >
+              buy now
+            </LoginButton>
+          )}
+
           <div className="rc-padding-x--xl">
             <BannerFour />
           </div>

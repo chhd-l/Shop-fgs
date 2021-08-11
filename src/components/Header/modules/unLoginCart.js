@@ -42,7 +42,9 @@ class UnloginCart extends React.Component {
     this.props.checkoutStore.updateUnloginCart();
   }
   get selectedCartData() {
-    return this.props.checkoutStore.cartData.filter((ele) => ele.selected);
+    return this.props.checkoutStore.cartData.filter(
+      (ele) => ele.selected && ele.goodsInfoFlag != 3
+    ); //indv的商品需要被过滤掉
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];
