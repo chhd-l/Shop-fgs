@@ -126,7 +126,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       {
         goodsInfoId: goodsInfo.goodsInfoId,
         goodsNum: goodsInfo.buyCount,
-        periodTypeId: goodsInfo.periodTypeId || 3560,
+        periodTypeId:
+          goodsInfo?.goods?.defaultFrequencyId ||
+          configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId,
         goodsInfoFlag: 3,
         questionParams: JSON.stringify(petInfo)
       }

@@ -553,11 +553,19 @@ export async function getFrequencyDict(currentFrequencyId, frequencyType) {
     }
     return el;
   });
+  let indvFrequency = await Promise.all([
+    getDictionary({ type: 'Frequency_month_individual' }),
+    getDictionary({ type: 'Frequency_week_individual' }),
+    getDictionary({ type: 'Frequency_day_individual' })
+  ]);
+  indvFrequency = flatten(indvFrequency);
   let frequencyList = autoShipFrequency;
   if (!frequencyType) {
-    frequencyList = autoShipFrequency.concat(clubFrequency);
+    frequencyList = autoShipFrequency.concat(clubFrequency, indvFrequency);
   } else if (frequencyType === 'club') {
     frequencyList = clubFrequency;
+  } else if (frequencyType === 'individual') {
+    frequencyList = indvFrequency;
   }
   if (lang == 'de') {
     // 德国不存在club，并且只展示1-3个月的frequency
