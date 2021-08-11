@@ -227,22 +227,21 @@ class Pet extends React.Component {
                         ? petList.map((el, i) => (
                             <div className="petItem" key={i}>
                               <div className="photo">
-                                <LazyLoad>
-                                  <img
-                                    style={{
-                                      width: '90px',
-                                      borderRadius: '50%'
-                                    }}
-                                    src={
-                                      (el.petsImg &&
-                                      el.petsImg.includes('https')
-                                        ? el.petsImg
-                                        : null) ||
-                                      (el.petsType === 'cat' ? Cat : Dog)
-                                    }
-                                    alt="Pet avatar"
-                                  />
-                                </LazyLoad>
+                                {/* <LazyLoad> */}
+                                <img
+                                  style={{
+                                    width: '90px',
+                                    borderRadius: '50%'
+                                  }}
+                                  src={
+                                    (el.petsImg && el.petsImg.includes('https')
+                                      ? el.petsImg
+                                      : null) ||
+                                    (el.petsType === 'cat' ? Cat : Dog)
+                                  }
+                                  alt="Pet avatar"
+                                />
+                                {/* </LazyLoad> */}
                               </div>
                               <div className="content">
                                 <h1 className="name red">
