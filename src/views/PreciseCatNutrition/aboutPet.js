@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
+import { getRecommendationInfo } from '@/api/productFinder';
 
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
@@ -122,7 +123,7 @@ export default function AboutPet() {
     if (isMobile) toScroll('aboutPet');
     //改变字符串true false 为bool
     let questionParams = { ...childRef.current.formData };
-    if (defaultValue.neutered) {
+    if (questionParams.neutered) {
       questionParams.neutered = toBool(questionParams.neutered);
     }
     let querySteps = [
@@ -187,6 +188,10 @@ export default function AboutPet() {
       }
     } else {
       if (result.context.next === 'printSPTProducts') {
+        await getRecommendationInfo({
+          filters: result.context.filters
+        });
+        return;
         //跳转页面用
         sessionItemRoyal.set(
           'nutrition-recommendation-filter',
