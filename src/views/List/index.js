@@ -357,7 +357,8 @@ class List extends React.Component {
       listLazyLoadSection: 1,
       prefv1: '',
       keywordsSearch: '',
-      baseSearchStr: ''
+      baseSearchStr: '',
+      filterShowStatus: 1
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1133,6 +1134,7 @@ class List extends React.Component {
                 (targetRouter && targetRouter.pageImg) ||
                 (targetRouter && targetRouter.cateImgForList)
             },
+            filterShowStatus: targetRouter?.filterStatus,
             breadList,
             isSpecialNeedFilter
           },
@@ -1579,7 +1581,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document.getElementById('refineBar').getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1661,7 +1664,8 @@ class List extends React.Component {
       baseSearchStr,
       allPrefv,
       prefv1,
-      animalType
+      animalType,
+      filterShowStatus
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1805,117 +1809,122 @@ class List extends React.Component {
                     zIndex: 3
                   }}
                 >
-                  <div
-                    id="refineBar"
-                    className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
-                  >
+                  {filterShowStatus === 0 ? null : (
                     <div
-                      className="rc-meta rc-md-down"
-                      style={{ padding: '0 1em', fontSize: '1em' }}
+                      id="refineBar"
+                      className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
                     >
-                      <span className="font-weight-normal">
-                        {lastBreadListName}&nbsp;
-                      </span>
-                      {results > 0 && (
-                        <>
-                          (
-                          <FormattedMessage
-                            id="results"
-                            values={{ val: results }}
-                          />
-                          )
-                        </>
-                      )}
-                    </div>
-                    <div
-                      className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
-                      style={{
-                        padding: '0 1rem',
-                        boxShadow: '0 2px 4px #f1f1f1'
-                      }}
-                    >
-                      <span
-                        style={{ marginRight: '1em' }}
-                        className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                      <div
+                        className="rc-meta rc-md-down"
+                        style={{ padding: '0 1em', fontSize: '1em' }}
                       >
-                        {sortList.length > 0 && (
-                          <Selection
-                            key={sortList.length}
-                            selectedItemChange={this.onSortChange}
-                            optionList={sortList}
-                            selectedItemData={{
-                              value:
-                                (selectedSortParam &&
-                                  selectedSortParam.value) ||
-                                ''
-                            }}
-                            placeholder={<FormattedMessage id="sortBy" />}
-                            customInnerStyle={{
-                              paddingTop: '.7em',
-                              paddingBottom: '.7em',
-                              bottom: 0
-                            }}
-                          />
+                        <span className="font-weight-normal">
+                          {lastBreadListName}&nbsp;
+                        </span>
+                        {results > 0 && (
+                          <>
+                            (
+                            <FormattedMessage
+                              id="results"
+                              values={{ val: results }}
+                            />
+                            )
+                          </>
                         )}
-                      </span>
-                      <em
-                        className={`rc-icon rc-filter--xs rc-iconography ${
-                          (filterModalVisible && !isTop) ||
-                          (!filterModalVisible && isTop)
-                            ? 'rc-brand1'
-                            : ''
-                        }`}
-                        data-filter-trigger="filter-example"
-                        style={{ position: 'relative', top: '0.4rem' }}
-                        onClick={this.toggleFilterModal.bind(
-                          this,
-                          !filterModalVisible
-                        )}
-                      />
-                      {/* <button
+                      </div>
+                      <div
+                        className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
+                        style={{
+                          padding: '0 1rem',
+                          boxShadow: '0 2px 4px #f1f1f1'
+                        }}
+                      >
+                        <span
+                          style={{ marginRight: '1em' }}
+                          className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                        >
+                          {sortList.length > 0 && (
+                            <Selection
+                              key={sortList.length}
+                              selectedItemChange={this.onSortChange}
+                              optionList={sortList}
+                              selectedItemData={{
+                                value:
+                                  (selectedSortParam &&
+                                    selectedSortParam.value) ||
+                                  ''
+                              }}
+                              placeholder={<FormattedMessage id="sortBy" />}
+                              customInnerStyle={{
+                                paddingTop: '.7em',
+                                paddingBottom: '.7em',
+                                bottom: 0
+                              }}
+                            />
+                          )}
+                        </span>
+                        <em
+                          className={`rc-icon rc-filter--xs rc-iconography ${
+                            (filterModalVisible && !isTop) ||
+                            (!filterModalVisible && isTop)
+                              ? 'rc-brand1'
+                              : ''
+                          }`}
+                          data-filter-trigger="filter-example"
+                          style={{ position: 'relative', top: '0.4rem' }}
+                          onClick={this.toggleFilterModal.bind(
+                            this,
+                            !filterModalVisible
+                          )}
+                        />
+                        {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
                         data-filter-trigger="filter-example"
                         onClick={this.toggleFilterModal.bind(this, true)}
                       /> */}
-                    </div>
-                    <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
-                    >
-                      {isMobilePhone ? (
-                        <Filters
-                          history={history}
-                          maxGoodsPrice={maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      )}
-                      {/* 由于么数据暂时隐藏注释 */}
-                      {/* {this.state.showSmartFeeder ? (
+                      </div>
+                      <aside
+                        className={`rc-filters ${
+                          filterModalVisible ? 'active' : ''
+                        }`}
+                      >
+                        {isMobilePhone ? (
+                          <Filters
+                            history={history}
+                            maxGoodsPrice={maxGoodsPrice}
+                            initing={initingFilter}
+                            onToggleFilterModal={this.toggleFilterModal}
+                            filterList={filterList}
+                            key={`2-${filterList.length}`}
+                            inputLabelKey={2}
+                            hanldePriceSliderChange={
+                              this.hanldePriceSliderChange
+                            }
+                            markPriceAndSubscriptionLangDict={
+                              markPriceAndSubscriptionLangDict
+                            }
+                            baseSearchStr={baseSearchStr}
+                          />
+                        ) : (
+                          <FiltersPC
+                            history={history}
+                            maxGoodsPrice={maxGoodsPrice}
+                            initing={initingFilter}
+                            onToggleFilterModal={this.toggleFilterModal}
+                            filterList={filterList}
+                            key={`2-${filterList.length}`}
+                            inputLabelKey={2}
+                            hanldePriceSliderChange={
+                              this.hanldePriceSliderChange
+                            }
+                            markPriceAndSubscriptionLangDict={
+                              markPriceAndSubscriptionLangDict
+                            }
+                            baseSearchStr={baseSearchStr}
+                          />
+                        )}
+                        {/* 由于么数据暂时隐藏注释 */}
+                        {/* {this.state.showSmartFeeder ? (
                         <div className="smart-feeder-container">
                           <p>Abonnement au distributeur connecté</p>
                           <p>
@@ -1932,10 +1941,13 @@ class List extends React.Component {
                           <img src={smartFeeder} />
                         </div>
                       ) : null} */}
-                    </aside>
-                  </div>
+                      </aside>
+                    </div>
+                  )}
                   <div
-                    className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
+                    className={`rc-column1 col-12 ${
+                      filterShowStatus === 0 ? 'col-xl-12' : 'col-xl-9'
+                    } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
                   >
                     {!loading && (
                       <>
@@ -2008,7 +2020,11 @@ class List extends React.Component {
                                       'layout-global'
                                         ? 'col-12 pr-0 pl-md-2 pr-md-2'
                                         : 'col-6 pl-2 pr-2'
-                                    } col-md-4 mb-3 pl-0 BoxFitMonileScreen`}
+                                    } ${
+                                      filterShowStatus === 0
+                                        ? 'col-md-3'
+                                        : 'col-md-4'
+                                    } mb-3 pl-0 BoxFitMonileScreen`}
                                   >
                                     <PLPCover
                                       item={item}
