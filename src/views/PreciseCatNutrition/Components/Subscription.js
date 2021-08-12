@@ -30,7 +30,7 @@ const toScroll = (anchorName) => {
 const subscription = () => {
   return (
     <div
-      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile three-column-content-block"
       style={{
         marginTop: isMobile ? '33%' : '0',
         boxShadow: 'darkgrey 10px 10px 30px 5px',
@@ -50,8 +50,8 @@ const subscription = () => {
             </h2>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
+                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow  flex-nowrap">
                     <div
                       className="col-4 col-md-6 text-md-right px-0 py-0"
                       style={{
@@ -68,18 +68,15 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
-                      <p
-                        className="rc-margin-bottom--none"
-                        style={{ textAlign: isMobile ? 'left' : 'center' }}
-                      >
+                      <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
+                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
                       className="col-4 col-md-6 text-md-right px-0 py-0"
                       style={{
@@ -97,8 +94,7 @@ const subscription = () => {
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p
-                        className="rc-margin-bottom--none"
-                        style={{ textAlign: isMobile ? 'left' : 'center' }}
+                        className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
                       >
                         A personal pet advisor available for you
@@ -109,8 +105,8 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
+                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
                       className="col-4 col-md-6 text-md-right px-0 py-0"
                       style={{
@@ -128,8 +124,7 @@ const subscription = () => {
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p
-                        className="rc-margin-bottom--none"
-                        style={{ textAlign: isMobile ? 'left' : 'center' }}
+                        className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
                       >
                         A welcome pack with a scale & all materials to properly
@@ -141,8 +136,8 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
+                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
                       className="col-4 col-md-6 text-md-right px-0 py-0"
                       style={{
@@ -159,10 +154,7 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
-                      <p
-                        className="rc-margin-bottom--none"
-                        style={{ textAlign: isMobile ? 'left' : 'center' }}
-                      >
+                      <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         Enjoy a loyalty program with exclusive gift to stimulate
                         your pet
                         {/*<FormattedMessage*/}
@@ -172,8 +164,8 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-1 col-xxl-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow">
+                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
                       className="col-4 col-md-6 text-md-right px-0 py-0"
                       style={{
@@ -190,10 +182,7 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
-                      <p
-                        className="rc-margin-bottom--none"
-                        style={{ textAlign: isMobile ? 'left' : 'center' }}
-                      >
+                      <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         Tailored professional advice & tips
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon5'}*/}

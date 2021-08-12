@@ -42,7 +42,7 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  handleGA({ goodsInfo }) {
+  handleGA({ goodsInfo, totalPrice }) {
     if (!goodsInfo) {
       return;
     }
@@ -54,7 +54,7 @@ class PreciseRecommendation extends React.Component {
     let GAData = {
       products: [
         {
-          price: recommData.totalPrice, //Product Price, including discount if promo code activated for this product
+          price: totalPrice, //Product Price, including discount if promo code activated for this product
           specie: 'Cat', //'Cat' or 'Dog',
           range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
           name: goodsInfo.goodsInfoName, //WeShare product name, always in English
@@ -112,6 +112,10 @@ class PreciseRecommendation extends React.Component {
     try {
       let resObj = await getRecommendationInfo(params);
       let res = resObj.context;
+      if (resObj.code != 'K-000000') {
+        this.toPFPage();
+        return;
+      }
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
       let recommData = res;
@@ -126,12 +130,17 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      if (window.__.env.REACT_APP_HUB_URLPREFIX) {
-        let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
-        location.href = url;
-      }
+      // this.toPFPage();
     }
   }
+  toPFPage = () => {
+    if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+      let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+      location.href = url;
+    } else {
+      this.props.history.push('/product-finder');
+    }
+  };
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
