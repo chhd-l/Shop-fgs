@@ -23,6 +23,35 @@
 //  background-size: 100%;
 //  background-repeat: no-repeat ;
 //}
+.longBannerTitle{
+  font-size: 2.5rem;
+  padding-left: 7.5rem;
+  padding-right: 7.5rem;
+  @media (max-width: 769px) {
+    font-size: 1.4rem;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.longBannerTopPic{
+  margin-top: 0;
+  width: 100%;
+
+  @media (max-width: 769px) {
+     margin-top:  220px ;
+    width: 90%;
+}
+}
+
+.howItWorkImg{
+  height: 100px;
+  margin: 10px;
+  @media (max-width: 769px) {
+    height: auto;
+    margin: 10px;
+  }
+}
 .topCat{
   width: 40%;
   position: absolute;
@@ -33,18 +62,21 @@
     position: absolute;
     left: 0%;
     top: -230px;
+    z-index: -100;
 }
   @media (max-width: 380px) {
     width: 80%;
     position: absolute;
     left: 0%;
     top: -205px;
+    z-index: -100;
   }
   @media (max-width: 321px) {
     width: 80%;
     position: absolute;
     left: 0%;
     top: -173px;
+    z-index: -100;
   }
 }
 .topCatEat{
@@ -69,6 +101,21 @@
     position: absolute;
     right: 0%;
     top: -132px;
+  }
+}
+.LongBannerSomeFontsize{
+  font-size: 14px;
+  font-weight: 700;
+@media (max-width: 480px) {
+  font-size: 18px;
+  font-weight: 700;
+}
+}
+
+.subscriptionSomeFontsize {
+  text-align: center;
+  @media (max-width: 769px) {
+    text-align: left;
   }
 }
 .howItWorkNum2{
@@ -224,7 +271,7 @@
 .borderBack1{
   background-image:url('images/borderBG1.jpg');
   background-repeat: no-repeat ;
-  background-size: 100%;
+  background-size: 100% 98%;
 }
 
 .borderBack2{

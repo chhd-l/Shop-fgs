@@ -8,7 +8,7 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BannerTip from '../../components/BannerTip';
+import BannerTip from '@/components/BannerTip';
 import paw from './images/paw.png';
 import cat_wellbeing from './images/cat_wellbeing.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
@@ -115,6 +115,8 @@ class PreciseCatNutrition extends React.Component {
             location={location}
             history={history}
             sendGAHeaderSearch={this.sendGAHeaderSearch}
+            showNav={true}
+            notScroll={true}
           />
           {/*{this.state.loading ? <Loading /> : null}*/}
           <main className={'rc-content--fixed-header'}>

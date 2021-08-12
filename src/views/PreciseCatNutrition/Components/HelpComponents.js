@@ -59,7 +59,7 @@ const HelpComponents = () => {
                                     Saturdays from9am to 1pm
                                     {/*<FormattedMessage id="ClubLP.Help.call.content" />*/}
                                   </p>
-                                  <div className="rc-margin-top--xs">
+                                  <div>
                                     <p
                                       style={{ color: '#00BCA3' }}
                                       className="rc-numeric rc-md-up"
@@ -110,7 +110,9 @@ const HelpComponents = () => {
                                   <b
                                     style={{
                                       color: '#E2001A',
-                                      fontWeight: 600
+                                      fontWeight: 600,
+                                      display:'block',
+                                      marginTop:'-10%'
                                     }}
                                   >
                                     Email us
