@@ -113,7 +113,7 @@ class PreciseRecommendation extends React.Component {
       let resObj = await getRecommendationInfo(params);
       let res = resObj.context;
       if (resObj.code != 'K-000000') {
-        toPFPage();
+        this.toPFPage();
       }
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
@@ -129,7 +129,7 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      toPFPage();
+      this.toPFPage();
     }
   }
   toPFPage = () => {
