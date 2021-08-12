@@ -9,7 +9,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
-import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
@@ -20,9 +19,10 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
-import Help from '../StaticPage/SubscriptionLanding/Fr/help';
+import Help from './modules/help';
 import { getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
+import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
@@ -278,7 +278,7 @@ class DedicatedLandingPage extends React.Component {
       cartItemList: [cartItem]
     });
     this.setState({ buttonLoading: false, showKitten: false });
-    this.props.history.push('/cart');
+    // this.props.history.push('/cart');
   }
 
   render() {
@@ -332,7 +332,6 @@ class DedicatedLandingPage extends React.Component {
 
     return (
       <div>
-        <Skeleton />
         <div
           className={'modal'}
           style={
@@ -387,18 +386,19 @@ class DedicatedLandingPage extends React.Component {
                       <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                         <div className="rc-column">
                           <div className="rc-full-width">
-                            <h2 className="rc-beta ">
-                              Recevez votre kit chaton offert pour vous
-                              féliciter de votre adoption !
+                            <h2 className="rc-beta fwt siz26">
+                              Recevez votre kit chaton offert pour
+                              <br />
+                              vous féliciter de votre adoption !
                             </h2>
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                              <li className="rc-list__item">
+                              <li className="rc-list__item fwt pdln">
                                 Avec le code promotionnel qui vous a été
                                 communiqué vous pouvez à la fin de votre
                                 commande obtenir votre kit de nutrition adaptée
                                 pour votre chaton.
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item fwt pdln">
                                 Sélectionnez le kit d’aliment chaton et
                                 ajoutez-le à votre panier
                               </li>
@@ -639,8 +639,8 @@ class DedicatedLandingPage extends React.Component {
                 <div className="experience-component experience-assets-twoColImgText">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                     <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
-                      <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                        Comment cela fonctionne-t-il ?
+                      <h2 className="rc-beta fwt rc-margin--none text-center rc-padding-x--lg--mobile">
+                        Connaissez-vous I’Abonnement ?
                       </h2>
                     </div>
                     <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
@@ -660,13 +660,12 @@ class DedicatedLandingPage extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list1"
                             values={{
-                              val1: <br />,
-                              val2: (
-                                <strong>
-                                  répondant aux besoins de votre animal
+                              val1: (
+                                <strong className="ft24">
+                                  Ajoutez les produits nutritionnels répondant
+                                  aux besoins de votre animal dans votre panier.
                                 </strong>
-                              ),
-                              val3: <br />
+                              )
                             }}
                           />
                         </h6>
@@ -686,7 +685,15 @@ class DedicatedLandingPage extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
-                              val1: <strong>l'expédition automatique</strong>
+                              val1: (
+                                <strong className="ft24">
+                                  Sélectionnez I'expédition
+                                  <br />
+                                  automatique et entrez votre
+                                  <br />
+                                  mode de paiement.
+                                </strong>
+                              )
                             }}
                           />
                         </h6>
@@ -708,8 +715,12 @@ class DedicatedLandingPage extends React.Component {
                             id="subscription.ad.list3"
                             values={{
                               val1: (
-                                <strong>
-                                  Recevez votre produit automatiquement
+                                <strong className="ft24">
+                                  Recevez votre produit
+                                  <br />
+                                  automatiquement en fonction de
+                                  <br />
+                                  votre calendrier.
                                 </strong>
                               )
                             }}
@@ -729,7 +740,12 @@ class DedicatedLandingPage extends React.Component {
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
-                              val1: <strong>tout moment</strong>
+                              val1: (
+                                <strong className="ft24">
+                                  Modifiez vos préférences à tout
+                                  <br /> moment.
+                                </strong>
+                              )
                             }}
                           />
                         </h6>
@@ -743,10 +759,12 @@ class DedicatedLandingPage extends React.Component {
 
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
-              <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+              <h2
+                style={{ color: '#E2001A', marginTop: '40px', fontWeight: 400 }}
+              >
                 <FormattedMessage id="subscription.help.title" />
               </h2>
-              <p>
+              <p style={{ fontWeight: 400 }}>
                 <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>

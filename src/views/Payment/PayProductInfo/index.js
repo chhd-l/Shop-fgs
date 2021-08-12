@@ -478,6 +478,74 @@ class PayProductInfo extends React.Component {
     });
     return List;
   }
+  handleClickPromotionApply = async (falseCodeAndReRequest) => {
+    try {
+      let result = {};
+      if (!this.state.promotionInputValue && !falseCodeAndReRequest) return;
+      this.setState({
+        isClickApply: !falseCodeAndReRequest,
+        isShowValidCode: false,
+        lastPromotionInputValue: this.state.promotionInputValue
+      });
+      // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
+      let purchasesPara =
+        localItemRoyal.get('rc-payment-purchases-param') || {};
+      purchasesPara.promotionCode = this.state.promotionInputValue;
+      purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
+      purchasesPara.address1 = this.props.deliveryAddress?.address1;
+      console.log('------- ', purchasesPara);
+      if (!this.isLogin) {
+        purchasesPara.guestEmail = this.props.guestEmail;
+        //游客
+        result = await this.props.checkoutStore.updateUnloginCart(
+          purchasesPara
+        );
+      } else {
+        purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
+        //会员
+        result = await this.props.checkoutStore.updateLoginCart(purchasesPara);
+      }
+
+      if (!result.context.promotionFlag || result.context.couponCodeFlag) {
+        //表示输入apply promotionCode成功
+        this.state.discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.setState({ discount });
+        this.props.sendPromotionCode(this.state.promotionInputValue);
+        this.setState({
+          isStudentPurchase: result.context.promotionSubType === 8
+        });
+        if (result.context.promotionSubType === 8) {
+          this.props.welcomeBoxChange('no');
+        }
+      } else {
+        this.setState({
+          isShowValidCode: true
+        });
+        this.props.sendPromotionCode('');
+        this.setState({ isStudentPurchase: false });
+        setTimeout(() => {
+          this.setState({
+            isShowValidCode: false
+          });
+        }, 5000);
+      }
+      this.setState(
+        {
+          isClickApply: false,
+          promotionInputValue: ''
+        },
+        () => {
+          this.handleClickPromotionApply(true);
+        }
+      );
+    } catch (err) {
+      console.info('....', err);
+      debugger;
+      this.setState({
+        isClickApply: false
+      });
+    }
+  };
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
@@ -607,78 +675,7 @@ class PayProductInfo extends React.Component {
                         : ''
                     }`}
                     style={{ marginTop: '5px', float: 'right' }}
-                    onClick={async () => {
-                      try {
-                        let result = {};
-                        if (!this.state.promotionInputValue) return;
-                        this.setState({
-                          isClickApply: true,
-                          isShowValidCode: false,
-                          lastPromotionInputValue: this.state
-                            .promotionInputValue
-                        });
-                        // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
-                        let purchasesPara =
-                          localItemRoyal.get('rc-payment-purchases-param') ||
-                          {};
-                        purchasesPara.promotionCode = this.state.promotionInputValue;
-                        purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
-                        console.log('------- ', purchasesPara);
-                        if (!this.isLogin) {
-                          purchasesPara.guestEmail = this.props.guestEmail;
-                          //游客
-                          result = await checkoutStore.updateUnloginCart(
-                            purchasesPara
-                          );
-                        } else {
-                          purchasesPara.subscriptionFlag =
-                            this.props.buyWay === 'frequency';
-                          //会员
-                          result = await checkoutStore.updateLoginCart(
-                            purchasesPara
-                          );
-                        }
-
-                        if (
-                          !result.context.promotionFlag ||
-                          result.context.couponCodeFlag
-                        ) {
-                          //表示输入apply promotionCode成功
-                          discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                          this.setState({ discount });
-                          this.props.sendPromotionCode(
-                            this.state.promotionInputValue
-                          );
-                          this.setState({
-                            isStudentPurchase:
-                              result.context.promotionSubType === 8
-                          });
-                          if (result.context.promotionSubType === 8) {
-                            this.props.welcomeBoxChange('no');
-                          }
-                        } else {
-                          this.setState({
-                            isShowValidCode: true
-                          });
-                          this.props.sendPromotionCode('');
-                          this.setState({ isStudentPurchase: false });
-                          setTimeout(() => {
-                            this.setState({
-                              isShowValidCode: false
-                            });
-                          }, 5000);
-                        }
-                        this.setState({
-                          isClickApply: false,
-                          promotionInputValue: ''
-                        });
-                      } catch (err) {
-                        this.setState({
-                          isClickApply: false
-                        });
-                      }
-                    }}
+                    onClick={() => this.handleClickPromotionApply(false)}
                   >
                     <FormattedMessage id="apply" />
                   </button>

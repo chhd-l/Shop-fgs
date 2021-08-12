@@ -1395,12 +1395,15 @@ class AccountOrders extends React.Component {
                                               formatMoney(item.originalPrice)
                                             )}
                                           </div>
-                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 111">
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus
                                               ? formatMoney(
-                                                  item.subscriptionPrice *
-                                                    item.num
+                                                  judgeIsIndividual(item)
+                                                    ? details.tradePrice
+                                                        .goodsPrice
+                                                    : item.subscriptionPrice *
+                                                        item.num
                                                 )
                                               : formatMoney(
                                                   item.originalPrice * item.num
@@ -1474,7 +1477,7 @@ class AccountOrders extends React.Component {
                                             ? ''
                                             : formatMoney(item.marketPrice)}
                                         </div>
-                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 222">
                                           {formatMoney(item.marketPrice)}
                                         </div>
                                       </div>
