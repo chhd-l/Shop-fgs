@@ -47,16 +47,16 @@ class Help extends Component {
                   <div>
                     <b style={{ color: '#00A4A6' }}>Par téléphone</b>
                     <p>
-                      De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi
-                      (appel non surtaxé)
+                      Appel Gratuit (depuis unposte fixe) De 8h30 à 12h30 et de
+                      14h à 17h du lundi au vendredi
                     </p>
                     <div className="rc-margin-top--xs">
                       <a
                         className="rc-numeric nowrap"
                         style={{ color: '#00A4A6' }}
-                        href={`tel:${this.props.configStore.storeContactPhoneNumber}`}
+                        href={`tel:0800005360`}
                       >
-                        {this.props.configStore.storeContactPhoneNumber}
+                        0800-005-360
                       </a>
                     </div>
                   </div>
