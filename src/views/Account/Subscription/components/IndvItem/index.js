@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import { getFormatDate, filterOrderId, getDeviceType } from '@/utils/utils';
-import indvLogo from '@/assets/images/indv_log.jpg';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -91,7 +91,7 @@ const ClubItem = ({ subItem, history }) => {
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         {/* <LazyLoad> */}
         <img
-          src={indvLogo}
+          src={getClubLogo({ subscriptionType: 'Individualization' })}
           style={{
             width: '75px',
             display: 'inline-block',
