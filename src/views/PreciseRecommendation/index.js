@@ -42,7 +42,7 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  handleGA({ goodsInfo }) {
+  handleGA({ goodsInfo, totalPrice }) {
     if (!goodsInfo) {
       return;
     }
@@ -54,7 +54,7 @@ class PreciseRecommendation extends React.Component {
     let GAData = {
       products: [
         {
-          price: recommData.totalPrice, //Product Price, including discount if promo code activated for this product
+          price: totalPrice, //Product Price, including discount if promo code activated for this product
           specie: 'Cat', //'Cat' or 'Dog',
           range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
           name: goodsInfo.goodsInfoName, //WeShare product name, always in English
@@ -129,7 +129,7 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      this.toPFPage();
+      // this.toPFPage();
     }
   }
   toPFPage = () => {
