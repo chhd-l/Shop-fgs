@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.less';
 import { FormContext } from '../QuestionnaireForm';
-
+import Tooltips from '../tooltips';
 export default function RadioButton({ questionData, id }) {
   const [checked, setChecked] = useState('');
   const Context = useContext(FormContext);
@@ -28,12 +28,7 @@ export default function RadioButton({ questionData, id }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i className="iconfont iconinfo"></i>
-            <div className="question-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}
