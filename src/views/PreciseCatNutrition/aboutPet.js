@@ -188,10 +188,10 @@ export default function AboutPet() {
       }
     } else {
       if (result.context.next === 'printSPTProducts') {
-        await getRecommendationInfo({
-          filters: result.context.filters
-        });
-        return;
+        // await getRecommendationInfo({
+        //   filters: result.context.filters
+        // });
+        // return;
         //跳转页面用
         sessionItemRoyal.set(
           'nutrition-recommendation-filter',
