@@ -487,7 +487,10 @@ class DedicatedLandingPage extends React.Component {
                           onClick={() => this.changeSetLine(index.dataCurrent)}
                           style={
                             selectLine == index.dataCurrent
-                              ? { boxShadow: ' 0vh -1vh 0.5vh 0.1vh #E2001A' }
+                              ? {
+                                  boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A',
+                                  padding: '27px'
+                                }
                               : null
                           }
                         >
@@ -592,7 +595,7 @@ class DedicatedLandingPage extends React.Component {
                             }
                             style={
                               selectLine == index.dataCurrent
-                                ? { boxShadow: ' 0vh -1vh 0.5vh 0.1vh #E2001A' }
+                                ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
                                 : null
                             }
                           >
