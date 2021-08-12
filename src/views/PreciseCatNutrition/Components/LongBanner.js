@@ -41,20 +41,10 @@ const LongBanner = () => {
                     zIndex: 10
                   }}
                 >
-                  {isMobile ? (
-                    <h1 style={{ fontWeight: 700, fontSize: '1.4rem' }}>
-                      GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
-                      HEALTHY WEIGHT !
-                    </h1>
-                  ) : (
-                    <h1
-                      className={'rc-padding-x--xl'}
-                      style={{ fontWeight: 700, fontSize: '2.5rem' }}
-                    >
-                      GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
-                      HEALTHY WEIGHT !
-                    </h1>
-                  )}
+                  <h1 className={'longBannerTitle'} style={{fontWeight:700}}>
+                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
+                    HEALTHY WEIGHT !
+                  </h1>
 
                   <p style={{ fontSize: '0.6em', color: '#555555', margin: 0 }}>
                     average price
@@ -167,17 +157,15 @@ const LongBanner = () => {
         {/*</div>*/}
 
         <div
-          className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+          className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
           style={{
-            marginTop: isMobile ? '220px' : '0',
             boxShadow: 'darkgrey 10px 150px 230px 100px',
-            width: isMobile ? '90%' : '100'
           }}
         >
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
             <img
               className={'topCat'}
-              style={isMobile ? { zIndex: -100 } : null}
+              style={{zIndex:isMobile?-100:null}}
               src={topCat}
             />
             <img className={'topCatEat'} src={topCatEat} />
@@ -220,12 +208,7 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong
-                            className="rc-margin-bottom--none"
-                            style={
-                              isMobile
-                                ? { fontSize: 18, fontWeight: '700' }
-                                : { fontSize: 14, fontWeight: '700' }
-                            }
+                            className="rc-margin-bottom--none LongBannerSomeFontsize"
                           >
                             The right diet adapted to support your cat's optimal
                             weight
@@ -248,12 +231,8 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong
-                            className="rc-margin-bottom--none"
-                            style={
-                              isMobile
-                                ? { fontSize: 18, fontWeight: '700' }
-                                : { fontSize: 14, fontWeight: '700' }
-                            }
+                            className="rc-margin-bottom--none LongBannerSomeFontsize"
+
                           >
                             Individualize ration calculated for your cat's
                             unique characteristics.
@@ -278,12 +257,7 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong
-                            className="rc-margin-bottom--none"
-                            style={
-                              isMobile
-                                ? { fontSize: 18, fontWeight: '700' }
-                                : { fontSize: 14, fontWeight: '700' }
-                            }
+                            className="rc-margin-bottom--none LongBannerSomeFontsize"
                           >
                             High quality nutrients chosen for their high
                             nutritonal value
