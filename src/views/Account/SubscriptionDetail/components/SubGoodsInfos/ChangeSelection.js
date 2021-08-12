@@ -9,8 +9,14 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
-    SubGoodsInfosValue;
+  const {
+    setState,
+    isIndv,
+    isActive,
+    onDateChange,
+    getMinDate,
+    isGift
+  } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:

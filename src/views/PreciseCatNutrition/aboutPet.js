@@ -6,9 +6,25 @@ import { getAllStep, getNextStep } from './api';
 
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
+import { getDeviceType } from '../../utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
+function getScrollTop() {
+  let scrollTop = 0;
+  let bodyScrollTop = 0;
+  let documentScrollTop = 0;
+  if (document.body) {
+    bodyScrollTop = document.body.scrollTop;
+  }
+  if (document.documentElement) {
+    documentScrollTop = document.documentElement.scrollTop;
+  }
+  scrollTop =
+    bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop;
+  return scrollTop;
+}
 export default function AboutPet() {
   let history = useHistory();
 
@@ -29,6 +45,21 @@ export default function AboutPet() {
     getInit();
   }, []);
 
+  /**
+   * 移动端滚动
+   * @param anchorName
+   */
+  const toScroll = (anchorName) => {
+    let anchorElement = document.getElementById(anchorName);
+    console.log(getScrollTop());
+    let scrollTop = getScrollTop();
+    if (5600 < scrollTop || scrollTop < 5100) {
+      // 如果对应id的锚点存在，就跳转到锚点
+      if (anchorElement) {
+        anchorElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
   /**
    * 初始化加载5道题
    */
@@ -88,6 +119,8 @@ export default function AboutPet() {
   };
   const goNext = async () => {
     setLoading(true);
+    console.log(isMobile);
+    if (isMobile) toScroll('aboutPet');
     //改变字符串true false 为bool
     let questionParams = { ...childRef.current.formData };
     if (questionParams.neutered) {
@@ -169,6 +202,7 @@ export default function AboutPet() {
   };
 
   const goBack = async () => {
+    if (isMobile) toScroll('aboutPet');
     let querySteps = [...perStep];
     querySteps.splice(querySteps.length - 1, 1);
 
@@ -303,7 +337,7 @@ export default function AboutPet() {
   );
 
   return (
-    <div className="questionnaire-container">
+    <div className="questionnaire-container" id="questionnaire-container">
       <div className="questionnaire-content">{showResult()}</div>
     </div>
   );
