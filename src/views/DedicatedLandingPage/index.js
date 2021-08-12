@@ -35,17 +35,19 @@ let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const kittyData = [
   {
     kittenImg: kittenimgone,
+    kittenTitle: 'Moins de 4 mois',
     kittenDescription: [
-      'sac de croquette Mother & BabyCat',
-      'boite de mousse Mother & BabyCat'
+      '- 1 sac de croquette Mother & BabyCat',
+      '- 1 boite de mousse Mother & BabyCat'
     ],
     dataCurrent: 1
   },
   {
     kittenImg: kittenimgtwo,
+    kittenTitle: 'Plus de 4 mois',
     kittenDescription: [
-      '1 sac de croquette Kitten',
-      '1 sachet de nutrition fraicheur Kitten123'
+      '- 1 sac de croquette Kitten',
+      '- 1 sachet de nutrition fraicheur Kitten'
     ],
     dataCurrent: 2
   }
@@ -454,13 +456,13 @@ class DedicatedLandingPage extends React.Component {
                   >
                     <span
                       className="rc-icon rc-close rc-iconography"
-                      style={{ width: '15px' }}
+                      style={{ width: '15px', cursor: 'pointer' }}
                     ></span>
                   </div>
                   <header style={{ marginBottom: '25px' }}>
                     <h1
-                      className="rc-card__title rc-delta text-center "
-                      style={{ fontSize: '26px' }}
+                      className="rc-card__title rc-delta text-center fwt"
+                      style={{ fontSize: '28px' }}
                     >
                       Sélectionnez votre kit
                     </h1>
@@ -470,16 +472,22 @@ class DedicatedLandingPage extends React.Component {
                     style={{ justifyContent: 'space-evenly' }}
                   >
                     {kittyData.map((index, indexs) => (
-                      <div style={{ marginRight: '5px' }} key={indexs}>
-                        <p className="text-center" style={{ color: '#E2001A' }}>
-                          Moins de 4 mois
+                      <div
+                        style={indexs === 0 ? { marginRight: '27px' } : null}
+                        key={indexs}
+                      >
+                        <p
+                          className="text-center fwt"
+                          style={{ color: '#E2001A' }}
+                        >
+                          {index.kittenTitle}
                         </p>
                         <article
-                          className="rc-card rc-card--a"
+                          className="rc-card rc-card--a pd27"
                           onClick={() => this.changeSetLine(index.dataCurrent)}
                           style={
                             selectLine == index.dataCurrent
-                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                              ? { boxShadow: ' 0vh -1vh 0.5vh 0.1vh #E2001A' }
                               : null
                           }
                         >
@@ -493,8 +501,11 @@ class DedicatedLandingPage extends React.Component {
                             <header>
                               {index.kittenDescription.map((index, indexs) => (
                                 <div key={indexs}>
-                                  <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                    - {index}
+                                  <p
+                                    className="rc-meta rc-margin-bottom--sm--mobile"
+                                    style={{ fontSize: 16, fontWeight: 400 }}
+                                  >
+                                    {index}
                                   </p>
                                 </div>
                               ))}
@@ -507,9 +518,8 @@ class DedicatedLandingPage extends React.Component {
                 </div>
                 <div
                   style={{
-                    boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E3E3E3',
-                    paddingTop: '15px',
-                    paddingBottom: '15px'
+                    boxShadow: ' 0vh -1vh 0.3vh 0.1vh #E3E3E3',
+                    padding: '20px'
                   }}
                   className="text-center"
                 >
@@ -549,13 +559,13 @@ class DedicatedLandingPage extends React.Component {
                     >
                       <span
                         className="rc-icon rc-close rc-iconography"
-                        style={{ width: '15px' }}
+                        style={{ width: '15px', cursor: 'pointer' }}
                       ></span>
                     </div>
                     <header style={{ marginBottom: '25px' }}>
                       <h1
-                        className="rc-card__title rc-delta text-center "
-                        style={{ fontSize: '26px' }}
+                        className="rc-card__title rc-delta text-center fwt"
+                        style={{ fontSize: '28px' }}
                       >
                         Sélectionnez votre kit
                       </h1>
@@ -565,21 +575,24 @@ class DedicatedLandingPage extends React.Component {
                       style={{ justifyContent: 'space-evenly' }}
                     >
                       {kittyData.map((index, indexs) => (
-                        <div style={{ marginRight: '5px' }} key={indexs}>
+                        <div
+                          style={indexs === 0 ? { marginRight: '27px' } : null}
+                          key={indexs}
+                        >
                           <p
-                            className="text-center"
+                            className="text-center fwt"
                             style={{ color: '#E2001A' }}
                           >
-                            Moins de 4 mois
+                            {index.kittenTitle}
                           </p>
                           <article
-                            className="rc-card rc-card--a"
+                            className="rc-card rc-card--a pd27"
                             onClick={() =>
                               this.changeSetLine(index.dataCurrent)
                             }
                             style={
                               selectLine == index.dataCurrent
-                                ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                                ? { boxShadow: ' 0vh -1vh 0.5vh 0.1vh #E2001A' }
                                 : null
                             }
                           >
@@ -594,8 +607,14 @@ class DedicatedLandingPage extends React.Component {
                                 {index.kittenDescription.map(
                                   (index, indexs) => (
                                     <div key={indexs}>
-                                      <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                        - {index}
+                                      <p
+                                        className="rc-meta rc-margin-bottom--sm--mobile"
+                                        style={{
+                                          fontSize: 16,
+                                          fontWeight: 400
+                                        }}
+                                      >
+                                        {index}
                                       </p>
                                     </div>
                                   )
@@ -609,9 +628,8 @@ class DedicatedLandingPage extends React.Component {
                   </div>
                   <div
                     style={{
-                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E3E3E3',
-                      paddingTop: '15px',
-                      paddingBottom: '15px'
+                      boxShadow: ' 0vh -1vh 0.3vh 0.1vh #E3E3E3',
+                      padding: '20px'
                     }}
                     className="text-center"
                   >
