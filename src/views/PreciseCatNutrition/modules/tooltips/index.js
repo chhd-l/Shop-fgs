@@ -8,10 +8,8 @@ export default function Tooltips({ description }) {
       getId.removeAttribute('id');
     }
     e.target.setAttribute('id', 'question-tooltip');
-    console.log(e.target);
   };
   document.onclick = function (e) {
-    console.log('uou');
     let getId = document.getElementById('question-tooltip');
     if (getId) {
       getId.removeAttribute('id');
