@@ -114,6 +114,7 @@ class PreciseRecommendation extends React.Component {
       let res = resObj.context;
       if (resObj.code != 'K-000000') {
         this.toPFPage();
+        return;
       }
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
