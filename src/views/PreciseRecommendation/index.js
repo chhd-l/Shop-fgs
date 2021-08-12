@@ -130,10 +130,11 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      this.toPFPage();
+      // this.toPFPage();
     }
   }
   toPFPage = () => {
+    return;
     if (window.__.env.REACT_APP_HUB_URLPREFIX) {
       let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
       location.href = url;
