@@ -130,7 +130,7 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      // this.toPFPage();
+      this.toPFPage();
     }
   }
   toPFPage = () => {
