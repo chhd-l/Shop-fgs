@@ -112,6 +112,9 @@ class PreciseRecommendation extends React.Component {
     try {
       let resObj = await getRecommendationInfo(params);
       let res = resObj.context;
+      if (resObj.code != 'K-000000') {
+        toPFPage();
+      }
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
       let recommData = res;
@@ -126,12 +129,17 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      if (window.__.env.REACT_APP_HUB_URLPREFIX) {
-        let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
-        location.href = url;
-      }
+      toPFPage();
     }
   }
+  toPFPage = () => {
+    if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+      let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+      location.href = url;
+    } else {
+      this.props.history.push('/product-finder');
+    }
+  };
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
