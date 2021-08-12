@@ -24,6 +24,7 @@ export default function AgeSelect({ config, questionData }) {
       Context.changeFormData(questionData.name, '');
     }
   }, [questionData.name]);
+
   const handleSelectChange = (data, idx) => {
     let sum = 0;
     form.splice(idx, 1, data.value);

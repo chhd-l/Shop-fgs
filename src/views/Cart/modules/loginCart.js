@@ -1030,7 +1030,7 @@ class LoginCart extends React.Component {
                   float: 'right',
                   marginBottom: '.625rem'
                 }}
-                onClick={this.handleClickPromotionApply}
+                onClick={() => this.handleClickPromotionApply(false)}
               >
                 <FormattedMessage id="apply" />
               </button>
@@ -1454,14 +1454,15 @@ class LoginCart extends React.Component {
       promotionInputValue: ''
     });
   };
-  handleClickPromotionApply = async () => {
+  handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
+    //falseCodeAndReRequest 需要重新请求code填充公共code
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
-    if (!promotionInputValue) return;
+    if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
     let lastPromotionInputValue = promotionInputValue;
     this.setState({
-      isClickApply: true,
+      isClickApply: !falseCodeAndReRequest,
       isShowValidCode: false,
       lastPromotionInputValue,
       discount: []
@@ -1492,10 +1493,16 @@ class LoginCart extends React.Component {
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState({
-          isShowValidCode: false,
-          promotionInputValue: ''
-        });
+        this.setState(
+          {
+            isShowValidCode: false,
+            promotionInputValue: ''
+          },
+          () => {
+            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+            this.handleClickPromotionApply(true);
+          }
+        );
       }, 4000);
       // this.props.sendPromotionCode('');
     }

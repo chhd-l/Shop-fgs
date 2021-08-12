@@ -2,7 +2,7 @@
   position: fixed;
   left: 0.5%;
   padding: 5px;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   border-radius: 5px;
   writing-mode: vertical-rl;
   color: #fff;
@@ -88,4 +88,21 @@
   max-width: 295px;
   margin: 0 auto;
   border: 1px solid #d7d7d7;
+}
+.fwt {
+  font-weight: 400 !important;
+}
+.siz26 {
+  font-size: 26px !important;
+  line-height: 30px !important;
+}
+.pdln {
+  padding-left: 0 !important;
+}
+.ft24 {
+  font-size: 18px;
+  line-height: 24px;
+}
+.pd27 {
+  padding: 27px;
 }

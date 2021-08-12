@@ -13,7 +13,10 @@ class ProductSpecialities extends React.Component {
             <div className="experience-component experience-assets-threeColumnContentBlock">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-top--lg--mobile three-column-content-block">
                 <div>
-                  <h2 className="rc-beta font-weight-bold text-center rc-padding-top--sm rc-margin-y--md rc-margin-bottom--lg--mobile" style={{fontSize:isMobile?'18px':null}}>
+                  <h2
+                    className="rc-beta font-weight-bold text-center rc-padding-top--sm rc-margin-y--md rc-margin-bottom--lg--mobile"
+                    style={{ fontSize: isMobile ? '18px' : null }}
+                  >
                     <FormattedMessage id="preciseNutrition.Product.title" />
                   </h2>
                 </div>

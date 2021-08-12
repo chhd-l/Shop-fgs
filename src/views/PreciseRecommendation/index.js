@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { getOtherSpecies } from '@/utils/GA';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Helmet } from 'react-helmet';
 import HelpComponentsNew from '../../components/HelpComponentsNew/HelpComponents';
@@ -41,33 +42,39 @@ class PreciseRecommendation extends React.Component {
       }
     };
   }
-  handleGA({ goodsInfo }) {
+  handleGA({ goodsInfo, totalPrice }) {
     if (!goodsInfo) {
       return;
     }
-    let sku = goodsInfo.goodsInfoNo;
-    dataLayer.push({
+    let technology = (
+      getOtherSpecies(goodsInfo, 'Technology') || []
+    ).toString();
+    let range = (getOtherSpecies(goodsInfo, 'Range') || []).toString();
+    let breed = getOtherSpecies(goodsInfo, 'breeds') || [];
+    let GAData = {
       products: [
         {
-          price: goodsInfo.totalPrice, //Product Price, including discount if promo code activated for this product
+          price: totalPrice, //Product Price, including discount if promo code activated for this product
           specie: 'Cat', //'Cat' or 'Dog',
-          range: 'Size Health Nutrition', //?Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+          range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
           name: goodsInfo.goodsInfoName, //WeShare product name, always in English
           mainItemCode: goodsInfo.goodsInfoNo, //Main item code
           SKU: goodsInfo.goodsInfoNo, //product SKU
           subscription: 'Individual', //'One Shot', 'Subscription', 'Club'
           subscriptionFrequency: 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
-          technology: 'Dry', //?'Dry', 'Wet', 'Pack'
+          technology, //'Dry', 'Wet', 'Pack'
           brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-          size: '12x85g', //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
-          breed: ['Beagle', 'Boxer', 'Carlin'], //?All animal breeds associated with the product in an array
-          quantity: goodsInfo.buyCount, //?Number of products, only if already added to cart
+          size: `1gx${goodsInfo.buyCount}`, //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
+          breed, //All animal breeds associated with the product in an array
+          quantity: goodsInfo.buyCount, //Number of products, only if already added to cart
           sizeCategory: '', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
           promoCodeName: '', //Promo code name, only if promo activated
           promoCodeAmount: '' //Promo code amount, only if promo activated
         }
       ]
-    });
+    };
+    console.info('GAData', GAData);
+    dataLayer.push(GAData);
   }
   async getProductInfo() {
     let id = funcUrl({ name: 'id' });
@@ -105,6 +112,10 @@ class PreciseRecommendation extends React.Component {
     try {
       let resObj = await getRecommendationInfo(params);
       let res = resObj.context;
+      if (resObj.code != 'K-000000') {
+        this.toPFPage();
+        return;
+      }
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
       let recommData = res;
@@ -119,12 +130,17 @@ class PreciseRecommendation extends React.Component {
       this.setState({
         loading: false
       });
-      if (window.__.env.REACT_APP_HUB_URLPREFIX) {
-        let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
-        location.href = url;
-      }
+      // this.toPFPage();
     }
   }
+  toPFPage = () => {
+    if (window.__.env.REACT_APP_HUB_URLPREFIX) {
+      let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
+      location.href = url;
+    } else {
+      this.props.history.push('/product-finder');
+    }
+  };
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
@@ -312,7 +328,10 @@ class PreciseRecommendation extends React.Component {
                           >
                             <div className="col-12 col-md-5 rc-padding--none order-1 order-md-0  orderJoin1">
                               <div className="rc-column rc-padding--none">
-                                <h4 className="rc-beta font-weight-bold text-lg-left text-center" style={{fontSize:isMobile?'18px':null}}>
+                                <h4
+                                  className="rc-beta font-weight-bold text-lg-left text-center"
+                                  style={{ fontSize: isMobile ? '18px' : null }}
+                                >
                                   <FormattedMessage id="preciseNutrition.Below.title" />
                                 </h4>
                                 <div className="text-lg-left text-center rc-padding-right--sm--desktop">
@@ -395,7 +414,10 @@ class PreciseRecommendation extends React.Component {
                     <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                       <div className="rc-padding-x--lg rc-padding-x--sm--mobile">
                         <div>
-                          <h4 className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile" style={{fontSize:isMobile?'18px':null}}>
+                          <h4
+                            className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                            style={{ fontSize: isMobile ? '18px' : null }}
+                          >
                             <FormattedMessage id="preciseNutrition.commitment.title" />
                           </h4>
                         </div>

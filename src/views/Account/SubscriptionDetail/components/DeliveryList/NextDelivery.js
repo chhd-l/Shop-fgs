@@ -113,6 +113,7 @@ const NextDelivery = ({
                   <img
                     alt="date Icon"
                     src={dateIcon}
+                    className="m-auto"
                     style={{
                       width: '1.25rem',
                       display: 'inline'
@@ -129,7 +130,7 @@ const NextDelivery = ({
                   }}
                 >
                   <DatePicker
-                    className="receiveDate subs-receiveDate"
+                    className="receiveDate subs-receiveDate for-mobile-pad-0"
                     placeholder="Select Date"
                     dateFormat={datePickerConfig.format}
                     locale={datePickerConfig.locale}

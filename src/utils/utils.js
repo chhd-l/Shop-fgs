@@ -921,7 +921,7 @@ function isMatchedLang(langArr, lang) {
 }
 import Club_Logo from '@/assets/images/Logo_club.png';
 import Club_Logo_ru from '@/assets/images/Logo_club_ru.png';
-import indvLogo from '@/assets/images/indv_log.jpg';
+import indvLogo from '@/assets/images/indv_log.svg';
 
 import { el } from 'date-fns/locale';
 export function getClubLogo({ goodsInfoFlag, subscriptionType }) {

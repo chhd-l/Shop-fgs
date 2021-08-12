@@ -1116,8 +1116,12 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1174,7 +1178,7 @@ class UnLoginCart extends React.Component {
                     float: 'right',
                     marginBottom: '.625rem'
                   }}
-                  onClick={this.handleClickPromotionApply}
+                  onClick={() => this.handleClickPromotionApply(false)}
                 >
                   <FormattedMessage id="apply" />
                 </button>
@@ -1473,14 +1477,15 @@ class UnLoginCart extends React.Component {
     //   promotionInputValue: ''
     // });
   }
-  handleClickPromotionApply = async () => {
+  handleClickPromotionApply = async (falseCodeAndReRequest) => {
+    //falseCodeAndReRequest 需要重新请求code填充公共code
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
-    if (!promotionInputValue) return;
+    if (!promotionInputValue && !falseCodeAndReRequest) return;
 
     let result = {};
     this.setState({
-      isClickApply: true,
+      isClickApply: !falseCodeAndReRequest,
       isShowValidCode: false,
       lastPromotionInputValue: promotionInputValue
     });
@@ -1510,9 +1515,15 @@ class UnLoginCart extends React.Component {
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState({
-          isShowValidCode: false
-        });
+        this.setState(
+          {
+            isShowValidCode: false
+          },
+          () => {
+            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+            this.handleClickPromotionApply(true);
+          }
+        );
       }, 4000);
       // this.props.sendPromotionCode('');
     }
