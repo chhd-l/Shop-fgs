@@ -122,7 +122,7 @@ export default function AboutPet() {
     if (isMobile) toScroll('aboutPet');
     //改变字符串true false 为bool
     let questionParams = { ...childRef.current.formData };
-    if (questionParams.neutered) {
+    if (defaultValue.neutered) {
       questionParams.neutered = toBool(questionParams.neutered);
     }
     let querySteps = [
@@ -205,7 +205,12 @@ export default function AboutPet() {
     let querySteps = [...perStep];
     querySteps.splice(querySteps.length - 1, 1);
 
-    setDefaultValue(perStep[perStep.length - 1].questionParams);
+    let defaultValue = perStep[perStep.length - 1].questionParams;
+    if (defaultValue.neutered === true || defaultValue.neutered === false) {
+      defaultValue.neutered = String(defaultValue.neutered);
+    }
+    console.log(defaultValue);
+    setDefaultValue(defaultValue);
     if (step > 2) {
       setLoading(true);
       let result = await getNextStep({
