@@ -9,14 +9,8 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const {
-    setState,
-    isIndv,
-    isActive,
-    onDateChange,
-    getMinDate,
-    isGift
-  } = SubGoodsInfosValue;
+  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
+    SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -31,7 +25,10 @@ const ChangeSelection = ({ el }) => {
   }
   return (
     <>
-      <div style={{ overflow: 'hidden' }} className="rc-card-content">
+      <div
+        style={{ overflow: 'hidden' }}
+        className="rc-card-content sub-frequency-wrap"
+      >
         {isIndv ? (
           <>
             <strong
@@ -66,13 +63,15 @@ const ChangeSelection = ({ el }) => {
             style={{
               marginTop: '.625rem',
               display: 'inline-block',
-              marginLeft: '.625rem',
               fontSize: '1.25rem'
             }}
           >
             {el.promotions && (
               <FrequencySelection
                 frequencyType={el.promotions}
+                selectionStyle={{ marginLeft: '0.625rem' }}
+                textStyle={{ display: 'inline-block', width: '50%' }}
+                wrapStyle={{}}
                 currentFrequencyId={el.periodTypeId}
                 handleConfirm={(data) => {
                   if (el.periodTypeId !== data.id) {
@@ -81,7 +80,7 @@ const ChangeSelection = ({ el }) => {
                     setState({ isDataChange: true });
                   }
                 }}
-                className="col-md-12"
+                className="col-md-12 text-left"
                 disabled={!isActive || isGift}
               />
             )}
