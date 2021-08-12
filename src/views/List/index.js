@@ -1809,7 +1809,7 @@ class List extends React.Component {
                     zIndex: 3
                   }}
                 >
-                  {filterShowStatus === 0 ? null : (
+                  {filterShowStatus === 0 && !isMobilePhone ? null : (
                     <div
                       id="refineBar"
                       className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
@@ -1863,20 +1863,22 @@ class List extends React.Component {
                             />
                           )}
                         </span>
-                        <em
-                          className={`rc-icon rc-filter--xs rc-iconography ${
-                            (filterModalVisible && !isTop) ||
-                            (!filterModalVisible && isTop)
-                              ? 'rc-brand1'
-                              : ''
-                          }`}
-                          data-filter-trigger="filter-example"
-                          style={{ position: 'relative', top: '0.4rem' }}
-                          onClick={this.toggleFilterModal.bind(
-                            this,
-                            !filterModalVisible
-                          )}
-                        />
+                        {filterShowStatus === 0 ? null : (
+                          <em
+                            className={`rc-icon rc-filter--xs rc-iconography ${
+                              (filterModalVisible && !isTop) ||
+                              (!filterModalVisible && isTop)
+                                ? 'rc-brand1'
+                                : ''
+                            }`}
+                            data-filter-trigger="filter-example"
+                            style={{ position: 'relative', top: '0.4rem' }}
+                            onClick={this.toggleFilterModal.bind(
+                              this,
+                              !filterModalVisible
+                            )}
+                          />
+                        )}
                         {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
                         data-filter-trigger="filter-example"
