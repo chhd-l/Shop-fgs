@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import SearchSelection from '../../../../components/SearchSelection';
 import { FormContext } from '../QuestionnaireForm';
+import Tooltips from '../tooltips';
 
 export default function AnimalBreeds({ questionData }) {
   const [breed, setBreed] = useState('');
@@ -52,12 +53,7 @@ export default function AnimalBreeds({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i className="iconfont iconinfo"></i>
-            <div className="question-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}

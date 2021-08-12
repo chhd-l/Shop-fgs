@@ -41,9 +41,9 @@ const LongBanner = () => {
                     zIndex: 10
                   }}
                 >
-                  <h1 className={'longBannerTitle'} style={{fontWeight:700}}>
-                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
-                    HEALTHY WEIGHT !
+                  <h1 className={'longBannerTitle'} style={{ fontWeight: 700 }}>
+                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
+                    WEIGHT !
                   </h1>
 
                   <p style={{ fontSize: '0.6em', color: '#555555', margin: 0 }}>
@@ -159,13 +159,13 @@ const LongBanner = () => {
         <div
           className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
           style={{
-            boxShadow: 'darkgrey 10px 150px 230px 100px',
+            boxShadow: 'darkgrey 10px 150px 230px 100px'
           }}
         >
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
             <img
               className={'topCat'}
-              style={{zIndex:isMobile?-100:null}}
+              style={{ zIndex: isMobile ? -100 : null }}
               src={topCat}
             />
             <img className={'topCatEat'} src={topCatEat} />
@@ -207,9 +207,7 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong
-                            className="rc-margin-bottom--none LongBannerSomeFontsize"
-                          >
+                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
                             The right diet adapted to support your cat's optimal
                             weight
                             {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
@@ -230,10 +228,7 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong
-                            className="rc-margin-bottom--none LongBannerSomeFontsize"
-
-                          >
+                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
                             Individualize ration calculated for your cat's
                             unique characteristics.
                             {/*<FormattedMessage*/}
@@ -256,9 +251,7 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong
-                            className="rc-margin-bottom--none LongBannerSomeFontsize"
-                          >
+                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
                             High quality nutrients chosen for their high
                             nutritonal value
                             {/*<FormattedMessage*/}

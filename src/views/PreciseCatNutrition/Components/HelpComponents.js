@@ -111,8 +111,8 @@ const HelpComponents = () => {
                                     style={{
                                       color: '#E2001A',
                                       fontWeight: 600,
-                                      display:'block',
-                                      marginTop:'-10%'
+                                      display: 'block',
+                                      marginTop: '-10%'
                                     }}
                                   >
                                     Email us

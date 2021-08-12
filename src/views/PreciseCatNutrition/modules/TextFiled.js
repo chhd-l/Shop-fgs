@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormContext } from './QuestionnaireForm';
-import { FormattedMessage } from 'react-intl';
+
 export default function TextFiled({ questionData, key }) {
   const Context = useContext(FormContext);
   const [value, setValue] = useState('');

@@ -119,7 +119,6 @@ export default function AboutPet() {
   };
   const goNext = async () => {
     setLoading(true);
-    console.log(isMobile);
     if (isMobile) toScroll('aboutPet');
     //改变字符串true false 为bool
     let questionParams = { ...childRef.current.formData };

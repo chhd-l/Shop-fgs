@@ -241,7 +241,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-left rc-margin-y--none rc-padding-x--sm--desktop">
                         <a
-                          type="button"
+                          // type="button"
                           className="mb-3 rc-padding-x--md--mobile"
                           style={{
                             fontWeight: '550',
