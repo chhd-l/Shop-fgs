@@ -1067,7 +1067,6 @@ class List extends React.Component {
         }
 
         const isSpecialNeedFilter =
-          !isHub &&
           !this.state.isDogPage &&
           window.__.env.REACT_APP_COUNTRY === 'fr' &&
           (
@@ -1449,15 +1448,16 @@ class List extends React.Component {
             return ret;
           });
 
-          if (this.state.isRetailProducts) {
-            goodsContent.splice(4, 0, { productFinder: true });
-          } else if (this.state.isSpecialNeedFilter) {
+          if (this.state.isSpecialNeedFilter) {
             goodsContent.splice(
               goodsContent.length >= 4 ? 4 : goodsContent.length,
               0,
               { specificNeedCheck: true }
             );
+          } else if (this.state.isRetailProducts) {
+            goodsContent.splice(4, 0, { productFinder: true });
           }
+
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
