@@ -42,9 +42,9 @@ const SubscriptionBenefitsBanner = ({
                 className="flexwrap"
               >
                 {SubscriptionItem.map((items) => (
-                  <div className="text-center">
+                  <div className="text-center ">
                     <article>
-                      <LazyLoad>
+                      <LazyLoad className="mobileCenter">
                         <img
                           className="w-90 lazyloaded"
                           src={items.SubscriptionImg}

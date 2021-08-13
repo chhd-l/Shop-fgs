@@ -90,7 +90,8 @@ const LongBanner = () => {
     <>
       <div
         className={`${
-          window.__.env.REACT_APP_COUNTRY == 'ru'
+          window.__.env.REACT_APP_COUNTRY == 'ru' ||
+          window.__.env.REACT_APP_COUNTRY == 'fr'
             ? 'clubdesktopru clubmobileru'
             : 'clubdesktop clubmobile'
         }`}

@@ -27,6 +27,10 @@
   .runewmargin {
     margin-top: 300px;
   }
+  .mobileCenter {
+    justify-content: center;
+    display: flex;
+  }
 }
 
 @media (min-width: 639.98px) {
