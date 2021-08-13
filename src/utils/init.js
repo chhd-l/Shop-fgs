@@ -1,17 +1,5 @@
 import { loadJS, dynamicLoadCss } from '@/utils/utils';
 
-// Cookies Consent Notice, DO NOT REMOVE
-let ptarr = window.location.pathname.split('/');
-if (ptarr.indexOf('pickupmap') < 0) {
-  loadJS({
-    url: window.__.env.REACT_APP_ONTRUST_SRC,
-    dataSets: {
-      domainScript: window.__.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-      documentLanguage: 'true'
-    }
-  });
-}
-
 // 限制启用了BazaarVoice ratings&reviews才能add BV Loader
 if (window.__.env.REACT_APP_SHOW_BAZAARVOICE_RATINGS === '1') {
   loadJS({
