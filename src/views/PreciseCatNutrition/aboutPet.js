@@ -52,7 +52,6 @@ export default function AboutPet() {
    */
   const toScroll = (anchorName) => {
     let anchorElement = document.getElementById(anchorName);
-    console.log(getScrollTop());
     let scrollTop = getScrollTop();
     if (5600 < scrollTop || scrollTop < 5100) {
       // 如果对应id的锚点存在，就跳转到锚点
@@ -188,18 +187,20 @@ export default function AboutPet() {
       }
     } else {
       if (result.context.next === 'printSPTProducts') {
-        let res = await getRecommendationInfo({
-          filters: result.context.filters
-        });
-        if (res.code !== 'K-000000') {
+        try {
+          let res = await getRecommendationInfo({
+            filters: result.context.filters
+          });
+          //跳转页面用
+          sessionItemRoyal.set(
+            'nutrition-recommendation-filter',
+            res.context ? JSON.stringify(res.context) : ''
+          );
+        } catch (err) {
+          console.log(err);
           setResult('redirectToProductFinder');
           return;
         }
-        //跳转页面用
-        sessionItemRoyal.set(
-          'nutrition-recommendation-filter',
-          res.context ? JSON.stringify(res.context) : ''
-        );
       }
       setResult(result.context.next);
       putDataLayer(result.context);

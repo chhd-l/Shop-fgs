@@ -118,6 +118,20 @@
     text-align: left;
   }
 }
+
+.howItWorkStyle{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 769px) {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10%;
+  }
+}
 .howItWorkNum2{
   width: 105px;
   height: 105px;
@@ -155,18 +169,8 @@
 }
 .titleRadius{
   height: 54%;
-  left: 212px;
   @media (max-width: 480px) {
     height: 60%;
-    left: 170px;
-  }
-  @media (max-width: 380px) {
-    height: 60%;
-    left: 151px;
-  }
-  @media (max-width: 321px) {
-    height: 60%;
-    left: 124px;
   }
 
 }
@@ -288,7 +292,27 @@
   background-size: 100% 98%;
 }
 
+.helpComponents-b {
+  color: #E2001A;
+  display: block;
+  margin-top: -10%;
+  @media (max-width: 639.98px) {
+    margin-top: auto;
+  }
+}
 
+.didYouKnowText{
+  padding:0 10% 0 0;
+  margin-left: auto;
+  @media (min-width: 771.98px) {
+    padding:0 10% 0 0;
+    margin-left:-10%;
+  }
+    @media (max-width: 639.98px) {
+    margin-left: auto;
+  }
+
+}
 @media (max-width: 639.98px) {
 
   .borderBack1{

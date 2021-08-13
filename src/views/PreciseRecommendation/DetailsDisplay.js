@@ -39,7 +39,7 @@ class DetailsDisplay extends React.Component {
           style={
             modalShow
               ? {
-                  top:'auto',
+                  top: 'auto',
                   width: '100vw',
                   height: '780vh',
                   position: 'fixed',
@@ -48,7 +48,7 @@ class DetailsDisplay extends React.Component {
                   background: '#000',
                   opacity: '0.80'
                 }
-              : { top:'auto'}
+              : { top: 'auto' }
           }
         ></div>
         <div className="row rc-margin-x--none">

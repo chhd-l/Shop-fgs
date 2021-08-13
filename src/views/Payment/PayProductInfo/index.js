@@ -341,7 +341,8 @@ class PayProductInfo extends React.Component {
     let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
     let IndvPetInfo = {};
     if (paramsString) {
-      IndvPetInfo = JSON.parse(paramsString);
+      let recommendateInfo = JSON.parse(paramsString);
+      IndvPetInfo = recommendateInfo.customerPetsVo;
     }
     // 线下店数量展示和正常流程有区别
     let orderSource = sessionItemRoyal.get('orderSource');
