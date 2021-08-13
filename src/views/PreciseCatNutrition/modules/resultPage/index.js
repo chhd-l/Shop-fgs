@@ -27,13 +27,7 @@ export default function ResultPage({ getInit, result }) {
       <div className="Veterinarian-title">{resultObj[result].text}</div>
       <div style={{ width: '100%', textAlign: 'center' }}>
         <DistributeHubLinkOrATag href={resultObj[result].href}>
-          <button
-            className="rc-btn rc-btn--one question-button"
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
+          <button className="rc-btn rc-btn--one question-button">
             {resultObj[result].title}
           </button>
         </DistributeHubLinkOrATag>

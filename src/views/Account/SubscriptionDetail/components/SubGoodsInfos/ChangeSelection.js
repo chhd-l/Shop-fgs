@@ -46,7 +46,7 @@ const ChangeSelection = ({ el }) => {
               style={{
                 marginTop: '.625rem',
                 display: 'inline-block',
-                paddingLeft: '.625rem',
+                paddingLeft: '1.625rem',
                 fontSize: '1.25rem',
                 width: '50%',
                 float: 'left'
@@ -63,6 +63,8 @@ const ChangeSelection = ({ el }) => {
             style={{
               marginTop: '.625rem',
               display: 'inline-block',
+              // marginLeft: '.625rem',
+
               fontSize: '1.25rem'
             }}
           >
@@ -102,7 +104,7 @@ const ChangeSelection = ({ el }) => {
           style={{
             marginTop: '.625rem',
             display: 'inline-block',
-            marginLeft: '.625rem',
+            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
@@ -135,7 +137,7 @@ const ChangeSelection = ({ el }) => {
           style={{
             marginTop: '.625rem',
             display: 'inline-block',
-            marginLeft: '.625rem',
+            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >

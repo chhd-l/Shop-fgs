@@ -318,7 +318,6 @@ export default function AboutPet() {
               <div>
                 <button
                   className="rc-btn rc-btn--one question-button"
-                  type="submit"
                   onClick={(e) => {
                     e.preventDefault();
                     goNext();
