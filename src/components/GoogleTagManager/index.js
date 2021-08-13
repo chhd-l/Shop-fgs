@@ -164,18 +164,6 @@ class GoogleTagManager extends React.Component {
           )});`
       });
     }
-
-    // Cookies Consent Notice, DO NOT REMOVE
-    let ptarr = window.location.pathname.split('/');
-    if (ptarr.indexOf('pickupmap') < 0) {
-      loadJS({
-        url: window.__.env.REACT_APP_ONTRUST_SRC,
-        dataSets: {
-          domainScript: window.__.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-          documentLanguage: 'true'
-        }
-      });
-    }
   }
 }
 
