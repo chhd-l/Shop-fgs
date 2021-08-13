@@ -1736,6 +1736,7 @@ const en_US = {
     'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
   'preciseNutrition.Product.list.content3':
     'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
-  dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
+  'checkout.zeroOrder.butSubscription':
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
 };
 export default en_US;
