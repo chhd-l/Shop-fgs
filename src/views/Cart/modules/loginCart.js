@@ -48,9 +48,9 @@ import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
+import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const guid = uuidv4();
-import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -380,10 +380,10 @@ class LoginCart extends React.Component {
       () => {
         // 若为空购物车，则要用其他seo
         if (!this.state.productList.length) {
-          // 延时是为了，页面初始化时，先请求Cart page的seo，再请求Empty Cart page时，会导致第一个先回来
+          // 延时是为了，页面初始化时，先请求Cart page的seo，再请求Empty Cart page时，会导致第一个先回来
           setTimeout(() => {
             setSeoConfig({
-              pageName: 'Empty Cart page'
+              pageName: 'Empty Cart page'
             }).then((res) => {
               this.setState({ seoConfig: res });
             });
@@ -690,6 +690,7 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    console.log(plist, 222);
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -851,7 +852,9 @@ class LoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              {pitem.subscriptionStatus && pitem.subscriptionPrice ? (
+              {pitem.subscriptionStatus &&
+              pitem.subscriptionPrice &&
+              this.totalPrice > 0 ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.goods.promotions ||
                   !pitem.goods.promotions.includes('club') ? (
@@ -1207,7 +1210,7 @@ class LoginCart extends React.Component {
           </div>
         ) : null}
 
-        {/* 
+        {/*
           customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
           enterPriceType 买入价格开关 0：含税，1：不含税
         */}
