@@ -358,7 +358,7 @@ class List extends React.Component {
       prefv1: '',
       keywordsSearch: '',
       baseSearchStr: '',
-      filterShowStatus: 1
+      hiddenFilter: false
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1102,7 +1102,14 @@ class List extends React.Component {
         } else {
           this.pageSize = 12;
         }
-
+        console.log(
+          targetRouter,
+          location.pathname,
+          'targetRoutertargetRouter====='
+        );
+        const hiddenFilter =
+          location.pathname == targetRouter.cateRouter &&
+          targetRouter.filterStatus === 0;
         this.setState(
           {
             sortList,
@@ -1133,7 +1140,7 @@ class List extends React.Component {
                 (targetRouter && targetRouter.pageImg) ||
                 (targetRouter && targetRouter.cateImgForList)
             },
-            filterShowStatus: targetRouter?.filterStatus,
+            hiddenFilter,
             breadList,
             isSpecialNeedFilter
           },
@@ -1665,7 +1672,7 @@ class List extends React.Component {
       allPrefv,
       prefv1,
       animalType,
-      filterShowStatus
+      hiddenFilter
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1809,7 +1816,7 @@ class List extends React.Component {
                     zIndex: 3
                   }}
                 >
-                  {filterShowStatus === 0 && !isMobilePhone ? null : (
+                  {hiddenFilter && !isMobilePhone ? null : (
                     <div
                       id="refineBar"
                       className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
@@ -1863,7 +1870,7 @@ class List extends React.Component {
                             />
                           )}
                         </span>
-                        {filterShowStatus === 0 ? null : (
+                        {hiddenFilter ? null : (
                           <em
                             className={`rc-icon rc-filter--xs rc-iconography ${
                               (filterModalVisible && !isTop) ||
@@ -1948,7 +1955,7 @@ class List extends React.Component {
                   )}
                   <div
                     className={`rc-column1 col-12 ${
-                      filterShowStatus === 0 ? 'col-xl-12' : 'col-xl-9'
+                      hiddenFilter ? 'col-xl-12' : 'col-xl-9'
                     } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
                   >
                     {!loading && (
@@ -2023,9 +2030,7 @@ class List extends React.Component {
                                         ? 'col-12 pr-0 pl-md-2 pr-md-2'
                                         : 'col-6 pl-2 pr-2'
                                     } ${
-                                      filterShowStatus === 0
-                                        ? 'col-md-3'
-                                        : 'col-md-4'
+                                      hiddenFilter ? 'col-md-3' : 'col-md-4'
                                     } mb-3 pl-0 BoxFitMonileScreen`}
                                   >
                                     <PLPCover
