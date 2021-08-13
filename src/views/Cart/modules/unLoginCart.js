@@ -879,8 +879,8 @@ class UnLoginCart extends React.Component {
               </div>
               {pitem.sizeList.filter((el) => el.selected)[0]
                 .subscriptionStatus &&
-              pitem.sizeList.filter((el) => el.selected)[0]
-                .subscriptionPrice ? (
+              pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice &&
+              this.totalPrice > 0 ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.promotions || !pitem.promotions.includes('club') ? (
                     <SubscriptionSelection
