@@ -3,7 +3,8 @@ import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import { SubGoodsInfosContext } from './index';
 import { getRemainings } from '@/api/dispenser';
 import { myAccountActionPushEvent } from '@/utils/GA';
-
+import { getDeviceType } from '../../../../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const ButtonBoxGift = () => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
   const {

@@ -1269,9 +1269,7 @@ class AccountOrders extends React.Component {
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
-                                                  {judgeIsIndividual(item)
-                                                    ? item.specDetails + 'x1'
-                                                    : item.specDetails}
+                                                  {item.specDetails}
                                                 </span>
                                                 <span className="rc-md-down">
                                                   {judgeIsIndividual(item) ? (

@@ -879,8 +879,8 @@ class UnLoginCart extends React.Component {
               </div>
               {pitem.sizeList.filter((el) => el.selected)[0]
                 .subscriptionStatus &&
-              pitem.sizeList.filter((el) => el.selected)[0]
-                .subscriptionPrice ? (
+              pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice &&
+              this.totalPrice > 0 ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.promotions || !pitem.promotions.includes('club') ? (
                     <SubscriptionSelection
@@ -1521,7 +1521,7 @@ class UnLoginCart extends React.Component {
           },
           () => {
             // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            this.handleClickPromotionApply(true);
+            result.code === 'K-000000' && this.handleClickPromotionApply(true);
           }
         );
       }, 4000);

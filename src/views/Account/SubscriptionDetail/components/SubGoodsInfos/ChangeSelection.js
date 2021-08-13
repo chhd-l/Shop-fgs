@@ -9,8 +9,14 @@ import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
-  const { setState, isIndv, isActive, onDateChange, getMinDate, isGift } =
-    SubGoodsInfosValue;
+  const {
+    setState,
+    isIndv,
+    isActive,
+    onDateChange,
+    getMinDate,
+    isGift
+  } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
     case 0:
@@ -46,7 +52,7 @@ const ChangeSelection = ({ el }) => {
               style={{
                 marginTop: '.625rem',
                 display: 'inline-block',
-                paddingLeft: '.625rem',
+                paddingLeft: '1.625rem',
                 fontSize: '1.25rem',
                 width: '50%',
                 float: 'left'
@@ -63,6 +69,8 @@ const ChangeSelection = ({ el }) => {
             style={{
               marginTop: '.625rem',
               display: 'inline-block',
+              // marginLeft: '.625rem',
+
               fontSize: '1.25rem'
             }}
           >
@@ -102,7 +110,7 @@ const ChangeSelection = ({ el }) => {
           style={{
             marginTop: '.625rem',
             display: 'inline-block',
-            marginLeft: '.625rem',
+            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
@@ -135,7 +143,7 @@ const ChangeSelection = ({ el }) => {
           style={{
             marginTop: '.625rem',
             display: 'inline-block',
-            marginLeft: '.625rem',
+            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
