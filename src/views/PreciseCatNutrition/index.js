@@ -236,7 +236,14 @@ class PreciseCatNutrition extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="rc-column" style={isMobile?null:{padding:'0 10% 0 0',marginLeft:'-10%'}}>
+                          <div
+                            className="rc-column"
+                            style={
+                              isMobile
+                                ? null
+                                : { padding: '0 10% 0 0', marginLeft: '-10%' }
+                            }
+                          >
                             <div
                               className=" rc-full-width"
                               style={{ width: '99%' }}
