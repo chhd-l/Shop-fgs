@@ -350,8 +350,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            30 days of complete & balanced diet for adult cat, Recommended diet
-            to limit weight
+            30 days of complete & balanced diet for adult cat,
+            <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
           <LazyLoad>
             <img src={productImg} />

@@ -546,23 +546,20 @@ class Payment extends React.Component {
   handleZeroOrder() {
     const { paymentStore } = this.props;
 
-    //0元订单将paymentMethod面板置为已完成
+    //0元订单情况处理：不需要填写支付信息，将paymentMethod面板置为已完成
     if (this.tradePrice === 0) {
-      //如果当前正在编辑的是paymentInfo,订单变为0元后变成编辑confirmation面板
       if (this.paymentMethodPanelStatus.isEdit) {
+        //如果当前正在编辑的是paymentInfo,隐藏paymentMethod面板去编辑confirmation面板
         paymentStore.setStsToCompleted({
           key: 'paymentMethod'
         });
         paymentStore.setStsToEdit({ key: 'confirmation' });
       } else {
+        //正在编辑其他面板的话只需要将paymentMethod面板隐藏
         paymentStore.setStsToCompleted({
           key: 'paymentMethod'
         });
       }
-    } else {
-      paymentStore.setStsToPrepare({
-        key: 'paymentMethod'
-      });
     }
   }
   initPanelStatus() {
@@ -3361,6 +3358,14 @@ class Payment extends React.Component {
   };
   // 1、点击支付
   clickPay = () => {
+    if (this.tradePrice === 0 && this.isCurrentBuyWaySubscription) {
+      //0元订单中含有订阅商品时不能下单
+      const errMsg = this.props.intl.messages[
+        'checkout.zeroOrder.butSubscription'
+      ];
+      this.showErrorMsg(errMsg);
+      return;
+    }
     if (this.isLogin) {
       this.userBindConsentFun();
     }

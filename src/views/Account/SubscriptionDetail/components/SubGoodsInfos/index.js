@@ -312,8 +312,6 @@ const SubGoodsInfos = ({
                 }}
               >
                 <div className=" row align-items-center">
-
-
                   <div className="col-4 col-md-6">
                     <div
                       className="rc-layout-container rc-five-column direction-column "
@@ -321,12 +319,16 @@ const SubGoodsInfos = ({
                         height: '160px',
                         paddingRight: '60px',
                         paddingTop: '0',
-                        alignItems:'center'
+                        alignItems: 'center'
                       }}
                     >
                       <div
                         className="rc-column flex-layout"
-                        style={{ width: '80%', padding: 0,alignItems:'center' }}
+                        style={{
+                          width: '80%',
+                          padding: 0,
+                          alignItems: 'center'
+                        }}
                       >
                         <div className="img-container">
                           {/* <LazyLoad> */}
@@ -506,10 +508,7 @@ const SubGoodsInfos = ({
                     </div>
                   </div>
                   <div className="col-4 col-md-1" />
-                  <div
-                    className="col-4 col-md-5"
-                    style={{ padding:0 }}
-                  >
+                  <div className="col-4 col-md-5" style={{ padding: 0 }}>
                     <ChangeSelection el={el} />
                   </div>
                 </div>
