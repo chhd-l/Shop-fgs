@@ -167,23 +167,7 @@ class PreciseCatNutrition extends React.Component {
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
                               DID
-                              <div
-                                className="titleRadius"
-                                style={{
-                                  fontSize: 14,
-                                  backgroundColor: 'white',
-                                  color: '#E2001A',
-                                  display: 'inline',
-                                  borderRadius: '50%',
-                                  position: 'absolute',
-                                  top: 7,
-                                  padding: 2,
-                                  fontWeight: 500
-                                }}
-                              >
-                                {' '}
-                                You{' '}
-                              </div>
+
                               <div
                                 style={{
                                   backgroundColor: '#E2001A',
@@ -191,9 +175,29 @@ class PreciseCatNutrition extends React.Component {
                                   display: 'inline',
                                   padding: ' 5px 5px',
                                   margin: '0px 0px 0 20px',
-                                  fontWeight: 300
+                                  fontWeight: 300,
+                                  position:'relative'
                                 }}
                               >
+                                <div
+                                  className="titleRadius"
+                                  style={{
+                                    fontSize: 14,
+                                    backgroundColor: 'white',
+                                    color: '#E2001A',
+                                    display: 'inline',
+                                    borderRadius: '50%',
+                                    position: 'absolute',
+                                    left: -17,
+                                    top: 12,
+                                    padding: 4,
+                                    fontWeight: 500,
+                                    lineHeight:'18px'
+                                  }}
+                                >
+
+                                  You
+                                </div>
                                 {' '}
                                 KNOW?
                               </div>
@@ -236,7 +240,7 @@ class PreciseCatNutrition extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="rc-column" style={isMobile?null:{padding:'0 10% 0 0',marginLeft:'-10%'}}>
+                          <div className="rc-column didYouKnowText">
                             <div
                               className=" rc-full-width"
                               style={{ width: '99%' }}

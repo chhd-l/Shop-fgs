@@ -194,7 +194,7 @@ const LongBanner = () => {
 
                 <div className="value-proposition__container">
                   <div className="row mx-0 justify-content-between rc-text-align-center">
-                    <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
+                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -215,7 +215,7 @@ const LongBanner = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -238,7 +238,7 @@ const LongBanner = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}

@@ -107,14 +107,7 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b
-                                    style={{
-                                      color: '#E2001A',
-                                      fontWeight: 600,
-                                      display: 'block',
-                                      marginTop: '-10%'
-                                    }}
-                                  >
+                                  <b className={"helpComponents-b"} style={{fontWeight:600}}>
                                     Email us
                                     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                   </b>
