@@ -164,6 +164,24 @@ class GoogleTagManager extends React.Component {
           )});`
       });
     }
+
+    // ru 的petstory 需要放在ga执行顺序之后，不然会影响到ga的执行顺序问题
+    if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+      !(function (t) {
+        (window.PetStoryWC = window.PetStoryWC || {}),
+          (window.PetStoryWC.id = t.id || 'ps-widget-' + new Date().getTime());
+        var e = document.createElement('script');
+        e.setAttribute('type', 'text/javascript'),
+          e.setAttribute('src', 'https://corp.petstory.ru/wc.js'),
+          e.setAttribute(
+            'onload',
+            '!function({d:t,k:a,r:s}){PetStoryWC&&PetStoryWC.init&&PetStoryWC.init({draw:t,key:a,reinit:s})}({d:false,k:"' +
+              t.key +
+              '",r:false});'
+          ),
+          document.body.append(e);
+      })({ key: 'd8ba1b22-18c0-4b5b-82f0-3768899fea64' });
+    }
   }
 }
 
