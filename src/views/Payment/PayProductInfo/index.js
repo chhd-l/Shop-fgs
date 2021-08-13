@@ -351,13 +351,11 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <LazyLoad>
-                  <img
-                    className="product-image"
-                    src={el.goodsInfoImg}
-                    alt="product image"
-                  />
-                </LazyLoad>
+                <img
+                  className="product-image"
+                  src={el.goodsInfoImg}
+                  alt="product image"
+                />
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -479,6 +477,7 @@ class PayProductInfo extends React.Component {
     return List;
   }
   handleClickPromotionApply = async (falseCodeAndReRequest) => {
+    let { discount } = this.state;
     try {
       let result = {};
       if (!this.state.promotionInputValue && !falseCodeAndReRequest) return;
@@ -508,7 +507,7 @@ class PayProductInfo extends React.Component {
 
       if (!result.context.promotionFlag || result.context.couponCodeFlag) {
         //表示输入apply promotionCode成功
-        this.state.discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
         this.setState({ discount });
         this.props.sendPromotionCode(this.state.promotionInputValue);
         this.setState({
@@ -535,7 +534,7 @@ class PayProductInfo extends React.Component {
           promotionInputValue: ''
         },
         () => {
-          this.handleClickPromotionApply(true);
+          result.code === 'K-000000' && this.handleClickPromotionApply(true);
         }
       );
     } catch (err) {
