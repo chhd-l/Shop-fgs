@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../QuestionnaireRadio/index.less';
 import { FormContext } from '../QuestionnaireForm';
+import Tooltips from '../tooltips';
 
 export default function RadioGroup({ questionData }) {
   const [checked, setChecked] = useState('');
@@ -27,12 +28,7 @@ export default function RadioGroup({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i className="iconfont iconinfo"></i>
-            <div className="question-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}

@@ -77,45 +77,9 @@ class PreciseRecommendation extends React.Component {
     dataLayer.push(GAData);
   }
   async getProductInfo() {
-    let id = funcUrl({ name: 'id' });
-    if (id) {
-      let productShowInfo = productList[id];
-      this.setState({
-        productShowInfo,
-        loading: false
-      });
-      return;
-    }
-    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
-    if (!paramsString) {
-      this.setState({
-        loading: false
-      });
-      return;
-    }
-    let filters = JSON.parse(paramsString);
-    let params = { filters };
-    // let params = {
-    //   filters: {
-    //     age: '50',
-    //     neutered: true,
-    //     breedCode: 'mixed_breed',
-    //     name: 'test' + Math.random(),
-    //     genderCode: 'male',
-    //     weight: '5',
-    //     petActivityCode: 'low',
-    //     weightGain: 'true',
-    //     bcs: 3,
-    //     lifestyle: 'indoor'
-    //   }
-    // };
-    try {
-      let resObj = await getRecommendationInfo(params);
-      let res = resObj.context;
-      if (resObj.code != 'K-000000') {
-        this.toPFPage();
-        return;
-      }
+    let productString = sessionItemRoyal.get('nutrition-recommendation-filter');
+    let res = productString && JSON.parse(productString);
+    if (res) {
       let productId = res.goodsInfo.goodsInfoNo;
       let productShowInfo = productList[productId];
       let recommData = res;
@@ -125,22 +89,8 @@ class PreciseRecommendation extends React.Component {
         loading: false
       });
       this.handleGA(res);
-    } catch (err) {
-      console.info('err', err);
-      this.setState({
-        loading: false
-      });
-      // this.toPFPage();
     }
   }
-  toPFPage = () => {
-    if (window.__.env.REACT_APP_HUB_URLPREFIX) {
-      let url = `${window.__.env.REACT_APP_HUB_URLPREFIX}/product-finder`;
-      location.href = url;
-    } else {
-      this.props.history.push('/product-finder');
-    }
-  };
 
   componentDidMount() {
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {

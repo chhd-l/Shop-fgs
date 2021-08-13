@@ -542,9 +542,35 @@ class Payment extends React.Component {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
   };
+  //判断是否是0元订单，0元订单的话隐藏paymentMethod
+  handleZeroOrder() {
+    const { paymentStore } = this.props;
+
+    //0元订单将paymentMethod面板置为已完成
+    if (this.tradePrice === 0) {
+      //如果当前正在编辑的是paymentInfo,订单变为0元后变成编辑confirmation面板
+      if (this.paymentMethodPanelStatus.isEdit) {
+        paymentStore.setStsToCompleted({
+          key: 'paymentMethod'
+        });
+        paymentStore.setStsToEdit({ key: 'confirmation' });
+      } else {
+        paymentStore.setStsToCompleted({
+          key: 'paymentMethod'
+        });
+      }
+    } else {
+      paymentStore.setStsToPrepare({
+        key: 'paymentMethod'
+      });
+    }
+  }
   initPanelStatus() {
     const { paymentStore } = this.props;
     const { tid } = this.state;
+
+    //0元订单将paymentMethod面板置为已完成
+    this.handleZeroOrder();
 
     // repay情况下，地址信息不可编辑，直接置为
     if (tid) {
@@ -978,7 +1004,7 @@ class Payment extends React.Component {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
-            encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
+            encryptedSecurityCode: adyenPayParam.encryptedSecurityCode || '',
             shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: window.__.env.REACT_APP_CURRENCY,
             country: window.__.env.REACT_APP_Adyen_country,
@@ -1954,6 +1980,8 @@ class Payment extends React.Component {
   }
 
   savePromotionCode = (promotionCode) => {
+    //如果promotionCode将订单变为0元，0元订单将paymentMethod面板置为已完成
+    this.handleZeroOrder();
     this.setState({
       promotionCode
     });
@@ -2060,7 +2088,7 @@ class Payment extends React.Component {
     localItemRoyal.set('rc-calculation-param', data);
 
     param = {
-      promotionCode: this.state.promotionCode,
+      promotionCode: this.props.checkoutStore.promotionCode,
       purchaseFlag: false, // 购物车: true，checkout: false
       taxFeeData: {
         country: window.__.env.REACT_APP_GA_COUNTRY, // 国家简写 / data.countryName
@@ -3664,6 +3692,8 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
+                    this.tradePrice === 0 ? 'hidden' : ''
+                  } ${
                     paymentMethodPanelStatus.isEdit
                       ? 'border-333'
                       : 'border-transparent'

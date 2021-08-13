@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Selection from '@/components/Selection';
 import { FormattedMessage } from 'react-intl';
 import { FormContext } from '../QuestionnaireForm';
+import Tooltips from '../tooltips';
 
 export default function AgeSelect({ config, questionData }) {
   const [form, setForm] = useState(Array(config.list.length).fill(-1));
@@ -42,12 +43,7 @@ export default function AgeSelect({ config, questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i className="iconfont iconinfo"></i>
-            <div className="question-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}

@@ -79,7 +79,7 @@ class Help extends Component {
             <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
               <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
                 <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
-                  <div>
+                  <div style={{ width: '100%' }}>
                     <b style={{ color: '#0087BD' }}>Par mail</b>
                     <p>Nous vous répondons sous deux jours ouvrés.</p>
                     <div className="rc-margin-top--xs">
