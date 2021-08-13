@@ -264,6 +264,7 @@ class PreciseRecommendation extends React.Component {
     };
 
     return (
+      <>
       <div>
         <Helmet>
           <link rel="canonical" href={pageLink} />
@@ -487,6 +488,7 @@ class PreciseRecommendation extends React.Component {
           <Footer />
         </main>
       </div>
+      </>
     );
   }
 }

@@ -266,7 +266,7 @@ const SubGoodsInfos = ({
                         className="price"
                         style={{
                           display: 'inline-block',
-                          fontSize: '1.25rem',
+                          // fontSize: '1.25rem',
                           fontWeight: '400',
                           textDecoration: 'line-through',
                           verticalAlign: 'middle',
@@ -312,18 +312,21 @@ const SubGoodsInfos = ({
                 }}
               >
                 <div className=" row align-items-center">
+
+
                   <div className="col-4 col-md-6">
                     <div
-                      className="rc-layout-container rc-five-column direction-column"
+                      className="rc-layout-container rc-five-column direction-column "
                       style={{
                         height: '160px',
                         paddingRight: '60px',
-                        paddingTop: '0'
+                        paddingTop: '0',
+                        alignItems:'center'
                       }}
                     >
                       <div
                         className="rc-column flex-layout"
-                        style={{ width: '80%', padding: 0 }}
+                        style={{ width: '80%', padding: 0,alignItems:'center' }}
                       >
                         <div className="img-container">
                           {/* <LazyLoad> */}
@@ -429,7 +432,7 @@ const SubGoodsInfos = ({
                                   className="price"
                                   style={{
                                     display: 'inline-block',
-                                    fontSize: '1.25rem',
+                                    // fontSize: '1.25rem',
                                     fontWeight: '400',
                                     textDecoration: 'line-through',
                                     verticalAlign: 'middle',
@@ -491,9 +494,9 @@ const SubGoodsInfos = ({
                           <div
                             style={{
                               position: 'absolute',
-                              left: '126px',
+                              left: '-2%',
                               whiteSpace: 'nowrap',
-                              top: 0
+                              top: -4
                             }}
                           >
                             <DailyRation rations={el.petsRation} />
@@ -505,7 +508,7 @@ const SubGoodsInfos = ({
                   <div className="col-4 col-md-1" />
                   <div
                     className="col-4 col-md-5"
-                    style={{ paddingLeft: '60px' }}
+                    style={{ padding:0 }}
                   >
                     <ChangeSelection el={el} />
                   </div>
