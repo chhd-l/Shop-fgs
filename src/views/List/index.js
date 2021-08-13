@@ -1104,11 +1104,12 @@ class List extends React.Component {
         }
         console.log(
           targetRouter,
-          location.pathname,
+          this.props.history.location.pathname,
           'targetRoutertargetRouter====='
         );
+        const currPath = this.props.history.location.pathname;
         const hiddenFilter =
-          location.pathname == targetRouter.cateRouter &&
+          currPath == targetRouter.cateRouter &&
           targetRouter.filterStatus === 0;
         this.setState(
           {
