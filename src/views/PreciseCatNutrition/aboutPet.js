@@ -188,20 +188,19 @@ export default function AboutPet() {
     } else {
       if (result.context.next === 'printSPTProducts') {
         try {
-          await getRecommendationInfo({
+          let res = await getRecommendationInfo({
             filters: result.context.filters
           });
+          //跳转页面用
+          sessionItemRoyal.set(
+            'nutrition-recommendation-filter',
+            res.context ? JSON.stringify(res.context) : ''
+          );
         } catch (err) {
           console.log(err);
           setResult('redirectToProductFinder');
           return;
         }
-
-        //跳转页面用
-        sessionItemRoyal.set(
-          'nutrition-recommendation-filter',
-          res.context ? JSON.stringify(res.context) : ''
-        );
       }
       setResult(result.context.next);
       putDataLayer(result.context);
