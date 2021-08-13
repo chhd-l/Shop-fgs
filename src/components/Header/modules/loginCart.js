@@ -52,7 +52,7 @@ class LoginCart extends React.Component {
   get cartData() {
     return this.props.checkoutStore.loginCartData
       .slice()
-      ?.filter((el) => el.goodsInfoFlag != 3); //indv的商品需要被过滤掉
+      ?.filter((el) => !el.isNotShowCart); //isNotShowCart 直接checkout的商品，不在购物车显示需要被过滤掉
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];

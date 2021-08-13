@@ -22,6 +22,9 @@ const nullTaxFeeData = {
 const getLoginData = (data) => {
   // 登录情况下，有indv数据，直接到checkout页面下单
   let cartData = data || localItemRoyal.get('rc-cart-data-login') || [];
+  cartData.forEach((el) => {
+    el.isNotShowCart = el.goodsInfoFlag == 3;
+  });
   let indvData = cartData.find((el) => el.goodsInfoFlag == 3);
   if (indvData) {
     cartData = [indvData];
@@ -190,7 +193,10 @@ class CheckoutStore {
 
   @action.bound
   setCartData(data) {
-    this.cartData = data;
+    this.cartData = data?.map((el) => {
+      el.isNotShowCart = el.goodsInfoFlag == 3;
+      return el;
+    });
     localItemRoyal.set('rc-cart-data', data);
   }
 

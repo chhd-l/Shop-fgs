@@ -43,8 +43,8 @@ class UnloginCart extends React.Component {
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter(
-      (ele) => ele.selected && ele.goodsInfoFlag != 3
-    ); //indv的商品需要被过滤掉
+      (ele) => ele.selected && !ele.isNotShowCart
+    ); //isNotShowCart 直接checkout的商品，不在购物车显示需要被过滤掉
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];
