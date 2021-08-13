@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
+import { getRecommendationInfo } from '@/api/productFinder';
 
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
@@ -119,7 +120,6 @@ export default function AboutPet() {
   };
   const goNext = async () => {
     setLoading(true);
-    console.log(isMobile);
     if (isMobile) toScroll('aboutPet');
     //改变字符串true false 为bool
     let questionParams = { ...childRef.current.formData };
@@ -188,10 +188,17 @@ export default function AboutPet() {
       }
     } else {
       if (result.context.next === 'printSPTProducts') {
+        let res = await getRecommendationInfo({
+          filters: result.context.filters
+        });
+        if (res.code !== 'K-000000') {
+          setResult('redirectToProductFinder');
+          return;
+        }
         //跳转页面用
         sessionItemRoyal.set(
           'nutrition-recommendation-filter',
-          result.context.filters ? JSON.stringify(result.context.filters) : ''
+          res.context ? JSON.stringify(res.context) : ''
         );
       }
       setResult(result.context.next);
@@ -206,7 +213,12 @@ export default function AboutPet() {
     let querySteps = [...perStep];
     querySteps.splice(querySteps.length - 1, 1);
 
-    setDefaultValue(perStep[perStep.length - 1].questionParams);
+    let defaultValue = perStep[perStep.length - 1].questionParams;
+    if (defaultValue.neutered === true || defaultValue.neutered === false) {
+      defaultValue.neutered = String(defaultValue.neutered);
+    }
+    console.log(defaultValue);
+    setDefaultValue(defaultValue);
     if (step > 2) {
       setLoading(true);
       let result = await getNextStep({
@@ -306,7 +318,6 @@ export default function AboutPet() {
               <div>
                 <button
                   className="rc-btn rc-btn--one question-button"
-                  type="submit"
                   onClick={(e) => {
                     e.preventDefault();
                     goNext();

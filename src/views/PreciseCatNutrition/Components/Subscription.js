@@ -68,9 +68,7 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
-                      <p
-                        className="rc-margin-bottom--none subscriptionSomeFontsize"
-                      >
+                      <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         Automatic & flexible delivery at door every month
                         {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
                       </p>
@@ -156,9 +154,7 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
-                      <p
-                        className="rc-margin-bottom--none subscriptionSomeFontsize"
-                      >
+                      <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         Enjoy a loyalty program with exclusive gift to stimulate
                         your pet
                         {/*<FormattedMessage*/}
@@ -186,9 +182,7 @@ const subscription = () => {
                       </LazyLoad>
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
-                      <p
-                        className="rc-margin-bottom--none subscriptionSomeFontsize"
-                      >
+                      <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         Tailored professional advice & tips
                         {/*<FormattedMessage*/}
                         {/*  id={'ClubLP.SubscriptionBenefitsNew.icon5'}*/}

@@ -1481,7 +1481,9 @@ const ru_RU = {
     'Discover the adapted recipe and the exact ration for your cat',
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
-  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'checkout.zeroOrder.butSubscription':
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
 };
 
 export default ru_RU;

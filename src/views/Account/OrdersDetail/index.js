@@ -1181,8 +1181,8 @@ class AccountOrders extends React.Component {
                                   <span className="medium">
                                     {filterOrderId({
                                       orderNo: this.state.orderNumber,
-                                      orderNoForOMS: this.state
-                                        .orderNumberForOMS
+                                      orderNoForOMS:
+                                        this.state.orderNumberForOMS
                                     })}
                                   </span>
                                 </div>
@@ -1269,9 +1269,7 @@ class AccountOrders extends React.Component {
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
-                                                  {judgeIsIndividual(item)
-                                                    ? item.specDetails + 'x1'
-                                                    : item.specDetails}
+                                                  {item.specDetails}
                                                 </span>
                                                 <span className="rc-md-down">
                                                   {judgeIsIndividual(item) ? (
@@ -1310,9 +1308,9 @@ class AccountOrders extends React.Component {
                                                           {filterOrderId({
                                                             orderNo:
                                                               el.subscribeId,
-                                                            orderNoForOMS: this
-                                                              .state
-                                                              .orderNumberForOMS
+                                                            orderNoForOMS:
+                                                              this.state
+                                                                .orderNumberForOMS
                                                           })}
                                                         </Link>
                                                       </p>

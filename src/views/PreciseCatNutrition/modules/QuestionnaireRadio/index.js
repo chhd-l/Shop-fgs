@@ -4,6 +4,7 @@ import { FormContext } from '../QuestionnaireForm';
 import radioImage from '../../../../assets/images/preciseCatNutrition/radio.png';
 import radioImage1 from '../../../../assets/images/preciseCatNutrition/radio1.png';
 import radioImage2 from '../../../../assets/images/preciseCatNutrition/radio2.png';
+import Tooltips from '../tooltips';
 
 let imgMap = {
   3: radioImage1,
@@ -37,12 +38,7 @@ export default function QuestionnaireRadio({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i className="iconfont iconinfo"></i>
-            <div className="question-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}

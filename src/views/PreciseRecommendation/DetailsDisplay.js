@@ -39,6 +39,7 @@ class DetailsDisplay extends React.Component {
           style={
             modalShow
               ? {
+                  top:'auto',
                   width: '100vw',
                   height: '780vh',
                   position: 'fixed',
@@ -47,7 +48,7 @@ class DetailsDisplay extends React.Component {
                   background: '#000',
                   opacity: '0.80'
                 }
-              : {}
+              : { top:'auto'}
           }
         ></div>
         <div className="row rc-margin-x--none">
@@ -241,7 +242,7 @@ class DetailsDisplay extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-left rc-margin-y--none rc-padding-x--sm--desktop">
                         <a
-                          type="button"
+                          // type="button"
                           className="mb-3 rc-padding-x--md--mobile"
                           style={{
                             fontWeight: '550',

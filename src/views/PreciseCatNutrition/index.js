@@ -121,19 +121,19 @@ class PreciseCatNutrition extends React.Component {
           {/*{this.state.loading ? <Loading /> : null}*/}
           <main className={'rc-content--fixed-header'}>
             <BannerTip />
-            <div
-              style={{
-                textAlign: 'center',
-                height: '42px',
-                backgroundColor: '#F6F6F6',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <div style={{ alignSelf: 'center', color: '#E2001A' }}>
-                <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>
-              </div>
-            </div>
+            {/*<div*/}
+            {/*  style={{*/}
+            {/*    textAlign: 'center',*/}
+            {/*    height: '42px',*/}
+            {/*    backgroundColor: '#F6F6F6',*/}
+            {/*    display: 'flex',*/}
+            {/*    justifyContent: 'center'*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <div style={{ alignSelf: 'center', color: '#E2001A' }}>*/}
+            {/*    <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
 
             <LongBanner />
             {/*<div style={{*/}
@@ -225,9 +225,7 @@ class PreciseCatNutrition extends React.Component {
                               className="lazyload-wrapper"
                               style={{
                                 display: 'flex',
-                                justifyContent: isMobile
-                                  ? 'center'
-                                  : 'flex-end',
+                                justifyContent: 'center',
                                 with: '100%'
                               }}
                             >
@@ -238,7 +236,7 @@ class PreciseCatNutrition extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="rc-column">
+                          <div className="rc-column" style={isMobile?null:{padding:'0 10% 0 0',marginLeft:'-10%'}}>
                             <div
                               className=" rc-full-width"
                               style={{ width: '99%' }}
@@ -511,9 +509,9 @@ class PreciseCatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition">
                         <div>
-                          <h4 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
                             Address
                             {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                           </h4>

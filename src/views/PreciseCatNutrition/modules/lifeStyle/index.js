@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../RadioButton/index.less';
 import { FormContext } from '../QuestionnaireForm';
+import Tooltips from '../tooltips';
 
 export default function LifeStyle({ questionData, id }) {
   const [checked, setChecked] = useState('');
@@ -47,12 +48,7 @@ export default function LifeStyle({ questionData, id }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i className="iconfont iconinfo"></i>
-            <div className="question-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}

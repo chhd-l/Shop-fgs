@@ -40,9 +40,7 @@ const HowItWorks = () => {
                           {/*  className="m-auto w-auto lazyloaded"*/}
                           {/*  src={temp}/>*/}
 
-                          <div
-                            className="howItWorkImg"
-                          >
+                          <div className="howItWorkImg">
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={introTBRHNC}
@@ -71,7 +69,7 @@ const HowItWorks = () => {
                       >
                         <div className="howItWorkNum">2</div>
                         <LazyLoad>
-                          <div className='howItWorkImg'>
+                          <div className="howItWorkImg">
                             <img
                               className="m-auto w-auto lazyloaded"
                               src={subscribe}
@@ -99,8 +97,8 @@ const HowItWorks = () => {
                       >
                         <div className="howItWorkNum">3</div>
                         <LazyLoad>
-                          <div className='howItWorkImg'>
-                          <img
+                          <div className="howItWorkImg">
+                            <img
                               className="m-auto w-auto lazyloaded"
                               src={stayIC}
                             />
@@ -126,8 +124,8 @@ const HowItWorks = () => {
                       >
                         <div className="howItWorkNum">4</div>
                         <LazyLoad>
-                          <div className='howItWorkImg'>
-                          <img
+                          <div className="howItWorkImg">
+                            <img
                               className="m-auto w-auto lazyloaded"
                               src={group}
                             />
