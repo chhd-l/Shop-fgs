@@ -1001,13 +1001,13 @@ class Payment extends React.Component {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
             browserInfo: this.props.paymentStore.browserInfo,
-            encryptedSecurityCode: adyenPayParam.encryptedSecurityCode || '',
+            encryptedSecurityCode: adyenPayParam?.encryptedSecurityCode || '',
             shopperLocale: window.__.env.REACT_APP_SHOPPER_LOCALE || 'en_US',
             currency: window.__.env.REACT_APP_CURRENCY,
             country: window.__.env.REACT_APP_Adyen_country,
             payPspItemEnum: 'ADYEN_CREDIT_CARD'
           });
-          if (adyenPayParam.paymentToken) {
+          if (adyenPayParam?.paymentToken) {
             parameters = Object.assign(parameters, {
               paymentMethodId: adyenPayParam.id
             });
@@ -1108,7 +1108,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       let parameters = await this.getAdyenPayParam(type);
-      // console.log('666 获取参数: ', parameters);
+      console.log('666 获取参数: ', parameters);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
       console.warn(err);
@@ -3370,6 +3370,7 @@ class Payment extends React.Component {
       this.userBindConsentFun();
     }
     const { paymentTypeVal } = this.state;
+    console.log('paymentTypeVal:', paymentTypeVal);
     this.initCommonPay({
       type: paymentTypeVal
     });
