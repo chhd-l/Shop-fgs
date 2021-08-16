@@ -617,7 +617,7 @@ const de_DE = {
   'order.inputOrderNumberTip': 'Bitte Bestellnummer eingeben',
   'order.inputReturnNumberTip': 'Bitte Rücksendenummer eingeben',
   'order.inTranistTip':
-    'Ihre Bestellung wurde versendet und Sie erhalten das Produkt bald. {val}',
+    'Ihre Bestellung wurde versandt. Sie wird in Kürze bei Ihnen eintreffen. {val}',
   'order.iVAIncluido': '',
   'order.noDataTip': 'Keine Daten',
   'order.orderDate': 'Auftragsdatum',
