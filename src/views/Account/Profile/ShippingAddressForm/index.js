@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import CitySearchSelection from '@/components/CitySearchSelection';
+// import CitySearchSelection from '@/components/CitySearchSelection';
 import ValidationAddressModal from '@/components/validationAddressModal';
 import EditForm from '@/components/Form';
 import Loading from '@/components/Loading';
@@ -15,7 +15,7 @@ import {
 } from '@/api/address';
 import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 // import { ADDRESS_RULE } from '@/utils/constant';
-import Selection from '@/components/Selection';
+// import Selection from '@/components/Selection';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { myAccountActionPushEvent } from '@/utils/GA';
@@ -333,8 +333,9 @@ class ShippingAddressFrom extends React.Component {
     return el.offsetTop;
   }
 
+  // 取消添加或者编辑地址
   handleCancel = () => {
-    this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
+    this.props.cancelEditForm();
   };
 
   validFormData = async () => {

@@ -5,14 +5,24 @@ import Loading from '@/components/Loading';
 import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
-import classNames from 'classnames';
-import { getAddressList, deleteAddress, setDefaltAddress } from '@/api/address';
-import { queryCityNameById } from '@/api/address';
+// import classNames from 'classnames';
+import {
+  saveAddress,
+  editAddress,
+  getAddressList,
+  deleteAddress,
+  setDefaltAddress
+} from '@/api/address';
+// import { queryCityNameById } from '@/api/address';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import HomeDeliveryOrPickUp from '@/components/HomeDeliveryOrPickUp';
 import { myAccountPushEvent, myAccountActionPushEvent } from '@/utils/GA';
 
+import './AddressList.less';
+
 const isPad = getDeviceType() === 'Pad';
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const addressFormNull = {
   firstName: '',
@@ -30,6 +40,7 @@ const addressFormNull = {
   comment: ''
 };
 
+// 地址项
 function CardItem(props) {
   const { data } = props;
   // 获取本地存储的需要显示的地址字段
@@ -38,53 +49,78 @@ function CardItem(props) {
 
   return (
     <div
-      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100"
+      className={`${
+        isMobile ? '' : 'd-flex'
+      } rc-bg-colour--brand4 rounded p-4 pl-3 pr-3 h-100 card_item_border justify-content-between ${
+        props.data.selected ? 'selected' : ''
+      }`}
       onClick={props.handleClickCoverItem}
     >
-      <div
-        className="position-absolute d-flex align-items-center"
-        style={{ right: '4%', top: '7%', zIndex: 9 }}
-      >
-        {props.operateBtnJSX}
-      </div>
-
-      <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
+      {/* <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
         {data.type === 'DELIVERY' ? (
           <FormattedMessage id="deliveryAddress" />
         ) : (
           <FormattedMessage id="billingAddress" />
         )}
-      </div>
-      <div>
-        {/* 姓名 */}
-        <div className="ccard-phone-title word-break">
-          <div className="address-name mp_mb_name">
-            <span>{data.firstName + ' ' + data.lastName}</span>
-          </div>
-        </div>
-        {/* 电话 */}
-        <p className="mb-0 mp_mb_tel">{data.consigneeNumber}</p>
-        {/* 国家 */}
-        {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
-          <p className="mb-0 mp_mb_country">{props.countryName}</p>
-        )}
-        {/* 地址 */}
-        <p className="mb-0 mp_mb_address1">{data.address1}</p>
+      </div> */}
+      <div className={`d-flex flex-wrap ${isMobile ? 'mb-3' : ''}`}>
+        {props.receiveType == 'PICK_UP' ? (
+          <>
+            {/* 自提点 */}
+            <div className="rc-full-width font-weight-normal mb-1 mp_mb_address1">
+              {data.pickupName}
+            </div>
+            {/* 地址 */}
+            <div className="rc-full-width mb-0 mp_mb_address1">
+              {data.address1}
+            </div>
+            {/* 营业时间 */}
+            <div className="rc-full-width mb-0 mp_mb_address1">
+              {data.workTime}
+            </div>
+          </>
+        ) : (
+          <>
+            {/* 姓名 */}
+            <div className="rc-full-width font-weight-normal ccard-phone-title word-break  mb-1">
+              <div className="address-name mp_mb_name">
+                <span>{data.firstName + ' ' + data.lastName}</span>
+              </div>
+            </div>
+            {/* 电话 */}
+            <div className="rc-full-width mb-0 mp_mb_tel">
+              {data.consigneeNumber}
+            </div>
+            {/* 国家 */}
+            {window.__.env.REACT_APP_COUNTRY == 'us' ? null : (
+              <div className="rc-full-width mb-0 mp_mb_country">
+                {props.countryName}
+              </div>
+            )}
+            {/* 地址 */}
+            <div className="rc-full-width mb-0 mp_mb_address1">
+              {data.address1}
+            </div>
 
-        {localAddressForm['address2'] && data.address2 && (
-          <p className="mb-0 mp_mb_address2">{data.address2}</p>
-        )}
+            {localAddressForm['address2'] && data.address2 && (
+              <div className="rc-full-width mb-0 mp_mb_address2">
+                {data.address2}
+              </div>
+            )}
 
-        <p className="mb-0 mp_mb_cpp">
-          {/* 城市 */}
-          {localAddressForm['city'] && data.city + ', '}
-          {localAddressForm['region'] && data.area + ', '}
-          {/* 省份 */}
-          {localAddressForm['state'] && data.province + ' '}
-          {/* 邮编 */}
-          {localAddressForm['postCode'] && data.postCode}
-        </p>
+            <div className="rc-full-width mb-0 mp_mb_cpp">
+              {/* 城市 */}
+              {localAddressForm['city'] && data.city + ', '}
+              {localAddressForm['region'] && data.area + ', '}
+              {/* 省份 */}
+              {localAddressForm['state'] && data.province + ' '}
+              {/* 邮编 */}
+              {localAddressForm['postCode'] && data.postCode}
+            </div>
+          </>
+        )}
       </div>
+      {props.operateBtnJSX}
     </div>
   );
 }
@@ -98,21 +134,31 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listVisible: false,
-      editFormVisible: false,
+      addressAddOrEditFlag: '', // pickup标记
+      pickupVisible: false,
+      editFormVisible: false, // 显示homeDelivery编辑状态
       loading: false,
       listLoading: false,
+      allAddressList: [],
       addressList: [],
       currentAddressList: [],
       curAddressId: '',
-      fromPage: 'cover',
+
+      foledMore: true, // 控制显示更多
 
       countryList: [],
       errorMsg: '',
-      successMsg: ''
+      successMsg: '',
+
+      showDeliveryOrPickUp: 0, // 控制没有地址时的展示，0：都没有，1：home delivery，2：pickup
+      pickupFormData: {}, // pickup 表单数据
+      defaultCity: '',
+      confirmBtnDisabled: true,
+      saveBtnLoading: false
     };
 
     this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
+    this.handleEditAddress = this.handleEditAddress.bind(this);
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
@@ -126,21 +172,34 @@ class AddressList extends React.Component {
       });
     });
   }
+  // 获取地址列表
   getAddressList = async ({ showLoading = false } = {}) => {
     try {
       const { hideBillingAddr } = this.props;
       showLoading && this.setState({ listLoading: true });
       let res = await getAddressList();
-      let addressList = res.context;
+      let addList = res.context;
+      addList = res.context.filter((item) => {
+        return item.type === 'DELIVERY' && item.receiveType !== 'PICK_UP';
+      });
       //不显示billing address
-      if (hideBillingAddr) {
-        addressList = res.context.filter((item) => {
-          return item.type === 'DELIVERY' && item.receiveType != 'PICK_UP';
-        });
-      }
+      // if (hideBillingAddr) {
+      let allList = res.context.filter((item) => {
+        return item.type !== 'BILLING';
+      });
+      Array.from(allList, (a) => (a.selected = false));
+      // }
 
+      let pkdata = res.context.filter(
+        (item) => item?.receiveType === 'PICK_UP'
+      );
+      if (pkdata?.length) {
+        pkdata = pkdata[0];
+      }
       this.setState({
-        addressList,
+        allAddressList: allList,
+        pickupFormData: pkdata,
+        addressList: addList,
         listLoading: false
       });
     } catch (err) {
@@ -148,6 +207,11 @@ class AddressList extends React.Component {
       this.setState({ listLoading: false });
     }
   };
+  // 显示更多
+  toggleFoldBtn = () => {
+    this.setState((curState) => ({ foledMore: !curState.foledMore }));
+  };
+  // 显示错误信息
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg
@@ -159,36 +223,62 @@ class AddressList extends React.Component {
       });
     }, 4000);
   };
+  // 改变地址模块状态
   changeEditFormVisible = (status) => {
-    this.setState({ editFormVisible: status, curAddressId: '' });
-    this.props.updateEditOperationPanelName(status ? 'My addresses' : '');
+    this.setState({
+      editFormVisible: status,
+      curAddressId: ''
+    });
+    // this.props.updateEditOperationPanelName(status ? 'My addresses' : '');
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  changeListVisible = (status) => {
-    this.setState({ listVisible: status });
-    this.props.updateEditOperationPanelName(status ? 'My addresses' : '');
-  };
+  // 回到顶部
   scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  handleClickEditBtn = () => {
-    this.scrollToTop();
-    this.changeListVisible(true);
-    this.setState({ fromPage: 'cover' });
-  };
-  handleClickCoverItem(item, fromPage) {
-    this.changeEditFormVisible(true);
-    this.setState({ curAddressId: item.deliveryAddressId, fromPage });
+  // 选择地址项并设置边框
+  handleClickCoverItem(item) {
+    const { allAddressList } = this.state;
+    let dliveryId = item.deliveryAddressId;
+    Array.from(allAddressList, (a) => (a.selected = false));
+    allAddressList.map((e) => {
+      if (e.deliveryAddressId == dliveryId) {
+        e.selected = true;
+      }
+    });
+    this.setState({
+      allAddressList: allAddressList
+    });
+    this.setState({ curAddressId: dliveryId });
   }
-  handleHideEditForm = ({ closeListPage }) => {
+  // 编辑地址
+  handleEditAddress(item) {
+    if (item.receiveType == 'PICK_UP') {
+      this.setState({
+        defaultCity: item.city,
+        pickupVisible: true,
+        editFormVisible: false
+      });
+      this.scrollToTop();
+    } else {
+      this.changeEditFormVisible(true);
+      this.setState({
+        curAddressId: item.deliveryAddressId
+      });
+    }
+    this.setState({
+      addressAddOrEditFlag: 'edit'
+    });
+  }
+  // 取消编辑或者新增地址
+  cancelEditForm = () => {
     this.changeEditFormVisible(false);
-    this.changeListVisible(!closeListPage); // 是否关闭list页面，如果是从封面过来
   };
   // 获取保存地址返回的提示成功信息
   getSuccessMsg = (msg) => {
@@ -202,34 +292,31 @@ class AddressList extends React.Component {
       });
     }, 5000);
   };
-  handleClickAddBtn(fromPage) {
-    myAccountPushEvent('Addresses');
-    this.changeEditFormVisible(true);
-    this.setState({ fromPage });
-  }
-  updateConfirmTooltipVisible = (el, status) => {
-    let { addressList } = this.state;
+  // 删除地址弹框
+  deleteConfirmTooltipVisible = (el, status) => {
+    let { allAddressList } = this.state;
     el.confirmTooltipVisible = status;
     this.setState({
-      addressList
+      allAddressList
     });
   };
+  // 删除地址
   handleClickDeleteBtn(data, e) {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    this.updateConfirmTooltipVisible(data, true);
+    this.deleteConfirmTooltipVisible(data, true);
   }
   async deleteCard(el, e) {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    let { addressList } = this.state;
+    let { allAddressList } = this.state;
     el.confirmTooltipVisible = false;
     this.scrollToTop();
     this.setState({
       listLoading: true,
-      addressList
+      allAddressList
     });
     await deleteAddress({ id: el.deliveryAddressId })
       .then(() => {
@@ -244,18 +331,12 @@ class AddressList extends React.Component {
         });
       });
   }
-  handleClickGoBack = () => {
-    this.changeEditFormVisible(false);
-    this.changeListVisible(this.state.fromPage === 'list');
-    // 最后一次返回cover
-    this.setState({ fromPage: 'cover' });
-  };
   // 添加地址按钮
-  addBtnJSX = ({ fromPage }) => {
+  addBtnJSX = (receiveType) => {
     return (
       <div
-        className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
-        onClick={this.handleClickAddBtn.bind(this, fromPage)}
+        className="rounded p-3 border h-100 d-flex align-items-center justify-content-center"
+        onClick={this.handleClickAddBtn.bind(this, receiveType)}
         ref={(node) => {
           if (node) {
             node.style.setProperty('border-width', '.1rem', 'important');
@@ -263,12 +344,34 @@ class AddressList extends React.Component {
           }
         }}
       >
-        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" />
-        <FormattedMessage id="addANewAddress" />
+        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-2 mr-1" />
+        {receiveType === 'PICK_UP' ? (
+          <FormattedMessage id="payment.addPickup" />
+        ) : (
+          <FormattedMessage id="addANewAddress" />
+        )}
       </div>
     );
   };
+  // 新增地址按钮
+  handleClickAddBtn(receiveType) {
+    if (receiveType == 'PICK_UP') {
+      this.setState({
+        pickupVisible: true,
+        editFormVisible: false
+      });
+      this.scrollToTop();
+    } else {
+      myAccountPushEvent('Addresses');
+      this.changeEditFormVisible(true);
+    }
+    this.setState({
+      addressAddOrEditFlag: 'add'
+    });
+  }
+  // 设置默认地址
   async toggleSetDefault(item, e) {
+    this.setState({ loading: true });
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -276,31 +379,286 @@ class AddressList extends React.Component {
       await setDefaltAddress({ deliveryAddressId: item.deliveryAddressId });
       this.getAddressList({ showLoading: false });
     }
+    this.setState({ loading: false });
   }
+  // 标题
+  addressTypePanel = (str) => {
+    let fmsg = '';
+    switch (str) {
+      case 'homeDelivery':
+        fmsg = 'payment.homeDelivery';
+        break;
+      case 'addANewAddress':
+        fmsg = 'addANewAddress';
+        break;
+      case 'edit':
+        fmsg = 'edit';
+        break;
+      case 'pickup':
+        fmsg = 'payment.pickupDelivery';
+        break;
+      case 'addPickup':
+        fmsg = 'payment.addPickup';
+        break;
+      case 'changePickup':
+        fmsg = 'payment.changePickup';
+        break;
+    }
+    return (
+      <div
+        className={`col-12 p-2 text-left address_title_pannel ${
+          str == 'pickup' ? 'mt-3' : ''
+        }`}
+      >
+        {<FormattedMessage id={fmsg} />}
+      </div>
+    );
+  };
+  // 显示更多地址
+  showMoreAddressBtn = () => {
+    const { foledMore } = this.state;
+    return (
+      <div
+        className="text-center pt-2 pb-2 ui-cursor-pointer show_more_address"
+        onClick={this.toggleFoldBtn}
+      >
+        <span>
+          {foledMore ? (
+            <>
+              <FormattedMessage id="moreAddress" />
+              &nbsp;
+              <b className="addr-switch switch-on" />
+            </>
+          ) : (
+            <>
+              <FormattedMessage id="unfoldAddress" />
+              <b className="addr-switch switch-off" />
+            </>
+          )}
+        </span>
+      </div>
+    );
+  };
+  // 地址项详细
+  addressItemDetail = (item, i) => {
+    const { countryList } = this.state;
+    return (
+      <CardItem
+        data={item}
+        receiveType={item.receiveType}
+        operateBtnJSX={
+          <div className="d-flex flex-column justify-content-between">
+            {/* 设置默认地址按钮 */}
+            <div className="d-flex justify-content-end mb-3">
+              <div className="align-items-center">
+                <div className="rc-input rc-input--inline mr-0">
+                  <input
+                    type="radio"
+                    id={item.deliveryAddressId}
+                    className="rc-input__radio"
+                    checked={item.isDefaltAddress === 1 ? true : false}
+                    name="setDefaultAddress"
+                    value={item.deliveryAddressId}
+                    onChange={this.toggleSetDefault.bind(this, item)}
+                  />
+                  <label
+                    className="rc-input__label--inline"
+                    htmlFor={item.deliveryAddressId}
+                  >
+                    <FormattedMessage id="default" />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* 删除和编辑按钮 */}
+            <div className="d-flex justify-content-end mb-0">
+              <div className="d-flex align-items-center">
+                {/* 删除按钮 */}
+                <span className="position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box">
+                  <span
+                    className="rc-styled-link"
+                    onClick={this.handleClickDeleteBtn.bind(this, item)}
+                    style={
+                      isPad
+                        ? {
+                            position: 'absolute',
+                            top: '1.25rem',
+                            right: '1.5rem'
+                          }
+                        : {}
+                    }
+                  >
+                    <FormattedMessage id="delete" />
+                  </span>
+                  {/* 删除询问弹框 */}
+                  <ConfirmTooltip
+                    containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                    arrowStyle={{ left: '89%' }}
+                    display={item.confirmTooltipVisible}
+                    confirm={this.deleteCard.bind(this, item)}
+                    updateChildDisplay={(status) =>
+                      this.deleteConfirmTooltipVisible(item, status)
+                    }
+                    content={<FormattedMessage id="confirmDeleteAddress" />}
+                  />
+                </span>
+
+                {/* 编辑按钮 */}
+                <button
+                  className={`rc-btn rc-btn--sm rc-btn--two`}
+                  onClick={this.handleEditAddress.bind(this, item)}
+                >
+                  {item.receiveType === 'PICK_UP' ? (
+                    <FormattedMessage id="payment.changePickup" />
+                  ) : (
+                    <FormattedMessage id="edit" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+        handleClickCoverItem={this.handleClickCoverItem.bind(this, item)}
+        countryName={matchNamefromDict(countryList, item.countryId)}
+      />
+    );
+  };
+
+  // ************ pick up 相关
+  // 更新pickup数据
+  updatePickupData = (data) => {
+    this.setState({
+      pickupFormData: data
+    });
+  };
+  // 修改按钮状态
+  updateConfirmBtnDisabled = (flag) => {
+    this.setState({
+      confirmBtnDisabled: flag
+    });
+  };
+  // 取消新增或者编辑pickup
+  handleCancelEditOrAddPickup = () => {
+    this.setState(
+      {
+        addressAddOrEditFlag: '',
+        pickupVisible: false
+      },
+      () => {
+        this.scrollToTop();
+      }
+    );
+  };
+  // 更新 showDeliveryOrPickUp
+  updateDeliveryOrPickup = (num) => {
+    this.setState({
+      showDeliveryOrPickUp: num
+    });
+  };
+  // 确认 pickup
+  clickConfirmPickup = async () => {
+    const { countryList, allAddressList, pickupFormData } = this.state;
+    this.setState({
+      saveBtnLoading: true,
+      loading: true
+    });
+    try {
+      let receiveType = pickupFormData.receiveType;
+      // 查询地址列表，筛选 pickup 地址
+      let pkaddr = pickupFormData?.pickup?.address || null;
+      let deliveryAdd = Object.assign(
+        {},
+        {
+          firstName: pickupFormData.firstName,
+          lastName: pickupFormData.lastName,
+          consigneeNumber: pickupFormData.phoneNumber,
+          consigneeName:
+            pickupFormData.firstName + ' ' + pickupFormData.lastName,
+          address1: pickupFormData.address1,
+          deliveryAddress: pickupFormData.address1,
+          city: pickupFormData.city,
+          comment: pickupFormData.comment,
+          pickupPrice: pickupFormData?.pickupPrice,
+          pickupDescription: pickupFormData?.pickupDescription,
+          pickupCode: pickupFormData?.pickupCode, // 快递公司code
+          pickupName: pickupFormData?.pickupName, // 快递公司
+          workTime: pickupFormData.workTime, // 快递公司上班时间
+          receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
+          deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
+          type: 'DELIVERY',
+          country: countryList[0].value,
+          countryId: countryList[0].id,
+          isDefaltAddress: pickupFormData?.isDefaltAddress,
+          minDeliveryTime: pickupFormData.minDeliveryTime,
+          maxDeliveryTime: pickupFormData.maxDeliveryTime,
+          workTime: pickupFormData.workTime,
+          province: pkaddr?.region || pickupFormData.province,
+          provinceIdStr: pkaddr?.regionFias || pickupFormData.provinceIdStr,
+          provinceCode: pickupFormData?.provinceCode,
+          cityIdStr: pkaddr?.cityFias || pickupFormData.cityIdStr,
+          areaIdStr: pkaddr?.areaFias || pickupFormData.areaIdStr,
+          settlementIdStr:
+            pkaddr?.settlementFias || pickupFormData.settlementIdStr,
+          postalCode: pkaddr?.zip || pickupFormData.postCode
+        }
+      );
+
+      let pickupAddress = allAddressList.filter(
+        (e) => e.receiveType == 'PICK_UP'
+      );
+      // 判断是否存在有 pickup 地址
+      const tmpPromise = pickupAddress.length ? editAddress : saveAddress;
+      if (pickupAddress.length) {
+        deliveryAdd.deliveryAddressId = pickupAddress[0].deliveryAddressId;
+        deliveryAdd.customerId = pickupAddress[0].customerId;
+      }
+
+      let res = await tmpPromise(deliveryAdd);
+      if (res.context?.deliveryAddressId) {
+        this.scrollToTop();
+        this.getAddressList();
+        this.handleCancelEditOrAddPickup();
+      }
+    } catch (err) {
+      this.scrollToTop();
+      this.showErrorMsg(err.message);
+    } finally {
+      this.setState({
+        saveBtnLoading: false,
+        loading: false
+      });
+    }
+  };
   render() {
     const {
-      listVisible,
+      foledMore,
+      addressAddOrEditFlag,
+      pickupVisible,
       editFormVisible,
       addressList,
+      allAddressList,
       listLoading,
       loading,
-      countryList,
-      errorMsg
+      errorMsg,
+      showDeliveryOrPickUp,
+      defaultCity,
+      confirmBtnDisabled,
+      saveBtnLoading,
+      pickupFormData
     } = this.state;
-    const curPageAtCover = !listVisible && !editFormVisible;
+
     return (
       <div>
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div className={classNames({ border: curPageAtCover })}>
+          <div className="border">
             {loading ? <Loading positionAbsolute="true" /> : null}
             <div className="personalInfo">
+              {/* 地址模块标题 */}
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                <h5
-                  className="mb-0"
-                  style={{ display: curPageAtCover ? 'block' : 'none' }}
-                >
+                <h5 className="mb-0">
                   <svg
                     className="svg-icon account-info-icon align-middle mr-3 ml-1"
                     aria-hidden="true"
@@ -309,44 +667,14 @@ class AddressList extends React.Component {
                   </svg>
                   <FormattedMessage id="account.myAddresses" />
                 </h5>
-                <h5
-                  className="ui-cursor-pointer"
-                  style={{ display: curPageAtCover ? 'none' : 'block' }}
-                  onClick={this.handleClickGoBack}
-                >
-                  <span>&larr; </span>
-                  <FormattedMessage id="account.myAddresses" />
-                </h5>
-
-                <FormattedMessage id="edit">
-                  {(txt) => (
-                    <button
-                      className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
-                        listVisible || editFormVisible ? 'hidden' : ''
-                      }`}
-                      name="personalInformation"
-                      id="personalInfoEditBtn"
-                      title={txt}
-                      alt={txt}
-                      onClick={this.handleClickEditBtn}
-                    >
-                      {txt}
-                    </button>
-                  )}
-                </FormattedMessage>
               </div>
-              <hr
-                className={classNames('account-info-hr-border-color', {
-                  'border-0': listVisible || editFormVisible
-                })}
-              />
-              <div
-                className={classNames(
-                  'pb-3',
-                  { 'pl-3': curPageAtCover },
-                  { 'pr-3': curPageAtCover }
-                )}
-              >
+
+              {/* 分割线 */}
+              <hr className="account-info-hr-border-color" />
+
+              {/* 地址部分 */}
+              <div className="pb-3 pl-3 pr-3">
+                {/* 错误提示信息 */}
                 <div
                   className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                     errorMsg ? '' : 'hidden'
@@ -371,6 +699,7 @@ class AddressList extends React.Component {
                   </aside>
                 </div>
 
+                {/* 成功提示信息 */}
                 <aside
                   className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
                     this.state.successMsg ? '' : 'hidden'
@@ -382,152 +711,136 @@ class AddressList extends React.Component {
                   </p>
                 </aside>
 
-                {/* preview form */}
-                <div
-                  className={classNames('row', 'ml-0', 'mr-0', {
-                    hidden: editFormVisible || listVisible
-                  })}
-                >
-                  {addressList.slice(0, 2).map((item, i) => (
-                    <div
-                      className="col-12 col-md-4 pt-2 pb-3 pl-3 pr-2"
-                      key={item.deliveryAddressId}
-                    >
-                      <CardItem
-                        data={item}
-                        handleClickCoverItem={this.handleClickCoverItem.bind(
-                          this,
-                          item,
-                          'cover'
-                        )}
-                        countryName={matchNamefromDict(
-                          countryList,
-                          item.countryId
-                        )}
-                      />
-                    </div>
-                  ))}
-                  {addressList.slice(0, 2).length < 2 && (
-                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
-                      {this.addBtnJSX({ fromPage: 'cover' })}
-                    </div>
-                  )}
-                </div>
-
-                {/* list panel */}
-                <div
-                  className={classNames({
-                    hidden: !listVisible || editFormVisible
-                  })}
-                >
-                  <div className={classNames('row', 'ml-0', 'mr-0')}>
-                    {addressList.map((item, i) => (
-                      <div
-                        className="col-12 col-md-6 pt-2 pb-3 pl-3 pr-2"
-                        key={item.deliveryAddressId}
-                      >
-                        <CardItem
-                          data={item}
-                          operateBtnJSX={
-                            <div className="d-flex align-items-center">
-                              {item.isDefaltAddress === 1 ? (
-                                <div
-                                  className="red"
-                                  onClick={this.toggleSetDefault.bind(
-                                    this,
-                                    item
-                                  )}
-                                >
-                                  <span className="iconfont mr-1">
-                                    &#xe68c;
-                                  </span>
-                                  <span className="rc-styled-link red border-danger">
-                                    <FormattedMessage id="default" />
-                                  </span>
-                                </div>
-                              ) : (
-                                <div
-                                  className="ui-cursor-pointer"
-                                  onClick={this.toggleSetDefault.bind(
-                                    this,
-                                    item
-                                  )}
-                                >
-                                  {/* <span className="iconfont mr-1">
-                                    &#xe68c;
-                                  </span> */}
-                                  <span className="rc-styled-link">
-                                    <FormattedMessage id="setAsDefault" />
-                                  </span>
-                                </div>
-                              )}
-                              <span className="position-relative p-2 ui-cursor-pointer-pure pdl-1">
-                                <span
-                                  className="rc-styled-link"
-                                  onClick={this.handleClickDeleteBtn.bind(
-                                    this,
-                                    item
-                                  )}
-                                  style={
-                                    isPad
-                                      ? {
-                                          position: 'absolute',
-                                          top: '1.25rem',
-                                          right: '1.5rem'
-                                        }
-                                      : {}
-                                  }
-                                >
-                                  <FormattedMessage id="delete" />
-                                </span>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: 'translate(-89%, 105%)'
-                                  }}
-                                  arrowStyle={{ left: '89%' }}
-                                  display={item.confirmTooltipVisible}
-                                  confirm={this.deleteCard.bind(this, item)}
-                                  updateChildDisplay={(status) =>
-                                    this.updateConfirmTooltipVisible(
-                                      item,
-                                      status
-                                    )
-                                  }
-                                  content={
-                                    <FormattedMessage id="confirmDeleteAddress" />
-                                  }
-                                />
-                              </span>
+                {!editFormVisible && !pickupVisible ? (
+                  <>
+                    {/* homeDelivery 地址列表 */}
+                    {this.addressTypePanel('homeDelivery')}
+                    <div className="address_list_panel">
+                      <div className="row ml-0 mr-0">
+                        {/* 地址列表 */}
+                        {allAddressList
+                          .filter((e) => e.receiveType != 'PICK_UP')
+                          .map((item, i) => (
+                            <div
+                              className={`col-12 pt-2 pb-2 pl-2 pr-2 ${
+                                foledMore && i > 1 ? 'address_item_none' : ''
+                              }`}
+                              key={item.deliveryAddressId}
+                            >
+                              {this.addressItemDetail(item, i)}
                             </div>
-                          }
-                          handleClickCoverItem={this.handleClickCoverItem.bind(
-                            this,
-                            item,
-                            'list'
-                          )}
-                          countryName={matchNamefromDict(
-                            countryList,
-                            item.countryId
-                          )}
-                        />
-                      </div>
-                    ))}
-                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
-                      {this.addBtnJSX({ fromPage: 'list' })}
-                    </div>
-                  </div>
-                </div>
+                          ))}
 
-                {/* edit form panel  */}
+                        {/* 新增地址按钮 */}
+                        <div className="col-12 p-2 rounded text-center p-2 ui-cursor-pointer">
+                          {this.addBtnJSX('')}
+                        </div>
+
+                        {/* 更多地址 */}
+                        {addressList.length > 2 && this.showMoreAddressBtn()}
+                      </div>
+                    </div>
+
+                    {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                      <>
+                        {/* pickup 地址 */}
+                        {this.addressTypePanel('pickup')}
+                        <div className="address_list_panel pickup_address_pannel">
+                          <div className="row ml-0 mr-0">
+                            {/* 地址列表 */}
+                            {allAddressList
+                              .filter((e) => e.receiveType == 'PICK_UP')
+                              .map((item, i) =>
+                                item ? (
+                                  <div
+                                    className={`col-12 pt-2 pb-2 pl-2 pr-2`}
+                                    key={item.deliveryAddressId}
+                                  >
+                                    {this.addressItemDetail(item, i)}
+                                  </div>
+                                ) : null
+                              )}
+                            {!allAddressList.filter(
+                              (e) => e.receiveType == 'PICK_UP'
+                            ).length && (
+                              <div className="col-12 p-2 rounded text-center p-2 ui-cursor-pointer">
+                                {this.addBtnJSX('PICK_UP')}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    ) : null}
+                  </>
+                ) : null}
+
+                {/* 编辑homeDelivery地址 addANewAddress  */}
                 {editFormVisible && (
-                  <AddressEditForm
-                    hideBillingAddr={this.props.hideBillingAddr}
-                    addressId={this.state.curAddressId}
-                    backPage={this.state.fromPage}
-                    hideMyself={this.handleHideEditForm}
-                    refreshList={this.getAddressList}
-                    upateSuccessMsg={this.getSuccessMsg}
-                  />
+                  <>
+                    {addressAddOrEditFlag == 'add'
+                      ? this.addressTypePanel('addANewAddress')
+                      : null}
+
+                    {addressAddOrEditFlag == 'edit'
+                      ? this.addressTypePanel('edit')
+                      : null}
+
+                    <AddressEditForm
+                      hideBillingAddr={this.props.hideBillingAddr}
+                      addressId={this.state.curAddressId}
+                      cancelEditForm={this.cancelEditForm}
+                      refreshList={this.getAddressList}
+                      upateSuccessMsg={this.getSuccessMsg}
+                    />
+                  </>
+                )}
+
+                {pickupVisible && (
+                  <>
+                    {addressAddOrEditFlag == 'add'
+                      ? this.addressTypePanel('addPickup')
+                      : null}
+
+                    {addressAddOrEditFlag == 'edit'
+                      ? this.addressTypePanel('changePickup')
+                      : null}
+
+                    <HomeDeliveryOrPickUp
+                      key={defaultCity}
+                      isLogin={true}
+                      defaultCity={defaultCity}
+                      pageType="noDelivery"
+                      updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
+                      updateData={this.updatePickupData}
+                      allAddressList={allAddressList}
+                      updateDeliveryOrPickup={this.updateDeliveryOrPickup}
+                      deliveryOrPickUp={showDeliveryOrPickUp}
+                      intlMessages={this.props.intl.messages}
+                    />
+
+                    {/* 分割线 */}
+                    <hr className="account-info-hr-border-color" />
+
+                    {/* 取消和保存按钮 */}
+                    <div className="text-right">
+                      <span
+                        className="rc-styled-link mr-4 cancel_pickup_edit"
+                        onClick={this.handleCancelEditOrAddPickup}
+                      >
+                        <FormattedMessage id="cancel" />
+                      </span>
+                      <button
+                        className={`rc-btn rc-btn--one editAddress ${
+                          saveBtnLoading ? 'ui-btn-loading' : ''
+                        }`}
+                        type="submit"
+                        disabled={confirmBtnDisabled}
+                        onClick={this.clickConfirmPickup}
+                      >
+                        <FormattedMessage id="save" />
+                      </button>
+                    </div>
+                  </>
                 )}
               </div>
             </div>

@@ -513,6 +513,7 @@ class VisitorAddress extends React.Component {
         workTime: pickupFormData.workTime,
         province: pkaddr?.region,
         provinceIdStr: pkaddr?.regionFias,
+        provinceCode: pkaddr?.regionIsoCode,
         cityIdStr: pkaddr?.cityFias,
         areaIdStr: pkaddr?.areaFias,
         settlementIdStr: pkaddr?.settlementFias,

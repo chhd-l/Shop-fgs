@@ -558,6 +558,7 @@ const fr_FR = {
   dontHesitateToContactUs: "N'hésitez pas à nous contacter",
   download: 'Télécharger',
   edit: 'Modifier',
+  selectThisAddress: 'Choisir cette adresse',
   edit2: 'Modifier',
   email: 'adresse e-mail',
   emailAddress: 'Adresse e-mail *',

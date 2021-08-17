@@ -83,7 +83,7 @@ class AddressPreview extends React.Component {
   render() {
     const { form, boldName, isLogin } = this.props;
 
-    // console.log('666 preview form: ', form);
+    console.log('666 preview form: ', form);
     // 获取本地存储的需要显示的地址字段
     const localAddressForm = this.props.configStore.localAddressForm;
 
@@ -127,10 +127,15 @@ class AddressPreview extends React.Component {
                 marginTop: '1rem'
               }}
             >
-              <span>{form?.pickup.courier}</span>
-              <span style={{ marginRight: '7rem' }}>
-                {formatMoney(form?.pickup.price)}
-              </span>
+              <span>{form?.pickup?.pickupName}</span>
+              {form?.pickup?.price && (
+                <span style={{ marginRight: '7rem' }}>
+                  {formatMoney(form.pickup.price)}
+                </span>
+              )}
+            </p>
+            <p className="preview_pickup_name" style={{ fontWeight: '400' }}>
+              {form.pickupName}
             </p>
             <p className="preview_pickup_address">{form.address1}</p>
             <p className="preview_pickup_worktime">{form.workTime}</p>
