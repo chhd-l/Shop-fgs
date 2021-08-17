@@ -543,7 +543,6 @@ class UnLoginCart extends React.Component {
     const product = productList[currentProductIdx];
     item.confirmTooltipVisible = false;
     productList.splice(currentProductIdx, 1);
-    debugger;
     this.setState(
       {
         productList
@@ -880,8 +879,8 @@ class UnLoginCart extends React.Component {
               </div>
               {pitem.sizeList.filter((el) => el.selected)[0]
                 .subscriptionStatus &&
-              pitem.sizeList.filter((el) => el.selected)[0]
-                .subscriptionPrice ? (
+              pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice &&
+              this.totalPrice > 0 ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.promotions || !pitem.promotions.includes('club') ? (
                     <SubscriptionSelection
@@ -1085,7 +1084,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : (
+            ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1101,8 +1100,8 @@ class UnLoginCart extends React.Component {
                   <FormattedMessage id="guestCheckout" />
                 </div>
               </div>
-            )
-          ) : (
+            ) : null
+          ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />
@@ -1111,7 +1110,7 @@ class UnLoginCart extends React.Component {
                   : null}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </a>
     );
@@ -1179,7 +1178,7 @@ class UnLoginCart extends React.Component {
                     float: 'right',
                     marginBottom: '.625rem'
                   }}
-                  onClick={this.handleClickPromotionApply}
+                  onClick={() => this.handleClickPromotionApply(false)}
                 >
                   <FormattedMessage id="apply" />
                 </button>
@@ -1326,7 +1325,7 @@ class UnLoginCart extends React.Component {
             </div>
           ) : null}
 
-          {/* 
+          {/*
             customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
             enterPriceType 买入价格开关 0：含税，1：不含税
           */}
@@ -1478,14 +1477,15 @@ class UnLoginCart extends React.Component {
     //   promotionInputValue: ''
     // });
   }
-  handleClickPromotionApply = async () => {
+  handleClickPromotionApply = async (falseCodeAndReRequest) => {
+    //falseCodeAndReRequest 需要重新请求code填充公共code
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
-    if (!promotionInputValue) return;
+    if (!promotionInputValue && !falseCodeAndReRequest) return;
 
     let result = {};
     this.setState({
-      isClickApply: true,
+      isClickApply: !falseCodeAndReRequest,
       isShowValidCode: false,
       lastPromotionInputValue: promotionInputValue
     });
@@ -1515,9 +1515,15 @@ class UnLoginCart extends React.Component {
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState({
-          isShowValidCode: false
-        });
+        this.setState(
+          {
+            isShowValidCode: false
+          },
+          () => {
+            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+            result.code === 'K-000000' && this.handleClickPromotionApply(true);
+          }
+        );
       }, 4000);
       // this.props.sendPromotionCode('');
     }

@@ -19,12 +19,25 @@ const nullTaxFeeData = {
   postalCode: '',
   customerAccount: ''
 };
+const getLoginData = (data) => {
+  // 登录情况下，有indv数据，直接到checkout页面下单
+  let cartData = data || localItemRoyal.get('rc-cart-data-login') || [];
+  cartData.forEach((el) => {
+    el.isNotShowCart = el.goodsInfoFlag == 3;
+  });
+  let indvData = cartData.find((el) => el.goodsInfoFlag == 3);
+  if (indvData) {
+    cartData = [indvData];
+  }
+  console.info('cartData', cartData);
+  return cartData;
+};
 
 class CheckoutStore {
   @observable cartData = localItemRoyal.get('rc-cart-data') || [];
   @observable AuditData = localItemRoyal.get('rc-audit-data') || [];
   @observable autoAuditFlag = localItemRoyal.get('rc-autoAuditFlag') || false;
-  @observable petFlag = localItemRoyal.get('rc-petFlag') || false;
+  @observable petFlag = localItemRoyal.get('rc-petFlag') || false; // 商品列表
   @observable loginCartData = localItemRoyal.get('rc-cart-data-login') || []; // 商品列表
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
   @observable goodsMarketingMap =
@@ -46,7 +59,9 @@ class CheckoutStore {
 
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
   @observable GA_product = {};
-
+  // @computed get loginCartData(){
+  //  return getLoginData()
+  // }
   @computed get tradePrice() {
     let ret = this?.cartPrice?.tradePrice;
     if (this.installMentParam) {
@@ -54,42 +69,55 @@ class CheckoutStore {
     }
     return ret || 0;
   }
+
   @computed get totalMinusSubPrice() {
     return this?.cartPrice?.totalMinusSubPrice || 0;
   }
+
   @computed get totalPrice() {
     return this?.cartPrice?.totalPrice || 0;
   }
+
   @computed get taxFeePrice() {
     return this?.cartPrice?.taxFeePrice || 0;
   }
+
   @computed get freeShippingFlag() {
     return this?.cartPrice?.freeShippingFlag || 0;
   }
+
   @computed get freeShippingDiscountPrice() {
     return this?.cartPrice?.freeShippingDiscountPrice || 0;
   }
+
   @computed get discountPrice() {
     return this?.cartPrice?.discountPrice || 0;
   }
+
   @computed get subscriptionDiscountPrice() {
     return this?.cartPrice?.subscriptionDiscountPrice || 0;
   }
+
   @computed get promotionDiscountPrice() {
     return this?.cartPrice?.promotionDiscountPrice || 0;
   }
+
   @computed get deliveryPrice() {
     return this?.cartPrice?.deliveryPrice || 0;
   }
+
   @computed get subscriptionPrice() {
     return this?.cartPrice?.subscriptionPrice || 0;
   }
+
   @computed get promotionDesc() {
     return this?.cartPrice?.promotionDesc || '';
   }
+
   @computed get promotionDiscount() {
     return this?.cartPrice?.promotionDiscount || '';
   }
+
   @computed get promotionVOList() {
     let list = [];
     if (this?.cartPrice?.promotionVOList) {
@@ -109,11 +137,13 @@ class CheckoutStore {
     this.promotionCode = data;
     localItemRoyal.set('rc-promotionCode', data);
   }
+
   @action.bound
   removePromotionCode(data) {
     this.promotionCode = '';
     localItemRoyal.remove('rc-promotionCode');
   }
+
   // @action.bound
   // setclixRayPromotionCode(data) {
   //   this.clixRayPromotionCode = data;
@@ -130,6 +160,7 @@ class CheckoutStore {
     this.couponCodeFitFlag = data;
     localItemRoyal.set('rc-couponCodeFitFlag', data);
   }
+
   @action.bound
   removeCouponCodeFitFlag(data) {
     this.couponCodeFitFlag = false;
@@ -162,7 +193,10 @@ class CheckoutStore {
 
   @action.bound
   setCartData(data) {
-    this.cartData = data;
+    this.cartData = data?.map((el) => {
+      el.isNotShowCart = el.goodsInfoFlag == 3;
+      return el;
+    });
     localItemRoyal.set('rc-cart-data', data);
   }
 
@@ -174,9 +208,12 @@ class CheckoutStore {
 
   @action
   setLoginCartData(data) {
-    this.loginCartData = data;
-    localItemRoyal.set('rc-cart-data-login', data);
+    let datas = getLoginData(data);
+    this.loginCartData = datas;
+    console.info('datasdatas', datas);
+    localItemRoyal.set('rc-cart-data-login', datas);
   }
+
   @action.bound
   setGiftList(data) {
     this.giftList = data;
@@ -480,8 +517,11 @@ class CheckoutStore {
 
       // 获取购物车列表
       let siteMiniPurchasesRes = await siteMiniPurchases({ delFlag });
-      siteMiniPurchasesRes = siteMiniPurchasesRes.context;
-
+      // 兼容ind的参数传值
+      let newGoodsList = getLoginData(siteMiniPurchasesRes.context?.goodsList);
+      siteMiniPurchasesRes = Object.assign({}, siteMiniPurchasesRes, {
+        goodsList: newGoodsList
+      });
       //兼容商品没有加入购物车，是直接去购买页的，否则出现总价展示错误情况
       // if (sessionItemRoyal.get('recommend_product')) {
       //   recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
@@ -492,6 +532,7 @@ class CheckoutStore {
       //   siteMiniPurchasesRes = recommend_data;
       // }
       // 获取总价
+      // debugger;
       let sitePurchasesRes = await sitePurchases({
         goodsInfoIds: siteMiniPurchasesRes.goodsList.map(
           (ele) => ele.goodsInfoId
@@ -508,14 +549,14 @@ class CheckoutStore {
         deliverWay,
         shippingFeeAddress // DuData地址对象，俄罗斯计算运费用
       });
-      // console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
+      // debugger;
+      console.log('★ 449 ----- checkoutStore 获取总价: ', sitePurchasesRes);
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
       this.setGiftList(sitePurchasesRes.giftList);
       let newPromotionCode = sitePurchasesRes.promotionDesc || '';
       this.setPromotionCode(newPromotionCode);
       let goodsList = siteMiniPurchasesRes.goodsList;
-
       for (let good of goodsList) {
         good.goodsInfoImg = good.goodsInfoImg
           ? good.goodsInfoImg
@@ -666,6 +707,7 @@ class CheckoutStore {
   changeFromStorePortal(data) {
     this.isFromStorePortal = data;
   }
+
   /**
    * 游客加入购物车
    * @param {Boolean} valid - 按钮可点击状态
@@ -682,6 +724,10 @@ class CheckoutStore {
     if (valid) {
       try {
         let cartDataCopy = cloneDeep(toJS(this.cartData).filter((el) => el));
+        let oldIndvIndex = cartDataCopy.findIndex(
+          (item) => item.goodsInfoFlag == 3
+        );
+        oldIndvIndex > -1 && cartDataCopy.splice(oldIndvIndex, 1); //删除购物车已有的indv商品
         cartItemList.forEach((cartItem) => {
           const selectedGoodsInfo =
             find(cartItem.sizeList, (s) => s.selected) || cartItem.goodsInfo;
@@ -704,14 +750,19 @@ class CheckoutStore {
           });
           // 如果之前该商品(同spu 同sku)加入过购物车，则直接替换原信息
           if (historyItemIdx > -1) {
-            cartDataCopy.splice(historyItemIdx, 1, cartItem);
+            if (cartItem.goodsInfoFlag != 3) {
+              cartDataCopy.splice(historyItemIdx, 1, cartItem);
+            }
           } else {
             cartDataCopy.push(cartItem);
           }
 
           // 校验
-          // 1 单个产品数量限制
-          if (cartItem.quantity > +window.__.env.REACT_APP_LIMITED_NUM) {
+          // 1 单个产品数量限制  indv不需要限制数量
+          if (
+            cartItem.quantity > +window.__.env.REACT_APP_LIMITED_NUM &&
+            cartItem.goodsInfoFlag != 3
+          ) {
             throw new Error(
               CURRENT_LANGFILE['cart.errorMaxInfo'].replace(
                 /{.+}/,
@@ -720,7 +771,11 @@ class CheckoutStore {
             );
           }
         });
-
+        if (cartItemList[0].goodsInfoFlag == 3) {
+          //如果是indv商品，不需要校验下面的数量
+          await this.setCartData(cartDataCopy);
+          return;
+        }
         // 校验
         // 2 所有产品数量限制
         // 3 所有产品种类限制
@@ -763,4 +818,5 @@ class CheckoutStore {
     this.installMentParam = data;
   }
 }
+
 export default CheckoutStore;

@@ -14,10 +14,13 @@ interface Props {
   currentFrequencyId: string
   handleConfirm: Function,
   disabled: Boolean,
-  className: string
+  className: string,
+  textStyle?:any,
+  wrapStyle?:any,
+  selectionStyle?:any
 }
 
-const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,className='', handleConfirm = () => {} }: Props) => {
+const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,className='',textStyle={},wrapStyle={},selectionStyle={}, handleConfirm = () => {} }: Props) => {
   const [frequencyList, setFrequencyList] = useState([]);
   const [handledCurrent, setHandledCurrent] = useState(false)
   // useEffect(() => {
@@ -47,8 +50,8 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
     });
   }
   return (
-    <div className={`freqency order-3 order-md-2 col-12 col-md-4 text-center ${className}`}>
-      <span>
+    <div style={wrapStyle} className={`freqency order-3 order-md-2 col-12 col-md-4 text-center ${className}`}>
+      <span style={textStyle}>
         <FormattedMessage id="subscription.frequency" />:
       </span>
       <Selection
@@ -56,7 +59,8 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
         customContainerStyle={{
           display: 'inline-block',
           marginLeft: isMobile ? '50px' : '1.5rem',
-          height: isMobile ? '70px' : 'auto'
+          height: isMobile ? '70px' : 'auto',
+          ...selectionStyle
         }}
         customCls="text-left"
         selectedItemChange={(data: any) => {

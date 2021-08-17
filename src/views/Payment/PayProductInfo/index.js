@@ -283,7 +283,7 @@ class PayProductInfo extends React.Component {
                     el.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
                         alt="club logo"
                       />
                     ) : null}
@@ -338,6 +338,12 @@ class PayProductInfo extends React.Component {
     );
   }
   getProductsForLogin(plist) {
+    let paramsString = sessionItemRoyal.get('nutrition-recommendation-filter');
+    let IndvPetInfo = {};
+    if (paramsString) {
+      let recommendateInfo = JSON.parse(paramsString);
+      IndvPetInfo = recommendateInfo.customerPetsVo;
+    }
     // 线下店数量展示和正常流程有区别
     let orderSource = sessionItemRoyal.get('orderSource');
     const List = plist.map((el, i) => {
@@ -346,29 +352,33 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <LazyLoad>
-                  <img
-                    className="product-image"
-                    src={el.goodsInfoImg}
-                    alt="product image"
-                  />
-                </LazyLoad>
+                <img
+                  className="product-image"
+                  src={el.goodsInfoImg}
+                  alt="product image"
+                />
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
-                    title={el.goodsName || el.goods.goodsName}
+                    title={
+                      el?.goodsInfoFlag == 3
+                        ? `${IndvPetInfo?.name}'s personalized subscription`
+                        : el.goodsName || el.goods.goodsName
+                    }
                   >
-                    <span className="light">
-                      {el.goodsName || el.goods.goodsName}
+                    <span className="light 11111">
+                      {el?.goodsInfoFlag == 3
+                        ? `${IndvPetInfo?.name}'s personalized subscription`
+                        : el.goodsName || el.goods.goodsName}
                     </span>
                     {el?.goods?.promotions &&
                     el?.goodsInfoFlag > 0 &&
                     el.goods.promotions.includes('club') ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: el.goodsInfoFlag })}
                         alt="club logo"
                       />
                     ) : null}
@@ -386,8 +396,11 @@ class PayProductInfo extends React.Component {
                         <FormattedMessage
                           id="quantityText"
                           values={{
-                            specText: el.specText,
-                            buyCount: el.buyCount
+                            specText:
+                              el.goodsInfoFlag == 3
+                                ? el.buyCount / 1000 + 'kg'
+                                : el.specText,
+                            buyCount: el.goodsInfoFlag == 3 ? 1 : el.buyCount
                           }}
                         />
                       )}
@@ -396,6 +409,11 @@ class PayProductInfo extends React.Component {
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
                         <FrequencyMatch currentId={el.periodTypeId} />
+                        {/* {el.goodsInfoFlag == 3 ? (
+                          '30 days'
+                        ) : (
+                          <FrequencyMatch currentId={el.periodTypeId} />
+                        )} */}
                       </p>
                     ) : null}
                   </div>
@@ -459,9 +477,79 @@ class PayProductInfo extends React.Component {
     });
     return List;
   }
+  handleClickPromotionApply = async (falseCodeAndReRequest) => {
+    let { discount } = this.state;
+    try {
+      let result = {};
+      if (!this.state.promotionInputValue && !falseCodeAndReRequest) return;
+      this.setState({
+        isClickApply: !falseCodeAndReRequest,
+        isShowValidCode: false,
+        lastPromotionInputValue: this.state.promotionInputValue
+      });
+      // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
+      let purchasesPara =
+        localItemRoyal.get('rc-payment-purchases-param') || {};
+      purchasesPara.promotionCode = this.state.promotionInputValue;
+      purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
+      purchasesPara.address1 = this.props.deliveryAddress?.address1;
+      console.log('------- ', purchasesPara);
+      if (!this.isLogin) {
+        purchasesPara.guestEmail = this.props.guestEmail;
+        //游客
+        result = await this.props.checkoutStore.updateUnloginCart(
+          purchasesPara
+        );
+      } else {
+        purchasesPara.subscriptionFlag = this.props.buyWay === 'frequency';
+        //会员
+        result = await this.props.checkoutStore.updateLoginCart(purchasesPara);
+      }
+
+      if (!result.context.promotionFlag || result.context.couponCodeFlag) {
+        //表示输入apply promotionCode成功
+        discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+        this.setState({ discount });
+        this.props.sendPromotionCode(this.state.promotionInputValue);
+        this.setState({
+          isStudentPurchase: result.context.promotionSubType === 8
+        });
+        if (result.context.promotionSubType === 8) {
+          this.props.welcomeBoxChange('no');
+        }
+      } else {
+        this.setState({
+          isShowValidCode: true
+        });
+        this.props.sendPromotionCode('');
+        this.setState({ isStudentPurchase: false });
+        setTimeout(() => {
+          this.setState({
+            isShowValidCode: false
+          });
+        }, 5000);
+      }
+      this.setState(
+        {
+          isClickApply: false,
+          promotionInputValue: ''
+        },
+        () => {
+          result.code === 'K-000000' && this.handleClickPromotionApply(true);
+        }
+      );
+    } catch (err) {
+      console.info('....', err);
+      debugger;
+      this.setState({
+        isClickApply: false
+      });
+    }
+  };
   getTotalItems() {
     const { headerIcon } = this.props;
     const { productList } = this.state;
+    console.info('productList', productList);
     let quantityKeyName = 'quantity';
     if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
@@ -477,20 +565,26 @@ class PayProductInfo extends React.Component {
             <FormattedMessage
               id="payment.totalProduct2"
               values={{
-                val: productList.reduce(
-                  (total, item) => total + item[quantityKeyName],
-                  0
-                )
+                val:
+                  productList[0]?.goodsInfoFlag == 3
+                    ? 1
+                    : productList.reduce(
+                        (total, item) => total + item[quantityKeyName],
+                        0
+                      )
               }}
             />
           ) : (
             <FormattedMessage
               id="payment.totalProduct"
               values={{
-                val: productList.reduce(
-                  (total, item) => total + item[quantityKeyName],
-                  0
-                )
+                val:
+                  productList[0]?.goodsInfoFlag == 3
+                    ? 1
+                    : productList.reduce(
+                        (total, item) => total + item[quantityKeyName],
+                        0
+                      )
               }}
             />
           )}
@@ -581,78 +675,7 @@ class PayProductInfo extends React.Component {
                         : ''
                     }`}
                     style={{ marginTop: '5px', float: 'right' }}
-                    onClick={async () => {
-                      try {
-                        let result = {};
-                        if (!this.state.promotionInputValue) return;
-                        this.setState({
-                          isClickApply: true,
-                          isShowValidCode: false,
-                          lastPromotionInputValue: this.state
-                            .promotionInputValue
-                        });
-                        // 确认 promotionCode 后使用之前的参数查询一遍 purchase 接口
-                        let purchasesPara =
-                          localItemRoyal.get('rc-payment-purchases-param') ||
-                          {};
-                        purchasesPara.promotionCode = this.state.promotionInputValue;
-                        purchasesPara.purchaseFlag = false; // 购物车: true，checkout: false
-                        purchasesPara.address1 = this.props.deliveryAddress?.address1;
-                        console.log('------- ', purchasesPara);
-                        if (!this.isLogin) {
-                          purchasesPara.guestEmail = this.props.guestEmail;
-                          //游客
-                          result = await checkoutStore.updateUnloginCart(
-                            purchasesPara
-                          );
-                        } else {
-                          purchasesPara.subscriptionFlag =
-                            this.props.buyWay === 'frequency';
-                          //会员
-                          result = await checkoutStore.updateLoginCart(
-                            purchasesPara
-                          );
-                        }
-
-                        if (
-                          !result.context.promotionFlag ||
-                          result.context.couponCodeFlag
-                        ) {
-                          //表示输入apply promotionCode成功
-                          discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                          this.setState({ discount });
-                          this.props.sendPromotionCode(
-                            this.state.promotionInputValue
-                          );
-                          this.setState({
-                            isStudentPurchase:
-                              result.context.promotionSubType === 8
-                          });
-                          if (result.context.promotionSubType === 8) {
-                            this.props.welcomeBoxChange('no');
-                          }
-                        } else {
-                          this.setState({
-                            isShowValidCode: true
-                          });
-                          this.props.sendPromotionCode('');
-                          this.setState({ isStudentPurchase: false });
-                          setTimeout(() => {
-                            this.setState({
-                              isShowValidCode: false
-                            });
-                          }, 5000);
-                        }
-                        this.setState({
-                          isClickApply: false,
-                          promotionInputValue: ''
-                        });
-                      } catch (err) {
-                        this.setState({
-                          isClickApply: false
-                        });
-                      }
-                    }}
+                    onClick={() => this.handleClickPromotionApply(false)}
                   >
                     <FormattedMessage id="apply" />
                   </button>

@@ -568,8 +568,8 @@ const ru_RU = {
   modalCancelAllContent: 'Вы уверены, что хотите удалить Вашу подписку?',
   modalCancelAllTitle: 'Удаление подписки?',
   modalChangeDateContent:
-    'Вы уверены, что хотите изменить дату следующей доставки?',
-  modalChangeDateTitle: 'Изменить дату доставки',
+    'Вы уверены, что хотите изменить дату следующей отгрузки?',
+  modalChangeDateTitle: 'Изменить дату отгрузки',
   modalOrderNowContent: 'Вы уверены, что хотите разместить этот заказ сейчас?',
   modalOrderNowTitle: 'ЗАКАЗАТЬ СЕЙЧАС?',
   modalSkipContent: 'Вы уверены, что хотите отменить следующую доставку?',
@@ -1160,6 +1160,8 @@ const ru_RU = {
   'payment.saveCardToAccount': 'Сохранить данные карты в учетной записи',
   'payment.saveThisPaymentMethodAsPreferred':
     'Сохранить этот способ оплаты как предпочтительный',
+  'payment.addCardTips':
+    'Для проверки новой карты будет произведено списание и возврат суммы 12 руб',
   bankCard: 'банковская карта',
   deliveryOneTimeOnly: 'Доставка только 1 раз',
   subscribe: 'Добавить в корзину',
@@ -1347,7 +1349,7 @@ const ru_RU = {
   'mobile.cart.orderSummary': 'Итого',
   'cart.autoshipSavedtip':
     'Вы сэкономите {discount} от данного заказа при подписке',
-  prevShipmentOn: 'Новая заявка',
+  prevShipmentOn: 'Дата формирования заказа',
   nextShipmentOn: 'Дата отправки заказа',
   addedtoCart: 'Добавлено в корзину',
   goToCart: 'Перейти в корзину',
@@ -1482,7 +1484,9 @@ const ru_RU = {
     'Discover the adapted recipe and the exact ration for your cat',
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
-  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'checkout.zeroOrder.butSubscription':
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
 };
 
 export default ru_RU;

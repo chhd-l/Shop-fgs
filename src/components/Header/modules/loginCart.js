@@ -50,7 +50,9 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore;
   }
   get cartData() {
-    return this.props.checkoutStore.loginCartData.slice();
+    return this.props.checkoutStore.loginCartData
+      .slice()
+      ?.filter((el) => !el.isNotShowCart); //isNotShowCart 直接checkout的商品，不在购物车显示需要被过滤掉
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];

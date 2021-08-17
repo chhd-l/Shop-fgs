@@ -7,6 +7,8 @@ import LazyLoad from 'react-lazyload';
 import '../index.less';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
+import { getDeviceType } from '../../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const HelpComponents = () => {
   return (
@@ -22,17 +24,18 @@ const HelpComponents = () => {
                     {/*<FormattedMessage id="ClubLP.Help.title" />*/}
                   </h2>
                 </div>
-                <p>
+                <p style={{ marginBottom: 0 }}>
                   <span>
                     Our team is available to answer your questions and ensure
                     you have the best possible experience.
                     {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                   </span>
-                </p>
-                <p>
-                  {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
+                  {isMobile ? null : <br />}
                   You can reach us through the following options:
                 </p>
+                {/*<p>*/}
+                {/*  /!*<FormattedMessage id="ClubLP.Help.subtitle2" />*!/*/}
+                {/*</p>*/}
                 <div className="experience-component experience-layouts-1to2columnRatio">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                     <div className=" rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
@@ -45,18 +48,18 @@ const HelpComponents = () => {
                                   <b
                                     style={{
                                       color: '#E2001A',
-                                      fontWeight: 500
+                                      fontWeight: 600
                                     }}
                                   >
                                     {/*<FormattedMessage id="ClubLP.Help.call.title" />*/}
                                     Call us
                                   </b>
-                                  <p>
+                                  <p style={{ marginBottom: 0 }}>
                                     Monday to Friday from 8:30amto 7pm and on
                                     Saturdays from9am to 1pm
                                     {/*<FormattedMessage id="ClubLP.Help.call.content" />*/}
                                   </p>
-                                  <div className="rc-margin-top--xs">
+                                  <div>
                                     <p
                                       style={{ color: '#00BCA3' }}
                                       className="rc-numeric rc-md-up"
@@ -76,7 +79,7 @@ const HelpComponents = () => {
                                     <p
                                       style={{
                                         color: '#E2001A',
-                                        fontWeight: 600
+                                        marginBottom: 0
                                       }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
@@ -104,18 +107,13 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b
-                                    style={{
-                                      color: '#E2001A',
-                                      fontWeight: 600
-                                    }}
-                                  >
+                                  <b className={"helpComponents-b"} style={{fontWeight:600}}>
                                     Email us
                                     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
                                   </b>
-                                  <p>
+                                  <p style={{ marginBottom: 0 }}>
                                     We'll do our best to get back to you as fast
-                                    as possible : and within 12 hours
+                                    as possible and within 12 hours
                                     {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
                                   </p>
                                   <DistributeHubLinkOrATag
@@ -127,10 +125,11 @@ const HelpComponents = () => {
                                     <p
                                       style={{
                                         textDecoration: 'underline',
-                                        fontWeight: 400
+                                        fontWeight: 400,
+                                        marginBottom: 0
                                       }}
                                     >
-                                      Send US an Email
+                                      Send us an Email
                                       {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
                                     </p>
                                   </DistributeHubLinkOrATag>
@@ -176,8 +175,9 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
-                                  <p>
-                                    Send US an Email You can check our &nbsp;
+                                  <p style={{ marginBottom: 0 }}>
+                                    You can check our
+                                    <br />
                                     <DistributeHubLinkOrATag
                                       href={'/about-us/faqs'}
                                       ariaLabel="Links to faq"

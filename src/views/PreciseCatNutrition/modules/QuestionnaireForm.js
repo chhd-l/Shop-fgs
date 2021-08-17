@@ -7,10 +7,11 @@ import React, {
 import './questionnaire.less';
 import TextFiled from './TextFiled';
 import RadioButton from './RadioButton/RadioButton';
-import AgeInput from './AgeInput/AgeInput';
+import LifeStyle from './lifeStyle';
 import AnimalBreeds from './AnimalBreeds/AnimalBreeds';
 import QuestionnaireRadio from './QuestionnaireRadio';
 import AgeSelect from './AgeSelect/AgeSelect';
+import RadioGroup from './radioGroup';
 import { FormattedMessage } from 'react-intl';
 export const FormContext = React.createContext({});
 function QuestionnaireForm(
@@ -20,14 +21,8 @@ function QuestionnaireForm(
   const [formData, setFormData] = useState({ ...defaultValue });
   const [perStep, setPerStep] = useState(1); //上一步
   useImperativeHandle(ref, () => ({
-    formData,
-    setPervFormData: (val) => {
-      setPervFormData(val);
-    }
+    formData
   }));
-  const setPervFormData = (val) => {
-    setFormData(val);
-  };
   const handleQuestionConfigLogic = ({
     metadataQuestionDisplayType,
     defaultListData
@@ -108,7 +103,13 @@ function QuestionnaireForm(
           );
           break;
         case 'singleSelect':
-          return <RadioButton questionData={item} key={item.metadata.name} />;
+          if (item.name === 'lifestyle') {
+            return <LifeStyle questionData={item} key={item.metadata.name} />;
+          } else if (item.name === 'hairLength') {
+            return <RadioGroup questionData={item} key={item.metadata.name} />;
+          } else {
+            return <RadioButton questionData={item} key={item.metadata.name} />;
+          }
           break;
         case 'ageSelect':
           // return <AgeInput questionData={item} key={item.metadata.name}/>;
@@ -159,8 +160,6 @@ function QuestionnaireForm(
     for (let k in formData) {
       if (!formData[k]) canGoNext = true;
     }
-    console.log(formData);
-    console.log(canGoNext);
     changeCanNext(canGoNext);
     setFormData(formData);
   };

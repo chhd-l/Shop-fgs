@@ -6,6 +6,7 @@ const api = {
   confirmAndCommit: `/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
   confirmAndCommitUs: `/us/${window.__.env.REACT_APP_STOREID}/guest/checkout`,
   addOrUpdatePaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
+  addOrUpdatePaymentMethodRu: `/${window.__.env.REACT_APP_STOREID}/card-authorization`, // 俄罗斯新增 card
   getPaymentMethod: `/${window.__.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
   setDefaltCard: '/pay-payment-info/default',
@@ -105,6 +106,14 @@ export function confirmAndCommit(parameter) {
 export function addOrUpdatePaymentMethod(parameter) {
   return axios({
     url: api.addOrUpdatePaymentMethod,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function addOrUpdatePaymentMethodRu(parameter) {
+  return axios({
+    url: api.addOrUpdatePaymentMethodRu,
     method: 'post',
     data: parameter
   });

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import RadioAnswer from '../../../ProductFinder/modules/RadioAnswer';
 import SearchSelection from '../../../../components/SearchSelection';
 import { FormContext } from '../QuestionnaireForm';
+import Tooltips from '../tooltips';
+
 export default function AnimalBreeds({ questionData }) {
   const [breed, setBreed] = useState('');
   const [breedLabel, setBreedLabel] = useState('');
@@ -32,8 +33,13 @@ export default function AnimalBreeds({ questionData }) {
   };
   const toggleCheckbox = (e) => {
     e.persist();
-    setBreed(e.target.defaultValue);
-    Context.changeFormData(questionData.name, e.target.defaultValue);
+    if (e.target.defaultValue === breed) {
+      setBreed('');
+      Context.changeFormData(questionData.name, '');
+    } else {
+      setBreed(e.target.defaultValue);
+      Context.changeFormData(questionData.name, e.target.defaultValue);
+    }
   };
   const filterLabel = (val) => {
     let array = questionData.possibleValues.filter((item) => {
@@ -47,17 +53,7 @@ export default function AnimalBreeds({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i
-              className="iconfont iconinfo"
-              title="Bottom"
-              data-tooltip-placement="bottom"
-              data-tooltip="bottom-tooltip"
-            ></i>
-            <div id="bottom-tooltip" className="rc-tooltip">
-              {questionData.metadata.description}xxx
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}
@@ -78,7 +74,7 @@ export default function AnimalBreeds({ questionData }) {
                 }}
                 selectedItemChange={handleSelectChange}
                 defaultValue={
-                  breed !== 'mixed_breed' && breed !== 'undefined'
+                  breed !== 'mixed_breed' && breed !== 'unknown'
                     ? breedLabel
                     : ''
                 }
@@ -89,7 +85,7 @@ export default function AnimalBreeds({ questionData }) {
                 prefixIcon={
                   <button
                     className="rc-input__submit rc-input__submit--search mt-1"
-                    style={{ top: 0 }}
+                    style={{ top: 0, minWidth: '3rem', height: '3rem' }}
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
@@ -128,17 +124,17 @@ export default function AnimalBreeds({ questionData }) {
                 id="pf-checkbox-unkown"
                 type="checkbox"
                 className="rc-input__checkbox"
-                value="undefined"
+                value="unknown"
                 key={2}
-                checked={breed === 'undefined'}
+                checked={breed === 'unknown'}
                 onChange={toggleCheckbox}
               />
               <label
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-unkown"
               >
-                {/*{unknownText}*/}
-                unknown
+                <FormattedMessage id="unkown" />
+                {/*Unknown*/}
               </label>
             </div>
           </div>

@@ -3,7 +3,7 @@ import React from 'react';
 import '../index.less';
 import { FormattedMessage } from 'react-intl';
 import benefitsone from '../images/picto_right-diet.png';
-import benefitstwo from '../images/picto_individualize-ration.png';
+import benefitstwo from '../images/picto_individualize-ration2.png';
 import benefitsthree from '../images/picto_nutrients.png';
 import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
@@ -41,28 +41,29 @@ const LongBanner = () => {
                     zIndex: 10
                   }}
                 >
-                  {isMobile ? (
-                    <h1 style={{ fontWeight: 700, fontSize: '1.4rem' }}>
-                      GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
-                      HEALTHY WEIGHT !
-                    </h1>
-                  ) : (
-                    <h1
-                      className={'rc-padding-x--xl'}
-                      style={{ fontWeight: 700, fontSize: '3rem' }}
-                    >
-                      GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A
-                      HEALTHY WEIGHT !
-                    </h1>
-                  )}
+                  <h1 className={'longBannerTitle'} style={{ fontWeight: 700 }}>
+                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
+                    WEIGHT !
+                  </h1>
 
-                  <p style={{ fontSize: '0.6em', color: '#555555' }}>
+                  <p style={{ fontSize: '0.6em', color: '#555555', margin: 0 }}>
                     average price
                     {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
                   </p>
                   <strong style={{ color: '#000000' }}>0,90€ / day</strong>
+                  <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
+                    [1]
+                  </sup>
                   <p style={{ color: '#555555' }}>25,50€ / month</p>
-                  <a onClick={() => toScroll('aboutPet')}>
+                  <a
+                    onClick={() => {
+                      toScroll('aboutPet');
+                      dataLayer.push({
+                        event: 'individualizationLandingClick',
+                        position: 'Top promotion' //value should be one the trees positions : 'Top promotion','Did you know' or 'Reinsurance'
+                      });
+                    }}
+                  >
                     <button
                       style={{
                         padding: '0 30px'
@@ -156,61 +157,29 @@ const LongBanner = () => {
         {/*</div>*/}
 
         <div
-          className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block"
+          className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
           style={{
-            marginTop: isMobile ? '220px' : '0',
-            boxShadow: 'darkgrey 10px 150px 230px 100px',
-            width: isMobile ? '90%' : '100'
+            boxShadow: 'darkgrey 10px 150px 230px 100px'
           }}
         >
-          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative">
+          <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
             <img
-              style={
-                isMobile
-                  ? { width: '80%', position: 'absolute', left: '0%' }
-                  : {
-                      width: '48%',
-                      position: 'absolute',
-                      left: ' -8%',
-                      top: -350
-                    }
-              }
+              className={'topCat'}
+              style={{ zIndex: isMobile ? -100 : null }}
               src={topCat}
             />
-            <img
-              style={
-                isMobile
-                  ? { width: '60%', position: 'absolute', right: '0%' }
-                  : {
-                      width: '35%',
-                      position: 'absolute',
-                      top: -240,
-                      right: '-5%'
-                    }
-              }
-              src={topCatEat}
-            />
+            <img className={'topCatEat'} src={topCatEat} />
             <div
-              className="howItWorkNum"
-              style={
-                isMobile
-                  ? {
-                      width: 90,
-                      height: 90,
-                      position: 'absolute',
-                      top: -220,
-                      right: '0%',
-                      zIndex: 2
-                    }
-                  : {
-                      width: 105,
-                      height: 105,
-                      position: 'absolute',
-                      top: -240,
-                      right: '0%',
-                      zIndex: 2
-                    }
-              }
+              className="howItWorkNum2"
+              style={{
+                borderRadius: '50%',
+                backgroundColor: '#E2001A',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: 45,
+                position: 'absolute',
+                zIndex: 2
+              }}
             >
               <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
               <h6> on first order </h6>
@@ -219,13 +188,13 @@ const LongBanner = () => {
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm">
                   YOUR CAT'S BENEFITS
                 </h4>
 
                 <div className="value-proposition__container">
                   <div className="row mx-0 justify-content-between rc-text-align-center">
-                    <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
+                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -238,10 +207,7 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong
-                            className="rc-margin-bottom--none demarginleft"
-                            style={{ fontSize: 14, fontWeight: '700' }}
-                          >
+                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
                             The right diet adapted to support your cat's optimal
                             weight
                             {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
@@ -249,7 +215,7 @@ const LongBanner = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -262,10 +228,7 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong
-                            className="rc-margin-bottom--none demarginleft"
-                            style={{ fontSize: 14, fontWeight: '700' }}
-                          >
+                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
                             Individualize ration calculated for your cat's
                             unique characteristics.
                             {/*<FormattedMessage*/}
@@ -275,7 +238,7 @@ const LongBanner = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-1 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -288,10 +251,7 @@ const LongBanner = () => {
                           </LazyLoad>
                         </div>
                         <div className=" value-proposition__text">
-                          <strong
-                            className="rc-margin-bottom--none demarginleft"
-                            style={{ fontSize: 14, fontWeight: '700' }}
-                          >
+                          <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
                             High quality nutrients chosen for their high
                             nutritonal value
                             {/*<FormattedMessage*/}

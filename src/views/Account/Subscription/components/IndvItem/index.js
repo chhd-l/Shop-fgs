@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import autoshipIcon from '@/assets/images/autoship.png';
 import { getFormatDate, filterOrderId, getDeviceType } from '@/utils/utils';
-import subscriptionLogo from '@/assets/images/subscription_logo.jpg';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import LazyLoad from 'react-lazyload';
 import { getSubList } from '@/api/subscription';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -50,8 +50,8 @@ const ClubItem = ({ subItem, history }) => {
                 }}
                 key={item.spuId}
                 src={item.goodsPic || IMG_DEFAULT}
-                alt={item.goodsName}
-                title={item.goodsName}
+                alt={`${item.petsName}'s personalized subscription`}
+                title={`${item.petsName}'s personalized subscription`}
               />
               {/* </LazyLoad> */}
               <span
@@ -71,16 +71,18 @@ const ClubItem = ({ subItem, history }) => {
                     marginBottom: '5px'
                   }}
                 >
-                  {item.goodsName}
+                  {`${item.petsName}'s personalized subscription`}
                 </p>
                 <p>
-                  {item.specText} - {item.subscribeNum}{' '}
+                  {item.subscribeNum / 1000 + 'kg'} - 1{' '}
                   <FormattedMessage id="units" />
                 </p>
                 <p>
-                  30 daily rations Delivered every month
-                  {/* <FormattedMessage id="subscription.frequency" />:{' '}
-                  <FrequencyMatch currentId={item.periodTypeId} /> */}
+                  {/* 30 daily rations Delivered every month */}
+                  <FormattedMessage id="subscription.frequency" />:
+                  <FrequencyMatch currentId={item.periodTypeId} />
+                  {/* 30 days */}
+                  {/* <FrequencyMatch currentId={item.periodTypeId} /> */}
                 </p>
               </span>
             </div>
@@ -89,7 +91,7 @@ const ClubItem = ({ subItem, history }) => {
       <div className="col-12 col-md-4 text-nowrap ml-3 mt-3 mb-3">
         {/* <LazyLoad> */}
         <img
-          src={subscriptionLogo}
+          src={getClubLogo({ subscriptionType: 'Individualization' })}
           style={{
             width: '75px',
             display: 'inline-block',

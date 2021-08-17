@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.less';
 import { FormContext } from '../QuestionnaireForm';
-
+import Tooltips from '../tooltips';
 export default function RadioButton({ questionData, id }) {
   const [checked, setChecked] = useState('');
   const Context = useContext(FormContext);
@@ -28,17 +28,7 @@ export default function RadioButton({ questionData, id }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i
-              className="iconfont iconinfo"
-              title="Bottom"
-              data-tooltip-placement="bottom"
-              data-tooltip="bottom-tooltip"
-            ></i>
-            <div id="bottom-tooltip" className="rc-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}
@@ -51,7 +41,8 @@ export default function RadioButton({ questionData, id }) {
               checked === item.key ? 'radio-button-wrapper-checked' : ''
             }`}
             style={{
-              height: questionData.name === 'petActivityCode' ? 76 : 44,
+              minHeight: 44,
+              height: questionData.name === 'petActivityCode' ? 76 : 'auto',
               flexDirection:
                 questionData.name === 'petActivityCode' ? 'column' : 'row'
             }}

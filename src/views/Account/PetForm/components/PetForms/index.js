@@ -893,7 +893,8 @@ const PetForms = ({
                   <FormattedMessage id="saveChange" />
                 </button>
                 <br />
-                {paramsId && (
+                {/* sourceType为0 和 individual的时候都是individual的，不能删除宠物*/}
+                {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
                     className="rc-styled-link"
                     onClick={() => {
@@ -906,7 +907,7 @@ const PetForms = ({
               </p>
             ) : (
               <p style={{ textAlign: 'right' }}>
-                {paramsId && (
+                {paramsId && currentPetParam.sourceType != 'individual' && (
                   <span
                     className="rc-styled-link"
                     onClick={() => {

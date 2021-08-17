@@ -24,7 +24,7 @@ const NextDelivery = ({
 }) => {
   const isIndv = subDetail.subscriptionType
     ?.toLowerCase()
-    .includes('Individualization');
+    .includes('individualization');
   const isActive = subDetail.subscribeStatus === '0';
   const { configStore } = useLocalStore(() => stores);
   const [promotionInputValue, setPromotionInputValue] = ''; //输入的促销码
@@ -113,6 +113,7 @@ const NextDelivery = ({
                   <img
                     alt="date Icon"
                     src={dateIcon}
+                    className="m-auto"
                     style={{
                       width: '1.25rem',
                       display: 'inline'
@@ -129,7 +130,7 @@ const NextDelivery = ({
                   }}
                 >
                   <DatePicker
-                    className="receiveDate subs-receiveDate"
+                    className="receiveDate subs-receiveDate for-mobile-pad-0"
                     placeholder="Select Date"
                     dateFormat={datePickerConfig.format}
                     locale={datePickerConfig.locale}
@@ -265,17 +266,23 @@ const NextDelivery = ({
                 }}
               >
                 <span className="red">
-                  {formatMoney(tradeItem.subscriptionPrice)}
+                  {formatMoney(
+                    isIndv
+                      ? el.tradePrice.goodsPrice
+                      : tradeItem.subscriptionPrice
+                  )}
                 </span>
-                <span
-                  style={{
-                    fontSize: '.75rem',
-                    textDecoration: 'line-through',
-                    marginLeft: '5px'
-                  }}
-                >
-                  {formatMoney(tradeItem.originalPrice)}
-                </span>
+                {isIndv ? null : (
+                  <span
+                    style={{
+                      fontSize: '.75rem',
+                      textDecoration: 'line-through',
+                      marginLeft: '5px'
+                    }}
+                  >
+                    {formatMoney(tradeItem.originalPrice)}
+                  </span>
+                )}
               </p>
             </div>
           </div>

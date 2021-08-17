@@ -16,7 +16,8 @@ import {
   getFormatDate,
   matchNamefromDict,
   filterOrderId,
-  getClubLogo
+  getClubLogo,
+  judgeIsIndividual
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -272,8 +273,23 @@ class AccountOrders extends React.Component {
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
+        let isIndv = false;
+        resContext.tradeItems?.forEach((el) => {
+          if (judgeIsIndividual(el)) {
+            el.spuName = `${el.petsName}'s personalized subscription`;
+            isIndv = true;
+          }
+        });
+        let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
+          (el) => {
+            if (isIndv) {
+              el.promotions = 'individual';
+            }
+            return el;
+          }
+        );
         this.setState({
-          welcomeGiftLists: resContext?.subscriptionPlanGiftList || []
+          welcomeGiftLists
         });
         const tradeState = resContext.tradeState;
         const orderStatusMap = resContext.orderStatusMap;
@@ -1245,21 +1261,31 @@ class AccountOrders extends React.Component {
                                                 className="medium ui-text-overflow-line2 text-break color-444"
                                                 title={item.spuName}
                                               >
-                                                {item.spuName}
+                                                {judgeIsIndividual(item)
+                                                  ? (item.petsName ||
+                                                      'Your pet') +
+                                                    "'s personalized subscription"
+                                                  : item.spuName}
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
                                                   {item.specDetails}
                                                 </span>
                                                 <span className="rc-md-down">
-                                                  <FormattedMessage
-                                                    id="quantityText"
-                                                    values={{
-                                                      specText:
-                                                        item.specDetails,
-                                                      buyCount: item.num
-                                                    }}
-                                                  />
+                                                  {judgeIsIndividual(item) ? (
+                                                    <span>
+                                                      {item.specDetails} x1
+                                                    </span>
+                                                  ) : (
+                                                    <FormattedMessage
+                                                      id="quantityText"
+                                                      values={{
+                                                        specText:
+                                                          item.specDetails,
+                                                        buyCount: item.num
+                                                      }}
+                                                    />
+                                                  )}
                                                 </span>
                                               </span>
                                               {item.subscriptionSourceList
@@ -1295,19 +1321,23 @@ class AccountOrders extends React.Component {
                                               <span className="rc-md-down">
                                                 {details.subscriptionResponseVO &&
                                                 item.subscriptionStatus ? (
-                                                  <>
-                                                    <span className="red font-weight-normal">
-                                                      {formatMoney(
-                                                        item.subscriptionPrice
-                                                      )}
-                                                    </span>
+                                                  judgeIsIndividual(item) ? (
+                                                    ''
+                                                  ) : (
+                                                    <>
+                                                      <span className="red font-weight-normal">
+                                                        {formatMoney(
+                                                          item.subscriptionPrice
+                                                        )}
+                                                      </span>
 
-                                                    <span className="text-line-through ml-2">
-                                                      {formatMoney(
-                                                        item.originalPrice
-                                                      )}
-                                                    </span>
-                                                  </>
+                                                      <span className="text-line-through ml-2">
+                                                        {formatMoney(
+                                                          item.originalPrice
+                                                        )}
+                                                      </span>
+                                                    </>
+                                                  )
                                                 ) : (
                                                   formatMoney(
                                                     item.originalPrice
@@ -1332,35 +1362,46 @@ class AccountOrders extends React.Component {
                                           <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
                                             <FormattedMessage
                                               id="xProduct"
-                                              values={{ val: item.num }}
+                                              values={{
+                                                val: judgeIsIndividual(item)
+                                                  ? 1
+                                                  : item.num
+                                              }}
                                             />
                                           </div>
                                           <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus ? (
-                                              <>
-                                                <span className="red font-weight-normal">
-                                                  {formatMoney(
-                                                    item.subscriptionPrice
-                                                  )}
-                                                </span>
+                                              judgeIsIndividual(item) ? (
+                                                ''
+                                              ) : (
+                                                <>
+                                                  <span className="red font-weight-normal">
+                                                    {formatMoney(
+                                                      item.subscriptionPrice
+                                                    )}
+                                                  </span>
 
-                                                <span className="text-line-through ml-2">
-                                                  {formatMoney(
-                                                    item.originalPrice
-                                                  )}
-                                                </span>
-                                              </>
+                                                  <span className="text-line-through ml-2">
+                                                    {formatMoney(
+                                                      item.originalPrice
+                                                    )}
+                                                  </span>
+                                                </>
+                                              )
                                             ) : (
                                               formatMoney(item.originalPrice)
                                             )}
                                           </div>
-                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                          <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 111">
                                             {details.subscriptionResponseVO &&
                                             item.subscriptionStatus
                                               ? formatMoney(
-                                                  item.subscriptionPrice *
-                                                    item.num
+                                                  judgeIsIndividual(item)
+                                                    ? details.tradePrice
+                                                        .goodsPrice
+                                                    : item.subscriptionPrice *
+                                                        item.num
                                                 )
                                               : formatMoney(
                                                   item.originalPrice * item.num
@@ -1385,7 +1426,10 @@ class AccountOrders extends React.Component {
                                               src={
                                                 item.goodsInfoImg ||
                                                 item.pic ||
-                                                getClubLogo()
+                                                getClubLogo({
+                                                  goodsInfoFlag:
+                                                    item.goodsInfoFlag
+                                                })
                                               }
                                               alt=""
                                               title=""
@@ -1410,20 +1454,28 @@ class AccountOrders extends React.Component {
                                               />
                                             </span>
                                           </span>
-                                          <span className="rc-md-down">
-                                            {formatMoney(item.marketPrice)}
+                                          <span className="rc-md-down 1111">
+                                            {judgeIsIndividual(item)
+                                              ? ''
+                                              : formatMoney(item.marketPrice)}
                                           </span>
                                         </div>
                                         <div className="col-6 col-md-2 text-right text-md-left rc-md-up">
                                           <FormattedMessage
                                             id="xProduct"
-                                            values={{ val: item.quantity }}
+                                            values={{
+                                              val: judgeIsIndividual(item)
+                                                ? 1
+                                                : item.quantity
+                                            }}
                                           />
                                         </div>
                                         <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
-                                          {formatMoney(item.marketPrice)}
+                                          {judgeIsIndividual(item)
+                                            ? ''
+                                            : formatMoney(item.marketPrice)}
                                         </div>
-                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                        <div className="col-12 col-md-2 text-right text-md-left text-nowrap rc-md-up font-weight-normal 222">
                                           {formatMoney(item.marketPrice)}
                                         </div>
                                       </div>
@@ -1514,8 +1566,8 @@ class AccountOrders extends React.Component {
                                     enterPriceType 买入价格开关 0：含税，1：不含税
                                   */}
                                   {this.props.configStore
-                                    ?.customTaxSettingOpenFlag == 0 &&
-                                  this.props.configStore?.enterPriceType ==
+                                    ?.customTaxSettingOpenFlag === 0 &&
+                                  this.props.configStore?.enterPriceType ===
                                     1 ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
@@ -1905,13 +1957,17 @@ class AccountOrders extends React.Component {
                             <div className="font-weight-normal ui-text-overflow-line2">
                               {ele.itemName}
                             </div>
-                            <FormattedMessage
-                              id="quantityText"
-                              values={{
-                                specText: ele.specDetails,
-                                buyCount: ele.itemNum
-                              }}
-                            />
+                            {judgeIsIndividual(ele) ? (
+                              <div>{ele.specDetails} x 1</div>
+                            ) : (
+                              <FormattedMessage
+                                id="quantityText"
+                                values={{
+                                  specText: ele.specDetails,
+                                  buyCount: ele.itemNum
+                                }}
+                              />
+                            )}
                           </div>
                         </div>
                       </div>

@@ -16,7 +16,7 @@ import successImg from '@/assets/images/credit-cards/success.png';
 import { queryCityNameById } from '@/api/address';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.less';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { orderConfirmationPushEvent, doGetGAVal } from '@/utils/GA';
@@ -24,6 +24,7 @@ import { transactionPixel } from '@/components/BazaarVoice/bvPixel';
 import { mktCallBack, accountCallBack } from '@/api/home.js';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { bindSubmitParam } from '@/utils/utils';
+let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -479,7 +480,12 @@ class Confirmation extends React.Component {
                   alt="success image"
                   src={successImg}
                   className="mb-3"
-                  style={{ display: 'inline-block' }}
+                  style={{
+                    display: 'inline-block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: isMobile ? '60px' : 'auto'
+                  }}
                 />
               </LazyLoad>
               <h4 className="rc-text-colour--iconography">

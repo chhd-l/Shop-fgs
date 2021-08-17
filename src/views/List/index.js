@@ -58,6 +58,20 @@ const filterAttrValue = (list, keyWords) => {
     .map((item) => item?.goodsAttributeValue);
 };
 
+function bSort(arr) {
+  var len = arr.length;
+  for (var i = 0; i < len - 1; i++) {
+    for (var j = 0; j < len - 1 - i; j++) {
+      if (arr[j].sort > arr[j + 1].sort) {
+        var temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+}
+
 function ListItemForDefault(props) {
   const { item, GAListParam, breadListByDeco, sourceParam, isDogPage } = props;
   return item && item.productFinder ? (
@@ -343,7 +357,8 @@ class List extends React.Component {
       listLazyLoadSection: 1,
       prefv1: '',
       keywordsSearch: '',
-      baseSearchStr: ''
+      baseSearchStr: '',
+      hiddenFilter: false
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1071,7 +1086,6 @@ class List extends React.Component {
         }
 
         const isSpecialNeedFilter =
-          !isHub &&
           !this.state.isDogPage &&
           window.__.env.REACT_APP_COUNTRY === 'fr' &&
           (
@@ -1079,7 +1093,7 @@ class List extends React.Component {
               .attributeValues || []
           ).filter(
             (attr) =>
-              attr === 'Boules de poils_Cat' ||
+              attr === 'Maintien du poids de forme_Cat' ||
               attr === 'Tendency to beg for food_Cat'
           ).length > 0;
 
@@ -1088,7 +1102,15 @@ class List extends React.Component {
         } else {
           this.pageSize = 12;
         }
-
+        console.log(
+          targetRouter,
+          this.props.history.location.pathname,
+          'targetRoutertargetRouter====='
+        );
+        const currPath = this.props.history.location.pathname;
+        const hiddenFilter =
+          currPath == targetRouter.cateRouter &&
+          targetRouter.filterStatus === 0;
         this.setState(
           {
             sortList,
@@ -1119,6 +1141,7 @@ class List extends React.Component {
                 (targetRouter && targetRouter.pageImg) ||
                 (targetRouter && targetRouter.cateImgForList)
             },
+            hiddenFilter,
             breadList,
             isSpecialNeedFilter
           },
@@ -1162,13 +1185,13 @@ class List extends React.Component {
   handleFilterResData(res, customFilter) {
     const { baseSearchStr } = this.state;
     const { pathname, search } = this.props.history.location;
-    let tmpList = res
-      .filter((ele) => +ele.filterStatus)
-      .sort((a) => (a.filterType === '0' ? -1 : 1))
-      .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
-      .sort((a) =>
-        a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
-      );
+    // res只有默认的filter，没有自定义的filter了,并且sort在火狐浏览器有兼容问题，后端已排序，无需前端排序
+    let tmpList = res.filter((ele) => +ele.filterStatus);
+    //   .sort((a) => (a.filterType === '0' ? -1 : 1))
+    //   .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort: 1))
+    //   .sort((a) =>
+    //     a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
+    //   );
     let filterList = tmpList.concat(customFilter);
 
     // isVetProducts 暂时又要手动过滤掉'breeds'
@@ -1453,15 +1476,16 @@ class List extends React.Component {
             return ret;
           });
 
-          if (this.state.isRetailProducts) {
-            goodsContent.splice(4, 0, { productFinder: true });
-          } else if (this.state.isSpecialNeedFilter) {
+          if (this.state.isSpecialNeedFilter) {
             goodsContent.splice(
               goodsContent.length >= 4 ? 4 : goodsContent.length,
               0,
               { specificNeedCheck: true }
             );
+          } else if (this.state.isRetailProducts) {
+            goodsContent.splice(4, 0, { productFinder: true });
           }
+
           loadJS({
             code: JSON.stringify({
               '@context': 'http://schema.org/',
@@ -1565,7 +1589,8 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document.getElementById('refineBar').getBoundingClientRect().top;
+      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
+        .top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
@@ -1647,7 +1672,8 @@ class List extends React.Component {
       baseSearchStr,
       allPrefv,
       prefv1,
-      animalType
+      animalType,
+      hiddenFilter
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1791,117 +1817,124 @@ class List extends React.Component {
                     zIndex: 3
                   }}
                 >
-                  <div
-                    id="refineBar"
-                    className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
-                  >
+                  {hiddenFilter && !isMobilePhone ? null : (
                     <div
-                      className="rc-meta rc-md-down"
-                      style={{ padding: '0 1em', fontSize: '1em' }}
+                      id="refineBar"
+                      className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
                     >
-                      <span className="font-weight-normal">
-                        {lastBreadListName}&nbsp;
-                      </span>
-                      {results > 0 && (
-                        <>
-                          (
-                          <FormattedMessage
-                            id="results"
-                            values={{ val: results }}
-                          />
-                          )
-                        </>
-                      )}
-                    </div>
-                    <div
-                      className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
-                      style={{
-                        padding: '0 1rem',
-                        boxShadow: '0 2px 4px #f1f1f1'
-                      }}
-                    >
-                      <span
-                        style={{ marginRight: '1em' }}
-                        className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                      <div
+                        className="rc-meta rc-md-down"
+                        style={{ padding: '0 1em', fontSize: '1em' }}
                       >
-                        {sortList.length > 0 && (
-                          <Selection
-                            key={sortList.length}
-                            selectedItemChange={this.onSortChange}
-                            optionList={sortList}
-                            selectedItemData={{
-                              value:
-                                (selectedSortParam &&
-                                  selectedSortParam.value) ||
-                                ''
-                            }}
-                            placeholder={<FormattedMessage id="sortBy" />}
-                            customInnerStyle={{
-                              paddingTop: '.7em',
-                              paddingBottom: '.7em',
-                              bottom: 0
-                            }}
+                        <span className="font-weight-normal">
+                          {lastBreadListName}&nbsp;
+                        </span>
+                        {results > 0 && (
+                          <>
+                            (
+                            <FormattedMessage
+                              id="results"
+                              values={{ val: results }}
+                            />
+                            )
+                          </>
+                        )}
+                      </div>
+                      <div
+                        className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
+                        style={{
+                          padding: '0 1rem',
+                          boxShadow: '0 2px 4px #f1f1f1'
+                        }}
+                      >
+                        <span
+                          style={{ marginRight: '1em' }}
+                          className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                        >
+                          {sortList.length > 0 && (
+                            <Selection
+                              key={sortList.length}
+                              selectedItemChange={this.onSortChange}
+                              optionList={sortList}
+                              selectedItemData={{
+                                value:
+                                  (selectedSortParam &&
+                                    selectedSortParam.value) ||
+                                  ''
+                              }}
+                              placeholder={<FormattedMessage id="sortBy" />}
+                              customInnerStyle={{
+                                paddingTop: '.7em',
+                                paddingBottom: '.7em',
+                                bottom: 0
+                              }}
+                            />
+                          )}
+                        </span>
+                        {hiddenFilter ? null : (
+                          <em
+                            className={`rc-icon rc-filter--xs rc-iconography ${
+                              (filterModalVisible && !isTop) ||
+                              (!filterModalVisible && isTop)
+                                ? 'rc-brand1'
+                                : ''
+                            }`}
+                            data-filter-trigger="filter-example"
+                            style={{ position: 'relative', top: '0.4rem' }}
+                            onClick={this.toggleFilterModal.bind(
+                              this,
+                              !filterModalVisible
+                            )}
                           />
                         )}
-                      </span>
-                      <em
-                        className={`rc-icon rc-filter--xs rc-iconography ${
-                          (filterModalVisible && !isTop) ||
-                          (!filterModalVisible && isTop)
-                            ? 'rc-brand1'
-                            : ''
-                        }`}
-                        data-filter-trigger="filter-example"
-                        style={{ position: 'relative', top: '0.4rem' }}
-                        onClick={this.toggleFilterModal.bind(
-                          this,
-                          !filterModalVisible
-                        )}
-                      />
-                      {/* <button
+                        {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
                         data-filter-trigger="filter-example"
                         onClick={this.toggleFilterModal.bind(this, true)}
                       /> */}
-                    </div>
-                    <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
-                    >
-                      {isMobilePhone ? (
-                        <Filters
-                          history={history}
-                          maxGoodsPrice={maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                          baseSearchStr={baseSearchStr}
-                        />
-                      )}
-                      {/* 由于么数据暂时隐藏注释 */}
-                      {/* {this.state.showSmartFeeder ? (
+                      </div>
+                      <aside
+                        className={`rc-filters ${
+                          filterModalVisible ? 'active' : ''
+                        }`}
+                      >
+                        {isMobilePhone ? (
+                          <Filters
+                            history={history}
+                            maxGoodsPrice={maxGoodsPrice}
+                            initing={initingFilter}
+                            onToggleFilterModal={this.toggleFilterModal}
+                            filterList={filterList}
+                            key={`2-${filterList.length}`}
+                            inputLabelKey={2}
+                            hanldePriceSliderChange={
+                              this.hanldePriceSliderChange
+                            }
+                            markPriceAndSubscriptionLangDict={
+                              markPriceAndSubscriptionLangDict
+                            }
+                            baseSearchStr={baseSearchStr}
+                          />
+                        ) : (
+                          <FiltersPC
+                            history={history}
+                            maxGoodsPrice={maxGoodsPrice}
+                            initing={initingFilter}
+                            onToggleFilterModal={this.toggleFilterModal}
+                            filterList={filterList}
+                            key={`2-${filterList.length}`}
+                            inputLabelKey={2}
+                            hanldePriceSliderChange={
+                              this.hanldePriceSliderChange
+                            }
+                            markPriceAndSubscriptionLangDict={
+                              markPriceAndSubscriptionLangDict
+                            }
+                            baseSearchStr={baseSearchStr}
+                          />
+                        )}
+                        {/* 由于么数据暂时隐藏注释 */}
+                        {/* {this.state.showSmartFeeder ? (
                         <div className="smart-feeder-container">
                           <p>Abonnement au distributeur connecté</p>
                           <p>
@@ -1918,10 +1951,13 @@ class List extends React.Component {
                           <img src={smartFeeder} />
                         </div>
                       ) : null} */}
-                    </aside>
-                  </div>
+                      </aside>
+                    </div>
+                  )}
                   <div
-                    className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
+                    className={`rc-column1 col-12 ${
+                      hiddenFilter ? 'col-xl-12' : 'col-xl-9'
+                    } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
                   >
                     {!loading && (
                       <>
@@ -1994,7 +2030,9 @@ class List extends React.Component {
                                       'layout-global'
                                         ? 'col-12 pr-0 pl-md-2 pr-md-2'
                                         : 'col-6 pl-2 pr-2'
-                                    } col-md-4 mb-3 pl-0 BoxFitMonileScreen`}
+                                    } ${
+                                      hiddenFilter ? 'col-md-3' : 'col-md-4'
+                                    } mb-3 pl-0 BoxFitMonileScreen`}
                                   >
                                     <PLPCover
                                       item={item}

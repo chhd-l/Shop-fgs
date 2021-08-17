@@ -123,13 +123,18 @@ const SubDetailHeader = ({
       {isShowClub && isNotInactive && !isCantLinkPet ? (
         <>
           <img
-            src={getClubLogo()}
+            src={getClubLogo({ subscriptionType: subDetail.subscriptionType })}
             style={{ maxWidth: '100px' }}
             alt="club Icon"
           />
           <div className="d-flex align-items-center add-pet-btn-wrap">
             {subDetail.petsId ? (
               <React.Fragment>
+                {/* {subDetail.subscriptionType == 'Individualization' ? (
+                  <div className="rc-md-up">
+                    <div className="rc-margin-x--xs"></div>
+                  </div>
+                ) : ( */}
                 <img
                   style={{ marginLeft: '1rem', marginRight: '1rem' }}
                   className="pet-img text-center rc-margin-y--sm"
@@ -140,8 +145,16 @@ const SubDetailHeader = ({
                       : null) || (petsInfo?.petsType === 'cat' ? Cat : Dog)
                   }
                 />
-                <div className="rc-md-down">
+                {/* )} */}
+
+                <div className="rc-md-down" style={{ marginRight: '0.625rem' }}>
                   <StatusText subDetail={subDetail} />
+                </div>
+                <div
+                  className="rc-md-down"
+                  style={{ color: 'rgb(226, 0, 26)' }}
+                >
+                  {petsInfo?.petsName}
                 </div>
                 <Link
                   className="rc-md-down rc-margin-y--sm"
@@ -150,7 +163,7 @@ const SubDetailHeader = ({
                       'rc-subdetailInfo',
                       JSON.stringify({
                         isFromSubscriptionDetail:
-                          subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示痰喘
+                          subDetail.goodsInfo?.length == 1, //新增的宠物绑定club，如果club商品大于1个就不展示弹窗
                         isFromSubscriptionDetail: true,
                         subscribeId: subDetail.subscribeId
                       })
@@ -176,11 +189,18 @@ const SubDetailHeader = ({
                       className="rc-md-up"
                       style={{ color: '#e2001a', margin: 0 }}
                     >
-                      <FormattedMessage id="subscriptionDetail.clubFor" />{' '}
+                      {subDetail.subscriptionType == 'club' ? (
+                        <FormattedMessage id="subscriptionDetail.clubFor" />
+                      ) : null}
                       {petsInfo?.petsName}
                     </h4>
                     <div>
-                      <FormattedMessage id="age" />:
+                      {subDetail.subscriptionType == 'Individualization' ? (
+                        'Date of birth'
+                      ) : (
+                        <FormattedMessage id="age" />
+                      )}
+                      :
                       <strong>
                         {' '}
                         {getFormatDate(petsInfo?.birthOfPets || '')}
@@ -271,7 +291,9 @@ const SubDetailHeader = ({
           {subDetail.subscriptionType?.toLowerCase().includes('club') && (
             // window.__.env.REACT_APP_COUNTRY == 'ru' &&
             <img
-              src={getClubLogo()}
+              src={getClubLogo({
+                subscriptionType: subDetail.subscriptionType
+              })}
               style={{ maxWidth: '100px', marginRight: '10px' }}
               alt="club Icon"
             />

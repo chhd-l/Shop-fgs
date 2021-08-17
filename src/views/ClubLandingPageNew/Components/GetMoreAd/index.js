@@ -31,6 +31,8 @@ const GetMoreAd = () => {
                     className={`${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? 'trwithsmall margintoppx'
+                        : window.__.env.REACT_APP_COUNTRY == 'fr'
+                        ? 'trwithsmall margintoppx'
                         : 'widthsmall margintoppx'
                     } one-time-purchase-box`}
                   >

@@ -3,6 +3,7 @@ import './index.less';
 import Selection from '@/components/Selection';
 import { FormattedMessage } from 'react-intl';
 import { FormContext } from '../QuestionnaireForm';
+import Tooltips from '../tooltips';
 
 export default function InputNumber({ questionData }) {
   const [number, setNumber] = useState(1);
@@ -78,17 +79,7 @@ export default function InputNumber({ questionData }) {
       <div className="question-title">
         {questionData.metadata.label}
         {questionData.metadata.description ? (
-          <span className="iconfont-box">
-            <i
-              className="iconfont iconinfo"
-              title="Bottom"
-              data-tooltip-placement="bottom"
-              data-tooltip="bottom-tooltip"
-            ></i>
-            <div id="bottom-tooltip" className="rc-tooltip">
-              {questionData.metadata.description}
-            </div>
-          </span>
+          <Tooltips description={questionData.metadata.description} />
         ) : (
           ''
         )}

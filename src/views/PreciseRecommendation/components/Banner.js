@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType, formatMoney } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
+import cloneDeep from 'lodash/cloneDeep';
 import stores from '@/store';
 import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
+import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
+const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const bannerList = [
   { img: 'secure_payment', text: 'Secure<br/>payment' },
   { img: 'satisfie_or_reimbursed', text: 'Satisfied or<br/> reimbursed' },
@@ -13,26 +18,135 @@ const bannerList = [
   { img: 'fast_shipment', text: '3 Days<br/> shipment' }
 ];
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+const BannerFour = () => {
+  return (
+    <div
+      className=" row col-12 text-center  rc-margin-top--md rc-padding-x--xl"
+      style={{
+        maxWidth: 730,
+        padding: isMobile ? null : 0,
+        marginLeft: isMobile ? null : '-10%'
+      }}
+    >
+      {bannerList.map((el) => (
+        <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
+          <LazyLoad>
+            <img
+              className="m-auto"
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
+            />
+          </LazyLoad>
+          <p
+            style={{ fontSize: '12px' }}
+            dangerouslySetInnerHTML={{ __html: el.text }}
+          ></p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
-const Banner = ({ productShowInfo, intl, recommData }) => {
+const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
   );
-
+  const [totalWeight, setTotalWeight] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
+  useEffect(() => {
+    if (!recommData.totalPackWeight) {
+      return;
+    }
+    let newAddCartBtnStatus =
+      recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount;
+    setAddCartBtnStatus(newAddCartBtnStatus);
+    let newTotalWeight = recommData.totalPackWeight + 'kg';
+    if (recommData?.weightUnit?.toLowerCase() == 'g') {
+      newTotalWeight = recommData.totalPackWeight / 1000 + 'kg';
+    }
+    setTotalWeight(newTotalWeight);
+  }, [recommData.totalPackWeight]);
+  const hanldeUnloginAddToCart = async () => {
+    let { goodsInfo, customerPetsVo } = recommData;
+    setLoading(true);
+    let petInfo = Object.assign({}, customerPetsVo, {
+      petType: 'cat'
+    });
+    try {
+      let cartItem = Object.assign(
+        goodsInfo,
+        { ...goodsInfo.goods },
+        { goodsInfo: goodsInfo.goods },
+        {
+          selected: true,
+          quantity: goodsInfo.buyCount,
+          currentUnitPrice: goodsInfo.marketPrice,
+          goodsInfoFlag: 3,
+          questionParams: JSON.stringify(petInfo),
+          periodTypeId: goodsInfo.periodTypeId || 3560,
+          recommendationInfos: clinicStore.linkClinicRecommendationInfos,
+          recommendationId:
+            clinicStore.linkClinicRecommendationInfos?.recommendationId ||
+            clinicStore.linkClinicId,
+          recommendationName:
+            clinicStore.linkClinicRecommendationInfos?.recommendationName ||
+            clinicStore.linkClinicName,
+          taggingForTextAtCart: (goodsInfo.taggingList || []).filter(
+            (e) =>
+              e.taggingType === 'Text' &&
+              e.showPage?.includes('Shopping cart page')
+          )[0],
+          taggingForImageAtCart: (goodsInfo.taggingList || []).filter(
+            (e) =>
+              e.taggingType === 'Image' &&
+              e.showPage?.includes('Shopping cart page')
+          )[0]
+        }
+      );
+      let sizeListItem = cloneDeep(cartItem);
+      sizeListItem.selected = true;
+      cartItem.sizeList = [sizeListItem];
+      let addCartData = {
+        valid: addCartBtnStatus,
+        cartItemList: [cartItem]
+      };
+      await checkoutStore.hanldeUnloginAddToCart(addCartData);
+      localItemRoyal.set('okta-redirectUrl', 'checkout');
+    } catch (err) {
+      console.info('errerr', err);
+    }
+  };
   const handleBuyNow = async () => {
-    if (!recommData || !recommData.pet || !recommData.goodsInfo) {
+    let { goodsInfo, customerPetsVo } = recommData;
+    if (!customerPetsVo || !goodsInfo) {
       console.info('err');
       return;
     }
-    let params = Object.assign({}, productShowInfo, {
-      goodsInfoFlag: 3,
-      questionParams: recommData.pet
+    let petInfo = Object.assign({}, customerPetsVo, {
+      petType: 'cat'
     });
+    let params = Object.assign(
+      {},
+      {
+        goodsInfoId: goodsInfo.goodsInfoId,
+        goodsNum: goodsInfo.buyCount,
+        periodTypeId:
+          goodsInfo?.goods?.defaultFrequencyId ||
+          configStore.info?.storeVO?.defaultSubscriptionClubFrequencyId,
+        goodsInfoFlag: 3,
+        questionParams: JSON.stringify(petInfo)
+      }
+    );
     try {
+      dataLayer.push({
+        event: 'individualizationRecoAddToCart'
+      });
+      setLoading(true);
       await sitePurchase(params);
-      sessionItemRoyal.set('recommend_product', JSON.stringify([params]));
-      this.props.history.push('/checkout');
-      // await this.props.checkoutStore.updateLoginCart({delFlag:1});
+      let recommendProd = Object.assign({}, params, recommData, goodsInfo);
+      // sessionItemRoyal.set('recommend_product', JSON.stringify([recommendProd]));
+      await checkoutStore.updateLoginCart({ delFlag: 1 });
+      history.push('/checkout');
       // const url = await distributeLinktoPrecriberOrPaymentPage({
       //   configStore,
       //   checkoutStore,
@@ -41,6 +155,7 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
       // });
       // this.props.history.push(url);
     } catch (err) {
+      setLoading(false);
       console.info('err', err);
     }
   };
@@ -48,180 +163,295 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
     <section>
       <div
         className="rc-padding-top--md"
-        style={{ backgroundColor: '#f5f5f5' }}
+        style={{
+          // backgroundColor: '#f5f5f5',
+          // backgroundImage: '-webkit-gradient(linear,left bottom,left top,color-start(0, #15A216),color-stop(1, #fafafa))',
+          boxShadow: 'inset 0px 35px 35px #eeeeee ',
+          background:
+            '-webkit-gradient(linear, 0% 50%, 0% 75%,from(#ffffff), to(#eeeeee))'
+        }}
       >
-        <div className="pc rc-md-up">
-          <div
-            className=" rc-padding-x--md rc-layout-container rc-five-column"
-            style={{ fontSize: '20px' }}
-          >
-            <div className="rc-column rc-double-width">
-              <img
-                src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/product_img.png`}
-              />
-            </div>
+        {/*//电脑端*/}
+        <div className="pc experience-component experience-layouts-1column rc-md-up ">
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-headingBlock">
+                  <div className="rc-max-width--xl text-center rc-margin-top--md rc-padding-top--xs">
+                    <div
+                      className="experience-component experience-layouts-1column rc-padding-x--md rc-layout-container rc-five-column"
+                      style={{ fontSize: '20px' }}
+                    >
+                      <div className="rc-column rc-double-width pl-0">
+                        <LazyLoad>
+                          <img
+                            src={productImg}
+                            // src={productImg}
+                          />
+                        </LazyLoad>
+                        <LazyLoad>
+                          <img
+                            style={{ width: '100px', marginLeft: '-90%' }}
+                            src={productImg}
+                            // src={productImg}
+                          />
+                        </LazyLoad>
+                      </div>
 
-            <div className="rc-column rc-triple-width">
-              <h2
-                className="rc-text-colour--brand1"
-                style={{ fontSize: '40px', textTransform: 'uppercase' }}
-              >
-                #Name#’s adapted diet & portion
-              </h2>
-              <div className=" rc-layout-container rc-five-column rc-padding-top--md">
-                <div className="rc-column rc-triple-width">
-                  <div className="margin-b-24" style={{ lineHeight: '24px' }}>
-                    30 days of complete & balanced diet for
-                    <br /> adult cat, Recommended diet to limit weight
-                  </div>
-                  <div className="margin-b-24" style={{ lineHeight: '24px' }}>
-                    Daily portion:{' '}
-                    <strong style={{ color: '#444' }}>
-                      {recommData.weight} {recommData.weightUnit}/day
-                    </strong>
-                    <br />
-                    Total pack weight:{' '}
-                    <strong style={{ color: '#444' }}>
-                      {recommData.totalPackWeight}
-                    </strong>
-                  </div>
-                  <div className="margin-b-24" style={{ lineHeight: '24px' }}>
-                    Automatic shipment every 30 days <br />
-                    Free shipment cost
-                  </div>
-                </div>
-                <div className="rc-column rc-double-width">
-                  <div className="rc-margin-bottom--sm">
-                    <div style={{ color: '#444', fontSize: '40px' }}>
-                      {formatMoney(recommData.dailyPrice)}/day
+                      <div className="rc-column rc-triple-width">
+                        <h2
+                          className="rc-text-colour--brand1"
+                          style={{
+                            fontSize: '40px',
+                            textTransform: 'uppercase',
+                            fontWeight: '700',
+                            textAlign: 'left'
+                          }}
+                        >
+                          {recommData?.customerPetsVo?.name}'s adapted diet &
+                          portion
+                          {/* {recommData?.goodsInfo?.goodsInfoName} */}
+                        </h2>
+                        <div className=" rc-layout-container rc-five-column rc-padding-top--md">
+                          <div
+                            className="rc-column rc-triple-width"
+                            style={{ maxWidth: '450px', textAlign: 'left' }}
+                          >
+                            <div
+                              className="margin-b-24"
+                              style={{ lineHeight: '24px' }}
+                            >
+                              30 days of complete & balanced diet for adult cat,
+                              <FormattedMessage
+                                id={productShowInfo.recoSentence}
+                              />
+                            </div>
+                            <div
+                              className="margin-b-24"
+                              style={{ lineHeight: '24px' }}
+                            >
+                              Daily portion:{' '}
+                              <strong
+                                style={{ color: '#444', fontWeight: '600' }}
+                              >
+                                {recommData.weight}
+                                {recommData.weightUnit}/day
+                              </strong>
+                              <br />
+                              Total pack weight:{' '}
+                              <strong
+                                style={{ color: '#444', fontWeight: '600' }}
+                              >
+                                {totalWeight}
+                                {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
+                              </strong>
+                            </div>
+                            <div
+                              className="margin-b-24"
+                              style={{ lineHeight: '24px' }}
+                            >
+                              Automatic shipment every 30 days <br />
+                              Free shipment cost
+                            </div>
+                          </div>
+                          <div className="rc-column rc-double-width">
+                            <div className="rc-margin-bottom--md">
+                              <div
+                                style={{
+                                  color: '#444',
+                                  fontSize: '37px',
+                                  fontWeight: '600',
+                                  margin: '-8px 0'
+                                }}
+                              >
+                                {formatMoney(recommData.dailyPrice)}/day
+                              </div>
+                              <div style={{ color: '#444', fontSize: '29px' }}>
+                                {formatMoney(recommData.totalPrice)}/month
+                              </div>
+                            </div>
+                            <div
+                              className="relative"
+                              style={{ lineHeight: '1.2' }}
+                            >
+                              <div
+                                className="rc-margin-bottom--xs"
+                                style={{
+                                  color: '#008900',
+                                  fontSize: '24px',
+                                  fontWeight: '600',
+                                  whiteSpace: 'nowrap'
+                                }}
+                              >
+                                -25% on first order{' '}
+                                <span
+                                  style={{ color: '#444', fontWeight: 300 }}
+                                >
+                                  *
+                                </span>
+                              </div>
+                              {loginStore.isLogin ? (
+                                <button
+                                  onClick={handleBuyNow}
+                                  className={`rc-btn rc-btn--one
+                        ${loading ? 'ui-btn-loading' : ''} ${
+                                    recommData?.goodsInfo?.stock >=
+                                    recommData?.goodsInfo?.buyCount
+                                      ? ''
+                                      : 'rc-btn-solid-disabled'
+                                  }`}
+                                  style={{ width: '300px', padding: '10px' }}
+                                >
+                                  buy now
+                                </button>
+                              ) : (
+                                <LoginButton
+                                  btnStyle={{ width: '230px', padding: '15px' }}
+                                  className={`rc-btn rc-btn--one rc-btn--sm`}
+                                  // btnStyle={{ margin: '5px 0', width: '100%' }}
+                                  // history={this.props.history}
+                                  beforeLoginCallback={async () => {
+                                    localItemRoyal.set(
+                                      'okta-redirectUrl',
+                                      'precise-cat-nutrition-recommendation'
+                                    );
+                                    // sessionItemRoyal.set('from-felin', true);
+                                  }}
+                                >
+                                  buy now
+                                </LoginButton>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <BannerFour />
+                      </div>
                     </div>
-                    <div style={{ color: '#444' }}>
-                      {formatMoney(recommData.totalprice)}/month
-                    </div>
-                  </div>
-                  <div
-                    className="relative"
-                    style={{ left: '-3rem', lineHeight: '1.2' }}
-                  >
-                    <div style={{ color: '#008900', fontSize: '24px' }}>
-                      -25% on first order
-                    </div>
-                    {loginStore.isLogin ? (
-                      <button
-                        onClick={handleBuyNow}
-                        className={`rc-btn rc-btn--one rc-btn--sm ${
-                          productShowInfo?.goodsInfo?.stock > 0
-                            ? ''
-                            : 'disabled'
-                        }`}
-                        style={{ width: '250px' }}
-                      >
-                        buy now
-                      </button>
-                    ) : (
-                      <LoginButton
-                        className="rc-btn rc-btn--two"
-                        // btnStyle={{ margin: '5px 0', width: '100%' }}
-                        // history={this.props.history}
-                        beforeLoginCallback={async () => {
-                          // sessionItemRoyal.set('from-felin', true);
-                        }}
-                      >
-                        buy now
-                      </LoginButton>
-                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div className="mobile rc-md-down rc-padding--md  text-center">
           <h2
             className="rc-text-colour--brand1"
-            style={{ fontSize: '24px', textTransform: 'uppercase' }}
+            style={{
+              fontSize: '24px',
+              textTransform: 'uppercase',
+              fontWeight: 600
+            }}
           >
-            {recommData?.goodsInfo?.goodsInfoName}
+            {recommData?.customerPetsVo?.name}'s adapted diet & portion
+            {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div
-            className="rc-margin-bottom--xs  text-left"
+            className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            30 days of complete & balanced diet for adult cat, Recommended diet
-            to limit weight
+            30 days of complete & balanced diet for adult cat,
+            <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
-          <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/product_img.png`}
-          />
+          <LazyLoad>
+            <img src={productImg} />
+          </LazyLoad>
+
+          <div className="rc-margin-y--md">
+            <LazyLoad>
+              <img
+                className="text-center"
+                style={{ width: '100px', marginLeft: '20%' }}
+                src={productImg}
+              />
+            </LazyLoad>
+          </div>
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
             Daily portion:{' '}
-            <strong style={{ color: '#444' }}>
+            <strong style={{ color: '#444', fontWeight: '600' }}>
               {recommData.weight} {recommData.weightUnit}/day
             </strong>
             <br />
             Total pack weight:{' '}
-            <strong style={{ color: '#444' }}>
-              {recommData.totalPackWeight}
+            <strong style={{ color: '#444', fontWeight: '600' }}>
+              {totalWeight}
+              {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
             </strong>
           </div>
           <div className="rc-margin-bottom--md">
-            <div style={{ color: '#444', fontSize: '40px' }}>
+            <div
+              style={{
+                color: '#444',
+                fontSize: '37px',
+                fontWeight: '600',
+                marginBottom: -10
+              }}
+            >
               {formatMoney(recommData.dailyPrice)}/day
             </div>
-            <div style={{ color: '#444' }}>
-              {formatMoney(recommData.totalprice)}/month
+            <div style={{ color: '#444', fontSize: '29px' }}>
+              {formatMoney(recommData.totalPrice)}/month
             </div>
           </div>
           <div
             className="rc-margin-bottom--xs"
-            style={{ color: '#008900', fontSize: '24px' }}
+            style={{ color: '#008900', fontSize: '24px', fontWeight: 400 }}
           >
-            -25% on first order
+            -25% on first order{' '}
+            <span style={{ color: '#444', fontWeight: 300 }}>*</span>
           </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>
             Automatic shipment every 30 days <br />
             Free shipment cost
           </div>
-          <button
-            className="rc-btn rc-btn--one rc-btn--sm"
-            style={{ width: '200px' }}
-          >
-            buy now
-          </button>
-        </div>
-        <div className="rc-layout-container rc-five-column">
-          <div className="rc-column rc-double-width"></div>
-          <div className="rc-column rc-triple-width">
-            <div
-              className=" row col-12 text-center"
-              style={{ maxWidth: '500px' }}
+          {loginStore.isLogin ? (
+            <button
+              style={{ width: 160 }}
+              className="rc-btn rc-btn--one"
+              onClick={handleBuyNow}
+              className={`rc-btn rc-btn--one
+          ${loading ? 'ui-btn-loading' : ''} ${
+                recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
+                  ? ''
+                  : 'rc-btn-solid-disabled'
+              }`}
             >
-              {bannerList.map((el) => (
-                <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
-                  <img
-                    className="m-auto"
-                    src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/${el.img}.svg`}
-                  />
-                  <p dangerouslySetInnerHTML={{ __html: el.text }}></p>
-                </div>
-              ))}
-            </div>
+              buy now
+            </button>
+          ) : (
+            <LoginButton
+              btnStyle={{ width: '200px', padding: '10px' }}
+              className={`rc-btn rc-btn--one rc-btn--sm`}
+              // btnStyle={{ margin: '5px 0', width: '100%' }}
+              // history={this.props.history}
+              beforeLoginCallback={async () => {
+                await hanldeUnloginAddToCart();
+              }}
+            >
+              buy now
+            </LoginButton>
+          )}
+
+          <div className="rc-padding-x--xl">
+            <BannerFour />
           </div>
         </div>
       </div>
 
       <div className="rc-max-width--xl m-auto rc-padding-x--md  rc-padding-top--lg rc-layout-container rc-two-column">
         <div className="rc-column">
-          <h2
-            className="rc-text-colour--brand1"
+          <h4
+            className="rc-beta text-lg-left text-center"
             style={{
-              fontSize: '32px',
-              textTransform: 'uppercase'
+              fontSize: isMobile ? '18px' : '32px',
+              textTransform: 'uppercase',
+              fontWeight: '600'
             }}
           >
             <FormattedMessage id={'preciseNutrition.benefits.title'} />
-          </h2>
+          </h4>
           <p
+            className=" text-lg-left text-center"
             style={{
               fontSize: '18px',
               lineHeight: '26px',
@@ -231,28 +461,40 @@ const Banner = ({ productShowInfo, intl, recommData }) => {
           >
             <FormattedMessage id={'preciseNutrition.benefits.content'} />
           </p>
-          <img
-            src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
-            style={{ border: 'none' }}
-          />
+          <LazyLoad>
+            <img
+              src={`${window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CatNutrition/cat.png`}
+              style={{ border: 'none' }}
+            />
+          </LazyLoad>
         </div>
         <div className="rc-column">
           {productShowInfo.provenBenefits?.map((item) => (
             <div className="d-flex">
               <div className="rc-padding-right--xs" style={{ width: '78px' }}>
-                <img
-                  // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
-                  src={`${
-                    window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
-                  }/img/CatNutrition/${intl.messages[item.img]}`}
-                />
+                <LazyLoad>
+                  <img
+                    // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
+                    src={`${
+                      window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
+                    }/img/CatNutrition/${intl.messages[item.img]}`}
+                  />
+                </LazyLoad>
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, paddingLeft: '8px' }}>
                 <strong style={{ fontSize: '20px' }}>
                   <FormattedMessage id={item.title} />{' '}
                 </strong>
                 <p style={{ fontSize: '18px', lineHeight: '24px' }}>
-                  <FormattedMessage id={item.des} values={{ val: <br /> }} />
+                  <FormattedMessage
+                    id={item.des}
+                    values={{
+                      val: <br />,
+                      italicSentence: item.italicSentence ? (
+                        <i>{intl.messages[item.italicSentence]}</i>
+                      ) : null
+                    }}
+                  />
                 </p>
               </div>
             </div>

@@ -157,7 +157,8 @@ const breadcrumbNameMap = {
   [searchNoResult[window.__.env.REACT_APP_COUNTRY]]: [
     { name: 'searchNoBreed.breedName' }
   ],
-  '/retail-products': [{ name: 'onlineStore.breedcrumb' }]
+  '/retail-products': [{ name: 'onlineStore.breedcrumb' }],
+  '/adoptant/:id': [{ name: 'Kit Chaton' }]
 };
 
 export default breadcrumbNameMap;

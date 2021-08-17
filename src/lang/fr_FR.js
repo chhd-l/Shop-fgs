@@ -104,9 +104,21 @@ const fr_FR = {
   'account.weight': "Quel est le poids d'un chien adulte de votre race {val}?",
   'account.welcome': 'Bienvenue dans la famille ROYAL CANIN®!',
   'account.yes': 'Oui',
+  'ind.IND10001.recoSentence':
+    'Recommandé pour aider à limiter la prise de poids',
+  'ind.IND10002.recoSentence':
+    'Recommandé pour aider à contrôler la tendance à quémander',
+  'ind.IND10003.recoSentence': 'Recommandé pour chats vivant à l’intérieur',
+  'ind.IND10004.recoSentence':
+    'Recommandé pour chats à poils longs, vivant à l’intérieur',
+  'ind.IND10005.recoSentence': 'Recommandé pour chats vivant à l’intérieur',
+  'ind.IND10006.recoSentence':
+    'Recommandé pour chats seniors de plus de 12 ans',
+  'ind.IND10007.recoSentence':
+    'Recommandé pour chats seniors stérilisés de plus de 12 ans',
   'ind.IND10001.title1': ' ',
   'ind.IND10001.des1':
-    "Combinaison optimale de fibres pour favorises la sensation de satiété.Teneur adaptée en protéines pour aider au maintien de la masse musculaire et d'un poids plus sain.Nutrition savoureuse permettant de réguler la faim, conçue pour aider votre chat à rester en forme.",
+    "- Combinaison optimale de fibres pour favorises la sensation de satiété.{val}- Teneur adaptée en protéines pour aider au maintien de la masse musculaire et d'un poids plus sain.{val}- Nutrition savoureuse permettant de réguler la faim, conçue pour aider votre chat à rester en forme.",
   'ind.IND10001.img1': 'image7.png',
   'ind.IND10001.title2': 'ENRICHI EN L-CARNITINE',
   'ind.IND10001.des2':
@@ -130,7 +142,7 @@ const fr_FR = {
   'ind.IND10002.des3':
     'Contient de la L-carnitine, favorisant un métabolisme sain des lipides.',
   'ind.IND10002.img3': 'image10.png',
-  'ind.IND10002.title4': 'SANTé URINAIRE',
+  'ind.IND10002.title4': 'SANTÉ URINAIRE',
   'ind.IND10002.des4':
     'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
   'ind.IND10002.img4': 'image9.png',
@@ -145,9 +157,11 @@ const fr_FR = {
   'ind.IND10003.img2': 'image6.png',
   'ind.IND10003.title3': 'RÉDUCTION DES ODEURS DE SELLES',
   'ind.IND10003.des3':
-    'Contient des protéines hautement digestibles (L.I.P.)* et aide à réduire le volume et les odeurs des selles. {val} *L.I.P. : protéines sélectionnées pour leur très haute digestibilité',
+    'Contient des protéines hautement digestibles (L.I.P.)* et aide à réduire le volume et les odeurs des selles. {val} {italicSentence}',
+  'ind.IND10003.italicSentence3':
+    '*L.I.P. : protéines sélectionnées pour leur très haute digestibilité',
   'ind.IND10003.img3': 'image5.png',
-  'ind.IND10003.title4': 'SANTé URINAIRE',
+  'ind.IND10003.title4': 'SANTÉ URINAIRE',
   'ind.IND10003.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
   'ind.IND10003.img4': 'image4.png',
@@ -192,8 +206,9 @@ const fr_FR = {
   'ind.IND10006.img1': 'image16.png',
   'ind.IND10006.title2': 'AIDE À BIEN VIELLIR',
   'ind.IND10006.des2':
-    'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} *France, brevet n° EP1146870',
+    'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} {italicSentence}',
   'ind.IND10006.img2': 'image17.png',
+  'ind.IND10006.italicSentence2': '*France, brevet n° EP1146870',
   'ind.IND10006.title3': 'SANTÉ RÉNALE',
   'ind.IND10006.des3':
     'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore modéré.',
@@ -208,8 +223,9 @@ const fr_FR = {
     'Contient un niveau modéré de matières grasses pour aider à maintenir le poids de forme.',
   'ind.IND10007.img1': 'image12.png',
   'ind.IND10007.title2': 'AIDE À BIEN VIELLIR',
+  'ind.IND10007.italicSentence2': '*France, brevet n° EP1146870',
   'ind.IND10007.des2':
-    'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} *France, brevet n° EP1146870',
+    'Un complexe breveté* d’antioxydants comprenant du lycopène et des acides gras oméga 3 aide l’organisme à faire face aux effets de l’âge. {val} {italicSentence}',
   'ind.IND10007.img2': 'image17.png',
   'ind.IND10007.title3': 'SANTÉ RÉNALE',
   'ind.IND10007.des3':
@@ -271,7 +287,7 @@ const fr_FR = {
   'ind.IND10004.crudeAshVal': '8,1 % ',
   'ind.IND10004.crudeFibreVal': '4,1 %',
   'ind.IND10004.EPADHAVal': '3,1 g/kg',
-
+  'ind.IND10004.crudeCellulosenVal': '4,1 %',
   'ind.IND10005.Composition':
     'maïs, protéines de volaille déshydratées, orge, farine de maïs, blé, isolat de protéines végétales*, graisses animales, gluten de maïs, hydrolysat de protéines animales, fibres végétales, pulpe de betterave, sels minéraux, huile de soja, levures et composants de levures, huile de poisson, fructo-oligosaccharides, téguments et graines de psyllium, hydrolysat de crustacé (source de glucosamine), extrait de rose d’inde (source de lutéine), hydrolysat de cartilage (source de chondroïtine). ',
   'ind.IND10005.Additives':
@@ -1147,7 +1163,7 @@ const fr_FR = {
   // 'recommendation.plusTitle':'',
   'recommendation.benefit': 'Bénéfices',
   'recommendation.noMoreRecommendation':
-    "Le produit n'est plus disponible ou non disponible à la vente",
+    'Produit recommandé temporairement en rupture de stock.{val}Nous vous invitons à vous reconnecter dès demain pour finaliser votre commande.{val}Veuillez nous excuser pour la gêne occasionnée.',
   'recommendation.plusContent':
     "Adopter un animal implique un certain nombre de devoirs et d’obligations morales pour subvenir à ses besoins, assurer sa santé, sa sécurité et son bien-être. En agissant en propriétaire responsable, vous contribuerez à construire jour après jour une relation unique avec votre animal afin de lui offrir ce qu’il y a de meilleur. Lui proposer l’aliment le plus adapté pour lui, c’est agir de façon responsable. Chez Royal Canin, nous plaçons les besoins nutritionnels de l'animal au cœur de notre démarche pour créer des solutions nutritionnelles précises et sur mesure.",
   'recommendation.plusImg': 'frplusImg.png',
@@ -1397,12 +1413,10 @@ const fr_FR = {
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
   subscription: 'Abonnements',
   giftList: 'promotion de cadeaux',
-  'subscription.ad.list1':
-    'Ajoutez les produits nutritionnels {val1} {val2} {val3} dans votre panier.',
-  'subscription.ad.list2':
-    'Sélectionnez {val1} et entrez votre mode de paiement.',
-  'subscription.ad.list3': '{val1} en fonction de votre calendrier.',
-  'subscription.ad.list4': 'Modifiez vos préférences à {val1}.',
+  'subscription.ad.list1': '{val1}',
+  'subscription.ad.list2': '{val1}',
+  'subscription.ad.list3': '{val1}',
+  'subscription.ad.list4': '{val1}',
   'subscription.ad.title': 'Comment cela fonctionne-t-il ?',
   'subscription.banner.subTitle':
     "Découvrez les meilleures options de nutrition pour votre animal et choisissez l'option Abonnement avant d'acheter.",
@@ -1838,21 +1852,22 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE {val1} ANIMAL UNE SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "Les avantages de l'abonnement pour votre chats et votre chien",
+    "Les avantages de l'abonnement pour {val}  votre chats et votre chien",
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Un aliment sur mesure pour une santé optimale',
+    'Un aliment sur mesure pour  {val} une santé optimale',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Des ingrédients de haute qualité choisis pour cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
+    'Des ingrédients de haute qualité choisis pour  {val} cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
     "Vous pouvez changer d'aliment quand les besoins de l’animal évoluent",
   'ClubLP.LongBanner.SubscriptionContent2':
     'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
-  'ClubLP.LongBanner.SubscriptionTitle3': 'La bonne quantité à chaque fois',
+  'ClubLP.LongBanner.SubscriptionTitle3':
+    'La bonne quantité à {val} chaque fois',
   'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
@@ -1988,6 +2003,8 @@ const fr_FR = {
   'preciseNutrition.Product.list.content2':
     'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
   'preciseNutrition.Product.list.content3':
-    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.'
+    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
+  'checkout.zeroOrder.butSubscription':
+    "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande"
 };
 export default fr_FR;

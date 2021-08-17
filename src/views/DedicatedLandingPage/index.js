@@ -1,4 +1,5 @@
 import React from 'react';
+import Skeleton from '@/components/NormalSkeleton';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
@@ -8,7 +9,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
-import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
@@ -19,7 +19,10 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
-import Help from '../StaticPage/SubscriptionLanding/Fr/help';
+import Help from './modules/help';
+import { getDetailsBySpuNo } from '@/api/details';
+import { sitePurchase } from '@/api/cart';
+import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
@@ -32,23 +35,25 @@ let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const kittyData = [
   {
     kittenImg: kittenimgone,
+    kittenTitle: 'Moins de 4 mois',
     kittenDescription: [
-      'sac de croquette Mother & BabyCat',
-      'boite de mousse Mother & BabyCat'
+      '- 1 sac de croquette Mother & BabyCat',
+      '- 1 boite de mousse Mother & BabyCat'
     ],
     dataCurrent: 1
   },
   {
     kittenImg: kittenimgtwo,
+    kittenTitle: 'Plus de 4 mois',
     kittenDescription: [
-      '1 sac de croquette Kitten',
-      '1 sachet de nutrition fraicheur Kitten123'
+      '- 1 sac de croquette Kitten',
+      '- 1 sachet de nutrition fraicheur Kitten'
     ],
     dataCurrent: 2
   }
 ];
 
-@inject('configStore')
+@inject('configStore', 'checkoutStore', 'loginStore', 'clinicStore')
 @observer
 @injectIntl
 class DedicatedLandingPage extends React.Component {
@@ -64,7 +69,26 @@ class DedicatedLandingPage extends React.Component {
       },
       searchEvent: {},
       showKitten: false,
-      selectLine: 0
+      selectLine: 0,
+      buttonLoading: false,
+      productList: [],
+      promotionCode: '',
+      listOne: [], // 商品数据1
+      listTwo: [], // 商品数据2
+      details: {
+        id: '',
+        goodsName: '',
+        goodsDescription: '',
+        sizeList: [],
+        images: [],
+        goodsSpecDetails: [],
+        goodsSpecs: [],
+        taggingForText: null,
+        taggingForImage: null,
+        fromPrice: 0,
+        toPrice: 0
+      },
+      unProductList: {}
     };
   }
 
@@ -85,26 +109,179 @@ class DedicatedLandingPage extends React.Component {
       localItemRoyal.remove('logout-redirect-url');
       location.href = url;
     }
+    this.setState({ promotionCode: this.props.match.params.id });
   }
+
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
+
   sendGAHeaderSearch = (event) => {
     this.setState({
       searchEvent: event
     });
   };
-
+  // 关闭 打开弹窗
   changeShowKitten = () => {
     this.setState({
-      showKitten: !this.state.showKitten
+      showKitten: !this.state.showKitten,
+      buttonLoading: false,
+      selectLine: 0
     });
   };
+  // 选中哪一项商品
   changeSetLine = (dataCurrent) => {
     this.setState({
       selectLine: dataCurrent
     });
   };
+
+  // 添加商品并跳转购物车
+  addCart = async () => {
+    const { selectLine } = this.state;
+    if (selectLine === 0) {
+      return;
+    }
+    this.setState({ buttonLoading: true });
+    if (selectLine === 1) {
+      const { context } = await getDetailsBySpuNo(2544);
+      this.setState({ listOne: context });
+      this.getProductList();
+    } else if (selectLine === 2) {
+      const { context } = await getDetailsBySpuNo(2522);
+      this.setState({ listTwo: context });
+      this.getProductList();
+    }
+  };
+  // 获取选中商品sku
+  getProductList = async () => {
+    const { selectLine, listOne, listTwo } = this.state;
+    let list = [];
+    let unProductList = [];
+    if (selectLine === 1) {
+      list = listOne.goodsInfos;
+      unProductList = listOne;
+    } else {
+      list = listTwo.goodsInfos;
+      unProductList = listTwo;
+    }
+    let productList = {};
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].stock !== 0) {
+        list[i].selected = true;
+        productList = list[i];
+        break;
+      }
+    }
+    this.setState({
+      productList: [productList],
+      unProductList
+    });
+    // 判断是否登陆
+    if (this.props.loginStore.isLogin) {
+      this.hanldeLoginAddToCart();
+    } else {
+      this.hanldeUnloginAddToCart();
+    }
+  };
+
+  // 已登录
+  async hanldeLoginAddToCart() {
+    let { productList, promotionCode } = this.state;
+    if (productList.length > 0) {
+      try {
+        await this.props.checkoutStore.setPromotionCode(promotionCode);
+        await sitePurchase({
+          goodsInfoId: productList[0].goodsInfoId,
+          goodsNum: 1,
+          goodsCategory: '',
+          goodsInfoFlag: 0,
+          recommendationId:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationId || this.props.clinicStore.linkClinicId,
+          recommendationInfos: this.props.clinicStore
+            .linkClinicRecommendationInfos,
+          recommendationName:
+            this.props.clinicStore.linkClinicRecommendationInfos
+              ?.recommendationName || this.props.clinicStore.linkClinicName
+        });
+        await this.props.checkoutStore.updateLoginCart();
+        this.setState({ buttonLoading: false, showKitten: false });
+        this.props.history.push('/cart');
+      } catch (e) {
+        this.setState({ buttonLoading: false });
+      }
+    } else {
+      this.setState({ buttonLoading: false });
+    }
+  }
+
+  get addCartBtnStatus() {
+    return this.state.productList.length > 0;
+  }
+
+  // 未登录
+  async hanldeUnloginAddToCart() {
+    let { productList, unProductList, promotionCode } = this.state;
+    await this.props.checkoutStore.setPromotionCode(promotionCode);
+    let specList = unProductList.goodsSpecs;
+    let specDetailList = unProductList.goodsSpecDetails;
+    if (specList) {
+      specList.map((sItem) => {
+        sItem.chidren = specDetailList.filter((sdItem, i) => {
+          return sdItem.specId === sItem.specId;
+        });
+        sItem.chidren.map((child) => {
+          if (
+            productList[0]?.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+          ) {
+            child.selected = true;
+          }
+          return child;
+        });
+        return sItem;
+      });
+    }
+
+    let cartItem = Object.assign(
+      {},
+      { ...unProductList, ...unProductList.goods },
+      {
+        selected: true,
+        sizeList: unProductList.goodsInfos,
+        goodsInfo: { ...productList },
+        quantity: 1,
+        currentUnitPrice: productList[0]?.marketPrice,
+        goodsInfoFlag: 0,
+        periodTypeId: null,
+        recommendationInfos: this.props.clinicStore
+          .linkClinicRecommendationInfos,
+        recommendationId:
+          this.props.clinicStore.linkClinicRecommendationInfos
+            ?.recommendationId || this.props.clinicStore.linkClinicId,
+        recommendationName:
+          this.props.clinicStore.linkClinicRecommendationInfos
+            ?.recommendationName || this.props.clinicStore.linkClinicName,
+        taggingForTextAtCart: (unProductList.taggingList || []).filter(
+          (e) =>
+            e.taggingType === 'Text' &&
+            e.showPage?.includes('Shopping cart page')
+        )[0],
+        taggingForImageAtCart: (unProductList.taggingList || []).filter(
+          (e) =>
+            e.taggingType === 'Image' &&
+            e.showPage?.includes('Shopping cart page')
+        )[0],
+        goodsSpecs: specList
+      }
+    );
+    await this.props.checkoutStore.hanldeUnloginAddToCart({
+      valid: this.addCartBtnStatus,
+      cartItemList: [cartItem]
+    });
+    this.setState({ buttonLoading: false, showKitten: false });
+    this.props.history.push('/cart');
+  }
 
   render() {
     const { history, match, location } = this.props;
@@ -166,8 +343,8 @@ class DedicatedLandingPage extends React.Component {
                   height: '300vh',
                   position: 'absolute',
                   display: 'block',
-                  background: '#000',
-                  opacity: '0.80'
+                  background: '#333333',
+                  opacity: '0.5'
                 }
               : {}
           }
@@ -211,18 +388,19 @@ class DedicatedLandingPage extends React.Component {
                       <div className="rc-layout-container rc-two-column rc-content-h-middle ">
                         <div className="rc-column">
                           <div className="rc-full-width">
-                            <h2 className="rc-beta ">
-                              Recevez votre kit chaton gratuit pour vous
-                              féliciter de votre adoption !
+                            <h2 className="rc-beta fwt siz26">
+                              Recevez votre kit chaton offert pour
+                              <br />
+                              vous féliciter de votre adoption !
                             </h2>
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                              <li className="rc-list__item">
+                              <li className="rc-list__item fwt pdln">
                                 Avec le code promotionnel qui vous a été
                                 communiqué vous pouvez à la fin de votre
                                 commande obtenir votre kit de nutrition adaptée
                                 pour votre chaton.
                               </li>
-                              <li className="rc-list__item">
+                              <li className="rc-list__item fwt pdln">
                                 Sélectionnez le kit d’aliment chaton et
                                 ajoutez-le à votre panier
                               </li>
@@ -261,7 +439,7 @@ class DedicatedLandingPage extends React.Component {
               style={{
                 display: showKitten ? 'block' : 'none',
                 position: 'absolute',
-                top: '25%',
+                top: '17%',
                 left: '50%',
                 transform: 'translate(-50%,0%)',
                 opacity: '100',
@@ -270,21 +448,20 @@ class DedicatedLandingPage extends React.Component {
               className="kitty80"
             >
               <article className="rc-card rc-card--a">
+                <div
+                  style={{ textAlign: 'right', padding: '24px 24px 0 0' }}
+                  onClick={() => this.changeShowKitten()}
+                >
+                  <span
+                    className="rc-icon rc-close rc-iconography"
+                    style={{ width: '15px', height: '24px', cursor: 'pointer' }}
+                  ></span>
+                </div>
                 <div className="rc-card__body">
-                  <div
-                    className="flex "
-                    style={{ justifyContent: 'flex-end' }}
-                    onClick={() => this.changeShowKitten()}
-                  >
-                    <span
-                      className="rc-icon rc-close rc-iconography"
-                      style={{ width: '15px' }}
-                    ></span>
-                  </div>
                   <header style={{ marginBottom: '25px' }}>
                     <h1
-                      className="rc-card__title rc-delta text-center "
-                      style={{ fontSize: '26px' }}
+                      className="rc-card__title rc-delta text-center fwt"
+                      style={{ fontSize: '28px' }}
                     >
                       Sélectionnez votre kit
                     </h1>
@@ -293,17 +470,25 @@ class DedicatedLandingPage extends React.Component {
                     className="flex flex-md-column kittyflexdirection"
                     style={{ justifyContent: 'space-evenly' }}
                   >
-                    {kittyData.map((index) => (
-                      <div style={{ marginRight: '5px' }}>
-                        <p className="text-center" style={{ color: '#E2001A' }}>
-                          Moins de 4 mois
+                    {kittyData.map((index, indexs) => (
+                      <div
+                        style={indexs === 0 ? { marginBottom: '10px' } : null}
+                        key={indexs}
+                      >
+                        <p
+                          className="text-center fwt"
+                          style={{ color: '#E2001A' }}
+                        >
+                          {index.kittenTitle}
                         </p>
                         <article
-                          className="rc-card rc-card--a"
+                          className="rc-card rc-card--a pd27"
                           onClick={() => this.changeSetLine(index.dataCurrent)}
                           style={
                             selectLine == index.dataCurrent
-                              ? { boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A' }
+                              ? {
+                                  boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E2001A'
+                                }
                               : null
                           }
                         >
@@ -315,10 +500,13 @@ class DedicatedLandingPage extends React.Component {
                           </picture>
                           <div style={{ marginBottom: '5px' }}>
                             <header>
-                              {index.kittenDescription.map((index) => (
-                                <div>
-                                  <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                    - {index}
+                              {index.kittenDescription.map((index, indexs) => (
+                                <div key={indexs}>
+                                  <p
+                                    className="rc-meta rc-margin-bottom--sm--mobile"
+                                    style={{ fontSize: 16, fontWeight: 400 }}
+                                  >
+                                    {index}
                                   </p>
                                 </div>
                               ))}
@@ -331,13 +519,20 @@ class DedicatedLandingPage extends React.Component {
                 </div>
                 <div
                   style={{
-                    boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E3E3E3',
-                    paddingTop: '15px',
-                    paddingBottom: '15px'
+                    boxShadow: ' rgb(0 0 0 / 30%) 0px -10px 15px -10px',
+                    padding: '20px',
+                    marginTop: '20px'
                   }}
                   className="text-center"
                 >
-                  <button className="rc-btn rc-btn--one">
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      this.state.buttonLoading ? 'ui-btn-loading' : ''
+                    }  ${
+                      this.state.selectLine === 0 ? 'rc-btn-solid-disabled' : ''
+                    }`}
+                    onClick={this.addCart}
+                  >
                     Ajouter et voir mon panier
                   </button>
                 </div>
@@ -349,7 +544,7 @@ class DedicatedLandingPage extends React.Component {
               style={{
                 display: showKitten ? 'block' : 'none',
                 position: 'absolute',
-                top: '25%',
+                top: '17%',
                 left: '50%',
                 transform: 'translate(-50%,0%)',
                 opacity: '100',
@@ -358,21 +553,24 @@ class DedicatedLandingPage extends React.Component {
             >
               <div className="rc-column " style={{ width: '950px' }}>
                 <article className="rc-card rc-card--a">
-                  <div className="rc-card__body">
-                    <div
-                      className="flex "
-                      style={{ justifyContent: 'flex-end' }}
-                      onClick={() => this.changeShowKitten()}
-                    >
-                      <span
-                        className="rc-icon rc-close rc-iconography"
-                        style={{ width: '15px' }}
-                      ></span>
-                    </div>
+                  <div
+                    style={{ textAlign: 'right', padding: '24px 24px 0 0' }}
+                    onClick={() => this.changeShowKitten()}
+                  >
+                    <span
+                      className="rc-icon rc-close rc-iconography"
+                      style={{
+                        width: '15px',
+                        height: '24px',
+                        cursor: 'pointer'
+                      }}
+                    ></span>
+                  </div>
+                  <div className="rc-card__bodys">
                     <header style={{ marginBottom: '25px' }}>
                       <h1
-                        className="rc-card__title rc-delta text-center "
-                        style={{ fontSize: '26px' }}
+                        className="rc-card__title rc-delta text-center fwt"
+                        style={{ fontSize: '28px' }}
                       >
                         Sélectionnez votre kit
                       </h1>
@@ -381,16 +579,19 @@ class DedicatedLandingPage extends React.Component {
                       className="flex "
                       style={{ justifyContent: 'space-evenly' }}
                     >
-                      {kittyData.map((index) => (
-                        <div style={{ marginRight: '5px' }}>
+                      {kittyData.map((index, indexs) => (
+                        <div
+                          style={indexs === 0 ? { marginRight: '27px' } : null}
+                          key={indexs}
+                        >
                           <p
-                            className="text-center"
+                            className="text-center fwt"
                             style={{ color: '#E2001A' }}
                           >
-                            Moins de 4 mois
+                            {index.kittenTitle}
                           </p>
                           <article
-                            className="rc-card rc-card--a"
+                            className="rc-card rc-card--a pd27"
                             onClick={() =>
                               this.changeSetLine(index.dataCurrent)
                             }
@@ -408,13 +609,21 @@ class DedicatedLandingPage extends React.Component {
                             </picture>
                             <div style={{ marginBottom: '5px' }}>
                               <header>
-                                {index.kittenDescription.map((index) => (
-                                  <div>
-                                    <p className="rc-meta rc-margin-bottom--sm--mobile text-center">
-                                      - {index}
-                                    </p>
-                                  </div>
-                                ))}
+                                {index.kittenDescription.map(
+                                  (index, indexs) => (
+                                    <div key={indexs}>
+                                      <p
+                                        className="rc-meta rc-margin-bottom--sm--mobile"
+                                        style={{
+                                          fontSize: 16,
+                                          fontWeight: 400
+                                        }}
+                                      >
+                                        {index}
+                                      </p>
+                                    </div>
+                                  )
+                                )}
                               </header>
                             </div>
                           </article>
@@ -424,15 +633,21 @@ class DedicatedLandingPage extends React.Component {
                   </div>
                   <div
                     style={{
-                      boxShadow: ' 0vh 0vh 0.3vh 0.1vh #E3E3E3',
-                      paddingTop: '15px',
-                      paddingBottom: '15px'
+                      boxShadow: ' rgb(0 0 0 / 30%) 0px -10px 15px -10px',
+                      padding: '20px',
+                      marginTop: '20px'
                     }}
                     className="text-center"
                   >
                     <button
-                      className="rc-btn rc-btn--one"
-                      onClick={() => console.log(this.state.selectLine)}
+                      className={`rc-btn rc-btn--one ${
+                        this.state.buttonLoading ? 'ui-btn-loading' : ''
+                      }  ${
+                        this.state.selectLine === 0
+                          ? 'rc-btn-solid-disabled'
+                          : ''
+                      }`}
+                      onClick={this.addCart}
                     >
                       Ajouter et voir mon panier
                     </button>
@@ -448,8 +663,8 @@ class DedicatedLandingPage extends React.Component {
                 <div className="experience-component experience-assets-twoColImgText">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                     <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
-                      <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                        Comment cela fonctionne-t-il ?
+                      <h2 className="rc-beta fwt rc-margin--none text-center rc-padding-x--lg--mobile">
+                        Connaissez-vous I’Abonnement ?
                       </h2>
                     </div>
                     <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
@@ -465,20 +680,19 @@ class DedicatedLandingPage extends React.Component {
                           </LazyLoad>
                         </div>
 
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list1"
                             values={{
-                              val1: <br />,
-                              val2: (
-                                <strong>
-                                  répondant aux besoins de votre animal
+                              val1: (
+                                <strong className="ft24">
+                                  Ajoutez les produits nutritionnels répondant
+                                  aux besoins de votre animal dans votre panier.
                                 </strong>
-                              ),
-                              val3: <br />
+                              )
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -491,14 +705,22 @@ class DedicatedLandingPage extends React.Component {
                             ></img>
                           </LazyLoad>
                         </div>
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list2"
                             values={{
-                              val1: <strong>l'expédition automatique</strong>
+                              val1: (
+                                <strong className="ft24">
+                                  Sélectionnez I'expédition
+                                  <br />
+                                  automatique et entrez votre
+                                  <br />
+                                  mode de paiement.
+                                </strong>
+                              )
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -512,18 +734,22 @@ class DedicatedLandingPage extends React.Component {
                           </LazyLoad>
                         </div>
 
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list3"
                             values={{
                               val1: (
-                                <strong>
-                                  Recevez votre produit automatiquement
+                                <strong className="ft24">
+                                  Recevez votre produit
+                                  <br />
+                                  automatiquement en fonction de
+                                  <br />
+                                  votre calendrier.
                                 </strong>
                               )
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -534,14 +760,19 @@ class DedicatedLandingPage extends React.Component {
                             title="image four"
                           ></img>
                         </div>
-                        <h7>
+                        <h6>
                           <FormattedMessage
                             id="subscription.ad.list4"
                             values={{
-                              val1: <strong>tout moment</strong>
+                              val1: (
+                                <strong className="ft24">
+                                  Modifiez vos préférences à tout
+                                  <br /> moment.
+                                </strong>
+                              )
                             }}
                           />
-                        </h7>
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -552,10 +783,12 @@ class DedicatedLandingPage extends React.Component {
 
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
-              <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+              <h2
+                style={{ color: '#E2001A', marginTop: '40px', fontWeight: 400 }}
+              >
                 <FormattedMessage id="subscription.help.title" />
               </h2>
-              <p>
+              <p style={{ fontWeight: 400 }}>
                 <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>

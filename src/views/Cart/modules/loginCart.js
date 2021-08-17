@@ -48,9 +48,9 @@ import ProductCarousel from '@/components/ProductCarousel';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GiftList from '../components/GiftList/index.tsx';
+import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const guid = uuidv4();
-import foodDispenserPic from '../../SmartFeederSubscription/img/food_dispenser_pic.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -380,10 +380,10 @@ class LoginCart extends React.Component {
       () => {
         // 若为空购物车，则要用其他seo
         if (!this.state.productList.length) {
-          // 延时是为了，页面初始化时，先请求Cart page的seo，再请求Empty Cart page时，会导致第一个先回来
+          // 延时是为了，页面初始化时，先请求Cart page的seo，再请求Empty Cart page时，会导致第一个先回来
           setTimeout(() => {
             setSeoConfig({
-              pageName: 'Empty Cart page'
+              pageName: 'Empty Cart page'
             }).then((res) => {
               this.setState({ seoConfig: res });
             });
@@ -690,6 +690,7 @@ class LoginCart extends React.Component {
     );
   };
   getProducts(plist) {
+    console.log(plist, 222);
     const Lists = plist.map((pitem, index) => {
       {
         var isGift = !!pitem.subscriptionPlanGiftList;
@@ -851,7 +852,9 @@ class LoginCart extends React.Component {
                 {isGift && this.getSizeBox(pitem, index)}
                 {isGift && this.getQuantityBox(pitem, index)}
               </div>
-              {pitem.subscriptionStatus && pitem.subscriptionPrice ? (
+              {pitem.subscriptionStatus &&
+              pitem.subscriptionPrice &&
+              this.totalPrice > 0 ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.goods.promotions ||
                   !pitem.goods.promotions.includes('club') ? (
@@ -1030,7 +1033,7 @@ class LoginCart extends React.Component {
                   float: 'right',
                   marginBottom: '.625rem'
                 }}
-                onClick={this.handleClickPromotionApply}
+                onClick={() => this.handleClickPromotionApply(false)}
               >
                 <FormattedMessage id="apply" />
               </button>
@@ -1207,7 +1210,7 @@ class LoginCart extends React.Component {
           </div>
         ) : null}
 
-        {/* 
+        {/*
           customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
           enterPriceType 买入价格开关 0：含税，1：不含税
         */}
@@ -1454,14 +1457,15 @@ class LoginCart extends React.Component {
       promotionInputValue: ''
     });
   };
-  handleClickPromotionApply = async () => {
+  handleClickPromotionApply = async (falseCodeAndReRequest = false) => {
+    //falseCodeAndReRequest 需要重新请求code填充公共code
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { promotionInputValue, discount } = this.state;
-    if (!promotionInputValue) return;
+    if (!promotionInputValue && !falseCodeAndReRequest) return;
     let result = {};
     let lastPromotionInputValue = promotionInputValue;
     this.setState({
-      isClickApply: true,
+      isClickApply: !falseCodeAndReRequest,
       isShowValidCode: false,
       lastPromotionInputValue,
       discount: []
@@ -1492,10 +1496,16 @@ class LoginCart extends React.Component {
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.setState({
-          isShowValidCode: false,
-          promotionInputValue: ''
-        });
+        this.setState(
+          {
+            isShowValidCode: false,
+            promotionInputValue: ''
+          },
+          () => {
+            // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
+            result.code === 'K-000000' && this.handleClickPromotionApply(true);
+          }
+        );
       }, 4000);
       // this.props.sendPromotionCode('');
     }

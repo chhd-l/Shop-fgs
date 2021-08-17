@@ -5,6 +5,7 @@ import LazyLoad from 'react-lazyload';
 import { SubGoodsInfosContext } from './index';
 import DatePicker from 'react-datepicker';
 import dateIcon from '../../images/date.png';
+import FrequencyMatch from '@/components/FrequencyMatch';
 import { getFormatDate, datePickerConfig, getZoneTime } from '@/utils/utils';
 const ChangeSelection = ({ el }) => {
   const SubGoodsInfosValue = useContext(SubGoodsInfosContext);
@@ -30,7 +31,10 @@ const ChangeSelection = ({ el }) => {
   }
   return (
     <>
-      <div className="rc-card-content">
+      <div
+        style={{ overflow: 'hidden' }}
+        className="rc-card-content sub-frequency-wrap"
+      >
         {isIndv ? (
           <>
             <strong
@@ -48,13 +52,15 @@ const ChangeSelection = ({ el }) => {
               style={{
                 marginTop: '.625rem',
                 display: 'inline-block',
-                paddingLeft: '.625rem',
+                paddingLeft: '1.625rem',
                 fontSize: '1.25rem',
                 width: '50%',
                 float: 'left'
               }}
             >
-              30 daily rations Delivered every month
+              <FrequencyMatch currentId={el.periodTypeId} />
+              {/* 30 days */}
+              {/* 30 daily rations Delivered every month */}
             </div>
           </>
         ) : (
@@ -63,13 +69,17 @@ const ChangeSelection = ({ el }) => {
             style={{
               marginTop: '.625rem',
               display: 'inline-block',
-              marginLeft: '.625rem',
+              // marginLeft: '.625rem',
+
               fontSize: '1.25rem'
             }}
           >
             {el.promotions && (
               <FrequencySelection
                 frequencyType={el.promotions}
+                selectionStyle={{ marginLeft: '0.625rem' }}
+                textStyle={{ display: 'inline-block', width: '50%' }}
+                wrapStyle={{}}
                 currentFrequencyId={el.periodTypeId}
                 handleConfirm={(data) => {
                   if (el.periodTypeId !== data.id) {
@@ -78,14 +88,14 @@ const ChangeSelection = ({ el }) => {
                     setState({ isDataChange: true });
                   }
                 }}
-                className="col-md-12"
+                className="col-md-12 text-left"
                 disabled={!isActive || isGift}
               />
             )}
           </div>
         )}
       </div>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         <strong
           style={{
             display: 'inline-block',
@@ -100,14 +110,14 @@ const ChangeSelection = ({ el }) => {
           style={{
             marginTop: '.625rem',
             display: 'inline-block',
-            marginLeft: '.625rem',
+            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >
           {getFormatDate(el.createTime.split(' ')[0])}
         </div>
       </div>
-      <div className="rc-card-content">
+      <div style={{ overflow: 'hidden' }} className="rc-card-content">
         <strong
           style={{
             display: 'inline-block',
@@ -133,7 +143,7 @@ const ChangeSelection = ({ el }) => {
           style={{
             marginTop: '.625rem',
             display: 'inline-block',
-            marginLeft: '.625rem',
+            marginLeft: '1.625rem',
             fontSize: '1.25rem'
           }}
         >

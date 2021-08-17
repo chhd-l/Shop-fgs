@@ -1706,6 +1706,8 @@ const en_US = {
     'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
   'preciseNutrition.Details.lititle1': 'INGREDIENTS',
   'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
+  'preciseNutrition.Details.des':
+    '*L.I.P. : protein selected for its very high assimilation',
   'preciseNutrition.Details.content3.1':
     'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
   'preciseNutrition.Details.content3.2':
@@ -1735,6 +1737,7 @@ const en_US = {
     'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
   'preciseNutrition.Product.list.content3':
     'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
-  dePrescriberCodeErrMsg: 'The Code entered invalid.<br>Please try another code'
+  'checkout.zeroOrder.butSubscription':
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
 };
 export default en_US;

@@ -76,6 +76,11 @@ class PayProductInfo extends React.Component {
       let isGift = false;
       // item.subscriptionPlanGiftList && item.subscriptionPlanGiftList.length;
       let giftArr = item.subscriptionPlanGiftList;
+      item.num = item.goodsInfoFlag === 3 ? 1 : item.num;
+      item.spuName =
+        item.goodsInfoFlag == 3
+          ? `${item.petsName}'s personalized subscription`
+          : item.spuName;
       return (
         <div
           className="product-summary__products__item"
@@ -106,7 +111,7 @@ class PayProductInfo extends React.Component {
                     item.goodsInfoFlag === 2 ? (
                       <img
                         className="clubLogo"
-                        src={getClubLogo()}
+                        src={getClubLogo({ goodsInfoFlag: item.goodsInfoFlag })}
                         alt="club-logo"
                       />
                     ) : null}
@@ -130,6 +135,11 @@ class PayProductInfo extends React.Component {
                       <p className="mb-0">
                         <FormattedMessage id="subscription.frequency" /> :{' '}
                         <FrequencyMatch currentId={item.periodTypeId} />
+                        {/* {item.goodsInfoFlag === 3 ? (
+                          '30 days'
+                        ) : (
+                          <FrequencyMatch currentId={item.periodTypeId} />
+                        )} */}
                         <span
                           className="iconfont font-weight-bold green"
                           style={{ fontSize: '.8em' }}
@@ -141,7 +151,8 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="line-item-total-price text-nowrap">
                     {details.subscriptionResponseVO &&
-                    item.subscriptionStatus ? (
+                    item.subscriptionStatus &&
+                    item.goodsInfoFlag != 3 ? (
                       <>
                         <p className="text-line-through mb-0">
                           {formatMoney(item.splitPrice)}
@@ -322,10 +333,13 @@ class PayProductInfo extends React.Component {
                   <FormattedMessage
                     id="payment.totalProduct"
                     values={{
-                      val: details.tradeItems.reduce(
-                        (total, item) => total + item.num,
-                        0
-                      )
+                      val:
+                        details.tradeItems[0].goodsInfoFlag == 3
+                          ? 1
+                          : details.tradeItems.reduce(
+                              (total, item) => total + item.num,
+                              0
+                            )
                     }}
                   />
                 </span>

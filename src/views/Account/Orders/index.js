@@ -18,7 +18,8 @@ import {
   getDictionary,
   getDeviceType,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  judgeIsIndividual
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
 import { batchAdd } from '@/api/payment';
@@ -171,6 +172,11 @@ class AccountOrders extends React.Component {
       .then((res) => {
         let tmpList = Array.from(res.context.content, (ele) => {
           const tradeState = ele.tradeState;
+          ele.tradeItems.forEach((el) => {
+            el.spuName = judgeIsIndividual(el)
+              ? `${el.petsName}'s personalized subscription`
+              : el.spuName;
+          });
           console.log('orderCategory:', ele.orderCategory);
           // orderCategory为RECURRENT_AUTOSHIP为refill订单，需要隐藏repay按钮
           return Object.assign(ele, {
@@ -885,9 +891,15 @@ class AccountOrders extends React.Component {
                                           </div>
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
-                                              {item.spuName}
+                                              {judgeIsIndividual(item)
+                                                ? (item.petsName ||
+                                                    'Your pet') +
+                                                  "'s personalized subscription"
+                                                : item.spuName}
                                             </span>
-                                            {!isIndv && (
+                                            {judgeIsIndividual(item) ? (
+                                              <span>{item.specDetails}</span>
+                                            ) : (
                                               <FormattedMessage
                                                 id="order.quantityText"
                                                 values={{
@@ -911,7 +923,7 @@ class AccountOrders extends React.Component {
                                             </div>
                                           ) : (
                                             <div className="col-2 col-md-2 rc-md-up">
-                                              {formatMoney(item.price)}
+                                              {formatMoney(item.splitPrice)}
                                             </div>
                                           )}
                                         </div>

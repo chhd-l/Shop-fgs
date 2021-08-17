@@ -132,7 +132,6 @@ export default class DropDownMenuForHub extends React.Component {
                 key={cItem.id}
                 style={{ display: 'block' }}
                 onClick={this.handleClickNavItem.bind(this, { item, cItem })}
-                key={gIdx}
               >
                 {cItem.Link.Text}
               </a>

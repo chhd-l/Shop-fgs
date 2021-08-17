@@ -200,13 +200,12 @@ const de_DE = {
   clickHere3: 'Praxisfinder',
   'clinic.cancel': 'Stornieren',
   'clinic.clinic': 'Klinik',
-  'clinic.clinicTip':
-    'Finden Sie eine ROYAL CANIN Partnerklinik in Ihrer Nähe.',
+  'clinic.clinicTip': 'Finden Sie eine teilnehmende Tierarztpraxis.',
   'clinic.confirm': 'Bestätigen',
   'clinic.confirm2': 'Bestätigen',
   'clinic.confirm3': 'Bestätigen',
   'clinic.navigate': 'Navigieren',
-  'clinic.selectVetClinics': 'Wählen Sie Tierkliniken',
+  'clinic.selectVetClinics': 'Wählen Sie eine Praxis',
   'clinic.vet': 'Tierarzt',
   close: 'Schließen',
   club: 'Club',
@@ -1401,7 +1400,9 @@ const de_DE = {
     'Discover the adapted recipe and the exact ration for your cat',
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
-  'plp.retail.cat.filter.specneed.learnmore': 'Learn more'
+  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'checkout.zeroOrder.butSubscription':
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
 };
 
 export default de_DE;

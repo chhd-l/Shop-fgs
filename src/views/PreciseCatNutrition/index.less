@@ -1,27 +1,178 @@
-.subtitleBG1{
-  background-image: url("./images/picto_delivery.png") ;
-  background-size: 100%;
-  background-repeat: no-repeat ;
+//.subtitleBG1{
+//  background-image: url("./images/picto_delivery.png") ;
+//  background-size: 100%;
+//  background-repeat: no-repeat ;
+//}
+//.subtitleBG2{
+//  background-image: url("./images/picto_advisor.png") ;
+//  background-size: 100%;
+//  background-repeat: no-repeat ;
+//}
+//.subtitleBG3{
+//  background-image: url("./images/picto_welcome-pack.png") ;
+//  background-size: 100%;
+//  background-repeat: no-repeat ;
+//}
+//.subtitleBG4{
+//  background-image: url("./images/picto_loyalty-program.png") ;
+//  background-size: 100%;
+//  background-repeat: no-repeat ;
+//}
+//.subtitleBG5{
+//  background-image: url("./images/picto_advice.png") ;
+//  background-size: 100%;
+//  background-repeat: no-repeat ;
+//}
+.longBannerTitle{
+  font-size: 2.5rem;
+  padding-left: 7.5rem;
+  padding-right: 7.5rem;
+  @media (max-width: 769px) {
+    font-size: 1.4rem;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
-.subtitleBG2{
-  background-image: url("./images/picto_advisor.png") ;
-  background-size: 100%;
-  background-repeat: no-repeat ;
+
+.longBannerTopPic{
+  margin-top: 0;
+  width: 100%;
+
+  @media (max-width: 769px) {
+     margin-top:  220px ;
+    width: 90%;
 }
-.subtitleBG3{
-  background-image: url("./images/picto_welcome-pack.png") ;
-  background-size: 100%;
-  background-repeat: no-repeat ;
 }
-.subtitleBG4{
-  background-image: url("./images/picto_loyalty-program.png") ;
-  background-size: 100%;
-  background-repeat: no-repeat ;
+
+.howItWorkImg{
+  height: 100px;
+  margin: 10px;
+  @media (max-width: 769px) {
+    height: auto;
+    margin: 10px;
+  }
 }
-.subtitleBG5{
-  background-image: url("./images/picto_advice.png") ;
-  background-size: 100%;
-  background-repeat: no-repeat ;
+.topCat{
+  width: 40%;
+  position: absolute;
+  left: -8%;
+  top: -250px;
+  @media (max-width: 480px) {
+    width: 80%;
+    position: absolute;
+    left: 0%;
+    top: -230px;
+    z-index: -100;
+}
+  @media (max-width: 380px) {
+    width: 80%;
+    position: absolute;
+    left: 0%;
+    top: -205px;
+    z-index: -100;
+  }
+  @media (max-width: 321px) {
+    width: 80%;
+    position: absolute;
+    left: 0%;
+    top: -173px;
+    z-index: -100;
+  }
+}
+.topCatEat{
+  width: 35%;
+  position: absolute;
+  top: -240px;
+  right: -5%;
+  @media (max-width: 480px) {
+    width: 60%;
+    position: absolute;
+    right: 0%;
+    top: -176px;
+  }
+  @media (max-width: 380px) {
+    width: 60%;
+    position: absolute;
+    right: 0%;
+    top: -161px;
+  }
+  @media (max-width: 321px) {
+    width: 60%;
+    position: absolute;
+    right: 0%;
+    top: -132px;
+  }
+}
+.LongBannerSomeFontsize{
+  font-size: 14px;
+  font-weight: 700;
+@media (max-width: 480px) {
+  font-size: 18px;
+  font-weight: 700;
+}
+}
+
+.subscriptionSomeFontsize {
+  text-align: center;
+  @media (max-width: 769px) {
+    text-align: left;
+  }
+}
+
+.howItWorkStyle{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 769px) {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10%;
+  }
+}
+.howItWorkNum2{
+  width: 105px;
+  height: 105px;
+  top: -240px;
+  right: 0%;
+  @media (max-width: 480px) {
+    width: 90px;
+    height: 90px;
+    top: -198px;
+    right: 0%;
+  }
+  @media (max-width: 380px) {
+    width: 90px;
+    height: 90px;
+    top: -188px;
+    right: 0%;
+
+  }
+  @media (max-width: 320px) {
+    width: 87px;
+    height: 87px;
+    top: -170px;
+    right: 0%;
+
+  }
+}
+.howItWorkNum{
+  border-radius: 50%;
+  background-color: #E2001A;
+  color: white;
+  width:45px;
+  height:45px;
+  text-align: center;
+  line-height:45px;
+}
+.titleRadius{
+  height: 54%;
+  @media (max-width: 480px) {
+    height: 60%;
+  }
+
 }
 
 .questionnaire-container{
@@ -32,7 +183,7 @@
   }
   .questionnaire-content{
     width: 1052px;
-    height: 610px;
+    height: 618px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -43,6 +194,12 @@
       display: block;
       padding: 20px 15px;
       height: auto;
+    }
+    .button-box{
+      margin-left: 40px;
+      @media (max-width: 769px) {
+        margin-left: 0;
+      }
     }
     .questionnaire-image-box{
       display: flex;
@@ -55,6 +212,7 @@
         text-align: center;
       }
       .questionnaire-image{
+        margin-left: -18px;
         @media (max-width: 769px) {
           display: none;
         }
@@ -62,6 +220,7 @@
       .questionnaire-image-title{
         font-size: 34px;
         color: #e2001a;
+        font-weight: bold;
         @media (max-width: 769px) {
           font-size: 26px;
         }
@@ -82,12 +241,29 @@
     }
     .question-button{
       width: 190px;
-      margin-top: 10px;
+      margin-top: 0px;
       @media (max-width: 769px) {
         width: 100%;
-        margin:20px auto 0 ;
+        margin:10px auto 0 ;
       }
     }
+    .back-btn-box{
+      width: 190px;
+      margin-top: 20px;
+      text-align: center;
+      @media (max-width: 769px) {
+        width: 100%;
+      }
+      .back-btn{
+        text-align: center;
+        cursor: pointer;
+        color: #444;
+        border-bottom: 1px solid #d7d7d7;
+        line-height: 24px;
+        padding: 6px 0;
+      }
+    }
+
   }
 }
 .howItWorkBorder{
@@ -101,7 +277,7 @@
 .borderBack1{
   background-image:url('images/borderBG1.jpg');
   background-repeat: no-repeat ;
-  background-size: 100%;
+  background-size: 100% 98%;
 }
 
 .borderBack2{
@@ -116,14 +292,26 @@
   background-size: 100% 98%;
 }
 
-.howItWorkNum{
-  border-radius: 50%;
-  background-color: #E2001A;
-  color: white;
-  width:45px;
-  height:45px;
-  text-align: center;
-  line-height:45px;
+.helpComponents-b {
+  color: #E2001A;
+  display: block;
+  margin-top: -10%;
+  @media (max-width: 639.98px) {
+    margin-top: auto;
+  }
+}
+
+.didYouKnowText{
+  padding:0 10% 0 0;
+  margin-left: auto;
+  @media (min-width: 771.98px) {
+    padding:0 10% 0 0;
+    margin-left:-10%;
+  }
+    @media (max-width: 639.98px) {
+    margin-left: auto;
+  }
+
 }
 @media (max-width: 639.98px) {
 
@@ -161,7 +349,6 @@
 
   .lazyload-wrapper {
     display: flex;
-    width: 80%;
     height: auto;
   }
 
