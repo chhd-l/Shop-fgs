@@ -196,7 +196,12 @@ const SubsriptionBenefitsNew = () => {
             >
               <button
                 className="rc-btn rc-btn--one"
-                style={{ paddingLeft: '90px', paddingRight: '90px' }}
+                style={{
+                  paddingLeft: '90px',
+                  paddingRight: '90px',
+                  paddingTop: '5px',
+                  paddingBottom: '5px'
+                }}
               >
                 <FormattedMessage
                   id={'ClubLP.SubscriptionBenefitsNew.button'}

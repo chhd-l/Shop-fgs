@@ -19,9 +19,11 @@ import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Component
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
+import pdpbackgroundmobiledogfr from './image/goodsdeatailsbackgroundmobilefr.png';
 import pdpbackgroundmobiledogtr from './image/goodsdeatailsbackgroundmobiletr.png';
 import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
 import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png';
+import pdpbackgroundmobilecatfr from './image/goodsdeatailsbackgroundmobilecatfr.png';
 import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
 import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png';
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
@@ -76,6 +78,11 @@ const pdpmobilebackgrounddogtr = {
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
+const pdpmobilebackgrounddogfr = {
+  backgroundImage: `url(${pdpbackgroundmobiledogfr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
 
 const pdpbackgroundmobilecats = {
   backgroundImage: `url(${pdpbackgroundmobilecat})`,
@@ -85,6 +92,12 @@ const pdpbackgroundmobilecats = {
 
 const pdpbackgroundmobilecatstr = {
   backgroundImage: `url(${pdpbackgroundmobilecattr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
+const pdpbackgroundmobilecatsfr = {
+  backgroundImage: `url(${pdpbackgroundmobilecatfr})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
@@ -329,7 +342,10 @@ const GoodsDetailTabs = function (props) {
         getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
-          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2.new" />
+          <FormattedMessage
+            id="ClubLP.LongBanner.SubscriptionTitle2.new"
+            values={{ val: <br /> }}
+          />
         </a>
       )
     },
@@ -699,9 +715,13 @@ const GoodsDetailTabs = function (props) {
                           getSpeciesId(goodsDetailSpace) == '1'
                             ? window.__.env.REACT_APP_COUNTRY === 'tr'
                               ? pdpbackgroundmobilecatstr
+                              : window.__.env.REACT_APP_COUNTRY === 'fr'
+                              ? pdpbackgroundmobilecatsfr
                               : pdpbackgroundmobilecats
                             : window.__.env.REACT_APP_COUNTRY === 'tr'
                             ? pdpmobilebackgrounddogtr
+                            : window.__.env.REACT_APP_COUNTRY === 'fr'
+                            ? pdpmobilebackgrounddogfr
                             : pdpmobilebackgrounddog
                         }
                       >

@@ -1881,6 +1881,14 @@ const fr_FR = {
   'ClubLP.Advantage.content4':
     'Des nutriments sélectionnés pour leur haute qualité, à partir de sources durables ayant une plus faible empreinte carbone',
   'ClubLP.Advantage.button': 'Trouvez votre aliment sur mesure dès maintenant',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    "AVANTAGES DE L'ABONNEMENT POUR LES CHATS",
+  'ClubLP.LongBanner.SubscriptionTitle1.new':
+    'Un aliment sur mesure pour soutenir sa santé',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    "AVANTAGES DE L'ABONNEMENT {val} POUR LES CHIENS",
+  'ClubLP.LongBanner.SubscriptionTitle2.new':
+    'Un aliment qui peut être changé  quand les besoins de l’animal évoluent',
   'ClubLP.SubscriptionBenefitsNew.title':
     'UN ABONNEMENT QUI VOUS FACILITE LA VIE',
   'ClubLP.SubscriptionBenefitsNew.icon1': 'Livraison offerte et automatique',

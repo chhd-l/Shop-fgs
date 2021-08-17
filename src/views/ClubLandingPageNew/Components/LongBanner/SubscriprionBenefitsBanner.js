@@ -30,12 +30,9 @@ const SubscriptionBenefitsBanner = ({
                 {LogoShow.logo}
               </div>
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                <div
-                  className="rc-beta"
-                  style={{ fontWeight: 'bold', fontSize: '23px' }}
-                >
+                <h3 className="rc-beta" style={{ fontWeight: '550' }}>
                   {Subtitle.title}
-                </div>
+                </h3>
               </div>
               <div
                 style={{ display: 'flex', justifyContent: 'space-around' }}
