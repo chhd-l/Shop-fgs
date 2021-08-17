@@ -851,7 +851,7 @@ export function cancelPrevRequest() {
 }
 
 export function getClubFlag() {
-  return ['tr', 'ru'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
+  return ['tr', 'ru', 'fr'].indexOf(window.__.env.REACT_APP_COUNTRY) > -1;
 }
 
 // 美国订单号去掉RCFUS开头
