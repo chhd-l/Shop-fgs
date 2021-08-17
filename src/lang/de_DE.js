@@ -336,6 +336,7 @@ const de_DE = {
   dontHesitateToContactUs: 'Zögern Sie nicht uns zu kontaktieren',
   download: 'Herunterladen',
   edit: 'Bearbeiten',
+  selectThisAddress: 'Diese Adresse auswählen',
   edit2: 'Bearbeiten',
   email: 'E-Mail Adresse',
   emailAddress: 'E-Mail-Addresse *',

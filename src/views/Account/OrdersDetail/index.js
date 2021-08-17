@@ -1697,6 +1697,13 @@ class AccountOrders extends React.Component {
                                           {details.consignee.timeSlot}
                                         </p>
                                       )}
+
+                                      {/* workTime */}
+                                      {details.consignee.workTime && (
+                                        <p className="mb-0 od_mb_workTime">
+                                          {details.consignee.workTime}
+                                        </p>
+                                      )}
                                     </div>
                                   </div>
                                 </div>

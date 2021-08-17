@@ -97,7 +97,8 @@ class Form extends React.Component {
         timeSlot: '',
         timeSlotId: 0,
         receiveType: 'HOME_DELIVERY', //  HOME_DELIVERY、PICK_UP ********************** 选择deliveryDate或者pickup时
-        pickUpCode: null, // 地图选择后得到的编码
+        pickupCode: null, // 快递公司code
+        pickupName: '', // 快递公司
         DuData: null, // 俄罗斯DuData
         formRule: [], // form表单校验规则
         workTime: '', // pickup workTime

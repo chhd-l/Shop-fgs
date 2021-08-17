@@ -47,6 +47,9 @@ class SearchSelection extends React.Component {
     this.otherValue = '';
     this.searchText = React.createRef();
   }
+  componentDidMount = () => {
+    // console.log('666 searchSelection form: ',this.state.form);
+  };
   componentWillUnmount = () => {
     this.setState = (state, callback) => {
       return;

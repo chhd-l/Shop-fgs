@@ -23,14 +23,15 @@
     overflow: hidden;
     border: 1px solid #FFF !important;
     display: flex;
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
-  .address-item.address-item-none{
+
+  .address-item.address-item-none {
     display: none;
   }
 
-  .address-item .align_items_wrap{
-    width:100%;
+  .address-item .align_items_wrap {
+    width: 100%;
     border-bottom: 1px solid #e5e5e5;
   }
 
@@ -40,16 +41,16 @@
   }
 
   .address-item.selected {
-    border: 1px solid #53b053 !important;
+    border: 1px solid #008900 !important;
   }
-  
-  .address-item.selected .select_this_address{
+
+  .address-item.selected .select_this_address {
     display: none;
   }
 
-  .address-item.selected .align_items_wrap{
-    width:100%;
-    border:none;
+  .address-item.selected .align_items_wrap {
+    width: 100%;
+    border: none;
   }
 
   .address-item .addr-btn-edit {
@@ -133,5 +134,70 @@
         opacity: 0.5;
       }
     }
+  }
+}
+
+.add_address_pk_btn {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+
+  &.pd_r1{
+    padding-right: 1rem;
+  }
+
+  p {
+    cursor: pointer;
+  }
+}
+
+.home_delivery_box {
+  position: relative;
+
+  &.home_delivery_box_border {
+    border: 1px solid #e5e5e5;
+    padding: 1rem;
+    border-radius: 3px;
+    margin-top: 1rem;
+  }
+
+  .hdpk_input_label {
+    margin-bottom: 0;
+  }
+
+  .rc_list_radio_box {
+    width: 100%;
+    max-width: 100% !important;
+
+    &.radio_mb1 {
+      margin-bottom: 1rem;
+    }
+
+    .delivery_date_price {
+      position: absolute;
+      right: 1rem;
+      top: 0;
+    }
+  }
+
+  .pickup_point_info {
+    margin-top: .5rem;
+
+    p {
+      margin-bottom: 0;
+      padding-left: 2rem;
+
+      &.tit {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .change_pickup_point_btn {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    margin: 2rem 0 1rem;
   }
 }

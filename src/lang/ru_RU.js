@@ -362,7 +362,7 @@ const ru_RU = {
   dogs3: 'Собаки',
   download: 'Скачать',
   edit: 'Редактировать',
-  selectThisAddress: 'Select this address',
+  selectThisAddress: 'Выбрать этот адрес',
   edit2: 'Изменить',
   email: 'E-mail',
   emailAddress: 'Адрес электронной почты *',
@@ -738,9 +738,12 @@ const ru_RU = {
   'payment.fillCityOfDelivery': 'Введите ваш город',
 
   'payment.moreDetails': 'Подробнее',
-
+  'payment.changePickup': 'Изменить пункт выдачи заказов',
+  'payment.addPickup': 'Выбрать пункт выдачи заказов',
   'payment.pickupNoRusult':
     'Пожалуйста, введите адрес, который находится в пределах зон доставки интернет-магазина. С зонами доставки Вы можете ознакомиться на странице "Условия доставки" ',
+  'payment.noPickup':
+    'Для выбранного населённого пункта на данный момент ПВЗ недоступны',
 
   // 星期
   'payment.Monday': 'Понедельник',

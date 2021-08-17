@@ -731,7 +731,7 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
-          console.log('666 支付方式 payWayNameArr: ', payWayNameArr);
+          // console.log('666 支付方式 payWayNameArr: ', payWayNameArr);
           sessionItemRoyal.set(
             'rc-payWayNameArr',
             JSON.stringify(payWayNameArr)
@@ -2205,6 +2205,7 @@ class Payment extends React.Component {
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
+              isLogin={true}
             />
           ) : (
             <VisitorAddress
@@ -2225,6 +2226,7 @@ class Payment extends React.Component {
               updateData={this.updateDeliveryAddrData}
               calculateFreight={this.calculateFreight}
               cartData={this.computedCartData}
+              isLogin={false}
             />
           )}
         </div>
@@ -2310,6 +2312,7 @@ class Payment extends React.Component {
                   key: 'billingAddr'
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
+                isLogin={true}
               />
             ) : (
               <VisitorAddress
@@ -2330,6 +2333,7 @@ class Payment extends React.Component {
                   key: 'billingAddr'
                 })}
                 catchErrorMessage={this.catchAddOrEditAddressErrorMessage}
+                isLogin={false}
               />
             )}
           </>
