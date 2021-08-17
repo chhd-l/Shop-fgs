@@ -1851,21 +1851,22 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE {val1} ANIMAL UNE SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "Les avantages de l'abonnement pour votre chats et votre chien",
+    "Les avantages de l'abonnement pour {val}  votre chats et votre chien",
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Un aliment sur mesure pour une santé optimale',
+    'Un aliment sur mesure pour  {val} une santé optimale',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Des ingrédients de haute qualité choisis pour cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
+    'Des ingrédients de haute qualité choisis pour  {val} cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
     "Vous pouvez changer d'aliment quand les besoins de l’animal évoluent",
   'ClubLP.LongBanner.SubscriptionContent2':
     'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
-  'ClubLP.LongBanner.SubscriptionTitle3': 'La bonne quantité à chaque fois',
+  'ClubLP.LongBanner.SubscriptionTitle3':
+    'La bonne quantité à {val} chaque fois',
   'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
