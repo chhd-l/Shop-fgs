@@ -1227,7 +1227,6 @@ class AddressList extends React.Component {
       </>
     );
   }
-  //
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
       key: this.curPanelKey,
@@ -1305,7 +1304,6 @@ class AddressList extends React.Component {
         let obj = rfee.context.tariffs;
         obj = obj.filter((e) => e.type == 'COURIER');
         if (obj.length) {
-          // this.getHomeDeliveryAndPickupInfo(obj[0].deliveryPrice);
           let hap = Object.assign([], homeAndPickup);
           hap.map((e) => {
             if (e.type == 'homeDelivery') {
@@ -1343,9 +1341,18 @@ class AddressList extends React.Component {
     if (obj.length == 1) {
       obj[0].selected = true;
     }
-    this.setState({
-      homeAndPickup: obj
-    });
+    this.setState(
+      {
+        homeAndPickup: obj
+      },
+      () => {
+        // 存储选择的数据
+        let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+        hdpk ? (hdpk = JSON.parse(hdpk)) : (hdpk = null);
+        hdpk['homeAndPickup'] = obj;
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(hdpk));
+      }
+    );
   };
   // 新增或者编辑pickup address
   addOrEditPickupAddress = (str) => {
@@ -1488,7 +1495,7 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 updatePickupData: ', data);
+    // console.log('666 updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
