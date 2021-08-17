@@ -1860,7 +1860,7 @@ const fr_FR = {
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Un aliment sur mesure pour  {val} une santé optimale',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Des ingrédients de haute qualité choisis pour  {val} cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
+    'Des ingrédients de haute qualité choisis pour  cibler les besoins spécifiques de votre  animal  et {val} dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
     "Vous pouvez changer d'aliment quand les besoins de l’animal évoluent",
   'ClubLP.LongBanner.SubscriptionContent2':

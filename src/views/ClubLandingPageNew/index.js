@@ -270,7 +270,17 @@ class ClubLandingPageNew extends React.Component {
                               href={'/product-finder'}
                               ariaLabel="Links to product finder"
                             >
-                              <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                              <button
+                                className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs"
+                                style={
+                                  window.__.env.REACT_APP_COUNTRY === 'fr'
+                                    ? {
+                                        paddingLeft: '8px',
+                                        paddingRight: '8px'
+                                      }
+                                    : null
+                                }
+                              >
                                 <FormattedMessage id="ClubLP.Advantage.button" />
                               </button>
                             </DistributeHubLinkOrATag>

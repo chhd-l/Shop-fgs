@@ -55,7 +55,7 @@ const GetMoreAd = () => {
                         >
                           <p
                             style={{
-                              fontSize: '1.56rem',
+                              fontSize: '1.50rem',
                               fontWeight: 'bolder',
                               marginBottom: '0'
                             }}
@@ -127,7 +127,7 @@ const GetMoreAd = () => {
                           >
                             <p
                               style={{
-                                fontSize: '1.56rem',
+                                fontSize: '1.50rem',
                                 fontWeight: 'bolder',
                                 color: '#E2001A'
                               }}

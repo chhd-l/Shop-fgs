@@ -45,7 +45,7 @@ const SubscriptionItems = [
     SubscriptionContent: (
       <FormattedMessage
         id="ClubLP.LongBanner.SubscriptionContent1"
-        values={{ val: <br /> }}
+        values={{ val: isMobile ? null : <br /> }}
       />
     )
   },
