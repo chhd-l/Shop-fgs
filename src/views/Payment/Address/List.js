@@ -1348,9 +1348,18 @@ class AddressList extends React.Component {
       () => {
         // 存储选择的数据
         let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-        hdpk ? (hdpk = JSON.parse(hdpk)) : (hdpk = null);
-        hdpk['homeAndPickup'] = obj;
-        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(hdpk));
+        let item = null;
+        if (hdpk) {
+          item = {
+            cityData: hdpk?.cityData || null,
+            homeAndPickup: obj,
+            isSubscription: this.props.isCurrentBuyWaySubscription
+          };
+        } else {
+          item = JSON.parse(hdpk);
+          item['homeAndPickup'] = obj;
+        }
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
       }
     );
   };
@@ -1426,7 +1435,7 @@ class AddressList extends React.Component {
         let item = {
           cityData: sobj?.cityData,
           homeAndPickup: sitem,
-          isSubscription: sobj?.isSubscription
+          isSubscription: this.props.isCurrentBuyWaySubscription
         };
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
       }
@@ -1843,16 +1852,6 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
-
-    console.log('666 >>>>>>>>>> begin');
-    console.log('666 >> addOrEdit: ', addOrEdit);
-    console.log('666 >> deliveryOrPickUpFlag: ', deliveryOrPickUpFlag);
-    console.log(
-      '666 >> choiseHomeDeliveryOrPickUp: ',
-      choiseHomeDeliveryOrPickUp
-    );
-    console.log('666 >> !panelStatus.isCompleted: ', !panelStatus.isCompleted);
-    console.log('666 >>>>>>>>>> end');
 
     return (
       <>
