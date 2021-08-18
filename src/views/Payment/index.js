@@ -284,7 +284,8 @@ class Payment extends React.Component {
         postalCode: '',
         address1: ''
       }, // 俄罗斯计算运费DuData对象，purchases接口用
-      welcomeBoxValue: 'no' //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
+      welcomeBoxValue: 'no', //first order welcome box:1、会员 2、首单 3、未填写学生购student promotion 50% discount
+      paymentPanelHasComplete: false //增加payment面板按钮的状态，方便0元订单判断是否已经填写完payment面板
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
@@ -481,7 +482,6 @@ class Payment extends React.Component {
   }
   // 更新delivery address保存次数
   updateSaveAddressNumber = async (number) => {
-    // console.log('666 更新delivery address保存次数: ', number);
     this.setState({
       saveAddressNumber: number
     });
@@ -559,6 +559,15 @@ class Payment extends React.Component {
         paymentStore.setStsToCompleted({
           key: 'paymentMethod'
         });
+      }
+    } else {
+      //突然变成不是0元订单且正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
+      if (
+        !this.state.paymentPanelHasComplete &&
+        paymentStore.confirmationPanelStatus.isEdit
+      ) {
+        paymentStore.setStsToEdit({ key: 'paymentMethod' });
+        paymentStore.setStsToPrepare({ key: 'confirmation' });
       }
     }
   }
@@ -754,7 +763,6 @@ class Payment extends React.Component {
           payWayNameArr
         },
         () => {
-          // console.log('666 支付方式 payWayNameArr: ', payWayNameArr);
           sessionItemRoyal.set(
             'rc-payWayNameArr',
             JSON.stringify(payWayNameArr)
@@ -817,8 +825,6 @@ class Payment extends React.Component {
       this.setState({
         orderDetails: resContext
       });
-      // console.log('666 查询订单详细：',resContext)
-
       // 获取本地存储的计算运费折扣
       const calculationParam =
         localItemRoyal.get('rc-calculation-param') || null;
@@ -903,7 +909,6 @@ class Payment extends React.Component {
               payment_method_token: selectedCardInfo.paymentToken
             },
             function (result) {
-              // console.log('result obtained' + result);
               resolve(result);
             }
           );
@@ -950,7 +955,6 @@ class Payment extends React.Component {
       let phone = obj.phone;
       let parameters;
       /* 组装支付需要的参数 */
-      // console.log(type, parameters, commonParameter, obj, 'type');
       const actions = {
         oxxo: () => {
           parameters = Object.assign({}, commonParameter, {
@@ -1221,7 +1225,6 @@ class Payment extends React.Component {
 
       /* 4)调用支付 */
       const res = await action(parameters);
-      // console.log(parameters);
       const { tidList } = this.state;
       let orderNumber; // 主订单号
       let subOrderNumberList = []; // 拆单时，子订单号
@@ -1415,7 +1418,6 @@ class Payment extends React.Component {
         isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0
       });
       let res = await editAddress(deliveryAdd);
-      // console.log('666 修改地址: ', res);
     } catch (err) {
       console.log(err);
     }
@@ -2691,6 +2693,7 @@ class Payment extends React.Component {
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
     this.props.paymentStore.saveDeliveryAddressInfo(this.state.deliveryAddress);
     this.props.paymentStore.saveBillingAddressInfo(this.state.billingAddress);
+    this.setState({ paymentPanelHasComplete: true });
     paymentStore.setStsToEdit({ key: 'confirmation' });
 
     this.setState(
