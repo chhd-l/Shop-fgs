@@ -21,24 +21,20 @@
     display: block;
     width: 1000%;
 
-    .addr-switch {
-      display: inline-block;
-      vertical-align: middle;
-      height: .625rem;
-      line-height: .625rem;
-      width: 9px;
-      margin-left: 5px;
-      background: url(../../../../assets/images/addr-i.png) no-repeat 0 0;
-
-      &.switch-on {
-        background-position: 0 0;
+    .rc-up--xs {
+      &::after {
+        background-position: 55.36% 100%;
       }
+    }
 
-      &.switch-off {
-        background-position: 0 -.625rem;
+    .rc-down--xs,
+    .rc-up--xs {
+      &::after {
+        margin-top: 5px;
       }
     }
   }
+
   .cancel_pickup_edit {
     border-bottom: 1px solid #d7d7d7;
   }

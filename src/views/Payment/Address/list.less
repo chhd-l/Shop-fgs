@@ -21,7 +21,7 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     overflow: hidden;
-    border: 1px solid #FFF !important;
+    border: 2px solid #FFF !important;
     display: flex;
     margin-bottom: 10px;
   }
@@ -32,16 +32,16 @@
 
   .address-item .align_items_wrap {
     width: 100%;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
   }
 
   .address-item:hover,
   .address-item.selected {
-    border-bottom: 1px solid #FFF !important;
+    border-bottom: 2px solid #FFF !important;
   }
 
   .address-item.selected {
-    border: 1px solid #008900 !important;
+    border: 2px solid #008900 !important;
   }
 
   .address-item.selected .select_this_address {
@@ -102,14 +102,29 @@
     width: 9px;
     margin-left: 5px;
     background: url(../../../assets/images/addr-i.png) no-repeat 0 0;
+
+    &.switch-on {
+      background-position: 0 0;
+    }
+
+    &.switch-off {
+      background-position: 0 -.625rem;
+    }
   }
 
-  .addr-switch.switch-on {
-    background-position: 0 0;
-  }
+  .more_addr_box {
+    .rc-up--xs {
+      &::after {
+        background-position: 55.36% 100%;
+      }
+    }
 
-  .addr-switch.switch-off {
-    background-position: 0 -.625rem;
+    .rc-down--xs,
+    .rc-up--xs {
+      &::after {
+        margin-top: 5px;
+      }
+    }
   }
 
   .address-btn-plus {
@@ -142,7 +157,7 @@
   width: 100%;
   justify-content: flex-end;
 
-  &.pd_r1{
+  &.pd_r1 {
     padding-right: 1rem;
   }
 
@@ -186,10 +201,6 @@
     p {
       margin-bottom: 0;
       padding-left: 2rem;
-
-      &.tit {
-        font-weight: 500;
-      }
     }
   }
 

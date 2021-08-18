@@ -378,9 +378,11 @@ class AddressList extends React.Component {
 
           if (window.__.env.REACT_APP_COUNTRY === 'ru') {
             // 俄罗斯 没有地址的用户需要显示选择 homeDelivery、pickup
+            this.setState({
+              addOrEdit: false
+            });
             if (!allAddress.length) {
               this.setState({
-                addOrEdit: false,
                 deliveryOrPickUpFlag: true,
                 choiseHomeDeliveryOrPickUp: 0
               });
@@ -389,6 +391,7 @@ class AddressList extends React.Component {
             this.setState({
               showDeliveryOrPickUp: 1 // home delivery
             });
+            // 按钮状态可用
             this.updateConfirmBtnDisabled(false);
           }
         }
@@ -1666,7 +1669,7 @@ class AddressList extends React.Component {
           !item.selected && i !== addressList.length - 1
             ? 'border-bottom-0'
             : ''
-        }`}
+        } mb-3`}
         key={item.deliveryAddressId}
         onClick={(e) => this.selectAddress(e, i)}
       >
@@ -1675,7 +1678,7 @@ class AddressList extends React.Component {
             className="d-flex col-10 col-md-8 pl-1 pr-1"
             style={{ flexDirection: 'column' }}
           >
-            <span>{item.consigneeName}</span>
+            <span className="font-weight-bold">{item.consigneeName}</span>
             <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
               {this.setAddressFields(item)}
               {item.deliveryDate && item.timeSlot ? (
@@ -1695,14 +1698,14 @@ class AddressList extends React.Component {
               ) : null}
             </p>
           </div>
-          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right address_opt_btn">
+          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
             <span
-              className="border-bottom"
+              className="border-bottom-2"
               onClick={this.addOrEditAddress.bind(this, i)}
             >
               <FormattedMessage id="edit" />
             </span>
-            <span className="select_this_address border-bottom">
+            <span className="select_this_address border-bottom-2">
               <FormattedMessage id="selectThisAddress" />
             </span>
           </div>
@@ -1713,20 +1716,19 @@ class AddressList extends React.Component {
     // 显示更多地址
     const _foldBtn = (
       <div
-        className="text-center pt-2 pb-2 ui-cursor-pointer"
+        className="font-weight-bold text-center pt-2 pb-2 ui-cursor-pointer more_addr_box"
         onClick={this.toggleFoldBtn}
       >
         <span>
           {foledMore ? (
             <>
+              <span class="d-inline-block rc-icon rc-down--xs rc-iconography mr-1"></span>
               <FormattedMessage id="moreAddress" />
-              &nbsp;
-              <b className="addr-switch switch-on" />
             </>
           ) : (
             <>
+              <span class="d-inline-block rc-icon rc-up--xs rc-iconography mr-1"></span>
               <FormattedMessage id="unfoldAddress" />
-              <b className="addr-switch switch-off" />
             </>
           )}
         </span>
@@ -1908,6 +1910,7 @@ class AddressList extends React.Component {
                 }
                 isLogin={true}
                 defaultCity={this.state.defaultCity}
+                pageType="checkout"
                 isCurrentBuyWaySubscription={
                   this.props.isCurrentBuyWaySubscription
                 }
@@ -1943,7 +1946,6 @@ class AddressList extends React.Component {
                   <>
                     {/* 俄罗斯，地址空-> 显示选择 homeDelivery 和 pickup */}
                     {/* 其他国家，不显示选择 homeDelivery 和 pickup */}
-
                     {!addOrEdit ? (
                       <>
                         {/* ---- homeDelivery address ---- */}
@@ -2009,7 +2011,7 @@ class AddressList extends React.Component {
                             homeAndPickup?.length ? (
                               <div className="add_address_pk_btn">
                                 <p
-                                  className={`red m-0 align-items-center text-nowrap ${
+                                  className={`font-weight-bold red m-0 align-items-center text-nowrap ${
                                     addOrEdit ? 'hidden' : ''
                                   }`}
                                   onClick={this.addOrEditAddress.bind(this, -1)}
@@ -2069,7 +2071,7 @@ class AddressList extends React.Component {
                                             ele && (
                                               <>
                                                 <div className="pickup_point_info">
-                                                  <p className="tit">
+                                                  <p className="tit font-weight-bold">
                                                     {ele.pickupName}
                                                   </p>
                                                   <p>{ele.address1}</p>
@@ -2094,7 +2096,7 @@ class AddressList extends React.Component {
                                           <div className="add_address_pk_btn pd_r1">
                                             {/* <p className={`red m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''}`} */}
                                             <p
-                                              className="red m-0 align-items-center text-nowrap"
+                                              className="font-weight-bold red m-0 align-items-center text-nowrap"
                                               onClick={this.addOrEditPickupAddress.bind(
                                                 'add'
                                               )}
