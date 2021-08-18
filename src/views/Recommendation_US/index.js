@@ -159,6 +159,7 @@ class Recommendation extends React.Component {
     // document.onclick = () => {
     //   this.setState({ showCoiedTips: false });
     // };
+    console.time('begin');
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -188,8 +189,12 @@ class Recommendation extends React.Component {
       requestName = getRecommendationList_prescriberId;
       params = prescription;
     }
+    console.timeEnd('begin');
+    console.time('接口请求');
     requestName(params)
       .then(async (res) => {
+        console.timeEnd('接口请求');
+        console.time('js处理');
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productLists = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
@@ -353,11 +358,9 @@ class Recommendation extends React.Component {
           return el;
         });
         let promotionCode = res.context.promotionCode || '';
-        debugger;
         let filterProducts = productLists.filter((el) => {
           return el.goodsInfo.addedFlag && el.goods.saleableFlag;
         });
-        debugger;
         // 只展示上架商品
         if (!filterProducts.length) {
           this.setState({
@@ -398,6 +401,7 @@ class Recommendation extends React.Component {
         }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
+        console.timeEnd('js处理');
         // });
       })
       .catch((err) => {
