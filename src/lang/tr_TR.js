@@ -303,7 +303,7 @@ const tr_TR = {
   dogs3: 'Köpek',
   download: 'İndir',
   edit: 'Düzenle',
-  selectThisAddress: 'Select this address',
+  selectThisAddress: 'Adresi seç',
   edit2: 'Düzenle',
   email: 'E-posta',
   emailAddress: 'E *',

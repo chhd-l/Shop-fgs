@@ -252,36 +252,6 @@ class AddressList extends React.Component {
         return ele.isDefaltAddress === 1;
       });
 
-      // 俄罗斯 pickup
-      if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-        let addData = defaultAddressItem;
-        // 地址列表有数据时(包含pickup)，判断是否有默认地址
-        if (res.context) {
-          defaultAddressItem
-            ? (addData = defaultAddressItem)
-            : (addData = addressList[0]);
-          let pickupAddress = allAddress.filter(
-            (e) => e.receiveType == 'PICK_UP'
-          );
-          this.setState(
-            {
-              showDeliveryOrPickUp: 1,
-              pickupAddress
-            },
-            () => {
-              this.getHomeDeliveryAndPickupInfo();
-            }
-          );
-
-          // 设置默认城市
-          if (pickupAddress.length) {
-            this.setState({
-              defaultCity: pickupAddress[0].city
-            });
-          }
-        }
-      }
-
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
@@ -377,10 +347,40 @@ class AddressList extends React.Component {
           });
 
           if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+            let addData = defaultAddressItem;
+            // 地址列表有数据时(包含pickup)，判断是否有默认地址
+            if (res.context) {
+              defaultAddressItem
+                ? (addData = defaultAddressItem)
+                : (addData = addressList[0]);
+              let pickupAddress = allAddress.filter(
+                (e) => e.receiveType == 'PICK_UP'
+              );
+              this.setState(
+                {
+                  showDeliveryOrPickUp: 1,
+                  pickupAddress
+                },
+                () => {
+                  if (allAddress.length) {
+                    // 设置默认城市
+                    if (pickupAddress.length) {
+                      this.setState({
+                        defaultCity: pickupAddress[0].city
+                      });
+                    }
+                    this.getHomeDeliveryAndPickupInfo();
+                  }
+                }
+              );
+            }
+
             // 俄罗斯 没有地址的用户需要显示选择 homeDelivery、pickup
+            this.setState({
+              addOrEdit: false
+            });
             if (!allAddress.length) {
               this.setState({
-                addOrEdit: false,
                 deliveryOrPickUpFlag: true,
                 choiseHomeDeliveryOrPickUp: 0
               });
@@ -389,6 +389,7 @@ class AddressList extends React.Component {
             this.setState({
               showDeliveryOrPickUp: 1 // home delivery
             });
+            // 按钮状态可用
             this.updateConfirmBtnDisabled(false);
           }
         }
@@ -1319,7 +1320,7 @@ class AddressList extends React.Component {
   };
   // 根据默认地址查询信息
   getHomeDeliveryAndPickupInfo = async (price) => {
-    const { pickupAddress } = this.state;
+    const { addressList, pickupAddress } = this.state;
     let obj = [
       {
         deliveryPrice: price || 0,
@@ -1332,6 +1333,24 @@ class AddressList extends React.Component {
         type: 'pickup'
       }
     ];
+
+    // 设置默认选中项
+    let addstr = '';
+    if (addressList.length) {
+      addstr = 'homeDelivery';
+    }
+    if (!addressList.length && pickupAddress.length) {
+      addstr = 'pickup';
+    }
+    obj.map((e) => {
+      let tp = e.type;
+      if (tp == addstr) {
+        e.selected = true;
+        this.handleRadioChange(tp);
+      } else {
+        e.selected = false;
+      }
+    });
 
     // 有订阅商品时不展示pickup
     if (this.props.isCurrentBuyWaySubscription) {
@@ -1348,9 +1367,18 @@ class AddressList extends React.Component {
       () => {
         // 存储选择的数据
         let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-        hdpk ? (hdpk = JSON.parse(hdpk)) : (hdpk = null);
-        hdpk['homeAndPickup'] = obj;
-        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(hdpk));
+        let item = null;
+        if (!hdpk) {
+          item = {
+            cityData: null,
+            homeAndPickup: obj,
+            isSubscription: this.props.isCurrentBuyWaySubscription
+          };
+        } else {
+          item = JSON.parse(hdpk);
+          item['homeAndPickup'] = obj;
+        }
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
       }
     );
   };
@@ -1376,7 +1404,7 @@ class AddressList extends React.Component {
   // 单选按钮选择
   handleRadioChange = (e) => {
     const { addressList, homeAndPickup, pickupAddress } = this.state;
-    let val = e.currentTarget?.value;
+    let val = e?.currentTarget?.value || e;
     let sitem = Object.assign([], homeAndPickup);
     sitem.forEach((v, i) => {
       if (v.type == val) {
@@ -1399,17 +1427,21 @@ class AddressList extends React.Component {
       });
       this.props.updateData(pkup);
     } else {
-      // 选中项
-      addressList.map((e) => {
-        if (e.selected) {
-          this.setState({
-            pickupFormData: [],
-            selectedId: e.deliveryAddressId,
-            homeDeliverySelectedId: e.deliveryAddressId
-          });
-          this.props.updateData(e);
-        }
-      });
+      if (addressList.length) {
+        // 选中项
+        addressList.map((ele) => {
+          if (ele.selected) {
+            this.setState({
+              pickupFormData: [],
+              selectedId: ele.deliveryAddressId,
+              homeDeliverySelectedId: ele.deliveryAddressId
+            });
+            this.props.updateData(ele);
+          }
+        });
+      } else {
+        btnStatus = true;
+      }
     }
     this.updateConfirmBtnDisabled(btnStatus);
 
@@ -1426,7 +1458,7 @@ class AddressList extends React.Component {
         let item = {
           cityData: sobj?.cityData,
           homeAndPickup: sitem,
-          isSubscription: sobj?.isSubscription
+          isSubscription: this.props.isCurrentBuyWaySubscription
         };
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
       }
@@ -1657,7 +1689,7 @@ class AddressList extends React.Component {
           !item.selected && i !== addressList.length - 1
             ? 'border-bottom-0'
             : ''
-        }`}
+        } mb-3`}
         key={item.deliveryAddressId}
         onClick={(e) => this.selectAddress(e, i)}
       >
@@ -1666,7 +1698,7 @@ class AddressList extends React.Component {
             className="d-flex col-10 col-md-8 pl-1 pr-1"
             style={{ flexDirection: 'column' }}
           >
-            <span>{item.consigneeName}</span>
+            <span className="font-weight-bold">{item.consigneeName}</span>
             <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
               {this.setAddressFields(item)}
               {item.deliveryDate && item.timeSlot ? (
@@ -1686,14 +1718,14 @@ class AddressList extends React.Component {
               ) : null}
             </p>
           </div>
-          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right address_opt_btn">
+          <div className="col-12 col-md-4 mt-md-0 mt-1 pl-0 pr-0 text-right font-weight-bold address_opt_btn ">
             <span
-              className="border-bottom"
+              className="border-bottom-2"
               onClick={this.addOrEditAddress.bind(this, i)}
             >
               <FormattedMessage id="edit" />
             </span>
-            <span className="select_this_address border-bottom">
+            <span className="select_this_address border-bottom-2">
               <FormattedMessage id="selectThisAddress" />
             </span>
           </div>
@@ -1704,20 +1736,19 @@ class AddressList extends React.Component {
     // 显示更多地址
     const _foldBtn = (
       <div
-        className="text-center pt-2 pb-2 ui-cursor-pointer"
+        className="font-weight-bold text-center pt-2 pb-2 ui-cursor-pointer more_addr_box"
         onClick={this.toggleFoldBtn}
       >
         <span>
           {foledMore ? (
             <>
+              <span class="d-inline-block rc-icon rc-down--xs rc-iconography mr-1"></span>
               <FormattedMessage id="moreAddress" />
-              &nbsp;
-              <b className="addr-switch switch-on" />
             </>
           ) : (
             <>
+              <span class="d-inline-block rc-icon rc-up--xs rc-iconography mr-1"></span>
               <FormattedMessage id="unfoldAddress" />
-              <b className="addr-switch switch-off" />
             </>
           )}
         </span>
@@ -1786,18 +1817,18 @@ class AddressList extends React.Component {
             {showOperateBtn ? (
               <>
                 <div className="rc-md-up">
-                  {addressList.length > 0 && (
-                    <>
-                      <span
-                        className="rc-styled-link"
-                        onClick={this.handleClickCancel}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <FormattedMessage id="cancel" />
-                      </span>{' '}
-                      <FormattedMessage id="or" />{' '}
-                    </>
-                  )}
+                  {/* {addressList.length > 0 && ( */}
+                  <>
+                    <span
+                      className="rc-styled-link"
+                      onClick={this.handleClickCancel}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </span>{' '}
+                    <FormattedMessage id="or" />{' '}
+                  </>
+                  {/* )} */}
                   <button
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
@@ -1843,16 +1874,6 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
-
-    console.log('666 >>>>>>>>>> begin');
-    console.log('666 >> addOrEdit: ', addOrEdit);
-    console.log('666 >> deliveryOrPickUpFlag: ', deliveryOrPickUpFlag);
-    console.log(
-      '666 >> choiseHomeDeliveryOrPickUp: ',
-      choiseHomeDeliveryOrPickUp
-    );
-    console.log('666 >> !panelStatus.isCompleted: ', !panelStatus.isCompleted);
-    console.log('666 >>>>>>>>>> end');
 
     return (
       <>
@@ -1909,6 +1930,7 @@ class AddressList extends React.Component {
                 }
                 isLogin={true}
                 defaultCity={this.state.defaultCity}
+                pageType="checkout"
                 isCurrentBuyWaySubscription={
                   this.props.isCurrentBuyWaySubscription
                 }
@@ -1944,7 +1966,6 @@ class AddressList extends React.Component {
                   <>
                     {/* 俄罗斯，地址空-> 显示选择 homeDelivery 和 pickup */}
                     {/* 其他国家，不显示选择 homeDelivery 和 pickup */}
-
                     {!addOrEdit ? (
                       <>
                         {/* ---- homeDelivery address ---- */}
@@ -2010,7 +2031,7 @@ class AddressList extends React.Component {
                             homeAndPickup?.length ? (
                               <div className="add_address_pk_btn">
                                 <p
-                                  className={`red m-0 align-items-center text-nowrap ${
+                                  className={`font-weight-bold red m-0 align-items-center text-nowrap ${
                                     addOrEdit ? 'hidden' : ''
                                   }`}
                                   onClick={this.addOrEditAddress.bind(this, -1)}
@@ -2070,7 +2091,7 @@ class AddressList extends React.Component {
                                             ele && (
                                               <>
                                                 <div className="pickup_point_info">
-                                                  <p className="tit">
+                                                  <p className="tit font-weight-bold">
                                                     {ele.pickupName}
                                                   </p>
                                                   <p>{ele.address1}</p>
@@ -2095,7 +2116,7 @@ class AddressList extends React.Component {
                                           <div className="add_address_pk_btn pd_r1">
                                             {/* <p className={`red m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''}`} */}
                                             <p
-                                              className="red m-0 align-items-center text-nowrap"
+                                              className="font-weight-bold red m-0 align-items-center text-nowrap"
                                               onClick={this.addOrEditPickupAddress.bind(
                                                 'add'
                                               )}
@@ -2158,7 +2179,7 @@ class AddressList extends React.Component {
                     )}
 
                     {/* 新用户没有地址的时候，用来确认pickup地址 */}
-                    {this.isDeliverAddress &&
+                    {/* {this.isDeliverAddress &&
                     !addressList.length &&
                     showDeliveryOrPickUp == 2 ? (
                       <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
@@ -2172,7 +2193,7 @@ class AddressList extends React.Component {
                           <FormattedMessage id="yes2" />
                         </button>
                       </div>
-                    ) : null}
+                    ) : null} */}
 
                     {/* {showDeliveryOrPickUp == 1 && _form} */}
                   </>

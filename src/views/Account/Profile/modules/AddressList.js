@@ -82,7 +82,7 @@ function CardItem(props) {
         ) : (
           <>
             {/* 姓名 */}
-            <div className="rc-full-width font-weight-normal ccard-phone-title word-break  mb-1">
+            <div className="rc-full-width font-weight-normal ccard-phone-title word-break mb-1">
               <div className="address-name mp_mb_name">
                 <span>{data.firstName + ' ' + data.lastName}</span>
               </div>
@@ -335,7 +335,7 @@ class AddressList extends React.Component {
   addBtnJSX = (receiveType) => {
     return (
       <div
-        className="rounded p-3 border h-100 d-flex align-items-center justify-content-center"
+        className="rounded p-3 border h-100 d-flex align-items-center justify-content-center font-weight-bold"
         onClick={this.handleClickAddBtn.bind(this, receiveType)}
         ref={(node) => {
           if (node) {
@@ -422,17 +422,16 @@ class AddressList extends React.Component {
         className="text-center pt-2 pb-2 ui-cursor-pointer show_more_address"
         onClick={this.toggleFoldBtn}
       >
-        <span>
+        <span className="font-weight-bold">
           {foledMore ? (
             <>
+              <span class="d-inline-block rc-icon rc-down--xs rc-iconography mr-1"></span>
               <FormattedMessage id="moreAddress" />
-              &nbsp;
-              <b className="addr-switch switch-on" />
             </>
           ) : (
             <>
+              <span class="d-inline-block rc-icon rc-up--xs rc-iconography mr-1"></span>
               <FormattedMessage id="unfoldAddress" />
-              <b className="addr-switch switch-off" />
             </>
           )}
         </span>
@@ -465,7 +464,7 @@ class AddressList extends React.Component {
                     className="rc-input__label--inline"
                     htmlFor={item.deliveryAddressId}
                   >
-                    <FormattedMessage id="default" />
+                    <FormattedMessage id="setDefaultAddress" />
                   </label>
                 </div>
               </div>
@@ -479,15 +478,7 @@ class AddressList extends React.Component {
                   <span
                     className="rc-styled-link"
                     onClick={this.handleClickDeleteBtn.bind(this, item)}
-                    style={
-                      isPad
-                        ? {
-                            position: 'absolute',
-                            top: '1.25rem',
-                            right: '1.5rem'
-                          }
-                        : {}
-                    }
+                    // style={isPad? {position: 'absolute',top: '1.25rem',right: '1.5rem'}: {}}
                   >
                     <FormattedMessage id="delete" />
                   </span>
@@ -589,7 +580,8 @@ class AddressList extends React.Component {
           type: 'DELIVERY',
           country: countryList[0].value,
           countryId: countryList[0].id,
-          isDefaltAddress: pickupFormData?.isDefaltAddress,
+          // isDefaltAddress: pickupFormData?.isDefaltAddress,
+          isDefaltAddress: pickupFormData.isDefaltAddress ? 1 : 0,
           minDeliveryTime: pickupFormData.minDeliveryTime,
           maxDeliveryTime: pickupFormData.maxDeliveryTime,
           workTime: pickupFormData.workTime,
@@ -809,7 +801,7 @@ class AddressList extends React.Component {
                       key={defaultCity}
                       isLogin={true}
                       defaultCity={defaultCity}
-                      pageType="noDelivery"
+                      pageType="onlyPickup"
                       updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
                       updateData={this.updatePickupData}
                       allAddressList={allAddressList}

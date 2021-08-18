@@ -19,9 +19,11 @@ import SubscriptionBenefitsBanner from '../../views/ClubLandingPageNew/Component
 import HowItWorksNew from '../../views/ClubLandingPageNew/Components/HowItWorksNew';
 import pdpbackgroundcatru from './image/goodsdeatailtabbackgroundcatru.png';
 import pdpbackgroundmobiledog from './image/goodsdeatailsbackgroundmobile.png';
+import pdpbackgroundmobiledogfr from './image/goodsdeatailsbackgroundmobilefr.png';
 import pdpbackgroundmobiledogtr from './image/goodsdeatailsbackgroundmobiletr.png';
 import pdpbackgroundmobilecat from './image/goodsdeatailsbackgroundmobilecat.png';
 import pdpbackgroundmobilecattr from './image/goodsdeatailsbackgroundmobilecattr.png';
+import pdpbackgroundmobilecatfr from './image/goodsdeatailsbackgroundmobilecatfr.png';
 import pdpbackgrounddog from './image/goodsdetailtabbackgrounddogru.png';
 import pdpbackgorunddogother from './image/goodsdeatailtabbackgrounddog.png';
 import pdpbackgroundcat from './image/goodsdeatailtabbackgroundcat.png';
@@ -65,6 +67,23 @@ import ruhowitworknewmobiledog2 from './HowitWorksimage/ruhowitworknewmobiledog2
 import ruhowitworknewmobiledog3 from './HowitWorksimage/ruhowitworknewmobiledog3.png';
 import ruhowitworknewmobiledog4 from './HowitWorksimage/ruhowitworknewmobiledog4.png';
 
+import frhowitworksnewdog1 from './HowitWorksimage/frhowitworksnewdog1.png';
+import frhowitworksnewdog2 from './HowitWorksimage/frhowitworksnewdog2.png';
+import frhowitworksnewdog3 from './HowitWorksimage/frhowitworksnewdog3.png';
+import frhowitworksnewdog4 from './HowitWorksimage/frhowitworksnewdog4.png';
+import frhowitworksnewcat1 from './HowitWorksimage/frhowitworksnewcat1.png';
+import frhowitworksnewcat2 from './HowitWorksimage/frhowitworksnewcat2.png';
+import frhowitworksnewcat3 from './HowitWorksimage/frhowitworksnewcat3.png';
+import frhowitworksnewcat4 from './HowitWorksimage/frhowitworksnewcat4.png';
+import frhowitworknewmobilecat1 from './HowitWorksimage/frhowitworknewmobilecat1.png';
+import frhowitworknewmobilecat2 from './HowitWorksimage/frhowitworknewmobilecat2.png';
+import frhowitworknewmobilecat3 from './HowitWorksimage/frhowitworknewmobilecat3.png';
+import frhowitworknewmobilecat4 from './HowitWorksimage/frhowitworknewmobilecat4.png';
+import frhowitworknewmobiledog1 from './HowitWorksimage/frhowitworknewmobiledog1.png';
+import frhowitworknewmobiledog2 from './HowitWorksimage/frhowitworknewmobiledog2.png';
+import frhowitworknewmobiledog3 from './HowitWorksimage/frhowitworknewmobiledog3.png';
+import frhowitworknewmobiledog4 from './HowitWorksimage/frhowitworknewmobiledog4.png';
+
 const pdpmobilebackgrounddog = {
   backgroundImage: `url(${pdpbackgroundmobiledog})`,
   overflow: 'hidden',
@@ -73,6 +92,11 @@ const pdpmobilebackgrounddog = {
 
 const pdpmobilebackgrounddogtr = {
   backgroundImage: `url(${pdpbackgroundmobiledogtr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+const pdpmobilebackgrounddogfr = {
+  backgroundImage: `url(${pdpbackgroundmobiledogfr})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
@@ -85,6 +109,12 @@ const pdpbackgroundmobilecats = {
 
 const pdpbackgroundmobilecatstr = {
   backgroundImage: `url(${pdpbackgroundmobilecattr})`,
+  overflow: 'hidden',
+  backgroundSize: 'cover'
+};
+
+const pdpbackgroundmobilecatsfr = {
+  backgroundImage: `url(${pdpbackgroundmobilecatfr})`,
   overflow: 'hidden',
   backgroundSize: 'cover'
 };
@@ -296,6 +326,61 @@ const GoodsDetailTabs = function (props) {
     }
   ];
 
+  //Fr Image
+  const FrhowitworksnewLists = [
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworksnewcat1
+          : frhowitworksnewdog1
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworksnewcat2
+          : frhowitworksnewdog2
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworksnewcat3
+          : frhowitworksnewdog3
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworksnewcat4
+          : frhowitworksnewdog4
+    }
+  ];
+
+  const FrhowitworksnewListmobiles = [
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworknewmobilecat1
+          : frhowitworknewmobiledog1
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworknewmobilecat2
+          : frhowitworknewmobiledog2
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworknewmobilecat3
+          : frhowitworknewmobiledog3
+    },
+    {
+      HowitworksStep:
+        getSpeciesId(goodsDetailSpace) == '1'
+          ? frhowitworknewmobilecat4
+          : frhowitworknewmobiledog4
+    }
+  ];
+
   const SubTitles = {
     title:
       getSpeciesId(goodsDetailSpace) == '1' ? (
@@ -329,7 +414,10 @@ const GoodsDetailTabs = function (props) {
         getSpeciesId(goodsDetailSpace) == '1' ? benefitstwocat : benefitstwodog,
       SubscriptionTitle: (
         <a style={{ fontWeight: 'bold', fontSize: '17px' }}>
-          <FormattedMessage id="ClubLP.LongBanner.SubscriptionTitle2.new" />
+          <FormattedMessage
+            id="ClubLP.LongBanner.SubscriptionTitle2.new"
+            values={{ val: <br /> }}
+          />
         </a>
       )
     },
@@ -699,9 +787,13 @@ const GoodsDetailTabs = function (props) {
                           getSpeciesId(goodsDetailSpace) == '1'
                             ? window.__.env.REACT_APP_COUNTRY === 'tr'
                               ? pdpbackgroundmobilecatstr
+                              : window.__.env.REACT_APP_COUNTRY === 'fr'
+                              ? pdpbackgroundmobilecatsfr
                               : pdpbackgroundmobilecats
                             : window.__.env.REACT_APP_COUNTRY === 'tr'
                             ? pdpmobilebackgrounddogtr
+                            : window.__.env.REACT_APP_COUNTRY === 'fr'
+                            ? pdpmobilebackgrounddogfr
                             : pdpmobilebackgrounddog
                         }
                       >
@@ -791,10 +883,17 @@ const GoodsDetailTabs = function (props) {
                           </div>
                         </div>
                       </div>
-                      <HowItWorksNew
-                        RuhowitworksnewList={RuhowitworksnewLists}
-                        RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
-                      />
+                      {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
+                        <HowItWorksNew
+                          RuhowitworksnewList={RuhowitworksnewLists}
+                          RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                        />
+                      ) : (
+                        <HowItWorksNew
+                          RuhowitworksnewList={FrhowitworksnewLists}
+                          RuhowitworksnewListmobile={FrhowitworksnewListmobiles}
+                        />
+                      )}
                     </>
                   ) : null}
                 </p>
@@ -1007,10 +1106,17 @@ const GoodsDetailTabs = function (props) {
                         </div>
                       </div>
                     </div>
-                    <HowItWorksNew
-                      RuhowitworksnewList={RuhowitworksnewLists}
-                      RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
-                    />
+                    {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
+                      <HowItWorksNew
+                        RuhowitworksnewList={RuhowitworksnewLists}
+                        RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                      />
+                    ) : (
+                      <HowItWorksNew
+                        RuhowitworksnewList={FrhowitworksnewLists}
+                        RuhowitworksnewListmobile={FrhowitworksnewListmobiles}
+                      />
+                    )}
                   </div>
                 ) : null}
               </div>
