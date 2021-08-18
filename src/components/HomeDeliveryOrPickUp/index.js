@@ -258,7 +258,6 @@ class HomeDeliveryOrPickUp extends React.Component {
   handlePickupCitySelectChange = async (data) => {
     const { isLogin, pickupEditNumber, defaultCity, pageType } = this.props;
     const { selectedItem, pickupForm } = this.state;
-    const allAddressLen = this.props.allAddressList.length;
     let res = null;
     this.setState({
       pickLoading: true,
@@ -323,7 +322,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         let obj = res.context.tariffs;
 
         // 有地址的时候，单独展示pickup，如果查询到不支持pickup，给出错误提示
-        if (allAddressLen) {
+        if (this.props.allAddressList.length) {
           obj = obj.filter((e) => e.type == 'PVZ');
           if (!obj.length) {
             this.setState({
@@ -392,11 +391,11 @@ class HomeDeliveryOrPickUp extends React.Component {
                   this.setItemStatus('homeDelivery');
                 }
 
-                // 只显示pickup的情况（会员），1、非checkout页面，2、checkout页面（没有订阅商品时）
+                // 只显示pickup的情况（会员），1、非checkout页面，2、checkout页面（没有订阅商品时）有地址
                 if (
                   pageType === 'onlyPickup' ||
                   (pageType === 'checkout' &&
-                    !allAddressLen.length &&
+                    this.props.allAddressList.length &&
                     !isSubscription)
                 ) {
                   this.setItemStatus('pickup');
@@ -792,7 +791,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             {/* 城市搜索 end */}
 
             {/* 
-                显示选择 homeDelivery or pickup 的场景：
+                要显示选择 homeDelivery or pickup 的场景：
                   1、游客
                   2、会员：地址列表为空
             */}

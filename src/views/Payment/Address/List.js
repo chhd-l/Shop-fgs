@@ -252,37 +252,6 @@ class AddressList extends React.Component {
         return ele.isDefaltAddress === 1;
       });
 
-      // 俄罗斯 pickup
-      if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-        let addData = defaultAddressItem;
-        // 地址列表有数据时(包含pickup)，判断是否有默认地址
-        if (res.context) {
-          defaultAddressItem
-            ? (addData = defaultAddressItem)
-            : (addData = addressList[0]);
-          let pickupAddress = allAddress.filter(
-            (e) => e.receiveType == 'PICK_UP'
-          );
-          this.setState(
-            {
-              showDeliveryOrPickUp: 1,
-              pickupAddress
-            },
-            () => {
-              if (allAddress.length) {
-                // 设置默认城市
-                if (pickupAddress.length) {
-                  this.setState({
-                    defaultCity: pickupAddress[0].city
-                  });
-                }
-                this.getHomeDeliveryAndPickupInfo();
-              }
-            }
-          );
-        }
-      }
-
       let tmpId =
         selectedId ||
         (defaultAddressItem && defaultAddressItem.deliveryAddressId) ||
@@ -378,6 +347,34 @@ class AddressList extends React.Component {
           });
 
           if (window.__.env.REACT_APP_COUNTRY === 'ru') {
+            let addData = defaultAddressItem;
+            // 地址列表有数据时(包含pickup)，判断是否有默认地址
+            if (res.context) {
+              defaultAddressItem
+                ? (addData = defaultAddressItem)
+                : (addData = addressList[0]);
+              let pickupAddress = allAddress.filter(
+                (e) => e.receiveType == 'PICK_UP'
+              );
+              this.setState(
+                {
+                  showDeliveryOrPickUp: 1,
+                  pickupAddress
+                },
+                () => {
+                  if (allAddress.length) {
+                    // 设置默认城市
+                    if (pickupAddress.length) {
+                      this.setState({
+                        defaultCity: pickupAddress[0].city
+                      });
+                    }
+                    this.getHomeDeliveryAndPickupInfo();
+                  }
+                }
+              );
+            }
+
             // 俄罗斯 没有地址的用户需要显示选择 homeDelivery、pickup
             this.setState({
               addOrEdit: false
