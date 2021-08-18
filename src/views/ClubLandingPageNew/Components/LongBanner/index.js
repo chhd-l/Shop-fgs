@@ -8,6 +8,7 @@ import benefitsthree from './image/benefitsthree2.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
+import clubfr from './image/clublogofr.png';
 import { getDeviceType } from '../../../../utils/utils';
 import LazyLoad from 'react-lazyload';
 
@@ -26,7 +27,13 @@ const LogoShows = {
     <LazyLoad>
       <img
         style={{ width: '100px' }}
-        src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
+        src={
+          window.__.env.REACT_APP_COUNTRY == 'ru'
+            ? clubru
+            : window.__.env.REACT_APP_COUNTRY == 'fr'
+            ? clubfr
+            : clublogo
+        }
       />
     </LazyLoad>
   )
