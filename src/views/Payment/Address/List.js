@@ -269,16 +269,17 @@ class AddressList extends React.Component {
               pickupAddress
             },
             () => {
-              this.getHomeDeliveryAndPickupInfo();
+              if (allAddress.length) {
+                // 设置默认城市
+                if (pickupAddress.length) {
+                  this.setState({
+                    defaultCity: pickupAddress[0].city
+                  });
+                }
+                this.getHomeDeliveryAndPickupInfo();
+              }
             }
           );
-
-          // 设置默认城市
-          if (pickupAddress.length) {
-            this.setState({
-              defaultCity: pickupAddress[0].city
-            });
-          }
         }
       }
 
@@ -1322,7 +1323,7 @@ class AddressList extends React.Component {
   };
   // 根据默认地址查询信息
   getHomeDeliveryAndPickupInfo = async (price) => {
-    const { pickupAddress } = this.state;
+    const { addressList, pickupAddress } = this.state;
     let obj = [
       {
         deliveryPrice: price || 0,
@@ -1335,6 +1336,24 @@ class AddressList extends React.Component {
         type: 'pickup'
       }
     ];
+
+    // 设置默认选中项
+    let addstr = '';
+    if (addressList.length) {
+      addstr = 'homeDelivery';
+    }
+    if (!addressList.length && pickupAddress.length) {
+      addstr = 'pickup';
+    }
+    obj.map((e) => {
+      let tp = e.type;
+      if (tp == addstr) {
+        e.selected = true;
+        this.handleRadioChange(tp);
+      } else {
+        e.selected = false;
+      }
+    });
 
     // 有订阅商品时不展示pickup
     if (this.props.isCurrentBuyWaySubscription) {
@@ -1388,7 +1407,7 @@ class AddressList extends React.Component {
   // 单选按钮选择
   handleRadioChange = (e) => {
     const { addressList, homeAndPickup, pickupAddress } = this.state;
-    let val = e.currentTarget?.value;
+    let val = e?.currentTarget?.value || e;
     let sitem = Object.assign([], homeAndPickup);
     sitem.forEach((v, i) => {
       if (v.type == val) {
@@ -1411,17 +1430,21 @@ class AddressList extends React.Component {
       });
       this.props.updateData(pkup);
     } else {
-      // 选中项
-      addressList.map((e) => {
-        if (e.selected) {
-          this.setState({
-            pickupFormData: [],
-            selectedId: e.deliveryAddressId,
-            homeDeliverySelectedId: e.deliveryAddressId
-          });
-          this.props.updateData(e);
-        }
-      });
+      if (addressList.length) {
+        // 选中项
+        addressList.map((ele) => {
+          if (ele.selected) {
+            this.setState({
+              pickupFormData: [],
+              selectedId: ele.deliveryAddressId,
+              homeDeliverySelectedId: ele.deliveryAddressId
+            });
+            this.props.updateData(ele);
+          }
+        });
+      } else {
+        btnStatus = true;
+      }
     }
     this.updateConfirmBtnDisabled(btnStatus);
 
@@ -1797,18 +1820,18 @@ class AddressList extends React.Component {
             {showOperateBtn ? (
               <>
                 <div className="rc-md-up">
-                  {addressList.length > 0 && (
-                    <>
-                      <span
-                        className="rc-styled-link"
-                        onClick={this.handleClickCancel}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <FormattedMessage id="cancel" />
-                      </span>{' '}
-                      <FormattedMessage id="or" />{' '}
-                    </>
-                  )}
+                  {/* {addressList.length > 0 && ( */}
+                  <>
+                    <span
+                      className="rc-styled-link"
+                      onClick={this.handleClickCancel}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </span>{' '}
+                    <FormattedMessage id="or" />{' '}
+                  </>
+                  {/* )} */}
                   <button
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
