@@ -794,9 +794,11 @@ class HomeDeliveryOrPickUp extends React.Component {
             {/* 
                 显示选择 homeDelivery or pickup 的场景：
                   1、游客
-                  2、会员：地址列表为空 
+                  2、会员：地址列表为空
             */}
-            {!allAddressList.length && selectedItem?.homeAndPickup.length > 0
+            {pageType != 'onlyPickup' &&
+            !allAddressList.length &&
+            selectedItem?.homeAndPickup.length > 0
               ? selectedItem?.homeAndPickup.map((item, index) => (
                   <>
                     <div className="rc_radio_box rc-full-width rc-input--full-width">

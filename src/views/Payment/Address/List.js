@@ -2182,7 +2182,7 @@ class AddressList extends React.Component {
                     )}
 
                     {/* 新用户没有地址的时候，用来确认pickup地址 */}
-                    {this.isDeliverAddress &&
+                    {/* {this.isDeliverAddress &&
                     !addressList.length &&
                     showDeliveryOrPickUp == 2 ? (
                       <div className="d-flex justify-content-end mt-3 rc_btn_list_js">
@@ -2196,7 +2196,7 @@ class AddressList extends React.Component {
                           <FormattedMessage id="yes2" />
                         </button>
                       </div>
-                    ) : null}
+                    ) : null} */}
 
                     {/* {showDeliveryOrPickUp == 1 && _form} */}
                   </>
