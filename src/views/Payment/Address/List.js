@@ -1349,9 +1349,9 @@ class AddressList extends React.Component {
         // 存储选择的数据
         let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
         let item = null;
-        if (hdpk) {
+        if (!hdpk) {
           item = {
-            cityData: hdpk?.cityData || null,
+            cityData: null,
             homeAndPickup: obj,
             isSubscription: this.props.isCurrentBuyWaySubscription
           };
