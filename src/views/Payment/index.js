@@ -1590,12 +1590,20 @@ class Payment extends React.Component {
     if (tokenObj && tokenObj.accessToken) {
       param.oktaToken = 'Bearer ' + tokenObj.accessToken.accessToken;
     }
-    // console.log('666 ★ 封装下单参数: ', param);
 
     // 1: HOMEDELIVERY , 2: PICKUP
-    if (deliveryAddress?.receiveType == 'HOME_DELIVERY') {
+    if (
+      deliveryAddress?.receiveType == 'HOME_DELIVERY' ||
+      deliveryAddress?.receiveType == ''
+    ) {
       param.deliverWay = 1;
     }
+    if (deliveryAddress?.receiveType == 'PICK_UP') {
+      param.deliverWay = 2;
+    }
+
+    // console.log('666 ★ 封装下单参数 deliveryAddress: ', deliveryAddress);
+    // console.log('666 ★ 封装下单参数 param: ', param);
 
     if (payosdata) {
       param = Object.assign(param, {
@@ -2111,9 +2119,10 @@ class Payment extends React.Component {
       param.deliverWay = 2;
     }
 
+    console.log('666 ★★ -- Payment param: ', param);
+
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
-    // console.log('666 param: ', param);
     try {
       // 获取税额
       if (this.isLogin) {

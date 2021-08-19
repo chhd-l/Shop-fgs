@@ -472,9 +472,12 @@ class AddressList extends React.Component {
 
             {/* 删除和编辑按钮 */}
             <div className="d-flex justify-content-end mb-0">
-              <div className="d-flex align-items-center">
+              <div
+                className="d-flex align-items-center"
+                style={{ flexFlow: 'wrap', justifyContent: 'flex-end' }}
+              >
                 {/* 删除按钮 */}
-                <span className="position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box">
+                <span className="d-flex position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box">
                   <span
                     className="rc-styled-link"
                     onClick={this.handleClickDeleteBtn.bind(this, item)}
@@ -499,6 +502,7 @@ class AddressList extends React.Component {
                 <button
                   className={`rc-btn rc-btn--sm rc-btn--two`}
                   onClick={this.handleEditAddress.bind(this, item)}
+                  style={{ fontSize: '12px' }}
                 >
                   {item.receiveType === 'PICK_UP' ? (
                     <FormattedMessage id="payment.changePickup" />
