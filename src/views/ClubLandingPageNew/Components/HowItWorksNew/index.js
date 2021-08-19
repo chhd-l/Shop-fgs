@@ -8,14 +8,6 @@ import howitworknewmobile1 from './image/howitworksmobile1.png';
 import howitworknewmobile2 from './image/howitworksmobile2.png';
 import howitworknewmobile3 from './image/howitworksmobile3.png';
 import howitworknewmobile4 from './image/howitworksmobile4.png';
-import frhowitworknew1 from './image/frhowitworknew1.png';
-import frhowitworknew2 from './image/frhowitworknew2.png';
-import frhowitworknew3 from './image/frhowitworknew3.png';
-import frhowitworknew4 from './image/frhowitworknew4.png';
-import frhowitworknewmobile1 from './image/frhowitworknewmobile1.png';
-import frhowitworknewmobile2 from './image/frhowitworknewmobile2.png';
-import frhowitworknewmobile3 from './image/frhowitworknewmobile3.png';
-import frhowitworknewmobile4 from './image/frhowitworknewmobile4.png';
 import trhowitworknew1 from './image/trhowitworksnew1.png';
 import trhowitworknew2 from './image/trhowitworksnew2.png';
 import trhowitworknew3 from './image/trhowitworksnew3.png';
@@ -27,41 +19,6 @@ import trhowitworknewmobile4 from './image/trhowitworksmobile4.png';
 
 import LazyLoad from 'react-lazyload';
 import './index.css';
-
-//写的不好好aaaaaaaa
-
-
-
-//Fr Image
-const FrhowitworksnewList = [
-  {
-    HowitworksStep: frhowitworknew1
-  },
-  {
-    HowitworksStep: frhowitworknew2
-  },
-  {
-    HowitworksStep: frhowitworknew3
-  },
-  {
-    HowitworksStep: frhowitworknew4
-  }
-];
-
-const FrhowitworksnewListmobile = [
-  {
-    HowitworksStep: frhowitworknewmobile1
-  },
-  {
-    HowitworksStep: frhowitworknewmobile2
-  },
-  {
-    HowitworksStep: frhowitworknewmobile3
-  },
-  {
-    HowitworksStep: frhowitworknewmobile4
-  }
-];
 
 // En Image
 const EnhowitworksnewList = [
@@ -129,7 +86,12 @@ const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
 const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
 const fr = window.__.env.REACT_APP_COUNTRY == 'fr';
 
-const HowItWorksNew = ({RuhowitworksnewList,RuhowitworksnewListmobile}) => {
+const HowItWorksNew = ({
+  RuhowitworksnewList,
+  RuhowitworksnewListmobile,
+  FrhowitworksnewList,
+  FrhowitworksnewListmobile
+}) => {
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
