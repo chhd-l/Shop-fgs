@@ -861,7 +861,7 @@ const en_US = {
   logOff: 'Logout',
   mailAddress: 'Mail address',
   // mailAddress: 'Mail address',
-  mailAddress: 'Email',
+  // mailAddress: 'Email',
   manage: 'Manage',
   mandatoryFieldsError: 'You have mandatory fields not filled out!',
   menu: 'Menu',

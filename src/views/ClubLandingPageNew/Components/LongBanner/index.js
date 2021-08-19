@@ -96,22 +96,22 @@ const LongBanner = () => {
   return (
     <>
       <div
-        className={`${
-          window.__.env.REACT_APP_COUNTRY == 'ru' ||
-          window.__.env.REACT_APP_COUNTRY == 'fr'
-            ? 'clubdesktopru clubmobileru'
-            : 'clubdesktop clubmobile'
-        }`}
+        className={'clubdesktopru clubmobileru'}
+        // className={`${
+        //   window.__.env.REACT_APP_COUNTRY == 'ru' ||
+        //   window.__.env.REACT_APP_COUNTRY == 'fr'
+        //     ? 'clubdesktopru clubmobileru'
+        //     : 'clubdesktop clubmobile'
+        // }`}
       >
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
               <div
-                className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile"
-                style={{ marginBottom: '0px' }}
+                className="rc-max-width--xl rc-padding-x--sm rc-margin-top--sm rc-margin-bottom--lg rc-margin-y--lg--mobile"
               >
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight rc-margin-x--xl"
                   style={{
                     marginBottom: '0px'
                   }}

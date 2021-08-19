@@ -212,7 +212,7 @@ class ClubLandingPageNew extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-headingBlock">
-                  <div className="rc-max-width--md text-center rc-margin-y--md">
+                  <div className="rc-max-width--md text-center rc-margin-top--md">
                     <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                       <h3 style={{ fontWeight: '550' }}>
                         <FormattedMessage id="ClubLP.Advantage.title" />
@@ -227,7 +227,7 @@ class ClubLandingPageNew extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm  content-block rc-max-width--lg">
+                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--sm  content-block rc-max-width--lg">
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
                         <div className=" rc-full-width">
@@ -265,7 +265,7 @@ class ClubLandingPageNew extends React.Component {
                               </div>
                             </li>
                           </ul>
-                          <div className="rc-padding-x--none detextcenter">
+                          <div className="rc-padding--xs detextcenter">
                             <DistributeHubLinkOrATag
                               href={'/product-finder'}
                               ariaLabel="Links to product finder"

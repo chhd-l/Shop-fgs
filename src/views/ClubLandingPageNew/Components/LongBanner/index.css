@@ -1,18 +1,19 @@
 @media (max-width: 639.98px) {
   .clubdesktop {
-    height: 1609px;
+    height: auto;
     background-image: url('./image/CLUBmobbackground@4x.jpg');
     overflow: hidden;
     background-size: cover;
   }
   .clubdesktopru {
-    height: 1709px;
+    height: auto;
     background-image: url('./image/CLUBmobbackgroundru@4x.jpg');
     overflow: hidden;
     background-size: cover;
   }
   .flexwrap {
     flex-wrap: wrap;
+    margin-bottom: 10px;
   }
   .margintopmobile {
     margin-top: 200px;
@@ -35,7 +36,7 @@
 
 @media (min-width: 639.98px) {
   .clubmobile {
-    height: 975px;
+    /*height: 975px;*/
     background-image: url('./image/Bitmap.jpg');
     background-size: cover;
     overflow: hidden;
@@ -43,7 +44,7 @@
     flex-direction: column;
   }
   .clubmobileru {
-    height: 975px;
+    /*height: 975px;*/
     background-image: url('./image/Bitmapru.webp');
     background-size: cover;
     overflow: hidden;

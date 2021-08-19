@@ -1259,12 +1259,12 @@ const tr_TR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '%5 İndirim&Ücretsiz Kargo',
   'ClubLP.LongBanner.title':
-    'ABONE OLARAK EVCİL {val1} HAYVANINIZA TAM BİR SAĞLIKLI {val2} BESLENME,  ÇÖZÜMÜ SUNUN',
-  'ClubLP.LongBanner.content': '124 TL’den başlayan fiyatlarla/sipariş',
+    'EVCİL HAYVANINIZA TAM {val1} BİR SAĞLIKLI BESLENME ÇÖZÜMÜ SUNMAK {val2} İÇİN ABONE OLUN',
+  'ClubLP.LongBanner.content': '124 TL’den başlayan fiyatlarla',
   'ClubLP.LongBanner.button': 'Şimdi Deneyin',
   'ClubLP.LongBanner.content2': 'Taahhütsüz',
   'ClubLP.LongBanner.SubscriptionTitle':
-    'KEDİLER VE KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
+    'KEDİ VE KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
   'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
     'KÖPEKLER İÇİN ABONELİK AVANTAJLARI',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
@@ -1272,11 +1272,11 @@ const tr_TR = {
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Evcil hayvanınıza uygun beslenme çözümü',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Evcil hayvanınızın ihtiyaçlarına göre seçilmiş sağlığa yararları bilimsel olarak kanıtlanmış yüksek kaliteli içerikler ',
+    'Onun ihtiyaçlarına göre seçilmiş sağlığa yararları bilimsel olarak kanıtlanmış yüksek kaliteli içerikler ',
   'ClubLP.LongBanner.SubscriptionTitle2':
     'Evcil hayvanınızın ihtiyaçlarına uygun beslenme',
   'ClubLP.LongBanner.SubscriptionContent2':
-    'Evcil hayvanınızın uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
+    'Onun uzun vadede sağlık ve sıhhatini desteklemek için hazırlanmış beslenme planı',
   'ClubLP.LongBanner.SubscriptionTitle3': 'Her zaman doğru porsiyon miktarı',
   'ClubLP.LongBanner.SubscriptionTitle1.new':
     'Evcil hayvanınıza uygun beslenme çözümü',
@@ -1295,7 +1295,7 @@ const tr_TR = {
     'Her bir özel beslenme profilini karşılayacak şekilde birleştirilebilen yüksek kaliteli ve yüksek oranda sindirilebilir içerikler',
   'ClubLP.Advantage.content4':
     'Daha düşük karbon ayak izine sahip, daha sürdürülebilir kaynaklardan yüksek kaliteli besin ögeleri',
-  'ClubLP.Advantage.button': 'Onun için en doğru beslenmeyi bulun!',
+  'ClubLP.Advantage.button': 'Onun için en uygun mamayı bulun!',
   'ClubLP.SubscriptionBenefitsNew.title': 'HAYATINIZI KOLAYLAŞTIRIYORUZ!',
   'ClubLP.SubscriptionBenefitsNew.icon1': 'Otomatik Gönderim & Ücretsiz Kargo',
   'ClubLP.SubscriptionBenefitsNew.icon2': 'Her siparişinizde %5 indirim',
@@ -1308,10 +1308,10 @@ const tr_TR = {
   'ClubLP.NewJoinUs.title': 'EVCİL HAYVANINIZLA TANIŞALIM! ',
   'ClubLP.NewJoinUs.content': 'Onun için en uygun mamayı bulalım. ',
   'ClubLP.NewJoinUs.button': 'Başlayın',
-  'ClubLP.OurCustomers.title': 'Müşteri görüşleri',
-  'ClubLP.GetMoreAd.title': 'ABONE OLARAK DAHA FAZLASINA SAHİP OLUN! ',
-  'ClubLP.GetMoreAd.subtitle1': 'Tek {val} sipariş',
-  'ClubLP.GetMoreAd.subtitle2': 'Club {val} aboneliği',
+  'ClubLP.OurCustomers.title': 'Sizden Gelenler',
+  'ClubLP.GetMoreAd.title': 'Abone Olarak Daha Fazlasina Sahip Olun! ',
+  'ClubLP.GetMoreAd.subtitle1': 'TEKLİ {val} Sipariş',
+  'ClubLP.GetMoreAd.subtitle2': 'CLUB {val} aboneliği',
   'ClubLP.GetMoreAd.Single.tip1': 'Özel beslenme',
   'ClubLP.GetMoreAd.Single.tip2': 'Ücretsiz kargo',
   'ClubLP.GetMoreAd.Club.tip1': 'Özel beslenme',

@@ -48,7 +48,7 @@ const benifitList =
     fr: [
       {
         iconCls: 'rc-lock--xs rc-iconography--xs',
-        text: 'Achat 100% sécurisé'
+        text: 'Paiement 100% sécurisé'
       },
       {
         iconCls: 'rc-loading--xs rc-iconography--xs',
@@ -56,11 +56,11 @@ const benifitList =
       },
       {
         iconCls: 'rc-low-maintenance--xs rc-iconography',
-        text: 'Qualité Premium'
+        text: 'Une qualité premium'
       },
       {
         iconCls: 'rc-shop--xs rc-iconography--xs',
-        text: 'Livraison 3 jours ouvrés'
+        text: 'Expédition rapide'
       }
     ]
   }[window.__.env.REACT_APP_COUNTRY] || [];
@@ -161,27 +161,27 @@ const faqList =
     ],
     fr: [
       {
-        title: 'Comment puis-je joindre le service client ?',
+        title: 'Où puis-je trouver mon code promo ?',
         context: `<h1 class="rc-zeta"></h1>
       <p></p><p>Vous pouvez joindre un de nos représentants du service clientèle au numéro gratuit 0 800 005 360. Nous sommes à votre disposition du lundi au vendredi, de 8h30 à 12h30 et de 14h à 17h.</p><p></p>`,
         gaContext: 'How to contact customer service'
       },
       {
-        title: 'Proposez-vous la livraison gratuite ?',
+        title: 'Mes données personnelles sont-elles sécurisées ?',
         context: `<h1 class="rc-zeta"></h1>
       <p></p><p>Royal Canin offre la livraison gratuite pour toutes les commandes. Votre colis arrivera dans les 3 jours ouvrables.</p><p></p>`,
         gaContext: 'Would you like free delivery'
       },
       {
         title:
-          'Dans quelle mesure mes informations de paiement sont-elles sécurisées ?',
+          'Comment sont traitées mes données par Royal Canin ?',
         context: `<h1 class="rc-zeta"></h1>
     <p></p><p>Les achats sont sécurisés à 100 % grâce au processus de paiement de Royal Canin. Notre site utilise un protocole SSL pour crypter toutes les informations personnelles envoyées pendant la procédure de paiement. Pour plus d'informations sur la manière dont nous sécurisons et utilisons vos informations, veuillez consulter notre politique de confidentialité.</p>
     <p>Nous acceptons les cartes Visa et Mastercard comme moyens de paiement. </p><p></p>`,
         gaContext: 'How secure is my payment information'
       },
       {
-        title: 'Proposez-vous des retours gratuits ?',
+        title: 'Comment fonctionne la livraison ?',
         context: `<h1 class="rc-zeta"></h1>
     <p></p><p>Quel que soit votre motif d'insatisfaction, vous pouvez nous retourner les marchandises pour être intégralement remboursé. Dès réception, nous vous rembourserons le montant total, y compris les frais de retour. Nous utiliserons les mêmes moyens de remboursement que ceux de la transaction initiale, sauf si vous avez expressément convenu d'autre chose. Vous recevrez un e-mail une fois votre colis reçu et le remboursement effectué.</p><p></p>`,
         gaContext: 'Free return'
