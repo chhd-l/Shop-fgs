@@ -159,7 +159,8 @@ class Recommendation extends React.Component {
     // document.onclick = () => {
     //   this.setState({ showCoiedTips: false });
     // };
-    await getFrequencyDict().then((res) => {
+    console.time('begin');
+    getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -188,8 +189,12 @@ class Recommendation extends React.Component {
       requestName = getRecommendationList_prescriberId;
       params = prescription;
     }
+    console.timeEnd('begin');
+    console.time('接口请求');
     requestName(params)
       .then(async (res) => {
+        console.timeEnd('接口请求');
+        console.time('js处理');
         let petType = res.context.petSpecie?.toLowerCase() === 'cat' ? 1 : 0;
         let productLists = res.context.recommendationGoodsInfoRels;
         let prescriberId = res.context.prescriberId;
@@ -224,60 +229,54 @@ class Recommendation extends React.Component {
           this.getPrescriberByPrescriberIdAndStoreId(prescriberId);
         productLists.map((el) => {
           el?.goodsDescriptionDetailList?.forEach((g) => {
-            let ret = g.content;
             if (g.content && g.contentType === 'json') {
               try {
-                const parsedContent = JSON.parse(g.content).map((el) => {
-                  // el = JSON.parse(el);
-                  return el;
-                });
-                let tempContentMobile = '';
-                let tempContent = '';
+                let tempContentMobile = [];
+                let tempContent = [];
                 switch (g.descriptionName) {
                   case 'Benefits':
+                    const parsedContent = JSON.parse(g.content).map((el) => {
+                      // el = JSON.parse(el);
+                      return el;
+                    });
                     parsedContent.map((ele, idx) => {
                       // <div className="">${Object.keys(JSON.parse(ele))[0]}</div>
-                      tempContent =
-                        tempContent +
-                        `<li>
-                            <div class="">${
-                              Object.values(ele)[0]['Description']
-                            }</div>
-                          </li>`;
-                      tempContentMobile =
-                        tempContentMobile +
-                        `
-                          <div class="rc-list__accordion-item
-                          ${
-                            this.state.showCur === idx
-                              ? 'showItem'
-                              : 'hiddenItem'
-                          }">
-                          <dt>
-                            <button
-                              onClick=this.handleSelect.bind(this, idx)
-                              class="rc-list__header"
-                              id="heading-${idx}"
-                              data-toggle="content-${idx}"
-                            >
-                              <div>
-                              Benefit${idx + 1}
-                              </div>
-                            </button>
-                          </dt>
-                          <dd
-                            class="rc-list__content"
-                            id="content-${idx}"
-                            aria-labelledby="heading-${idx}"
-                            style="text-align:left"
-                          >
-                            ${Object.values(ele)[0]['Description']}
-                          </dd>
-                        </div>
-                          `;
+                      tempContent.push(`<li>
+                      <div class="">${
+                        Object.values(ele)[0]['Description']
+                      }</div>
+                    </li>`);
+                      tempContentMobile.push(`
+                      <div class="rc-list__accordion-item
+                      ${
+                        this.state.showCur === idx ? 'showItem' : 'hiddenItem'
+                      }">
+                      <dt>
+                        <button
+                          onClick=this.handleSelect.bind(this, idx)
+                          class="rc-list__header"
+                          id="heading-${idx}"
+                          data-toggle="content-${idx}"
+                        >
+                          <div>
+                          Benefit${idx + 1}
+                          </div>
+                        </button>
+                      </dt>
+                      <dd
+                        class="rc-list__content"
+                        id="content-${idx}"
+                        aria-labelledby="heading-${idx}"
+                        style="text-align:left"
+                      >
+                        ${Object.values(ele)[0]['Description']}
+                      </dd>
+                    </div>
+                      `);
                     });
+                    console.info('tempContent', tempContent);
                     tempContent = `<ul class=" rc-md-up">
-                          ${tempContent}
+                          ${tempContent.join('')}
                         </ul>`;
                     tempContentMobile = `<div class="fr-faq rc-md-down" style="padding:0">
                         <dl
@@ -285,7 +284,7 @@ class Recommendation extends React.Component {
                           data-toggle-effect="rc-expand--vertical"
                           class=""
                         >
-                        ${tempContentMobile}
+                        ${tempContentMobile.join('')}
                         </dl>
                       </div>`;
                     el.benefit = tempContent;
@@ -353,11 +352,9 @@ class Recommendation extends React.Component {
           return el;
         });
         let promotionCode = res.context.promotionCode || '';
-        debugger;
         let filterProducts = productLists.filter((el) => {
           return el.goodsInfo.addedFlag && el.goods.saleableFlag;
         });
-        debugger;
         // 只展示上架商品
         if (!filterProducts.length) {
           this.setState({
@@ -398,6 +395,7 @@ class Recommendation extends React.Component {
         }
         this.props.clinicStore.setAuditAuthority(false);
         this.setState({ loading: false });
+        console.timeEnd('js处理');
         // });
       })
       .catch((err) => {

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { FormattedMessage, injectIntl, useIntl } from 'react-intl';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
-import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
 
 import iconsixnew from './image/iconsixnew.png';
@@ -39,16 +37,6 @@ import benefitsonedog from './image/benefitsonedog.png';
 import benefitstwodog from './image/benefitstwodog.png';
 import benefitsonecat from './image/benefitsonecat.png';
 import benefitstwocat from './image/benefitstwocat.png';
-import clubru from '../../views/ClubLandingPageNew/Components/LongBanner/image/Clubru.png';
-import clublogo from '../../views/ClubLandingPageNew/Components/LongBanner/image/clublogo.png';
-import ruhowitworknew1 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew1.png';
-import ruhowitworknew2 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew2.png';
-import ruhowitworknew3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew3.png';
-import ruhowitworknew4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksnew4.png';
-import ruhowitworknewmobile1 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile1.png';
-import ruhowitworknewmobile2 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile2.png';
-import ruhowitworknewmobile3 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile3.png';
-import ruhowitworknewmobile4 from '../../views/ClubLandingPageNew/Components/HowItWorksNew/image/ruhowitworksmobile4.png';
 
 import ruhowitworksnewdog1 from './HowitWorksimage/ruhowitworksnewdog1.png';
 import ruhowitworksnewdog2 from './HowitWorksimage/ruhowitworksnewdog2.png';
@@ -1106,17 +1094,12 @@ const GoodsDetailTabs = function (props) {
                         </div>
                       </div>
                     </div>
-                    {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
-                      <HowItWorksNew
-                        RuhowitworksnewList={RuhowitworksnewLists}
-                        RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
-                      />
-                    ) : (
-                      <HowItWorksNew
-                        RuhowitworksnewList={FrhowitworksnewLists}
-                        RuhowitworksnewListmobile={FrhowitworksnewListmobiles}
-                      />
-                    )}
+                    <HowItWorksNew
+                      RuhowitworksnewList={RuhowitworksnewLists}
+                      RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+                      FrhowitworksnewListmobile={FrhowitworksnewListmobiles}
+                      FrhowitworksnewList={FrhowitworksnewLists}
+                    />
                   </div>
                 ) : null}
               </div>

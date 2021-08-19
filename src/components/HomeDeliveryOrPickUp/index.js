@@ -108,10 +108,9 @@ class HomeDeliveryOrPickUp extends React.Component {
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
         const { pickupForm, selectedItem } = this.state;
-        // console.log('666 监听iframe的传值: ', e);
+        console.log('666 监听iframe的传值: ', e);
         let obj = e.data.content;
-        pickupForm['pickupPrice'] =
-          selectedItem?.homeAndPickup[0]?.deliveryPrice || [];
+        pickupForm['pickupPrice'] = obj?.price || [];
         pickupForm['pickupDescription'] = obj?.description || [];
         pickupForm['pickupCode'] = obj?.code || [];
         pickupForm['pickupName'] = obj?.courier || [];
@@ -258,7 +257,6 @@ class HomeDeliveryOrPickUp extends React.Component {
   handlePickupCitySelectChange = async (data) => {
     const { isLogin, pickupEditNumber, defaultCity, pageType } = this.props;
     const { selectedItem, pickupForm } = this.state;
-    const allAddressLen = this.props.allAddressList.length;
     let res = null;
     this.setState({
       pickLoading: true,
@@ -323,7 +321,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         let obj = res.context.tariffs;
 
         // 有地址的时候，单独展示pickup，如果查询到不支持pickup，给出错误提示
-        if (allAddressLen) {
+        if (this.props.allAddressList.length) {
           obj = obj.filter((e) => e.type == 'PVZ');
           if (!obj.length) {
             this.setState({
@@ -392,10 +390,17 @@ class HomeDeliveryOrPickUp extends React.Component {
                   this.setItemStatus('homeDelivery');
                 }
 
-                // 1、地址列表为空 直接显示地图
-                // 2、pageType非空 直接显示地图
-                if ((pageType || !allAddressLen) && !isSubscription) {
+                // 只显示pickup的情况（会员），1、非checkout页面，2、checkout页面（没有订阅商品时）有地址
+                if (
+                  pageType === 'onlyPickup' ||
+                  (pageType === 'checkout' &&
+                    this.props.allAddressList.length &&
+                    !isSubscription)
+                ) {
                   this.setItemStatus('pickup');
+                } else {
+                  // 会员有订阅商品的时 homeDelivery
+                  // this.setItemStatus('homeDelivery');
                 }
               }
             );
@@ -784,9 +789,14 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             {/* 城市搜索 end */}
 
-            {/* homeDelivery or pickup 选择 begin */}
-            {/* 地址列表为空时 不展示 选择homeDelivery or pickup */}
-            {allAddressList.length && selectedItem?.homeAndPickup.length > 0
+            {/* 
+                要显示选择 homeDelivery or pickup 的场景：
+                  1、游客
+                  2、会员：地址列表为空
+            */}
+            {pageType != 'onlyPickup' &&
+            !allAddressList.length &&
+            selectedItem?.homeAndPickup.length > 0
               ? selectedItem?.homeAndPickup.map((item, index) => (
                   <>
                     <div className="rc_radio_box rc-full-width rc-input--full-width">

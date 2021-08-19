@@ -31,6 +31,14 @@ import ruhowitworknewmobile1 from './Components/HowItWorksNew/image/ruhowitworks
 import ruhowitworknewmobile2 from './Components/HowItWorksNew/image/ruhowitworksmobile2.png';
 import ruhowitworknewmobile3 from './Components/HowItWorksNew/image/ruhowitworksmobile3.png';
 import ruhowitworknewmobile4 from './Components/HowItWorksNew/image/ruhowitworksmobile4.png';
+import frhowitworknew1 from './Components/HowItWorksNew/image/frhowitworknew1.png';
+import frhowitworknew2 from './Components/HowItWorksNew/image/frhowitworknew2.png';
+import frhowitworknew3 from './Components/HowItWorksNew/image/frhowitworknew3.png';
+import frhowitworknew4 from './Components/HowItWorksNew/image/frhowitworknew4.png';
+import frhowitworknewmobile1 from './Components/HowItWorksNew/image/frhowitworknewmobile1.png';
+import frhowitworknewmobile2 from './Components/HowItWorksNew/image/frhowitworknewmobile2.png';
+import frhowitworknewmobile3 from './Components/HowItWorksNew/image/frhowitworknewmobile3.png';
+import frhowitworknewmobile4 from './Components/HowItWorksNew/image/frhowitworknewmobile4.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -77,6 +85,37 @@ const RuhowitworksnewListmobiles = [
   },
   {
     HowitworksStep: ruhowitworknewmobile4
+  }
+];
+
+//Fr Image
+const FrhowitworksnewList = [
+  {
+    HowitworksStep: frhowitworknew1
+  },
+  {
+    HowitworksStep: frhowitworknew2
+  },
+  {
+    HowitworksStep: frhowitworknew3
+  },
+  {
+    HowitworksStep: frhowitworknew4
+  }
+];
+
+const FrhowitworksnewListmobile = [
+  {
+    HowitworksStep: frhowitworknewmobile1
+  },
+  {
+    HowitworksStep: frhowitworknewmobile2
+  },
+  {
+    HowitworksStep: frhowitworknewmobile3
+  },
+  {
+    HowitworksStep: frhowitworknewmobile4
   }
 ];
 
@@ -314,6 +353,8 @@ class ClubLandingPageNew extends React.Component {
           <HowItWorksNew
             RuhowitworksnewList={RuhowitworksnewLists}
             RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+            FrhowitworksnewList={FrhowitworksnewList}
+            FrhowitworksnewListmobile={FrhowitworksnewListmobile}
           />
 
           <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />

@@ -501,7 +501,10 @@ class VisitorAddress extends React.Component {
         deliveryAddress: pickupFormData.address1,
         city: pickupFormData.city,
         comment: pickupFormData.comment,
-        pickupCode: pickupFormData.pickupCode, // 快递公司code
+        pickupPrice: pickupFormData?.pickupPrice,
+        pickupDescription: pickupFormData?.pickupDescription,
+        pickupCode: pickupFormData?.pickupCode, // 快递公司code
+        pickupName: pickupFormData?.pickupName, // 快递公司
         workTime: pickupFormData.workTime, // 快递公司上班时间
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
         deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
@@ -628,6 +631,7 @@ class VisitorAddress extends React.Component {
                   key={this.state.defaultCity}
                   isLogin={false}
                   defaultCity={this.state.defaultCity}
+                  pageType="visitor"
                   updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                   updatePickupEditNumber={this.updatePickupEditNumber}
                   updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
