@@ -67,7 +67,7 @@ class Recommendation extends React.Component {
       noData: false,
       showCur: -1,
       isSPT: false,
-      frequencyList: '',
+      frequencyList: [],
       isNoMoreProduct: '', //页面error的时候的翻译id
       promotionCode: '',
       promotionCodeText: '',
