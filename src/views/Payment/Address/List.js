@@ -379,10 +379,18 @@ class AddressList extends React.Component {
             this.setState({
               addOrEdit: false
             });
+            // 如果没有地址
             if (!allAddress.length) {
               this.setState({
                 deliveryOrPickUpFlag: true,
                 choiseHomeDeliveryOrPickUp: 0
+              });
+            }
+            // 如果有订阅商品，地址又为空
+            if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
+              this.updateConfirmBtnDisabled(true);
+              this.setState({
+                addOrEdit: true
               });
             }
           } else {
@@ -1413,7 +1421,7 @@ class AddressList extends React.Component {
         v['selected'] = false;
       }
     });
-    // console.log('666 单选按钮选择 val: ', val);
+    console.log('666 单选按钮选择 val: ', val);
     // 设置按钮状态
     let btnStatus = false;
     val == 'pickup' ? (btnStatus = true) : (btnStatus = false);
@@ -1446,9 +1454,16 @@ class AddressList extends React.Component {
     this.updateConfirmBtnDisabled(btnStatus);
 
     this.scrollToTitle();
+
+    // sprint3 如果有订阅商品 不展示pickup
+    let yourChoise = val == 'homeDelivery' ? 1 : 2;
+    if (this.props.isCurrentBuyWaySubscription) {
+      yourChoise = 1;
+    }
+
     this.setState(
       {
-        choiseHomeDeliveryOrPickUp: val == 'homeDelivery' ? 1 : 2,
+        choiseHomeDeliveryOrPickUp: yourChoise,
         homeAndPickup: Object.assign([], sitem)
       },
       () => {
@@ -1487,18 +1502,27 @@ class AddressList extends React.Component {
           }
         });
       }
+
       this.setState({
         addOrEditPickup: false,
         deliveryOrPickUpFlag: true,
         showDeliveryOrPickUp: 1, // 0：都没有，1：home delivery，2：pickup
         choiseHomeDeliveryOrPickUp: ichoise // 0：都没有，1：home delivery，2：pickup
       });
+
+      console.log('666 设置home delivery状态');
+
       // 修改按钮状态
       this.updateConfirmBtnDisabled(false);
     }
   }
   // 修改按钮状态
   updateConfirmBtnDisabled = (flag) => {
+    const { addressList } = this.state;
+    console.log('666 修改按钮状态： ', flag);
+    if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
+      flag = true;
+    }
     this.setState({
       confirmBtnDisabled: flag
     });
@@ -1508,6 +1532,7 @@ class AddressList extends React.Component {
     const { addressList } = this.state;
     let flag = null;
     !addressList.length && num == 1 ? (flag = true) : (flag = false);
+    console.log('666 更新 showDeliveryOrPickUp: ', num);
     this.setState(
       {
         showDeliveryOrPickUp: num,
@@ -1565,7 +1590,8 @@ class AddressList extends React.Component {
         type: 'DELIVERY',
         country: deliveryAddress.country,
         countryId: deliveryAddress.countryId,
-        isDefaltAddress: pickupFormData?.isDefaltAddress,
+        // isDefaltAddress: pickupFormData?.isDefaltAddress,
+        isDefaltAddress: pickupFormData.isDefaltAddress ? 1 : 0,
         minDeliveryTime: pickupFormData.minDeliveryTime,
         maxDeliveryTime: pickupFormData.maxDeliveryTime,
         workTime: pickupFormData.workTime,
@@ -1656,7 +1682,7 @@ class AddressList extends React.Component {
   };
   render() {
     const { panelStatus } = this;
-    const { showOperateBtn } = this.props;
+    const { showOperateBtn, isCurrentBuyWaySubscription } = this.props;
     const {
       deliveryOrPickUpFlag,
       confirmBtnDisabled,
@@ -1819,18 +1845,18 @@ class AddressList extends React.Component {
             {showOperateBtn ? (
               <>
                 <div className="rc-md-up">
-                  {/* {addressList.length > 0 && ( */}
-                  <>
-                    <span
-                      className="rc-styled-link"
-                      onClick={this.handleClickCancel}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <FormattedMessage id="cancel" />
-                    </span>{' '}
-                    <FormattedMessage id="or" />{' '}
-                  </>
-                  {/* )} */}
+                  {addressList.length > 0 && !isCurrentBuyWaySubscription ? (
+                    <>
+                      <span
+                        className="rc-styled-link"
+                        onClick={this.handleClickCancel}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <FormattedMessage id="cancel" />
+                      </span>{' '}
+                      <FormattedMessage id="or" />{' '}
+                    </>
+                  ) : null}
                   <button
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
@@ -2014,6 +2040,7 @@ class AddressList extends React.Component {
                                   ))
                                 : null}
 
+                              {/* homeDelivery 地址 */}
                               {showDeliveryOrPickUp == 1 &&
                               choiseHomeDeliveryOrPickUp == 1 ? (
                                 <>
@@ -2159,7 +2186,7 @@ class AddressList extends React.Component {
 
                             {/* 确认地址按钮 */}
                             <button
-                              className={`rc-btn rc-btn--one rc_btn_list_confirm ${
+                              className={`rc-btn rc-btn--one rc_btn_homedelivery_confirm ${
                                 this.state.btnConfirmLoading
                                   ? 'ui-btn-loading'
                                   : ''

@@ -101,7 +101,7 @@ const GetMoreAd = () => {
                   <div className="getmore83vh club-program-box">
                     <div>
                       <div>
-                        <div className="flex justify-content-center">
+                        <div className="flex justify-content-center rc-padding-top--xs">
                           <div>
                             <LazyLoad>
                               {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
@@ -234,7 +234,7 @@ const GetMoreAd = () => {
                     </div>
                     <br />
                     <div
-                      className=" rc-btn-group m-0 rc-column rc-padding-x--none "
+                      className=" rc-btn-group m-0 rc-column rc-padding-y--none "
                       style={{ display: 'flex', justifyContent: 'center' }}
                     >
                       <DistributeHubLinkOrATag

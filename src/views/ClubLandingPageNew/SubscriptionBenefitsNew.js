@@ -22,7 +22,7 @@ const SubsriptionBenefitsNew = () => {
         style={{ padding: '1px 0' }}
       >
         <div className="rc-full-width">
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-y--lg--mobile value-proposition">
             <h4
               className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
               style={{ fontWeight: '550' }}
@@ -45,7 +45,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft ">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft " style={{fontSize:"16px"}}>
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon1'}
                         />
@@ -71,7 +71,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon2'}
                         />
@@ -93,7 +93,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon3'}
                         />
@@ -115,7 +115,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon4'}
                         />
@@ -137,7 +137,7 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft">
+                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon5'}
                         />
@@ -162,7 +162,7 @@ const SubsriptionBenefitsNew = () => {
                         </LazyLoad>
                       </div>
                       <div className=" value-proposition__text">
-                        <p className="rc-margin-bottom--none rc-intro demarginleft">
+                        <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
                           <FormattedMessage
                             id="ClubLP.SubscriptionBenefitsNew.icon6"
                             values={{
