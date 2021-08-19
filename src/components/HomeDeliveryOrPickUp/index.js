@@ -108,10 +108,9 @@ class HomeDeliveryOrPickUp extends React.Component {
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
         const { pickupForm, selectedItem } = this.state;
-        // console.log('666 监听iframe的传值: ', e);
+        console.log('666 监听iframe的传值: ', e);
         let obj = e.data.content;
-        pickupForm['pickupPrice'] =
-          selectedItem?.homeAndPickup[0]?.deliveryPrice || [];
+        pickupForm['pickupPrice'] = obj?.price || [];
         pickupForm['pickupDescription'] = obj?.description || [];
         pickupForm['pickupCode'] = obj?.code || [];
         pickupForm['pickupName'] = obj?.courier || [];

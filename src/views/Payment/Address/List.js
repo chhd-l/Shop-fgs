@@ -284,7 +284,7 @@ class AddressList extends React.Component {
       const tmpObj =
         find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
 
-      // queryAddressList 查询银行卡列表
+      // 查询银行卡列表
       // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
 
       this.props.updateData(tmpObj);
@@ -1604,7 +1604,7 @@ class AddressList extends React.Component {
           {
             pickupData: pickupFormData
           },
-          () => {
+          async () => {
             // pickup 相关信息传到 Payment
             deliveryAdd['pickup'] = pickupFormData.pickup;
             this.props.updateData(deliveryAdd);
@@ -1636,6 +1636,8 @@ class AddressList extends React.Component {
               deliveryOrPickUpFlag: false
             });
 
+            // 查询地址列表
+            await this.queryAddressList();
             this.scrollToTitle();
             this.showSuccessMsg();
           }
