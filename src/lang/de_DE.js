@@ -200,12 +200,13 @@ const de_DE = {
   clickHere3: 'Praxisfinder',
   'clinic.cancel': 'Stornieren',
   'clinic.clinic': 'Klinik',
-  'clinic.clinicTip': 'Finden Sie eine teilnehmende Tierarztpraxis.',
+  'clinic.clinicTip':
+    'Finden Sie eine teilnehmende Tierarztpraxis in Ihrer Nähe.',
   'clinic.confirm': 'Bestätigen',
   'clinic.confirm2': 'Bestätigen',
   'clinic.confirm3': 'Bestätigen',
   'clinic.navigate': 'Navigieren',
-  'clinic.selectVetClinics': 'Wählen Sie eine Praxis',
+  'clinic.selectVetClinics': 'Suchen Sie nach einem Ort oder Praxisnamen',
   'clinic.vet': 'Tierarzt',
   close: 'Schließen',
   club: 'Club',
@@ -552,7 +553,7 @@ const de_DE = {
   loginFailed: 'Login fehlgeschlagen',
   logisticsCompany: 'Logistikunternehmen',
   logisticsRating: 'Logistikbewertung',
-  logisticsSingleNumber: 'Logistik einzelne Nummer',
+  logisticsSingleNumber: 'DPD Paketnummer',
   logOff: 'Ausloggen',
   mailAddress: 'E-Mail-Addresse',
   manage: 'Verwalten',
@@ -594,7 +595,7 @@ const de_DE = {
   noClinicTip:
     'Sie benötigen für die Bestellung unserer Produkte einen Empfehlungscode einer teilnehmenden Tierarztpraxis. Sie haben noch keinen Code? Finden Sie hier die teilnehmenden Praxen: {val}',
   noDefaultClinic: 'Keine Standardpraxis',
-  NoPromotionDesc: 'Abo-Rabatt',
+  NoPromotionDesc: 'Rabatt',
   noSpecialNeeds: 'Keine besonderen Bedürfnisse',
   noStart: 'Ausstehend',
   notate: 'Alle Preise inkl. MwSt. und zzgl. {val}',
@@ -617,7 +618,7 @@ const de_DE = {
   'order.inputOrderNumberTip': 'Bitte Bestellnummer eingeben',
   'order.inputReturnNumberTip': 'Bitte Rücksendenummer eingeben',
   'order.inTranistTip':
-    'Ihre Bestellung wurde versendet und Sie erhalten das Produkt bald. {val}',
+    'Ihre Bestellung wurde versandt. Sie wird in Kürze bei Ihnen eintreffen. {val}',
   'order.iVAIncluido': '',
   'order.noDataTip': 'Keine Daten',
   'order.orderDate': 'Auftragsdatum',
@@ -867,7 +868,7 @@ const de_DE = {
   produtctNumber: 'Anzahl der Produkte',
   'profile.emailChoose':
     'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer Datenschutzerklärung.',
-  promotion: 'Abo-Rabatt',
+  promotion: 'Rabatt',
   promotionalCode: 'Gutscheincode',
   promotionCode: 'Gutscheincode',
   puppy: 'Welpe (0-1 Jahre alt)',
@@ -1380,9 +1381,9 @@ const de_DE = {
     'Bitte geben Sie Ihren individuellen Empfehlungscode ein:',
   dePrescriberCodeTxt: 'z B.XYZ1234',
   dePrescriberCodeErrMsg:
-    'Der eingegebene Code ist ungültig.<br>Bitte versuchen Sie es mit einem anderen Code',
+    'Der eingegebene Code ist ungültig.<br>Bitte kontrollieren Sie die Richtigkeit Ihrer Eingabe oder kontaktieren Sie Ihre Tierarztpraxis.',
   'myAccount.dePrescriberCodeErrMsg':
-    'Der eingegebene Code ist ungültig.Bitte versuchen Sie es mit einem anderen Code',
+    'Der eingegebene Code ist ungültig. Bitte kontrollieren Sie die Richtigkeit Ihrer Eingabe oder kontaktieren Sie Ihre Tierarztpraxis.',
   'deLandingPage.prescriberCode.searchBtn': 'Code speichern',
   'deLandingPage.prescriberCode.tip5': 'Sie haben noch keinen Empfehlungscode?',
   'deLandingPage.prescriberCode.tip6':
