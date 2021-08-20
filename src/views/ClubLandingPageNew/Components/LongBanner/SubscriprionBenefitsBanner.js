@@ -34,7 +34,6 @@ const SubscriptionBenefitsBanner = ({
                   window.__.env.REACT_APP_COUNTRY == 'fr'&& (!isMobile) ?
                     null:LogoShow.logo
                 }
-
               </div>
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                 <h3 className="rc-beta" style={{ fontWeight: '550' }}>
@@ -58,7 +57,10 @@ const SubscriptionBenefitsBanner = ({
                       <h5 style={{ fontSize: '24px' }}>
                         {items.SubscriptionTitle}
                       </h5>
-                      <div className="rc-card__body" style={{paddingTop:'0.5rem'}}>
+                      <div
+                        className="rc-card__body"
+                        style={{ paddingTop: '0.5rem' }}
+                      >
                         <p
                           className="rc-card__meta club_subscription_intro_center"
                           style={{ fontSize: '1rem' }}

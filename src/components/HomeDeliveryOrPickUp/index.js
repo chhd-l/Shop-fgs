@@ -70,6 +70,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         comment: '',
         address1: '',
         city: '',
+        paymentMethods: '', // 支付方式
         pickupCode: '', // 快递公司code
         pickupName: '', // 快递公司
         workTime: '', // 快递公司上班时间
@@ -108,12 +109,24 @@ class HomeDeliveryOrPickUp extends React.Component {
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
         const { pickupForm, selectedItem } = this.state;
-        console.log('666 监听iframe的传值: ', e);
+        console.log('666 监听地图点的传值: ', e);
         let obj = e.data.content;
         pickupForm['pickupPrice'] = obj?.price || [];
         pickupForm['pickupDescription'] = obj?.description || [];
         pickupForm['pickupCode'] = obj?.code || [];
         pickupForm['pickupName'] = obj?.courier || [];
+
+        // ★★ 自提点返回支付方式：
+        // 1. cod: cash & card，shop展示cod和卡支付
+        // 2. cod: cash 或 card，shop展示cod和卡支付
+        // 3. 无返回，shop展示卡支付
+        let pickupPayMethods = null;
+        let payway = obj?.paymentMethods || [];
+        if (payway.length) {
+          pickupPayMethods = payway[0].split('_')[0].toLocaleLowerCase();
+        }
+        pickupForm['paymentMethods'] = pickupPayMethods;
+
         pickupForm['city'] = obj?.address?.city || [];
         pickupForm['address1'] = obj?.address?.fullAddress || [];
         pickupForm['workTime'] = obj?.workTime || [];

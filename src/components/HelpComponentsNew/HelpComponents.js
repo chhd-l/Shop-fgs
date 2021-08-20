@@ -93,7 +93,7 @@ const HelpComponentsNew = (props) => {
                     <FormattedMessage id="ClubLP.Help.title" />
                   </h4>
                 </div>
-                <p style={{marginBottom:0}}>
+                <p style={{ marginBottom: 0 }}>
                   <span>
                     <FormattedMessage id="ClubLP.Help.subtitle1" />
                   </span>

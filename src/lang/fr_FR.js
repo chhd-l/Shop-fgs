@@ -366,7 +366,7 @@ const fr_FR = {
     "L'adresse de facturation est la même que l'adresse de livraison",
   billing: 'FACTURATION',
   billing2: 'Mon adresse de facturation',
-  billingAddress: 'Page d\'accueil',
+  billingAddress: "Page d'accueil",
   birthday: 'Date de naissance',
   breed: 'Race',
   callUs: 'Par téléphone',
@@ -399,15 +399,13 @@ const fr_FR = {
   'minicart.totalProduct': '{val} produit(s)',
   'cart.totalProduct_nounit': 'Vous avez {val} dans votre panier',
   'cart.yourShoppingCart': 'Panier',
-  clubGiftTips1:
-    'L\' alimentation la plus adaptée',
+  clubGiftTips1: "L' alimentation la plus adaptée",
   clubGiftTips2:
     'Des conseils personnalisés pour prendre soin de votre animal de compagnie',
-  clubGiftTips3:
-    'Un conseiller à votre écoute',
+  clubGiftTips3: 'Un conseiller à votre écoute',
   clubGiftTips4: 'Récompenses et offres exclusives',
   clubGiftTips5:
-     'Livraison offerte et automatique à chaque réapprovisionnement',
+    'Livraison offerte et automatique à chaque réapprovisionnement',
   Cat: 'Chat',
   catNutrition: 'Nutrition chats',
   cats: 'CHATS',
@@ -1107,7 +1105,7 @@ const fr_FR = {
   'productFinder.searchResultTip1ForDog':
     'Voici les produits qui correspondent le mieux aux besoins de votre chien.',
   'productFinder.searchResultTip2':
-    "Cliquez sur \"recommandations\" pour plus d'informations.",
+    'Cliquez sur "recommandations" pour plus d\'informations.',
   'productFinder.searchResultTip3': 'Nous sommes désolés!',
   'productFinder.searchResultTip4':
     "La nutrition la plus précise pour votre animal n'est actuellement pas disponible.",
@@ -1361,7 +1359,7 @@ const fr_FR = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'subscription.pause': 'Suspension de l\'abonnement',
+  'subscription.pause': "Suspension de l'abonnement",
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
@@ -1783,15 +1781,14 @@ const fr_FR = {
   'subscription.dailyRation': 'Ration quotidienne',
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
-  'details.findProductTip':
-    'Trouver le bon produit et utiliser notre {btn}',
+  'details.findProductTip': 'Trouver le bon produit et utiliser notre {btn}',
   'details.findProductTips': 'Recherche de produits',
   'details.learnMore': 'Apprendre encore plus',
   'subscriptionDetail.cantBindPetsErr1':
     'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':
     'There are cat and dog products, please go to the pet details to bind the products',
-  'subscriptionDetail.editPetProfile': 'Modifier le profil de l\'animal',
+  'subscriptionDetail.editPetProfile': "Modifier le profil de l'animal",
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
     'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',

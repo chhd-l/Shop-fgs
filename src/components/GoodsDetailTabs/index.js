@@ -809,7 +809,7 @@ const GoodsDetailTabs = function (props) {
                                     style={{
                                       fontSize: '0.7em',
                                       textAlign: 'center',
-                                      color:'#666'
+                                      color: '#666'
                                     }}
                                   >
                                     {window.__.env.REACT_APP_COUNTRY ===
@@ -1044,7 +1044,7 @@ const GoodsDetailTabs = function (props) {
                                     values={{ val1: <br />, val2: <br /> }}
                                   ></FormattedMessage>
                                 </p>
-                                <p style={{ fontSize: '0.7em' ,color:'#666'}}>
+                                <p style={{ fontSize: '0.7em', color: '#666' }}>
                                   {window.__.env.REACT_APP_COUNTRY === 'ru' ? (
                                     <br />
                                   ) : (

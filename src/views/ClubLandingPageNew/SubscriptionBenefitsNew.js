@@ -45,7 +45,10 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft " style={{fontSize:"16px"}}>
+                      <p
+                        className="rc-margin-bottom--none rc-intro demarginleft "
+                        style={{ fontSize: '16px' }}
+                      >
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon1'}
                         />
@@ -71,7 +74,10 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
+                      <p
+                        className="rc-margin-bottom--none rc-intro demarginleft"
+                        style={{ fontSize: '16px' }}
+                      >
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon2'}
                         />
@@ -93,7 +99,10 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
+                      <p
+                        className="rc-margin-bottom--none rc-intro demarginleft"
+                        style={{ fontSize: '16px' }}
+                      >
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon3'}
                         />
@@ -115,7 +124,10 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
+                      <p
+                        className="rc-margin-bottom--none rc-intro demarginleft"
+                        style={{ fontSize: '16px' }}
+                      >
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon4'}
                         />
@@ -137,7 +149,10 @@ const SubsriptionBenefitsNew = () => {
                       </LazyLoad>
                     </div>
                     <div className=" value-proposition__text">
-                      <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
+                      <p
+                        className="rc-margin-bottom--none rc-intro demarginleft"
+                        style={{ fontSize: '16px' }}
+                      >
                         <FormattedMessage
                           id={'ClubLP.SubscriptionBenefitsNew.icon5'}
                         />
@@ -162,7 +177,10 @@ const SubsriptionBenefitsNew = () => {
                         </LazyLoad>
                       </div>
                       <div className=" value-proposition__text">
-                        <p className="rc-margin-bottom--none rc-intro demarginleft" style={{fontSize:"16px"}}>
+                        <p
+                          className="rc-margin-bottom--none rc-intro demarginleft"
+                          style={{ fontSize: '16px' }}
+                        >
                           <FormattedMessage
                             id="ClubLP.SubscriptionBenefitsNew.icon6"
                             values={{
