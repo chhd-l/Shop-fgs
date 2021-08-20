@@ -173,8 +173,7 @@ const faqList =
         gaContext: 'Would you like free delivery'
       },
       {
-        title:
-          'Comment sont traitées mes données par Royal Canin ?',
+        title: 'Comment sont traitées mes données par Royal Canin ?',
         context: `<h1 class="rc-zeta"></h1>
     <p></p><p>Les achats sont sécurisés à 100 % grâce au processus de paiement de Royal Canin. Notre site utilise un protocole SSL pour crypter toutes les informations personnelles envoyées pendant la procédure de paiement. Pour plus d'informations sur la manière dont nous sécurisons et utilisons vos informations, veuillez consulter notre politique de confidentialité.</p>
     <p>Nous acceptons les cartes Visa et Mastercard comme moyens de paiement. </p><p></p>`,
