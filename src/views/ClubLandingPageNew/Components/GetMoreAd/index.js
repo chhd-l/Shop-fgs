@@ -31,6 +31,8 @@ const GetMoreAd = () => {
                     className={`${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? 'trwithsmall margintoppx'
+                        : window.__.env.REACT_APP_COUNTRY == 'fr'
+                        ? 'trwithsmall margintoppx'
                         : 'widthsmall margintoppx'
                     } one-time-purchase-box`}
                   >
@@ -53,7 +55,7 @@ const GetMoreAd = () => {
                         >
                           <p
                             style={{
-                              fontSize: '1.56rem',
+                              fontSize: '1.50rem',
                               fontWeight: 'bolder',
                               marginBottom: '0'
                             }}
@@ -99,7 +101,7 @@ const GetMoreAd = () => {
                   <div className="getmore83vh club-program-box">
                     <div>
                       <div>
-                        <div className="flex justify-content-center">
+                        <div className="flex justify-content-center rc-padding-top--xs">
                           <div>
                             <LazyLoad>
                               {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
@@ -125,7 +127,7 @@ const GetMoreAd = () => {
                           >
                             <p
                               style={{
-                                fontSize: '1.56rem',
+                                fontSize: '1.50rem',
                                 fontWeight: 'bolder',
                                 color: '#E2001A'
                               }}
@@ -232,7 +234,7 @@ const GetMoreAd = () => {
                     </div>
                     <br />
                     <div
-                      className=" rc-btn-group m-0 rc-column rc-padding-x--none "
+                      className=" rc-btn-group m-0 rc-column rc-padding-y--none "
                       style={{ display: 'flex', justifyContent: 'center' }}
                     >
                       <DistributeHubLinkOrATag

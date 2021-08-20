@@ -31,10 +31,7 @@ const ChangeSelection = ({ el }) => {
   }
   return (
     <>
-      <div
-        style={{ overflow: 'hidden' }}
-        className="rc-card-content sub-frequency-wrap"
-      >
+      <div className="rc-card-content sub-frequency-wrap">
         {isIndv ? (
           <>
             <strong

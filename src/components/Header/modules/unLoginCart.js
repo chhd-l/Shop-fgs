@@ -43,8 +43,8 @@ class UnloginCart extends React.Component {
   }
   get selectedCartData() {
     return this.props.checkoutStore.cartData.filter(
-      (ele) => ele.selected && ele.goodsInfoFlag != 3
-    ); //indv的商品需要被过滤掉
+      (ele) => ele.selected && !ele.isNotShowCart
+    ); //isNotShowCart 直接checkout的商品，不在购物车显示需要被过滤掉
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];
@@ -285,19 +285,21 @@ class UnloginCart extends React.Component {
                 </div>
                 {!this.selectedCartData.filter((el) => el.goodsInfoFlag)
                   .length ? (
-                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
-                    <span
-                      id="unLoginCarCheckout"
-                      onClick={() => this.handleCheckout({ type: 'guest' })}
-                      className={`rc-styled-link color-999 ui-cursor-pointer ${
-                        this.state.checkoutLoading
-                          ? 'ui-btn-loading ui-btn-loading-border-red'
-                          : ''
-                      }`}
-                    >
-                      <FormattedMessage id="guestCheckout" />
-                    </span>
-                  </div>
+                  window.__.env.REACT_APP_COUNTRY !== 'us' ? (
+                    <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                      <span
+                        id="unLoginCarCheckout"
+                        onClick={() => this.handleCheckout({ type: 'guest' })}
+                        className={`rc-styled-link color-999 ui-cursor-pointer ${
+                          this.state.checkoutLoading
+                            ? 'ui-btn-loading ui-btn-loading-border-red'
+                            : ''
+                        }`}
+                      >
+                        <FormattedMessage id="guestCheckout" />
+                      </span>
+                    </div>
+                  ) : null
                 ) : (
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <FormattedMessage id="unLoginSubscriptionTips" />

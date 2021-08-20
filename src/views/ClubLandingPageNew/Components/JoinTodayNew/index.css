@@ -1,6 +1,7 @@
 @media (max-width: 639.98px) {
   .flexwrapJoin {
     flex-wrap: wrap;
+    padding: 0;
   }
   .orderJoin1 {
     order: 1;
@@ -22,5 +23,8 @@
   .logomargin {
     margin-top: 16vh;
     margin-left: 6vw;
+  }
+  .flexwrapJoin {
+    padding-right: 160px;
   }
 }

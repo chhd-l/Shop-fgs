@@ -26,10 +26,9 @@ const JoinTodayNew = () => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                 <div className="content-asset">
                   <div
-                    className="row rc-max-width--lg rc-match-heights rc-padding-y--sm flexwrapJoin"
+                    className="row rc-max-width--xl rc-match-heights flexwrapJoin"
                     style={{
                       margin: '0',
-                      padding: '0',
                       display: 'flex',
                       flexWrap: 'wrap'
                     }}

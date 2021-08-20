@@ -133,17 +133,13 @@ function ListItemH5ForGlobalStyle(props) {
                     }}
                   />
                 </div>
-                <DistributeHubLinkOrATag
-                  href="/precise-cat-nutrition"
+                <Link
                   to="/precise-cat-nutrition"
+                  className="rc-btn rc-btn--two margin-top-mobile-20"
+                  style={{ marginTop: '1.1875rem' }}
                 >
-                  <button
-                    className="rc-btn rc-btn--two margin-top-mobile-20"
-                    style={{ marginTop: '1.1875rem' }}
-                  >
-                    <FormattedMessage id="plp.retail.cat.filter.specneed.learnmore" />
-                  </button>
-                </DistributeHubLinkOrATag>
+                  <FormattedMessage id="plp.retail.cat.filter.specneed.learnmore" />
+                </Link>
               </div>
               <picture className="rc-card__image" style={{ flex: 1 }}>
                 <div className="rc-padding-bottom--xs justify-content-center ">
@@ -378,17 +374,13 @@ function ListItemForDefault(props) {
                 />
               </div>
               <div style={{ margin: '0 auto' }}>
-                <DistributeHubLinkOrATag
-                  href="/precise-cat-nutrition"
+                <Link
                   to="/precise-cat-nutrition"
+                  className="rc-btn rc-btn--two "
+                  style={{ marginTop: '1.1875rem' }}
                 >
-                  <button
-                    className="rc-btn rc-btn--two "
-                    style={{ marginTop: '1.1875rem' }}
-                  >
-                    <FormattedMessage id="plp.retail.cat.filter.specneed.learnmore" />
-                  </button>
-                </DistributeHubLinkOrATag>
+                  <FormattedMessage id="plp.retail.cat.filter.specneed.learnmore" />
+                </Link>
               </div>
             </div>
             <picture className="rc-card__image">

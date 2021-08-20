@@ -96,8 +96,23 @@ class AddressPreview extends React.Component {
       <div className="children-nomargin">
         {form.receiveType == 'PICK_UP' ? (
           <>
+            <p
+              className="preview_pickup_title font-weight-bold"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginTop: '1rem'
+              }}
+            >
+              <span className="preview_pickup_name">{form.pickupName}</span>
+              {form?.pickupPrice && (
+                <span className="preview_pickup_price">
+                  {formatMoney(form.pickupPrice)}
+                </span>
+              )}
+            </p>
             {/* 是否存在运费 */}
-            {form?.item?.minDeliveryTime && (
+            {/* {form?.item?.minDeliveryTime && (
               <>
                 <p className="preview_delivery_date">
                   {form.item.minDeliveryTime == form.item.maxDeliveryTime ? (
@@ -118,26 +133,13 @@ class AddressPreview extends React.Component {
                   )}
                 </p>
               </>
-            )}
-            <p
-              className="preview_pickup_title"
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginTop: '1rem'
-              }}
-            >
-              <span>{form?.pickup.courier}</span>
-              <span style={{ marginRight: '7rem' }}>
-                {formatMoney(form?.pickup.price)}
-              </span>
-            </p>
+            )} */}
             <p className="preview_pickup_address">{form.address1}</p>
             <p className="preview_pickup_worktime">{form.workTime}</p>
           </>
         ) : (
           <>
-            <p className={`${boldName ? 'medium' : ''}`}>
+            <p className={`font-weight-bold ${boldName ? 'medium' : ''}`}>
               {form.firstName + ' ' + form.lastName}
             </p>
             <p className="preview_address">{form.address1}</p>

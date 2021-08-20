@@ -8,6 +8,7 @@ import benefitsthree from './image/benefitsthree2.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import clublogo from './image/clublogo.png';
 import clubru from './image/Clubru.png';
+import clubfr from './image/clublogofr.png';
 import { getDeviceType } from '../../../../utils/utils';
 import LazyLoad from 'react-lazyload';
 
@@ -26,7 +27,13 @@ const LogoShows = {
     <LazyLoad>
       <img
         style={{ width: '100px' }}
-        src={window.__.env.REACT_APP_COUNTRY == 'ru' ? clubru : clublogo}
+        src={
+          window.__.env.REACT_APP_COUNTRY == 'ru'
+            ? clubru
+            : window.__.env.REACT_APP_COUNTRY == 'fr'
+            ? clubfr
+            : clublogo
+        }
       />
     </LazyLoad>
   )
@@ -45,7 +52,7 @@ const SubscriptionItems = [
     SubscriptionContent: (
       <FormattedMessage
         id="ClubLP.LongBanner.SubscriptionContent1"
-        values={{ val: <br /> }}
+        values={{ val: isMobile ? null : <br /> }}
       />
     )
   },
@@ -89,21 +96,20 @@ const LongBanner = () => {
   return (
     <>
       <div
-        className={`${
-          window.__.env.REACT_APP_COUNTRY == 'ru'
-            ? 'clubdesktopru clubmobileru'
-            : 'clubdesktop clubmobile'
-        }`}
+        className={'clubdesktopru clubmobileru'}
+        // className={`${
+        //   window.__.env.REACT_APP_COUNTRY == 'ru' ||
+        //   window.__.env.REACT_APP_COUNTRY == 'fr'
+        //     ? 'clubdesktopru clubmobileru'
+        //     : 'clubdesktop clubmobile'
+        // }`}
       >
         <div className="row rc-margin-x--none">
           <div className="rc-full-width">
             <div className="experience-component experience-assets-contentBlock">
-              <div
-                className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile"
-                style={{ marginBottom: '0px' }}
-              >
+              <div className="rc-max-width--xl rc-padding-x--sm rc-margin-top--sm rc-margin-bottom--lg rc-margin-y--lg--mobile">
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight transformmobile10px"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight rc-margin-x--xl"
                   style={{
                     marginBottom: '0px'
                   }}

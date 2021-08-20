@@ -85,7 +85,7 @@ const fr_FR = {
   'account.petsTitle': 'Mes animaux',
   'account.preferredContactMethod': 'Type de contact préféré',
   'account.preferredMethodOfCommunication': 'Méthode de communication préférée',
-  'account.profile': 'Mes informations personnelles',
+  'account.profile': 'Mes informations',
   'account.profileTip': 'Voir ou mettre à jour vos informations personnelles.',
   'account.requiredFields': 'Champs obligatoires',
   'account.shippingAddressTip': 'Créez ou modifiez votre adresse de livraison.',
@@ -355,7 +355,7 @@ const fr_FR = {
   autoship: 'Abonnement',
   autoship_nos: 'Abonnement',
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
-  autoShipStarted: "Date de création de l'Abonnement",
+  autoShipStarted: "date d'inscription au CLUB ",
   autoshop: 'en abonnement',
   backToAuthorization: "Retour à l'autorisation",
   // SubscriptionLanding End
@@ -366,7 +366,7 @@ const fr_FR = {
     "L'adresse de facturation est la même que l'adresse de livraison",
   billing: 'FACTURATION',
   billing2: 'Mon adresse de facturation',
-  billingAddress: 'Adresse de facturation',
+  billingAddress: "Page d'accueil",
   birthday: 'Date de naissance',
   breed: 'Race',
   callUs: 'Par téléphone',
@@ -398,7 +398,14 @@ const fr_FR = {
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
   'minicart.totalProduct': '{val} produit(s)',
   'cart.totalProduct_nounit': 'Vous avez {val} dans votre panier',
-  'cart.yourShoppingCart': 'Mon panier',
+  'cart.yourShoppingCart': 'Panier',
+  clubGiftTips1: "L' alimentation la plus adaptée",
+  clubGiftTips2:
+    'Des conseils personnalisés pour prendre soin de votre animal de compagnie',
+  clubGiftTips3: 'Un conseiller à votre écoute',
+  clubGiftTips4: 'Récompenses et offres exclusives',
+  clubGiftTips5:
+    'Livraison offerte et automatique à chaque réapprovisionnement',
   Cat: 'Chat',
   catNutrition: 'Nutrition chats',
   cats: 'CHATS',
@@ -410,9 +417,9 @@ const fr_FR = {
   changepic: 'Ajouter une photo',
   checkboxIsRequiredForSubscription:
     "cette case est obligatoire pour l'abonnement",
-  checkout: 'Commander',
+  checkout: 'Acheter maintenant',
   'minicart.checkout': 'Commander',
-  'payment.checkout': 'Commander',
+  'payment.checkout': 'Récapitulatif des données',
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   'Choose your pet type': "Quelle est l'espèce de votre animal",
   choosePayment: 'Choisissez le paiement',
@@ -444,8 +451,8 @@ const fr_FR = {
   completed: 'Terminé',
   CompleteRequiredItems: 'Veuillez remplir les éléments requis',
   confirmation: 'Confirmation',
-  'confirmation.account': 'Gérer votre abonnement',
-  'confirmation.customerInformation': 'Vos informations personnelles',
+  'confirmation.account': 'Accéder à mon compte',
+  'confirmation.customerInformation': 'Informations client',
   'confirmation.info1': 'Merci pour votre commande.',
   'confirmation.info2':
     "Vous allez recevoir un mail de confirmation à l'adresse mail suivante {val1}",
@@ -558,6 +565,7 @@ const fr_FR = {
   dontHesitateToContactUs: "N'hésitez pas à nous contacter",
   download: 'Télécharger',
   edit: 'Modifier',
+  selectThisAddress: 'Choisir cette adresse',
   edit2: 'Modifier',
   email: 'adresse e-mail',
   emailAddress: 'Adresse e-mail *',
@@ -732,7 +740,7 @@ const fr_FR = {
   'home.viewProducts': 'Afficher les produits',
   homePage: 'Accueil',
   iHaveReadThe: 'Je lis ça',
-  inactive: 'Inactif',
+  inactive: 'En pause',
   information: 'information',
   inputSearchText: 'Entrez le texte de recherche',
   inputYourEmailReceivePayment:
@@ -810,11 +818,11 @@ const fr_FR = {
   name2: 'NOM',
   nameInvalid: 'Votre nom est invalide',
   'New Pet': 'Nouvel animal',
-  newAddress: 'Nouvelle adresse',
+  newAddress: 'Edit',
   newPassword: 'Nouveau mot de passe',
   newsletterFalse: 'Consultez la NEWSLETTER',
   next: 'Suivant',
-  nextShipment: 'Prochain envoi',
+  nextShipment: 'Nouvel envoi',
   noClinicTip:
     "Vous n'avez pas de code de parrainage valide? {val} vous pouvez trouver nos cliniques partenaires, où vous pouvez obtenir un code.",
   NoPromotionDesc: 'Pas de doctorat',
@@ -865,7 +873,7 @@ const fr_FR = {
   'order.noDataTip': 'Pas de données',
   'order.orderDate': 'Date de commande',
   'order.orderDetails': 'Détails de la commande',
-  'order.orderInformation': 'Récapitulatif de command​e',
+  'order.orderInformation': 'Confirmation de commande',
   'order.orderNumber': 'Numéro de commande',
   'order.orderPlacedOn': 'Commande passée le',
   'order.orderStatus': 'Statut de la commande',
@@ -893,7 +901,7 @@ const fr_FR = {
   'order.viewOrder': "Voir l'ordre",
   orderDetail: 'Détails de la commande',
   orders: 'Affectations',
-  orderSummary: 'Récapitulatif de commande',
+  orderSummary: 'Résumé',
   outOfStockContent_cart:
     'Les produits actuellement recommandés incluent les produits qui ne sont pas en stock: {val}. Si vous continuez à ajouter au panier, les produits qui ne sont pas en stock seront immédiatement supprimés.',
   outOfStockContent_pay:
@@ -930,7 +938,7 @@ const fr_FR = {
   'payment.country': 'Pays',
   'payment.DEBIT': 'DÉBIT',
   'payment.deliveryFrequency': 'Frq',
-  'payment.deliveryTitle': 'Adresse de livraison',
+  'payment.deliveryTitle': 'Adresse mail',
   'payment.email': 'Adresse e-mail',
   'payment.errorInfo': '* {val} doit être rempli',
   'payment.errorInfo2': 'Ce champ est requis.',
@@ -951,7 +959,7 @@ const fr_FR = {
   'payment.normalDelivery2': 'Livraison standard',
   'payment.normalDelivery3': '(1 à 4 jours)',
   'payment.payment': 'Mon moyen de paiement',
-  'payment.paymentInformation': 'Moyen de paiement',
+  'payment.paymentInformation': 'Paiement',
   'payment.phoneNumber': 'Numéro de téléphone',
   'payment.phoneNumber2': 'Numéro de téléphone',
   'payment.postCode': 'Code postal',
@@ -1093,11 +1101,11 @@ const fr_FR = {
     "Enregistrez votre profil d'animal dans RoyalCanin et recevez une notification lorsque le meilleur produit est disponible.",
   'productFinder.searchCompleted': 'Recherche terminée!',
   'productFinder.searchResultTip1ForCat':
-    'Voici les produits qui correspondent le mieux aux besoins de votre chat.',
+    'Voici la liste des aliments adaptés aux besoins de votre chat.',
   'productFinder.searchResultTip1ForDog':
     'Voici les produits qui correspondent le mieux aux besoins de votre chien.',
   'productFinder.searchResultTip2':
-    "Cliquez sur les recommandations pour plus d'informations.",
+    'Cliquez sur "recommandations" pour plus d\'informations.',
   'productFinder.searchResultTip3': 'Nous sommes désolés!',
   'productFinder.searchResultTip4':
     "La nutrition la plus précise pour votre animal n'est actuellement pas disponible.",
@@ -1261,6 +1269,7 @@ const fr_FR = {
   'salesCategory.dog': 'Pour chien',
   //salesCategory
   'salesCategory.title': 'Découvrez nos {val1} gammes d’aliments',
+  'Club subscription': 'Abonnement au CLUB',
   save: 'enregistrer',
   saveChange: 'Enregistrer les modifications',
   saveExtra: 'Économisez {val} sur cet abonnement',
@@ -1350,7 +1359,7 @@ const fr_FR = {
   // *12 shipments engagement
   'smartFeederSubscription.learnMore': 'Apprendre encore plus',
   //times
-  'subscription.pause': 'pause',
+  'subscription.pause': "Suspension de l'abonnement",
   //is an automatic feeder designed to ensure your pet gets the right amount of food at the right time, even when you’re not home.
   'smartFeederSubscription.petDispenser': 'Le distributeur PetKit',
   //pause
@@ -1410,7 +1419,7 @@ const fr_FR = {
   subscribe: 'S‘abonner',
   clubSubscribe: 'S‘abonner',
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
-  subscription: 'Abonnements',
+  subscription: 'Mes abonnements',
   giftList: 'promotion de cadeaux',
   'subscription.ad.list1': '{val1}',
   'subscription.ad.list2': '{val1}',
@@ -1427,7 +1436,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.frequency': 'Recevoir mon produit toutes les',
+  'subscription.frequency': 'Fréquence : toutes les ',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
     'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
@@ -1720,7 +1729,7 @@ const fr_FR = {
   type: 'ART',
   uNeedHelp: "Vous avez besoin d'aide?",
   unfoldAddress: "Déplier l'adresse",
-  units: 'unité(s)',
+  units: 'Quantité(s)',
   unkown: 'Inconnu',
   // unLoginSubscriptionTips: "La livraison automatique n'est possible qu'après l'enregistrement",
   unLoginSubscriptionTips:
@@ -1769,21 +1778,20 @@ const fr_FR = {
   Expire: ' ',
   generalTermsConditions: 'Conditions Générales De Vente',
   'details.recommendedDaily': 'The recommended daily ration for your pet is',
-  'subscription.dailyRation': 'your daily ration',
+  'subscription.dailyRation': 'Ration quotidienne',
   'details.recommendedDaily.info': '{val}',
   'details.backRecommendedDaily': 'Go back to recommendation',
-  'details.findProductTip':
-    'Find the right product and calculate your pet ration using our {btn}',
-  'details.findProductTips': ' Product finder',
+  'details.findProductTip': 'Trouver le bon produit et utiliser notre {btn}',
+  'details.findProductTips': 'Recherche de produits',
   'details.learnMore': 'Apprendre encore plus',
   'subscriptionDetail.cantBindPetsErr1':
     'There are club and autoship products, please go to the pet details to bind the products',
   'subscriptionDetail.cantBindPetsErr2':
     'There are cat and dog products, please go to the pet details to bind the products',
-  'subscriptionDetail.editPetProfile': 'Edit pet profile',
+  'subscriptionDetail.editPetProfile': "Modifier le profil de l'animal",
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
-    'For a better experience we recommend linking a pet profile to your Club subscription',
+    'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',
   'subscriptionDetail.link': 'Link a profile',
   'subscriptionDetail.changeProduct': 'change product',
   'subscriptionDetail.newProduct': 'New product recommendation',
@@ -1851,21 +1859,22 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE {val1} ANIMAL UNE SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "Les avantages de l'abonnement pour votre chats et votre chien",
+    "Les avantages de l'abonnement pour {val}  votre chats et votre chien",
   'ClubLP.LongBanner.SubscriptionTitle1':
-    'Un aliment sur mesure pour une santé optimale',
+    'Un aliment sur mesure pour  {val} une santé optimale',
   'ClubLP.LongBanner.SubscriptionContent1':
-    'Des ingrédients de haute qualité choisis pour cibler les besoins spécifiques de votre animal et dont les bienfaits ont été scientifiquement prouvés',
+    'Des ingrédients de haute qualité choisis pour  cibler les besoins spécifiques de votre  animal  et {val} dont les bienfaits ont été scientifiquement prouvés',
   'ClubLP.LongBanner.SubscriptionTitle2':
     "Vous pouvez changer d'aliment quand les besoins de l’animal évoluent",
   'ClubLP.LongBanner.SubscriptionContent2':
     'Une recommandation nutritionnelle personnalisée, à mesure que ses besoins nutritionnels évoluent',
-  'ClubLP.LongBanner.SubscriptionTitle3': 'La bonne quantité à chaque fois',
+  'ClubLP.LongBanner.SubscriptionTitle3':
+    'La bonne quantité à {val} chaque fois',
   'ClubLP.LongBanner.SubscriptionTitle3.new': 'La bonne quantité à chaque fois',
   'ClubLP.LongBanner.SubscriptionContent3':
     'Des quantités quotidiennes recommandées pour être sûr de donner la bonne ration à votre animal',
@@ -1879,17 +1888,24 @@ const fr_FR = {
   'ClubLP.Advantage.content4':
     'Des nutriments sélectionnés pour leur haute qualité, à partir de sources durables ayant une plus faible empreinte carbone',
   'ClubLP.Advantage.button': 'Trouvez votre aliment sur mesure dès maintenant',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
+    "AVANTAGES DE L'ABONNEMENT POUR LES CHATS",
+  'ClubLP.LongBanner.SubscriptionTitle1.new':
+    'Un aliment sur mesure pour contribuer à sa bonne santé',
+  'ClubLP.LongBanner.SubscriptionTitle.tab.dog':
+    "AVANTAGES DE L'ABONNEMENT {val} POUR LES CHIENS",
+  'ClubLP.LongBanner.SubscriptionTitle2.new':
+    'Un aliment qui peut être changé  quand les besoins de l’animal évoluent',
   'ClubLP.SubscriptionBenefitsNew.title':
     'UN ABONNEMENT QUI VOUS FACILITE LA VIE',
   'ClubLP.SubscriptionBenefitsNew.icon1': 'Livraison offerte et automatique',
   'ClubLP.SubscriptionBenefitsNew.icon2':
     '10% de réduction pour toute commande',
-  'ClubLP.SubscriptionBenefitsNew.icon3':
-    'Accès à un conseiller à votre écoute',
+  'ClubLP.SubscriptionBenefitsNew.icon3': 'Un conseiller à votre écoute',
   'ClubLP.SubscriptionBenefitsNew.icon4':
     'un kit de bienvenue et des cadeaux exclusifs',
   'ClubLP.SubscriptionBenefitsNew.icon5':
-    'un accompagnement et des conseils sur mesure',
+    'un accompagnement pédagogique individualisé',
   'ClubLP.SubscriptionBenefitsNew.button': 'Commencer',
   'ClubLP.NewHowItWorks.title': 'COMMENT ÇA MARCHE',
   'ClubLP.NewJoinUs.title': 'PARLEZ-NOUS DE VOTRE ANIMAL',
@@ -1899,7 +1915,7 @@ const fr_FR = {
   'ClubLP.OurCustomers.title': 'NOS CLIENTS FIDELES',
   'ClubLP.GetMoreAd.title':
     "OBTENIR DES AVANTAGES SUPPLÉMENTAIRES AVEC L'ABONNEMENT AU CLUB",
-  'ClubLP.GetMoreAd.subtitle1': 'Achat {val} unique',
+  'ClubLP.GetMoreAd.subtitle1': 'Paiement {val} sécurisé',
   'ClubLP.GetMoreAd.subtitle2': 'Abonnement au {val} CLUB',
   'ClubLP.GetMoreAd.Single.tip1': 'Aliment sur mesure',
   'ClubLP.GetMoreAd.Single.tip2': 'Livraison offerte',

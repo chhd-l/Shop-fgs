@@ -880,7 +880,7 @@ class UnLoginCart extends React.Component {
               {pitem.sizeList.filter((el) => el.selected)[0]
                 .subscriptionStatus &&
               pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice &&
-              this.totalPrice > 0 ? (
+              formatMoney(this.tradePrice) !== '0,00 €' ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.promotions || !pitem.promotions.includes('club') ? (
                     <SubscriptionSelection
@@ -1084,7 +1084,7 @@ class UnLoginCart extends React.Component {
               <div className="text-center" style={{ fontSize: '.9375rem' }}>
                 <FormattedMessage id="unLoginSubscriptionTips" />
               </div>
-            ) : (
+            ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
               <div
                 className="text-center"
                 onClick={() => this.handleCheckout()}
@@ -1100,8 +1100,8 @@ class UnLoginCart extends React.Component {
                   <FormattedMessage id="guestCheckout" />
                 </div>
               </div>
-            )
-          ) : (
+            ) : null
+          ) : window.__.env.REACT_APP_COUNTRY !== 'us' ? (
             <div className="text-center">
               <div className="rc-styled-link color-999 rc-btn-disabled">
                 <FormattedMessage id="guestCheckout" />
@@ -1110,7 +1110,7 @@ class UnLoginCart extends React.Component {
                   : null}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </a>
     );
@@ -1382,7 +1382,6 @@ class UnLoginCart extends React.Component {
                 </p>
               </div>
             </div>
-
             <div className="row checkout-proccess rc-md-up">
               <div className="col-lg-12 checkout-continue">
                 {this.getCheckotBtn()}

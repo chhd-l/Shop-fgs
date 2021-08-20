@@ -31,6 +31,14 @@ import ruhowitworknewmobile1 from './Components/HowItWorksNew/image/ruhowitworks
 import ruhowitworknewmobile2 from './Components/HowItWorksNew/image/ruhowitworksmobile2.png';
 import ruhowitworknewmobile3 from './Components/HowItWorksNew/image/ruhowitworksmobile3.png';
 import ruhowitworknewmobile4 from './Components/HowItWorksNew/image/ruhowitworksmobile4.png';
+import frhowitworknew1 from './Components/HowItWorksNew/image/frhowitworknew1.png';
+import frhowitworknew2 from './Components/HowItWorksNew/image/frhowitworknew2.png';
+import frhowitworknew3 from './Components/HowItWorksNew/image/frhowitworknew3.png';
+import frhowitworknew4 from './Components/HowItWorksNew/image/frhowitworknew4.png';
+import frhowitworknewmobile1 from './Components/HowItWorksNew/image/frhowitworknewmobile1.png';
+import frhowitworknewmobile2 from './Components/HowItWorksNew/image/frhowitworknewmobile2.png';
+import frhowitworknewmobile3 from './Components/HowItWorksNew/image/frhowitworknewmobile3.png';
+import frhowitworknewmobile4 from './Components/HowItWorksNew/image/frhowitworknewmobile4.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -77,6 +85,37 @@ const RuhowitworksnewListmobiles = [
   },
   {
     HowitworksStep: ruhowitworknewmobile4
+  }
+];
+
+//Fr Image
+const FrhowitworksnewList = [
+  {
+    HowitworksStep: frhowitworknew1
+  },
+  {
+    HowitworksStep: frhowitworknew2
+  },
+  {
+    HowitworksStep: frhowitworknew3
+  },
+  {
+    HowitworksStep: frhowitworknew4
+  }
+];
+
+const FrhowitworksnewListmobile = [
+  {
+    HowitworksStep: frhowitworknewmobile1
+  },
+  {
+    HowitworksStep: frhowitworknewmobile2
+  },
+  {
+    HowitworksStep: frhowitworknewmobile3
+  },
+  {
+    HowitworksStep: frhowitworknewmobile4
   }
 ];
 
@@ -212,7 +251,7 @@ class ClubLandingPageNew extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-headingBlock">
-                  <div className="rc-max-width--md text-center rc-margin-y--md">
+                  <div className="rc-max-width--md text-center rc-margin-top--md">
                     <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                       <h3 style={{ fontWeight: '550' }}>
                         <FormattedMessage id="ClubLP.Advantage.title" />
@@ -227,7 +266,7 @@ class ClubLandingPageNew extends React.Component {
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-contentBlock">
-                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm  content-block rc-max-width--lg">
+                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--sm  content-block rc-max-width--lg">
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
                         <div className=" rc-full-width">
@@ -265,12 +304,22 @@ class ClubLandingPageNew extends React.Component {
                               </div>
                             </li>
                           </ul>
-                          <div className="rc-padding-x--none detextcenter">
+                          <div className="rc-padding--xs detextcenter">
                             <DistributeHubLinkOrATag
                               href={'/product-finder'}
                               ariaLabel="Links to product finder"
                             >
-                              <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
+                              <button
+                                className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs"
+                                style={
+                                  window.__.env.REACT_APP_COUNTRY === 'fr'
+                                    ? {
+                                        paddingLeft: '8px',
+                                        paddingRight: '8px'
+                                      }
+                                    : null
+                                }
+                              >
                                 <FormattedMessage id="ClubLP.Advantage.button" />
                               </button>
                             </DistributeHubLinkOrATag>
@@ -304,6 +353,8 @@ class ClubLandingPageNew extends React.Component {
           <HowItWorksNew
             RuhowitworksnewList={RuhowitworksnewLists}
             RuhowitworksnewListmobile={RuhowitworksnewListmobiles}
+            FrhowitworksnewList={FrhowitworksnewList}
+            FrhowitworksnewListmobile={FrhowitworksnewListmobile}
           />
 
           <div style={{ height: '5vh', backgroundColor: '#D0D0D0' }} />

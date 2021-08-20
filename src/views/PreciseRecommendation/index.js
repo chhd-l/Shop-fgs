@@ -43,38 +43,42 @@ class PreciseRecommendation extends React.Component {
     };
   }
   handleGA({ goodsInfo, totalPrice }) {
-    if (!goodsInfo) {
-      return;
+    try {
+      if (!goodsInfo) {
+        return;
+      }
+      let technology = (
+        getOtherSpecies(goodsInfo, 'Technology') || []
+      ).toString();
+      let range = (getOtherSpecies(goodsInfo, 'Range') || []).toString();
+      let breed = getOtherSpecies(goodsInfo, 'breeds') || [];
+      let GAData = {
+        products: [
+          {
+            price: totalPrice, //Product Price, including discount if promo code activated for this product
+            specie: 'Cat', //'Cat' or 'Dog',
+            range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
+            name: goodsInfo.goodsInfoName, //WeShare product name, always in English
+            mainItemCode: goodsInfo.goodsInfoNo, //Main item code
+            SKU: goodsInfo.goodsInfoNo, //product SKU
+            subscription: 'Individual', //'One Shot', 'Subscription', 'Club'
+            subscriptionFrequency: 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
+            technology, //'Dry', 'Wet', 'Pack'
+            brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
+            size: `1gx${goodsInfo.buyCount}`, //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
+            breed, //All animal breeds associated with the product in an array
+            quantity: goodsInfo.buyCount, //Number of products, only if already added to cart
+            sizeCategory: '', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
+            promoCodeName: '', //Promo code name, only if promo activated
+            promoCodeAmount: '' //Promo code amount, only if promo activated
+          }
+        ]
+      };
+      console.info('GAData', GAData);
+      dataLayer.push(GAData);
+    } catch (err) {
+      console.info('err', err);
     }
-    let technology = (
-      getOtherSpecies(goodsInfo, 'Technology') || []
-    ).toString();
-    let range = (getOtherSpecies(goodsInfo, 'Range') || []).toString();
-    let breed = getOtherSpecies(goodsInfo, 'breeds') || [];
-    let GAData = {
-      products: [
-        {
-          price: totalPrice, //Product Price, including discount if promo code activated for this product
-          specie: 'Cat', //'Cat' or 'Dog',
-          range, //Possible values : 'Size Health Nutrition', 'Breed Health Nutrition', 'Feline Care Nutrition', 'Feline Health Nutrition', 'Feline Breed Nutrition'
-          name: goodsInfo.goodsInfoName, //WeShare product name, always in English
-          mainItemCode: goodsInfo.goodsInfoNo, //Main item code
-          SKU: goodsInfo.goodsInfoNo, //product SKU
-          subscription: 'Individual', //'One Shot', 'Subscription', 'Club'
-          subscriptionFrequency: 3, //Frequency in weeks, to populate only if 'subscription' equals 'Subscription or Club'
-          technology, //'Dry', 'Wet', 'Pack'
-          brand: 'Royal Canin', //'Royal Canin' or 'Eukanuba'
-          size: `1gx${goodsInfo.buyCount}`, //?Same wording as displayed on the site, with units depending on the country (oz, grams...)
-          breed, //All animal breeds associated with the product in an array
-          quantity: goodsInfo.buyCount, //Number of products, only if already added to cart
-          sizeCategory: '', //'Less than 4Kg', 'Over 45kg'... reflecting the 'Weight of my animal' field present in the PLP filters
-          promoCodeName: '', //Promo code name, only if promo activated
-          promoCodeAmount: '' //Promo code amount, only if promo activated
-        }
-      ]
-    };
-    console.info('GAData', GAData);
-    dataLayer.push(GAData);
   }
   async getProductInfo() {
     let productString = sessionItemRoyal.get('nutrition-recommendation-filter');

@@ -38,6 +38,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     isLogin: false,
     isCurrentBuyWaySubscription: false, // 是否有订阅商品
     defaultCity: '',
+    pageType: '',
+    allAddressList: [],
     deliveryOrPickUp: 0,
     intlMessages: '',
     pickupEditNumber: 0,
@@ -61,6 +63,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       courierInfo: [], // 快递公司信息
       selectedItem: null, // 记录选择的内容
       pickupForm: {
+        isDefaltAddress: 0,
         firstName: '',
         lastName: '',
         phoneNumber: '',
@@ -68,6 +71,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         address1: '',
         city: '',
         pickupCode: '', // 快递公司code
+        pickupName: '', // 快递公司
         workTime: '', // 快递公司上班时间
         receiveType: 'HOME_DELIVERY', // HOME_DELIVERY , PICK_UP
         formRule: [
@@ -103,10 +107,13 @@ class HomeDeliveryOrPickUp extends React.Component {
     window.addEventListener('message', (e) => {
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
-        const { pickupForm } = this.state;
-        // console.log('666 监听iframe的传值: ', e);
+        const { pickupForm, selectedItem } = this.state;
+        console.log('666 监听iframe的传值: ', e);
         let obj = e.data.content;
+        pickupForm['pickupPrice'] = obj?.price || [];
+        pickupForm['pickupDescription'] = obj?.description || [];
         pickupForm['pickupCode'] = obj?.code || [];
+        pickupForm['pickupName'] = obj?.courier || [];
         pickupForm['city'] = obj?.address?.city || [];
         pickupForm['address1'] = obj?.address?.fullAddress || [];
         pickupForm['workTime'] = obj?.workTime || [];
@@ -152,9 +159,18 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
     // 如果地址列表中存在默认地址，根据默认地址中的city查询
     // 改变了购物车是否存在订阅商品
+    // let pickupData = this.props.pickupData;
+    // if (pickupData) {
+    //   this.setState({
+    //     pickupForm: Object.assign(this.state.pickupForm, pickupData, {
+    //       phoneNumber: pickupData.consigneeNumber
+    //     }),
+    //     showPickupForm: true,
+    //     showPickupDetail: true,
+    //   });
+    // }
     let defaultCity = this.props.defaultCity;
-    // console.log('666 -----> defaultCity : ', defaultCity);
-    // console.log('666 this.props.defaultCity: ', this.props.defaultCity);
+    console.log('666 --> defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -220,7 +236,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   };
   // 判断输入city是否有返回值
   handlePickupQueryCity = async (city, data) => {
-    const { selectedItem, pickupCity } = this.state;
+    const { selectedItem } = this.state;
     let flag = false;
     data?.length ? (flag = false) : (flag = true);
     if (flag) {
@@ -237,9 +253,9 @@ class HomeDeliveryOrPickUp extends React.Component {
       searchNoResult: flag
     });
   };
-  // 搜索下拉选择
+  // 搜索下拉选择。1、游客和新用户展示homeDelivery和pickup；2、有地址的用户直接展示地图。
   handlePickupCitySelectChange = async (data) => {
-    const { isLogin, pickupEditNumber, defaultCity } = this.props;
+    const { isLogin, pickupEditNumber, defaultCity, pageType } = this.props;
     const { selectedItem, pickupForm } = this.state;
     let res = null;
     this.setState({
@@ -254,94 +270,103 @@ class HomeDeliveryOrPickUp extends React.Component {
       let pknum = Number(pickupEditNumber) + 1;
       this.props.updatePickupEditNumber(pknum);
 
-      let goodsInfoDetails = [];
-      // 取到购物车里面的 goodsInfoId、购买的sku数量
-      if (isLogin) {
-        let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
-        cartData.forEach((e) => {
-          goodsInfoDetails.push({
-            goodsInfoId: e.goodsInfoId,
-            quantity: e.buyCount
+      if (!pageType) {
+        let goodsInfoDetails = [];
+        // 取到购物车里面的 goodsInfoId、购买的sku数量
+        if (isLogin) {
+          let cartData = this.props.cartData.filter((el) => el.goodsInfoId);
+          cartData.forEach((e) => {
+            goodsInfoDetails.push({
+              goodsInfoId: e.goodsInfoId,
+              quantity: e.buyCount
+            });
           });
+        } else {
+          let cartData = this.props.cartData.filter((el) => {
+            return el.sizeList;
+          });
+          cartData.forEach((e) => {
+            e.sizeList.map((sl) => {
+              if (sl.selected) {
+                goodsInfoDetails.push({
+                  goodsInfoId: sl.goodsInfoId,
+                  quantity: e.quantity
+                });
+              }
+            });
+          });
+        }
+        // 合并包裹
+        let ckg = await dimensionsByPackage({
+          goodsInfoDetails: goodsInfoDetails
         });
+        if (ckg.context?.dimensions) {
+          let ckgobj = ckg.context;
+          data['dimensions'] = ckgobj.dimensions;
+          data['weight'] = ckgobj.weight;
+        }
       } else {
-        let cartData = this.props.cartData.filter((el) => {
-          return el.sizeList;
-        });
-        cartData.forEach((e) => {
-          e.sizeList.map((sl) => {
-            if (sl.selected) {
-              goodsInfoDetails.push({
-                goodsInfoId: sl.goodsInfoId,
-                quantity: e.quantity
-              });
-            }
-          });
-        });
-      }
-      // 合并包裹
-      let ckg = await dimensionsByPackage({
-        goodsInfoDetails: goodsInfoDetails
-      });
-      if (ckg.context?.dimensions) {
-        let ckgobj = ckg.context;
-        data['dimensions'] = ckgobj.dimensions;
-        data['weight'] = ckgobj.weight;
+        data['dimensions'] = null;
+        data['weight'] = null;
       }
 
       // 根据不同的城市信息查询
       res = await pickupQueryCityFee(data);
-      if (res.context?.tariffs.length && ckg.context?.dimensions) {
+      // if (res.context?.tariffs.length && ckg.context?.dimensions) {
+      if (res.context?.tariffs.length) {
         // 先重置参数
         this.props.updateDeliveryOrPickup(0);
 
-        // type: 'COURIER'=> home delivery、'PVZ'=> pickup
+        // 'COURIER'=> home delivery、'PVZ'=> pickup
         let obj = res.context.tariffs;
 
-        // 是否有订阅商品
+        // 有地址的时候，单独展示pickup，如果查询到不支持pickup，给出错误提示
+        if (this.props.allAddressList.length) {
+          obj = obj.filter((e) => e.type == 'PVZ');
+          if (!obj.length) {
+            this.setState({
+              searchNoResult: true
+            });
+            return;
+          }
+        }
+
+        // 有订阅商品时不展示pickup
         let isSubscription = this.props.isCurrentBuyWaySubscription;
+        if (isSubscription) {
+          obj = obj.filter((e) => e.type == 'COURIER');
+        }
 
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);
         selitem.homeAndPickup = [];
 
+        pickupForm['provinceCode'] = data?.regionIsoCode || '';
         pickupForm['provinceIdStr'] = data.regionFias;
         pickupForm['areaIdStr'] = data.areaFias;
         pickupForm['cityIdStr'] = data.cityFias;
         pickupForm['settlementIdStr'] = data.settlementFias;
+
         this.setState(
           {
             pickupForm,
             selectedItem: Object.assign({}, selitem)
           },
           () => {
-            // 有订阅商品的时只展示且默认选择 homeDelivery
-            if (isSubscription && obj.length == 1 && obj[0].type == 'PVZ') {
-              this.setState({
-                pickupCity: '',
-                searchNoResult: true
-              });
-              return;
-            }
-
             let hdpu = [];
             obj.forEach((v, i) => {
               let type = v.type;
+              // 如果有订阅商品或者只有homeDelivery, 则默认选中 homeDelivery
               if (type == 'COURIER') {
-                // 如果有订阅商品或者只有homeDelivery, 则默认选中 homeDelivery
                 isSubscription || obj.length == 1 ? (v.selected = true) : '';
                 v.type = 'homeDelivery';
                 hdpu.push(v);
               }
+
+              // 没有订阅商品时才显示pickup
               if (type == 'PVZ') {
-                if (isSubscription) {
-                  // 有订阅商品时不显示pickup
-                  v.selected = false;
-                } else {
-                  // 没有订阅商品时才显示pickup
-                  v.type = 'pickup';
-                  hdpu.push(v);
-                }
+                v.type = 'pickup';
+                hdpu.push(v);
               }
             });
             let item = {
@@ -359,12 +384,23 @@ class HomeDeliveryOrPickUp extends React.Component {
                   'rc-homeDeliveryAndPickup',
                   JSON.stringify(item)
                 );
+
                 // 有订阅商品的时只展示且默认选择 homeDelivery
-                if (
-                  isSubscription ||
-                  (obj.length == 1 && obj[0].type != 'pickup')
-                ) {
+                if (isSubscription) {
                   this.setItemStatus('homeDelivery');
+                }
+
+                // 只显示pickup的情况（会员），1、非checkout页面，2、checkout页面（没有订阅商品时）有地址
+                if (
+                  pageType === 'onlyPickup' ||
+                  (pageType === 'checkout' &&
+                    this.props.allAddressList.length &&
+                    !isSubscription)
+                ) {
+                  this.setItemStatus('pickup');
+                } else {
+                  // 会员有订阅商品的时 homeDelivery
+                  // this.setItemStatus('homeDelivery');
                 }
               }
             );
@@ -376,9 +412,9 @@ class HomeDeliveryOrPickUp extends React.Component {
             pickupCity: defaultCity
           });
         } else {
-          this.setState({
-            pickupCity: ''
-          });
+          // this.setState({
+          //   pickupCity: ''
+          // });
         }
         // 先清空数组
         let selitem = Object.assign({}, selectedItem);
@@ -436,7 +472,6 @@ class HomeDeliveryOrPickUp extends React.Component {
         v.type == 'pickup' ? (pickupItem = v) : null;
       }
     });
-
     let flag = false;
     if (val == 'homeDelivery') {
       flag = false;
@@ -466,11 +501,13 @@ class HomeDeliveryOrPickUp extends React.Component {
       let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
       sobj = JSON.parse(sobj);
       let cityData = sobj?.cityData;
+      pkobj['provinceCode'] = cityData?.regionIsoCode || '';
       pkobj['provinceIdStr'] = cityData?.regionFias;
       pkobj['areaIdStr'] = cityData?.areaFias;
       pkobj['cityIdStr'] = cityData?.cityFias;
       pkobj['settlementIdStr'] = cityData?.settlementFias;
     }
+
     this.setState(
       {
         showPickup: flag,
@@ -641,7 +678,23 @@ class HomeDeliveryOrPickUp extends React.Component {
       </>
     );
   };
+  // 设为默认
+  handleDefaultChange = () => {
+    let data = this.state.pickupForm;
+    data.isDefaltAddress = !data.isDefaltAddress;
+    this.setState({
+      pickupForm: data
+    });
+  };
+  // 清除未搜索到城市提示
+  closeSearchErrMsg = () => {
+    this.setState({
+      searchNoResult: false,
+      pickupCity: ''
+    });
+  };
   render() {
+    const { allAddressList, pageType } = this.props;
     const {
       pickLoading,
       showPickup,
@@ -651,8 +704,30 @@ class HomeDeliveryOrPickUp extends React.Component {
       pickupCity,
       selectedItem,
       courierInfo,
-      searchNoResult
+      searchNoResult,
+      pickupForm
     } = this.state;
+
+    const _pickupDefaultCheckBox = (
+      <div className="rc-input rc-input--inline w-100 mw-100">
+        {
+          <input
+            id="addr-default-checkbox"
+            type="checkbox"
+            className="rc-input__checkbox"
+            onChange={this.handleDefaultChange}
+            value={pickupForm.isDefaltAddress}
+            checked={pickupForm.isDefaltAddress}
+          />
+        }
+        <label
+          className={`rc-input__label--inline text-break`}
+          htmlFor="addr-default-checkbox"
+        >
+          <FormattedMessage id="setDefaultAddress" />
+        </label>
+      </div>
+    );
     return (
       <>
         {pickLoading && <Loading />}
@@ -665,7 +740,11 @@ class HomeDeliveryOrPickUp extends React.Component {
           <div className="col-md-7">
             {/* 城市搜索 begin */}
             <div className="form-group rc-full-width rc-input--full-width">
-              <span className="rc-input rc-input--inline rc-full-width rc-input--full-width">
+              <span
+                className={`rc-input rc-input--inline rc-full-width rc-input--full-width pickup_search_box ${
+                  searchNoResult ? 'pickup_search_box_errmsg' : null
+                }`}
+              >
                 <SearchSelection
                   queryList={async ({ inputVal }) => {
                     let res = await pickupQueryCity({ keyword: inputVal });
@@ -691,66 +770,83 @@ class HomeDeliveryOrPickUp extends React.Component {
                   isLoadingList={false}
                   isBottomPaging={true}
                 />
+                {searchNoResult && (
+                  <span
+                    className="close_search_errmsg"
+                    onClick={this.closeSearchErrMsg}
+                  ></span>
+                )}
               </span>
               {searchNoResult && (
                 <div className="text-danger-2" style={{ paddingTop: '.5rem' }}>
-                  <FormattedMessage id="payment.pickupNoRusult" />
+                  {this.props.allAddressList.length ? (
+                    <FormattedMessage id="payment.noPickup" />
+                  ) : (
+                    <FormattedMessage id="payment.pickupNoRusult" />
+                  )}
                 </div>
               )}
             </div>
             {/* 城市搜索 end */}
 
-            {/* homeDelivery or pickup选择 begin */}
-            {selectedItem?.homeAndPickup.length > 0 &&
-              selectedItem?.homeAndPickup.map((item, index) => (
-                <>
-                  <div className="rc_radio_box rc-full-width rc-input--full-width">
-                    <div className="rc-input rc-input--inline">
-                      <input
-                        className="rc-input__radio"
-                        value={item.type || ''}
-                        id={item.type}
-                        checked={item.selected}
-                        type="radio"
-                        name="homeDeliveryOrPickUp"
-                        onChange={this.handleRadioChange}
-                      />
-                      <label
-                        className="rc-input__label--inline"
-                        htmlFor={item.type}
-                      >
-                        {item.type == 'homeDelivery' ? (
-                          <FormattedMessage id="payment.homeDelivery" />
+            {/* 
+                要显示选择 homeDelivery or pickup 的场景：
+                  1、游客
+                  2、会员：地址列表为空
+            */}
+            {pageType != 'onlyPickup' &&
+            !allAddressList.length &&
+            selectedItem?.homeAndPickup.length > 0
+              ? selectedItem?.homeAndPickup.map((item, index) => (
+                  <>
+                    <div className="rc_radio_box rc-full-width rc-input--full-width">
+                      <div className="rc-input rc-input--inline">
+                        <input
+                          className="rc-input__radio"
+                          value={item.type || ''}
+                          id={item.type}
+                          checked={item.selected}
+                          type="radio"
+                          name="homeDeliveryOrPickUp"
+                          onChange={this.handleRadioChange}
+                        />
+                        <label
+                          className="rc-input__label--inline"
+                          htmlFor={item.type}
+                        >
+                          {item.type == 'homeDelivery' ? (
+                            <FormattedMessage id="payment.homeDelivery" />
+                          ) : (
+                            <FormattedMessage id="payment.pickupDelivery" />
+                          )}
+                        </label>
+                        <div className="delivery_date_price">
+                          {formatMoney(item.deliveryPrice)}
+                        </div>
+                      </div>
+                      <div className="need_delivery_date">
+                        {item.minDeliveryTime == item.maxDeliveryTime ? (
+                          <FormattedMessage
+                            id="payment.deliveryDate2"
+                            values={{
+                              val: item.minDeliveryTime
+                            }}
+                          />
                         ) : (
-                          <FormattedMessage id="payment.pickupDelivery" />
+                          <FormattedMessage
+                            id="payment.deliveryDate"
+                            values={{
+                              min: item.minDeliveryTime,
+                              max: item.maxDeliveryTime
+                            }}
+                          />
                         )}
-                      </label>
-                      <div className="delivery_date_price">
-                        {formatMoney(item.deliveryPrice)}
                       </div>
                     </div>
-                    <div className="need_delivery_date">
-                      {item.minDeliveryTime == item.maxDeliveryTime ? (
-                        <FormattedMessage
-                          id="payment.deliveryDate2"
-                          values={{
-                            val: item.minDeliveryTime
-                          }}
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id="payment.deliveryDate"
-                          values={{
-                            min: item.minDeliveryTime,
-                            max: item.maxDeliveryTime
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </>
-              ))}
-            {/* homeDelivery or pickup选择 end */}
+                  </>
+                ))
+              : null}
+            {/* homeDelivery or pickup 选择 end */}
           </div>
         </div>
         {/* homeDelivery end */}
@@ -783,19 +879,17 @@ class HomeDeliveryOrPickUp extends React.Component {
           </div>
 
           {/* 显示地图上选择的点信息 */}
-          {showPickupDetail && courierInfo && (
+          {showPickupDetail && courierInfo ? (
             <div className="pickup_infos">
               <div className="info_tit">
-                <div className="tit_left">{courierInfo.courier}</div>
+                <div className="tit_left">{pickupForm.pickupName}</div>
                 <div className="tit_right">
-                  {formatMoney(courierInfo.price)}
+                  {formatMoney(pickupForm.pickupPrice)}
                 </div>
               </div>
               <div className="infos">
-                <div className="panel_address">
-                  {courierInfo.address?.fullAddress}
-                </div>
-                <div className="panel_worktime">{courierInfo.workTime}</div>
+                <div className="panel_address">{pickupForm.address1}</div>
+                <div className="panel_worktime">{pickupForm.workTime}</div>
               </div>
               <div className="info_btn_box">
                 <button
@@ -812,10 +906,10 @@ class HomeDeliveryOrPickUp extends React.Component {
                 </button>
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* pickup详细 */}
-          {showPickupDetailDialog && courierInfo && (
+          {showPickupDetailDialog && courierInfo ? (
             <div className="pickup_detail_dialog">
               <div className="pk_detail_box">
                 <span
@@ -824,27 +918,27 @@ class HomeDeliveryOrPickUp extends React.Component {
                 ></span>
                 <div className="pk_tit_box">
                   <div className="pk_detail_title">
-                    {courierInfo.courier} ({courierInfo.code})
+                    {pickupForm.pickupName} ({pickupForm.pickupCode})
                   </div>
                   <div className="pk_detail_price">
-                    {formatMoney(courierInfo.price)}
+                    {formatMoney(pickupForm.pickupPrice)}
                   </div>
                 </div>
                 <div className="pk_detail_address pk_addandtime">
-                  {courierInfo.address?.fullAddress}
+                  {pickupForm.address1}
                 </div>
                 <div className="pk_detail_worktime pk_addandtime">
-                  {courierInfo.workTime}
+                  {pickupForm.workTime}
                 </div>
                 <div className="pk_detail_dop_title">
                   Дополнительная информация
                 </div>
                 <div className="pk_detail_description">
-                  {courierInfo.description}
+                  {pickupForm.pickupDescription}
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* 表单 */}
           <div
@@ -885,7 +979,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 {this.inputJSX('phoneNumber')}
               </div>
             </div>
-            <div className="col-md-12 ">
+            <div className="col-md-12">
               <div className="form-group ">
                 <label className="form-control-label" htmlFor="commentShipping">
                   <FormattedMessage id="payment.comment" />
@@ -893,6 +987,7 @@ class HomeDeliveryOrPickUp extends React.Component {
                 {this.inputJSX('comment')}
               </div>
             </div>
+            <div className="col-md-12">{_pickupDefaultCheckBox}</div>
           </div>
         </div>
         {/* pickup相关 end */}

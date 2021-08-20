@@ -61,13 +61,7 @@ const defaultList = {
               href={'/about-us/faqs'}
               ariaLabel="Links to faq"
             >
-              <a
-                style={{
-                  textDecoration: 'underline'
-                }}
-              >
-                FAQ pour
-              </a>
+              <a style={{ color: '#E2001A' }}>FAQ pour</a>
             </DistributeHubLinkOrATag>
           )
         }}
@@ -93,13 +87,13 @@ const HelpComponentsNew = (props) => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <p className="mt-5 mb-5 pb-4">{firstText.content}</p>
+                <p>{firstText.content}</p>
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="ClubLP.Help.title" />
                   </h4>
                 </div>
-                <p>
+                <p style={{ marginBottom: 0 }}>
                   <span>
                     <FormattedMessage id="ClubLP.Help.subtitle1" />
                   </span>

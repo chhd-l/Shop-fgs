@@ -8,6 +8,79 @@ input:-webkit-autofill {
     margin-bottom: 1rem;
   }
 
+  .pickup_search_box {
+    &::before {
+      content: '';
+      display: block;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyBpZD0iSWNvbnMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iNCAwIDI0IDMyIj48dGl0bGU+c2VhcmNoLS14czwvdGl0bGU+PHBhdGggaWQ9IlNlYXJjaC0yIiBkYXRhLW5hbWU9IlNlYXJjaCIgZD0iTTgsMTQuNWE2LjQ5LDYuNDksMCwwLDAsMTAuMzMsNS4yNGw0LDRhMSwxLDAsMCwwLDEuNDIsMCwxLDEsMCwwLDAsMC0xLjQybC00LTRBNi41LDYuNSwwLDEsMCw4LDE0LjVabTIsMEE0LjUsNC41LDAsMSwxLDE0LjUsMTksNC41MSw0LjUxLDAsMCwxLDEwLDE0LjVaIiBzdHlsZT0iZmlsbDojNzY3Njc2Ii8+PC9zdmc+');
+      background-size: cover;
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-66%);
+    }
+
+    &.pickup_search_box_errmsg {
+      input {
+        color: #c03344 !important;
+
+        &::-webkit-input-placeholder {
+          color: #c03344 !important;
+        }
+      }
+
+      .rc-input__label {
+        &::before {
+          background-color: #c03344 !important;
+        }
+
+        &::after {
+          background-color: #c03344 !important;
+        }
+      }
+
+      .close_search_errmsg {
+        width: 14px;
+        height: 14px;
+        line-height: 14px;
+        border: 2px solid #c03344;
+        border-radius: 50%;
+        background: none;
+        position: absolute;
+        cursor: pointer;
+        right: 0.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          height: 9px;
+          width: 1.5px;
+          top: 0;
+          left: 50%;
+          background: #c03344;
+        }
+
+        &::before {
+          transform: rotate(45deg) translateX(-50%);
+          top: 1px;
+        }
+
+        &::after {
+          transform: rotate(-45deg) translateX(-50%);
+        }
+      }
+    }
+
+    .rc-input__control {
+      padding-left: 30px;
+      padding-right: 20px;
+    }
+  }
+
   .rc_row_line {
     display: flex;
     flex-wrap: wrap;
@@ -165,6 +238,12 @@ input:-webkit-autofill {
     line-height: 25px;
     max-height: 300px;
     overflow: auto;
+  }
+}
+
+.pickup_map_box {
+  #KaktusModalWrapper {
+    max-width: 100% !important;
   }
 }
 
