@@ -578,6 +578,7 @@ class AddressList extends React.Component {
           pickupDescription: pickupFormData?.pickupDescription,
           pickupCode: pickupFormData?.pickupCode, // 快递公司code
           pickupName: pickupFormData?.pickupName, // 快递公司
+          paymentMethods: pickupFormData?.paymentMethods, // 支付方式
           workTime: pickupFormData.workTime, // 快递公司上班时间
           receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
           deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP

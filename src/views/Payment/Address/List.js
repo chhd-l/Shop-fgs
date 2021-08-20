@@ -103,6 +103,7 @@ class AddressList extends React.Component {
         receiveType: null, // HOME_DELIVERY , PICK_UP
         pickupCode: null, // 地图选择后得到的编码
         pickupName: null, // 快递公司
+        paymentMethods: null, // 支付方式
         pickupDescription: null,
         pickupPrice: null,
         DuData: null, // 俄罗斯DuData
@@ -1328,11 +1329,11 @@ class AddressList extends React.Component {
   };
   // 根据默认地址查询信息
   getHomeDeliveryAndPickupInfo = async (price) => {
-    const { addressList, pickupAddress } = this.state;
+    const { allAddressList, addressList, pickupAddress } = this.state;
     let obj = [
       {
         deliveryPrice: price || 0,
-        selected: true,
+        selected: false,
         type: 'homeDelivery'
       },
       {
@@ -1342,14 +1343,45 @@ class AddressList extends React.Component {
       }
     ];
 
-    // 设置默认选中项
+    // ★★★★★ 设置默认选中项（按优先级）
+    // 1、上一次选择
+    // 2、有homeDelivery地址，没有pickup地址
+    // 3、有pickup地址，没有homeDelivery地址
+    // 4、有设置默认地址
+
+    let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+    hdpk = JSON.parse(hdpk);
+    // 1、上一次选择
     let addstr = '';
-    if (addressList.length) {
-      addstr = 'homeDelivery';
+    if (hdpk && hdpk?.homeAndPickup) {
+      hdpk.homeAndPickup.map((pk) => {
+        if (pk.selected) {
+          addstr = pk.type;
+        }
+      });
+    } else {
+      // 2、有homeDelivery地址，没有pickup地址
+      if (addressList.length && !pickupAddress.length) {
+        addstr = 'homeDelivery';
+      }
+      // 3、有pickup地址，没有homeDelivery地址
+      if (!addressList.length && pickupAddress.length) {
+        addstr = 'pickup';
+      }
+      // 4、有设置默认地址
+      if (addressList.length && pickupAddress.length) {
+        allAddressList.map((e) => {
+          if (e.isDefaltAddress == 1) {
+            if (e.receiveType === 'PICK_UP') {
+              addstr = 'pickup';
+            } else {
+              addstr = 'homeDelivery';
+            }
+          }
+        });
+      }
     }
-    if (!addressList.length && pickupAddress.length) {
-      addstr = 'pickup';
-    }
+    // console.log('666 根据默认地址查询信息: ', addstr);
     obj.map((e) => {
       let tp = e.type;
       if (tp == addstr) {
@@ -1362,19 +1394,16 @@ class AddressList extends React.Component {
 
     // 有订阅商品时不展示pickup
     if (this.props.isCurrentBuyWaySubscription) {
-      obj = obj.filter((e) => e.type == 'homeDelivery');
+      obj = obj.filter((e) => e.type === 'homeDelivery');
+      obj[0].selected = true; // 默认选中唯一项
     }
-    // 默认选中唯一项
-    if (obj.length == 1) {
-      obj[0].selected = true;
-    }
+
     this.setState(
       {
         homeAndPickup: obj
       },
       () => {
         // 存储选择的数据
-        let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
         let item = null;
         if (!hdpk) {
           item = {
@@ -1383,7 +1412,7 @@ class AddressList extends React.Component {
             isSubscription: this.props.isCurrentBuyWaySubscription
           };
         } else {
-          item = JSON.parse(hdpk);
+          item = hdpk;
           item['homeAndPickup'] = obj;
         }
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
@@ -1421,7 +1450,7 @@ class AddressList extends React.Component {
         v['selected'] = false;
       }
     });
-    console.log('666 单选按钮选择 val: ', val);
+    // console.log('666 单选按钮选择 val: ', val);
     // 设置按钮状态
     let btnStatus = false;
     val == 'pickup' ? (btnStatus = true) : (btnStatus = false);
@@ -1435,18 +1464,27 @@ class AddressList extends React.Component {
       });
       this.props.updateData(pkup);
     } else {
+      // console.log('666 选择 addressList: ', addressList);
       if (addressList.length) {
         // 选中项
-        addressList.map((ele) => {
-          if (ele.selected) {
-            this.setState({
-              pickupFormData: [],
-              selectedId: ele.deliveryAddressId,
-              homeDeliverySelectedId: ele.deliveryAddressId
-            });
-            this.props.updateData(ele);
-          }
+        // addressList.map((ele) => {
+        //   if (ele.selected) {
+        // this.setState({
+        //   pickupFormData: [],
+        //   selectedId: ele.deliveryAddressId,
+        //   homeDeliverySelectedId: ele.deliveryAddressId
+        // });
+        // this.props.updateData(ele);
+        //   }
+        // });
+        addressList[0].selected = true;
+        this.setState({
+          addressList,
+          pickupFormData: [],
+          selectedId: addressList[0].deliveryAddressId,
+          homeDeliverySelectedId: addressList[0].deliveryAddressId
         });
+        this.props.updateData(addressList[0]);
       } else {
         btnStatus = true;
       }
@@ -1510,7 +1548,7 @@ class AddressList extends React.Component {
         choiseHomeDeliveryOrPickUp: ichoise // 0：都没有，1：home delivery，2：pickup
       });
 
-      console.log('666 设置home delivery状态');
+      // console.log('666 设置home delivery状态');
 
       // 修改按钮状态
       this.updateConfirmBtnDisabled(false);
@@ -1519,7 +1557,7 @@ class AddressList extends React.Component {
   // 修改按钮状态
   updateConfirmBtnDisabled = (flag) => {
     const { addressList } = this.state;
-    console.log('666 修改按钮状态： ', flag);
+    // console.log('666 修改按钮状态： ', flag);
     if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
       flag = true;
     }
@@ -1532,7 +1570,7 @@ class AddressList extends React.Component {
     const { addressList } = this.state;
     let flag = null;
     !addressList.length && num == 1 ? (flag = true) : (flag = false);
-    console.log('666 更新 showDeliveryOrPickUp: ', num);
+    // console.log('666 更新 showDeliveryOrPickUp: ', num);
     this.setState(
       {
         showDeliveryOrPickUp: num,
@@ -1584,6 +1622,7 @@ class AddressList extends React.Component {
         pickupDescription: pickupFormData?.pickupDescription,
         pickupCode: pickupFormData?.pickupCode, // 快递公司code
         pickupName: pickupFormData?.pickupName, // 快递公司
+        paymentMethods: pickupFormData?.paymentMethods, // 支付方式
         workTime: pickupFormData.workTime, // 快递公司上班时间
         receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
         deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
