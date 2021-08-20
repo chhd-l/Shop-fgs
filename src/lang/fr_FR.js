@@ -1859,7 +1859,7 @@ const fr_FR = {
   //NewLandingpageClub
   'ClubLP.discount.content': '10% DE RÉDUCTION ET LIVRAISON OFFERTE',
   'ClubLP.LongBanner.title':
-    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} ENVOUS ABONNANT',
+    'OFFREZ À VOTRE ANIMAL UNE {val1} SOLUTION DE SANTÉ COMPLÈTE, {val2} EN VOUS ABONNANT',
   'ClubLP.LongBanner.content': 'à partir de 19,90 euros/réapprovisionnement',
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
