@@ -202,8 +202,8 @@ export default function AboutPet() {
           return;
         }
       }
-      setResult(result.context.next);
       putDataLayer(result.context);
+      setResult(result.context.next);
     }
     setDefaultValue({});
     setLoading(false);
