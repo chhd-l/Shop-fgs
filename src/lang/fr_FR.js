@@ -1867,7 +1867,7 @@ const fr_FR = {
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "Les avantages de l'abonnement pour {val}  votre chats et votre chien",
+    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHATS ET VOTRE CHIEN",
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Un aliment sur mesure pour  {val} une santé optimale',
   'ClubLP.LongBanner.SubscriptionContent1':

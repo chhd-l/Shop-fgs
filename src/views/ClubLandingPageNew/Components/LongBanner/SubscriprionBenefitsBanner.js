@@ -5,6 +5,9 @@ import benefitsone from './image/benefitsone2.png';
 import benefitstwo from './image/benefitstwo.png';
 import benefitsthree from './image/benefitsthree2.png';
 import './index.css';
+import { isMobileDevice } from 'react-select/dist/index-fe3694ff.cjs.dev';
+import { getDeviceType } from '../../../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 const SubscriptionBenefitsBanner = ({
   SubscriptionItem,
@@ -28,7 +31,7 @@ const SubscriptionBenefitsBanner = ({
                 style={{ justifyContent: 'center', padding: '20px' }}
               >
                 {
-                  window.__.env.REACT_APP_COUNTRY == 'fr' ?
+                  window.__.env.REACT_APP_COUNTRY == 'fr'&& (!isMobile) ?
                     null:LogoShow.logo
                 }
 

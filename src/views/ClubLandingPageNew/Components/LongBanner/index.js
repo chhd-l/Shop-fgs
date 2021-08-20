@@ -111,9 +111,9 @@ const LongBanner = () => {
                 className="rc-max-width--xl rc-padding-x--sm rc-margin-top--sm rc-margin-bottom--lg rc-margin-y--lg--mobile"
               >
                 <div
-                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight rc-margin-x--xl"
+                  className="rc-beta  rc-margin-bottom--sm rc-margin-bottom--lg--mobile fontheight rc-margin-x--xl longBannerTitleText"
                   style={{
-                    marginBottom: '0px'
+                    marginBottom: '0px',
                   }}
                 >
                   <p
