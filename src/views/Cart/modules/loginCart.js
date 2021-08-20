@@ -854,7 +854,7 @@ class LoginCart extends React.Component {
               </div>
               {pitem.subscriptionStatus &&
               pitem.subscriptionPrice &&
-              this.totalPrice > 0 ? (
+              formatMoney(this.tradePrice) !== '0,00 €' ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.goods.promotions ||
                   !pitem.goods.promotions.includes('club') ? (

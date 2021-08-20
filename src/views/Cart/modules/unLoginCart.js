@@ -880,7 +880,7 @@ class UnLoginCart extends React.Component {
               {pitem.sizeList.filter((el) => el.selected)[0]
                 .subscriptionStatus &&
               pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice &&
-              this.totalPrice > 0 ? (
+              formatMoney(this.tradePrice) !== '0,00 €' ? (
                 <div className="rc-column  rc-padding-left--none--desktop">
                   {!pitem.promotions || !pitem.promotions.includes('club') ? (
                     <SubscriptionSelection
@@ -1116,12 +1116,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1382,7 +1378,6 @@ class UnLoginCart extends React.Component {
                 </p>
               </div>
             </div>
-
             <div className="row checkout-proccess rc-md-up">
               <div className="col-lg-12 checkout-continue">
                 {this.getCheckotBtn()}
