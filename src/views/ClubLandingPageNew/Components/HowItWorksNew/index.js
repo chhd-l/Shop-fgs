@@ -113,7 +113,7 @@ const HowItWorksNew = ({
                   className="flexwrapHow "
                 >
                   {ru
-                    ? RuhowitworksnewList.map((step) => (
+                    ? RuhowitworksnewList?.map((step) => (
                         <div>
                           <LazyLoad height={180}>
                             <img
@@ -124,7 +124,7 @@ const HowItWorksNew = ({
                         </div>
                       ))
                     : tr
-                    ? TrhowitworksnewList.map((step) => (
+                    ? TrhowitworksnewList?.map((step) => (
                         <div>
                           <LazyLoad height={180}>
                             <img
@@ -135,7 +135,7 @@ const HowItWorksNew = ({
                         </div>
                       ))
                     : fr
-                    ? FrhowitworksnewList.map((step) => (
+                    ? FrhowitworksnewList?.map((step) => (
                         <div>
                           <LazyLoad height={180}>
                             <img
@@ -145,7 +145,7 @@ const HowItWorksNew = ({
                           </LazyLoad>
                         </div>
                       ))
-                    : EnhowitworksnewList.map((step) => (
+                    : EnhowitworksnewList?.map((step) => (
                         <div>
                           <LazyLoad height={180}>
                             <img
@@ -159,7 +159,7 @@ const HowItWorksNew = ({
               </div>
               <div className="mobilenone">
                 {ru
-                  ? RuhowitworksnewListmobile.map((step) => (
+                  ? RuhowitworksnewListmobile?.map((step) => (
                       <div>
                         <LazyLoad height={180}>
                           <img
@@ -170,7 +170,7 @@ const HowItWorksNew = ({
                       </div>
                     ))
                   : tr
-                  ? TrhowitworksnewListmobile.map((step) => (
+                  ? TrhowitworksnewListmobile?.map((step) => (
                       <div>
                         <LazyLoad height={180}>
                           <img
@@ -181,7 +181,7 @@ const HowItWorksNew = ({
                       </div>
                     ))
                   : fr
-                  ? FrhowitworksnewListmobile.map((step) => (
+                  ? FrhowitworksnewListmobile?.map((step) => (
                       <div>
                         <LazyLoad height={180}>
                           <img
@@ -191,7 +191,7 @@ const HowItWorksNew = ({
                         </LazyLoad>
                       </div>
                     ))
-                  : EnhowitworksnewListmobile.map((step) => (
+                  : EnhowitworksnewListmobile?.map((step) => (
                       <div>
                         <LazyLoad height={180}>
                           <img
