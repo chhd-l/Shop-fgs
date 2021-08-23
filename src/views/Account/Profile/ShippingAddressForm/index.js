@@ -141,6 +141,7 @@ class ShippingAddressFrom extends React.Component {
       this.setState({ loading: false });
     }
   };
+  // 是否为默认地址
   isDefalt = () => {
     let data = this.state.addressForm;
     data.isDefalt = !data.isDefalt;
@@ -356,9 +357,10 @@ class ShippingAddressFrom extends React.Component {
   };
   // form表单返回数据
   handleEditFormChange = (data) => {
+    const { addressForm } = this.state;
     this.setState(
       {
-        addressForm: data
+        addressForm: Object.assign(addressForm, data)
       },
       () => {
         this.validFormData();
@@ -445,7 +447,7 @@ class ShippingAddressFrom extends React.Component {
           ) : (
             <>
               <div className={`userContactInfoEdit`}>
-                {addressType({ hideBillingAddr }).length > 1 && (
+                {/* {addressType({ hideBillingAddr }).length > 1 && (
                   <div className="row">
                     {addressType({ hideBillingAddr }).map((item, i) => (
                       <div className="col-12 col-md-4" key={i}>
@@ -468,10 +470,11 @@ class ShippingAddressFrom extends React.Component {
                       </div>
                     ))}
                   </div>
-                )}
+                )} */}
 
                 <div>
                   <EditForm
+                    key={addressForm?.isDefalt}
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
@@ -479,7 +482,7 @@ class ShippingAddressFrom extends React.Component {
                   />
 
                   {addressForm.addressType === 'DELIVERY' ? (
-                    <div className="form-group col-12 col-md-6">
+                    <div className="form-group col-12 col-md-6 if_default_address">
                       <div
                         className="rc-input rc-input--inline"
                         onClick={this.isDefalt}
