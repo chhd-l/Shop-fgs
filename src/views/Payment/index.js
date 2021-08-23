@@ -542,32 +542,40 @@ class Payment extends React.Component {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
   };
-  //判断是否是0元订单，0元订单的话隐藏paymentMethod
+  //判断是否是0元订单，0元订单处理：隐藏paymentMethod，用户不用填写支付信息
   handleZeroOrder() {
-    const { paymentStore } = this.props;
+    const {
+      setStsToCompleted,
+      setStsToEdit,
+      setStsToPrepare,
+      confirmationPanelStatus
+    } = this.props.paymentStore;
+    const { paymentPanelHasComplete } = this.state;
 
-    //0元订单情况处理：不需要填写支付信息，将paymentMethod面板置为已完成
     if (this.tradePrice === 0) {
+      //变成0元订单
       if (this.paymentMethodPanelStatus.isEdit) {
         //如果当前正在编辑的是paymentInfo,隐藏paymentMethod面板去编辑confirmation面板
-        paymentStore.setStsToCompleted({
+        setStsToCompleted({
           key: 'paymentMethod'
         });
-        paymentStore.setStsToEdit({ key: 'confirmation' });
+        setStsToEdit({ key: 'confirmation' });
       } else {
         //正在编辑其他面板的话只需要将paymentMethod面板隐藏
-        paymentStore.setStsToCompleted({
+        setStsToCompleted({
           key: 'paymentMethod'
         });
       }
     } else {
-      //突然变成不是0元订单且正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
-      if (
-        !this.state.paymentPanelHasComplete &&
-        paymentStore.confirmationPanelStatus.isEdit
-      ) {
-        paymentStore.setStsToEdit({ key: 'paymentMethod' });
-        paymentStore.setStsToPrepare({ key: 'confirmation' });
+      //变成不是0元订单
+      if (!paymentPanelHasComplete && confirmationPanelStatus.isEdit) {
+        //正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
+        setStsToEdit({ key: 'paymentMethod' });
+        setStsToPrepare({ key: 'confirmation' });
+      }
+      if (!paymentPanelHasComplete && confirmationPanelStatus.isPrepare) {
+        //正在编辑的是其他面板则将paymentMethod置为prePare
+        setStsToPrepare({ key: 'paymentMethod' });
       }
     }
   }
