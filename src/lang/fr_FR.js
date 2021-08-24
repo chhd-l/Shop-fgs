@@ -818,7 +818,7 @@ const fr_FR = {
   name2: 'NOM',
   nameInvalid: 'Votre nom est invalide',
   'New Pet': 'Nouvel animal',
-  newAddress: 'Edit',
+  newAddress: 'Nouvelle adresse',
   newPassword: 'Nouveau mot de passe',
   newsletterFalse: 'Consultez la NEWSLETTER',
   next: 'Suivant',
