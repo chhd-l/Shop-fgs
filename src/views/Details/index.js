@@ -1196,7 +1196,7 @@ class Details extends React.Component {
                                 <InstockStatusComp status={instockStatus} />
                               </p>
                               {Ru && selectedSpecItem ? (
-                                <p>Артикул:{selectedSpecItem?.goodsInfoNo}</p>
+                                <p>Артикул:{selectedSpecItem?.externalSku}</p>
                               ) : null}
                             </div>
                             {details.promotions &&
