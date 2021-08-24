@@ -1091,6 +1091,7 @@ class AddressList extends React.Component {
               >
                 {addOrEdit && (
                   <EditForm
+                    key={deliveryAddress?.isDefalt}
                     initData={deliveryAddress}
                     type={this.props.type}
                     isLogin={true}

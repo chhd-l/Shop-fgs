@@ -1731,6 +1731,10 @@ const fr_FR = {
   unfoldAddress: "Déplier l'adresse",
   units: 'Quantité(s)',
   unkown: 'Inconnu',
+  'See recommendation': 'Voir la recommandation',
+  // petSaveTips2:
+  //   'Основываясь на этих данных, мы подберем новый продукт для Вашего питомца. ',
+  // petSaveTips1: 'Информация о Вашем питомце сохранена!',
   // unLoginSubscriptionTips: "La livraison automatique n'est possible qu'après l'enregistrement",
   unLoginSubscriptionTips:
     'Vous ne pouvez pas souscrire à un abonnement sans être inscrit.',
@@ -1793,26 +1797,26 @@ const fr_FR = {
   'subscriptionDetail.better':
     'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product',
-  'subscriptionDetail.newProduct': 'New product recommendation',
+  'subscriptionDetail.changeProduct': 'Echange',
+  'subscriptionDetail.newProduct': 'Nouveaux aliments recommandés',
   'subscriptionDetail.linkProfile':
-    'Link a pet profile to your CLUB subscription',
-  'subscriptionDetail.addNewCat': 'a new cat',
-  'subscriptionDetail.addNewDog': 'a new dog',
-  'subscription.seeOtherRecommendation': 'See other recommendation',
+    'Lier un profil d\'animal à votre abonnement CLUB',
+  'subscriptionDetail.addNewCat': 'Ajouter un nouveau chat',
+  'subscriptionDetail.addNewDog': 'Ajouter un nouveau chien',
+  'subscription.seeOtherRecommendation': 'Voir autre recommandation',
   'subscription.chooseThisProduct': 'choose this product',
-  'subscription.productDetails': ' Product details',
-  'subscription.changeNow': 'Change now',
+  'subscription.productDetails': ' détails de l\'aliment',
+  'subscription.changeNow': 'Changer maintenant',
   'day-unit': 'journée',
-  'subscription.productRecommendation': 'Your product recommendation',
+  'subscription.productRecommendation': 'Votre aliment recommandé',
   'subscription.productRecommendationTip':
-    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
-  switchProductTip1: 'This is currently the best product for',
+    "Compte tenu du profil de votre animal, nous vous recommandons les aliments ci-dessous pour répondre à ses besoins nutritionnels. Veuillez confirmer le changement d'aliment pour mettre à jour votre abonnement. ",
+  switchProductTip1: 'Cet aliment est la recommandation nutritionnelle la plus adaptée à',
   switchProductTip2: 'based on',
   'switchProductTip.his': 'his',
   'switchProductTip.her': 'her',
-  switchProductTip3: 'pet profile',
-  'subscription.chooseOption': 'Please choose your options',
+  switchProductTip3: 'sur la base de son profil !',
+  'subscription.chooseOption': 'Veuillez choisir vos options',
   'clubListData.tip1': 'tailored and evolving premium nutrition',
   'clubListData.tip2': 'A welcome box, rewards and services',
   'clubListData.tip3': 'A pet advisor and personalized newsletters',
@@ -2019,6 +2023,8 @@ const fr_FR = {
   'preciseNutrition.Product.list.content3':
     'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
   'checkout.zeroOrder.butSubscription':
-    "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande"
+    "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande",
+  'Unlink':"Détacher",
+  'Link':"Lien"
 };
 export default fr_FR;

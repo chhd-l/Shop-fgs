@@ -1,6 +1,9 @@
 import React from 'react';
 import Loading from '@/components/Loading';
 import './index.less';
+import { getDeviceType } from '@/utils/utils';
+
+const isMobile = getDeviceType() !== 'PC' || getDeviceType() === 'Pad';
 
 class PickupMap extends React.Component {
   static defaultProps = {};
@@ -90,7 +93,7 @@ class PickupMap extends React.Component {
         {mapLoading && (
           <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
         )}
-        <div className="pickup_map_box">
+        <div className={`pickup_map_box ${isMobile ? 'mobile_map_box' : ''}`}>
           <div id="kaktusMap"></div>
         </div>
       </>

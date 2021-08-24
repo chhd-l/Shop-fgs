@@ -1196,11 +1196,10 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>
-        {showDeliveryOrPickUp == 1 && !homeAndPickup?.length && (
+        {/* {showDeliveryOrPickUp == 1 && !homeAndPickup?.length && (
           <p
-            className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
-              addOrEdit ? 'hidden' : ''
-            }`}
+            className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''
+              }`}
             onClick={this.addOrEditAddress.bind(this, -1)}
           >
             <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
@@ -1208,7 +1207,7 @@ class AddressList extends React.Component {
               <FormattedMessage id="newAddress" />
             </span>
           </p>
-        )}
+        )} */}
       </>
     );
   }
@@ -1229,7 +1228,7 @@ class AddressList extends React.Component {
         </h5>{' '}
         <p
           onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1"
+          className="rc-styled-link mb-1 checkout_edit_address"
           style={{ cursor: 'pointer' }}
         >
           <FormattedMessage id="edit" />
@@ -1237,6 +1236,7 @@ class AddressList extends React.Component {
       </>
     );
   }
+  // 编辑地址
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
       key: this.curPanelKey,
@@ -1552,6 +1552,13 @@ class AddressList extends React.Component {
 
       // 修改按钮状态
       this.updateConfirmBtnDisabled(false);
+    } else {
+      this.setState({
+        addOrEditPickup: false,
+        deliveryOrPickUpFlag: false,
+        showDeliveryOrPickUp: 1, // home delivery
+        choiseHomeDeliveryOrPickUp: 1 // home delivery
+      });
     }
   }
   // 修改按钮状态
@@ -1864,6 +1871,7 @@ class AddressList extends React.Component {
       >
         {addOrEdit && (
           <EditForm
+            key={deliveryAddress?.isDefalt}
             ref={this.editFormRef}
             type={this.props.type}
             isLogin={true}
@@ -2095,8 +2103,7 @@ class AddressList extends React.Component {
                             </div>
 
                             {/* 添加 homeDelivery 地址 */}
-                            {choiseHomeDeliveryOrPickUp == 1 &&
-                            homeAndPickup?.length ? (
+                            {choiseHomeDeliveryOrPickUp == 1 ? (
                               <div className="add_address_pk_btn">
                                 <p
                                   className={`font-weight-bold red m-0 align-items-center text-nowrap ${

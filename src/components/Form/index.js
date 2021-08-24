@@ -105,7 +105,8 @@ class Form extends React.Component {
         provinceIdStr: '', // pickup计算价格使用
         cityIdStr: '', // pickup计算价格使用
         areaIdStr: '', // pickup计算价格使用
-        settlementIdStr: '' // pickup计算价格使用
+        settlementIdStr: '', // pickup计算价格使用
+        isDefalt: false
       },
       addressSettings: [],
       formList: [],
@@ -812,8 +813,9 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
 
+    console.log('666 >>>>>> newForm: ', newForm);
+    console.log('666 >>>>>> initData: ', this.props.initData);
     // console.log('666 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
-    // console.log('666 newForm: ', newForm);
     this.props.updateData(newForm);
   };
   // 下拉框选择

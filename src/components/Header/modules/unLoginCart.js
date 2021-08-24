@@ -170,7 +170,8 @@ class UnloginCart extends React.Component {
           <em className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive" />
           {this.totalNum > 0 ? (
             <span className="minicart-quantity">
-              {this.totalNum + this.giftList.length}
+              {this.totalNum +
+                this.giftList.reduce((total, el) => total + el.buyCount, 0)}
             </span>
           ) : (
             ''
