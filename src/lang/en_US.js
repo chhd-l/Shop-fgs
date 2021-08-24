@@ -1669,6 +1669,11 @@ const en_US = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'preciseNutrition.bannertext1': 'Secure payment',
+  'preciseNutrition.bannertext2': 'Satisfied or reimbursed',
+  'preciseNutrition.bannertext3': 'Premium Quality',
+  'preciseNutrition.bannertext4': '3 Days shipment',
+  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à ",
   'preciseNutrition.banner.names': "'s adapted diet & portion",
   'preciseNutrition.banner.des1':
     '30 days of complete & balanced diet for adult cat',

@@ -11,14 +11,27 @@ import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const bannerList = [
-  { img: 'secure_payment', text: 'Secure<br/>payment' },
-  { img: 'satisfie_or_reimbursed', text: 'Satisfied or<br/> reimbursed' },
-  { img: 'premium_quality', text: 'Premium<br/> Quality' },
-  { img: 'fast_shipment', text: '3 Days<br/> shipment' }
-];
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const BannerFour = () => {
+const BannerFour = ({ intl }) => {
+  const bannerList = [
+    {
+      img: 'secure_payment',
+      text: intl.messages['preciseNutrition.bannertext1']
+    },
+    {
+      img: 'satisfie_or_reimbursed',
+      text: intl.messages['preciseNutrition.bannertext2']
+    },
+    {
+      img: 'premium_quality',
+      text: intl.messages['preciseNutrition.bannertext3']
+    },
+    {
+      img: 'fast_shipment',
+      text: intl.messages['preciseNutrition.bannertext4']
+    }
+  ];
   return (
     <div
       className=" row col-12 text-center  rc-margin-top--md rc-padding-x--xl"
@@ -28,7 +41,7 @@ const BannerFour = () => {
         marginLeft: isMobile ? null : '-10%'
       }}
     >
-      {bannerList.map((el) => (
+      {bannerList.map((el, idx) => (
         <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
           <LazyLoad>
             <img
@@ -37,7 +50,11 @@ const BannerFour = () => {
             />
           </LazyLoad>
           <p
-            style={{ fontSize: '12px' }}
+            className="m-auto"
+            style={{
+              fontSize: '12px',
+              maxWidth: `${idx == 3 ? '120px' : '60px'}`
+            }}
             dangerouslySetInnerHTML={{ __html: el.text }}
           ></p>
         </div>
@@ -331,7 +348,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                             </div>
                           </div>
                         </div>
-                        <BannerFour />
+                        <BannerFour intl={intl} />
                       </div>
                     </div>
                   </div>
@@ -444,7 +461,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           )}
 
           <div className="rc-padding-x--xl">
-            <BannerFour />
+            <BannerFour intl={intl} />
           </div>
         </div>
       </div>
