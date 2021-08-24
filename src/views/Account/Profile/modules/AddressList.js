@@ -134,6 +134,8 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
+      isPickupOpen: this.props.configStore?.isPickupOpen,
       addressAddOrEditFlag: '', // pickup标记
       pickupVisible: false,
       editFormVisible: false, // 显示homeDelivery编辑状态
@@ -695,7 +697,8 @@ class AddressList extends React.Component {
       defaultCity,
       confirmBtnDisabled,
       saveBtnLoading,
-      pickupFormData
+      pickupFormData,
+      isPickupOpen
     } = this.state;
 
     return (
@@ -791,7 +794,7 @@ class AddressList extends React.Component {
                       </div>
                     </div>
 
-                    {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                    {isPickupOpen ? (
                       <>
                         {/* pickup 地址 */}
                         {this.addressTypePanel('pickup')}
