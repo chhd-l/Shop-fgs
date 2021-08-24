@@ -2026,6 +2026,9 @@ const fr_FR = {
   'checkout.zeroOrder.butSubscription':
     "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande",
   Unlink: 'Détacher',
-  Link: 'Lien'
+  Link: 'Lien',
+  aboutPet: 'PARLEZ-NOUS DE VOTRE ANIMAL',
+  nutritionalRecommendation:
+    'pour obtenir une recommandation nutritionnelle précise'
 };
 export default fr_FR;
