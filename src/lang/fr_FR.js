@@ -1955,9 +1955,24 @@ const fr_FR = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
-  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.bannertext1': 'Paiement sécurisé',
+  'preciseNutrition.bannertext2': 'Satisfait remboursé',
+  'preciseNutrition.bannertext3': 'Qualité premium',
+  'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
+  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
+  'preciseNutrition.banner.des1':
+    "30 jours d'alimentation complète et équilibrée pour chat adulte",
+  'preciseNutrition.banner.portion': 'Quantité journalière ',
+  'preciseNutrition.banner.weight': 'Poids total du sac',
+  'preciseNutrition.banner.day': 'jour',
+  'preciseNutrition.banner.month': 'mois',
+  'preciseNutrition.banner.des2': 'Envoi automatique tous les 30 jours',
+  'preciseNutrition.banner.des3': 'Livraison offerte',
+  'preciseNutrition.banner.button': 'Acheter maintenant',
+  'preciseNutrition.benefits.title':
+    "Les bénéfices de l'aliment adapté aux besoins de votre chat",
   'preciseNutrition.benefits.content':
-    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
+    'Nous collaborons avec des professionnels, spécialisés dans les animaux de compagnie- vétérinaires, éleveurs, groupes professionnels et organisations- pour nous assurer que nos formules nutritionnelles sont précisément adaptées aux besoins réels de votre animal.',
   'preciseNutrition.call.content':
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
@@ -1970,59 +1985,58 @@ const fr_FR = {
     'Service Consommateur Royal Canin France',
   'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
   'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
-  'preciseNutrition.commitment.title': 'NOTRE ENGAGEMENT DURABLE',
+  'preciseNutrition.commitment.title':
+    'Notre engagement en matière de durabilité',
   'preciseNutrition.commitment.content1':
-    'Chez Royal canin, nous travaillons à réduire notre impact environnemental pour garder notre planète en bonne santé.',
+    'Chez Royal Canin, nous travaillons à réduire notre impact environnemental pour aider notre planète.',
   'preciseNutrition.commitment.content2':
-    "Pour cette raison, votre produit sera fabriqué à la main en France et l'emballage que vous recevrez avec votre commande a été optimisé pour réduire son empreinte carbone et il a été réalisé avec des matériaux certifiés FSC, avec la garantie que le papier et le carton proviennent de sources recyclables et le bois de forêts bien gérées.",
+    "Pour cette raison, votre produit sera fabriqué en France et l'emballage que vous recevrez avec votre commande aura été optimisé pour réduire son empreinte carbone et il a sera produit avec des matériaux certifiés FSC, avec la garantie que le papier et le carton proviennent de sources recyclables et le bois de forêts bien gérées.",
   'preciseNutrition.commitment.content3':
-    "Même si l'emballage est compostable, il ne doit pas être jeté dans la nature. Veuillez suivre la recommandation et le jeter dans la bonne poubelle. ",
+    "Même si l'emballage est compostable industriellement, il ne doit pas être jeté dans la nature. Veuillez suivre les recommandations et le jeter dans la bonne poubelle.",
   'preciseNutrition.Below.title':
-    'UN PACK DE BIENVENUE POUR PRENDRE SOIN DE [NOM DU CHAT]',
+    'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
-    'Lors de votre première livraison, vous recevrez un pack de bienvenue exclusif qui comprend tout ce dont vous avez besoin pour bien nourrir et prendre soin de [nom du chat].',
-  'preciseNutrition.Below.list': 'Ce pack premium comprendra :',
-  'preciseNutrition.Below.list1':
-    "L'alimentation mensuelle adaptée de votre chat",
+    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
+  'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',
+  'preciseNutrition.Below.list1': '1 mois d’alimentation pour votre chat',
   'preciseNutrition.Below.list2':
-    'Une échelle de pondération pour fournir la portion quotidienne exacte',
-  'preciseNutrition.Below.list3':
-    'Une tasse à mesurer pour le rendre facile et précis',
+    "Une balance pour calculer précisément la quantité journalière d'aliment",
+  'preciseNutrition.Below.list3': 'Un gobelet doseur pour plus de facilité',
   'preciseNutrition.Below.list4':
-    'Et bien sûr toutes les instructions dans votre lettre de bienvenue',
+    'Et bien sûr, toutes les instructions figurant dans votre lettre de bienvenue',
   'preciseNutrition.Details.title':
-    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
+    'Ingrédients de qualité et composition équilibrée',
   'preciseNutrition.Details.lititle1': 'INGREDIENTS',
   'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
   'preciseNutrition.Details.content3.1':
-    'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
+    'Sur l’étiquette d’un aliment, après la « composition » qui reflète les ingrédients ou matières premières utilisées pour fabriquer l’aliment (à l’instar de la recette d’un gâteau), et les additifs, figurent les constituants analytiques, qui, eux, reflètent l’analyse des nutriments ou éléments nutritifs qui composent le produit fini.',
   'preciseNutrition.Details.content3.2':
-    'Thus, European regulations requires manufacturers to quantify the quantities of PROTEIN, FAT, RAW CELLULOSE and RAW ASHES',
-  'preciseNutrition.Details.link': 'Learn more',
+    'Ainsi, la réglementation européenne oblige les fabricants à chiffrer les quantités de protéines, de matières grasses, de cellulose brute et de cendres brutes.',
+  'preciseNutrition.Details.link': 'En savoir plus',
   'preciseNutrition.Details.lastText1':
-    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
+    'Mode d’emploi: Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. ',
   'preciseNutrition.Details.lastText2':
-    'To be stored in a cool, dry place.  Water should be available at all times',
+    'À conserver dans un endroit sec et frais. Eau fraîche à disposition',
   'preciseNutrition.Details.lastText3':
-    'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
+    'Mode d’emploi : [1] Eau fraîche à disposition. [2] À conserver dans un endroit sec et frais.',
   'preciseNutrition.Details.list1':
-    'The quantity of protein does not in any way allow us to judge the quality of the food; in fact, some proteins are much more digestible than others (i.e. assimilable and usable by the body) and their composition in amino acids (22 in number) can be very different; however, some amino acids are said to be "essential" and must be provided by the food.',
+    'La quantité de protéines ne permet en aucun cas de juger de la qualité de l’aliment ; en effet, certaines protéines sont beaucoup plus digestes que d’autres (c’est-à-dire assimilables et utilisables par l’organisme) et leurs compositions en acides aminés (au nombre de 22), peuvent être très différentes ; or, certains acides aminés sont dits « essentiels » et doivent obligatoirement être fournis par l’alimentation.',
   'preciseNutrition.Details.list2':
-    'The amount of Fat is a good indicator of the energy provided by the food, as fat is the preferred "fuel" for dogs and cats, which are quite different from humans. Fat should be limited for sedentary, neutered or less active animals. ',
+    'La quantité de matières grasses est un bon indicateur de l’énergie fournie par l’aliment, les graisses étant le « carburant » privilégié du chien et du chat, bien différents de l’humain. Les graisses doivent être limitées pour les animaux sédentaires, stérilisés ou peu actifs.',
   'preciseNutrition.Details.list3':
-    'The amount of cellulose or fiber is an indicator of the "satiating" power of the food. In addition to promoting good digestion and transit, fiber plays an important role in managing the animal\'s body weight.',
+    'La quantité de cellulose ou de fibres est un indicateur du pouvoir « rassasiant » de l’aliment. En plus de favoriser une bonne digestion et un bon transit, les fibres jouent donc un rôle important dans la gestion du poids de forme de l’animal.',
   'preciseNutrition.Details.list4':
-    "Crude Ash reflects the amount of mineral matter (or minerals: Calcium, Phosphorus, Iron, Iodine, Potassium, Zinc, Copper...) contained in the food. All minerals are essential and vital for the proper functioning of the dog's or cat's body; as the animal ages, the intake of certain minerals must be reduced to limit the risk of urinary stones or, like phosphorus, to limit the risk of CKD (chronic kidney disease).",
-  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
-  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
-  'preciseNutrition.Product.list.title2': '2.Texture and density',
-  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
+    'Les cendres brutes reflètent la quantité de matières minérales (ou minéraux : Calcium, Phosphore, Fer, Iode, Potassium, Zinc, Cuivre…) contenus dans l’aliment. Tous les minéraux sont essentiels et vitaux pour le bon fonctionnement de l’organisme du chien ou du chat. Lorsque l’animal vieillit, les apports de certains minéraux doivent être réduits pour aider à limiter les risques de calculs urinaires ou comme le phosphore pour aider à limiter les risques de maladie rénale chronique. ',
+  'preciseNutrition.Product.title': 'Précision nutritionnelle',
+  'preciseNutrition.Product.list.title1': '1. Taille et forme des croquettes',
+  'preciseNutrition.Product.list.title2': '2. Texture et densité',
+  'preciseNutrition.Product.list.title3': '3. Profil nutritionnel',
   'preciseNutrition.Product.list.content1':
-    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
+    "En plus d'offrir une nutrition adaptée aux besoins des animaux de compagnie, la taille, la forme et l'ergonomie de nos croquettes sont spécifiquement adaptées à la mâchoire ou à la physionomie unique d'une espèce ou d'une race.",
   'preciseNutrition.Product.list.content2':
-    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
+    "En plus d'être de tailles et formes différentes, les croquettes offrent également une texture leur permettant de se briser au bon moment.  ",
   'preciseNutrition.Product.list.content3':
-    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
+    "Chaque aliment Royal Canin présente un profil nutritionnel précisément adapté, composé d'au moins 50 nutriments individuels, qui sont sélectionnés spécifiquement pour aider à soutenir la santé et les sensibilités des chats et des chiens.",
   'checkout.zeroOrder.butSubscription':
     "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande",
   Unlink: 'Détacher',
