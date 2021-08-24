@@ -1768,6 +1768,7 @@ const fr_FR = {
   BacktoSavedPayments: 'Retour au paiement enregistré',
   'payment.shippingDiscount': 'Remise de fret',
   'orderStatus.COMPLETED': 'terminé',
+  'subscription.see_more': 'Voir les autres abonnements',
   'payment.cardInfoErr':
     'Les informations de la carte sont incorrectes, veuillez vérifier.',
   'cart.errorInfo6':
@@ -1798,7 +1799,7 @@ const fr_FR = {
   'subscriptionDetail.better':
     'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'Echange',
+  'subscriptionDetail.changeProduct': 'Changer d\'aliment',
   'subscriptionDetail.newProduct': 'Nouveaux aliments recommandés',
   'subscriptionDetail.linkProfile':
     "Lier un profil d'animal à votre abonnement CLUB",
