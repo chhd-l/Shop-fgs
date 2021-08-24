@@ -1994,7 +1994,7 @@ const fr_FR = {
   'preciseNutrition.commitment.content3':
     "Même si l'emballage est compostable industriellement, il ne doit pas être jeté dans la nature. Veuillez suivre les recommandations et le jeter dans la bonne poubelle.",
   'preciseNutrition.Below.title':
-    'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE [LUNA]',
+    'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
     'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
   'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',

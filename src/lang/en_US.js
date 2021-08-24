@@ -1706,8 +1706,7 @@ const en_US = {
     'For this reason, your product will be handmade in France and the packaging you will receive with your order has been optimized to reduce its carbon print and it was produced with FSC certified materials, with the guarantee that the paper and cardboard come from recyclable sources and the wood from well managed forests.',
   'preciseNutrition.commitment.content3':
     'Even if the packaging is compostable, it should not be throw in the nature. Please follow the recommendation and throw it in the right bin. ',
-  'preciseNutrition.Below.title':
-    "A WELCOME PACK TO BEST TAKE CARE OF  [CAT'S NAME]",
+  'preciseNutrition.Below.title': 'A WELCOME PACK TO BEST TAKE CARE OF {val}',
   'preciseNutrition.Below.content':
     'On your first delivery you will receive an exclusive welcome pack that includes everything you need to properly feed & take care of [cat’s name].',
   'preciseNutrition.Below.list': 'This premium pack will include :',
