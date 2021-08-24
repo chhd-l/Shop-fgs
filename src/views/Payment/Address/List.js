@@ -61,6 +61,9 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isHomeDeliveryOpen: this.props.configStore?.deliveryPickupOpenFlag
+        ?.HOME_DELIVERY,
+      isPickupOpen: this.props.configStore?.deliveryPickupOpenFlag?.PICK_UP,
       listSaveAddressNumber: 0,
       defaultCity: '', // 默认地址中的城市
       confirmBtnDisabled: false,
@@ -1329,19 +1332,26 @@ class AddressList extends React.Component {
   };
   // 根据默认地址查询信息
   getHomeDeliveryAndPickupInfo = async (price) => {
-    const { allAddressList, addressList, pickupAddress } = this.state;
+    const {
+      allAddressList,
+      addressList,
+      pickupAddress,
+      isPickupOpen
+    } = this.state;
     let obj = [
       {
         deliveryPrice: price || 0,
         selected: false,
         type: 'homeDelivery'
-      },
-      {
+      }
+    ];
+    if (isPickupOpen) {
+      obj.push({
         deliveryPrice: pickupAddress[0]?.pickupPrice || 0,
         selected: false,
         type: 'pickup'
-      }
-    ];
+      });
+    }
 
     // ★★★★★ 设置默认选中项（按优先级）
     // 1、上一次选择
@@ -1730,6 +1740,8 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn, isCurrentBuyWaySubscription } = this.props;
     const {
+      isHomeDeliveryOpen,
+      isPickupOpen,
       deliveryOrPickUpFlag,
       confirmBtnDisabled,
       showDeliveryOrPickUp,
@@ -2122,7 +2134,9 @@ class AddressList extends React.Component {
                         ) : null}
 
                         {/* ---- pickup address ---- */}
-                        {homeAndPickup.length && choiseHomeDeliveryOrPickUp != 0
+                        {isPickupOpen &&
+                        homeAndPickup.length &&
+                        choiseHomeDeliveryOrPickUp != 0
                           ? homeAndPickup.map((item, index) => (
                               <>
                                 {item.type == 'pickup' ? (
