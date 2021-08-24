@@ -9,7 +9,7 @@ class DetailsDisplay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modelShow: false
+      modalShow: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
