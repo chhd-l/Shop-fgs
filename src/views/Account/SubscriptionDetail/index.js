@@ -406,7 +406,7 @@ class SubscriptionDetail extends React.Component {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
-      subDetail.noStartTradeList.forEach((el) => {
+      subDetail.noStartTradeList?.forEach((el) => {
         el.tradeItems.forEach((item) => {
           item.num = isIndv ? 1 : item.num;
         });
@@ -440,7 +440,6 @@ class SubscriptionDetail extends React.Component {
           }
         }
       }
-      console.info('subDetail.goodsInfo', subDetail.goodsInfo);
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });

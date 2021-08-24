@@ -63,7 +63,6 @@ const SubDetailHeader = ({
 }) => {
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
-  console.info('subDetail', subDetail);
   let petsInfo = subDetail.petsInfo;
   //plan同时存在goodsCategory为dog和cat的商品，不展示新增情况
   let isCatAndDog = petsInfo?.petsType === 'CatAndDog';
