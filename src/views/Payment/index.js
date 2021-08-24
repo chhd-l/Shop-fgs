@@ -584,8 +584,12 @@ class Payment extends React.Component {
     const { paymentStore } = this.props;
     const { tid } = this.state;
 
-    //0元订单将paymentMethod面板置为已完成
-    this.handleZeroOrder();
+    //初始化的时候如果是0元订单将paymentMethod面板置为已完成
+    if (this.tradePrice === 0 && !tid) {
+      paymentStore.setStsToCompleted({
+        key: 'paymentMethod'
+      });
+    }
 
     // repay情况下，地址信息不可编辑，直接置为
     if (tid) {
