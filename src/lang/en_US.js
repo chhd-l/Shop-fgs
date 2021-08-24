@@ -1669,6 +1669,16 @@ const en_US = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'preciseNutrition.banner.names': "'s adapted diet & portion",
+  'preciseNutrition.banner.des1':
+    '30 days of complete & balanced diet for adult cat',
+  'preciseNutrition.banner.portion': 'Daily portion',
+  'preciseNutrition.banner.weight': 'Total pack weight',
+  'preciseNutrition.banner.day': 'day',
+  'preciseNutrition.banner.month': 'month',
+  'preciseNutrition.banner.des2': 'Automatic shipment every 30 days',
+  'preciseNutrition.banner.des3': 'Free shipment cost',
+  'preciseNutrition.banner.button': 'buy now',
   'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
   'preciseNutrition.benefits.content':
     'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
@@ -1684,7 +1694,7 @@ const en_US = {
     'Service Consommateur Royal Canin France',
   'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
   'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
-  'preciseNutrition.commitment.title': 'OUR SUSTAINABILITY COMMITMENT',
+  'preciseNutrition.commitment.title': 'Our sustainability commitement',
   'preciseNutrition.commitment.content1':
     'At Royal canin, we work to reduce our environmental impact to keep our planet healthy.',
   'preciseNutrition.commitment.content2':
@@ -1709,9 +1719,9 @@ const en_US = {
   'preciseNutrition.Details.des':
     '*L.I.P. : protein selected for its very high assimilation',
   'preciseNutrition.Details.content3.1':
-    'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
+    'On each food label, after the "composition" that includes the ingredients or raw materials used to make the food (like a cake recipe), appear the analytical constituents, which reflect the analysis of the nutritients that make up the end product.',
   'preciseNutrition.Details.content3.2':
-    'Thus, European regulations requires manufacturers to quantify the quantities of PROTEIN, FAT, RAW CELLULOSE and RAW ASHES',
+    'Thus, European regulatons requires manufacturers to quantify the quantities of protein, fat, raw cellulose and raw ashes.',
   'preciseNutrition.Details.link': 'Learn more',
   'preciseNutrition.Details.lastText1':
     'How to use : Batch number, factory registration number and best before date : see information on packaging.',

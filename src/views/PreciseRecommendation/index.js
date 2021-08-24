@@ -372,7 +372,7 @@ class PreciseRecommendation extends React.Component {
                         <div className="rc-padding-x--lg rc-padding-x--sm--mobile">
                           <div>
                             <h4
-                              className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                              className="rc-beta font-weight-bold text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile text-uppercase"
                               style={{ fontSize: isMobile ? '18px' : null }}
                             >
                               <FormattedMessage id="preciseNutrition.commitment.title" />

@@ -208,8 +208,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                             textAlign: 'left'
                           }}
                         >
-                          {recommData?.customerPetsVo?.name}'s adapted diet &
-                          portion
+                          {recommData?.customerPetsVo?.name}
+                          <FormattedMessage id="preciseNutrition.banner.names" />
                           {/* {recommData?.goodsInfo?.goodsInfoName} */}
                         </h2>
                         <div className=" rc-layout-container rc-five-column rc-padding-top--md">
@@ -221,7 +221,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="margin-b-24"
                               style={{ lineHeight: '24px' }}
                             >
-                              30 days of complete & balanced diet for adult cat,
+                              <FormattedMessage id="preciseNutrition.banner.des1" />
+                              ,
                               <FormattedMessage
                                 id={productShowInfo.recoSentence}
                               />
@@ -230,15 +231,18 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="margin-b-24"
                               style={{ lineHeight: '24px' }}
                             >
-                              Daily portion:{' '}
+                              <FormattedMessage id="preciseNutrition.banner.portion" />
+                              :{' '}
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
                                 {recommData.weight}
-                                {recommData.weightUnit}/day
+                                {recommData.weightUnit}/
+                                <FormattedMessage id="preciseNutrition.banner.day" />
                               </strong>
                               <br />
-                              Total pack weight:{' '}
+                              <FormattedMessage id="preciseNutrition.banner.weight" />
+                              :{' '}
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
@@ -250,8 +254,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="margin-b-24"
                               style={{ lineHeight: '24px' }}
                             >
-                              Automatic shipment every 30 days <br />
-                              Free shipment cost
+                              <FormattedMessage id="preciseNutrition.banner.des2" />{' '}
+                              <br />
+                              <FormattedMessage id="preciseNutrition.banner.des3" />
                             </div>
                           </div>
                           <div className="rc-column rc-double-width">
@@ -264,10 +269,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   margin: '-8px 0'
                                 }}
                               >
-                                {formatMoney(recommData.dailyPrice)}/day
+                                {formatMoney(recommData.dailyPrice)}/
+                                <FormattedMessage id="preciseNutrition.banner.day" />
                               </div>
                               <div style={{ color: '#444', fontSize: '29px' }}>
-                                {formatMoney(recommData.totalPrice)}/month
+                                {formatMoney(recommData.totalPrice)}/
+                                <FormattedMessage id="preciseNutrition.banner.month" />
                               </div>
                             </div>
                             <div
@@ -302,7 +309,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   }`}
                                   style={{ width: '300px', padding: '10px' }}
                                 >
-                                  buy now
+                                  <FormattedMessage id="preciseNutrition.banner.button" />
                                 </button>
                               ) : (
                                 <LoginButton
@@ -318,7 +325,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                     // sessionItemRoyal.set('from-felin', true);
                                   }}
                                 >
-                                  buy now
+                                  <FormattedMessage id="preciseNutrition.banner.button" />
                                 </LoginButton>
                               )}
                             </div>
@@ -343,14 +350,15 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               fontWeight: 600
             }}
           >
-            {recommData?.customerPetsVo?.name}'s adapted diet & portion
+            {recommData?.customerPetsVo?.name}
+            <FormattedMessage id="preciseNutrition.banner.names" />
             {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div
             className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            30 days of complete & balanced diet for adult cat,
+            <FormattedMessage id="preciseNutrition.banner.des1" />,
             <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
           <LazyLoad>
@@ -367,12 +375,13 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             </LazyLoad>
           </div>
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
-            Daily portion:{' '}
+            <FormattedMessage id="preciseNutrition.banner.portion" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
-              {recommData.weight} {recommData.weightUnit}/day
+              {recommData.weight} {recommData.weightUnit}/
+              <FormattedMessage id="preciseNutrition.banner.day" />
             </strong>
             <br />
-            Total pack weight:{' '}
+            <FormattedMessage id="preciseNutrition.banner.weight" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
               {totalWeight}
               {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
@@ -387,10 +396,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                 marginBottom: -10
               }}
             >
-              {formatMoney(recommData.dailyPrice)}/day
+              {formatMoney(recommData.dailyPrice)}/
+              <FormattedMessage id="preciseNutrition.banner.day" />
             </div>
             <div style={{ color: '#444', fontSize: '29px' }}>
-              {formatMoney(recommData.totalPrice)}/month
+              {formatMoney(recommData.totalPrice)}/
+              <FormattedMessage id="preciseNutrition.banner.month" />
             </div>
           </div>
           <div
@@ -401,8 +412,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             <span style={{ color: '#444', fontWeight: 300 }}>*</span>
           </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>
-            Automatic shipment every 30 days <br />
-            Free shipment cost
+            <FormattedMessage id="preciseNutrition.banner.des2" /> <br />
+            <FormattedMessage id="preciseNutrition.banner.des3" />
           </div>
           {loginStore.isLogin ? (
             <button
@@ -416,7 +427,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                   : 'rc-btn-solid-disabled'
               }`}
             >
-              buy now
+              <FormattedMessage id="preciseNutrition.banner.button" />
             </button>
           ) : (
             <LoginButton
@@ -428,7 +439,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                 await hanldeUnloginAddToCart();
               }}
             >
-              buy now
+              <FormattedMessage id="preciseNutrition.banner.button" />
             </LoginButton>
           )}
 
