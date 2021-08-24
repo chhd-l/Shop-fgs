@@ -558,6 +558,7 @@ const fr_FR = {
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
   'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
+  'detail.subscriptionBuyTip': 'Abonnement sans participation',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
