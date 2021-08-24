@@ -289,7 +289,13 @@ class PreciseRecommendation extends React.Component {
                                       fontSize: isMobile ? '18px' : null
                                     }}
                                   >
-                                    <FormattedMessage id="preciseNutrition.Below.title" />
+                                    <FormattedMessage
+                                      id="preciseNutrition.Below.title"
+                                      values={{
+                                        val: this.state.recommData
+                                          ?.customerPetsVo?.name
+                                      }}
+                                    />
                                   </h4>
                                   <div className="text-lg-left text-center rc-padding-right--sm--desktop">
                                     <FormattedMessage id="preciseNutrition.Below.content" />

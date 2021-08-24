@@ -558,6 +558,7 @@ const fr_FR = {
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
   'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
+  'detail.subscriptionBuyTip': 'Abonnement sans participation',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
@@ -1955,7 +1956,11 @@ const fr_FR = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
-  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à ",
+  'preciseNutrition.bannertext1': 'Paiement sécurisé',
+  'preciseNutrition.bannertext2': 'Satisfait remboursé',
+  'preciseNutrition.bannertext3': 'Qualité premium',
+  'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
+  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
   'preciseNutrition.banner.des1':
     "30 jours d'alimentation complète et équilibrée pour chat adulte",
   'preciseNutrition.banner.portion': 'Quantité journalière ',
@@ -1990,7 +1995,7 @@ const fr_FR = {
   'preciseNutrition.commitment.content3':
     "Même si l'emballage est compostable industriellement, il ne doit pas être jeté dans la nature. Veuillez suivre les recommandations et le jeter dans la bonne poubelle.",
   'preciseNutrition.Below.title':
-    'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE [LUNA]',
+    'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
     'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
   'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',
@@ -2036,6 +2041,9 @@ const fr_FR = {
   'checkout.zeroOrder.butSubscription':
     "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande",
   Unlink: 'Détacher',
-  Link: 'Lien'
+  Link: 'Lien',
+  aboutPet: 'PARLEZ-NOUS DE VOTRE ANIMAL',
+  nutritionalRecommendation:
+    'pour obtenir une recommandation nutritionnelle précise'
 };
 export default fr_FR;
