@@ -818,7 +818,7 @@ const fr_FR = {
   name2: 'NOM',
   nameInvalid: 'Votre nom est invalide',
   'New Pet': 'Nouvel animal',
-  newAddress: 'Edit',
+  newAddress: 'Nouvelle adresse',
   newPassword: 'Nouveau mot de passe',
   newsletterFalse: 'Consultez la NEWSLETTER',
   next: 'Suivant',
@@ -1800,18 +1800,19 @@ const fr_FR = {
   'subscriptionDetail.changeProduct': 'Echange',
   'subscriptionDetail.newProduct': 'Nouveaux aliments recommandés',
   'subscriptionDetail.linkProfile':
-    'Lier un profil d\'animal à votre abonnement CLUB',
+    "Lier un profil d'animal à votre abonnement CLUB",
   'subscriptionDetail.addNewCat': 'Ajouter un nouveau chat',
   'subscriptionDetail.addNewDog': 'Ajouter un nouveau chien',
   'subscription.seeOtherRecommendation': 'Voir autre recommandation',
   'subscription.chooseThisProduct': 'choose this product',
-  'subscription.productDetails': ' détails de l\'aliment',
+  'subscription.productDetails': " détails de l'aliment",
   'subscription.changeNow': 'Changer maintenant',
   'day-unit': 'journée',
   'subscription.productRecommendation': 'Votre aliment recommandé',
   'subscription.productRecommendationTip':
     "Compte tenu du profil de votre animal, nous vous recommandons les aliments ci-dessous pour répondre à ses besoins nutritionnels. Veuillez confirmer le changement d'aliment pour mettre à jour votre abonnement. ",
-  switchProductTip1: 'Cet aliment est la recommandation nutritionnelle la plus adaptée à',
+  switchProductTip1:
+    'Cet aliment est la recommandation nutritionnelle la plus adaptée à',
   switchProductTip2: 'based on',
   'switchProductTip.his': 'his',
   'switchProductTip.her': 'her',
@@ -2024,7 +2025,7 @@ const fr_FR = {
     'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
   'checkout.zeroOrder.butSubscription':
     "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande",
-  'Unlink':"Détacher",
-  'Link':"Lien"
+  Unlink: 'Détacher',
+  Link: 'Lien'
 };
 export default fr_FR;
