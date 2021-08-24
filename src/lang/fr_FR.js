@@ -1768,6 +1768,7 @@ const fr_FR = {
   BacktoSavedPayments: 'Retour au paiement enregistré',
   'payment.shippingDiscount': 'Remise de fret',
   'orderStatus.COMPLETED': 'terminé',
+  'subscription.see_more': 'Voir les autres abonnements',
   'payment.cardInfoErr':
     'Les informations de la carte sont incorrectes, veuillez vérifier.',
   'cart.errorInfo6':
