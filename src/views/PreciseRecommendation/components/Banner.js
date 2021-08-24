@@ -225,8 +225,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                             textAlign: 'left'
                           }}
                         >
-                          {recommData?.customerPetsVo?.name}
-                          <FormattedMessage id="preciseNutrition.banner.names" />
+                          <FormattedMessage
+                            id="preciseNutrition.banner.names"
+                            values={{ val: recommData?.customerPetsVo?.name }}
+                          />
                           {/* {recommData?.goodsInfo?.goodsInfoName} */}
                         </h2>
                         <div className=" rc-layout-container rc-five-column rc-padding-top--md">
@@ -367,8 +369,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               fontWeight: 600
             }}
           >
-            {recommData?.customerPetsVo?.name}
-            <FormattedMessage id="preciseNutrition.banner.names" />
+            <FormattedMessage
+              id="preciseNutrition.banner.names"
+              values={{ val: recommData?.customerPetsVo?.name }}
+            />
             {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div

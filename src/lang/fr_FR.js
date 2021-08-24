@@ -1959,7 +1959,7 @@ const fr_FR = {
   'preciseNutrition.bannertext2': 'Satisfait remboursé',
   'preciseNutrition.bannertext3': 'Qualité premium',
   'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
-  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à ",
+  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
   'preciseNutrition.banner.des1':
     "30 jours d'alimentation complète et équilibrée pour chat adulte",
   'preciseNutrition.banner.portion': 'Quantité journalière ',

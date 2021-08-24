@@ -1673,8 +1673,7 @@ const en_US = {
   'preciseNutrition.bannertext2': 'Satisfied or reimbursed',
   'preciseNutrition.bannertext3': 'Premium Quality',
   'preciseNutrition.bannertext4': '3 Days shipment',
-  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à ",
-  'preciseNutrition.banner.names': "'s adapted diet & portion",
+  'preciseNutrition.banner.names': "{val}'s adapted diet & portion",
   'preciseNutrition.banner.des1':
     '30 days of complete & balanced diet for adult cat',
   'preciseNutrition.banner.portion': 'Daily portion',
