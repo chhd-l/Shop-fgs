@@ -61,9 +61,8 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isHomeDeliveryOpen: this.props.configStore?.deliveryPickupOpenFlag
-        ?.HOME_DELIVERY,
-      isPickupOpen: this.props.configStore?.deliveryPickupOpenFlag?.PICK_UP,
+      isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
+      isPickupOpen: this.props.configStore?.isPickupOpen,
       listSaveAddressNumber: 0,
       defaultCity: '', // 默认地址中的城市
       confirmBtnDisabled: false,

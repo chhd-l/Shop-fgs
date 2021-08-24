@@ -134,9 +134,8 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isHomeDeliveryOpen: this.props.configStore?.deliveryPickupOpenFlag
-        ?.HOME_DELIVERY,
-      isPickupOpen: this.props.configStore?.deliveryPickupOpenFlag?.PICK_UP,
+      isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
+      isPickupOpen: this.props.configStore?.isPickupOpen,
       addressAddOrEditFlag: '', // pickup标记
       pickupVisible: false,
       editFormVisible: false, // 显示homeDelivery编辑状态
