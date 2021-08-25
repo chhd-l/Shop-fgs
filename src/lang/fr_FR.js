@@ -1733,9 +1733,9 @@ const fr_FR = {
   units: 'Quantité(s)',
   unkown: 'Inconnu',
   'See recommendation': 'Voir la recommandation',
-  // petSaveTips2:
-  //   'Основываясь на этих данных, мы подберем новый продукт для Вашего питомца. ',
-  // petSaveTips1: 'Информация о Вашем питомце сохранена!',
+  petSaveTips2:
+    '« Nous utiliserons ces données pour recommander un nouvel aliment pour votre animal',
+  petSaveTips1: 'Les informations de votre animal sont enregistrées',
   // unLoginSubscriptionTips: "La livraison automatique n'est possible qu'après l'enregistrement",
   unLoginSubscriptionTips:
     'Vous ne pouvez pas souscrire à un abonnement sans être inscrit.',
@@ -1806,7 +1806,7 @@ const fr_FR = {
   'subscriptionDetail.addNewCat': 'Ajouter un nouveau chat',
   'subscriptionDetail.addNewDog': 'Ajouter un nouveau chien',
   'subscription.seeOtherRecommendation': 'Voir autre recommandation',
-  'subscription.chooseThisProduct': 'choose this product',
+  'subscription.chooseThisProduct': 'Choisir cet aliment.',
   'subscription.productDetails': " détails de l'aliment",
   'subscription.changeNow': 'Changer maintenant',
   'day-unit': 'journée',
@@ -1844,6 +1844,8 @@ const fr_FR = {
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
   'welcome.contactUS': 'Contactez-nous',
   'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement",
+  recommendProductTip:
+    'Nous vous fournissons ces recommandations à titre d\'information, elles ne doivent pas être considérées comme une garantie de ce qui est le mieux pour votre animal. La quantité, la taille et la fréquence seront définies dans la page de contrôle du CLUB. ',
   paused: 'En pause',
   'searchNoResult.title': 'Désolé',
   'searchNoResult.content1': 'Aucun résultat ne correspond à votre recherche',
@@ -2045,6 +2047,54 @@ const fr_FR = {
   Link: 'Lien',
   aboutPet: 'PARLEZ-NOUS DE VOTRE ANIMAL',
   nutritionalRecommendation:
-    'pour obtenir une recommandation nutritionnelle précise'
+    'pour obtenir une recommandation nutritionnelle précise',
+  'PreciseCatNutrition.LongBanner.title':'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
+  'PreciseCatNutrition.LongBanner.averagePrice1':'Prix moyen',
+  'PreciseCatNutrition.LongBanner.averagePrice2':'0,90 € / jour',
+  'PreciseCatNutrition.LongBanner.averagePrice3':'25,50 €/ mois',
+  'PreciseCatNutrition.LongBanner.button':'S’ \'abonner',
+  'PreciseCatNutrition.LongBanner.redRadius':'sur la première commande',
+  'PreciseCatNutrition.LongBanner.secondTitle':'Les bénéfices pour votre chat',
+  'PreciseCatNutrition.LongBanner.benefits1':'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
+  'PreciseCatNutrition.LongBanner.benefits2':'Une quantité journalière d\'aliment précise, calculée en fonction des besoins de votre chat',
+  'PreciseCatNutrition.LongBanner.benefits3':'Des nutriments de qualité choisis pour leur haute valeur nutritionnelle',
+  'PreciseCatNutrition.DidYouKnow.title':'',
+  'PreciseCatNutrition.DidYouKnow.paragraph1':'L\'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d\'aliments dont ils ont besoin chaque jour.',
+  'PreciseCatNutrition.DidYouKnow.paragraph2':'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l\'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*',
+  'PreciseCatNutrition.DidYouKnow.tryIt':'J’essaye maintenant',
+  'PreciseCatNutrition.AdaptedFood.title':'',
+  'PreciseCatNutrition.AdaptedFood.paragraph1':
+    'Notre programme d\'abonnement est sans engagement et fournira à votre chat l\'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d\'aliment idéale. ',
+  'PreciseCatNutrition.AdaptedFood.paragraph2':'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':'Plus de 50 ans d\'expérience dans la création de solutions nutritionnelles précises',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li2':'Des partenariats étroits avec des professionnels du monde animal tels que des vétérinaires, des nutritionnistes et des éleveurs',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li3':'Une démarche scientifique de pointe et des bénéfices prouvés',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
+  'PreciseCatNutrition.AdaptedFood.paragraph3':'**Cette offre n\'est pas adaptée aux chats souffrant d\'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.',
+  'PreciseCatNutrition.AdaptedFood.findFood':'Trouvez l’aliment pour votre chat',
+  'PreciseCatNutrition.Subscription.title':'UN ABONNEMENT POUR VOUS SIMPLIFIER LA VIE',
+  'PreciseCatNutrition.Subscription.plate1':'Livraison offerte et automatique',
+  'PreciseCatNutrition.Subscription.plate2':'Un conseiller à votre écoute',
+  'PreciseCatNutrition.Subscription.plate3':'Un kit de bienvenue comprenant une balance et le matériel nécessaire pour nourrir correctement votre animal.',
+  'PreciseCatNutrition.Subscription.plate4':'Un programme de fidélité avec des cadeaux exclusifs pour stimuler votre animal de compagnie',
+  'PreciseCatNutrition.Subscription.plate5':'Conseils et astuces professionnels sur mesure',
+  'PreciseCatNutrition.HowItWorks.title':'',
+  'PreciseCatNutrition.HowItWorks.plate1':'Répondez à quelques questions pour trouver l\'aliment adapté à votre animal.',
+  'PreciseCatNutrition.HowItWorks.plate2':'Abonnez-vous et recevez chaque mois l’aliment adapté à votre chat.',
+  'PreciseCatNutrition.HowItWorks.plate3':'Gérez votre compte, suspendez, déplacez ou annulez vos livraisons.',
+  'PreciseCatNutrition.HowItWorks.plate4':'Bénéficiez d\'avantages exclusifs avec votre abonnement',
+  'PreciseCatNutrition.Notes1':'*Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
+  'PreciseCatNutrition.Notes2':'[1] Le prix par jour est illustratif, cette offre n\'est disponible que dans le cadre d\'un abonnement de 30 jours.',
+  'PreciseCatNutrition.Help.title':'Besoin d\'aide ?',
+  'PreciseCatNutrition.Help.text1':'Nos conseillers sont de vrais experts et passionnés.',
+  'PreciseCatNutrition.Help.text2':'Ils se tiennent à votre disposition pour répondre à toute demande.',
+
+
+
+
+
+  'PreciseCatNutrition.1':'',
+
+
 };
 export default fr_FR;
