@@ -45,8 +45,7 @@ const subscription = () => {
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--lg--mobile dt pb-3">
-              A SUBSCRIPTION TO SIMPLIFY YOUR LIFE
-              {/*<FormattedMessage id="ClubLP.SubscriptionBenefitsNew.title" />*/}
+              <FormattedMessage id="PreciseCatNutrition.Subscription.title" />
             </h2>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
@@ -69,8 +68,7 @@ const subscription = () => {
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
-                        Automatic & flexible delivery at door every month
-                        {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
+                        <FormattedMessage id="PreciseCatNutrition.Subscription.plate1" />
                       </p>
                     </div>
                   </div>
@@ -97,10 +95,7 @@ const subscription = () => {
                         className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
                       >
-                        A personal pet advisor available for you
-                        {/*<FormattedMessage*/}
-                        {/*  id={'ClubLP.SubscriptionBenefitsNew.icon2'}*/}
-                        {/*/>*/}
+                        <FormattedMessage id="PreciseCatNutrition.Subscription.plate2" />
                       </p>
                     </div>
                   </div>
@@ -127,11 +122,7 @@ const subscription = () => {
                         className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
                       >
-                        A welcome pack with a scale & all materials to properly
-                        feed your pet
-                        {/*<FormattedMessage*/}
-                        {/*  id={'ClubLP.SubscriptionBenefitsNew.icon3'}*/}
-                        {/*/>*/}
+                        <FormattedMessage id="PreciseCatNutrition.Subscription.plate3" />
                       </p>
                     </div>
                   </div>
@@ -155,11 +146,7 @@ const subscription = () => {
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
-                        Enjoy a loyalty program with exclusive gift to stimulate
-                        your pet
-                        {/*<FormattedMessage*/}
-                        {/*  id={'ClubLP.SubscriptionBenefitsNew.icon4'}*/}
-                        {/*/>*/}
+                        <FormattedMessage id="PreciseCatNutrition.Subscription.plate4" />
                       </p>
                     </div>
                   </div>
@@ -183,10 +170,7 @@ const subscription = () => {
                     </div>
                     <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
-                        Tailored professional advice & tips
-                        {/*<FormattedMessage*/}
-                        {/*  id={'ClubLP.SubscriptionBenefitsNew.icon5'}*/}
-                        {/*/>*/}
+                        <FormattedMessage id="PreciseCatNutrition.Subscription.plate5" />
                       </p>
                     </div>
                   </div>
@@ -208,10 +192,7 @@ const subscription = () => {
                 className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                 style={isMobile ? null : { padding: '0 50px' }}
               >
-                Get started
-                {/*<FormattedMessage*/}
-                {/*  id={'ClubLP.SubscriptionBenefitsNew.button'}*/}
-                {/*/>*/}
+                <FormattedMessage id="PreciseCatNutrition.Subscription.button" />
               </button>
             </a>
           </h4>

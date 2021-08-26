@@ -104,7 +104,9 @@ const pdpbackgroundmobilecatstr = {
 const pdpbackgroundmobilecatsfr = {
   backgroundImage: `url(${pdpbackgroundmobilecatfr})`,
   overflow: 'hidden',
-  backgroundSize: 'cover'
+  // backgroundSize: 'cover'
+  backgroundSize: '100% 140%'
+
 };
 
 const pdpbackgrounddogs = {

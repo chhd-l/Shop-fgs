@@ -307,7 +307,7 @@ const SubGoodsInfos = ({
               <div
                 className="rc-margin-x--none"
                 style={{
-                  padding: '1rem 0',
+                  padding: '1rem 0 1.5rem 0',
                   borderBottom: '1px solid #d7d7d7'
                 }}
               >
@@ -462,7 +462,7 @@ const SubGoodsInfos = ({
                         >
                           <span
                             style={{
-                              width: '100px',
+                              width: 'auto',
                               paddingTop: '10px'
                             }}
                             className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
@@ -498,7 +498,6 @@ const SubGoodsInfos = ({
                               position: 'absolute',
                               left: '-2%',
                               whiteSpace: 'nowrap',
-                              top: -4
                             }}
                           >
                             <DailyRation rations={el.petsRation} />
