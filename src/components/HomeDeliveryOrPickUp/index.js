@@ -411,9 +411,16 @@ class HomeDeliveryOrPickUp extends React.Component {
                     !isSubscription)
                 ) {
                   this.setItemStatus('pickup');
-                } else {
-                  // 会员有订阅商品的时 homeDelivery
-                  // this.setItemStatus('homeDelivery');
+                }
+
+                // checkout页面新用户或者游客，只有homeDelivery的情况
+                if (
+                  pageType === 'checkout' &&
+                  !this.props.allAddressList.length &&
+                  hdpu.length == 1 &&
+                  hdpu[0].type == 'homeDelivery'
+                ) {
+                  this.setItemStatus('homeDelivery');
                 }
               }
             );

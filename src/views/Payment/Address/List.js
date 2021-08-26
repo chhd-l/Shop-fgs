@@ -2113,7 +2113,7 @@ class AddressList extends React.Component {
                               ) : null}
                             </div>
 
-                            {/* 添加 homeDelivery 地址 */}
+                            {/* 新增 homeDelivery 地址 */}
                             {choiseHomeDeliveryOrPickUp == 1 ? (
                               <div className="add_address_pk_btn">
                                 <p
