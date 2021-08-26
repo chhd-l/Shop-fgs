@@ -4,6 +4,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
+import { toJS } from 'mobx';
 import {
   getDeviceType,
   generateOptions,
@@ -116,11 +117,11 @@ class Header extends React.Component {
       return false;
     }
     // indv在未登录购物车的商品在刷新页面的时候均应该被删除
-    let indvIdex = checkoutStore.cartData?.findIndex(
+    let indvIdex = toJS(checkoutStore.cartData)?.findIndex(
       (el) => el.goodsInfoFlag == 3
     );
     if (indvIdex > -1) {
-      let newCartData = checkoutStore.cartData?.splice(indvIdex, 1);
+      let newCartData = toJS(checkoutStore.cartData)?.splice(indvIdex, 1);
       checkoutStore.setCartData(newCartData);
     }
     // this.props.checkoutStore.removeCartData()
