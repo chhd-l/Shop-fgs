@@ -151,19 +151,28 @@ class LoginCart extends React.Component {
 
       GACartScreenLoad();
       GAInitLogin({
-        productList: this.props.checkoutStore.loginCartData,
+        productList: this.loginCartData,
         frequencyList: this.state.frequencyList,
         props: this.props
       });
-
-      this.setData({ initPage: true });
+      setTimeout(() => {
+        this.setData({ initPage: true });
+      }, 2000);
+      // let indv = this.loginCartData.filter(el=>el.goodsInfoFlag==3)
+      // if(indv.length){
+      //   setTimeout(()=>{
+      //     this.setData({ initPage: true });
+      //   },2000)
+      // }else{
+      //   this.setData({ initPage: true });
+      // }
 
       //给代客下单用 start
       if (sessionItemRoyal.get('rc-iframe-from-storepotal')) {
         console.log(222);
         let timer = null;
         timer = setInterval(async () => {
-          if (this.props.checkoutStore.loginCartData.length) {
+          if (this.loginCartData.length) {
             console.log(333);
             clearInterval(timer);
             await this.updateCartCache();
@@ -178,7 +187,9 @@ class LoginCart extends React.Component {
   }
   componentWillUnmount() {}
   get loginCartData() {
-    return this.props.checkoutStore.loginCartData;
+    return this.props.checkoutStore.loginCartData.filter(
+      (el) => !el.isNotShowCart
+    );
   }
   get giftList() {
     return this.props.checkoutStore.giftList || [];
@@ -331,8 +342,8 @@ class LoginCart extends React.Component {
   setData({ initPage = false } = {}) {
     const { configStore } = this.props;
     //每次数据变化调用
-    !isHubGA && this.GACheckout(this.checkoutStore.loginCartData);
-    let productList = this.checkoutStore.loginCartData.map((el) => {
+    !isHubGA && this.GACheckout(this.loginCartData);
+    let productList = this.loginCartData.map((el) => {
       // 德国的购物车有问题，先前选择的1周的，直接显示默认值，因为统一返回了那三个frequency
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -424,9 +435,9 @@ class LoginCart extends React.Component {
       this.checkoutStore.setLoginCartData(productList);
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
-        goodsInfos: checkoutStore.loginCartData
+        goodsInfos: this.loginCartData
       });
-      let handledData = checkoutStore.loginCartData.map((el, i) => {
+      let handledData = this.loginCartData.map((el, i) => {
         const tmpGoodsInfo = res.context.goodsInfos[i];
         if (tmpGoodsInfo) {
           el.auditCatFlag = tmpGoodsInfo['auditCatFlag'];
