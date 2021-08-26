@@ -337,12 +337,14 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   // btnStyle={{ margin: '5px 0', width: '100%' }}
                                   // history={this.props.history}
                                   beforeLoginCallback={async () => {
-                                    localItemRoyal.set(
-                                      'okta-redirectUrl',
-                                      'precise-cat-nutrition-recommendation'
-                                    );
-                                    // sessionItemRoyal.set('from-felin', true);
+                                    await hanldeUnloginAddToCart();
                                   }}
+                                  // beforeLoginCallback={async () => {
+                                  //   localItemRoyal.set(
+                                  //     'okta-redirectUrl',
+                                  //     'precise-cat-nutrition-recommendation'
+                                  //   );
+                                  // }}
                                 >
                                   <FormattedMessage id="preciseNutrition.banner.button" />
                                 </LoginButton>
