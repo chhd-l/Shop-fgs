@@ -28,9 +28,9 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Divider() {
   return (
-    <div className="experience-component experience-assets-divider">
+    <div className='experience-component experience-assets-divider'>
       <div
-        className="rc-border-bottom rc-border-colour--brand4"
+        className='rc-border-bottom rc-border-colour--brand4'
         style={{ borderBottomWidth: '4px' }}
       />
     </div>
@@ -88,6 +88,7 @@ class PreciseCatNutrition extends React.Component {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   render() {
     const { history, match, location } = this.props;
 
@@ -95,14 +96,14 @@ class PreciseCatNutrition extends React.Component {
       <>
         <div>
           <Helmet>
-            <link rel="canonical" href={pageLink} />
+            <link rel='canonical' href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
             <meta
-              name="description"
+              name='description'
               content={this.state.seoConfig.metaDescription}
             />
-            <meta name="robots" content="noindex" />
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+            <meta name='robots' content='noindex' />
+            <meta name='keywords' content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <GoogleTagManager
             additionalEvents={event}
@@ -150,12 +151,12 @@ class PreciseCatNutrition extends React.Component {
             {/*  </div>*/}
             {/*</div>*/}
 
-            <div className="experience-component experience-layouts-1column">
-              <div className="row rc-margin-x--none">
-                <div className="rc-full-width">
-                  <div className="experience-component experience-assets-headingBlock">
-                    <div className="rc-max-width--lg text-center rc-margin-top--md">
-                      <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
+            <div className='experience-component experience-layouts-1column'>
+              <div className='row rc-margin-x--none'>
+                <div className='rc-full-width'>
+                  <div className='experience-component experience-assets-headingBlock'>
+                    <div className='rc-max-width--lg text-center rc-margin-top--md'>
+                      <div className='rc-beta text-center  rc-margin-bottom--lg--mobile'>
                         <div className={'row w-100'}>
                           <div
                             className={'col-12 col-md-4 text-md-right relative'}
@@ -176,11 +177,11 @@ class PreciseCatNutrition extends React.Component {
                                   padding: ' 5px 5px',
                                   margin: '0px 0px 0 20px',
                                   fontWeight: 300,
-                                  position:'relative'
+                                  position: 'relative'
                                 }}
                               >
                                 <div
-                                  className="titleRadius"
+                                  className='titleRadius'
                                   style={{
                                     fontSize: 14,
                                     backgroundColor: 'white',
@@ -192,7 +193,7 @@ class PreciseCatNutrition extends React.Component {
                                     top: 12,
                                     padding: 4,
                                     fontWeight: 500,
-                                    lineHeight:'18px'
+                                    lineHeight: '18px'
                                   }}
                                 >
 
@@ -204,7 +205,7 @@ class PreciseCatNutrition extends React.Component {
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
-                            <h2 className="font-weight-bold">
+                            <h2 className='font-weight-bold'>
                               THAT HEAlTH IS NOT ONE SIZE FITS ALL
                             </h2>
                           </div>
@@ -218,15 +219,15 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
             <div>
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-contentBlock">
-                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile  content-block rc-max-width--lg">
-                        <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
-                          <div className="rc-column">
+              <div className='experience-component experience-layouts-1column'>
+                <div className='row rc-margin-x--none'>
+                  <div className='rc-full-width'>
+                    <div className='experience-component experience-assets-contentBlock'>
+                      <div className='rc-content-block rc-padding-x--sm rc-padding-x--md--mobile  content-block rc-max-width--lg'>
+                        <div className='rc-layout-container rc-two-column rc-content-h-middle flex-md-row '>
+                          <div className='rc-column'>
                             <div
-                              className="lazyload-wrapper"
+                              className='lazyload-wrapper'
                               style={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -234,47 +235,40 @@ class PreciseCatNutrition extends React.Component {
                               }}
                             >
                               <img
-                                alt="With the Subscription, they will always have what they need"
-                                className="w-50 lazyloaded"
+                                alt='With the Subscription, they will always have what they need'
+                                className='w-50 lazyloaded'
                                 src={paw}
                               />
                             </div>
                           </div>
-                          <div className="rc-column didYouKnowText">
+                          <div className='rc-column didYouKnowText'>
                             <div
-                              className=" rc-full-width"
+                              className=' rc-full-width'
                               style={{ width: '99%' }}
                             >
-                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                                <li className="rc-list__item flex">
+                              <ul className='rc-list rc-list--blank rc-list--align rc-list--large-icon'>
+                                <li className='rc-list__item flex'>
                                   <div>
-                                    Did you know that each cat have specific
-                                    needs depending on their unique
-                                    characteristic ?
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content1" />*/}
+                                    <FormattedMessage id='PreciseCatNutrition.DidYouKnow.paragraph1' />
                                   </div>
                                 </li>
-                                <li className="rc-list__item flex">
+                                <li className='rc-list__item flex'>
                                   <div>
-                                    Their lifestage. breed, activity, conditions
-                                    play a rôle in their nutritional needs, but
-                                    also on the quantity they'should eat.
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content2" />*/}
+                                    <FormattedMessage id='PreciseCatNutrition.DidYouKnow.paragraph2' />
                                   </div>
                                 </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    Therefore, having a complete & balanced diet
-                                    is key to support their health. An
-                                    inappropriated food and portion could lead
-                                    to overweight or even obesity, impacting
-                                    significantly your cat's wellbeing and
-                                    decreasing up to 2 years his lifespan*.
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content3" />*/}
-                                  </div>
-                                </li>
+                                {/*<li className="rc-list__item flex">*/}
+                                {/*  <div>*/}
+                                {/*    Therefore, having a complete & balanced diet*/}
+                                {/*    is key to support their health. An*/}
+                                {/*    inappropriated food and portion could lead*/}
+                                {/*    to overweight or even obesity, impacting*/}
+                                {/*    significantly your cat's wellbeing and*/}
+                                {/*    decreasing up to 2 years his lifespan*.*/}
+                                {/*  </div>*/}
+                                {/*</li>*/}
                               </ul>
-                              <div className="rc-padding-x--none detextcenter">
+                              <div className='rc-padding-x--none detextcenter'>
                                 <a
                                   onClick={() => {
                                     this.toScroll('aboutPet');
@@ -284,9 +278,8 @@ class PreciseCatNutrition extends React.Component {
                                     });
                                   }}
                                 >
-                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
-                                    {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
-                                    <a>try it now</a>
+                                  <button className='rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs'>
+                                    <FormattedMessage id='PreciseCatNutrition.DidYouKnow.tryIt' />
                                   </button>
                                 </a>
                                 {/*<DistributeHubLinkOrATag*/}
@@ -312,18 +305,19 @@ class PreciseCatNutrition extends React.Component {
 
             {isMobile ? null : <Divider />}
 
-            <div className="experience-component experience-layouts-1column">
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-headingBlock">
-                      <div className="rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md">
-                        <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                          <h2 className="font-weight-bold">
-                            {' '}
-                            AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}
+            <div className='experience-component experience-layouts-1column'>
+              <div className='experience-component experience-layouts-1column'>
+                <div className='row rc-margin-x--none'>
+                  <div className='rc-full-width'>
+                    <div className='experience-component experience-assets-headingBlock'>
+                      <div className='rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md'>
+                        <div className='rc-beta text-center  rc-margin-bottom--lg--mobile'>
+                          <h2 className='font-weight-bold'>
+                            {/*{' '}*/}
+                            {/*AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}*/}
+                            <FormattedMessage id='PreciseCatNutrition.AdaptedFood.title' />
+
                           </h2>
-                          {/*<FormattedMessage id="ClubLP.Advantage.title" />*/}
                         </div>
                         <p
                           style={{
@@ -333,10 +327,7 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            Our subscription program is free from engagement and
-                            will provide to your cat the most adapted diet for
-                            weight management* and a personalized packaging for
-                            ideal portioning.
+                              <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph1' />
                           </span>
                         </p>
                         <p
@@ -347,8 +338,7 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            This offer is the result of our brand purpose to
-                            improve cat's health & wellbeing, thanks to:
+                            <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2' />
                           </span>
                         </p>
                       </div>
@@ -357,99 +347,88 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-contentBlock">
-                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--md  content-block rc-max-width--lg">
-                        <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
-                          <div className="rc-column">
+              <div className='experience-component experience-layouts-1column'>
+                <div className='row rc-margin-x--none'>
+                  <div className='rc-full-width'>
+                    <div className='experience-component experience-assets-contentBlock'>
+                      <div
+                        className='rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--md  content-block rc-max-width--lg'>
+                        <div className='rc-layout-container rc-two-column rc-content-h-middle flex-md-row '>
+                          <div className='rc-column'>
                             <div
-                              className=" rc-full-width"
+                              className=' rc-full-width'
                               style={{ position: 'relative' }}
                             >
-                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                                <li className="rc-list__item flex">
+                              <ul className='rc-list rc-list--blank rc-list--align rc-list--large-icon'>
+                                <li className='rc-list__item flex'>
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className='bingo rc-margin-right--xs'></em>
                                   </div>
                                   <div>
                                     <strong>
-                                      50 years of experience creating precise
-                                      nutritional formulas
-                                    </strong>
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content1" />*/}
-                                  </div>
-                                </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
-                                  </div>
-                                  <div>
-                                    <strong>
-                                      A long partnership with pe experts like
-                                      veterinarian, nutritionist, breeders ...
-                                    </strong>
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content2" />*/}
-                                  </div>
-                                </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
-                                  </div>
-                                  <div>
-                                    <strong>
-                                      A science-based approach with proven fact
-                                      & benefits
-                                      {/*<FormattedMessage id="ClubLP.Advantage.content3" />*/}
+                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li1' />
                                     </strong>
                                   </div>
                                 </li>
-                                <li className="rc-list__item flex">
+                                <li className='rc-list__item flex'>
                                   <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
+                                    <em className='bingo rc-margin-right--xs'></em>
                                   </div>
                                   <div>
                                     <strong>
-                                      A priority to source quality nutrients
-                                      from sustainablesources with low carbon
-                                      footprint
-                                      {/*<FormattedMessage id="ClubLP.Advantage.content4" />*/}
+                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li2' />
+                                    </strong>
+                                  </div>
+                                </li>
+                                <li className='rc-list__item flex'>
+                                  <div>
+                                    <em className='bingo rc-margin-right--xs'></em>
+                                  </div>
+                                  <div>
+                                    <strong>
+                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li3' />
+                                    </strong>
+                                  </div>
+                                </li>
+                                <li className='rc-list__item flex'>
+                                  <div>
+                                    <em className='bingo rc-margin-right--xs'></em>
+                                  </div>
+                                  <div>
+                                    <strong>
+                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li4' />
                                     </strong>
                                   </div>
                                 </li>
                               </ul>
                               <a style={{ color: 'grey' }}>
-                                *this ofter is not adapted to cat ufering from
-                                obesity. In suchcase we recommend you to visit a
-                                vet first.
+                                <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph3' />
                               </a>
                               <div
-                                className="rc-margin-y--sm rc-padding-x--none detextcenter"
+                                className='rc-margin-y--sm rc-padding-x--none detextcenter'
                                 style={
                                   isMobile
                                     ? {
-                                        position: 'absolute',
-                                        marginTop: '100%',
-                                        marginLeft: '11%'
-                                      }
+                                      position: 'absolute',
+                                      marginTop: '100%',
+                                      marginLeft: '11%'
+                                    }
                                     : null
                                 }
                               >
                                 <a onClick={() => this.toScroll('aboutPet')}>
-                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
-                                    {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
-                                    Find your tailored food now
+                                  <button className='rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs'>
+                                    <FormattedMessage id='PreciseCatNutrition.AdaptedFood.findFood' />
                                   </button>
                                 </a>
                               </div>
                             </div>
                           </div>
-                          <div className="rc-column">
-                            <div className="lazyload-wrapper">
+                          <div className='rc-column'>
+                            <div className='lazyload-wrapper'>
                               <img
-                                alt="With the Subscription, they will always have what they need"
-                                className="w-100 lazyloaded"
+                                alt='With the Subscription, they will always have what they need'
+                                className='w-100 lazyloaded'
                                 src={cat_wellbeing}
                               />
                             </div>
@@ -471,10 +450,10 @@ class PreciseCatNutrition extends React.Component {
               </div>
               <br />
 
-              <div className={'preciseCatNutritionTop'} id="aboutPet">
-                <div className="row rc-margin-x--none">
-                  <div className="rc-full-width">
-                    <div className="experience-component experience-assets-contentBlock">
+              <div className={'preciseCatNutritionTop'} id='aboutPet'>
+                <div className='row rc-margin-x--none'>
+                  <div className='rc-full-width'>
+                    <div className='experience-component experience-assets-contentBlock'>
                       <AboutPet />
                     </div>
                   </div>
@@ -482,23 +461,18 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            <div className="experience-component experience-layouts-1column">
-              <div className="row rc-margin-x--none">
-                <div className="rc-full-width">
-                  <div className="experience-component experience-layouts-cardcarousel">
-                    <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
+            <div className='experience-component experience-layouts-1column'>
+              <div className='row rc-margin-x--none'>
+                <div className='rc-full-width'>
+                  <div className='experience-component experience-layouts-cardcarousel'>
+                    <div className='rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center'>
+                      <div
+                        className='rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left'>
                         <p style={{ marginBottom: 0 }}>
-                          * Overweight can shorten an animal's life by up to 2
-                          years. And it can increase the risk of diabetes,
-                          urinary tract diseases, arthritis and skin problems.
-                          Salt C et al. Association between life span and body
-                          condition in neutered client-owned dogs. J Vet Intern
-                          Med 2018; 1-11
+                          <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
                         <p>
-                          [1] This is just a figurative price but the
-                          subscription is only available for 30 days.
+                          <FormattedMessage id="PreciseCatNutrition.Notes2" />
                         </p>
                       </div>
                     </div>
@@ -508,28 +482,28 @@ class PreciseCatNutrition extends React.Component {
             </div>
             <HelpComponents />
 
-            <div className="experience-component experience-layouts-1column">
-              <div className="row rc-margin-x--none">
-                <div className="rc-full-width">
-                  <div className="experience-component experience-layouts-cardcarousel">
-                    <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition">
+            <div className='experience-component experience-layouts-1column'>
+              <div className='row rc-margin-x--none'>
+                <div className='rc-full-width'>
+                  <div className='experience-component experience-layouts-cardcarousel'>
+                    <div className='rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center'>
+                      <div className='rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition'>
                         <div>
-                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
-                            Address
-                            {/*<FormattedMessage id="ClubLP.Help.title" />*/}
+                          <h4 className='font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile'>
+                            {/*Address*/}
+                            <FormattedMessage id="preciseNutrition.Address.title" />
                           </h4>
                         </div>
                         <p style={{ marginBottom: 0 }}>
                           <span>
-                            Service Consommateur Royal Canin France 650 avenue
-                            de la petite Camargue
-                            {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
+                            {/*Service Consommateur Royal Canin France 650 avenue*/}
+                            {/*de la petite Camargue*/}
+                            <FormattedMessage id="preciseNutrition.Address.secondLine" />
                           </span>
                         </p>
                         <p>
-                          {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
-                          30470 AIMARGUES
+                          <FormattedMessage id="preciseNutrition.Address.thirdLine" />
+                          {/*30470 AIMARGUES*/}
                         </p>
                       </div>
                     </div>

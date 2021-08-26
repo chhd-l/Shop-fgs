@@ -1734,7 +1734,7 @@ const fr_FR = {
   unkown: 'Inconnu',
   'See recommendation': 'Voir la recommandation',
   petSaveTips2:
-    '« Nous utiliserons ces données pour recommander un nouvel aliment pour votre animal',
+    'Nous utiliserons ces données pour recommander un nouvel aliment pour votre animal',
   petSaveTips1: 'Les informations de votre animal sont enregistrées',
   // unLoginSubscriptionTips: "La livraison automatique n'est possible qu'après l'enregistrement",
   unLoginSubscriptionTips:
@@ -1937,6 +1937,7 @@ const fr_FR = {
   'ClubLP.GetMoreAd.Club.tip6': 'Kit cadeau de bienvenue',
   'ClubLP.GetMoreAd.Club.tip7': 'Avantages et services exclusifs',
   'ClubLP.GetMoreAd.button': 'Démarrer',
+  // ****
   'ClubLP.Help.title': 'Nous sommes là pour vous aider',
   'ClubLP.Help.subtitle1':
     'Notre équipe est disponible pour répondre à vos questions et vous fournir la meilleure expérience possible.',
@@ -2062,7 +2063,7 @@ const fr_FR = {
   'PreciseCatNutrition.DidYouKnow.paragraph1':'L\'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d\'aliments dont ils ont besoin chaque jour.',
   'PreciseCatNutrition.DidYouKnow.paragraph2':'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l\'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*',
   'PreciseCatNutrition.DidYouKnow.tryIt':'J’essaye maintenant',
-  'PreciseCatNutrition.AdaptedFood.title':'',
+  'PreciseCatNutrition.AdaptedFood.title':'Un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
     'Notre programme d\'abonnement est sans engagement et fournira à votre chat l\'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d\'aliment idéale. ',
   'PreciseCatNutrition.AdaptedFood.paragraph2':'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
@@ -2078,7 +2079,8 @@ const fr_FR = {
   'PreciseCatNutrition.Subscription.plate3':'Un kit de bienvenue comprenant une balance et le matériel nécessaire pour nourrir correctement votre animal.',
   'PreciseCatNutrition.Subscription.plate4':'Un programme de fidélité avec des cadeaux exclusifs pour stimuler votre animal de compagnie',
   'PreciseCatNutrition.Subscription.plate5':'Conseils et astuces professionnels sur mesure',
-  'PreciseCatNutrition.HowItWorks.title':'',
+  'PreciseCatNutrition.Subscription.button':'Commencer',
+  'PreciseCatNutrition.HowItWorks.title':'COMMENT ÇA MARCHE ?',
   'PreciseCatNutrition.HowItWorks.plate1':'Répondez à quelques questions pour trouver l\'aliment adapté à votre animal.',
   'PreciseCatNutrition.HowItWorks.plate2':'Abonnez-vous et recevez chaque mois l’aliment adapté à votre chat.',
   'PreciseCatNutrition.HowItWorks.plate3':'Gérez votre compte, suspendez, déplacez ou annulez vos livraisons.',
@@ -2088,12 +2090,6 @@ const fr_FR = {
   'PreciseCatNutrition.Help.title':'Besoin d\'aide ?',
   'PreciseCatNutrition.Help.text1':'Nos conseillers sont de vrais experts et passionnés.',
   'PreciseCatNutrition.Help.text2':'Ils se tiennent à votre disposition pour répondre à toute demande.',
-
-
-
-
-
-  'PreciseCatNutrition.1':'',
 
 
 };
