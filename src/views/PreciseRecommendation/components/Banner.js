@@ -99,6 +99,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           quantity: goodsInfo.buyCount,
           currentUnitPrice: goodsInfo.marketPrice,
           goodsInfoFlag: 3,
+          isNotShowCart: 1, //加入购物车 但是在header不显示
           questionParams: JSON.stringify(petInfo),
           periodTypeId: goodsInfo.periodTypeId || 3560,
           recommendationInfos: clinicStore.linkClinicRecommendationInfos,
