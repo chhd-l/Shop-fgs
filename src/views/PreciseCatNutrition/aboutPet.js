@@ -143,14 +143,14 @@ function AboutPet() {
     setStep(
       result.context.currentSteps &&
         result.context.currentSteps.length > 0 &&
-        result.context.currentSteps[0].metadata.step
+        result.context.currentSteps[0]?.metadata.step
     );
 
     if (!result.context.isEndOfTree) {
       //返回答题 顺序处理
       if (
         result.context.currentSteps &&
-        result.context.currentSteps[0].metadata.step === 2
+        result.context.currentSteps[0]?.metadata.step === 2
       ) {
         let array = [];
         result.context.currentSteps.forEach((item) => {

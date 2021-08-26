@@ -1799,7 +1799,7 @@ const fr_FR = {
   'subscriptionDetail.better':
     'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',
   'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'Changer d\'aliment',
+  'subscriptionDetail.changeProduct': "Changer d'aliment",
   'subscriptionDetail.newProduct': 'Nouveaux aliments recommandés',
   'subscriptionDetail.linkProfile':
     "Lier un profil d'animal à votre abonnement CLUB",
@@ -1845,7 +1845,7 @@ const fr_FR = {
   'welcome.contactUS': 'Contactez-nous',
   'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement",
   recommendProductTip:
-    'Nous vous fournissons ces recommandations à titre d\'information, elles ne doivent pas être considérées comme une garantie de ce qui est le mieux pour votre animal. La quantité, la taille et la fréquence seront définies dans la page de contrôle du CLUB. ',
+    "Nous vous fournissons ces recommandations à titre d'information, elles ne doivent pas être considérées comme une garantie de ce qui est le mieux pour votre animal. La quantité, la taille et la fréquence seront définies dans la page de contrôle du CLUB. ",
   paused: 'En pause',
   'searchNoResult.title': 'Désolé',
   'searchNoResult.content1': 'Aucun résultat ne correspond à votre recherche',
@@ -2049,48 +2049,79 @@ const fr_FR = {
   aboutPet: 'PARLEZ-NOUS DE VOTRE ANIMAL',
   nutritionalRecommendation:
     'pour obtenir une recommandation nutritionnelle précise',
-  'PreciseCatNutrition.LongBanner.title':'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
-  'PreciseCatNutrition.LongBanner.averagePrice1':'Prix moyen',
-  'PreciseCatNutrition.LongBanner.averagePrice2':'0,90 € / jour',
-  'PreciseCatNutrition.LongBanner.averagePrice3':'25,50 €/ mois',
-  'PreciseCatNutrition.LongBanner.button':'S’ \'abonner',
-  'PreciseCatNutrition.LongBanner.redRadius':'sur la première commande',
-  'PreciseCatNutrition.LongBanner.secondTitle':'Les bénéfices pour votre chat',
-  'PreciseCatNutrition.LongBanner.benefits1':'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
-  'PreciseCatNutrition.LongBanner.benefits2':'Une quantité journalière d\'aliment précise, calculée en fonction des besoins de votre chat',
-  'PreciseCatNutrition.LongBanner.benefits3':'Des nutriments de qualité choisis pour leur haute valeur nutritionnelle',
-  'PreciseCatNutrition.DidYouKnow.title':'',
-  'PreciseCatNutrition.DidYouKnow.paragraph1':'L\'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d\'aliments dont ils ont besoin chaque jour.',
-  'PreciseCatNutrition.DidYouKnow.paragraph2':'Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l\'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*',
-  'PreciseCatNutrition.DidYouKnow.tryIt':'J’essaye maintenant',
-  'PreciseCatNutrition.AdaptedFood.title':'Un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
+  'PreciseCatNutrition.LongBanner.title':
+    'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
+  'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
+  'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
+  'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 €/ mois',
+  'PreciseCatNutrition.LongBanner.button': "S’ 'abonner",
+  'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
+  'PreciseCatNutrition.LongBanner.secondTitle': 'Les bénéfices pour votre chat',
+  'PreciseCatNutrition.LongBanner.benefits1':
+    'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
+  'PreciseCatNutrition.LongBanner.benefits2':
+    "Une quantité journalière d'aliment précise, calculée en fonction des besoins de votre chat",
+  'PreciseCatNutrition.LongBanner.benefits3':
+    'Des nutriments de qualité choisis pour leur haute valeur nutritionnelle',
+  'PreciseCatNutrition.DidYouKnow.title': '',
+  'PreciseCatNutrition.DidYouKnow.paragraph1':
+    "L'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d'aliments dont ils ont besoin chaque jour.",
+  'PreciseCatNutrition.DidYouKnow.paragraph2':
+    "Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*",
+  'PreciseCatNutrition.DidYouKnow.tryIt': 'J’essaye maintenant',
+  'PreciseCatNutrition.AdaptedFood.title':
+    'Un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
-    'Notre programme d\'abonnement est sans engagement et fournira à votre chat l\'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d\'aliment idéale. ',
-  'PreciseCatNutrition.AdaptedFood.paragraph2':'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
-  'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':'Plus de 50 ans d\'expérience dans la création de solutions nutritionnelles précises',
-  'PreciseCatNutrition.AdaptedFood.paragraph2.Li2':'Des partenariats étroits avec des professionnels du monde animal tels que des vétérinaires, des nutritionnistes et des éleveurs',
-  'PreciseCatNutrition.AdaptedFood.paragraph2.Li3':'Une démarche scientifique de pointe et des bénéfices prouvés',
-  'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
-  'PreciseCatNutrition.AdaptedFood.paragraph3':'**Cette offre n\'est pas adaptée aux chats souffrant d\'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.',
-  'PreciseCatNutrition.AdaptedFood.findFood':'Trouvez l’aliment pour votre chat',
-  'PreciseCatNutrition.Subscription.title':'UN ABONNEMENT POUR VOUS SIMPLIFIER LA VIE',
-  'PreciseCatNutrition.Subscription.plate1':'Livraison offerte et automatique',
-  'PreciseCatNutrition.Subscription.plate2':'Un conseiller à votre écoute',
-  'PreciseCatNutrition.Subscription.plate3':'Un kit de bienvenue comprenant une balance et le matériel nécessaire pour nourrir correctement votre animal.',
-  'PreciseCatNutrition.Subscription.plate4':'Un programme de fidélité avec des cadeaux exclusifs pour stimuler votre animal de compagnie',
-  'PreciseCatNutrition.Subscription.plate5':'Conseils et astuces professionnels sur mesure',
-  'PreciseCatNutrition.Subscription.button':'Commencer',
-  'PreciseCatNutrition.HowItWorks.title':'COMMENT ÇA MARCHE ?',
-  'PreciseCatNutrition.HowItWorks.plate1':'Répondez à quelques questions pour trouver l\'aliment adapté à votre animal.',
-  'PreciseCatNutrition.HowItWorks.plate2':'Abonnez-vous et recevez chaque mois l’aliment adapté à votre chat.',
-  'PreciseCatNutrition.HowItWorks.plate3':'Gérez votre compte, suspendez, déplacez ou annulez vos livraisons.',
-  'PreciseCatNutrition.HowItWorks.plate4':'Bénéficiez d\'avantages exclusifs avec votre abonnement',
-  'PreciseCatNutrition.Notes1':'*Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
-  'PreciseCatNutrition.Notes2':'[1] Le prix par jour est illustratif, cette offre n\'est disponible que dans le cadre d\'un abonnement de 30 jours.',
-  'PreciseCatNutrition.Help.title':'Besoin d\'aide ?',
-  'PreciseCatNutrition.Help.text1':'Nos conseillers sont de vrais experts et passionnés.',
-  'PreciseCatNutrition.Help.text2':'Ils se tiennent à votre disposition pour répondre à toute demande.',
-
-
+    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
+  'PreciseCatNutrition.AdaptedFood.paragraph2':
+    'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':
+    "Plus de 50 ans d'expérience dans la création de solutions nutritionnelles précises",
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li2':
+    'Des partenariats étroits avec des professionnels du monde animal tels que des vétérinaires, des nutritionnistes et des éleveurs',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li3':
+    'Une démarche scientifique de pointe et des bénéfices prouvés',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':
+    'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
+  'PreciseCatNutrition.AdaptedFood.paragraph3':
+    "**Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
+  'PreciseCatNutrition.AdaptedFood.findFood':
+    'Trouvez l’aliment pour votre chat',
+  'PreciseCatNutrition.Subscription.title':
+    'UN ABONNEMENT POUR VOUS SIMPLIFIER LA VIE',
+  'PreciseCatNutrition.Subscription.plate1': 'Livraison offerte et automatique',
+  'PreciseCatNutrition.Subscription.plate2': 'Un conseiller à votre écoute',
+  'PreciseCatNutrition.Subscription.plate3':
+    'Un kit de bienvenue comprenant une balance et le matériel nécessaire pour nourrir correctement votre animal.',
+  'PreciseCatNutrition.Subscription.plate4':
+    'Un programme de fidélité avec des cadeaux exclusifs pour stimuler votre animal de compagnie',
+  'PreciseCatNutrition.Subscription.plate5':
+    'Conseils et astuces professionnels sur mesure',
+  'PreciseCatNutrition.Subscription.button': 'Commencer',
+  'PreciseCatNutrition.HowItWorks.title': 'COMMENT ÇA MARCHE ?',
+  'PreciseCatNutrition.HowItWorks.plate1':
+    "Répondez à quelques questions pour trouver l'aliment adapté à votre animal.",
+  'PreciseCatNutrition.HowItWorks.plate2':
+    'Abonnez-vous et recevez chaque mois l’aliment adapté à votre chat.',
+  'PreciseCatNutrition.HowItWorks.plate3':
+    'Gérez votre compte, suspendez, déplacez ou annulez vos livraisons.',
+  'PreciseCatNutrition.HowItWorks.plate4':
+    "Bénéficiez d'avantages exclusifs avec votre abonnement",
+  'PreciseCatNutrition.Notes1':
+    '*Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
+  'PreciseCatNutrition.Notes2':
+    "[1] Le prix par jour est illustratif, cette offre n'est disponible que dans le cadre d'un abonnement de 30 jours.",
+  'PreciseCatNutrition.Help.title': "Besoin d'aide ?",
+  'PreciseCatNutrition.Help.text1':
+    'Nos conseillers sont de vrais experts et passionnés.',
+  'PreciseCatNutrition.Help.text2':
+    'Ils se tiennent à votre disposition pour répondre à toute demande.',
+  Discover: 'Découvrir',
+  StartAgain: 'Recommencer',
+  noWeightProblemsDsc:
+    "Il semble que votre chat n'ait pas de problème de poids, cette offre n'est donc pas adaptée pour lui. Mais vous pouvez toujours découvrir l'aliment le plus adapté à votre chat parmi notre gamme complète d’aliments",
+  'Find a vet': 'Trouver un vétérinaire',
+  moreComplexWeightDsc:
+    "Il semble que votre chat ait des problèmes de poids qui nécessitent une visite chez votre vétérinaire. Cela permettra de s'assurer qu'il reçoive une solution nutritionnelle optimale et adaptée à ses besoins spécifiques."
 };
 export default fr_FR;
