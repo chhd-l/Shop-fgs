@@ -120,9 +120,13 @@ class Header extends React.Component {
     let indvIdex = toJS(checkoutStore.cartData)?.findIndex(
       (el) => el.goodsInfoFlag == 3
     );
+    console.info('indvIdex', indvIdex);
     if (indvIdex > -1) {
-      let newCartData = toJS(checkoutStore.cartData)?.splice(indvIdex, 1);
-      checkoutStore.setCartData(newCartData);
+      let newCartData = toJS(checkoutStore.cartData);
+      if (newCartData) {
+        newCartData.splice(indvIdex, 1);
+        checkoutStore.setCartData(newCartData);
+      }
     }
     // this.props.checkoutStore.removeCartData()
     window.addEventListener('scroll', (e) => this.handleScroll(e));
