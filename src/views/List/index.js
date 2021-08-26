@@ -959,6 +959,7 @@ class List extends React.Component {
     ])
       .then((res) => {
         const routers = [...(res[0] || []), ...(res[1] || [])];
+        // console.log('666 >>> res: ',res);
         const targetRouter = routers.filter((r) => {
           const tempArr = [
             r.cateRouter,

@@ -457,13 +457,14 @@ const SubGoodsInfos = ({
                         <div
                           style={{
                             position: 'relative',
-                            paddingLeft: '26px'
+                            paddingLeft: '26px',
+                            width:'75%'
                           }}
                         >
                           <span
                             style={{
                               width: 'auto',
-                              paddingTop: '10px'
+                              paddingTop: '6px'
                             }}
                             className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
                             // onClick={() => showChangeProduct([el])}
@@ -496,7 +497,8 @@ const SubGoodsInfos = ({
                           <div
                             style={{
                               position: 'absolute',
-                              left: '-2%',
+                              left: '45%',
+                              top:-4,
                               whiteSpace: 'nowrap',
                             }}
                           >

@@ -631,7 +631,7 @@ class VisitorAddress extends React.Component {
                   key={this.state.defaultCity}
                   isLogin={false}
                   defaultCity={this.state.defaultCity}
-                  pageType="visitor"
+                  pageType="checkout"
                   updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                   updatePickupEditNumber={this.updatePickupEditNumber}
                   updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
