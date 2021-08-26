@@ -1806,7 +1806,7 @@ const fr_FR = {
   'subscriptionDetail.addNewCat': 'Ajouter un nouveau chat',
   'subscriptionDetail.addNewDog': 'Ajouter un nouveau chien',
   'subscription.seeOtherRecommendation': 'Voir autre recommandation',
-  'subscription.chooseThisProduct': 'Choisir cet aliment.',
+  'subscription.chooseThisProduct': 'Choisir cet aliment',
   'subscription.productDetails': " détails de l'aliment",
   'subscription.changeNow': 'Changer maintenant',
   'day-unit': 'journée',
