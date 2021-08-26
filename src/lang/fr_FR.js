@@ -1797,8 +1797,8 @@ const fr_FR = {
   'subscriptionDetail.editPetProfile': "Modifier le profil de l'animal",
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
-    'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',
-  'subscriptionDetail.link': 'Link a profile',
+    'Pour une meilleure expérience, nous vous recommandons de lier un profil d\'animal à votre abonnement CLUB',
+  'subscriptionDetail.link': 'Lier un profil d\'animal ',
   'subscriptionDetail.changeProduct': 'Changer d\'aliment',
   'subscriptionDetail.newProduct': 'Nouveaux aliments recommandés',
   'subscriptionDetail.linkProfile':
