@@ -574,7 +574,7 @@ class Payment extends React.Component {
         setStsToPrepare({ key: 'confirmation' });
         return;
       }
-      if (!paymentPanelHasComplete && confirmationPanelStatus.isPrepare) {
+      if (!paymentPanelHasComplete && !this.paymentMethodPanelStatus.isEdit) {
         //正在编辑的是其他面板则将paymentMethod置为prePare
         setStsToPrepare({ key: 'paymentMethod' });
       }
