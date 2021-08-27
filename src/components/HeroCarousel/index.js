@@ -7,6 +7,7 @@ import './index.less';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { stgShowAuth } from '@/utils/utils';
 
 function ATagContainer({
   children,
@@ -77,8 +78,11 @@ class HeroCarousel extends React.Component {
   }
   componentDidMount() {
     getBanner().then((res) => {
+      let bannerList = stgShowAuth()
+        ? res.context
+        : res.context.filter((el) => el.webSkipUrl != '/precise-cat-nutrition');
       this.setState({
-        banner: res.context.map((ele) => {
+        banner: bannerList.map((ele) => {
           return Object.assign(ele, {
             isOuterLinkForMobile: /^[http|https]/.test(ele.mobiSkipUrl),
             isOuterLinkForPC: /^[http|https]/.test(ele.webSkipUrl)

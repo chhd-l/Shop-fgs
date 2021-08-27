@@ -28,9 +28,9 @@ const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
 function Divider() {
   return (
-    <div className='experience-component experience-assets-divider'>
+    <div className="experience-component experience-assets-divider">
       <div
-        className='rc-border-bottom rc-border-colour--brand4'
+        className="rc-border-bottom rc-border-colour--brand4"
         style={{ borderBottomWidth: '4px' }}
       />
     </div>
@@ -96,14 +96,14 @@ class PreciseCatNutrition extends React.Component {
       <>
         <div>
           <Helmet>
-            <link rel='canonical' href={pageLink} />
+            <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
             <meta
-              name='description'
+              name="description"
               content={this.state.seoConfig.metaDescription}
             />
-            <meta name='robots' content='noindex' />
-            <meta name='keywords' content={this.state.seoConfig.metaKeywords} />
+            <meta name="robots" content="noindex" />
+            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <GoogleTagManager
             additionalEvents={event}
@@ -151,12 +151,12 @@ class PreciseCatNutrition extends React.Component {
             {/*  </div>*/}
             {/*</div>*/}
 
-            <div className='experience-component experience-layouts-1column'>
-              <div className='row rc-margin-x--none'>
-                <div className='rc-full-width'>
-                  <div className='experience-component experience-assets-headingBlock'>
-                    <div className='rc-max-width--lg text-center rc-margin-top--md'>
-                      <div className='rc-beta text-center  rc-margin-bottom--lg--mobile'>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-headingBlock">
+                    <div className="rc-max-width--lg text-center rc-margin-top--md">
+                      <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                         <div className={'row w-100'}>
                           <div
                             className={'col-12 col-md-4 text-md-right relative'}
@@ -168,7 +168,6 @@ class PreciseCatNutrition extends React.Component {
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
                               DID
-
                               <div
                                 style={{
                                   backgroundColor: '#E2001A',
@@ -181,7 +180,7 @@ class PreciseCatNutrition extends React.Component {
                                 }}
                               >
                                 <div
-                                  className='titleRadius'
+                                  className="titleRadius"
                                   style={{
                                     fontSize: 14,
                                     backgroundColor: 'white',
@@ -196,16 +195,14 @@ class PreciseCatNutrition extends React.Component {
                                     lineHeight: '18px'
                                   }}
                                 >
-
                                   You
-                                </div>
-                                {' '}
+                                </div>{' '}
                                 KNOW?
                               </div>
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
-                            <h2 className='font-weight-bold'>
+                            <h2 className="font-weight-bold">
                               THAT HEAlTH IS NOT ONE SIZE FITS ALL
                             </h2>
                           </div>
@@ -219,15 +216,15 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
             <div>
-              <div className='experience-component experience-layouts-1column'>
-                <div className='row rc-margin-x--none'>
-                  <div className='rc-full-width'>
-                    <div className='experience-component experience-assets-contentBlock'>
-                      <div className='rc-content-block rc-padding-x--sm rc-padding-x--md--mobile  content-block rc-max-width--lg'>
-                        <div className='rc-layout-container rc-two-column rc-content-h-middle flex-md-row '>
-                          <div className='rc-column'>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile  content-block rc-max-width--lg">
+                        <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
+                          <div className="rc-column">
                             <div
-                              className='lazyload-wrapper'
+                              className="lazyload-wrapper"
                               style={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -235,26 +232,26 @@ class PreciseCatNutrition extends React.Component {
                               }}
                             >
                               <img
-                                alt='With the Subscription, they will always have what they need'
-                                className='w-50 lazyloaded'
+                                alt="With the Subscription, they will always have what they need"
+                                className="w-50 lazyloaded"
                                 src={paw}
                               />
                             </div>
                           </div>
-                          <div className='rc-column didYouKnowText'>
+                          <div className="rc-column didYouKnowText">
                             <div
-                              className=' rc-full-width'
+                              className=" rc-full-width"
                               style={{ width: '99%' }}
                             >
-                              <ul className='rc-list rc-list--blank rc-list--align rc-list--large-icon'>
-                                <li className='rc-list__item flex'>
+                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                                <li className="rc-list__item flex">
                                   <div>
-                                    <FormattedMessage id='PreciseCatNutrition.DidYouKnow.paragraph1' />
+                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.paragraph1" />
                                   </div>
                                 </li>
-                                <li className='rc-list__item flex'>
+                                <li className="rc-list__item flex">
                                   <div>
-                                    <FormattedMessage id='PreciseCatNutrition.DidYouKnow.paragraph2' />
+                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.paragraph2" />
                                   </div>
                                 </li>
                                 {/*<li className="rc-list__item flex">*/}
@@ -268,7 +265,7 @@ class PreciseCatNutrition extends React.Component {
                                 {/*  </div>*/}
                                 {/*</li>*/}
                               </ul>
-                              <div className='rc-padding-x--none detextcenter'>
+                              <div className="rc-padding-x--none detextcenter">
                                 <a
                                   onClick={() => {
                                     this.toScroll('aboutPet');
@@ -278,8 +275,8 @@ class PreciseCatNutrition extends React.Component {
                                     });
                                   }}
                                 >
-                                  <button className='rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs'>
-                                    <FormattedMessage id='PreciseCatNutrition.DidYouKnow.tryIt' />
+                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.tryIt" />
                                   </button>
                                 </a>
                                 {/*<DistributeHubLinkOrATag*/}
@@ -305,18 +302,17 @@ class PreciseCatNutrition extends React.Component {
 
             {isMobile ? null : <Divider />}
 
-            <div className='experience-component experience-layouts-1column'>
-              <div className='experience-component experience-layouts-1column'>
-                <div className='row rc-margin-x--none'>
-                  <div className='rc-full-width'>
-                    <div className='experience-component experience-assets-headingBlock'>
-                      <div className='rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md'>
-                        <div className='rc-beta text-center  rc-margin-bottom--lg--mobile'>
-                          <h2 className='font-weight-bold'>
+            <div className="experience-component experience-layouts-1column">
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-headingBlock">
+                      <div className="rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md">
+                        <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
+                          <h2 className="font-weight-bold">
                             {/*{' '}*/}
                             {/*AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}*/}
-                            <FormattedMessage id='PreciseCatNutrition.AdaptedFood.title' />
-
+                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.title" />
                           </h2>
                         </div>
                         <p
@@ -327,7 +323,7 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                              <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph1' />
+                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph1" />
                           </span>
                         </p>
                         <p
@@ -338,7 +334,7 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2' />
+                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2" />
                           </span>
                         </p>
                       </div>
@@ -347,88 +343,87 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div className='experience-component experience-layouts-1column'>
-                <div className='row rc-margin-x--none'>
-                  <div className='rc-full-width'>
-                    <div className='experience-component experience-assets-contentBlock'>
-                      <div
-                        className='rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--md  content-block rc-max-width--lg'>
-                        <div className='rc-layout-container rc-two-column rc-content-h-middle flex-md-row '>
-                          <div className='rc-column'>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-bottom--md  content-block rc-max-width--lg">
+                        <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
+                          <div className="rc-column">
                             <div
-                              className=' rc-full-width'
+                              className=" rc-full-width"
                               style={{ position: 'relative' }}
                             >
-                              <ul className='rc-list rc-list--blank rc-list--align rc-list--large-icon'>
-                                <li className='rc-list__item flex'>
+                              <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                                <li className="rc-list__item flex">
                                   <div>
-                                    <em className='bingo rc-margin-right--xs'></em>
+                                    <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div>
                                     <strong>
-                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li1' />
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li1" />
                                     </strong>
                                   </div>
                                 </li>
-                                <li className='rc-list__item flex'>
+                                <li className="rc-list__item flex">
                                   <div>
-                                    <em className='bingo rc-margin-right--xs'></em>
+                                    <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div>
                                     <strong>
-                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li2' />
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li2" />
                                     </strong>
                                   </div>
                                 </li>
-                                <li className='rc-list__item flex'>
+                                <li className="rc-list__item flex">
                                   <div>
-                                    <em className='bingo rc-margin-right--xs'></em>
+                                    <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div>
                                     <strong>
-                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li3' />
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li3" />
                                     </strong>
                                   </div>
                                 </li>
-                                <li className='rc-list__item flex'>
+                                <li className="rc-list__item flex">
                                   <div>
-                                    <em className='bingo rc-margin-right--xs'></em>
+                                    <em className="bingo rc-margin-right--xs"></em>
                                   </div>
                                   <div>
                                     <strong>
-                                      <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph2.Li4' />
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li4" />
                                     </strong>
                                   </div>
                                 </li>
                               </ul>
                               <a style={{ color: 'grey' }}>
-                                <FormattedMessage id='PreciseCatNutrition.AdaptedFood.paragraph3' />
+                                <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
-                                className='rc-margin-y--sm rc-padding-x--none detextcenter'
+                                className="rc-margin-y--sm rc-padding-x--none detextcenter"
                                 style={
                                   isMobile
                                     ? {
-                                      position: 'absolute',
-                                      marginTop: '100%',
-                                      marginLeft: '11%'
-                                    }
+                                        position: 'absolute',
+                                        marginTop: '100%',
+                                        marginLeft: '11%'
+                                      }
                                     : null
                                 }
                               >
                                 <a onClick={() => this.toScroll('aboutPet')}>
-                                  <button className='rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs'>
-                                    <FormattedMessage id='PreciseCatNutrition.AdaptedFood.findFood' />
+                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                    <FormattedMessage id="PreciseCatNutrition.AdaptedFood.findFood" />
                                   </button>
                                 </a>
                               </div>
                             </div>
                           </div>
-                          <div className='rc-column'>
-                            <div className='lazyload-wrapper'>
+                          <div className="rc-column">
+                            <div className="lazyload-wrapper">
                               <img
-                                alt='With the Subscription, they will always have what they need'
-                                className='w-100 lazyloaded'
+                                alt="With the Subscription, they will always have what they need"
+                                className="w-100 lazyloaded"
                                 src={cat_wellbeing}
                               />
                             </div>
@@ -450,10 +445,10 @@ class PreciseCatNutrition extends React.Component {
               </div>
               <br />
 
-              <div className={'preciseCatNutritionTop'} id='aboutPet'>
-                <div className='row rc-margin-x--none'>
-                  <div className='rc-full-width'>
-                    <div className='experience-component experience-assets-contentBlock'>
+              <div className={'preciseCatNutritionTop'} id="aboutPet">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
                       <AboutPet />
                     </div>
                   </div>
@@ -461,13 +456,12 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            <div className='experience-component experience-layouts-1column'>
-              <div className='row rc-margin-x--none'>
-                <div className='rc-full-width'>
-                  <div className='experience-component experience-layouts-cardcarousel'>
-                    <div className='rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center'>
-                      <div
-                        className='rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left'>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-layouts-cardcarousel">
+                    <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
+                      <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
                         <p style={{ marginBottom: 0 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
@@ -482,14 +476,14 @@ class PreciseCatNutrition extends React.Component {
             </div>
             <HelpComponents />
 
-            <div className='experience-component experience-layouts-1column'>
-              <div className='row rc-margin-x--none'>
-                <div className='rc-full-width'>
-                  <div className='experience-component experience-layouts-cardcarousel'>
-                    <div className='rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center'>
-                      <div className='rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition'>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-layouts-cardcarousel">
+                    <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
+                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition">
                         <div>
-                          <h4 className='font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile'>
+                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
                             {/*Address*/}
                             <FormattedMessage id="preciseNutrition.Address.title" />
                           </h4>

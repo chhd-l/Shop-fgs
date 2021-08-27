@@ -407,7 +407,7 @@ class PayProductInfo extends React.Component {
                     </p>
                     {el.goodsInfoFlag ? (
                       <p className="mb-0">
-                        <FormattedMessage id="subscription.frequency" /> :{' '}
+                        <FormattedMessage id="subscription.frequency" />{' '}
                         <FrequencyMatch currentId={el.periodTypeId} />
                         {/* {el.goodsInfoFlag == 3 ? (
                           '30 days'
