@@ -122,7 +122,7 @@ export function stgShowAuth() {
   // }
   if (
     whiteList.includes(userInfo?.customerId) ||
-    whiteList.includes(userinfo?.customerAccount)
+    whiteList.includes(userInfo?.customerAccount)
   ) {
     //除了白名单以外的都不能看到indv的东西
     return true;
