@@ -823,6 +823,7 @@ const fr_FR = {
   newPassword: 'Nouveau mot de passe',
   newsletterFalse: 'Consultez la NEWSLETTER',
   next: 'Suivant',
+  back: 'Retourner',
   nextShipment: 'Nouvel envoi',
   noClinicTip:
     "Vous n'avez pas de code de parrainage valide? {val} vous pouvez trouver nos cliniques partenaires, où vous pouvez obtenir un code.",
@@ -1303,6 +1304,7 @@ const fr_FR = {
   setDefaltAddressFailed: "Échec de la définition de l'adresse par défaut",
   setDefaltAddressSuccess: "Définir le succès de l'adresse Defalt",
   setDefaultAddress: 'Définir comme adresse par défaut',
+  setMyaccountDefaultAddress: 'Définir comme adresse par défaut',
   setDefaultPaymentMethod: 'Définir comme mode de paiement par défaut',
   prevShipmentOn: 'Expédition le',
   nextShipmentOn: 'Expédition le',
@@ -2122,6 +2124,45 @@ const fr_FR = {
     "Il semble que votre chat n'ait pas de problème de poids, cette offre n'est donc pas adaptée pour lui. Mais vous pouvez toujours découvrir l'aliment le plus adapté à votre chat parmi notre gamme complète d’aliments",
   'Find a vet': 'Trouver un vétérinaire',
   moreComplexWeightDsc:
-    "Il semble que votre chat ait des problèmes de poids qui nécessitent une visite chez votre vétérinaire. Cela permettra de s'assurer qu'il reçoive une solution nutritionnelle optimale et adaptée à ses besoins spécifiques."
+    "Il semble que votre chat ait des problèmes de poids qui nécessitent une visite chez votre vétérinaire. Cela permettra de s'assurer qu'il reçoive une solution nutritionnelle optimale et adaptée à ses besoins spécifiques.",
+
+  'preciseNutrition.bsc3.1': 'Côtes visibles chez les chats à poil court',
+  'preciseNutrition.bsc3.2': 'Taille évidente',
+  'preciseNutrition.bsc3.3': 'Une très petite quantité de graisse abdominale',
+  'preciseNutrition.bsc3.4':
+    "Vu de côté, l'abdomen semble replié derrière la cage thoracique",
+
+  'preciseNutrition.bsc4.1':
+    'Les côtes ne sont pas visibles mais on peut les sentir facilement',
+  'preciseNutrition.bsc4.2': 'Taille évidente',
+  'preciseNutrition.bsc4.3': 'Une quantité minimale de graisse abdominale',
+  'preciseNutrition.bsc4.4': "Léger repli de l'abdomen vu de côté",
+
+  'preciseNutrition.bsc5.1':
+    'Corps bien proportionné vu de dessus et de profil',
+  'preciseNutrition.bsc5.2': 'Côtes non visibles mais facilement palpables',
+  'preciseNutrition.bsc5.3': 'Taille évidente',
+  'preciseNutrition.bsc5.4': 'Une petite quantité de graisse abdominale',
+  'preciseNutrition.bsc5.5': "Léger repli de l'abdomen vu de profil",
+
+  'preciseNutrition.bsc6.1':
+    'Les côtes ne sont pas visibles mais on peut les sentir',
+  'preciseNutrition.bsc6.2':
+    "La taille n'est pas clairement définie lorsqu'elle est vue du dessus",
+  'preciseNutrition.bsc6.3': "Très léger repli de l'abdomen vu de profil",
+
+  'preciseNutrition.bsc7.1':
+    'Les côtes sont difficiles à sentir sous la graisse',
+  'preciseNutrition.bsc7.2': 'La taille est à peine visible',
+  'preciseNutrition.bsc7.3':
+    "Vu de côté, l'abdomen n'apparaît pas replié derrière la cage thoracique",
+  'preciseNutrition.bsc7.4': "Arrondissement de l'abdomen",
+
+  'preciseNutrition.bscTip':
+    "Pour évaluer correctement l'état corporel de votre chat, suivez ces quelques étapes simples :",
+  'preciseNutrition.bscTip1':
+    '1. Regardez votre chat de haut en bas et de côté.',
+  'preciseNutrition.bscTip2':
+    '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.'
 };
 export default fr_FR;

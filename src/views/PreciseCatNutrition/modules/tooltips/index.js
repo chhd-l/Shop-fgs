@@ -1,5 +1,6 @@
 import React from 'react';
-export default function Tooltips({ description }) {
+import { FormattedMessage } from 'react-intl';
+export default function Tooltips({ description, isArray = false }) {
   const putId = (e) => {
     e.persist();
     e.nativeEvent.stopImmediatePropagation();
@@ -18,7 +19,21 @@ export default function Tooltips({ description }) {
   return (
     <span className="iconfont-box">
       <i className="iconfont iconinfo" onClick={(e) => putId(e)}></i>
-      <div className="question-tooltip">{description}</div>
+      {isArray ? (
+        <div className="question-tooltip">
+          <div>
+            <FormattedMessage id="preciseNutrition.bscTip" />
+          </div>
+          <div>
+            <FormattedMessage id="preciseNutrition.bscTip1" />
+          </div>
+          <div>
+            <FormattedMessage id="preciseNutrition.bscTip2" />
+          </div>
+        </div>
+      ) : (
+        <div className="question-tooltip">{description}</div>
+      )}
     </span>
   );
 }

@@ -872,6 +872,7 @@ const tr_TR = {
   setDefaltAddressFailed: 'Defalt Adresini Ayarlama Başarısız',
   setDefaltAddressSuccess: 'Defalt Adres Başarısını Ayarla',
   setDefaultAddress: 'Varsayılan adres olarak ayarla',
+  setMyaccountDefaultAddress: 'Varsayılan adres olarak ayarla',
   setDefaultPaymentMethod: 'Varsayılan Ödeme yöntemi olarak ayarla',
   shipping: 'İndirim',
   shippingAddress: 'Adres Yönetimi',
