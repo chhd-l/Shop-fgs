@@ -1303,6 +1303,7 @@ const fr_FR = {
   setDefaltAddressFailed: "Échec de la définition de l'adresse par défaut",
   setDefaltAddressSuccess: "Définir le succès de l'adresse Defalt",
   setDefaultAddress: 'Définir comme adresse par défaut',
+  setMyaccountDefaultAddress: 'Définir comme adresse par défaut',
   setDefaultPaymentMethod: 'Définir comme mode de paiement par défaut',
   prevShipmentOn: 'Expédition le',
   nextShipmentOn: 'Expédition le',

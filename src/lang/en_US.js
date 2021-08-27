@@ -1347,6 +1347,7 @@ const en_US = {
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Set as default address',
+  setMyaccountDefaultAddress: 'Set as default address',
   setDefaultPaymentMethod: 'Set as Default Payment method',
   prevShipmentOn: 'Shipment on',
   nextShipmentOn: 'Shipment on',
