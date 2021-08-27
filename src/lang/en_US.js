@@ -893,6 +893,7 @@ const en_US = {
   newAddress: 'New address',
   newPassword: 'New Password',
   next: 'Next',
+  back: 'Back',
   nextShipment: 'Next shipment',
   noClinicTip:
     'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
@@ -1752,6 +1753,41 @@ const en_US = {
   'preciseNutrition.Product.list.content3':
     'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'preciseNutrition.bsc3.1': 'Ribs visible on shorthaired cats',
+  'preciseNutrition.bsc3.2': 'Obvious waist',
+  'preciseNutrition.bsc3.3': 'A very small amount of abdominal fat',
+  'preciseNutrition.bsc3.4':
+    'When viewed from the side, their abdomen appears tucked up behind their rib cage',
+
+  'preciseNutrition.bsc4.1': 'Ribs are not visible but can be easily felt',
+  'preciseNutrition.bsc4.2': 'Obvious waist',
+  'preciseNutrition.bsc4.3': 'A minimal amount of abdominal fat',
+  'preciseNutrition.bsc4.4': 'Slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc5.1':
+    'Well proportioned body when viewed from above and from the side',
+  'preciseNutrition.bsc5.2': 'Ribs not visible but can be easily felt',
+  'preciseNutrition.bsc5.3': 'Obvious waist',
+  'preciseNutrition.bsc5.4': 'A small amount of abdominal fat',
+  'preciseNutrition.bsc5.5': 'Slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc6.1': 'Ribs are not visible but can be felt',
+  'preciseNutrition.bsc6.2': 'Waist not clearly defined when seen from above',
+  'preciseNutrition.bsc6.3':
+    'Very slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc7.1': 'Ribs are difficult to feel under the fat',
+  'preciseNutrition.bsc7.2': 'Waist barely visible',
+  'preciseNutrition.bsc7.3':
+    'When viewed from the side, their abdomen does not appear tucked up behind their rib cage',
+  'preciseNutrition.bsc7.4': 'Rounding of the abdomen',
+
+  'preciseNutrition.bscTip':
+    'To correctly assess your cat’s body follow this simple steps:',
+  'preciseNutrition.bscTip1':
+    '1. Look at your cat from above and from the side',
+  'preciseNutrition.bscTip2':
+    '2. Feel your cat’s body, gently applying pressure to find the ribs'
 };
 export default en_US;

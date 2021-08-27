@@ -333,7 +333,7 @@ function AboutPet() {
                   }}
                   disabled={canNext}
                 >
-                  Next
+                  <FormattedMessage id="next" />
                 </button>
               </div>
               {step > 1 ? (
@@ -344,7 +344,9 @@ function AboutPet() {
                     goBack(step);
                   }}
                 >
-                  <span className="back-btn">Back</span>
+                  <span className="back-btn">
+                    <FormattedMessage id="back" />
+                  </span>
                 </div>
               ) : (
                 ''
