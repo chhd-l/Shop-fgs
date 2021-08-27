@@ -1116,12 +1116,8 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const {
-      checkoutLoading,
-      discount,
-      mobileCartVisibleKey,
-      promotionCode
-    } = this.state;
+    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
+      this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (
@@ -1520,7 +1516,9 @@ class UnLoginCart extends React.Component {
           },
           () => {
             // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            result.code === 'K-000000' && this.handleClickPromotionApply(true);
+            result &&
+              result.code === 'K-000000' &&
+              this.handleClickPromotionApply(true);
           }
         );
       }, 4000);
