@@ -1789,6 +1789,8 @@ class AddressList extends React.Component {
           >
             <span className="font-weight-bold">{item.consigneeName}</span>
             <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
+              {item.consigneeNumber}
+              <br />
               {this.setAddressFields(item)}
               {item.deliveryDate && item.timeSlot ? (
                 <>
