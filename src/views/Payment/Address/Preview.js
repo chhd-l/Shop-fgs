@@ -112,7 +112,7 @@ class AddressPreview extends React.Component {
               )}
             </p>
             {/* 是否存在运费 */}
-            {/* {form?.item?.minDeliveryTime && (
+            {form?.item?.minDeliveryTime && (
               <>
                 <p className="preview_delivery_date">
                   {form.item.minDeliveryTime == form.item.maxDeliveryTime ? (
@@ -133,7 +133,7 @@ class AddressPreview extends React.Component {
                   )}
                 </p>
               </>
-            )} */}
+            )}
             <p className="preview_pickup_address">{form.address1}</p>
             <p className="preview_pickup_worktime">{form.workTime}</p>
           </>

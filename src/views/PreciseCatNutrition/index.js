@@ -88,6 +88,7 @@ class PreciseCatNutrition extends React.Component {
       anchorElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   render() {
     const { history, match, location } = this.props;
 
@@ -167,7 +168,6 @@ class PreciseCatNutrition extends React.Component {
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
                               DID
-
                               <div
                                 style={{
                                   backgroundColor: '#E2001A',
@@ -176,7 +176,7 @@ class PreciseCatNutrition extends React.Component {
                                   padding: ' 5px 5px',
                                   margin: '0px 0px 0 20px',
                                   fontWeight: 300,
-                                  position:'relative'
+                                  position: 'relative'
                                 }}
                               >
                                 <div
@@ -192,13 +192,11 @@ class PreciseCatNutrition extends React.Component {
                                     top: 12,
                                     padding: 4,
                                     fontWeight: 500,
-                                    lineHeight:'18px'
+                                    lineHeight: '18px'
                                   }}
                                 >
-
                                   You
-                                </div>
-                                {' '}
+                                </div>{' '}
                                 KNOW?
                               </div>
                             </h2>
@@ -248,31 +246,24 @@ class PreciseCatNutrition extends React.Component {
                               <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                                 <li className="rc-list__item flex">
                                   <div>
-                                    Did you know that each cat have specific
-                                    needs depending on their unique
-                                    characteristic ?
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content1" />*/}
+                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.paragraph1" />
                                   </div>
                                 </li>
                                 <li className="rc-list__item flex">
                                   <div>
-                                    Their lifestage. breed, activity, conditions
-                                    play a rôle in their nutritional needs, but
-                                    also on the quantity they'should eat.
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content2" />*/}
+                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.paragraph2" />
                                   </div>
                                 </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    Therefore, having a complete & balanced diet
-                                    is key to support their health. An
-                                    inappropriated food and portion could lead
-                                    to overweight or even obesity, impacting
-                                    significantly your cat's wellbeing and
-                                    decreasing up to 2 years his lifespan*.
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content3" />*/}
-                                  </div>
-                                </li>
+                                {/*<li className="rc-list__item flex">*/}
+                                {/*  <div>*/}
+                                {/*    Therefore, having a complete & balanced diet*/}
+                                {/*    is key to support their health. An*/}
+                                {/*    inappropriated food and portion could lead*/}
+                                {/*    to overweight or even obesity, impacting*/}
+                                {/*    significantly your cat's wellbeing and*/}
+                                {/*    decreasing up to 2 years his lifespan*.*/}
+                                {/*  </div>*/}
+                                {/*</li>*/}
                               </ul>
                               <div className="rc-padding-x--none detextcenter">
                                 <a
@@ -285,8 +276,7 @@ class PreciseCatNutrition extends React.Component {
                                   }}
                                 >
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
-                                    {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
-                                    <a>try it now</a>
+                                    <FormattedMessage id="PreciseCatNutrition.DidYouKnow.tryIt" />
                                   </button>
                                 </a>
                                 {/*<DistributeHubLinkOrATag*/}
@@ -320,10 +310,10 @@ class PreciseCatNutrition extends React.Component {
                       <div className="rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md">
                         <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                           <h2 className="font-weight-bold">
-                            {' '}
-                            AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}
+                            {/*{' '}*/}
+                            {/*AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}*/}
+                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.title" />
                           </h2>
-                          {/*<FormattedMessage id="ClubLP.Advantage.title" />*/}
                         </div>
                         <p
                           style={{
@@ -333,10 +323,7 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            Our subscription program is free from engagement and
-                            will provide to your cat the most adapted diet for
-                            weight management* and a personalized packaging for
-                            ideal portioning.
+                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph1" />
                           </span>
                         </p>
                         <p
@@ -347,8 +334,7 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            This offer is the result of our brand purpose to
-                            improve cat's health & wellbeing, thanks to:
+                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2" />
                           </span>
                         </p>
                       </div>
@@ -375,33 +361,7 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                   <div>
                                     <strong>
-                                      50 years of experience creating precise
-                                      nutritional formulas
-                                    </strong>
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content1" />*/}
-                                  </div>
-                                </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
-                                  </div>
-                                  <div>
-                                    <strong>
-                                      A long partnership with pe experts like
-                                      veterinarian, nutritionist, breeders ...
-                                    </strong>
-                                    {/*<FormattedMessage id="ClubLP.Advantage.content2" />*/}
-                                  </div>
-                                </li>
-                                <li className="rc-list__item flex">
-                                  <div>
-                                    <em className="bingo rc-margin-right--xs"></em>
-                                  </div>
-                                  <div>
-                                    <strong>
-                                      A science-based approach with proven fact
-                                      & benefits
-                                      {/*<FormattedMessage id="ClubLP.Advantage.content3" />*/}
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li1" />
                                     </strong>
                                   </div>
                                 </li>
@@ -411,18 +371,33 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                   <div>
                                     <strong>
-                                      A priority to source quality nutrients
-                                      from sustainablesources with low carbon
-                                      footprint
-                                      {/*<FormattedMessage id="ClubLP.Advantage.content4" />*/}
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li2" />
+                                    </strong>
+                                  </div>
+                                </li>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div>
+                                    <strong>
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li3" />
+                                    </strong>
+                                  </div>
+                                </li>
+                                <li className="rc-list__item flex">
+                                  <div>
+                                    <em className="bingo rc-margin-right--xs"></em>
+                                  </div>
+                                  <div>
+                                    <strong>
+                                      <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph2.Li4" />
                                     </strong>
                                   </div>
                                 </li>
                               </ul>
                               <a style={{ color: 'grey' }}>
-                                *this ofter is not adapted to cat ufering from
-                                obesity. In suchcase we recommend you to visit a
-                                vet first.
+                                <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
                                 className="rc-margin-y--sm rc-padding-x--none detextcenter"
@@ -438,8 +413,7 @@ class PreciseCatNutrition extends React.Component {
                               >
                                 <a onClick={() => this.toScroll('aboutPet')}>
                                   <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
-                                    {/*<FormattedMessage id="ClubLP.Advantage.button" />*/}
-                                    Find your tailored food now
+                                    <FormattedMessage id="PreciseCatNutrition.AdaptedFood.findFood" />
                                   </button>
                                 </a>
                               </div>
@@ -489,16 +463,10 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                       <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
                         <p style={{ marginBottom: 0 }}>
-                          * Overweight can shorten an animal's life by up to 2
-                          years. And it can increase the risk of diabetes,
-                          urinary tract diseases, arthritis and skin problems.
-                          Salt C et al. Association between life span and body
-                          condition in neutered client-owned dogs. J Vet Intern
-                          Med 2018; 1-11
+                          <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
                         <p>
-                          [1] This is just a figurative price but the
-                          subscription is only available for 30 days.
+                          <FormattedMessage id="PreciseCatNutrition.Notes2" />
                         </p>
                       </div>
                     </div>
@@ -516,20 +484,20 @@ class PreciseCatNutrition extends React.Component {
                       <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition">
                         <div>
                           <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
-                            Address
-                            {/*<FormattedMessage id="ClubLP.Help.title" />*/}
+                            {/*Address*/}
+                            <FormattedMessage id="preciseNutrition.Address.title" />
                           </h4>
                         </div>
                         <p style={{ marginBottom: 0 }}>
                           <span>
-                            Service Consommateur Royal Canin France 650 avenue
-                            de la petite Camargue
-                            {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
+                            {/*Service Consommateur Royal Canin France 650 avenue*/}
+                            {/*de la petite Camargue*/}
+                            <FormattedMessage id="preciseNutrition.Address.secondLine" />
                           </span>
                         </p>
                         <p>
-                          {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
-                          30470 AIMARGUES
+                          <FormattedMessage id="preciseNutrition.Address.thirdLine" />
+                          {/*30470 AIMARGUES*/}
                         </p>
                       </div>
                     </div>

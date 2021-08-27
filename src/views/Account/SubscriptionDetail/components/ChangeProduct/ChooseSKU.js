@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import ShowErrorDom from '../ShowErrorDom';
@@ -36,14 +36,18 @@ const ChooseSKU = ({ intl }) => {
     setCurrentGoodsItems,
     currentGoodsItems
   } = ChangeProductValue;
-  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] =
-    useState(null);
+  const [currentSubscriptionPrice, setCurrentSubscriptionPrice] = useState(
+    null
+  );
   const [currentSubscriptionStatus, setCurrentSubscriptionStatus] = useState(
     {}
   );
   const [skuPromotions, setSkuPromotions] = useState(0);
   const [stock, setStock] = useState(0);
   let timer = null;
+  useEffect(() => {
+    setSkuPromotions(0);
+  }, [details?.goodsInfos]);
   const isNotInactive =
     subDetail.subscribeStatus === '0' || subDetail.subscribeStatus === '1';
   const matchGoods = (data, sizeList) => {
@@ -176,10 +180,6 @@ const ChooseSKU = ({ intl }) => {
     }
   };
   const changeSubDetail = (goodsInfo, skuid) => {
-    console.info('//////////////////////////////////');
-    console.info(skuid);
-    console.info(goodsInfo[0].skuId);
-    //debugger;
     let el = goodsInfo?.find((e) => e.skuId == skuid);
     // setState({triggerShowChangeProduct:Object.assign(
     //   {},

@@ -44,6 +44,16 @@ class ConfigStore {
     return this.info?.customTaxSettingOpenFlag;
   }
 
+  // homeDelivery 开关
+  @computed get isHomeDeliveryOpen() {
+    return this.info?.deliveryConfig?.HOME_DELIVERY || null;
+  }
+
+  // pickup 开关
+  @computed get isPickupOpen() {
+    return this.info?.deliveryConfig?.PICK_UP || null;
+  }
+
   // 买入价格开关 0：含税，1：不含税
   @computed get enterPriceType() {
     return (

@@ -42,19 +42,24 @@ const LongBanner = () => {
                   }}
                 >
                   <h1 className={'longBannerTitle'} style={{ fontWeight: 700 }}>
-                    GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY
-                    WEIGHT !
+                    <FormattedMessage id="PreciseCatNutrition.LongBanner.title" />
+
+                    {/*GIVE YOUR CAT THE MOST PRECISE DIET & PORTION FOR A HEALTHY*/}
+                    {/*WEIGHT !*/}
                   </h1>
 
                   <p style={{ fontSize: '0.6em', color: '#555555', margin: 0 }}>
-                    average price
-                    {/*<FormattedMessage id="ClubLP.LongBanner.content" />*/}
+                    <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice1" />
                   </p>
-                  <strong style={{ color: '#000000' }}>0,90€ / day</strong>
+                  <strong style={{ color: '#000000' }}>
+                    <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
+                  </strong>
                   <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
                     [1]
                   </sup>
-                  <p style={{ color: '#555555' }}>25,50€ / month</p>
+                  <p style={{ color: '#555555' }}>
+                    <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice3" />
+                  </p>
                   <a
                     onClick={() => {
                       toScroll('aboutPet');
@@ -70,8 +75,7 @@ const LongBanner = () => {
                       }}
                       className="rc-btn rc-btn--one "
                     >
-                      Subscribe now
-                      {/*<FormattedMessage id="ClubLP.LongBanner.button" />*/}
+                      <FormattedMessage id="PreciseCatNutrition.LongBanner.button" />
                     </button>
                   </a>
                   {/*<DistributeHubLinkOrATag*/}
@@ -89,7 +93,7 @@ const LongBanner = () => {
                   {/*    className="rc-btn rc-btn--one "*/}
                   {/*  >*/}
                   {/*    Subscribe now*/}
-                  {/*    /!*<FormattedMessage id="ClubLP.LongBanner.button" />*!/*/}
+                  {/*    /!*<FormattedMessage id="PreciseCatNutrition.LongBanner.button" />*!/*/}
                   {/*  </button>*/}
                   {/*</DistributeHubLinkOrATag>*/}
                   {/*<div className='d-flex' style={{flexDirection:'row'}}>*/}
@@ -97,7 +101,7 @@ const LongBanner = () => {
                   {/*  <div style={{display:'flex',flexDirection:'column'}}>*/}
                   {/*    <p style={{ fontSize: '0.6em', color: '#555555' }}>*/}
                   {/*      average price*/}
-                  {/*      /!*<FormattedMessage id="ClubLP.LongBanner.content" />*!/*/}
+                  {/*      /!*<FormattedMessage id="PreciseCatNutrition.LongBanner.content" />*!/*/}
                   {/*    </p>*/}
                   {/*    <h3 style={{ color: '#000000' }}>*/}
                   {/*      0,90€ / day*/}
@@ -118,7 +122,7 @@ const LongBanner = () => {
                   {/*        className='rc-btn rc-btn--one '*/}
                   {/*      >*/}
                   {/*        Subscribe now*/}
-                  {/*        /!*<FormattedMessage id="ClubLP.LongBanner.button" />*!/*/}
+                  {/*        /!*<FormattedMessage id="PreciseCatNutrition.LongBanner.button" />*!/*/}
                   {/*      </button>*/}
                   {/*    </DistributeHubLinkOrATag>*/}
                   {/*  </div>*/}
@@ -182,14 +186,19 @@ const LongBanner = () => {
               }}
             >
               <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
-              <h6> on first order </h6>
+              <h6 style={{ fontSize: 14 }}>
+                <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
+              </h6>
             </div>
           </div>
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm">
-                  YOUR CAT'S BENEFITS
+                <h4
+                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm"
+                  style={{ position: 'relative', zIndex: 10 }}
+                >
+                  <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />
                 </h4>
 
                 <div className="value-proposition__container">
@@ -208,9 +217,9 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            The right diet adapted to support your cat's optimal
-                            weight
-                            {/*<FormattedMessage id={'ClubLP.SubscriptionBenefitsNew.icon1'} />*/}
+                            <FormattedMessage
+                              id={'PreciseCatNutrition.LongBanner.benefits1'}
+                            />
                           </strong>
                         </div>
                       </div>
@@ -229,11 +238,9 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            Individualize ration calculated for your cat's
-                            unique characteristics.
-                            {/*<FormattedMessage*/}
-                            {/*  id={'ClubLP.SubscriptionBenefitsNew.icon2'}*/}
-                            {/*/>*/}
+                            <FormattedMessage
+                              id={'PreciseCatNutrition.LongBanner.benefits2'}
+                            />
                           </strong>
                         </div>
                       </div>
@@ -252,11 +259,9 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            High quality nutrients chosen for their high
-                            nutritonal value
-                            {/*<FormattedMessage*/}
-                            {/*  id={'ClubLP.SubscriptionBenefitsNew.icon3'}*/}
-                            {/*/>*/}
+                            <FormattedMessage
+                              id={'PreciseCatNutrition.LongBanner.benefits3'}
+                            />
                           </strong>
                         </div>
                       </div>

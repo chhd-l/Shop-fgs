@@ -9,7 +9,7 @@ class DetailsDisplay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modelShow: false
+      modalShow: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -44,8 +44,8 @@ class DetailsDisplay extends React.Component {
                   height: '780vh',
                   position: 'fixed',
                   display: 'block',
-                  // background: '#9e9e9e',
-                  background: '#000',
+                  background: '#9e9e9e',
+                  // background: '#000',
                   opacity: '0.80'
                 }
               : { top: 'auto' }
@@ -61,7 +61,7 @@ class DetailsDisplay extends React.Component {
                       <div className="rc-max-width--lg text-center rc-margin-y--md">
                         <div>
                           <h4
-                            className="rc-beta font-weight-bold text-center rc-padding-x--md--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                            className="rc-beta font-weight-bold text-center text-uppercase rc-padding-x--md--mobile rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
                             style={{ fontSize: isMobile ? '18px' : null }}
                           >
                             <FormattedMessage id="preciseNutrition.Details.title" />

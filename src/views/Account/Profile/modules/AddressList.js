@@ -134,6 +134,8 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
+      isPickupOpen: this.props.configStore?.isPickupOpen,
       addressAddOrEditFlag: '', // pickup标记
       pickupVisible: false,
       editFormVisible: false, // 显示homeDelivery编辑状态
@@ -448,7 +450,7 @@ class AddressList extends React.Component {
         operateBtnJSX={
           <div className="d-flex flex-column justify-content-between">
             {/* 设置默认地址按钮 */}
-            <div className="d-flex justify-content-end mb-3">
+            <div className={`d-flex justify-content-end mb-3`}>
               <div className="align-items-center">
                 <div className="rc-input rc-input--inline mr-0">
                   <input
@@ -474,42 +476,95 @@ class AddressList extends React.Component {
             <div className="d-flex justify-content-end mb-0">
               <div
                 className="d-flex align-items-center"
-                style={{ flexFlow: 'wrap', justifyContent: 'flex-end' }}
+                style={{
+                  flexFlow: 'wrap',
+                  justifyContent:
+                    isMobile && item.receiveType === 'PICK_UP'
+                      ? 'center'
+                      : 'flex-end'
+                }}
               >
-                {/* 删除按钮 */}
-                <span className="d-flex position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box">
-                  <span
-                    className="rc-styled-link"
-                    onClick={this.handleClickDeleteBtn.bind(this, item)}
-                    // style={isPad? {position: 'absolute',top: '1.25rem',right: '1.5rem'}: {}}
-                  >
-                    <FormattedMessage id="delete" />
-                  </span>
-                  {/* 删除询问弹框 */}
-                  <ConfirmTooltip
-                    containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                    arrowStyle={{ left: '89%' }}
-                    display={item.confirmTooltipVisible}
-                    confirm={this.deleteCard.bind(this, item)}
-                    updateChildDisplay={(status) =>
-                      this.deleteConfirmTooltipVisible(item, status)
-                    }
-                    content={<FormattedMessage id="confirmDeleteAddress" />}
-                  />
-                </span>
+                {isMobile && item.receiveType === 'PICK_UP' ? (
+                  <>
+                    {/* 编辑按钮 */}
+                    <button
+                      className={`rc-btn rc-btn--sm rc-btn--two font-weight-bold ${
+                        isMobile ? 'mb-3' : ''
+                      }`}
+                      onClick={this.handleEditAddress.bind(this, item)}
+                      style={{ fontSize: '12px' }}
+                    >
+                      {item.receiveType === 'PICK_UP' ? (
+                        <FormattedMessage id="payment.changePickup" />
+                      ) : (
+                        <FormattedMessage id="edit" />
+                      )}
+                    </button>
 
-                {/* 编辑按钮 */}
-                <button
-                  className={`rc-btn rc-btn--sm rc-btn--two`}
-                  onClick={this.handleEditAddress.bind(this, item)}
-                  style={{ fontSize: '12px' }}
-                >
-                  {item.receiveType === 'PICK_UP' ? (
-                    <FormattedMessage id="payment.changePickup" />
-                  ) : (
-                    <FormattedMessage id="edit" />
-                  )}
-                </button>
+                    {/* 删除按钮 */}
+                    <span
+                      className={`d-flex position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box`}
+                    >
+                      <span
+                        className="rc-styled-link"
+                        onClick={this.handleClickDeleteBtn.bind(this, item)}
+                        // style={isPad? {position: 'absolute',top: '1.25rem',right: '1.5rem'}: {}}
+                      >
+                        <FormattedMessage id="delete" />
+                      </span>
+                      {/* 删除询问弹框 */}
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={item.confirmTooltipVisible}
+                        confirm={this.deleteCard.bind(this, item)}
+                        updateChildDisplay={(status) =>
+                          this.deleteConfirmTooltipVisible(item, status)
+                        }
+                        content={<FormattedMessage id="confirmDeleteAddress" />}
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    {/* 删除按钮 */}
+                    <span
+                      className={`d-flex position-relative p-2 ui-cursor-pointer-pure mr-2 delete_card_box mb-3}`}
+                    >
+                      <span
+                        className="rc-styled-link"
+                        onClick={this.handleClickDeleteBtn.bind(this, item)}
+                        // style={isPad? {position: 'absolute',top: '1.25rem',right: '1.5rem'}: {}}
+                      >
+                        <FormattedMessage id="delete" />
+                      </span>
+                      {/* 删除询问弹框 */}
+                      <ConfirmTooltip
+                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                        arrowStyle={{ left: '89%' }}
+                        display={item.confirmTooltipVisible}
+                        confirm={this.deleteCard.bind(this, item)}
+                        updateChildDisplay={(status) =>
+                          this.deleteConfirmTooltipVisible(item, status)
+                        }
+                        content={<FormattedMessage id="confirmDeleteAddress" />}
+                      />
+                    </span>
+
+                    {/* 编辑按钮 */}
+                    <button
+                      className={`rc-btn rc-btn--sm rc-btn--two font-weight-bold`}
+                      onClick={this.handleEditAddress.bind(this, item)}
+                      style={{ fontSize: '12px' }}
+                    >
+                      {item.receiveType === 'PICK_UP' ? (
+                        <FormattedMessage id="payment.changePickup" />
+                      ) : (
+                        <FormattedMessage id="edit" />
+                      )}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -578,6 +633,7 @@ class AddressList extends React.Component {
           pickupDescription: pickupFormData?.pickupDescription,
           pickupCode: pickupFormData?.pickupCode, // 快递公司code
           pickupName: pickupFormData?.pickupName, // 快递公司
+          paymentMethods: pickupFormData?.paymentMethods, // 支付方式
           workTime: pickupFormData.workTime, // 快递公司上班时间
           receiveType: pickupFormData.receiveType, // HOME_DELIVERY , PICK_UP
           deliverWay: receiveType == 'HOME_DELIVERY' ? 1 : 2, // 1: HOMEDELIVERY , 2: PICKUP
@@ -641,7 +697,8 @@ class AddressList extends React.Component {
       defaultCity,
       confirmBtnDisabled,
       saveBtnLoading,
-      pickupFormData
+      pickupFormData,
+      isPickupOpen
     } = this.state;
 
     return (
@@ -737,7 +794,7 @@ class AddressList extends React.Component {
                       </div>
                     </div>
 
-                    {window.__.env.REACT_APP_COUNTRY == 'ru' ? (
+                    {isPickupOpen ? (
                       <>
                         {/* pickup 地址 */}
                         {this.addressTypePanel('pickup')}

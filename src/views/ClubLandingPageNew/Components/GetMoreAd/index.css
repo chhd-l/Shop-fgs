@@ -9,6 +9,11 @@
 }
 
 @media (max-width: 639.98px) {
+  .one-time-purchase-box {
+    box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
+    margin: 0 2rem;
+    padding: 1.5rem 0;
+  }
   .flexColumn {
     flex-direction: column;
   }
@@ -16,7 +21,7 @@
     /* width: 80vw; */
     /* margin-left: 7vw; */
     /* height: 41vh; */
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
   }
   .dewidthsmall {
     /* width: 80vw; */
@@ -80,6 +85,7 @@
   }
   .margintoppx {
     margin-top: 60px;
+    margin-bottom: 60px;
   }
   .margintop15vh {
     margin-top: 25px;

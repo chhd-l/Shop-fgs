@@ -542,32 +542,41 @@ class Payment extends React.Component {
     //cardholderName, cardNumber, expirationMonth, expirationYear, securityCode变化时去查询卡类型---end---
     this.setState({ cyberPaymentForm });
   };
-  //判断是否是0元订单，0元订单的话隐藏paymentMethod
+  //判断是否是0元订单，0元订单处理：隐藏paymentMethod，用户不用填写支付信息
   handleZeroOrder() {
-    const { paymentStore } = this.props;
+    const {
+      setStsToCompleted,
+      setStsToEdit,
+      setStsToPrepare,
+      confirmationPanelStatus
+    } = this.props.paymentStore;
+    const { paymentPanelHasComplete } = this.state;
 
-    //0元订单情况处理：不需要填写支付信息，将paymentMethod面板置为已完成
     if (this.tradePrice === 0) {
+      //变成0元订单
       if (this.paymentMethodPanelStatus.isEdit) {
         //如果当前正在编辑的是paymentInfo,隐藏paymentMethod面板去编辑confirmation面板
-        paymentStore.setStsToCompleted({
+        setStsToCompleted({
           key: 'paymentMethod'
         });
-        paymentStore.setStsToEdit({ key: 'confirmation' });
+        setStsToEdit({ key: 'confirmation' });
       } else {
         //正在编辑其他面板的话只需要将paymentMethod面板隐藏
-        paymentStore.setStsToCompleted({
+        setStsToCompleted({
           key: 'paymentMethod'
         });
       }
     } else {
-      //突然变成不是0元订单且正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
-      if (
-        !this.state.paymentPanelHasComplete &&
-        paymentStore.confirmationPanelStatus.isEdit
-      ) {
-        paymentStore.setStsToEdit({ key: 'paymentMethod' });
-        paymentStore.setStsToPrepare({ key: 'confirmation' });
+      //变成不是0元订单
+      if (!paymentPanelHasComplete && confirmationPanelStatus.isEdit) {
+        //正在编辑的是confirm面板而且payment没有编辑完，切回payment面板
+        setStsToEdit({ key: 'paymentMethod' });
+        setStsToPrepare({ key: 'confirmation' });
+        return;
+      }
+      if (!paymentPanelHasComplete && confirmationPanelStatus.isPrepare) {
+        //正在编辑的是其他面板则将paymentMethod置为prePare
+        setStsToPrepare({ key: 'paymentMethod' });
       }
     }
   }
@@ -575,8 +584,12 @@ class Payment extends React.Component {
     const { paymentStore } = this.props;
     const { tid } = this.state;
 
-    //0元订单将paymentMethod面板置为已完成
-    this.handleZeroOrder();
+    //初始化的时候如果是0元订单将paymentMethod面板置为已完成
+    if (this.tradePrice === 0 && !tid) {
+      paymentStore.setStsToCompleted({
+        key: 'paymentMethod'
+      });
+    }
 
     // repay情况下，地址信息不可编辑，直接置为
     if (tid) {
@@ -2119,7 +2132,7 @@ class Payment extends React.Component {
       param.deliverWay = 2;
     }
 
-    console.log('666 ★★ -- Payment param: ', param);
+    // console.log('666 ★★ -- Payment param: ', param);
 
     // PayProductInfo 组件中用到的参数
     localItemRoyal.set('rc-payment-purchases-param', param);
@@ -2151,16 +2164,11 @@ class Payment extends React.Component {
           // 1、cod: cash & card，则shop展示cod和卡支付
           // 2、cod: cash 或 card，则shop展示cod和卡支付
           // 3、无返回，则shop展示卡支付
-          let pmd = this.state.deliveryAddress?.pickup?.paymentMethods || null;
-          console.log('666 -- data: ', data);
-          console.log('666 -- pmd: ', pmd);
+          let pmd = data?.paymentMethods || null;
           let pickupPayMethods = null;
-          if (pmd?.length) {
-            pickupPayMethods = pmd[0].split('_')[0].toLocaleLowerCase();
+          if (pmd == 'cod') {
+            pickupPayMethods = pmd;
           } else {
-            // 是否是代客购买
-            // let potalValetOrder = sessionItemRoyal.get('rc-iframe-from-storepotal') || null;
-            // if (!potalValetOrder && data.receiveType == 'PICK_UP') {
             if (data?.receiveType == 'PICK_UP') {
               // 如果pickup没有cod的时候过滤掉cod
               newPayWayName = newPayWayName.filter((e) => {
@@ -2168,6 +2176,8 @@ class Payment extends React.Component {
               });
             }
           }
+          console.log('666 -->> data: ', data);
+          console.log('666 -->> pmd: ', pmd);
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
             this.initPaymentTypeVal();
@@ -2175,6 +2185,7 @@ class Payment extends React.Component {
         }
       }
     );
+
     if (this.state.billingChecked || data?.receiveType == 'PICK_UP') {
       this.setState({
         billingAddress: data

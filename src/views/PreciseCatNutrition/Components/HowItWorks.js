@@ -18,8 +18,7 @@ const HowItWorks = () => {
           <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
               <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha">
-                HOW IT WORKS
-                {/*<FormattedMessage id="ClubLP.NewHowItWorks.title" />*/}
+                <FormattedMessage id="PreciseCatNutrition.HowItWorks.title" />
               </h2>
               <div className="value-proposition__container">
                 <div className="row mx-0 justify-content-between">
@@ -43,8 +42,7 @@ const HowItWorks = () => {
                       </div>
                       <div className="text-center">
                         <h7>
-                          Tell us about your cat and help us shape the perfect
-                          recipe for him
+                          <FormattedMessage id="PreciseCatNutrition.HowItWorks.plate1" />
                         </h7>
                       </div>
                       {isMobile ? <br /> : null}
@@ -65,8 +63,7 @@ const HowItWorks = () => {
                       </div>
                       <div className="text-center">
                         <h7>
-                          Subscribe and receive every month your cat's
-                          personalized food
+                          <FormattedMessage id="PreciseCatNutrition.HowItWorks.plate2" />
                         </h7>
                       </div>
                     </div>
@@ -86,7 +83,7 @@ const HowItWorks = () => {
                       </div>
                       <div style={{ height: 72 }} className="text-center">
                         <h7>
-                          Stay in control; pause. move or skip your deliveries
+                          <FormattedMessage id="PreciseCatNutrition.HowItWorks.plate3" />
                         </h7>
                       </div>
                     </div>
@@ -106,7 +103,7 @@ const HowItWorks = () => {
                       </div>
                       <div className="text-center">
                         <h7>
-                          Beneft from exclusne subscription services and perks
+                          <FormattedMessage id="PreciseCatNutrition.HowItWorks.plate4" />
                         </h7>
                       </div>
                     </div>

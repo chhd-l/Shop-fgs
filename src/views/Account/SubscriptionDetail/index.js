@@ -406,7 +406,7 @@ class SubscriptionDetail extends React.Component {
           return el.tradeItems[0].nextDeliveryTime.split('-')[0];
         })
       );
-      subDetail.noStartTradeList.forEach((el) => {
+      subDetail.noStartTradeList?.forEach((el) => {
         el.tradeItems.forEach((item) => {
           item.num = isIndv ? 1 : item.num;
         });
@@ -416,7 +416,7 @@ class SubscriptionDetail extends React.Component {
         if (isIndv) {
           subDetail.goodsInfo.map((item) => {
             item.petsRation = item.subscribeNum / 30 + 'g/day';
-            return item;
+            // return item;
           });
         } else {
           let spuNoList = subDetail.goodsInfo?.map((el) => el.spuNo);
@@ -434,13 +434,12 @@ class SubscriptionDetail extends React.Component {
                 }
               });
             });
-            return subDetail.goodsInfo;
+            // return subDetail.goodsInfo;
           } catch (err) {
             console.log(err);
           }
         }
       }
-      console.info('subDetail.goodsInfo', subDetail.goodsInfo);
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });

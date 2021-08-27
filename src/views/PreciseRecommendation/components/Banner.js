@@ -11,14 +11,27 @@ import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-const bannerList = [
-  { img: 'secure_payment', text: 'Secure<br/>payment' },
-  { img: 'satisfie_or_reimbursed', text: 'Satisfied or<br/> reimbursed' },
-  { img: 'premium_quality', text: 'Premium<br/> Quality' },
-  { img: 'fast_shipment', text: '3 Days<br/> shipment' }
-];
+
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
-const BannerFour = () => {
+const BannerFour = ({ intl }) => {
+  const bannerList = [
+    {
+      img: 'secure_payment',
+      text: intl.messages['preciseNutrition.bannertext1']
+    },
+    {
+      img: 'satisfie_or_reimbursed',
+      text: intl.messages['preciseNutrition.bannertext2']
+    },
+    {
+      img: 'premium_quality',
+      text: intl.messages['preciseNutrition.bannertext3']
+    },
+    {
+      img: 'fast_shipment',
+      text: intl.messages['preciseNutrition.bannertext4']
+    }
+  ];
   return (
     <div
       className=" row col-12 text-center  rc-margin-top--md rc-padding-x--xl"
@@ -28,7 +41,7 @@ const BannerFour = () => {
         marginLeft: isMobile ? null : '-10%'
       }}
     >
-      {bannerList.map((el) => (
+      {bannerList.map((el, idx) => (
         <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
           <LazyLoad>
             <img
@@ -37,7 +50,11 @@ const BannerFour = () => {
             />
           </LazyLoad>
           <p
-            style={{ fontSize: '12px' }}
+            className="m-auto"
+            style={{
+              fontSize: '12px',
+              maxWidth: `${idx == 3 ? '120px' : '60px'}`
+            }}
             dangerouslySetInnerHTML={{ __html: el.text }}
           ></p>
         </div>
@@ -82,6 +99,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
           quantity: goodsInfo.buyCount,
           currentUnitPrice: goodsInfo.marketPrice,
           goodsInfoFlag: 3,
+          isNotShowCart: 1, //加入购物车 但是在header不显示
           questionParams: JSON.stringify(petInfo),
           periodTypeId: goodsInfo.periodTypeId || 3560,
           recommendationInfos: clinicStore.linkClinicRecommendationInfos,
@@ -208,8 +226,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                             textAlign: 'left'
                           }}
                         >
-                          {recommData?.customerPetsVo?.name}'s adapted diet &
-                          portion
+                          <FormattedMessage
+                            id="preciseNutrition.banner.names"
+                            values={{ val: recommData?.customerPetsVo?.name }}
+                          />
                           {/* {recommData?.goodsInfo?.goodsInfoName} */}
                         </h2>
                         <div className=" rc-layout-container rc-five-column rc-padding-top--md">
@@ -221,7 +241,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="margin-b-24"
                               style={{ lineHeight: '24px' }}
                             >
-                              30 days of complete & balanced diet for adult cat,
+                              <FormattedMessage id="preciseNutrition.banner.des1" />
+                              ,
                               <FormattedMessage
                                 id={productShowInfo.recoSentence}
                               />
@@ -230,15 +251,18 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="margin-b-24"
                               style={{ lineHeight: '24px' }}
                             >
-                              Daily portion:{' '}
+                              <FormattedMessage id="preciseNutrition.banner.portion" />
+                              :{' '}
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
                                 {recommData.weight}
-                                {recommData.weightUnit}/day
+                                {recommData.weightUnit}/
+                                <FormattedMessage id="preciseNutrition.banner.day" />
                               </strong>
                               <br />
-                              Total pack weight:{' '}
+                              <FormattedMessage id="preciseNutrition.banner.weight" />
+                              :{' '}
                               <strong
                                 style={{ color: '#444', fontWeight: '600' }}
                               >
@@ -250,8 +274,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               className="margin-b-24"
                               style={{ lineHeight: '24px' }}
                             >
-                              Automatic shipment every 30 days <br />
-                              Free shipment cost
+                              <FormattedMessage id="preciseNutrition.banner.des2" />{' '}
+                              <br />
+                              <FormattedMessage id="preciseNutrition.banner.des3" />
                             </div>
                           </div>
                           <div className="rc-column rc-double-width">
@@ -264,10 +289,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   margin: '-8px 0'
                                 }}
                               >
-                                {formatMoney(recommData.dailyPrice)}/day
+                                {formatMoney(recommData.dailyPrice)}/
+                                <FormattedMessage id="preciseNutrition.banner.day" />
                               </div>
                               <div style={{ color: '#444', fontSize: '29px' }}>
-                                {formatMoney(recommData.totalPrice)}/month
+                                {formatMoney(recommData.totalPrice)}/
+                                <FormattedMessage id="preciseNutrition.banner.month" />
                               </div>
                             </div>
                             <div
@@ -302,7 +329,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   }`}
                                   style={{ width: '300px', padding: '10px' }}
                                 >
-                                  buy now
+                                  <FormattedMessage id="preciseNutrition.banner.button" />
                                 </button>
                               ) : (
                                 <LoginButton
@@ -311,20 +338,22 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                   // btnStyle={{ margin: '5px 0', width: '100%' }}
                                   // history={this.props.history}
                                   beforeLoginCallback={async () => {
-                                    localItemRoyal.set(
-                                      'okta-redirectUrl',
-                                      'precise-cat-nutrition-recommendation'
-                                    );
-                                    // sessionItemRoyal.set('from-felin', true);
+                                    await hanldeUnloginAddToCart();
                                   }}
+                                  // beforeLoginCallback={async () => {
+                                  //   localItemRoyal.set(
+                                  //     'okta-redirectUrl',
+                                  //     'precise-cat-nutrition-recommendation'
+                                  //   );
+                                  // }}
                                 >
-                                  buy now
+                                  <FormattedMessage id="preciseNutrition.banner.button" />
                                 </LoginButton>
                               )}
                             </div>
                           </div>
                         </div>
-                        <BannerFour />
+                        <BannerFour intl={intl} />
                       </div>
                     </div>
                   </div>
@@ -343,14 +372,17 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               fontWeight: 600
             }}
           >
-            {recommData?.customerPetsVo?.name}'s adapted diet & portion
+            <FormattedMessage
+              id="preciseNutrition.banner.names"
+              values={{ val: recommData?.customerPetsVo?.name }}
+            />
             {/* {recommData?.goodsInfo?.goodsInfoName} */}
           </h2>
           <div
             className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            30 days of complete & balanced diet for adult cat,
+            <FormattedMessage id="preciseNutrition.banner.des1" />,
             <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
           <LazyLoad>
@@ -367,12 +399,13 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             </LazyLoad>
           </div>
           <div className="rc-margin-bottom--xs" style={{ lineHeight: '24px' }}>
-            Daily portion:{' '}
+            <FormattedMessage id="preciseNutrition.banner.portion" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
-              {recommData.weight} {recommData.weightUnit}/day
+              {recommData.weight} {recommData.weightUnit}/
+              <FormattedMessage id="preciseNutrition.banner.day" />
             </strong>
             <br />
-            Total pack weight:{' '}
+            <FormattedMessage id="preciseNutrition.banner.weight" />:{' '}
             <strong style={{ color: '#444', fontWeight: '600' }}>
               {totalWeight}
               {/* {recommData.totalPackWeight} {recommData.weightUnit}/day */}
@@ -387,10 +420,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                 marginBottom: -10
               }}
             >
-              {formatMoney(recommData.dailyPrice)}/day
+              {formatMoney(recommData.dailyPrice)}/
+              <FormattedMessage id="preciseNutrition.banner.day" />
             </div>
             <div style={{ color: '#444', fontSize: '29px' }}>
-              {formatMoney(recommData.totalPrice)}/month
+              {formatMoney(recommData.totalPrice)}/
+              <FormattedMessage id="preciseNutrition.banner.month" />
             </div>
           </div>
           <div
@@ -401,8 +436,8 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             <span style={{ color: '#444', fontWeight: 300 }}>*</span>
           </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>
-            Automatic shipment every 30 days <br />
-            Free shipment cost
+            <FormattedMessage id="preciseNutrition.banner.des2" /> <br />
+            <FormattedMessage id="preciseNutrition.banner.des3" />
           </div>
           {loginStore.isLogin ? (
             <button
@@ -416,7 +451,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                   : 'rc-btn-solid-disabled'
               }`}
             >
-              buy now
+              <FormattedMessage id="preciseNutrition.banner.button" />
             </button>
           ) : (
             <LoginButton
@@ -428,12 +463,12 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                 await hanldeUnloginAddToCart();
               }}
             >
-              buy now
+              <FormattedMessage id="preciseNutrition.banner.button" />
             </LoginButton>
           )}
 
           <div className="rc-padding-x--xl">
-            <BannerFour />
+            <BannerFour intl={intl} />
           </div>
         </div>
       </div>

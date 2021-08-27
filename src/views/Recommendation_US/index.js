@@ -10,6 +10,7 @@ import UsAndRu from './components/UsAndRu';
 import Fr from './components/Fr';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
+import Loading from '@/components/Loading';
 import './index.css';
 import { inject, observer } from 'mobx-react';
 import {
@@ -95,6 +96,7 @@ class Recommendation extends React.Component {
       currentDetail: {},
       images: [],
       activeIndex: 0,
+      pageLoading: false,
       loading: false,
       buttonLoading: false,
       errorMsg: '',
@@ -399,13 +401,13 @@ class Recommendation extends React.Component {
           );
         }
         this.props.clinicStore.setAuditAuthority(false);
-        this.setState({ loading: false });
+        this.setState({ loading: false, pageLoading: false });
         console.timeEnd('js处理');
         // });
       })
       .catch((err) => {
         console.log(err, 'err');
-        this.setState({ noData: true });
+        this.setState({ noData: true, pageLoading: false });
         // this.props.history.push('/home');
       });
 
@@ -1250,6 +1252,9 @@ class Recommendation extends React.Component {
         >
           <span>{currentModalObj.content}</span>
         </Modal>
+        {this.state.pageLoading ? (
+          <Loading bgColor={'#fff'} opacity={1} />
+        ) : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div

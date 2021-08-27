@@ -187,7 +187,8 @@ const SubsriptionBenefitsNew = () => {
                               val: (
                                 <a
                                   onClick={() => {
-                                    window.PetStoryWC.start();
+                                    return false;
+                                    // window.PetStoryWC.start();
                                   }}
                                   style={{
                                     textDecoration: 'underline',

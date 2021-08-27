@@ -104,7 +104,8 @@ const pdpbackgroundmobilecatstr = {
 const pdpbackgroundmobilecatsfr = {
   backgroundImage: `url(${pdpbackgroundmobilecatfr})`,
   overflow: 'hidden',
-  backgroundSize: 'cover'
+  // backgroundSize: 'cover'
+  backgroundSize: '100% 140%'
 };
 
 const pdpbackgrounddogs = {
@@ -168,7 +169,8 @@ let clubListDataNew = [
               val: (
                 <a
                   onClick={() => {
-                    window.PetStoryWC.start();
+                    return false;
+                    // window.PetStoryWC.start();
                   }}
                   style={{
                     textDecoration: 'underline',
@@ -879,8 +881,8 @@ const GoodsDetailTabs = function (props) {
                         />
                       ) : (
                         <HowItWorksNew
-                          RuhowitworksnewList={FrhowitworksnewLists}
-                          RuhowitworksnewListmobile={FrhowitworksnewListmobiles}
+                          FrhowitworksnewListmobile={FrhowitworksnewListmobiles}
+                          FrhowitworksnewList={FrhowitworksnewLists}
                         />
                       )}
                     </>

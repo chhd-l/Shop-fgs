@@ -558,6 +558,7 @@ const fr_FR = {
   'details.vetBuyFromRetailer': 'Trouver un vétérinaire',
   'detail.contextp1': "Désolé, nous n'avons trouvé aucun produit!",
   'detail.contextp2': 'Veuillez noter que ce produit peut avoir été arrêté',
+  'detail.subscriptionBuyTip': 'Abonnement sans participation',
   Dog: 'Chien',
   dogs: 'CHIENS',
   dogs2: 'chiens',
@@ -818,7 +819,7 @@ const fr_FR = {
   name2: 'NOM',
   nameInvalid: 'Votre nom est invalide',
   'New Pet': 'Nouvel animal',
-  newAddress: 'Edit',
+  newAddress: 'Nouvelle adresse',
   newPassword: 'Nouveau mot de passe',
   newsletterFalse: 'Consultez la NEWSLETTER',
   next: 'Suivant',
@@ -938,7 +939,7 @@ const fr_FR = {
   'payment.country': 'Pays',
   'payment.DEBIT': 'DÉBIT',
   'payment.deliveryFrequency': 'Frq',
-  'payment.deliveryTitle': 'Adresse mail',
+  'payment.deliveryTitle': 'Adresse de livraison',
   'payment.email': 'Adresse e-mail',
   'payment.errorInfo': '* {val} doit être rempli',
   'payment.errorInfo2': 'Ce champ est requis.',
@@ -959,7 +960,7 @@ const fr_FR = {
   'payment.normalDelivery2': 'Livraison standard',
   'payment.normalDelivery3': '(1 à 4 jours)',
   'payment.payment': 'Mon moyen de paiement',
-  'payment.paymentInformation': 'Paiement',
+  'payment.paymentInformation': 'Moyen de paiement',
   'payment.phoneNumber': 'Numéro de téléphone',
   'payment.phoneNumber2': 'Numéro de téléphone',
   'payment.postCode': 'Code postal',
@@ -1731,6 +1732,10 @@ const fr_FR = {
   unfoldAddress: "Déplier l'adresse",
   units: 'Quantité(s)',
   unkown: 'Inconnu',
+  'See recommendation': 'Voir la recommandation',
+  petSaveTips2:
+    'Nous utiliserons ces données pour recommander un nouvel aliment pour votre animal',
+  petSaveTips1: 'Les informations de votre animal sont enregistrées',
   // unLoginSubscriptionTips: "La livraison automatique n'est possible qu'après l'enregistrement",
   unLoginSubscriptionTips:
     'Vous ne pouvez pas souscrire à un abonnement sans être inscrit.',
@@ -1763,6 +1768,7 @@ const fr_FR = {
   BacktoSavedPayments: 'Retour au paiement enregistré',
   'payment.shippingDiscount': 'Remise de fret',
   'orderStatus.COMPLETED': 'terminé',
+  'subscription.see_more': 'Voir les autres abonnements',
   'payment.cardInfoErr':
     'Les informations de la carte sont incorrectes, veuillez vérifier.',
   'cart.errorInfo6':
@@ -1791,28 +1797,29 @@ const fr_FR = {
   'subscriptionDetail.editPetProfile': "Modifier le profil de l'animal",
   'subscriptionDetail.clubFor': 'CLUB for',
   'subscriptionDetail.better':
-    'Pour une meilleure expérience, nous vous recommandons de lier le profil de votre animal de compagnie à votre abonnement au Club',
-  'subscriptionDetail.link': 'Link a profile',
-  'subscriptionDetail.changeProduct': 'change product',
-  'subscriptionDetail.newProduct': 'New product recommendation',
+    "Pour une meilleure expérience, nous vous recommandons de lier un profil d'animal à votre abonnement CLUB",
+  'subscriptionDetail.link': "Lier un profil d'animal ",
+  'subscriptionDetail.changeProduct': "Changer d'aliment",
+  'subscriptionDetail.newProduct': 'Nouveaux aliments recommandés',
   'subscriptionDetail.linkProfile':
-    'Link a pet profile to your CLUB subscription',
-  'subscriptionDetail.addNewCat': 'a new cat',
-  'subscriptionDetail.addNewDog': 'a new dog',
-  'subscription.seeOtherRecommendation': 'See other recommendation',
-  'subscription.chooseThisProduct': 'choose this product',
-  'subscription.productDetails': ' Product details',
-  'subscription.changeNow': 'Change now',
+    "Lier un profil d'animal à votre abonnement CLUB",
+  'subscriptionDetail.addNewCat': 'Ajouter un nouveau chat',
+  'subscriptionDetail.addNewDog': 'Ajouter un nouveau chien',
+  'subscription.seeOtherRecommendation': 'Voir autre recommandation',
+  'subscription.chooseThisProduct': 'Choisir cet aliment',
+  'subscription.productDetails': " détails de l'aliment",
+  'subscription.changeNow': 'Changer maintenant',
   'day-unit': 'journée',
-  'subscription.productRecommendation': 'Your product recommendation',
+  'subscription.productRecommendation': 'Votre aliment recommandé',
   'subscription.productRecommendationTip':
-    "Based on your pet's profile,we recommend the below products to meet your pets needs. Please comfirm the product change to update your subscription",
-  switchProductTip1: 'This is currently the best product for',
+    "Compte tenu du profil de votre animal, nous vous recommandons les aliments ci-dessous pour répondre à ses besoins nutritionnels. Veuillez confirmer le changement d'aliment pour mettre à jour votre abonnement. ",
+  switchProductTip1:
+    'Cet aliment est la recommandation nutritionnelle la plus adaptée à',
   switchProductTip2: 'based on',
   'switchProductTip.his': 'his',
   'switchProductTip.her': 'her',
-  switchProductTip3: 'pet profile',
-  'subscription.chooseOption': 'Please choose your options',
+  switchProductTip3: 'sur la base de son profil !',
+  'subscription.chooseOption': 'Veuillez choisir vos options',
   'clubListData.tip1': 'tailored and evolving premium nutrition',
   'clubListData.tip2': 'A welcome box, rewards and services',
   'clubListData.tip3': 'A pet advisor and personalized newsletters',
@@ -1837,6 +1844,8 @@ const fr_FR = {
   'welcome.modernSlaveryAct': "Loi sur l'esclavage moderne",
   'welcome.contactUS': 'Contactez-nous',
   'cart.autoshipSavedtip': "Vous avez économisé {discount} avec l'abonnement",
+  recommendProductTip:
+    "Nous vous fournissons ces recommandations à titre d'information, elles ne doivent pas être considérées comme une garantie de ce qui est le mieux pour votre animal. La quantité, la taille et la fréquence seront définies dans la page de contrôle du CLUB. ",
   paused: 'En pause',
   'searchNoResult.title': 'Désolé',
   'searchNoResult.content1': 'Aucun résultat ne correspond à votre recherche',
@@ -1864,7 +1873,7 @@ const fr_FR = {
   'ClubLP.LongBanner.button': 'Essayer maintenant',
   'ClubLP.LongBanner.content2': "S'abonner sans engagement",
   'ClubLP.LongBanner.SubscriptionTitle':
-    "Les avantages de l'abonnement pour {val}  votre chats et votre chien",
+    "LES AVANTAGES DE L'ABONNEMENT POUR {val}  VOTRE CHATS ET VOTRE CHIEN",
   'ClubLP.LongBanner.SubscriptionTitle1':
     'Un aliment sur mesure pour  {val} une santé optimale',
   'ClubLP.LongBanner.SubscriptionContent1':
@@ -1928,6 +1937,7 @@ const fr_FR = {
   'ClubLP.GetMoreAd.Club.tip6': 'Kit cadeau de bienvenue',
   'ClubLP.GetMoreAd.Club.tip7': 'Avantages et services exclusifs',
   'ClubLP.GetMoreAd.button': 'Démarrer',
+  // ****
   'ClubLP.Help.title': 'Nous sommes là pour vous aider',
   'ClubLP.Help.subtitle1':
     'Notre équipe est disponible pour répondre à vos questions et vous fournir la meilleure expérience possible.',
@@ -1950,9 +1960,24 @@ const fr_FR = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
-  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.bannertext1': 'Paiement sécurisé',
+  'preciseNutrition.bannertext2': 'Satisfait remboursé',
+  'preciseNutrition.bannertext3': 'Qualité premium',
+  'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
+  'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
+  'preciseNutrition.banner.des1':
+    "30 jours d'alimentation complète et équilibrée pour chat adulte",
+  'preciseNutrition.banner.portion': 'Quantité journalière ',
+  'preciseNutrition.banner.weight': 'Poids total du sac',
+  'preciseNutrition.banner.day': 'jour',
+  'preciseNutrition.banner.month': 'mois',
+  'preciseNutrition.banner.des2': 'Envoi automatique tous les 30 jours',
+  'preciseNutrition.banner.des3': 'Livraison offerte',
+  'preciseNutrition.banner.button': 'Acheter maintenant',
+  'preciseNutrition.benefits.title':
+    "Les bénéfices de l'aliment adapté aux besoins de votre chat",
   'preciseNutrition.benefits.content':
-    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
+    'Nous collaborons avec des professionnels, spécialisés dans les animaux de compagnie- vétérinaires, éleveurs, groupes professionnels et organisations- pour nous assurer que nos formules nutritionnelles sont précisément adaptées aux besoins réels de votre animal.',
   'preciseNutrition.call.content':
     'Du lundi au vendredi de 8h30 à 19h et le samedi de 9h à 13h',
   'preciseNutrition.call.number': '0800 415 161',
@@ -1965,60 +1990,138 @@ const fr_FR = {
     'Service Consommateur Royal Canin France',
   'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
   'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
-  'preciseNutrition.commitment.title': 'NOTRE ENGAGEMENT DURABLE',
+  'preciseNutrition.commitment.title':
+    'Notre engagement en matière de durabilité',
   'preciseNutrition.commitment.content1':
-    'Chez Royal canin, nous travaillons à réduire notre impact environnemental pour garder notre planète en bonne santé.',
+    'Chez Royal Canin, nous travaillons à réduire notre impact environnemental pour aider notre planète.',
   'preciseNutrition.commitment.content2':
-    "Pour cette raison, votre produit sera fabriqué à la main en France et l'emballage que vous recevrez avec votre commande a été optimisé pour réduire son empreinte carbone et il a été réalisé avec des matériaux certifiés FSC, avec la garantie que le papier et le carton proviennent de sources recyclables et le bois de forêts bien gérées.",
+    "Pour cette raison, votre produit sera fabriqué en France et l'emballage que vous recevrez avec votre commande aura été optimisé pour réduire son empreinte carbone et il a sera produit avec des matériaux certifiés FSC, avec la garantie que le papier et le carton proviennent de sources recyclables et le bois de forêts bien gérées.",
   'preciseNutrition.commitment.content3':
-    "Même si l'emballage est compostable, il ne doit pas être jeté dans la nature. Veuillez suivre la recommandation et le jeter dans la bonne poubelle. ",
+    "Même si l'emballage est compostable industriellement, il ne doit pas être jeté dans la nature. Veuillez suivre les recommandations et le jeter dans la bonne poubelle.",
   'preciseNutrition.Below.title':
-    'UN PACK DE BIENVENUE POUR PRENDRE SOIN DE [NOM DU CHAT]',
+    'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
-    'Lors de votre première livraison, vous recevrez un pack de bienvenue exclusif qui comprend tout ce dont vous avez besoin pour bien nourrir et prendre soin de [nom du chat].',
-  'preciseNutrition.Below.list': 'Ce pack premium comprendra :',
-  'preciseNutrition.Below.list1':
-    "L'alimentation mensuelle adaptée de votre chat",
+    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
+  'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',
+  'preciseNutrition.Below.list1': '1 mois d’alimentation pour votre chat',
   'preciseNutrition.Below.list2':
-    'Une échelle de pondération pour fournir la portion quotidienne exacte',
-  'preciseNutrition.Below.list3':
-    'Une tasse à mesurer pour le rendre facile et précis',
+    "Une balance pour calculer précisément la quantité journalière d'aliment",
+  'preciseNutrition.Below.list3': 'Un gobelet doseur pour plus de facilité',
   'preciseNutrition.Below.list4':
-    'Et bien sûr toutes les instructions dans votre lettre de bienvenue',
+    'Et bien sûr, toutes les instructions figurant dans votre lettre de bienvenue',
   'preciseNutrition.Details.title':
-    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
+    'Ingrédients de qualité et composition équilibrée',
   'preciseNutrition.Details.lititle1': 'INGREDIENTS',
   'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
   'preciseNutrition.Details.content3.1':
-    'On each food label, after the "composition" that includes the INGREDIENTS or RAW MATERIALS used to make the food (like a cake recipe), appear the ANALYTICAL CONSTITUENTS, which reflect the analysis of the NUTRIENTS that make up the END product.',
+    'Sur l’étiquette d’un aliment, après la « composition » qui reflète les ingrédients ou matières premières utilisées pour fabriquer l’aliment (à l’instar de la recette d’un gâteau), et les additifs, figurent les constituants analytiques, qui, eux, reflètent l’analyse des nutriments ou éléments nutritifs qui composent le produit fini.',
   'preciseNutrition.Details.content3.2':
-    'Thus, European regulations requires manufacturers to quantify the quantities of PROTEIN, FAT, RAW CELLULOSE and RAW ASHES',
-  'preciseNutrition.Details.link': 'Learn more',
+    'Ainsi, la réglementation européenne oblige les fabricants à chiffrer les quantités de protéines, de matières grasses, de cellulose brute et de cendres brutes.',
+  'preciseNutrition.Details.link': 'En savoir plus',
   'preciseNutrition.Details.lastText1':
-    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
+    'Mode d’emploi: Numéro de lot et d’identifiant usine, à utiliser de préférence avant : voir sur l’emballage. ',
   'preciseNutrition.Details.lastText2':
-    'To be stored in a cool, dry place.  Water should be available at all times',
+    'À conserver dans un endroit sec et frais. Eau fraîche à disposition',
   'preciseNutrition.Details.lastText3':
-    'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
+    'Mode d’emploi : [1] Eau fraîche à disposition. [2] À conserver dans un endroit sec et frais.',
   'preciseNutrition.Details.list1':
-    'The quantity of protein does not in any way allow us to judge the quality of the food; in fact, some proteins are much more digestible than others (i.e. assimilable and usable by the body) and their composition in amino acids (22 in number) can be very different; however, some amino acids are said to be "essential" and must be provided by the food.',
+    'La quantité de protéines ne permet en aucun cas de juger de la qualité de l’aliment ; en effet, certaines protéines sont beaucoup plus digestes que d’autres (c’est-à-dire assimilables et utilisables par l’organisme) et leurs compositions en acides aminés (au nombre de 22), peuvent être très différentes ; or, certains acides aminés sont dits « essentiels » et doivent obligatoirement être fournis par l’alimentation.',
   'preciseNutrition.Details.list2':
-    'The amount of Fat is a good indicator of the energy provided by the food, as fat is the preferred "fuel" for dogs and cats, which are quite different from humans. Fat should be limited for sedentary, neutered or less active animals. ',
+    'La quantité de matières grasses est un bon indicateur de l’énergie fournie par l’aliment, les graisses étant le « carburant » privilégié du chien et du chat, bien différents de l’humain. Les graisses doivent être limitées pour les animaux sédentaires, stérilisés ou peu actifs.',
   'preciseNutrition.Details.list3':
-    'The amount of cellulose or fiber is an indicator of the "satiating" power of the food. In addition to promoting good digestion and transit, fiber plays an important role in managing the animal\'s body weight.',
+    'La quantité de cellulose ou de fibres est un indicateur du pouvoir « rassasiant » de l’aliment. En plus de favoriser une bonne digestion et un bon transit, les fibres jouent donc un rôle important dans la gestion du poids de forme de l’animal.',
   'preciseNutrition.Details.list4':
-    "Crude Ash reflects the amount of mineral matter (or minerals: Calcium, Phosphorus, Iron, Iodine, Potassium, Zinc, Copper...) contained in the food. All minerals are essential and vital for the proper functioning of the dog's or cat's body; as the animal ages, the intake of certain minerals must be reduced to limit the risk of urinary stones or, like phosphorus, to limit the risk of CKD (chronic kidney disease).",
-  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
-  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
-  'preciseNutrition.Product.list.title2': '2.Texture and density',
-  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
+    'Les cendres brutes reflètent la quantité de matières minérales (ou minéraux : Calcium, Phosphore, Fer, Iode, Potassium, Zinc, Cuivre…) contenus dans l’aliment. Tous les minéraux sont essentiels et vitaux pour le bon fonctionnement de l’organisme du chien ou du chat. Lorsque l’animal vieillit, les apports de certains minéraux doivent être réduits pour aider à limiter les risques de calculs urinaires ou comme le phosphore pour aider à limiter les risques de maladie rénale chronique. ',
+  'preciseNutrition.Product.title': 'Précision nutritionnelle',
+  'preciseNutrition.Product.list.title1': '1. Taille et forme des croquettes',
+  'preciseNutrition.Product.list.title2': '2. Texture et densité',
+  'preciseNutrition.Product.list.title3': '3. Profil nutritionnel',
   'preciseNutrition.Product.list.content1':
-    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
+    "En plus d'offrir une nutrition adaptée aux besoins des animaux de compagnie, la taille, la forme et l'ergonomie de nos croquettes sont spécifiquement adaptées à la mâchoire ou à la physionomie unique d'une espèce ou d'une race.",
   'preciseNutrition.Product.list.content2':
-    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
+    "En plus d'être de tailles et formes différentes, les croquettes offrent également une texture leur permettant de se briser au bon moment.  ",
   'preciseNutrition.Product.list.content3':
-    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
+    "Chaque aliment Royal Canin présente un profil nutritionnel précisément adapté, composé d'au moins 50 nutriments individuels, qui sont sélectionnés spécifiquement pour aider à soutenir la santé et les sensibilités des chats et des chiens.",
   'checkout.zeroOrder.butSubscription':
-    "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande"
+    "0 Les commandes de prix ne prennent pas en charge l'abonnement, veuillez passer à un achat unique pour payer cette commande",
+  Unlink: 'Détacher',
+  Link: 'Lien',
+  aboutPet: 'PARLEZ-NOUS DE VOTRE ANIMAL',
+  nutritionalRecommendation:
+    'pour obtenir une recommandation nutritionnelle précise',
+  'PreciseCatNutrition.LongBanner.title':
+    'OFFREZ À VOTRE CHAT UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL ! ',
+  'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
+  'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
+  'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 €/ mois',
+  'PreciseCatNutrition.LongBanner.button': "S’ 'abonner",
+  'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
+  'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',
+  'PreciseCatNutrition.LongBanner.benefits1':
+    'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
+  'PreciseCatNutrition.LongBanner.benefits2':
+    "Une quantité journalière d'aliment précise, calculée en fonction des besoins de votre chat",
+  'PreciseCatNutrition.LongBanner.benefits3':
+    'Des nutriments de qualité choisis pour leur haute valeur nutritionnelle',
+  'PreciseCatNutrition.DidYouKnow.title': '',
+  'PreciseCatNutrition.DidYouKnow.paragraph1':
+    "L'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d'aliments dont ils ont besoin chaque jour.",
+  'PreciseCatNutrition.DidYouKnow.paragraph2':
+    "Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*.",
+  'PreciseCatNutrition.DidYouKnow.tryIt': 'J’essaye maintenant',
+  'PreciseCatNutrition.AdaptedFood.title':
+    'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
+  'PreciseCatNutrition.AdaptedFood.paragraph1':
+    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
+  'PreciseCatNutrition.AdaptedFood.paragraph2':
+    'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':
+    "Plus de 50 ans d'expérience dans la création de solutions nutritionnelles précises",
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li2':
+    'Des partenariats étroits avec des professionnels du monde animal tels que des vétérinaires, des nutritionnistes et des éleveurs',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li3':
+    'Une démarche scientifique de pointe et des bénéfices prouvés',
+  'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':
+    'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
+  'PreciseCatNutrition.AdaptedFood.paragraph3':
+    "*Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
+  'PreciseCatNutrition.AdaptedFood.findFood':
+    'Trouvez l’aliment pour votre chat',
+  'PreciseCatNutrition.Subscription.title':
+    'UN ABONNEMENT POUR VOUS SIMPLIFIER LA VIE',
+  'PreciseCatNutrition.Subscription.plate1': 'Livraison offerte et automatique',
+  'PreciseCatNutrition.Subscription.plate2': 'Un conseiller à votre écoute',
+  'PreciseCatNutrition.Subscription.plate3':
+    'Un kit de bienvenue comprenant une balance et le matériel nécessaire pour nourrir correctement votre animal.',
+  'PreciseCatNutrition.Subscription.plate4':
+    'Un programme de fidélité avec des cadeaux exclusifs pour stimuler votre animal de compagnie',
+  'PreciseCatNutrition.Subscription.plate5':
+    'Conseils et astuces professionnels sur mesure',
+  'PreciseCatNutrition.Subscription.button': 'Commencer',
+  'PreciseCatNutrition.HowItWorks.title': 'COMMENT ÇA MARCHE ?',
+  'PreciseCatNutrition.HowItWorks.plate1':
+    "Répondez à quelques questions pour trouver l'aliment adapté à votre animal.",
+  'PreciseCatNutrition.HowItWorks.plate2':
+    'Abonnez-vous et recevez chaque mois l’aliment adapté à votre chat.',
+  'PreciseCatNutrition.HowItWorks.plate3':
+    'Gérez votre compte, suspendez, déplacez ou annulez vos livraisons.',
+  'PreciseCatNutrition.HowItWorks.plate4':
+    "Bénéficiez d'avantages exclusifs avec votre abonnement",
+  'PreciseCatNutrition.Notes1':
+    '*Le surpoids peut réduire l’espérance de vie de votre animal de 2 ans. De plus il peut augmenter le risque de développer certaines maladies comme: le diabète, les maladies du bas appareil urinaire,  l’arthrose ou les problèmes de peau. Salt C et al. Association between life span and body condition in neutered client-owned dogs. J Vet Intern Med 2018;1-11.',
+  'PreciseCatNutrition.Notes2':
+    "[1] Le prix par jour est illustratif, cette offre n'est disponible que dans le cadre d'un abonnement de 30 jours.",
+  'PreciseCatNutrition.Help.title': "Besoin d'aide ?",
+  'PreciseCatNutrition.Help.text1':
+    'Nos conseillers sont de vrais experts et passionnés.',
+  'PreciseCatNutrition.Help.text2':
+    'Ils se tiennent à votre disposition pour répondre à toute demande.',
+  Discover: 'Découvrir',
+  StartAgain: 'Recommencer',
+  noWeightProblemsDsc:
+    "Il semble que votre chat n'ait pas de problème de poids, cette offre n'est donc pas adaptée pour lui. Mais vous pouvez toujours découvrir l'aliment le plus adapté à votre chat parmi notre gamme complète d’aliments",
+  'Find a vet': 'Trouver un vétérinaire',
+  moreComplexWeightDsc:
+    "Il semble que votre chat ait des problèmes de poids qui nécessitent une visite chez votre vétérinaire. Cela permettra de s'assurer qu'il reçoive une solution nutritionnelle optimale et adaptée à ses besoins spécifiques."
 };
 export default fr_FR;

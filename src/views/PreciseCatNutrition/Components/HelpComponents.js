@@ -10,7 +10,55 @@ import { Link } from 'react-router-dom';
 import { getDeviceType } from '../../../utils/utils';
 const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 
-const HelpComponents = () => {
+const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
+const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
+const defaultList = {
+  faq: {
+    desc: (
+      <FormattedMessage
+        id="ClubLP.Help.faq.content"
+        values={{
+          val: ru ? (
+            <DistributeHubLinkOrATag
+              href={'/about-us/faqs'}
+              ariaLabel="Links to faq"
+            >
+              <a
+                style={{
+                  textDecoration: 'underline'
+                }}
+              >
+                часто задаваемые вопросы:
+              </a>
+            </DistributeHubLinkOrATag>
+          ) : tr ? (
+            <DistributeHubLinkOrATag
+              href={'/about-us/faqs'}
+              ariaLabel="Links to faq"
+            >
+              <a
+                style={{
+                  textDecoration: 'underline'
+                }}
+              >
+                Sıkça Sorulan Sorular
+              </a>
+            </DistributeHubLinkOrATag>
+          ) : (
+            <DistributeHubLinkOrATag
+              href={'/about-us/faqs'}
+              ariaLabel="Links to faq"
+            >
+              <a style={{ color: '#E2001A' }}>FAQ pour</a>
+            </DistributeHubLinkOrATag>
+          )
+        }}
+      />
+    )
+  }
+};
+const HelpComponents = (props) => {
+  const { list = defaultList } = props;
   return (
     <div className="experience-component experience-layouts-1column">
       <div className="row rc-margin-x--none">
@@ -20,18 +68,15 @@ const HelpComponents = () => {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
                   <h2 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
-                    We're here to help
-                    {/*<FormattedMessage id="ClubLP.Help.title" />*/}
+                    <FormattedMessage id="PreciseCatNutrition.Help.title" />
                   </h2>
                 </div>
                 <p style={{ marginBottom: 0 }}>
                   <span>
-                    Our team is available to answer your questions and ensure
-                    you have the best possible experience.
-                    {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
+                    <FormattedMessage id="PreciseCatNutrition.Help.text1" />
                   </span>
                   {isMobile ? null : <br />}
-                  You can reach us through the following options:
+                  <FormattedMessage id="PreciseCatNutrition.Help.text2" />
                 </p>
                 {/*<p>*/}
                 {/*  /!*<FormattedMessage id="ClubLP.Help.subtitle2" />*!/*/}
@@ -51,13 +96,12 @@ const HelpComponents = () => {
                                       fontWeight: 600
                                     }}
                                   >
-                                    {/*<FormattedMessage id="ClubLP.Help.call.title" />*/}
-                                    Call us
+                                    <FormattedMessage id="ClubLP.Help.call.title" />
                                   </b>
                                   <p style={{ marginBottom: 0 }}>
-                                    Monday to Friday from 8:30amto 7pm and on
-                                    Saturdays from9am to 1pm
-                                    {/*<FormattedMessage id="ClubLP.Help.call.content" />*/}
+                                    {/*Monday to Friday from 8:30amto 7pm and on*/}
+                                    {/*Saturdays from9am to 1pm*/}
+                                    <FormattedMessage id="ClubLP.Help.call.content" />
                                   </p>
                                   <div>
                                     <p
@@ -70,8 +114,8 @@ const HelpComponents = () => {
                                           fontWeight: 500
                                         }}
                                       >
-                                        {/*<FormattedMessage id="ClubLP.Help.call.number" />*/}
-                                        0800 415 161
+                                        <FormattedMessage id="ClubLP.Help.call.number" />
+                                        {/*0800 415 161*/}
                                       </a>
                                     </p>
                                   </div>
@@ -83,8 +127,8 @@ const HelpComponents = () => {
                                       }}
                                       className="rc-alpha rc-border--none rc-md-down"
                                     >
-                                      0800 415 161
-                                      {/*<FormattedMessage id="ClubLP.Help.call.mobile.number" />*/}
+                                      {/*0800 415 161*/}
+                                      <FormattedMessage id="ClubLP.Help.call.mobile.number" />
                                     </p>
                                   </div>
                                 </div>
@@ -107,14 +151,17 @@ const HelpComponents = () => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b className={"helpComponents-b"} style={{fontWeight:600}}>
-                                    Email us
-                                    {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
+                                  <b
+                                    className={'helpComponents-b'}
+                                    style={{ fontWeight: 600 }}
+                                  >
+                                    {/*Email us*/}
+                                    <FormattedMessage id="ClubLP.Help.email.title" />
                                   </b>
                                   <p style={{ marginBottom: 0 }}>
-                                    We'll do our best to get back to you as fast
-                                    as possible and within 12 hours
-                                    {/*<FormattedMessage id="ClubLP.Help.email.content" />*/}
+                                    {/*We'll do our best to get back to you as fast*/}
+                                    {/*as possible and within 12 hours*/}
+                                    <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
                                   <DistributeHubLinkOrATag
                                     href={
@@ -129,32 +176,9 @@ const HelpComponents = () => {
                                         marginBottom: 0
                                       }}
                                     >
-                                      Send us an Email
-                                      {/*<FormattedMessage id="ClubLP.Help.email.address" />*/}
+                                      <FormattedMessage id="ClubLP.Help.email.address" />
                                     </p>
                                   </DistributeHubLinkOrATag>
-                                  {/*{*/}
-                                  {/*  tr || ru ? (*/}
-                                  {/*  <DistributeHubLinkOrATag*/}
-                                  {/*    href={'/contact-us'}*/}
-                                  {/*    ariaLabel="Links to contact us"*/}
-                                  {/*  >*/}
-                                  {/*    <p*/}
-                                  {/*      style={{ textDecoration: 'underline' }}*/}
-                                  {/*    >*/}
-                                  {/*      <FormattedMessage id="ClubLP.Help.email.address" />*/}
-                                  {/*    </p>*/}
-                                  {/*  </DistributeHubLinkOrATag>*/}
-                                  {/*) : (*/}
-                                  {/*  <Link to="/help/contact">*/}
-                                  {/*    <p*/}
-                                  {/*      style={{ textDecoration: 'underline' }}*/}
-                                  {/*    >*/}
-                                  {/*      <FormattedMessage id="ClubLP.Help.email.title" />*/}
-                                  {/*    </p>*/}
-                                  {/*  </Link>*/}
-                                  {/*)*/}
-                                  {/*}*/}
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">
@@ -176,68 +200,8 @@ const HelpComponents = () => {
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100">
                                   <p style={{ marginBottom: 0 }}>
-                                    You can check our
-                                    <br />
-                                    <DistributeHubLinkOrATag
-                                      href={'/about-us/faqs'}
-                                      ariaLabel="Links to faq"
-                                    >
-                                      <a
-                                        style={{
-                                          color: '#E2001A'
-                                        }}
-                                      >
-                                        FAQ section
-                                      </a>
-                                    </DistributeHubLinkOrATag>
-                                    &nbsp; to see if your question has already
-                                    been answered
+                                    {list.faq.desc}
                                   </p>
-                                  {/*<FormattedMessage*/}
-                                  {/*  id="ClubLP.Help.faq.content"*/}
-                                  {/*  values={{*/}
-                                  {/*    val: ru ? (*/}
-                                  {/*      <DistributeHubLinkOrATag*/}
-                                  {/*        href={'/about-us/faqs'}*/}
-                                  {/*        ariaLabel="Links to faq"*/}
-                                  {/*      >*/}
-                                  {/*        <a*/}
-                                  {/*          style={{*/}
-                                  {/*            textDecoration: 'underline'*/}
-                                  {/*          }}*/}
-                                  {/*        >*/}
-                                  {/*          часто задаваемые вопросы:*/}
-                                  {/*        </a>*/}
-                                  {/*      </DistributeHubLinkOrATag>*/}
-                                  {/*    ) : tr ? (*/}
-                                  {/*      <DistributeHubLinkOrATag*/}
-                                  {/*        href={'/about-us/faqs'}*/}
-                                  {/*        ariaLabel="Links to faq"*/}
-                                  {/*      >*/}
-                                  {/*        <a*/}
-                                  {/*          style={{*/}
-                                  {/*            textDecoration: 'underline'*/}
-                                  {/*          }}*/}
-                                  {/*        >*/}
-                                  {/*          Sıkça Sorulan Sorular*/}
-                                  {/*        </a>*/}
-                                  {/*      </DistributeHubLinkOrATag>*/}
-                                  {/*    ) : (*/}
-                                  {/*      <DistributeHubLinkOrATag*/}
-                                  {/*        href={'/about-us/faqs'}*/}
-                                  {/*        ariaLabel="Links to faq"*/}
-                                  {/*      >*/}
-                                  {/*        <a*/}
-                                  {/*          style={{*/}
-                                  {/*            textDecoration: 'underline'*/}
-                                  {/*          }}*/}
-                                  {/*        >*/}
-                                  {/*          FAQ pour*/}
-                                  {/*        </a>*/}
-                                  {/*      </DistributeHubLinkOrATag>*/}
-                                  {/*    )*/}
-                                  {/*  }}*/}
-                                  {/*/>*/}
                                   <div className="rc-margin-top--xs">
                                     <p
                                       style={{ color: '#00BCA3' }}

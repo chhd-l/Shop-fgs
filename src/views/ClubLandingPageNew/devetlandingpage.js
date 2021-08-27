@@ -13,10 +13,6 @@ import stores from '@/store';
 import vetdeimage from './deimage/Product-composition.png';
 import decat from './deimage/delangdingpagecat.png';
 import dedog from './deimage/delangdingpagedog.png';
-import decat1 from './deimage/decat1.png';
-import decat2 from './deimage/decat2.png';
-import dedog1 from './deimage/dedog1.png';
-import dedog2 from './deimage/dedog2.png';
 
 import deLPdog from './deimage/deLPdog.png';
 import deLPcat from './deimage/deLPcat.png';
@@ -325,16 +321,31 @@ class ClubLandingPageDeVet extends React.Component {
                           Unser Sortiment
                         </h4>
                       </div>
-                      <div className="flex justify-content-center">
-                        <iframe
-                          width="560"
-                          height="315"
-                          src="https://www.youtube.com/embed/3Tfl1pmFej8"
-                          title="YouTube video player"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
+                      <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                        <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                          <div className="rc-column demobilevideo">
+                            <iframe
+                              width="560"
+                              height="315"
+                              src="https://www.youtube.com/embed/As_E5h-Zf58"
+                              title="YouTube video player"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                          <div className="rc-column demobilevideo">
+                            <iframe
+                              width="560"
+                              height="315"
+                              src="https://www.youtube.com/embed/BWL-VP9Asbc"
+                              title="YouTube video player"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

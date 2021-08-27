@@ -4,7 +4,7 @@ import './index.less';
 import QuestionnaireForm from './modules/QuestionnaireForm';
 import { getAllStep, getNextStep } from './api';
 import { getRecommendationInfo } from '@/api/productFinder';
-
+import { FormattedMessage, injectIntl } from 'react-intl';
 import ResultPage from './modules/resultPage';
 import Skeleton from 'react-skeleton-loader';
 import { getDeviceType } from '../../utils/utils';
@@ -26,7 +26,8 @@ function getScrollTop() {
     bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop;
   return scrollTop;
 }
-export default function AboutPet() {
+
+function AboutPet() {
   let history = useHistory();
 
   const childRef = useRef();
@@ -142,14 +143,14 @@ export default function AboutPet() {
     setStep(
       result.context.currentSteps &&
         result.context.currentSteps.length > 0 &&
-        result.context.currentSteps[0].metadata.step
+        result.context.currentSteps[0]?.metadata.step
     );
 
     if (!result.context.isEndOfTree) {
       //返回答题 顺序处理
       if (
         result.context.currentSteps &&
-        result.context.currentSteps[0].metadata.step === 2
+        result.context.currentSteps[0]?.metadata.step === 2
       ) {
         let array = [];
         result.context.currentSteps.forEach((item) => {
@@ -298,9 +299,13 @@ export default function AboutPet() {
           className="questionnaire-image"
           src={require('../../assets/images/preciseCatNutrition/cat.png')}
         />
-        <div className="questionnaire-image-title">TELL US ABOUT YOUR PET</div>
+        <div className="questionnaire-image-title">
+          {/* TELL US ABOUT YOUR PET */}
+          <FormattedMessage id="aboutPet" />
+        </div>
         <div className="questionnaire-image-subTitle">
-          to get a precise nutritional recommendation.
+          {/* to get a precise nutritional recommendation. */}
+          <FormattedMessage id="nutritionalRecommendation" />
         </div>
       </div>
       <div style={{ minWidth: 320 }}>
@@ -357,3 +362,5 @@ export default function AboutPet() {
     </div>
   );
 }
+
+export default injectIntl(AboutPet);

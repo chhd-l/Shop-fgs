@@ -1,4 +1,7 @@
 @media (max-width: 639.98px) {
+  .longBannerTitleText {
+    text-align: center;
+  }
   .clubdesktop {
     height: auto;
     background-image: url('./image/CLUBmobbackground@4x.jpg');

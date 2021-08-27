@@ -42,7 +42,7 @@ const ChangeSelection = ({ el }) => {
                 float: 'left'
               }}
             >
-              <FormattedMessage id="subscription.frequency" />:
+              <FormattedMessage id="subscription.frequency" />
             </strong>
             <div
               className="rc-card__meta order-Id text-left"

@@ -307,7 +307,7 @@ const SubGoodsInfos = ({
               <div
                 className="rc-margin-x--none"
                 style={{
-                  padding: '1rem 0',
+                  padding: '1rem 0 1.5rem 0',
                   borderBottom: '1px solid #d7d7d7'
                 }}
               >
@@ -457,13 +457,14 @@ const SubGoodsInfos = ({
                         <div
                           style={{
                             position: 'relative',
-                            paddingLeft: '26px'
+                            paddingLeft: '26px',
+                            width: '75%'
                           }}
                         >
                           <span
                             style={{
-                              width: '100px',
-                              paddingTop: '10px'
+                              width: 'auto',
+                              paddingTop: '6px'
                             }}
                             className={`text-plain rc-styled-link ui-text-overflow-md-line1 `}
                             // onClick={() => showChangeProduct([el])}
@@ -496,9 +497,9 @@ const SubGoodsInfos = ({
                           <div
                             style={{
                               position: 'absolute',
-                              left: '-2%',
-                              whiteSpace: 'nowrap',
-                              top: -4
+                              left: '45%',
+                              top: -4,
+                              whiteSpace: 'nowrap'
                             }}
                           >
                             <DailyRation rations={el.petsRation} />
