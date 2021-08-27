@@ -1457,6 +1457,7 @@ class AddressList extends React.Component {
   // 单选按钮选择
   handleRadioChange = (e) => {
     const { addressList, homeAndPickup, pickupAddress } = this.state;
+    let addressObj = null;
     let val = e?.currentTarget?.value || e;
     let sitem = Object.assign([], homeAndPickup);
     sitem.forEach((v, i) => {
@@ -1471,6 +1472,7 @@ class AddressList extends React.Component {
     let btnStatus = false;
     val == 'pickup' ? (btnStatus = true) : (btnStatus = false);
     if (val == 'pickup' && pickupAddress.length) {
+      addressObj = pickupAddress[0];
       btnStatus = false;
       let pkup = pickupAddress[0];
       this.setState({
@@ -1482,14 +1484,15 @@ class AddressList extends React.Component {
     } else {
       // console.log('666 选择 addressList: ', addressList);
       if (addressList.length) {
-        addressList[0].selected = true;
+        addressObj = addressList[0];
+        addressObj.selected = true;
         this.setState({
           addressList,
           pickupFormData: [],
-          selectedId: addressList[0].deliveryAddressId,
-          homeDeliverySelectedId: addressList[0].deliveryAddressId
+          selectedId: addressObj.deliveryAddressId,
+          homeDeliverySelectedId: addressObj.deliveryAddressId
         });
-        this.props.updateData(addressList[0]);
+        this.props.updateData(addressObj);
       } else {
         btnStatus = true;
       }
@@ -1519,6 +1522,11 @@ class AddressList extends React.Component {
           isSubscription: this.props.isCurrentBuyWaySubscription
         };
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
+
+        // 计算运费
+        if (addressObj) {
+          this.calculateFreight(addressObj);
+        }
       }
     );
   };
