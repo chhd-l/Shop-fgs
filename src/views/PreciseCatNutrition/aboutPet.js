@@ -202,7 +202,6 @@ export default function AboutPet() {
           return;
         }
       }
-      debugger;
       putDataLayer(result.context);
       setResult(result.context.next);
     }
