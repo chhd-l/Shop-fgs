@@ -574,7 +574,7 @@ class Payment extends React.Component {
         setStsToPrepare({ key: 'confirmation' });
         return;
       }
-      if (!paymentPanelHasComplete && confirmationPanelStatus.isPrepare) {
+      if (!paymentPanelHasComplete && !this.paymentMethodPanelStatus.isEdit) {
         //正在编辑的是其他面板则将paymentMethod置为prePare
         setStsToPrepare({ key: 'paymentMethod' });
       }
@@ -1912,29 +1912,11 @@ class Payment extends React.Component {
       let tmpBillingAddress = { ...billingAddress };
       if (this.isLogin) {
         tmpDeliveryAddress = Object.assign({}, tmpDeliveryAddress, {
-          phoneNumber: deliveryAddress.consigneeNumber,
+          phoneNumber: deliveryAddress?.consigneeNumber,
           addressId:
             deliveryAddress.addressId || deliveryAddress.deliveryAddressId
         });
-        // tmpDeliveryAddress = {
-        //   firstName: deliveryAddress.firstName,
-        //   lastName: deliveryAddress.lastName,
-        //   address1: deliveryAddress.address1,
-        //   address2: deliveryAddress.address2,
-        //   rfc: deliveryAddress.rfc,
-        //   countryId: deliveryAddress.countryId,
-        //   country: deliveryAddress.country,
-        //   city: deliveryAddress.city,
-        //   cityId: deliveryAddress.cityId,
-        //   provinceId: deliveryAddress.provinceId,
-        //   provinceNo: deliveryAddress.provinceNo,
-        //   province: deliveryAddress.province,
-        //   postCode: deliveryAddress.postCode,
-        //   comment: deliveryAddress?.comment,
-        //   email: deliveryAddress.email,
-        //   phoneNumber: deliveryAddress.consigneeNumber,
-        //   addressId: deliveryAddress.addressId || deliveryAddress.deliveryAddressId
-        // };
+
         if (!billingChecked) {
           tmpBillingAddress = {
             area: billingAddress.area || '',
@@ -1953,12 +1935,13 @@ class Payment extends React.Component {
             province: billingAddress.province,
             postCode: billingAddress.postCode,
             comment: billingAddress?.comment,
-            phoneNumber: billingAddress.consigneeNumber,
+            phoneNumber: billingAddress?.consigneeNumber,
             addressId:
               billingAddress.addressId || billingAddress.deliveryAddressId
           };
         }
       }
+
       const param = {
         billingChecked,
         deliveryAddress: { ...tmpDeliveryAddress }
@@ -1966,10 +1949,7 @@ class Payment extends React.Component {
       param.billingAddress = billingChecked
         ? { ...tmpDeliveryAddress }
         : { ...tmpBillingAddress };
-      // console.log(
-      //   '★★★★★★ ---------- saveAddressAndCommentPromise param: ',
-      //   param
-      // );
+
       this.setState({
         deliveryAddress: { ...param.deliveryAddress },
         billingAddress: { ...param.billingAddress },
@@ -2176,7 +2156,7 @@ class Payment extends React.Component {
               });
             }
           }
-          console.log('666 -->> data: ', data);
+          console.log('666 -->> deliveryAddress: ', this.state.deliveryAddress);
           console.log('666 -->> pmd: ', pmd);
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
@@ -2663,6 +2643,7 @@ class Payment extends React.Component {
         }
         if (akey) billaddr[akey] ? '' : errMsgArr.push(fky);
       });
+
       errMsgArr = errMsgArr.join(', ');
       // 如果地址字段有缺失，提示错误信息
       if (errMsgArr.length) {

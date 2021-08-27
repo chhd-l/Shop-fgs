@@ -53,7 +53,7 @@ const LongBanner = () => {
                   </p>
                   <strong style={{ color: '#000000' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
-                    </strong>
+                  </strong>
                   <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
                     [1]
                   </sup>
@@ -186,7 +186,7 @@ const LongBanner = () => {
               }}
             >
               <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
-              <h6 style={{fontSize:14}}>
+              <h6 style={{ fontSize: 14 }}>
                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
               </h6>
             </div>
@@ -194,7 +194,10 @@ const LongBanner = () => {
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm" style={{position:'relative',zIndex:10}}>
+                <h4
+                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm"
+                  style={{ position: 'relative', zIndex: 10 }}
+                >
                   <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />
                 </h4>
 
@@ -214,8 +217,9 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-
-                            <FormattedMessage id={'PreciseCatNutrition.LongBanner.benefits1'} />
+                            <FormattedMessage
+                              id={'PreciseCatNutrition.LongBanner.benefits1'}
+                            />
                           </strong>
                         </div>
                       </div>
@@ -234,7 +238,9 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            <FormattedMessage id={'PreciseCatNutrition.LongBanner.benefits2'} />
+                            <FormattedMessage
+                              id={'PreciseCatNutrition.LongBanner.benefits2'}
+                            />
                           </strong>
                         </div>
                       </div>
@@ -253,7 +259,9 @@ const LongBanner = () => {
                         </div>
                         <div className=" value-proposition__text">
                           <strong className="rc-margin-bottom--none LongBannerSomeFontsize">
-                            <FormattedMessage id={'PreciseCatNutrition.LongBanner.benefits3'} />
+                            <FormattedMessage
+                              id={'PreciseCatNutrition.LongBanner.benefits3'}
+                            />
                           </strong>
                         </div>
                       </div>

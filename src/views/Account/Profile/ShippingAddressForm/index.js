@@ -474,7 +474,7 @@ class ShippingAddressFrom extends React.Component {
 
                 <div>
                   <EditForm
-                    key={addressForm?.isDefalt}
+                    key={addressForm}
                     initData={addressForm}
                     isLogin={true}
                     updateData={this.handleEditFormChange}
