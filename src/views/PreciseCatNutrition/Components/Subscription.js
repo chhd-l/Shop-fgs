@@ -1,7 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from '../../ClubLandingPageNew/image/pictosshippingnew@4x.png';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import picto_delivery from '../images/picto_delivery3.png';
 import picto_advisor from '../images/picto_advisor2.png';
 import picto_welcome_pack from '../images/picto_welcome-pack2.png';

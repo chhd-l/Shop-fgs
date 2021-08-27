@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
@@ -46,8 +46,9 @@ class CommunicationDataEditForm extends React.Component {
       },
       errorMsg: ''
     };
-    this.handleCommunicationCheckBoxChange =
-      this.handleCommunicationCheckBoxChange.bind(this);
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidUpdate() {
     if (window.__.env.REACT_APP_COUNTRY == 'tr') {

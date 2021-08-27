@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from '@/components/Modal';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getPetList } from '@/api/pet';
 import findIndex from 'lodash/findIndex';
 import LazyLoad from 'react-lazyload';

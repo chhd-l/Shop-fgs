@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from '@/components/Modal';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { getPetList } from '@/api/pet';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';

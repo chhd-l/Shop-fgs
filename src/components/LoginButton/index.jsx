@@ -13,7 +13,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import stores from '@/store';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData, bindSubmitParam } from '@/utils/utils';

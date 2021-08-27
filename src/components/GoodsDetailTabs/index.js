@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { formatMoney, getDeviceType } from '@/utils/utils';
-import { FormattedMessage, injectIntl, useIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, useIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
 import iconsixnew from './image/iconsixnew.png';

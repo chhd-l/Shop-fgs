@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';

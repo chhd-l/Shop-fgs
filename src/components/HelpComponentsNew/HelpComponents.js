@@ -2,7 +2,7 @@ import React from 'react';
 import callImgNew from './img/phoneicon@4x.png';
 import emailImgNew from './img/emailicon@4x.png';
 import faqImgNew from './img/FAQicon@4x.png';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';

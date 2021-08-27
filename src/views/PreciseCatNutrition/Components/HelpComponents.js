@@ -2,7 +2,7 @@ import React from 'react';
 import callImgNew from '../images/phone icon@2x.png';
 import emailImgNew from '../images/email icon@2x.png';
 import faqImgNew from '../images/FAQ icon@2x.png';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import '../index.less';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';

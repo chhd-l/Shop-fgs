@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -1116,8 +1116,12 @@ class UnLoginCart extends React.Component {
     );
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount, mobileCartVisibleKey, promotionCode } =
-      this.state;
+    const {
+      checkoutLoading,
+      discount,
+      mobileCartVisibleKey,
+      promotionCode
+    } = this.state;
     const { checkoutStore } = this.props;
     const subtractionSign = '-';
     return (

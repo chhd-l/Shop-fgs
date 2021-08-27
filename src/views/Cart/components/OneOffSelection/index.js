@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatMoney } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Selection from '@/components/Selection';
 import cartImg from '../../modules/images/cart.png';

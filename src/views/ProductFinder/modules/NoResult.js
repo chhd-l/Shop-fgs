@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import Skeleton from 'react-skeleton-loader';

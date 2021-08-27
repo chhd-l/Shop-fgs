@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import Loading from '@/components/Loading';
 import SearchSelection from '@/components/SearchSelection';
 import { validData, formatMoney, getDeviceType } from '@/utils/utils';
@@ -809,7 +809,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             </div>
             {/* 城市搜索 end */}
 
-            {/* 
+            {/*
                 要显示选择 homeDelivery or pickup 的场景：
                   1、游客
                   2、会员：地址列表为空

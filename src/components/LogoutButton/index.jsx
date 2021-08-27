@@ -13,7 +13,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import { doLogout } from '@/api/login';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import stores from '@/store';
 
 const localItemRoyal = window.__.localItemRoyal;

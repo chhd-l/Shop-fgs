@@ -20,7 +20,7 @@ import './index.less';
 import AddCartSuccessMobile from '../Details/components/AddCartSuccessMobile';
 // import Swiper from 'swiper';
 import Selection from '@/components/Selection';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 // import 'swiper/swiper-bundle.min.css';
 import Slider from 'react-slick';
 import {
@@ -1797,8 +1797,13 @@ class SmartFeederSubscription extends Component {
   };
   render() {
     const { location, history, match } = this.props;
-    const { headerHide, stepName, checkOutErrMsg, goodsDetailTab, enableFlag } =
-      this.state;
+    const {
+      headerHide,
+      stepName,
+      checkOutErrMsg,
+      goodsDetailTab,
+      enableFlag
+    } = this.state;
     let stepCom = null;
     return (
       <div>

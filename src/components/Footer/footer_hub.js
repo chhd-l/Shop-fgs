@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { cookieSettingsBtn } from './cookieSettingsBtn';
 import MarsFooterMap from './MarsFooterMap';
 import { menubar } from './menubar';

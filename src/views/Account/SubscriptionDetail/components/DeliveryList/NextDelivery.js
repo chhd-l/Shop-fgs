@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import stores from '@/store';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
@@ -446,7 +446,7 @@ const NextDelivery = ({
               </>
             ) : null}
 
-            {/* 
+            {/*
             customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
             enterPriceType 买入价格开关 0：含税，1：不含税
           */}

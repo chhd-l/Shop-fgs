@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { getFaq } from '../../api/faq';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import BreadCrumbs from '../../components/BreadCrumbs';

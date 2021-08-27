@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import shippingiconnew from './image/pictosshippingnew@4x.png';
 import phoneicon from './image/phoneicon@4x.png';

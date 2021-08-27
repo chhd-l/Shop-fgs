@@ -1,7 +1,7 @@
 import React from 'react';
 import SubscriptionBenefitsBanner from './SubscriprionBenefitsBanner';
 import './index.css';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import benefitsone from './image/benefitsone2.png';
 import benefitstwo from './image/benefitstwo.webp';
 import benefitsthree from './image/benefitsthree2.png';

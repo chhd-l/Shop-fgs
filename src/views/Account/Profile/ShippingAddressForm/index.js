@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 // import CitySearchSelection from '@/components/CitySearchSelection';
 import ValidationAddressModal from '@/components/validationAddressModal';

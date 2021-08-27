@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Modal from '@/components/Modal';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';

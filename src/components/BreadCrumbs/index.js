@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import BreadcrumbNameMap from './breadcrumbNameMap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 
 const BreadCrumbs = withRouter((props) => {
   const { location, match } = props;

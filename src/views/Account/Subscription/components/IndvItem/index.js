@@ -8,7 +8,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { getClubLogo } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 const localItemRoyal = window.__.localItemRoyal;
 const ClubItem = ({ subItem, history }) => {
   const isMobile = getDeviceType() !== 'PC';

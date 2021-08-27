@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import { SubGoodsInfosContext } from './index';
 import { getRemainings } from '@/api/dispenser';
 import { myAccountActionPushEvent } from '@/utils/GA';

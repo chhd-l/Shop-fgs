@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import cancelIcon from '../../images/cancel.png';
 import { SubGoodsInfosContext } from './index';
 import { myAccountActionPushEvent } from '@/utils/GA';

@@ -12,7 +12,11 @@ import phoneImg from '../img/phone.png';
 import step1Img from '../img/steps1.png';
 import step2Img from '../img/steps2.png';
 import step3Img from '../img/steps3.png';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 
 const staticPage = (props) => {
   const stepsList = [

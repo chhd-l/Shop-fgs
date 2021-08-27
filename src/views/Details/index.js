@@ -31,7 +31,7 @@ import {
   getClubFlag
 } from '@/utils/utils';
 import { funcUrl } from '@/lib/url-utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';

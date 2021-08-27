@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import '@/assets/css/heroCarousel.css';
 import './index.less';
 import { getBanner } from '@/api/home.js';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { stgShowAuth } from '@/utils/utils';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { withOktaAuth } from '@okta/okta-react';
 import classNames from 'classnames';
 import LazyLoad from 'react-lazyload';

@@ -37,6 +37,10 @@ import '@/utils/init';
 import {stgShowAuth} from '@/utils/utils'
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
+import {initializePhraseAppEditor} from 'react-intl-phraseapp'
+import moment from 'moment';
+
+
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
 
 import PickupMap from '@/views/PickupMap';
@@ -258,6 +262,17 @@ const ImplicitLogin = () => {
   return <div />;
 };
 
+
+//多语言集成
+moment.locale('zh-cn');
+var config = {
+  projectId: 'b499590cce7612135d58841aa002c6a8',
+  phraseEnabled: true,
+  prefix: '[[__',
+  suffix: '__]]'
+}
+initializePhraseAppEditor(config);
+
 const App = () => {
   const history = useHistory();
 
@@ -272,6 +287,7 @@ const App = () => {
   };
   return (
     <Provider {...stores}>
+
       <IntlProvider locale={window.__.env.REACT_APP_LANG} messages={locales}>
         <Router
           basename={window.__.env.REACT_APP_HOMEPAGE}
@@ -312,7 +328,7 @@ const App = () => {
                   render={() => <ImplicitLogin />}
                 />
 
-                <Route exact path="/precise-cat-nutrition-recommendation" 
+                <Route exact path="/precise-cat-nutrition-recommendation"
                   render={(props)=>stgShowAuth()?<PreciseRecommendation {...props}/>:<List key={props.location.search} {...props} />}/>
 
                 <Route path="/requestinvoice" component={RequestInvoices} />
@@ -343,7 +359,7 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
-                <Route exact path="/precise-cat-nutrition" 
+                <Route exact path="/precise-cat-nutrition"
                 render={(props)=>stgShowAuth()?<PreciseCatNutrition {...props}/>:<List key={props.location.search} {...props} />} />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route

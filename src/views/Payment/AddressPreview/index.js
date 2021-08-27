@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 @inject('checkoutStore', 'configStore')

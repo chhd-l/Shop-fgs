@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import { funcUrl } from '@/lib/url-utils';
 

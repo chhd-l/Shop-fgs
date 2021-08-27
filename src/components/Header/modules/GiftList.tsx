@@ -1,4 +1,4 @@
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import FrequencyMatch from '@/components/FrequencyMatch';
 import { formatMoney } from '@/utils/utils';
 import React from 'react';

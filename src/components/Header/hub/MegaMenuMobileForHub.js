@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import Help from './HelpForHub';
 import NavItem from './NavItemForHub';
 import PromotionPanel from '../modules/PromotionPanel';

@@ -15,7 +15,7 @@ import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';
 import BannerTip from '@/components/BannerTip';

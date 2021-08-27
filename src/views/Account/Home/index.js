@@ -7,7 +7,7 @@ import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import { myAccountPushEvent } from '@/utils/GA';

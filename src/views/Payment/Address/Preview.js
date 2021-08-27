@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { formatMoney, matchNamefromDict, getDictionary } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('configStore', 'paymentStore')

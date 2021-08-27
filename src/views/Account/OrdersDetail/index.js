@@ -9,7 +9,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import {
   formatMoney,
   getDictionary,
@@ -34,7 +34,7 @@ import './index.less';
 import LazyLoad from 'react-lazyload';
 import { format } from 'date-fns';
 import PageBaseInfo from '@/components/PageBaseInfo';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

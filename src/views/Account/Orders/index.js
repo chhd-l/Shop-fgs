@@ -10,7 +10,7 @@ import SideMenu from '@/components/SideMenu';
 import TimeCount from '@/components/TimeCount';
 import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {

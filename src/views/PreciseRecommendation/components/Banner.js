@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDeviceType, formatMoney } from '@/utils/utils';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 import { useLocalStore } from 'mobx-react';
 import cloneDeep from 'lodash/cloneDeep';

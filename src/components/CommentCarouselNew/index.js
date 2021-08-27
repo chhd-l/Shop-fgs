@@ -4,7 +4,7 @@ import CommentOne from './img/CommentThree.png';
 import CommentTwo from './img/CommentOne.png';
 import CommentThree from './img/CommentTwo.png';
 import CommentFour from './img/CommentFour.png';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import newtrcommentone from './img/FeedbackImage1.webp';
 import newtrcommenttwo from './img/CommentFour.webp';
 import newtrcommentthree from './img/CommentOne.webp';

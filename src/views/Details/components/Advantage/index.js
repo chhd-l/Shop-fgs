@@ -1,6 +1,6 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';

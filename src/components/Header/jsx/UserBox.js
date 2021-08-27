@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
 import LogoutButton from '@/components/LogoutButton';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import '../css/user.less';
 
 const localItemRoyal = window.__.localItemRoyal;

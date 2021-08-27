@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import NewPetModal from './components/NewPetModal';
 import SelectPetModal from './components/SelectPetModal';
 import { inject, observer } from 'mobx-react';

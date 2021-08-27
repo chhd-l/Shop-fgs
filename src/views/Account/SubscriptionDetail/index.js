@@ -1,6 +1,10 @@
 import React from 'react';
 import './index.less';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';

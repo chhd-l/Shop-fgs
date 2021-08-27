@@ -1,6 +1,6 @@
 //卡form表单
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import AdyenEditForm from '@/components/Adyen/form';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { formatMoney, getFrequencyDict, getClubLogo } from '@/utils/utils';

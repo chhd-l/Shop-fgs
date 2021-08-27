@@ -1,7 +1,7 @@
 import React from 'react';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
 export default class CardItemCover extends React.Component {

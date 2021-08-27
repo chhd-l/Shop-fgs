@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { matchNamefromDict, getDeviceType, unique } from '@/utils/utils';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { SubscriptionType, SubScriptionStatusNumber } from '@/utils/types.ts';
 import Selection from '@/components/Selection/index.js';
 import { PropTypes } from 'mobx-react';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';

@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
+import {
+  FormattedMessage,
+  injectIntl,
+  FormattedDate
+} from 'react-intl-phraseapp';
 import RecommendationList from './RecommendationList';
 import { findPetProductForClub } from '@/api/subscription';
 import { getRation, getClubLogo } from '@/utils/utils';

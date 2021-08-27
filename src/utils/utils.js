@@ -8,7 +8,7 @@ import find from 'lodash/find';
 import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import { createIntl, createIntlCache } from 'react-intl';
+import { createIntl, createIntlCache } from 'react-intl-phraseapp';
 import mx from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/fr';

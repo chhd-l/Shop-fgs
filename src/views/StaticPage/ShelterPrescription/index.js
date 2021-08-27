@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
-import { injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl-phraseapp';
 import CATSPng from './images/CATS2@2x.jpg';
 import catAndPhone from './images/catAndPhone.png';
 import mockData from './mock.json';

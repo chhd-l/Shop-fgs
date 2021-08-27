@@ -6,7 +6,7 @@ import FrTips from './fr/frTips';
 import FrFaq from './fr/frFaq';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';

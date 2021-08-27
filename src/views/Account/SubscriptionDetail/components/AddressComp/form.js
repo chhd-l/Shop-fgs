@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';

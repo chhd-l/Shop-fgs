@@ -7,7 +7,7 @@ import Pagination from '@/components/Pagination';
 import './index.css';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import LazyLoad from 'react-lazyload';

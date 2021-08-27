@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 

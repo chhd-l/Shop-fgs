@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';

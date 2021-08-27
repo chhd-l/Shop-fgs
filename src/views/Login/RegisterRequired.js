@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.css';

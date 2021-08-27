@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import FrequencySelection from '@/components/FrequencySelection/index.tsx';
 import ShowErrorDom from '../ShowErrorDom';
 import { changeSubscriptionGoods } from '@/api/subscription';

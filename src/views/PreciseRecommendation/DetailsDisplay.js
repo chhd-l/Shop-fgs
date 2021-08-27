@@ -1,6 +1,6 @@
 // import { Modal } from 'bootstrap';
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import { setSeoConfig, getDeviceType, getOktaCallBackUrl } from '@/utils/utils';
 
 let isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';

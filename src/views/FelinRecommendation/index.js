@@ -4,7 +4,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl-phraseapp';
 import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -1032,8 +1032,8 @@ class FelinRecommendation extends React.Component {
                               //   }
                               // }}
                             >
-                            <FormattedMessage id="recommendation.viewInCart" /> 
-                              
+                            <FormattedMessage id="recommendation.viewInCart" />
+
                             </button>
                           </p> */}
                         </div>
@@ -1272,7 +1272,7 @@ class FelinRecommendation extends React.Component {
             className="help-page"
             style={{ marginBottom: isMobile ? 0 : '1rem' }}
           >
-           
+
            <div className="experience-region experience-main">
               <div className="experience-region experience-main">
                 <div className="experience-component experience-layouts-1column">

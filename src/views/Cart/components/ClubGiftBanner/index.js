@@ -2,7 +2,7 @@ import React from 'react';
 import ClubBanner_Logo_ru from '@/assets/images/club_banner_logo_ru.png';
 import ClubBanner_Logo_en from '@/assets/images/club_banner_logo_en.png';
 import ClubBanner_Logo_tr from '@/assets/images/club_banner_logo_tr.png';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl-phraseapp';
 import LazyLoad from 'react-lazyload';
 
 let ClubBanner_Logo = ClubBanner_Logo_en;

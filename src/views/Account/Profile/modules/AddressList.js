@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl-phraseapp';
 import Loading from '@/components/Loading';
 import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
