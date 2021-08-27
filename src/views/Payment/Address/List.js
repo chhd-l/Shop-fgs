@@ -1902,7 +1902,7 @@ class AddressList extends React.Component {
       >
         {addOrEdit && (
           <EditForm
-            key={deliveryAddress?.isDefalt}
+            key={deliveryAddress}
             ref={this.editFormRef}
             type={this.props.type}
             isLogin={true}

@@ -788,7 +788,9 @@ class HomeDeliveryOrPickUp extends React.Component {
               </span>
               {searchNoResult && (
                 <div className="text-danger-2" style={{ paddingTop: '.5rem' }}>
-                  {this.props.allAddressList.length ? (
+                  {(pageType == 'checkout' &&
+                    this.props.allAddressList.length) ||
+                  pageType == 'onlyPickup' ? (
                     <FormattedMessage id="payment.noPickup" />
                   ) : (
                     <FormattedMessage id="payment.pickupNoRusult" />
