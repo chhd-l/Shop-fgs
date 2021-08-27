@@ -52,7 +52,7 @@ const FrequencyMatch = ({ frequencyType, currentFrequencyId,disabled=false,class
   return (
     <div style={wrapStyle} className={`freqency order-3 order-md-2 col-12 col-md-4 text-center ${className}`}>
       <span style={textStyle}>
-        <FormattedMessage id="subscription.frequency" />:
+        <FormattedMessage id="subscription.frequency" />
       </span>
       <Selection
         disabled={disabled}

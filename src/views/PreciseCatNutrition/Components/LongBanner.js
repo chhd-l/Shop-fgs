@@ -194,7 +194,7 @@ const LongBanner = () => {
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
               <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm">
+                <h4 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm" style={{position:'relative',zIndex:10}}>
                   <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />
                 </h4>
 
