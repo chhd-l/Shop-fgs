@@ -133,7 +133,7 @@ class PayProductInfo extends React.Component {
                     </p>
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <p className="mb-0">
-                        <FormattedMessage id="subscription.frequency" /> :{' '}
+                        <FormattedMessage id="subscription.frequency" />{' '}
                         <FrequencyMatch currentId={item.periodTypeId} />
                         {/* {item.goodsInfoFlag === 3 ? (
                           '30 days'
@@ -447,7 +447,7 @@ class PayProductInfo extends React.Component {
                       </div>
                     ) : null}
 
-                    {/* 
+                    {/*
                       customTaxSettingOpenFlag 税额开关 0: 开, 1: 关
                       enterPriceType 买入价格开关 0：含税，1：不含税
                     */}

@@ -2056,7 +2056,7 @@ const fr_FR = {
   'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 €/ mois',
   'PreciseCatNutrition.LongBanner.button': "S’ 'abonner",
   'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
-  'PreciseCatNutrition.LongBanner.secondTitle': 'Les bénéfices pour votre chat',
+  'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',
   'PreciseCatNutrition.LongBanner.benefits1':
     'Une alimentation adaptée pour aider votre chat à maintenir son poids idéal',
   'PreciseCatNutrition.LongBanner.benefits2':
@@ -2067,10 +2067,10 @@ const fr_FR = {
   'PreciseCatNutrition.DidYouKnow.paragraph1':
     "L'âge, la race, l’activité physique et le mode de vie influent sur les besoins nutritionnels des chats mais aussi sur la quantité d'aliments dont ils ont besoin chaque jour.",
   'PreciseCatNutrition.DidYouKnow.paragraph2':
-    "Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*",
+    "Par conséquent, un aliment complet et équilibré est essentiel pour soutenir la bonne santé de votre chat. Un aliment et une portion inadaptés peuvent conduire à un surpoids, voire à l'obésité, ce qui a un impact significatif sur le bien-être de votre chat et peut conduire à diminuer son espérance de vie de 2 ans*.",
   'PreciseCatNutrition.DidYouKnow.tryIt': 'J’essaye maintenant',
   'PreciseCatNutrition.AdaptedFood.title':
-    'Un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
+    'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
     "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
   'PreciseCatNutrition.AdaptedFood.paragraph2':
@@ -2084,7 +2084,7 @@ const fr_FR = {
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':
     'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
   'PreciseCatNutrition.AdaptedFood.paragraph3':
-    "**Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
+    "*Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
   'PreciseCatNutrition.AdaptedFood.findFood':
     'Trouvez l’aliment pour votre chat',
   'PreciseCatNutrition.Subscription.title':

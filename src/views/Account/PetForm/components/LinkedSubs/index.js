@@ -126,7 +126,7 @@ const LinkedSubs = (props) => {
                           <FormattedMessage id="units" />
                         </p>
                         <p>
-                          <FormattedMessage id="subscription.frequency" />:{' '}
+                          <FormattedMessage id="subscription.frequency" />{' '}
                           <FrequencyMatch currentId={subItem.periodTypeId} />
                         </p>
                       </span>

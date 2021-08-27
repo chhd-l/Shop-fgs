@@ -458,7 +458,7 @@ const SubGoodsInfos = ({
                           style={{
                             position: 'relative',
                             paddingLeft: '26px',
-                            width:'75%'
+                            width: '75%'
                           }}
                         >
                           <span
@@ -498,8 +498,8 @@ const SubGoodsInfos = ({
                             style={{
                               position: 'absolute',
                               left: '45%',
-                              top:-4,
-                              whiteSpace: 'nowrap',
+                              top: -4,
+                              whiteSpace: 'nowrap'
                             }}
                           >
                             <DailyRation rations={el.petsRation} />

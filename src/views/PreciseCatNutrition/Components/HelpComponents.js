@@ -56,8 +56,7 @@ const defaultList = {
       />
     )
   }
-
-}
+};
 const HelpComponents = (props) => {
   const { list = defaultList } = props;
   return (
@@ -152,7 +151,10 @@ const HelpComponents = (props) => {
                             <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                               <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                 <div className="w-100 ">
-                                  <b className={"helpComponents-b"} style={{fontWeight:600}}>
+                                  <b
+                                    className={'helpComponents-b'}
+                                    style={{ fontWeight: 600 }}
+                                  >
                                     {/*Email us*/}
                                     <FormattedMessage id="ClubLP.Help.email.title" />
                                   </b>
@@ -199,7 +201,7 @@ const HelpComponents = (props) => {
                                 <div className="w-100">
                                   <p style={{ marginBottom: 0 }}>
                                     {list.faq.desc}
-                                    </p>
+                                  </p>
                                   <div className="rc-margin-top--xs">
                                     <p
                                       style={{ color: '#00BCA3' }}

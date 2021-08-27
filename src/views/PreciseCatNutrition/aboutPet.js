@@ -268,6 +268,7 @@ function AboutPet() {
     data.steps.forEach((item) => {
       filter = { ...filter, ...item.questionParams };
     });
+    console.log(filter);
     let resultObj = {
       redirectToVet: 'Vet',
       redirectToProductFinder: 'Product Finder',
@@ -284,7 +285,9 @@ function AboutPet() {
     dataLayer.push({
       event: 'individualizationLandingFormClick',
       result: resultObj[data.next], //value should be one the trees user journeys: 'Recommendation','Product Finder' or 'Vet'
-      breed: breed[filter.breed] ? breed[filter.breed] : filter.breed, //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
+      breed: breed[filter.breedCode]
+        ? breed[filter.breedCode]
+        : filter.breedCode, //All animal breeds associated with the product. Value can be 'Mixed' or 'Unknown'
       sterilized: sterilized[filter.neutered] //Value can be 'Yes' or 'No'
     });
     console.log(dataLayer);

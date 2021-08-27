@@ -30,10 +30,9 @@ const SubscriptionBenefitsBanner = ({
                 className="flex "
                 style={{ justifyContent: 'center', padding: '20px' }}
               >
-                {
-                  window.__.env.REACT_APP_COUNTRY == 'fr'&& (!isMobile) ?
-                    null:LogoShow.logo
-                }
+                {window.__.env.REACT_APP_COUNTRY == 'fr' && !isMobile
+                  ? null
+                  : LogoShow.logo}
               </div>
               <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                 <h3 className="rc-beta" style={{ fontWeight: '550' }}>
