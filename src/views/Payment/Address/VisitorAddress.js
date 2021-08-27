@@ -110,7 +110,7 @@ class VisitorAddress extends React.Component {
       }
       await validData(data.formRule, data); // 数据验证
       this.setState({ isValid: true, unConfirmedForm: data }, () => {
-        console.log('--------- ★★★★★★ VisitorAddress 验证通过');
+        // console.log('--------- ★★★★★★ VisitorAddress 验证通过');
         this.props.updateFormValidStatus(this.state.isValid);
       });
       this.props.updateData(data);
@@ -417,7 +417,7 @@ class VisitorAddress extends React.Component {
   // 重置参数，在Payment确认地址时调用
   resetVisitorAddressState() {
     const { form } = this.state;
-    // console.log('------ 重置参数，在Payment确认地址时调用');
+    // console.log('666 ------ 重置参数，在Payment确认地址时调用 form: ',form);
     this.setState({
       visitorValidationModalVisible: false,
       visitorBtnLoading: false
@@ -503,6 +503,7 @@ class VisitorAddress extends React.Component {
         comment: pickupFormData.comment,
         pickupPrice: pickupFormData?.pickupPrice,
         pickupDescription: pickupFormData?.pickupDescription,
+        paymentMethods: pickupFormData?.paymentMethods, // 支付方式
         pickupCode: pickupFormData?.pickupCode, // 快递公司code
         pickupName: pickupFormData?.pickupName, // 快递公司
         workTime: pickupFormData.workTime, // 快递公司上班时间
