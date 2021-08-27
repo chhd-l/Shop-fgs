@@ -26,6 +26,7 @@ const fr_FR = {
   'account.addPet': 'Ajouter un animal domestique',
   'account.basicInfomation': 'Mes informations personnelles',
   'account.birthDate': 'Date de naissance',
+  dateOfBirth: 'Date de naissance',
   'account.breed': 'Quelle race {val}?',
   'account.cat': 'Chat',
   'account.catOrDog': 'Avez-vous un chat ou un chien?',

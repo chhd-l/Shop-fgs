@@ -330,7 +330,7 @@ function AboutPet() {
                   }}
                   disabled={canNext}
                 >
-                  Next
+                  Suivant
                 </button>
               </div>
               {step > 1 ? (
@@ -341,7 +341,7 @@ function AboutPet() {
                     goBack(step);
                   }}
                 >
-                  <span className="back-btn">Back</span>
+                  <span className="back-btn">Retourner</span>
                 </div>
               ) : (
                 ''
