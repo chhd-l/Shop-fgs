@@ -89,6 +89,21 @@ export async function hanldePurchases(goodsInfoDTOList) {
   }
 }
 
+export function stgShowAuth() {
+  console.info(
+    " localItemRoyal.get('rc-userinfo')",
+    localItemRoyal.get('rc-userinfo')
+  );
+  let userInfo = localItemRoyal.get('rc-userinfo');
+  let isLogin = !!localItemRoyal.get('rc-token');
+  return true;
+  // if(!isLogin){
+  //   return false
+  // }
+  // if(userInfo){
+  //   return false
+  // }
+}
 /**
  * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
  */

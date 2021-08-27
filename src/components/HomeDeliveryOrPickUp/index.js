@@ -53,7 +53,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     super(props);
     this.state = {
       pickLoading: false,
-      showPickup: true,
+      showPickup: false,
       showPickupDetail: false,
       showPickupDetailDialog: false,
       showPickupForm: false,
@@ -74,7 +74,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         pickupCode: '', // 快递公司code
         pickupName: '', // 快递公司
         workTime: '', // 快递公司上班时间
-        receiveType: 'HOME_DELIVERY', // HOME_DELIVERY , PICK_UP
+        receiveType: '', // HOME_DELIVERY , PICK_UP
         formRule: [
           {
             regExp: /\S/,
@@ -170,20 +170,8 @@ class HomeDeliveryOrPickUp extends React.Component {
 
     let sitem = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
     sitem = JSON.parse(sitem);
-    // 如果地址列表中存在默认地址，根据默认地址中的city查询
-    // 改变了购物车是否存在订阅商品
-    // let pickupData = this.props.pickupData;
-    // if (pickupData) {
-    //   this.setState({
-    //     pickupForm: Object.assign(this.state.pickupForm, pickupData, {
-    //       phoneNumber: pickupData.consigneeNumber
-    //     }),
-    //     showPickupForm: true,
-    //     showPickupDetail: true,
-    //   });
-    // }
+
     let defaultCity = this.props.defaultCity;
-    console.log('666 --> defaultCity: ', this.props.defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -229,7 +217,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState(
         {
           selectedItem: sitem,
-          pickupCity: sitem.cityData.city
+          pickupCity: sitem?.cityData?.city || ''
         },
         () => {
           if (isSelectedItem) {
@@ -516,6 +504,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       minDeliveryTime: pickupItem?.minDeliveryTime || 0,
       receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
     };
+
     // 再次编辑地址的时候，从缓存中取city数据
     if (pickupEditNumber > 0) {
       let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;

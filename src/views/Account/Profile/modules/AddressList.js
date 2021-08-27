@@ -134,6 +134,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      saveAddressNumber: 0, // 保存地址次数
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
       isPickupOpen: this.props.configStore?.isPickupOpen,
       addressAddOrEditFlag: '', // pickup标记
@@ -337,7 +338,7 @@ class AddressList extends React.Component {
   addBtnJSX = (receiveType) => {
     return (
       <div
-        className="rounded p-3 border h-100 d-flex align-items-center justify-content-center font-weight-bold"
+        className="rounded border h-100 d-flex align-items-center justify-content-center font-weight-bold pt-3 pb-3"
         onClick={this.handleClickAddBtn.bind(this, receiveType)}
         ref={(node) => {
           if (node) {
@@ -466,7 +467,7 @@ class AddressList extends React.Component {
                     className="rc-input__label--inline"
                     htmlFor={item.deliveryAddressId}
                   >
-                    <FormattedMessage id="setDefaultAddress" />
+                    <FormattedMessage id="setMyaccountDefaultAddress" />
                   </label>
                 </div>
               </div>
@@ -540,8 +541,12 @@ class AddressList extends React.Component {
                       </span>
                       {/* 删除询问弹框 */}
                       <ConfirmTooltip
-                        containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                        arrowStyle={{ left: '89%' }}
+                        containerStyle={{
+                          transform: isMobile
+                            ? 'translate(-38%, 105%)'
+                            : 'translate(-89%, 108%)'
+                        }}
+                        arrowStyle={{ left: isMobile ? '30%' : '89%' }}
                         display={item.confirmTooltipVisible}
                         confirm={this.deleteCard.bind(this, item)}
                         updateChildDisplay={(status) =>
@@ -575,6 +580,15 @@ class AddressList extends React.Component {
     );
   };
 
+  // 增加编辑地址次数
+  addSaveAddressNumber = () => {
+    const { saveAddressNumber } = this.state;
+    let san = saveAddressNumber;
+    this.setState({
+      saveAddressNumber: san++
+    });
+  };
+
   // ************ pick up 相关
   // 更新pickup数据
   updatePickupData = (data) => {
@@ -590,12 +604,18 @@ class AddressList extends React.Component {
   };
   // 取消新增或者编辑pickup
   handleCancelEditOrAddPickup = () => {
+    // 清空城市
     this.setState(
       {
         addressAddOrEditFlag: '',
+        defaultCity: '',
         pickupVisible: false
       },
       () => {
+        let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+        sobj = JSON.parse(sobj);
+        sobj.cityData = null;
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(sobj));
         this.scrollToTop();
       }
     );

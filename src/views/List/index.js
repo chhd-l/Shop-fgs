@@ -20,6 +20,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
 import ruFilterMap from './ruFilterMap.json';
+import { stgShowAuth } from '@/utils/utils';
 import {
   fetchHeaderNavigations,
   fetchFilterList,
@@ -1096,7 +1097,8 @@ class List extends React.Component {
             (attr) =>
               attr === 'Maintien du poids de forme_Cat' ||
               attr === 'Tendency to beg for food_Cat'
-          ).length > 0;
+          ).length > 0 &&
+          stgShowAuth();
 
         if (isSpecialNeedFilter || this.state.isRetailProducts) {
           this.pageSize = 8;

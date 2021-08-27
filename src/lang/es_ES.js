@@ -924,6 +924,7 @@ const es_ES = {
   setDefaltAddressFailed: 'Establecer dirección predeterminada fallida',
   setDefaltAddressSuccess: 'Establecer dirección predeterminada correcta',
   setDefaultAddress: 'Establecer como dirección predeterminada',
+  setMyaccountDefaultAddress: 'Establecer como dirección predeterminada',
   setDefaultPaymentMethod: 'Establecer como método de pago predeterminado',
   prevShipmentOn: 'Envío el',
   nextShipmentOn: 'Envío el',

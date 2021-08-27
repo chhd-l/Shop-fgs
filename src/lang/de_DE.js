@@ -1012,6 +1012,7 @@ const de_DE = {
   setDefaltAddressFailed: 'Set Defalt Address Failed',
   setDefaltAddressSuccess: 'Set Defalt Address Success',
   setDefaultAddress: 'Als Standardadresse festlegen',
+  setMyaccountDefaultAddress: 'Als Standardadresse festlegen',
   setDefaultPaymentMethod: 'Als Standardzahlungsmethode festlegen',
   prevShipmentOn: 'Versand am',
   nextShipmentOn: 'Versand am',

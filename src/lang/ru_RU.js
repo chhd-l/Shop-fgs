@@ -944,6 +944,7 @@ const ru_RU = {
   setDefaltAddressFailed: 'Ошибка установки адреса по умолчанию',
   setDefaltAddressSuccess: 'Успешная установка адреса по умолчанию',
   setDefaultAddress: 'Установить по умолчанию',
+  setMyaccountDefaultAddress: 'Установить как основной',
   setDefaultPaymentMethod: 'Выбрать платежом по умолчанию',
   ShipmentConditions: 'Условия доставки',
   shipping: 'Перевозка',

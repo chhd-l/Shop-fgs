@@ -158,12 +158,15 @@ class AddressList extends React.Component {
       });
     });
 
-    await this.queryAddressList({ init: true });
-
-    this.setState({
-      listBtnLoading: false,
-      wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
-    });
+    this.setState(
+      {
+        listBtnLoading: false,
+        wrongAddressMsg: JSON.parse(localItemRoyal.get('rc-wrongAddressMsg'))
+      },
+      async () => {
+        await this.queryAddressList({ init: true });
+      }
+    );
   }
   get isDeliverAddress() {
     return this.props.type === 'delivery';
@@ -285,11 +288,10 @@ class AddressList extends React.Component {
       }
 
       const tmpObj =
-        find(addressList, (ele) => ele.deliveryAddressId === tmpId) || null;
+        find(allAddress, (ele) => ele.deliveryAddressId === tmpId) || null;
 
       // 查询银行卡列表
       // this.isDeliverAddress && this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
-
       this.props.updateData(tmpObj);
       let editaddObj = [];
       addressList.forEach(async (v, i) => {
@@ -364,7 +366,7 @@ class AddressList extends React.Component {
                   showDeliveryOrPickUp: 1,
                   pickupAddress
                 },
-                () => {
+                async () => {
                   if (allAddress.length) {
                     // 设置默认城市
                     if (pickupAddress.length) {
@@ -372,7 +374,7 @@ class AddressList extends React.Component {
                         defaultCity: pickupAddress[0].city
                       });
                     }
-                    this.getHomeDeliveryAndPickupInfo();
+                    await this.getHomeDeliveryAndPickupInfo();
                   }
                 }
               );
@@ -1335,7 +1337,8 @@ class AddressList extends React.Component {
       allAddressList,
       addressList,
       pickupAddress,
-      isPickupOpen
+      isPickupOpen,
+      listSaveAddressNumber
     } = this.state;
     let obj = [
       {
@@ -1344,6 +1347,7 @@ class AddressList extends React.Component {
         type: 'homeDelivery'
       }
     ];
+    // pickup 开关打开状态
     if (isPickupOpen) {
       obj.push({
         deliveryPrice: pickupAddress[0]?.pickupPrice || 0,
@@ -1360,9 +1364,10 @@ class AddressList extends React.Component {
 
     let hdpk = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
     hdpk = JSON.parse(hdpk);
-    // 1、上一次选择
-    let addstr = '';
-    if (hdpk && hdpk?.homeAndPickup) {
+    let addstr = null;
+    // console.log('666 编辑次数 listSaveAddressNumber： ', listSaveAddressNumber);
+    if (hdpk && hdpk?.homeAndPickup && listSaveAddressNumber > 1) {
+      // 1、上一次选择
       hdpk.homeAndPickup.map((pk) => {
         if (pk.selected) {
           addstr = pk.type;
@@ -1377,10 +1382,12 @@ class AddressList extends React.Component {
       if (!addressList.length && pickupAddress.length) {
         addstr = 'pickup';
       }
-      // 4、有设置默认地址
+      // 4、有地址
       if (addressList.length && pickupAddress.length) {
         allAddressList.map((e) => {
+          // 有默认地址
           if (e.isDefaltAddress == 1) {
+            defaultId = e.deliveryAddressId;
             if (e.receiveType === 'PICK_UP') {
               addstr = 'pickup';
             } else {
@@ -1390,7 +1397,8 @@ class AddressList extends React.Component {
         });
       }
     }
-    // console.log('666 根据默认地址查询信息: ', addstr);
+
+    // console.log('666 》》 根据默认地址查询信息: ', addstr);
     obj.map((e) => {
       let tp = e.type;
       if (tp == addstr) {
@@ -1400,6 +1408,10 @@ class AddressList extends React.Component {
         e.selected = false;
       }
     });
+    // 没有默认地址也没有缓存
+    if (!addstr) {
+      obj[0].selected = true;
+    }
 
     // 有订阅商品时不展示pickup
     if (this.props.isCurrentBuyWaySubscription) {
@@ -1440,16 +1452,26 @@ class AddressList extends React.Component {
   };
   // 取消新增或编辑pickup
   handleCancelAddOrEditPickup = () => {
-    this.setState({
-      addOrEditPickup: false,
-      deliveryOrPickUpFlag: true,
-      showDeliveryOrPickUp: 1, // 0：都没有，1：home delivery，2：pickup
-      choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
-    });
+    this.setState(
+      {
+        defaultCity: '',
+        addOrEditPickup: false,
+        deliveryOrPickUpFlag: true,
+        showDeliveryOrPickUp: 1, // 0：都没有，1：home delivery，2：pickup
+        choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
+      },
+      () => {
+        let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+        sobj = JSON.parse(sobj);
+        sobj.cityData = null;
+        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(sobj));
+      }
+    );
   };
   // 单选按钮选择
   handleRadioChange = (e) => {
     const { addressList, homeAndPickup, pickupAddress } = this.state;
+    let addressObj = null;
     let val = e?.currentTarget?.value || e;
     let sitem = Object.assign([], homeAndPickup);
     sitem.forEach((v, i) => {
@@ -1464,6 +1486,7 @@ class AddressList extends React.Component {
     let btnStatus = false;
     val == 'pickup' ? (btnStatus = true) : (btnStatus = false);
     if (val == 'pickup' && pickupAddress.length) {
+      addressObj = pickupAddress[0];
       btnStatus = false;
       let pkup = pickupAddress[0];
       this.setState({
@@ -1475,25 +1498,15 @@ class AddressList extends React.Component {
     } else {
       // console.log('666 选择 addressList: ', addressList);
       if (addressList.length) {
-        // 选中项
-        // addressList.map((ele) => {
-        //   if (ele.selected) {
-        // this.setState({
-        //   pickupFormData: [],
-        //   selectedId: ele.deliveryAddressId,
-        //   homeDeliverySelectedId: ele.deliveryAddressId
-        // });
-        // this.props.updateData(ele);
-        //   }
-        // });
-        addressList[0].selected = true;
+        addressObj = addressList[0];
+        addressObj.selected = true;
         this.setState({
           addressList,
           pickupFormData: [],
-          selectedId: addressList[0].deliveryAddressId,
-          homeDeliverySelectedId: addressList[0].deliveryAddressId
+          selectedId: addressObj.deliveryAddressId,
+          homeDeliverySelectedId: addressObj.deliveryAddressId
         });
-        this.props.updateData(addressList[0]);
+        this.props.updateData(addressObj);
       } else {
         btnStatus = true;
       }
@@ -1523,6 +1536,11 @@ class AddressList extends React.Component {
           isSubscription: this.props.isCurrentBuyWaySubscription
         };
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
+
+        // 计算运费
+        if (addressObj) {
+          this.calculateFreight(addressObj);
+        }
       }
     );
   };
@@ -1785,6 +1803,8 @@ class AddressList extends React.Component {
           >
             <span className="font-weight-bold">{item.consigneeName}</span>
             <p className="pd-0 md-0" style={{ marginBottom: '0' }}>
+              {item.consigneeNumber}
+              <br />
               {this.setAddressFields(item)}
               {item.deliveryDate && item.timeSlot ? (
                 <>

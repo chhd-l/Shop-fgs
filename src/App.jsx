@@ -34,7 +34,7 @@ import stores from './store';
 import { PDP_Regex } from '@/utils/constant';
 import { redirectFun } from '@/redirect/utils';
 import '@/utils/init';
-
+import {stgShowAuth} from '@/utils/utils'
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 const Home = loadable(() => import('@/views/Home'), 'rc-carousel');
@@ -312,7 +312,8 @@ const App = () => {
                   render={() => <ImplicitLogin />}
                 />
 
-                <Route exact path="/precise-cat-nutrition-recommendation" component={PreciseRecommendation} />
+                <Route exact path="/precise-cat-nutrition-recommendation" 
+                  render={(props)=>stgShowAuth()?<PreciseRecommendation {...props}/>:<List key={props.location.search} {...props} />}/>
 
                 <Route path="/requestinvoice" component={RequestInvoices} />
                 <Route exact path="/cart" component={Cart} />
@@ -342,7 +343,8 @@ const App = () => {
                 />
                 <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
                 <Route exact path="/prescription" component={Prescription} />
-                <Route exact path="/precise-cat-nutrition" component={PreciseCatNutrition} />
+                <Route exact path="/precise-cat-nutrition" 
+                render={(props)=>stgShowAuth()?<PreciseCatNutrition {...props}/>:<List key={props.location.search} {...props} />} />
                 <Route exact path="/makerHandle" component={MakerHandle} />
                 <Route
                   exact

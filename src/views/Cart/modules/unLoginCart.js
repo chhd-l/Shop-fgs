@@ -1520,7 +1520,9 @@ class UnLoginCart extends React.Component {
           },
           () => {
             // 本次失败之后公共的code也被清空了，需要重新请求code填充公共code
-            result.code === 'K-000000' && this.handleClickPromotionApply(true);
+            result &&
+              result.code === 'K-000000' &&
+              this.handleClickPromotionApply(true);
           }
         );
       }, 4000);
