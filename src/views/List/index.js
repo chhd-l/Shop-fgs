@@ -20,6 +20,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
 import { getList } from '@/api/list';
 import ruFilterMap from './ruFilterMap.json';
+import { stgShowAuth } from '@/utils/utils';
 import {
   fetchHeaderNavigations,
   fetchFilterList,
@@ -47,10 +48,11 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const retailDog =
   'https://cdn.royalcanin-weshare-online.io/zWkqHWsBG95Xk-RBIfhn/v1/bd13h-hub-golden-retriever-adult-black-and-white?w=1280&auto=compress&fm=jpg';
-const urlPrefix = `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
-  /\/$/,
-  ''
-);
+const urlPrefix =
+  `${window.location.origin}${window.__.env.REACT_APP_HOMEPAGE}`.replace(
+    /\/$/,
+    ''
+  );
 
 const filterAttrValue = (list, keyWords) => {
   return (list || [])
@@ -1096,7 +1098,8 @@ class List extends React.Component {
             (attr) =>
               attr === 'Maintien du poids de forme_Cat' ||
               attr === 'Tendency to beg for food_Cat'
-          ).length > 0;
+          ).length > 0 &&
+          stgShowAuth();
 
         if (isSpecialNeedFilter || this.state.isRetailProducts) {
           this.pageSize = 8;
@@ -1590,8 +1593,9 @@ class List extends React.Component {
 
   stickyMobileRefineBar() {
     if (isMobilePhone) {
-      var t = document?.getElementById('refineBar')?.getBoundingClientRect()
-        .top;
+      var t = document
+        ?.getElementById('refineBar')
+        ?.getBoundingClientRect().top;
       window.addEventListener('scroll', () => {
         var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
         if (window.pageYOffset + 33 >= t && choosedVal) {
