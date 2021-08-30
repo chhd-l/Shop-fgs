@@ -430,7 +430,7 @@ class SubscriptionDetail extends React.Component {
             subDetail.goodsInfo?.forEach((el) => {
               rations?.forEach((ration) => {
                 if (el.spuNo == ration.mainItem) {
-                  el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+                  el.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
                 }
               });
             });

@@ -1440,6 +1440,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
+  'subscription.personalized': 'L\'aliment et la portion adaptées à {val1}\'s',
   'subscription.frequency': 'Fréquence : toutes les ',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
@@ -1957,11 +1958,12 @@ const fr_FR = {
   'ClubLP.Help.faq.content':
     "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
   'plp.retail.cat.filter.specneed.title':
-    "Looking for a recipe to help your cat's optimal weight?",
+    "Offrez à votre chat un aliment adapté à ses besoins et une portion précise pour un poids idéal !",
   'plp.retail.cat.filter.specneed.tip':
-    'Discover the adapted recipe and the exact ration for your cat',
+    '-25% sur la première commande',
   'plp.retail.cat.filter.specneed.tip.mobile':
-    'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  '-25% sur la première commande',
+    // 'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'preciseNutrition.bannertext1': 'Paiement sécurisé',
   'preciseNutrition.bannertext2': 'Satisfait remboursé',
@@ -2057,7 +2059,7 @@ const fr_FR = {
   'PreciseCatNutrition.LongBanner.averagePrice1': 'Prix moyen',
   'PreciseCatNutrition.LongBanner.averagePrice2': '0,90 € / jour',
   'PreciseCatNutrition.LongBanner.averagePrice3': '25,50 €/ mois',
-  'PreciseCatNutrition.LongBanner.button': "S’ 'abonner",
+  'PreciseCatNutrition.LongBanner.button': 'S‘abonner',
   'PreciseCatNutrition.LongBanner.redRadius': 'sur la première commande',
   'PreciseCatNutrition.LongBanner.secondTitle': 'LES BÉNÉFICES POUR VOTRE CHAT',
   'PreciseCatNutrition.LongBanner.benefits1':
@@ -2087,7 +2089,7 @@ const fr_FR = {
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li4':
     'Un approvisionnement en nutriments de qualité et issus prioritairement de sources durables à faible empreinte carbone',
   'PreciseCatNutrition.AdaptedFood.paragraph3':
-    "*Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
+    "**Cette offre n'est pas adaptée aux chats souffrant d'obésité ou de toute autre maladie, situations pour lesquelles, nous vous recommandons de consulter votre vétérinaire.",
   'PreciseCatNutrition.AdaptedFood.findFood':
     'Trouvez l’aliment pour votre chat',
   'PreciseCatNutrition.Subscription.title':

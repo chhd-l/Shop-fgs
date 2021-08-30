@@ -71,7 +71,13 @@ const ClubItem = ({ subItem, history }) => {
                     marginBottom: '5px'
                   }}
                 >
-                  {`${item.petsName}'s personalized subscription`}
+                  <FormattedMessage
+                    id="subscription.personalized"
+                    values={{
+                      val1:item.petsName
+                    }}
+                  />
+                  {/*{`${item.petsName}'s personalized subscription`}*/}
                 </p>
                 <p>
                   {item.subscribeNum / 1000 + 'kg'} - 1{' '}
