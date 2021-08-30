@@ -115,7 +115,7 @@ export default function AnimalBreeds({ questionData }) {
                 className="rc-input__label--inline text-break"
                 htmlFor="pf-checkbox-mixbreed"
               >
-                <FormattedMessage id="account.mixBreed" />
+                <FormattedMessage id="productFinder.mixBreed" />
               </label>
             </div>
 
