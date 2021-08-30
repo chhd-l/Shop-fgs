@@ -1387,7 +1387,6 @@ class AddressList extends React.Component {
         allAddressList.map((e) => {
           // 有默认地址
           if (e.isDefaltAddress == 1) {
-            defaultId = e.deliveryAddressId;
             if (e.receiveType === 'PICK_UP') {
               addstr = 'pickup';
             } else {
@@ -1902,7 +1901,7 @@ class AddressList extends React.Component {
       >
         {addOrEdit && (
           <EditForm
-            key={deliveryAddress?.isDefalt}
+            key={deliveryAddress}
             ref={this.editFormRef}
             type={this.props.type}
             isLogin={true}

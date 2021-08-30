@@ -90,19 +90,44 @@ export async function hanldePurchases(goodsInfoDTOList) {
 }
 
 export function stgShowAuth() {
-  console.info(
-    " localItemRoyal.get('rc-userinfo')",
-    localItemRoyal.get('rc-userinfo')
-  );
+  // charles_dw@139.com fr sit  以及anhao的三个环境账号
+  let whiteList = [
+    'henri.thibaud@royalcanin.com',
+    'pierre.charles.parsy@royalcanin.com',
+    'yann.maurin@royalcanin.com',
+    'Vincent.Delplancq@royalcanin.com',
+    'samia.hnich@royalcanin.com',
+    'alberic.paulze.divoy@royalcanin.com',
+    'elisa.brami@royalcanin.com',
+    'victor.sing@royalcanin.com',
+    'alba.beatriz.brito.guerrero@royalcanin.com',
+    '000003003',
+    '000018001',
+    '000030505',
+    '000233563',
+    '000268272',
+    '000321536',
+    '000321537',
+    '000326583',
+    '2c91808575b13d740175dc3f0bfd0151',
+    '7ffffe87692ae8c42b207abb3fb5b235',
+    '8000017b8cd9c81719bd0ecb24237fd4',
+    '8000017b5deaa11672dc0b320ec0adc2',
+    '7ffffe88f12360756059af4f5fd9c282'
+  ];
   let userInfo = localItemRoyal.get('rc-userinfo');
-  let isLogin = !!localItemRoyal.get('rc-token');
-  return true;
+  // let isLogin = !!localItemRoyal.get('rc-token');
   // if(!isLogin){
   //   return false
   // }
-  // if(userInfo){
-  //   return false
-  // }
+  if (
+    whiteList.includes(userInfo?.customerId) ||
+    whiteList.includes(userInfo?.customerAccount)
+  ) {
+    //除了白名单以外的都不能看到indv的东西
+    return true;
+  }
+  return false;
 }
 /**
  * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)

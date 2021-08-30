@@ -29,7 +29,7 @@ class PickupMap extends React.Component {
         // 传递给父页面
         window.parent.postMessage(e.detail, '*');
       } catch (error) {
-        console.log('error >>: ', error);
+        console.log('666 error >>: ', error);
       }
     });
 
@@ -44,7 +44,7 @@ class PickupMap extends React.Component {
       window.addEventListener(
         'message',
         (e) => {
-          // console.log('666 ★ 接收父页面发来的数据: ', e.data);
+          console.log('666 ★ 接收组件发来的数据: ', e.data?.msg);
           if (e?.data?.msg) {
             let msg = e.data.msg;
             if (msg == 'clearMap') {
@@ -66,7 +66,7 @@ class PickupMap extends React.Component {
   }
   // 打开地图
   openKaktusWidget = (city) => {
-    // console.log('666 ★★★ 打开地图city: ', city);
+    console.log('666 ★ 打开地图city: ', city);
     window.kaktusMap.openWidget({
       city_from: 'Москва',
       city_to: city,
