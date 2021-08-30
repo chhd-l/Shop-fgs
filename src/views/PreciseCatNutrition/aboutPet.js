@@ -344,7 +344,6 @@ function AboutPet() {
                     goBack(step);
                   }}
                 >
-
                   <span className="back-btn">
                     <FormattedMessage id="back" />
                   </span>

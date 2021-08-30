@@ -2166,6 +2166,7 @@ const fr_FR = {
   'preciseNutrition.bscTip1':
     '1. Regardez votre chat de haut en bas et de côté.',
   'preciseNutrition.bscTip2':
-    '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.'
+    '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.',
+  'productFinder.mixBreed': 'Race mixte'
 };
 export default fr_FR;

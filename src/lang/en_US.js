@@ -1788,6 +1788,7 @@ const en_US = {
   'preciseNutrition.bscTip1':
     '1. Look at your cat from above and from the side',
   'preciseNutrition.bscTip2':
-    '2. Feel your cat’s body, gently applying pressure to find the ribs'
+    '2. Feel your cat’s body, gently applying pressure to find the ribs',
+  'productFinder.mixBreed': 'Mix breed'
 };
 export default en_US;
