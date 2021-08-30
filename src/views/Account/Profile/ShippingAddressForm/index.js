@@ -248,6 +248,8 @@ class ShippingAddressFrom extends React.Component {
         customerId: data.customerId,
         deliveryAddress: data.address1 + ' ' + data.address2,
         deliveryAddressId: data.deliveryAddressId,
+        receiveType: 'HOME_DELIVERY', // HOME_DELIVERY , PICK_UP
+        deliverWay: 1, // 1: HOMEDELIVERY , 2: PICKUP
         isDefaltAddress:
           data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
         postCode: data.postCode,
