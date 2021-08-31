@@ -79,7 +79,8 @@ class PayProductInfo extends React.Component {
       item.num = item.goodsInfoFlag === 3 ? 1 : item.num;
       item.spuName =
         item.goodsInfoFlag == 3
-          ? `${item.petsName}'s personalized subscription`
+          // ? `${item.petsName}'s personalized subscription`
+          ? <FormattedMessage id='subscription.personalized' values={{ val1: item.petsName }} />
           : item.spuName;
       return (
         <div

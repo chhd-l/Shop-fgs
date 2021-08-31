@@ -71,7 +71,13 @@ const ClubItem = ({ subItem, history }) => {
                     marginBottom: '5px'
                   }}
                 >
-                  {`${item.petsName}'s personalized subscription`}
+                  <FormattedMessage
+                    id="subscription.personalized"
+                    values={{
+                      val1:item.petsName
+                    }}
+                  />
+                  {/*{`${item.petsName}'s personalized subscription`}*/}
                 </p>
                 <p>
                   {item.subscribeNum / 1000 + 'kg'} - 1{' '}
@@ -127,7 +133,7 @@ const ClubItem = ({ subItem, history }) => {
           >
             {/*Subscription started*/}
             {/*date d'inscription au CLUB*/}
-             <FormattedMessage id="autoShipStarted" />
+            <FormattedMessage id="autoShipStarted" />
           </p>
           <p style={{ color: '#666', fontSize: '1rem' }}>
             {getFormatDate(subItem.createTime.split(' ')[0])}

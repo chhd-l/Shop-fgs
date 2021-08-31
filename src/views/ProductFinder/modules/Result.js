@@ -235,11 +235,11 @@ class ProductFinderResult extends React.Component {
         let rations = rationRes?.context?.rationResponseItems;
         rations?.forEach((ration) => {
           if (mainProduct.spuCode == ration.mainItem) {
-            mainProduct.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+            mainProduct.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
           }
           otherProducts?.map((el) => {
             if (el.spuCode == ration.mainItem) {
-              el.petsRation = `${ration.weight}${ration.weightUnit}/day`;
+              el.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
             }
           });
         });

@@ -174,7 +174,8 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           ele.tradeItems.forEach((el) => {
             el.spuName = judgeIsIndividual(el)
-              ? `${el.petsName}'s personalized subscription`
+              // ? `${el.petsName}'s personalized subscription`
+              ? <FormattedMessage id='subscription.personalized' values={{ val1:el.petsName}} />
               : el.spuName;
           });
           console.log('orderCategory:', ele.orderCategory);
@@ -892,9 +893,8 @@ class AccountOrders extends React.Component {
                                           <div className="col-8 col-md-6">
                                             <span className="medium color-444 ui-text-overflow-line2">
                                               {judgeIsIndividual(item)
-                                                ? (item.petsName ||
-                                                    'Your pet') +
-                                                  "'s personalized subscription"
+                                                // ? (item.petsName || 'Your pet') + "'s personalized subscription"
+                                                ? <FormattedMessage id='subscription.personalized' values={{ val1:item.petsName}} />
                                                 : item.spuName}
                                             </span>
                                             {judgeIsIndividual(item) ? (

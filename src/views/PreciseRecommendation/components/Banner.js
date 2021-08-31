@@ -311,8 +311,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                 }}
                               >
                                 -25%{' '}
-                                <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
-                                {' '}
+                                <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />{' '}
                                 <span
                                   style={{ color: '#444', fontWeight: 300 }}
                                 >
@@ -435,8 +434,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             style={{ color: '#008900', fontSize: '24px', fontWeight: 400 }}
           >
             -25%{' '}
-            <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
-            {' '}
+            <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />{' '}
             <span style={{ color: '#444', fontWeight: 300 }}>*</span>
           </div>
           <div className="rc-margin-bottom--lg" style={{ lineHeight: '24px' }}>

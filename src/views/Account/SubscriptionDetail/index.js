@@ -381,10 +381,14 @@ class SubscriptionDetail extends React.Component {
       subDetail.goodsInfo =
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
-            item.spuName = `${item.petsName}'s personalized subscription`;
-            item.specDetails = item.num / 1000 + 'kg';
+            // item.spuName = `${item.petsName}'s personalized subscription`;
+            item.spuName = <FormattedMessage id='subscription.personalized' values={{ val1: item.petsName }} />
+
+              item.specDetails = item.num / 1000 + 'kg';
             item.num = 1;
-            item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
+            // item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
+            item.goodsName = <FormattedMessage id='subscription.personalized' values={{ val1: subDetail?.petsInfo?.petsName }} />
+
           }
           return item;
         }) || []; //防止商品被删报错
@@ -430,7 +434,7 @@ class SubscriptionDetail extends React.Component {
             subDetail.goodsInfo?.forEach((el) => {
               rations?.forEach((ration) => {
                 if (el.spuNo == ration.mainItem) {
-                  el.petsRation = `${ration.weight}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+                  el.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
                 }
               });
             });
