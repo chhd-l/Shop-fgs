@@ -276,8 +276,10 @@ class AccountOrders extends React.Component {
         let isIndv = false;
         resContext.tradeItems?.forEach((el) => {
           if (judgeIsIndividual(el)) {
-            el.spuName = `${el.petsName}'s personalized subscription`;
-            isIndv = true;
+            // el.spuName = `${el.petsName}'s personalized subscription`;
+            el.spuName =  <FormattedMessage id='subscription.personalized' values={{ val1:el.petsName}} />
+
+              isIndv = true;
           }
         });
         let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
@@ -1262,9 +1264,10 @@ class AccountOrders extends React.Component {
                                                 title={item.spuName}
                                               >
                                                 {judgeIsIndividual(item)
-                                                  ? (item.petsName ||
-                                                      'Your pet') +
-                                                    "'s personalized subscription"
+                                                  // ? (item.petsName ||
+                                                  //     'Your pet') +
+                                                  //   "'s personalized subscription"
+                                                  ? <FormattedMessage id='subscription.personalized' values={{ val1:item.petsName}} />
                                                   : item.spuName}
                                               </span>
                                               <span className="ui-text-overflow-line2">

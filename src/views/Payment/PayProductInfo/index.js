@@ -364,13 +364,15 @@ class PayProductInfo extends React.Component {
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={
                       el?.goodsInfoFlag == 3
-                        ? `${IndvPetInfo?.name}'s personalized subscription`
+                        // ? `${IndvPetInfo?.name}'s personalized subscription`
+                        ? <FormattedMessage id='subscription.personalized' values={{ val1: IndvPetInfo?.name }} />
                         : el.goodsName || el.goods.goodsName
                     }
                   >
                     <span className="light 11111">
                       {el?.goodsInfoFlag == 3
-                        ? `${IndvPetInfo?.name}'s personalized subscription`
+                        // ? `${IndvPetInfo?.name}'s personalized subscription`
+                        ? <FormattedMessage id='subscription.personalized' values={{ val1: IndvPetInfo?.name }} />
                         : el.goodsName || el.goods.goodsName}
                     </span>
                     {el?.goods?.promotions &&
