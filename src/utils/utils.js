@@ -123,7 +123,9 @@ export function stgShowAuth() {
     'tmja17772423840@163.com',
     'tmjb17772423840@163.com',
     'tmjc17772423840@163.com',
-    'tmjd17772423840@163.com'
+    'tmjd17772423840@163.com',
+    '88776543@yopmail.com',
+    '88766543@yopmail.com'
   ];
   let userInfo = localItemRoyal.get('rc-userinfo');
   // let isLogin = !!localItemRoyal.get('rc-token');
