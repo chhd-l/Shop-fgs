@@ -113,7 +113,17 @@ export function stgShowAuth() {
     '7ffffe87692ae8c42b207abb3fb5b235',
     '8000017b8cd9c81719bd0ecb24237fd4',
     '8000017b5deaa11672dc0b320ec0adc2',
-    '7ffffe88f12360756059af4f5fd9c282'
+    '7ffffe88f12360756059af4f5fd9c282',
+    'tmj852476785@139.com',
+    'tmj1226@qq.com',
+    'tmj1227@qq.com',
+    'tmj2021@qq.com',
+    'tmj1223tmj1223tmj1223tmj1223tmj1223@qq.com',
+    'tmj17772423840@163.com',
+    'tmja17772423840@163.com',
+    'tmjb17772423840@163.com',
+    'tmjc17772423840@163.com',
+    'tmjd17772423840@163.com'
   ];
   let userInfo = localItemRoyal.get('rc-userinfo');
   // let isLogin = !!localItemRoyal.get('rc-token');
