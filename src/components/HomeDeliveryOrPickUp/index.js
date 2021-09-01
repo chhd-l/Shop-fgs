@@ -106,7 +106,7 @@ class HomeDeliveryOrPickUp extends React.Component {
   async componentDidMount() {
     // 监听iframe的传值
     window.addEventListener('message', (e) => {
-      console.log('666 ★ 地图返回 type: ', e?.data?.type);
+      // console.log('666 ★ 地图返回 type: ', e?.data?.type);
       console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
 
       // 地图上选择快递公司后返回
@@ -175,7 +175,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
 
     let defaultCity = this.props.defaultCity;
-    console.log('666 >>> : ', defaultCity);
+    console.log('666 defaultCity : ', defaultCity);
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
