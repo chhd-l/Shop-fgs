@@ -35,6 +35,7 @@ const CURRENT_LANGFILE = locales;
 @observer
 class HomeDeliveryOrPickUp extends React.Component {
   static defaultProps = {
+    initData: null,
     isLogin: false,
     isCurrentBuyWaySubscription: false, // 是否有订阅商品
     defaultCity: '',
@@ -104,15 +105,25 @@ class HomeDeliveryOrPickUp extends React.Component {
     };
   }
   async componentDidMount() {
+    let initData = this.props.initData;
+    this.setState(
+      {
+        pickupForm: Object.assign(this.state.pickupForm, initData)
+      },
+      () => {
+        // console.log('666 >>> pickupForm : ', this.state.pickupForm);
+      }
+    );
+
     // 监听iframe的传值
     window.addEventListener('message', (e) => {
       // console.log('666 ★ 地图返回 type: ', e?.data?.type);
-      console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
+      // console.log('666 ★ 地图返回 loading: ', e?.data?.loading);
 
       // 地图上选择快递公司后返回
       if (e?.data?.type == 'get_delivery_point') {
         const { pickupForm, selectedItem } = this.state;
-        console.log('666 监听地图点的传值: ', e);
+        // console.log('666 监听地图点的传值: ', e);
         let obj = e.data.content;
         pickupForm['pickupPrice'] = obj?.price || [];
         pickupForm['pickupDescription'] = obj?.description || [];
@@ -175,7 +186,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
 
     let defaultCity = this.props.defaultCity;
-    console.log('666 defaultCity : ', defaultCity);
+    // console.log('666 defaultCity : ', defaultCity);
+
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -327,8 +339,8 @@ class HomeDeliveryOrPickUp extends React.Component {
 
         // 有地址的时候，单独展示pickup，如果查询到不支持pickup，给出错误提示
         if (this.props.allAddressList.length) {
-          obj = obj.filter((e) => e.type == 'PVZ');
-          if (!obj.length) {
+          let pvzobj = obj.filter((e) => e.type == 'PVZ');
+          if (!pvzobj.length) {
             this.setState({
               searchNoResult: true
             });
@@ -361,6 +373,7 @@ class HomeDeliveryOrPickUp extends React.Component {
             let hdpu = [];
             obj.forEach((v, i) => {
               let type = v.type;
+              v.selected = false;
               // 如果有订阅商品或者只有homeDelivery, 则默认选中 homeDelivery
               if (type == 'COURIER') {
                 isSubscription || obj.length == 1 ? (v.selected = true) : '';
@@ -370,6 +383,13 @@ class HomeDeliveryOrPickUp extends React.Component {
 
               // 没有订阅商品时才显示pickup
               if (type == 'PVZ') {
+                if (
+                  pageType === 'checkout' &&
+                  this.props.allAddressList.length &&
+                  !isSubscription
+                ) {
+                  v.selected = true;
+                }
                 v.type = 'pickup';
                 hdpu.push(v);
               }

@@ -2156,7 +2156,7 @@ class Payment extends React.Component {
               });
             }
           }
-          console.log('666 -->> deliveryAddress: ', this.state.deliveryAddress);
+          // console.log('666 -->> deliveryAddress: ', this.state.deliveryAddress);
           console.log('666 -->> pmd: ', pmd);
 
           this.setState({ payWayNameArr: [...newPayWayName] }, () => {
