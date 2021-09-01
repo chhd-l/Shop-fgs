@@ -70,7 +70,10 @@ const GetMoreAd = () => {
                     </div>
 
                     <div className="getmoreaddheight">
-                      <div className="rc-column">
+                      <div
+                        className="rc-column"
+                        style={{ paddingBottom: '12px' }}
+                      >
                         <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">
                             <li className="rc-list__item flex">

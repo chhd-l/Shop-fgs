@@ -159,26 +159,6 @@ const CommentCarouselNew = () => {
                     </picture>
                   </article>
                 </div>
-                {fr ? (
-                  <div className="rc-carousel__card-gal px-2">
-                    <article className="rc-card rc-card--b">
-                      <picture className="rc-card__image">
-                        <LazyLoad>
-                          <img
-                            src={newtrcommentone}
-                            alt="alt text"
-                            style={{
-                              borderRadius: '50%',
-                              width: '50%',
-                              marginTop: '30px',
-                              marginBottom: '30px'
-                            }}
-                          />
-                        </LazyLoad>
-                      </picture>
-                    </article>
-                  </div>
-                ) : null}
               </Slider>
             </div>
           </div>
