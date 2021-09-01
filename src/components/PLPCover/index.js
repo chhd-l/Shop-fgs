@@ -126,7 +126,7 @@ function ListItemH5ForGlobalStyle(props) {
               </div>
               <div>
                 <div
-                  className="d-flex rc-padding-top--md margin-top-mobile-20 position-relative"
+                  className="d-flex margin-top-mobile-20 position-relative"
                   style={{ zIndex: 2 }}
                 >
                   <FormattedMessage
