@@ -1962,7 +1962,8 @@ const fr_FR = {
   'plp.retail.cat.filter.specneed.title':
     'Offrez à votre chat un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
   'plp.retail.cat.filter.specneed.tip': '-25% sur la première commande',
-  'plp.retail.cat.filter.specneed.tip.mobile': '-25% sur la première commande',
+  'plp.retail.cat.filter.specneed.tip.mobile':
+    '-25% sur la première {val} commande',
   // 'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'En savoir plus',
   'preciseNutrition.bannertext1': 'Paiement sécurisé',
