@@ -233,15 +233,11 @@ class AddressList extends React.Component {
       curAddressId: ''
     });
     // this.props.updateEditOperationPanelName(status ? 'My addresses' : '');
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   };
   // 回到顶部
   scrollToTop = () => {
     window.scrollTo({
-      top: 0,
+      top: 60,
       behavior: 'smooth'
     });
   };
@@ -275,6 +271,7 @@ class AddressList extends React.Component {
         curAddressId: item.deliveryAddressId
       });
     }
+
     this.setState({
       addressAddOrEditFlag: 'edit'
     });
@@ -363,11 +360,11 @@ class AddressList extends React.Component {
         pickupVisible: true,
         editFormVisible: false
       });
-      this.scrollToTop();
     } else {
       myAccountPushEvent('Addresses');
       this.changeEditFormVisible(true);
     }
+    this.scrollToTop();
     this.setState({
       addressAddOrEditFlag: 'add'
     });
@@ -409,6 +406,7 @@ class AddressList extends React.Component {
     }
     return (
       <div
+        id="address_list_title"
         className={`col-12 p-2 text-left address_title_pannel ${
           str == 'pickup' ? 'mt-3' : ''
         }`}

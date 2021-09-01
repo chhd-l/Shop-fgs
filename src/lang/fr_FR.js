@@ -1441,7 +1441,7 @@ const fr_FR = {
   'subscription.date': "Date d'abonnement",
   'subscription.deliveryDate': 'Prochaine date de livraison',
   'subscription.detail': "Détails de l'abonnement",
-  'subscription.personalized': 'L\'aliment et la portion adaptées à {val1}\'s',
+  'subscription.personalized': "L'aliment et la portion adaptées à {val1}'s",
   'subscription.frequency': 'Fréquence : toutes les ',
   'minicart.frequency': 'Fréquence',
   'subscription.help.subTitle':
@@ -1901,7 +1901,8 @@ const fr_FR = {
     "Une combinaison d'ingrédients hautement digestibles sélectionnés pour répondre à chaque profil nutritionnel",
   'ClubLP.Advantage.content4':
     'Des nutriments sélectionnés pour leur haute qualité, à partir de sources durables ayant une plus faible empreinte carbone',
-  'ClubLP.Advantage.button': 'Trouvez votre aliment sur mesure dès maintenant',
+  'ClubLP.Advantage.button':
+    'Trouvez votre aliment {val}sur mesure dès maintenant',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
     "AVANTAGES DE L'ABONNEMENT POUR LES CHATS",
   'ClubLP.LongBanner.SubscriptionTitle1.new':
@@ -1959,13 +1960,11 @@ const fr_FR = {
   'ClubLP.Help.faq.content':
     "Vous pouvez consulter notre {val} consulter si votre question n'a pas déjà été traitée.",
   'plp.retail.cat.filter.specneed.title':
-    "Offrez à votre chat un aliment adapté à ses besoins et une portion précise pour un poids idéal !",
-  'plp.retail.cat.filter.specneed.tip':
-    '-25% sur la première commande',
-  'plp.retail.cat.filter.specneed.tip.mobile':
-  '-25% sur la première commande',
-    // 'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
-  'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+    'Offrez à votre chat un aliment adapté à ses besoins et une portion précise pour un poids idéal !',
+  'plp.retail.cat.filter.specneed.tip': '-25% sur la première commande',
+  'plp.retail.cat.filter.specneed.tip.mobile': '-25% sur la première commande',
+  // 'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
+  'plp.retail.cat.filter.specneed.learnmore': 'En savoir plus',
   'preciseNutrition.bannertext1': 'Paiement sécurisé',
   'preciseNutrition.bannertext2': 'Satisfait remboursé',
   'preciseNutrition.bannertext3': 'Qualité premium',

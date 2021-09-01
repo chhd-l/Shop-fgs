@@ -44,7 +44,7 @@ class PickupMap extends React.Component {
       window.addEventListener(
         'message',
         (e) => {
-          console.log('666 ★ 接收组件发来的数据: ', e.data?.msg);
+          // console.log('666 ★ 接收组件发来的数据: ', e.data?.msg);
           if (e?.data?.msg) {
             let msg = e.data.msg;
             if (msg == 'clearMap') {

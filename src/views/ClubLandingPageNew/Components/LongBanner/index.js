@@ -153,6 +153,8 @@ const LongBanner = () => {
                     className={`longbannerwidth266 ${
                       window.__.env.REACT_APP_COUNTRY == 'tr'
                         ? `trmarginleft10vw`
+                        : window.__.env.REACT_APP_COUNTRY == 'fr'
+                        ? `frmarginleft10vw`
                         : ''
                     }`}
                   >

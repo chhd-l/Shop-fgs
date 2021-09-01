@@ -813,8 +813,8 @@ class Form extends React.Component {
       newForm.formRule = newForm.formRuleOther;
     }
 
-    console.log('666 >>>>>> newForm: ', newForm);
-    console.log('666 >>>>>> initData: ', this.props.initData);
+    // console.log('666 >>>>>> newForm: ', newForm);
+    // console.log('666 >>>>>> initData: ', this.props.initData);
     // console.log('666 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
     this.props.updateData(newForm);
   };
@@ -933,6 +933,7 @@ class Form extends React.Component {
           break;
       }
     }
+    console.log('666 >> tname: ', tname);
     caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
@@ -949,7 +950,6 @@ class Form extends React.Component {
     caninForm[tname] = tvalue;
     this.setState({ caninForm }, () => {
       this.updateDataToProps(this.state.caninForm);
-      // 验证数据
       this.validvalidationData(tname, tvalue);
     });
   };

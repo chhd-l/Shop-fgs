@@ -117,7 +117,10 @@ function ListItemH5ForGlobalStyle(props) {
           <article className="rc-card--a  margin-top--5">
             <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start d-flex flex-wrap">
               <div className="height-product-tile-plpOnly margin-top-mobile-20">
-                <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
+                <h3
+                  className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break "
+                  style={{ height: 'auto' }}
+                >
                   <FormattedMessage id="plp.retail.cat.filter.specneed.title" />
                 </h3>
               </div>
@@ -355,7 +358,7 @@ function ListItemForDefault(props) {
                     <h3
                       className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
                       title={txt}
-                      style={{ fontSize: '1.225rem' }}
+                      style={{ fontSize: '1.225rem', height: 'auto' }}
                     >
                       {txt}
                     </h3>
