@@ -1113,7 +1113,8 @@ class List extends React.Component {
         const currPath = this.props.history.location.pathname;
         const hiddenFilter =
           currPath == targetRouter.cateRouter &&
-          targetRouter.filterStatus === 0;
+          targetRouter.filterStatus === 0 &&
+          targetRouter.isPeriod === 1;
         this.setState(
           {
             sortList,
