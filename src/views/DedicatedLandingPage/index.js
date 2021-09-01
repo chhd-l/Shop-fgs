@@ -144,11 +144,11 @@ class DedicatedLandingPage extends React.Component {
     }
     this.setState({ buttonLoading: true });
     if (selectLine === 1) {
-      const { context } = await getDetailsBySpuNo(2544);
+      const { context } = await getDetailsBySpuNo('FGS20049');
       this.setState({ listOne: context });
       this.getProductList();
     } else if (selectLine === 2) {
-      const { context } = await getDetailsBySpuNo(2522);
+      const { context } = await getDetailsBySpuNo('FGS20050');
       this.setState({ listTwo: context });
       this.getProductList();
     }
@@ -199,8 +199,8 @@ class DedicatedLandingPage extends React.Component {
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos: this.props.clinicStore
-            .linkClinicRecommendationInfos,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -254,8 +254,8 @@ class DedicatedLandingPage extends React.Component {
         currentUnitPrice: productList[0]?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
-        recommendationInfos: this.props.clinicStore
-          .linkClinicRecommendationInfos,
+        recommendationInfos:
+          this.props.clinicStore.linkClinicRecommendationInfos,
         recommendationId:
           this.props.clinicStore.linkClinicRecommendationInfos
             ?.recommendationId || this.props.clinicStore.linkClinicId,
