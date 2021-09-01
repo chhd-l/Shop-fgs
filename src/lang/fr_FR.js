@@ -1929,7 +1929,7 @@ const fr_FR = {
   'ClubLP.OurCustomers.title': 'NOS CLIENTS FIDELES',
   'ClubLP.GetMoreAd.title':
     "OBTENIR DES AVANTAGES SUPPLÉMENTAIRES AVEC L'ABONNEMENT AU CLUB",
-  'ClubLP.GetMoreAd.subtitle1': 'Paiement {val} sécurisé',
+  'ClubLP.GetMoreAd.subtitle1': 'Achat {val} unique',
   'ClubLP.GetMoreAd.subtitle2': 'Abonnement au {val} CLUB',
   'ClubLP.GetMoreAd.Single.tip1': 'Aliment sur mesure',
   'ClubLP.GetMoreAd.Single.tip2': 'Livraison offerte',
