@@ -1451,6 +1451,7 @@ class AddressList extends React.Component {
   };
   // 取消新增或编辑pickup
   handleCancelAddOrEditPickup = () => {
+    const { pickupAddress } = this.state;
     this.setState(
       {
         defaultCity: '',
@@ -1460,6 +1461,14 @@ class AddressList extends React.Component {
         choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
       },
       () => {
+        console.log('666 >>> pickupAddress: ', pickupAddress);
+        // 修改按钮状态
+        if (pickupAddress.length) {
+          this.setState({
+            confirmBtnDisabled: false
+          });
+        }
+        // 修改本地存储的信息
         let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
         sobj = JSON.parse(sobj);
         sobj.cityData = null;

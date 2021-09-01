@@ -185,8 +185,9 @@ const LongBanner = () => {
                 zIndex: 2
               }}
             >
-              <h3 style={{ marginTop: 21, marginBottom: 0 }}>-25%</h3>
-              <h6 style={{ fontSize: 14 }}>
+              <p>{' '}</p>
+              <h3 className={"RadiusText1"}>-25%</h3>
+              <h6 className={"RadiusText2"}>
                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
               </h6>
             </div>
