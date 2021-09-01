@@ -38,10 +38,13 @@ import { removeArgFromUrl, funcUrl, transferToObject } from '@/lib/url-utils';
 import { getSpecies } from '@/utils/GA';
 import bottomDescJson from './bottomDesc.json';
 import getTechnologyOrBreedsAttr from '@/lib/get-technology-or-breedsAttr';
+import loadable from '@/lib/loadable-component';
+
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 
+const Exception = loadable(() => import('@/views/StaticPage/Exception'));
 const isHub = window.__.env.REACT_APP_HUB == '1';
 const isMobilePhone = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -359,7 +362,8 @@ class List extends React.Component {
       prefv1: '',
       keywordsSearch: '',
       baseSearchStr: '',
-      hiddenFilter: false
+      hiddenFilter: false,
+      invalidPage: false //失效链接，如果storePortal配置了失效时间，页面不展示，呈现404
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -1115,6 +1119,8 @@ class List extends React.Component {
           currPath == targetRouter.cateRouter &&
           targetRouter.filterStatus === 0 &&
           targetRouter.isPeriod === 1;
+        const invalidPage =
+          targetRouter.cateRouter && targetRouter.isPeriod === 0;
         this.setState(
           {
             sortList,
@@ -1146,6 +1152,7 @@ class List extends React.Component {
                 (targetRouter && targetRouter.cateImgForList)
             },
             hiddenFilter,
+            invalidPage,
             breadList,
             isSpecialNeedFilter
           },
@@ -1677,7 +1684,8 @@ class List extends React.Component {
       allPrefv,
       prefv1,
       animalType,
-      hiddenFilter
+      hiddenFilter,
+      invalidPage
     } = this.state;
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1747,198 +1755,199 @@ class List extends React.Component {
           history={history}
           match={this.props.match}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <BannerTip />
-          <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
-          <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <DistributeHubLinkOrATag href="" to="/home" className="back-link">
-              <FormattedMessage id="homePage" />
-            </DistributeHubLinkOrATag>
-          </div>
-          {titleData && titleData.title && titleData.description ? (
-            <div className="rc-max-width--lg rc-padding-x--sm">
-              <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
-                <div className="rc-column rc-double-width text-center text-md-left">
-                  <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
-                    <h1 className="rc-gamma rc-margin--none">
-                      {titleData.title}
-                    </h1>
-                    <div className="children-nomargin rc-body">
-                      <p>{titleData.description}</p>
+        {!invalidPage ? (
+          <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+            <BannerTip />
+            <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
+            <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
+              <DistributeHubLinkOrATag href="" to="/home" className="back-link">
+                <FormattedMessage id="homePage" />
+              </DistributeHubLinkOrATag>
+            </div>
+            {titleData && titleData.title && titleData.description ? (
+              <div className="rc-max-width--lg rc-padding-x--sm">
+                <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
+                  <div className="rc-column rc-double-width text-center text-md-left">
+                    <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
+                      <h1 className="rc-gamma rc-margin--none">
+                        {titleData.title}
+                      </h1>
+                      <div className="children-nomargin rc-body">
+                        <p>{titleData.description}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="rc-column">
-                  {titleData.img ? (
-                    <LazyLoad style={{ width: '100%' }}>
-                      <img
-                        src={titleData.img}
-                        className="mx-auto"
-                        alt="titleData image"
-                      />
-                    </LazyLoad>
-                  ) : null}
+                  <div className="rc-column">
+                    {titleData.img ? (
+                      <LazyLoad style={{ width: '100%' }}>
+                        <img
+                          src={titleData.img}
+                          className="mx-auto"
+                          alt="titleData image"
+                        />
+                      </LazyLoad>
+                    ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <h1 style={{ display: 'none' }}>Royal canin</h1>
-          )}
-          <div id="J-product-list" />
-          {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
-          <div
-            className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop position-relative"
-            style={{ zIndex: 2 }}
-          >
-            <div className="search-nav border-bottom-0">
-              {keywords ? (
-                <div className="rc-padding-y--md--mobile rc-text--center">
-                  <div className="rc-intro">
-                    <FormattedMessage id="list.youSearchedFor" />:
+            ) : (
+              <h1 style={{ display: 'none' }}>Royal canin</h1>
+            )}
+            <div id="J-product-list" />
+            {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
+            <div
+              className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop position-relative"
+              style={{ zIndex: 2 }}
+            >
+              <div className="search-nav border-bottom-0">
+                {keywords ? (
+                  <div className="rc-padding-y--md--mobile rc-text--center">
+                    <div className="rc-intro">
+                      <FormattedMessage id="list.youSearchedFor" />:
+                    </div>
+                    <h1 className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                      <strong>"{keywords}"</strong>&nbsp;
+                      {results > 0 && (
+                        <>
+                          (
+                          <FormattedMessage
+                            id="results"
+                            values={{ val: results }}
+                          />
+                          )
+                        </>
+                      )}
+                    </h1>
                   </div>
-                  <h1 className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <strong>"{keywords}"</strong>&nbsp;
-                    {results > 0 && (
-                      <>
-                        (
-                        <FormattedMessage
-                          id="results"
-                          values={{ val: results }}
-                        />
-                        )
-                      </>
-                    )}
-                  </h1>
-                </div>
-              ) : null}
-            </div>
-            <section className="rc-bg-colour--brand3">
-              <div>
-                <div
-                  className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
-                  id="J_filter_contaner"
-                  style={{
-                    zIndex: 3
-                  }}
-                >
-                  {hiddenFilter && !isMobilePhone ? null : (
-                    <div
-                      id="refineBar"
-                      className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
-                    >
+                ) : null}
+              </div>
+              <section className="rc-bg-colour--brand3">
+                <div>
+                  <div
+                    className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
+                    id="J_filter_contaner"
+                    style={{
+                      zIndex: 3
+                    }}
+                  >
+                    {hiddenFilter && !isMobilePhone ? null : (
                       <div
-                        className="rc-meta rc-md-down"
-                        style={{ padding: '0 1em', fontSize: '1em' }}
+                        id="refineBar"
+                        className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
                       >
-                        <span className="font-weight-normal">
-                          {lastBreadListName}&nbsp;
-                        </span>
-                        {results > 0 && (
-                          <>
-                            (
-                            <FormattedMessage
-                              id="results"
-                              values={{ val: results }}
-                            />
-                            )
-                          </>
-                        )}
-                      </div>
-                      <div
-                        className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
-                        style={{
-                          padding: '0 1rem',
-                          boxShadow: '0 2px 4px #f1f1f1'
-                        }}
-                      >
-                        <span
-                          style={{ marginRight: '1em' }}
-                          className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                        <div
+                          className="rc-meta rc-md-down"
+                          style={{ padding: '0 1em', fontSize: '1em' }}
                         >
-                          {sortList.length > 0 && (
-                            <Selection
-                              key={sortList.length}
-                              selectedItemChange={this.onSortChange}
-                              optionList={sortList}
-                              selectedItemData={{
-                                value:
-                                  (selectedSortParam &&
-                                    selectedSortParam.value) ||
-                                  ''
-                              }}
-                              placeholder={<FormattedMessage id="sortBy" />}
-                              customInnerStyle={{
-                                paddingTop: '.7em',
-                                paddingBottom: '.7em',
-                                bottom: 0
-                              }}
+                          <span className="font-weight-normal">
+                            {lastBreadListName}&nbsp;
+                          </span>
+                          {results > 0 && (
+                            <>
+                              (
+                              <FormattedMessage
+                                id="results"
+                                values={{ val: results }}
+                              />
+                              )
+                            </>
+                          )}
+                        </div>
+                        <div
+                          className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
+                          style={{
+                            padding: '0 1rem',
+                            boxShadow: '0 2px 4px #f1f1f1'
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: '1em' }}
+                            className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                          >
+                            {sortList.length > 0 && (
+                              <Selection
+                                key={sortList.length}
+                                selectedItemChange={this.onSortChange}
+                                optionList={sortList}
+                                selectedItemData={{
+                                  value:
+                                    (selectedSortParam &&
+                                      selectedSortParam.value) ||
+                                    ''
+                                }}
+                                placeholder={<FormattedMessage id="sortBy" />}
+                                customInnerStyle={{
+                                  paddingTop: '.7em',
+                                  paddingBottom: '.7em',
+                                  bottom: 0
+                                }}
+                              />
+                            )}
+                          </span>
+                          {hiddenFilter ? null : (
+                            <em
+                              className={`rc-icon rc-filter--xs rc-iconography ${
+                                (filterModalVisible && !isTop) ||
+                                (!filterModalVisible && isTop)
+                                  ? 'rc-brand1'
+                                  : ''
+                              }`}
+                              data-filter-trigger="filter-example"
+                              style={{ position: 'relative', top: '0.4rem' }}
+                              onClick={this.toggleFilterModal.bind(
+                                this,
+                                !filterModalVisible
+                              )}
                             />
                           )}
-                        </span>
-                        {hiddenFilter ? null : (
-                          <em
-                            className={`rc-icon rc-filter--xs rc-iconography ${
-                              (filterModalVisible && !isTop) ||
-                              (!filterModalVisible && isTop)
-                                ? 'rc-brand1'
-                                : ''
-                            }`}
-                            data-filter-trigger="filter-example"
-                            style={{ position: 'relative', top: '0.4rem' }}
-                            onClick={this.toggleFilterModal.bind(
-                              this,
-                              !filterModalVisible
-                            )}
-                          />
-                        )}
-                        {/* <button
+                          {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
                         data-filter-trigger="filter-example"
                         onClick={this.toggleFilterModal.bind(this, true)}
                       /> */}
-                      </div>
-                      <aside
-                        className={`rc-filters ${
-                          filterModalVisible ? 'active' : ''
-                        }`}
-                      >
-                        {isMobilePhone ? (
-                          <Filters
-                            history={history}
-                            maxGoodsPrice={maxGoodsPrice}
-                            initing={initingFilter}
-                            onToggleFilterModal={this.toggleFilterModal}
-                            filterList={filterList}
-                            key={`2-${filterList.length}`}
-                            inputLabelKey={2}
-                            hanldePriceSliderChange={
-                              this.hanldePriceSliderChange
-                            }
-                            markPriceAndSubscriptionLangDict={
-                              markPriceAndSubscriptionLangDict
-                            }
-                            baseSearchStr={baseSearchStr}
-                          />
-                        ) : (
-                          <FiltersPC
-                            history={history}
-                            maxGoodsPrice={maxGoodsPrice}
-                            initing={initingFilter}
-                            onToggleFilterModal={this.toggleFilterModal}
-                            filterList={filterList}
-                            key={`2-${filterList.length}`}
-                            inputLabelKey={2}
-                            hanldePriceSliderChange={
-                              this.hanldePriceSliderChange
-                            }
-                            markPriceAndSubscriptionLangDict={
-                              markPriceAndSubscriptionLangDict
-                            }
-                            baseSearchStr={baseSearchStr}
-                          />
-                        )}
-                        {/* 由于么数据暂时隐藏注释 */}
-                        {/* {this.state.showSmartFeeder ? (
+                        </div>
+                        <aside
+                          className={`rc-filters ${
+                            filterModalVisible ? 'active' : ''
+                          }`}
+                        >
+                          {isMobilePhone ? (
+                            <Filters
+                              history={history}
+                              maxGoodsPrice={maxGoodsPrice}
+                              initing={initingFilter}
+                              onToggleFilterModal={this.toggleFilterModal}
+                              filterList={filterList}
+                              key={`2-${filterList.length}`}
+                              inputLabelKey={2}
+                              hanldePriceSliderChange={
+                                this.hanldePriceSliderChange
+                              }
+                              markPriceAndSubscriptionLangDict={
+                                markPriceAndSubscriptionLangDict
+                              }
+                              baseSearchStr={baseSearchStr}
+                            />
+                          ) : (
+                            <FiltersPC
+                              history={history}
+                              maxGoodsPrice={maxGoodsPrice}
+                              initing={initingFilter}
+                              onToggleFilterModal={this.toggleFilterModal}
+                              filterList={filterList}
+                              key={`2-${filterList.length}`}
+                              inputLabelKey={2}
+                              hanldePriceSliderChange={
+                                this.hanldePriceSliderChange
+                              }
+                              markPriceAndSubscriptionLangDict={
+                                markPriceAndSubscriptionLangDict
+                              }
+                              baseSearchStr={baseSearchStr}
+                            />
+                          )}
+                          {/* 由于么数据暂时隐藏注释 */}
+                          {/* {this.state.showSmartFeeder ? (
                         <div className="smart-feeder-container">
                           <p>Abonnement au distributeur connecté</p>
                           <p>
@@ -1955,158 +1964,161 @@ class List extends React.Component {
                           <img src={smartFeeder} />
                         </div>
                       ) : null} */}
-                      </aside>
-                    </div>
-                  )}
-                  <div
-                    className={`rc-column1 col-12 ${
-                      hiddenFilter ? 'col-xl-12' : 'col-xl-9'
-                    } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
-                  >
-                    {!loading && (
-                      <>
-                        <div className="row rc-md-up align-items-center pl-2 pr-2">
-                          <div className="col-12 col-md-8 pt-3 pb-2">
-                            <span className="rc-intro rc-margin--none">
-                              <span className="medium text-capitalize">
-                                {lastBreadListName}&nbsp;
-                              </span>
-                              (
-                              <FormattedMessage
-                                id="results"
-                                values={{ val: results }}
-                              />
-                              )
-                            </span>
-                          </div>
-
-                          <div className="col-12 col-md-4">
-                            <span
-                              style={{ position: 'relative', top: '2px' }}
-                              className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
-                            >
-                              {sortList.length > 0 && (
-                                <Selection
-                                  key={sortList.length}
-                                  selectedItemChange={this.onSortChange}
-                                  optionList={sortList}
-                                  selectedItemData={{
-                                    value:
-                                      (selectedSortParam &&
-                                        selectedSortParam.value) ||
-                                      ''
-                                  }}
-                                  // placeholder={<FormattedMessage id="sortBy" />}
-                                  customInnerStyle={{
-                                    paddingTop: '.7em',
-                                    paddingBottom: '.7em'
-                                  }}
+                        </aside>
+                      </div>
+                    )}
+                    <div
+                      className={`rc-column1 col-12 ${
+                        hiddenFilter ? 'col-xl-12' : 'col-xl-9'
+                      } rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
+                    >
+                      {!loading && (
+                        <>
+                          <div className="row rc-md-up align-items-center pl-2 pr-2">
+                            <div className="col-12 col-md-8 pt-3 pb-2">
+                              <span className="rc-intro rc-margin--none">
+                                <span className="medium text-capitalize">
+                                  {lastBreadListName}&nbsp;
+                                </span>
+                                (
+                                <FormattedMessage
+                                  id="results"
+                                  values={{ val: results }}
                                 />
-                              )}
-                            </span>
+                                )
+                              </span>
+                            </div>
+
+                            <div className="col-12 col-md-4">
+                              <span
+                                style={{ position: 'relative', top: '2px' }}
+                                className="rc-select page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
+                              >
+                                {sortList.length > 0 && (
+                                  <Selection
+                                    key={sortList.length}
+                                    selectedItemChange={this.onSortChange}
+                                    optionList={sortList}
+                                    selectedItemData={{
+                                      value:
+                                        (selectedSortParam &&
+                                          selectedSortParam.value) ||
+                                        ''
+                                    }}
+                                    // placeholder={<FormattedMessage id="sortBy" />}
+                                    customInnerStyle={{
+                                      paddingTop: '.7em',
+                                      paddingBottom: '.7em'
+                                    }}
+                                  />
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {!productList.length ? (
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="ui-font-nothing rc-md-up">
+                              <em className="rc-icon rc-incompatible--sm rc-iconography" />
+                              <FormattedMessage id="list.errMsg" />
+                            </div>
+                            <div className="ui-font-nothing rc-md-down d-flex pb-4">
+                              <em className="rc-icon rc-incompatible--xs rc-iconography" />
+                              <FormattedMessage id="list.errMsg" />
+                            </div>
                           </div>
                         </div>
-                      </>
-                    )}
-                    {!productList.length ? (
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="ui-font-nothing rc-md-up">
-                            <em className="rc-icon rc-incompatible--sm rc-iconography" />
-                            <FormattedMessage id="list.errMsg" />
-                          </div>
-                          <div className="ui-font-nothing rc-md-down d-flex pb-4">
-                            <em className="rc-icon rc-incompatible--xs rc-iconography" />
-                            <FormattedMessage id="list.errMsg" />
+                      ) : (
+                        <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
+                          <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
+                            {loading
+                              ? _loadingJXS
+                              : productList.map((item, i) => {
+                                  return (
+                                    <div
+                                      className={`${
+                                        window.__.env.REACT_APP_PLP_STYLE ===
+                                        'layout-global'
+                                          ? 'col-12 pr-0 pl-md-2 pr-md-2'
+                                          : 'col-6 pl-2 pr-2'
+                                      } ${
+                                        hiddenFilter ? 'col-md-3' : 'col-md-4'
+                                      } mb-3 pl-0 BoxFitMonileScreen`}
+                                    >
+                                      <PLPCover
+                                        item={item}
+                                        key={item.id}
+                                        isDogPage={isDogPage}
+                                        sourceParam={this.state.sourceParam}
+                                        GAListParam={GAListParam}
+                                        breadListByDeco={breadListByDeco}
+                                        headingTag={
+                                          this.state.seoConfig.headingTag
+                                        }
+                                        onClick={this.hanldeItemClick.bind(
+                                          this,
+                                          item,
+                                          i
+                                        )}
+                                      />
+                                    </div>
+                                  );
+                                })}
+                          </article>
+                          <div
+                            className="grid-footer rc-full-width"
+                            style={{ marginTop: '0.5rem' }}
+                            data-tms="Pagination"
+                          >
+                            <Pagination
+                              loading={this.state.loading}
+                              defaultCurrentPage={this.state.currentPage}
+                              key={this.state.currentPage}
+                              totalPage={this.state.totalPage}
+                              onPageNumChange={this.hanldePageNumChange}
+                              prevPageLink={this.prevPageLink}
+                              nextPageLink={this.nextPageLink}
+                            />
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
-                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
-                          {loading
-                            ? _loadingJXS
-                            : productList.map((item, i) => {
-                                return (
-                                  <div
-                                    className={`${
-                                      window.__.env.REACT_APP_PLP_STYLE ===
-                                      'layout-global'
-                                        ? 'col-12 pr-0 pl-md-2 pr-md-2'
-                                        : 'col-6 pl-2 pr-2'
-                                    } ${
-                                      hiddenFilter ? 'col-md-3' : 'col-md-4'
-                                    } mb-3 pl-0 BoxFitMonileScreen`}
-                                  >
-                                    <PLPCover
-                                      item={item}
-                                      key={item.id}
-                                      isDogPage={isDogPage}
-                                      sourceParam={this.state.sourceParam}
-                                      GAListParam={GAListParam}
-                                      breadListByDeco={breadListByDeco}
-                                      headingTag={
-                                        this.state.seoConfig.headingTag
-                                      }
-                                      onClick={this.hanldeItemClick.bind(
-                                        this,
-                                        item,
-                                        i
-                                      )}
-                                    />
-                                  </div>
-                                );
-                              })}
-                        </article>
-                        <div
-                          className="grid-footer rc-full-width"
-                          style={{ marginTop: '0.5rem' }}
-                          data-tms="Pagination"
-                        >
-                          <Pagination
-                            loading={this.state.loading}
-                            defaultCurrentPage={this.state.currentPage}
-                            key={this.state.currentPage}
-                            totalPage={this.state.totalPage}
-                            onPageNumChange={this.hanldePageNumChange}
-                            prevPageLink={this.prevPageLink}
-                            nextPageLink={this.nextPageLink}
-                          />
-                        </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
-            <ProductFinderAd {...this.state} />
-          </div>
-          {window.__.env.REACT_APP_COUNTRY == 'de' ? (
-            <div className="notate ml-2 mb-2">
-              <FormattedMessage
-                id="notate"
-                values={{
-                  val: (
-                    <Link
-                      className="rc-styled-link"
-                      to={{
-                        pathname: '/faq',
-                        state: {
-                          catogery: 'catogery-1'
-                        }
-                      }}
-                    >
-                      Versandkosten
-                    </Link>
-                  )
-                }}
-                defaultMessage={' '}
-              />
+              </section>
+              <ProductFinderAd {...this.state} />
             </div>
-          ) : null}
+            {window.__.env.REACT_APP_COUNTRY == 'de' ? (
+              <div className="notate ml-2 mb-2">
+                <FormattedMessage
+                  id="notate"
+                  values={{
+                    val: (
+                      <Link
+                        className="rc-styled-link"
+                        to={{
+                          pathname: '/faq',
+                          state: {
+                            catogery: 'catogery-1'
+                          }
+                        }}
+                      >
+                        Versandkosten
+                      </Link>
+                    )
+                  }}
+                  defaultMessage={' '}
+                />
+              </div>
+            ) : null}
 
-          <Footer />
-        </main>
+            <Footer />
+          </main>
+        ) : (
+          <Exception />
+        )}
       </div>
     );
   }
