@@ -356,7 +356,8 @@ const fr_FR = {
   autoship: 'Abonnement',
   autoship_nos: 'Abonnement',
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
-  autoShipStarted: "date d'inscription au CLUB ",
+  autoShipStarted: "Date d'inscription au CLUB ",
+  autoShipStarted2: "Date de création de l\'Abonnement",
   autoshop: 'en abonnement',
   backToAuthorization: "Retour à l'autorisation",
   // SubscriptionLanding End
