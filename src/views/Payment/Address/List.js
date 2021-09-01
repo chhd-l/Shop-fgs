@@ -2032,7 +2032,8 @@ class AddressList extends React.Component {
           </aside>
 
           {/* 俄罗斯 pickup 相关 begin */}
-          {deliveryOrPickUpFlag &&
+          {!isCurrentBuyWaySubscription &&
+          deliveryOrPickUpFlag &&
           choiseHomeDeliveryOrPickUp == 0 &&
           !panelStatus.isCompleted ? (
             <>
