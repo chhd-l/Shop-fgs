@@ -119,6 +119,8 @@ const FrhowitworksnewListmobile = [
   }
 ];
 
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
+
 class ClubLandingPageNew extends React.Component {
   constructor(props) {
     super(props);
@@ -230,7 +232,7 @@ class ClubLandingPageNew extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          <BannerTip />
+          {window.__.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}
           <div
             style={{
               textAlign: 'center',
@@ -270,7 +272,14 @@ class ClubLandingPageNew extends React.Component {
                     <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                       <div className="rc-column">
                         <div className=" rc-full-width">
-                          <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                          <ul
+                            className="rc-list rc-list--blank rc-list--align rc-list--large-icon"
+                            style={
+                              window.__.env.REACT_APP_COUNTRY == 'fr'
+                                ? { fontWeight: '550' }
+                                : {}
+                            }
+                          >
                             <li className="rc-list__item flex">
                               <div>
                                 <em className="bingo rc-margin-right--xs"></em>
@@ -314,13 +323,18 @@ class ClubLandingPageNew extends React.Component {
                                 style={
                                   window.__.env.REACT_APP_COUNTRY === 'fr'
                                     ? {
-                                        paddingLeft: '8px',
-                                        paddingRight: '8px'
+                                        paddingLeft: '20px',
+                                        paddingRight: '20px'
                                       }
                                     : null
                                 }
                               >
-                                <FormattedMessage id="ClubLP.Advantage.button" />
+                                <FormattedMessage
+                                  id="ClubLP.Advantage.button"
+                                  values={
+                                    isMobile ? { val: <br /> } : { val: null }
+                                  }
+                                />
                               </button>
                             </DistributeHubLinkOrATag>
                           </div>

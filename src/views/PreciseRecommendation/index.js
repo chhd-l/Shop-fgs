@@ -93,6 +93,9 @@ class PreciseRecommendation extends React.Component {
         loading: false
       });
       this.handleGA(res);
+    } else {
+      // 没有走回答问题的时候，需要重定向到landingpage
+      this.props.history.push('/precise-cat-nutrition');
     }
   }
 

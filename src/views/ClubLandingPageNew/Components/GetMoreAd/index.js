@@ -69,7 +69,7 @@ const GetMoreAd = () => {
                       </div>
                     </div>
 
-                    <div style={{ height: '135px' }}>
+                    <div className="getmoreaddheight">
                       <div className="rc-column">
                         <div className="rc-full-width">
                           <ul className="rc-list rc-list--blank rc-list--large-icon textmobile15vw text21vw">

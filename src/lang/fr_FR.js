@@ -356,7 +356,8 @@ const fr_FR = {
   autoship: 'Abonnement',
   autoship_nos: 'Abonnement',
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
-  autoShipStarted: "date d'inscription au CLUB ",
+  autoShipStarted: "Date d'inscription au CLUB ",
+  autoShipStarted2: "Date de création de l\'Abonnement",
   autoshop: 'en abonnement',
   backToAuthorization: "Retour à l'autorisation",
   // SubscriptionLanding End
@@ -1900,7 +1901,8 @@ const fr_FR = {
     "Une combinaison d'ingrédients hautement digestibles sélectionnés pour répondre à chaque profil nutritionnel",
   'ClubLP.Advantage.content4':
     'Des nutriments sélectionnés pour leur haute qualité, à partir de sources durables ayant une plus faible empreinte carbone',
-  'ClubLP.Advantage.button': 'Trouvez votre aliment sur mesure dès maintenant',
+  'ClubLP.Advantage.button':
+    'Trouvez votre aliment {val}sur mesure dès maintenant',
   'ClubLP.LongBanner.SubscriptionTitle.tab.cat':
     "AVANTAGES DE L'ABONNEMENT POUR LES CHATS",
   'ClubLP.LongBanner.SubscriptionTitle1.new':
@@ -1928,7 +1930,7 @@ const fr_FR = {
   'ClubLP.OurCustomers.title': 'NOS CLIENTS FIDELES',
   'ClubLP.GetMoreAd.title':
     "OBTENIR DES AVANTAGES SUPPLÉMENTAIRES AVEC L'ABONNEMENT AU CLUB",
-  'ClubLP.GetMoreAd.subtitle1': 'Paiement {val} sécurisé',
+  'ClubLP.GetMoreAd.subtitle1': 'Achat {val} unique',
   'ClubLP.GetMoreAd.subtitle2': 'Abonnement au {val} CLUB',
   'ClubLP.GetMoreAd.Single.tip1': 'Aliment sur mesure',
   'ClubLP.GetMoreAd.Single.tip2': 'Livraison offerte',
