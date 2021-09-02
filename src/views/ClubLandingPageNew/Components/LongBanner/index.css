@@ -35,6 +35,9 @@
     justify-content: center;
     display: flex;
   }
+  .mobileBoxshadow {
+    box-shadow: 0vh 0vh 0.3vh 0.1vh #dcdcde;
+  }
 }
 
 @media (min-width: 639.98px) {
