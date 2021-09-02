@@ -1632,7 +1632,7 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    // console.log('666 updatePickupData: ', data);
+    console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -1697,7 +1697,6 @@ class AddressList extends React.Component {
         deliveryAdd.customerId = pkup[0].customerId;
       }
       // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
-
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
         let deliveryAddressId = res.context.deliveryAddressId;
@@ -2033,7 +2032,8 @@ class AddressList extends React.Component {
           </aside>
 
           {/* 俄罗斯 pickup 相关 begin */}
-          {deliveryOrPickUpFlag &&
+          {!isCurrentBuyWaySubscription &&
+          deliveryOrPickUpFlag &&
           choiseHomeDeliveryOrPickUp == 0 &&
           !panelStatus.isCompleted ? (
             <>
@@ -2042,6 +2042,7 @@ class AddressList extends React.Component {
                   this.state.defaultCity ||
                   this.props.isCurrentBuyWaySubscription
                 }
+                initData={pickupFormData}
                 isLogin={true}
                 defaultCity={this.state.defaultCity}
                 pageType="checkout"

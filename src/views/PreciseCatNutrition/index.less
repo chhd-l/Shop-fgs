@@ -204,6 +204,7 @@
     background-color: #fff;
     display: flex;
     align-items: center;
+    //justify-content: space-between;
     @media (max-width: 769px) {
       width: 100%;
       display: block;
@@ -216,12 +217,18 @@
         margin-left: 0;
       }
     }
+    .questionnaire-box{
+      max-width: 390px;
+      @media (max-width: 769px) {
+        max-width: 100%;
+      }
+    }
     .questionnaire-image-box{
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      margin-right: 118px;
+      margin-right: 100px;
       @media (max-width: 769px) {
         margin: 0 auto;
         text-align: center;

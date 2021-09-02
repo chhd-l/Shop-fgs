@@ -308,7 +308,7 @@ function AboutPet() {
           <FormattedMessage id="nutritionalRecommendation" />
         </div>
       </div>
-      <div style={{ minWidth: 320 }}>
+      <div className="questionnaire-box" style={{ minWidth: 320 }}>
         {loading ? (
           <span className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />

@@ -35,6 +35,7 @@ const CURRENT_LANGFILE = locales;
 @observer
 class HomeDeliveryOrPickUp extends React.Component {
   static defaultProps = {
+    initData: null,
     isLogin: false,
     isCurrentBuyWaySubscription: false, // 是否有订阅商品
     defaultCity: '',
@@ -104,6 +105,16 @@ class HomeDeliveryOrPickUp extends React.Component {
     };
   }
   async componentDidMount() {
+    let initData = this.props.initData;
+    this.setState(
+      {
+        pickupForm: Object.assign(this.state.pickupForm, initData)
+      },
+      () => {
+        // console.log('666 >>> pickupForm : ', this.state.pickupForm);
+      }
+    );
+
     // 监听iframe的传值
     window.addEventListener('message', (e) => {
       // console.log('666 ★ 地图返回 type: ', e?.data?.type);
@@ -175,7 +186,8 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
 
     let defaultCity = this.props.defaultCity;
-    console.log('666 defaultCity : ', defaultCity);
+    // console.log('666 defaultCity : ', defaultCity);
+
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
     if (
@@ -715,7 +727,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     });
   };
   render() {
-    const { allAddressList, pageType } = this.props;
+    const { isLogin, allAddressList, pageType } = this.props;
     const {
       pickLoading,
       showPickup,
@@ -1010,7 +1022,11 @@ class HomeDeliveryOrPickUp extends React.Component {
                 {this.inputJSX('comment')}
               </div>
             </div>
-            <div className="col-md-12">{_pickupDefaultCheckBox}</div>
+            {isLogin && (
+              <>
+                <div className="col-md-12">{_pickupDefaultCheckBox}</div>
+              </>
+            )}
           </div>
         </div>
         {/* pickup相关 end */}

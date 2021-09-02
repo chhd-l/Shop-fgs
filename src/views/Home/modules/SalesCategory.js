@@ -89,7 +89,8 @@ class SalesCategory extends Component {
   }
   componentDidMount() {
     queryStoreCateList().then((res) => {
-      let tmpRes = (res || []).sort((a, b) => a.sort - b.sort);
+      let _res = (res || []).sort((a, b) => a.sort - b.sort);
+      let tmpRes = _res.filter((item) => item.displayStatus === true);
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }
