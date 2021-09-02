@@ -727,7 +727,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     });
   };
   render() {
-    const { allAddressList, pageType } = this.props;
+    const { isLogin, allAddressList, pageType } = this.props;
     const {
       pickLoading,
       showPickup,
@@ -1022,7 +1022,11 @@ class HomeDeliveryOrPickUp extends React.Component {
                 {this.inputJSX('comment')}
               </div>
             </div>
-            <div className="col-md-12">{_pickupDefaultCheckBox}</div>
+            {isLogin && (
+              <>
+                <div className="col-md-12">{_pickupDefaultCheckBox}</div>
+              </>
+            )}
           </div>
         </div>
         {/* pickup相关 end */}
