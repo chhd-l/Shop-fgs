@@ -825,7 +825,7 @@ const fr_FR = {
   newPassword: 'Nouveau mot de passe',
   newsletterFalse: 'Consultez la NEWSLETTER',
   next: 'Suivant',
-  back: 'Retourner',
+  back: 'Retour',
   nextShipment: 'Nouvel envoi',
   noClinicTip:
     "Vous n'avez pas de code de parrainage valide? {val} vous pouvez trouver nos cliniques partenaires, où vous pouvez obtenir un code.",
