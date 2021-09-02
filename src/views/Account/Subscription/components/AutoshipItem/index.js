@@ -126,17 +126,17 @@ const AutoshipItem = ({ subItem, history }) => {
         {/* <div className="col-4 col-md-2">{subItem.frequency}</div> */}
         <div className="col-4 col-md-1 ml-3 status">
           {subItem.subscribeStatus === '0' ? (
-            <div className="ui-text-overflow-line1">
+            <div className="ui-text-overflow-line1 subscription_status_active">
               <em className="greenCircle" />
               <FormattedMessage id="active" />
             </div>
           ) : subItem.subscribeStatus === '1' ? (
-            <div className="ui-text-overflow-line1">
+            <div className="ui-text-overflow-line1 subscription_status_paused">
               <em className="yellowCircle" />
               <FormattedMessage id="paused" />
             </div>
           ) : (
-            <div className="ui-text-overflow-line1">
+            <div className="ui-text-overflow-line1 subscription_status_inactive">
               <em className="yellowCircle" />
               <FormattedMessage id="inactive" />
             </div>

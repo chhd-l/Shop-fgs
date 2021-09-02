@@ -232,20 +232,7 @@ class ClubLandingPageNew extends React.Component {
           sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
-          {window.__.env.REACT_APP_COUNTRY == 'fr' ? null : <BannerTip />}
-          <div
-            style={{
-              textAlign: 'center',
-              height: '42px',
-              backgroundColor: '#F6F6F6',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div style={{ alignSelf: 'center', color: '#E2001A' }}>
-              <FormattedMessage id="ClubLP.discount.content"></FormattedMessage>
-            </div>
-          </div>
+          <BannerTip />
 
           <LongBanner />
 

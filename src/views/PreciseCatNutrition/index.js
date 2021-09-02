@@ -167,13 +167,14 @@ class PreciseCatNutrition extends React.Component {
                           >
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
-                              DID
+                              {/*DID*/}
+                              SAVIE-
                               <div
                                 style={{
                                   backgroundColor: '#E2001A',
                                   color: 'white',
                                   display: 'inline',
-                                  padding: ' 5px 5px',
+                                  padding: ' 5px 10px',
                                   margin: '0px 0px 0 20px',
                                   fontWeight: 300,
                                   position: 'relative'
@@ -188,22 +189,25 @@ class PreciseCatNutrition extends React.Component {
                                     display: 'inline',
                                     borderRadius: '50%',
                                     position: 'absolute',
-                                    left: -17,
-                                    top: 12,
-                                    padding: 4,
+                                    left: -16,
+                                    top: isMobile?12:15,
+                                    padding: "4px 1px",
                                     fontWeight: 500,
                                     lineHeight: '18px'
                                   }}
                                 >
-                                  You
-                                </div>{' '}
-                                KNOW?
+                                  {/*You*/}
+                                  Vous
+                                </div>
+                                {/*{' '} KNOW?*/}
+                                {' '}QUE
                               </div>
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
                             <h2 className="font-weight-bold">
-                              THAT HEAlTH IS NOT ONE SIZE FITS ALL
+                              {/*THAT HEAlTH IS NOT ONE SIZE FITS ALL*/}
+                              CHAQUE CHAT A DES BESOINS SPÉCIFIQUES ?
                             </h2>
                           </div>
                         </div>
@@ -460,7 +464,7 @@ class PreciseCatNutrition extends React.Component {
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
-                    <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
+                    <div className="rc-margin-bottom--md rc-margin-top--xl--mobile text-center">
                       <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
                         <p style={{ marginBottom: 0 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
@@ -481,7 +485,7 @@ class PreciseCatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition">
+                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-bottom--lg--mobile value-proposition">
                         <div>
                           <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
                             {/*Address*/}
