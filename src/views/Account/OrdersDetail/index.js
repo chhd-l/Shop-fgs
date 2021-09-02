@@ -277,9 +277,14 @@ class AccountOrders extends React.Component {
         resContext.tradeItems?.forEach((el) => {
           if (judgeIsIndividual(el)) {
             // el.spuName = `${el.petsName}'s personalized subscription`;
-            el.spuName =  <FormattedMessage id='subscription.personalized' values={{ val1:el.petsName}} />
+            el.spuName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: el.petsName }}
+              />
+            );
 
-              isIndv = true;
+            isIndv = true;
           }
         });
         let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
@@ -694,7 +699,7 @@ class AccountOrders extends React.Component {
                               new Date(a.timestamp).getTime()
                             );
                           })}
-                          hasMoreLessOperation={true}
+                          hasMoreLessOperation={false}
                           moreLogistics={moreLogistics}
                           handleToggleMoreLess={this.handleToggleMoreLess}
                           customDateCls="text-nowrap"
@@ -1263,12 +1268,19 @@ class AccountOrders extends React.Component {
                                                 className="medium ui-text-overflow-line2 text-break color-444"
                                                 title={item.spuName}
                                               >
-                                                {judgeIsIndividual(item)
+                                                {judgeIsIndividual(item) ? (
                                                   // ? (item.petsName ||
                                                   //     'Your pet') +
                                                   //   "'s personalized subscription"
-                                                  ? <FormattedMessage id='subscription.personalized' values={{ val1:item.petsName}} />
-                                                  : item.spuName}
+                                                  <FormattedMessage
+                                                    id="subscription.personalized"
+                                                    values={{
+                                                      val1: item.petsName
+                                                    }}
+                                                  />
+                                                ) : (
+                                                  item.spuName
+                                                )}
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
