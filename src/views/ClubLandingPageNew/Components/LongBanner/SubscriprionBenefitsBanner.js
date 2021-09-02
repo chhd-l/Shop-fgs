@@ -25,7 +25,10 @@ const SubscriptionBenefitsBanner = ({
                 : 'rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile '
             }`}
           >
-            <div style={{ backgroundColor: '#ffffff' }}>
+            <div
+              style={{ backgroundColor: '#ffffff' }}
+              className="mobileBoxshadow"
+            >
               <div
                 className="flex "
                 style={{ justifyContent: 'center', padding: '20px' }}
