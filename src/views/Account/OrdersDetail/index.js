@@ -373,7 +373,8 @@ class AccountOrders extends React.Component {
         // 发货运输中，查询物流信息
         if (
           tradeState.payState === 'PAID' &&
-          tradeState.auditState === 'CHECKED' &&
+          (tradeState.auditState === 'CHECKED' ||
+            tradeState.auditState === 'INSIDE_CHECKED') &&
           (tradeState.deliverStatus === 'SHIPPED' ||
             tradeState.deliverStatus === 'PART_SHIPPED')
         ) {
@@ -647,7 +648,7 @@ class AccountOrders extends React.Component {
         logisticsList.push(item);
       }
     });
-    console.log(logisticsList);
+    console.log('logisticsList:', logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
@@ -699,7 +700,7 @@ class AccountOrders extends React.Component {
                               new Date(a.timestamp).getTime()
                             );
                           })}
-                          hasMoreLessOperation={false}
+                          hasMoreLessOperation={true}
                           moreLogistics={moreLogistics}
                           handleToggleMoreLess={this.handleToggleMoreLess}
                           customDateCls="text-nowrap"

@@ -419,7 +419,7 @@ class SubscriptionDetail extends React.Component {
       if (petsId) {
         if (isIndv) {
           subDetail.goodsInfo.map((item) => {
-            item.petsRation = item.subscribeNum / 30 + 'g/day';
+            item.petsRation = Math.round(item.subscribeNum / 30) + 'g/jour';
             // return item;
           });
         } else {
