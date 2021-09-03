@@ -647,7 +647,7 @@ class AccountOrders extends React.Component {
         logisticsList.push(item);
       }
     });
-    console.log(logisticsList);
+    console.log('logisticsList:', logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
@@ -699,7 +699,7 @@ class AccountOrders extends React.Component {
                               new Date(a.timestamp).getTime()
                             );
                           })}
-                          hasMoreLessOperation={false}
+                          hasMoreLessOperation={true}
                           moreLogistics={moreLogistics}
                           handleToggleMoreLess={this.handleToggleMoreLess}
                           customDateCls="text-nowrap"
