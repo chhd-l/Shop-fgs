@@ -6,6 +6,8 @@ import ENV_TR from './tr';
 import ENV_US from './us';
 import ENV_CORE from './core';
 import ENV_CA from './ca';
+import ENV_SE from './se';
+import ENV_UK from './uk';
 import ENV_LOCAL from './local';
 import GLOBAL_ENV from './global';
 
@@ -20,7 +22,9 @@ const ALL_ENV = {
   ENV_TR,
   ENV_US,
   ENV_CORE,
-  ENV_CA
+  ENV_CA,
+  ENV_SE,
+  ENV_UK
 };
 
 const pathnameToCountryEnv = [
