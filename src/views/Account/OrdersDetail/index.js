@@ -277,9 +277,14 @@ class AccountOrders extends React.Component {
         resContext.tradeItems?.forEach((el) => {
           if (judgeIsIndividual(el)) {
             // el.spuName = `${el.petsName}'s personalized subscription`;
-            el.spuName =  <FormattedMessage id='subscription.personalized' values={{ val1:el.petsName}} />
+            el.spuName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: el.petsName }}
+              />
+            );
 
-              isIndv = true;
+            isIndv = true;
           }
         });
         let welcomeGiftLists = (resContext?.subscriptionPlanGiftList || []).map(
@@ -368,7 +373,8 @@ class AccountOrders extends React.Component {
         // 发货运输中，查询物流信息
         if (
           tradeState.payState === 'PAID' &&
-          tradeState.auditState === 'CHECKED' &&
+          (tradeState.auditState === 'CHECKED' ||
+            tradeState.auditState === 'INSIDE_CHECKED') &&
           (tradeState.deliverStatus === 'SHIPPED' ||
             tradeState.deliverStatus === 'PART_SHIPPED')
         ) {
@@ -642,7 +648,7 @@ class AccountOrders extends React.Component {
         logisticsList.push(item);
       }
     });
-    console.log(logisticsList);
+    console.log('logisticsList:', logisticsList);
     const filteredLogisticsList = logisticsList
       .map((ele) => (ele && ele.tradeLogisticsDetails ? ele : []))
       .filter((ele) => ele);
@@ -1263,12 +1269,19 @@ class AccountOrders extends React.Component {
                                                 className="medium ui-text-overflow-line2 text-break color-444"
                                                 title={item.spuName}
                                               >
-                                                {judgeIsIndividual(item)
+                                                {judgeIsIndividual(item) ? (
                                                   // ? (item.petsName ||
                                                   //     'Your pet') +
                                                   //   "'s personalized subscription"
-                                                  ? <FormattedMessage id='subscription.personalized' values={{ val1:item.petsName}} />
-                                                  : item.spuName}
+                                                  <FormattedMessage
+                                                    id="subscription.personalized"
+                                                    values={{
+                                                      val1: item.petsName
+                                                    }}
+                                                  />
+                                                ) : (
+                                                  item.spuName
+                                                )}
                                               </span>
                                               <span className="ui-text-overflow-line2">
                                                 <span className="rc-md-up">
