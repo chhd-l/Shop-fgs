@@ -235,7 +235,7 @@ class PreciseCatNutrition extends React.Component {
                         <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
                           <div className="flex-column rc-padding-x--sm--desktop rc-padding-y--md--mobile">
                             <div
-                              className="lazyload-wrapper"
+                              className="lazyload-wrapper1"
                               style={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -431,7 +431,7 @@ class PreciseCatNutrition extends React.Component {
                             </div>
                           </div>
                           <div className="rc-column">
-                            <div className="lazyload-wrapper">
+                            <div className="lazyload-wrapper1">
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
