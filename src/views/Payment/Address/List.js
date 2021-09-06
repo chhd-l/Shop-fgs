@@ -332,11 +332,7 @@ class AddressList extends React.Component {
         }
       });
 
-      // 更新delivery address保存次数
-      let snum = this.props.saveAddressNumber;
-      this.setState({
-        listSaveAddressNumber: snum + 1
-      });
+      await this.props.updateSaveAddressNumber(snum + 1);
 
       addressList.map((e) => {
         e.deliveryAddressId === tmpId
@@ -349,12 +345,11 @@ class AddressList extends React.Component {
           : (e.selected = false);
       });
 
-      console.log('666 >>> 111 selectedId: ', selectedId);
-      console.log('666 >>> 111 tmpId: ', tmpId);
-
-      await this.props.updateSaveAddressNumber(snum + 1);
+      // 更新delivery address保存次数
+      let snum = this.props.saveAddressNumber;
       this.setState(
         {
+          listSaveAddressNumber: snum + 1,
           loading: false,
           addressList: addressList,
           allAddressList: allAddress,
@@ -363,11 +358,6 @@ class AddressList extends React.Component {
           homeDeliverySelectedId: tmpId
         },
         () => {
-          console.log('666 >>> 222 addressList: ', this.state.addressList);
-          console.log(
-            '666 >>> 222 allAddressList: ',
-            this.state.allAddressList
-          );
           if (window.__.env.REACT_APP_COUNTRY === 'ru') {
             let addData = defaultAddressItem;
             // 地址列表有数据时(包含pickup)，判断是否有默认地址
@@ -779,7 +769,6 @@ class AddressList extends React.Component {
     Array.from(allAddressList, (a) => (a.selected = false));
     addressList[idx].selected = true;
     allAddressList[idx].selected = true;
-    // console.log('666 >>> 选择地址 selectedId: ', addressList[idx].deliveryAddressId);
     this.setState(
       {
         pickupFormData: [],
