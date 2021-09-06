@@ -1,12 +1,12 @@
 const env = {
   base: {
     // #国家
-    REACT_APP_COUNTRY: 'se',
+    REACT_APP_COUNTRY: 'uk',
 
     // #GA环境配置
     REACT_APP_GA_GTMID: 'GTM-TML5H48',
     REACT_APP_GTM_SITE_ID: 'RCGlobalPCO1',
-    REACT_APP_GA_COUNTRY: 'SE',
+    REACT_APP_GA_COUNTRY: 'UK',
     REACT_APP_GA_CURRENCY_CODE: 'USD',
 
     // #Adyen
@@ -17,12 +17,12 @@ const env = {
     REACT_APP_ONTRUST_STYLE: '',
 
     // #language
-    REACT_APP_LANG: 'se',
-    REACT_APP_NAVIGATOR_LANG: 'se',
+    REACT_APP_LANG: 'uk',
+    REACT_APP_NAVIGATOR_LANG: 'uk',
     REACT_APP_CURRENCY: 'USD',
 
     // #storid
-    REACT_APP_STOREID: '123457915',
+    REACT_APP_STOREID: '123457916',
 
     // #最低限额
     REACT_APP_MINIMUM_AMOUNT: '0',
@@ -66,7 +66,7 @@ const env = {
     REACT_APP_ACCESSBILITY_OPEN_A_NEW_WINDOW: '1',
 
     // #启用BazaarVoice ratings&reviews功能
-    REACT_APP_SHOW_BAZAARVOICE_RATINGS: '1',
+    REACT_APP_SHOW_BAZAARVOICE_RATINGS: '0',
 
     REACT_APP_SEARCH_LINK:
       '/on/demandware.store/Sites-EN-Site/en_EN/Search-Show'
@@ -187,7 +187,12 @@ const env = {
     REACT_APP_HOMEPAGE: '/se',
 
     // #bazaarVoice环境配置
-    REACT_APP_BAZAARVOICE_ENV: 'staging'
+    REACT_APP_BAZAARVOICE_ENV: 'staging',
+
+    // #Adyen
+    REACT_APP_AdyenOriginKEY:
+      'pub.v2.8015632026961356.aHR0cHM6Ly9zaG9wc3RnLnJveWFsY2FuaW4uY29t.ZJgztbWWD0AsiF8fRONvngA8Ar7WmuEKIoXl_SWOuTQ',
+    REACT_APP_Adyen_ENV: 'test'
   },
   production: {
     // #okta

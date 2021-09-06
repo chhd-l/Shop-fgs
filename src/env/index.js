@@ -63,6 +63,10 @@ const pathnameToCountryEnv = [
   {
     reg: /^\/se/,
     envFileName: 'ENV_SE'
+  },
+  {
+    reg: /^\/uk/,
+    envFileName: 'ENV_UK'
   }
 ];
 
