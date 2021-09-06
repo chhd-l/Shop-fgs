@@ -357,7 +357,7 @@ class AddressList extends React.Component {
           selectedId: tmpId,
           homeDeliverySelectedId: tmpId
         },
-        () => {
+        async () => {
           if (window.__.env.REACT_APP_COUNTRY === 'ru') {
             let addData = defaultAddressItem;
             // 地址列表有数据时(包含pickup)，判断是否有默认地址
@@ -1339,6 +1339,8 @@ class AddressList extends React.Component {
       allAddressList,
       addressList,
       pickupAddress,
+      homeDeliverySelectedId,
+      selectedId,
       isPickupOpen,
       listSaveAddressNumber
     } = this.state;
@@ -1424,7 +1426,7 @@ class AddressList extends React.Component {
       {
         homeAndPickup: obj
       },
-      () => {
+      async () => {
         // 存储选择的数据
         let item = null;
         if (!hdpk) {
@@ -1438,6 +1440,14 @@ class AddressList extends React.Component {
           item['homeAndPickup'] = obj;
         }
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
+
+        // 计算homeDelivery运费
+        const tmpObj =
+          find(addressList, (ele) => ele.deliveryAddressId === selectedId) ||
+          null;
+        if (tmpObj) {
+          await this.getHomeDeliveryPrice(tmpObj.city);
+        }
       }
     );
   };
