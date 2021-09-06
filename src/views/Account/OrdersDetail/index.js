@@ -373,7 +373,8 @@ class AccountOrders extends React.Component {
         // 发货运输中，查询物流信息
         if (
           tradeState.payState === 'PAID' &&
-          tradeState.auditState === 'CHECKED' &&
+          (tradeState.auditState === 'CHECKED' ||
+            tradeState.auditState === 'INSIDE_CHECKED') &&
           (tradeState.deliverStatus === 'SHIPPED' ||
             tradeState.deliverStatus === 'PART_SHIPPED')
         ) {

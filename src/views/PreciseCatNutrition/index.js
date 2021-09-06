@@ -159,23 +159,25 @@ class PreciseCatNutrition extends React.Component {
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                         <div className={'row w-100'}>
                           <div
-                            className={'col-12 col-md-4 text-md-right relative'}
+                            className={'col-12 col-md-4 text-md-right relative nowrap'}
                             style={{
                               display: 'inline',
-                              marginBottom: isMobile ? 15 : null
+                              marginBottom: isMobile ? 15 : null,
+                              paddingRight: isMobile ? null :0,
+                              paddingLeft: isMobile ? null :30,
                             }}
                           >
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
                               {/*DID*/}
-                              SAVIE-
+                              {/*SAVIE-*/}
                               <div
                                 style={{
                                   backgroundColor: '#E2001A',
                                   color: 'white',
                                   display: 'inline',
-                                  padding: ' 5px 10px',
-                                  margin: '0px 0px 0 20px',
+                                  padding: ' 5px 10px 5px 20px',
+                                  margin: ' 0 13px',
                                   fontWeight: 300,
                                   position: 'relative'
                                 }}
@@ -183,25 +185,30 @@ class PreciseCatNutrition extends React.Component {
                                 <div
                                   className="titleRadius"
                                   style={{
-                                    fontSize: 14,
+                                    width:"24.2%",
+                                    fontSize: 18,
+                                    textAlign:'center',
                                     backgroundColor: 'white',
                                     color: '#E2001A',
                                     display: 'inline',
                                     borderRadius: '50%',
                                     position: 'absolute',
-                                    left: -16,
+                                    left: -15,
                                     top: isMobile?12:15,
-                                    padding: "4px 1px",
+                                    padding: "5px 1px",
                                     fontWeight: 500,
                                     lineHeight: '18px'
                                   }}
                                 >
                                   {/*You*/}
-                                  Vous
+                                  LE
                                 </div>
                                 {/*{' '} KNOW?*/}
-                                {' '}QUE
+                                {' '}SAVIEZ
+                                <div className={'whiteRed'}>
+                                </div>
                               </div>
+                              VOUS?
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
@@ -226,9 +233,9 @@ class PreciseCatNutrition extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile  content-block rc-max-width--lg">
                         <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
-                          <div className="rc-column">
+                          <div className="flex-column rc-padding-x--sm--desktop rc-padding-y--md--mobile">
                             <div
-                              className="lazyload-wrapper"
+                              className="lazyload-wrapper1"
                               style={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -424,7 +431,7 @@ class PreciseCatNutrition extends React.Component {
                             </div>
                           </div>
                           <div className="rc-column">
-                            <div className="lazyload-wrapper">
+                            <div className="lazyload-wrapper1">
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
@@ -446,10 +453,12 @@ class PreciseCatNutrition extends React.Component {
                 <br />
 
                 <HowItWorks />
-              </div>
-              <br />
+                <br id="aboutPet"/>
+                <br />
 
-              <div className={'preciseCatNutritionTop'} id="aboutPet">
+              </div>
+
+              <div className={'preciseCatNutritionTop'}>
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">

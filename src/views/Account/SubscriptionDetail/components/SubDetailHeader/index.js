@@ -195,7 +195,8 @@ const SubDetailHeader = ({
                     </h4>
                     <div>
                       {subDetail.subscriptionType == 'Individualization' ? (
-                        'Date of birth'
+                        // 'Date of birth'
+                        <FormattedMessage id="dateOfBirth" />
                       ) : (
                         <FormattedMessage id="age" />
                       )}

@@ -332,25 +332,32 @@ class AddressList extends React.Component {
         }
       });
 
+      await this.props.updateSaveAddressNumber(snum + 1);
+
+      addressList.map((e) => {
+        e.deliveryAddressId === tmpId
+          ? (e.selected = true)
+          : (e.selected = false);
+      });
+      allAddress.map((e) => {
+        e.deliveryAddressId == tmpId
+          ? (e.selected = true)
+          : (e.selected = false);
+      });
+
       // 更新delivery address保存次数
       let snum = this.props.saveAddressNumber;
-      this.setState({
-        listSaveAddressNumber: snum + 1
-      });
-      await this.props.updateSaveAddressNumber(snum + 1);
       this.setState(
         {
-          addressList,
+          listSaveAddressNumber: snum + 1,
+          loading: false,
+          addressList: addressList,
           allAddressList: allAddress,
           addOrEdit: !addressList.length,
           selectedId: tmpId,
           homeDeliverySelectedId: tmpId
         },
-        () => {
-          this.setState({
-            loading: false
-          });
-
+        async () => {
           if (window.__.env.REACT_APP_COUNTRY === 'ru') {
             let addData = defaultAddressItem;
             // 地址列表有数据时(包含pickup)，判断是否有默认地址
@@ -505,26 +512,24 @@ class AddressList extends React.Component {
   };
   // 会员确认地址列表信息，并展示封面
   clickConfirmAddressPanel = async () => {
-    const { homeDeliverySelectedId, addressList, wrongAddressMsg } = this.state;
+    const {
+      homeDeliverySelectedId,
+      allAddressList,
+      addressList,
+      wrongAddressMsg
+    } = this.state;
     const tmpObj =
       find(
         addressList,
         (ele) => ele.deliveryAddressId === homeDeliverySelectedId
       ) || null;
+
     this.setState({
       selectedId: homeDeliverySelectedId
     });
 
-    // ★★★★★★ 自动更新deliveryDate和timeSlot后暂时用不到这段 ★★★★★★
-    // if (window.__.env.REACT_APP_COUNTRY == 'ru') {
-    //   // 判断 deliveryDate、timeSlot 是否过期
-    //   this.setState({ btnConfirmLoading: true });
-    //   let yesOrNot = await this.deliveryDateStaleDateOrNot(tmpObj);
-    //   this.setState({ btnConfirmLoading: false });
-    //   if (!yesOrNot) {
-    //     return;
-    //   }
-    // }
+    // console.log('666 >>> addressList: ', addressList);
+    // console.log('666 >>> allAddressList: ', allAddressList);
 
     // 判断地址完整性
     const laddf = this.props.configStore.localAddressForm;
@@ -759,13 +764,16 @@ class AddressList extends React.Component {
   selectAddress(e, idx) {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    let { addressList } = this.state;
+    let { allAddressList, addressList } = this.state;
     Array.from(addressList, (a) => (a.selected = false));
+    Array.from(allAddressList, (a) => (a.selected = false));
     addressList[idx].selected = true;
+    allAddressList[idx].selected = true;
     this.setState(
       {
         pickupFormData: [],
         addressList: addressList,
+        allAddressList: allAddressList,
         selectedId: addressList[idx].deliveryAddressId,
         homeDeliverySelectedId: addressList[idx].deliveryAddressId
       },
@@ -805,6 +813,7 @@ class AddressList extends React.Component {
       }
     }
   }
+  // 编辑 homeDelivery 地址
   addOrEditAddress(idx = -1) {
     const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
@@ -873,6 +882,10 @@ class AddressList extends React.Component {
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
         email: tmp.email
       };
+      this.setState({
+        selectedId: tmp.deliveryAddressId,
+        homeDeliverySelectedId: tmp.deliveryAddressId
+      });
     }
 
     this.setState(
@@ -931,7 +944,7 @@ class AddressList extends React.Component {
   };
   // 根据传过来的地址信息或者默认地址计算运费
   recalculateFreight = (data) => {
-    const { addressList, selectedId, homeDeliverySelectedId } = this.state;
+    const { addressList, homeDeliverySelectedId } = this.state;
     let obj = data;
     if (addressList.length && data.receiveType == 'HOME_DELIVERY') {
       obj = find(
@@ -1004,12 +1017,13 @@ class AddressList extends React.Component {
       const tmpPromise =
         this.currentOperateIdx > -1 ? editAddress : saveAddress;
       let res = await tmpPromise(params);
-      if (res.context.deliveryAddressId) {
-        this.setState({
-          selectedId: res.context.deliveryAddressId,
-          homeDeliverySelectedId: res.context.deliveryAddressId
-        });
-      }
+      let tmpObj = res?.context;
+      //   if (tmpObj.deliveryAddressId) {
+      //     this.setState({
+      //       selectedId: tmpObj.deliveryAddressId,
+      //       homeDeliverySelectedId: tmpObj.deliveryAddressId
+      //     });
+      //   }
       this.isDeliverAddress && this.scrollToTitle();
       await this.queryAddressList();
       this.showSuccessMsg();
@@ -1200,18 +1214,6 @@ class AddressList extends React.Component {
             </>
           ) : null}
         </h5>
-        {/* {showDeliveryOrPickUp == 1 && !homeAndPickup?.length && (
-          <p
-            className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${addOrEdit ? 'hidden' : ''
-              }`}
-            onClick={this.addOrEditAddress.bind(this, -1)}
-          >
-            <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
-            <span>
-              <FormattedMessage id="newAddress" />
-            </span>
-          </p>
-        )} */}
       </>
     );
   }
@@ -1337,6 +1339,8 @@ class AddressList extends React.Component {
       allAddressList,
       addressList,
       pickupAddress,
+      homeDeliverySelectedId,
+      selectedId,
       isPickupOpen,
       listSaveAddressNumber
     } = this.state;
@@ -1422,7 +1426,7 @@ class AddressList extends React.Component {
       {
         homeAndPickup: obj
       },
-      () => {
+      async () => {
         // 存储选择的数据
         let item = null;
         if (!hdpk) {
@@ -1436,6 +1440,14 @@ class AddressList extends React.Component {
           item['homeAndPickup'] = obj;
         }
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
+
+        // 计算homeDelivery运费
+        const tmpObj =
+          find(addressList, (ele) => ele.deliveryAddressId === selectedId) ||
+          null;
+        if (tmpObj) {
+          await this.getHomeDeliveryPrice(tmpObj.city);
+        }
       }
     );
   };
@@ -1461,7 +1473,7 @@ class AddressList extends React.Component {
         choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
       },
       () => {
-        console.log('666 >>> pickupAddress: ', pickupAddress);
+        // console.log('666 >>> pickupAddress: ', pickupAddress);
         // 修改按钮状态
         if (pickupAddress.length) {
           this.setState({
@@ -1508,11 +1520,12 @@ class AddressList extends React.Component {
       if (addressList.length) {
         addressObj = addressList[0];
         addressObj.selected = true;
+        let theAddressId = addressObj.deliveryAddressId;
         this.setState({
           addressList,
           pickupFormData: [],
-          selectedId: addressObj.deliveryAddressId,
-          homeDeliverySelectedId: addressObj.deliveryAddressId
+          selectedId: theAddressId,
+          homeDeliverySelectedId: theAddressId
         });
         this.props.updateData(addressObj);
       } else {
@@ -1632,7 +1645,7 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 >>> updatePickupData: ', data);
+    // console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -2321,7 +2334,7 @@ class AddressList extends React.Component {
                       form={
                         pickupFormData?.receiveType == 'PICK_UP'
                           ? pickupData
-                          : allAddressList.filter(
+                          : addressList.filter(
                               (a) => a.deliveryAddressId === selectedId
                             )[0]
                       }

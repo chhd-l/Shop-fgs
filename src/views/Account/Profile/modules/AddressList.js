@@ -63,11 +63,11 @@ function CardItem(props) {
           <FormattedMessage id="billingAddress" />
         )}
       </div> */}
-      <div className={`d-flex flex-wrap ${isMobile ? 'mb-3' : ''}`}>
+      <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
         {props.receiveType == 'PICK_UP' ? (
           <>
             {/* 自提点 */}
-            <div className="rc-full-width font-weight-normal mb-1 mp_mb_address1">
+            <div className="rc-full-width font-weight-normal mb-1 mp_mb_pickupName">
               {data.pickupName}
             </div>
             {/* 地址 */}
@@ -75,7 +75,7 @@ function CardItem(props) {
               {data.address1}
             </div>
             {/* 营业时间 */}
-            <div className="rc-full-width mb-0 mp_mb_address1">
+            <div className="rc-full-width mb-0 mp_mb_workTime">
               {data.workTime}
             </div>
           </>
@@ -134,6 +134,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedId: '',
       saveAddressNumber: 0, // 保存地址次数
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
       isPickupOpen: this.props.configStore?.isPickupOpen,
@@ -178,20 +179,31 @@ class AddressList extends React.Component {
   // 获取地址列表
   getAddressList = async ({ showLoading = false } = {}) => {
     try {
-      const { hideBillingAddr } = this.props;
+      const { hideBillingAddr, selectedId } = this.props;
       showLoading && this.setState({ listLoading: true });
       let res = await getAddressList();
       let addList = res.context;
       addList = res.context.filter((item) => {
         return item.type === 'DELIVERY' && item.receiveType !== 'PICK_UP';
       });
-      //不显示billing address
-      // if (hideBillingAddr) {
+      // 不显示billing address
       let allList = res.context.filter((item) => {
         return item.type !== 'BILLING';
       });
+
       Array.from(allList, (a) => (a.selected = false));
-      // }
+
+      // 设置默认选中状态
+      let defaultAddressItem = allList.filter((ele) => {
+        return ele.isDefaltAddress === 1;
+      });
+      if (defaultAddressItem?.length) {
+        let tmpId = defaultAddressItem[0].deliveryAddressId;
+        Array.from(
+          allList,
+          (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
+        );
+      }
 
       let pkdata = res.context.filter(
         (item) => item?.receiveType === 'PICK_UP'
@@ -442,12 +454,17 @@ class AddressList extends React.Component {
   // 地址项详细
   addressItemDetail = (item, i) => {
     const { countryList } = this.state;
+    console.log('666 >>> selected: ', item.selected);
     return (
       <CardItem
         data={item}
         receiveType={item.receiveType}
         operateBtnJSX={
-          <div className="d-flex flex-column justify-content-between">
+          <div
+            className={`${
+              isMobile ? '' : 'col-6'
+            } d-flex flex-column justify-content-between`}
+          >
             {/* 设置默认地址按钮 */}
             <div className={`d-flex justify-content-end mb-3`}>
               <div className="align-items-center">

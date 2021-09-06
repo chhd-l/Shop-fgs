@@ -133,6 +133,7 @@ const de_DE = {
   autoship_nos: 'Regelmäßige Lieferung',
   autoShipOrderDetails: 'Details Ihrer Abo-Bestellung',
   autoShipStarted: 'gestartet am',
+  autoShipStarted2: 'gestartet am',
   autoshop: 'im Abo',
   backToAuthorization: 'Zurück zur Autorisierung',
   bankCard: 'Bankkarte',

@@ -133,7 +133,7 @@ const ClubItem = ({ subItem, history }) => {
           >
             {/*Subscription started*/}
             {/*date d'inscription au CLUB*/}
-            <FormattedMessage id="autoShipStarted" />
+            <FormattedMessage id="autoShipStarted2" />
           </p>
           <p style={{ color: '#666', fontSize: '1rem' }}>
             {getFormatDate(subItem.createTime.split(' ')[0])}
