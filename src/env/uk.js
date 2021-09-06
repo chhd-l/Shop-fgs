@@ -94,7 +94,7 @@ const env = {
       'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/se',
+    REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
@@ -124,7 +124,7 @@ const env = {
       'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/se',
+    REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
@@ -154,7 +154,7 @@ const env = {
       'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/se',
+    REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging'
@@ -184,7 +184,7 @@ const env = {
       'https://optanon.blob.core.windows.net/consent/82d92b37-7d64-443e-a23f-5efbb17770be-test.js',
 
     // #设置二级子目录访问页面
-    REACT_APP_HOMEPAGE: '/se',
+    REACT_APP_HOMEPAGE: '/uk',
 
     // #bazaarVoice环境配置
     REACT_APP_BAZAARVOICE_ENV: 'staging',
