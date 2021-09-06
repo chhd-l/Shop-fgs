@@ -63,11 +63,11 @@ function CardItem(props) {
           <FormattedMessage id="billingAddress" />
         )}
       </div> */}
-      <div className={`d-flex flex-wrap ${isMobile ? 'mb-3' : ''}`}>
+      <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
         {props.receiveType == 'PICK_UP' ? (
           <>
             {/* 自提点 */}
-            <div className="rc-full-width font-weight-normal mb-1 mp_mb_address1">
+            <div className="rc-full-width font-weight-normal mb-1 mp_mb_pickupName">
               {data.pickupName}
             </div>
             {/* 地址 */}
@@ -75,7 +75,7 @@ function CardItem(props) {
               {data.address1}
             </div>
             {/* 营业时间 */}
-            <div className="rc-full-width mb-0 mp_mb_address1">
+            <div className="rc-full-width mb-0 mp_mb_workTime">
               {data.workTime}
             </div>
           </>
@@ -460,7 +460,11 @@ class AddressList extends React.Component {
         data={item}
         receiveType={item.receiveType}
         operateBtnJSX={
-          <div className="d-flex flex-column justify-content-between">
+          <div
+            className={`${
+              isMobile ? '' : 'col-6'
+            } d-flex flex-column justify-content-between`}
+          >
             {/* 设置默认地址按钮 */}
             <div className={`d-flex justify-content-end mb-3`}>
               <div className="align-items-center">
