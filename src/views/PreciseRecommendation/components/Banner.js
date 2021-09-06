@@ -140,6 +140,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
       console.info('err');
       return;
     }
+    if (!addCartBtnStatus) {
+      return;
+    }
     let petInfo = Object.assign({}, customerPetsVo, {
       petType: 'cat'
     });
@@ -448,9 +451,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
               onClick={handleBuyNow}
               className={`rc-btn rc-btn--one
           ${loading ? 'ui-btn-loading' : ''} ${
-                recommData?.goodsInfo?.stock >= recommData?.goodsInfo?.buyCount
-                  ? ''
-                  : 'rc-btn-solid-disabled'
+                addCartBtnStatus ? '' : 'rc-btn-solid-disabled'
               }`}
             >
               <FormattedMessage id="preciseNutrition.banner.button" />
