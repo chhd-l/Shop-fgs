@@ -1124,6 +1124,7 @@ const ru_RU = {
   'club.wheretohelp.alt3': 'Блок FAQ',
   'club.jointodayalt': 'Присоединитесь к Клубу Royal Canin',
   autoShipStarted: 'Начало программы',
+  autoShipStarted2: 'Начало программы',
   nextShipment: 'Следующая доставка',
   transactionInfo: 'Персональные данные',
   myAutoshipOrder: 'История заказов',

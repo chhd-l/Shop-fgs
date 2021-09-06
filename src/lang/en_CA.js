@@ -220,6 +220,7 @@ const en_US = {
   autoship_nos: 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoShipStarted: 'Autoship started',
+  autoShipStarted2: 'Autoship started',
   autoshop: 'Automatic Shipping',
   backToAuthorization: 'Back to authorization',
   bankCard: 'Credit Card',
