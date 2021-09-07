@@ -16,8 +16,4 @@ export function submitContactUsInfo(parameter) {
     method: 'post',
     data: parameter
   });
-  let context = normalizeAddressInfo(res?.context) || null;
-  return {
-    addressInfo: context
-  };
 }
