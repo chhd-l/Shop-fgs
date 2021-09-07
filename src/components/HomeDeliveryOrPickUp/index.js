@@ -529,6 +529,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       minDeliveryTime: pickupItem?.minDeliveryTime || 0,
       receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
     };
+    console.log('666 >>> pkobj: ', pkobj);
 
     // 再次编辑地址的时候，从缓存中取city数据
     if (pickupEditNumber > 0) {
