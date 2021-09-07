@@ -64,7 +64,7 @@ class AddressList extends React.Component {
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
       isPickupOpen: this.props.configStore?.isPickupOpen,
       defaultCity: '', // 默认地址中的城市
-      confirmBtnDisabled: true,
+      confirmBtnDisabled: false,
       deliveryOrPickUpFlag: false,
       addOrEditPickup: false,
       showDeliveryOrPickUp: 0, // 控制没有地址时的展示，0：都没有，1：home delivery，2：pickup
@@ -247,13 +247,15 @@ class AddressList extends React.Component {
       this.setState({ loading: true });
       let res = await getAddressList();
       let allAddress = res.context;
+      if (!allAddress.length) {
+        this.updateConfirmBtnDisabled(true);
+      }
       let addressList = res.context.filter((ele) => {
         return (
           ele.type === this.props.type.toUpperCase() &&
           ele.receiveType != 'PICK_UP'
         );
       });
-
       // 默认地址
       const defaultAddressItem = find(addressList, (ele) => {
         return ele.isDefaltAddress === 1;
@@ -1406,7 +1408,7 @@ class AddressList extends React.Component {
         }
       }
     }
-    // console.log('666 >>> 根据默认地址查询信息: ', addstr);
+    // console.log('666 >>> addstr: ', addstr);
     obj.map((e) => {
       let tp = e.type;
       if (tp == addstr) {
@@ -1415,10 +1417,12 @@ class AddressList extends React.Component {
         e.selected = false;
       }
     });
+    // console.log('666 >>> obj: ', obj);
     // 没有默认地址也没有缓存
     if (!addstr) {
       obj[0].selected = true;
     }
+
     // 有订阅商品时不展示pickup
     if (this.props.isCurrentBuyWaySubscription) {
       obj = obj.filter((e) => e.type === 'homeDelivery');
@@ -1649,10 +1653,10 @@ class AddressList extends React.Component {
   // 修改按钮状态
   updateConfirmBtnDisabled = (flag) => {
     const { addressList } = this.state;
-    // console.log('666 修改按钮状态： ', flag);
     if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
       flag = true;
     }
+    console.log('666 >>> 修改按钮状态： ', flag);
     this.setState({
       confirmBtnDisabled: flag
     });
