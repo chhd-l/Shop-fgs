@@ -111,31 +111,31 @@ class AddressPreview extends React.Component {
                 </span>
               )}
             </p>
+            <p className="preview_pickup_address">{form.address1}</p>
+            <p className="preview_pickup_worktime">{form.workTime}</p>
             {/* 是否存在运费 */}
-            {form?.item?.minDeliveryTime && (
+            {form?.minDeliveryTime && (
               <>
                 <p className="preview_delivery_date">
-                  {form.item.minDeliveryTime == form.item.maxDeliveryTime ? (
+                  {form.minDeliveryTime == form.maxDeliveryTime ? (
                     <FormattedMessage
                       id="payment.deliveryDate2"
                       values={{
-                        val: form.item.minDeliveryTime
+                        val: form.minDeliveryTime
                       }}
                     />
                   ) : (
                     <FormattedMessage
                       id="payment.deliveryDate"
                       values={{
-                        min: form.item.minDeliveryTime,
-                        max: form.item.maxDeliveryTime
+                        min: form.minDeliveryTime,
+                        max: form.maxDeliveryTime
                       }}
                     />
                   )}
                 </p>
               </>
             )}
-            <p className="preview_pickup_address">{form.address1}</p>
-            <p className="preview_pickup_worktime">{form.workTime}</p>
           </>
         ) : (
           <>

@@ -68,6 +68,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         firstName: '',
         lastName: '',
         phoneNumber: '',
+        consigneeNumber: '',
         comment: '',
         address1: '',
         city: '',
@@ -628,6 +629,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     try {
       await validData(pickupForm.formRule, pickupForm);
       this.props.updateConfirmBtnDisabled(false);
+      pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);
     } catch {
       this.props.updateConfirmBtnDisabled(true);
