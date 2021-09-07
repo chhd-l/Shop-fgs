@@ -14,7 +14,7 @@ export function submitContactUsInfo(parameter) {
   return axios({
     url: `${api.submitContactUsInfo}`,
     method: 'post',
-    data: newParams
+    data: parameter
   });
   let context = normalizeAddressInfo(res?.context) || null;
   return {
