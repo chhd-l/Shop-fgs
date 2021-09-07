@@ -74,6 +74,7 @@ class AddressList extends React.Component {
       homeAndPickup: [],
       pickupData: [], // 组件传过来的数据
       pickupAddress: [], // 查询到的地址列表里的pickup数据
+      pickupCalculation: null,
       allAddressList: [],
       deliveryAddress: {
         firstName: '',
@@ -658,7 +659,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
-    // console.log('666 ★★ -------------- 计算运费 obj: ', obj);
+    console.log('666 >>> ★★ --- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -760,7 +761,7 @@ class AddressList extends React.Component {
 
     this.setState(
       {
-        pickupFormData: [],
+        // pickupFormData: [],
         addressList: addressList,
         allAddressList: allAddressList,
         selectedId: addressList[idx].deliveryAddressId,
@@ -1323,6 +1324,17 @@ class AddressList extends React.Component {
               if (city === pickupAddress[0]?.city) {
                 e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
                 e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
+                this.setState(
+                  {
+                    pickupCalculation: pkAddr[0]
+                  },
+                  () => {
+                    console.log(
+                      '666 >>> pickupCalculation: ',
+                      this.state.pickupCalculation
+                    );
+                  }
+                );
               }
             }
           });
@@ -1507,7 +1519,8 @@ class AddressList extends React.Component {
       addressList,
       homeAndPickup,
       pickupAddress,
-      selectedId
+      selectedId,
+      pickupFormData
     } = this.state;
     let addressObj = null;
     let val = e?.currentTarget?.value || e;
@@ -1519,7 +1532,7 @@ class AddressList extends React.Component {
         v['selected'] = false;
       }
     });
-    // console.log('666 >>> 单选按钮选择 val: ', val);
+    console.log('666 >>> 单选按钮选择 val: ', val);
     // 设置按钮状态
     let btnStatus = false;
     let theAddressId = '';
@@ -1529,12 +1542,16 @@ class AddressList extends React.Component {
       btnStatus = false;
       let pkup = pickupAddress[0];
       theAddressId = pkup.deliveryAddressId;
-      this.setState({
-        pickupFormData: Object.assign({}, pkup),
-        selectedId: theAddressId,
-        homeDeliverySelectedId: theAddressId
-      });
-      this.props.updateData(pkup);
+      this.setState(
+        {
+          pickupFormData: Object.assign(pickupFormData, pkup),
+          selectedId: theAddressId,
+          homeDeliverySelectedId: theAddressId
+        },
+        () => {
+          this.props.updateData(this.state.pickupFormData);
+        }
+      );
     } else {
       if (addressList.length) {
         // 选择homeDelivery更新 selectedId
@@ -1566,8 +1583,8 @@ class AddressList extends React.Component {
           });
         }
         this.setState({
-          addressList,
-          pickupFormData: []
+          addressList
+          //   pickupFormData: []
         });
         this.props.updateData(addressObj);
       } else {
@@ -1686,14 +1703,19 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    // console.log('666 >>> updatePickupData: ', data);
+    console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
   };
   // 确认 pickup
   clickConfirmPickup = async () => {
-    const { deliveryAddress, pickupFormData, homeAndPickup } = this.state;
+    const {
+      deliveryAddress,
+      pickupFormData,
+      homeAndPickup,
+      pickupCalculation
+    } = this.state;
     this.setState({
       btnConfirmLoading: true,
       loading: true
@@ -1715,6 +1737,7 @@ class AddressList extends React.Component {
       }, {});
       let pkaddr = pickupFormData?.pickup?.address || null;
       let deliveryAdd = Object.assign({}, tempAddress, {
+        calculation: pickupCalculation,
         firstName: pickupFormData.firstName,
         lastName: pickupFormData.lastName,
         consigneeName: pickupFormData.firstName + ' ' + pickupFormData.lastName,
