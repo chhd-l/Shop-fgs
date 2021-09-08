@@ -53,17 +53,20 @@ export default function LifeStyle({ questionData, id }) {
           ''
         )}
       </div>
-      <div className="radio-group" style={{ maxWidth: '460px', width: 'auto' }}>
+      <div
+        className="radio-group"
+        style={{ maxWidth: '460px', width: 'auto', flexDirection: 'column' }}
+      >
         {answerList.map((item) => (
           <label
             key={item.key}
-            className={`radio-button-wrapper ${
-              checked === item.key ? 'radio-button-wrapper-checked' : ''
+            className={`radio-button-column-wrapper ${
+              checked === item.key ? 'radio-button-column-wrapper-checked' : ''
             }`}
             style={{
-              minHeight: 44,
+              minHeight: 64,
               flexWrap: 'nowrap',
-              maxWidth: '200px',
+              maxWidth: '460px',
               padding: '8px',
               overflow: 'hidden'
             }}
@@ -118,7 +121,14 @@ export default function LifeStyle({ questionData, id }) {
             ) : (
               ''
             )}
-            <span style={{ flex: 1, wordBreak: 'break-word' }}>
+            <span
+              style={{
+                flex: 1,
+                wordBreak: 'break-word',
+                textAlign: 'left',
+                paddingLeft: '15px'
+              }}
+            >
               {item.label}
             </span>
           </label>

@@ -357,7 +357,7 @@ const fr_FR = {
   autoship_nos: 'Abonnement',
   autoShipOrderDetails: "Détails de la commande d'expédition automatique",
   autoShipStarted: "Date d'inscription au CLUB ",
-  autoShipStarted2: "Date de création de l\'Abonnement",
+  autoShipStarted2: "Date de création de l'Abonnement",
   autoshop: 'en abonnement',
   backToAuthorization: "Retour à l'autorisation",
   // SubscriptionLanding End
@@ -2168,6 +2168,7 @@ const fr_FR = {
     '1. Regardez votre chat de haut en bas et de côté.',
   'preciseNutrition.bscTip2':
     '2. Touchez le corps de votre chat en exerçant une légère pression pour trouver les côtes.',
-  'productFinder.mixBreed': 'Race mixte'
+  'productFinder.mixBreed': 'Race mixte',
+  'productFinder.weight': 'Poids'
 };
 export default fr_FR;
