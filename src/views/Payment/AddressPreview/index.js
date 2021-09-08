@@ -3,6 +3,11 @@ import { inject, observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
+
+const hideBillingAddr = Boolean(
+  +window.__.env.REACT_APP_HIDE_CHECKOUT_BILLING_ADDR
+);
+
 @inject('checkoutStore', 'configStore')
 @observer
 class InfosPreview extends React.Component {
@@ -162,7 +167,7 @@ class InfosPreview extends React.Component {
                         </div>
                       </div>
                     </div>
-                    {details.invoice ? (
+                    {details.invoice && !hideBillingAddr ? (
                       <div className="col-12 address-summary-left">
                         <h5 className="center">
                           <FormattedMessage id="payment.billTitle" />

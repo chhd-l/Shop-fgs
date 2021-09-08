@@ -68,6 +68,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         firstName: '',
         lastName: '',
         phoneNumber: '',
+        consigneeNumber: '',
         comment: '',
         address1: '',
         city: '',
@@ -523,7 +524,7 @@ class HomeDeliveryOrPickUp extends React.Component {
 
     let pkobj = {
       city: sitem?.cityData?.city || [],
-      item: pickupItem,
+      calculation: pickupItem,
       maxDeliveryTime: pickupItem?.maxDeliveryTime || 0,
       minDeliveryTime: pickupItem?.minDeliveryTime || 0,
       receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
@@ -628,6 +629,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     try {
       await validData(pickupForm.formRule, pickupForm);
       this.props.updateConfirmBtnDisabled(false);
+      pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);
     } catch {
       this.props.updateConfirmBtnDisabled(true);
