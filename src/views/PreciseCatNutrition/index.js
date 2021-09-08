@@ -446,12 +446,10 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div>
+              <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />
-                <br />
-
                 <HowItWorks />
                 <br />
 
