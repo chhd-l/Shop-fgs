@@ -2078,7 +2078,7 @@ const fr_FR = {
   'PreciseCatNutrition.AdaptedFood.title':
     'UN ALIMENT ADAPTÉ À SES BESOINS ET UNE PORTION PRÉCISE POUR UN POIDS IDÉAL !',
   'PreciseCatNutrition.AdaptedFood.paragraph1':
-    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids** dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
+    "Notre programme d'abonnement est sans engagement et fournira à votre chat l'aliment le plus adapté à la gestion de son poids{val1} dans un emballage personnalisé avec la quantité journalière d'aliment idéale. ",
   'PreciseCatNutrition.AdaptedFood.paragraph2':
     'Cette offre est le fruit de notre engagement dédié à améliorer la santé et le bien-être des chats, grâce à :',
   'PreciseCatNutrition.AdaptedFood.paragraph2.Li1':
