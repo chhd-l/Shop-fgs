@@ -361,8 +361,10 @@ class AddressList extends React.Component {
               if (!pickupAddress.length) {
                 let hpobj =
                   sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
-                hpobj = JSON.parse(hpobj);
-                hpobj.cityData = null;
+                if (hpobj) {
+                  hpobj = JSON.parse(hpobj);
+                  hpobj['cityData'] = null;
+                }
                 sessionItemRoyal.set(
                   'rc-homeDeliveryAndPickup',
                   JSON.stringify(hpobj)
