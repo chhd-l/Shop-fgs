@@ -659,7 +659,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
-    console.log('666 >>> ★★ --- 计算运费 obj: ', obj);
+    // console.log('666 >>> ★★ --- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -1498,7 +1498,7 @@ class AddressList extends React.Component {
         choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
       },
       () => {
-        console.log('666 >>> pickupAddress: ', pickupAddress);
+        // console.log('666 >>> pickupAddress: ', pickupAddress);
         // 修改按钮状态
         if (pickupAddress.length) {
           this.setState({
@@ -1549,6 +1549,7 @@ class AddressList extends React.Component {
           homeDeliverySelectedId: theAddressId
         },
         () => {
+          console.log('666 >>> pickup selectedId: ', selectedId);
           this.props.updateData(this.state.pickupFormData);
         }
       );
@@ -1577,10 +1578,15 @@ class AddressList extends React.Component {
               e.selected = true;
             }
           });
-          this.setState({
-            selectedId: theAddressId,
-            homeDeliverySelectedId: theAddressId
-          });
+          this.setState(
+            {
+              selectedId: theAddressId,
+              homeDeliverySelectedId: theAddressId
+            },
+            () => {
+              console.log('666 >>> pickup selectedId: ', selectedId);
+            }
+          );
         }
         this.setState({
           addressList
@@ -1673,7 +1679,7 @@ class AddressList extends React.Component {
     if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
       flag = true;
     }
-    console.log('666 >>> 修改按钮状态： ', flag);
+    // console.log('666 >>> 修改按钮状态： ', flag);
     this.setState({
       confirmBtnDisabled: flag
     });
@@ -1703,7 +1709,7 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 >>> updatePickupData: ', data);
+    // console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -1772,6 +1778,7 @@ class AddressList extends React.Component {
         postalCode: pkaddr?.zip || pickupFormData.postCode
       });
       console.log('666 >>> deliveryAdd: ', deliveryAdd);
+      console.log('666 >>> -----------------------------------');
 
       // 查询地址列表，筛选 pickup 地址
       let addres = await getAddressList();
@@ -1879,6 +1886,7 @@ class AddressList extends React.Component {
       pickupEditNumber
     } = this.state;
 
+    // 地址列表
     const _list = addressList.map((item, i) => (
       <div
         className={`rounded address-item ${
@@ -1932,7 +1940,6 @@ class AddressList extends React.Component {
         </div>
       </div>
     ));
-
     // 显示更多地址
     const _foldBtn = (
       <div
@@ -1954,6 +1961,7 @@ class AddressList extends React.Component {
         </span>
       </div>
     );
+    // 勾选默认地址框
     const _defaultCheckBox = (
       <div className="rc-input rc-input--inline w-100 mw-100">
         {
@@ -1974,7 +1982,7 @@ class AddressList extends React.Component {
         </label>
       </div>
     );
-
+    // title
     const _title = (
       <div
         id={`J-address-title-${this.props.id}`}
@@ -1989,6 +1997,7 @@ class AddressList extends React.Component {
           : null}
       </div>
     );
+    // 表单
     const _form = (
       <fieldset
         className={`shipping-address-block rc-fieldset position-relative ${
@@ -2369,7 +2378,7 @@ class AddressList extends React.Component {
                               }`}
                               disabled={confirmBtnDisabled}
                               onClick={
-                                pickupFormData?.receiveType == 'PICK_UP'
+                                choiseHomeDeliveryOrPickUp == 2
                                   ? this.clickConfirmPickup
                                   : this.clickConfirmAddressPanel
                               }
@@ -2388,7 +2397,7 @@ class AddressList extends React.Component {
                     <AddressPreview
                       key={this.state.pickupData}
                       form={
-                        pickupFormData?.receiveType == 'PICK_UP'
+                        choiseHomeDeliveryOrPickUp == 2
                           ? pickupData
                           : addressList.filter(
                               (a) => a.deliveryAddressId === selectedId
