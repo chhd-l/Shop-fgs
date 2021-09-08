@@ -59,7 +59,7 @@ function QuestionnaireForm(
             };
           })
         ];
-        tmpPlaceHolderList = [<FormattedMessage id="weight" />];
+        tmpPlaceHolderList = [<FormattedMessage id="productFinder.weight" />];
         break;
       default:
         break;
