@@ -55,7 +55,7 @@ export default function AnimalBreeds({ questionData }) {
         {questionData.metadata.description ? (
           <Tooltips
             description={questionData.metadata.description}
-            isIdea={true}
+            // isIdea={true}
           />
         ) : (
           ''
