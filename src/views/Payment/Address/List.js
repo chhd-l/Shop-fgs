@@ -72,6 +72,7 @@ class AddressList extends React.Component {
       pickupFormData: [], // pickup 表单数据
       pickupEditNumber: 0, // pickup 编辑次数，用来判断当前是否编辑过
       homeAndPickup: [],
+      shippingMethodType: 'homeDelivery', // 配送方式，要考虑新用户和会员有没有地址的不同
       pickupData: [], // 组件传过来的数据
       pickupAddress: [], // 查询到的地址列表里的pickup数据
       pickupCalculation: null,
@@ -269,8 +270,6 @@ class AddressList extends React.Component {
         (addressList.length && addressList[0].deliveryAddressId) ||
         '';
 
-      // console.log('666 >>> 111 tmpId: ', tmpId);
-
       Array.from(
         addressList,
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
@@ -353,9 +352,11 @@ class AddressList extends React.Component {
               defaultAddressItem
                 ? (addData = defaultAddressItem)
                 : (addData = addressList[0]);
+
               let pickupAddress = allAddress.filter(
                 (e) => e.receiveType == 'PICK_UP'
               );
+
               this.setState(
                 {
                   showDeliveryOrPickUp: 1,
@@ -659,7 +660,7 @@ class AddressList extends React.Component {
   // 俄罗斯 计算运费
   getShippingCalculation = async (obj) => {
     const { addressList } = this.state;
-    console.log('666 >>> ★★ --- 计算运费 obj: ', obj);
+    // console.log('666 >>> ★★ --- 计算运费 obj: ', obj);
     try {
       let data = obj.DuData;
       let res = await shippingCalculation({
@@ -1015,6 +1016,15 @@ class AddressList extends React.Component {
         });
       }
       this.isDeliverAddress && this.scrollToTitle();
+
+      // 查询运费
+      if (
+        window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        tmpObj?.receiveType === 'HOME_DELIVERY'
+      ) {
+        await this.getHomeDeliveryPrice(tmpObj?.city);
+      }
+
       await this.queryAddressList();
       this.showSuccessMsg();
       this.setState({
@@ -1318,23 +1328,29 @@ class AddressList extends React.Component {
           let hap = Object.assign([], homeAndPickup);
           hap.map((e) => {
             if (e.type == 'homeDelivery') {
-              e.deliveryPrice = hdAddr[0]?.deliveryPrice;
+              let dprice = hdAddr[0]?.deliveryPrice;
+              e.deliveryPrice = dprice;
+              // 修改本地存储的信息
+              let hpobj =
+                sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+              hpobj = JSON.parse(hpobj);
+              hpobj.homeAndPickup.map((e) => {
+                if (e.type === 'homeDelivery') {
+                  e.deliveryPrice = dprice;
+                }
+              });
+              sessionItemRoyal.set(
+                'rc-homeDeliveryAndPickup',
+                JSON.stringify(hpobj)
+              );
             }
             if (e.type == 'pickup') {
               if (city === pickupAddress[0]?.city) {
                 e.maxDeliveryTime = pkAddr[0]?.maxDeliveryTime;
                 e.minDeliveryTime = pkAddr[0]?.minDeliveryTime;
-                this.setState(
-                  {
-                    pickupCalculation: pkAddr[0]
-                  },
-                  () => {
-                    console.log(
-                      '666 >>> pickupCalculation: ',
-                      this.state.pickupCalculation
-                    );
-                  }
-                );
+                this.setState({
+                  pickupCalculation: pkAddr[0]
+                });
               }
             }
           });
@@ -1346,8 +1362,9 @@ class AddressList extends React.Component {
     }
   };
   // 根据默认地址查询信息
-  getHomeDeliveryAndPickupInfo = async (price) => {
+  getHomeDeliveryAndPickupInfo = async () => {
     const { saveAddressNumber } = this.props;
+    const { homeAndPickup } = this.state;
     const {
       allAddressList,
       addressList,
@@ -1355,9 +1372,12 @@ class AddressList extends React.Component {
       selectedId,
       isPickupOpen
     } = this.state;
+
+    // 设置homeDelivery deliveryPrice初始值
+    let homedobj = find(homeAndPickup, (e) => e.type == 'homeDelivery');
     let obj = [
       {
-        deliveryPrice: price || 0,
+        deliveryPrice: homedobj?.deliveryPrice ?? 0,
         selected: false,
         type: 'homeDelivery'
       }
@@ -1381,7 +1401,7 @@ class AddressList extends React.Component {
     hdpk = JSON.parse(hdpk);
     let addstr = null;
     if (hdpk?.homeAndPickup && saveAddressNumber > 1) {
-      // 1、上一次选择
+      // console.log('666 >>> 1、上一次选择');
       hdpk.homeAndPickup.map((pk) => {
         if (pk.selected) {
           addstr = pk.type;
@@ -1390,12 +1410,12 @@ class AddressList extends React.Component {
     } else {
       // 2、有homeDelivery地址，没有pickup地址
       if (addressList.length && !pickupAddress.length) {
-        console.log('666 >>> 2、有homeDelivery地址，没有pickup地址');
+        // console.log('666 >>> 2、有homeDelivery地址，没有pickup地址');
         addstr = 'homeDelivery';
       }
       // 3、有pickup地址，没有homeDelivery地址
       if (!addressList.length && pickupAddress.length) {
-        console.log('666 >>> 3、有pickup地址，没有homeDelivery地址');
+        // console.log('666 >>> 3、有pickup地址，没有homeDelivery地址');
         addstr = 'pickup';
         this.handleRadioChange(addstr);
       }
@@ -1411,13 +1431,9 @@ class AddressList extends React.Component {
             }
           }
         });
-        console.log(
-          '666 >>> 4、两个都有时，如果有默认地址，则选择默认 ： ',
-          addstr
-        );
-        if (addstr) {
-          this.handleRadioChange(addstr);
-        }
+        addstr ? addstr : (addstr = 'homeDelivery');
+        // console.log('666 >>> 4、both ： ',addstr);
+        this.handleRadioChange(addstr);
       }
     }
     // console.log('666 >>> addstr: ', addstr);
@@ -1440,6 +1456,7 @@ class AddressList extends React.Component {
       obj = obj.filter((e) => e.type === 'homeDelivery');
       obj[0].selected = true; // 默认选中唯一项
     }
+    this.updateShippingMethodType(addstr);
     this.setState(
       {
         homeAndPickup: obj
@@ -1468,10 +1485,6 @@ class AddressList extends React.Component {
           if (tmpObj) {
             await this.getHomeDeliveryPrice(tmpObj?.city);
           }
-          // pickup
-          if (pickupAddress.length) {
-            await this.getHomeDeliveryPrice(pickupAddress[0].city);
-          }
         }
       }
     );
@@ -1498,7 +1511,7 @@ class AddressList extends React.Component {
         choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
       },
       () => {
-        console.log('666 >>> pickupAddress: ', pickupAddress);
+        // console.log('666 >>> pickupAddress: ', pickupAddress);
         // 修改按钮状态
         if (pickupAddress.length) {
           this.setState({
@@ -1532,7 +1545,8 @@ class AddressList extends React.Component {
         v['selected'] = false;
       }
     });
-    console.log('666 >>> 单选按钮选择 val: ', val);
+    // console.log('666 >>> 单选按钮选择 val: ', val);
+    this.updateShippingMethodType(val);
     // 设置按钮状态
     let btnStatus = false;
     let theAddressId = '';
@@ -1577,10 +1591,15 @@ class AddressList extends React.Component {
               e.selected = true;
             }
           });
-          this.setState({
-            selectedId: theAddressId,
-            homeDeliverySelectedId: theAddressId
-          });
+          this.setState(
+            {
+              selectedId: theAddressId,
+              homeDeliverySelectedId: theAddressId
+            },
+            () => {
+              // console.log('666 >>> pickup selectedId: ', selectedId);
+            }
+          );
         }
         this.setState({
           addressList
@@ -1673,7 +1692,7 @@ class AddressList extends React.Component {
     if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
       flag = true;
     }
-    console.log('666 >>> 修改按钮状态： ', flag);
+    // console.log('666 >>> 修改按钮状态： ', flag);
     this.setState({
       confirmBtnDisabled: flag
     });
@@ -1703,9 +1722,16 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    console.log('666 >>> updatePickupData: ', data);
+    // console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
+    });
+  };
+  // 更新 shippingMethodType
+  updateShippingMethodType = (data) => {
+    console.log('666 >>> shippingMethodType: ', data);
+    this.setState({
+      shippingMethodType: data
     });
   };
   // 确认 pickup
@@ -1724,12 +1750,15 @@ class AddressList extends React.Component {
       let pkobj = homeAndPickup.filter((e) => {
         return e.type == 'pickup';
       });
+
+      await this.getHomeDeliveryPrice(pickupFormData.city);
+
       let minDeliveryTime =
         pickupFormData.minDeliveryTime || pkobj[0]?.minDeliveryTime;
       let maxDeliveryTime =
         pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
-      console.log('666 >>> pkobj: ', pkobj);
-      console.log('666 >>> pickupFormData: ', pickupFormData);
+      // console.log('666 >>> pkobj: ', pkobj);
+      // console.log('666 >>> pickupFormData: ', pickupFormData);
 
       let receiveType = pickupFormData.receiveType;
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
@@ -1772,6 +1801,7 @@ class AddressList extends React.Component {
         postalCode: pkaddr?.zip || pickupFormData.postCode
       });
       console.log('666 >>> deliveryAdd: ', deliveryAdd);
+      console.log('666 >>> -----------------------------------');
 
       // 查询地址列表，筛选 pickup 地址
       let addres = await getAddressList();
@@ -1852,6 +1882,7 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn, isCurrentBuyWaySubscription } = this.props;
     const {
+      shippingMethodType,
       isHomeDeliveryOpen,
       isPickupOpen,
       deliveryOrPickUpFlag,
@@ -1879,6 +1910,7 @@ class AddressList extends React.Component {
       pickupEditNumber
     } = this.state;
 
+    // 地址列表
     const _list = addressList.map((item, i) => (
       <div
         className={`rounded address-item ${
@@ -1932,7 +1964,6 @@ class AddressList extends React.Component {
         </div>
       </div>
     ));
-
     // 显示更多地址
     const _foldBtn = (
       <div
@@ -1954,6 +1985,7 @@ class AddressList extends React.Component {
         </span>
       </div>
     );
+    // 勾选默认地址框
     const _defaultCheckBox = (
       <div className="rc-input rc-input--inline w-100 mw-100">
         {
@@ -1974,7 +2006,7 @@ class AddressList extends React.Component {
         </label>
       </div>
     );
-
+    // title
     const _title = (
       <div
         id={`J-address-title-${this.props.id}`}
@@ -1989,6 +2021,7 @@ class AddressList extends React.Component {
           : null}
       </div>
     );
+    // 表单
     const _form = (
       <fieldset
         className={`shipping-address-block rc-fieldset position-relative ${
@@ -2141,6 +2174,7 @@ class AddressList extends React.Component {
                 updatePickupEditNumber={this.updatePickupEditNumber}
                 updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
                 updateData={this.updatePickupData}
+                updateShippingMethodType={this.updateShippingMethodType}
                 allAddressList={allAddressList}
                 deliveryOrPickUp={showDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
@@ -2369,7 +2403,7 @@ class AddressList extends React.Component {
                               }`}
                               disabled={confirmBtnDisabled}
                               onClick={
-                                pickupFormData?.receiveType == 'PICK_UP'
+                                shippingMethodType === 'pickup'
                                   ? this.clickConfirmPickup
                                   : this.clickConfirmAddressPanel
                               }
@@ -2388,7 +2422,7 @@ class AddressList extends React.Component {
                     <AddressPreview
                       key={this.state.pickupData}
                       form={
-                        pickupFormData?.receiveType == 'PICK_UP'
+                        shippingMethodType === 'pickup'
                           ? pickupData
                           : addressList.filter(
                               (a) => a.deliveryAddressId === selectedId

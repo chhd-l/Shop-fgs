@@ -44,6 +44,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     deliveryOrPickUp: 0,
     intlMessages: '',
     pickupEditNumber: 0,
+    updateShippingMethodType: () => {},
     updateDeliveryOrPickup: () => {},
     updatePickupEditNumber: () => {},
     updateConfirmBtnDisabled: () => {},
@@ -517,6 +518,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
+    // 设置 shippingMethodType
+    this.props.updateShippingMethodType(val);
     // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
