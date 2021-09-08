@@ -357,6 +357,21 @@ class AddressList extends React.Component {
                 (e) => e.receiveType == 'PICK_UP'
               );
 
+              // 没有pickup的时候清除缓存的城市信息
+              if (!pickupAddress.length) {
+                let hpobj =
+                  sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+                hpobj = JSON.parse(hpobj);
+                hpobj.cityData = null;
+                sessionItemRoyal.set(
+                  'rc-homeDeliveryAndPickup',
+                  JSON.stringify(hpobj)
+                );
+                this.setState({
+                  defaultCity: ''
+                });
+              }
+
               this.setState(
                 {
                   showDeliveryOrPickUp: 1,
