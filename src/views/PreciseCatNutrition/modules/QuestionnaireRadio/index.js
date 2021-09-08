@@ -70,7 +70,7 @@ export default function QuestionnaireRadio({ questionData }) {
     <div className="questionnaire-radio">
       <div className="question-title">
         {questionData.metadata.label}
-        <Tooltips isArray={true} />
+        <Tooltips isArray={true} isIdea={true} />
       </div>
       <div className="questionnaire-radio-options">
         {(questionData.possibleValues || []).map((ele, i) => (
@@ -117,8 +117,8 @@ export default function QuestionnaireRadio({ questionData }) {
               <div>{ele.label}</div>
               {checked === ele.key && (
                 <ul className="radio-options">
-                  {chooseMap[ele.key].map((item) => {
-                    return <li>{item}</li>;
+                  {chooseMap[ele.key].map((item, index) => {
+                    return <li key={index}>{item}</li>;
                   })}
                 </ul>
               )}

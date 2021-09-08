@@ -159,12 +159,14 @@ class PreciseCatNutrition extends React.Component {
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
                         <div className={'row w-100 rc-margin-x--none--mobile'}>
                           <div
-                            className={'col-12 col-md-4 text-md-right relative nowrap'}
+                            className={
+                              'col-12 col-md-4 text-md-right relative nowrap'
+                            }
                             style={{
                               display: 'inline',
                               marginBottom: isMobile ? 15 : null,
-                              paddingRight: isMobile ? null :0,
-                              paddingLeft: isMobile ? null :30,
+                              paddingRight: isMobile ? null : 0,
+                              paddingLeft: isMobile ? null : 30
                             }}
                           >
                             <h2 style={{ fontWeight: 700 }}>
@@ -185,17 +187,17 @@ class PreciseCatNutrition extends React.Component {
                                 <div
                                   className="titleRadius"
                                   style={{
-                                    width:"24.2%",
+                                    width: '24.2%',
                                     fontSize: 18,
-                                    textAlign:'center',
+                                    textAlign: 'center',
                                     backgroundColor: 'white',
                                     color: '#E2001A',
                                     display: 'inline',
                                     borderRadius: '50%',
                                     position: 'absolute',
                                     left: -15,
-                                    top: isMobile?12:15,
-                                    padding: "5px 1px",
+                                    top: isMobile ? 12 : 15,
+                                    padding: '5px 1px',
                                     fontWeight: 500,
                                     lineHeight: '18px'
                                   }}
@@ -203,10 +205,8 @@ class PreciseCatNutrition extends React.Component {
                                   {/*You*/}
                                   LE
                                 </div>
-                                {/*{' '} KNOW?*/}
-                                {' '}SAVIEZ
-                                <div className={'whiteRed'}>
-                                </div>
+                                {/*{' '} KNOW?*/} SAVIEZ
+                                <div className={'whiteRed'}></div>
                               </div>
                               VOUS ?
                             </h2>
@@ -334,7 +334,12 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph1" />
+                            <FormattedMessage
+                              id="PreciseCatNutrition.AdaptedFood.paragraph1"
+                              values={{
+                                val1: <a style={{ fontSize: 14 }}>**</a>
+                              }}
+                            />
                           </span>
                         </p>
                         <p
@@ -407,7 +412,7 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                 </li>
                               </ul>
-                              <a style={{ color: 'grey',fontSize:14}}>
+                              <a style={{ color: 'grey', fontSize: 14 }}>
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
@@ -446,23 +451,26 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div>
+              <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />
-                <br />
-
                 <HowItWorks />
                 <br />
-
               </div>
 
               <div className={'preciseCatNutritionTop'}>
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
-                      <div style={{position:'relative'}}>
-                        <div id="aboutPet" style={{position:'absolute',marginTop:isMobile?"-60px":"-100px"}}></div>
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          id="aboutPet"
+                          style={{
+                            position: 'absolute',
+                            marginTop: isMobile ? '-60px' : '-100px'
+                          }}
+                        ></div>
                       </div>
                       <AboutPet />
                     </div>

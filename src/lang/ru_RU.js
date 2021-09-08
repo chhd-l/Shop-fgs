@@ -931,7 +931,7 @@ const ru_RU = {
   saveSuccessfullly: 'Адрес успешно сохранен',
   saveSuccessfullly2: 'Ваша информация была успешно сохранена',
   saveSuccessfullly3: 'Ваша информация была успешно сохранена',
-  deleteSuccessFullly: 'Başarıyla silindi',
+  deleteSuccessFullly: 'Удалено успешно',
   search: 'Поиск',
   searchForAProductOrArtical: 'Найдите продукт или статью',
   searchNoBreed: 'не родословная',

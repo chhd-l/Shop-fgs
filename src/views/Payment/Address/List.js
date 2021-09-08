@@ -357,6 +357,23 @@ class AddressList extends React.Component {
                 (e) => e.receiveType == 'PICK_UP'
               );
 
+              // 没有pickup的时候清除缓存的城市信息
+              if (!pickupAddress.length) {
+                let hpobj =
+                  sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+                if (hpobj) {
+                  hpobj = JSON.parse(hpobj);
+                  hpobj['cityData'] = null;
+                }
+                sessionItemRoyal.set(
+                  'rc-homeDeliveryAndPickup',
+                  JSON.stringify(hpobj)
+                );
+                this.setState({
+                  defaultCity: ''
+                });
+              }
+
               this.setState(
                 {
                   showDeliveryOrPickUp: 1,
@@ -943,7 +960,7 @@ class AddressList extends React.Component {
         (ele) => ele.deliveryAddressId === homeDeliverySelectedId
       );
     }
-    this.props.calculateFreight(obj);
+    this.calculateFreight(obj);
   };
   // 俄罗斯地址校验flag，控制按钮是否可用
   getFormAddressValidFlag = (flag) => {
@@ -1016,6 +1033,15 @@ class AddressList extends React.Component {
         });
       }
       this.isDeliverAddress && this.scrollToTitle();
+
+      // 查询运费
+      if (
+        window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        tmpObj?.receiveType === 'HOME_DELIVERY'
+      ) {
+        await this.getHomeDeliveryPrice(tmpObj?.city);
+      }
+
       await this.queryAddressList();
       this.showSuccessMsg();
       this.setState({
@@ -1319,7 +1345,21 @@ class AddressList extends React.Component {
           let hap = Object.assign([], homeAndPickup);
           hap.map((e) => {
             if (e.type == 'homeDelivery') {
-              e.deliveryPrice = hdAddr[0]?.deliveryPrice;
+              let dprice = hdAddr[0]?.deliveryPrice;
+              e.deliveryPrice = dprice;
+              // 修改本地存储的信息
+              let hpobj =
+                sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+              hpobj = JSON.parse(hpobj);
+              hpobj.homeAndPickup.map((e) => {
+                if (e.type === 'homeDelivery') {
+                  e.deliveryPrice = dprice;
+                }
+              });
+              sessionItemRoyal.set(
+                'rc-homeDeliveryAndPickup',
+                JSON.stringify(hpobj)
+              );
             }
             if (e.type == 'pickup') {
               if (city === pickupAddress[0]?.city) {
@@ -1339,8 +1379,9 @@ class AddressList extends React.Component {
     }
   };
   // 根据默认地址查询信息
-  getHomeDeliveryAndPickupInfo = async (price) => {
+  getHomeDeliveryAndPickupInfo = async () => {
     const { saveAddressNumber } = this.props;
+    const { homeAndPickup } = this.state;
     const {
       allAddressList,
       addressList,
@@ -1348,9 +1389,12 @@ class AddressList extends React.Component {
       selectedId,
       isPickupOpen
     } = this.state;
+
+    // 设置homeDelivery deliveryPrice初始值
+    let homedobj = find(homeAndPickup, (e) => e.type == 'homeDelivery');
     let obj = [
       {
-        deliveryPrice: price || 0,
+        deliveryPrice: homedobj?.deliveryPrice ?? 0,
         selected: false,
         type: 'homeDelivery'
       }
@@ -1458,10 +1502,6 @@ class AddressList extends React.Component {
           if (tmpObj) {
             await this.getHomeDeliveryPrice(tmpObj?.city);
           }
-          // // pickup
-          // if (pickupAddress.length) {
-          //   await this.getHomeDeliveryPrice(pickupAddress[0].city);
-          // }
         }
       }
     );
@@ -1478,9 +1518,10 @@ class AddressList extends React.Component {
   };
   // 取消新增或编辑pickup
   handleCancelAddOrEditPickup = () => {
-    const { pickupAddress } = this.state;
+    const { pickupAddress, pickupFormData } = this.state;
     this.setState(
       {
+        pickupFormData: Object.assign({}, pickupFormData, pickupAddress[0]),
         defaultCity: '',
         addOrEditPickup: false,
         deliveryOrPickUpFlag: true,
@@ -1488,7 +1529,6 @@ class AddressList extends React.Component {
         choiseHomeDeliveryOrPickUp: 2 // 0：都没有，1：home delivery，2：pickup
       },
       () => {
-        // console.log('666 >>> pickupAddress: ', pickupAddress);
         // 修改按钮状态
         if (pickupAddress.length) {
           this.setState({
@@ -1699,7 +1739,7 @@ class AddressList extends React.Component {
   };
   // 更新pickup数据
   updatePickupData = (data) => {
-    // console.log('666 >>> updatePickupData: ', data);
+    console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
     });
@@ -1724,23 +1764,23 @@ class AddressList extends React.Component {
       loading: true
     });
     try {
-      let pkobj = homeAndPickup.filter((e) => {
-        return e.type == 'pickup';
-      });
-
-      await this.getHomeDeliveryPrice(pickupFormData.city);
-
-      let minDeliveryTime =
-        pickupFormData.minDeliveryTime || pkobj[0]?.minDeliveryTime;
-      let maxDeliveryTime =
-        pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
-      // console.log('666 >>> pkobj: ', pkobj);
       // console.log('666 >>> pickupFormData: ', pickupFormData);
+      await this.getHomeDeliveryPrice(pickupFormData.city);
 
       let receiveType = pickupFormData.receiveType;
       let tempAddress = Object.keys(deliveryAddress).reduce((pre, cur) => {
         return Object.assign(pre, { [cur]: '' });
       }, {});
+
+      let pkobj = homeAndPickup.filter((e) => {
+        return e.type == 'pickup';
+      });
+      let minDeliveryTime =
+        pickupFormData.minDeliveryTime || pkobj[0]?.minDeliveryTime;
+      let maxDeliveryTime =
+        pickupFormData.maxDeliveryTime || pkobj[0]?.maxDeliveryTime;
+      // console.log('666 >>> pkobj: ', pkobj);
+
       let pkaddr = pickupFormData?.pickup?.address || null;
       let deliveryAdd = Object.assign({}, tempAddress, {
         calculation: pickupCalculation,
@@ -1777,8 +1817,6 @@ class AddressList extends React.Component {
           pkaddr?.settlementFias || pickupFormData.settlementIdStr,
         postalCode: pkaddr?.zip || pickupFormData.postCode
       });
-      console.log('666 >>> deliveryAdd: ', deliveryAdd);
-      console.log('666 >>> -----------------------------------');
 
       // 查询地址列表，筛选 pickup 地址
       let addres = await getAddressList();
@@ -1791,7 +1829,7 @@ class AddressList extends React.Component {
         deliveryAdd.deliveryAddressId = pkup[0].deliveryAddressId;
         deliveryAdd.customerId = pkup[0].customerId;
       }
-      // console.log('666 ★★★  deliveryAdd: ', deliveryAdd);
+
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
         let deliveryAddressId = res.context.deliveryAddressId;
@@ -1803,13 +1841,20 @@ class AddressList extends React.Component {
 
         this.setState(
           {
-            pickupData: Object.assign(pickupFormData, deliveryAdd)
+            pickupData: Object.assign({}, pickupFormData, deliveryAdd)
           },
           async () => {
+            let newPickupData = this.state.pickupData;
             // pickup 相关信息传到 Payment
-            deliveryAdd['pickup'] = pickupFormData.pickup;
-            this.props.updateData(deliveryAdd);
-            this.calculateFreight(deliveryAdd);
+            // deliveryAdd['pickup'] = pickupFormData.pickup;
+            // console.log('666 >>> deliveryAdd maxDeliveryTime: ', deliveryAdd.maxDeliveryTime);
+            console.log(
+              '666 >>> pickupData maxDeliveryTime: ',
+              newPickupData.maxDeliveryTime
+            );
+            console.log('666 >>> -----------------------------------');
+            this.props.updateData(newPickupData);
+            this.calculateFreight(newPickupData);
 
             // 收起 panel
             const { paymentStore } = this.props;

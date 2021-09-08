@@ -185,16 +185,16 @@ const LongBanner = () => {
                 zIndex: 2
               }}
             >
-              <p>{' '}</p>
-              <h3 className={"RadiusText1"}>-25%</h3>
-              <h6 className={"RadiusText2"}>
+              <p> </p>
+              <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
+              <h6 className={'RadiusText2 font-weight-normal'}>
                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
               </h6>
             </div>
           </div>
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
-              <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
+              <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
                 <h4
                   className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
                   style={{ position: 'relative', zIndex: 10 }}
