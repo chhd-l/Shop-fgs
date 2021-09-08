@@ -30,7 +30,7 @@ const toScroll = (anchorName) => {
 const subscription = () => {
   return (
     <div
-      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile three-column-content-block"
+      className=" three-column-content-block"
       style={{
         marginTop: isMobile ? '33%' : '0',
         boxShadow: 'darkgrey 10px 10px 30px 5px',
@@ -49,10 +49,10 @@ const subscription = () => {
             </h2>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
-                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow  flex-nowrap">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow  flex-nowrap">
                     <div
-                      className="col-4 col-md-6 text-md-right px-0 py-0"
+                      className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -66,17 +66,17 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         <FormattedMessage id="PreciseCatNutrition.Subscription.plate1" />
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
-                      className="col-4 col-md-6 text-md-right px-0 py-0"
+                      className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -90,7 +90,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p
                         className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
@@ -100,10 +100,10 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
-                      className="col-4 col-md-6 text-md-right px-0 py-0"
+                      className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -117,7 +117,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p
                         className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
@@ -127,10 +127,10 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
-                      className="col-4 col-md-6 text-md-right px-0 py-0"
+                      className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -144,17 +144,17 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         <FormattedMessage id="PreciseCatNutrition.Subscription.plate4" />
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-2 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row centered-icon-list__icon justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
                     <div
-                      className="col-4 col-md-6 text-md-right px-0 py-0"
+                      className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -168,7 +168,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         <FormattedMessage id="PreciseCatNutrition.Subscription.plate5" />
                       </p>

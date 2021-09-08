@@ -44,6 +44,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     deliveryOrPickUp: 0,
     intlMessages: '',
     pickupEditNumber: 0,
+    updateShippingMethodType: () => {},
     updateDeliveryOrPickup: () => {},
     updatePickupEditNumber: () => {},
     updateConfirmBtnDisabled: () => {},
@@ -68,6 +69,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         firstName: '',
         lastName: '',
         phoneNumber: '',
+        consigneeNumber: '',
         comment: '',
         address1: '',
         city: '',
@@ -516,6 +518,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
+    // 设置 shippingMethodType
+    this.props.updateShippingMethodType(val);
     // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
@@ -523,7 +527,7 @@ class HomeDeliveryOrPickUp extends React.Component {
 
     let pkobj = {
       city: sitem?.cityData?.city || [],
-      item: pickupItem,
+      calculation: pickupItem,
       maxDeliveryTime: pickupItem?.maxDeliveryTime || 0,
       minDeliveryTime: pickupItem?.minDeliveryTime || 0,
       receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
@@ -628,6 +632,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     try {
       await validData(pickupForm.formRule, pickupForm);
       this.props.updateConfirmBtnDisabled(false);
+      pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);
     } catch {
       this.props.updateConfirmBtnDisabled(true);

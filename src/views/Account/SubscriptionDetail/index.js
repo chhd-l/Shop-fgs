@@ -382,13 +382,22 @@ class SubscriptionDetail extends React.Component {
         subDetail.goodsInfo?.map((item) => {
           if (isIndv) {
             // item.spuName = `${item.petsName}'s personalized subscription`;
-            item.spuName = <FormattedMessage id='subscription.personalized' values={{ val1: item.petsName }} />
+            item.spuName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: item.petsName }}
+              />
+            );
 
-              item.specDetails = item.num / 1000 + 'kg';
+            item.specDetails = item.num / 1000 + 'kg';
             item.num = 1;
             // item.goodsName = `${subDetail?.petsInfo?.petsName}'s personalized subscription`;
-            item.goodsName = <FormattedMessage id='subscription.personalized' values={{ val1: subDetail?.petsInfo?.petsName }} />
-
+            item.goodsName = (
+              <FormattedMessage
+                id="subscription.personalized"
+                values={{ val1: subDetail?.petsInfo?.petsName }}
+              />
+            );
           }
           return item;
         }) || []; //防止商品被删报错
@@ -419,7 +428,7 @@ class SubscriptionDetail extends React.Component {
       if (petsId) {
         if (isIndv) {
           subDetail.goodsInfo.map((item) => {
-            item.petsRation = item.subscribeNum / 30 + 'g/day';
+            item.petsRation = Math.round(item.subscribeNum / 30) + 'g/jour';
             // return item;
           });
         } else {
@@ -434,7 +443,9 @@ class SubscriptionDetail extends React.Component {
             subDetail.goodsInfo?.forEach((el) => {
               rations?.forEach((ration) => {
                 if (el.spuNo == ration.mainItem) {
-                  el.petsRation = `${Math.round(ration.weight)}${ration.weightUnit}/${this.props.intl.messages['day-unit']}`;
+                  el.petsRation = `${Math.round(ration.weight)}${
+                    ration.weightUnit
+                  }/${this.props.intl.messages['day-unit']}`;
                 }
               });
             });

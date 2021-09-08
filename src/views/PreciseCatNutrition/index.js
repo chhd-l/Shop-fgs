@@ -157,24 +157,29 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-assets-headingBlock">
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                        <div className={'row w-100'}>
+                        <div className={'row w-100 rc-margin-x--none--mobile'}>
                           <div
-                            className={'col-12 col-md-4 text-md-right relative'}
+                            className={
+                              'col-12 col-md-4 text-md-right relative nowrap'
+                            }
                             style={{
                               display: 'inline',
-                              marginBottom: isMobile ? 15 : null
+                              marginBottom: isMobile ? 15 : null,
+                              paddingRight: isMobile ? null : 0,
+                              paddingLeft: isMobile ? null : 30
                             }}
                           >
                             <h2 style={{ fontWeight: 700 }}>
                               {' '}
-                              DID
+                              {/*DID*/}
+                              {/*SAVIE-*/}
                               <div
                                 style={{
                                   backgroundColor: '#E2001A',
                                   color: 'white',
                                   display: 'inline',
-                                  padding: ' 5px 5px',
-                                  margin: '0px 0px 0 20px',
+                                  padding: ' 5px 10px 5px 20px',
+                                  margin: ' 0 13px',
                                   fontWeight: 300,
                                   position: 'relative'
                                 }}
@@ -182,28 +187,34 @@ class PreciseCatNutrition extends React.Component {
                                 <div
                                   className="titleRadius"
                                   style={{
-                                    fontSize: 14,
+                                    width: '24.2%',
+                                    fontSize: 18,
+                                    textAlign: 'center',
                                     backgroundColor: 'white',
                                     color: '#E2001A',
                                     display: 'inline',
                                     borderRadius: '50%',
                                     position: 'absolute',
-                                    left: -17,
-                                    top: 12,
-                                    padding: 4,
+                                    left: -15,
+                                    top: isMobile ? 12 : 15,
+                                    padding: '5px 1px',
                                     fontWeight: 500,
                                     lineHeight: '18px'
                                   }}
                                 >
-                                  You
-                                </div>{' '}
-                                KNOW?
+                                  {/*You*/}
+                                  LE
+                                </div>
+                                {/*{' '} KNOW?*/} SAVIEZ
+                                <div className={'whiteRed'}></div>
                               </div>
+                              VOUS ?
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
                             <h2 className="font-weight-bold">
-                              THAT HEAlTH IS NOT ONE SIZE FITS ALL
+                              {/*THAT HEAlTH IS NOT ONE SIZE FITS ALL*/}
+                              CHAQUE CHAT A DES BESOINS SPÉCIFIQUES
                             </h2>
                           </div>
                         </div>
@@ -222,9 +233,9 @@ class PreciseCatNutrition extends React.Component {
                     <div className="experience-component experience-assets-contentBlock">
                       <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile  content-block rc-max-width--lg">
                         <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row ">
-                          <div className="rc-column">
+                          <div className="flex-column rc-padding-x--sm--desktop rc-padding-y--md--mobile">
                             <div
-                              className="lazyload-wrapper"
+                              className="lazyload-wrapper1"
                               style={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -396,7 +407,7 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                 </li>
                               </ul>
-                              <a style={{ color: 'grey' }}>
+                              <a style={{ color: 'grey', fontSize: 14 }}>
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
@@ -420,7 +431,7 @@ class PreciseCatNutrition extends React.Component {
                             </div>
                           </div>
                           <div className="rc-column">
-                            <div className="lazyload-wrapper">
+                            <div className="lazyload-wrapper1">
                               <img
                                 alt="With the Subscription, they will always have what they need"
                                 className="w-100 lazyloaded"
@@ -435,20 +446,27 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div>
+              <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />
-                <br />
-
                 <HowItWorks />
+                <br />
               </div>
-              <br />
 
-              <div className={'preciseCatNutritionTop'} id="aboutPet">
+              <div className={'preciseCatNutritionTop'}>
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          id="aboutPet"
+                          style={{
+                            position: 'absolute',
+                            marginTop: isMobile ? '-60px' : '-100px'
+                          }}
+                        ></div>
+                      </div>
                       <AboutPet />
                     </div>
                   </div>
@@ -460,7 +478,7 @@ class PreciseCatNutrition extends React.Component {
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
-                    <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
+                    <div className="rc-margin-bottom--md rc-margin-top--xl--mobile text-center">
                       <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
                         <p style={{ marginBottom: 0 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
@@ -481,7 +499,7 @@ class PreciseCatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-y--lg--mobile value-proposition">
+                      <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-bottom--lg--mobile value-proposition">
                         <div>
                           <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
                             {/*Address*/}

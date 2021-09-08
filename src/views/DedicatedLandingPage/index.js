@@ -156,22 +156,16 @@ class DedicatedLandingPage extends React.Component {
   // 获取选中商品sku
   getProductList = async () => {
     const { selectLine, listOne, listTwo } = this.state;
-    let list = [];
+    let productList = {};
     let unProductList = [];
     if (selectLine === 1) {
-      list = listOne.goodsInfos;
+      listOne.goodsInfos[0].selected = true;
       unProductList = listOne;
+      productList = listOne.goodsInfos[0];
     } else {
-      list = listTwo.goodsInfos;
       unProductList = listTwo;
-    }
-    let productList = {};
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].stock !== 0) {
-        list[i].selected = true;
-        productList = list[i];
-        break;
-      }
+      listTwo.goodsInfos[1].selected = true;
+      productList = listTwo.goodsInfos[1];
     }
     this.setState({
       productList: [productList],
@@ -242,7 +236,6 @@ class DedicatedLandingPage extends React.Component {
         return sItem;
       });
     }
-
     let cartItem = Object.assign(
       {},
       { ...unProductList, ...unProductList.goods },

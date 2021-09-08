@@ -25,7 +25,7 @@ import PetModal from './PetModal';
 import RepayAddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
-import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
+// import CyberSaveCardCheckbox from './Address/CyberSaveCardCheckbox';
 import { withOktaAuth } from '@okta/okta-react';
 import { searchNextConfirmPanel } from './modules/utils';
 import {
@@ -59,12 +59,12 @@ import { editAddress } from '@/api/address';
 
 import PayUCreditCard from './PaymentMethod/PayUCreditCard';
 import AdyenCreditCard from './PaymentMethod/Adyen';
-import CyberCardList from './PaymentMethod/Cyber/list';
+// import CyberCardList from './PaymentMethod/Cyber/list';
 import Cod from './PaymentMethod/Cod';
 import OxxoConfirm from './PaymentMethod/Oxxo';
 import AdyenCommonPay from './PaymentMethod/AdyenCommonPay';
 
-import CyberPaymentForm from '@/components/CyberPaymentForm';
+// import CyberPaymentForm from '@/components/CyberPaymentForm';
 
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
@@ -75,9 +75,9 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d';
 import { ADDRESS_RULE } from './PaymentMethod/Cyber/constant/utils';
 import { doGetGAVal } from '@/utils/GA';
-import { cyberFormTitle } from '@/utils/constant/cyber';
-import { getProductPetConfig } from '@/api/payment';
-import { registerCustomerList, guestList, commonList } from './tr_consent';
+// import { cyberFormTitle } from '@/utils/constant/cyber';
+// import { getProductPetConfig } from '@/api/payment';
+// import { registerCustomerList, guestList, commonList } from './tr_consent';
 import ConsentData from '@/utils/consent';
 import CyberPayment from './PaymentMethod/Cyber';
 
@@ -2059,7 +2059,7 @@ class Payment extends React.Component {
 
   // 计算税额、运费、运费折扣
   calculateFreight = async (data) => {
-    // console.log('666 ★★ -- Payment 计算: ', data);
+    // console.log('666 >>> ★★ -- Payment 计算: ', data);
     const { shippingFeeAddress, guestEmail } = this.state;
     let param = {};
     // this.setState({
@@ -2132,6 +2132,7 @@ class Payment extends React.Component {
     }
   };
   updateDeliveryAddrData = (data) => {
+    // console.log('666 >>> updateDeliveryAddrData: ', data);
     this.setState(
       {
         deliveryAddress: data

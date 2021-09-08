@@ -116,7 +116,7 @@ const ru_RU = {
     'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
   'recommendation.firstTitle':
     'Discover your personally-selected nutrition recommendation below.',
-  'recommendation.firstTitle': 'Never run out of your pet’s food!',
+  // 'recommendation.firstTitle': 'Never run out of your pet’s food!',
   'recommendation.helpContentText.title':
     'Наши эксперты здесь, чтобы помочь Вам!',
   'recommendation.helpContentText.des':
@@ -1124,6 +1124,7 @@ const ru_RU = {
   'club.wheretohelp.alt3': 'Блок FAQ',
   'club.jointodayalt': 'Присоединитесь к Клубу Royal Canin',
   autoShipStarted: 'Начало программы',
+  autoShipStarted2: 'Начало программы',
   nextShipment: 'Следующая доставка',
   transactionInfo: 'Персональные данные',
   myAutoshipOrder: 'История заказов',

@@ -63,11 +63,11 @@ function CardItem(props) {
           <FormattedMessage id="billingAddress" />
         )}
       </div> */}
-      <div className={`d-flex flex-wrap ${isMobile ? 'mb-3' : ''}`}>
+      <div className={`${isMobile ? 'mb-3' : 'col-6'} d-flex flex-wrap`}>
         {props.receiveType == 'PICK_UP' ? (
           <>
             {/* 自提点 */}
-            <div className="rc-full-width font-weight-normal mb-1 mp_mb_address1">
+            <div className="rc-full-width font-weight-normal mb-1 mp_mb_pickupName">
               {data.pickupName}
             </div>
             {/* 地址 */}
@@ -75,7 +75,7 @@ function CardItem(props) {
               {data.address1}
             </div>
             {/* 营业时间 */}
-            <div className="rc-full-width mb-0 mp_mb_address1">
+            <div className="rc-full-width mb-0 mp_mb_workTime">
               {data.workTime}
             </div>
           </>
@@ -134,6 +134,7 @@ class AddressList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedId: '',
       saveAddressNumber: 0, // 保存地址次数
       isHomeDeliveryOpen: this.props.configStore?.isHomeDeliveryOpen,
       isPickupOpen: this.props.configStore?.isPickupOpen,
@@ -178,20 +179,31 @@ class AddressList extends React.Component {
   // 获取地址列表
   getAddressList = async ({ showLoading = false } = {}) => {
     try {
-      const { hideBillingAddr } = this.props;
+      const { hideBillingAddr, selectedId } = this.props;
       showLoading && this.setState({ listLoading: true });
       let res = await getAddressList();
       let addList = res.context;
       addList = res.context.filter((item) => {
         return item.type === 'DELIVERY' && item.receiveType !== 'PICK_UP';
       });
-      //不显示billing address
-      // if (hideBillingAddr) {
+      // 不显示billing address
       let allList = res.context.filter((item) => {
         return item.type !== 'BILLING';
       });
+
       Array.from(allList, (a) => (a.selected = false));
-      // }
+
+      // 设置默认选中状态
+      let defaultAddressItem = allList.filter((ele) => {
+        return ele.isDefaltAddress === 1;
+      });
+      if (defaultAddressItem?.length) {
+        let tmpId = defaultAddressItem[0].deliveryAddressId;
+        Array.from(
+          allList,
+          (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
+        );
+      }
 
       let pkdata = res.context.filter(
         (item) => item?.receiveType === 'PICK_UP'
@@ -241,6 +253,12 @@ class AddressList extends React.Component {
       behavior: 'smooth'
     });
   };
+  scrollToTitle = () => {
+    let pstit = document.getElementById('profile-subform-title');
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   // 选择地址项并设置边框
   handleClickCoverItem(item) {
     const { allAddressList } = this.state;
@@ -264,7 +282,7 @@ class AddressList extends React.Component {
         pickupVisible: true,
         editFormVisible: false
       });
-      this.scrollToTop();
+      this.scrollToTitle();
     } else {
       this.changeEditFormVisible(true);
       this.setState({
@@ -278,6 +296,10 @@ class AddressList extends React.Component {
   }
   // 取消编辑或者新增地址
   cancelEditForm = () => {
+    let pstit = document.getElementById('profile-personal-info');
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
     this.changeEditFormVisible(false);
   };
   // 获取保存地址返回的提示成功信息
@@ -313,7 +335,7 @@ class AddressList extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     let { allAddressList } = this.state;
     el.confirmTooltipVisible = false;
-    this.scrollToTop();
+    this.scrollToTitle();
     this.setState({
       listLoading: true,
       allAddressList
@@ -364,7 +386,7 @@ class AddressList extends React.Component {
       myAccountPushEvent('Addresses');
       this.changeEditFormVisible(true);
     }
-    this.scrollToTop();
+    this.scrollToTitle();
     this.setState({
       addressAddOrEditFlag: 'add'
     });
@@ -442,12 +464,17 @@ class AddressList extends React.Component {
   // 地址项详细
   addressItemDetail = (item, i) => {
     const { countryList } = this.state;
+    // console.log('666 >>> selected: ', item.selected);
     return (
       <CardItem
         data={item}
         receiveType={item.receiveType}
         operateBtnJSX={
-          <div className="d-flex flex-column justify-content-between">
+          <div
+            className={`${
+              isMobile ? '' : 'col-6'
+            } d-flex flex-column justify-content-between`}
+          >
             {/* 设置默认地址按钮 */}
             <div className={`d-flex justify-content-end mb-3`}>
               <div className="align-items-center">
@@ -686,12 +713,12 @@ class AddressList extends React.Component {
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
-        this.scrollToTop();
+        this.scrollToTitle();
         this.getAddressList();
         this.handleCancelEditOrAddPickup();
       }
     } catch (err) {
-      this.scrollToTop();
+      this.scrollToTitle();
       this.showErrorMsg(err.message);
     } finally {
       this.setState({
@@ -726,9 +753,12 @@ class AddressList extends React.Component {
         ) : (
           <div className="border">
             {loading ? <Loading positionAbsolute="true" /> : null}
-            <div className="personalInfo">
+            <div className="personalInfo" id="profile-personal-info">
               {/* 地址模块标题 */}
-              <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+              <div
+                className="profileSubFormTitle pl-3 pr-3 pt-3"
+                id="profile-subform-title"
+              >
                 <h5 className="mb-0">
                   <svg
                     className="svg-icon account-info-icon align-middle mr-3 ml-1"

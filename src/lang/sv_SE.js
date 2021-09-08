@@ -220,7 +220,6 @@ const en_US = {
   autoship_nos: 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoShipStarted: 'Autoship started',
-  autoShipStarted2: 'Autoship started',
   autoshop: 'Automatic Shipping',
   backToAuthorization: 'Back to authorization',
   bankCard: 'Credit Card',
@@ -238,7 +237,6 @@ const en_US = {
   cardCvvIsInvalid: 'your card cvv is invalid',
   cardNumber: 'Card Number',
   cardNumberIsInvalid: 'your card number is invalid',
-  giftList: 'gift promotion',
   'cart.catDiet': 'Shop Cat formulas',
   'cart.deletInfo': 'Delete product?',
   'cart.delivery': 'Shipping',
@@ -263,6 +261,7 @@ const en_US = {
   'minicart.totalProduct': '{val} item(s)',
   'cart.totalProduct_nounit': 'You have {val} in your cart',
   'cart.yourShoppingCart': 'Your shopping cart',
+  giftList: 'gift promotion',
   catNutrition: 'Cat nutrition',
   cats: 'CATS',
   cats2: 'Cats',
@@ -284,6 +283,7 @@ const en_US = {
     'If you want to use this credit card, please enter CVV and click the Apply button',
   clickHere: 'Click here',
   clickHere2: 'Here',
+  here2: 'here',
   'clinic.cancel': 'Cancel',
   'clinic.clinic': 'clinic',
   'clinic.clinicTip': 'Which clinic has provided prescription for you？',
@@ -450,8 +450,6 @@ const en_US = {
   'details.theSize': 'The size',
   'details.unitPrice': 'Unit price',
   'details.youCanSave': 'You can save',
-  'detail.contextp1': "Sorry We Couldn't Find Any Products!",
-  'detail.contextp2': 'Please note this product may have been discontinued',
   dogs: 'DOGS',
   dogs2: 'Dogs',
   dogs3: 'Dog',
@@ -627,6 +625,210 @@ const en_US = {
   isPurebredCat: 'Purebred cat?',
   item: '{val} item',
   items: '{val} items',
+
+  'ind.IND10001.des1':
+    ' - Ideal fibre blend to support the feeling of fullness. - Adapted protein content to help maintain muscle mass for healthy weight maintenance. - Hunger-satisfying nutrition with a rich taste, formulated to help keep your cat fit.',
+  'ind.IND10001.img1': 'image7.png',
+  'ind.IND10001.title2': 'ENRICHED WITH L-CARNITINE',
+  'ind.IND10001.des2':
+    'Enriched with L-carnitine, involved in a healthy fat metabolism.',
+  'ind.IND10001.img2': 'image8.png',
+  'ind.IND10001.title3': 'URINARY HEALTH',
+  'ind.IND10001.des3':
+    'Formulé avec un équilibre de minéraux pour contribuer à la santé du système urinaire du chat adulte.',
+  'ind.IND10001.img3': 'image4.png',
+
+  'ind.IND10002.title1': 'HUNGER REGULATION',
+  'ind.IND10002.des1':
+    'Helps reduce the feeling of hunger with a specific blend of fibres to help satisfy the appetite of cats that have a tendency to beg for food between meals.',
+  'ind.IND10002.img1': 'image11.png',
+  'ind.IND10002.title2': 'WEIGHT MANAGEMENT',
+  'ind.IND10002.des2':
+    'Crafted with moderate fat and precise energy content to help your cat stay fit.',
+  'ind.IND10002.img2': 'image12.png',
+  'ind.IND10002.title3': 'ENRICHED WITH L-CARNITINE',
+  'ind.IND10002.des3':
+    'Enriched with L-carnitine, involved in a healthy fat metabolism.',
+  'ind.IND10002.img3': 'image8.png',
+  'ind.IND10002.title4': 'URINARY HEALTH',
+  'ind.IND10002.des4':
+    "Formulated with a balance of minerals to help maintain the health of an adult cat's urinary system.",
+  'ind.IND10002.img4': 'image4.png',
+
+  'ind.IND10003.title1': 'MODERATE CALORIE',
+  'ind.IND10003.des1':
+    'A moderate fat content adapted to the lower activity of indoor cats.',
+  'ind.IND10003.img1': 'image7.png',
+  'ind.IND10003.title2': 'HAIRBALL REDUCTION',
+  'ind.IND10003.des2':
+    'Helps stimulate the elimination of ingested hair thanks to specific fibres including psyllium.',
+  'ind.IND10003.img2': 'image6.png',
+  'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
+  'ind.IND10003.des3':
+    'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
+  'ind.IND10003.img3': 'image5.png',
+  'ind.IND10003.title4': 'URINARY HEALTH',
+  'ind.IND10003.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10003.img4': 'image4.png',
+
+  'ind.IND10004.title1': 'HAIRBALL REDUCTION',
+  'ind.IND10004.des1':
+    'Helps stimulate intestinal transit and the elimination of ingested hair in a natural way thanks to specific fibres including psyllium.',
+  'ind.IND10004.img1': 'image6.png',
+  'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
+  'ind.IND10004.des2':
+    'Highly digestible protein helps reduce the quantity and odour of stools.',
+  'ind.IND10004.img2': 'image5.png',
+  'ind.IND10004.title3': 'SKIN & COAT HEALTH',
+  'ind.IND10004.des3':
+    'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
+  'ind.IND10004.img3': 'image13.png',
+  'ind.IND10004.title4': 'URINARY HEALTH',
+  'ind.IND10004.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10004.img4': 'image4.png',
+
+  'ind.IND10005.title1': 'VITALITY COMPLEX',
+  'ind.IND10005.des1':
+    'Enriched with specific nutrients including green tea polyphenols, vitamin C, EPA and DHA.',
+  'ind.IND10005.img1': 'image14.png',
+  'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
+  'ind.IND10005.des2':
+    'Highly digestible protein helps reduce the quantity and odour of stools.',
+  'ind.IND10005.img2': 'image5.png',
+  'ind.IND10005.title3': 'RENAL HEALTH',
+  'ind.IND10005.des3':
+    'Helps support renal health thanks to an adapted phosphorus level.',
+  'ind.IND10005.img3': 'image15.png',
+  'ind.IND10005.title4': 'URINARY HEALTH',
+  'ind.IND10005.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10005.img4': 'image4.png',
+
+  'ind.IND10006.title1': 'APPETITE STIMULATION',
+  'ind.IND10006.des1':
+    "Helps stimulate the senior cat's appetite thanks to a highly palatable, double texture kibble which is easy to chew.",
+  'ind.IND10006.img1': 'image16.png',
+  'ind.IND10006.title2': 'HEALTHY AGEING COMPLEX',
+  'ind.IND10006.des2':
+    'A patented* complex of antioxidants including lycopene and Omega 3 fatty acids supports the body through the consequences of ageing. {val} *France, patent No EP1146870',
+  'ind.IND10006.img2': 'image17.png',
+  'ind.IND10006.title3': 'RENAL HEALTH',
+  'ind.IND10006.des3':
+    'Helps support healthy renal function thanks to a moderate phosphorus level.',
+  'ind.IND10006.img3': 'image15.png',
+  'ind.IND10006.title4': 'URINARY HEALTH',
+  'ind.IND10006.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10006.img4': 'image4.png',
+
+  'ind.IND10007.title1': 'WEIGHT MAINTENANCE',
+  'ind.IND10007.des1':
+    'Contains a moderate level of fat to help maintain an ideal body condition.',
+  'ind.IND10007.img1': 'image12.png',
+  'ind.IND10007.title2': 'HEALTHY AGEING COMPLEX',
+  'ind.IND10007.des2':
+    'A patented* complex of antioxidants including lycopene and Omega 3 fatty acids supports the body through the consequences of ageing. {val} *France, patent No EP1146870',
+  'ind.IND10007.img2': 'image17.png',
+  'ind.IND10007.title3': 'RENAL HEALTH',
+  'ind.IND10007.des3':
+    'Helps support healthy renal function thanks to a moderate phosphorus level.',
+  'ind.IND10007.img3': 'image15.png',
+  'ind.IND10007.title4': 'URINARY HEALTH',
+  'ind.IND10007.des4':
+    "Formulated to help maintain health of an adult cat's urinary system.",
+  'ind.IND10007.img4': 'image9.png',
+
+  'ind.composition': 'COMPOSITION',
+  'ind.additives': 'ADDITIVES (per kg)',
+  'ind.protein': 'Protein',
+  'ind.fatContent': 'Fat content',
+  'ind.crudeAsh': 'Crude ash',
+  'ind.crudeCellulose': 'Crude cellulose',
+  'ind.crudeFibre': 'Crude fibre',
+  'ind.Lcarnitine': 'L-carnitine',
+  'ind.EPADHA': 'EPA/DHA',
+  'ind.Phosphorus': 'Phosphorus',
+  'ind.Per': 'Per kg',
+  'ind.Omega': 'Omega 3 fatty acids',
+  'ind.Lycopene': 'Lycopene',
+
+  'ind.IND10001.Composition':
+    'protéines de volaille déshydratées, fibres végétales, isolat de protéines végétales*, maïs, hydrolysat de protéines animales, gluten de maïs, farine de maïs, riz, blé, graisses animales, sels minéraux, pulpe de betterave, levures et composants de levures, huile de poisson, téguments et graines de psyllium, huile de soja. ',
+  'ind.IND10001.Additives':
+    ' Additifs nutritionnels : Vitamine A : 21000 UI, Vitamine D3 : 800 UI, Fer(3b103) : 30 mg, Iode(3b201, 3b202) : 3 mg, Cuivre(3b405, 3b406) : 9 mg, Manganèse(3b502, 3b504) : 39 mg, Zinc(3b603, 3b605, 3b606) : 128 mg, Sélénium(3b801, 3b811, 3b812) : 0,06 mg, L-carnitine : 200 mg - Conservateurs - Antioxygènes. ',
+  'ind.IND10001.proteinVal': '36.0 % ',
+  'ind.IND10001.fatContentVal': '10.0 % ',
+  'ind.IND10001.crudeAshVal': '7.5 % ',
+  'ind.IND10001.crudeFibreVal': '10.4 %',
+
+  'ind.IND10002.Composition':
+    'dehydrated poultry proteins, vegetable fibers, corn, wheat, wheat gluten*, corn gluten, animal protein hydrolysate, animal fats, rice, beet pulp, yeast by-products, mineral salts, soybean oil, fish oil, psyllium seed coatings and seeds, fructo-oligosaccharides',
+  'ind.IND10002.Additives':
+    'Nutritional additives: Vitamin A: 19500 IU, Vitamin D3: 700 IU, Iron(3b103): 41 mg, Iodine(3b201, 3b202): 4,1 mg, Copper(3b405, 3b406): 13 mg, Manganese(3b502, 3b504): 53 mg, Zinc(3b603, 3b605, 3b606): 126 mg, Selenium(3b801, 3b811, 3b812): 0.07 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants.',
+  'ind.IND10002.proteinVal': '36.0 % ',
+  'ind.IND10002.fatContentVal': '10.0 % ',
+  'ind.IND10002.crudeAshVal': '8.0 % ',
+  'ind.IND10002.crudeFibreVal': '9.2 %',
+  'ind.IND10002.LcarnitineVal': '200 mg/kg',
+
+  'ind.IND10003.Composition':
+    'dehydrated poultry protein, rice, wheat, corn, vegetable protein isolate*, animal fat, animal protein hydrolysate, wheat flour, vegetable fiber, beet pulp, yeast and yeast components, soybean oil, mineral salts, fructo-oligosaccharides, fish oil, seed coatings and psyllium seeds (0.5%) ',
+  'ind.IND10003.Additives':
+    'Nutritional additives: Vitamin A: 13500 IU, Vitamin D3: 700 IU, E1 (Iron): 42 mg, E2 (Iodine): 4,2 mg, E4 (Copper): 13 mg, E5 (Manganese): 55 mg, E6 (Zinc): 164 mg, E8 (Selenium): 0,09 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants. ',
+  'ind.IND10003.proteinVal': '27 % ',
+  'ind.IND10003.fatContentVal': '13 %',
+  'ind.IND10003.crudeAshVal': '7.3 %',
+  'ind.IND10003.crudeCellulosenVal': '4 %. ',
+
+  'ind.IND10004.Composition':
+    'dehydrated poultry proteins, corn, rice, vegetable protein isolate*, wheat, animal fats, animal protein hydrolysate, wheat flour, vegetable fibers, soybean oil, beet pulp, mineral salts, yeast and yeast components, fish oil, fructo-oligosaccharides, psyllium seed coatings and seeds (0.5%), borage oil ',
+  'ind.IND10004.Additives':
+    'Nutritional additives: Vitamin A: 22000 IU, Vitamin D3: 800 IU, E1 (Iron): 37 mg, E2 (Iodine): 3.7 mg, E4 (Copper): 11 mg, E5 (Manganese): 48 mg, E6 (Zinc): 145 mg, E8 (Selenium): 0.06 mg - Technological additives: Clinoptilolite of sedimentary origin: 10 g - Preservatives - Antioxidants. ',
+  'ind.IND10004.proteinVal': '30 % ',
+  'ind.IND10004.fatContentVal': '15 % ',
+  'ind.IND10004.crudeAshVal': '8.1 % ',
+  'ind.IND10004.crudeFibreVal': '4.1 %',
+  'ind.IND10004.EPADHAVal': '3.1 g/kg',
+
+  'ind.IND10005.Composition':
+    'corn, dehydrated poultry protein, barley, corn flour, wheat, vegetable protein isolate*, animal fat, corn gluten, animal protein hydrolysate, vegetable fiber, beet pulp, mineral salts, soybean oil, yeast and yeast components, fish oil, fructo-oligosaccharides, psyllium teguments and seeds, crustacean hydrolysate (source of glucosamine), marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
+  'ind.IND10005.Additives':
+    'Nutritional additives: Vitamin A: 22500 IU, Vitamin D3: 900 IU, Vitamin C: 290 IU, E1 (Iron): 34 mg, E2 (Iodine): 3,4 mg, E4 (Copper): 10 mg, E5 (Manganese): 44 mg, E6 (Zinc): 131 mg, E8 (Selenium): 0.05 mg - Technological additives: Clinoptilolite of sedimentary origin: 5 g - Sensory additives: Tea extract (source of polyphenols): 0.6 g - Zootechnical additives: Ammonium chloride: 5 g - Preservatives - Antioxidants. ',
+  'ind.IND10005.proteinVal': '27 %',
+  'ind.IND10005.fatContentVal': '13 % ',
+  'ind.IND10005.crudeAshVal': '6.9 % ',
+  'ind.IND10005.crudeFibreVal': '3.6 %',
+  'ind.IND10005.PhosphorusVal': '0.75 %',
+  'ind.IND10005.EPADHAVal': '3.8 g/kg',
+
+  'ind.IND10006.Composition':
+    'vegetable protein isolate*, precooked wheat flour, animal fat, dehydrated poultry protein, rice, corn, vegetable fiber, animal protein hydrolysate, chicory pulp, mineral salts, fish oil, soybean oil, yeast and yeast components, tomato (source of lycopene), fructo-oligosaccharides, psyllium teguments and seeds, yeast hydrolysate (source of manno-oligosaccharides), shellfish hydrolysate (source of glucosamine), borage oil, marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
+  'ind.IND10006.Additives':
+    'Nutritional additives: Vitamin A: 19000 IU, Vitamin D3: 700 IU, E1 (Iron): 37 mg, E2 (Iodine): 3,7 mg, E4 (Copper): 11 mg, E5 (Manganese): 48 mg, E6 (Zinc): 145 mg, E8 (Selenium): 0.06 mg - Sensory additives: Tea extract (source of polyphenols): 0.6 g - Preservatives - Antioxidants. ',
+  'ind.IND10006.proteinVal': '30 %',
+  'ind.IND10006.fatContentVal': '19 % ',
+  'ind.IND10006.crudeAshVal': '5.3 % ',
+  'ind.IND10006.crudeFibreVal': '4.4 %',
+  'ind.IND10006.PhosphorusVal': '0.6 %',
+  'ind.IND10006.PerVal': ' ',
+  'ind.IND10006.OmegaVal': '10.9 g',
+  'ind.IND10006.LycopeneVal': '8 mg',
+
+  'ind.IND10007.Composition':
+    'corn, vegetable protein isolate*, corn meal, dehydrated poultry protein, wheat, corn gluten, animal fat, vegetable fiber, animal protein hydrolysate, chicory pulp, mineral salts, fish oil, soybean oil, yeast and yeast components, tomato (source of lycopene), fructo-oligosaccharides, psyllium teguments and seeds, yeast hydrolysate (source of manno-oligosaccharides), shellfish hydrolysate (source of glucosamine), borage oil, marigold extract (source of lutein), cartilage hydrolysate (source of chondroitin). ',
+  'ind.IND10007.Additives':
+    'Nutritional additives: Vitamin A: 19000 IU, Vitamin D3: 700 IU, E1 (Iron): 40 mg, E2 (Iodine): 4 mg, E4 (Copper): 12 mg, E5 (Manganese): 52 mg, E6 (Zinc): 154 mg, E8 (Selenium): 0,07 mg - Sensory additives: Tea extract (source of polyphenols): 0,6 g - Preservatives - Antioxidants. ',
+  'ind.IND10007.proteinVal': '30 %',
+  'ind.IND10007.fatContentVal': '15 % ',
+  'ind.IND10007.crudeAshVal': '5.4 % ',
+  'ind.IND10007.crudeFibreVal': '4.9 %',
+  'ind.IND10007.PhosphorusVal': '0.6 %',
+  'ind.IND10007.PerVal': ' ',
+  'ind.IND10007.OmegaVal': '10.9 g',
+  'ind.IND10007.LycopeneVal': '6.5 mg',
+
   IVAIncluido: '',
   joinTheClub: 'Join the Club',
   just: 'Just',
@@ -659,7 +861,7 @@ const en_US = {
   logOff: 'Logout',
   mailAddress: 'Mail address',
   // mailAddress: 'Mail address',
-  mailAddress: 'Email',
+  // mailAddress: 'Email',
   manage: 'Manage',
   mandatoryFieldsError: 'You have mandatory fields not filled out!',
   menu: 'Menu',
@@ -691,6 +893,7 @@ const en_US = {
   newAddress: 'New address',
   newPassword: 'New Password',
   next: 'Next',
+  back: 'Back',
   nextShipment: 'Next shipment',
   noClinicTip:
     'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
@@ -848,6 +1051,8 @@ const en_US = {
   'payment.pickupDelivery': 'Pick up delivery',
 
   'payment.staleDate': 'Please repeat the date and time of delivery',
+
+  'payment.reselectTimeSlot': 'Please re select delivery date and timeslot.',
 
   // 星期
   'payment.Monday': 'Monday',
@@ -1379,7 +1584,8 @@ const en_US = {
   'subscription.autoship': 'autoship',
   'subscription.club': 'club',
   'detail.subscriptionBuyTip': 'Subscription without participation',
-
+  'detail.contextp1': "Sorry We Couldn't Find Any Products!",
+  'detail.contextp2': 'Please note this product may have been discontinued',
   //NewLandingpageClub
   'ClubLP.discount.content': '10% OFF & FREE DELIVERY',
   'ClubLP.LongBanner.title':
@@ -1465,7 +1671,124 @@ const en_US = {
   'plp.retail.cat.filter.specneed.tip.mobile':
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
+  'preciseNutrition.bannertext1': 'Secure payment',
+  'preciseNutrition.bannertext2': 'Satisfied or reimbursed',
+  'preciseNutrition.bannertext3': 'Premium Quality',
+  'preciseNutrition.bannertext4': '3 Days shipment',
+  'preciseNutrition.banner.names': "{val}'s adapted diet & portion",
+  'preciseNutrition.banner.des1':
+    '30 days of complete & balanced diet for adult cat',
+  'preciseNutrition.banner.portion': 'Daily portion',
+  'preciseNutrition.banner.weight': 'Total pack weight',
+  'preciseNutrition.banner.day': 'day',
+  'preciseNutrition.banner.month': 'month',
+  'preciseNutrition.banner.des2': 'Automatic shipment every 30 days',
+  'preciseNutrition.banner.des3': 'Free shipment cost',
+  'preciseNutrition.banner.button': 'buy now',
+  'preciseNutrition.benefits.title': 'Your cat’s diet proven benefits',
+  'preciseNutrition.benefits.content':
+    'We partner with pet experts – veterinarians, breeders, professional groups and organisations – to ensure that our nutritional formulas are precisely tailored to your pet’s needs.',
+  'preciseNutrition.call.content':
+    'Monday to Friday from 8:30am to 7pm and on Saturdays from 9am to 1pm',
+  'preciseNutrition.call.number': '0800 415 161',
+  'preciseNutrition.faq.content':
+    'You can check our {val} to see if your question has already been answered ',
+  'preciseNutrition.Top.title':
+    '* Offer not accumulated with the 10% discount on product subscriptions',
+  'preciseNutrition.Address.title': 'Address',
+  'preciseNutrition.Address.firstLine':
+    'Service Consommateur Royal Canin France',
+  'preciseNutrition.Address.secondLine': '650 avenue de la petite Camargue',
+  'preciseNutrition.Address.thirdLine': '30470 AIMARGUES',
+  'preciseNutrition.commitment.title': 'Our sustainability commitement',
+  'preciseNutrition.commitment.content1':
+    'At Royal canin, we work to reduce our environmental impact to keep our planet healthy.',
+  'preciseNutrition.commitment.content2':
+    'For this reason, your product will be handmade in France and the packaging you will receive with your order has been optimized to reduce its carbon print and it was produced with FSC certified materials, with the guarantee that the paper and cardboard come from recyclable sources and the wood from well managed forests.',
+  'preciseNutrition.commitment.content3':
+    'Even if the packaging is compostable, it should not be throw in the nature. Please follow the recommendation and throw it in the right bin. ',
+  'preciseNutrition.Below.title': 'A WELCOME PACK TO BEST TAKE CARE OF {val}',
+  'preciseNutrition.Below.content':
+    'On your first delivery you will receive an exclusive welcome pack that includes everything you need to properly feed & take care of [cat’s name].',
+  'preciseNutrition.Below.list': 'This premium pack will include :',
+  'preciseNutrition.Below.list1': 'Your cat’s adapted monthly diet',
+  'preciseNutrition.Below.list2':
+    'A weighting scale to provide the exact daily portion',
+  'preciseNutrition.Below.list3': 'A measuring cup to make it easy & precise',
+  'preciseNutrition.Below.list4':
+    'And of course all instructions in your welcome letter',
+  'preciseNutrition.Details.title':
+    'QUALITY INGREDIENTS & WELL BALANCED COMPOSITION',
+  'preciseNutrition.Details.lititle1': 'INGREDIENTS',
+  'preciseNutrition.Details.lititle2': 'ANALYTICAL CONSTITUENTS',
+  'preciseNutrition.Details.des':
+    '*L.I.P. : protein selected for its very high assimilation',
+  'preciseNutrition.Details.content3.1':
+    'On each food label, after the "composition" that includes the ingredients or raw materials used to make the food (like a cake recipe), appear the analytical constituents, which reflect the analysis of the nutritients that make up the end product.',
+  'preciseNutrition.Details.content3.2':
+    'Thus, European regulatons requires manufacturers to quantify the quantities of protein, fat, raw cellulose and raw ashes.',
+  'preciseNutrition.Details.link': 'Learn more',
+  'preciseNutrition.Details.lastText1':
+    'How to use : Batch number, factory registration number and best before date : see information on packaging.',
+  'preciseNutrition.Details.lastText2':
+    'To be stored in a cool, dry place.  Water should be available at all times',
+  'preciseNutrition.Details.lastText3':
+    'How to use : [1] Water should be available at all times. [2] To be stored in a cool, dry place.',
+  'preciseNutrition.Details.list1':
+    'The quantity of protein does not in any way allow us to judge the quality of the food; in fact, some proteins are much more digestible than others (i.e. assimilable and usable by the body) and their composition in amino acids (22 in number) can be very different; however, some amino acids are said to be "essential" and must be provided by the food.',
+  'preciseNutrition.Details.list2':
+    'The amount of Fat is a good indicator of the energy provided by the food, as fat is the preferred "fuel" for dogs and cats, which are quite different from humans. Fat should be limited for sedentary, neutered or less active animals. ',
+  'preciseNutrition.Details.list3':
+    'The amount of cellulose or fiber is an indicator of the "satiating" power of the food. In addition to promoting good digestion and transit, fiber plays an important role in managing the animal\'s body weight.',
+  'preciseNutrition.Details.list4':
+    "Crude Ash reflects the amount of mineral matter (or minerals: Calcium, Phosphorus, Iron, Iodine, Potassium, Zinc, Copper...) contained in the food. All minerals are essential and vital for the proper functioning of the dog's or cat's body; as the animal ages, the intake of certain minerals must be reduced to limit the risk of urinary stones or, like phosphorus, to limit the risk of CKD (chronic kidney disease).",
+  'preciseNutrition.Product.title': 'WHAT MAKES THIS KIBBLE UNIQUE',
+  'preciseNutrition.Product.list.title1': '1.Kibble size and shape',
+  'preciseNutrition.Product.list.title2': '2.Texture and density',
+  'preciseNutrition.Product.list.title3': '3. Nutritional profile',
+  'preciseNutrition.Product.list.content1':
+    "As well as nutritionally adapted to the needs of pets, our kibble's size, shape and ergonomics are specifically tailored to the unique jaw or physiognomy of a species or breed.",
+  'preciseNutrition.Product.list.content2':
+    'As well as a variety of sizes and shapes, kibbles have an adapted texture that allows them to break at specific times, and density to match the rate of ingestion of each pet. Our selection of wet diets also provide different textures to appeal to picky eaters.',
+  'preciseNutrition.Product.list.content3':
+    'Each Royal Canin diet has a precisely adapted nutritional profile, made up of at least 50 individual nutrients that are chosen specifically to support the health and sensitivities of cats and dogs.',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'preciseNutrition.bsc3.1': 'Ribs visible on shorthaired cats',
+  'preciseNutrition.bsc3.2': 'Obvious waist',
+  'preciseNutrition.bsc3.3': 'A very small amount of abdominal fat',
+  'preciseNutrition.bsc3.4':
+    'When viewed from the side, their abdomen appears tucked up behind their rib cage',
+
+  'preciseNutrition.bsc4.1': 'Ribs are not visible but can be easily felt',
+  'preciseNutrition.bsc4.2': 'Obvious waist',
+  'preciseNutrition.bsc4.3': 'A minimal amount of abdominal fat',
+  'preciseNutrition.bsc4.4': 'Slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc5.1':
+    'Well proportioned body when viewed from above and from the side',
+  'preciseNutrition.bsc5.2': 'Ribs not visible but can be easily felt',
+  'preciseNutrition.bsc5.3': 'Obvious waist',
+  'preciseNutrition.bsc5.4': 'A small amount of abdominal fat',
+  'preciseNutrition.bsc5.5': 'Slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc6.1': 'Ribs are not visible but can be felt',
+  'preciseNutrition.bsc6.2': 'Waist not clearly defined when seen from above',
+  'preciseNutrition.bsc6.3':
+    'Very slight abdominal tuck when viewed from the side',
+
+  'preciseNutrition.bsc7.1': 'Ribs are difficult to feel under the fat',
+  'preciseNutrition.bsc7.2': 'Waist barely visible',
+  'preciseNutrition.bsc7.3':
+    'When viewed from the side, their abdomen does not appear tucked up behind their rib cage',
+  'preciseNutrition.bsc7.4': 'Rounding of the abdomen',
+
+  'preciseNutrition.bscTip':
+    'To correctly assess your cat’s body follow this simple steps:',
+  'preciseNutrition.bscTip1':
+    '1. Look at your cat from above and from the side',
+  'preciseNutrition.bscTip2':
+    '2. Feel your cat’s body, gently applying pressure to find the ribs',
+  'productFinder.mixBreed': 'Mix breed'
 };
 export default en_US;

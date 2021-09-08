@@ -54,7 +54,7 @@ const LongBanner = () => {
                   <strong style={{ color: '#000000' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
                   </strong>
-                  <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
+                  <sup style={{ color: '#666666', fontSize: 14, top: '-1em' }}>
                     [1]
                   </sup>
                   <p style={{ color: '#555555' }}>
@@ -169,7 +169,7 @@ const LongBanner = () => {
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
             <img
               className={'topCat'}
-              style={{ zIndex: isMobile ? -100 : null }}
+              style={{ zIndex: isMobile ? -100 : 0 }}
               src={topCat}
             />
             <img className={'topCatEat'} src={topCatEat} />
@@ -185,18 +185,18 @@ const LongBanner = () => {
                 zIndex: 2
               }}
             >
-              <p>{' '}</p>
-              <h3 className={"RadiusText1"}>-25%</h3>
-              <h6 className={"RadiusText2"}>
+              <p> </p>
+              <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
+              <h6 className={'RadiusText2 font-weight-normal'}>
                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
               </h6>
             </div>
           </div>
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
-              <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+              <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
                 <h4
-                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm"
+                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
                   style={{ position: 'relative', zIndex: 10 }}
                 >
                   <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />

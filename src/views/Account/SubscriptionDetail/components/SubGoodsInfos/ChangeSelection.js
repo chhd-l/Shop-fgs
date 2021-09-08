@@ -29,6 +29,8 @@ const ChangeSelection = ({ el }) => {
       el.promotions = 'club';
       break;
   }
+  const isClub = el.promotions?.toLowerCase().includes('club');
+
   return (
     <>
       <div className="rc-card-content sub-frequency-wrap">
@@ -100,12 +102,14 @@ const ChangeSelection = ({ el }) => {
           }}
         >
           {/* Shipping Method: */}
-          {isIndv ?
-              <FormattedMessage id="autoShipStarted" />:
-            <FormattedMessage id="autoShipStarted2" />
-          // 'Date de création de l\'Abonnement'
+          {
+            isClub ? (
+              <FormattedMessage id="autoShipStarted" />
+            ) : (
+              <FormattedMessage id="autoShipStarted2" />
+            )
+            // 'Date de création de l\'Abonnement'
           }
-
         </strong>
         <div
           className="rc-card__meta order-Id text-left"

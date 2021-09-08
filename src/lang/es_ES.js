@@ -129,6 +129,7 @@ const es_ES = {
   autoship_nos: 'Autoenvío',
   autoShipOrderDetails: 'Detalles del pedido de envío automático',
   autoShipStarted: 'Autoenvío iniciado',
+  autoShipStarted2: 'Autoenvío iniciado',
   autoshop: 'Autoenvío',
   backToAuthorization: 'Volver a la autorización',
   'bannerTip.btnText': 'Más información',

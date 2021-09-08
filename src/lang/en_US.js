@@ -220,6 +220,7 @@ const en_US = {
   autoship_nos: 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoShipStarted: 'Autoship started',
+  autoShipStarted2: 'Autoship started',
   autoshop: 'Automatic Shipping',
   backToAuthorization: 'Back to authorization',
   bankCard: 'Credit Card',
@@ -1224,7 +1225,7 @@ const en_US = {
     'Our Autoship service is designed to simplify your life and ensure you always get the best diet for your pet delivered directly to your doorstep.',
   'recommendation.firstTitle':
     'Discover your personally-selected nutrition recommendation below.',
-  'recommendation.firstTitle': 'Never run out of your pet’s food!',
+  // 'recommendation.firstTitle': 'Never run out of your pet’s food!',
   'recommendation.helpContentText.title': "We're Here to Help",
   'recommendation.helpContentText.des':
     "As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.",
