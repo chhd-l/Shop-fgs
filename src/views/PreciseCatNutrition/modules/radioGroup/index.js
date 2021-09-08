@@ -23,6 +23,13 @@ export default function RadioGroup({ questionData }) {
       questionData.name === 'bcs' ? parseInt(val.key) : val.key
     );
   };
+
+  const upperCase = (str) => {
+    let string = String(str);
+    string = string[0].toUpperCase() + string.substr(1);
+    console.log(string);
+    return string;
+  };
   return (
     <div className="questionnaire-radio">
       <div className="question-title">
@@ -37,6 +44,7 @@ export default function RadioGroup({ questionData }) {
         <div
           key={i}
           className="rc-input rc-margin-y--xs rc-input--full-width ml-2"
+          style={{ padding: '3px 0' }}
         >
           <input
             className="rc-input__radio"
@@ -51,9 +59,10 @@ export default function RadioGroup({ questionData }) {
 
           <label
             className="rc-input__label--inline"
+            style={{ marginBottom: 0, lineHeight: '24px' }}
             htmlFor={`pro-finder-answer-${i}`}
           >
-            <span>{ele.label}</span>
+            <span>{upperCase(ele.label)}</span>
           </label>
         </div>
       ))}

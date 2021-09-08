@@ -1,6 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-export default function Tooltips({ description, isArray = false }) {
+import Idea from '../../images/idea.png';
+export default function Tooltips({
+  description,
+  isArray = false,
+  isIdea = false
+}) {
   const putId = (e) => {
     e.persist();
     e.nativeEvent.stopImmediatePropagation();
@@ -18,7 +23,17 @@ export default function Tooltips({ description, isArray = false }) {
   };
   return (
     <span className="iconfont-box">
-      <i className="iconfont iconinfo" onClick={(e) => putId(e)}></i>
+      {isIdea ? (
+        <img
+          src={Idea}
+          width="18px"
+          height="18px"
+          style={{ display: 'block' }}
+        />
+      ) : (
+        <i className="iconfont iconinfo" onClick={(e) => putId(e)}></i>
+      )}
+
       {isArray ? (
         <div className="question-tooltip">
           <div>

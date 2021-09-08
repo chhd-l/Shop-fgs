@@ -185,9 +185,9 @@ const LongBanner = () => {
                 zIndex: 2
               }}
             >
-              <p>{' '}</p>
-              <h3 className={"RadiusText1 font-weight-normal"}>-25%</h3>
-              <h6 className={"RadiusText2 font-weight-normal"}>
+              <p> </p>
+              <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
+              <h6 className={'RadiusText2 font-weight-normal'}>
                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
               </h6>
             </div>

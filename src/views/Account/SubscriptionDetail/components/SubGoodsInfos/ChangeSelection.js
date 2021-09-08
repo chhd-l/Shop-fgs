@@ -15,7 +15,7 @@ const ChangeSelection = ({ el }) => {
     isActive,
     onDateChange,
     getMinDate,
-    isGift,
+    isGift
   } = SubGoodsInfosValue;
 
   switch (el.goodsInfoFlag) {
@@ -102,12 +102,14 @@ const ChangeSelection = ({ el }) => {
           }}
         >
           {/* Shipping Method: */}
-          {isClub ?
-              <FormattedMessage id="autoShipStarted" />:
-            <FormattedMessage id="autoShipStarted2" />
-          // 'Date de création de l\'Abonnement'
+          {
+            isClub ? (
+              <FormattedMessage id="autoShipStarted" />
+            ) : (
+              <FormattedMessage id="autoShipStarted2" />
+            )
+            // 'Date de création de l\'Abonnement'
           }
-
         </strong>
         <div
           className="rc-card__meta order-Id text-left"
