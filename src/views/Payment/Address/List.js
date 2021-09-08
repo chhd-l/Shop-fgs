@@ -1016,6 +1016,15 @@ class AddressList extends React.Component {
         });
       }
       this.isDeliverAddress && this.scrollToTitle();
+
+      // 查询运费
+      if (
+        window.__.env.REACT_APP_COUNTRY === 'ru' &&
+        tmpObj?.receiveType === 'HOME_DELIVERY'
+      ) {
+        await this.getHomeDeliveryPrice(tmpObj?.city);
+      }
+
       await this.queryAddressList();
       this.showSuccessMsg();
       this.setState({
@@ -1319,7 +1328,21 @@ class AddressList extends React.Component {
           let hap = Object.assign([], homeAndPickup);
           hap.map((e) => {
             if (e.type == 'homeDelivery') {
-              e.deliveryPrice = hdAddr[0]?.deliveryPrice;
+              let dprice = hdAddr[0]?.deliveryPrice;
+              e.deliveryPrice = dprice;
+              // 修改本地存储的信息
+              let hpobj =
+                sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
+              hpobj = JSON.parse(hpobj);
+              hpobj.homeAndPickup.map((e) => {
+                if (e.type === 'homeDelivery') {
+                  e.deliveryPrice = dprice;
+                }
+              });
+              sessionItemRoyal.set(
+                'rc-homeDeliveryAndPickup',
+                JSON.stringify(hpobj)
+              );
             }
             if (e.type == 'pickup') {
               if (city === pickupAddress[0]?.city) {
@@ -1339,8 +1362,9 @@ class AddressList extends React.Component {
     }
   };
   // 根据默认地址查询信息
-  getHomeDeliveryAndPickupInfo = async (price) => {
+  getHomeDeliveryAndPickupInfo = async () => {
     const { saveAddressNumber } = this.props;
+    const { homeAndPickup } = this.state;
     const {
       allAddressList,
       addressList,
@@ -1348,9 +1372,12 @@ class AddressList extends React.Component {
       selectedId,
       isPickupOpen
     } = this.state;
+
+    // 设置homeDelivery deliveryPrice初始值
+    let homedobj = find(homeAndPickup, (e) => e.type == 'homeDelivery');
     let obj = [
       {
-        deliveryPrice: price || 0,
+        deliveryPrice: homedobj?.deliveryPrice ?? 0,
         selected: false,
         type: 'homeDelivery'
       }
@@ -1458,10 +1485,6 @@ class AddressList extends React.Component {
           if (tmpObj) {
             await this.getHomeDeliveryPrice(tmpObj?.city);
           }
-          // // pickup
-          // if (pickupAddress.length) {
-          //   await this.getHomeDeliveryPrice(pickupAddress[0].city);
-          // }
         }
       }
     );
