@@ -72,6 +72,7 @@ class AddressList extends React.Component {
       pickupFormData: [], // pickup 表单数据
       pickupEditNumber: 0, // pickup 编辑次数，用来判断当前是否编辑过
       homeAndPickup: [],
+      shippingMethodType: 'homeDelivery', // 配送方式，要考虑新用户和会员有没有地址的不同
       pickupData: [], // 组件传过来的数据
       pickupAddress: [], // 查询到的地址列表里的pickup数据
       pickupCalculation: null,
@@ -1442,6 +1443,7 @@ class AddressList extends React.Component {
     }
     this.setState(
       {
+        shippingMethodType: addstr,
         homeAndPickup: obj
       },
       async () => {
@@ -1580,6 +1582,7 @@ class AddressList extends React.Component {
           });
           this.setState(
             {
+              shippingMethodType: val,
               selectedId: theAddressId,
               homeDeliverySelectedId: theAddressId
             },
@@ -1712,6 +1715,12 @@ class AddressList extends React.Component {
     // console.log('666 >>> updatePickupData: ', data);
     this.setState({
       pickupFormData: data
+    });
+  };
+  // 更新 shippingMethodType
+  updateShippingMethodType = (data) => {
+    this.setState({
+      shippingMethodType: data
     });
   };
   // 确认 pickup
@@ -1859,6 +1868,7 @@ class AddressList extends React.Component {
     const { panelStatus } = this;
     const { showOperateBtn, isCurrentBuyWaySubscription } = this.props;
     const {
+      shippingMethodType,
       isHomeDeliveryOpen,
       isPickupOpen,
       deliveryOrPickUpFlag,
@@ -2128,6 +2138,17 @@ class AddressList extends React.Component {
             </span>
           </aside>
 
+          {/* <br/>
+          shippingMethodType： {shippingMethodType}
+          <br/>
+          showDeliveryOrPickUp： {showDeliveryOrPickUp}
+          <br/>
+          choiseHomeDeliveryOrPickUp： {choiseHomeDeliveryOrPickUp}
+          <br/>
+          ----------------------------------
+          <br/>
+          <br/> */}
+
           {/* 俄罗斯 pickup 相关 begin */}
           {!isCurrentBuyWaySubscription &&
           deliveryOrPickUpFlag &&
@@ -2150,6 +2171,7 @@ class AddressList extends React.Component {
                 updatePickupEditNumber={this.updatePickupEditNumber}
                 updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
                 updateData={this.updatePickupData}
+                updateShippingMethodType={this.updateShippingMethodType}
                 allAddressList={allAddressList}
                 deliveryOrPickUp={showDeliveryOrPickUp}
                 intlMessages={this.props.intlMessages}
@@ -2378,7 +2400,7 @@ class AddressList extends React.Component {
                               }`}
                               disabled={confirmBtnDisabled}
                               onClick={
-                                choiseHomeDeliveryOrPickUp == 2
+                                shippingMethodType === 'pickup'
                                   ? this.clickConfirmPickup
                                   : this.clickConfirmAddressPanel
                               }
@@ -2397,7 +2419,7 @@ class AddressList extends React.Component {
                     <AddressPreview
                       key={this.state.pickupData}
                       form={
-                        choiseHomeDeliveryOrPickUp == 2
+                        shippingMethodType === 'pickup'
                           ? pickupData
                           : addressList.filter(
                               (a) => a.deliveryAddressId === selectedId
