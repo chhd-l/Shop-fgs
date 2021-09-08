@@ -66,7 +66,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         <FormattedMessage id="PreciseCatNutrition.Subscription.plate1" />
                       </p>
@@ -90,7 +90,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p
                         className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
@@ -117,7 +117,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p
                         className="rc-margin-bottom--none subscriptionSomeFontsize"
                         // // style={{ fontSize: 14}}
@@ -144,7 +144,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         <FormattedMessage id="PreciseCatNutrition.Subscription.plate4" />
                       </p>
@@ -168,7 +168,7 @@ const subscription = () => {
                         />
                       </LazyLoad>
                     </div>
-                    <div className="col-8 col-md-12 value-proposition__text pr-0 py-0">
+                    <div className="col-8 col-md-12 value-proposition__text rc-padding--none">
                       <p className="rc-margin-bottom--none subscriptionSomeFontsize">
                         <FormattedMessage id="PreciseCatNutrition.Subscription.plate5" />
                       </p>

@@ -163,9 +163,9 @@ const HelpComponents = (props) => {
                                     {/*as possible and within 12 hours*/}
                                     <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
-                                  <DistributeHubLinkOrATag
+                                  <a
                                     href={
-                                      '/serviceclients.france@royalcanin.com'
+                                      'mailto:serviceclients.france@royalcanin.com'
                                     }
                                     ariaLabel="Links to contact us"
                                   >
@@ -178,7 +178,7 @@ const HelpComponents = (props) => {
                                     >
                                       <FormattedMessage id="ClubLP.Help.email.address" />
                                     </p>
-                                  </DistributeHubLinkOrATag>
+                                  </a>
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">

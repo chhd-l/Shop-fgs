@@ -157,7 +157,7 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-assets-headingBlock">
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                        <div className={'row w-100'}>
+                        <div className={'row w-100 rc-margin-x--none--mobile'}>
                           <div
                             className={'col-12 col-md-4 text-md-right relative nowrap'}
                             style={{
@@ -208,13 +208,13 @@ class PreciseCatNutrition extends React.Component {
                                 <div className={'whiteRed'}>
                                 </div>
                               </div>
-                              VOUS?
+                              VOUS ?
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
                             <h2 className="font-weight-bold">
                               {/*THAT HEAlTH IS NOT ONE SIZE FITS ALL*/}
-                              CHAQUE CHAT A DES BESOINS SPÉCIFIQUES ?
+                              CHAQUE CHAT A DES BESOINS SPÉCIFIQUES
                             </h2>
                           </div>
                         </div>
@@ -407,7 +407,7 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                 </li>
                               </ul>
-                              <a style={{ color: 'grey' }}>
+                              <a style={{ color: 'grey',fontSize:14}}>
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
@@ -453,7 +453,6 @@ class PreciseCatNutrition extends React.Component {
                 <br />
 
                 <HowItWorks />
-                <br id="aboutPet"/>
                 <br />
 
               </div>
@@ -462,6 +461,9 @@ class PreciseCatNutrition extends React.Component {
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
+                      <div style={{position:'relative'}}>
+                        <div id="aboutPet" style={{position:'absolute',marginTop:isMobile?"-60px":"-100px"}}></div>
+                      </div>
                       <AboutPet />
                     </div>
                   </div>
