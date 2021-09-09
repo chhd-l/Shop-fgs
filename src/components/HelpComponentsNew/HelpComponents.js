@@ -308,17 +308,17 @@ const HelpComponentsNew = (props) => {
                       {lastText.title}
                     </h4>
                   </div>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     <span>
                       {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                       {lastText.fline}
                     </span>
                   </p>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
                     {lastText.sline}
                   </p>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
                     {lastText.tline}
                   </p>

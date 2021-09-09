@@ -293,7 +293,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               style={{ lineHeight: '24px' }}
                             >
                               <FormattedMessage id="preciseNutrition.banner.des1" />
-                              ,
+                              .{' '}
                               <FormattedMessage
                                 id={productShowInfo.recoSentence}
                               />
@@ -434,7 +434,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            <FormattedMessage id="preciseNutrition.banner.des1" />,
+            <FormattedMessage id="preciseNutrition.banner.des1" />.{' '}
             <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
           <LazyLoad>
