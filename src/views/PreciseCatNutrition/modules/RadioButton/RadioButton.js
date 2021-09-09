@@ -70,21 +70,21 @@ export default function RadioButton({ questionData, id }) {
             <span>{item.label}</span>
 
             {/*特定在选择户外活动时有tips*/}
-            {item.key === 'low' ? (
-              <div style={{ paddingRight: 5, color: '#666' }}>{`<1h/day`}</div>
-            ) : (
-              ''
-            )}
-            {item.key === 'moderate' ? (
-              <div style={{ paddingRight: 5, color: '#666' }}>{`<2h/day`}</div>
-            ) : (
-              ''
-            )}
-            {item.key === 'high' ? (
-              <div style={{ paddingRight: 5, color: '#666' }}>{`>3h/day`}</div>
-            ) : (
-              ''
-            )}
+            {/*{item.key === 'low' ? (*/}
+            {/*  <div style={{ paddingRight: 5, color: '#666' }}>{`<1h/day`}</div>*/}
+            {/*) : (*/}
+            {/*  ''*/}
+            {/*)}*/}
+            {/*{item.key === 'moderate' ? (*/}
+            {/*  <div style={{ paddingRight: 5, color: '#666' }}>{`<2h/day`}</div>*/}
+            {/*) : (*/}
+            {/*  ''*/}
+            {/*)}*/}
+            {/*{item.key === 'high' ? (*/}
+            {/*  <div style={{ paddingRight: 5, color: '#666' }}>{`>3h/day`}</div>*/}
+            {/*) : (*/}
+            {/*  ''*/}
+            {/*)}*/}
           </label>
         ))}
       </div>
