@@ -20,7 +20,7 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
 import Help from './modules/help';
-import { getDetailsBySpuNo } from '@/api/details';
+import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 
@@ -144,11 +144,11 @@ class DedicatedLandingPage extends React.Component {
     }
     this.setState({ buttonLoading: true });
     if (selectLine === 1) {
-      const { context } = await getDetailsBySpuNo('FGS20049');
+      const { context } = await getDetailsBySpuNoIgnoreDisplayFlag('FGS20049');
       this.setState({ listOne: context });
       this.getProductList();
     } else if (selectLine === 2) {
-      const { context } = await getDetailsBySpuNo('FGS20050');
+      const { context } = await getDetailsBySpuNoIgnoreDisplayFlag('FGS20050');
       this.setState({ listTwo: context });
       this.getProductList();
     }
