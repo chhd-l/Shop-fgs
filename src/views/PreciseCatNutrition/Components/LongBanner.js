@@ -55,7 +55,7 @@ const LongBanner = () => {
                   <strong style={{ color: '#000000' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
                   </strong>
-                  <sup style={{ color: '#666666', fontSize: 14, top: '-1em' }}>
+                  <sup style={{ color: '#666666', fontSize: 13, top: '-1em' }}>
                     [1]
                   </sup>
                   <p style={{ color: '#555555',fontSize:'0.7em'}}>
@@ -204,8 +204,8 @@ const LongBanner = () => {
                 </h2>
 
                 <div className="value-proposition__container">
-                  <div className="row mx-0 justify-content-between rc-text-align-center">
-                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center ">
+                  <div className="row  mx-lg-5 justify-content-between rc-text-align-center">
+                    <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center ">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -226,7 +226,7 @@ const LongBanner = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                    <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
@@ -247,7 +247,7 @@ const LongBanner = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-3 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
+                    <div className="col-12 col-md-4 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-4 pl-xxl-4 justify-content-center">
                       <div className=" justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn flex-column">
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
