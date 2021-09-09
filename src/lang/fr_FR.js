@@ -2007,7 +2007,7 @@ const fr_FR = {
   'preciseNutrition.Below.title':
     'UN COFFRET DE BIENVENUE POUR PRENDRE SOIN DE {val}',
   'preciseNutrition.Below.content':
-    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de Luna. ',
+    'Lors de votre première livraison, vous recevrez un kit de bienvenue comprenant tout ce dont vous avez besoin pour bien nourrir et prendre soin de {val}. ',
   'preciseNutrition.Below.list': 'Ce coffret premium comprendra : ',
   'preciseNutrition.Below.list1': '1 mois d’alimentation pour votre chat',
   'preciseNutrition.Below.list2':
