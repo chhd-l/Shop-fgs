@@ -254,7 +254,7 @@ class AddressList extends React.Component {
     });
   };
   scrollToTitle = () => {
-    let pstit = document.getElementById('profile-subform-title');
+    let pstit = document.getElementById('profile-personal-info');
     if (pstit) {
       pstit.scrollIntoView({ behavior: 'smooth' });
     }
@@ -335,7 +335,7 @@ class AddressList extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     let { allAddressList } = this.state;
     el.confirmTooltipVisible = false;
-    this.scrollToTitle();
+    this.scrollToTop();
     this.setState({
       listLoading: true,
       allAddressList
@@ -755,10 +755,7 @@ class AddressList extends React.Component {
             {loading ? <Loading positionAbsolute="true" /> : null}
             <div className="personalInfo" id="profile-personal-info">
               {/* 地址模块标题 */}
-              <div
-                className="profileSubFormTitle pl-3 pr-3 pt-3"
-                id="profile-subform-title"
-              >
+              <div className="profileSubFormTitle pl-3 pr-3 pt-3">
                 <h5 className="mb-0">
                   <svg
                     className="svg-icon account-info-icon align-middle mr-3 ml-1"
