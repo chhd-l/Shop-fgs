@@ -418,19 +418,20 @@ class PreciseCatNutrition extends React.Component {
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
-                                className="rc-margin-y--sm rc-padding-x--none detextcenter"
+                                className="w-100 rc-margin-y--sm rc-padding-x--none detextcenter"
                                 style={
                                   isMobile
                                     ? {
                                         position: 'absolute',
                                         marginTop: '100%',
-                                        marginLeft: '5%'
+                                        // marginLeft: '10%',
+                                        // marginRight: '10%',
                                       }
                                     : null
                                 }
                               >
                                 <a onClick={() => this.toScroll('aboutPet')}>
-                                  <button className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs">
+                                  <button className="rc-btn rc-btn--sm rc-btn--two">
                                     <FormattedMessage id="PreciseCatNutrition.AdaptedFood.findFood" />
                                   </button>
                                 </a>
