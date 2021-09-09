@@ -639,8 +639,13 @@ class AddressList extends React.Component {
       () => {
         let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
         sobj = JSON.parse(sobj);
-        sobj.cityData = null;
-        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(sobj));
+        if (sobj?.cityData) {
+          sobj.cityData = null;
+          sessionItemRoyal.set(
+            'rc-homeDeliveryAndPickup',
+            JSON.stringify(sobj)
+          );
+        }
         this.scrollToTop();
       }
     );
