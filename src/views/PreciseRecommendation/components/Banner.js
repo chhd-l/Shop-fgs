@@ -273,7 +273,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                           style={{
                             fontSize: '40px',
                             textTransform: 'uppercase',
-                            fontWeight: '700',
+                            fontWeight: '550',
                             textAlign: 'left'
                           }}
                         >
@@ -336,7 +336,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                 style={{
                                   color: '#444',
                                   fontSize: '37px',
-                                  fontWeight: '600',
+                                  fontWeight: '550',
                                   margin: '-8px 0'
                                 }}
                               >
@@ -357,17 +357,16 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                                 style={{
                                   color: '#008900',
                                   fontSize: '24px',
-                                  fontWeight: '600',
-                                  whiteSpace: 'nowrap'
+                                  fontWeight: '550',
+                                  textAlign: 'left',
+                                  width: '380px'
                                 }}
                               >
                                 -25%{' '}
                                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />{' '}
-                                <span
-                                  style={{ color: '#444', fontWeight: 300 }}
-                                >
+                                <a style={{ color: '#444', fontWeight: 300 }}>
                                   *
-                                </span>
+                                </a>
                               </div>
                               {loginStore.isLogin ? (
                                 <button
@@ -557,9 +556,10 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
         <div className="rc-column">
           {productShowInfo.provenBenefits?.map((item) => (
             <div className="d-flex">
-              <div className="rc-padding-right--xs" style={{ width: '78px' }}>
+              <div className="rc-padding-right--xs">
                 <LazyLoad>
                   <img
+                    style={{ width: '70px' }}
                     // style={{ transform: 'scale(0.7)', transformOrigin: 'top' }}
                     src={`${
                       window.__.env.REACT_APP_EXTERNAL_ASSETS_PREFIX
