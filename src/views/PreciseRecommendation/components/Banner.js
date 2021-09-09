@@ -9,6 +9,13 @@ import { sitePurchase } from '@/api/cart';
 import LoginButton from '@/components/LoginButton';
 import './Banner.less';
 import productImg from '@/assets/images/preciseCatNutrition/productimg.png';
+import product1 from '../image/product1.png';
+import product2 from '../image/product2.png';
+import product3 from '../image/product3.png';
+import product4 from '../image/product4.png';
+import lefticon from '../image/lefticon.png';
+import righticon from '../image/righticon.png';
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -42,7 +49,10 @@ const BannerFour = ({ intl }) => {
       }}
     >
       {bannerList.map((el, idx) => (
-        <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
+        <div
+          className={`${isMobile ? 'col-6' : 'col-3'}`}
+          style={isMobile ? { marginBottom: '10px' } : {}}
+        >
           <LazyLoad>
             <img
               className="m-auto"
@@ -63,6 +73,25 @@ const BannerFour = ({ intl }) => {
   );
 };
 
+const bannerProductList = [
+  {
+    imageSrc: product1,
+    imageCurrent: 0
+  },
+  {
+    imageSrc: product2,
+    imageCurrent: 1
+  },
+  {
+    imageSrc: product3,
+    imageCurrent: 2
+  },
+  {
+    imageSrc: product4,
+    imageCurrent: 3
+  }
+];
+
 const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const { loginStore, configStore, checkoutStore, clinicStore } = useLocalStore(
     () => stores
@@ -70,6 +99,9 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
   const [totalWeight, setTotalWeight] = useState('');
   const [loading, setLoading] = useState(false);
   const [addCartBtnStatus, setAddCartBtnStatus] = useState(false);
+
+  const [imageCurrent, setImageCurrent] = useState(0);
+
   useEffect(() => {
     if (!recommData.totalPackWeight) {
       return;
@@ -210,13 +242,29 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                             // src={productImg}
                           />
                         </LazyLoad>
-                        <LazyLoad>
-                          <img
-                            style={{ width: '100px', marginLeft: '-90%' }}
-                            src={productImg}
-                            // src={productImg}
-                          />
-                        </LazyLoad>
+                        <div className="row">
+                          <div className="col-1 flex align-self-center">
+                            <LazyLoad>
+                              <img src={lefticon} style={{ width: '10px' }} />
+                            </LazyLoad>
+                          </div>
+                          {bannerProductList.map((index) => (
+                            <div>
+                              <LazyLoad>
+                                <img
+                                  style={{ width: '90px', margin: '5px' }}
+                                  src={index.imageSrc}
+                                  // src={productImg}
+                                />
+                              </LazyLoad>
+                            </div>
+                          ))}
+                          <div className="col-1 flex align-self-center">
+                            <LazyLoad>
+                              <img src={righticon} style={{ width: '10px' }} />
+                            </LazyLoad>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="rc-column rc-triple-width">
@@ -245,7 +293,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
                               style={{ lineHeight: '24px' }}
                             >
                               <FormattedMessage id="preciseNutrition.banner.des1" />
-                              ,
+                              .{' '}
                               <FormattedMessage
                                 id={productShowInfo.recoSentence}
                               />
@@ -386,7 +434,7 @@ const Banner = ({ productShowInfo, intl, recommData, history }) => {
             className="rc-margin-y--lg  text-left"
             style={{ lineHeight: '24px' }}
           >
-            <FormattedMessage id="preciseNutrition.banner.des1" />,
+            <FormattedMessage id="preciseNutrition.banner.des1" />.{' '}
             <FormattedMessage id={productShowInfo.recoSentence} />
           </div>
           <LazyLoad>

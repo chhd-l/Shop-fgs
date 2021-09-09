@@ -1967,7 +1967,7 @@ const fr_FR = {
   // 'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'En savoir plus',
   'preciseNutrition.bannertext1': 'Paiement sécurisé',
-  'preciseNutrition.bannertext2': 'Satisfait remboursé',
+  'preciseNutrition.bannertext2': 'Satisfait ou remboursé',
   'preciseNutrition.bannertext3': 'Qualité premium',
   'preciseNutrition.bannertext4': 'Livraison en 3 jours ouvrés offerte',
   'preciseNutrition.banner.names': "L'aliment et la portion adaptées à {val}",
