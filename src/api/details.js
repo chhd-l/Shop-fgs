@@ -6,6 +6,7 @@ const api = {
   // details: '/goods/unLogin/spu',
   loginDetails: '/goods/spu',
   detailsBySpu: '/goods/spu_no',
+  detailsBySpuIgnoreDisplayFlag: '/goods/ignoreDisplayFlag/spu_no',
   goodsRelation: '/goodsRelation'
 };
 
@@ -28,6 +29,14 @@ export function getLoginDetails(parameter) {
 export function getDetailsBySpuNo(parameter) {
   return axios({
     url: `${api.detailsBySpu}/${parameter}`,
+    method: 'get'
+  });
+}
+
+// display为no的时候也需要查询到商品详情数据
+export function getDetailsBySpuNoIgnoreDisplayFlag(parameter) {
+  return axios({
+    url: `${api.detailsBySpuIgnoreDisplayFlag}/${parameter}`,
     method: 'get'
   });
 }

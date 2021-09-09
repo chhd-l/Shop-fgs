@@ -179,6 +179,19 @@ class DetailsDisplay extends React.Component {
                               <p>
                                 <FormattedMessage id="preciseNutrition.Details.content3.2" />
                               </p>
+                              <p>
+                                <a
+                                  // type="button"
+                                  className="mb-3 rc-padding-x--md--mobile"
+                                  style={{
+                                    fontWeight: '550',
+                                    textDecoration: 'underline'
+                                  }}
+                                  onClick={() => this.handleClick()}
+                                >
+                                  <FormattedMessage id="preciseNutrition.Details.link" />
+                                </a>
+                              </p>
                             </div>
                           </div>
                           <div className="col-12 col-md-6 order-1 order-md-0  orderJoin1 rc-padding-right--none--desktop rc-padding--none--mobile">
@@ -241,17 +254,6 @@ class DetailsDisplay extends React.Component {
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-left rc-margin-y--none rc-padding-x--sm--desktop">
-                        <a
-                          // type="button"
-                          className="mb-3 rc-padding-x--md--mobile"
-                          style={{
-                            fontWeight: '550',
-                            textDecoration: 'underline'
-                          }}
-                          onClick={() => this.handleClick()}
-                        >
-                          <FormattedMessage id="preciseNutrition.Details.link" />
-                        </a>
                         {isMobile ? (
                           <p
                             className="heading-block-content rc-padding-x--md"
@@ -269,7 +271,7 @@ class DetailsDisplay extends React.Component {
                             className="heading-block-content"
                             style={{
                               color: 'rgb(102, 102, 102)',
-                              fontSize: '14px'
+                              fontSize: '12px'
                             }}
                           >
                             <div>
