@@ -197,14 +197,15 @@ function AboutPet() {
             'nutrition-recommendation-filter',
             res.context ? JSON.stringify(res.context) : ''
           );
+          history.push('/precise-cat-nutrition-recommendation');
         } catch (err) {
           console.log(err);
           setResult('redirectToProductFinder');
           return;
         }
       }
-      putDataLayer(result.context);
       setResult(result.context.next);
+      putDataLayer(result.context);
     }
     setDefaultValue({});
     setLoading(false);
@@ -257,7 +258,6 @@ function AboutPet() {
         );
         break;
       case 'printSPTProducts':
-        history.push('/precise-cat-nutrition-recommendation');
         return <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />;
         break;
     }
@@ -308,7 +308,7 @@ function AboutPet() {
           <FormattedMessage id="nutritionalRecommendation" />
         </div>
       </div>
-      <div className="questionnaire-box" style={{ minWidth: 320 }}>
+      <div className="questionnaire-box" style={{ minWidth: 260 }}>
         {loading ? (
           <span className="mt-4">
             <Skeleton color="#f5f5f5" width="100%" height="3%" count={6} />

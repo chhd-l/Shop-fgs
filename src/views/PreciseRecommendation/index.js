@@ -100,6 +100,8 @@ class PreciseRecommendation extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
+    console.log(window);
     setSeoConfig({ pageName: 'preciseRecommendation' }).then((res) => {
       this.setState({ seoConfig: res });
     });

@@ -67,7 +67,7 @@ const HelpComponents = (props) => {
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
-                  <h2 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                  <h2 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"  style={{fontSize:28}}>
                     <FormattedMessage id="PreciseCatNutrition.Help.title" />
                   </h2>
                 </div>
@@ -163,9 +163,9 @@ const HelpComponents = (props) => {
                                     {/*as possible and within 12 hours*/}
                                     <FormattedMessage id="ClubLP.Help.email.content" />
                                   </p>
-                                  <DistributeHubLinkOrATag
+                                  <a
                                     href={
-                                      '/serviceclients.france@royalcanin.com'
+                                      'mailto:serviceclients.france@royalcanin.com'
                                     }
                                     ariaLabel="Links to contact us"
                                   >
@@ -178,7 +178,7 @@ const HelpComponents = (props) => {
                                     >
                                       <FormattedMessage id="ClubLP.Help.email.address" />
                                     </p>
-                                  </DistributeHubLinkOrATag>
+                                  </a>
                                 </div>
                               </div>
                               <div className="rc-column rc-content-v-middle">

@@ -87,7 +87,7 @@ const HelpComponentsNew = (props) => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <p>{firstText.content}</p>
+                <p style={{ marginBottom: '90px' }}>{firstText.content}</p>
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="ClubLP.Help.title" />
@@ -308,17 +308,17 @@ const HelpComponentsNew = (props) => {
                       {lastText.title}
                     </h4>
                   </div>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     <span>
                       {/*<FormattedMessage id="ClubLP.Help.subtitle1" />*/}
                       {lastText.fline}
                     </span>
                   </p>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
                     {lastText.sline}
                   </p>
-                  <p>
+                  <p style={{ marginBottom: 0 }}>
                     {/*<FormattedMessage id="ClubLP.Help.subtitle2" />*/}
                     {lastText.tline}
                   </p>

@@ -253,6 +253,12 @@ class AddressList extends React.Component {
       behavior: 'smooth'
     });
   };
+  scrollToTitle = () => {
+    let pstit = document.getElementById('profile-subform-title');
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   // 选择地址项并设置边框
   handleClickCoverItem(item) {
     const { allAddressList } = this.state;
@@ -276,7 +282,7 @@ class AddressList extends React.Component {
         pickupVisible: true,
         editFormVisible: false
       });
-      this.scrollToTop();
+      this.scrollToTitle();
     } else {
       this.changeEditFormVisible(true);
       this.setState({
@@ -290,6 +296,10 @@ class AddressList extends React.Component {
   }
   // 取消编辑或者新增地址
   cancelEditForm = () => {
+    let pstit = document.getElementById('profile-personal-info');
+    if (pstit) {
+      pstit.scrollIntoView({ behavior: 'smooth' });
+    }
     this.changeEditFormVisible(false);
   };
   // 获取保存地址返回的提示成功信息
@@ -325,7 +335,7 @@ class AddressList extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     let { allAddressList } = this.state;
     el.confirmTooltipVisible = false;
-    this.scrollToTop();
+    this.scrollToTitle();
     this.setState({
       listLoading: true,
       allAddressList
@@ -376,7 +386,7 @@ class AddressList extends React.Component {
       myAccountPushEvent('Addresses');
       this.changeEditFormVisible(true);
     }
-    this.scrollToTop();
+    this.scrollToTitle();
     this.setState({
       addressAddOrEditFlag: 'add'
     });
@@ -454,7 +464,7 @@ class AddressList extends React.Component {
   // 地址项详细
   addressItemDetail = (item, i) => {
     const { countryList } = this.state;
-    console.log('666 >>> selected: ', item.selected);
+    // console.log('666 >>> selected: ', item.selected);
     return (
       <CardItem
         data={item}
@@ -703,12 +713,12 @@ class AddressList extends React.Component {
 
       let res = await tmpPromise(deliveryAdd);
       if (res.context?.deliveryAddressId) {
-        this.scrollToTop();
+        this.scrollToTitle();
         this.getAddressList();
         this.handleCancelEditOrAddPickup();
       }
     } catch (err) {
-      this.scrollToTop();
+      this.scrollToTitle();
       this.showErrorMsg(err.message);
     } finally {
       this.setState({
@@ -743,9 +753,12 @@ class AddressList extends React.Component {
         ) : (
           <div className="border">
             {loading ? <Loading positionAbsolute="true" /> : null}
-            <div className="personalInfo">
+            <div className="personalInfo" id="profile-personal-info">
               {/* 地址模块标题 */}
-              <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+              <div
+                className="profileSubFormTitle pl-3 pr-3 pt-3"
+                id="profile-subform-title"
+              >
                 <h5 className="mb-0">
                   <svg
                     className="svg-icon account-info-icon align-middle mr-3 ml-1"

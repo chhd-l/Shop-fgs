@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import benefitsone from '../images/picto_right-diet.png';
 import benefitstwo from '../images/picto_individualize-ration2.png';
 import benefitsthree from '../images/picto_nutrients.png';
-import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
+// import topCat from '../images/BRITISH_SHORTHAIR_ADULT___WEIGHT_MANAGEMENT_EMBLEMATIC_Low_Res.___Web-removebg-preview.png';
+ import topCat from '../images/pfCat.png';
 import topCatEat from '../images/SacKRAFT-RVB-bis-det.png';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import clublogo from '../images/img.png';
@@ -48,16 +49,16 @@ const LongBanner = () => {
                     {/*WEIGHT !*/}
                   </h1>
 
-                  <p style={{ fontSize: '0.6em', color: '#555555', margin: 0 }}>
+                  <p style={{ fontSize: '0.7em', color: '#555555', margin: 0 }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice1" />
                   </p>
                   <strong style={{ color: '#000000' }}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice2" />
                   </strong>
-                  <sup style={{ color: '#666666', fontSize: 16, top: '-1em' }}>
+                  <sup style={{ color: '#666666', fontSize: 14, top: '-1em' }}>
                     [1]
                   </sup>
-                  <p style={{ color: '#555555' }}>
+                  <p style={{ color: '#555555',fontSize:'0.7em'}}>
                     <FormattedMessage id="PreciseCatNutrition.LongBanner.averagePrice3" />
                   </p>
                   <a
@@ -159,9 +160,9 @@ const LongBanner = () => {
         {/*    </div>*/}
         {/*  </div>*/}
         {/*</div>*/}
-
+        <div className="rc-max-width--xl rc-padding-x--md flex justify-content-center align-items-center">
         <div
-          className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
+          className=" rc-padding-x--md rc-padding-x--md--mobile three-column-content-block longBannerTopPic"
           style={{
             boxShadow: 'darkgrey 10px 150px 230px 100px'
           }}
@@ -169,7 +170,7 @@ const LongBanner = () => {
           <div className="col mx-0 d-flex justify-content-between align-items-end align-content-center relative ">
             <img
               className={'topCat'}
-              style={{ zIndex: isMobile ? -100 : null }}
+              style={{ zIndex: isMobile ? -100 : 0 }}
               src={topCat}
             />
             <img className={'topCatEat'} src={topCatEat} />
@@ -185,22 +186,22 @@ const LongBanner = () => {
                 zIndex: 2
               }}
             >
-              <p>{' '}</p>
-              <h3 className={"RadiusText1"}>-25%</h3>
-              <h6 className={"RadiusText2"}>
+              <p> </p>
+              <h3 className={'RadiusText1 font-weight-normal'}>-25%</h3>
+              <h6 className={'RadiusText2 font-weight-normal'}>
                 <FormattedMessage id="PreciseCatNutrition.LongBanner.redRadius" />
               </h6>
             </div>
           </div>
           <div className="rc-bg-colour--brand3" id="benefits-box">
             <div className="rc-full-width">
-              <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <h4
-                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm"
-                  style={{ position: 'relative', zIndex: 10 }}
+              <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
+                <h2
+                  className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
+                  style={{ position: 'relative', zIndex: 10 ,fontSize:28}}
                 >
                   <FormattedMessage id="PreciseCatNutrition.LongBanner.secondTitle" />
-                </h4>
+                </h2>
 
                 <div className="value-proposition__container">
                   <div className="row mx-0 justify-content-between rc-text-align-center">
@@ -209,9 +210,9 @@ const LongBanner = () => {
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
-                          <LazyLoad height={200}>
+                          <LazyLoad height={200} className="flex justify-content-center align-items-center">
                             <img
-                              className="value-proposition__img lazyloaded"
+                              className="value-proposition__img1 lazyloaded"
                               src={benefitsone}
                             />
                           </LazyLoad>
@@ -230,9 +231,9 @@ const LongBanner = () => {
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
-                          <LazyLoad height={200}>
+                          <LazyLoad height={200}  className="flex justify-content-center align-items-center">
                             <img
-                              className="value-proposition__img lazyloaded"
+                              className="value-proposition__img1 lazyloaded"
                               src={benefitstwo}
                             />
                           </LazyLoad>
@@ -251,9 +252,9 @@ const LongBanner = () => {
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
-                          <LazyLoad height={200}>
+                          <LazyLoad height={200}  className="flex justify-content-center align-items-center">
                             <img
-                              className="value-proposition__img lazyl oaded"
+                              className="value-proposition__img1 lazyl oaded"
                               src={benefitsthree}
                             />
                           </LazyLoad>
@@ -272,6 +273,7 @@ const LongBanner = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </>

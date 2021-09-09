@@ -44,6 +44,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     deliveryOrPickUp: 0,
     intlMessages: '',
     pickupEditNumber: 0,
+    updateShippingMethodType: () => {},
     updateDeliveryOrPickup: () => {},
     updatePickupEditNumber: () => {},
     updateConfirmBtnDisabled: () => {},
@@ -68,6 +69,7 @@ class HomeDeliveryOrPickUp extends React.Component {
         firstName: '',
         lastName: '',
         phoneNumber: '',
+        consigneeNumber: '',
         comment: '',
         address1: '',
         city: '',
@@ -186,7 +188,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
 
     let defaultCity = this.props.defaultCity;
-    // console.log('666 defaultCity : ', defaultCity);
+    console.log('666 >>> defaultCity : ', defaultCity);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
@@ -210,7 +212,7 @@ class HomeDeliveryOrPickUp extends React.Component {
           searchNoResult: true
         });
       }
-    } else if (sitem?.homeAndPickup.length && pickupEditNumber > 0) {
+    } else if (sitem?.homeAndPickup?.length && pickupEditNumber > 0) {
       // 初始化数据，本地存储有数据（当前会话未结束）
       let stype = '';
       let newobj = [];
@@ -233,7 +235,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState(
         {
           selectedItem: sitem,
-          pickupCity: sitem?.cityData?.city || ''
+          pickupCity: sitem?.cityData?.city || defaultCity
         },
         () => {
           if (isSelectedItem) {
@@ -516,6 +518,8 @@ class HomeDeliveryOrPickUp extends React.Component {
       flag = true;
       this.sendMsgToIframe();
     }
+    // 设置 shippingMethodType
+    this.props.updateShippingMethodType(val);
     // 设置是否显示pickup
     this.props.updateDeliveryOrPickup(flag ? 2 : 1);
     // 设置按钮状态
@@ -523,7 +527,7 @@ class HomeDeliveryOrPickUp extends React.Component {
 
     let pkobj = {
       city: sitem?.cityData?.city || [],
-      item: pickupItem,
+      calculation: pickupItem,
       maxDeliveryTime: pickupItem?.maxDeliveryTime || 0,
       minDeliveryTime: pickupItem?.minDeliveryTime || 0,
       receiveType: flag ? 'PICK_UP' : 'HOME_DELIVERY'
@@ -628,6 +632,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     try {
       await validData(pickupForm.formRule, pickupForm);
       this.props.updateConfirmBtnDisabled(false);
+      pickupForm.consigneeNumber = pickupForm.phoneNumber;
       this.props.updateData(pickupForm);
     } catch {
       this.props.updateConfirmBtnDisabled(true);

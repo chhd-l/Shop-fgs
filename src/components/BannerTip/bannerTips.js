@@ -72,7 +72,6 @@ const bannerTips = () => {
       consentId = searchList[1].split('=')[1];
       uuid = searchList[2].split('=')[1];
     }
-
     if (customerId && consentId && uuid) {
       mktCallBack({ customerId, consentId, uuid }).then((res) => {
         if (res.context && res.context.customerActivateStatus) {
@@ -82,7 +81,7 @@ const bannerTips = () => {
         }
         return showFiveSeconds();
       });
-    } else if (oktaSessionToken) {
+    } else if (oktaSessionToken && isLogin) {
       let mtkOktaKey = 'already-show-MKT_' + oktaSessionToken;
       const alreadyShowMkt = localItemRoyal.get(mtkOktaKey);
       if (alreadyShowMkt === 'true') {
@@ -112,7 +111,7 @@ const bannerTips = () => {
   }
 
   useEffect(() => {
-    if (window.__.env.REACT_APP_COUNTRY === 'de' && isLogin) {
+    if (window.__.env.REACT_APP_COUNTRY === 'de') {
       const timeId = ShowMKTMessage();
       return () => {
         clearTimeout(timeId);

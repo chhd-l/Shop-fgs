@@ -87,6 +87,7 @@ class Form extends React.Component {
         stateId: '',
         postCode: '',
         phoneNumber: '',
+        consigneeNumber: '',
         entrance: '',
         apartment: '',
         comment: '',
@@ -812,8 +813,8 @@ class Form extends React.Component {
     } else {
       newForm.formRule = newForm.formRuleOther;
     }
-
-    // console.log('666 >>>>>> newForm: ', newForm);
+    newForm.consigneeNumber = newForm.phoneNumber;
+    // console.log('666 >>> newForm: ', newForm);
     // console.log('666 >>>>>> initData: ', this.props.initData);
     // console.log('666 isDeliveryDateAndTimeSlot: ', isDeliveryDateAndTimeSlot);
     this.props.updateData(newForm);

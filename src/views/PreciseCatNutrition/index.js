@@ -137,6 +137,7 @@ class PreciseCatNutrition extends React.Component {
             {/*</div>*/}
 
             <LongBanner />
+            <br/>
             {/*<div style={{*/}
             {/*  height: 828,*/}
             {/*  background: "linear-gradient(white, #d8d8d8)",*/}
@@ -157,17 +158,19 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-assets-headingBlock">
                     <div className="rc-max-width--lg text-center rc-margin-top--md">
                       <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                        <div className={'row w-100'}>
+                        <div className={'row w-100 rc-margin-x--none--mobile'}>
                           <div
-                            className={'col-12 col-md-4 text-md-right relative nowrap'}
+                            className={
+                              'col-12 col-md-4 text-md-right relative nowrap'
+                            }
                             style={{
                               display: 'inline',
                               marginBottom: isMobile ? 15 : null,
-                              paddingRight: isMobile ? null :0,
-                              paddingLeft: isMobile ? null :30,
+                              paddingRight: isMobile ? null : 0,
+                              paddingLeft: isMobile ? null : 30
                             }}
                           >
-                            <h2 style={{ fontWeight: 700 }}>
+                            <h2 style={{ fontWeight: 700 }} className="h2style">
                               {' '}
                               {/*DID*/}
                               {/*SAVIE-*/}
@@ -185,17 +188,17 @@ class PreciseCatNutrition extends React.Component {
                                 <div
                                   className="titleRadius"
                                   style={{
-                                    width:"24.2%",
+                                    width: '24.2%',
                                     fontSize: 18,
-                                    textAlign:'center',
+                                    textAlign: 'center',
                                     backgroundColor: 'white',
                                     color: '#E2001A',
                                     display: 'inline',
                                     borderRadius: '50%',
                                     position: 'absolute',
                                     left: -15,
-                                    top: isMobile?12:15,
-                                    padding: "5px 1px",
+                                    top: isMobile ? 12 : 15,
+                                    padding: '5px 1px',
                                     fontWeight: 500,
                                     lineHeight: '18px'
                                   }}
@@ -203,18 +206,16 @@ class PreciseCatNutrition extends React.Component {
                                   {/*You*/}
                                   LE
                                 </div>
-                                {/*{' '} KNOW?*/}
-                                {' '}SAVIEZ
-                                <div className={'whiteRed'}>
-                                </div>
+                                {/*{' '} KNOW?*/} SAVIEZ
+                                <div className={'whiteRed'}></div>
                               </div>
-                              VOUS?
+                              VOUS ?
                             </h2>
                           </div>
                           <div className={'col-12 col-md-8 text-md-left'}>
-                            <h2 className="font-weight-bold">
+                            <h2 className="font-weight-bold h2style">
                               {/*THAT HEAlTH IS NOT ONE SIZE FITS ALL*/}
-                              CHAQUE CHAT A DES BESOINS SPÉCIFIQUES ?
+                              CHAQUE CHAT A DES BESOINS SPÉCIFIQUES
                             </h2>
                           </div>
                         </div>
@@ -311,6 +312,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
+            <br/>
             {isMobile ? null : <Divider />}
 
             <div className="experience-component experience-layouts-1column">
@@ -320,7 +322,7 @@ class PreciseCatNutrition extends React.Component {
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg rc-padding-x--md text-center rc-margin-top--md">
                         <div className="rc-beta text-center  rc-margin-bottom--lg--mobile">
-                          <h2 className="font-weight-bold">
+                          <h2 className="font-weight-bold h2style">
                             {/*{' '}*/}
                             {/*AN ADAPTED FOOD FOR YOUR CAT HEALTH & WELLBEING{' '}*/}
                             <FormattedMessage id="PreciseCatNutrition.AdaptedFood.title" />
@@ -334,7 +336,12 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph1" />
+                            <FormattedMessage
+                              id="PreciseCatNutrition.AdaptedFood.paragraph1"
+                              values={{
+                                val1: <a style={{ fontSize: 12 }}>**</a>
+                              }}
+                            />
                           </span>
                         </p>
                         <p
@@ -407,7 +414,7 @@ class PreciseCatNutrition extends React.Component {
                                   </div>
                                 </li>
                               </ul>
-                              <a style={{ color: 'grey' }}>
+                              <a style={{ color: 'grey', fontSize: 12 }}>
                                 <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph3" />
                               </a>
                               <div
@@ -417,7 +424,7 @@ class PreciseCatNutrition extends React.Component {
                                     ? {
                                         position: 'absolute',
                                         marginTop: '100%',
-                                        marginLeft: '11%'
+                                        marginLeft: '5%'
                                       }
                                     : null
                                 }
@@ -446,22 +453,28 @@ class PreciseCatNutrition extends React.Component {
                 </div>
               </div>
 
-              <div>
+              <div className="rc-max-width--xl rc-padding-x--md rc-padding-x--md--mobile flex flex-column align-items-center justify-content-center">
                 <Subscription />
                 <br />
                 <br />
-                <br />
-
+                <br/>
                 <HowItWorks />
-                <br id="aboutPet"/>
                 <br />
-
               </div>
 
               <div className={'preciseCatNutritionTop'}>
                 <div className="row rc-margin-x--none">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-contentBlock">
+                      <div style={{ position: 'relative' }}>
+                        <div
+                          id="aboutPet"
+                          style={{
+                            position: 'absolute',
+                            marginTop: isMobile ? '-60px' : '-100px'
+                          }}
+                        ></div>
+                      </div>
                       <AboutPet />
                     </div>
                   </div>
@@ -475,10 +488,10 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-top--xl--mobile text-center">
                       <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
-                        <p style={{ marginBottom: 0 }}>
+                        <p style={{ marginBottom: 0,fontSize:12}}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
-                        <p>
+                        <p style={{fontSize:12}}>
                           <FormattedMessage id="PreciseCatNutrition.Notes2" />
                         </p>
                       </div>
@@ -496,7 +509,7 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                       <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-bottom--lg--mobile value-proposition">
                         <div>
-                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile">
+                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile" style={{fontSize:27}}>
                             {/*Address*/}
                             <FormattedMessage id="preciseNutrition.Address.title" />
                           </h4>
