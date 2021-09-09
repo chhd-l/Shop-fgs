@@ -667,7 +667,7 @@ const en_US = {
   'ind.IND10003.title3': 'STOOL ODOUR REDUCTION',
   'ind.IND10003.des3':
     'Contains highly digestible protein (L.I.P.)* and helps reduce the quantity and odour of stools. {val} *L.I.P.: protein selected for its very high digestibility',
-  'ind.IND10003.img3': 'image5.png',
+  'ind.IND10003.img3': 'image35.png',
   'ind.IND10003.title4': 'URINARY HEALTH',
   'ind.IND10003.des4':
     "Formulated to help maintain health of an adult cat's urinary system.",
@@ -680,7 +680,7 @@ const en_US = {
   'ind.IND10004.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10004.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10004.img2': 'image5.png',
+  'ind.IND10004.img2': 'image35.png',
   'ind.IND10004.title3': 'SKIN & COAT HEALTH',
   'ind.IND10004.des3':
     'Contains specific nutrients including EPA and DHA to help maintain a healthy skin and a shiny coat.',
@@ -697,7 +697,7 @@ const en_US = {
   'ind.IND10005.title2': 'STOOL ODOUR REDUCTION',
   'ind.IND10005.des2':
     'Highly digestible protein helps reduce the quantity and odour of stools.',
-  'ind.IND10005.img2': 'image5.png',
+  'ind.IND10005.img2': 'image35.png',
   'ind.IND10005.title3': 'RENAL HEALTH',
   'ind.IND10005.des3':
     'Helps support renal health thanks to an adapted phosphorus level.',

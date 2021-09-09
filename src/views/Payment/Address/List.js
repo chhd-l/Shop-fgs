@@ -1537,8 +1537,13 @@ class AddressList extends React.Component {
         // 修改本地存储的信息
         let sobj = sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
         sobj = JSON.parse(sobj);
-        sobj.cityData = null;
-        sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(sobj));
+        if (sobj?.cityData) {
+          sobj['cityData'] = null;
+          sessionItemRoyal.set(
+            'rc-homeDeliveryAndPickup',
+            JSON.stringify(hpobj)
+          );
+        }
       }
     );
   };
