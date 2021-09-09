@@ -49,7 +49,10 @@ const BannerFour = ({ intl }) => {
       }}
     >
       {bannerList.map((el, idx) => (
-        <div className={`${isMobile ? 'col-6' : 'col-3'}`}>
+        <div
+          className={`${isMobile ? 'col-6' : 'col-3'}`}
+          style={isMobile ? { marginBottom: '10px' } : {}}
+        >
           <LazyLoad>
             <img
               className="m-auto"
