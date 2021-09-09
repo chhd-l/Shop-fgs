@@ -106,7 +106,7 @@ const ButtonGroup = ({
               </span>
             </button>
           ) : null}
-          {/* {isShowRetailerBtn ? (
+          {isShowRetailerBtn ? (
             <BuyFromRetailerBtn
               // ccidBtnDisplay={ccidBtnDisplay}
               barcode={barcode}
@@ -114,7 +114,7 @@ const ButtonGroup = ({
               onClick={handleBuyFromRetailer}
               // ref={(el) => this.ccidBtnRef(el)}
             />
-          ) : null} */}
+          ) : null}
         </div>
       </div>
     </div>
