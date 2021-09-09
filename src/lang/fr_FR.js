@@ -161,7 +161,7 @@ const fr_FR = {
     'Contient des protéines hautement digestibles (L.I.P.)* et aide à réduire le volume et les odeurs des selles. {val} {italicSentence}',
   'ind.IND10003.italicSentence3':
     '*L.I.P. : protéines sélectionnées pour leur très haute digestibilité',
-  'ind.IND10003.img3': 'image25.png',
+  'ind.IND10003.img3': 'image35.png',
   'ind.IND10003.title4': 'SANTÉ URINAIRE',
   'ind.IND10003.des4':
     'Formulé pour contribuer à la bonne santé du système urinaire du chat adulte.',
@@ -174,7 +174,7 @@ const fr_FR = {
   'ind.IND10004.title2': 'RÉDUCTION DES ODEURS DE SELLES',
   'ind.IND10004.des2':
     'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
-  'ind.IND10004.img2': 'image25.png',
+  'ind.IND10004.img2': 'image35.png',
   'ind.IND10004.title3': 'SANTÉ DE LA PEAU ET DU PELAGE',
   'ind.IND10004.des3':
     'Contient des nutriments spécifiques, dont des acides EPA et DHA, pour aider à maintenir la santé de la peau et la brillance du pelage.',
@@ -191,7 +191,7 @@ const fr_FR = {
   'ind.IND10005.title2': 'RÉDUCTION DES ODEURS DE SELLES',
   'ind.IND10005.des2':
     'Des protéines hautement digestibles aident à réduire le volume et les odeurs des selles.',
-  'ind.IND10005.img2': 'image25.png',
+  'ind.IND10005.img2': 'image35.png',
   'ind.IND10005.title3': 'SANTÉ RÉNALE',
   'ind.IND10005.des3':
     'Aide à maintenir la bonne santé rénale grâce à un niveau de phosphore adapté.',
