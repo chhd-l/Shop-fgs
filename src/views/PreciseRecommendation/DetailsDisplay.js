@@ -257,7 +257,7 @@ class DetailsDisplay extends React.Component {
                             className="heading-block-content rc-padding-x--md"
                             style={{
                               color: 'rgb(102, 102, 102)',
-                              fontSize: '14px'
+                              fontSize: '12px'
                             }}
                           >
                             <div>
@@ -269,7 +269,7 @@ class DetailsDisplay extends React.Component {
                             className="heading-block-content"
                             style={{
                               color: 'rgb(102, 102, 102)',
-                              fontSize: '14px'
+                              fontSize: '12px'
                             }}
                           >
                             <div>

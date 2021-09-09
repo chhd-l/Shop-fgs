@@ -188,7 +188,7 @@ class HomeDeliveryOrPickUp extends React.Component {
     sitem = JSON.parse(sitem);
 
     let defaultCity = this.props.defaultCity;
-    // console.log('666 defaultCity : ', defaultCity);
+    console.log('666 >>> defaultCity : ', defaultCity);
 
     // 有默认city且无缓存 或者 有缓存且是否有订阅商品发生改变
     let pickupEditNumber = this.props.pickupEditNumber;
@@ -212,7 +212,7 @@ class HomeDeliveryOrPickUp extends React.Component {
           searchNoResult: true
         });
       }
-    } else if (sitem?.homeAndPickup.length && pickupEditNumber > 0) {
+    } else if (sitem?.homeAndPickup?.length && pickupEditNumber > 0) {
       // 初始化数据，本地存储有数据（当前会话未结束）
       let stype = '';
       let newobj = [];
@@ -235,7 +235,7 @@ class HomeDeliveryOrPickUp extends React.Component {
       this.setState(
         {
           selectedItem: sitem,
-          pickupCity: sitem?.cityData?.city || ''
+          pickupCity: sitem?.cityData?.city || defaultCity
         },
         () => {
           if (isSelectedItem) {
