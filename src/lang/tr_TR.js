@@ -1226,7 +1226,7 @@ const tr_TR = {
   addedtoCart: 'Sepete Eklendi',
   goToCart: 'Sepete Git',
   'order.inTranistTip':
-    'Siparişiniz gönderildi ve ürünü yakında alacaksınız {val}',
+    'Siparişiniz gönderildi ve ürünü yakında alacaksınız. {val}',
   'order.completeTip': 'Paket teslimat adresine elden teslim edildi.',
   paused: 'Duraklatıldı',
   units: 'Adet',
@@ -1348,6 +1348,7 @@ const tr_TR = {
     'Discover the {val} adapted recipe {val} and the exact {val} ration for your cat',
   'plp.retail.cat.filter.specneed.learnmore': 'Learn more',
   'checkout.zeroOrder.butSubscription':
-    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order'
+    '0 Price orders do not support subscription, please change to a one-off purchase to pay this order',
+  'order.viewLogisticDetail': 'Lojistik ayrıntılarını görüntüle'
 };
 export default tr_TR;
