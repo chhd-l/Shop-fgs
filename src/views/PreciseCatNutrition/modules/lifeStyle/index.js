@@ -55,7 +55,12 @@ export default function LifeStyle({ questionData, id }) {
       </div>
       <div
         className="radio-group"
-        style={{ maxWidth: '460px', width: 'auto', flexDirection: 'column' }}
+        style={{
+          maxWidth: '460px',
+          width: 'auto',
+          flexDirection: 'column',
+          margin: '10px 0 20px 0'
+        }}
       >
         {answerList.map((item) => (
           <label

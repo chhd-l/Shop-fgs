@@ -230,6 +230,7 @@ class PayOs extends React.Component {
         })
       },
       () => {
+        console.log('bug');
         this.validFormData();
       }
     );
@@ -243,6 +244,7 @@ class PayOs extends React.Component {
     this.inputBlur(e);
     this.setState({ creditCardInfoForm }, () => {
       this.props.onVisitorCardInfoChange(this.state.creditCardInfoForm);
+      console.log('bug', '2222');
       this.validFormData();
     });
   };
@@ -269,14 +271,17 @@ class PayOs extends React.Component {
     } catch (err) {
       this.setState({ isValid: false });
     } finally {
+      console.log('bug', this.state.isValid);
       this.props.updateFormValidStatus(this.state.isValid);
     }
   }
 
   handleClickCardConfirm = async () => {
+    console.log('bug', '3333');
     try {
       const { isSupportInstallMent } = this.props;
       const { creditCardInfoForm, isValid, isEdit, payosdata } = this.state;
+      console.log('bug', isValid);
       if (!isValid) {
         return false;
       }
@@ -328,6 +333,7 @@ class PayOs extends React.Component {
       // this.props.onInstallMentParamChange(this.state.installMentParam);
       scrollPaymentPanelIntoView();
     } catch (err) {
+      this.setState({ payosdata: null });
       this.props.showErrorMsg(err.message);
       throw new Error();
     } finally {

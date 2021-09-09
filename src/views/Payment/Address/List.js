@@ -362,11 +362,13 @@ class AddressList extends React.Component {
                 let hpobj =
                   sessionItemRoyal.get('rc-homeDeliveryAndPickup') || null;
                 hpobj = JSON.parse(hpobj);
-                hpobj.cityData = null;
-                sessionItemRoyal.set(
-                  'rc-homeDeliveryAndPickup',
-                  JSON.stringify(hpobj)
-                );
+                if (hpobj?.cityData) {
+                  hpobj['cityData'] = null;
+                  sessionItemRoyal.set(
+                    'rc-homeDeliveryAndPickup',
+                    JSON.stringify(hpobj)
+                  );
+                }
                 this.setState({
                   defaultCity: ''
                 });
@@ -1520,7 +1522,6 @@ class AddressList extends React.Component {
     this.setState(
       {
         pickupFormData: Object.assign({}, pickupFormData, pickupAddress[0]),
-        defaultCity: '',
         addOrEditPickup: false,
         deliveryOrPickUpFlag: true,
         showDeliveryOrPickUp: 1, // 0：都没有，1：home delivery，2：pickup

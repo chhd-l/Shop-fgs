@@ -334,7 +334,12 @@ class PreciseCatNutrition extends React.Component {
                           }}
                         >
                           <span>
-                            <FormattedMessage id="PreciseCatNutrition.AdaptedFood.paragraph1" values={{ val1: <a style={{fontSize:14}}>**</a> }}/>
+                            <FormattedMessage
+                              id="PreciseCatNutrition.AdaptedFood.paragraph1"
+                              values={{
+                                val1: <a style={{ fontSize: 14 }}>**</a>
+                              }}
+                            />
                           </span>
                         </p>
                         <p
