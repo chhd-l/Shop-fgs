@@ -189,7 +189,7 @@ class PreciseCatNutrition extends React.Component {
                                   className="titleRadius"
                                   style={{
                                     width: '24.2%',
-                                    fontSize: 18,
+                                    fontSize: 15,
                                     textAlign: 'center',
                                     backgroundColor: 'white',
                                     color: '#E2001A',
@@ -197,8 +197,8 @@ class PreciseCatNutrition extends React.Component {
                                     borderRadius: '50%',
                                     position: 'absolute',
                                     left: -15,
-                                    top: isMobile ? 12 : 15,
-                                    padding: '5px 1px',
+                                    top: 10,
+                                    padding: '4px 1px',
                                     fontWeight: 500,
                                     lineHeight: '18px'
                                   }}

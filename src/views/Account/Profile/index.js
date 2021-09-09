@@ -227,7 +227,10 @@ class AccountProfile extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
           <BannerTip />
           <BreadCrumbs />
-          <div className="rc-padding--sm rc-max-width--xl">
+          <div
+            className="rc-padding--sm rc-max-width--xl"
+            id="rc_myaccount_profile"
+          >
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">

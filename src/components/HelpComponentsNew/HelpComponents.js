@@ -182,14 +182,30 @@ const HelpComponentsNew = (props) => {
                                       </b>
                                     </DistributeHubLinkOrATag>
                                   ) : (
-                                    <Link to="/help/contact">
-                                      <b
-                                        style={{ textDecoration: 'underline' }}
+                                    // <Link to="/help/contact">
+                                    //   <b
+                                    //     style={{ textDecoration: 'underline' }}
+                                    //   >
+                                    //     {list.email.btnText}
+                                    //     {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
+                                    //   </b>
+                                    // </Link>
+                                    <a
+                                      href={
+                                        'mailto:serviceclients.france@royalcanin.com'
+                                      }
+                                      ariaLabel="Links to contact us"
+                                    >
+                                      <p
+                                        style={{
+                                          textDecoration: 'underline',
+                                          fontWeight: 400,
+                                          marginBottom: 0
+                                        }}
                                       >
-                                        {list.email.btnText}
-                                        {/*<FormattedMessage id="ClubLP.Help.email.title" />*/}
-                                      </b>
-                                    </Link>
+                                        <FormattedMessage id="ClubLP.Help.email.address" />
+                                      </p>
+                                    </a>
                                   )}
                                 </div>
                               </div>
