@@ -67,7 +67,10 @@ const HelpComponents = (props) => {
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                 <div>
-                  <h2 className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"  style={{fontSize:28}}>
+                  <h2
+                    className="font-weight-normal rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile"
+                    style={{ fontSize: 28 }}
+                  >
                     <FormattedMessage id="PreciseCatNutrition.Help.title" />
                   </h2>
                 </div>

@@ -137,7 +137,7 @@ class PreciseCatNutrition extends React.Component {
             {/*</div>*/}
 
             <LongBanner />
-            <br/>
+            <br />
             {/*<div style={{*/}
             {/*  height: 828,*/}
             {/*  background: "linear-gradient(white, #d8d8d8)",*/}
@@ -312,7 +312,7 @@ class PreciseCatNutrition extends React.Component {
               </div>
             </div>
 
-            <br/>
+            <br />
             {isMobile ? null : <Divider />}
 
             <div className="experience-component experience-layouts-1column">
@@ -457,7 +457,7 @@ class PreciseCatNutrition extends React.Component {
                 <Subscription />
                 <br />
                 <br />
-                <br/>
+                <br />
                 <HowItWorks />
                 <br />
               </div>
@@ -488,10 +488,10 @@ class PreciseCatNutrition extends React.Component {
                   <div className="experience-component experience-layouts-cardcarousel">
                     <div className="rc-margin-bottom--md rc-margin-top--xl--mobile text-center">
                       <div className="rc-max-width--lg rc-padding-x--lg rc-margin-y--sm rc-margin-y--lg--mobile value-proposition text-left">
-                        <p style={{ marginBottom: 0,fontSize:12}}>
+                        <p style={{ marginBottom: 0, fontSize: 12 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes1" />
                         </p>
-                        <p style={{fontSize:12}}>
+                        <p style={{ fontSize: 12 }}>
                           <FormattedMessage id="PreciseCatNutrition.Notes2" />
                         </p>
                       </div>
@@ -509,7 +509,10 @@ class PreciseCatNutrition extends React.Component {
                     <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
                       <div className="rc-max-width--sm rc-padding-x--md--mobile  rc-margin-bottom--lg--mobile value-proposition">
                         <div>
-                          <h4 className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile" style={{fontSize:27}}>
+                          <h4
+                            className="font-weight-normal rc-beta text-center  rc-margin-bottom--lg--mobile"
+                            style={{ fontSize: 27 }}
+                          >
                             {/*Address*/}
                             <FormattedMessage id="preciseNutrition.Address.title" />
                           </h4>

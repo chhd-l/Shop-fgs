@@ -168,8 +168,7 @@ const SubGoodsInfos = ({
                                 triggerShowChangeProduct,
                                 {
                                   show: true,
-                                  firstShow:
-                                    !triggerShowChangeProduct.firstShow,
+                                  firstShow: !triggerShowChangeProduct.firstShow,
                                   goodsInfo: [el],
                                   isShowModal: true
                                 }
@@ -486,8 +485,7 @@ const SubGoodsInfos = ({
                                       triggerShowChangeProduct,
                                       {
                                         show: true,
-                                        firstShow:
-                                          !triggerShowChangeProduct.firstShow,
+                                        firstShow: !triggerShowChangeProduct.firstShow,
                                         goodsInfo: [el],
                                         isShowModal: true
                                       }

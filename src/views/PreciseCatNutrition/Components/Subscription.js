@@ -44,7 +44,10 @@ const subscription = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--lg--mobile dt pb-3 h2style" style={{fontSize:28}}>
+            <h2
+              className="font-weight-bold rc-beta text-center rc-margin-bottom--lg--mobile dt pb-3 h2style"
+              style={{ fontSize: 28 }}
+            >
               <FormattedMessage id="PreciseCatNutrition.Subscription.title" />
             </h2>
             <div className="value-proposition__container">
