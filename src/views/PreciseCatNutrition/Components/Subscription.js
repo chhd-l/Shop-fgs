@@ -52,9 +52,9 @@ const subscription = () => {
             </h2>
             <div className="value-proposition__container">
               <div className="row mx-0 justify-content-between">
-                <div></div>
+                <div/>
                 <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow  flex-nowrap py-3">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
                       className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
@@ -63,7 +63,7 @@ const subscription = () => {
                         alignItems: 'center'
                       }}
                     >
-                      <LazyLoad height={200}>
+                      <LazyLoad height={75}>
                         <img
                           className="value-proposition__img lazyloaded"
                           src={picto_delivery}
@@ -87,7 +87,7 @@ const subscription = () => {
                         alignItems: 'center'
                       }}
                     >
-                      <LazyLoad height={200}>
+                      <LazyLoad height={75}>
                         <img
                           className="value-proposition__img lazyloaded"
                           src={picto_advisor}
@@ -114,7 +114,7 @@ const subscription = () => {
                         alignItems: 'center'
                       }}
                     >
-                      <LazyLoad height={200}>
+                      <LazyLoad height={75}>
                         <img
                           className="value-proposition__img lazyloaded"
                           src={picto_welcome_pack}
@@ -141,7 +141,7 @@ const subscription = () => {
                         alignItems: 'center'
                       }}
                     >
-                      <LazyLoad height={200}>
+                      <LazyLoad height={75}>
                         <img
                           className="value-proposition__img lazyloaded"
                           src={picto_loyalty_program}
@@ -165,7 +165,7 @@ const subscription = () => {
                         alignItems: 'center'
                       }}
                     >
-                      <LazyLoad height={200}>
+                      <LazyLoad height={75}>
                         <img
                           className="value-proposition__img lazyloaded"
                           src={picto_advice}
@@ -179,7 +179,7 @@ const subscription = () => {
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div/>
               </div>
             </div>
           </div>

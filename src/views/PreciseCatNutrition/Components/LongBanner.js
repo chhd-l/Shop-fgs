@@ -172,6 +172,7 @@ const LongBanner = () => {
                 className={'topCat'}
                 style={{ zIndex: isMobile ? -100 : 0 }}
                 src={topCat}
+                height={214}
               />
               <img className={'topCatEat'} src={topCatEat} />
               <div
@@ -210,7 +211,7 @@ const LongBanner = () => {
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
-                          <LazyLoad height={200} className="justify-content-center align-items-center" style={{ display: 'flex'}}>
+                          <LazyLoad height={143} className="justify-content-center align-items-center" style={{ display: 'flex'}}>
                             <img
                               className="value-proposition__img1 lazyloaded"
                               src={benefitsone}
@@ -231,7 +232,7 @@ const LongBanner = () => {
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
-                          <LazyLoad height={200}  className="justify-content-center align-items-center" style={{ display: 'flex'}}>
+                          <LazyLoad height={143}  className="justify-content-center align-items-center" style={{ display: 'flex'}}>
                             <img
                               className="value-proposition__img1 lazyloaded"
                               src={benefitstwo}
@@ -252,7 +253,7 @@ const LongBanner = () => {
                         <div
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
-                          <LazyLoad height={200}  className="justify-content-center align-items-center" style={{ display: 'flex'}}>
+                          <LazyLoad height={143}  className="justify-content-center align-items-center" style={{ display: 'flex'}}>
                             <img
                               className="value-proposition__img1 lazyl oaded"
                               src={benefitsthree}
