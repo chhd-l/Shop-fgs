@@ -7,7 +7,8 @@ import LazyLoad from 'react-lazyload';
 import './index.css';
 import DistributeHubLinkOrATag from '@/components/DistributeHubLinkOrATag';
 import { Link } from 'react-router-dom';
-
+import { getDeviceType } from '../../utils/utils';
+const isMobile = getDeviceType() === 'H5' || getDeviceType() === 'Pad';
 const ru = window.__.env.REACT_APP_COUNTRY == 'ru';
 const tr = window.__.env.REACT_APP_COUNTRY == 'tr';
 
@@ -87,7 +88,7 @@ const HelpComponentsNew = (props) => {
           <div className="experience-component experience-layouts-cardcarousel">
             <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                <p style={{ marginBottom: '90px' }}>{firstText.content}</p>
+                <p style={{ marginBottom:  isMobile?'60px':'80px' }}>{firstText.content}</p>
                 <div>
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
                     <FormattedMessage id="ClubLP.Help.title" />
