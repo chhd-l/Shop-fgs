@@ -44,7 +44,10 @@ const subscription = () => {
       >
         <div className="rc-full-width">
           <div className="rc-max-width--xl rc-padding-x--lg rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-            <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--lg--mobile dt pb-3 h2style" style={{fontSize:28}}>
+            <h2
+              className="font-weight-bold rc-beta text-center rc-margin-bottom--lg--mobile dt pb-3 h2style"
+              style={{ fontSize: 28 }}
+            >
               <FormattedMessage id="PreciseCatNutrition.Subscription.title" />
             </h2>
             <div className="value-proposition__container">
@@ -74,7 +77,7 @@ const subscription = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
                       className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
@@ -101,7 +104,7 @@ const subscription = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
                       className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
@@ -128,7 +131,7 @@ const subscription = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
                       className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{
@@ -152,7 +155,7 @@ const subscription = () => {
                   </div>
                 </div>
                 <div className="col-12 col-md-6 col-xl-2 col-lg-4 d-flex px-0 py-1 pl-md-0 pr-md-2  pr-xxl-0 pl-xxl-0 justify-content-center">
-                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap">
+                  <div className="row justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content flex Lpflexcolumn Lpflexrow flex-nowrap py-3">
                     <div
                       className="col-4 col-md-6 text-md-right px-2 py-2"
                       style={{

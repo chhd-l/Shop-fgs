@@ -46,6 +46,7 @@ export default function AgeSelect({ config, questionData }) {
           <Tooltips
             description={questionData.metadata.description}
             isIdea={questionData.name === 'weight'}
+            isArray={questionData.name === 'weight'}
           />
         ) : (
           ''

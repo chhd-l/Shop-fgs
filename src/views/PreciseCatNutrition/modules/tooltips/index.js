@@ -28,7 +28,7 @@ export default function Tooltips({
           src={Idea}
           width="18px"
           height="18px"
-          style={{ display: 'block' }}
+          style={{ display: 'block', marginRight: -1 }}
         />
       ) : (
         <i className="iconfont iconinfo" onClick={(e) => putId(e)}></i>

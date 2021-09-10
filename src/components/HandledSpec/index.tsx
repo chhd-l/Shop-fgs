@@ -238,7 +238,7 @@ const HandledSpec = ({
   useEffect(() => {
     (async () => {
       if (sizeList.length) {
-        if (goodsSpecDetails) {
+        if (goodsSpecDetails.length) {
           await matchGoods();
           getPriceOrCode();
         } else {
@@ -247,6 +247,7 @@ const HandledSpec = ({
       }
     })();
   }, [sizeList]);
+
   return (
     <div className="spec">
       {goodsSpecs?.map((sItem: any, i: number) => (

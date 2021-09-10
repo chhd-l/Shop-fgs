@@ -17,7 +17,10 @@ const HowItWorks = () => {
         <div className="rc-full-width">
           <div className="rc-max-width--lg rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
             <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
-              <h2 className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha" style={{fontSize:28}}>
+              <h2
+                className="font-weight-bold rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile rc-alpha"
+                style={{ fontSize: 28 }}
+              >
                 <FormattedMessage id="PreciseCatNutrition.HowItWorks.title" />
               </h2>
               <div className="value-proposition__container">
@@ -81,7 +84,7 @@ const HowItWorks = () => {
                           </div>
                         </LazyLoad>
                       </div>
-                      <div style={{ height: 72 }} className="text-center">
+                      <div className="text-center">
                         <h7>
                           <FormattedMessage id="PreciseCatNutrition.HowItWorks.plate3" />
                         </h7>

@@ -20,7 +20,10 @@ import kittenimgtwo from './img/kittenimgtwo.png';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Logo from '../../components/Logo';
 import Help from './modules/help';
-import { getDetailsBySpuNoIgnoreDisplayFlag } from '@/api/details';
+import {
+  getDetailsBySpuNoIgnoreDisplayFlag,
+  getDetailsBySpuNo
+} from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 
@@ -144,11 +147,11 @@ class DedicatedLandingPage extends React.Component {
     }
     this.setState({ buttonLoading: true });
     if (selectLine === 1) {
-      const { context } = await getDetailsBySpuNoIgnoreDisplayFlag('FGS20049');
+      const { context } = await getDetailsBySpuNo('FGS20049');
       this.setState({ listOne: context });
       this.getProductList();
     } else if (selectLine === 2) {
-      const { context } = await getDetailsBySpuNoIgnoreDisplayFlag('FGS20050');
+      const { context } = await getDetailsBySpuNo('FGS20050');
       this.setState({ listTwo: context });
       this.getProductList();
     }
@@ -193,8 +196,8 @@ class DedicatedLandingPage extends React.Component {
           recommendationId:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationId || this.props.clinicStore.linkClinicId,
-          recommendationInfos: this.props.clinicStore
-            .linkClinicRecommendationInfos,
+          recommendationInfos:
+            this.props.clinicStore.linkClinicRecommendationInfos,
           recommendationName:
             this.props.clinicStore.linkClinicRecommendationInfos
               ?.recommendationName || this.props.clinicStore.linkClinicName
@@ -247,8 +250,8 @@ class DedicatedLandingPage extends React.Component {
         currentUnitPrice: productList[0]?.marketPrice,
         goodsInfoFlag: 0,
         periodTypeId: null,
-        recommendationInfos: this.props.clinicStore
-          .linkClinicRecommendationInfos,
+        recommendationInfos:
+          this.props.clinicStore.linkClinicRecommendationInfos,
         recommendationId:
           this.props.clinicStore.linkClinicRecommendationInfos
             ?.recommendationId || this.props.clinicStore.linkClinicId,
