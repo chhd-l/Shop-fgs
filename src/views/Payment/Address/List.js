@@ -1541,7 +1541,7 @@ class AddressList extends React.Component {
           sobj['cityData'] = null;
           sessionItemRoyal.set(
             'rc-homeDeliveryAndPickup',
-            JSON.stringify(hpobj)
+            JSON.stringify(sobj)
           );
         }
       }
