@@ -405,13 +405,6 @@ class AddressList extends React.Component {
                 choiseHomeDeliveryOrPickUp: 0
               });
             }
-            // 如果有订阅商品，地址又为空
-            if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
-              this.updateConfirmBtnDisabled(true);
-              this.setState({
-                addOrEdit: true
-              });
-            }
           } else {
             this.setState({
               showDeliveryOrPickUp: 1 // home delivery
@@ -1468,11 +1461,6 @@ class AddressList extends React.Component {
       obj[0].selected = true;
     }
 
-    // 有订阅商品时不展示pickup
-    if (this.props.isCurrentBuyWaySubscription) {
-      obj = obj.filter((e) => e.type === 'homeDelivery');
-      obj[0].selected = true; // 默认选中唯一项
-    }
     this.updateShippingMethodType(addstr);
     this.setState(
       {
@@ -1484,8 +1472,7 @@ class AddressList extends React.Component {
         if (!hdpk) {
           item = {
             cityData: hdpk?.cityData || null,
-            homeAndPickup: obj,
-            isSubscription: this.props.isCurrentBuyWaySubscription
+            homeAndPickup: obj
           };
         } else {
           item = hdpk;
@@ -1541,7 +1528,7 @@ class AddressList extends React.Component {
           sobj['cityData'] = null;
           sessionItemRoyal.set(
             'rc-homeDeliveryAndPickup',
-            JSON.stringify(hpobj)
+            JSON.stringify(sobj)
           );
         }
       }
@@ -1635,12 +1622,7 @@ class AddressList extends React.Component {
 
     this.scrollToTitle();
 
-    // sprint3 如果有订阅商品 不展示pickup
     let yourChoise = val == 'homeDelivery' ? 1 : 2;
-    if (this.props.isCurrentBuyWaySubscription) {
-      yourChoise = 1;
-    }
-
     this.setState(
       {
         choiseHomeDeliveryOrPickUp: yourChoise,
@@ -1652,8 +1634,7 @@ class AddressList extends React.Component {
         sobj = JSON.parse(sobj);
         let item = {
           cityData: sobj?.cityData || null,
-          homeAndPickup: sitem,
-          isSubscription: this.props.isCurrentBuyWaySubscription
+          homeAndPickup: sitem
         };
         sessionItemRoyal.set('rc-homeDeliveryAndPickup', JSON.stringify(item));
         // 计算运费
@@ -1709,10 +1690,6 @@ class AddressList extends React.Component {
   }
   // 修改按钮状态
   updateConfirmBtnDisabled = (flag) => {
-    const { addressList } = this.state;
-    if (!addressList.length && this.props.isCurrentBuyWaySubscription) {
-      flag = true;
-    }
     // console.log('666 >>> 修改按钮状态： ', flag);
     this.setState({
       confirmBtnDisabled: flag
@@ -1906,7 +1883,7 @@ class AddressList extends React.Component {
   };
   render() {
     const { panelStatus } = this;
-    const { showOperateBtn, isCurrentBuyWaySubscription } = this.props;
+    const { showOperateBtn } = this.props;
     const {
       shippingMethodType,
       isHomeDeliveryOpen,
@@ -2077,7 +2054,7 @@ class AddressList extends React.Component {
             {showOperateBtn ? (
               <>
                 <div className="rc-md-up">
-                  {addressList.length > 0 && !isCurrentBuyWaySubscription ? (
+                  {addressList.length > 0 ? (
                     <>
                       <span
                         className="rc-styled-link"
@@ -2179,23 +2156,16 @@ class AddressList extends React.Component {
           </aside>
 
           {/* 俄罗斯 pickup 相关 begin */}
-          {!isCurrentBuyWaySubscription &&
-          deliveryOrPickUpFlag &&
+          {deliveryOrPickUpFlag &&
           choiseHomeDeliveryOrPickUp == 0 &&
           !panelStatus.isCompleted ? (
             <>
               <HomeDeliveryOrPickUp
-                key={
-                  this.state.defaultCity ||
-                  this.props.isCurrentBuyWaySubscription
-                }
+                key={this.state.defaultCity}
                 initData={pickupFormData}
                 isLogin={true}
                 defaultCity={this.state.defaultCity}
                 pageType="checkout"
-                isCurrentBuyWaySubscription={
-                  this.props.isCurrentBuyWaySubscription
-                }
                 updateDeliveryOrPickup={this.updateDeliveryOrPickup}
                 updatePickupEditNumber={this.updatePickupEditNumber}
                 updateConfirmBtnDisabled={this.updateConfirmBtnDisabled}
