@@ -195,7 +195,7 @@ const LongBanner = () => {
             </div>
             <div className="rc-bg-colour--brand3" id="benefits-box">
               <div className="rc-full-width">
-                <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--sm rc-margin-y--lg--mobile value-proposition">
+                <div className="rc-max-width--lg rc-padding-x--lg rc-padding-x--md--mobile rc-margin-top--lg--desktop rc-margin-top--sm--mobile rc-margin-bottom--md rc-margin-y--lg--mobile value-proposition">
                   <h2
                     className="font-weight-bold rc-beta text-center rc-margin-bottom--sm--mobile rc-margin-bottom--none--desktop"
                     style={{ position: 'relative', zIndex: 10, fontSize: 28 }}

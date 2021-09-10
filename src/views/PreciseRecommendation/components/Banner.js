@@ -41,7 +41,7 @@ const BannerFour = ({ intl }) => {
   ];
   return (
     <div
-      className=" row col-12 text-center  rc-margin-top--md rc-padding-x--xl"
+      className=" row col-12 text-center  rc-margin-top--md--desktop rc-margin-top--lg--mobile rc-padding-x--xl"
       style={{
         maxWidth: 730,
         padding: isMobile ? null : 0,
@@ -51,7 +51,7 @@ const BannerFour = ({ intl }) => {
       {bannerList.map((el, idx) => (
         <div
           className={`${isMobile ? 'col-6' : 'col-3'}`}
-          style={isMobile ? { marginBottom: '10px' } : {}}
+          style={isMobile ? { marginBottom: '20px' } : {}}
         >
           <LazyLoad>
             <img

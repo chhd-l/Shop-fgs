@@ -250,7 +250,7 @@ class DetailsDisplay extends React.Component {
               </div>
 
               <div className="experience-component experience-layouts-1column">
-                <div className="row rc-margin-x--none">
+                <div className="row rc-margin-x--none rc-padding-top--md--mobile">
                   <div className="rc-full-width">
                     <div className="experience-component experience-assets-headingBlock">
                       <div className="rc-max-width--lg text-left rc-margin-y--none rc-padding-x--sm--desktop">
